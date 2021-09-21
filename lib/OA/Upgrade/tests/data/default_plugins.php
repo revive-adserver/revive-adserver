@@ -10,6 +10,4 @@
 +---------------------------------------------------------------------------+
 */
 
-$aDefaultPlugins[] = array('path'=>LIB_PATH.'/Plugin/tests/data/zipInstallTest/','name'=>'testPluginPackage','ext'=>'zip');
-
-?>
+$aDefaultPlugins[] = ['path' => LIB_PATH . '/Plugin/tests/data/zipInstallTest/', 'name' => 'testPluginPackage', 'ext' => 'zip'];

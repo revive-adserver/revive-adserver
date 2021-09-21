@@ -39,20 +39,21 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
      *
      * @var array
      */
-    var $_aIds;
+    public $_aIds;
 
     /**
      * An instance of OA_Cache_DeliveryCacheManager
      *
      * @var OA_Cache_DeliveryCacheManager
      */
-    var $oDeliveryCacheManager;
+    public $oDeliveryCacheManager;
 
-    function __construct(){
+    public function __construct()
+    {
         $this->oDeliveryCacheManager = new OA_Cache_DeliveryCacheManager();
     }
 
-    function setUp()
+    public function setUp()
     {
         // Make sure that delivery cache is clear for tests
         $this->oDeliveryCacheManager->invalidateAll();
@@ -61,7 +62,7 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
         $this->_createTestCacheFiles($this->_aIds);
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
         $this->oDeliveryCacheManager->invalidateAll();
@@ -70,7 +71,7 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Check if tests can be runned
      */
-    function skip()
+    public function skip()
     {
         // Skip tests if cache storage plugin
         // isn't installed or enabled
@@ -83,7 +84,8 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateBannerCache method
      */
-    function test_invalidateBannerCache() {
+    public function test_invalidateBannerCache()
+    {
         $cachedData = MAX_cacheGetAd($this->_aIds['banners'][0]);
         $zoneLinkingCachedData = MAX_cacheGetZoneLinkedAds($this->_aIds['zones'][0]);
 
@@ -107,7 +109,8 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateImageCache method
      */
-    function test_invalidateImageCache() {
+    public function test_invalidateImageCache()
+    {
         $cachedData = MAX_cacheGetCreative($this->_aIds['images'][0]);
 
         // Change something in image
@@ -128,7 +131,8 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
      * Method tests invalidateZoneCache method
      *
      */
-    function test_invalidateZoneCache() {
+    public function test_invalidateZoneCache()
+    {
         $cachedZoneInfoData = MAX_cacheGetZoneInfo($this->_aIds['zones'][0]);
         $cachedZoneLinkedAdsData = MAX_cacheGetZoneLinkedAds($this->_aIds['zones'][0]);
         $cachedPublisherZonesData = OA_cacheGetPublisherZones($this->_aIds['affiliates'][0]);
@@ -139,7 +143,7 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
         $doZone->zonename = 'new name';
         $doZone->update();
 
-         // Expect no changes in cache
+        // Expect no changes in cache
         $this->assertEqual(MAX_cacheGetZoneInfo($this->_aIds['zones'][0]), $cachedZoneInfoData);
         $this->assertEqual(MAX_cacheGetZoneLinkedAds($this->_aIds['zones'][0]), $cachedZoneLinkedAdsData);
         $this->assertEqual(OA_cacheGetPublisherZones($this->_aIds['affiliates'][0]), $cachedPublisherZonesData);
@@ -155,7 +159,8 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateWebsiteCache method
      */
-    function test_invalidateWebsiteCache() {
+    public function test_invalidateWebsiteCache()
+    {
         $cachedData = OA_cacheGetPublisherZones($this->_aIds['zones'][0]);
 
         // Delete zone
@@ -175,11 +180,12 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateZonesLinkingCache method
      */
-    function test_invalidateZonesLinkingCache(){
+    public function test_invalidateZonesLinkingCache()
+    {
         $cachedData[0] = MAX_cacheGetZoneLinkedAds($this->_aIds['zones'][0]);
         $cachedData[1] = MAX_cacheGetZoneLinkedAds($this->_aIds['zones'][1]);
 
-        $aZonesIds = array($this->_aIds['zones'][0], $this->_aIds['zones'][1]);
+        $aZonesIds = [$this->_aIds['zones'][0], $this->_aIds['zones'][1]];
 
         // Unlink zones from campaign
         $dalZones = OA_Dal::factoryDAL('zones');
@@ -199,7 +205,8 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateTrackerCache method
      */
-    function test_invalidateTrackerCache(){
+    public function test_invalidateTrackerCache()
+    {
         $cachedTrackerData = MAX_cacheGetTracker($this->_aIds['tracker'][0]);
         $cachedTrackerVariablesData = MAX_cacheGetTrackerVariables($this->_aIds['tracker'][0]);
 
@@ -228,7 +235,8 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateChannelCache method
      */
-    function test_invalidateChannelCache(){
+    public function test_invalidateChannelCache()
+    {
         $cachedData = MAX_cacheGetChannelLimitations($this->_aIds['channel'][0]);
 
         // Change channel data
@@ -247,27 +255,28 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateSystemSettingsCache method
      */
-    function test_invalidateSystemSettingsCache(){
-        $interval    = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-        $delay       = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
+    public function test_invalidateSystemSettingsCache()
+    {
+        $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
+        $delay = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 
         // store orginal settings
         $currentClick = $GLOBALS['_MAX']['CONF']['file']['click'];
         // Set maintenace timestamp to 48h ago
         $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->name  = 'maintenance_timestamp';
-        $doAppVar->value = MAX_commonGetTimeNow()-2*$interval;
+        $doAppVar->name = 'maintenance_timestamp';
+        $doAppVar->value = MAX_commonGetTimeNow() - 2 * $interval;
         $doAppVar->insert();
 
         // Remember current cache
-        $cachedTZData          = MAX_cacheGetAccountTZs();
+        $cachedTZData = MAX_cacheGetAccountTZs();
         $cachedMaintenanceData = MAX_cacheCheckIfMaintenanceShouldRun();
 
         // Change JS settings, Time Zone, and time of Last Run of maintenace
         $GLOBALS['_MAX']['CONF']['file']['click'] = 'click.php';
 
-        $doAppVar->name  = 'maintenance_timestamp';
-        $doAppVar->value = MAX_commonGetTimeNow()+$delay+1;
+        $doAppVar->name = 'maintenance_timestamp';
+        $doAppVar->value = MAX_commonGetTimeNow() + $delay + 1;
         $doAppVar->update();
 
         // Add Admin user and set time zone in his preferences
@@ -277,14 +286,14 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
 
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'timezone';
-        $doPreferences->value           = 'new value';
-        $doPreferences->account_type    = 'ADMIN';
+        $doPreferences->value = 'new value';
+        $doPreferences->account_type = 'ADMIN';
         $preferencesId = DataGenerator::generateOne($doPreferences);
 
         $doAccountPreferenceAssoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccountPreferenceAssoc->account_id    = $accountId;
+        $doAccountPreferenceAssoc->account_id = $accountId;
         $doAccountPreferenceAssoc->preference_id = $preferencesId;
-        $doAccountPreferenceAssoc->value         = 'new value';
+        $doAccountPreferenceAssoc->value = 'new value';
         DataGenerator::generateOne($doAccountPreferenceAssoc);
 
         // Expect no changes in cache files
@@ -301,4 +310,3 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
         $GLOBALS['_MAX']['CONF']['file']['click'] = $currentClick;
     }
 }
-?>

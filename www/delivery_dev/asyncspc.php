@@ -23,7 +23,7 @@ MAX_commonSetNoCacheHeaders();
 /* Register input variables                              */
 /*-------------------------------------------------------*/
 
-MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'q', 'prefix'));
+MAX_commonRegisterGlobalsArray(['zones', 'source', 'block', 'blockcampaign', 'exclude', 'q', 'prefix']);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -40,37 +40,37 @@ $source = MAX_commonDeriveSource($source);
 
 $spc_output = [];
 
-if(!empty($zones)) {
+if (!empty($zones)) {
     $zones = explode('|', $zones);
     foreach ($zones as $id => $thisZoneid) {
         if (empty($thisZoneid)) {
             continue;
         }
 
-        $zonename = $prefix.$id;
+        $zonename = $prefix . $id;
 
         // Clear deiveryData between iterations
         unset($GLOBALS['_MAX']['deliveryData']);
 
-        $what = 'zone:'.$thisZoneid;
+        $what = 'zone:' . $thisZoneid;
 
         // Get the banner
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
-        $spc_output[$zonename] = array(
+        $spc_output[$zonename] = [
             'html' => $output['html'],
             'width' => isset($output['width']) ? $output['width'] : 0,
             'height' => isset($output['height']) ? $output['height'] : 0,
             'iframeFriendly' => isset($output['iframeFriendly']) ? $output['iframeFriendly'] : false,
-        );
+        ];
 
         // Block this banner for next invocation
         if (!empty($block) && !empty($output['bannerid'])) {
-            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+            $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
         }
         // Block this campaign for next invocation
         if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+            $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
         }
         // Pass the context array back to the next call, have to iterate over elements to prevent duplication
         if (!empty($output['context'])) {
@@ -86,7 +86,7 @@ if(!empty($zones)) {
 MAX_cookieFlush();
 
 if (!empty($_SERVER['HTTP_ORIGIN']) && preg_match('#https?://#', $_SERVER['HTTP_ORIGIN'])) {
-    header("Access-Control-Allow-Origin: ".$_SERVER['HTTP_ORIGIN']);
+    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
     header("Access-Control-Allow-Credentials: true");
 }
 

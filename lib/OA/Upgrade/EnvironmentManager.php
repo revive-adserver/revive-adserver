@@ -14,24 +14,24 @@
  * OpenXUpgrade Class
  *
  */
-define('OA_ENV_ERROR_PHP_NOERROR',                    1);
-define('OA_ENV_ERROR_PHP_VERSION',                   -1);
-define('OA_ENV_ERROR_PHP_MEMORY',                    -2);
-define('OA_ENV_ERROR_PHP_SAFEMODE',                  -3);
-define('OA_ENV_ERROR_PHP_MAGICQ',                    -4);
-define('OA_ENV_ERROR_PHP_TIMEZONE',                  -5);
-define('OA_ENV_ERROR_PHP_UPLOADS',                   -6);
-define('OA_ENV_ERROR_PHP_ARGC',                      -7);
-define('OA_ENV_ERROR_PHP_XML',                       -8);
-define('OA_ENV_ERROR_PHP_PCRE',                      -9);
-define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
-define('OA_ENV_ERROR_PHP_MYSQL',                    -11);
-define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
-define('OA_ENV_ERROR_PHP_SPL',                      -13);
-define('OA_ENV_ERROR_PHP_MBSTRING',                 -14);
-define('OA_ENV_WARNING_MEMORY',                     -15);
+define('OA_ENV_ERROR_PHP_NOERROR', 1);
+define('OA_ENV_ERROR_PHP_VERSION', -1);
+define('OA_ENV_ERROR_PHP_MEMORY', -2);
+define('OA_ENV_ERROR_PHP_SAFEMODE', -3);
+define('OA_ENV_ERROR_PHP_MAGICQ', -4);
+define('OA_ENV_ERROR_PHP_TIMEZONE', -5);
+define('OA_ENV_ERROR_PHP_UPLOADS', -6);
+define('OA_ENV_ERROR_PHP_ARGC', -7);
+define('OA_ENV_ERROR_PHP_XML', -8);
+define('OA_ENV_ERROR_PHP_PCRE', -9);
+define('OA_ENV_ERROR_PHP_ZLIB', -10);
+define('OA_ENV_ERROR_PHP_MYSQL', -11);
+define('OA_ENV_ERROR_PHP_TIMEOUT', -12);
+define('OA_ENV_ERROR_PHP_SPL', -13);
+define('OA_ENV_ERROR_PHP_MBSTRING', -14);
+define('OA_ENV_WARNING_MEMORY', -15);
 
-require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/InstallUtils.php';
 
@@ -39,29 +39,29 @@ define('OA_MEMORY_UNLIMITED', 'Unlimited');
 
 class OA_Environment_Manager
 {
-    var $aInfo = array();
+    public $aInfo = [];
 
-    function __construct()
+    public function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
         if (empty($GLOBALS['installing'])) {
-            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var');
-            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/cache', true);
-            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/plugins', true);
-            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/templates_compiled', true);
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/var');
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/var/cache', true);
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/var/plugins', true);
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/var/templates_compiled', true);
         } else {
-            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var',true);
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/var', true);
         }
 
-        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/plugins', true);
-        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/admin/plugins', true);
+        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/plugins', true);
+        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/www/admin/plugins', true);
 
         // if CONF file hasn't been created yet, use the default images folder
         if (!empty($conf['store']['webDir'])) {
             $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($conf['store']['webDir']);
         } else {
-            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/images');
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH . '/www/images');
         }
 
         if (!empty($conf['delivery']['cachePath'])) {
@@ -75,58 +75,57 @@ class OA_Environment_Manager
             }
         }
 
-        $this->aInfo['PHP']['actual']     = array();
-        $this->aInfo['PERMS']['actual']   = array();
-        $this->aInfo['FILES']['actual']   = array();
+        $this->aInfo['PHP']['actual'] = [];
+        $this->aInfo['PERMS']['actual'] = [];
+        $this->aInfo['FILES']['actual'] = [];
 
-        $this->aInfo['PHP']['expected']['version']              = '7.2.5';
-        $this->aInfo['PHP']['expected']['file_uploads']         = '1';
-        $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
-        $this->aInfo['PHP']['expected']['pcre']                 = true;
-        $this->aInfo['PHP']['expected']['xml']                  = true;
-        $this->aInfo['PHP']['expected']['zlib']                 = true;
-        $this->aInfo['PHP']['expected']['mysql']                = true;
-        $this->aInfo['PHP']['expected']['spl']                  = true;
-        $this->aInfo['PHP']['expected']['json']                 = true;
-        $this->aInfo['PHP']['expected']['zip']                  = true;
-        $this->aInfo['PHP']['expected']['mbstring']             = false;
-        $this->aInfo['PHP']['expected']['timeout']              = false;
-        $this->aInfo['COOKIES']['expected']['enabled']          = true;
+        $this->aInfo['PHP']['expected']['version'] = '7.2.5';
+        $this->aInfo['PHP']['expected']['file_uploads'] = '1';
+        $this->aInfo['PHP']['expected']['register_argc_argv'] = '1';
+        $this->aInfo['PHP']['expected']['pcre'] = true;
+        $this->aInfo['PHP']['expected']['xml'] = true;
+        $this->aInfo['PHP']['expected']['zlib'] = true;
+        $this->aInfo['PHP']['expected']['mysql'] = true;
+        $this->aInfo['PHP']['expected']['spl'] = true;
+        $this->aInfo['PHP']['expected']['json'] = true;
+        $this->aInfo['PHP']['expected']['zip'] = true;
+        $this->aInfo['PHP']['expected']['mbstring'] = false;
+        $this->aInfo['PHP']['expected']['timeout'] = false;
+        $this->aInfo['COOKIES']['expected']['enabled'] = true;
 
-        $this->aInfo['FILES']['expected'] = array();
+        $this->aInfo['FILES']['expected'] = [];
     }
 
-    function checkSystem()
+    public function checkSystem()
     {
         $this->getAllInfo();
         $this->checkCritical();
         return $this->aInfo;
     }
 
-    function getAllInfo()
+    public function getAllInfo()
     {
-        $this->aInfo['PHP']['actual']     = $this->getPHPInfo();
-        $this->aInfo['PERMS']['actual']   = $this->getFilePermissionErrors();
-        $this->aInfo['FILES']['actual']   = $this->getFileIntegInfo();
+        $this->aInfo['PHP']['actual'] = $this->getPHPInfo();
+        $this->aInfo['PERMS']['actual'] = $this->getFilePermissionErrors();
+        $this->aInfo['FILES']['actual'] = $this->getFileIntegInfo();
         $this->aInfo['COOKIES']['actual'] = $this->getCookieInfo();
         return $this->aInfo;
     }
 
-    function getCookieInfo()
+    public function getCookieInfo()
     {
         $aResult['enabled'] = false;
         $this->aInfo['COOKIES']['error']['enabled'] = $GLOBALS['strEnableCookies'];
 
         if (isset($_COOKIE['sessionID'])
-            || isset($_COOKIE[OX_Admin_UI_Install_InstallUtils::$INSTALLER_SESSION_ID]))
-        {
+            || isset($_COOKIE[OX_Admin_UI_Install_InstallUtils::$INSTALLER_SESSION_ID])) {
             $aResult['enabled'] = true;
             unset($this->aInfo['COOKIES']['error']['enabled']);
         }
         return $aResult;
     }
 
-    function getPHPInfo()
+    public function getPHPInfo()
     {
         $aResult['version'] = phpversion();
 
@@ -140,18 +139,18 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        $aResult['safe_mode']            = ini_get('safe_mode');
-        $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
-        $aResult['register_argc_argv']   = ini_get('register_argc_argv');
-        $aResult['file_uploads']         = ini_get('file_uploads');
-        $aResult['xml']                  = extension_loaded('xml');
-        $aResult['pcre']                 = extension_loaded('pcre');
-        $aResult['zlib']                 = extension_loaded('zlib');
-        $aResult['mysqli']               = extension_loaded('mysqli');
-        $aResult['pgsql']                = extension_loaded('pgsql');
-        $aResult['spl']                  = extension_loaded('spl');
-        $aResult['json']                 = extension_loaded('json');
-        $aResult['zip']                  = extension_loaded('zip');
+        $aResult['safe_mode'] = ini_get('safe_mode');
+        $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
+        $aResult['register_argc_argv'] = ini_get('register_argc_argv');
+        $aResult['file_uploads'] = ini_get('file_uploads');
+        $aResult['xml'] = extension_loaded('xml');
+        $aResult['pcre'] = extension_loaded('pcre');
+        $aResult['zlib'] = extension_loaded('zlib');
+        $aResult['mysqli'] = extension_loaded('mysqli');
+        $aResult['pgsql'] = extension_loaded('pgsql');
+        $aResult['spl'] = extension_loaded('spl');
+        $aResult['json'] = extension_loaded('json');
+        $aResult['zip'] = extension_loaded('zip');
 
         // Check mbstring.func_overload
         $aResult['mbstring.func_overload'] = false;
@@ -163,33 +162,32 @@ class OA_Environment_Manager
         // if user has disabled the set_time_limit function
         // their scripts will run in ini_get('max_execution_time')
         // if ini_get('max_execution_time') > 0 or < 300 they may have a problem
-        $aResult['timeout']              = false;
-        $aDisabled = explode(',',ini_get('disable_functions'));
+        $aResult['timeout'] = false;
+        $aDisabled = explode(',', ini_get('disable_functions'));
         $timeout = ini_get('max_execution_time');
-        if (in_array('set_time_limit',$aDisabled) && (($timeout >0) && ($timeout <300)) )
-        {
-            $aResult['timeout']          = $timeout;
+        if (in_array('set_time_limit', $aDisabled) && (($timeout > 0) && ($timeout < 300))) {
+            $aResult['timeout'] = $timeout;
         }
         return $aResult;
     }
 
-    function getFileIntegInfo()
+    public function getFileIntegInfo()
     {
         return false;
     }
 
-    function buildFilePermArrayItem($file, $recurse=false, $result='OK', $error = false, $string='')
+    public function buildFilePermArrayItem($file, $recurse = false, $result = 'OK', $error = false, $string = '')
     {
-        return array(
-                    'file'      => $file,
-                    'recurse'   => $recurse,
-                    'result'    => $result,
-                    'error'     => $error,
-                    'string'    => $string,
-                    );
+        return [
+                    'file' => $file,
+                    'recurse' => $recurse,
+                    'result' => $result,
+                    'error' => $error,
+                    'string' => $string,
+                    ];
     }
 
-    function checkFilePermission($file, $recurse)
+    public function checkFilePermission($file, $recurse)
     {
         if ((!file_exists($file)) || (!$this->isWritable($file))) {
             OA::debug('Unwritable ' . ((is_dir($file) ? 'folder ' : 'file ')) . $file);
@@ -219,22 +217,19 @@ class OA_Environment_Manager
      *
      * @return array of error messages
      */
-    function getFilePermissionErrors()
+    public function getFilePermissionErrors()
     {
-        $aErrors = array();
+        $aErrors = [];
 
         // Test that all of the required files/directories can
         // be written to by the webserver
-        foreach ($this->aInfo['PERMS']['expected'] as $idx => $aFile)
-        {
-            if (empty($aFile['file']))
-            {
+        foreach ($this->aInfo['PERMS']['expected'] as $idx => $aFile) {
+            if (empty($aFile['file'])) {
                 continue;
             }
-            if (!$this->checkFilePermission($aFile['file'], $aFile['recurse']))
-            {
+            if (!$this->checkFilePermission($aFile['file'], $aFile['recurse'])) {
                 $aFile['result'] = $GLOBALS['strNotWriteable'];
-                $aFile['error']  = true;
+                $aFile['error'] = true;
                 $aFile['string'] = ($aFile['recurse'] ? 'strErrorFixPermissionsRCommand' : 'strErrorFixPermissionsRCommand');
                 $aFile['message'] = $GLOBALS['strDirNotWriteableError'];
             }
@@ -244,39 +239,31 @@ class OA_Environment_Manager
         return $aErrors;
     }
 
-    function isWritable($file)
+    public function isWritable($file)
     {
-        if (DIRECTORY_SEPARATOR == '\\')
-        {
+        if (DIRECTORY_SEPARATOR == '\\') {
             // Windows hack - is_writable returns bogus results
             // see http://bugs.php.net/bug.php?id=27609
-            if (@is_dir($file))
-            {
-                $file = preg_replace('/\\\\$/', '', $file).DIRECTORY_SEPARATOR.md5(uniqid('', true));
+            if (@is_dir($file)) {
+                $file = preg_replace('/\\\\$/', '', $file) . DIRECTORY_SEPARATOR . md5(uniqid('', true));
                 $unlink = true;
-            }
-            else
-            {
+            } else {
                 $unlink = !file_exists($file);
             }
-            if ($fp = @fopen($file, 'ab'))
-            {
+            if ($fp = @fopen($file, 'ab')) {
                 @fclose($fp);
-                if ($unlink)
-                {
+                if ($unlink) {
                     @unlink($file);
                 }
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
         return is_writable($file);
     }
 
-    function checkCritical()
+    public function checkCritical()
     {
         $this->_checkCriticalPHP();
         $this->_checkCriticalFilePermissions();
@@ -338,7 +325,7 @@ class OA_Environment_Manager
      * @TODO Address the return value oddness, by removing all return values, and
      *       simply rely on the $this->aInfo array, perhaps?
      */
-    function _checkCriticalPHP()
+    public function _checkCriticalPHP()
     {
         $this->aInfo['PHP']['warning'] = $this->aInfo['PHP']['error'] = [];
 
@@ -412,8 +399,8 @@ class OA_Environment_Manager
         // Test the ability to set timeouts
         if ($this->aInfo['PHP']['actual']['timeout']) {
             $this->aInfo['PHP']['error']['timeout'] = 'The PHP function set_time_limit() has been disabled and '
-                .'max_execution_time is set to '.$this->aInfo['PHP']['actual']['timeout']
-                .' which may cause problems with functionality such as maintenance';
+                . 'max_execution_time is set to ' . $this->aInfo['PHP']['actual']['timeout']
+                . ' which may cause problems with functionality such as maintenance';
         }
 
         if (!empty($this->aInfo['PHP']['error'])) {
@@ -430,7 +417,7 @@ class OA_Environment_Manager
      *
      * @return boolean True if the original memory_limit was okay, false otherwise
      */
-    function checkOriginalMemory()
+    public function checkOriginalMemory()
     {
         if (empty($this->aInfo['PHP']['actual']['original_memory_limit'])) {
             return true;
@@ -455,16 +442,13 @@ class OA_Environment_Manager
      *
      * @return boolean True when all permissions are okay, false otherwise.
      */
-    function _checkCriticalFilePermissions()
+    public function _checkCriticalFilePermissions()
     {
         // Test to see if there were any file/directory permission errors
         unset($this->aInfo['PERMS']['error']['filePerms']);
-        foreach ($this->aInfo['PERMS']['actual'] AS $idx => $aFile)
-        {
-            if ($aFile['error'])
-            {
-                if (empty($this->aInfo['PERMS']['error']['filePerms']))
-                {
+        foreach ($this->aInfo['PERMS']['actual'] as $idx => $aFile) {
+            if ($aFile['error']) {
+                if (empty($this->aInfo['PERMS']['error']['filePerms'])) {
                     if (DIRECTORY_SEPARATOR === '\\') {
                         $this->aInfo['PERMS']['error']['filePerms'] = $GLOBALS['strErrorWritePermissionsWin'];
                     } else {
@@ -476,8 +460,7 @@ class OA_Environment_Manager
                 }
             }
         }
-        if (!empty($this->aInfo['PERMS']['error']['filePerms']))
-        {
+        if (!empty($this->aInfo['PERMS']['error']['filePerms'])) {
             $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . $GLOBALS['strCheckDocumentation'];
             return false;
         }
@@ -485,11 +468,9 @@ class OA_Environment_Manager
         return true;
     }
 
-    function _checkCriticalFiles()
+    public function _checkCriticalFiles()
     {
         $this->aInfo['FILES']['error'] = false;
         return true;
     }
 }
-
-?>

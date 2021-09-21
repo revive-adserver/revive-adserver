@@ -31,9 +31,9 @@ class OA_Maintenance_Auto
 {
     public static function run()
     {
-    	// Make sure that the output is sent to the browser before
-    	// loading libraries and connecting to the db
-    	flush();
+        // Make sure that the output is sent to the browser before
+        // loading libraries and connecting to the db
+        flush();
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -43,31 +43,28 @@ class OA_Maintenance_Auto
             @ignore_user_abort(true);
         }
 
-	    if (!defined('OA_VERSION')) {
-	        // If the code is executed inside delivery, the constants
-	        // need to be initialized
-    	    require_once MAX_PATH . '/constants.php';
-    	    setupConstants();
-	    }
+        if (!defined('OA_VERSION')) {
+            // If the code is executed inside delivery, the constants
+            // need to be initialized
+            require_once MAX_PATH . '/constants.php';
+            setupConstants();
+        }
 
-	    $oLock = OA_DB_AdvisoryLock::factory();
+        $oLock = OA_DB_AdvisoryLock::factory();
 
-		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
-		{
+        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::debug('Running Automatic Maintenance Task', PEAR_LOG_INFO);
 
-        	OA_Preferences::loadAdminAccountPreferences();
+            OA_Preferences::loadAdminAccountPreferences();
 
-		    require_once LIB_PATH . '/Maintenance.php';
-			$oMaint = new OX_Maintenance();
-			$oMaint->run();
-			$oLock->release();
+            require_once LIB_PATH . '/Maintenance.php';
+            $oMaint = new OX_Maintenance();
+            $oMaint->run();
+            $oLock->release();
 
-			OA::debug('Automatic Maintenance Task Completed', PEAR_LOG_INFO);
-		} else {
-			OA::debug('Automatic Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
-		}
+            OA::debug('Automatic Maintenance Task Completed', PEAR_LOG_INFO);
+        } else {
+            OA::debug('Automatic Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
+        }
     }
 }
-
-?>

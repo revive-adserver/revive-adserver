@@ -20,53 +20,50 @@ class StatMigration extends Migration
 {
     // 0.1 didn't have an option for compact stats, it was "always on"
     // Use this property to instruct the stats migration to do the right thing.
-    var $compactStats = false;
+    public $compactStats = false;
 
-    function __construct()
+    public function __construct()
     {
-
     }
 
 
-    function migrateData()
+    public function migrateData()
     {
-        if (!$this->init(OA_DB::singleton()))
-        {
+        if (!$this->init(OA_DB::singleton())) {
             return false;
         }
         if ($this->statsCompacted()) {
             return $this->migrateCompactStats();
-        }
-        else {
+        } else {
             return $this->migrateRawStats();
         }
     }
 
-    function migrateCompactStats()
+    public function migrateCompactStats()
     {
-	    $tableAdStats        = $this->_modifyTableName('adstats');
-	    $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
+        $tableAdStats = $this->_modifyTableName('adstats');
+        $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
 
-	    $timestamp = date('Y-m-d H:i:s', time());
+        $timestamp = date('Y-m-d H:i:s', time());
 
-	    $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
+        $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
 
-	    $sql = "
+        $sql = "
 	       INSERT INTO $tableDataIntermediateAd
 	           (day,hour,ad_id,creative_id,zone_id,impressions,clicks,operation_interval, operation_interval_id, interval_start, interval_end, updated)
 	           SELECT day, hour, bannerid, 0, zoneid, views, clicks, $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
 	           FROM $tableAdStats";
 
-	    return $this->migrateStats($sql);
+        return $this->migrateStats($sql);
     }
 
 
-    function migrateRawStats()
+    public function migrateRawStats()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $tableAdViews        = $this->_modifyTableName('adviews');
-        $tableAdClicks       = $this->_modifyTableName('adclicks');
+        $tableAdViews = $this->_modifyTableName('adviews');
+        $tableAdClicks = $this->_modifyTableName('adclicks');
         $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
 
         $timestamp = date('Y-m-d H:i:s', time());
@@ -106,7 +103,7 @@ class StatMigration extends Migration
         $result = $this->oDBH->exec($sql);
 
         if (PEAR::isError($result)) {
-            return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
+            return $this->_logErrorAndReturnFalse('Error migrating raw stats: ' . $result->getUserInfo());
         }
         $this->_log('Completed creating temporary table for adclicks data migration');
 
@@ -122,60 +119,59 @@ class StatMigration extends Migration
     }
 
 
-    function migrateStats($sql)
+    public function migrateStats($sql)
     {
         $this->_log('Starting migration of adstats data into data_intermediate_ad table');
-	    $tableDataIntermediateAd  = $this->_modifyTableName('data_intermediate_ad');
-	    $tableDataSummaryAdHourly = $this->_modifyTableName('data_summary_ad_hourly');
+        $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
+        $tableDataSummaryAdHourly = $this->_modifyTableName('data_summary_ad_hourly');
 
-	    $result = $this->oDBH->exec($sql);
+        $result = $this->oDBH->exec($sql);
 
-	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
-	    }
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Error migrating raw stats: ' . $result->getUserInfo());
+        }
         $this->_log('Successfully migrated adstats data into data_intermediate table');
 
         $this->_log('Starting migration of adstats data into data_summary_ad_hourly table');
-	    $sql = "
+        $sql = "
 	       INSERT INTO $tableDataSummaryAdHourly
 	           (ad_id, zone_id, creative_id, day, hour, impressions, clicks, updated)
     	       SELECT ad_id, zone_id, creative_id, day, hour, impressions, clicks, updated
     	       FROM $tableDataIntermediateAd";
-	    $result = $this->oDBH->exec($sql);
+        $result = $this->oDBH->exec($sql);
 
-	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse('Error migrating stats: '.$result->getUserInfo());
-	    }
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Error migrating stats: ' . $result->getUserInfo());
+        }
         $this->_log('Successfully migrated adstats data into data_summary_ad_hourly table');
 
-	    return true;
+        return true;
     }
 
-    function _getOperationIntervalInfo(&$operationIntervalId, &$operationInterval, &$dateStart, &$dateEnd)
+    public function _getOperationIntervalInfo(&$operationIntervalId, &$operationInterval, &$dateStart, &$dateEnd)
     {
-	    $date = new Date();
-	    $operationInterval = new OX_OperationInterval();
-	    $operationIntervalId = $operationInterval->convertDateToOperationIntervalID($date);
-	    $operationInterval = OX_OperationInterval::getOperationInterval();
-	    $aOperationIntervalDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date);
-	    $dateStart = DBC::makeLiteral($aOperationIntervalDates['start']->format(TIMESTAMP_FORMAT));
-	    $dateEnd = DBC::makeLiteral($aOperationIntervalDates['end']->format(TIMESTAMP_FORMAT));
+        $date = new Date();
+        $operationInterval = new OX_OperationInterval();
+        $operationIntervalId = $operationInterval->convertDateToOperationIntervalID($date);
+        $operationInterval = OX_OperationInterval::getOperationInterval();
+        $aOperationIntervalDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date);
+        $dateStart = DBC::makeLiteral($aOperationIntervalDates['start']->format(TIMESTAMP_FORMAT));
+        $dateEnd = DBC::makeLiteral($aOperationIntervalDates['end']->format(TIMESTAMP_FORMAT));
     }
 
-    function statsCompacted()
+    public function statsCompacted()
     {
         $phpAdsNew = new OA_phpAdsNew();
         $aConfig = $phpAdsNew->_getPANConfig();
         return ($this->compactStats || $aConfig['compact_stats']);
     }
 
-    function _modifyTableName($table)
+    public function _modifyTableName($table)
     {
         return $this->_getQuotedTableName($table);
-
     }
 
-    function correctCampaignTargets()
+    public function correctCampaignTargets()
     {
         $prefix = $this->getPrefix();
 
@@ -183,7 +179,7 @@ class StatMigration extends Migration
         $tblCampaigns = $this->_modifyTableName('campaigns');
         $tblSummary = $this->_modifyTableName('data_summary_ad_hourly');
 
-	    // We need to add delivered stats to the "Booked" amount to correctly port campaign targets from 2.0
+        // We need to add delivered stats to the "Booked" amount to correctly port campaign targets from 2.0
         $statsSQL = "
             SELECT
                 c.campaignid,
@@ -200,17 +196,17 @@ class StatMigration extends Migration
             GROUP BY
                 c.campaignid";
         $rStats = $this->oDBH->query($statsSQL);
-	    if (PEAR::isError($rStats)) {
-	        return $this->_logErrorAndReturnFalse('Error getting stats during migration 122: '.$rStats->getUserInfo());
-	    }
+        if (PEAR::isError($rStats)) {
+            return $this->_logErrorAndReturnFalse('Error getting stats during migration 122: ' . $rStats->getUserInfo());
+        }
 
-	    $stats = array();
-	    while($row = $rStats->fetchRow()) {
-	        if (PEAR::isError($row)) {
-	            return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: '.$rStats->getUserInfo());
-	        }
-	        $stats[$row['campaignid']] = $row;
-	    }
+        $stats = [];
+        while ($row = $rStats->fetchRow()) {
+            if (PEAR::isError($row)) {
+                return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: ' . $rStats->getUserInfo());
+            }
+            $stats[$row['campaignid']] = $row;
+        }
 
         $highCampaignsSQL = "
             SELECT
@@ -227,13 +223,13 @@ class StatMigration extends Migration
         ";
 
         $rsCampaigns = $this->oDBH->query($highCampaignsSQL);
-	    if (PEAR::isError($rsCampaigns)) {
-	        return $this->_logErrorAndReturnFalse('Error campaigns with targets in migration 122: '.$rsCampaigns->getUserInfo());
-	    }
-	    while ($rowCampaign = $rsCampaigns->fetchRow()) {
-	        if (PEAR::isError($rsCampaign)) {
-	            return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: '.$rsCampaigns->getUserInfo());
-	        }
+        if (PEAR::isError($rsCampaigns)) {
+            return $this->_logErrorAndReturnFalse('Error campaigns with targets in migration 122: ' . $rsCampaigns->getUserInfo());
+        }
+        while ($rowCampaign = $rsCampaigns->fetchRow()) {
+            if (PEAR::isError($rsCampaign)) {
+                return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: ' . $rsCampaigns->getUserInfo());
+            }
             if (!empty($stats[$rowCampaign['campaignid']]['sum_views']) || !empty($stats[$rowCampaign['campaignid']]['sum_clicks']) || !empty($stats[$rowCampaign['campaignid']]['sum_conversions'])) {
                 $result = $this->oDBH->exec("
                     UPDATE
@@ -245,15 +241,11 @@ class StatMigration extends Migration
                     WHERE
                         campaignid = {$rowCampaign['campaignid']}
                 ");
-                if (PEAR::isError($result))
-                {
-                    return $this->_logErrorAndReturnFalse('Error updating campaigns table: '.$result->getUserInfo());
+                if (PEAR::isError($result)) {
+                    return $this->_logErrorAndReturnFalse('Error updating campaigns table: ' . $result->getUserInfo());
                 }
             }
-	    }
+        }
         return true;
     }
 }
-
-
-?>

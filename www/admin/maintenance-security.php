@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('maintenance-security.html');
 
-$oTpl->assign("securityHowTo", 'https://'.PRODUCT_URL.'/how-to/secure-your-installation/');
+$oTpl->assign("securityHowTo", 'https://' . PRODUCT_URL . '/how-to/secure-your-installation/');
 $oTpl->display();
 
 /*-------------------------------------------------------*/
@@ -45,5 +45,3 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

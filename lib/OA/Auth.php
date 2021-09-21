@@ -67,11 +67,11 @@ class OA_Auth
 
         if (!is_callable($redirectCallback)) {
             // Set the default callback
-            $redirectCallback = array('OA_Auth', 'checkRedirect');
+            $redirectCallback = ['OA_Auth', 'checkRedirect'];
         }
 
         if (call_user_func($redirectCallback)) {
-            header('location: http://'.$aConf['webpath']['admin']);
+            header('location: http://' . $aConf['webpath']['admin']);
             exit();
         }
 
@@ -165,9 +165,9 @@ class OA_Auth
      */
     public static function getSessionData($doUser, $skipDatabaseAccess = false)
     {
-        return array(
+        return [
             'user' => new OA_Permission_User($doUser, $skipDatabaseAccess)
-        );
+        ];
     }
 
     /**
@@ -179,9 +179,9 @@ class OA_Auth
      */
     public static function getFakeSessionData()
     {
-        return array(
+        return [
             'user' => false
-        );
+        ];
     }
 
     /**
@@ -239,24 +239,19 @@ class OA_Auth
         $redirect = false;
         // Is it possible to detect that we are NOT in the admin directory
         // via the URL the user is accessing OpenXwith?
-        if (!preg_match('#/'. $location .'/?$#', $_SERVER['REQUEST_URI'])) {
+        if (!preg_match('#/' . $location . '/?$#', $_SERVER['REQUEST_URI'])) {
             $dirName = dirname($_SERVER['REQUEST_URI']);
             // This check now allows for files in plugin folders
             $pluginDirName = basename($aConf['pluginPaths'][$location]);
-            if (!preg_match("#/{$location}(/{$pluginDirName}/.*?)?/?$#", $dirName)) {
-                // The user is not in the "admin" folder directly. Are they
-                // in the admin folder as a result of a "full" virtual host
-                // configuration?
-                if ($aConf['webpath']['admin'] != OX_getHostName()) {
-                    // Not a "full" virtual host setup, so re-direct
-                    $redirect = true;
-                }
+            // The user is not in the "admin" folder directly. Are they
+            // in the admin folder as a result of a "full" virtual host
+            // configuration?
+            if (!preg_match("#/{$location}(/{$pluginDirName}/.*?)?/?$#", $dirName) && $aConf['webpath']['admin'] != OX_getHostName()) {
+                // Not a "full" virtual host setup, so re-direct
+                $redirect = true;
             }
         }
 
         return $redirect;
     }
-
 }
-
-?>

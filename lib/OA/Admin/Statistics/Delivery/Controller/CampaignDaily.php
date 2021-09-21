@@ -26,7 +26,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -37,10 +36,10 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'campaign';
+        $this->entity = 'campaign';
         $this->breakdown = 'daily';
 
         // Use the OA_Admin_Statistics_Daily helper class
@@ -54,17 +53,17 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
-        $placementId  = $this->_getId('placement');
-        $publisherId  = $this->_getId('publisher');
-        $zoneId       = $this->_getId('zone');
+        $placementId = $this->_getId('placement');
+        $publisherId = $this->_getId('publisher');
+        $zoneId = $this->_getId('zone');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-        $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
+        $this->_checkAccess(['advertiser' => $advertiserId, 'placement' => $placementId]);
 
         // Cross-entity security check
         if (!empty($zoneId)) {
@@ -80,15 +79,15 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         }
 
         // Add standard page parameters
-        $this->aPageParams = array(
-            'clientid'   => $advertiserId,
+        $this->aPageParams = [
+            'clientid' => $advertiserId,
             'campaignid' => $placementId
-        );
+        ];
 
         // Add the cross-entity parameters
         if (!empty($zoneId)) {
             $this->aPageParams['affiliateid'] = $aZones[$zoneId]['publisher_id'];
-            $this->aPageParams['zoneid']      = $zoneId;
+            $this->aPageParams['zoneid'] = $zoneId;
         } elseif (!empty($publisherId)) {
             $this->aPageParams['affiliateid'] = $publisherId;
         }
@@ -108,7 +107,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
                 // Cross-entity
                 $this->pageId = empty($zoneId) ? '2.1.2.3.1.1' : '2.1.2.3.2.1';
             }
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             if (empty($publisherId) && empty($zoneId)) {
                 $this->pageId = '1.2.1.1';
@@ -116,7 +115,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
                 // Cross-entity
                 $this->pageId = empty($zoneId) ? '1.2.3.1.1' : '1.2.3.2.1';
             }
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         }
 
         // Add breadcrumbs
@@ -131,20 +130,20 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
-                'advertiser-edit.php?clientid='.$advertiserId,
+                'advertiser-edit.php?clientid=' . $advertiserId,
                 'iconAdvertiser'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
-            'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
+            'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
             'iconCampaign'
         );
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'placement_id' => $placementId
-        );
+        ];
         if (!empty($zoneId)) {
             $aParams['zone_id'] = $zoneId;
         } elseif (!empty($publisherId)) {
@@ -152,7 +151,4 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         }
         $this->prepare($aParams);
     }
-
 }
-
-?>

@@ -31,6 +31,4 @@ $doUserLog = OA_Dal::factoryDO('userlog');
 $doUserLog->whereAdd('1=1');
 $doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
 
-header ("Location: userlog-maintenance.php");
-
-?>
+header("Location: userlog-maintenance.php");

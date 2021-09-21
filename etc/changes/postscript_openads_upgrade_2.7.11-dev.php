@@ -17,49 +17,51 @@ require_once MAX_PATH . '/lib/OA/DB/Table.php';
 class OA_UpgradePostscript_2_7_11_dev
 {
     /**
+     * @var string|mixed
+     */
+    public $queryUpdateTemplate;
+    /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * DB table prefix
      *
      * @var unknown_type
      */
-    var $prefix;
-    var $tblCampaigns;
+    public $prefix;
+    public $tblCampaigns;
 
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
-        $this->tblCampaigns = $aConf['prefix'].($aConf['campaigns'] ? $aConf['campaigns'] : 'campaigns');
+        $this->tblCampaigns = $aConf['prefix'] . ($aConf['campaigns'] ? $aConf['campaigns'] : 'campaigns');
 
-        $this->queryUpdateTemplate = "UPDATE ".$this->oDbh->quoteIdentifier($this->tblCampaigns,true)."
+        $this->queryUpdateTemplate = "UPDATE " . $this->oDbh->quoteIdentifier($this->tblCampaigns, true) . "
                                       SET revenue_type = %s
                                       WHERE campaignid in (%s)";
 
         $query = 'SELECT campaignid, clicks, conversions
-                    FROM '.$this->oDbh->quoteIdentifier($this->tblCampaigns,true).' c
+                    FROM ' . $this->oDbh->quoteIdentifier($this->tblCampaigns, true) . ' c
                     WHERE c.revenue_type IS NULL ';
 
         $rs = $this->oDbh->query($query);
 
         //check for error
-        if (PEAR::isError($rs))
-        {
+        if (PEAR::isError($rs)) {
             $this->logError($rs->getUserInfo());
             return false;
         }
@@ -72,20 +74,15 @@ class OA_UpgradePostscript_2_7_11_dev
           else -> default to CPM
         */
 
-        $aCPMCampaigns = array();
-        $aCPCCampaigns = array();
-        $aCPACampaigns = array();
-        while ($aCampaign = $rs->fetchRow(MDB2_FETCHMODE_ASSOC))
-        {
-            if ($aCampaign['conversions'] > 0)
-            {
+        $aCPMCampaigns = [];
+        $aCPCCampaigns = [];
+        $aCPACampaigns = [];
+        while ($aCampaign = $rs->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+            if ($aCampaign['conversions'] > 0) {
                 $aCPACampaigns[] = $aCampaign['campaignid'];
-            }
-            else if ($aCampaign['clicks'] > 0)
-            {
+            } elseif ($aCampaign['clicks'] > 0) {
                 $aCPCCampaigns[] = $aCampaign['campaignid'];
-            }
-            else {//views set or no limits CPM as well
+            } else {//views set or no limits CPM as well
                 $aCPMCampaigns[] = $aCampaign['campaignid'];
             }
         }
@@ -99,67 +96,55 @@ class OA_UpgradePostscript_2_7_11_dev
         $cpmCount = count($aCPMCampaigns);
         $cpcCount = count($aCPCCampaigns);
         $cpaCount = count($aCPACampaigns);
-        $count = $cpmCount +  $cpcCount + $cpaCount;
+        $count = $cpmCount + $cpcCount + $cpaCount;
 
-        $this->logOnly("Found {$count} campaign(s) to set missing revenue type:".
-            ($cpmCount > 0 ? " $cpmCount to CPM,": '').
-            ($cpcCount > 0 ? " $cpcCount to CPC," : '').
+        $this->logOnly("Found {$count} campaign(s) to set missing revenue type:" .
+            ($cpmCount > 0 ? " $cpmCount to CPM," : '') .
+            ($cpcCount > 0 ? " $cpcCount to CPC," : '') .
             ($cpaCount > 0 ? " $cpaCount to CPA" : ''));
 
         
-        if ($cpmCount > 0)
-        {
+        if ($cpmCount > 0) {
             $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPM, implode(',', $aCPMCampaigns));
             $result = $this->oDbh->exec($query);
-            if (PEAR::isError($result))
-            {
+            if (PEAR::isError($result)) {
                 $this->logError($result->getUserInfo());
                 return false;
-            }
-            else
-            {
+            } else {
                 $this->logOnly("Successfully updated 'revenue_type' of $result campaign(s) to CPM");
             }
         }
-        if ($cpcCount > 0)
-        {
+        if ($cpcCount > 0) {
             $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPC, implode(',', $aCPCCampaigns));
             $result = $this->oDbh->exec($query);
-            if (PEAR::isError($result))
-            {
+            if (PEAR::isError($result)) {
                 $this->logError($result->getUserInfo());
                 return false;
-            }
-            else
-            {
+            } else {
                 $this->logOnly("Successfully updated 'revenue_type' of $result campaign(s) to CPC");
             }
         }
 
-        if ($cpaCount > 0)
-        {
+        if ($cpaCount > 0) {
             $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPA, implode(',', $aCPACampaigns));
             $result = $this->oDbh->exec($query);
-            if (PEAR::isError($result))
-            {
+            if (PEAR::isError($result)) {
                 $this->logError($result->getUserInfo());
                 return false;
-            }
-            else
-            {
+            } else {
                 $this->logOnly("Successfully updated 'revenue_type' of $result campaign(s) to CPA");
             }
         }
         return true;
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }

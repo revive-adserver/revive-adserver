@@ -29,7 +29,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 $oOptions = new OA_Admin_Option('user');
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
@@ -57,7 +57,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $aErrormessage[0][] = $GLOBALS['strPasswordWrong'];
     }
     if (isset($pw) && strlen($pw) || isset($pw2) && strlen($pw2)) {
-        if (!strlen($pw)  || strstr("\\", $pw)) {
+        if (!strlen($pw) || strstr("\\", $pw)) {
             $aErrormessage[0][] = $GLOBALS['strInvalidPassword'];
         } elseif (strcmp($pw, $pw2)) {
             $aErrormessage[0][] = $GLOBALS['strNotSamePasswords'];
@@ -79,7 +79,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Regenerate session ID and clear all other sessions
             phpAds_SessionRegenerateId(true);
 
-            $translation = new OX_Translation ();
+            $translation = new OX_Translation();
             $translated_message = $translation->translate($GLOBALS['strPasswordChanged']);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -106,71 +106,69 @@ $aUser = $oUser->aUser;
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strChangePassword,
-        'items' => array (
-            array (
-                'type'     => 'plaintext',
-                'name'     => 'username',
-                'value'    => $aUser['username'],
-                'text'     => $strUsername,
-                'size'     => 35
-            ),
-            array (
-                'type'     => 'break'
-            ),
-            array (
-                'type'     => 'plaintext',
-                'name'     => 'contact_name',
-                'value'    => $aUser['contact_name'],
-                'text'     => $strFullName,
-                'size'     => 35
-            ),
-            array (
-                'type'     => 'break'
-            ),
-            array (
-                'type'    => 'plaintext',
-                'name'    => 'email_address',
-                'value'   => $aUser['email_address'],
-                'text'    => $strEmailAddress,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'password',
-                'name'    => 'pwold',
-                'text'    => $strCurrentPassword,
+$aSettings = [
+    [
+        'text' => $strChangePassword,
+        'items' => [
+            [
+                'type' => 'plaintext',
+                'name' => 'username',
+                'value' => $aUser['username'],
+                'text' => $strUsername,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'plaintext',
+                'name' => 'contact_name',
+                'value' => $aUser['contact_name'],
+                'text' => $strFullName,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'plaintext',
+                'name' => 'email_address',
+                'value' => $aUser['email_address'],
+                'text' => $strEmailAddress,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'password',
+                'name' => 'pwold',
+                'text' => $strCurrentPassword,
                 'disabled' => ''
 
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'password',
-                'name'    => 'pw',
-                'text'    => $strChooseNewPassword
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'password',
-                'name'    => 'pw2',
-                'text'    => $strReenterNewPassword,
-                'check'   => 'compare:pw'
-            )
-        )
-    )
-);
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'password',
+                'name' => 'pw',
+                'text' => $strChooseNewPassword
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'password',
+                'name' => 'pw2',
+                'text' => $strReenterNewPassword,
+                'check' => 'compare:pw'
+            ]
+        ]
+    ]
+];
 
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

@@ -40,14 +40,14 @@ $oOptions = new OA_Admin_Option('preferences');
 $prefSection = "timezone";
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-	 // Prepare an array of the HTML elements to process, and which
+    // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
-    $aElements   = array();
-    $aCheckboxes = array();
+    $aElements = [];
+    $aCheckboxes = [];
     // Timezone
     $aElements[] = 'timezone';
     // Save the preferences
@@ -56,9 +56,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translatedMessage = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+        $translation = new OX_Translation();
+        $translatedMessage = $translation->translate(
+            $GLOBALS['strXPreferencesHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
         OA_Admin_UI::queueMessage($translatedMessage, 'local', 'confirm', 2000);
         // Also display warning after 2 seconds
         $translatedMessage = $translation->translate($GLOBALS['strTZPreferencesWarning']);
@@ -91,7 +93,7 @@ if (empty($oConfigTimezone)) {
 
 // What display string do we need to show for the timezone?
 if (!empty($oConfigTimezone)) {
-	$strTimezoneToDisplay = $oConfigTimezone;
+    $strTimezoneToDisplay = $oConfigTimezone;
 } else {
     $strTimezoneToDisplay = $timezone;
 }
@@ -99,23 +101,21 @@ $strTimezoneToDisplay = $GLOBALS['_MAX']['PREF']['timezone'];
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strTimezone,
-        'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'timezone',
-                'text'    => $strTimezoneToDisplay,
-                'items'   => $aTimezones,
-                'value'   => $strTimezoneToDisplay
-            )
-        )
-    )
-);
+$aSettings = [
+    [
+        'text' => $strTimezone,
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'timezone',
+                'text' => $strTimezoneToDisplay,
+                'items' => $aTimezones,
+                'value' => $strTimezoneToDisplay
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

@@ -46,7 +46,7 @@ function datatype_openads_bigint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -76,8 +76,7 @@ function datatype_openads_bigint_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
@@ -116,7 +115,7 @@ function datatype_openads_char_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -134,8 +133,7 @@ function datatype_openads_char_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
@@ -174,7 +172,7 @@ function datatype_openads_decimal_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -210,8 +208,7 @@ function datatype_openads_decimal_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
@@ -250,7 +247,7 @@ function datatype_openads_date_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -273,8 +270,7 @@ function datatype_openads_date_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "timestamp" datatype
@@ -313,7 +309,7 @@ function datatype_openads_datetime_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -336,8 +332,7 @@ function datatype_openads_datetime_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "timestamp" datatype
@@ -376,7 +371,7 @@ function datatype_openads_double_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -406,8 +401,7 @@ function datatype_openads_double_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
@@ -446,7 +440,7 @@ function datatype_openads_enum_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -464,13 +458,12 @@ function datatype_openads_enum_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && $aParameters['field']['length']) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             /**
              * @TODO Implement the change set array for this custom type!
              */
-            return array();
+            return [];
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -505,7 +498,7 @@ function datatype_openads_float_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -535,8 +528,7 @@ function datatype_openads_float_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
@@ -575,7 +567,7 @@ function datatype_openads_int_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -605,8 +597,7 @@ function datatype_openads_int_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
@@ -645,7 +636,7 @@ function datatype_openads_mediumint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -675,8 +666,7 @@ function datatype_openads_mediumint_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
@@ -715,7 +705,7 @@ function datatype_openads_mediumtext_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return null;
@@ -735,8 +725,7 @@ function datatype_openads_mediumtext_callback($db, $method, $aParameters)
             }
             // Strip out any "DEFAULT NULL" value from the options
             $declaration_options = preg_replace('/DEFAULT NULL /', '', $declaration_options);
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
@@ -775,7 +764,7 @@ function datatype_openads_set_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -793,13 +782,12 @@ function datatype_openads_set_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && $aParameters['field']['length']) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             /**
              * @TODO Implement the change set array for this custom type!
              */
-            return array();
+            return [];
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into MySQL using the built in
@@ -834,7 +822,7 @@ function datatype_openads_smallint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -864,8 +852,7 @@ function datatype_openads_smallint_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
@@ -904,7 +891,7 @@ function datatype_openads_text_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return null;
@@ -924,8 +911,7 @@ function datatype_openads_text_callback($db, $method, $aParameters)
             }
             // Strip out any "DEFAULT NULL" value from the options
             $declaration_options = preg_replace('/DEFAULT NULL /', '', $declaration_options);
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
@@ -964,7 +950,7 @@ function datatype_openads_timestamp_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -993,8 +979,7 @@ function datatype_openads_timestamp_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "timestamp" datatype
@@ -1033,7 +1018,7 @@ function datatype_openads_tinyint_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return;
@@ -1063,8 +1048,7 @@ function datatype_openads_tinyint_callback($db, $method, $aParameters)
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
                 $declaration_options = ' AUTO_INCREMENT ' . $declaration_options;
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
@@ -1103,7 +1087,7 @@ function datatype_openads_varchar_callback($db, $method, $aParameters)
 {
     // Lowercase method names for PHP4/PHP5 compatibility
     $method = strtolower($method);
-    switch($method) {
+    switch ($method) {
         case 'getvalidtypes':
             // Return the default value for this custom datatype
             return '';
@@ -1121,8 +1105,7 @@ function datatype_openads_varchar_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            $value .= $declaration_options;
-            return $value;
+            return $value . $declaration_options;
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "text" datatype
@@ -1165,7 +1148,7 @@ function datatype_openads_varchar_callback($db, $method, $aParameters)
 function nativetype_bigint_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_bigint';
     // Can the length of the BIGINT field be found?
     $length = null;
@@ -1178,12 +1161,12 @@ function nativetype_bigint_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1213,7 +1196,7 @@ function nativetype_bigint_callback($db, $aFields)
 function nativetype_char_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_char';
     // Can the length of the CHAR field be found?
     $length = null;
@@ -1228,7 +1211,7 @@ function nativetype_char_callback($db, $aFields)
     $unsigned = null;
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1258,7 +1241,7 @@ function nativetype_char_callback($db, $aFields)
 function nativetype_decimal_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_decimal';
     // Can the length of the DECIMAL field be found?
     $length = null;
@@ -1271,12 +1254,12 @@ function nativetype_decimal_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1306,7 +1289,7 @@ function nativetype_decimal_callback($db, $aFields)
 function nativetype_date_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_date';
     // No length value needed
     $length = null;
@@ -1314,7 +1297,7 @@ function nativetype_date_callback($db, $aFields)
     $unsigned = null;
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1344,7 +1327,7 @@ function nativetype_date_callback($db, $aFields)
 function nativetype_datetime_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_datetime';
     // No length value needed
     $length = null;
@@ -1352,7 +1335,7 @@ function nativetype_datetime_callback($db, $aFields)
     $unsigned = null;
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1382,7 +1365,7 @@ function nativetype_datetime_callback($db, $aFields)
 function nativetype_double_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_double';
     // Can the length of the DOUBLE field be found?
     $length = null;
@@ -1395,12 +1378,12 @@ function nativetype_double_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1431,7 +1414,7 @@ function nativetype_double_callback($db, $aFields)
 function nativetype_enum_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_enum';
     // Can the length (ie. enum values) ENUM field be found?
     $length = null;
@@ -1446,7 +1429,7 @@ function nativetype_enum_callback($db, $aFields)
     $unsigned = null;
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1476,7 +1459,7 @@ function nativetype_enum_callback($db, $aFields)
 function nativetype_float_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_float';
     // Can the length of the FLOAT field be found?
     $length = null;
@@ -1489,12 +1472,12 @@ function nativetype_float_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1524,7 +1507,7 @@ function nativetype_float_callback($db, $aFields)
 function nativetype_int_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_int';
     // Can the length of the INT field be found?
     $length = null;
@@ -1537,12 +1520,12 @@ function nativetype_int_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1572,7 +1555,7 @@ function nativetype_int_callback($db, $aFields)
 function nativetype_mediumint_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_mediumint';
     // Can the length of the MEDIUMINT field be found?
     $length = null;
@@ -1585,12 +1568,12 @@ function nativetype_mediumint_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1621,7 +1604,7 @@ function nativetype_mediumint_callback($db, $aFields)
 function nativetype_mediumtext_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_mediumtext';
     // Can the length of the MEDIUMTEXT field be found?
     $length = null;
@@ -1636,7 +1619,7 @@ function nativetype_mediumtext_callback($db, $aFields)
     $unsigned = null;
     // Set fixed to false
     $fixed = false;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1667,7 +1650,7 @@ function nativetype_mediumtext_callback($db, $aFields)
 function nativetype_set_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_set';
     // Can the length (ie. set values) SET field be found?
     $length = null;
@@ -1682,7 +1665,7 @@ function nativetype_set_callback($db, $aFields)
     $unsigned = null;
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 
@@ -1713,7 +1696,7 @@ function nativetype_set_callback($db, $aFields)
 function nativetype_smallint_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_smallint';
     // Can the length of the SMALLINT field be found?
     $length = null;
@@ -1726,12 +1709,12 @@ function nativetype_smallint_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1762,7 +1745,7 @@ function nativetype_smallint_callback($db, $aFields)
 function nativetype_text_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_text';
     // Can the length of the TEXT field be found?
     $length = null;
@@ -1777,7 +1760,7 @@ function nativetype_text_callback($db, $aFields)
     $unsigned = null;
     // Set fixed to false
     $fixed = false;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1807,7 +1790,7 @@ function nativetype_text_callback($db, $aFields)
 function nativetype_timestamp_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_timestamp';
     // No length value needed
     $length = null;
@@ -1815,7 +1798,7 @@ function nativetype_timestamp_callback($db, $aFields)
     $unsigned = null;
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1845,7 +1828,7 @@ function nativetype_timestamp_callback($db, $aFields)
 function nativetype_tinyint_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_tinyint';
     // Can the length of the TINYINT field be found?
     $length = null;
@@ -1858,12 +1841,12 @@ function nativetype_tinyint_callback($db, $aFields)
     }
     // Is the nativetype unsigned?
     $unsigned = null;
-    if (strpos(strtolower($aFields['type']), 'unsigned') !== false) {
+    if (stripos($aFields['type'], 'unsigned') !== false) {
         $unsigned = true;
     }
     // No fixed value needed
     $fixed = null;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
 
 /**
@@ -1894,7 +1877,7 @@ function nativetype_tinyint_callback($db, $aFields)
 function nativetype_varchar_callback($db, $aFields)
 {
     // Prepare the type array
-    $aType = array();
+    $aType = [];
     $aType[] = 'openads_varchar';
     // Can the length of the VARCHAR field be found?
     $length = null;
@@ -1909,7 +1892,5 @@ function nativetype_varchar_callback($db, $aFields)
     $unsigned = null;
     // Set fixed to false
     $fixed = false;
-    return array($aType, $length, $unsigned, $fixed);
+    return [$aType, $length, $unsigned, $fixed];
 }
-
-?>

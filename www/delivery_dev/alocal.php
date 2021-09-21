@@ -22,26 +22,27 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 // however - in local mode (only), this is not the case
 global $referer, $loc;
 $referer = (!empty($loc)) ? $loc : '';
-$loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+$loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' .
     OX_getHostName() .
-	$_SERVER['REQUEST_URI'];
+    $_SERVER['REQUEST_URI'];
 // init-delivery.php is not setting invocationType properly for local invocation type
 // we should set it here
 $GLOBALS['_OA']['invocationType'] = 'local';
 // This function is a wrapper to view raw, this allows for future migration
-function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '', $charset = '') {
+function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '', $charset = '')
+{
     // start stacked output buffering
     ob_start();
 
     if (empty($what) && !((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
         if ($zoneid) {
-            $what = "zone:".$zoneid;
+            $what = "zone:" . $zoneid;
         }
         if ($campaignid) {
-            $what = "campaignid:".$campaignid;
+            $what = "campaignid:" . $campaignid;
         }
         if ($bannerid) {
-            $what = "bannerid:".$bannerid;
+            $what = "bannerid:" . $bannerid;
         }
     }
 
@@ -52,14 +53,14 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
         isset($GLOBALS['phpAds_context']) && is_array($GLOBALS['phpAds_context']) &&
         isset($output['context']) && is_array($output['context'])
        ) {
-           // Check if the new context item is already in the global array, and add it if not
-           foreach ($GLOBALS['phpAds_context'] as $idx => $item) {
-               foreach ($output['context'] as $newidx => $newItem) {
-                   if ($newItem === $item) {
-                       unset($output['context'][$newidx]);
-                   }
-               }
-           }
+        // Check if the new context item is already in the global array, and add it if not
+        foreach ($GLOBALS['phpAds_context'] as $idx => $item) {
+            foreach ($output['context'] as $newidx => $newItem) {
+                if ($newItem === $item) {
+                    unset($output['context'][$newidx]);
+                }
+            }
+        }
         $GLOBALS['phpAds_context'] = $GLOBALS['phpAds_context'] + $output['context'];
     }
     MAX_cookieFlush();
@@ -91,10 +92,12 @@ function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, 
         $nz = true;
     }
 
-    $spc_output = array();
+    $spc_output = [];
     $fo_required = false;
     foreach ($zones as $zone => $data) {
-        if (empty($zone)) continue;
+        if (empty($zone)) {
+            continue;
+        }
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if ($nz) {
             $varname = $zone;
@@ -104,16 +107,16 @@ function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, 
         }
 
         // Get the banner
-        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+        $output = MAX_adSelect('zone:' . $zoneid, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
         $spc_output[$varname] = $output['html'];
 
         // Block this banner for next invocation
         if (!empty($block) && !empty($output['bannerid'])) {
-            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+            $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
         }
         // Block this campaign for next invocation
         if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+            $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
         }
         // Pass the context array back to the next call, have to iterate over elements to prevent duplication
         if (!empty($output['context'])) {
@@ -132,4 +135,3 @@ function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, 
 
     return $spc_output;
 }
-?>

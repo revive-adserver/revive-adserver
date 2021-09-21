@@ -26,31 +26,36 @@ require_once 'XML/RPC.php';
  */
 class OA_XML_RPC_Client extends XML_RPC_Client
 {
-    var $hasCurl = false;
-    var $hasOpenssl = false;
-    var $verifyPeer;
-    var $caFile;
+    public $hasCurl = false;
+    public $hasOpenssl = false;
+    public $verifyPeer;
+    public $caFile;
 
-    function __construct($path, $server, $port = 0,
-                            $proxy = '', $proxy_port = 0,
-                            $proxy_user = '', $proxy_pass = '')
-    {
+    public function __construct(
+        $path,
+        $server,
+        $port = 0,
+        $proxy = '',
+        $proxy_port = 0,
+        $proxy_user = '',
+        $proxy_pass = ''
+    ) {
         if ($aExtensions = OA::getAvailableSSLExtensions()) {
-            $this->hasCurl    = in_array('curl', $aExtensions);
+            $this->hasCurl = in_array('curl', $aExtensions);
             $this->hasOpenssl = in_array('openssl', $aExtensions);
         }
 
         $this->verifyPeer = true;
-        $this->caFile     = RV_PATH . '/etc/curl-ca-bundle.crt';
+        $this->caFile = RV_PATH . '/etc/curl-ca-bundle.crt';
         parent::__construct($path, $server, $port);
     }
 
-    function canUseSSL()
+    public function canUseSSL()
     {
         return $this->hasCurl || $this->hasOpenssl;
     }
 
-    function _sendHttpGenerate(&$msg, $username = '', $password = '')
+    public function _sendHttpGenerate(&$msg, $username = '', $password = '')
     {
         // Pre-emptive BC hacks for fools calling sendPayloadHTTP10() directly
         if ($username != $this->username) {
@@ -66,9 +71,14 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $this->headers = str_replace(': PEAR XML_RPC', ': Openads XML_RPC', $this->headers);
     }
 
-    function _sendHttpOpenSsl($msg, $server, $port, $timeout = 0,
-                               $username = '', $password = '')
-    {
+    public function _sendHttpOpenSsl(
+        $msg,
+        $server,
+        $port,
+        $timeout = 0,
+        $username = '',
+        $password = ''
+    ) {
         if (!empty($timeout)) {
             // Set timeout
             $old_timeout = ini_get('default_socket_timeout');
@@ -77,17 +87,17 @@ class OA_XML_RPC_Client extends XML_RPC_Client
 
         $this->_sendHttpGenerate($msg, $username, $password);
 
-        $context = stream_context_create(array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => preg_replace('/^.*?\r\n/', '', $this->headers),
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => preg_replace('/^.*?\r\n/', '', $this->headers),
                 'content' => $msg->payload
-            ),
-            'ssl' => array(
+            ],
+            'ssl' => [
                 'verify_peer' => $this->verifyPeer,
-                'cafile'      => $this->caFile
-            )
-        ));
+                'cafile' => $this->caFile
+            ]
+        ]);
 
         $protocol = $this->protocol == 'ssl://' ? 'https://' : 'http://';
 
@@ -99,10 +109,12 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         }
 
         if (!$fp) {
-            $this->raiseError('Connection to RPC server '
+            $this->raiseError(
+                'Connection to RPC server '
                               . $server . ':' . $port
                               . ' failed. ' . $this->errstr,
-                              XML_RPC_ERROR_CONNECTION_FAILED);
+                XML_RPC_ERROR_CONNECTION_FAILED
+            );
             return 0;
         }
 
@@ -120,19 +132,24 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         return $resp;
     }
 
-    function _sendHttpCurl($msg, $server, $port, $timeout = 0,
-                               $username = '', $password = '')
-    {
+    public function _sendHttpCurl(
+        $msg,
+        $server,
+        $port,
+        $timeout = 0,
+        $username = '',
+        $password = ''
+    ) {
         $this->_sendHttpGenerate($msg, $username, $password);
 
         $protocol = $this->protocol == 'ssl://' ? 'https://' : 'http://';
 
         $ch = curl_init("{$protocol}{$this->server}:{$port}{$this->path}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER,         true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST,  $this->headers."\r\n\r\n".$msg->payload);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->headers . "\r\n\r\n" . $msg->payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->verifyPeer);
-        curl_setopt($ch, CURLOPT_CAINFO,         $this->caFile);
+        curl_setopt($ch, CURLOPT_CAINFO, $this->caFile);
 
         if (!empty($timeout)) {
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
@@ -148,10 +165,12 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                 $this->errstr = 'RPC server did not send response before timeout.';
                 $this->raiseError($this->errstr, XML_RPC_ERROR_CONNECTION_FAILED);
             } else {
-                $this->raiseError('Connection to RPC server '
+                $this->raiseError(
+                    'Connection to RPC server '
                                   . $server . ':' . $port
                                   . ' failed. ' . $this->errstr,
-                                  XML_RPC_ERROR_CONNECTION_FAILED);
+                    XML_RPC_ERROR_CONNECTION_FAILED
+                );
             }
 
             return 0;
@@ -162,17 +181,20 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         return $resp;
     }
 
-    function sendPayloadHTTP10($msg, $server, $port, $timeout = 0,
-                               $username = '', $password = '')
-    {
+    public function sendPayloadHTTP10(
+        $msg,
+        $server,
+        $port,
+        $timeout = 0,
+        $username = '',
+        $password = ''
+    ) {
         if ($this->hasCurl || $this->hasOpenssl) {
-            $args   = func_get_args();
+            $args = func_get_args();
             $method = $this->hasCurl ? '_sendHttpCurl' : '_sendHttpOpenSsl';
-            return call_user_func_array(array(&$this, $method), $args);
+            return call_user_func_array([&$this, $method], $args);
         }
 
         return parent::sendPayloadHTTP10($msg, $server, $port, $timeout, $username, $password);
     }
 }
-
-?>

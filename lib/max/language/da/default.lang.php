@@ -177,7 +177,7 @@ $GLOBALS['strDayOfWeek'] = "Ugedag";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'December';
 $GLOBALS['strDayFullNames'][1] = 'Mandag';
@@ -188,7 +188,7 @@ $GLOBALS['strDayFullNames'][5] = 'Fredag';
 $GLOBALS['strDayFullNames'][6] = 'Søndag';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Sø';
 $GLOBALS['strDayShortCuts'][1] = 'Ma';
@@ -379,17 +379,17 @@ $GLOBALS['strDeliveryCappingReset'] = "Nulstil visnings tæller efter:";
 $GLOBALS['strDeliveryCappingTotal'] = "total";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['limit'] = "Begræns kampagne visninger til:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "Begræns zone visninger til:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "Begræns zone visninger til:";
 

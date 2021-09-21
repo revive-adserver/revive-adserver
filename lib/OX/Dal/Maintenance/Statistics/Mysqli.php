@@ -27,7 +27,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
 {
-
     /**
      * A local store for keeping the default MySQL sort_buffer_size
      * session variable value, so that it can be restored after
@@ -35,14 +34,14 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      *
      * @var integer
      */
-    var $sortBufferSize;
+    public $sortBufferSize;
 
     /**
      * The constructor method.
      *
      * @uses OX_Dal_Maintenance_Statistics::OX_Dal_Maintenance_Statistics()
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         // Store the original MySQL sort_buffer_size value
@@ -71,7 +70,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
             is_numeric($aConf['databaseMysql']['statisticsSortBufferSize'])) {
-            $query = 'SET SESSION sort_buffer_size='.$aConf['databaseMysql']['statisticsSortBufferSize'];
+            $query = 'SET SESSION sort_buffer_size=' . $aConf['databaseMysql']['statisticsSortBufferSize'];
             $rows = $this->oDbh->exec($query);
             if (PEAR::isError($rows)) {
                 MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -93,7 +92,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
             is_numeric($aConf['databaseMysql']['statisticsSortBufferSize'])) {
-            $query = 'SET SESSION sort_buffer_size='.$aConf->sortBufferSize;
+            $query = 'SET SESSION sort_buffer_size=' . $aConf->sortBufferSize;
             $rows = $this->oDbh->exec($query);
             if (PEAR::isError($rows)) {
                 MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -109,7 +108,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.
      * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
      */
-    function migrateRawRequests($oStart, $oEnd)
+    public function migrateRawRequests($oStart, $oEnd)
     {
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();
@@ -127,7 +126,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.
      * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
      */
-    function migrateRawImpressions($oStart, $oEnd)
+    public function migrateRawImpressions($oStart, $oEnd)
     {
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();
@@ -145,7 +144,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.
      * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
      */
-    function migrateRawClicks($oStart, $oEnd)
+    public function migrateRawClicks($oStart, $oEnd)
     {
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();
@@ -166,7 +165,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.
      * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
      */
-    function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
+    public function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
     {
         $query = "
             INSERT INTO
@@ -201,7 +200,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date/time of the operation interval.
      * @param PEAR::Date $oEnd   The end date/time of the operation interval.
      */
-    function deduplicateConversions($oStart, $oEnd)
+    public function deduplicateConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
@@ -250,8 +249,8 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
                     diavv2.value = diavv.value
                 )
             SET
-                diac.connection_status = ". MAX_CONNECTION_STATUS_DUPLICATE .",
-                diac.updated = '". OA::getNow() ."',
+                diac.connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE . ",
+                diac.updated = '" . OA::getNow() . "',
                 diac.comments = CONCAT('Duplicate of conversion ID ', diac2.data_intermediate_ad_connection_id)";
         $message = '- Deduplicating conversions between ' . $oStart->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStart->tz->getShortName() .
                    ' and ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName();
@@ -270,7 +269,7 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date/time of the operation interval.
      * @param PEAR::Date $oEnd   The end date/time of the operation interval.
      */
-    function rejectEmptyVarConversions($oStart, $oEnd)
+    public function rejectEmptyVarConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
@@ -291,8 +290,8 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
                     v.variableid = diavv.tracker_variable_id
                 )
             SET
-                diac.connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
-                diac.updated = '". OA::getNow() ."',
+                diac.connection_status = " . MAX_CONNECTION_STATUS_DISAPPROVED . ",
+                diac.updated = '" . OA::getNow() . "',
                 diac.comments = CONCAT('Rejected because ', COALESCE(NULLIF(v.description, ''), v.name), ' is empty')
             WHERE
                 diac.tracker_date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
@@ -313,7 +312,4 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
     }
-
 }
-
-?>

@@ -44,11 +44,9 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 }
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    OX_Admin_Redirect::redirect('stats.php?entity=advertiser&breakdown=history&clientid='.OA_Permission::getEntityId());
+    OX_Admin_Redirect::redirect('stats.php?entity=advertiser&breakdown=history&clientid=' . OA_Permission::getEntityId());
 }
 
 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    OX_Admin_Redirect::redirect('stats.php?entity=affiliate&breakdown=history&affiliateid='.OA_Permission::getEntityId());
+    OX_Admin_Redirect::redirect('stats.php?entity=affiliate&breakdown=history&affiliateid=' . OA_Permission::getEntityId());
 }
-
-?>

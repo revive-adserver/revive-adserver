@@ -124,7 +124,7 @@ function _oxMemcached_MemcachedInit()
         }
     }
     if ($serversAdded === true) {
-        $GLOBALS['OA_Delivery_Cache']['MemcachedObject'] =& $oMemcache;
+        $GLOBALS['OA_Delivery_Cache']['MemcachedObject'] = &$oMemcache;
         return $GLOBALS['OA_Delivery_Cache']['MemcachedObject'];
     }
     return false;
@@ -153,5 +153,3 @@ function _oxMemcached_addMemcachedServer(&$oMemcache, $serverAddress)
     // @ - to catch memcached notices on errors
     return @$oMemcache->addServer(substr($serverAddress, 0, $colonPos), $port);
 }
-
-?>

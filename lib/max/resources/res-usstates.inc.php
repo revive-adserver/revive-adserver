@@ -71,7 +71,6 @@ $phpAds_USStates['WI'] = "Wisconsin";
 $phpAds_USStates['WY'] = "Wyoming";
 
 // Load localized strings
-if (file_exists(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-usstates.lang.php'))
-	@include(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-usstates.lang.php');
-
-?>
+if (file_exists(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-usstates.lang.php')) {
+    @include(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-usstates.lang.php');
+}

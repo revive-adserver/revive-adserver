@@ -18,13 +18,11 @@
 function Plugin_deliveryLog_oxLogCountry_logClickCountry_Delivery_logClick()
 {
     $data = $GLOBALS['_MAX']['deliveryData'];
-    $aQuery = array(
+    $aQuery = [
         'interval_start' => $data['interval_start'],
-        'creative_id'    => $data['creative_id'],
-        'zone_id'        => $data['zone_id'],
-        'country'        => $data['geo']['country_code'],
-    );
+        'creative_id' => $data['creative_id'],
+        'zone_id' => $data['zone_id'],
+        'country' => $data['geo']['country_code'],
+    ];
     return OX_bucket_updateTable('data_bkt_country_c', $aQuery);
 }
-
-?>

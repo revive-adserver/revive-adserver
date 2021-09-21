@@ -25,7 +25,7 @@ Language_Loader::load();
  */
 class LibAclTest extends DalUnitTestCase
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -37,7 +37,7 @@ class LibAclTest extends DalUnitTestCase
      * test (Dummy) plugins which are then used by the test scripts to test the extension point integrations.
      *
      */
-    function setUp()
+    public function setUp()
     {
         $oPkgMgr = new OX_PluginManager();
 
@@ -48,7 +48,7 @@ class LibAclTest extends DalUnitTestCase
         TestEnv::installPluginPackage('openXTests');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         // Uninstall
         TestEnv::uninstallPluginPackage('openXTests');
@@ -56,7 +56,7 @@ class LibAclTest extends DalUnitTestCase
         DataGenerator::cleanUp();
     }
 
-    function test_MAX_AclSave()
+    public function test_MAX_AclSave()
     {
         // insert a channel
         $doChannel = OA_Dal::factoryDO('channel');
@@ -65,29 +65,29 @@ class LibAclTest extends DalUnitTestCase
 
         // insert a banner
         $doBanners = OA_Dal::factoryDO('banners');
-        $bannerId  = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners);
         $doBanners->bannerid = $bannerId;
         $doBanners->acls_updated = OA::getNow();
         $doBanners->update();
-        $updated1  = $doBanners->acls_updated;
+        $updated1 = $doBanners->acls_updated;
 
         // save a banner limited by date/time
-        $aAcls[1]['data']             = '0,1';
-        $aAcls[1]['logical']          = 'and';
-        $aAcls[1]['type']             = 'Dummy:Dummy';
-        $aAcls[1]['comparison']       = '=~';
-        $aAcls[1]['executionorder']   = 1;
-        $sLimitation                  = "MAX_checkDummy_Dummy('0,1', '=~')";
-        $aEntities                    = array('bannerid' => $bannerId);
+        $aAcls[1]['data'] = '0,1';
+        $aAcls[1]['logical'] = 'and';
+        $aAcls[1]['type'] = 'Dummy:Dummy';
+        $aAcls[1]['comparison'] = '=~';
+        $aAcls[1]['executionorder'] = 1;
+        $sLimitation = "MAX_checkDummy_Dummy('0,1', '=~')";
+        $aEntities = ['bannerid' => $bannerId];
 
-        $this->assertTrue(MAX_AclSave(array($aAcls[1]), $aEntities, 'banner-acl.php'));
+        $this->assertTrue(MAX_AclSave([$aAcls[1]], $aEntities, 'banner-acl.php'));
 
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertTrue($doBanners);
         $this->assertEqual($sLimitation, $doBanners->compiledlimitation);
 
         $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->whereAdd('bannerid = '.$bannerId);
+        $doAcls->whereAdd('bannerid = ' . $bannerId);
         $this->assertTrue($doAcls->find(true));
         $this->assertEqual($doAcls->bannerid, $bannerId);
         $this->assertEqual($doAcls->logical, $aAcls[1]['logical']);
@@ -98,24 +98,24 @@ class LibAclTest extends DalUnitTestCase
         $this->assertFalse($doAcls->fetch());
     }
 
-    function test_OA_aclGetComponentFromRow()
+    public function test_OA_aclGetComponentFromRow()
     {
-        $row = array('type' => 'Dummy:Dummy', 'logical' => 'and', 'data' => 'AaAaA');
-        $plugin =& OA_aclGetComponentFromRow($row);
+        $row = ['type' => 'Dummy:Dummy', 'logical' => 'and', 'data' => 'AaAaA'];
+        $plugin = &OA_aclGetComponentFromRow($row);
         $this->assertTrue(is_a($plugin, 'Plugins_DeliveryLimitations_Dummy_Dummy'));
         $this->assertEqual('and', $plugin->logical);
         $this->assertEqual('AaAaA', $plugin->data);
     }
 
-    function test_MAX_aclRecompileAll()
+    public function test_MAX_aclRecompileAll()
     {
-        DataGenerator::cleanUp(array('acls'));
+        DataGenerator::cleanUp(['acls']);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $bannerId = DataGenerator::generateOne($doBanners);
 
         $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->bannerid  = $bannerId;
+        $doAcls->bannerid = $bannerId;
         $doAcls->logical = 'and';
         $doAcls->type = 'Dummy:Dummy';
         $doAcls->comparison = '=~';
@@ -124,7 +124,7 @@ class LibAclTest extends DalUnitTestCase
         $aclsId1 = DataGenerator::generateOne($doAcls);
 
         $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->bannerid  = $bannerId;
+        $doAcls->bannerid = $bannerId;
         $doAcls->logical = 'and';
         $doAcls->type = 'Dummy:Dummy';
         $doAcls->comparison = '!~';
@@ -134,11 +134,11 @@ class LibAclTest extends DalUnitTestCase
 
         $this->assertTrue(MAX_AclReCompileAll());
 
-        $doBanners =& OA_Dal::staticGetDO('banners', $bannerId);
+        $doBanners = &OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual(
             "MAX_checkDummy_Dummy('openx.org', '!~') and MAX_checkDummy_Dummy('0,1', '=~')",
-            $doBanners->compiledlimitation);
+            $doBanners->compiledlimitation
+        );
         $this->assertEqual("Dummy:Dummy", $doBanners->acl_plugins);
     }
 }
-?>

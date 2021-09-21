@@ -27,6 +27,6 @@ $GLOBALS['strAction'] = "Ação";
 $GLOBALS['strValue'] = "Valor";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Estatísticas compiladas";

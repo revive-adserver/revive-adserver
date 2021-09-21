@@ -29,9 +29,9 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      *
      * @var array
      */
-    public $aAdsMinImpressions = array();
-    public $aZonesMinImpressions = array();
-    public $aCampaignsDeliveredImpressions = array();
+    public $aAdsMinImpressions = [];
+    public $aZonesMinImpressions = [];
+    public $aCampaignsDeliveredImpressions = [];
 
     /**
      * How many operation intervals are left till the end of today
@@ -45,7 +45,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      *
      * @var string
      */
-    var $taskName = 'ECPM for Remnant';
+    public $taskName = 'ECPM for Remnant';
 
     /**
      * Executes the eCPM algorithm.
@@ -56,7 +56,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
     public function runAlgorithm()
     {
         $aAgenciesIds = $this->oDal->getEcpmAgenciesIds();
-        foreach($aAgenciesIds as $agencyId) {
+        foreach ($aAgenciesIds as $agencyId) {
             $this->resetHelperProperties();
             $aCampaignsInfo = $this->oDal->getCampaignsInfoByAgencyId($agencyId);
             if (is_array($aCampaignsInfo) && !empty($aCampaignsInfo)) {
@@ -93,10 +93,10 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
     public function calculateDeliveryProbabilities($aCampaignsInfo)
     {
         $aAdsZonesMinImpressions = $this->calculateAdsZonesMinimumRequiredImpressions($aCampaignsInfo);
-        $aAdZonesProbabilities = array();
-        foreach($aCampaignsInfo as $campaignId => $aCampaign) {
-            foreach($aCampaign[self::IDX_ADS] as $adId => $aAd) {
-                foreach($aAd[self::IDX_ZONES] as $zoneId) {
+        $aAdZonesProbabilities = [];
+        foreach ($aCampaignsInfo as $campaignId => $aCampaign) {
+            foreach ($aCampaign[self::IDX_ADS] as $adId => $aAd) {
+                foreach ($aAd[self::IDX_ZONES] as $zoneId) {
                     if ($this->aZonesEcpmPowAlphaSums[$zoneId]) {
                         $p = $this->aAdsEcpmPowAlpha[$adId] / $this->aZonesEcpmPowAlphaSums[$zoneId];
                     } else {
@@ -109,7 +109,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
                         $aAdZonesProbabilities[$adId][$zoneId] =
                             $minRequestedImpr / $this->aZonesMinImpressions[$zoneId];
                     } else {
-                       $aAdZonesProbabilities[$adId][$zoneId] =
+                        $aAdZonesProbabilities[$adId][$zoneId] =
                            $minRequestedImpr / $M
                            + (1 - $this->aZonesMinImpressions[$zoneId] / $M) * $p;
                     }
@@ -136,16 +136,16 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      *                               For a specific of the indexes withing this array see:
      *                               OA_Dal_Maintenance_Priority::getCampaignsInfoByAgencyId
      */
-    function prepareCampaignsParameters($aCampaignsInfo)
+    public function prepareCampaignsParameters($aCampaignsInfo)
     {
         $campaignRemainingOperationIntervals = $this->getTodaysRemainingOperationIntervals();
-        foreach($aCampaignsInfo as $campaignId => $aCampaign) {
+        foreach ($aCampaignsInfo as $campaignId => $aCampaign) {
             $deliveredImpressions = $this->getCampaignDeliveredImpressions($campaignId);
             $this->aCampaignsEcpms[$campaignId] = $ecpm =
                 $this->calculateCampaignEcpm($campaignId, $aCampaign);
             $campaignAdsWeightSum = 0;
             // Calculates ECPM ^ ALPHA and sums up ads weights
-            foreach($aCampaign[self::IDX_ADS] as $adId => $adInfo) {
+            foreach ($aCampaign[self::IDX_ADS] as $adId => $adInfo) {
                 // calculate sum of all ads weights across a campaign
                 $campaignAdsWeightSum += $adInfo[self::IDX_WEIGHT];
                 $this->setAdEcpmPowAlpha($adId, $ecpm);
@@ -153,7 +153,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
             }
             // Calculates minimum number of required impressions for each ad
             // and scale it proportionally to the ad weight
-            foreach($aCampaign[self::IDX_ADS] as $adId => $adInfo) {
+            foreach ($aCampaign[self::IDX_ADS] as $adId => $adInfo) {
                 $minImpressionsToDeliver = $aCampaign[self::IDX_MIN_IMPRESSIONS] - $deliveredImpressions;
                 if ($minImpressionsToDeliver < 0) {
                     $minImpressionsToDeliver = 0;
@@ -163,8 +163,11 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
                 }
                 // scale the campaign min.impressions to each of ads proportionally
                 // to the weights of the ad
-                $this->setAdMinImpressions($adId, $adInfo[self::IDX_WEIGHT],
-                    $campaignAdsWeightSum, $minImpressionsToDeliver
+                $this->setAdMinImpressions(
+                    $adId,
+                    $adInfo[self::IDX_WEIGHT],
+                    $campaignAdsWeightSum,
+                    $minImpressionsToDeliver
                 );
             }
         }
@@ -209,9 +212,12 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      * @param integer $campaignAdsWeightSum  Sum of all ads weights withing the campaign
      * @param integer $campaignMinRequiredImpressions  Min. number of impressions in the campaign
      */
-    public function setAdMinImpressions($adId, $adWeight,
-        $campaignAdsWeightSum, $campaignMinRequiredImpressions)
-    {
+    public function setAdMinImpressions(
+        $adId,
+        $adWeight,
+        $campaignAdsWeightSum,
+        $campaignMinRequiredImpressions
+    ) {
         $this->aAdsMinImpressions[$adId] = $campaignMinRequiredImpressions *
             $adWeight / $campaignAdsWeightSum;
     }
@@ -224,7 +230,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      */
     public function setZonesEcpmPowAlphaSums($adId, $aZones)
     {
-        foreach($aZones as $zoneId) {
+        foreach ($aZones as $zoneId) {
             if (!isset($this->aZonesEcpmPowAlphaSums[$zoneId])) {
                 $this->aZonesEcpmPowAlphaSums[$zoneId] = 0;
             }
@@ -251,9 +257,9 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      */
     public function calculateAdsZonesMinimumRequiredImpressions($aCampaignsInfo)
     {
-        $aAdsZonesMinImpressions = array();
-        foreach($aCampaignsInfo as $campaignId => $aCampaign) {
-            foreach($aCampaign[self::IDX_ADS] as $adId => $aAd) {
+        $aAdsZonesMinImpressions = [];
+        foreach ($aCampaignsInfo as $campaignId => $aCampaign) {
+            foreach ($aCampaign[self::IDX_ADS] as $adId => $aAd) {
                 $aAdsZonesMinImpressions[$adId] = $this->calculateAdZoneMinImpr(
                     $aCampaign[self::IDX_ADS][$adId][self::IDX_ZONES],
                     $this->aAdsMinImpressions[$adId]
@@ -279,19 +285,18 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      */
     public function calculateAdZoneMinImpr($aZones, $adMinImpressions)
     {
-        $aAdZonesMinImpressions = array();
+        $aAdZonesMinImpressions = [];
         $adZonesContractsSum = $this->getAdZonesContractsSum($aZones);
         if ($adMinImpressions > $adZonesContractsSum) {
             // ad can't get more impressions than are available in all zones
             // it is assigned to
             $adMinImpressions = $adZonesContractsSum;
         }
-        foreach($aZones as $zoneId) {
+        foreach ($aZones as $zoneId) {
             $zoneContract = $this->getZoneAvailableImpressions($zoneId);
             $aAdZonesMinImpressions[$zoneId] = $adMinImpressions
                 * $zoneContract / $adZonesContractsSum;
             $this->addMinRequiredImprToZone($zoneId, $aAdZonesMinImpressions[$zoneId]);
-
         }
         return $aAdZonesMinImpressions;
     }
@@ -323,7 +328,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
     public function getAdZonesContractsSum($aZones)
     {
         $sum = 0;
-        foreach($aZones as $zoneId) {
+        foreach ($aZones as $zoneId) {
             $sum += $this->getZoneAvailableImpressions($zoneId);
         }
         return $sum;
@@ -411,10 +416,8 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
     public function resetHelperProperties()
     {
         parent::resetHelperProperties();
-        $this->aZonesMinImpressions = array();
-        $this->aAdsMinImpressions = array();
-        $this->aCampaignsDeliveredImpressions = array();
+        $this->aZonesMinImpressions = [];
+        $this->aAdsMinImpressions = [];
+        $this->aCampaignsDeliveredImpressions = [];
     }
 }
-
-?>

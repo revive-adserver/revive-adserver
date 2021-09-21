@@ -10,39 +10,37 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
-require_once(LIB_PATH.'/Extension/deliveryLog/Setup.php');
+require_once(LIB_PATH . '/Extension/ExtensionCommon.php');
+require_once(LIB_PATH . '/Extension/deliveryLog/Setup.php');
 
 /**
  * @package    OpenXExtension
  */
 class OX_Extension_Delivery extends OX_Extension_Common
 {
-
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function runTasksAfterPluginInstall()
+    public function runTasksAfterPluginInstall()
     {
         parent::runTasksAfterPluginInstall();
         //return $this->_cacheDeliveryHooks();
     }
 
-    function runTasksAfterPluginUninstall()
+    public function runTasksAfterPluginUninstall()
     {
         parent::runTasksAfterPluginUninstall();
         //return $this->_cacheDeliveryHooks();
     }
 
-    function runTasksAfterPluginEnable()
+    public function runTasksAfterPluginEnable()
     {
         parent::runTasksAfterPluginEnable();
         return $this->_cacheDeliveryHooks();
     }
 
-    function runTasksAfterPluginDisable()
+    public function runTasksAfterPluginDisable()
     {
         parent::runTasksAfterPluginDisable();
         return $this->_cacheDeliveryHooks();
@@ -54,12 +52,12 @@ class OX_Extension_Delivery extends OX_Extension_Common
      *
      * @return boolean
      */
-    function runTasksOnDemand($task='')
+    public function runTasksOnDemand($task = '')
     {
         return $this->_cacheDeliveryHooks();
     }
 
-    function _cacheDeliveryHooks()
+    public function _cacheDeliveryHooks()
     {
         $aHooks = $this->getCachedComponentHooks();
         $this->_saveComponentHooks($aHooks);
@@ -72,17 +70,15 @@ class OX_Extension_Delivery extends OX_Extension_Common
      *
      * @return boolean True if writing the config file change was sucessful false otherwise
      */
-    function _saveComponentHooks($aHooks = array())
+    public function _saveComponentHooks($aHooks = [])
     {
         $oSettings = new OA_Admin_Settings();
-        if (!$oSettings)
-        {
+        if (!$oSettings) {
             return false;
         }
         // Clear out any existing hooks
-        $oSettings->aConf['deliveryHooks'] = array();
-        foreach ($aHooks as $hookName => &$aComponentIdentifiers)
-        {
+        $oSettings->aConf['deliveryHooks'] = [];
+        foreach ($aHooks as $hookName => &$aComponentIdentifiers) {
             $aComponentIdentifiers = $this->orderDependencyComponents($hookName, $aComponentIdentifiers, $aHooks);
             $oSettings->settingChange('deliveryHooks', $hookName, implode('|', $aComponentIdentifiers));
         }
@@ -98,7 +94,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
      * @param array $aHooks  Array with all hooks and all components in the system
      * @return unknown
      */
-    function orderDependencyComponents($hookName, $aComponentIdentifiers = array(), $aHooks = array())
+    public function orderDependencyComponents($hookName, $aComponentIdentifiers = [], $aHooks = [])
     {
         switch ($hookName) {
             case 'logClick':
@@ -121,12 +117,9 @@ class OX_Extension_Delivery extends OX_Extension_Common
      *
      * @return boolean True if writing the config file change was sucessful false otherwise
      */
-    function _generateDeliveryHooksCacheFile($aHooks = array())
+    public function _generateDeliveryHooksCacheFile($aHooks = [])
     {
         $deliveryLogSetup = new OX_Extension_DeliveryLog_Setup();
         return $deliveryLogSetup->regenerateDeliveryPluginsCodeCache($aHooks);
     }
-
 }
-
-?>

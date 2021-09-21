@@ -26,50 +26,50 @@ define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
  */
 class Migration_tables_core_108Test extends MigrationTest
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         mkdir(MAX_PATH . '/var/plugins/config', 0777, true);
     }
 
-    function tearDown()
+    public function tearDown()
     {
         Util_File_remove(MAX_PATH . '/var/plugins/config');
         parent::tearDown();
     }
 
-    function testMigrateData()
+    public function testMigrateData()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(108, array('config', 'preference'));
+        $this->initDatabase(108, ['config', 'preference']);
 
         $this->setupPanConfig();
 
         $migration = new Migration_108();
-        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
+        $migration->init($this->oDbh, MAX_PATH . '/var/DB_Upgrade.test.log');
 
-        $aValues = array(
-            'gui_show_parents'   => 't',
-            'updates_enabled'    => 'f',
+        $aValues = [
+            'gui_show_parents' => 't',
+            'updates_enabled' => 'f',
             'client_welcome_msg' => '',
-            'updates_cache'      => ''
-        );
+            'updates_cache' => ''
+        ];
         $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
         $this->oDbh->exec($sql);
 
-        $aValues += array(
+        $aValues += [
             'warn_admin' => 't',
             'warn_limit' => '100'
-        );
+        ];
 
         $migration->migrateData();
-        $table = $this->oDbh->quoteIdentifier($prefix.'preference',true);
+        $table = $this->oDbh->quoteIdentifier($prefix . 'preference', true);
 
         $rsPreference = DBC::NewRecordSet("SELECT * from {$table}");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
         $aDataPreference = $rsPreference->toArray();
-        foreach($aValues as $column => $value) {
+        foreach ($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
 
@@ -77,7 +77,7 @@ class Migration_tables_core_108Test extends MigrationTest
     }
 
 
-    function testCreateGeoTargetingConfiguration()
+    public function testCreateGeoTargetingConfiguration()
     {
         if (file_exists(GEOCONFIG_PATH)) {
             rename(GEOCONFIG_PATH, TMP_GEOCONFIG_PATH);
@@ -87,7 +87,7 @@ class Migration_tables_core_108Test extends MigrationTest
         $host = OX_getHostName();
 
         $migration = new Migration_108();
-        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
+        $migration->init($this->oDbh, MAX_PATH . '/var/DB_Upgrade.test.log');
 
         $this->checkNoGeoTargeting($migration, $host);
         $this->checkGeoIp($migration, $host);
@@ -104,19 +104,23 @@ class Migration_tables_core_108Test extends MigrationTest
      * @param Migration_108 $migration
      * @param string $host
      */
-    function checkNoGeoTargeting(&$migration, $host)
+    public function checkNoGeoTargeting(&$migration, $host)
     {
         $geotracking_type = '';
         $geotracking_location = '';
         $geotracking_stats = false;
         $geotracking_conf = '';
         $this->assertTrue($migration->createGeoTargetingConfiguration(
-            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+            $geotracking_type,
+            $geotracking_location,
+            $geotracking_stats,
+            $geotracking_conf
+        ));
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
     }
 
 
-    function checkGeoIp(&$migration, $host)
+    public function checkGeoIp(&$migration, $host)
     {
         $geotracking_type = 'geoip';
         $geotracking_location = MAX_PATH . '/tests/data/FreeGeoIPCountry.dat';
@@ -124,14 +128,18 @@ class Migration_tables_core_108Test extends MigrationTest
         $geotracking_conf = '';
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
-            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+            $geotracking_type,
+            $geotracking_location,
+            $geotracking_stats,
+            $geotracking_conf
+        ));
 
         $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation={$geotracking_location}\n";
         $this->checkGeoPluginConfig('GeoIP', $geotracking_stats, $configContent, $host);
     }
 
 
-    function checkGeoIpWrongPath(&$migration, $host)
+    public function checkGeoIpWrongPath(&$migration, $host)
     {
         $geotracking_type = 'geoip';
         $geotracking_location = MAX_PATH . '/plugins/geotargeting/foo.dat';
@@ -139,13 +147,17 @@ class Migration_tables_core_108Test extends MigrationTest
         $geotracking_conf = '';
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
-            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+            $geotracking_type,
+            $geotracking_location,
+            $geotracking_stats,
+            $geotracking_conf
+        ));
 
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
     }
 
 
-    function checkGeoIpIp2Country(&$migration, $host)
+    public function checkGeoIpIp2Country(&$migration, $host)
     {
         $geotracking_type = 'ip2country';
         $geotracking_location = MAX_PATH . '/plugins/geotargeting/foo.dat';
@@ -153,13 +165,17 @@ class Migration_tables_core_108Test extends MigrationTest
         $geotracking_conf = '';
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
-            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+            $geotracking_type,
+            $geotracking_location,
+            $geotracking_stats,
+            $geotracking_conf
+        ));
 
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
     }
 
 
-    function checkModGeoIP(&$migration, $host)
+    public function checkModGeoIP(&$migration, $host)
     {
         $geotracking_type = 'mod_geoip';
         $geotracking_location = '';
@@ -167,13 +183,17 @@ class Migration_tables_core_108Test extends MigrationTest
         $geotracking_conf = '';
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
-            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+            $geotracking_type,
+            $geotracking_location,
+            $geotracking_stats,
+            $geotracking_conf
+        ));
 
         $this->checkGeoPluginConfig('ModGeoIP', $geotracking_stats, "[geotargeting]\ntype=ModGeoIP\n", $host);
     }
 
 
-    function checkGeoPluginConfig($type, $geotracking_stats, $configContent = '', $host)
+    public function checkGeoPluginConfig($type, $geotracking_stats, $configContent = '', $host)
     {
         $saveStats = $geotracking_stats ? 'true' : 'false';
         $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
@@ -186,12 +206,11 @@ class Migration_tables_core_108Test extends MigrationTest
         }
     }
 
-    function checkFileContents($filename, $contents)
+    public function checkFileContents($filename, $contents)
     {
         if ($this->assertTrue(file_exists($filename), "File: '$filename' should exist!")) {
             $actualContents = file_get_contents($filename);
             $this->assertEqual($contents, $actualContents);
         }
     }
-
 }

@@ -28,22 +28,22 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      *
      * @var OA_Dal_Statistics_Zone $_dalZoneStatistics
      */
-    var $_dalZoneStatistics;
+    public $_dalZoneStatistics;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->_dalZoneStatistics = new OA_Dal_Statistics_Zone();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -52,24 +52,27 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test zone daily statistics.
      *
      */
-    function testGetZoneDailyStatistics()
+    public function testGetZoneDailyStatistics()
     {
-        $doAgency    = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doZone      = OA_Dal::factoryDO('zones');
+        $doZone = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 121;
-        $doDataSummaryAdHourly->requests      = 223;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 121;
+        $doDataSummaryAdHourly->requests = 223;
         $doDataSummaryAdHourly->total_revenue = 433;
-        $doDataSummaryAdHourly->clicks        = 9894;
-        $doDataSummaryAdHourly->date_time     = '2006-06-06';
+        $doDataSummaryAdHourly->clicks = 9894;
+        $doDataSummaryAdHourly->date_time = '2006-06-06';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
 
         // 1. Get data existing range
         $aData = $this->_dalZoneStatistics->getZoneDailyStatistics(
-            $doZone->zoneid, new Date('2005-08-20'),  new Date('2007-08-20'));
+            $doZone->zoneid,
+            new Date('2005-08-20'),
+            new Date('2007-08-20')
+        );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
         $aRow = current($aData);
@@ -90,7 +93,10 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $aData = $this->_dalZoneStatistics->getZoneDailyStatistics(
-            $doZone->zoneid,  new Date('2001-12-01'),  new Date('2006-01-19'));
+            $doZone->zoneid,
+            new Date('2001-12-01'),
+            new Date('2006-01-19')
+        );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
@@ -99,24 +105,27 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test zone hourly statistics.
      *
      */
-    function testGetZoneHourlyStatistics()
+    public function testGetZoneHourlyStatistics()
     {
-        $doAgency    = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doZone      = OA_Dal::factoryDO('zones');
+        $doZone = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 121;
-        $doDataSummaryAdHourly->requests      = 223;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 121;
+        $doDataSummaryAdHourly->requests = 223;
         $doDataSummaryAdHourly->total_revenue = 433;
-        $doDataSummaryAdHourly->clicks        = 9894;
-        $doDataSummaryAdHourly->date_time     = '2006-06-06';
+        $doDataSummaryAdHourly->clicks = 9894;
+        $doDataSummaryAdHourly->date_time = '2006-06-06';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
 
         // 1. Get data existing range
         $aData = $this->_dalZoneStatistics->getZoneHourlyStatistics(
-            $doZone->zoneid, new Date('2005-08-20'),  new Date('2007-08-20'));
+            $doZone->zoneid,
+            new Date('2005-08-20'),
+            new Date('2007-08-20')
+        );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
         $aRow = current($aData);
@@ -138,7 +147,10 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $aData = $this->_dalZoneStatistics->getZoneHourlyStatistics(
-            $doZone->zoneid,  new Date('2001-12-01'),  new Date('2006-01-19'));
+            $doZone->zoneid,
+            new Date('2001-12-01'),
+            new Date('2006-01-19')
+        );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
@@ -147,58 +159,63 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test zone advertiser statistics.
      *
      */
-    function testGetZoneAdvertiserStatistics()
+    public function testGetZoneAdvertiserStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign   = OA_Dal::factoryDO('campaigns');
-        $doBanner1    = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doBanner1 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner1);
 
         $advertiserId1 = $doAdvertiser->clientid;
 
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign   = OA_Dal::factoryDO('campaigns');
-        $doBanner2    = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doBanner2 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner2);
 
-        $doAgency    = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doZone      = OA_Dal::factoryDO('zones');
+        $doZone = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 31;
-        $doDataSummaryAdHourly->requests      = 32;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 31;
+        $doDataSummaryAdHourly->requests = 32;
         $doDataSummaryAdHourly->total_revenue = 33;
-        $doDataSummaryAdHourly->clicks        = 34;
-        $doDataSummaryAdHourly->date_time     = '1984-03-04';
+        $doDataSummaryAdHourly->clicks = 34;
+        $doDataSummaryAdHourly->date_time = '1984-03-04';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 10;
-        $doDataSummaryAdHourly->requests      = 20;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 10;
+        $doDataSummaryAdHourly->requests = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
-        $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->date_time     = '2007-04-14';
+        $doDataSummaryAdHourly->clicks = 40;
+        $doDataSummaryAdHourly->date_time = '2007-04-14';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 10;
-        $doDataSummaryAdHourly->requests      = 20;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 10;
+        $doDataSummaryAdHourly->requests = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
-        $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->date_time     = '2000-04-14';
+        $doDataSummaryAdHourly->clicks = 40;
+        $doDataSummaryAdHourly->date_time = '2000-04-14';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner2, $doZone);
 
         // 1. Get data existing range
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneAdvertiserStatistics(
-            $doZone->zoneid, new Date('1984-01-01'),  new Date('2007-10-18'));
+            $doZone->zoneid,
+            new Date('1984-01-01'),
+            new Date('2007-10-18')
+        );
 
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 2,
-            'Some records should be returned');
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 2,
+            'Some records should be returned'
+        );
 
         $rsZoneStatistics->fetch();
         $aRow1 = $rsZoneStatistics->toArray();
@@ -228,17 +245,27 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneAdvertiserStatistics(
-            $doZone->zoneid,  new Date('2007-09-21'),  new Date('2007-09-21'));
+            $doZone->zoneid,
+            new Date('2007-09-21'),
+            new Date('2007-09-21')
+        );
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // 5. Get data from only 1 advertiser
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneAdvertiserStatistics(
-            $doZone->zoneid,  new Date('1984-01-01'),  new Date('1985-03-09'));
+            $doZone->zoneid,
+            new Date('1984-01-01'),
+            new Date('1985-03-09')
+        );
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 1,
-            'Some records should be returned');
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 1,
+            'Some records should be returned'
+        );
 
         $rsZoneStatistics->fetch();
         $aRow = $rsZoneStatistics->toArray();
@@ -249,57 +276,62 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test publisher campaign statistics.
      *
      */
-    function testGetZoneCampaignStatistics()
+    public function testGetZoneCampaignStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign1  = OA_Dal::factoryDO('campaigns');
-        $doBanner1    = OA_Dal::factoryDO('banners');
+        $doCampaign1 = OA_Dal::factoryDO('campaigns');
+        $doBanner1 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign1, $doBanner1);
 
-        $doBanner2     = OA_Dal::factoryDO('banners');
+        $doBanner2 = OA_Dal::factoryDO('banners');
         $this->generateBannerForCampaign($doCampaign1, $doBanner2);
 
-        $doCampaign2   = OA_Dal::factoryDO('campaigns');
-        $doBanner3     = OA_Dal::factoryDO('banners');
+        $doCampaign2 = OA_Dal::factoryDO('campaigns');
+        $doBanner3 = OA_Dal::factoryDO('banners');
         $this->generateBannerAndCampaignForAdvertiser($doAdvertiser, $doCampaign2, $doBanner3);
 
-        $doAgency    = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doZone      = OA_Dal::factoryDO('zones');
+        $doZone = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 1;
-        $doDataSummaryAdHourly->requests      = 2;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 1;
+        $doDataSummaryAdHourly->requests = 2;
         $doDataSummaryAdHourly->total_revenue = 3;
-        $doDataSummaryAdHourly->clicks        = 4;
-        $doDataSummaryAdHourly->date_time     = '2007-08-08';
+        $doDataSummaryAdHourly->clicks = 4;
+        $doDataSummaryAdHourly->date_time = '2007-08-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 0;
-        $doDataSummaryAdHourly->requests      = 1;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 0;
+        $doDataSummaryAdHourly->requests = 1;
         $doDataSummaryAdHourly->total_revenue = 2;
-        $doDataSummaryAdHourly->clicks        = 3;
-        $doDataSummaryAdHourly->date_time     = '2007-09-08';
+        $doDataSummaryAdHourly->clicks = 3;
+        $doDataSummaryAdHourly->date_time = '2007-09-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner2, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 10;
-        $doDataSummaryAdHourly->requests      = 10;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 10;
+        $doDataSummaryAdHourly->requests = 10;
         $doDataSummaryAdHourly->total_revenue = 10;
-        $doDataSummaryAdHourly->clicks        = 10;
-        $doDataSummaryAdHourly->date_time     = '2007-09-09';
+        $doDataSummaryAdHourly->clicks = 10;
+        $doDataSummaryAdHourly->date_time = '2007-09-09';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner3, $doZone);
 
         // 1. Get data existing range
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneCampaignStatistics(
-            $doZone->zoneid, new Date('2007-06-06'),  new Date('2007-09-18'));
+            $doZone->zoneid,
+            new Date('2007-06-06'),
+            new Date('2007-09-18')
+        );
 
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsZoneStatistics->fetch();
         $aRow1 = $rsZoneStatistics->toArray();
@@ -327,18 +359,27 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneCampaignStatistics(
-            $doZone->affiliateid,  new Date('2007-09-21'),  new Date('2007-09-21'));
+            $doZone->affiliateid,
+            new Date('2007-09-21'),
+            new Date('2007-09-21')
+        );
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // 5. Get data from only 1 row
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneCampaignStatistics(
-            $doZone->zoneid, new Date('2007-06-06'),  new Date('2007-09-08'));
+            $doZone->zoneid,
+            new Date('2007-06-06'),
+            new Date('2007-09-08')
+        );
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 1,
-            'Some records should be returned');
-
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 1,
+            'Some records should be returned'
+        );
     }
 
 
@@ -346,56 +387,61 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test zone banner statistics.
      *
      */
-    function testGetZoneBannerStatistics()
+    public function testGetZoneBannerStatistics()
     {
-        $doAgency                 = OA_Dal::factoryDO('agency');
-        $doAdvertiser             = OA_Dal::factoryDO('clients');
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAdvertiser = OA_Dal::factoryDO('clients');
         $doAdvertiser->clientname = 'advertiser name';
-        $doCampaign               = OA_Dal::factoryDO('campaigns');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->campaignname = 'campaign name';
-        $doBanner1                = OA_Dal::factoryDO('banners');
-        $doBanner1->description   = 'banner descrition';
+        $doBanner1 = OA_Dal::factoryDO('banners');
+        $doBanner1->description = 'banner descrition';
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner1);
 
         $doBanner2 = OA_Dal::factoryDO('banners');
         $this->generateBannerForCampaign($doCampaign, $doBanner2);
 
-        $doAgency    = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
-        $doZone      = OA_Dal::factoryDO('zones');
+        $doZone = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 111;
-        $doDataSummaryAdHourly->requests      = 211;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 111;
+        $doDataSummaryAdHourly->requests = 211;
         $doDataSummaryAdHourly->total_revenue = 311;
-        $doDataSummaryAdHourly->clicks        = 411;
-        $doDataSummaryAdHourly->date_time     = '2007-04-04';
+        $doDataSummaryAdHourly->clicks = 411;
+        $doDataSummaryAdHourly->date_time = '2007-04-04';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 10;
-        $doDataSummaryAdHourly->requests      = 11;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 10;
+        $doDataSummaryAdHourly->requests = 11;
         $doDataSummaryAdHourly->total_revenue = 12;
-        $doDataSummaryAdHourly->clicks        = 13;
-        $doDataSummaryAdHourly->date_time     = '2007-10-08';
+        $doDataSummaryAdHourly->clicks = 13;
+        $doDataSummaryAdHourly->date_time = '2007-10-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 0;
-        $doDataSummaryAdHourly->requests      = 1;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 0;
+        $doDataSummaryAdHourly->requests = 1;
         $doDataSummaryAdHourly->total_revenue = 22;
-        $doDataSummaryAdHourly->clicks        = 777;
-        $doDataSummaryAdHourly->date_time     = '2007-09-09';
+        $doDataSummaryAdHourly->clicks = 777;
+        $doDataSummaryAdHourly->date_time = '2007-09-09';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner2, $doZone);
 
         // 1. Get data existing range
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneBannerStatistics(
-            $doZone->affiliateid, new Date('2007-01-06'),  new Date('2007-11-18'));
+            $doZone->affiliateid,
+            new Date('2007-01-06'),
+            new Date('2007-11-18')
+        );
 
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsZoneStatistics->fetch();
         $aRow1 = $rsZoneStatistics->toArray();
@@ -428,77 +474,105 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneBannerStatistics(
-            $doZone->affiliateid,  new Date('2007-12-21'),  new Date('2008-09-21'));
+            $doZone->affiliateid,
+            new Date('2007-12-21'),
+            new Date('2008-09-21')
+        );
         $rsZoneStatistics->find();
-        $this->assertTrue($rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty');
-
+        $this->assertTrue(
+            $rsZoneStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test zones performance statistics.
      *
      */
-    function testGetZonesPerformanceStatistics()
+    public function testGetZonesPerformanceStatistics()
     {
-        $doCampaign1               = null;
-        $doCampaign2               = null;
-        $doZone1                   = null;
-        $doZone2                   = null;
-        $doDataSummaryAdHourly1    = null;
-        $doDataSummaryAdHourly2    = null;
-        $doDataSummaryAdHourly3    = null;
+        $doCampaign1 = null;
+        $doCampaign2 = null;
+        $doZone1 = null;
+        $doZone2 = null;
+        $doDataSummaryAdHourly1 = null;
+        $doDataSummaryAdHourly2 = null;
+        $doDataSummaryAdHourly3 = null;
 
         $this->_generateDataForPerformanceStatisticsTests(
-                    $doCampaign1, $doCampaign2,
-                    $doZone1, $doZone2,
-                    $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
+            $doCampaign1,
+            $doCampaign2,
+            $doZone1,
+            $doZone2,
+            $doDataSummaryAdHourly1,
+            $doDataSummaryAdHourly2,
+            $doDataSummaryAdHourly3
+        );
 
         // Get statistics for 2 zones
         $aZonesStatistics = $this->_dalZoneStatistics->getZonesPerformanceStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , null, new Date('2008-04-27'),  new Date('2008-05-27'));
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            null,
+            new Date('2008-04-27'),
+            new Date('2008-05-27')
+        );
 
-        $this->assertTrue(count($aZonesStatistics) == 2,
-            '2 rows should be returned');
+        $this->assertTrue(
+            count($aZonesStatistics) == 2,
+            '2 rows should be returned'
+        );
 
-        $expectedCTR = round( (
-                        ($doDataSummaryAdHourly1->clicks+$doDataSummaryAdHourly2->clicks) /
-                        ($doDataSummaryAdHourly1->impressions+$doDataSummaryAdHourly2->impressions)
-                       ), 4);
+        $expectedCTR = round((
+            ($doDataSummaryAdHourly1->clicks + $doDataSummaryAdHourly2->clicks) /
+                        ($doDataSummaryAdHourly1->impressions + $doDataSummaryAdHourly2->impressions)
+        ), 4);
         $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['CTR'], $expectedCTR);
-        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CTR'], round( ($doDataSummaryAdHourly3->clicks/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CTR'], round(($doDataSummaryAdHourly3->clicks / $doDataSummaryAdHourly3->impressions), 4));
 
-        $expectedECPM = round( (
-                          ($doDataSummaryAdHourly1->total_revenue+$doDataSummaryAdHourly2->total_revenue)*1000 /
-                          ($doDataSummaryAdHourly1->impressions+$doDataSummaryAdHourly2->impressions)
-                        ), 4 );
+        $expectedECPM = round((
+            ($doDataSummaryAdHourly1->total_revenue + $doDataSummaryAdHourly2->total_revenue) * 1000 /
+                          ($doDataSummaryAdHourly1->impressions + $doDataSummaryAdHourly2->impressions)
+        ), 4);
         $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['eCPM'], $expectedECPM);
-        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['eCPM'], round( ($doDataSummaryAdHourly3->total_revenue*1000/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['eCPM'], round(($doDataSummaryAdHourly3->total_revenue * 1000 / $doDataSummaryAdHourly3->impressions), 4));
 
-        $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['CR'], round( ($doDataSummaryAdHourly1->conversions/$doDataSummaryAdHourly1->impressions), 4 ));
-        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CR'], round( ($doDataSummaryAdHourly3->conversions/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertEqual($aZonesStatistics[$doZone1->zoneid]['CR'], round(($doDataSummaryAdHourly1->conversions / $doDataSummaryAdHourly1->impressions), 4));
+        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CR'], round(($doDataSummaryAdHourly3->conversions / $doDataSummaryAdHourly3->impressions), 4));
 
         // Get statistics for 2 zones - increase impressions threshold to 100000 (only one zone meets requirements)
         $aZonesStatistics = $this->_dalZoneStatistics->getZonesPerformanceStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ), null, new Date('2008-04-27'),  new Date('2008-05-27'), 100000);
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            null,
+            new Date('2008-04-27'),
+            new Date('2008-05-27'),
+            100000
+        );
 
-        $this->assertTrue(count($aZonesStatistics) == 2,
-            '2 rows should be returned');
+        $this->assertTrue(
+            count($aZonesStatistics) == 2,
+            '2 rows should be returned'
+        );
 
         $this->assertTrue(count($aZonesStatistics[$doZone1->zoneid]) == 3);
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CTR']);
-        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CTR'], round( ($doDataSummaryAdHourly3->clicks/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CTR'], round(($doDataSummaryAdHourly3->clicks / $doDataSummaryAdHourly3->impressions), 4));
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['eCPM']);
-        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['eCPM'], round( ($doDataSummaryAdHourly3->total_revenue*1000/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['eCPM'], round(($doDataSummaryAdHourly3->total_revenue * 1000 / $doDataSummaryAdHourly3->impressions), 4));
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CR']);
-        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CR'], round( ($doDataSummaryAdHourly3->conversions/$doDataSummaryAdHourly3->impressions), 4 ));
+        $this->assertEqual($aZonesStatistics[$doZone2->zoneid]['CR'], round(($doDataSummaryAdHourly3->conversions / $doDataSummaryAdHourly3->impressions), 4));
 
         // Get statistics - time span <30 days, one zone
         $aZonesStatistics = $this->_dalZoneStatistics->getZonesPerformanceStatistics(
-            array( $doZone1->zoneid ), null, new Date('2008-05-01'),  new Date('2008-05-27'));
+            [ $doZone1->zoneid ],
+            null,
+            new Date('2008-05-01'),
+            new Date('2008-05-27')
+        );
 
-        $this->assertTrue(count($aZonesStatistics) == 1,
-            '1 row should be returned');
+        $this->assertTrue(
+            count($aZonesStatistics) == 1,
+            '1 row should be returned'
+        );
         $this->assertTrue(count($aZonesStatistics[$doZone1->zoneid]) == 3);
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CTR']);
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['eCPM']);
@@ -509,27 +583,37 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test zones CR statistics.
      *
      */
-    function testGetZonesConversionRateStatistics()
+    public function testGetZonesConversionRateStatistics()
     {
-        $doCampaign1               = null;
-        $doCampaign2               = null;
-        $doZone1                   = null;
-        $doZone2                   = null;
-        $doDataSummaryAdHourly1    = null;
-        $doDataSummaryAdHourly2    = null;
-        $doDataSummaryAdHourly3    = null;
+        $doCampaign1 = null;
+        $doCampaign2 = null;
+        $doZone1 = null;
+        $doZone2 = null;
+        $doDataSummaryAdHourly1 = null;
+        $doDataSummaryAdHourly2 = null;
+        $doDataSummaryAdHourly3 = null;
 
         $this->_generateDataForPerformanceStatisticsTests(
-                    $doCampaign1, $doCampaign2,
-                    $doZone1, $doZone2,
-                    $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
+            $doCampaign1,
+            $doCampaign2,
+            $doZone1,
+            $doZone2,
+            $doDataSummaryAdHourly1,
+            $doDataSummaryAdHourly2,
+            $doDataSummaryAdHourly3
+        );
 
         // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'));
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
@@ -552,46 +636,67 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // Get statistics for 2 zones and campaign 2 (CPM)
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid);
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27'),
+            $doCampaign2->campaignid
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // Get statistics for zone 2 and set start date that it didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
-            array( $doZone2->zoneid ) , new Date('2008-05-16'),  new Date('2008-06-16'));
+            [ $doZone2->zoneid ],
+            new Date('2008-05-16'),
+            new Date('2008-06-16')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test zones eCPM statistics.
      *
      */
-    function testGetZonesEcpmStatistics()
+    public function testGetZonesEcpmStatistics()
     {
-        $doCampaign1               = null;
-        $doCampaign2               = OA_Dal::factoryDO('campaigns');
+        $doCampaign1 = null;
+        $doCampaign2 = OA_Dal::factoryDO('campaigns');
         $doCampaign2->campaignname = 'campaign name';
         $doCampaign2->revenue_type = MAX_FINANCE_MT;
-        $doZone1                   = null;
-        $doZone2                   = null;
-        $doDataSummaryAdHourly1    = null;
-        $doDataSummaryAdHourly2    = null;
-        $doDataSummaryAdHourly3    = null;
+        $doZone1 = null;
+        $doZone2 = null;
+        $doDataSummaryAdHourly1 = null;
+        $doDataSummaryAdHourly2 = null;
+        $doDataSummaryAdHourly3 = null;
 
         $this->_generateDataForPerformanceStatisticsTests(
-            $doCampaign1, $doCampaign2,
-            $doZone1, $doZone2,
-            $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
+            $doCampaign1,
+            $doCampaign2,
+            $doZone1,
+            $doZone2,
+            $doDataSummaryAdHourly1,
+            $doDataSummaryAdHourly2,
+            $doDataSummaryAdHourly3
+        );
 
         // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'));
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
@@ -614,59 +719,80 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // Get statistics for 2 zones and campaign 2 (MT)
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid);
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27'),
+            $doCampaign2->campaignid
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // Get statistics for zone 2 and set start date that it didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
-            array( $doZone2->zoneid ) , new Date('2008-05-16'),  new Date('2008-06-16'));
+            [ $doZone2->zoneid ],
+            new Date('2008-05-16'),
+            new Date('2008-06-16')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test zones CTR statistics.
      *
      */
-    function testGetZonesCtrStatistics()
+    public function testGetZonesCtrStatistics()
     {
-        $doCampaign1                           = null;
-        $doCampaign2                           = null;
-        $doZone1                               = null;
-        $doZone2                               = null;
+        $doCampaign1 = null;
+        $doCampaign2 = null;
+        $doZone1 = null;
+        $doZone2 = null;
 
-        $doDataSummaryAdHourly1                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly1->impressions   = 9000;
-        $doDataSummaryAdHourly1->requests      = 20000;
+        $doDataSummaryAdHourly1 = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly1->impressions = 9000;
+        $doDataSummaryAdHourly1->requests = 20000;
         $doDataSummaryAdHourly1->total_revenue = 100;
-        $doDataSummaryAdHourly1->clicks        = 2000;
-        $doDataSummaryAdHourly1->conversions   = 50;
-        $doDataSummaryAdHourly1->date_time     = '2008-05-27';
+        $doDataSummaryAdHourly1->clicks = 2000;
+        $doDataSummaryAdHourly1->conversions = 50;
+        $doDataSummaryAdHourly1->date_time = '2008-05-27';
 
-        $doDataSummaryAdHourly2                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly2->impressions   = 1000;
-        $doDataSummaryAdHourly2->requests      = 1500;
+        $doDataSummaryAdHourly2 = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly2->impressions = 1000;
+        $doDataSummaryAdHourly2->requests = 1500;
         $doDataSummaryAdHourly2->total_revenue = 100;
-        $doDataSummaryAdHourly2->clicks        = 50;
-        $doDataSummaryAdHourly2->conversions   = 0;
-        $doDataSummaryAdHourly2->date_time     = '2008-05-20';
+        $doDataSummaryAdHourly2->clicks = 50;
+        $doDataSummaryAdHourly2->conversions = 0;
+        $doDataSummaryAdHourly2->date_time = '2008-05-20';
 
-        $doDataSummaryAdHourly3                = null;
+        $doDataSummaryAdHourly3 = null;
 
         $this->_generateDataForPerformanceStatisticsTests(
-            $doCampaign1, $doCampaign2,
-            $doZone1, $doZone2,
-            $doDataSummaryAdHourly1, $doDataSummaryAdHourly2, $doDataSummaryAdHourly3);
+            $doCampaign1,
+            $doCampaign2,
+            $doZone1,
+            $doZone2,
+            $doDataSummaryAdHourly1,
+            $doDataSummaryAdHourly2,
+            $doDataSummaryAdHourly3
+        );
 
         // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'));
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
@@ -682,8 +808,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertFieldExists($aRow2, 'clicks');
         $this->assertFieldExists($aRow2, 'impressions');
 
-        $clicksZone1 = $doDataSummaryAdHourly1->clicks+$doDataSummaryAdHourly2->clicks;
-        $impressionsZone1 = $doDataSummaryAdHourly1->impressions+$doDataSummaryAdHourly2->impressions;
+        $clicksZone1 = $doDataSummaryAdHourly1->clicks + $doDataSummaryAdHourly2->clicks;
+        $impressionsZone1 = $doDataSummaryAdHourly1->impressions + $doDataSummaryAdHourly2->impressions;
         $this->assertFieldEqual($aRow1, 'clicks', $clicksZone1);
         $this->assertFieldEqual($aRow1, 'impressions', $impressionsZone1);
         $this->assertFieldEqual($aRow2, 'clicks', $doDataSummaryAdHourly3->clicks);
@@ -691,10 +817,16 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // Get statistics for 2 zones for capmaign 1
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign1->campaignid );
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27'),
+            $doCampaign1->campaignid
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 1,
-            '1 record should be returned');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 1,
+            '1 record should be returned'
+        );
 
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
@@ -704,18 +836,31 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // Get statistics for 2 zones for capmaign 2
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid );
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27'),
+            $doCampaign2->campaignid
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // Get statistics for 2 zones for capmaign 2 when impression threshold is set to 100
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-04-27'),  new Date('2008-05-27'), $doCampaign2->campaignid, 100);
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-04-27'),
+            new Date('2008-05-27'),
+            $doCampaign2->campaignid,
+            100
+        );
         $rsZonesStatistics->find();
 
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 1,
-            '1 record should be returned');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 1,
+            '1 record should be returned'
+        );
 
         $rsZonesStatistics->fetch();
         $aRow1 = $rsZonesStatistics->toArray();
@@ -725,18 +870,27 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         // Get statistics for zone 2, but start date didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
-            array( $doZone2->zoneid ) , new Date('2008-05-16'),  new Date('2008-06-20'));
+            [ $doZone2->zoneid ],
+            new Date('2008-05-16'),
+            new Date('2008-06-20')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // Try to get statistics for zones when time span is less than 30 days
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
-            array( $doZone1->zoneid, $doZone2->zoneid ) , new Date('2008-05-01'),  new Date('2008-05-30'));
+            [ $doZone1->zoneid, $doZone2->zoneid ],
+            new Date('2008-05-01'),
+            new Date('2008-05-30')
+        );
         $rsZonesStatistics->find();
-        $this->assertTrue($rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty');
-
+        $this->assertTrue(
+            $rsZonesStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
@@ -754,73 +908,77 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * @param DataObjects_Data_summary_ad_hourly &$doDataSummaryAdHourly2 statistics object
      * @param DataObjects_Data_summary_ad_hourly &$doDataSummaryAdHourly3 statistics object
      */
-    function _generateDataForPerformanceStatisticsTests(
-                     &$doCampaign1, &$doCampaign2,
-                     &$doZone1, &$doZone2,
-                     &$doDataSummaryAdHourly1, &$doDataSummaryAdHourly2, &$doDataSummaryAdHourly3)
-    {
-        $doAgency                  = OA_Dal::factoryDO('agency');
-        $doAdvertiser              = OA_Dal::factoryDO('clients');
+    public function _generateDataForPerformanceStatisticsTests(
+        &$doCampaign1,
+        &$doCampaign2,
+        &$doZone1,
+        &$doZone2,
+        &$doDataSummaryAdHourly1,
+        &$doDataSummaryAdHourly2,
+        &$doDataSummaryAdHourly3
+    ) {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAdvertiser = OA_Dal::factoryDO('clients');
         if (!isset($doCampaign1)) {
-            $doCampaign1               = OA_Dal::factoryDO('campaigns');
+            $doCampaign1 = OA_Dal::factoryDO('campaigns');
             $doCampaign1->revenue_type = MAX_FINANCE_CPA;
         }
-        $doBanner1                 = OA_Dal::factoryDO('banners');
+        $doBanner1 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign1, $doBanner1);
 
         $doBanner2 = OA_Dal::factoryDO('banners');
         $this->generateBannerForCampaign($doCampaign1, $doBanner2);
 
         if (!isset($doCampaign2)) {
-            $doCampaign2               = OA_Dal::factoryDO('campaigns');
+            $doCampaign2 = OA_Dal::factoryDO('campaigns');
             $doCampaign2->campaignname = 'campaign name';
             $doCampaign2->revenue_type = MAX_FINANCE_CPC;
         }
         $doBanner3 = OA_Dal::factoryDO('banners');
         $this->generateBannerAndCampaignForAdvertiser($doAdvertiser, $doCampaign2, $doBanner3);
 
-        $doAgency    = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher = OA_Dal::factoryDO('affiliates');
         if (!isset($doZone1)) {
-            $doZone1      = OA_Dal::factoryDO('zones');
+            $doZone1 = OA_Dal::factoryDO('zones');
         }
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone1);
 
         if (!isset($doZone2)) {
-            $doZone2     = OA_Dal::factoryDO('zones');
+            $doZone2 = OA_Dal::factoryDO('zones');
         }
         $this->generateZoneForPublisher($doPublisher, $doZone2);
 
         if (!isset($doDataSummaryAdHourly1)) {
-            $doDataSummaryAdHourly1                = OA_Dal::factoryDO('data_summary_ad_hourly');
-            $doDataSummaryAdHourly1->impressions   = 10000;
-            $doDataSummaryAdHourly1->requests      = 20000;
+            $doDataSummaryAdHourly1 = OA_Dal::factoryDO('data_summary_ad_hourly');
+            $doDataSummaryAdHourly1->impressions = 10000;
+            $doDataSummaryAdHourly1->requests = 20000;
             $doDataSummaryAdHourly1->total_revenue = 100;
-            $doDataSummaryAdHourly1->clicks        = 2000;
-            $doDataSummaryAdHourly1->conversions   = 50;
-            $doDataSummaryAdHourly1->date_time     = '2008-05-27';
+            $doDataSummaryAdHourly1->clicks = 2000;
+            $doDataSummaryAdHourly1->conversions = 50;
+            $doDataSummaryAdHourly1->date_time = '2008-05-27';
         }
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly1, $doBanner1, $doZone1);
 
         if (!isset($doDataSummaryAdHourly2)) {
-            $doDataSummaryAdHourly2                = OA_Dal::factoryDO('data_summary_ad_hourly');
-            $doDataSummaryAdHourly2->impressions   = 10000;
-            $doDataSummaryAdHourly2->requests      = 15000;
+            $doDataSummaryAdHourly2 = OA_Dal::factoryDO('data_summary_ad_hourly');
+            $doDataSummaryAdHourly2->impressions = 10000;
+            $doDataSummaryAdHourly2->requests = 15000;
             $doDataSummaryAdHourly2->total_revenue = 50;
-            $doDataSummaryAdHourly2->clicks        = 5000;
-            $doDataSummaryAdHourly2->conversions   = 0;
-            $doDataSummaryAdHourly2->date_time     = '2008-05-20';
+            $doDataSummaryAdHourly2->clicks = 5000;
+            $doDataSummaryAdHourly2->conversions = 0;
+            $doDataSummaryAdHourly2->date_time = '2008-05-20';
         }
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly2, $doBanner3, $doZone1);
 
         if (!isset($doDataSummaryAdHourly3)) {
-            $doDataSummaryAdHourly3                = OA_Dal::factoryDO('data_summary_ad_hourly');
-            $doDataSummaryAdHourly3->impressions   = 100000;
-            $doDataSummaryAdHourly3->requests      = 102300;
+            $doDataSummaryAdHourly3 = OA_Dal::factoryDO('data_summary_ad_hourly');
+            $doDataSummaryAdHourly3->impressions = 100000;
+            $doDataSummaryAdHourly3->requests = 102300;
             $doDataSummaryAdHourly3->total_revenue = 40;
-            $doDataSummaryAdHourly3->clicks        = 5000;
-            $doDataSummaryAdHourly3->conversions   = 20;
-            $doDataSummaryAdHourly3->date_time     = '2008-05-15';
+            $doDataSummaryAdHourly3->clicks = 5000;
+            $doDataSummaryAdHourly3->conversions = 20;
+            $doDataSummaryAdHourly3->date_time = '2008-05-15';
         }
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly3, $doBanner2, $doZone2);
     }
@@ -828,7 +986,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test settings default impressions Threshold
      *
      */
-    function test_setImpressionsThreshold()
+    public function test_setImpressionsThreshold()
     {
         $result = $this->_dalZoneStatistics->_setImpressionsThreshold();
         $this->assertEqual($result, $GLOBALS['_MAX']['CONF']['performanceStatistics']['defaultImpressionsThreshold']);
@@ -842,28 +1000,25 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      * Test checking date span
      *
      */
-    function test_checkDaysIntervalThreshold()
+    public function test_checkDaysIntervalThreshold()
     {
         // Test 30 full days
-        $this->assertTrue($this->_dalZoneStatistics->_checkDaysIntervalThreshold( new Date('2008-05-01'),  new Date('2008-05-31') ));
+        $this->assertTrue($this->_dalZoneStatistics->_checkDaysIntervalThreshold(new Date('2008-05-01'), new Date('2008-05-31')));
         // Test almost 30 days
-        $this->assertFalse($this->_dalZoneStatistics->_checkDaysIntervalThreshold( new Date('2008-05-01 00:00:01'),  new Date('2008-05-31') ));
+        $this->assertFalse($this->_dalZoneStatistics->_checkDaysIntervalThreshold(new Date('2008-05-01 00:00:01'), new Date('2008-05-31')));
         // Test 29 and 1/2 days and 29 days interval
-        $this->assertTrue($this->_dalZoneStatistics->_checkDaysIntervalThreshold( new Date('2008-05-01 12:00:00'),  new Date('2008-05-31'), 29));
+        $this->assertTrue($this->_dalZoneStatistics->_checkDaysIntervalThreshold(new Date('2008-05-01 12:00:00'), new Date('2008-05-31'), 29));
     }
 
     /**
      * Test generating empty RecordSet
      *
      */
-    function test_emptyRecordSet()
+    public function test_emptyRecordSet()
     {
         $rsEmpty = $this->_dalZoneStatistics->_emptyRecordSet();
         $this->assertIsA($rsEmpty, "MDB2RecordSet");
         $rsEmpty->find();
         $this->assertTrue($rsEmpty->getRowCount() == 0);
     }
-
 }
-
-?>

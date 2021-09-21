@@ -20,11 +20,10 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
  */
 class Test_DeliveryJavascript extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -40,19 +39,16 @@ class Test_DeliveryJavascript extends UnitTestCase
      *
      * @return string   The JS-ified string
      */
-    function test_MAX_javascriptToHTML()
+    public function test_MAX_javascriptToHTML()
     {
-        $string     = '<div>write this to document/div>';
-        $varName    = 'myVar';
-        $output     = true;
-        $return     = MAX_javascriptToHTML($string, $varName, $output);
-        $result     = str_replace("\r", '', 'var myVar = \'\';
+        $string = '<div>write this to document/div>';
+        $varName = 'myVar';
+        $output = true;
+        $return = MAX_javascriptToHTML($string, $varName, $output);
+        $result = str_replace("\r", '', 'var myVar = \'\';
 myVar += "<"+"div>write this to document/div>\n";
 document.write(myVar);
 ');
         $this->assertEqual($return, $result);
     }
-
 }
-
-?>

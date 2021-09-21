@@ -42,7 +42,7 @@ class UserXmlRpcService extends BaseUserService
      * to initialise the service.
      *
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -57,19 +57,27 @@ class UserXmlRpcService extends BaseUserService
      *
      * @return XML_RPC_Response  data or error
      */
-    function addUser(&$oParams)
+    public function addUser(&$oParams)
     {
-        $sessionId          = null;
-        $oUserInfo    = new OA_Dll_UserInfo();
+        $sessionId = null;
+        $oUserInfo = new OA_Dll_UserInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oUserInfo, $oParams,
-                1, array('userName', 'contactName',
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oUserInfo,
+                $oParams,
+                1,
+                ['userName', 'contactName',
                     'emailAddress', 'username', 'password',
-                    'defaultAccountId', 'active'), $oResponseWithError)) {
-
+                    'defaultAccountId', 'active'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -90,21 +98,27 @@ class UserXmlRpcService extends BaseUserService
      *
      * @return XML_RPC_Response  data or error
      */
-    function modifyUser(&$oParams)
+    public function modifyUser(&$oParams)
     {
-
-        $sessionId          = null;
-        $oUserInfo    = new OA_Dll_UserInfo();
+        $sessionId = null;
+        $oUserInfo = new OA_Dll_UserInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oUserInfo, $oParams,
-                1, array('userId', 'userName', 'contactName',
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oUserInfo,
+                $oParams,
+                1,
+                ['userId', 'userName', 'contactName',
                     'emailAddress', 'username', 'password',
-                    'defaultAccountId', 'active'),
-                $oResponseWithError)) {
-
+                    'defaultAccountId', 'active'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -113,7 +127,6 @@ class UserXmlRpcService extends BaseUserService
         } else {
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
-
     }
 
     /**
@@ -126,21 +139,21 @@ class UserXmlRpcService extends BaseUserService
      *
      * @return XML_RPC_Response  data or error
      */
-    function deleteUser(&$oParams)
+    public function deleteUser(&$oParams)
     {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId),
-            array(true, true), $oParams, $oResponseWithError )) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$userId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
         if ($this->_oUserServiceImp->deleteUser($sessionId, $userId)) {
-
             return XmlRpcUtils::booleanTypeResponse(true);
-
         } else {
-
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
@@ -155,21 +168,26 @@ class UserXmlRpcService extends BaseUserService
      *
      * @return generated result (data or error)
      */
-    function getUser(&$oParams) {
+    public function getUser(&$oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$userId),
-                array(true, true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$userId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $oUser = null;
-        if ($this->_oUserServiceImp->getUser($sessionId,
-                $userId, $oUser)) {
-
+        if ($this->_oUserServiceImp->getUser(
+            $sessionId,
+            $userId,
+            $oUser
+        )) {
             return XmlRpcUtils::getEntityResponse($oUser);
         } else {
-
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
@@ -184,20 +202,22 @@ class UserXmlRpcService extends BaseUserService
      *
      * @return generated result (data or error)
      */
-    function getUserList(&$oParams) {
+    public function getUserList(&$oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId),
-                array(true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId],
+            [true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $aUserList = null;
         if ($this->_oUserServiceImp->getUserList($sessionId, $aUserList)) {
-
             return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
         } else {
-
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
@@ -212,133 +232,170 @@ class UserXmlRpcService extends BaseUserService
      *
      * @return generated result (data or error)
      */
-    function getUserListByAccountId(&$oParams) {
+    public function getUserListByAccountId(&$oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$accountId),
-                array(true, true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$accountId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $aUserList = null;
-        if ($this->_oUserServiceImp->getUserListByAccountId($sessionId,
-                                            $accountId, $aUserList)) {
-
+        if ($this->_oUserServiceImp->getUserListByAccountId(
+            $sessionId,
+            $accountId,
+            $aUserList
+        )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
         } else {
-
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
 
-    function updateSsoUserId(&$oParams) {
+    public function updateSsoUserId(&$oParams)
+    {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$oldSsoUserId, &$newSsoUserId),
-            array(true, true, true), $oParams, $oResponseWithError )) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$oldSsoUserId, &$newSsoUserId],
+            [true, true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
         if ($this->_oUserServiceImp->updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)) {
-
             return XmlRpcUtils::booleanTypeResponse(true);
-
         } else {
-
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
 
-    function updateUserEmailBySsoId(&$oParams) {
+    public function updateUserEmailBySsoId(&$oParams)
+    {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$ssoUserId, &$email),
-            array(true, true, true), $oParams, $oResponseWithError )) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$ssoUserId, &$email],
+            [true, true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
         if ($this->_oUserServiceImp->updateUserEmailBySsoId($sessionId, $ssoUserId, $email)) {
-
             return XmlRpcUtils::booleanTypeResponse(true);
-
         } else {
-
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
 
-    function linkUserToAdvertiserAccount($oParams)
+    public function linkUserToAdvertiserAccount($oParams)
     {
         $sessionId = null;
         $userId = null;
         $advertiserAccountId = null;
-        $aPermissions = array();
+        $aPermissions = [];
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId, &$advertiserAccountId),
-            array(true, true, true), $oParams, $oResponseWithError) ||
-            !XmlRpcUtils::getNotRequiredNonScalarValue($aPermissions, $oParams, 3,
-                $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$userId, &$advertiserAccountId],
+            [true, true, true],
+            $oParams,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getNotRequiredNonScalarValue(
+                $aPermissions,
+                $oParams,
+                3,
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
-        if ($this->_oUserServiceImp->linkUserToAdvertiserAccount($sessionId, $userId,
-                $advertiserAccountId, $aPermissions)) {
+        if ($this->_oUserServiceImp->linkUserToAdvertiserAccount(
+            $sessionId,
+            $userId,
+            $advertiserAccountId,
+            $aPermissions
+        )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
 
-    function linkUserToTraffickerAccount($oParams)
+    public function linkUserToTraffickerAccount($oParams)
     {
         $sessionId = null;
         $userId = null;
         $traffickerAccountId = null;
-        $aPermissions = array();
+        $aPermissions = [];
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId, &$traffickerAccountId),
-            array(true, true, true), $oParams, $oResponseWithError) ||
-            !XmlRpcUtils::getNotRequiredNonScalarValue($aPermissions, $oParams, 3,
-                $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$userId, &$traffickerAccountId],
+            [true, true, true],
+            $oParams,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getNotRequiredNonScalarValue(
+                $aPermissions,
+                $oParams,
+                3,
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
-        if ($this->_oUserServiceImp->linkUserToTraffickerAccount($sessionId, $userId,
-                $traffickerAccountId, $aPermissions)) {
+        if ($this->_oUserServiceImp->linkUserToTraffickerAccount(
+            $sessionId,
+            $userId,
+            $traffickerAccountId,
+            $aPermissions
+        )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
 
-    function linkUserToManagerAccount($oParams)
+    public function linkUserToManagerAccount($oParams)
     {
         $sessionId = null;
         $userId = null;
         $managerAccountId = null;
-        $aPermissions = array();
+        $aPermissions = [];
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$userId, &$managerAccountId),
-            array(true, true, true), $oParams, $oResponseWithError) ||
-            !XmlRpcUtils::getNotRequiredNonScalarValue($aPermissions, $oParams, 3,
-                $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$userId, &$managerAccountId],
+            [true, true, true],
+            $oParams,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getNotRequiredNonScalarValue(
+                $aPermissions,
+                $oParams,
+                3,
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
-        if ($this->_oUserServiceImp->linkUserToManagerAccount($sessionId, $userId,
-                $managerAccountId, $aPermissions)) {
+        if ($this->_oUserServiceImp->linkUserToManagerAccount(
+            $sessionId,
+            $userId,
+            $managerAccountId,
+            $aPermissions
+        )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {
             return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
     }
-
 }
-
-?>

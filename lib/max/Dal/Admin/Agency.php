@@ -17,13 +17,13 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 
 class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 {
-    var $table = 'agency';
+    public $table = 'agency';
 
-    var $orderListName = array(
+    public $orderListName = [
         'name' => 'name',
-        'id'   => 'agencyid',
+        'id' => 'agencyid',
         'status' => 'status',
-    );
+    ];
 
     /**
      * If the agency has set the logout URL in a database, returns this URL
@@ -33,7 +33,7 @@ class MAX_Dal_Admin_Agency extends MAX_Dal_Common
      * @param string $agencyId
      * @return string Url for redirection after logout.
      */
-    function getLogoutUrl($agencyId)
+    public function getLogoutUrl($agencyId)
     {
         $doAgency = null;
         if ($agencyId) {
@@ -55,13 +55,10 @@ class MAX_Dal_Admin_Agency extends MAX_Dal_Common
      * @return array An appropritately ordered array containing the manager account
      *               details (name, agency ID and account ID).
      */
-    function getAllManagers($listorder, $orderdirection)
+    public function getAllManagers($listorder, $orderdirection)
     {
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->addListOrderBy($listorder, $orderdirection);
-        return $doAgency->getAll(array('name', 'agencyid', 'account_id', 'status'), $indexWitkPk = true, $flatten = false);
+        return $doAgency->getAll(['name', 'agencyid', 'account_id', 'status'], $indexWitkPk = true, $flatten = false);
     }
-
 }
-
-?>

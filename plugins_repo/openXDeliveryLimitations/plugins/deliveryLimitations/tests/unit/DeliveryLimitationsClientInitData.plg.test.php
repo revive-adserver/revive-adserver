@@ -25,11 +25,10 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -42,9 +41,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestC
      * phpSniff to extract useragent information is set in the
      * configuration file.
      */
-    function test_Plugin_deliveryLimitations_Client_initClientData_Delivery_postInit()
+    public function test_Plugin_deliveryLimitations_Client_initClientData_Delivery_postInit()
     {
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = str_replace(MAX_PATH,'',dirname(dirname(dirname(dirname(__FILE__))))).'/';
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = str_replace(MAX_PATH, '', dirname(dirname(dirname(dirname(__FILE__))))) . '/';
         $http_user_agent = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.8) Gecko/20061109 CentOS/1.5.0.8-0.1.el4.centos4 Firefox/1.5.0.8 pango-text';
         $_SERVER['HTTP_USER_AGENT'] = $http_user_agent;
 
@@ -52,6 +51,4 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestC
         $this->assertIsA($GLOBALS['_MAX']['CLIENT'], 'array');
         $this->assertIsA($GLOBALS['_MAX']['CLIENT']['wrapper'], \RV\Extension\DeliveryLimitations\ClientDataWrapperInterface::class);
     }
-
 }
-?>

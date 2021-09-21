@@ -10,11 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
-require __DIR__.'/../../lib/vendor/autoload.php';
+require __DIR__ . '/../../lib/vendor/autoload.php';
 
-chdir(__DIR__.'/../..');
+chdir(__DIR__ . '/../..');
 
-$finder = new \Symfony\Component\Finder\Finder;
+$finder = new \Symfony\Component\Finder\Finder();
 
 $preg = '#(?:->|::)translate\((["\'])(.*?)\1\)#x';
 $pregName = '#->nameEnglish *= *(["\'])(.*?)\1#x';
@@ -36,7 +36,7 @@ foreach ($files as $file) {
     if ('plugins' === $path[2]) {
         $poFilePath = "plugins_repo/{$path[1]}/plugins/etc/{$path[4]}/_lang/po/en.po";
     } else {
-        die("Unsupported path: ".$file->getPathname()."\n");
+        die("Unsupported path: " . $file->getPathname() . "\n");
     }
 
     if (!is_writable($poFilePath)) {
@@ -53,7 +53,7 @@ foreach ($files as $file) {
                 $trans[$poFilePath][$m[2]] = [];
             }
 
-            $trans[$poFilePath][$m[2]][] = join(':', [
+            $trans[$poFilePath][$m[2]][] = implode(':', [
                 str_replace(DIRECTORY_SEPARATOR, '/', $file->getPathname()),
                 $n + 1,
             ]);
@@ -77,8 +77,7 @@ msgstr ""
 
 EOF;
 
-    foreach ($msgs as $msgid => $lines)
-    {
+    foreach ($msgs as $msgid => $lines) {
         $po .= "\n";
 
         foreach ($lines as $line) {
@@ -93,4 +92,3 @@ EOF;
 
     file_put_contents($file, $po);
 }
-

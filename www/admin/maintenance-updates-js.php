@@ -26,8 +26,7 @@ $update_check = false;
 /*-------------------------------------------------------*/
 
 // Check for product updates when the admin logs in
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
-{
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $aVars = OA_Dal_ApplicationVariables::getAll();
 
@@ -56,7 +55,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
             OA_Dal_ApplicationVariables::set('sync_last_seen', $update_check['config_version']);
 
             // Format like the XML-RPC response
-            $update_check = array(0, $update_check);
+            $update_check = [0, $update_check];
         }
     }
 
@@ -67,13 +66,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
     if (isset($update_check[0]) && $update_check[0] == 0) {
         header("Content-Type: application/x-javascript");
 
-        if ($update_check[1]['security_fix'])
-            echo "alert('".$strUpdateAlertSecurity."');\n";
-        else
-            echo "if (confirm('".$strUpdateAlert."'))\n\t";
+        if ($update_check[1]['security_fix']) {
+            echo "alert('" . $strUpdateAlertSecurity . "');\n";
+        } else {
+            echo "if (confirm('" . $strUpdateAlert . "'))\n\t";
+        }
 
         echo "document.location.replace('updates-product.php');\n";
     }
 }
-
-?>

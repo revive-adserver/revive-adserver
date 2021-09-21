@@ -23,13 +23,13 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_601Test extends MigrationTest
 {
-    function testMigrateTrackerWindows()
+    public function testMigrateTrackerWindows()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(600, array('campaigns', 'clients', 'campaigns_trackers'));
+        $this->initDatabase(600, ['campaigns', 'clients', 'campaigns_trackers']);
 
-        $tblCampaigns  = $this->oDbh->quoteIdentifier($prefix.'campaigns', true);
-        $tblCampaignsTrackers  = $this->oDbh->quoteIdentifier($prefix.'campaigns_trackers', true);
+        $tblCampaigns = $this->oDbh->quoteIdentifier($prefix . 'campaigns', true);
+        $tblCampaignsTrackers = $this->oDbh->quoteIdentifier($prefix . 'campaigns_trackers', true);
 
         // Setup some campaign with linked tracker combinations
         // One with no linked trackers
@@ -48,12 +48,11 @@ class Migration_601Test extends MigrationTest
         $this->upgradeToVersion(601);
 
         $aCampaigns = $this->oDbh->getAssoc("SELECT campaignid, viewwindow, clickwindow FROM {$tblCampaigns} ORDER BY campaignid");
-        $aExpected = array(
-            1 => array('clickwindow' => 0, 'viewwindow' => 0),
-            2 => array('clickwindow' => 200, 'viewwindow' => 100),
-            3 => array('clickwindow' => 600, 'viewwindow' => 500),
-        );
+        $aExpected = [
+            1 => ['clickwindow' => 0, 'viewwindow' => 0],
+            2 => ['clickwindow' => 200, 'viewwindow' => 100],
+            3 => ['clickwindow' => 600, 'viewwindow' => 500],
+        ];
         $this->assertEqual($aCampaigns, $aExpected);
     }
-
 }

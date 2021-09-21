@@ -38,7 +38,7 @@ $userAccess->init();
 
 function OA_headerNavigation()
 {
-	global $affiliateid;
+    global $affiliateid;
     phpAds_PageHeader("affiliate-access");
     MAX_displayWebsiteBreadcrumbs($affiliateid);
 }
@@ -53,9 +53,9 @@ function OA_footerNavigation()
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         echo "function MMM_cascadePermissionsChange()
         {
-            var e = findObj('permissions_".OA_PERM_ZONE_EDIT."');
-            var a = findObj('permissions_".OA_PERM_ZONE_ADD."');
-            var d = findObj('permissions_".OA_PERM_ZONE_DELETE."');
+            var e = findObj('permissions_" . OA_PERM_ZONE_EDIT . "');
+            var a = findObj('permissions_" . OA_PERM_ZONE_ADD . "');
+            var d = findObj('permissions_" . OA_PERM_ZONE_DELETE . "');
 
             a.disabled = d.disabled = !e.checked;
             if (!e.checked) {
@@ -75,30 +75,28 @@ $userAccess->setAccountId($accountId);
 $userAccess->setPagePrefix('affiliate');
 
 
-$aAllowedPermissions = array();
+$aAllowedPermissions = [];
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
         OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId)) {
-    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = [$strAllowCreateAccounts, false];
 }
-$aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones,  false,
-                                                      'MMM_cascadePermissionsChange()');
-$aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone,      true, false);
+$aAllowedPermissions[OA_PERM_ZONE_EDIT] = [$strAllowAffiliateModifyZones,  false,
+                                                      'MMM_cascadePermissionsChange()'];
+$aAllowedPermissions[OA_PERM_ZONE_ADD] = [$strAllowAffiliateAddZone,      true, false];
 
 if (OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE) ||
     OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
-    $aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone,   true, false);
+    $aAllowedPermissions[OA_PERM_ZONE_DELETE] = [$strAllowAffiliateDeleteZone,   true, false];
 }
 
-$aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners,  false, false);
-$aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false, false);
-$aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = array($strAllowAuditTrailAccess, false, false);
+$aAllowedPermissions[OA_PERM_ZONE_LINK] = [$strAllowAffiliateLinkBanners,  false, false];
+$aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = [$strAllowAffiliateGenerateCode, false, false];
+$aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = [$strAllowAuditTrailAccess, false, false];
 $userAccess->setAllowedPermissions($aAllowedPermissions);
 
 
-$userAccess->setHiddenFields(array('affiliateid' => $affiliateid));
-$userAccess->setRedirectUrl('affiliate-access.php?affiliateid='.$affiliateid);
-$userAccess->setBackUrl('affiliate-user-start.php?affiliateid='.$affiliateid);
+$userAccess->setHiddenFields(['affiliateid' => $affiliateid]);
+$userAccess->setRedirectUrl('affiliate-access.php?affiliateid=' . $affiliateid);
+$userAccess->setBackUrl('affiliate-user-start.php?affiliateid=' . $affiliateid);
 
 $userAccess->process();
-
-?>

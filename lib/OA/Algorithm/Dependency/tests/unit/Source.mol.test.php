@@ -20,30 +20,29 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
  */
 class Test_OA_Algorithm_Dependency_Source extends UnitTestCase
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function testLoad()
+    public function testLoad()
     {
         // call emptry constructor
         $source = new OA_Algorithm_Dependency_Source_HoA();
 
         // test load
-        $items = array(
-            'B' => array(),
-            'C' => array(),
-            'A' => array('B', 'C')
-        );
+        $items = [
+            'B' => [],
+            'C' => [],
+            'A' => ['B', 'C']
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $ret = $source->load();
         $this->assertTrue($ret);
 
         // test that items were correctly loaded
         $ret = $source->getItem('A');
-        $this->assertEqual($ret, new OA_Algorithm_Dependency_Item('A', array('B', 'C')));
+        $this->assertEqual($ret, new OA_Algorithm_Dependency_Item('A', ['B', 'C']));
 
         $ret = $source->getItem('foo');
         $this->assertFalse($ret);
@@ -56,9 +55,9 @@ class Test_OA_Algorithm_Dependency_Source extends UnitTestCase
         }
 
         // test that re-loading reset elements
-        $items = array(
-            'D' => array('A'),
-        );
+        $items = [
+            'D' => ['A'],
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $ret = $source->load();
         $this->assertTrue($ret);
@@ -67,29 +66,27 @@ class Test_OA_Algorithm_Dependency_Source extends UnitTestCase
         $this->assertFalse($ret);
 
         $ret = $source->getItem('D');
-        $this->assertEqual($ret, new OA_Algorithm_Dependency_Item('D', array('A')));
+        $this->assertEqual($ret, new OA_Algorithm_Dependency_Item('D', ['A']));
     }
 
-    function testMissingDependencies()
+    public function testMissingDependencies()
     {
         // all dependencies are met
-        $items = array(
-            'B' => array(),
+        $items = [
+            'B' => [],
             'C',
-            'A' => array('B', 'C')
-        );
+            'A' => ['B', 'C']
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $source->load();
         $deps = $source->getMissingDependencies();
-        $this->assertEqual($deps, array());
+        $this->assertEqual($deps, []);
 
         // E doesn't exist, so there are missing dependencies
-        $items['D'] = array('A', 'E');
+        $items['D'] = ['A', 'E'];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $source->load();
         $deps = $source->getMissingDependencies();
-        $this->assertEqual(array_values($deps), array('E'));
+        $this->assertEqual(array_values($deps), ['E']);
     }
 }
-
-?>

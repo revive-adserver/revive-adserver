@@ -21,11 +21,10 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
  */
 class Test_DeliveryAdRender extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -34,15 +33,15 @@ class Test_DeliveryAdRender extends UnitTestCase
      * TODO: need data
      *
      */
-    function test_MAX_adRender()
+    public function test_MAX_adRender()
     {
-//		$this->sendMessage('test_MAX_adRender');
+        //		$this->sendMessage('test_MAX_adRender');
 
-//		require_once MAX_PATH . '/lib/max/Delivery/common.php';
-// note: following code to extract test data from db
+        //		require_once MAX_PATH . '/lib/max/Delivery/common.php';
+        // note: following code to extract test data from db
 //      require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
-//	    $return = _adRenderImage($aBanner, $zoneId, $source, $target, $ct0, $withText, $logClick, $logView, $richMedia, $loc, $referer, $context);
-//		$this->assertEqual($return, $result);
+        //	    $return = _adRenderImage($aBanner, $zoneId, $source, $target, $ct0, $withText, $logClick, $logView, $richMedia, $loc, $referer, $context);
+        //		$this->assertEqual($return, $result);
 
         // Silly test, test patch OX-2091
         require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
@@ -58,7 +57,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->assertTrue($aBanner['clickUrl']);
     }
 
-    function test_MAX_adRender_destMagicMacros()
+    public function test_MAX_adRender_destMagicMacros()
     {
         require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
 
@@ -73,7 +72,7 @@ class Test_DeliveryAdRender extends UnitTestCase
      * render an ad of type image
      *
      */
-    function test_adRenderImage()
+    public function test_adRenderImage()
     {
         $this->sendMessage('test_adRenderImage');
 
@@ -100,7 +99,7 @@ class Test_DeliveryAdRender extends UnitTestCase
      * render an ad of type HTML
      *
      */
-    function test_adRenderHtml()
+    public function test_adRenderHtml()
     {
         $this->sendMessage('test_adRenderHtml');
 
@@ -109,7 +108,6 @@ class Test_DeliveryAdRender extends UnitTestCase
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderHtml.php';
         $ret = _adRenderHtml($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
         $this->assertEqual($ret, $expect);
-
     }
 
     /**
@@ -118,7 +116,7 @@ class Test_DeliveryAdRender extends UnitTestCase
      * render an ad of type Text
      *
      */
-    function test_adRenderText()
+    public function test_adRenderText()
     {
         $this->sendMessage('test_adRenderText');
         // Test that it should generate ad without beacon
@@ -143,16 +141,16 @@ class Test_DeliveryAdRender extends UnitTestCase
      * build a file URL
      *
      */
-    function test_adRenderBuildFileUrl()
+    public function test_adRenderBuildFileUrl()
     {
         $this->sendMessage('test_adRenderBuildFileUrl');
         // Test1
-        $aBanner = array('filename' => 'myfile.jpg',
+        $aBanner = ['filename' => 'myfile.jpg',
             'alt_filename' => 'myaltfile.jpg',
             'imageurl' => 'http://www.somewhere.com/myimageurl.jpg',
             'type' => 'url',
             'contenttype' => ''
-        );
+        ];
         $useAlt = false;
         $params = '';
         $ret = _adRenderBuildFileUrl($aBanner, $useAlt, $params);
@@ -174,14 +172,13 @@ class Test_DeliveryAdRender extends UnitTestCase
         $params = 'a=1&b=2';
         $ret = _adRenderBuildFileUrl($aBanner, $useAlt, $params);
         $this->assertEqual($ret, 'http://www.max.net/www/images/myfile.jpg?a=1&b=2');
-
     }
 
     /**
      * build an image URL prefix
      *
      */
-    function test_adRenderBuildImageUrlPrefix()
+    public function test_adRenderBuildImageUrlPrefix()
     {
         $this->sendMessage('test_adGetImageUrlPrefix');
 
@@ -194,18 +191,18 @@ class Test_DeliveryAdRender extends UnitTestCase
      * build a log URL
      *
      */
-    function test_adRenderBuildLogURL()
+    public function test_adRenderBuildLogURL()
     {
         $this->sendMessage('test_adRenderBuildLogURL');
 
         require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
-        $aBanner = array(
+        $aBanner = [
             'ad_id' => '9999',
             'placement_id' => '111',
             'url' => 'http://www.somewhere.com',
             'contenttype' => ''
-        );
+        ];
         $zoneId = 1;
         $source = 'test';
         $loc = 'http://www.example.com/page.php?name=value';
@@ -226,7 +223,7 @@ class Test_DeliveryAdRender extends UnitTestCase
      * render an image beacon
      *
      */
-    function test_adRenderImageBeacon()
+    public function test_adRenderImageBeacon()
     {
         $this->sendMessage('test_adRenderImageBeacon');
 
@@ -244,13 +241,13 @@ class Test_DeliveryAdRender extends UnitTestCase
      * build params
      *
      */
-    function test_adRenderBuildParams()
+    public function test_adRenderBuildParams()
     {
         $this->sendMessage('test_adRenderBuildParams');
-        $aBanner = array('bannerid' => '9999',
+        $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.somewhere.com',
             'contenttype' => ''
-        );
+        ];
         $zoneId = 0;
         $source = '';
         $ct0 = '';
@@ -262,10 +259,10 @@ class Test_DeliveryAdRender extends UnitTestCase
 
 
         $this->sendMessage('test_adRenderBuildParams');
-        $aBanner = array('bannerid' => '9999',
+        $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.example.com/?foo+bar',
             'contenttype' => ''
-        );
+        ];
         $zoneId = 0;
         $source = '';
         $ct0 = '';
@@ -277,10 +274,10 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         // Ignore ct0
         $this->sendMessage('test_adRenderBuildParams');
-        $aBanner = array('bannerid' => '9999',
+        $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.example.com/?foo+bar',
             'contenttype' => ''
-        );
+        ];
         $zoneId = 0;
         $source = '';
         $ct0 = 'http://www.openx.org/ck.php?foo=bar&dest=';
@@ -295,7 +292,7 @@ class Test_DeliveryAdRender extends UnitTestCase
      * build click URL
      *
      */
-    function test_adRenderBuildClickUrl()
+    public function test_adRenderBuildClickUrl()
     {
         $this->sendMessage('test_adRenderBuildClickUrl');
 
@@ -346,7 +343,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}");
     }
 
-    function test_adRenderBuildClickQueryString()
+    public function test_adRenderBuildClickQueryString()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -390,7 +387,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
     }
 
-    function test_adRenderBuildClickQueryStringWithTimestamp()
+    public function test_adRenderBuildClickQueryStringWithTimestamp()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -420,7 +417,7 @@ class Test_DeliveryAdRender extends UnitTestCase
     }
 
 
-    function test_adRenderBuildSignedClickUrl()
+    public function test_adRenderBuildSignedClickUrl()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -438,7 +435,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $source = '';
         $ct0 = null;
 
-        $clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick'])."?{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456";
+        $clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']) . "?{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456";
 
         $ret = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source);
         $this->assertEqual($ret, $clickUrl);
@@ -446,6 +443,6 @@ class Test_DeliveryAdRender extends UnitTestCase
         $ct0 = 'https://thridparty.click.tracking/click?foo=1&bar=2&dest=';
 
         $ret = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0);
-        $this->assertEqual($ret, $ct0.urlencode($clickUrl));
+        $this->assertEqual($ret, $ct0 . urlencode($clickUrl));
     }
 }

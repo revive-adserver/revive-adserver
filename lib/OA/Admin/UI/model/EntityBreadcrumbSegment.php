@@ -11,7 +11,7 @@
 */
 
 /**
- * A model describing a part of entity breadcrumb shown in header. 
+ * A model describing a part of entity breadcrumb shown in header.
  */
 class OA_Admin_UI_Model_EntityBreadcrumbSegment
 {
@@ -31,7 +31,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     
     /**
      * CSS class indicating entity type icon which will be displayed next to type name.
-     *  
+     *
      * @var string
      */
     private $cssClass;
@@ -57,13 +57,13 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
      * Map of entityId => (entityName, [entityUrl]) entries.
      *
      * @var array
-     */    
+     */
     private $aEntityMap;
 
 
     /**
      * Name that should be used for html name which then will be sent when selection is done.
-     * 
+     *
      * @var string
      */
     private $htmlName;
@@ -178,7 +178,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
         $this->htmlName = $htmlName;
     }
     
-	
+    
     /**
      * Returns map of entityId => (entityName, [entityUrl]) entries.
      * @return array
@@ -193,19 +193,19 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
      */
     public function setEntityMap($aEntityMap)
     {
-        if (!empty($aEntityMap)) { 
-            uasort($aEntityMap, array($this, "orderEntitiesByNameAsc"));
+        if (!empty($aEntityMap)) {
+            uasort($aEntityMap, [$this, "orderEntitiesByNameAsc"]);
         }
         $this->aEntityMap = $aEntityMap;
     }
     
     /**
-     * Order the drop down selectors by Name asc for easy browsing 
+     * Order the drop down selectors by Name asc for easy browsing
      * when selector has thousands of entries
      * See OX-4877
      */
-    protected function orderEntitiesByNameAsc($a, $b) 
+    protected function orderEntitiesByNameAsc($a, $b)
     {
-	    return strnatcasecmp($a['name'], $b['name']);
+        return strnatcasecmp($a['name'], $b['name']);
     }
 }

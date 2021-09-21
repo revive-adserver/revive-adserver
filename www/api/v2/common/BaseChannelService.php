@@ -28,15 +28,14 @@ class BaseChannelService
      *
      * @var ChannelServiceImpl $_oChannelServiceImp
      */
-    var $_oChannelServiceImp;
+    public $_oChannelServiceImp;
 
     /**
      * This method initialises Service implementation object field.
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->_oChannelServiceImp = new ChannelServiceImpl();
     }
 }
-

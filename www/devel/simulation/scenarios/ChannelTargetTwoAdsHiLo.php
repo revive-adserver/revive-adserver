@@ -20,23 +20,21 @@ require_once SIM_PATH . 'SimulationScenario.php';
  */
 class ChannelTargetTwoAdsHiLo extends SimulationScenario
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         $this->init("ChannelTargetTwoAdsHiLo");
     }
 
-    function run()
+    public function run()
     {
         $this->newTables();
         $this->loadDataset('ChannelTargetTwoAdsHiLo');
         $this->printPrecis();
 
-        for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
-        {
+        for ($i = 1;$i <= $this->scenarioConfig['iterations'];$i++) {
             $this->makeRequests($i);
             $this->runPriority();
         }
@@ -44,7 +42,4 @@ class ChannelTargetTwoAdsHiLo extends SimulationScenario
         $this->printPostSummary();
         $this->printSummaryData();
     }
-
 }
-
-?>

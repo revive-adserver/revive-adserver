@@ -30,24 +30,24 @@ class OA_Admin_Template extends Smarty
     /**
      * @var string
      */
-    var $templateName;
+    public $templateName;
 
     /**
      * @var string
      */
-    var $cacheId;
+    public $cacheId;
 
     /**
      * @var int
      */
-    var $_tabIndex = 0;
+    public $_tabIndex = 0;
 
-    function __construct($templateName)
+    public function __construct($templateName)
     {
         $this->init($templateName);
     }
 
-    function init($templateName)
+    public function init($templateName)
     {
         $this->template_dir = MAX_PATH . '/lib/templates/admin';
         $this->compile_dir = MAX_PATH . '/var/templates_compiled';
@@ -56,47 +56,47 @@ class OA_Admin_Template extends Smarty
         $this->caching = 0;
         $this->cache_lifetime = 3600;
 
-        $this->register_modifier('utc_to_local', array('OA_Admin_Template', '_modifier_utc_to_local'));
+        $this->register_modifier('utc_to_local', ['OA_Admin_Template', '_modifier_utc_to_local']);
 
-        $this->register_function('t', array('OA_Admin_Template', '_function_t'));
+        $this->register_function('t', ['OA_Admin_Template', '_function_t']);
 
-        $this->register_function('tabindex', array('OA_Admin_Template', '_function_tabindex'));
+        $this->register_function('tabindex', ['OA_Admin_Template', '_function_tabindex']);
 
-        $this->register_function('oa_icon', array('OA_Admin_Template', '_function_oa_icon'));
-        $this->register_function('oa_title_sort', array('OA_Admin_Template', '_function_oa_title_sort'));
+        $this->register_function('oa_icon', ['OA_Admin_Template', '_function_oa_icon']);
+        $this->register_function('oa_title_sort', ['OA_Admin_Template', '_function_oa_title_sort']);
 
-        $this->register_function('ox_column_title', array('OA_Admin_Template', '_function_ox_column_title'));
-        $this->register_function('ox_column_class', array('OA_Admin_Template', '_function_ox_column_class'));
-        $this->register_function('ox_column_updated', array('OA_Admin_Template', '_function_ox_column_updated'));
+        $this->register_function('ox_column_title', ['OA_Admin_Template', '_function_ox_column_title']);
+        $this->register_function('ox_column_class', ['OA_Admin_Template', '_function_ox_column_class']);
+        $this->register_function('ox_column_updated', ['OA_Admin_Template', '_function_ox_column_updated']);
 
-        $this->register_function('ox_campaign_type', array('OA_Admin_Template', '_function_ox_campaign_type'));
-        $this->register_function('ox_campaign_status', array('OA_Admin_Template', '_function_ox_campaign_status'));
-        $this->register_function('ox_campaign_icon', array('OA_Admin_Template', '_function_ox_campaign_icon'));
-        $this->register_function('ox_banner_size', array('OA_Admin_Template', '_function_ox_banner_size'));
-        $this->register_function('ox_banner_icon', array('OA_Admin_Template', '_function_ox_banner_icon'));
-        $this->register_function('ox_zone_size', array('OA_Admin_Template', '_function_ox_zone_size'));
-        $this->register_function('ox_zone_icon', array('OA_Admin_Template', '_function_ox_zone_icon'));
-        $this->register_function('ox_tracker_type', array('OA_Admin_Template', '_function_ox_tracker_type'));
+        $this->register_function('ox_campaign_type', ['OA_Admin_Template', '_function_ox_campaign_type']);
+        $this->register_function('ox_campaign_status', ['OA_Admin_Template', '_function_ox_campaign_status']);
+        $this->register_function('ox_campaign_icon', ['OA_Admin_Template', '_function_ox_campaign_icon']);
+        $this->register_function('ox_banner_size', ['OA_Admin_Template', '_function_ox_banner_size']);
+        $this->register_function('ox_banner_icon', ['OA_Admin_Template', '_function_ox_banner_icon']);
+        $this->register_function('ox_zone_size', ['OA_Admin_Template', '_function_ox_zone_size']);
+        $this->register_function('ox_zone_icon', ['OA_Admin_Template', '_function_ox_zone_icon']);
+        $this->register_function('ox_tracker_type', ['OA_Admin_Template', '_function_ox_tracker_type']);
 
-        $this->register_function('ox_entity_id', array('OA_Admin_Template', '_function_ox_entity_id'));
+        $this->register_function('ox_entity_id', ['OA_Admin_Template', '_function_ox_entity_id']);
 
-        $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
+        $this->register_function('boldSearchPhrase', ['OA_Admin_Template', '_function_boldSearchPhrase']);
 
-        $this->register_function('oa_is_admin', array('OA_Admin_Template', '_function_oa_is_admin'));
-        $this->register_function('oa_is_manager', array('OA_Admin_Template', '_function_oa_is_manager'));
-        $this->register_function('oa_is_advertiser', array('OA_Admin_Template', '_function_oa_is_advertiser'));
-        $this->register_function('oa_is_trafficker', array('OA_Admin_Template', '_function_oa_is_trafficker'));
+        $this->register_function('oa_is_admin', ['OA_Admin_Template', '_function_oa_is_admin']);
+        $this->register_function('oa_is_manager', ['OA_Admin_Template', '_function_oa_is_manager']);
+        $this->register_function('oa_is_advertiser', ['OA_Admin_Template', '_function_oa_is_advertiser']);
+        $this->register_function('oa_is_trafficker', ['OA_Admin_Template', '_function_oa_is_trafficker']);
 
-        $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template', '_function_phpAds_ShowBreak'));
-        $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template', '_function_phpAds_DelConfirm'));
-        $this->register_function('MAX_zoneDelConfirm', array('OA_Admin_Template', '_function_MAX_zoneDelConfirm'));
+        $this->register_function('phpAds_ShowBreak', ['OA_Admin_Template', '_function_phpAds_ShowBreak']);
+        $this->register_function('phpAds_DelConfirm', ['OA_Admin_Template', '_function_phpAds_DelConfirm']);
+        $this->register_function('MAX_zoneDelConfirm', ['OA_Admin_Template', '_function_MAX_zoneDelConfirm']);
 
-        $this->register_function('showStatusText', array('OA_Admin_Template', '_function_showStatusText'));
-        $this->register_function('showCampaignType', array('OA_Admin_Template', '_function_showCampaignType'));
+        $this->register_function('showStatusText', ['OA_Admin_Template', '_function_showStatusText']);
+        $this->register_function('showCampaignType', ['OA_Admin_Template', '_function_showCampaignType']);
 
-        $this->register_function('oa_form_input_attributes', array('OA_Admin_Template', '_function_form_input_attributes'));
-        $this->register_block('oa_edit', array('OA_Admin_Template', '_block_edit'));
-        $this->register_block('oa_form_element', array('OA_Admin_Template', '_block_form_element'));
+        $this->register_function('oa_form_input_attributes', ['OA_Admin_Template', '_function_form_input_attributes']);
+        $this->register_block('oa_edit', ['OA_Admin_Template', '_block_edit']);
+        $this->register_block('oa_form_element', ['OA_Admin_Template', '_block_form_element']);
 
         $this->templateName = $templateName;
 
@@ -123,7 +123,7 @@ class OA_Admin_Template extends Smarty
          * be placed into GET method calls for CRUD operations in templates. See
          * OA_Permission::checkSessionToken() method for details.
          */
-        $this->register_function('rv_add_session_token', array('OA_Admin_Template', '_add_session_token'));
+        $this->register_function('rv_add_session_token', ['OA_Admin_Template', '_add_session_token']);
 
         // Also assign a template variable for other usages
         $this->assign("csrfToken", phpAds_SessionGetToken());
@@ -136,7 +136,7 @@ class OA_Admin_Template extends Smarty
      * into GET method calls for CRUD operations in templates. See
      * OA_Permission::checkSessionToken() method for details.
      */
-    static public function _add_session_token()
+    public static function _add_session_token()
     {
         return 'token=' . urlencode(phpAds_SessionGetToken());
     }
@@ -146,14 +146,14 @@ class OA_Admin_Template extends Smarty
      *
      * @param mixed $cacheId Either a string or an array of parameters
      */
-    function setCacheId($cacheId = null)
+    public function setCacheId($cacheId = null)
     {
         if (is_null($cacheId)) {
             $this->cacheId = null;
             $this->caching = 0;
         } else {
             if (is_array($cacheId)) {
-                $cacheId = join('^@^', $cacheId);
+                $cacheId = implode('^@^', $cacheId);
             }
             $this->cacheId = md5($cacheId);
             $this->caching = 1;
@@ -166,7 +166,7 @@ class OA_Admin_Template extends Smarty
      *
      * @param Date $oDate
      */
-    function setCacheExpireAt($oDate)
+    public function setCacheExpireAt($oDate)
     {
         $timeStamp = strftime($oDate->format('%Y-%m-%d %H:%M:%S'));
         $this->cache_lifetime = $timeStamp - time();
@@ -179,25 +179,25 @@ class OA_Admin_Template extends Smarty
      *
      * @param Date_Span $oSpan
      */
-    function setCacheLifetime($oSpan)
+    public function setCacheLifetime($oSpan)
     {
         $this->cache_lifetime = $oSpan->toSeconds();
         $this->caching = 2;
     }
 
-    function is_cached($tpl_file = null, $cache_id = null, $compile_id = null)
+    public function is_cached($tpl_file = null, $cache_id = null, $compile_id = null)
     {
         return parent::is_cached($this->templateName, $this->cacheId);
     }
 
 
-    function display($resource_name = null, $cache_id = null, $compile_id = null)
+    public function display($resource_name = null, $cache_id = null, $compile_id = null)
     {
         parent::display($this->templateName, $this->cacheId);
     }
 
 
-    function toString()
+    public function toString()
     {
         return parent::fetch($this->templateName, $this->cacheId, null, false);
     }
@@ -208,11 +208,7 @@ class OA_Admin_Template extends Smarty
         $oTrans = new OX_Translation();
 
         if (!empty($aParams['str'])) {
-            if (!empty($aParams['values'])) {
-                $aValues = explode('|', $aParams['values']);
-            } else {
-                $aValues = array();
-            }
+            $aValues = empty($aParams['values']) ? [] : explode('|', $aParams['values']);
             $t = $oTrans->translate($aParams['str'], $aValues);
         } elseif (!empty($aParams['key'])) {
             $t = $oTrans->translate($aParams['key']);
@@ -360,8 +356,8 @@ class OA_Admin_Template extends Smarty
                 $str = self::_function_t($aParams, $smarty);
                 $item = $aParams['item'];
 
-                $order = !empty($aParams['order']) ? $aParams['order'] : 'down';
-                $url = !empty($aParams['url']) ? $aParams['url'] : '#';
+                $order = empty($aParams['order']) ? 'down' : $aParams['order'];
+                $url = empty($aParams['url']) ? '#' : $aParams['url'];
                 $url .= strpos($url, '?') !== false ? '&' : '?';
 
                 $buffer = '<a href="' . htmlspecialchars($url . 'listorder=' . $item) . '">' . $str . '</a>';
@@ -403,7 +399,7 @@ class OA_Admin_Template extends Smarty
                 $str = self::_function_t($aParams, $smarty);
                 $item = $aParams['item'];
 
-                $url = !empty($aParams['url']) ? $aParams['url'] : '#';
+                $url = empty($aParams['url']) ? '#' : $aParams['url'];
                 $url .= strpos($url, '?') !== false ? '&' : '?';
                 $url .= 'listorder=' . $item;
 
@@ -415,15 +411,13 @@ class OA_Admin_Template extends Smarty
                 if ($listorder == $item) {
                     $orderdirection = $smarty->get_template_vars('orderdirection');
                     if (empty($orderdirection)) {
-                        $orderdirection = !empty($aParams['order']) ? $aParams['order'] : 'down';
+                        $orderdirection = empty($aParams['order']) ? 'down' : $aParams['order'];
                     }
 
                     $url .= '&orderdirection=' . ($orderdirection == 'down' ? 'up' : 'down');
                 }
 
-                $buffer = '<a href="' . htmlspecialchars($url) . '">' . $str . '</a>';
-
-                return $buffer;
+                return '<a href="' . htmlspecialchars($url) . '">' . $str . '</a>';
             } else {
                 $smarty->trigger_error("t: missing 'item' parameter");
             }
@@ -446,7 +440,7 @@ class OA_Admin_Template extends Smarty
             if ($listorder == $item) {
                 $orderdirection = $smarty->get_template_vars('orderdirection');
                 if (empty($orderdirection)) {
-                    $orderdirection = !empty($aParams['order']) ? $aParams['order'] : 'down';
+                    $orderdirection = empty($aParams['order']) ? 'down' : $aParams['order'];
                 }
 
                 if ($orderdirection == 'down') {
@@ -481,8 +475,12 @@ class OA_Admin_Template extends Smarty
             $width = $aParams['width'];
             $height = $aParams['height'];
 
-            if ($width == -1) $width = '*';
-            if ($height == -1) $height = '*';
+            if ($width == -1) {
+                $width = '*';
+            }
+            if ($height == -1) {
+                $height = '*';
+            }
 
             return phpAds_getBannerSize($width, $height);
         } else {
@@ -538,17 +536,21 @@ class OA_Admin_Template extends Smarty
                 $width = $aParams['width'];
                 $height = $aParams['height'];
                 $delivery = $aParams['delivery'];
-                $translation = new OX_Translation ();
+                $translation = new OX_Translation();
 
                 if ($delivery == phpAds_ZoneText) {
                     return $translation->translate('Custom') . " (" . $translation->translate('TextAdZone') . ")";
-                } else if ($delivery == OX_ZoneVideoInstream) {
+                } elseif ($delivery == OX_ZoneVideoInstream) {
                     return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoInstream') . ")";
-                } else if ($delivery == OX_ZoneVideoOverlay) {
+                } elseif ($delivery == OX_ZoneVideoOverlay) {
                     return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoOverlay') . ")";
                 } else {
-                    if ($width == -1) $width = '*';
-                    if ($height == -1) $height = '*';
+                    if ($width == -1) {
+                        $width = '*';
+                    }
+                    if ($height == -1) {
+                        $height = '*';
+                    }
 
                     return phpAds_getBannerSize($width, $height);
                 }
@@ -704,7 +706,7 @@ class OA_Admin_Template extends Smarty
             // Warning: $type contains the id of translation string... remove 'str' to be able to pass it on to OX_Translation
             $type = substr($type, 3);
 
-            $translation = new OX_Translation ();
+            $translation = new OX_Translation();
             return $translation->translate($type);
         } else {
             $smarty->trigger_error("t: missing 'type' parameter");
@@ -784,10 +786,8 @@ class OA_Admin_Template extends Smarty
             }
 
             //put some context for form elements (set parent)
-            if (is_array($smarty->_tag_stack) && count($smarty->_tag_stack) > 0) {
-                if (isset($smarty->_tag_stack[0][1]['elem']['type'])) {
-                    $aParams['parent_tag'] = $smarty->_tag_stack[0][1]['elem']['type'];
-                }
+            if (is_array($smarty->_tag_stack) && $smarty->_tag_stack !== [] && isset($smarty->_tag_stack[0][1]['elem']['type'])) {
+                $aParams['parent_tag'] = $smarty->_tag_stack[0][1]['elem']['type'];
             }
 
             //store old _e if recursion happens
@@ -838,23 +838,19 @@ class OA_Admin_Template extends Smarty
         }
 
         //default class to 'large' for different inputs (apart from submits, buttons, selects, checkboxes)
-        if ($elem['type'] == 'text' || $elem['type'] == 'password') {
-            if (empty($attributes['class'])) {
-                if (!empty($parent)) {  //if parent is set it means it is in group
-                    $attributes['class'] = 'x-small'; //mulitelement lines needs smaller elements
-                } else {
-                    $attributes['class'] = 'large'; //first level elems get big
-                }
+        if (($elem['type'] == 'text' || $elem['type'] == 'password') && empty($attributes['class'])) {
+            if (!empty($parent)) {  //if parent is set it means it is in group
+                $attributes['class'] = 'x-small'; //mulitelement lines needs smaller elements
+            } else {
+                $attributes['class'] = 'large'; //first level elems get big
             }
         }
 
-        if ($elem['type'] == 'select') {
-            if (empty($attributes['class'])) {
-                if (!empty($parent)) {  //if parent is set it means it is in group
-                    $attributes['class'] = 'small'; //mulitelement lines needs smaller elements
-                } else {
-                    $attributes['class'] = 'medium'; //first level elems get big
-                }
+        if ($elem['type'] == 'select' && empty($attributes['class'])) {
+            if (!empty($parent)) {  //if parent is set it means it is in group
+                $attributes['class'] = 'small'; //mulitelement lines needs smaller elements
+            } else {
+                $attributes['class'] = 'medium'; //first level elems get big
             }
         }
 
@@ -884,8 +880,7 @@ class OA_Admin_Template extends Smarty
         }
         //this is simplified - we should check for spaces and line start/end
         //but is it worth the performance penalty?
-        $result = preg_match('/x-large|large|medium|small|x-small/', $className) == 0
-            ? false : true;
+        $result = preg_match('/x-large|large|medium|small|x-small/', $className) != 0;
 
         return $result;
     }
@@ -896,8 +891,8 @@ class OA_Admin_Template extends Smarty
         if ($GLOBALS['_MAX']['PREF']['ui_show_entity_id'] == true) {
             $id = $aParams['id'];
             return '<small title="' .
-                self::_function_t(array('str' => $aParams['type']), $smarty) . ' ' .
-                self::_function_t(array('str' => 'ID'), $smarty) . ': ' . $id . '">[' . $id . ']</small>';
+                self::_function_t(['str' => $aParams['type']], $smarty) . ' ' .
+                self::_function_t(['str' => 'ID'], $smarty) . ': ' . $id . '">[' . $id . ']</small>';
         } else {
             return '';
         }
@@ -942,5 +937,3 @@ class OA_Admin_Template extends Smarty
         return ob_get_clean();
     }
 }
-
-?>

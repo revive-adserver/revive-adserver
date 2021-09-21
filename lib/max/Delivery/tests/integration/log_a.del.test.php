@@ -25,7 +25,7 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,9 +33,9 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
     /**
      * A method to test the MAX_Delivery_log_logConversion() function.
      */
-    function test_MAX_Delivery_log_logConversion()
+    public function test_MAX_Delivery_log_logConversion()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         $GLOBALS['_MAX']['NOW'] = time();
@@ -57,15 +57,15 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
 
         // Test calling the main logging function without any plugins installed,
         // to ensure that this does not result in any kind of error
-        $aConversion = array(
-            'action_type'   => MAX_CONNECTION_AD_CLICK,
-            'tracker_type'  => MAX_CONNECTION_TYPE_SALE,
-            'status'        => MAX_CONNECTION_STATUS_APPROVED,
-            'cid'           => 2,
-            'zid'           => 3,
-            'dt'            => $GLOBALS['_MAX']['NOW'] - 60,
-            'window'        => 60
-        );
+        $aConversion = [
+            'action_type' => MAX_CONNECTION_AD_CLICK,
+            'tracker_type' => MAX_CONNECTION_TYPE_SALE,
+            'status' => MAX_CONNECTION_STATUS_APPROVED,
+            'cid' => 2,
+            'zid' => 3,
+            'dt' => $GLOBALS['_MAX']['NOW'] - 60,
+            'window' => 60
+        ];
         MAX_Delivery_log_logConversion(1, $aConversion);
 
         // Install the openXDeliveryLog plugin
@@ -97,21 +97,21 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
         $rows = $doData_bkt_a->getRowCount();
         $this->assertEqual($rows, 1);
         $doData_bkt_a->fetch();
-        $this->assertEqual($doData_bkt_a->server_ip,        'singleDB');
-        $this->assertEqual($doData_bkt_a->tracker_id,       1);
-        $this->assertEqual($doData_bkt_a->date_time,        $oNowDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($doData_bkt_a->server_ip, 'singleDB');
+        $this->assertEqual($doData_bkt_a->tracker_id, 1);
+        $this->assertEqual($doData_bkt_a->date_time, $oNowDate->format('%Y-%m-%d %H:%M:%S'));
         $this->assertEqual($doData_bkt_a->action_date_time, $oConversionDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($doData_bkt_a->creative_id,      2);
-        $this->assertEqual($doData_bkt_a->zone_id,          3);
-        $this->assertEqual($doData_bkt_a->ip_address,       '127.0.0.99');
-        $this->assertEqual($doData_bkt_a->action,           MAX_CONNECTION_AD_CLICK);
-        $this->assertEqual($doData_bkt_a->window,           60);
-        $this->assertEqual($doData_bkt_a->status,           MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($doData_bkt_a->creative_id, 2);
+        $this->assertEqual($doData_bkt_a->zone_id, 3);
+        $this->assertEqual($doData_bkt_a->ip_address, '127.0.0.99');
+        $this->assertEqual($doData_bkt_a->action, MAX_CONNECTION_AD_CLICK);
+        $this->assertEqual($doData_bkt_a->window, 60);
+        $this->assertEqual($doData_bkt_a->status, MAX_CONNECTION_STATUS_APPROVED);
 
         $this->assertTrue(is_array($aConversionInfo));
         $this->assertTrue(is_array($aConversionInfo['deliveryLog:oxLogConversion:logConversion']));
         $this->assertEqual($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'], 1);
-        $this->assertEqual($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'],  'singleDB');
+        $this->assertEqual($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'], 'singleDB');
 
         $aConversion['cid'] = 5;
 
@@ -130,16 +130,16 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
         $rows = $doData_bkt_a->getRowCount();
         $this->assertEqual($rows, 1);
         $doData_bkt_a->fetch();
-        $this->assertEqual($doData_bkt_a->server_ip,        'singleDB');
-        $this->assertEqual($doData_bkt_a->tracker_id,       1);
-        $this->assertEqual($doData_bkt_a->date_time,        $oNowDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($doData_bkt_a->server_ip, 'singleDB');
+        $this->assertEqual($doData_bkt_a->tracker_id, 1);
+        $this->assertEqual($doData_bkt_a->date_time, $oNowDate->format('%Y-%m-%d %H:%M:%S'));
         $this->assertEqual($doData_bkt_a->action_date_time, $oConversionDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($doData_bkt_a->creative_id,      2);
-        $this->assertEqual($doData_bkt_a->zone_id,          3);
-        $this->assertEqual($doData_bkt_a->ip_address,       '127.0.0.99');
-        $this->assertEqual($doData_bkt_a->action,           MAX_CONNECTION_AD_CLICK);
-        $this->assertEqual($doData_bkt_a->window,           60);
-        $this->assertEqual($doData_bkt_a->status,           MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($doData_bkt_a->creative_id, 2);
+        $this->assertEqual($doData_bkt_a->zone_id, 3);
+        $this->assertEqual($doData_bkt_a->ip_address, '127.0.0.99');
+        $this->assertEqual($doData_bkt_a->action, MAX_CONNECTION_AD_CLICK);
+        $this->assertEqual($doData_bkt_a->window, 60);
+        $this->assertEqual($doData_bkt_a->status, MAX_CONNECTION_STATUS_APPROVED);
 
         $doData_bkt_a = OA_Dal::factoryDO('data_bkt_a');
         $doData_bkt_a->server_conv_id = 2;
@@ -147,30 +147,26 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
         $rows = $doData_bkt_a->getRowCount();
         $this->assertEqual($rows, 1);
         $doData_bkt_a->fetch();
-        $this->assertEqual($doData_bkt_a->server_ip,        'singleDB');
-        $this->assertEqual($doData_bkt_a->tracker_id,       1);
-        $this->assertEqual($doData_bkt_a->date_time,        $oNowDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($doData_bkt_a->server_ip, 'singleDB');
+        $this->assertEqual($doData_bkt_a->tracker_id, 1);
+        $this->assertEqual($doData_bkt_a->date_time, $oNowDate->format('%Y-%m-%d %H:%M:%S'));
         $this->assertEqual($doData_bkt_a->action_date_time, $oConversionDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($doData_bkt_a->creative_id,      5);
-        $this->assertEqual($doData_bkt_a->zone_id,          3);
-        $this->assertEqual($doData_bkt_a->ip_address,       '127.0.0.99');
-        $this->assertEqual($doData_bkt_a->action,           MAX_CONNECTION_AD_CLICK);
-        $this->assertEqual($doData_bkt_a->window,           60);
-        $this->assertEqual($doData_bkt_a->status,           MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($doData_bkt_a->creative_id, 5);
+        $this->assertEqual($doData_bkt_a->zone_id, 3);
+        $this->assertEqual($doData_bkt_a->ip_address, '127.0.0.99');
+        $this->assertEqual($doData_bkt_a->action, MAX_CONNECTION_AD_CLICK);
+        $this->assertEqual($doData_bkt_a->window, 60);
+        $this->assertEqual($doData_bkt_a->status, MAX_CONNECTION_STATUS_APPROVED);
 
         $this->assertTrue(is_array($aConversionInfo));
         $this->assertTrue(is_array($aConversionInfo['deliveryLog:oxLogConversion:logConversion']));
         $this->assertEqual($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'], 2);
-        $this->assertEqual($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'],  'singleDB');
+        $this->assertEqual($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'], 'singleDB');
 
         // Uninstall the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
 
         // Restore the test configuration file
         TestEnv::restoreConfig();
-
     }
-
 }
-
-?>

@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's referrer passes this limitation's test.
  */
-function MAX_checkSite_Referingpage($limitation, $op, $aParams = array())
+function MAX_checkSite_Referingpage($limitation, $op, $aParams = [])
 {
     if ($limitation == '') {
         return true;
@@ -33,5 +33,3 @@ function MAX_checkSite_Referingpage($limitation, $op, $aParams = array())
     $url = empty($aParams) ? $GLOBALS['referer'] : $aParams['referer'];
     return MAX_limitationsMatchStringValue($url, $limitation, $op);
 }
-
-?>

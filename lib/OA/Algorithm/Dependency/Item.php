@@ -15,21 +15,19 @@ class OA_Algorithm_Dependency_Item
     protected $id;
     protected $depends;
 
-    function __construct($id, $depends = array())
+    public function __construct($id, $depends = [])
     {
         $this->id = $id;
         $this->depends = $depends;
     }
 
-    function getId()
+    public function getId()
     {
         return $this->id;
     }
 
-    function getDependencies()
+    public function getDependencies()
     {
         return $this->depends;
     }
 }
-
-?>

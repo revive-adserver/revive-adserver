@@ -23,13 +23,12 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
  */
 class OA_Admin_Reports_Export extends Plugins_ReportsScope
 {
-
     /**
      * The stats controller with stats ready to export.
      *
      * @var OA_Admin_Statistics_Common
      */
-    var $oStatsController;
+    public $oStatsController;
 
     /**
      * The constructor method. Stores the stats controller with the
@@ -38,7 +37,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
      * @param OA_Admin_Statistics_Common $oStatsController
      * @return OA_Admin_Reports_Export
      */
-    function __construct($oStatsController)
+    public function __construct($oStatsController)
     {
         $this->oStatsController = $oStatsController;
         // Set the Excel Report writer
@@ -50,7 +49,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
      * The method to generate a plugin-style report XLS from an already
      * prepared statistics page OA_Admin_Statistics_Common object.
      */
-    function export()
+    public function export()
     {
         // Prepare the report name
         // Get system navigation
@@ -93,10 +92,10 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function _getReportParametersForDisplay()
+    public function _getReportParametersForDisplay()
     {
         global $strClient, $strCampaign, $strBanner, $strAffiliate, $strZone;
-        $aParams = array();
+        $aParams = [];
         // Deal with the possible entity types
         foreach ($this->oStatsController->aPageParams as $key => $value) {
             unset($string);
@@ -110,7 +109,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
                     $aAdvertiser = $doClients->toArray();
                     $name = $aAdvertiser['clientname'];
                 }
-            } else if ($key == 'campaignid') {
+            } elseif ($key == 'campaignid') {
                 $string = $strCampaign;
                 $doCampaigns = OA_Dal::factoryDO('campaigns');
                 $doCampaigns->campaignid = $value;
@@ -119,7 +118,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
                     $aCampaign = $doCampaigns->toArray();
                     $name = $aCampaign['campaignname'];
                 }
-            } else if ($key == 'bannerid') {
+            } elseif ($key == 'bannerid') {
                 $string = $strBanner;
                 $doBanners = OA_Dal::factoryDO('banners');
                 $doBanners->bannerid = $value;
@@ -128,7 +127,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
                     $aBanner = $doBanners->toArray();
                     $name = $aBanner['description'];
                 }
-            } else if ($key == 'affiliateid') {
+            } elseif ($key == 'affiliateid') {
                 $string = $strAffiliate;
                 $doAffiliates = OA_Dal::factoryDO('affiliates');
                 $doAffiliates->affiliateid = $value;
@@ -137,7 +136,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
                     $aPublisher = $doAffiliates->toArray();
                     $name = $aPublisher['name'];
                 }
-            } else if ($key == 'zoneid') {
+            } elseif ($key == 'zoneid') {
                 $string = $strZone;
                 $doZones = OA_Dal::factoryDO('zones');
                 $doZones->zoneid = $value;
@@ -160,7 +159,4 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
         }
         return $aParams;
     }
-
 }
-
-?>

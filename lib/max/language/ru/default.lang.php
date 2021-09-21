@@ -231,7 +231,7 @@ $GLOBALS['strDayOfWeek'] = "День недели";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Воскресение';
 $GLOBALS['strDayFullNames'][1] = 'Понедельник';
@@ -242,7 +242,7 @@ $GLOBALS['strDayFullNames'][5] = 'Пятница';
 $GLOBALS['strDayFullNames'][6] = 'Суббота';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Вс';
 $GLOBALS['strDayShortCuts'][1] = 'Пн';
@@ -475,19 +475,19 @@ $GLOBALS['strDeliveryCappingTotal'] = "всего";
 $GLOBALS['strDeliveryCappingSession'] = "за сессию";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['title'] = "Ограничения показа на посетителя";
 $GLOBALS['strCappingBanner']['limit'] = "Лимит показов баннера:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['title'] = "Ограничения показа на посетителя";
 $GLOBALS['strCappingCampaign']['limit'] = "Лимит показов кампании:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['title'] = "Ограничения показа на посетителя";
 $GLOBALS['strCappingZone']['limit'] = "Лимит показов зоны:";

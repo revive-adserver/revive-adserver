@@ -21,31 +21,31 @@
  * An array of MDB2 datatypes that have callback functions to convert
  * them into MySQL nativetypes.
  */
-$aDatatypes = array(
-    'openads_bigint'     => 'openads_bigint',
-    'openads_char'       => 'openads_char',
-    'openads_decimal'    => 'openads_decimal',
-    'openads_date'       => 'openads_date',
-    'openads_datetime'   => 'openads_datetime',
-    'openads_double'     => 'openads_double',
-    'openads_enum'       => 'openads_enum',
-    'openads_float'      => 'openads_float',
-    'openads_int'        => 'openads_int',
-    'openads_mediumint'  => 'openads_mediumint',
+$aDatatypes = [
+    'openads_bigint' => 'openads_bigint',
+    'openads_char' => 'openads_char',
+    'openads_decimal' => 'openads_decimal',
+    'openads_date' => 'openads_date',
+    'openads_datetime' => 'openads_datetime',
+    'openads_double' => 'openads_double',
+    'openads_enum' => 'openads_enum',
+    'openads_float' => 'openads_float',
+    'openads_int' => 'openads_int',
+    'openads_mediumint' => 'openads_mediumint',
     'openads_mediumtext' => 'openads_mediumtext',
-    'openads_set'        => 'openads_set',
-    'openads_smallint'   => 'openads_smallint',
-    'openads_text'       => 'openads_text',
-    'openads_timestamp'  => 'openads_timestamp',
-    'openads_tinyint'    => 'openads_tinyint',
-    'openads_varchar'    => 'openads_varchar'
-);
+    'openads_set' => 'openads_set',
+    'openads_smallint' => 'openads_smallint',
+    'openads_text' => 'openads_text',
+    'openads_timestamp' => 'openads_timestamp',
+    'openads_tinyint' => 'openads_tinyint',
+    'openads_varchar' => 'openads_varchar'
+];
 
 /**
  * An array of MySQL nativetypes that have callback functions to convert
  * them into MDB2 datatypes.
  */
-$aNativetypes = array(
+$aNativetypes = [
     'bigint',
     'char',
     'decimal',
@@ -63,6 +63,4 @@ $aNativetypes = array(
     'timestamp',
     'tinyint',
     'varchar'
-);
-
-?>
+];

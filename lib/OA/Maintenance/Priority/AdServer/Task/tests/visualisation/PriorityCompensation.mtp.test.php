@@ -27,18 +27,17 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
-            array('_getDal')
+            ['_getDal']
         );
     }
 
@@ -50,7 +49,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * graphically. Uses a fixed number of impressions in the zone each operation
      * interval.
      */
-    function testCompensatedPrioritiesStableZoneInvetory()
+    public function testCompensatedPrioritiesStableZoneInvetory()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
@@ -71,43 +70,43 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Define the ads, including the required impressions each iteration,
         // the channel the ad is limited to (if any) and the colour to use in
         // the graph of results
-        $aAds[1] = array(
+        $aAds[1] = [
             'impressions' => 5000,
             'channel' => null,
             'colour' => 'red'
-        );
-        $aAds[2] = array(
+        ];
+        $aAds[2] = [
             'impressions' => 1500,
             'channel' => 1,
             'colour' => 'blue'
-        );
-        $aAds[3] = array(
+        ];
+        $aAds[3] = [
             'impressions' => 750,
             'channel' => 2,
             'colour' => 'green'
-        );
+        ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
             // Add the new data to the graph of the results
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Required Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Available Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Delivered Impressions');
         }
-        $oDataSetBestError =& Image_Graph::factory('dataset');
+        $oDataSetBestError = &Image_Graph::factory('dataset');
         $oDataSetBestError->setName('Least Possible Error In Delivery');
-        $oDataSetTotalError =& Image_Graph::factory('dataset');
+        $oDataSetTotalError = &Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = $zoneImpressions;
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
+            $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => $adKey]);
             $oAd->requiredImpressions = $aAdData['impressions'];
             $oAd->requestedImpressions = $aAdData['impressions'];
             $oZone->addAdvert($oAd);
@@ -142,10 +141,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $oDataSetBestError->addPoint($iteration, $bestError);
             $oDataSetTotalError->addPoint($iteration, $totalError);
             // Prepare the ads/zone for the next iteration
-            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
             $oZone->availableImpressions = $zoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => $adKey]);
                 $oAd->requiredImpressions = $aAdData['impressions'];
                 $oAd->requestedImpressions = $aAdData['impressions'];
                 $oAd->pastRequiredImpressions = $aAdData['impressions'];
@@ -158,18 +157,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the graph
-        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
+        $oCanvas = &Image_Canvas::factory('png', ['width' => 600, 'height' => 480, 'antialias' => false]);
+        $oGraph = &Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
         $oGraph->add(
             Image_Graph::vertical(
-                Image_Graph::factory('title', array('Priority Compensation in Fixed Impression Zone', 12)),
+                Image_Graph::factory('title', ['Priority Compensation in Fixed Impression Zone', 12]),
                 Image_Graph::vertical(
-                    $oPlotarea = Image_Graph::factory('plotarea', array('axis', 'axis_log')),
+                    $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis_log']),
                     $oLegend = Image_Graph::factory('legend'),
                     80
                 ),
@@ -177,14 +176,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
+        $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_Y);
+        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         $counter = 1;
-        $aAxisLabels = array();
+        $aAxisLabels = [];
         while ($counter < $zoneImpressions) {
             $counter *= 10;
             $aAxisLabels[] = $counter;
@@ -193,25 +192,25 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
-            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
+            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', [$aAdData['colour'], 'transparent']);
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
-            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
+            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', [$aAdData['colour'], 'transparent']);
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
-        $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
-        $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
+        $oPlot = &$oPlotarea->addNew('line', $oDataSetBestError);
+        $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', ['magenta', 'transparent']);
         $oPlot->setLineStyle($oLineStyle);
-        $oPlot =& $oPlotarea->addNew('line', $oDataSetTotalError);
+        $oPlot = &$oPlotarea->addNew('line', $oDataSetTotalError);
         $oPlot->setLineColor('magenta');
         $oPlotarea->setFillColor('white');
-        $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ .  ".png";
-        $oGraph->done(array('filename' => MAX_PATH . '/tests/' . $filename));
+        $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ . ".png";
+        $oGraph->done(['filename' => MAX_PATH . '/tests/' . $filename]);
         echo '<img src="' . $filename . '" alt="" />' . "\n";
     }
 
@@ -223,7 +222,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * graphically. Uses a changing number of impressions in the zone each operation
      * interval.
      */
-    function testCompensatedPrioritiesSmoothChangingZoneInvetory()
+    public function testCompensatedPrioritiesSmoothChangingZoneInvetory()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
@@ -248,44 +247,44 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Define the ads, including the required impressions each iteration,
         // the channel the ad is limited to (if any) and the colour to use in
         // the graph of results
-        $aAds[1] = array(
+        $aAds[1] = [
             'impressions' => 5000,
             'channel' => null,
             'colour' => 'red'
-        );
-        $aAds[2] = array(
+        ];
+        $aAds[2] = [
             'impressions' => 1500,
             'channel' => 1,
             'colour' => 'blue'
-        );
-        $aAds[3] = array(
+        ];
+        $aAds[3] = [
             'impressions' => 750,
             'channel' => 2,
             'colour' => 'green'
-        );
+        ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
             // Add the new data to the graph of the results
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Required Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Available Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Delivered Impressions');
         }
-        $oDataSetBestError =& Image_Graph::factory('dataset');
+        $oDataSetBestError = &Image_Graph::factory('dataset');
         $oDataSetBestError->setName('Least Possible Error In Delivery');
-        $oDataSetTotalError =& Image_Graph::factory('dataset');
+        $oDataSetTotalError = &Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $thisZoneImpressions = $minZoneImpressions;
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = $thisZoneImpressions;
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
+            $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => $adKey]);
             $oAd->requiredImpressions = $aAdData['impressions'];
             $oAd->requestedImpressions = $aAdData['impressions'];
             $oZone->addAdvert($oAd);
@@ -328,10 +327,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $thisZoneImpressions =
                     $this->_predictSmoothZoneInventory($minZoneImpressions, $maxZoneImpressions, $zoneImpressionPeriod, $iteration);
             }
-            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
             $oZone->availableImpressions = $thisZoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => $adKey]);
                 $oAd->requiredImpressions = $aAdData['impressions'];
                 $oAd->requestedImpressions = $aAdData['impressions'];
                 $oAd->pastRequiredImpressions = $aAdData['impressions'];
@@ -344,18 +343,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the graph
-        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
+        $oCanvas = &Image_Canvas::factory('png', ['width' => 600, 'height' => 480, 'antialias' => false]);
+        $oGraph = &Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
         $oGraph->add(
             Image_Graph::vertical(
-                Image_Graph::factory('title', array('Priority Compensation in Fixed Impression Zone', 12)),
+                Image_Graph::factory('title', ['Priority Compensation in Fixed Impression Zone', 12]),
                 Image_Graph::vertical(
-                    $oPlotarea = Image_Graph::factory('plotarea', array('axis', 'axis_log')),
+                    $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis_log']),
                     $oLegend = Image_Graph::factory('legend'),
                     80
                 ),
@@ -363,14 +362,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
+        $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_Y);
+        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         $counter = 1;
-        $aAxisLabels = array();
+        $aAxisLabels = [];
         while ($counter < $maxZoneImpressions) {
             $counter *= 10;
             $aAxisLabels[] = $counter;
@@ -379,25 +378,25 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
-            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
+            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', [$aAdData['colour'], 'transparent']);
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
-            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
+            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', [$aAdData['colour'], 'transparent']);
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
-        $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
-        $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
+        $oPlot = &$oPlotarea->addNew('line', $oDataSetBestError);
+        $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', ['magenta', 'transparent']);
         $oPlot->setLineStyle($oLineStyle);
-        $oPlot =& $oPlotarea->addNew('line', $oDataSetTotalError);
+        $oPlot = &$oPlotarea->addNew('line', $oDataSetTotalError);
         $oPlot->setLineColor('magenta');
         $oPlotarea->setFillColor('white');
-        $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ .  ".png";
-        $oGraph->done(array('filename' => MAX_PATH . '/tests/' . $filename));
+        $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ . ".png";
+        $oGraph->done(['filename' => MAX_PATH . '/tests/' . $filename]);
         echo '<img src="' . $filename . '" alt="" />' . "\n";
     }
 
@@ -409,7 +408,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * graphically. Uses a changing number of impressions in the zone each operation
      * interval.
      */
-    function testCompensatedPrioritiesSharpChangingZoneInvetory()
+    public function testCompensatedPrioritiesSharpChangingZoneInvetory()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
@@ -434,44 +433,44 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Define the ads, including the required impressions each iteration,
         // the channel the ad is limited to (if any) and the colour to use in
         // the graph of results
-        $aAds[1] = array(
+        $aAds[1] = [
             'impressions' => 5000,
             'channel' => null,
             'colour' => 'red'
-        );
-        $aAds[2] = array(
+        ];
+        $aAds[2] = [
             'impressions' => 1500,
             'channel' => 1,
             'colour' => 'blue'
-        );
-        $aAds[3] = array(
+        ];
+        $aAds[3] = [
             'impressions' => 750,
             'channel' => 2,
             'colour' => 'green'
-        );
+        ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
             // Add the new data to the graph of the results
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Required Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Available Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            ${$dataSetName} =& Image_Graph::factory('dataset');
+            ${$dataSetName} = &Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Delivered Impressions');
         }
-        $oDataSetBestError =& Image_Graph::factory('dataset');
+        $oDataSetBestError = &Image_Graph::factory('dataset');
         $oDataSetBestError->setName('Least Possible Error In Delivery');
-        $oDataSetTotalError =& Image_Graph::factory('dataset');
+        $oDataSetTotalError = &Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $thisZoneImpressions = $minZoneImpressions;
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = $thisZoneImpressions;
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
+            $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => $adKey]);
             $oAd->requiredImpressions = $aAdData['impressions'];
             $oAd->requestedImpressions = $aAdData['impressions'];
             $oZone->addAdvert($oAd);
@@ -514,10 +513,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $thisZoneImpressions =
                     $this->_predictSharpZoneInventory($minZoneImpressions, $maxZoneImpressions, $zoneImpressionPeriod, $iteration);
             }
-            $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+            $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
             $oZone->availableImpressions = $thisZoneImpressions;
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => $adKey]);
                 $oAd->requiredImpressions = $aAdData['impressions'];
                 $oAd->requestedImpressions = $aAdData['impressions'];
                 $oAd->pastRequiredImpressions = $aAdData['impressions'];
@@ -530,18 +529,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $result = $oPriorityCompensation->compensatedPriorities($oZone);
         }
         // Prepare the graph
-        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  =& Image_Graph::factory('graph', $oCanvas);
+        $oCanvas = &Image_Canvas::factory('png', ['width' => 600, 'height' => 480, 'antialias' => false]);
+        $oGraph = &Image_Graph::factory('graph', $oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
         $oGraph->add(
             Image_Graph::vertical(
-                Image_Graph::factory('title', array('Priority Compensation in Fixed Impression Zone', 12)),
+                Image_Graph::factory('title', ['Priority Compensation in Fixed Impression Zone', 12]),
                 Image_Graph::vertical(
-                    $oPlotarea = Image_Graph::factory('plotarea', array('axis', 'axis_log')),
+                    $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis_log']),
                     $oLegend = Image_Graph::factory('legend'),
                     80
                 ),
@@ -549,14 +548,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
+        $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_Y);
+        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         $counter = 1;
-        $aAxisLabels = array();
+        $aAxisLabels = [];
         while ($counter < $maxZoneImpressions) {
             $counter *= 10;
             $aAxisLabels[] = $counter;
@@ -565,25 +564,25 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
-            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
+            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', [$aAdData['colour'], 'transparent']);
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
-            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
+            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', [$aAdData['colour'], 'transparent']);
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot =& $oPlotarea->addNew('line', ${$dataSetName});
+            $oPlot = &$oPlotarea->addNew('line', ${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
-        $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
-        $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
+        $oPlot = &$oPlotarea->addNew('line', $oDataSetBestError);
+        $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', ['magenta', 'transparent']);
         $oPlot->setLineStyle($oLineStyle);
-        $oPlot =& $oPlotarea->addNew('line', $oDataSetTotalError);
+        $oPlot = &$oPlotarea->addNew('line', $oDataSetTotalError);
         $oPlot->setLineColor('magenta');
         $oPlotarea->setFillColor('white');
-        $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ .  ".png";
-        $oGraph->done(array('filename' => MAX_PATH . '/tests/' . $filename));
+        $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ . ".png";
+        $oGraph->done(['filename' => MAX_PATH . '/tests/' . $filename]);
         echo '<img src="' . $filename . '" alt="" />' . "\n";
     }
 
@@ -592,7 +591,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      *
      * @access private
      */
-    function _predictDelivery(&$aDelivered, $zoneImpressions, $aAds, $aChannels, $aPriorities, $oPriorityCompensation)
+    public function _predictDelivery(&$aDelivered, $zoneImpressions, $aAds, $aChannels, $aPriorities, $oPriorityCompensation)
     {
         if ($zoneImpressions == 0) {
             return;
@@ -618,7 +617,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 $this->_predictDelivery($aDelivered, $filteredImpressionsWhereAdNotInChannel, $aAdsCopy, $aChannels, $aPrioritiesCopy, $oPriorityCompensation);
             }
         }
-
     }
 
     /**
@@ -634,7 +632,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * @param integer $now The current interval, starting from 0.
      * @return integer The number of impressions in this specified interval.
      */
-    function _predictSmoothZoneInventory($minZoneImpressions, $maxZoneImpressions, $period, $now)
+    public function _predictSmoothZoneInventory($minZoneImpressions, $maxZoneImpressions, $period, $now)
     {
         // Find out how much to change the inventory by each interval
         $difference = $maxZoneImpressions - $minZoneImpressions;
@@ -654,7 +652,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             return ($minZoneImpressions + ($now * $deltaPerInterval));
         }
         // Take the delta from the maximum
-        return ($maxZoneImpressions - (($now - floor($period / 2))* $deltaPerInterval));
+        return ($maxZoneImpressions - (($now - floor($period / 2)) * $deltaPerInterval));
     }
 
     /**
@@ -670,7 +668,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * @param integer $now The current interval, starting from 0.
      * @return integer The number of impressions in this specified interval.
      */
-    function _predictSharpZoneInventory($minZoneImpressions, $maxZoneImpressions, $period, $now)
+    public function _predictSharpZoneInventory($minZoneImpressions, $maxZoneImpressions, $period, $now)
     {
         // Find out how much to change the inventory by each interval
         $difference = $maxZoneImpressions - $minZoneImpressions;
@@ -693,7 +691,4 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         }
         return $minZoneImpressions;
     }
-
 }
-
-?>

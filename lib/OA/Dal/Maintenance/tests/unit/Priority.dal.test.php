@@ -24,7 +24,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,7 +36,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      * @TODO Complete testing using a separate client connection to
      *       ensure locking works.
      */
-    function testLocking()
+    public function testLocking()
     {
         $oDbh = OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
@@ -53,9 +53,5 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         // ensure the lock IS obtained
 
         // Release the lock from the new connection
-
     }
-
 }
-
-?>

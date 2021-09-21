@@ -26,7 +26,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -37,10 +36,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'zone';
+        $this->entity = 'zone';
         $this->breakdown = 'daily';
 
         // Use the OA_Admin_Statistics_Daily helper class
@@ -54,17 +53,17 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $publisherId = $this->_getId('publisher');
         $placementId = $this->_getId('placement');
-        $adId        = $this->_getId('ad');
-        $zoneId      = $this->_getId('zone');
+        $adId = $this->_getId('ad');
+        $zoneId = $this->_getId('zone');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
+        $this->_checkAccess(['publisher' => $publisherId, 'zone' => $zoneId]);
 
         // Cross-entity security check
         if (!empty($adId)) {
@@ -80,15 +79,15 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
         }
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'zoneid'      => $zoneId
-        );
+            'zoneid' => $zoneId
+        ];
 
         // Add the cross-entity parameters
         if (!empty($adId)) {
             $this->aPageParams['campaignid'] = $aAds[$adId]['placement_id'];
-            $this->aPageParams['banner']     = $adId;
+            $this->aPageParams['banner'] = $adId;
         } elseif (!empty($placementId)) {
             $this->aPageParams['campaignid'] = $placementId;
         }
@@ -108,7 +107,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
                 // Cross-entity
                 $this->pageId = empty($adId) ? '2.4.2.2.1.1' : '2.4.2.2.2.1';
             }
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (empty($placementId) && empty($adId)) {
                 $this->pageId = '1.2.1.1';
@@ -116,7 +115,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
                 // Cross-entity
                 $this->pageId = empty($adId) ? '1.2.2.1.1' : '1.2.2.2.1';
             }
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         }
 
         // Add breadcrumbs
@@ -131,20 +130,20 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
-            'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
+            'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId,
             'iconZone'
         );
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'zone_id' => $zoneId
-        );
+        ];
         if (!empty($adId)) {
             $aParams['ad_id'] = $adId;
         } elseif (!empty($placementId)) {
@@ -152,7 +151,4 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
         }
         $this->prepare($aParams);
     }
-
 }
-
-?>

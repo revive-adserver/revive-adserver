@@ -26,17 +26,17 @@ class DataObjects_BannersTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function tearDown()
+    public function tearDown()
     {
-        DataGenerator::cleanUp(array('ad_zone_assoc'));
+        DataGenerator::cleanUp(['ad_zone_assoc']);
     }
 
-    function testDuplicate()
+    public function testDuplicate()
     {
         $GLOBALS['strCopyOf'] = 'Copy of ';
         $filename = 'test.gif';
@@ -52,8 +52,8 @@ class DataObjects_BannersTest extends DalUnitTestCase
 
         Mock::generatePartial(
             'DataObjects_Banners',
-            $mockBanners = 'DataObjects_Banners'.rand(),
-            array('_imageDuplicate')
+            $mockBanners = 'DataObjects_Banners' . rand(),
+            ['_imageDuplicate']
         );
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->init();
@@ -78,7 +78,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
     }
 
-    function testInsert()
+    public function testInsert()
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 19:28:06';
@@ -102,7 +102,4 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $this->assertTrue($doAdZoneAssoc->find());
         $this->assertTrue($doAdZoneAssoc->fetch());
     }
-
 }
-
-?>

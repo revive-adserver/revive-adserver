@@ -29,7 +29,6 @@ require_once MAX_PATH . '/lib/wact/db/db.inc.php';
  */
 class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements OX_Extension_DeliveryLog_BucketProcessingStrategy
 {
-
     /**
      * Process an aggregate-type bucket.  This is MySQL specific.
      *
@@ -45,23 +44,23 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
-        OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() , PEAR_LOG_INFO);
+        OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
 
         // Select all rows with interval_start <= previous OI start.
         $rsData = $this->getBucketTableContent($sTableName, $oEnd);
         $rowCount = $rsData->getRowCount();
 
-        OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
+        OA::debug('  - ' . $rsData->getRowCount() . ' records found', PEAR_LOG_DEBUG);
 
         if ($rowCount) {
             // We can't do bulk inserts with ON DUPLICATE.
-            $aExecQueries = array();
+            $aExecQueries = [];
             while ($rsData->fetch()) {
                 // Get first row
                 $aRow = $rsData->toArray();
-               // Insert or update
-                $aExecQueries[] = "SELECT bucket_update_{$sTableName}(".
-                    join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).
+                // Insert or update
+                $aExecQueries[] = "SELECT bucket_update_{$sTableName}(" .
+                    join(',', array_map([&$oMainDbh, 'quote'], $aRow)) .
                     ")";
             }
 
@@ -129,5 +128,3 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
         return $rsDataRaw;
     }
 }
-
-?>

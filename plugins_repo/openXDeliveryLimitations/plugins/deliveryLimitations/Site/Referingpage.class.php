@@ -25,13 +25,9 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_DeliveryLimitations_Site_Referingpage extends Plugins_DeliveryLimitations
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Site - Referring Page';
     }
-
 }
-
-?>

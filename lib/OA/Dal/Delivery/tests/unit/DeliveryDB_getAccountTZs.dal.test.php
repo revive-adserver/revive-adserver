@@ -23,10 +23,10 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
 {
-    var $oDbh;
-    var $prefix;
+    public $oDbh;
+    public $prefix;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->oDbh = OA_DB::singleton();
@@ -38,7 +38,7 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         MAX_Dal_Delivery_Include();
     }
 
-    function test_DeliveryDB_getAdminTZ()
+    public function test_DeliveryDB_getAdminTZ()
     {
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
@@ -46,11 +46,11 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 
-        $aExpect = array(
+        $aExpect = [
             'default' => 'UTC',
-            'aAccounts' => array(),
+            'aAccounts' => [],
             'adminAccountId' => 1
-        );
+        ];
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
         $this->assertEqual($aResult, $aExpect);
@@ -74,11 +74,11 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         $doAPA->value = 'Europe/Rome';
         $doAPA->update();
 
-        $aExpect = array(
+        $aExpect = [
             'default' => 'Europe/Rome',
-            'aAccounts' => array(),
+            'aAccounts' => [],
             'adminAccountId' => 1
-        );
+        ];
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
         $this->assertEqual($aResult, $aExpect);
@@ -106,19 +106,16 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         $doAPA->value = 'CEST';
         $doAPA->insert();
 
-        $aExpect = array(
+        $aExpect = [
             'default' => 'Europe/Rome',
-            'aAccounts' => array(
+            'aAccounts' => [
                 $managerAccountId1 => 'Europe/London',
                 $managerAccountId2 => 'CEST'
-            ),
+            ],
             'adminAccountId' => 1
-        );
+        ];
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
         $this->assertEqual($aResult, $aExpect);
     }
-
 }
-
-?>

@@ -27,7 +27,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -39,11 +39,12 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
     /**
      * A method to test the Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve
      */
-    function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve() {
-        $content = array( 'string' => 'teststring', 'num' => -1);
+    public function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve()
+    {
+        $content = [ 'string' => 'teststring', 'num' => -1];
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($name);
-        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename,$content);
+        Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
 
         // Test reading new created file
         $result = Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve($filename, $name);
@@ -56,11 +57,12 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
     /**
      * A method to test the Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore
      */
-    function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore() {
-        $content = array( 'string' => 'teststring', 'num' => -1);
+    public function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore()
+    {
+        $content = [ 'string' => 'teststring', 'num' => -1];
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($name);
-        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
+        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'] . $filename;
 
         Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         // Check if file exists
@@ -95,12 +97,13 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
     /**
      * A method to test the _deleteCacheFile method
      */
-    function test__deleteCacheFile() {
+    public function test__deleteCacheFile()
+    {
         $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
-        $content = NULL;
+        $content = null;
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
-        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
+        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'] . $filename;
 
         Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         $this->assertTrue(file_exists($cachefile));
@@ -111,12 +114,13 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
     /**
      * A method to test the _deleteAll mathod
      */
-    function test__deleteAll() {
+    public function test__deleteAll()
+    {
         $oPlgOxCacheFile = new Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile('deliveryCacheStore', 'oxCacheFile', 'oxCacheFile');
-        $content = NULL;
+        $content = null;
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
-        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
+        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'] . $filename;
 
         Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);
         $this->assertTrue(file_exists($cachefile));
@@ -124,4 +128,3 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
         $this->assertFalse(file_exists($cachefile));
     }
 }
-?>

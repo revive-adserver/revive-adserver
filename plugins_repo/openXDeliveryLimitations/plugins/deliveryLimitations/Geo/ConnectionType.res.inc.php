@@ -16,9 +16,9 @@
  */
 
 $res = [
-    'unknown'   => $this->translate('Unknown'),
-    'dialup'    => $this->translate('Dial-up'),
-    'cabledsl'  => $this->translate('Broadband'),
+    'unknown' => $this->translate('Unknown'),
+    'dialup' => $this->translate('Dial-up'),
+    'cabledsl' => $this->translate('Broadband'),
     'corporate' => $this->translate('Corporate'),
     'cellular' => $this->translate('Cellular'),
 ];

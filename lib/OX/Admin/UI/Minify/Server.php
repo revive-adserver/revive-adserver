@@ -19,24 +19,22 @@ class OX_UI_Minify_Server
 {
     public static function serve()
     {
-        // try to disable output_compression (may not have an effect) 
+        // try to disable output_compression (may not have an effect)
         ini_set('zlib.output_compression', '0');
         
-        Minify::setCache(OX_PATH. '/var/cache', true);
+        Minify::setCache(OX_PATH . '/var/cache', true);
         
         if (isset($_GET['g'])) {
-            // serve!   
-            $options = array ();
+            // serve!
+            $options = [];
             $options['minApp']['groupsOnly'] = true;
             $options['rewriteCssUris'] = false;
             $options['minApp']['groups'] = self::prepareGroups();
             Minify::serve('MinApp', $options);
-        }
-        else {
+        } else {
             header("Location: /");
             exit();
         }
-    
     }
 
 
@@ -47,10 +45,10 @@ class OX_UI_Minify_Server
         
         $groups = array_merge($MINIFY_JS_GROUPS);
         foreach ($MINIFY_CSS_GROUPS as $key => $urls) {
-            $sources = array ();
+            $sources = [];
             foreach ($urls as $url) {
-                //XXX: why do we always setup CSS sources when request is for one 
-                //group specified in 'g' parameter? 
+                //XXX: why do we always setup CSS sources when request is for one
+                //group specified in 'g' parameter?
                 self::addCssSource($url, $sources);
             }
             $groups[$key] = $sources;
@@ -73,8 +71,8 @@ class OX_UI_Minify_Server
             $baseDir = substr($fileName, 0, $lastSlashPos + 1);
         }
         
-        $array[] = new Minify_Source(array ('filepath' => $fileName, 
-                'minifyOptions' => array (
-                        'prependRelativePath' => $baseDir)));
+        $array[] = new Minify_Source(['filepath' => $fileName,
+                'minifyOptions' => [
+                        'prependRelativePath' => $baseDir]]);
     }
 }

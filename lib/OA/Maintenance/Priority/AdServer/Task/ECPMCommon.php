@@ -30,31 +30,31 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
     /**
      * Default alpha parameter used to calculate the probabilities.
      */
-    const ALPHA = 5.0;
+    public const ALPHA = 5.0;
 
     /**
      * If there is no data forecasted for a zone use this data as a default
      */
-    const DEFAULT_ZONE_FORECAST = 100;
+    public const DEFAULT_ZONE_FORECAST = 100;
 
     /**
      * Indexes used for indexing arrays. More effective than using strings because less memory
      * will be used to store the data.
      * (For the debugging purposes its handy to change them to strings)
      */
-    const IDX_ADS             = 1; // 'ads'
-    const IDX_WEIGHT          = 2; // 'weight'
-    const IDX_ZONES           = 3; // 'zones'
-    const IDX_REVENUE         = 5; // 'revenue'
-    const IDX_REVENUE_TYPE    = 6; // 'revenue_type'
-    const IDX_ACTIVATE        = 7; // 'activate'
-    const IDX_EXPIRE          = 8; // 'expire'
-    const IDX_MIN_IMPRESSIONS = 9; // 'min_impressions'
+    public const IDX_ADS = 1; // 'ads'
+    public const IDX_WEIGHT = 2; // 'weight'
+    public const IDX_ZONES = 3; // 'zones'
+    public const IDX_REVENUE = 5; // 'revenue'
+    public const IDX_REVENUE_TYPE = 6; // 'revenue_type'
+    public const IDX_ACTIVATE = 7; // 'activate'
+    public const IDX_EXPIRE = 8; // 'expire'
+    public const IDX_MIN_IMPRESSIONS = 9; // 'min_impressions'
 
     /**
      * Used to generate date (in string format) from the PEAR_Date
      */
-    const DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
+    public const DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
      * Helper arrays for storing additional variables
@@ -62,10 +62,10 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      *
      * @var array
      */
-    public $aAdsEcpmPowAlpha = array();
-    public $aZonesEcpmPowAlphaSums = array();
-    public $aCampaignsEcpms = array();
-    public $aCampaignsDeliveries = array();
+    public $aAdsEcpmPowAlpha = [];
+    public $aZonesEcpmPowAlphaSums = [];
+    public $aCampaignsEcpms = [];
+    public $aCampaignsDeliveries = [];
     public $aZonesAvailableImpressions = null;
 
     /**
@@ -75,7 +75,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      *
      * @var array
      */
-    var $aLastRun;
+    public $aLastRun;
 
     /**
      * Contains both start and end dates of the operation interval in which
@@ -84,21 +84,21 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      *
      * @var array
      */
-    var $aOIDates;
+    public $aOIDates;
 
     /**
      * A date representing "now", ie. the current date/time.
      *
      * @var PEAR::Date
      */
-    var $oDateNow;
+    public $oDateNow;
 
     /**
      * Task Name
      *
      * @var string
      */
-    var $taskName = 'ECPM';
+    public $taskName = 'ECPM';
 
     abstract public function runAlgorithm();
 
@@ -108,23 +108,23 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      * The main method of the class, that is run by the controlling
      * task runner class.
      */
-    function run()
+    public function run()
     {
-        OA::debug('Running Maintenance Priority Engine: '.$this->taskName, PEAR_LOG_DEBUG);
+        OA::debug('Running Maintenance Priority Engine: ' . $this->taskName, PEAR_LOG_DEBUG);
         // Record the start of this ECPM run
         $oStartDate = new Date();
         // Get the details of the last time Priority Compensation started running
         $aDates =
             $this->oDal->getMaintenancePriorityLastRunInfo(
                 DAL_PRIORITY_UPDATE_ECPM,
-                array('start_run', 'end_run')
+                ['start_run', 'end_run']
             );
         if (!is_null($aDates)) {
             // Set the details of the last time Priority Compensation started running
             $this->aLastRun['start_run'] = new Date($aDates['start_run']);
             // Set the details of the current date/time
             $oServiceLocator = OA_ServiceLocator::instance();
-            $this->aLastRun['now'] =& $oServiceLocator->get('now');
+            $this->aLastRun['now'] = &$oServiceLocator->get('now');
         }
         $this->oDateNow = $this->getDateNow();
         $this->aOIDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
@@ -135,7 +135,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
         // Note that the $oUpdateTo parameter is "null", as this value is not
         // appropriate when recording Priority Compensation task runs - all that
         // matters is the start/end dates.
-        OA::debug('- Recording completion of the '.$this->taskName, PEAR_LOG_DEBUG);
+        OA::debug('- Recording completion of the ' . $this->taskName, PEAR_LOG_DEBUG);
         $oEndDate = new Date();
         $this->oDal->setMaintenancePriorityLastRunInfo(
             $oStartDate,
@@ -191,13 +191,13 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
     {
         $dataJustFetched = false;
         // because the query is the same for all agencies, we run it only once
-        if(is_null($this->aZonesAvailableImpressions)) {
+        if (is_null($this->aZonesAvailableImpressions)) {
             $startDateString = $this->aOIDates['start']->format(self::DATE_FORMAT);
             $endDateString = $this->aOIDates['end']->format(self::DATE_FORMAT);
 
-            $this->aZonesAvailableImpressions = $this->oDal->getZonesForecasts( $startDateString, $endDateString);
+            $this->aZonesAvailableImpressions = $this->oDal->getZonesForecasts($startDateString, $endDateString);
             if (!$this->aZonesAvailableImpressions) {
-                $this->aZonesAvailableImpressions = array();
+                $this->aZonesAvailableImpressions = [];
             }
             $dataJustFetched = true;
         }
@@ -232,22 +232,22 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      */
     public function resetHelperProperties()
     {
-        $this->aAdsEcpmPowAlpha = array();
-        $this->aZonesEcpmPowAlphaSums = array();
-        $this->aZonesGuaranteeImpressionsSums = array();
-        $this->aZonesAvailableImpressions = array();
-        $this->aCampaignsEcpms = array();
-        $this->aCampaignsDeliveries = array();
+        $this->aAdsEcpmPowAlpha = [];
+        $this->aZonesEcpmPowAlphaSums = [];
+        $this->aZonesGuaranteeImpressionsSums = [];
+        $this->aZonesAvailableImpressions = [];
+        $this->aCampaignsEcpms = [];
+        $this->aCampaignsDeliveries = [];
     }
 
     /**
      * Get the current "now" time from the OA_ServiceLocator,
      * or create it if not set yet
      */
-    function getDateNow()
+    public function getDateNow()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oDateNow =& $oServiceLocator->get('now');
+        $oDateNow = &$oServiceLocator->get('now');
         if (!$oDateNow) {
             $oDateNow = new Date();
             $oServiceLocator->register('now', $oDateNow);
@@ -261,10 +261,8 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      * @param string $tableName  Dal name (table name)
      * @return object  Dal object
      */
-    function _factoryDal($tableName)
+    public function _factoryDal($tableName)
     {
         return OA_Dal::factoryDal($tableName);
     }
 }
-
-?>

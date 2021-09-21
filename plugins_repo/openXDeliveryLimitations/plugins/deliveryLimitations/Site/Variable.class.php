@@ -25,28 +25,28 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function __construct()
+    public function __construct()
     {
         $this->delimiter = '|';
         $this->aOperations = MAX_limitationsGetAOperationsForString($this) + MAX_limitationsGetAOperationsForNumeric($this);
         $this->nameEnglish = 'Site - Variable';
     }
 
-     /**
-     * Method to check input data
-     *
-     * @param array $data Most important to check is $data['data'] field
-     * @return bool|string true or error message
-     */
-    function checkInputData($data)
+    /**
+    * Method to check input data
+    *
+    * @param array $data Most important to check is $data['data'] field
+    * @return bool|string true or error message
+    */
+    public function checkInputData($data)
     {
         $result = parent::checkInputData($data);
         if ($result === true) { //if parent check was OK
-        if (is_array($data['data'])) {
-            if (strpos($data['data'][0],'|') !== false) {
-                return MAX_Plugin_Translation::translate('Site:Variable: Name contains unallowed character(s)', $this->extension, $this->group);
+            if (is_array($data['data'])) {
+                if (strpos($data['data'][0], '|') !== false) {
+                    return MAX_Plugin_Translation::translate('Site:Variable: Name contains unallowed character(s)', $this->extension, $this->group);
+                }
             }
-        }
         }
         return true;
     }
@@ -56,17 +56,17 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
      *
      * @return void
      */
-    function displayArrayData()
+    public function displayArrayData()
     {
-        $tabindex =& $GLOBALS['tabindex'];
-		echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
-		echo "<tr>";
-		echo "    <td align='left' width='50'><strong>Name:</strong></td><td><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((isset($this->data[0])) ? htmlspecialchars($this->data[0], ENT_QUOTES) : '') . "' tabindex='".($tabindex++)."'></td>";
-		echo "</tr>";
-		echo "<tr>";
-		echo "    <td align='left' width='50'><strong>Value:</strong></td><td><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((isset($this->data[1])) ? htmlspecialchars($this->data[1], ENT_QUOTES) : '') . "' tabindex='".($tabindex++)."'></td>";
+        $tabindex = &$GLOBALS['tabindex'];
+        echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
+        echo "<tr>";
+        echo "    <td align='left' width='50'><strong>Name:</strong></td><td><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((isset($this->data[0])) ? htmlspecialchars($this->data[0], ENT_QUOTES) : '') . "' tabindex='" . ($tabindex++) . "'></td>";
         echo "</tr>";
-		echo "</table>";
+        echo "<tr>";
+        echo "    <td align='left' width='50'><strong>Value:</strong></td><td><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((isset($this->data[1])) ? htmlspecialchars($this->data[1], ENT_QUOTES) : '') . "' tabindex='" . ($tabindex++) . "'></td>";
+        echo "</tr>";
+        echo "</table>";
     }
 
     /**
@@ -80,12 +80,12 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
      * @param string $data An optional, flat form delivery limitation data string.
      * @return mixed The delivery limitation data in expanded format.
      */
-    function _expandData($data = null)
+    public function _expandData($data = null)
     {
-        $result = array (
+        $result = [
             substr($data, 0, strpos($data, '|')),
-            substr($data, strpos($data, '|')+1)
-        );
+            substr($data, strpos($data, '|') + 1)
+        ];
         return $result;
     }
 
@@ -94,7 +94,7 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
      *
      * @return string   The compiled data string ready for use in the compiledlimitation field
      */
-    function compile()
+    public function compile()
     {
         return $this->compileData($this->_preCompile($this->data));
     }
@@ -105,7 +105,7 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
      * @param string $sData
      * @return string
      */
-    function _preCompile($sData)
+    public function _preCompile($sData)
     {
         $aData = $this->_expandData($sData);
         $aData[0] = trim($aData[0]);
@@ -113,5 +113,3 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
         return $this->_flattenData($aData);
     }
 }
-
-?>

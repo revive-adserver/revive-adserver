@@ -73,7 +73,6 @@ $phpAds_ISO639['uk'] = 'Ukrainian';
 $phpAds_ISO639['bs'] = 'Bosnian';
 
 // Load localized strings
-if (file_exists(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-iso639.lang.php'))
-	@include(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-iso639.lang.php');
-
-?>
+if (file_exists(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-iso639.lang.php')) {
+    @include(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-iso639.lang.php');
+}

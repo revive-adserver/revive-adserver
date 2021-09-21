@@ -39,7 +39,7 @@ class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitat
         'OP' => 'Opera',
     ];
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Client - Browser (Deprecated)';
@@ -50,22 +50,27 @@ class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitat
      *
      * @return void
      */
-    function displayArrayData()
+    public function displayArrayData()
     {
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
 
         $i = 0;
 
-		echo "<table cellpadding='3' cellspacing='3'>";
-		foreach (self::$aBrowsers as $key => $value) {
+        echo "<table cellpadding='3' cellspacing='3'>";
+        foreach (self::$aBrowsers as $key => $value) {
             $value = htmlspecialchars($value, ENT_QUOTES);
-			if ($i % 4 == 0) echo "<tr>";
-			echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$key'".(in_array($key, $this->data) ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>".$value."</td>";
-			if (($i + 1) % 4 == 0) echo "</tr>";
-			$i++;
-		}
-		if (($i + 1) % 4 != 0) echo "</tr>";
-		echo "</table>";
+            if ($i % 4 == 0) {
+                echo "<tr>";
+            }
+            echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$key'" . (in_array($key, $this->data) ? ' checked="checked"' : '') . " tabindex='" . ($tabindex++) . "'>" . $value . "</td>";
+            if (($i + 1) % 4 == 0) {
+                echo "</tr>";
+            }
+            $i++;
+        }
+        if (($i + 1) % 4 != 0) {
+            echo "</tr>";
+        }
+        echo "</table>";
     }
-
 }

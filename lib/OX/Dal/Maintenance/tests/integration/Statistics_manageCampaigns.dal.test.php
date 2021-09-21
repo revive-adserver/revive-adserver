@@ -22,25 +22,25 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 {
-    var $doCampaigns = null;
-    var $doBanners   = null;
-    var $doDIA       = null;
-    var $doClients   = null;
-    var $oDbh        = null;
+    public $doCampaigns = null;
+    public $doBanners = null;
+    public $doDIA = null;
+    public $doClients = null;
+    public $oDbh = null;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
-        $this->doCampaigns =  OA_Dal::factoryDO('campaigns');
-        $this->doClients   =  OA_Dal::factoryDO('clients');
-        $this->doBanners   =  OA_Dal::factoryDO('banners');
-        $this->doDIA       =  OA_Dal::factoryDO('data_intermediate_ad');
-        $this->oDbh        = OA_DB::singleton();
+        $this->doCampaigns = OA_Dal::factoryDO('campaigns');
+        $this->doClients = OA_Dal::factoryDO('clients');
+        $this->doBanners = OA_Dal::factoryDO('banners');
+        $this->doDIA = OA_Dal::factoryDO('data_intermediate_ad');
+        $this->oDbh = OA_DB::singleton();
         // Set the maintenance operation interval to 60 minutes
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
     }
 
@@ -48,7 +48,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * A method to test the activation and deactivation of campaigns within
      * the manageCampaigns() method.
      */
-    function testManageCampaigns()
+    public function testManageCampaigns()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('now', new Date('2004-06-05 09:00:00'));
@@ -58,9 +58,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Create the required accounts & set the various ID values
         $aValues = $this->_createAccounts();
-        $adminAccountId      = $aValues['adminAccount'];
-        $managerAccountId    = $aValues['managerAccount'];
-        $advertiserClientId  = $aValues['advertiserClient'];
+        $adminAccountId = $aValues['adminAccount'];
+        $managerAccountId = $aValues['managerAccount'];
+        $advertiserClientId = $aValues['advertiserClient'];
 
         $oTimezone = new Date_TimeZone('Australia/Sydney');
 
@@ -69,39 +69,39 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         /******************************************************************************/
 
         // Campaign 1, Orphaned
-        $aData = array(
+        $aData = [
             'campaignname' => 'Test Campaign 1'
-        );
+        ];
         $idCampaign1 = $this->_insertPlacement($aData);
 
         // Campaign 2:
         // - Owned by Advertiser 1
         // - Lifetime Target Impressions of 10
-        $aData = array(
+        $aData = [
             'campaignname' => 'Test Campaign 2',
-            'clientid'     => $advertiserClientId,
-            'views'        => 10
-        );
+            'clientid' => $advertiserClientId,
+            'views' => 10
+        ];
         $idCampaign2 = $this->_insertPlacement($aData);
 
         // Campaign 3:
         // - Owned by Advertiser 1
         // - Lifetime Target Clicks of 10
-        $aData = array(
+        $aData = [
             'campaignname' => 'Test Campaign 3',
-            'clientid'     => $advertiserClientId,
-            'clicks'       => 10
-        );
+            'clientid' => $advertiserClientId,
+            'clicks' => 10
+        ];
         $idCampaign3 = $this->_insertPlacement($aData);
 
         // Campaign 4:
         // - Owned by Advertiser 1
         // - Lifetime Target Conversions of 10
-        $aData = array(
+        $aData = [
             'campaignname' => 'Test Campaign 4',
-            'clientid'     => $advertiserClientId,
-            'conversions'  => 10
-        );
+            'clientid' => $advertiserClientId,
+            'conversions' => 10
+        ];
         $idCampaign4 = $this->_insertPlacement($aData);
 
         // Campaign 5:
@@ -109,13 +109,13 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // - Lifetime Target Impressions of 10
         // - Lifetime Target Clicks of 10
         // - Lifetime Target Conversions of 10
-        $aData = array(
+        $aData = [
             'campaignname' => 'Test Campaign 5',
-            'clientid'     => $advertiserClientId,
-            'views'        => 10,
-            'clicks'       => 10,
-            'conversions'  => 10
-        );
+            'clientid' => $advertiserClientId,
+            'views' => 10,
+            'clicks' => 10,
+            'conversions' => 10
+        ];
         $idCampaign5 = $this->_insertPlacement($aData);
 
         // Campaign 6:
@@ -125,12 +125,12 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date('2004-06-06 23:59:59');
         $oDate->setTZ($oTimezone);
         $oDate->toUTC();
-        $aData = array(
+        $aData = [
             'campaignname' => 'Test Campaign 6',
-            'clientid'     => $advertiserClientId,
-            'views'        => -1,
-            'expire_time'  => $oDate->getDate(DATE_FORMAT_ISO)
-        );
+            'clientid' => $advertiserClientId,
+            'views' => -1,
+            'expire_time' => $oDate->getDate(DATE_FORMAT_ISO)
+        ];
         $idCampaign6 = $this->_insertPlacement($aData);
 
         // Campaign 7:
@@ -141,75 +141,75 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDate = new Date('2004-06-06 00:00:00');
         $oDate->setTZ($oTimezone);
         $oDate->toUTC();
-        $aData = array(
-            'campaignname'  => 'Test Campaign 7',
-            'clientid'      => $advertiserClientId,
+        $aData = [
+            'campaignname' => 'Test Campaign 7',
+            'clientid' => $advertiserClientId,
             'activate_time' => $oDate->getDate(DATE_FORMAT_ISO),
-            'status'        => OA_ENTITY_STATUS_AWAITING
-        );
+            'status' => OA_ENTITY_STATUS_AWAITING
+        ];
         $idCampaign7 = $this->_insertPlacement($aData);
 
         // Banner 1
         // - In Campaign 1
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign1,
-        );
+        ];
         $idBanner1 = $this->_insertAd($aData);
 
         // Banner 2
         // - In Campaign 2
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign2,
-        );
+        ];
         $idBanner2 = $this->_insertAd($aData);
 
         // Banner 3
         // - In Campaign 2
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign2,
-        );
+        ];
         $idBanner3 = $this->_insertAd($aData);
 
         // Banner 4
         // - In Campaign 2
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign2,
-        );
+        ];
         $idBanner4 = $this->_insertAd($aData);
 
         // Banner 5
         // - In Campaign 3
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign3,
-        );
+        ];
         $idBanner5 = $this->_insertAd($aData);
 
         // Banner 6
         // - In Campaign 4
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign4,
-        );
+        ];
         $idBanner6 = $this->_insertAd($aData);
 
         // Banner 7
         // - In Campaign 5
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign5,
-        );
+        ];
         $idBanner7 = $this->_insertAd($aData);
 
         // Banner 8
         // - In Campaign 6
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign6,
-        );
+        ];
         $idBanner8 = $this->_insertAd($aData);
 
         // Banner 9
         // - In Campaign 7
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign7,
-        );
+        ];
         $idBanner9 = $this->_insertAd($aData);
 
         // Reset now
@@ -395,91 +395,91 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         /******************************************************************************/
 
         // Banner 1 is in Campaign 1
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner1,
-            'impressions'    => 1,
-            'clicks'         => 1,
-            'conversions'    => 1
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner1,
+            'impressions' => 1,
+            'clicks' => 1,
+            'conversions' => 1
+        ];
         $idDIA1 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 2 is in Campaign 2
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner2,
-            'impressions'    => 1,
-            'clicks'         => 1,
-            'conversions'    => 1
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner2,
+            'impressions' => 1,
+            'clicks' => 1,
+            'conversions' => 1
+        ];
         $idDIA2 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 3 is in Campaign 2
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner3,
-            'impressions'    => 1,
-            'clicks'         => 0,
-            'conversions'    => 0
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner3,
+            'impressions' => 1,
+            'clicks' => 0,
+            'conversions' => 0
+        ];
         $idDIA3 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 4 is in Campaign 2
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner4,
-            'impressions'    => 8,
-            'clicks'         => 0,
-            'conversions'    => 0
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner4,
+            'impressions' => 8,
+            'clicks' => 0,
+            'conversions' => 0
+        ];
         $idDIA4 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 5 is in Campaign 3
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner5,
-            'impressions'    => 1000,
-            'clicks'         => 5,
-            'conversions'    => 1000
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner5,
+            'impressions' => 1000,
+            'clicks' => 5,
+            'conversions' => 1000
+        ];
         $idDIA5 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 6 is in Campaign 4
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner6,
-            'impressions'    => 1000,
-            'clicks'         => 1000,
-            'conversions'    => 1000
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner6,
+            'impressions' => 1000,
+            'clicks' => 1000,
+            'conversions' => 1000
+        ];
         $idDIA6 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 7 is in Campaign 5
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner7,
-            'impressions'    => 0,
-            'clicks'         => 4,
-            'conversions'    => 6
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner7,
+            'impressions' => 0,
+            'clicks' => 4,
+            'conversions' => 6
+        ];
         $idDIA7 = $this->_insertDataIntermediateAd($aData);
 
         // Banner 8 is in Campaign 6
-        $aData = array(
+        $aData = [
             'interval_start' => '2004-06-06 17:00:00',
-            'interval_end'   => '2004-06-06 17:59:59',
-            'ad_id'          => $idBanner8,
-            'impressions'    => 0,
-            'clicks'         => 4,
-            'conversions'    => 6
-        );
+            'interval_end' => '2004-06-06 17:59:59',
+            'ad_id' => $idBanner8,
+            'impressions' => 0,
+            'clicks' => 4,
+            'conversions' => 6
+        ];
         $idDIA8 = $this->_insertDataIntermediateAd($aData);
 
 
@@ -532,7 +532,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * event that the campaigns have previously been deactivated within
      * the manageCampaigns() method.
      */
-    function testManageCampaignsNoRestart()
+    public function testManageCampaignsNoRestart()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oServiceLocator->register('now', new Date('2005-12-07 10:01:00'));
@@ -542,9 +542,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Create the required accounts & set the various ID values
         $aValues = $this->_createAccounts();
-        $adminAccountId      = $aValues['adminAccount'];
-        $managerAccountId    = $aValues['managerAccount'];
-        $advertiserClientId  = $aValues['advertiserClient'];
+        $adminAccountId = $aValues['adminAccount'];
+        $managerAccountId = $aValues['managerAccount'];
+        $advertiserClientId = $aValues['advertiserClient'];
 
         /******************************************************************************/
         /* Prepare Campaign and Banner Data for Test                                  */
@@ -556,39 +556,39 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // - Start date of 2005-12-07
         // - End date of 2005-12-09
         // - Campaign currently running, will be expired after we insert stats
-        $aData = array(
-            'campaignname'  => 'Test Campaign 1',
-            'clientid'      => $advertiserClientId,
-            'views'         => 10,
-            'clicks'        => -1,
-            'conversions'   => -1,
+        $aData = [
+            'campaignname' => 'Test Campaign 1',
+            'clientid' => $advertiserClientId,
+            'views' => 10,
+            'clicks' => -1,
+            'conversions' => -1,
             'activate_time' => '2005-12-06 14:00:00', // Sydney time
-            'expire_time'   => '2005-12-09 13:59:59', // Sydney time
-            'status'        => OA_ENTITY_STATUS_RUNNING
-        );
+            'expire_time' => '2005-12-09 13:59:59', // Sydney time
+            'status' => OA_ENTITY_STATUS_RUNNING
+        ];
         $idCampaign1 = $this->_insertPlacement($aData);
 
         // Banner 1
         // - In Campaign 1
-        $aData = array(
+        $aData = [
             'campaignid' => $idCampaign1
-        );
+        ];
         $idBanner1 = $this->_insertAd($aData);
 
         // 100 Impressions for Banner 1 occuring after the
         // start date of Campaign 1, and before the end date
         // of Campaign 1, when the campaign start/end dates
         // are converted into UTC
-        $aData = array(
+        $aData = [
             'operation_interval_id' => 25,
-            'interval_start'        => '2005-12-07 10:00:00',
-            'interval_end'          => '2005-12-07 10:59:59',
-            'hour'                  => 10,
-            'ad_id'                 => $idBanner1,
-            'impressions'           => 100,
-            'clicks'                => 1,
-            'conversions'           => 0
-        );
+            'interval_start' => '2005-12-07 10:00:00',
+            'interval_end' => '2005-12-07 10:59:59',
+            'hour' => 10,
+            'ad_id' => $idBanner1,
+            'impressions' => 100,
+            'clicks' => 1,
+            'conversions' => 0
+        ];
         $idDIA1 = $this->_insertDataIntermediateAd($aData);
 
         // Make sure that campaign 1 is expired
@@ -623,7 +623,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * manageCampaigns() method - tests the sending of
      * the "campaign activated" emails.
      */
-    function testManageCampaignsEmailsPlacementActivated()
+    public function testManageCampaignsEmailsPlacementActivated()
     {
         // Set now as 1 week before
         $oDateNow = new Date();
@@ -637,12 +637,12 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Prepare a single placement that is inactive, and has an old
         // activation date (so that it will need to be activated)
-        $aData = array(
+        $aData = [
             'agencyid' => $managerAgencyId,
-            'contact'  => 'Test Placement Activated Contact',
-            'email'    => 'postmaster@placement.activated',
+            'contact' => 'Test Placement Activated Contact',
+            'email' => 'postmaster@placement.activated',
             'reportdeactivate' => 't',
-        );
+        ];
         $advertiserId = $this->_insertAdvertiser($aData);
 
         $oDate = new Date();
@@ -650,19 +650,19 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDateStart->copy($oDate);
         $oDateStart->subtractSeconds(SECONDS_PER_HOUR + 1);
 
-        $aData = array(
-            'clientid'      => $advertiserId,
-            'status'        => OA_ENTITY_STATUS_AWAITING,
+        $aData = [
+            'clientid' => $advertiserId,
+            'status' => OA_ENTITY_STATUS_AWAITING,
             'activate_time' => $oDateStart->format('%Y-%m-%d 00:00:00')
-        );
+        ];
         $campaignId = $this->_insertPlacement($aData);
 
         // Reset now
         $oServiceLocator->remove('now');
 
-        $aData = array(
+        $aData = [
             'campaignid' => $campaignId
-        );
+        ];
         $adId = $this->_insertAd($aData);
 
         // Create an instance of the mocked OA_Email class, and set
@@ -670,7 +670,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', array("$campaignId"));
+        $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', ["$campaignId"]);
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -693,41 +693,41 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * manageCampaigns() method - tests the sending of
      * the "campaign deactivated" emails.
      */
-    function testManageCampaignsEmailsPlacementDeactivated()
+    public function testManageCampaignsEmailsPlacementDeactivated()
     {
         // Prepare a single placement that is active, and has a lifetime
         // impression target that has been met (so that it will need to
         // be deactivated)
 
-        $aData = array(
+        $aData = [
             'contact' => 'Test Placement Deactivated Contact',
-            'email'   => 'postmaster@placement.deactivated',
+            'email' => 'postmaster@placement.deactivated',
             'reportdeactivate' => 't',
             'report' => 't',
-        );
+        ];
         $advertiserId = $this->_insertAdvertiser($aData);
 
         $aAdvertiser = OA_DAL::staticGetDO('clients', $advertiserId)->toArray();
 
-        $aData = array(
+        $aData = [
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'views'  => '100'
-        );
+            'views' => '100'
+        ];
         $campaignId = $this->_insertPlacement($aData);
 
-        $aData = array(
+        $aData = [
             'campaignid' => $campaignId
-        );
+        ];
         $adId = $this->_insertAd($aData);
 
-        $aData = array(
+        $aData = [
             'operation_interval_id' => 25,
-            'interval_start'        => '2005-12-08 00:00:00',
-            'interval_end'          => '2004-12-08 00:59:59',
-            'hour'                  => 0,
-            'ad_id'                 => 1,
-            'impressions'           => 101
-        );
+            'interval_start' => '2005-12-08 00:00:00',
+            'interval_end' => '2004-12-08 00:59:59',
+            'hour' => 0,
+            'ad_id' => 1,
+            'impressions' => 101
+        ];
         $this->_insertDataIntermediateAd($aData);
 
         // Create an instance of the mocked OA_Email class, and set
@@ -735,14 +735,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // based on the above
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', array("$campaignId", 2));
+        $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', ["$campaignId", 2]);
 
         // This is the date that is going to be used later
         $oDate = new Date();
 
         $oEnd = new Date($oDate);
         $oEnd->addSpan(new Date_Span('1-0-0-0'));
-        $oEmailMock->expectOnce('sendCampaignDeliveryEmail', array($aAdvertiser, new Date($aAdvertiser['reportlastdate']), $oEnd, "$campaignId"));
+        $oEmailMock->expectOnce('sendCampaignDeliveryEmail', [$aAdvertiser, new Date($aAdvertiser['reportlastdate']), $oEnd, "$campaignId"]);
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -764,7 +764,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * manageCampaigns() method - tests the sending of
      * the "campaign about to expire" emails.
      */
-    function testManageCampaignsEmailsPlacementToExpire()
+    public function testManageCampaignsEmailsPlacementToExpire()
     {
         // Set the date format
         global $date_format;
@@ -776,9 +776,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oServiceLocator->register('now', $oDateNow);
 
         // Insert the required preference values for dealing with email warnings
-        $warnEmailAdminPreferenceId                = $this->_createPreference('warn_email_admin', OA_ACCOUNT_ADMIN);
+        $warnEmailAdminPreferenceId = $this->_createPreference('warn_email_admin', OA_ACCOUNT_ADMIN);
         $warnEmailAdminPreferenceImpressionLimitId = $this->_createPreference('warn_email_admin_impression_limit', OA_ACCOUNT_ADMIN);
-        $warnEmailAdminPreferenceDayLimitId        = $this->_createPreference('warn_email_admin_day_limit', OA_ACCOUNT_ADMIN);
+        $warnEmailAdminPreferenceDayLimitId = $this->_createPreference('warn_email_admin_day_limit', OA_ACCOUNT_ADMIN);
 
         $this->_createPreference('warn_email_manager', OA_ACCOUNT_MANAGER);
         $this->_createPreference('warn_email_manager_impression_limit', OA_ACCOUNT_MANAGER);
@@ -790,26 +790,26 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Create the required accounts & set the various ID values
         $aValues = $this->_createAccounts();
-        $adminAccountId     = $aValues['adminAccount'];
+        $adminAccountId = $aValues['adminAccount'];
         $advertiserClientId = $aValues['advertiserClient'];
 
         // Create a currently running placement with 100 impressions
         // remaining and set to expire on 2008-01-13
-        $aData = array(
-            'clientid'    => $advertiserClientId,
-            'status'      => OA_ENTITY_STATUS_RUNNING,
-            'views'       => '100',
+        $aData = [
+            'clientid' => $advertiserClientId,
+            'status' => OA_ENTITY_STATUS_RUNNING,
+            'views' => '100',
             'expire_time' => '2008-01-13 23:59:59'
-        );
+        ];
         $campaignId = $this->_insertPlacement($aData);
 
         // Reset now
         $oServiceLocator->remove('now');
 
         // Insert a banner for the placement
-        $aData = array(
+        $aData = [
             'campaignid' => $campaignId
-        );
+        ];
         $adId = $this->_insertAd($aData);
 
         // Create an instance of the mocked OA_Email class, and set
@@ -876,21 +876,21 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Delivery 60 impressions out of the 100, so that only 40 remain
         // (i.e. less than the 50 limit set above)
-        $aData = array(
+        $aData = [
             'operation_interval_id' => 25,
-            'interval_start'        => '2008-01-11 22:00:00',
-            'interval_end'          => '2008-01-11 22:59:59',
-            'hour'                  => 0,
-            'ad_id'                 => $adId,
-            'impressions'           => 60
-        );
+            'interval_start' => '2008-01-11 22:00:00',
+            'interval_end' => '2008-01-11 22:59:59',
+            'hour' => 0,
+            'ad_id' => $adId,
+            'impressions' => 60
+        ];
         $this->_insertDataIntermediateAd($aData);
 
         // Create a new instance of the mocked OA_Email class, and set
         // expectations on how the class' methods should be called
         // based on the above
         $oEmailMock = new MockOA_Email($this);
-        $oEmailMock->expectOnce('sendCampaignImpendingExpiryEmail', array($oDate, "$campaignId"));
+        $oEmailMock->expectOnce('sendCampaignImpendingExpiryEmail', [$oDate, "$campaignId"]);
 
         // Register the mocked OA_Email class in the service locator
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -905,7 +905,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Clean up
         DataGenerator::cleanUp();
-
     }
 
     /**
@@ -922,7 +921,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      *                  - "advertiserClient"  The advertiser client ID.
      *                  - "advertiserAccount" The advertiser account ID.
      */
-    function _createAccounts()
+    public function _createAccounts()
     {
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
@@ -971,14 +970,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $advertiserAccountId = $aAdvertiser['account_id'];
 
         // Return the created ID values
-        $aReturn = array(
-            "adminAccount"      => $adminAccountId,
-            "userId"            => $userId,
-            "managerAgency"     => $managerAgencyId,
-            "managerAccount"    => $managerAccountId,
-            "advertiserClient"  => $advertiserClientId,
+        $aReturn = [
+            "adminAccount" => $adminAccountId,
+            "userId" => $userId,
+            "managerAgency" => $managerAgencyId,
+            "managerAccount" => $managerAccountId,
+            "advertiserClient" => $advertiserClientId,
             "advertiserAccount" => $advertiserAccountId
-        );
+        ];
         return $aReturn;
     }
 
@@ -989,11 +988,11 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * @param integer $preferenceLevel The preference level, if required.
      * @return integer The ID of the created preference.
      */
-    function _createPreference($preferenceName, $preferenceLevel = '')
+    public function _createPreference($preferenceName, $preferenceLevel = '')
     {
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = $preferenceName;
-        $doPreferences->account_type    = $preferenceLevel;
+        $doPreferences->account_type = $preferenceLevel;
         $preferenceId = DataGenerator::generateOne($doPreferences);
         return $preferenceId;
     }
@@ -1005,7 +1004,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * @param integer $preferenceId    The preference ID.
      * @param string  $preferenceValue The value of the preference.
      */
-    function _insertPreference($accountId, $preferenceId, $preferenceValue)
+    public function _insertPreference($accountId, $preferenceId, $preferenceValue)
     {
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
         $doAccount_Preference_Assoc->account_id = $accountId;
@@ -1024,24 +1023,23 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      *                     below.
      * @return integer The ID of the campaign created.
      */
-    function _insertPlacement($aData)
+    public function _insertPlacement($aData)
     {
-        $this->doCampaigns->campaignname      = 'Test Placement';
-        $this->doCampaigns->clientid          = 1;
-        $this->doCampaigns->weight            = 1;
-        $this->doCampaigns->priority          = -1;
-        $this->doCampaigns->views             = -1;
-        $this->doCampaigns->clicks            = -1;
-        $this->doCampaigns->conversions       = -1;
+        $this->doCampaigns->campaignname = 'Test Placement';
+        $this->doCampaigns->clientid = 1;
+        $this->doCampaigns->weight = 1;
+        $this->doCampaigns->priority = -1;
+        $this->doCampaigns->views = -1;
+        $this->doCampaigns->clicks = -1;
+        $this->doCampaigns->conversions = -1;
         $this->doCampaigns->target_impression = -1;
-        $this->doCampaigns->target_click      = -1;
+        $this->doCampaigns->target_click = -1;
         $this->doCampaigns->target_conversion = -1;
-        $this->doCampaigns->status            = OA_ENTITY_STATUS_RUNNING;
-        $this->doCampaigns->updated           = null;
-        $this->doCampaigns->activate_time     = null;
-        $this->doCampaigns->expire_time       = null;
-        foreach ($aData AS $key => $val)
-        {
+        $this->doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
+        $this->doCampaigns->updated = null;
+        $this->doCampaigns->activate_time = null;
+        $this->doCampaigns->expire_time = null;
+        foreach ($aData as $key => $val) {
             $this->doCampaigns->$key = $val;
         }
         return DataGenerator::generateOne($this->doCampaigns);
@@ -1055,10 +1053,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      *                     advertiser to be created.
      * @return integer The ID of the advertiser created.
      */
-    function _insertAdvertiser($aData)
+    public function _insertAdvertiser($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
+        foreach ($aData as $key => $val) {
             $this->doClients->$key = $val;
         }
         return DataGenerator::generateOne($this->doClients);
@@ -1072,10 +1069,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      *                     banner to be created.
      * @return integer The ID of the banner created.
      */
-    function _insertAd($aData)
+    public function _insertAd($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
+        foreach ($aData as $key => $val) {
             $this->doBanners->$key = $val;
         }
         return DataGenerator::generateOne($this->doBanners);
@@ -1092,15 +1088,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      *                     below.
      * @return integer The ID of the data row created.
      */
-    function _insertDataIntermediateAd($aData)
+    public function _insertDataIntermediateAd($aData)
     {
-        $this->doDIA->operation_interval    = 60;
+        $this->doDIA->operation_interval = 60;
         $this->doDIA->operation_interval_id = 17;
-        $this->doDIA->creative_id           = 0;
-        $this->doDIA->zone_id               = 0;
-        $this->doDIA->hour                  = 17;
-        foreach ($aData AS $key => $val)
-        {
+        $this->doDIA->creative_id = 0;
+        $this->doDIA->zone_id = 0;
+        $this->doDIA->hour = 17;
+        foreach ($aData as $key => $val) {
             $this->doDIA->$key = $val;
         }
         return DataGenerator::generateOne($this->doDIA);
@@ -1120,14 +1115,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
      * @param integer $status      The campaign status that should be set.
      * @return array An array containing the database row of the campaign.
      */
-    function _testCampaignByCampaignId($idCampaign, $impressions = null, $clicks = null, $conversions = null, $startDate = null, $endDate = null, $status = null)
+    public function _testCampaignByCampaignId($idCampaign, $impressions = null, $clicks = null, $conversions = null, $startDate = null, $endDate = null, $status = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
             SELECT
                 *
             FROM
-                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns', true) . "
+                " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'campaigns', true) . "
             WHERE
                 campaignid = " . $idCampaign;
         $aRow = $this->oDbh->queryRow($query);
@@ -1135,26 +1130,22 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $aBacktrace = debug_backtrace();
 
         if (isset($impressions)) {
-            $this->assertEqual($aRow['views'], $impressions, '%s originally called at line '.$aBacktrace[0]['line']);
+            $this->assertEqual($aRow['views'], $impressions, '%s originally called at line ' . $aBacktrace[0]['line']);
         }
         if (isset($clicks)) {
-            $this->assertEqual($aRow['clicks'], $clicks, '%s originally called at line '.$aBacktrace[0]['line']);
+            $this->assertEqual($aRow['clicks'], $clicks, '%s originally called at line ' . $aBacktrace[0]['line']);
         }
         if (isset($conversions)) {
-            $this->assertEqual($aRow['conversions'], $conversions, '%s originally called at line '.$aBacktrace[0]['line']);
+            $this->assertEqual($aRow['conversions'], $conversions, '%s originally called at line ' . $aBacktrace[0]['line']);
         }
         if (isset($startDate)) {
-            $this->assertEqual($aRow['activate_time'], $startDate, '%s originally called at line '.$aBacktrace[0]['line']);
+            $this->assertEqual($aRow['activate_time'], $startDate, '%s originally called at line ' . $aBacktrace[0]['line']);
         }
         if (isset($endDate)) {
-            $this->assertEqual($aRow['expire_time'], $endDate, '%s originally called at line '.$aBacktrace[0]['line']);
+            $this->assertEqual($aRow['expire_time'], $endDate, '%s originally called at line ' . $aBacktrace[0]['line']);
         }
         if (isset($status)) {
-            $this->assertEqual($aRow['status'], $status, '%s originally called at line '.$aBacktrace[0]['line']);
+            $this->assertEqual($aRow['status'], $status, '%s originally called at line ' . $aBacktrace[0]['line']);
         }
-
     }
-
 }
-
-?>

@@ -23,13 +23,13 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_601Test extends MigrationTest
 {
-    function setUp()
-	{
-	    parent::setUp();
-	    $this->host = $_SERVER['HTTP_HOST'];
-	    $_SERVER['HTTP_HOST'] = 'test1';
+    public function setUp()
+    {
+        parent::setUp();
+        $this->host = $_SERVER['HTTP_HOST'];
+        $_SERVER['HTTP_HOST'] = 'test1';
 
-		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = OX_getHostName();
+        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = OX_getHostName();
         if (file_exists(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php')) {
             unlink(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php');
         }
@@ -38,33 +38,32 @@ class Migration_601Test extends MigrationTest
         // environment...
         $GLOBALS['override_TEST_ENVIRONMENT_RUNNING'] = true;
 
-		$this->createConfigIfNotExists();
-	}
+        $this->createConfigIfNotExists();
+    }
 
-	function tearDown()
-	{
-        if (file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))
-        {
-            @unlink(MAX_PATH.'/var/'.OX_getHostName().'.conf.php');
+    public function tearDown()
+    {
+        if (file_exists(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php')) {
+            @unlink(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php');
         }
-	    $_SERVER['HTTP_HOST'] = $this->host;
+        $_SERVER['HTTP_HOST'] = $this->host;
 
         // Resume normal service with regards to the configuration file writer...
         unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
 
         TestEnv::restoreConfig();
 
-	    parent::tearDown();
-	}
+        parent::tearDown();
+    }
 
-    function testMigrate603()
+    public function testMigrate603()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(602, array('acls', 'acls_channel', 'banners'));
+        $this->initDatabase(602, ['acls', 'acls_channel', 'banners']);
 
-        $tblAcls  = $this->oDbh->quoteIdentifier($prefix.'acls', true);
-        $tblAclsChannel  = $this->oDbh->quoteIdentifier($prefix.'acls_channel', true);
-        $tblBanners  = $this->oDbh->quoteIdentifier($prefix.'banners', true);
+        $tblAcls = $this->oDbh->quoteIdentifier($prefix . 'acls', true);
+        $tblAclsChannel = $this->oDbh->quoteIdentifier($prefix . 'acls_channel', true);
+        $tblBanners = $this->oDbh->quoteIdentifier($prefix . 'banners', true);
 
         // Setup some ACL records, some fields which will be changed, some fields that won't be recognised and should therefore be left unchanged
         $this->oDbh->exec("INSERT INTO {$tblAcls} (bannerid, logical, type, comparison, data, executionorder) VALUES (1, 'and', 'Client:Browser', '==', 'test', 0)");
@@ -104,36 +103,36 @@ class Migration_601Test extends MigrationTest
         $this->upgradeToVersion(603);
 
         $aAcls = $this->oDbh->queryAll("SELECT bannerid, logical, type, comparison, data, executionorder FROM {$tblAcls} ORDER BY bannerid, executionorder");
-        $aExpectedAcls = array(
-            array('bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 0, 'logical' => 'and', 'type' => 'deliveryLimitations:Client:Browser'),
-            array('bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 1, 'logical' => 'and', 'type' => 'deliveryLimitations:Site:Source'),
-            array('bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 2, 'logical' => 'or',  'type' => 'deliveryLimitations:Geo:Country'),
-            array('bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 3, 'logical' => 'and', 'type' => 'deliveryLimitations:Time:Day'),
-            array('bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 4, 'logical' => 'or',  'type' => 'Dummy:Dummy'),
-        );
+        $aExpectedAcls = [
+            ['bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 0, 'logical' => 'and', 'type' => 'deliveryLimitations:Client:Browser'],
+            ['bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 1, 'logical' => 'and', 'type' => 'deliveryLimitations:Site:Source'],
+            ['bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 2, 'logical' => 'or',  'type' => 'deliveryLimitations:Geo:Country'],
+            ['bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 3, 'logical' => 'and', 'type' => 'deliveryLimitations:Time:Day'],
+            ['bannerid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 4, 'logical' => 'or',  'type' => 'Dummy:Dummy'],
+        ];
         $this->assertEqual($aAcls, $aExpectedAcls);
 
         $aAclsChannel = $this->oDbh->queryAll("SELECT channelid, logical, type, comparison, data, executionorder FROM {$tblAclsChannel} ORDER BY channelid, executionorder");
-        $aExpectedAclsChannel = array(
-            array('channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 0, 'logical' => 'and', 'type' => 'deliveryLimitations:Client:Browser'),
-            array('channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 1, 'logical' => 'and', 'type' => 'deliveryLimitations:Site:Source'),
-            array('channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 2, 'logical' => 'or',  'type' => 'deliveryLimitations:Geo:Country'),
-            array('channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 3, 'logical' => 'and', 'type' => 'deliveryLimitations:Time:Day'),
-            array('channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 4, 'logical' => 'or',  'type' => 'Dummy:Dummy'),
-        );
+        $aExpectedAclsChannel = [
+            ['channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 0, 'logical' => 'and', 'type' => 'deliveryLimitations:Client:Browser'],
+            ['channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 1, 'logical' => 'and', 'type' => 'deliveryLimitations:Site:Source'],
+            ['channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 2, 'logical' => 'or',  'type' => 'deliveryLimitations:Geo:Country'],
+            ['channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 3, 'logical' => 'and', 'type' => 'deliveryLimitations:Time:Day'],
+            ['channelid' => 1, 'comparison' => '==', 'data' => 'test', 'executionorder' => 4, 'logical' => 'or',  'type' => 'Dummy:Dummy'],
+        ];
         $this->assertEqual($aAclsChannel, $aExpectedAclsChannel);
 
         $aBanners = $this->oDbh->queryAll("SELECT bannerid, storagetype, ext_bannertype FROM {$tblBanners} ORDER BY bannerid");
-        $aExpectedBanners = array(
-            array('bannerid' => 1, 'storagetype' => 'html', 'ext_bannertype' => 'bannerTypeHtml:oxHtml:genericHtml'),
-            array('bannerid' => 2, 'storagetype' => 'txt',  'ext_bannertype' => 'bannerTypeText:oxText:genericText'),
-            array('bannerid' => 3, 'storagetype' => 'web',  'ext_bannertype' => null),
-            array('bannerid' => 4, 'storagetype' => 'sql',  'ext_bannertype' => null),
-        );
+        $aExpectedBanners = [
+            ['bannerid' => 1, 'storagetype' => 'html', 'ext_bannertype' => 'bannerTypeHtml:oxHtml:genericHtml'],
+            ['bannerid' => 2, 'storagetype' => 'txt',  'ext_bannertype' => 'bannerTypeText:oxText:genericText'],
+            ['bannerid' => 3, 'storagetype' => 'web',  'ext_bannertype' => null],
+            ['bannerid' => 4, 'storagetype' => 'sql',  'ext_bannertype' => null],
+        ];
         $this->assertEqual($aBanners, $aExpectedBanners);
 
         $aConf = parse_ini_file(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php', true);
-        $oxMaxMindGeoIP = array(
+        $oxMaxMindGeoIP = [
             'geoipCountryLocation' => '/path/to/geoipCountryLocation.dat',
             'geoipRegionLocation' => '/path/to/geoipRegionLocation.dat',
             'geoipCityLocation' => '/path/to/geoipCityLocation.dat',
@@ -142,7 +141,7 @@ class Migration_601Test extends MigrationTest
             'geoipOrgLocation' => '/path/to/geoipOrgLocation.dat',
             'geoipIspLocation' => '/path/to/geoipIspLocation.dat',
             'geoipNetspeedLocation' => '/path/to/geoipNetspeedLocation.dat',
-        );
+        ];
 
         $this->assertEqual($oxMaxMindGeoIP, $aConf['oxMaxMindGeoIP']);
 
@@ -152,11 +151,11 @@ class Migration_601Test extends MigrationTest
      * This method creates config if it doesn't exist so test won't fail
      *
      */
-    function createConfigIfNotExists()
+    public function createConfigIfNotExists()
     {
-        if (!(file_exists(MAX_PATH.'/var/'.OX_getHostName().'.conf.php'))) {
-        	$oConfig = new OA_Upgrade_Config();
-        	$oConfig->writeConfig(true);
+        if (!(file_exists(MAX_PATH . '/var/' . OX_getHostName() . '.conf.php'))) {
+            $oConfig = new OA_Upgrade_Config();
+            $oConfig->writeConfig(true);
         }
     }
 
@@ -166,14 +165,14 @@ class Migration_601Test extends MigrationTest
      * @param string $testSection
      * @param array $testArray
      */
-    function checkGlobalConfigConsists($testSection, $testArray)
+    public function checkGlobalConfigConsists($testSection, $testArray)
     {
         $host = OX_getHostName();
-    	$configPath = MAX_PATH . "/var/$host.conf.php";
-    	if ($this->assertTrue(file_exists($configPath), "File: '$configPath' should exist!")) {
+        $configPath = MAX_PATH . "/var/$host.conf.php";
+        if ($this->assertTrue(file_exists($configPath), "File: '$configPath' should exist!")) {
             $aContents = parse_ini_file($configPath, true);
-            foreach($testArray as $key => $val) {
-            	$this->assertEqual($aContents[$testSection][$key], $val);
+            foreach ($testArray as $key => $val) {
+                $this->assertEqual($aContents[$testSection][$key], $val);
             }
         }
     }

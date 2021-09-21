@@ -24,10 +24,8 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Os extends UnitTestCase
 {
-    function testMAX_checkClient_Os()
+    public function testMAX_checkClient_Os()
     {
-        $this->assertTrue(MAX_checkClient_Os('xp,2k', '=~', array('os' => 'xp')));
+        $this->assertTrue(MAX_checkClient_Os('xp,2k', '=~', ['os' => 'xp']));
     }
 }
-
-?>

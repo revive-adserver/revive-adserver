@@ -83,13 +83,12 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $rs = $this->dalVariables->getTrackerVariables($zoneId, 1, false);
         $rs->reset();
         $this->assertEqual(1, $rs->getRowCount());
-
     }
 
-    function testUpdateVariableCode()
+    public function testUpdateVariableCode()
     {
         $this->varName = 'my_var';
-        $this->defaultVarCode = "var {$this->varName} = escape(\\'%%".strtoupper($this->varName)."_VALUE%%\\')";
+        $this->defaultVarCode = "var {$this->varName} = escape(\\'%%" . strtoupper($this->varName) . "_VALUE%%\\')";
 
         // Create a tracker with default variableMethod
         $doTrackers = OA_Dal::factoryDO('trackers');
@@ -103,12 +102,16 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
 
         // JS
         $this->assertTrue($this->dalVariables->updateVariableCode(
-            $trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS));
+            $trackerId,
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS
+        ));
         $this->assertVariableCode($trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS);
 
         // DOM
         $this->assertTrue($this->dalVariables->updateVariableCode(
-            $trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM));
+            $trackerId,
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM
+        ));
         $this->assertVariableCode($trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM);
 
         // Custom
@@ -117,7 +120,9 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $doVariables->whereAdd('1=1');
         $doVariables->update(DB_DATAOBJECT_WHEREADD_ONLY);
         $this->assertTrue($this->dalVariables->updateVariableCode(
-            $trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM));
+            $trackerId,
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM
+        ));
         $this->assertVariableCode($trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM);
 
         // Default
@@ -129,7 +134,7 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
     {
         switch ($method) {
             case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS:
-                $expected = "var {$this->varName} = \\'%%".strtoupper($this->varName)."_VALUE%%\\'";
+                $expected = "var {$this->varName} = \\'%%" . strtoupper($this->varName) . "_VALUE%%\\'";
                 break;
             case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM:
                 $expected = '';
@@ -148,8 +153,5 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
             $actual = $doVariables->variablecode;
             $this->assertEqual($expected, $actual);
         }
-        
     }
 }
-
-?>

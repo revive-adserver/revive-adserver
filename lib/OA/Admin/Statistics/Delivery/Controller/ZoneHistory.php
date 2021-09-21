@@ -22,7 +22,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  */
 class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
-
+    /**
+     * @var string[]|int[]
+     */
+    public $aPageContext;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +36,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'zone';
+        $this->entity = 'zone';
         $this->breakdown = 'history';
 
         // This page uses the day span selector element
@@ -50,21 +53,21 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $publisherId = $this->_getId('publisher');
-        $zoneId      = $this->_getId('zone');
+        $zoneId = $this->_getId('zone');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
+        $this->_checkAccess(['publisher' => $publisherId, 'zone' => $zoneId]);
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId,
             'zoneid' => $zoneId
-        );
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -76,39 +79,36 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.2.1';
-            $this->aPageSections = array('2.4.2.1', '2.4.2.2');
+            $this->aPageSections = ['2.4.2.1', '2.4.2.2'];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.2.1';
-            $this->aPageSections = array('1.2.1', '1.2.2');
+            $this->aPageSections = ['1.2.1', '1.2.2'];
         }
 
         // Add breadcrumbs
         $this->_addBreadcrumbs('zone', $zoneId);
 
         // Add context
-        $this->aPageContext = array('zones', $zoneId);
+        $this->aPageContext = ['zones', $zoneId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
-            'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
+            'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId,
             'iconZone'
         );
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'zone_id' => $zoneId
-        );
+        ];
         $this->prepare($aParams, 'stats.php');
     }
-
 }
-
-?>

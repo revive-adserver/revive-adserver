@@ -21,13 +21,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTags
 {
-
     /**
      * Return name of plugin
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate("Local Mode Tag");
     }
@@ -39,7 +38,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      *
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         return 'Local Mode Tag';
     }
@@ -49,7 +48,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         // Deprecated since 5.3.0
         return false;
@@ -60,7 +59,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      *
      * @return array    Group of options
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
         return [];
     }
@@ -70,11 +69,8 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      *
      * @return string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
         return '';
     }
-
 }
-
-?>

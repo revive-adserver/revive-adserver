@@ -565,10 +565,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
      * list all tables in the current database
      *
      * @param string database, the current is default
+     * @param OPENADS:: string prefix : allow a LIKE comparison search for table prefixes
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      */
-    function listTables($database = null)
+    function listTables($database = null, $prefix='')
     {
         $db = $this->getDBInstance();
         if (PEAR::isError($db)) {

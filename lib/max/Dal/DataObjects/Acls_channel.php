@@ -29,9 +29,12 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
     public $executionorder;                  // INT(10) => openads_int => 129
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Acls_channel',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Acls_channel', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'channelid' => 0,
         'logical' => 'and',
         'type' => '',
@@ -48,8 +51,9 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 
     /**
@@ -61,7 +65,7 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
      * @return boolean              true on success or if no acls exist else
      *                              false  is returned
      */
-    function duplicate($origChannelId, $newChannelId)
+    public function duplicate($origChannelId, $newChannelId)
     {
         $this->channelid = $origChannelId;
         if ($this->find()) {
@@ -79,5 +83,3 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
         return true;
     }
 }
-
-?>

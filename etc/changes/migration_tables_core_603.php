@@ -10,12 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 class Migration_603 extends Migration
 {
-
-    function __construct()
+    public function __construct()
     {
         //$this->__construct();
 
@@ -23,21 +22,19 @@ class Migration_603 extends Migration
         $this->aTaskList_constructive[] = 'afterAlterField__acls__type';
         $this->aTaskList_constructive[] = 'beforeAlterField__acls_channel__type';
         $this->aTaskList_constructive[] = 'afterAlterField__acls_channel__type';
-
-
     }
 
-    function beforeAlterField__acls__type()
+    public function beforeAlterField__acls__type()
     {
         return $this->beforeAlterField('acls', 'type');
     }
 
-    function afterAlterField__acls__type()
+    public function afterAlterField__acls__type()
     {
         return $this->afterAlterField('acls', 'type');
     }
 
-    function beforeAlterField__acls_channel__type()
+    public function beforeAlterField__acls_channel__type()
     {
         return $this->beforeAlterField('acls_channel', 'type');
     }
@@ -49,18 +46,18 @@ class Migration_603 extends Migration
      *
      * @return unknown
      */
-    function afterAlterField__acls_channel__type()
+    public function afterAlterField__acls_channel__type()
     {
         return $this->migrateData() && $this->migrateConfig() && $this->afterAlterField('acls_channel', 'type');
     }
 
-    function migrateData()
+    public function migrateData()
     {
         // banners.ext_bannertype needs to be set for html and txt banners
-        $aBannerTypeMap = array(
+        $aBannerTypeMap = [
            'html' => 'bannerTypeHtml:oxHtml:genericHtml',
-           'txt'  => 'bannerTypeText:oxText:genericText',
-        );
+           'txt' => 'bannerTypeText:oxText:genericText',
+        ];
         $table = $this->oDBH->quoteIdentifier($this->_getTableName('banners'));
         $sucess = true;
 
@@ -71,36 +68,36 @@ class Migration_603 extends Migration
             }
         }
         // acls.type and acls_channel.type need to be updated
-        $aAclsTypeMap = array(
-            'Client:Browser'    => 'deliveryLimitations:Client:Browser',
-            'Client:Domain'     => 'deliveryLimitations:Client:Domain',
-            'Client:Ip'         => 'deliveryLimitations:Client:Ip',
-            'Client:Useragent'  => 'deliveryLimitations:Client:Useragent',
-            'Client:Language'   => 'deliveryLimitations:Client:Language',
-            'Client:Os'         => 'deliveryLimitations:Client:Os',
+        $aAclsTypeMap = [
+            'Client:Browser' => 'deliveryLimitations:Client:Browser',
+            'Client:Domain' => 'deliveryLimitations:Client:Domain',
+            'Client:Ip' => 'deliveryLimitations:Client:Ip',
+            'Client:Useragent' => 'deliveryLimitations:Client:Useragent',
+            'Client:Language' => 'deliveryLimitations:Client:Language',
+            'Client:Os' => 'deliveryLimitations:Client:Os',
             'Site:Referingpage' => 'deliveryLimitations:Site:Referingpage',
-            'Site:Channel'      => 'deliveryLimitations:Site:Channel',
-            'Site:Pageurl'      => 'deliveryLimitations:Site:Pageurl',
-            'Site:Variable'     => 'deliveryLimitations:Site:Variable',
-            'Site:Source'       => 'deliveryLimitations:Site:Source',
-            'Geo:Latlong'       => 'deliveryLimitations:Geo:Latlong',
-            'Geo:Region'        => 'deliveryLimitations:Geo:Region',
-            'Geo:Postalcode'    => 'deliveryLimitations:Geo:Postalcode',
-            'Geo:Organisation'  => 'deliveryLimitations:Geo:Organisation',
-            'Geo:Country'       => 'deliveryLimitations:Geo:Country',
-            'Geo:Continent'     => 'deliveryLimitations:Geo:Continent',
-            'Geo:Areacode'      => 'deliveryLimitations:Geo:Areacode',
-            'Geo:Netspeed'      => 'deliveryLimitations:Geo:Netspeed',
-            'Geo:Dma'           => 'deliveryLimitations:Geo:Dma',
-            'Geo:City'          => 'deliveryLimitations:Geo:City',
-            'Time:Date'         => 'deliveryLimitations:Time:Date',
-            'Time:Day'          => 'deliveryLimitations:Time:Day',
-            'Time:Hour'         => 'deliveryLimitations:Time:Hour',
-        );
-        $tables = array(
+            'Site:Channel' => 'deliveryLimitations:Site:Channel',
+            'Site:Pageurl' => 'deliveryLimitations:Site:Pageurl',
+            'Site:Variable' => 'deliveryLimitations:Site:Variable',
+            'Site:Source' => 'deliveryLimitations:Site:Source',
+            'Geo:Latlong' => 'deliveryLimitations:Geo:Latlong',
+            'Geo:Region' => 'deliveryLimitations:Geo:Region',
+            'Geo:Postalcode' => 'deliveryLimitations:Geo:Postalcode',
+            'Geo:Organisation' => 'deliveryLimitations:Geo:Organisation',
+            'Geo:Country' => 'deliveryLimitations:Geo:Country',
+            'Geo:Continent' => 'deliveryLimitations:Geo:Continent',
+            'Geo:Areacode' => 'deliveryLimitations:Geo:Areacode',
+            'Geo:Netspeed' => 'deliveryLimitations:Geo:Netspeed',
+            'Geo:Dma' => 'deliveryLimitations:Geo:Dma',
+            'Geo:City' => 'deliveryLimitations:Geo:City',
+            'Time:Date' => 'deliveryLimitations:Time:Date',
+            'Time:Day' => 'deliveryLimitations:Time:Day',
+            'Time:Hour' => 'deliveryLimitations:Time:Hour',
+        ];
+        $tables = [
            $this->oDBH->quoteIdentifier($this->_getTableName('acls')),
            $this->oDBH->quoteIdentifier($this->_getTableName('acls_channel')),
-        );
+        ];
         foreach ($tables as $table) {
             foreach ($aAclsTypeMap as $old => $new) {
                 $query = "UPDATE {$table} SET type = '{$new}' WHERE type='{$old}'";
@@ -113,7 +110,7 @@ class Migration_603 extends Migration
     }
 
     // This method moves some settings out of the global config scope and into plugin config sections
-    function migrateConfig()
+    public function migrateConfig()
     {
         $oConfiguration = new OA_Admin_Settings();
 
@@ -124,18 +121,18 @@ class Migration_603 extends Migration
         return $oConfiguration->writeConfigChange();
     }
 
-    function migrateGeoSettings(&$oConfiguration)
+    public function migrateGeoSettings(&$oConfiguration)
     {
         // Migrate any settings from $aConf['geotargeting'] to the appropriate group
         if (!empty($oConfiguration->aConf['geotargeting'])) {
             // ModGeoIP doesn't have any settings, just change the type value
-            $fields = array('geoipCountryLocation', 'geoipRegionLocation', 'geoipCityLocation', 'geoipAreaLocation', 'geoipDmaLocation', 'geoipOrgLocation', 'geoipIspLocation', 'geoipNetspeedLocation');
+            $fields = ['geoipCountryLocation', 'geoipRegionLocation', 'geoipCityLocation', 'geoipAreaLocation', 'geoipDmaLocation', 'geoipOrgLocation', 'geoipIspLocation', 'geoipNetspeedLocation'];
             if ($oConfiguration->aConf['geotargeting']['type'] == 'ModGeoIP') {
                 $oConfiguration->aConf['geotargeting']['type'] = 'geoTargeting:oxMaxMindModGeoIP:oxMaxMindModGeoIP';
             } elseif ($oConfiguration->aConf['geotargeting']['type'] == 'GeoIP') {
                 // GeoIP requires the type to be set and any file-locations to be set
                 $oConfiguration->aConf['geotargeting']['type'] = 'geoTargeting:oxMaxMindGeoIP:oxMaxMindGeoIP';
-                $oConfiguration->aConf['oxMaxMindGeoIP'] = array();
+                $oConfiguration->aConf['oxMaxMindGeoIP'] = [];
                 foreach ($fields as $field) {
                     if (!empty($oConfiguration->aConf['geotargeting'][$field])) {
                         $oConfiguration->aConf['oxMaxMindGeoIP'][$field] = $oConfiguration->aConf['geotargeting'][$field];
@@ -148,7 +145,7 @@ class Migration_603 extends Migration
         }
     }
 
-    function migrateCasSettings(&$oConfiguration)
+    public function migrateCasSettings(&$oConfiguration)
     {
         // Migrate the oacSSO section to oxAuthCAS (if required)
         if ($oConfiguration->aConf['authentication']['type'] == 'cas') {
@@ -159,11 +156,11 @@ class Migration_603 extends Migration
         unset($oConfiguration->aConf['oacSSO']);
     }
 
-    function migrateTagSettings(&$oConfiguration)
+    public function migrateTagSettings(&$oConfiguration)
     {
         // Migrate the allowed invocationTags settings
         if (!empty($oConfiguration->aConf['allowedTags'])) {
-            $oConfiguration->aConf['oxInvocationTags'] = array();
+            $oConfiguration->aConf['oxInvocationTags'] = [];
             foreach ($oConfiguration->aConf['allowedTags'] as $key => $value) {
                 $newKey = 'isAllowed' . ucfirst($key);
                 $oConfiguration->aConf['oxInvocationTags'][$newKey] = $value;
@@ -178,11 +175,9 @@ class Migration_603 extends Migration
      * @param string $table
      * @return The (prefixed) table name as defined in the config file
      */
-    function _getTableName($table)
+    public function _getTableName($table)
     {
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         return $aConf['prefix'] . ($aConf[$table] ? $aConf[$table] : $table);
     }
 }
-
-?>

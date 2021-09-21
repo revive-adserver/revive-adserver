@@ -27,16 +27,14 @@ class BaseUserService
      *
      * @var UserServiceImpl $_oUserServiceImp
      */
-    var $_oUserServiceImp;
+    public $_oUserServiceImp;
 
     /**
      * This method initialises Service implementation object field.
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->_oUserServiceImp = new UserServiceImpl();
     }
 }
-
-?>

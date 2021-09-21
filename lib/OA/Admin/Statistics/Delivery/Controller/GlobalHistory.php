@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  */
 class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +32,10 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'global';
+        $this->entity = 'global';
         $this->breakdown = 'history';
 
         // This page uses the day span selector element
@@ -50,7 +49,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -64,16 +63,13 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
 
         // HTML Framework
         $this->pageId = '2.2';
-        $this->aPageSections = array('2.1', '2.4', '2.2');
+        $this->aPageSections = ['2.1', '2.4', '2.2'];
 
         // Prepare the data for display by output() method
-        $aParams = array();
+        $aParams = [];
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
         $this->prepare($aParams, 'stats.php');
     }
-
 }
-
-?>

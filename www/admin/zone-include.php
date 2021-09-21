@@ -37,22 +37,22 @@ $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliate
 phpAds_SessionDataStore();
 
     // Get input parameters
-    $pref =& $GLOBALS['_MAX']['PREF'];
-    $publisherId    = MAX_getValue('affiliateid');
-    $zoneId         = MAX_getValue('zoneid');
-    $advertiserId   = MAX_getValue('clientid');
-    $placementId    = MAX_getValue('campaignid');
-    $adId           = MAX_getValue('bannerid');
-    $action         = MAX_getValue('action');
-    $aCurrent       = MAX_getValue('includebanner');
-    $hideInactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true), null, true);
-    $listorder      = MAX_getStoredValue('listorder', 'name');
+    $pref = &$GLOBALS['_MAX']['PREF'];
+    $publisherId = MAX_getValue('affiliateid');
+    $zoneId = MAX_getValue('zoneid');
+    $advertiserId = MAX_getValue('clientid');
+    $placementId = MAX_getValue('campaignid');
+    $adId = MAX_getValue('bannerid');
+    $action = MAX_getValue('action');
+    $aCurrent = MAX_getValue('includebanner');
+    $hideInactive = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true), null, true);
+    $listorder = MAX_getStoredValue('listorder', 'name');
     $orderdirection = MAX_getStoredValue('orderdirection', 'up');
-    $selection      = MAX_getValue('selection');
+    $selection = MAX_getValue('selection');
     $showMatchingAds = MAX_getStoredValue('showbanners', ($pref['ui_show_matching_banners'] == true), null, true);
     $showParentPlacements = MAX_getStoredValue('showcampaigns', ($pref['ui_show_matching_banners_parents'] == true), null, true);
-    $submit         = MAX_getValue('submit');
-    $view           = MAX_getStoredValue('view', 'placement');
+    $submit = MAX_getValue('submit');
+    $view = MAX_getStoredValue('view', 'placement');
 
     $aZone = Admin_DA::getZone($zoneId);
 
@@ -64,58 +64,58 @@ phpAds_SessionDataStore();
     $pageName = basename($_SERVER['SCRIPT_NAME']);
     $tabIndex = 1;
     $agencyId = OA_Permission::getAgencyId();
-    $aEntities = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
+    $aEntities = ['affiliateid' => $publisherId, 'zoneid' => $zoneId];
 
     if (isset($action)) {
         $result = true;
         if ($action == 'set' && $view == 'placement' && !empty($placementId)) {
-            $aLinkedPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), false, 'placement_id');
+            $aLinkedPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], false, 'placement_id');
             if (!isset($aLinkedPlacements[$placementId])) {
-                Admin_DA::addPlacementZone(array('zone_id' => $zoneId, 'placement_id' => $placementId));
+                Admin_DA::addPlacementZone(['zone_id' => $zoneId, 'placement_id' => $placementId]);
             }
 
             MAX_addLinkedAdsToZone($zoneId, $placementId);
 
             // Queue confirmation message
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate ( $GLOBALS['strZoneLinkedCampaign'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate($GLOBALS['strZoneLinkedCampaign'], [
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
                 htmlspecialchars($aZone['name'])
-            ));
+            ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         } elseif ($action == 'set' && $view == 'ad' && !empty($adId)) {
-            $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
+            $aLinkedAds = Admin_DA::getAdZones(['zone_id' => $zoneId], false, 'ad_id');
             if (!isset($aLinkedAds[$adId])) {
-                $result = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
+                $result = Admin_DA::addAdZone(['zone_id' => $zoneId, 'ad_id' => $adId]);
             }
             if (!PEAR::isError($result)) {
                 // Queue confirmation message
                 $translation = new OX_Translation();
-                $translated_message = $translation->translate ( $GLOBALS['strZoneLinkedBanner'], array(
-                    MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+                $translated_message = $translation->translate($GLOBALS['strZoneLinkedBanner'], [
+                    MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
                     htmlspecialchars($aZone['name'])
-                ));
+                ]);
                 OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
             }
         } elseif ($action == 'remove' && !empty($placementId) && empty($adId)) {
-            Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $placementId));
+            Admin_DA::deletePlacementZones(['zone_id' => $zoneId, 'placement_id' => $placementId]);
 
             // Queue confirmation message
             $translation = new OX_Translation();
-            $translated_message = $translation->translate ( $GLOBALS['strZoneRemovedCampaign'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+            $translated_message = $translation->translate($GLOBALS['strZoneRemovedCampaign'], [
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
                 htmlspecialchars($aZone['name'])
-            ));
+            ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         } elseif ($action == 'remove' && !empty($adId) && empty($placementId)) {
-            Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $adId));
+            Admin_DA::deleteAdZones(['zone_id' => $zoneId, 'ad_id' => $adId]);
 
             // Queue confirmation message
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate ( $GLOBALS['strZoneRemovedBanner'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate($GLOBALS['strZoneRemovedBanner'], [
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
                 htmlspecialchars($aZone['name'])
-            ));
+            ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
         if (!PEAR::isError($result)) {
@@ -129,12 +129,12 @@ phpAds_SessionDataStore();
 
     if (isset($submit)) {
         switch ($view) {
-            case 'placement' :
-                $aPrevious = Admin_DA::getPlacementZones(array('zone_id' => $zoneId));
+            case 'placement':
+                $aPrevious = Admin_DA::getPlacementZones(['zone_id' => $zoneId]);
                 $key = 'placement_id';
                 break;
-            case 'ad' :
-                $aPrevious = Admin_DA::getAdZones(array('zone_id' => $zoneId));
+            case 'ad':
+                $aPrevious = Admin_DA::getAdZones(['zone_id' => $zoneId]);
                 $key = 'ad_id';
                 break;
         }
@@ -145,7 +145,7 @@ phpAds_SessionDataStore();
                 $id = $aZoneAssoc[$key];
                 if (empty($aCurrent[$id])) {
                     // The user has removed this zone link
-                    $aParameters = array('zone_id' => $zoneId, $key => $id);
+                    $aParameters = ['zone_id' => $zoneId, $key => $id];
                     if ($view == 'placement') {
                         Admin_DA::deletePlacementZones($aParameters);
                     } else {
@@ -161,7 +161,7 @@ phpAds_SessionDataStore();
         $addResult = true;
         if (!empty($aCurrent)) {
             foreach ($aCurrent as $id => $value) {
-                $aVariables = array('zone_id' => $zoneId, $key => $id);
+                $aVariables = ['zone_id' => $zoneId, $key => $id];
                 if ($view == 'placement') {
                     $addResult = Admin_DA::addPlacementZone($aVariables);
                 } else {
@@ -181,8 +181,8 @@ phpAds_SessionDataStore();
     // Display initial parameters...
     $tabIndex = 1;
 
-    $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
-    $aOtherZones = Admin_DA::getZones(array('publisher_id' => $publisherId));
+    $aOtherPublishers = Admin_DA::getPublishers(['agency_id' => $agencyId]);
+    $aOtherZones = Admin_DA::getZones(['publisher_id' => $publisherId]);
     MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities);
 
     if (!empty($action) && PEAR::isError($result)) {
@@ -198,31 +198,31 @@ phpAds_SessionDataStore();
     $aParams = MAX_getLinkedAdParams($zoneId);
     if ($aZone['type'] == MAX_ZoneEmail) {
         // If the zone is an Email/Newsletter zone, change the existing
-        // ad type restriction from !txt to !htmltxt, to also disallow 
+        // ad type restriction from !txt to !htmltxt, to also disallow
         // HTML banners as well as text banners
         $aParams['ad_type'] = "!htmltxt";
-    }    
+    }
 
     if ($view == 'placement') {
-        $aDirectLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
-        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
-        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId), false) : null;
-        $aZonesPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), true, 'placement_id');
+        $aDirectLinkedAds = Admin_DA::getAdZones(['zone_id' => $zoneId], true, 'ad_id');
+        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + ['agency_id' => $agencyId], false);
+        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + ['advertiser_id' => $advertiserId], false) : null;
+        $aZonesPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], true, 'placement_id');
         MAX_displayZoneEntitySelection('placement', $aOtherAdvertisers, $aOtherPlacements, null, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectCampaignToLink'], $pageName, $tabIndex);
         if (!empty($aZonesPlacements)) {
-	        $aParams = array('placement_id' => implode(',', array_keys($aZonesPlacements)));
-	        $aParams += MAX_getLinkedAdParams($zoneId);
+            $aParams = ['placement_id' => implode(',', array_keys($aZonesPlacements))];
+            $aParams += MAX_getLinkedAdParams($zoneId);
         } else {
             $aParams = null;
         }
         MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, $tabIndex, $aDirectLinkedAds);
     } elseif ($view == 'ad') {
-        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
-        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + array('advertiser_id' => $advertiserId), false) : null;
-        $aOtherAds = !empty($placementId) ? Admin_DA::getAds($aParams + array('placement_id' => $placementId), false) : null;
-        $aAdsZones = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
+        $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + ['agency_id' => $agencyId], false);
+        $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + ['advertiser_id' => $advertiserId], false) : null;
+        $aOtherAds = !empty($placementId) ? Admin_DA::getAds($aParams + ['placement_id' => $placementId], false) : null;
+        $aAdsZones = Admin_DA::getAdZones(['zone_id' => $zoneId], true, 'ad_id');
         MAX_displayZoneEntitySelection('ad', $aOtherAdvertisers, $aOtherPlacements, $aOtherAds, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectBannerToLink'], $pageName, $tabIndex);
-        $aParams = !empty($aAdsZones) ? array('ad_id' => implode(',', array_keys($aAdsZones))) : null;
+        $aParams = !empty($aAdsZones) ? ['ad_id' => implode(',', array_keys($aAdsZones))] : null;
         MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex);
     }
 ?>

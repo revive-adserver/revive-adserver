@@ -14,20 +14,20 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
 {
-    var $table = 'affiliates';
+    public $table = 'affiliates';
 
-    var $orderListName = array(
-        'name'    => 'name',
-        'id'      => 'affiliateid',
+    public $orderListName = [
+        'name' => 'name',
+        'id' => 'affiliateid',
         'updated' => 'updated',
-    );
+    ];
 
-	function getAffiliateByKeyword($keyword, $agencyId = null)
+    public function getAffiliateByKeyword($keyword, $agencyId = null)
     {
         $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableA     = $oDbh->quoteIdentifier($prefix.'affiliates',true);
+        $tableA = $oDbh->quoteIdentifier($prefix . 'affiliates', true);
         $query = "
         SELECT
             a.affiliateid AS affiliateid,
@@ -42,25 +42,25 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
 
         ";
 
-        if($agencyId !== null) {
+        if ($agencyId !== null) {
             $query .= " AND a.agencyid=" . DBC::makeLiteral($agencyId);
         }
 
         return DBC::NewRecordSet($query);
     }
 
-    function getWebsitesAndZonesByAgencyId($agencyId = null)
+    public function getWebsitesAndZonesByAgencyId($agencyId = null)
     {
         if (is_null($agencyId)) {
             $agencyId = OA_Permission::getAgencyId();
         }
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableW     = $oDbh->quoteIdentifier($prefix.$this->table,true);
-        $tableZ     = $oDbh->quoteIdentifier($prefix.'zones',true);
+        $tableW = $oDbh->quoteIdentifier($prefix . $this->table, true);
+        $tableZ = $oDbh->quoteIdentifier($prefix . 'zones', true);
         
         // Select out websites only first (to ensure websites with no zones are included in the list)
-        $aWebsitesAndZones = array();
+        $aWebsitesAndZones = [];
         $query = "
             SELECT
                 w.affiliateid AS website_id,
@@ -77,9 +77,9 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         while ($rsAffiliates->fetch()) {
             $aWebsiteZone = $rsAffiliates->toArray();
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['name'] = $aWebsiteZone['website_name'];
-            $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] =  $aWebsiteZone['website_url'];
-            $aWebsitesAndZones[$aWebsiteZone['website_id']]['updated'] =  $aWebsiteZone['updated'];
-            $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'] = array();
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] = $aWebsiteZone['website_url'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['updated'] = $aWebsiteZone['updated'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'] = [];
         }
         
         $query = "
@@ -104,25 +104,25 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         while ($rsAffiliatesAndZones->fetch()) {
             $aWebsiteZone = $rsAffiliatesAndZones->toArray();
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['name'] = $aWebsiteZone['website_name'];
-            $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] =  $aWebsiteZone['website_url'];
-            $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'][$aWebsiteZone['zone_id']] = array(
-                'name'   => $aWebsiteZone['zone_name'],
-                'width'  => $aWebsiteZone['zone_width'],
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] = $aWebsiteZone['website_url'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'][$aWebsiteZone['zone_id']] = [
+                'name' => $aWebsiteZone['zone_name'],
+                'width' => $aWebsiteZone['zone_width'],
                 'height' => $aWebsiteZone['zone_height'],
-            );
+            ];
         }
         return $aWebsitesAndZones;
     }
     
-    function getPublishersByTracker($trackerid)
+    public function getPublishersByTracker($trackerid)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableAza   = $oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true);
-        $tableZ     = $oDbh->quoteIdentifier($prefix.'zones',true);
-        $tableP     = $oDbh->quoteIdentifier($prefix.'affiliates',true);
-        $tableB     = $oDbh->quoteIdentifier($prefix.'banners',true);
-        $tableCt    = $oDbh->quoteIdentifier($prefix.'campaigns_trackers',true);
+        $tableAza = $oDbh->quoteIdentifier($prefix . 'ad_zone_assoc', true);
+        $tableZ = $oDbh->quoteIdentifier($prefix . 'zones', true);
+        $tableP = $oDbh->quoteIdentifier($prefix . 'affiliates', true);
+        $tableB = $oDbh->quoteIdentifier($prefix . 'banners', true);
+        $tableCt = $oDbh->quoteIdentifier($prefix . 'campaigns_trackers', true);
 
         $query = "
             SELECT
@@ -135,7 +135,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
                 JOIN {$tableB} b ON (aza.ad_id = b.bannerid)
                 JOIN {$tableCt} ct USING (campaignid)
             WHERE
-                ct.trackerid = ".DBC::makeLiteral($trackerid)."
+                ct.trackerid = " . DBC::makeLiteral($trackerid) . "
             GROUP BY
                 p.affiliateid,
                 name
@@ -146,5 +146,3 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 }
-
-?>

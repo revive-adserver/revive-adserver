@@ -24,26 +24,24 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Organisation extends UnitTestCase
 {
-    function testCheckGeoOrganisation()
+    public function testCheckGeoOrganisation()
     {
         // == and !=
-        $this->assertTrue(MAX_checkGeo_Organisation('BT',  '==', array('organisation' => 'BT')));
-        $this->assertFalse(MAX_checkGeo_Organisation('BT', '!=', array('organisation' => 'BT')));
-        $this->assertFalse(MAX_checkGeo_Organisation('BT', '==', array('organisation' => 'TB')));
-        $this->assertTrue(MAX_checkGeo_Organisation('BT',  '!=', array('organisation' => 'TB')));
+        $this->assertTrue(MAX_checkGeo_Organisation('BT', '==', ['organisation' => 'BT']));
+        $this->assertFalse(MAX_checkGeo_Organisation('BT', '!=', ['organisation' => 'BT']));
+        $this->assertFalse(MAX_checkGeo_Organisation('BT', '==', ['organisation' => 'TB']));
+        $this->assertTrue(MAX_checkGeo_Organisation('BT', '!=', ['organisation' => 'TB']));
 
         // =~ and !~
-        $this->assertTrue(MAX_checkGeo_Organisation('BT', '=~', array('organisation' => 'aaaBTbbb')));
-        $this->assertFalse(MAX_checkGeo_Organisation('BT', '!~', array('organisation' => 'aaaBTbbb')));
-        $this->assertFalse(MAX_checkGeo_Organisation('BT', '=~', array('organisation' => 'zzzTBxxx')));
-        $this->assertTrue(MAX_checkGeo_Organisation('BT', '!~', array('organisation' => 'zzzTBxxx')));
+        $this->assertTrue(MAX_checkGeo_Organisation('BT', '=~', ['organisation' => 'aaaBTbbb']));
+        $this->assertFalse(MAX_checkGeo_Organisation('BT', '!~', ['organisation' => 'aaaBTbbb']));
+        $this->assertFalse(MAX_checkGeo_Organisation('BT', '=~', ['organisation' => 'zzzTBxxx']));
+        $this->assertTrue(MAX_checkGeo_Organisation('BT', '!~', ['organisation' => 'zzzTBxxx']));
 
         // =x and !x
-        $this->assertTrue(MAX_checkGeo_Organisation('5[0-9]2', '=x', array('organisation' => '502')));
-        $this->assertFalse(MAX_checkGeo_Organisation('5[0-9]2', '!x', array('organisation' => '502')));
-        $this->assertFalse(MAX_checkGeo_Organisation('5[1-9]2', '=x', array('organisation' => '501')));
-        $this->assertTrue(MAX_checkGeo_Organisation('5[1-9]2', '!x', array('organisation' => '501')));
+        $this->assertTrue(MAX_checkGeo_Organisation('5[0-9]2', '=x', ['organisation' => '502']));
+        $this->assertFalse(MAX_checkGeo_Organisation('5[0-9]2', '!x', ['organisation' => '502']));
+        $this->assertFalse(MAX_checkGeo_Organisation('5[1-9]2', '=x', ['organisation' => '501']));
+        $this->assertTrue(MAX_checkGeo_Organisation('5[1-9]2', '!x', ['organisation' => '501']));
     }
 }
-
-?>

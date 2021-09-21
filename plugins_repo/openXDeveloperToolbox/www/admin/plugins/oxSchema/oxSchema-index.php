@@ -17,15 +17,14 @@
 require_once '../../../../init.php';
 require_once '../../config.php';
 
-phpAds_PageHeader("devtools-schema",'','../../');
+phpAds_PageHeader("devtools-schema", '', '../../');
 
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
-$oTpl = new OA_Plugin_Template('oxSchema-frame.html','oxSchema');
+$oTpl = new OA_Plugin_Template('oxSchema-frame.html', 'oxSchema');
 $oTpl->debugging = false;
-$src = $_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']).'/oxSchema-frame.php';
+$src = $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . '/oxSchema-frame.php';
 $oTpl->assign('src', $src);
 $oTpl->display();
 
 phpAds_PageFooter();
-?>

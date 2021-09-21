@@ -3,29 +3,29 @@ require_once("../xajax.inc.php");
 
 // Custom Response Class extends xajaxResponse
 class customXajaxResponse extends xajaxResponse
-{  
-    function addCreateOption($sSelectId, $sOptionId, $sOptionText, $sOptionValue)  
-    {  
-        $this->addScript("addOption('".$sSelectId."','".$sOptionId."','".$sOptionText."','".$sOptionValue."');");
+{
+    public function addCreateOption($sSelectId, $sOptionId, $sOptionText, $sOptionValue)
+    {
+        $this->addScript("addOption('" . $sSelectId . "','" . $sOptionId . "','" . $sOptionText . "','" . $sOptionValue . "');");
     }
 }
 
 // tests the select form
 function testForm($formData)
 {
-	$objResponse = new customXajaxResponse();
-	$objResponse->addAlert("formData: " . print_r($formData, true));
-	$objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
-	return $objResponse->getXML();
+    $objResponse = new customXajaxResponse();
+    $objResponse->addAlert("formData: " . print_r($formData, true));
+    $objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
+    return $objResponse->getXML();
 }
 
-// adds an option to the select 
+// adds an option to the select
 function addOption($selectId, $optionData)
 {
-	$objResponse = new customXajaxResponse();
-	$objResponse->addCreateOption($selectId, $optionData['optionId'], $optionData['optionText'], $optionData['optionValue']);
-	$objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($optionData, true)));
-	return $objResponse->getXML();
+    $objResponse = new customXajaxResponse();
+    $objResponse->addCreateOption($selectId, $optionData['optionId'], $optionData['optionText'], $optionData['optionValue']);
+    $objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($optionData, true)));
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

@@ -20,7 +20,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
-phpAds_registerGlobal ('listorder', 'orderdirection');
+phpAds_registerGlobal('listorder', 'orderdirection');
 
 
 /*-------------------------------------------------------*/
@@ -41,20 +41,20 @@ phpAds_SessionDataStore();
 /* Get preferences                                       */
 /*-------------------------------------------------------*/
 
-if (!isset($listorder))
-{
-	if (isset($session['prefs']['advertiser-trackers.php']['listorder']))
-		$listorder = $session['prefs']['advertiser-trackers.php']['listorder'];
-	else
-		$listorder = '';
+if (!isset($listorder)) {
+    if (isset($session['prefs']['advertiser-trackers.php']['listorder'])) {
+        $listorder = $session['prefs']['advertiser-trackers.php']['listorder'];
+    } else {
+        $listorder = '';
+    }
 }
 
-if (!isset($orderdirection))
-{
-	if (isset($session['prefs']['advertiser-trackers.php']['orderdirection']))
-		$orderdirection = $session['prefs']['advertiser-trackers.php']['orderdirection'];
-	else
-		$orderdirection = '';
+if (!isset($orderdirection)) {
+    if (isset($session['prefs']['advertiser-trackers.php']['orderdirection'])) {
+        $orderdirection = $session['prefs']['advertiser-trackers.php']['orderdirection'];
+    } else {
+        $orderdirection = '';
+    }
 }
 
 
@@ -63,11 +63,10 @@ if (!isset($orderdirection))
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     addAdvertiserPageToolsAndShortcuts($clientid);
-	$oHeaderModel = buildAdvertiserHeaderModel($clientid);
-	phpAds_PageHeader(null, $oHeaderModel);
+    $oHeaderModel = buildAdvertiserHeaderModel($clientid);
+    phpAds_PageHeader(null, $oHeaderModel);
 }
 
 /*-------------------------------------------------------*/
@@ -83,9 +82,9 @@ $doTrackers->clientid = $clientid;
 $doTrackers->addListOrderBy($listorder, $orderdirection);
 $doTrackers->find();
 
-$aTrackers = array();
+$aTrackers = [];
 while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray()) {
-	$aTrackers[$row_trackers['trackerid']] = $row_trackers;
+    $aTrackers[$row_trackers['trackerid']] = $row_trackers;
 }
 
 $oTpl->assign('clientId', $clientid);
@@ -118,6 +117,3 @@ phpAds_SessionDataStore();
 $oTpl->display();
 
 phpAds_PageFooter();
-
-
-?>

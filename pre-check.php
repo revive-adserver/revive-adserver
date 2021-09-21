@@ -25,7 +25,7 @@ require_once 'memory.php';
 function RV_initialSystemCheck()
 {
     $installed = OX_checkSystemInstalled();
-    $aErrors = array();
+    $aErrors = [];
     $erorCode = RV_checkSystemInitialRequirements($aErrors);
     if ($erorCode !== true) {
         $imageRelativePath = "./www/admin/precheck/";
@@ -35,7 +35,7 @@ function RV_initialSystemCheck()
             // Checking if URL include www or admin in path
             if (strpos($_SERVER['REQUEST_URI'], '/www/admin/') !== false) {
                 $imageRelativePath = "./precheck/";
-            } else if (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
+            } elseif (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
                 $imageRelativePath = "./admin/precheck/";
             }
         }
@@ -54,7 +54,7 @@ function RV_initialSystemCheck()
     <style type="text/css">
         body {
             margin: 0;
-            background: #fff '. $bodyBackground .';
+            background: #fff ' . $bodyBackground . ';
             font-family: Arial, Helvetica, sans-serif;
             font: 12px Arial;
             color: #747474;
@@ -93,7 +93,7 @@ function RV_initialSystemCheck()
 
         }
         li {
-            '.$liBackground.'
+            ' . $liBackground . '
             padding-left:10px;
         }
         .help_link:active, .help_link:link, .help_link:visited  {
@@ -105,7 +105,7 @@ function RV_initialSystemCheck()
             text-decoration:underline;
         }
         .logo_image {
-            '.$logo.'
+            ' . $logo . '
             width:  270px;
             height: 32px;
         }
@@ -183,7 +183,8 @@ function OX_checkSystemInstalled()
  *                         -4 => The amount of memory required was too low
  *
  */
-function RV_checkSystemInitialRequirements(&$aErrors){
+function RV_checkSystemInitialRequirements(&$aErrors)
+{
 
     // Variables for tracking if the test has passed or not,
     // and if not, what value to return
@@ -204,7 +205,7 @@ function RV_checkSystemInitialRequirements(&$aErrors){
     // These other functions are tested separately, as they are
     // required to test for the existence of the functions in the
     // array below!
-    $aRequiredFunctions = array(
+    $aRequiredFunctions = [
         'dirname',
         'empty',
         'file_exists',
@@ -213,7 +214,7 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         'version_compare',
         'set_include_path',
         'scandir'
-    );
+    ];
 
     // Prepare error strings, in the simplest possible way
     $errorString1 = 'The built in PHP function "';
@@ -234,7 +235,7 @@ function RV_checkSystemInitialRequirements(&$aErrors){
     if (!function_exists('parse_url')) {
         $aErrors[] = $errorString1 . 'parse_url' . $errorString2;
         $isSystemOK = false;
-        if ($return === true) {
+        if ($return) {
             $return = -2;
         }
     }
@@ -285,7 +286,7 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         $aDisabledFunctions[$key] = trim($value);
     }
     $aNeededFunctions = array_intersect($aDisabledFunctions, $aRequiredFunctions);
-    if (count($aNeededFunctions) > 0) {
+    if ($aNeededFunctions !== []) {
         $isSystemOK = false;
         if ($return === true) {
             $return = -3;
@@ -330,5 +331,3 @@ function RV_checkSystemInitialRequirements(&$aErrors){
 }
 
 RV_initialSystemCheck();
-
-?>

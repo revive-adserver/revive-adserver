@@ -184,5 +184,3 @@ $res = [
     'yi' => 'Yiddish',
     'zu' => 'Zulu',
 ];
-
-?>

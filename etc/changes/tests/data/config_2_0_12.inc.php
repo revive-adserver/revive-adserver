@@ -142,7 +142,7 @@ $phpAds_config['log_iponly'] = true;
 $phpAds_config['log_beacon'] = true;
 
 // Hosts to ignore (don't count adviews coming from them)
-$phpAds_config['ignore_hosts'] = array ();   // Example: array('slashdot.org', 'microsoft.com');
+$phpAds_config['ignore_hosts'] = [];   // Example: array('slashdot.org', 'microsoft.com');
 
 // Block logging of views for xx seconds after the last entry
 // This is to prevent logging after each page reload
@@ -267,5 +267,3 @@ define('phpAds_installed', true);
 
 // Disable magic_quotes_runtime
 set_magic_quotes_runtime(0);
-
-?>

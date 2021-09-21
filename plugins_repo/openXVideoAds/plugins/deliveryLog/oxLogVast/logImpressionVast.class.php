@@ -28,9 +28,9 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  */
 class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLog
 {
-    function getDependencies()
+    public function getDependencies()
     {
-        return array($this->getComponentIdentifier() => array());
+        return [$this->getComponentIdentifier() => []];
     }
 
     /**
@@ -38,7 +38,7 @@ class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLo
      *
      * @return string The bucket table bucket name without prefix.
      */
-    function getBucketName()
+    public function getBucketName()
     {
         return 'data_bkt_vast_e';
     }
@@ -50,13 +50,13 @@ class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLo
      */
     public function getBucketTableColumns()
     {
-        $aColumns = array(
-	        'interval_start' => self::TIMESTAMP_WITHOUT_ZONE,
-	        'creative_id'    => self::INTEGER,
-	        'zone_id'        => self::INTEGER,
-	        'vast_event_id'  => self::INTEGER,
-            'count'          => self::INTEGER
-        );
+        $aColumns = [
+            'interval_start' => self::TIMESTAMP_WITHOUT_ZONE,
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'vast_event_id' => self::INTEGER,
+            'count' => self::INTEGER
+        ];
         return $aColumns;
     }
 
@@ -85,34 +85,32 @@ class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLo
      */
     public function getStatisticsMigration()
     {
-        $aMap = array(
-            'method'           => 'aggregate',
-            'bucketTable'      => $this->getBucketTableName(),
-            'dateTimeColumn'   => 'interval_start',
-            'groupSource'      => array(
+        $aMap = [
+            'method' => 'aggregate',
+            'bucketTable' => $this->getBucketTableName(),
+            'dateTimeColumn' => 'interval_start',
+            'groupSource' => [
                 0 => 'interval_start',
                 1 => 'creative_id',
                 2 => 'zone_id',
                 3 => 'vast_event_id',
-            ),
-            'groupDestination' => array(
+            ],
+            'groupDestination' => [
                 0 => 'interval_start',
                 1 => 'creative_id',
                 2 => 'zone_id',
                 3 => 'vast_event_id',
-            ),
-            'sumSource'        => array(
+            ],
+            'sumSource' => [
                 0 => 'count'
-            ),
-            'sumDestination'   => array(
+            ],
+            'sumDestination' => [
                 0 => 'count'
-            ),
-            'sumDefault'       => array(
+            ],
+            'sumDefault' => [
                 0 => 0
-            )
-        );
+            ]
+        ];
         return $aMap;
     }
-
 }
-

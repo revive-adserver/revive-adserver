@@ -30,49 +30,49 @@ class OA_Dll_UserInfo extends OA_Info
      *
      * @var int
      */
-    var $userId;
+    public $userId;
 
     /**
      * This option provides the name of the contact for the user.
      *
      * @var string $contactName
      */
-    var $contactName;
+    public $contactName;
 
     /**
      * This field provides the email address of the user.
      *
      * @var string $emailAddress
      */
-    var $emailAddress;
+    public $emailAddress;
 
     /**
      * This option provides the username of the user.
      *
      * @var string $username
      */
-    var $username;
+    public $username;
 
     /**
      * This field provides the password of the user.
      *
      * @var string $password
      */
-    var $password;
+    public $password;
 
     /**
      * This field provides the default account ID of the user.
      *
      * @var int $defaultAccountId
      */
-    var $defaultAccountId;
+    public $defaultAccountId;
 
     /**
      * This field provides the status of the user.
      *
      * @var int $active
      */
-    var $active;
+    public $active;
 
     /**
      * This method sets all default values when adding a new user.
@@ -80,7 +80,8 @@ class OA_Dll_UserInfo extends OA_Info
      * @access public
      *
      */
-    function setDefaultForAdd() {
+    public function setDefaultForAdd()
+    {
         $this->active = 1;
     }
 
@@ -91,9 +92,9 @@ class OA_Dll_UserInfo extends OA_Info
      *
      * @return array
      */
-    function getFieldsTypes()
+    public function getFieldsTypes()
     {
-        return array(
+        return [
                     'userId' => 'integer',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
@@ -101,8 +102,6 @@ class OA_Dll_UserInfo extends OA_Info
                     'password' => 'string',
                     'defaultAccountId' => 'integer',
                     'active' => 'integer',
-                );
+                ];
     }
 }
-
-?>

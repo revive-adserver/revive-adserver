@@ -256,7 +256,7 @@ $GLOBALS['strDayOfWeek'] = "روز هفته";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'یک شنبه';
 $GLOBALS['strDayFullNames'][1] = 'دو شنبه';
@@ -267,7 +267,7 @@ $GLOBALS['strDayFullNames'][5] = 'جمعه';
 $GLOBALS['strDayFullNames'][6] = 'شنبه';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'یکشنبه';
 $GLOBALS['strDayShortCuts'][1] = 'دوشنبه';
@@ -653,19 +653,19 @@ $GLOBALS['strDeliveryCappingTotal'] = "در مجموع";
 $GLOBALS['strDeliveryCappingSession'] = "در هر جلسه";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['title'] = "تحویل سر پوش هر بازدید کننده";
 $GLOBALS['strCappingBanner']['limit'] = "تحویل سر پوش در هر بار نمایش بنر بازدید کننده محدود به:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['title'] = "تحویل سر پوش هر بازدید کننده";
 $GLOBALS['strCappingCampaign']['limit'] = "نمایش کمپین را محدود کن به :";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['title'] = "تحویل سر پوش هر بازدید کننده";
 $GLOBALS['strCappingZone']['limit'] = "نمایش منطقه را محدود کن به :";

@@ -17,13 +17,19 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed('name', 'description', 'comments',
-    'affiliateid','agencyid', 'channelid');
+phpAds_registerGlobalUnslashed(
+    'name',
+    'description',
+    'comments',
+    'affiliateid',
+    'agencyid',
+    'channelid'
+);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
@@ -37,8 +43,7 @@ $doChannel = OA_Dal::factoryDO('channel');
 if (!empty($channelid)) {
     $doChannel->get($channelid);
     $channel = $doChannel->toArray();
-}
-else {
+} else {
     //for new channels set affiliate id (if any)
     if (!empty($affiliateid)) {
         OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
@@ -47,12 +52,12 @@ else {
     }
 }
 
-if(!empty($affiliateid)) {
-	/*-------------------------------------------------------*/
-	/* Store preferences									 */
-	/*-------------------------------------------------------*/
-	$session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
-	phpAds_SessionDataStore();
+if (!empty($affiliateid)) {
+    /*-------------------------------------------------------*/
+    /* Store preferences									 */
+    /*-------------------------------------------------------*/
+    $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'] = $affiliateid;
+    phpAds_SessionDataStore();
 }
 
 /*-------------------------------------------------------*/
@@ -64,8 +69,7 @@ $channelForm = buildChannelForm($channel);
 if ($channelForm->validate()) {
     //process submitted values
     processForm($channelForm);
-}
-else { //either validation failed or form was not submitted, display the form
+} else { //either validation failed or form was not submitted, display the form
     displayPage($channel, $channelForm);
 }
 
@@ -94,11 +98,10 @@ function buildChannelForm($channel)
 
     //validation rules
     $translation = new OX_Translation();
-    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
+    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strName']]);
     $form->addRule('name', $nameRequiredMsg, 'required');
 
     return $form;
-
 }
 
 
@@ -122,25 +125,25 @@ function processForm($form)
 
         // Queue confirmation message
         $translation = new OX_Translation();
-        $channelURL = "channel-edit.php?".(empty($aFields['affiliateid']) ? "agencyid=".$aFields['agencyid']."&channelid=".$aFields['channelid']
-            :   "affiliateid=".$aFields['affiliateid']."&channelid=".$aFields['channelid']);
+        $channelURL = "channel-edit.php?" . (empty($aFields['affiliateid']) ? "agencyid=" . $aFields['agencyid'] . "&channelid=" . $aFields['channelid']
+            : "affiliateid=" . $aFields['affiliateid'] . "&channelid=" . $aFields['channelid']);
 
-        $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenUpdated'],
-            array(
+        $translated_message = $translation->translate(
+            $GLOBALS['strChannelHasBeenUpdated'],
+            [
             MAX::constructURL(MAX_URL_ADMIN, $channelURL),
             htmlspecialchars($aFields['name'])
-            ));
+            ]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
         if (!empty($aFields['affiliateid'])) {
-            header("Location: channel-edit.php?affiliateid=".$aFields['affiliateid']."&channelid=".$aFields['channelid']);
-        }
-        else {
-            header("Location: channel-edit.php?agencyid=".$aFields['agencyid']."&channelid=".$aFields['channelid']);
+            header("Location: channel-edit.php?affiliateid=" . $aFields['affiliateid'] . "&channelid=" . $aFields['channelid']);
+        } else {
+            header("Location: channel-edit.php?agencyid=" . $aFields['agencyid'] . "&channelid=" . $aFields['channelid']);
         }
         exit;
-    }
-    else {
+    } else {
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->agencyid = $aFields['agencyid'];
         $doChannel->affiliateid = $aFields['affiliateid'];
@@ -153,12 +156,12 @@ function processForm($form)
         $aFields['channelid'] = $doChannel->insert();
 
         // Queue confirmation message
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate ( $GLOBALS['strChannelHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate($GLOBALS['strChannelHasBeenAdded'], [
+            MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
             htmlspecialchars($aFields['name']),
-            MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' .  $aFields['affiliateid'] . '&channelid=' . $aFields['channelid'])
-        ));
+            MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid'])
+        ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
         if (!empty($aFields['affiliateid'])) {
@@ -179,16 +182,15 @@ function displayPage($channel, $form)
 
     // Obtain the needed data
     if (!empty($channel['affiliateid'])) {
-        $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $channel['affiliateid'], 'channelid' => $channel['channelid']);
+        $aEntities = ['agencyid' => $agencyId, 'affiliateid' => $channel['affiliateid'], 'channelid' => $channel['channelid']];
         // Editing a channel at the publisher level; Only use the
         // channels at this publisher level for the navigation bar
-        $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $channel['affiliateid']));
-    }
-    else {
-        $aEntities = array('agencyid' => $agencyId, 'channelid' => $channel['channelid']);
+        $aOtherChannels = Admin_DA::getChannels(['publisher_id' => $channel['affiliateid']]);
+    } else {
+        $aEntities = ['agencyid' => $agencyId, 'channelid' => $channel['channelid']];
         // Editing a channel at the agency level; Only use the
         // channels at this agency level for the navigation bar
-        $aOtherChannels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'));
+        $aOtherChannels = Admin_DA::getChannels(['agency_id' => $agencyId, 'channel_type' => 'agency']);
     }
     //show header and breadcrumbs
     MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities);
@@ -204,4 +206,3 @@ function displayPage($channel, $form)
     //show footer
     phpAds_PageFooter();
 }
-?>

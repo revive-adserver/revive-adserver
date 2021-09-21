@@ -35,15 +35,13 @@ OA_Permission::enforceAccessToObject('audit', $auditId);
 phpAds_PageHeader('userlog-index');
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "Preferences" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+    phpAds_ShowSections(["5.1", "5.2", "5.3", "5.5", "5.6", "5.4"]);
     phpAds_UserlogSelection("index");
-}
-else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Account Preferences", "User Log" and "Channel Management" sections of the "Preferences" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-}
-else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    phpAds_ShowSections(array("5.1", "5.2", "5.4"));
+    phpAds_ShowSections(["5.1", "5.2", "5.4", "5.7"]);
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    phpAds_ShowSections(["5.1", "5.2", "5.4"]);
 }
 
 
@@ -60,5 +58,3 @@ $oTpl->assign('aAuditDetail', $aAuditDetail);
 $oTpl->display();
 
 phpAds_PageFooter();
-
-?>

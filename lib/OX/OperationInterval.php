@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class OX_OperationInterval
 {
-
     /**
      * A class to test if an operation interval value is valid.
      *
@@ -173,10 +172,10 @@ class OX_OperationInterval
             $oStart->setTZbyID('UTC');
             $oEnd = new Date($cachedDates['end']);
             $oEnd->setTZbyID('UTC');
-            return array(
+            return [
                 'start' => $oStart,
-                'end'   => $oEnd
-                );
+                'end' => $oEnd
+                ];
         }
         if ($operationInterval < 1) {
             $operationInterval = OX_OperationInterval::getOperationInterval();
@@ -198,13 +197,13 @@ class OX_OperationInterval
         $oEnd->addSeconds(($operationInterval * 60) - 1);
         // Cache result - cache as string to save memory
         if ($cacheResult) {
-            $aCache[$oDate->getDate()][$operationInterval] = array(
+            $aCache[$oDate->getDate()][$operationInterval] = [
                 'start' => $oStart->getDate(),
-                'end'   => $oEnd->getDate(),
-            );
+                'end' => $oEnd->getDate(),
+            ];
         }
         // Return the result
-        return array('start' => $oStart, 'end' => $oEnd);
+        return ['start' => $oStart, 'end' => $oEnd];
     }
 
     /**
@@ -453,14 +452,15 @@ class OX_OperationInterval
         return true;
     }
 
-     /**
-     * A method to return the operation interval value set in global ini file.
-     *
-     * @static
-     * @return integer The value of the operation interval value from the
-     *                 global ini file.
-     */
-    public static function getOperationInterval() {
+    /**
+    * A method to return the operation interval value set in global ini file.
+    *
+    * @static
+    * @return integer The value of the operation interval value from the
+    *                 global ini file.
+    */
+    public static function getOperationInterval()
+    {
         return $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
     }
 
@@ -519,14 +519,24 @@ class OX_OperationInterval
         $oEndCopy->toUTC();
 
         // Get timestamp of start date/time - in seconds
-        $startDateSeconds = mktime($oStartCopy->getHour(), $oStartCopy->getMinute(),
-            $oStartCopy->getSecond(), $oStartCopy->getMonth(),
-            $oStartCopy->getDay(), $oStartCopy->getYear());
+        $startDateSeconds = mktime(
+            $oStartCopy->getHour(),
+            $oStartCopy->getMinute(),
+            $oStartCopy->getSecond(),
+            $oStartCopy->getMonth(),
+            $oStartCopy->getDay(),
+            $oStartCopy->getYear()
+        );
 
         // Get timestamp of end date/time - in seconds
-        $endDateSeconds = mktime($oEndCopy->getHour(), $oEndCopy->getMinute(),
-            $oEndCopy->getSecond(), $oEndCopy->getMonth(),
-            $oEndCopy->getDay(), $oEndCopy->getYear());
+        $endDateSeconds = mktime(
+            $oEndCopy->getHour(),
+            $oEndCopy->getMinute(),
+            $oEndCopy->getSecond(),
+            $oEndCopy->getMonth(),
+            $oEndCopy->getDay(),
+            $oEndCopy->getYear()
+        );
 
         // calculate interval length in seconds
         $interval = $endDateSeconds - $startDateSeconds;
@@ -534,7 +544,4 @@ class OX_OperationInterval
         // find number of operation intervals during interval
         return ($interval <= 0) ? 0 : round($interval / $operationIntervalSeconds);
     }
-
 }
-
-?>

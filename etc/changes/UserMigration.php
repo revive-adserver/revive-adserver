@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 /**
  * 2.6 new User, Roles, Accounts & Permissions system
@@ -18,38 +18,36 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
  */
 class UserMigration extends Migration
 {
+    public $languageMap = [
+        'chinese_big5' => 'zh_CN',
+        'chinese_gb2312' => 'zh_CN',
+        'czech' => 'cs',
+        'dutch' => 'nl',
+        'english' => 'en',
+        'english_affiliates' => 'en',
+        'english_us' => 'en',
+        'french' => 'fr',
+        'german' => 'de',
+        'hebrew' => 'he',
+        'hungarian' => 'hu',
+        'indonesian' => 'id',
+        'italian' => 'it',
+        'korean' => 'ko',
+        'polish' => 'pl',
+        'portuguese' => 'pt_BR',
+        'brazilian_portuguese' => 'pt_BR',
+        'russian_cp1251' => 'ru',
+        'russian_koi8r' => 'ru',
+        'spanish' => 'es',
+        'turkish' => 'tr'
+    ];
 
-    var $languageMap = array(
-        'chinese_big5'          => 'zh_CN',
-        'chinese_gb2312'        => 'zh_CN',
-        'czech'                 => 'cs',
-        'dutch'                 => 'nl',
-        'english'               => 'en',
-        'english_affiliates'    => 'en',
-        'english_us'            => 'en',
-        'french'                => 'fr',
-        'german'                => 'de',
-        'hebrew'                => 'he',
-        'hungarian'             => 'hu',
-        'indonesian'            => 'id',
-        'italian'               => 'it',
-        'korean'                => 'ko',
-        'polish'                => 'pl',
-        'portuguese'            => 'pt_BR',
-        'brazilian_portuguese'  => 'pt_BR',
-        'russian_cp1251'        => 'ru',
-        'russian_koi8r'         => 'ru',
-        'spanish'               => 'es',
-        'turkish'               => 'tr'
-    );
+    public $aLanguageByAgency = [];
 
-    var $aLanguageByAgency = array();
-
-    function __construct()
+    public function __construct()
     {
         // We will need the admin and per-agency languages to assign the correct "Default" languages to advertiser and websites
-        if (!$this->init(OA_DB::singleton()))
-        {
+        if (!$this->init(OA_DB::singleton())) {
             $this->_logError('Failed to initialise UserMigration class');
             return false;
         }
@@ -68,9 +66,8 @@ class UserMigration extends Migration
         ";
 
         $adminLang = $this->oDBH->getAssoc($query);
-        if (PEAR::isError($adminLang))
-        {
-            $this->_logError("Error while retrieving admin language: ".$adminLang->getUserInfo());
+        if (PEAR::isError($adminLang)) {
+            $this->_logError("Error while retrieving admin language: " . $adminLang->getUserInfo());
             return false;
         }
 
@@ -83,45 +80,36 @@ class UserMigration extends Migration
             FROM
                 {$table}";
         $agencyLang = $this->oDBH->getAssoc($query);
-        if (PEAR::isError($agencyLang))
-        {
-            $this->_logError("Error while retrieving agency languages: ".$agencyLang->getUserInfo());
+        if (PEAR::isError($agencyLang)) {
+            $this->_logError("Error while retrieving agency languages: " . $agencyLang->getUserInfo());
             return false;
         }
 
         // Set the admin's language for id 0, then set each agencies language as specified, using admins if unset
-        $this->aLanguageByAgency[0] = !empty($adminLang[0]) ? $adminLang[0] : 'english';
+        $this->aLanguageByAgency[0] = empty($adminLang[0]) ? 'english' : $adminLang[0];
 
         foreach ($agencyLang as $id => $language) {
-            if (!empty($language)) {
-                $this->aLanguageByAgency[$id] = $language;
-            } else {
-                $this->aLanguageByAgency[$id] = $this->aLanguageByAgency[0];
-            }
+            $this->aLanguageByAgency[$id] = empty($language) ? $this->aLanguageByAgency[0] : $language;
         }
         $this->_log('UserMigration class, construction complete');
     }
 
-	function _migrateUsers($group, $aUser)
-	{
-	    extract($aUser);
+    public function _migrateUsers($group, $aUser)
+    {
+        extract($aUser);
 
-	    $tblSource   = $this->_getQuotedTableName($sourceTable);
-	    $tblAccounts = $this->_getQuotedTableName('accounts');
-        $tblUsers    = $this->_getQuotedTableName('users');
-        $tblAppVar   = $this->_getQuotedTableName('application_variable');
-        $tblAgency   = $this->_getQuotedTableName('agency');
+        $tblSource = $this->_getQuotedTableName($sourceTable);
+        $tblAccounts = $this->_getQuotedTableName('accounts');
+        $tblUsers = $this->_getQuotedTableName('users');
+        $tblAppVar = $this->_getQuotedTableName('application_variable');
+        $tblAgency = $this->_getQuotedTableName('agency');
 
-	    if (!empty($whereAdd)) {
-	        $whereAdd = "WHERE
+        $whereAdd = empty($whereAdd) ? '' : "WHERE
 	           {$whereAdd}";
-	    } else {
-            $whereAdd = '';
-        }
 
-	    $this->_log('Starting User Migration for group: '.$group.' / '.$whereAdd.' /  username = '.$fieldMap['username']);
+        $this->_log('Starting User Migration for group: ' . $group . ' / ' . $whereAdd . ' /  username = ' . $fieldMap['username']);
 
-	    $query = "SELECT
+        $query = "SELECT
 	           {$primaryKey} AS id,
 	           agencyid AS agency_id,
 	           {$fieldMap['name']} AS name,
@@ -136,16 +124,16 @@ class UserMigration extends Migration
 	       {$whereAdd}
 	    ";
 
-	    $aSource = $this->oDBH->getAssoc($query);
+        $aSource = $this->oDBH->getAssoc($query);
 
         if (PEAR::isError($aSource)) {
-            $this->_logError("Error while retrieving existing {$group} accounts: ".$aSource->getUserInfo());
+            $this->_logError("Error while retrieving existing {$group} accounts: " . $aSource->getUserInfo());
             return false;
         }
 
-	    foreach ($aSource as $sourceId => $aData) {
+        foreach ($aSource as $sourceId => $aData) {
             if (empty($aData['name'])) {
-                $aData['name'] = ucwords(strtolower($group)).' '.$sourceId;
+                $aData['name'] = ucwords(strtolower($group)) . ' ' . $sourceId;
             }
             if (empty($aData['contact_name'])) {
                 $aData['contact_name'] = $aData['name'];
@@ -161,30 +149,26 @@ class UserMigration extends Migration
                 }
             }
             // Lookup their language in the language map, if we don't recognise it, convert it to english (sorry :()
-            if (!empty($this->languageMap[$aData['language']])) {
-                $aData['language'] = $this->languageMap[$aData['language']];
-            } else {
-                $aData['language'] = 'en';
-            }
+            $aData['language'] = empty($this->languageMap[$aData['language']]) ? 'en' : $this->languageMap[$aData['language']];
 
             $query = "
                 INSERT INTO {$tblAccounts} (
                     account_type,
                     account_name
                 ) VALUES (
-                    ".$this->oDBH->quote($group).",
-                    ".$this->oDBH->quote($aData['name'])."
+                    " . $this->oDBH->quote($group) . ",
+                    " . $this->oDBH->quote($aData['name']) . "
                 )
             ";
 
             $result = $this->oDBH->exec($query);
 
             if (PEAR::isError($result)) {
-                $this->_logError("Error while creating account for {$group} {$sourceId}: ".$result->getUserInfo());
+                $this->_logError("Error while creating account for {$group} {$sourceId}: " . $result->getUserInfo());
                 return false;
             }
 
-            $accountId = $this->oDBH->lastInsertID($this->prefix.'accounts', 'account_id');
+            $accountId = $this->oDBH->lastInsertID($this->prefix . 'accounts', 'account_id');
 
             if ($group == 'ADMIN') {
                 // Add the admin account ID to the application variables
@@ -194,13 +178,13 @@ class UserMigration extends Migration
                         value
                     ) VALUES (
                         'admin_account_id',
-                        ".$this->oDBH->quote($accountId)."
+                        " . $this->oDBH->quote($accountId) . "
                     )";
 
                 $result = $this->oDBH->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->_logError('Error saving the admin account ID as application variable: '.$result->getUserInfo());
+                    $this->_logError('Error saving the admin account ID as application variable: ' . $result->getUserInfo());
                     return false;
                 }
                 // Create a new manager account
@@ -209,19 +193,19 @@ class UserMigration extends Migration
                         account_type,
                         account_name
                     ) VALUES (
-                        ".$this->oDBH->quote('MANAGER').",
-                        ".$this->oDBH->quote('Default manager')."
+                        " . $this->oDBH->quote('MANAGER') . ",
+                        " . $this->oDBH->quote('Default manager') . "
                     )
                 ";
 
                 $result = $this->oDBH->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->_logError("Error while creating manager account for {$group} {$sourceId}: ".$result->getUserInfo());
+                    $this->_logError("Error while creating manager account for {$group} {$sourceId}: " . $result->getUserInfo());
                     return false;
                 }
 
-                $managerAccountId = $this->oDBH->lastInsertID($this->prefix.'accounts', 'account_id');
+                $managerAccountId = $this->oDBH->lastInsertID($this->prefix . 'accounts', 'account_id');
 
                 $query = "
                     INSERT INTO {$tblAgency} (
@@ -230,9 +214,9 @@ class UserMigration extends Migration
                         account_id,
                         active
                     ) VALUES (
-                        ".$this->oDBH->quote('Default manager').",
-                        ".$this->oDBH->quote($aData['email_address']).",
-                        ".$this->oDBH->quote($managerAccountId, 'integer').",
+                        " . $this->oDBH->quote('Default manager') . ",
+                        " . $this->oDBH->quote($aData['email_address']) . ",
+                        " . $this->oDBH->quote($managerAccountId, 'integer') . ",
                         1
                     )
                 ";
@@ -240,20 +224,19 @@ class UserMigration extends Migration
                 $result = $this->oDBH->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->_logError("Error while creating default agency for {$group} {$sourceId}: ".$result->getUserInfo());
+                    $this->_logError("Error while creating default agency for {$group} {$sourceId}: " . $result->getUserInfo());
                     return false;
                 }
 
-                $agencyId = $this->oDBH->lastInsertID($this->prefix.'agency', 'agencyid');
+                $agencyId = $this->oDBH->lastInsertID($this->prefix . 'agency', 'agencyid');
 
-                foreach (array('clients', 'affiliates', 'channel') as $entity)
-                {
+                foreach (['clients', 'affiliates', 'channel'] as $entity) {
                     $tblEntity = $this->_getQuotedTableName($entity);
                     $query = "
                         UPDATE
                             {$tblEntity}
                         SET
-                            agencyid = ".$this->oDBH->quote($agencyId, 'integer')."
+                            agencyid = " . $this->oDBH->quote($agencyId, 'integer') . "
                         WHERE
                             agencyid = 0
                     ";
@@ -261,7 +244,7 @@ class UserMigration extends Migration
                     $result = $this->oDBH->exec($query);
 
                     if (PEAR::isError($result)) {
-                        $this->_logError("Error while migrating {$entity} table for {$group} {$sourceId}: ".$result->getUserInfo());
+                        $this->_logError("Error while migrating {$entity} table for {$group} {$sourceId}: " . $result->getUserInfo());
                         return false;
                     }
                 }
@@ -271,15 +254,15 @@ class UserMigration extends Migration
                     UPDATE
                         {$tblSource}
                     SET
-                        account_id = ".$this->oDBH->quote($accountId, 'integer')."
+                        account_id = " . $this->oDBH->quote($accountId, 'integer') . "
                     WHERE
-                        {$primaryKey} = ".$this->oDBH->quote($sourceId, 'integer')."
+                        {$primaryKey} = " . $this->oDBH->quote($sourceId, 'integer') . "
                 ";
 
                 $result = $this->oDBH->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->_logError("Error while updating entity {$group} {$sourceId} with account details: ".$result->getUserInfo());
+                    $this->_logError("Error while updating entity {$group} {$sourceId} with account details: " . $result->getUserInfo());
                     return false;
                 }
             }
@@ -296,23 +279,23 @@ class UserMigration extends Migration
                         language,
                         default_account_id
                     ) VALUES (
-                        ".$this->oDBH->quote($aData['contact_name']).",
-                        ".$this->oDBH->quote($aData['email_address']).",
-                        ".$this->oDBH->quote(strtolower($aData['username'])).",
-                        ".$this->oDBH->quote($aData['password']).",
-                        ".$this->oDBH->quote($aData['language']).",
-                        ".$this->oDBH->quote($defaultAccountId, 'integer')."
+                        " . $this->oDBH->quote($aData['contact_name']) . ",
+                        " . $this->oDBH->quote($aData['email_address']) . ",
+                        " . $this->oDBH->quote(strtolower($aData['username'])) . ",
+                        " . $this->oDBH->quote($aData['password']) . ",
+                        " . $this->oDBH->quote($aData['language']) . ",
+                        " . $this->oDBH->quote($defaultAccountId, 'integer') . "
                     )
                 ";
 
                 $result = $this->oDBH->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->_logError("Error while creating user for {$group} {$sourceId}: ".$result->getUserInfo());
+                    $this->_logError("Error while creating user for {$group} {$sourceId}: " . $result->getUserInfo());
                     return false;
                 }
 
-                $userId = $this->oDBH->lastInsertID($this->prefix.'users', 'user_id');
+                $userId = $this->oDBH->lastInsertID($this->prefix . 'users', 'user_id');
                 $result = $this->_insertAccountAccess($accountId, $userId);
                 if (!$result) {
                     $this->_logError("error while giving access to user id: $userId to account: $accountId");
@@ -328,7 +311,7 @@ class UserMigration extends Migration
 
                 if ($group != 'ADMIN') {
                     // Grant access to the user
-                    $aPermissions = array();
+                    $aPermissions = [];
 
                     if (!empty($permissionMap)) {
                         foreach ($permissionMap as $k => $v) {
@@ -344,55 +327,50 @@ class UserMigration extends Migration
                     }
                 }
             }
-	    }
-	    $this->_log('Completed User Migration for group: '.$group.' / '.$whereAdd.' /  username = '.$fieldMap['username']);
+        }
+        $this->_log('Completed User Migration for group: ' . $group . ' / ' . $whereAdd . ' /  username = ' . $fieldMap['username']);
         return true;
-	}
+    }
 
-	function _insertAccountAccess($accountId, $userId)
-	{
-        $table     =  $this->_getQuotedTableName('account_user_assoc');
-	    $accountId = $this->oDBH->quote($accountId);
-	    $userId    = $this->oDBH->quote($userId);
+    public function _insertAccountAccess($accountId, $userId)
+    {
+        $table = $this->_getQuotedTableName('account_user_assoc');
+        $accountId = $this->oDBH->quote($accountId);
+        $userId = $this->oDBH->quote($userId);
 
-	    $query = "INSERT INTO
+        $query = "INSERT INTO
 	               {$table}
 	               (account_id, user_id)
 	               VALUES
 	               ({$accountId},{$userId})";
 
-  	    $result = $this->oDBH->exec($query);
-	    if (PEAR::isError($result))
-	    {
-	        $this->_logError('_insertAccountAccess'.$result->getUserInfo());
-	        return false;
-	    }
-	    return true;
+        $result = $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            $this->_logError('_insertAccountAccess' . $result->getUserInfo());
+            return false;
+        }
+        return true;
     }
 
-	function _insertAccountPermissions($accountId, $userId, $aPermissions)
-	{
-	    $table     = $this->_getQuotedTableName('account_user_permission_assoc');
-	    $accountId = $this->oDBH->quote($accountId);
-	    $userId    = $this->oDBH->quote($userId);
+    public function _insertAccountPermissions($accountId, $userId, $aPermissions)
+    {
+        $table = $this->_getQuotedTableName('account_user_permission_assoc');
+        $accountId = $this->oDBH->quote($accountId);
+        $userId = $this->oDBH->quote($userId);
 
-	    foreach ($aPermissions as $permissionId)
-	    {
-    	    $query = "INSERT INTO
+        foreach ($aPermissions as $permissionId) {
+            $query = "INSERT INTO
     	               {$table}
     	               (account_id, user_id, permission_id, is_allowed)
     	               VALUES
     	               ({$accountId},{$userId}, {$permissionId}, 1)";
 
-      	    $result = $this->oDBH->exec($query);
-    	    if (PEAR::isError($result))
-    	    {
-    	        $this->_logError('_insertAccountPermissions'.$result->getUserInfo());
-    	        return false;
-    	    }
-	    }
-	    return true;
+            $result = $this->oDBH->exec($query);
+            if (PEAR::isError($result)) {
+                $this->_logError('_insertAccountPermissions' . $result->getUserInfo());
+                return false;
+            }
+        }
+        return true;
     }
 }
-
-?>

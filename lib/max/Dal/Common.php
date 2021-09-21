@@ -29,10 +29,10 @@ class MAX_Dal_Common
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
-    var $queryBuilder;
-    var $conf;
-    var $prefix;
+    public $oDbh;
+    public $queryBuilder;
+    public $conf;
+    public $prefix;
 
     /**
      * Usually most of models will be created to handle persistent operation per
@@ -40,12 +40,12 @@ class MAX_Dal_Common
      *
      * @var string
      */
-    var $table;
+    public $table;
 
     /**
      * @var OA_DB_AdvisoryLock
      */
-    var $oLock;
+    public $oLock;
 
     /**
      * This array is used by getSqlListOrder(), getOrderColumn to decide how to sort
@@ -61,15 +61,15 @@ class MAX_Dal_Common
      * @see MAX_Dal_Common::getSqlListOrder()
      * @var array
      */
-    var $orderListName = array();
+    public $orderListName = [];
 
     // Default column to order by.
-    var $defaultOrderListName = 'name';
+    public $defaultOrderListName = 'name';
 
     /**
      * The class constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $this->getTablePrefix();
@@ -98,7 +98,7 @@ class MAX_Dal_Common
             }
         }
 
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -109,7 +109,7 @@ class MAX_Dal_Common
      */
     private static function autoLoadClass($modelName)
     {
-        $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
+        $path = MAX_PATH . '/lib/max/Dal/Admin/' . $modelName . '.php';
         if (!file_exists($path)) {
             PEAR::raiseError("autoload:File doesn't exist {$path}");
             return false;
@@ -126,7 +126,7 @@ class MAX_Dal_Common
 
     public static function getClassName($table)
     {
-        return 'MAX_Dal_Admin_'.ucfirst($table);
+        return 'MAX_Dal_Admin_' . ucfirst($table);
     }
 
     public static function getTablePrefix()
@@ -140,7 +140,7 @@ class MAX_Dal_Common
      * @access private
      * @return mixed An instance of the OA_DB class.
      */
-    function &_getDbConnection()
+    public function &_getDbConnection()
     {
         return OA_DB::singleton();
     }
@@ -151,7 +151,7 @@ class MAX_Dal_Common
      * @access private
      * @param mixed $dsn DSN string, DSN array or DB object
      */
-    function _getQueryTool($dsn)
+    public function _getQueryTool($dsn)
     {
         return new DB_QueryTool($dsn);
     }
@@ -183,10 +183,10 @@ class MAX_Dal_Common
      *               string to make complex logic if needed.
      * @return array An array of arrays representing the result(s) of the query.
      */
-    function &_get($aParams)
+    public function &_get($aParams)
     {
         if (is_null($aParams['table'])) {
-            return array();
+            return [];
         }
         // Reset the query builder
         $this->queryBuilder->reset();
@@ -257,7 +257,7 @@ class MAX_Dal_Common
     }
 
     // Get any generic list order...
-    function getSqlListOrder($listOrder, $orderDirection)
+    public function getSqlListOrder($listOrder, $orderDirection)
     {
         $direction = $this->getOrderDirection($this->oDbh->quote($orderDirection, 'text'));
         $nameColumn = $this->getOrderColumn($this->oDbh->quote($listOrder, 'text'));
@@ -275,7 +275,7 @@ class MAX_Dal_Common
      * @param string $orderDirection the sorting direction ('up' or 'down').
      * @return string the SQL ORDER BY direction keyword
      */
-    function getOrderDirection($orderDirection)
+    public function getOrderDirection($orderDirection)
     {
         return ($orderDirection == 'down') ? ' DESC' : ' ASC';
     }
@@ -286,21 +286,18 @@ class MAX_Dal_Common
      * @param string $listOrder the "type" of column to order by, eg 'name', 'id'.
      * @return string  the name(s) of the column(s) to order by
      */
-    function getOrderColumn($listOrder)
+    public function getOrderColumn($listOrder)
     {
         return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : $this->orderListName[$this->defaultOrderListName];
     }
 
-    function _getTablename($tableName)
+    public function _getTablename($tableName)
     {
         return $this->oDbh->quoteIdentifier($this->_getTablenameUnquoted($tableName), true);
     }
 
-    function _getTablenameUnquoted($tableName)
+    public function _getTablenameUnquoted($tableName)
     {
-        return $this->prefix.($this->conf['table'][$tableName] ?? $tableName);
+        return $this->prefix . ($this->conf['table'][$tableName] ?? $tableName);
     }
-
 }
-
-?>

@@ -29,7 +29,6 @@ require_once MAX_PATH . '/lib/wact/db/db.inc.php';
  */
 class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Extension_DeliveryLog_BucketProcessingStrategy
 {
-
     /**
      * Process a raw-type bucket.
      *
@@ -59,7 +58,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
         $rsData = $this->getBucketTableContent($sTableName, $aDates['end']);
         $count = $rsData->getRowCount();
 
-        OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
+        OA::debug('  - ' . $rsData->getRowCount() . ' records found', PEAR_LOG_DEBUG);
 
 
         if ($count) {
@@ -68,52 +67,52 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
             $i = 0;
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
-                $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
+                $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
 
                 if (!$i) {
-                    $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
-                    $query      = '';
-                    $aExecQueries = array();
+                    $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";
+                    $query = '';
+                    $aExecQueries = [];
                 }
 
                 if (!$query) {
-                    $query = $sInsert.$sRow;
+                    $query = $sInsert . $sRow;
                 // Leave 4 bytes headroom for max_allowed_packet
                 } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
-                    $query .= ','.$sRow;
+                    $query .= ',' . $sRow;
                 } else {
                     $aExecQueries[] = $query;
-                    $query = $sInsert.$sRow;
+                    $query = $sInsert . $sRow;
                 }
 
                 if (++$i >= $count || strlen($query) >= $packetSize) {
                     $aExecQueries[] = $query;
-                    $query     = '';
+                    $query = '';
                 }
 
                 if (count($aExecQueries)) {
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);
-                            if (PEAR::isError($result)) {
-                                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                            }
+                        if (PEAR::isError($result)) {
+                            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        }
                     }
 
-                    $aExecQueries = array();
+                    $aExecQueries = [];
                 }
             }
         }
     }
 
-     /**
-     * A method to prune a bucket of all records up to and
-     * including the time given.
-     *
-     * @param Date $oEnd   Prune until this interval_start (inclusive).
-     * @param Date $oStart Only prune before this interval_start date (inclusive)
-     *                     as well. Optional.
-     * @return mixed Either the number of rows pruned, or an MDB2_Error objet.
-     */
+    /**
+    * A method to prune a bucket of all records up to and
+    * including the time given.
+    *
+    * @param Date $oEnd   Prune until this interval_start (inclusive).
+    * @param Date $oStart Only prune before this interval_start date (inclusive)
+    *                     as well. Optional.
+    * @return mixed Either the number of rows pruned, or an MDB2_Error objet.
+    */
     public function pruneBucket($oBucket, $oEnd, $oStart = null)
     {
         $sTableName = $oBucket->getBucketTableName();
@@ -174,5 +173,3 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
         return $rsDataRaw;
     }
 }
-
-?>

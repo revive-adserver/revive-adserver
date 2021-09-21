@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
+require_once(LIB_PATH . '/Extension/ExtensionDelivery.php');
 
 /**
  * @package    OpenXExtension
@@ -18,12 +18,7 @@ require_once(LIB_PATH.'/Extension/ExtensionDelivery.php');
  */
 class OX_Extension_deliveryTrackerRender extends OX_Extension_Delivery
 {
-
-    function __construct()
+    public function __construct()
     {
-
     }
-
 }
-
-?>

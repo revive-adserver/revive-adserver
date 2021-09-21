@@ -24,23 +24,21 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Continent extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        $aConf = & $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['pluginGroupComponents']['Geo'] = 1;
         $aConf['pluginPaths']['plugins'] = '/plugins_repo/openXDeliveryLimitations/plugins/';
         unset($GLOBALS['_MAX']['_GEOCACHE']['continent']);
     }
 
-    function tearDown()
+    public function tearDown()
     {
         TestEnv::restoreConfig();
     }
 
-    function test_checkGeoContinent()
+    public function test_checkGeoContinent()
     {
-        $this->assertTrue(MAX_checkGeo_Continent('af', '=~', array('continent' => 'af')));
+        $this->assertTrue(MAX_checkGeo_Continent('af', '=~', ['continent' => 'af']));
     }
 }
-
-?>

@@ -12,13 +12,13 @@
 
 class OA_Admin_UI_NotificationManager
 {
-    private $TYPES = array('info' => 1, 'confirm' => 2,'warning' => 3, 'error' => 4);
+    private $TYPES = ['info' => 1, 'confirm' => 2, 'warning' => 3, 'error' => 4];
     
-    function __construct()
+    public function __construct()
     {
         global $session;
         if (!isset($session['notificationQueue'])) {
-            $session['notificationQueue'] = array();
+            $session['notificationQueue'] = [];
         }
     }
     
@@ -26,16 +26,16 @@ class OA_Admin_UI_NotificationManager
      * Returns all notifications queued in this seesion.
      *
      */
-    function getNotifications()
+    public function getNotifications()
     {
         global $session;
         
-        return $session['notificationQueue'];        
+        return $session['notificationQueue'];
     }
     
     
     /**
-     * Schedules a notification to be shown on next showHeader call. 
+     * Schedules a notification to be shown on next showHeader call.
      * Notification is shown on left side, under menu items.
      * At the moment, notifications are persistent, so scheduler must take care of removing the notification
      * when it is no longer required.
@@ -45,19 +45,18 @@ class OA_Admin_UI_NotificationManager
      *
      * @param string $text either Message text
      * @param string $type info, confirm, warning, error
-     *  
+     *
      * @param string $relatedAction this is an optional parameter which can be used to asses the message with action it is related to
-     * 
+     *
      * @return id of the queued notification
      */
-    function queueNotification($text, $type = 'info', $relatedAction = null) 
+    public function queueNotification($text, $type = 'info', $relatedAction = null)
     {
         global $session;
 
         if (!isset($session['notificationId'])) {
             $session['notificationId'] = time();
-        } 
-        else {
+        } else {
             $session['notificationId']++;
         }
         
@@ -65,12 +64,12 @@ class OA_Admin_UI_NotificationManager
             $type = 'info';
         }
 
-        $session['notificationQueue'][] = array(
+        $session['notificationQueue'][] = [
             'id' => $session['notificationId'],
             'text' => $text,
             'type' => $type,
             'relatedAction' => $relatedAction,
-        );
+        ];
 
         // Force session storage
         phpAds_SessionDataStore();
@@ -87,17 +86,17 @@ class OA_Admin_UI_NotificationManager
      * @param string $relatedAction name of the action which notifications should be removed
      * @return number of notifications removed from queue
      */
-    function removeNotifications($relatedAction)
+    public function removeNotifications($relatedAction)
     {
         global $session;
 
         if (empty($relatedAction) || !isset($session['notificationQueue'])
-            || !is_array($session['notificationQueue']) || !count($session['notificationQueue'])) {
+            || !is_array($session['notificationQueue']) || $session['notificationQueue'] === []) {
             return 0;
         }
 
         $aNotifications = $session['notificationQueue'];
-        $aFilteredNotifications = array();
+        $aFilteredNotifications = [];
 
         //filter notifications out, if any
         foreach ($aNotifications as $notification) {
@@ -118,13 +117,11 @@ class OA_Admin_UI_NotificationManager
     }
     
     
-    function clearNotifications()
+    public function clearNotifications()
     {
         global $session;
         
-        $session['notificationQueue'] = array();
+        $session['notificationQueue'] = [];
         phpAds_SessionDataStore();
     }
 }
-
-?>

@@ -20,17 +20,16 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
  */
 class Test_OA_Maintenance_Priority_AdServer_Task extends UnitTestCase
 {
-
-   /**
-    * The constructor method.
-    */
-    function __construct()
+    /**
+     * The constructor method.
+     */
+    public function __construct()
     {
         parent::__construct();
         Mock::generate('OA_Dal_Maintenance_Priority');
     }
 
-    function testRunnerHasResources()
+    public function testRunnerHasResources()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
@@ -42,5 +41,3 @@ class Test_OA_Maintenance_Priority_AdServer_Task extends UnitTestCase
         $this->assertTrue(is_a($task->oDal, 'MockOA_Dal_Maintenance_Priority'));
     }
 }
-
-?>

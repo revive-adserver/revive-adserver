@@ -34,5 +34,5 @@ $GLOBALS['strCollectedAllEvents'] = "所有";
 $GLOBALS['strClear'] = "重置";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }

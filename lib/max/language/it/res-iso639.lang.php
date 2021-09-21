@@ -69,7 +69,5 @@ $phpAds_ISO639['es-mx'] = '- Spagnolo/Messico';
 $phpAds_ISO639['es-es'] = '- Spagnolo/Spagna';
 $phpAds_ISO639['sv'] = 'Svedese';
 $phpAds_ISO639['tr'] = 'Turco';
-$phpAds_ISO639['uk'] = 'Ucraino'; 
+$phpAds_ISO639['uk'] = 'Ucraino';
 $phpAds_ISO639['bs'] = 'Bosniaco';
-
-?>

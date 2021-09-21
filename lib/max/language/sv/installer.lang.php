@@ -77,4 +77,3 @@ $GLOBALS['strPreviousInstallTitle'] = "Tidigare installation";
 
 $GLOBALS['strUnableCreateConfFile'] = "Vi lyckades inte skapa din konfigurationsfil. Vänligen kontrollera rättigheterna till {$PRODUCT_NAME} var mappen.";
 $GLOBALS['strUnableUpdateConfFile'] = "Vi lyckades inte uppdatera din konfigurationsfil. Vänligen kontrollera rättigheterna till {$PRODUCT_NAME} var mappen samt kontrollera rättigheterna i tidigare installations konfigurationsfil som kan ha kopierats till den här mappen.";
-

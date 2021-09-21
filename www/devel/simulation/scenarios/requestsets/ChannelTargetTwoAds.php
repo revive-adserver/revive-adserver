@@ -24,35 +24,32 @@ $oRequest->referer = '';
 
 $aIterations[1]['request_objects'][1] = $oRequest;
 $aIterations[1]['shuffle_requests'] = false;
-$aIterations[1]['max_requests'] =100;
+$aIterations[1]['max_requests'] = 100;
 
-for($i=2;$i<13;$i++)
-{
+for ($i = 2;$i < 13;$i++) {
     $aIterations[$i] = $aIterations[1];
 }
 
 $iterations = count($aIterations);
 
-$precis =   '<h1>Scenario Simulation: ChannelTargetTwoAds_nohistory</h1>'
-            .'-- v0.3.30-alpha<br />'
-            .'-- zones=1<br />'
-            .'-- banners=2<br />'
-            .'-- required impressions=23000<br />'
-            .'-- priority lvl=high(10)<br />'
-            .'-- distribution=100(per day)<br />'
-            .'-- priority starts at 0<br />'
-            .'-- no impression history<br />'
-            .'-- iterations: '.$iterations.'<br />'
-            .print_r($oRequest, true);
+$precis = '<h1>Scenario Simulation: ChannelTargetTwoAds_nohistory</h1>'
+            . '-- v0.3.30-alpha<br />'
+            . '-- zones=1<br />'
+            . '-- banners=2<br />'
+            . '-- required impressions=23000<br />'
+            . '-- priority lvl=high(10)<br />'
+            . '-- distribution=100(per day)<br />'
+            . '-- priority starts at 0<br />'
+            . '-- no impression history<br />'
+            . '-- iterations: ' . $iterations . '<br />'
+            . print_r($oRequest, true);
 
-$GLOBALS['_MAX']['CONF']['sim']['precis']       = $precis;
-$GLOBALS['_MAX']['CONF']['sim']['iterations']   = $iterations;
-$GLOBALS['_MAX']['CONF']['sim']['oRequest']     = $oRequest;
-$GLOBALS['_MAX']['CONF']['sim']['aIterations']  = $aIterations;
+$GLOBALS['_MAX']['CONF']['sim']['precis'] = $precis;
+$GLOBALS['_MAX']['CONF']['sim']['iterations'] = $iterations;
+$GLOBALS['_MAX']['CONF']['sim']['oRequest'] = $oRequest;
+$GLOBALS['_MAX']['CONF']['sim']['aIterations'] = $aIterations;
 
 // despite the request param loc being set
 // the page url channeled ad is not selected
 // unless the global loc is set
 $GLOBALS['loc'] = 'www.example.com';
-
-?>

@@ -24,10 +24,9 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestCase
 {
-    function testMAX_checkClient_Browser()
+    public function testMAX_checkClient_Browser()
     {
-        $this->assertFalse(MAX_checkClient_Browser('LX,LI', '=~', ['browser'=>'FF']));
-        $this->assertTrue(MAX_checkClient_Browser('LX,FF', '=~', ['browser'=>'FF']));
+        $this->assertFalse(MAX_checkClient_Browser('LX,LI', '=~', ['browser' => 'FF']));
+        $this->assertTrue(MAX_checkClient_Browser('LX,FF', '=~', ['browser' => 'FF']));
     }
 }
-?>

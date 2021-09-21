@@ -10,14 +10,13 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
 
 
 /**
  * Wrapper rule for OA_Admin_UI_Rule_Equal "equal" rule.
  */
-class OA_Admin_UI_Rule_JQueryEqualRule
-    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
+class OA_Admin_UI_Rule_JQueryEqualRule extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
 {
     /**
      * Returns Jquery validation plugin "equalTo" rule
@@ -27,8 +26,6 @@ class OA_Admin_UI_Rule_JQueryEqualRule
      */
     public function getJQueryValidationRule($rule)
     {
-        return "\"equalTo\": '#". $rule['format'][0] ."'";
+        return "\"equalTo\": '#" . $rule['format'][0] . "'";
     }
 }
-
-?>

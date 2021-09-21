@@ -19,15 +19,14 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  */
 class Plugins_DeliveryLog_OxLogCountry_LogClickCountry extends Plugins_DeliveryLog
 {
-
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'deliveryLog:oxLogCountry:logClickCountry' => array(
+        return [
+            'deliveryLog:oxLogCountry:logClickCountry' => [
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
                 'deliveryDataPrepare:oxDeliveryGeo:dataGeo'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -35,7 +34,7 @@ class Plugins_DeliveryLog_OxLogCountry_LogClickCountry extends Plugins_DeliveryL
      *
      * @return string The bucket table bucket name without prefix.
      */
-    function getBucketName()
+    public function getBucketName()
     {
         return 'data_bkt_country_c';
     }
@@ -47,13 +46,13 @@ class Plugins_DeliveryLog_OxLogCountry_LogClickCountry extends Plugins_DeliveryL
      */
     public function getBucketTableColumns()
     {
-        $aColumns = array(
+        $aColumns = [
             'interval_start' => self::TIMESTAMP_WITHOUT_ZONE,
-            'creative_id'    => self::INTEGER,
-            'zone_id'        => self::INTEGER,
-            'country'        => self::CHAR,
-            'count'          => self::INTEGER,
-        );
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'country' => self::CHAR,
+            'count' => self::INTEGER,
+        ];
         return $aColumns;
     }
 
@@ -82,35 +81,32 @@ class Plugins_DeliveryLog_OxLogCountry_LogClickCountry extends Plugins_DeliveryL
      */
     public function getStatisticsMigration()
     {
-        $aMap = array(
-            'method'           => 'aggregate',
-            'bucketTable'            => $this->getBucketTableName(),
-            'dateTimeColumn'   => 'interval_start',
-            'groupSource'      => array(
+        $aMap = [
+            'method' => 'aggregate',
+            'bucketTable' => $this->getBucketTableName(),
+            'dateTimeColumn' => 'interval_start',
+            'groupSource' => [
                 0 => 'interval_start',
                 1 => 'creative_id',
                 2 => 'zone_id',
                 3 => 'country'
-            ),
-            'groupDestination' => array(
+            ],
+            'groupDestination' => [
                 0 => 'date_time',
                 1 => 'creative_id',
                 2 => 'zone_id',
                 3 => 'country'
-            ),
-            'sumSource'        => array(
+            ],
+            'sumSource' => [
                 0 => 'count'
-            ),
-            'sumDestination'   => array(
+            ],
+            'sumDestination' => [
                 0 => 'clicks'
-            ),
-            'sumDefault'       => array(
+            ],
+            'sumDefault' => [
                 0 => 0
-            )
-        );
+            ]
+        ];
         return $aMap;
     }
-
 }
-
-?>

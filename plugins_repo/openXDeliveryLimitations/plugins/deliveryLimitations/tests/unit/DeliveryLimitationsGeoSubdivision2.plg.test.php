@@ -24,25 +24,25 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Subdivision2 extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['pluginGroupComponents']['Geo'] = 1;
         $aConf['pluginPaths']['plugins'] = '/plugins_repo/openXDeliveryLimitations/plugins/';
     }
 
-    function tearDown()
+    public function tearDown()
     {
         TestEnv::restoreConfig();
     }
 
-    function testInit()
+    public function testInit()
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'Subdivision2');
         $oPlugin->init(['data' => 'FR|C1,97,98,99,A1,A2,A3,A4,A5,A6,A7,A8,A9,B1,B2,B3,B4,B5,B6,B7,B8,B9', 'comparison' => '==']);
     }
 
-    function testCompile()
+    public function testCompile()
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'Subdivision2');
         $rawData = 'IT|FE,BO';
@@ -53,14 +53,22 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Subdivision2 extends UnitTes
         $this->assertEqual('MAX_checkGeo_Subdivision2(\'IT|FE,BO\', \'=~\')', $oPlugin->compile());
     }
 
-    function testMAX_checkGeo_Subdivision2()
+    public function testMAX_checkGeo_Subdivision2()
     {
-        $this->assertTrue(MAX_checkGeo_Subdivision2('IT|BO,MO,RA',
-            '=~', ['country' => 'IT', 'subdivision_2' => 'MO']));
-        $this->assertFalse(MAX_checkGeo_Subdivision2('IT|BO,RA',
-            '=~', ['country' => 'IT', 'subdivision_2' => 'MO']));
+        $this->assertTrue(MAX_checkGeo_Subdivision2(
+            'IT|BO,MO,RA',
+            '=~',
+            ['country' => 'IT', 'subdivision_2' => 'MO']
+        ));
         $this->assertFalse(MAX_checkGeo_Subdivision2(
-            'IT|FE,BO', '=~', ['subdivision_2' => 'RA']));
+            'IT|BO,RA',
+            '=~',
+            ['country' => 'IT', 'subdivision_2' => 'MO']
+        ));
+        $this->assertFalse(MAX_checkGeo_Subdivision2(
+            'IT|FE,BO',
+            '=~',
+            ['subdivision_2' => 'RA']
+        ));
     }
-
 }

@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 class OA_Dll_Agency extends OA_Dll
 {
-    const ALLOWED_STATUSES = [
+    public const ALLOWED_STATUSES = [
         OA_ENTITY_STATUS_RUNNING,
         OA_ENTITY_STATUS_PAUSED,
         OA_ENTITY_STATUS_INACTIVE,
@@ -46,14 +46,14 @@ class OA_Dll_Agency extends OA_Dll
      *
      * @return boolean
      */
-    function _setAgencyDataFromArray(&$oAgency, $agencyData)
+    public function _setAgencyDataFromArray(&$oAgency, $agencyData)
     {
-        $agencyData['agencyId']     = $agencyData['agencyid'];
-        $agencyData['agencyName']   = $agencyData['name'];
-        $agencyData['contactName']  = $agencyData['contact'];
+        $agencyData['agencyId'] = $agencyData['agencyid'];
+        $agencyData['agencyName'] = $agencyData['name'];
+        $agencyData['contactName'] = $agencyData['contact'];
         $agencyData['emailAddress'] = $agencyData['email'];
-        $agencyData['accountId']    = $agencyData['account_id'];
-        $agencyData['status']       = $agencyData['status'];
+        $agencyData['accountId'] = $agencyData['account_id'];
+        $agencyData['status'] = $agencyData['status'];
 
         // Do not return the password from the Dll.
         unset($agencyData['password']);
@@ -74,7 +74,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  Returns false if fields are not valid and true if valid.
      *
      */
-    function _validate(&$oAgency)
+    public function _validate(&$oAgency)
     {
         if (isset($oAgency->agencyId)) {
             // When modifying an agency, check correct field types are used and the agency exists.
@@ -92,7 +92,6 @@ class OA_Dll_Agency extends OA_Dll
             if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
                 return false;
             }
-
         }
 
         if ((isset($oAgency->emailAddress) &&
@@ -100,14 +99,12 @@ class OA_Dll_Agency extends OA_Dll
             !$this->checkStructureNotRequiredStringField($oAgency, 'emailAddress', 64) ||
             !$this->checkStructureNotRequiredIntegerField($oAgency, 'agencyId') ||
             !$this->checkStructureNotRequiredStringField($oAgency, 'contactName', 255)) {
-
             return false;
         }
 
         if ((isset($oAgency->UserEmail) &&
             !$this->checkEmail($oAgency->UserEmail)) ||
             !$this->checkStructureNotRequiredStringField($oAgency, 'userEmail', 64)) {
-
             return false;
         }
 
@@ -129,14 +126,14 @@ class OA_Dll_Agency extends OA_Dll
         return true;
     }
 
-    function _validateLanguage($language)
+    public function _validateLanguage($language)
     {
         $aLanguages = RV_Admin_Languages::getAvailableLanguages();
 
         return isset($aLanguages[$language]);
     }
 
-    function _validateStatus($status): bool
+    public function _validateStatus($status): bool
     {
         return in_array($status, self::ALLOWED_STATUSES, true);
     }
@@ -153,11 +150,10 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean
      *
      */
-    function _validateForStatistics($agencyId, $oStartDate, $oEndDate)
+    public function _validateForStatistics($agencyId, $oStartDate, $oEndDate)
     {
         if (!$this->checkIdExistence('agency', $agencyId) ||
             !$this->checkDateOrder($oStartDate, $oEndDate)) {
-
             return false;
         } else {
             return true;
@@ -186,20 +182,20 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful
      *
      */
-    function modify(&$oAgency)
+    public function modify(&$oAgency)
     {
         if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
             return false;
         }
 
-        $agencyData =  (array) $oAgency;
+        $agencyData = (array) $oAgency;
 
         // Name
-        $agencyData['name']    = $oAgency->agencyName;
+        $agencyData['name'] = $oAgency->agencyName;
         // Default fields
         $agencyData['contact'] = $oAgency->contactName;
-        $agencyData['email']   = $oAgency->emailAddress;
-        $agencyData['status']  = $oAgency->status ?? OA_ENTITY_STATUS_RUNNING;
+        $agencyData['email'] = $oAgency->emailAddress;
+        $agencyData['status'] = $oAgency->status ?? OA_ENTITY_STATUS_RUNNING;
 
         if ($this->_validate($oAgency)) {
             $doAgency = OA_Dal::factoryDO('agency');
@@ -222,16 +218,27 @@ class OA_Dll_Agency extends OA_Dll
                     // Use the authentication plugin to create the user
                     $oPlugin = OA_Auth::staticGetAuthPlugin();
                     $userId = $oPlugin->getMatchingUserId($agencyData['userEmail'], $agencyData['username']);
-                    $userId = $oPlugin->saveUser($userId, $agencyData['username'], $agencyData['password'],
-                        $agencyData['contactName'], $agencyData['userEmail'], $agencyData['language'], $oAgency->accountId);
+                    $userId = $oPlugin->saveUser(
+                        $userId,
+                        $agencyData['username'],
+                        $agencyData['password'],
+                        $agencyData['contactName'],
+                        $agencyData['userEmail'],
+                        $agencyData['language'],
+                        $oAgency->accountId
+                    );
                     if ($userId) {
                         // Link the user and give permission to create new accounts
-                        $aAllowedPermissions = array(
-                            OA_PERM_SUPER_ACCOUNT => 'This string intentionally left blank. WTF?');
-                        $aPermissions = array(OA_PERM_SUPER_ACCOUNT);
+                        $aAllowedPermissions = [
+                            OA_PERM_SUPER_ACCOUNT => 'This string intentionally left blank. WTF?'];
+                        $aPermissions = [OA_PERM_SUPER_ACCOUNT];
                         OA_Permission::setAccountAccess($oAgency->accountId, $userId);
-                        OA_Permission::storeUserAccountsPermissions($aPermissions, $oAgency->accountId,
-                            $userId, $aAllowedPermissions);
+                        OA_Permission::storeUserAccountsPermissions(
+                            $aPermissions,
+                            $oAgency->accountId,
+                            $userId,
+                            $aAllowedPermissions
+                        );
                     }
                 }
             } else {
@@ -255,7 +262,7 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful
      *
      */
-    function delete($agencyId)
+    public function delete($agencyId)
     {
         if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
             return false;
@@ -283,7 +290,7 @@ class OA_Dll_Agency extends OA_Dll
      *
      * @return boolean
      */
-    function getAgency($agencyId, &$oAgency)
+    public function getAgency($agencyId, &$oAgency)
     {
         if ($this->checkIdExistence('agency', $agencyId)) {
             if (!$this->checkPermissions(null, 'agency', $agencyId)) {
@@ -293,13 +300,11 @@ class OA_Dll_Agency extends OA_Dll
             $doAgency->get($agencyId);
             $agencyData = $doAgency->toArray();
 
-            $oAgency = new OA_Dll_AgencyInfo;
+            $oAgency = new OA_Dll_AgencyInfo();
 
             $this->_setAgencyDataFromArray($oAgency, $agencyData);
             return true;
-
         } else {
-
             $this->raiseError('Unknown agencyId Error');
             return false;
         }
@@ -314,13 +319,13 @@ class OA_Dll_Agency extends OA_Dll
      *
      * @return boolean
      */
-    function getAgencyList(&$aAgencyList)
+    public function getAgencyList(&$aAgencyList)
     {
         if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
             return false;
         }
 
-        $aAgencyList = array();
+        $aAgencyList = [];
 
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->find();
@@ -328,7 +333,7 @@ class OA_Dll_Agency extends OA_Dll
         while ($doAgency->fetch()) {
             $agencyData = $doAgency->toArray();
 
-            $oAgency = new OA_Dll_AgencyInfo;
+            $oAgency = new OA_Dll_AgencyInfo();
             $this->_setAgencyDataFromArray($oAgency, $agencyData);
 
             $aAgencyList[] = $oAgency;
@@ -356,18 +361,24 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyDailyStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyDailyStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencyDailyStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencyDailyStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -395,18 +406,24 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyHourlyStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyHourlyStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencyHourlyStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencyHourlyStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -435,17 +452,24 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER), 'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencyAdvertiserStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencyAdvertiserStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -476,17 +500,24 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER), 'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencyCampaignStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencyCampaignStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -519,18 +550,24 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencyBannerStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencyBannerStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -559,26 +596,29 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencypublisherStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencypublisherStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
             return false;
         }
-
-
-
     }
 
     /**
@@ -604,25 +644,28 @@ class OA_Dll_Agency extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'agency', $agencyId)) {
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'agency',
+            $agencyId
+        )) {
             return false;
         }
 
         if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
-            $dalAgency = new OA_Dal_Statistics_Agency;
-            $rsStatisticsData = $dalAgency->getAgencyZoneStatistics($agencyId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalAgency = new OA_Dal_Statistics_Agency();
+            $rsStatisticsData = $dalAgency->getAgencyZoneStatistics(
+                $agencyId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
             return false;
         }
     }
-
 }
-
-?>

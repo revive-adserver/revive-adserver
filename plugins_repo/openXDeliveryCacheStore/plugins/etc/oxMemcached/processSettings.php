@@ -16,18 +16,17 @@
  */
 class oxMemcached_processSettings
 {
-
     /**
      * Method that is called on settings form submission
      * Error messages are appended to the 0 index of the array
      *
      * @return boolean
      */
-    function validate(&$aErrorMessage)
+    public function validate(&$aErrorMessage)
     {
         // Store current values from config
         // overwrite it by tested ones
-        $storeSettings = array();
+        $storeSettings = [];
         if (isset($GLOBALS['oxMemcached_memcachedServers'])) {
             $storeSettings['memcachedServers'] = $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedServers'];
             $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedServers'] = $GLOBALS['oxMemcached_memcachedServers'];
@@ -53,6 +52,3 @@ class oxMemcached_processSettings
         return $result;
     }
 }
-
-
-?>

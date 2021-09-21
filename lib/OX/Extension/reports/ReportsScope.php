@@ -23,13 +23,12 @@ require_once LIB_PATH . '/Extension/reports/Reports.php';
  */
 class Plugins_ReportsScope extends Plugins_Reports
 {
-
     /**
      * A local copy of the advertiser/publisher limitation object.
      *
      * @var Admin_UI_OrganisationScope
      */
-    var $_oScope;
+    public $_oScope;
 
     /**
      * A private method to get the required sub-heading parameters for the reports
@@ -38,9 +37,9 @@ class Plugins_ReportsScope extends Plugins_Reports
      * @return array An array of parameters that can be used in the
      *               {@link Plugins_Reports::_getReportParametersForDisplay()} method.
      */
-    function _getDisplayableParametersFromScope()
+    public function _getDisplayableParametersFromScope()
     {
-        $aParams = array();
+        $aParams = [];
         $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
         $advertiserId = $this->_oScope->getAdvertiserId();
         if (!empty($advertiserId)) {
@@ -78,7 +77,4 @@ class Plugins_ReportsScope extends Plugins_Reports
         }
         return $aParams;
     }
-
 }
-
-?>

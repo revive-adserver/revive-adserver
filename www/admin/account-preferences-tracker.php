@@ -31,14 +31,14 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 $oOptions = new OA_Admin_Option('preferences');
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
-    $aElements   = array();
-    $aCheckboxes = array();
+    $aElements = [];
+    $aCheckboxes = [];
     // Tracker
     $aElements[] = 'tracker_default_status';
     $aElements[] = 'tracker_default_type';
@@ -61,52 +61,50 @@ phpAds_PageHeader("account-preferences-index");
 $oOptions->selection("tracker");
 
 // Get the details of possible tracker statuses
-$aStatuses = array();
-foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusName) {
+$aStatuses = [];
+foreach ($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusName) {
     $aStatuses[$statusId] = $GLOBALS[$statusName];
 }
 
 // Get the details of possible tracker types
-$aTrackerTypes = array();
-foreach($GLOBALS['_MAX']['CONN_TYPES'] as $typeId => $typeName) {
+$aTrackerTypes = [];
+foreach ($GLOBALS['_MAX']['CONN_TYPES'] as $typeId => $typeName) {
     $aTrackerTypes[$typeId] = $GLOBALS[$typeName];
 }
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strTracker,
-        'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'tracker_default_status',
-                'text'    => $strDefaultTrackerStatus,
-                'items'   => $aStatuses
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'select',
-                'name'    => 'tracker_default_type',
-                'text'    => $strDefaultTrackerType,
-                'items'   => $aTrackerTypes
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'tracker_link_campaigns',
-                'text'    => $strLinkCampaignsByDefault
-            )
-        )
-    )
-);
+$aSettings = [
+    [
+        'text' => $strTracker,
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'tracker_default_status',
+                'text' => $strDefaultTrackerStatus,
+                'items' => $aStatuses
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'tracker_default_type',
+                'text' => $strDefaultTrackerType,
+                'items' => $aTrackerTypes
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'tracker_link_campaigns',
+                'text' => $strLinkCampaignsByDefault
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

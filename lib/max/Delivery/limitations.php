@@ -28,14 +28,14 @@ function MAX_limitationsCheckAcl($row, $source = '')
 {
     if (!empty($row['compiledlimitation'])) {
         if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
-            $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = array();
+            $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = [];
         }
         // Set to true in case of error in eval
         $result = true;
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Include required delivery files...
-        if(strlen($row['acl_plugins'])) {
+        if (strlen($row['acl_plugins'])) {
             $acl_plugins = explode(',', $row['acl_plugins']);
             foreach ($acl_plugins as $acl_plugin) {
                 list($extension, $package, $name) = explode(':', $acl_plugin);
@@ -78,7 +78,7 @@ function MAX_limitationsIsAdForbidden($aAd)
     $campaignId = $aAd['placement_id'];
     $showCappedNoCookie = !empty($aAd['show_capped_no_cookie']);
     return (_limitationsIsAdCapped($adId, $aAd['cap_ad'] ?? 0, $aAd['session_cap_ad'] ?? 0, $aAd['block_ad'] ?? 0, $showCappedNoCookie) ||
-	   _limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'] ?? 0, $aAd['session_cap_campaign'] ?? 0, $aAd['block_campaign'] ?? 0, $showCappedNoCookie));
+       _limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'] ?? 0, $aAd['session_cap_campaign'] ?? 0, $aAd['block_campaign'] ?? 0, $showCappedNoCookie));
 }
 
 /**
@@ -118,7 +118,7 @@ function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
  */
 function _limitationsIsAdCapped($adId, $cap, $sessionCap, $block, $showCappedNoCookie)
 {
-	return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap, $block, $showCappedNoCookie);
+    return _limitationsIsCapped('Ad', $adId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
 
 /**
@@ -134,7 +134,7 @@ function _limitationsIsAdCapped($adId, $cap, $sessionCap, $block, $showCappedNoC
  */
 function _limitationsIsCampaignCapped($campaignId, $cap, $sessionCap, $block, $showCappedNoCookie)
 {
-	return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap, $block, $showCappedNoCookie);
+    return _limitationsIsCapped('Campaign', $campaignId, $cap, $sessionCap, $block, $showCappedNoCookie);
 }
 
 /**
@@ -207,7 +207,7 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block, $showCapped
         } else {
             return true;
         }
-    } else if ($block > 0  && ($cap == 0 && $sessionCap == 0) && MAX_commonGetTimeNow() <= $lastSeen + $block) {
+    } elseif ($block > 0 && ($cap == 0 && $sessionCap == 0) && MAX_commonGetTimeNow() <= $lastSeen + $block) {
         return true;
     } else {
         return false;
@@ -234,5 +234,3 @@ function _areCookiesDisabled($filterActive = true)
     // Since MAX_cookieGetUniqueViewerID() has to have been called by this point
     return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
-
-?>

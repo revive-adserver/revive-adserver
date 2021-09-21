@@ -25,7 +25,7 @@ class Test_OA_Dal_Maintenance_Priority_updateEcpmPriorities extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,7 +33,7 @@ class Test_OA_Dal_Maintenance_Priority_updateEcpmPriorities extends UnitTestCase
     /**
      * Method to test the updateEcpmPriorities method.
      */
-    function testUpdateEcpmPriorities()
+    public function testUpdateEcpmPriorities()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDal = new OA_Dal_Maintenance_Priority();
@@ -44,15 +44,15 @@ class Test_OA_Dal_Maintenance_Priority_updateEcpmPriorities extends UnitTestCase
         $this->addAdZoneAssoc($adId2 = 2, $zoneId3 = 3, 0.3);
         $this->addAdZoneAssoc($adId4 = 4, $zoneId4 = 4, $priority44 = 0.4);
 
-        $aData = array(
-            $adId1 => array(
+        $aData = [
+            $adId1 => [
                 $zoneId1 => $priority11 = 0.11,
                 $zoneId2 => $priority12 = 0.12,
-            ),
-            $adId2 => array(
+            ],
+            $adId2 => [
                 $zoneId3 => $priority23 = 0.23,
-            ),
-        );
+            ],
+        ];
 
         $ret = $oDal->updateEcpmPriorities($aData);
         $this->assertTrue($ret);
@@ -67,7 +67,7 @@ class Test_OA_Dal_Maintenance_Priority_updateEcpmPriorities extends UnitTestCase
         DataGenerator::cleanUp();
     }
 
-    function checkPriority($adId, $zoneId, $priority)
+    public function checkPriority($adId, $zoneId, $priority)
     {
         $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAd_zone_assoc->ad_id = $adId;
@@ -76,7 +76,7 @@ class Test_OA_Dal_Maintenance_Priority_updateEcpmPriorities extends UnitTestCase
         $this->assertEqual($priority, $doAd_zone_assoc->priority);
     }
 
-    function addAdZoneAssoc($adId, $zoneId, $priority)
+    public function addAdZoneAssoc($adId, $zoneId, $priority)
     {
         $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAd_zone_assoc->ad_id = $adId;
@@ -85,5 +85,3 @@ class Test_OA_Dal_Maintenance_Priority_updateEcpmPriorities extends UnitTestCase
         DataGenerator::generateOne($doAd_zone_assoc);
     }
 }
-
-?>

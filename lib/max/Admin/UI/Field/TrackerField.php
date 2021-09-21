@@ -22,10 +22,10 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 
 class Admin_UI_TrackerField extends Admin_UI_Field
 {
-    function display()
+    public function display()
     {
         echo "
-        <select name='{$this->_name}' tabindex='".($this->_tabIndex++)."'>";
+        <select name='{$this->_name}' tabindex='" . ($this->_tabIndex++) . "'>";
 
         $aTrackers = Admin_UI_TrackerField::_getTrackerArray();
         foreach ($aTrackers as $trackerId => $aTracker) {
@@ -36,7 +36,7 @@ class Admin_UI_TrackerField extends Admin_UI_Field
         </select>";
     }
 
-    function _getTrackerArray()
+    public function _getTrackerArray()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $where = "c.clientid = t.clientid";
@@ -64,11 +64,9 @@ class Admin_UI_TrackerField extends Admin_UI_Field
         $res = phpAds_dbQuery($query);
 
         while ($row = phpAds_dbFetchArray($res)) {
-            $trackerArray[$row['tracker_id']] = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id".$row['client_id']."] ".$row['client_name']." - [id".$row['tracker_id']."] ".$row['tracker_name']."</span> ";
+            $trackerArray[$row['tracker_id']] = "<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id" . $row['client_id'] . "] " . $row['client_name'] . " - [id" . $row['tracker_id'] . "] " . $row['tracker_name'] . "</span> ";
         }
 
         return ($trackerArray);
     }
 }
-
-?>

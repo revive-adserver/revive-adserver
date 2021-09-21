@@ -17,26 +17,28 @@
 
     require_once(MAX_PATH . '/lib/max/Plugin/Translation.php');
 
-    define('MAX_PLUGINTRANSLATION_TEST_DIR', dirname(__FILE__).'/../testdir');
+    define('MAX_PLUGINTRANSLATION_TEST_DIR', dirname(__FILE__) . '/../testdir');
 
-    class TestOfPluginTranslation extends UnitTestCase {
-
-        function __construct() {
+    class TestOfPluginTranslation extends UnitTestCase
+    {
+        public function __construct()
+        {
             parent::__construct('PluginTranslation test');
         }
 
-        function testIncludePluginLanguageFile() {
+        public function testIncludePluginLanguageFile()
+        {
             $extension = 'nonExistingModule';
             $group = 'nonExistingPackage';
             $language = 'nonExistingLanguage';
 
             $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension, null, $language);
             $this->assertIdentical($ret, false);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], array());
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], []);
 
             $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension, $group, $language);
             $this->assertIdentical($ret, false);
-            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group], array());
+            $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group], []);
 
             $translate = 'Some translation string';
             $ret = MAX_Plugin_Translation::translate($translate, $extension, $group);
@@ -50,7 +52,7 @@
             include $path . 'pl.php';
             $plWords = $words;
 
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension,null,'en',$path);
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension, null, 'en', $path);
             $this->assertIdentical($ret, true);
             $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], $enWords);
 
@@ -60,7 +62,7 @@
             // Clear the translation memory
             unset($GLOBALS['_MAX']['PLUGIN_TRANSLATION']);
 
-            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension,null,'pl',$path);
+            $ret = MAX_Plugin_Translation::includePluginLanguageFile($extension, null, 'pl', $path);
             $this->assertIdentical($ret, true);
             $this->assertIdentical($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension], array_merge($enWords, $plWords));
 
@@ -75,13 +77,13 @@
             // Check that the non-existent key with the same name as group returns the key unchanged.
             $ret = MAX_Plugin_Translation::translate($group, $extension, $group);
             $this->assertIdentical($ret, $group);
-
         }
 
         /**
          * something is wrong with mock objects...
          */
-        function _REPAIR_ME_testConfig() {
+        public function _REPAIR_ME_testConfig()
+        {
             Mock::generate('MAX_Plugin');
 
             $module = 'moduleName';
@@ -101,17 +103,15 @@
         /**
          * TODO: upgrade simpletest
          */
-        function _REPAIR_ME_testGetPlugins() {
+        public function _REPAIR_ME_testGetPlugins()
+        {
             Mock::generate('MAX_Plugin');
             $mockPlugins = new MockMAX_Plugin($this);
             $mockPlugins->setReturnValue('getPluginsFromFolder', true);
 
             $recursive = true;
-            $mockPlugins->expectOnce('getPluginsFromFolder', array(MAX_PATH.'/plugins/moduleName/packageName', $recursive));
+            $mockPlugins->expectOnce('getPluginsFromFolder', [MAX_PATH . '/plugins/moduleName/packageName', $recursive]);
             $ret = $mockPlugins->getPlugins('moduleName', 'packageName', $recursive);
             $mockPlugins->tally();
         }
-
     }
-
-?>

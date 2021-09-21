@@ -14,7 +14,7 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
 {
-    var $table = 'data_intermediate_ad';
+    public $table = 'data_intermediate_ad';
 
     /**
      * A method to determine the number of impressions, clicks and conversions
@@ -30,12 +30,12 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
      *                               operation interval end date.
      * @return MDB2Record
      */
-	function getDeliveredByCampaign($campaignId, $oDate = null)
+    public function getDeliveredByCampaign($campaignId, $oDate = null)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
-        $tableD = $oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true);
+        $tableB = $oDbh->quoteIdentifier($prefix . 'banners', true);
+        $tableD = $oDbh->quoteIdentifier($prefix . 'data_intermediate_ad', true);
         $query = "
             SELECT
                 SUM(dia.impressions) AS impressions_delivered,
@@ -69,7 +69,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
      * @param integer    $priority Campaign priority (by default eCPM priority).
      * @return array
      */
-	function getDeliveredEcpmCampainImpressionsByAgency($agencyId, $oDate, $priority = null)
+    public function getDeliveredEcpmCampainImpressionsByAgency($agencyId, $oDate, $priority = null)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
@@ -81,14 +81,14 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
                 c.campaignid AS campaignid,
                 SUM(dia.impressions) AS impressions_delivered
             FROM
-                {$oDbh->quoteIdentifier($prefix.'clients',true)} AS cl,
-                {$oDbh->quoteIdentifier($prefix.'campaigns',true)} AS c,
-                {$oDbh->quoteIdentifier($prefix.'banners',true)} AS b,
-                {$oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true)} AS dia
+                {$oDbh->quoteIdentifier($prefix . 'clients', true)} AS cl,
+                {$oDbh->quoteIdentifier($prefix . 'campaigns', true)} AS c,
+                {$oDbh->quoteIdentifier($prefix . 'banners', true)} AS b,
+                {$oDbh->quoteIdentifier($prefix . 'data_intermediate_ad', true)} AS dia
             WHERE
                 cl.agencyid = " . DBC::makeLiteral($agencyId) . "
-                AND c.status = ".OA_ENTITY_STATUS_RUNNING."
-                AND c.priority = ".$priority."
+                AND c.status = " . OA_ENTITY_STATUS_RUNNING . "
+                AND c.priority = " . $priority . "
                 AND cl.clientid = c.clientid
                 AND b.bannerid = dia.ad_id
                 AND b.campaignid = c.campaignid
@@ -99,7 +99,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
         if (PEAR::isError($rs)) {
             return false;
         }
-        return $rs->getAll(array(), 'campaignid');
+        return $rs->getAll([], 'campaignid');
     }
 
     /**
@@ -116,10 +116,17 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
      * @param string $hour
      * @return unknown
      */
-	function addConversion($operation, $basketValue, $numItems,
-	                       $ad_id, $creative_id, $zone_id, $day, $hour,
-	                       $table = null)
-    {
+    public function addConversion(
+        $operation,
+        $basketValue,
+        $numItems,
+        $ad_id,
+        $creative_id,
+        $zone_id,
+        $day,
+        $hour,
+        $table = null
+    ) {
         $prefix = $this->getTablePrefix();
         if ($operation != '-') {
             $operation = '+';
@@ -128,21 +135,19 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
             $table = $this->table;
         }
         $oDbh = OA_DB::singleton();
-        $table = $oDbh->quoteIdentifier($prefix.$table,true);
+        $table = $oDbh->quoteIdentifier($prefix . $table, true);
         $query = '
-            UPDATE '.$table
-                .' SET conversions=conversions'.$operation.'1
-                    , total_basket_value=total_basket_value'.$operation.DBC::makeLiteral($basketValue).'
-                    , total_num_items=total_num_items'.$operation.DBC::makeLiteral($numItems).'
-                    , updated = \''. OA::getNow() .'\'
+            UPDATE ' . $table
+                . ' SET conversions=conversions' . $operation . '1
+                    , total_basket_value=total_basket_value' . $operation . DBC::makeLiteral($basketValue) . '
+                    , total_num_items=total_num_items' . $operation . DBC::makeLiteral($numItems) . '
+                    , updated = \'' . OA::getNow() . '\'
                 WHERE
-                       ad_id       = '.DBC::makeLiteral($ad_id).'
-                   AND creative_id = '.DBC::makeLiteral($creative_id).'
-                   AND zone_id     = '.DBC::makeLiteral($zone_id).'
-                   AND date_time   = '.DBC::makeLiteral(sprintf("%s %02d:00:00", $day, $hour));
+                       ad_id       = ' . DBC::makeLiteral($ad_id) . '
+                   AND creative_id = ' . DBC::makeLiteral($creative_id) . '
+                   AND zone_id     = ' . DBC::makeLiteral($zone_id) . '
+                   AND date_time   = ' . DBC::makeLiteral(sprintf("%s %02d:00:00", $day, $hour));
 
         return DBC::execute($query);
     }
 }
-
-?>

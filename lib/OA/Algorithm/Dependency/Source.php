@@ -26,8 +26,8 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Item.php';
 abstract class OA_Algorithm_Dependency_Source
 {
     protected $loaded = false;
-    protected $itemsHash = array();
-    protected $itemsQueue = array();
+    protected $itemsHash = [];
+    protected $itemsQueue = [];
 
     /**
      * The load() method is the public method used to actually load the items from
@@ -39,12 +39,12 @@ abstract class OA_Algorithm_Dependency_Source
      * @return boolean  Returns true if the items are loaded successfully,
      *                  or false on error.
      */
-    function load()
+    public function load()
     {
         if ($this->loaded) {
             $this->loaded = false;
-            $this->itemsQueue = array();
-            $this->itemsHash = array();
+            $this->itemsQueue = [];
+            $this->itemsHash = [];
         }
 
         $items = $this->_loadItemList();
@@ -78,7 +78,7 @@ abstract class OA_Algorithm_Dependency_Source
      * @return OA_Algorithm_Dependency_Item  Returns an Item or false if it
      *                                       doesn't exist in the source
      */
-    function getItem($id)
+    public function getItem($id)
     {
         if (!$this->checkLoaded() || !isset($this->itemsHash[$id])) {
             return false;
@@ -96,7 +96,7 @@ abstract class OA_Algorithm_Dependency_Source
      *
      * @return array
      */
-    function getItems()
+    public function getItems()
     {
         if (!$this->checkLoaded()) {
             return false;
@@ -111,13 +111,13 @@ abstract class OA_Algorithm_Dependency_Source
      *
      * @return array  Returns an array of ids on success, or false on error
      */
-    function getItemsIds()
+    public function getItemsIds()
     {
         if (!$this->checkLoaded()) {
             return false;
         }
-        $itemsIds = array();
-        foreach($this->itemsQueue as $item) {
+        $itemsIds = [];
+        foreach ($this->itemsQueue as $item) {
             $itemsIds[] = $item->getId();
         }
         return $itemsIds;
@@ -135,12 +135,12 @@ abstract class OA_Algorithm_Dependency_Source
      *
      * @return mixed
      */
-    function getMissingDependencies()
+    public function getMissingDependencies()
     {
         if (!$this->checkLoaded()) {
             return false;
         }
-        $dependencies = array();
+        $dependencies = [];
         foreach ($this->itemsQueue as $item) {
             $dependencies = array_merge($dependencies, $item->getDependencies());
         }
@@ -153,7 +153,7 @@ abstract class OA_Algorithm_Dependency_Source
      * @return boolean  True if data is already loaded or was loaded succesfully or false
      *                  if any error occurred.
      */
-    function checkLoaded()
+    public function checkLoaded()
     {
         if (!$this->loaded) {
             return $this->load();
@@ -165,8 +165,5 @@ abstract class OA_Algorithm_Dependency_Source
      * Catch unimplemented methods in subclasses
      *
      */
-    abstract function _loadItemList();
-
+    abstract public function _loadItemList();
 }
-
-?>

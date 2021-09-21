@@ -23,7 +23,6 @@ require_once MAX_PATH . '/lib/OA.php';
  */
 class OX_Dal_Maintenance_Statistics_Factory
 {
-
     /**
      * The factory method used to instantiate a class that implements the
      * OX_Dal_Maintenance_Statistics interface.
@@ -31,7 +30,7 @@ class OX_Dal_Maintenance_Statistics_Factory
      * @param string $moduleName The name of the module class to instantiate.
      * @return {@link OX_Dal_Maintenance_Statistics} The class object created.
      */
-    function factory()
+    public function factory()
     {
         // Instantiate the class
         $classname = $this->deriveClassName();
@@ -43,10 +42,10 @@ class OX_Dal_Maintenance_Statistics_Factory
      *
      * @return string The name of the class object to create.
      */
-    function deriveClassName()
+    public function deriveClassName()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $filename  = ucfirst(strtolower($aConf['database']['type']));
+        $filename = ucfirst(strtolower($aConf['database']['type']));
         $classname = 'OX_Dal_Maintenance_Statistics_' . $filename;
         $includeFile = LIB_PATH . "/Dal/Maintenance/Statistics/{$filename}.php";
         require_once $includeFile;
@@ -59,7 +58,4 @@ class OX_Dal_Maintenance_Statistics_Factory
         }
         return $classname;
     }
-
 }
-
-?>

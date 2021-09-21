@@ -26,6 +26,6 @@ $GLOBALS['strAction'] = "작업";
 $GLOBALS['strValue'] = "값";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "데이터베이스 자동 정리";

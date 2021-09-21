@@ -3,24 +3,24 @@ require_once("../xajax.inc.php");
 
 function test2ndFunction($formData, $objResponse)
 {
-	$objResponse->addAlert("formData: " . print_r($formData, true));
-	$objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
-	return $objResponse->getXML();
+    $objResponse->addAlert("formData: " . print_r($formData, true));
+    $objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
+    return $objResponse->getXML();
 }
 
 function myCatchAllFunction($funcName, $args)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("This is from the catch all function");
-//	return $objResponse;
-	return test2ndFunction($args[0], $objResponse);
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("This is from the catch all function");
+    //	return $objResponse;
+    return test2ndFunction($args[0], $objResponse);
 }
 
 function testForm($formData)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("This is from the regular function");
-	return test2ndFunction($formData, $objResponse);
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("This is from the regular function");
+    return test2ndFunction($formData, $objResponse);
 }
 $xajax = new xajax();
 $xajax->registerCatchAllFunction("myCatchAllFunction");

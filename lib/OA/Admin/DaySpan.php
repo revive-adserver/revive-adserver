@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class OA_Admin_DaySpan
 {
-
     /**
      * The current date, ie. "now".
      *
@@ -50,7 +49,7 @@ class OA_Admin_DaySpan
      * See the {@link OA_Admin_DaySpan::setSpanPresetValue()} method
      * for the pre-defined values.
      */
-    function __construct($presetValue = 'today')
+    public function __construct($presetValue = 'today')
     {
         $this->oNowDate = new Date();
         $this->setSpanPresetValue($presetValue);
@@ -63,7 +62,7 @@ class OA_Admin_DaySpan
      * @param Date $oStartDate The start date of the span.
      * @param Date $oEndDate The end date of the span.
      */
-    function setSpanDays($oStartDate, $oEndDate)
+    public function setSpanDays($oStartDate, $oEndDate)
     {
         $this->oStartDate = new Date();
         $this->oStartDate->copy($oStartDate);
@@ -78,7 +77,7 @@ class OA_Admin_DaySpan
      *
      * @return Date The start day of the span.
      */
-    function getStartDate()
+    public function getStartDate()
     {
         return $this->oStartDate;
     }
@@ -88,7 +87,7 @@ class OA_Admin_DaySpan
      *
      * @return Date The end day of the span.
      */
-    function getEndDate()
+    public function getEndDate()
     {
         return $this->oEndDate;
     }
@@ -99,7 +98,7 @@ class OA_Admin_DaySpan
      * @param string $format An optional PEAR::Date compatible format string.
      * @return string The start day of the span.
      */
-    function getStartDateString($format = '%Y-%m-%d')
+    public function getStartDateString($format = '%Y-%m-%d')
     {
         return $this->oStartDate->format($format);
     }
@@ -110,7 +109,7 @@ class OA_Admin_DaySpan
      * @param string $format An optional PEAR::Date compatible format string.
      * @return string The end day of the span.
      */
-    function getEndDateString($format = '%Y-%m-%d')
+    public function getEndDateString($format = '%Y-%m-%d')
     {
         return $this->oEndDate->format($format);
     }
@@ -121,7 +120,7 @@ class OA_Admin_DaySpan
      * @param string $format An optional PEAR::Date compatible format string.
      * @return string The start day of the span.
      */
-    function getStartDateStringUTC($format = '%Y-%m-%d')
+    public function getStartDateStringUTC($format = '%Y-%m-%d')
     {
         $oDate = new Date($this->oStartDate);
         $oDate->toUTC();
@@ -134,7 +133,7 @@ class OA_Admin_DaySpan
      * @param string $format An optional PEAR::Date compatible format string.
      * @return string The end day of the span.
      */
-    function getEndDateStringUTC($format = '%Y-%m-%d')
+    public function getEndDateStringUTC($format = '%Y-%m-%d')
     {
         $oDate = new Date($this->oEndDate);
         $oDate->toUTC();
@@ -166,7 +165,7 @@ class OA_Admin_DaySpan
      * @param string $presetValue The preset value string.
      * @return void
      */
-    function setSpanPresetValue($presetValue)
+    public function setSpanPresetValue($presetValue)
     {
         $aDates = $this->_getSpanDates($presetValue);
         $this->setSpanDays($aDates['start'], $aDates['end']);
@@ -183,7 +182,7 @@ class OA_Admin_DaySpan
      * @return string The pre-defeined 'friendly' value, or the string
      *                "specific".
      */
-    function getPreset()
+    public function getPreset()
     {
         // Ensure the span has been set correctly, otherwise return "specific"
         if (
@@ -259,26 +258,26 @@ class OA_Admin_DaySpan
      *               representing the start and end dates of
      *               the span, respectively.
      */
-    function _getSpanDates($presetValue)
+    public function _getSpanDates($presetValue)
     {
         switch ($presetValue) {
             case 'today':
-                $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
-                $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateStart = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateEnd = new Date($this->oNowDate->format('%Y-%m-%d'));
                 break;
             case 'yesterday':
-                $oDateStart    = new Date(Date_Calc::prevDay($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oDateEnd      = new Date(Date_Calc::prevDay($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateStart = new Date(Date_Calc::prevDay($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateEnd = new Date(Date_Calc::prevDay($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 break;
             case 'this_week':
-                $oDateStart    = new Date(Date_Calc::beginOfWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oSixDaySpan   = new Date_Span();
+                $oDateStart = new Date(Date_Calc::beginOfWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oSixDaySpan = new Date_Span();
                 $oSixDaySpan->setFromDays(6);
                 $oSevenDaySpan = new Date_Span();
                 $oSevenDaySpan->setFromDays(7);
                 // Now have week start and end when week starts on Sunday
                 // Does the user want to start on a different day?
-                $beginOfWeek   = OA_Admin_DaySpan::getBeginOfWeek();
+                $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
                 if ($beginOfWeek > 0) {
                     $oRequiredDaysSpan = new Date_Span();
                     $oRequiredDaysSpan->setFromDays($beginOfWeek);
@@ -288,17 +287,17 @@ class OA_Admin_DaySpan
                         $oDateStart->subtractSpan($oSevenDaySpan);
                     }
                 }
-                $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateEnd = new Date($this->oNowDate->format('%Y-%m-%d'));
                 break;
             case 'last_week':
-                $oDateStart    = new Date(Date_Calc::beginOfPrevWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oSixDaySpan   = new Date_Span();
+                $oDateStart = new Date(Date_Calc::beginOfPrevWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oSixDaySpan = new Date_Span();
                 $oSixDaySpan->setFromDays(6);
                 $oSevenDaySpan = new Date_Span();
                 $oSevenDaySpan->setFromDays(7);
                 // Now have week start and end when week starts on Sunday
                 // Does the user want to start on a different day?
-                $beginOfWeek   = OA_Admin_DaySpan::getBeginOfWeek();
+                $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
                 if ($beginOfWeek > 0) {
                     $oRequiredDaysSpan = new Date_Span();
                     $oRequiredDaysSpan->setFromDays($beginOfWeek);
@@ -308,14 +307,14 @@ class OA_Admin_DaySpan
                         $oDateStart->subtractSpan($oSevenDaySpan);
                     }
                 }
-                $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateEnd = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oDateEnd->copy($oDateStart);
                 $oDateEnd->addSpan($oSixDaySpan);
                 break;
             case 'last_7_days':
-                $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
-                $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
-                $oOneDaySpan   = new Date_Span();
+                $oDateStart = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateEnd = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oOneDaySpan = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oSevenDaySpan = new Date_Span();
                 $oSevenDaySpan->setFromDays(7);
@@ -323,52 +322,51 @@ class OA_Admin_DaySpan
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
             case 'this_month':
-                $oDateStart    = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateStart = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateEnd = new Date($this->oNowDate->format('%Y-%m-%d'));
                 break;
             case 'this_month_full':
-                $oDateStart    = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oDateEnd      = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oOneDaySpan   = new Date_Span();
+                $oDateStart = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateEnd = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oOneDaySpan = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
             case 'this_month_remainder':
-                $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
-                $oDateEnd      = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oOneDaySpan   = new Date_Span();
+                $oDateStart = new Date($this->oNowDate->format('%Y-%m-%d'));
+                $oDateEnd = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oOneDaySpan = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
             case 'next_month':
-                $oDateStart    = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oDateEnd      = new Date(Date_Calc::endOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateStart = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateEnd = new Date(Date_Calc::endOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 break;
             case 'last_month':
-                $oDateStart    = new Date(Date_Calc::beginOfPrevMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oDateEnd      = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oOneDaySpan   = new Date_Span();
+                $oDateStart = new Date(Date_Calc::beginOfPrevMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oDateEnd = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
+                $oOneDaySpan = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
             case 'all_stats':
                 $oDateStart = null;
-                $oDateEnd   = null;
+                $oDateEnd = null;
                 break;
             case 'specific':
-                $startDate  = MAX_getStoredValue('startDate', date('Y-m-d'));
+                $startDate = MAX_getStoredValue('startDate', date('Y-m-d'));
                 $oDateStart = new Date($startDate);
-                $endDate    = MAX_getStoredValue('endDate', date('Y-m-d'));
-                $oDateEnd   = new Date($endDate);
+                $endDate = MAX_getStoredValue('endDate', date('Y-m-d'));
+                $oDateEnd = new Date($endDate);
                 break;
         }
         $this->_setStartDate($oDateStart);
         $this->_setEndDate($oDateEnd);
-        $aDates = array(
+        return [
             'start' => $oDateStart,
-            'end'   => $oDateEnd
-        );
-        return $aDates;
+            'end' => $oDateEnd
+        ];
     }
 
     /**
@@ -376,7 +374,7 @@ class OA_Admin_DaySpan
      *
      * @return integer The number of days in the span.
      */
-    function getDaysInSpan()
+    public function getDaysInSpan()
     {
         $oSpan = new Date_Span();
         $oSpan->setFromDateDiff($this->oStartDate, $this->oEndDate);
@@ -390,9 +388,9 @@ class OA_Admin_DaySpan
      * @param string $format An optional PEAR::Date compatible format string.
      * @return array An array of the days in the span.
      */
-    function getDayArray($format = '%Y-%m-%d')
+    public function getDayArray($format = '%Y-%m-%d')
     {
-        $aDays = array();
+        $aDays = [];
         $oDate = new Date();
         $oDate->copy($this->oStartDate);
         while (!$oDate->after($this->oEndDate)) {
@@ -405,7 +403,7 @@ class OA_Admin_DaySpan
     /**
      * A method to convert the object's start and end dates into UTC format.
      */
-    function toUTC()
+    public function toUTC()
     {
         $this->oStartDate->toUTC();
         $this->oEndDate->toUTC();
@@ -418,7 +416,7 @@ class OA_Admin_DaySpan
      * @param PEAR::Date $oDate The date to "round".
      * @return void
      */
-    function _setStartDate(&$oDate)
+    public function _setStartDate(&$oDate)
     {
         if (is_a($oDate, 'date')) {
             $oDate->setHour(0);
@@ -434,7 +432,7 @@ class OA_Admin_DaySpan
      * @param PEAR::Date $oDate The date to "round".
      * @return void
      */
-    function _setEndDate(&$oDate)
+    public function _setEndDate(&$oDate)
     {
         if (is_a($oDate, 'date')) {
             $oDate->setHour(23);
@@ -442,8 +440,4 @@ class OA_Admin_DaySpan
             $oDate->setSecond(59);
         }
     }
-
-
 }
-
-?>

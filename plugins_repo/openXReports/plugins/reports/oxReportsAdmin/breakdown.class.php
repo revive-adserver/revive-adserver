@@ -30,20 +30,19 @@ require_once LIB_PATH . '/Extension/reports/Reports.php';
  */
 class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
 {
-
     /**
      * The local implementation of the initInfo() method to set all of the
      * required values for this report.
      */
-    function initInfo()
+    public function initInfo()
     {
-        $this->_name         = $this->translate("Account Breakdown");
-        $this->_description  = $this->translate("Lists Impression/Click/Conversion totals for a given month.");
-        $this->_category     = 'admin';
+        $this->_name = $this->translate("Account Breakdown");
+        $this->_description = $this->translate("Lists Impression/Click/Conversion totals for a given month.");
+        $this->_category = 'admin';
         $this->_categoryName = $this->translate("Admin Reports");
-        $this->_author       = 'Chris Nutting';
-        $this->_export       = 'xls';
-        $this->_authorize    = OA_ACCOUNT_ADMIN;
+        $this->_author = 'Chris Nutting';
+        $this->_export = 'xls';
+        $this->_authorize = OA_ACCOUNT_ADMIN;
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -54,20 +53,20 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
      * required information for laying out the plugin's report generation
      * screen/the variables required for generating the report.
      */
-    function getDefaults()
+    public function getDefaults()
     {
         global $strStartDate, $strEndDate, $strDelimiter;
         // Obtain the user's session-based default values for the report
         global $session;
         $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
         // Prepare the array for displaying the generation page
-        $aImport = array (
-            'period' => array(
-                'title'   => $GLOBALS['strPeriod'],
-                'type'    => 'date-month',
+        $aImport = [
+            'period' => [
+                'title' => $GLOBALS['strPeriod'],
+                'type' => 'date-month',
                 'default' => $default_period_preset
-            ),
-        );
+            ],
+        ];
         return $aImport;
     }
 
@@ -76,16 +75,16 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
      * values used for the report by the user to the user's session
      * preferences, so that they can be re-used in other reports.
      */
-    function saveDefaults()
+    public function saveDefaults()
     {
         global $session;
         if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
         phpAds_SessionDataStore();
     }
 
-    function execute($oDaySpan = null)
+    public function execute($oDaySpan = null)
     {
         $this->isAllowedToExecute();
         // Prepare the range information for the report
@@ -107,9 +106,9 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function _getReportParametersForDisplay()
+    public function _getReportParametersForDisplay()
     {
-        $aParams = array();
+        $aParams = [];
         $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
     }
@@ -120,16 +119,16 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
      *
      * @access private
      */
-    function _addAgencyBreakdownWorksheet()
+    public function _addAgencyBreakdownWorksheet()
     {
         // Manually prepare the header array
         global $strImpressions, $strClicks, $strConversions;
-        $aHeaders = array(
+        $aHeaders = [
             $this->translate("Manager") => 'text',
             $strImpressions => 'decimal',
-            $strClicks      => 'decimal',
+            $strClicks => 'decimal',
             $strConversions => 'decimal'
-        );
+        ];
         // Manually prepare the data array
         $aData = $this->_fetchData();
         // Add the worksheet
@@ -140,7 +139,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         );
     }
 
-    function _fetchData()
+    public function _fetchData()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
@@ -149,8 +148,8 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         $oEndDateToDisplay = new Date($this->_oDaySpan->oEndDate);
         // Ensure data is retrieved using UTC times
         $this->_oDaySpan->toUTC();
-		// Get the manager account data
-		$query = "
+        // Get the manager account data
+        $query = "
             SELECT
                 g.name AS agency_name,
                 SUM(s.impressions) AS impressions,
@@ -171,14 +170,15 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
                 AND
                 b.bannerid = s.ad_id
                 AND
-                s.date_time >= ". $oDbh->quote($this->_oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S'), 'date') ."
+                s.date_time >= " . $oDbh->quote($this->_oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S'), 'date') . "
                 AND
-                s.date_time <= ". $oDbh->quote($this->_oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S'), 'date') ."
+                s.date_time <= " . $oDbh->quote($this->_oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S'), 'date') . "
             GROUP BY
                 agency_name";
         $aData = $oDbh->queryAll($query);
         if (PEAR::isError($aData)) {
-            $aData = array();;
+            $aData = [];
+            ;
         }
         // Revert the date from UTC to the user selected value
         $this->_oDaySpan->oStartDate = $oStartDateToDisplay;
@@ -186,5 +186,3 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         return $aData;
     }
 }
-
-?>

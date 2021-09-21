@@ -31,22 +31,24 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends OA_Maintenan
      *
      * @var string
      */
-    var $taskName = 'ECPM value calculation';
+    public $taskName = 'ECPM value calculation';
 
     /**
      * Stubbed out since we don't really need to use the code that calls this.
      */
-    public function getZonesAllocationByAgency($agencyId) {}
+    public function getZonesAllocationByAgency($agencyId)
+    {
+    }
 
     /**
      * Return a map whose keys are the campaign priority levels to be processed
      **/
     public function getCampaignPriorityLevelsToProcess()
     {
-        if (empty ($GLOBALS['conf']['maintenance']['ecpmCampaignLevels'])) {
-            $campaign_priorities = array (9,8,7,6);
+        if (empty($GLOBALS['conf']['maintenance']['ecpmCampaignLevels'])) {
+            $campaign_priorities = [9, 8, 7, 6];
         } else {
-            $campaign_priorities = explode ("|", $GLOBALS['conf']['maintenance']['ecpmCampaignLevels']);
+            $campaign_priorities = explode("|", $GLOBALS['conf']['maintenance']['ecpmCampaignLevels']);
         }
 
         foreach ($campaign_priorities as $a_cp) {
@@ -65,24 +67,24 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends OA_Maintenan
         $campaign_priorities = $this->getCampaignPriorityLevelsToProcess();
         $aAgenciesIds = $this->oDal->getAllAgenciesIds();
 
-        foreach($aAgenciesIds as $agencyId) {
+        foreach ($aAgenciesIds as $agencyId) {
             foreach ($campaign_priorities as $priority => $x) {
                 $aCampaignsInfo = $this->oDal->getAllCampaignsInfoByAgencyIdAndPriority($agencyId, $priority);
                 if (is_array($aCampaignsInfo) && !empty($aCampaignsInfo)) {
-                    $aCampaignsEcpms = array();
+                    $aCampaignsEcpms = [];
                     $aCampaignsDeliveries = $this->oDal->getAgencyPriorityCampaignsDeliveriesToDate($agencyId, $priority);
 
-                    foreach($aCampaignsInfo as $campaignId => $aCampaign) {
+                    foreach ($aCampaignsInfo as $campaignId => $aCampaign) {
                         $aCampaignsEcpms[$campaignId] =
                             OX_Util_Utils::getEcpm(
-                                    $aCampaign[self::IDX_REVENUE_TYPE],
-                                    $aCampaign[self::IDX_REVENUE],
-                                    $aCampaignsDeliveries[$campaignId]['sum_impressions'],
-                                    $aCampaignsDeliveries[$campaignId]['sum_clicks'],
-                                    $aCampaignsDeliveries[$campaignId]['sum_conversions'],
-                                    $aCampaign[self::IDX_ACTIVATE],
-                                    $aCampaign[self::IDX_EXPIRE]
-                                    );
+                                $aCampaign[self::IDX_REVENUE_TYPE],
+                                $aCampaign[self::IDX_REVENUE],
+                                $aCampaignsDeliveries[$campaignId]['sum_impressions'],
+                                $aCampaignsDeliveries[$campaignId]['sum_clicks'],
+                                $aCampaignsDeliveries[$campaignId]['sum_conversions'],
+                                $aCampaign[self::IDX_ACTIVATE],
+                                $aCampaign[self::IDX_EXPIRE]
+                            );
                     }
 
                     $this->oDal->updateCampaignsEcpms($aCampaignsEcpms);
@@ -91,5 +93,3 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends OA_Maintenan
         }
     }
 }
-
-?>

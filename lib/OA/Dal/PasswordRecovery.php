@@ -16,8 +16,8 @@
  * @package OpenXDal
  */
 
-require_once MAX_PATH.'/lib/OA/Dal.php';
-require_once MAX_PATH.'/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/max/Plugin.php';
 
 class OA_Dal_PasswordRecovery extends OA_Dal
 {
@@ -27,13 +27,13 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      * @param string e-mail
      * @return array matching users
      */
-    function searchMatchingUsers($email)
+    public function searchMatchingUsers($email)
     {
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->email_address = $email;
         $doUsers->find();
 
-        $users = array();
+        $users = [];
         while ($doUsers->fetch()) {
             $users[] = $doUsers->toArray();
         }
@@ -47,7 +47,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      * @param int user ID
      * @return string generated recovery ID
      */
-    function generateRecoveryId($userId)
+    public function generateRecoveryId($userId)
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         
@@ -59,14 +59,14 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         } while ($doPwdRecovery->find() > 0);
 
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
-        $doPwdRecovery->whereAdd('user_id = '.DBC::makeLiteral($userId));
+        $doPwdRecovery->whereAdd('user_id = ' . DBC::makeLiteral($userId));
         $doPwdRecovery->delete(true);
 
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
-        $doPwdRecovery->user_type   = 'user';
-        $doPwdRecovery->user_id     = $userId;
+        $doPwdRecovery->user_type = 'user';
+        $doPwdRecovery->user_id = $userId;
         $doPwdRecovery->recovery_id = $recoveryId;
-        $doPwdRecovery->updated     = OA::getNowUTC();
+        $doPwdRecovery->updated = OA::getNowUTC();
 
         $doPwdRecovery->insert();
 
@@ -79,7 +79,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      * @param string recovery ID
      * @return bool true if recovery ID is valid
      */
-    function checkRecoveryId($recoveryId)
+    public function checkRecoveryId($recoveryId)
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->recovery_id = $recoveryId;
@@ -99,7 +99,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      * @param string new password
      * @return bool Ttrue the new password was correctly saved
      */
-    function saveNewPasswordAndLogin($recoveryId, $password)
+    public function saveNewPasswordAndLogin($recoveryId, $password)
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->recovery_id = $recoveryId;
@@ -125,5 +125,3 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         return false;
     }
 }
-
-?>

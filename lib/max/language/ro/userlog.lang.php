@@ -35,6 +35,6 @@ $GLOBALS['strCollectedAllEvents'] = "Toate evenimentele";
 $GLOBALS['strClear'] = "Curăţă";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";

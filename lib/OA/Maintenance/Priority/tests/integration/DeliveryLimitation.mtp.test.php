@@ -21,17 +21,16 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Maintenance_Priority_DeliveryLimitation',
             'Partial_MockOA_Maintenance_Priority_DeliveryLimitation',
-            array('_getOperationInterval')
+            ['_getOperationInterval']
         );
 
         // Install the openXDeliveryLog plugin
@@ -45,42 +44,42 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      * A method to test the OA_Maintenance_Priority_DeliveryLimitation
      * constructor method.
      */
-    function testConstructor()
+    public function testConstructor()
     {
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Day',
-                'comparison'     => '=~',
-                'data'           => '1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Day',
+                'comparison' => '=~',
+                'data' => '1',
                 'executionorder' => 3
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '2005:10:10 00:00:00',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '2005:10:10 00:00:00',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 0
-            ),
-        );
+            ],
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -101,81 +100,81 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
     /**
      * A method to test the _getOperationGroupCount() method.
      */
-    function test_getOperationGroupCount()
+    public function test_getOperationGroupCount()
     {
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Day',
-                'comparison'     => '=~',
-                'data'           => '1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Day',
+                'comparison' => '=~',
+                'data' => '1',
                 'executionorder' => 3
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '2005:10:10 00:00:00',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '2005:10:10 00:00:00',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 0
-            ),
-        );
+            ],
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
         $this->assertEqual($oDeliveryLimitationManager->_getOperationGroupCount(), 1);
 
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Day',
-                'comparison'     => '=~',
-                'data'           => '1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Day',
+                'comparison' => '=~',
+                'data' => '1',
                 'executionorder' => 3
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '2005:10:10 00:00:00',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '2005:10:10 00:00:00',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 0
-            ),
-        );
+            ],
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -198,20 +197,20 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      *
      * Test 9: Test several complex, multi-delivery limitation cases.
      */
-    function testDeliveryBlocked()
+    public function testDeliveryBlocked()
     {
         // Test 1
         $oDate = new Date('2006-02-08 07:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -220,16 +219,16 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 2
         $oDate = new Date('2006-02-08 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -238,24 +237,24 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 3
         $oDate = new Date('2006-02-08 07:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -264,24 +263,24 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 4
         $oDate = new Date('2006-02-08 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -290,24 +289,24 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 5
         $oDate = new Date('2006-02-09 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '==',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '==',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -316,24 +315,24 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 6
         $oDate = new Date('2006-02-08 07:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -342,24 +341,24 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 7
         $oDate = new Date('2006-02-08 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -368,24 +367,24 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 8
         $oDate = new Date('2006-02-09 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -394,40 +393,40 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 9
         $oDate = new Date('2006-02-08 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060209',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060209',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 3
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -435,40 +434,40 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $this->assertTrue($result);
 
         $oDate = new Date('2006-02-09 10:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060209',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060209',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 3
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -476,40 +475,40 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $this->assertFalse($result);
 
         $oDate = new Date('2006-02-10 23:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060209',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060209',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 3
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -517,40 +516,40 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $this->assertTrue($result);
 
         $oDate = new Date('2006-02-10 23:05:00');
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060208',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060208',
                 'executionorder' => 1
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'or',
-                'type'           => 'deliveryLimitations:Time:Date',
-                'comparison'     => '==',
-                'data'           => '20060209',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'or',
+                'type' => 'deliveryLimitations:Time:Date',
+                'comparison' => '==',
+                'data' => '20060209',
                 'executionorder' => 2
-            ),
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Client:IP',
-                'comparison'     => '==',
-                'data'           => '192.168.0.1',
+            ],
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Client:IP',
+                'comparison' => '==',
+                'data' => '192.168.0.1',
                 'executionorder' => 3
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
         $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
         $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
@@ -564,39 +563,39 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      * Test 1: Test with an equal blocking limitation.
      * Test 2: Test with a non-equal blocking limitation.
      */
-    function testGetBlockedOperationIntervalCount()
+    public function testGetBlockedOperationIntervalCount()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $oNowDate = new Date('2006-02-08 07:05:00');
         $oPlacementEndDate = new Date('2006-02-10');
 
         // Test 1
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->getBlockedOperationIntervalCount($oNowDate, $oPlacementEndDate);
         $this->assertEqual($result, 54);
 
         // Test 2
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '!~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '!~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->getBlockedOperationIntervalCount($oNowDate, $oPlacementEndDate);
         $this->assertEqual($result, 11);
@@ -610,39 +609,39 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      * Test 1: Test with an equal blocking limitation.
      * Test 2: Test with a non-equal blocking limitation.
      */
-    function testGetActiveAdOperationIntervals()
+    public function testGetActiveAdOperationIntervals()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $oNowDate = new Date('2006-02-08 07:05:00');
         $oPlacementEndDate = new Date('2006-02-10');
 
         // Test 1
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->getActiveAdOperationIntervals(65, $oNowDate, $oPlacementEndDate);
         $this->assertEqual($result, 11);
 
         // Test 2
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '!~',
-                'data'           => '1,7,18,23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '!~',
+                'data' => '1,7,18,23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->getActiveAdOperationIntervals(65, $oNowDate, $oPlacementEndDate);
         $this->assertEqual($result, 54);
@@ -665,17 +664,17 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      * Test 6: Test with a limitation that blocks more than 50% of the remaining
      *         range, and ensure that the correct result is returned.
      */
-    function testGetAdLifetimeZoneImpressionsRemaining()
+    public function testGetAdLifetimeZoneImpressionsRemaining()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
-        $aDeliveryLimitations = array();
+        $aDeliveryLimitations = [];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
 
         // Test 1
         $oDate = new Date('2006-02-15 11:07:15');
-        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = [];
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining('foo', $oDate, $aCumulativeZoneForecast);
         $this->assertEqual($result, 0);
@@ -686,7 +685,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 
         // Test 2
         $oDate = new Date('2006-02-15 23:07:15');
-        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = [];
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
         $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oDate, $oDate, $aCumulativeZoneForecast);
         $this->assertEqual($result, 1);
@@ -705,7 +704,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oStartDate = new Date('2006-02-15 11:07:15');
         $oEndDate = new Date('2006-02-15 23:59:59');
 
-        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = [];
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 10:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1;
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 11:00:01'));
@@ -729,7 +728,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oStartDate = new Date('2006-02-18 22:07:15');
         $oEndDate = new Date('2006-02-20 23:59:59');
 
-        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = [];
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 21:00:01'));
         $aCumulativeZoneForecast[$operationIntervalID] = 1;
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 22:00:01'));
@@ -755,20 +754,20 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oStartDate = new Date('2006-02-07 12:07:15');
         $oEndDate = new Date('2006-02-07 23:59:59');
 
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '!~',
-                'data'           => '23',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '!~',
+                'data' => '23',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         $oDeliveryLimitationManager->getActiveAdOperationIntervals(12, $oStartDate, $oEndDate);
 
-        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = [];
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
 
         $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oStartDate, $oEndDate, $aCumulativeZoneForecast);
@@ -778,20 +777,20 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $oStartDate = new Date('2006-02-07 12:07:15');
         $oEndDate = new Date('2006-02-08 23:59:59');
 
-        $aDeliveryLimitations = array(
-            array(
-                'ad_id'          => 1,
-                'logical'        => 'and',
-                'type'           => 'deliveryLimitations:Time:Hour',
-                'comparison'     => '=~',
-                'data'           => '22',
+        $aDeliveryLimitations = [
+            [
+                'ad_id' => 1,
+                'logical' => 'and',
+                'type' => 'deliveryLimitations:Time:Hour',
+                'comparison' => '=~',
+                'data' => '22',
                 'executionorder' => 0
-            )
-        );
+            ]
+        ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
         $oDeliveryLimitationManager->getActiveAdOperationIntervals(12, $oStartDate, $oEndDate);
 
-        $aCumulativeZoneForecast = array();
+        $aCumulativeZoneForecast = [];
         $aCumulativeZoneForecast = $this->_fillForecastArray($aCumulativeZoneForecast);
 
         $result = $oDeliveryLimitationManager->getAdLifetimeZoneImpressionsRemaining($oStartDate, $oEndDate, $aCumulativeZoneForecast);
@@ -804,7 +803,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      * This MUST be the last test!!!
      *
      */
-    function testCleanUp()
+    public function testCleanUp()
     {
         // Uninstall the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
@@ -816,7 +815,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      *
      * @param array $aArray
      */
-    function _fillForecastArray($aArray)
+    public function _fillForecastArray($aArray)
     {
         $intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
@@ -826,7 +825,4 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         }
         return $aArray;
     }
-
 }
-
-?>

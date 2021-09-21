@@ -19,7 +19,6 @@
  */
 class OA_Admin_Statistics_Factory
 {
-
     /**
      *  Create a new object of the appropriate OA_Admin_Statistics_Common subclass.
      *
@@ -45,8 +44,7 @@ class OA_Admin_Statistics_Factory
 
     public static function _instantiateController($file, $class, $aParams = null)
     {
-        if (!@include_once $file)
-        {
+        if (!@include_once $file) {
             $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Unable to locate " . basename($file);
             return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
         }
@@ -54,14 +52,12 @@ class OA_Admin_Statistics_Factory
             $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Class {$class} doesn't exist";
             return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
         }
-        $oController = new $class($aParams);
-        return $oController;
+        return new $class($aParams);
     }
 
     public static function _getControllerClass($controllerType, &$class, &$file)
     {
-        if (empty($controllerType) || $controllerType == '-')
-        {
+        if (empty($controllerType) || $controllerType == '-') {
             $controllerType = basename($_SERVER['SCRIPT_NAME']);
             $controllerType = preg_replace('#^(?:stats-)?(.*)\.php#', '$1', $controllerType);
         }
@@ -92,8 +88,4 @@ class OA_Admin_Statistics_Factory
             $class .= $string;
         }
     }
-
-
 }
-
-?>

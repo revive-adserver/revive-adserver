@@ -97,21 +97,21 @@ class DataGenerator
             // Lazy DataObject initialization
             $do = OA_Dal::factoryDO($do);
             if (PEAR::isError($do)) {
-                return array();
+                return [];
             }
         }
         if ($generateParents) {
-           DataGenerator::generateParents($do);
+            DataGenerator::generateParents($do);
         }
         $doOriginal = clone($do);
         DataGenerator::setDefaultValues($do);
         DataGenerator::trackData($do->getTableWithoutPrefix());
 
-        $ids = array();
+        $ids = [];
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $id = $do->insert();
             $do = clone($doOriginal);
-            DataGenerator::setDefaultValues($do, $i+1);
+            DataGenerator::setDefaultValues($do, $i + 1);
             $ids[] = $id;
         }
         return $ids;
@@ -125,20 +125,20 @@ class DataGenerator
     public static function generateParents(&$do)
     {
         $links = $do->links();
-    	foreach ($links as $foreignKey => $linkedTableField) {
-    	    if (!empty($do->$foreignKey)) {
-    	        // parent is already set
-    	        continue;
-    	    }
-    		list($linkedTable, $linkedField) = explode(':', $linkedTableField);
-    		$table = $do->getTableWithoutPrefix($linkedTable);
-    	    if ($table == 'accounts') {
-    	        // Don't create accounts via DataGenerator. DataObjects already take care of it.
-    	        continue;
-    	    }
-	        $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
+        foreach ($links as $foreignKey => $linkedTableField) {
+            if (!empty($do->$foreignKey)) {
+                // parent is already set
+                continue;
+            }
+            list($linkedTable, $linkedField) = explode(':', $linkedTableField);
+            $table = $do->getTableWithoutPrefix($linkedTable);
+            if ($table == 'accounts') {
+                // Don't create accounts via DataGenerator. DataObjects already take care of it.
+                continue;
+            }
+            $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
             $do->$foreignKey = DataGenerator::addAncestor($table, $linkedPrimaryKeyVal);
-    	}
+        }
     }
 
     /**
@@ -150,7 +150,7 @@ class DataGenerator
      * @access public
      * @static
      */
-    public static function cleanUp($addTablesToCleanUp = array())
+    public static function cleanUp($addTablesToCleanUp = [])
     {
         $tables = DataGenerator::trackData();
         $tables = array_merge($tables, $addTablesToCleanUp);
@@ -185,7 +185,7 @@ class DataGenerator
     {
         static $ids;
         if (!isset($ids) || $table === null) {
-            $ids = array();
+            $ids = [];
         }
         if ($id !== null) {
             $ids[$table] = $id;
@@ -204,11 +204,11 @@ class DataGenerator
     {
         static $tables;
         if (!isset($tables)) {
-            $tables = array();
+            $tables = [];
         }
         if ($table === null) {
             $ret = $tables;
-            $tables = array();
+            $tables = [];
             return $ret;
         } else {
             $tables[$table] = $table;
@@ -240,22 +240,22 @@ class DataGenerator
         DataGenerator::setDefaultValues($doAncestor);
 
         $links = $doAncestor->links();
-    	foreach ($links as $foreignKey => $linkedTableField) {
-    		list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
-    		$ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
-    	    if ($ancestorTable == 'accounts') {
-    	        // Don't create accounts via DataGenerator. DataObjects already take care of it.
-    	        continue;
-    	    }
-    		if(isset($fieldValue) && !isset($GLOBALS['dataGeneratorDontOptimize'])) { //hack for quick test fix
-    		    $doAncestor->$foreignKey = $fieldValue;
-    		} else {
+        foreach ($links as $foreignKey => $linkedTableField) {
+            list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
+            $ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
+            if ($ancestorTable == 'accounts') {
+                // Don't create accounts via DataGenerator. DataObjects already take care of it.
+                continue;
+            }
+            if (isset($fieldValue) && !isset($GLOBALS['dataGeneratorDontOptimize'])) { //hack for quick test fix
+                $doAncestor->$foreignKey = $fieldValue;
+            } else {
                 $doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
-    		}
-    	}
-    	DataGenerator::trackData($table);
-    	$id = $doAncestor->insert();
-    	DataGenerator::getReferenceId($table, $id); // store the id
+            }
+        }
+        DataGenerator::trackData($table);
+        $id = $doAncestor->insert();
+        DataGenerator::getReferenceId($table, $id); // store the id
         return $id;
     }
 
@@ -285,19 +285,15 @@ class DataGenerator
             if (!isset($do->$fieldName)) {
                 $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $fieldName, $counter);
 
-                if(!isset($fieldValue) && !in_array($fieldName, $keys))
-                {
+                if (!isset($fieldValue) && !in_array($fieldName, $keys)) {
                     $fieldValue = DataGenerator::defaultValueForObject($do, $fieldName, $fieldType);
-                    if(!isset($fieldValue))
-                    {
+                    if (!isset($fieldValue)) {
                         $fieldValue = DataGenerator::defaultValueByType($fieldType);
                     }
                 }
-                if (isset($fieldValue)) {
-                    if ($fieldValue != OX_DATAOBJECT_NULL) {
-                        // exception for NULLs
-                        $do->$fieldName = $fieldValue;
-                    }
+                if (isset($fieldValue) && $fieldValue != OX_DATAOBJECT_NULL) {
+                    // exception for NULLs
+                    $do->$fieldName = $fieldValue;
                 }
             }
         }
@@ -407,11 +403,11 @@ class DataGenerator
      * @param array $data    Save prepared data in data container
      * @access public
      */
-    public static function setData($table = null, $data = array())
+    public static function setData($table = null, $data = [])
     {
         if ($table === null) {
             // reset all
-            self::$data = array();
+            self::$data = [];
         }
 
         self::$data[$table] = $data;
@@ -429,11 +425,11 @@ class DataGenerator
      * @param string $table
      * @param array $data
      */
-    public static function setDataOne($table = null, $data = array())
+    public static function setDataOne($table = null, $data = [])
     {
-        $convertedData = array();
-        foreach($data as $column => $value) {
-            $convertedData[$column] = array($value);
+        $convertedData = [];
+        foreach ($data as $column => $value) {
+            $convertedData[$column] = [$value];
         }
         self::setData($table, $convertedData);
     }
@@ -451,25 +447,21 @@ class DataGenerator
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
 
-        if ($aConf['database']['type'] == 'pgsql')
-        {
+        if ($aConf['database']['type'] == 'pgsql') {
             OA_DB::setCaseSensitive();
             $aSequences = $oDbh->manager->listSequences();
             OA_DB::disableCaseSensitive();
-            if (is_array($aSequences))
-            {
-                $tableName = substr($aConf['table']['prefix'].$tableName, 0, 29).'_';
+            if (is_array($aSequences)) {
+                $tableName = substr($aConf['table']['prefix'] . $tableName, 0, 29) . '_';
 
                 $result = null;
 
                 RV::disableErrorHandling();
-                foreach ($aSequences AS $k => $sequence)
-                {
+                foreach ($aSequences as $k => $sequence) {
                     OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
 
-                    if (strpos($sequence, $tableName) === 0)
-                    {
-                        $sequence = $oDbh->quoteIdentifier($sequence.'_seq',true);
+                    if (strpos($sequence, $tableName) === 0) {
+                        $sequence = $oDbh->quoteIdentifier($sequence . '_seq', true);
                         $result = $oDbh->exec("SELECT setval('$sequence', 1, false)");
                         break;
                     }
@@ -482,11 +474,8 @@ class DataGenerator
                     return false;
                 }
             }
-
-        }
-        else if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
-        {
-            $tableName = $aConf['table']['prefix'].$tableName;
+        } elseif ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {
+            $tableName = $aConf['table']['prefix'] . $tableName;
             RV::disableErrorHandling();
             $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
             RV::enableErrorHandling();
@@ -499,5 +488,3 @@ class DataGenerator
         return true;
     }
 }
-
-?>

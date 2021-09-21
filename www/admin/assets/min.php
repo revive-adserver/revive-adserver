@@ -1,9 +1,9 @@
 <?php
 /**
  * Front controller for default Minify implementation.
- * 
+ *
  * Modified to suit AC / PC / UI lib code.
- * 
+ *
  * @package Minify
  */
 

@@ -26,22 +26,25 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
     public $placement_id;                    // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Placement_zone_assoc',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Placement_zone_assoc', $k, $v);
+    }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->placement_zone_assoc_id;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Campaign Zone Association';
     }
@@ -76,14 +79,14 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
         // advertiser and the website accounts should be able to see
         // the audit entries, so the results of two calls need to be
         // merged
-        $aAdvertiserAccountIds = array();
+        $aAdvertiserAccountIds = [];
         if (!empty($this->placement_id)) {
             // Placement/zone assocs don't have an account_id, get it from
             // the parent campaign (stored in the "campaigns" table) using
             // the "placement_id" key
             $aAdvertiserAccountIds = $this->_getOwningAccountIds('campaigns', 'placement_id');
         }
-        $aWebsiteAccountIds = array();
+        $aWebsiteAccountIds = [];
         if (!empty($this->zone_id)) {
             // Placement/zone assocs don't have an account_id, get it from
             // the parent zone (stored in the "zones" table) using
@@ -109,11 +112,8 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = 'Campaign #'.$this->placement_id.' -> Zone #'.$this->zone_id;
+        $aAuditFields['key_desc'] = 'Campaign #' . $this->placement_id . ' -> Zone #' . $this->zone_id;
     }
-
 }
-
-?>

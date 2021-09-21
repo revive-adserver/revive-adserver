@@ -35,13 +35,13 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - Level 1 Subdivision';
     }
 
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         if (is_array($this->data)) {
@@ -54,7 +54,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return $this->hasCapability('subdivision_1');
     }
@@ -64,10 +64,10 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      *
      * @return void
      */
-    function displayData()
+    public function displayData()
     {
         $this->data = $this->_expandData($this->data);
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
 
         // The region plugin is slightly different since we need to allow for multiple regions in different countries
         echo "
@@ -100,8 +100,8 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
             foreach ($this->getSubdivisions($this->data[0]) as $sCode => $sName) {
                 $sName = htmlspecialchars($sName);
                 echo "<div class='boxrow'>";
-                echo "<input tabindex='".($tabindex++)."' ";
-                echo "type='checkbox' id='c_{$this->executionorder}_{$sCode}' name='acl[{$this->executionorder}][data][]' value='{$sCode}'".(isset($aSelectedRegions[$sCode]) ? ' CHECKED' : '').">{$sName}</div>";
+                echo "<input tabindex='" . ($tabindex++) . "' ";
+                echo "type='checkbox' id='c_{$this->executionorder}_{$sCode}' name='acl[{$this->executionorder}][data][]' value='{$sCode}'" . (isset($aSelectedRegions[$sCode]) ? ' CHECKED' : '') . ">{$sName}</div>";
             }
 
             echo "</div></td></tr>";
@@ -125,7 +125,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      * @param mixed $data An optional, expanded form delivery limitation.
      * @return string The delivery limitation in flattened format.
      */
-    function _flattenData($data = null)
+    public function _flattenData($data = null)
     {
         if (is_null($data)) {
             $data = $this->data;
@@ -139,7 +139,6 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
             }, $data);
 
             return $country . '|' . implode(',', $data);
-
         }
         return $data;
     }
@@ -156,7 +155,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      * @param string $data An optional, flat form delivery limitation data string.
      * @return mixed The delivery limitation data in expanded format.
      */
-    function _expandData($data = null)
+    public function _expandData($data = null)
     {
         if (is_null($data)) {
             $data = $this->data;
@@ -170,17 +169,17 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
                 return "{$country}-{$code}";
             }, MAX_limitationsGetAFromS($aData[1]));
 
-            return array_merge(array($aData[0]), $aRegions);
+            return array_merge([$aData[0]], $aRegions);
         }
         return $data;
     }
 
-    function compile()
+    public function compile()
     {
         return $this->compileData($this->_preCompile($this->data));
     }
 
-    function _preCompile($sData)
+    public function _preCompile($sData)
     {
         $aData = $this->_expandData($sData);
 

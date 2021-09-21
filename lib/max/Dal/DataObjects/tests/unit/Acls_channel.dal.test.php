@@ -27,17 +27,17 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testDuplicate()
+    public function testDuplicate()
     {
         //  create test channel
         $doChannel = OA_Dal::factoryDO('channel');
@@ -92,5 +92,3 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
         }
     }
 }
-
-?>

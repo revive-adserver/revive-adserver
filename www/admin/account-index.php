@@ -18,5 +18,3 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the appropriate "Preferences" page
 OX_Admin_Redirect::redirect('account-user-index.php');
-
-?>

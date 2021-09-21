@@ -21,165 +21,165 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
 class Test_DeliveryCommon extends UnitTestCase
 {
     /** @var int */
-    var $original_server_port;
+    public $original_server_port;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;
-        $GLOBALS['_MAX']['CONF']['webpath']['delivery']     = 'www.maxstore.net/www/delivery';
-        $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL']  = 'secure.maxstore.net/www/delivery';
+        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = 'www.maxstore.net/www/delivery';
+        $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] = 'secure.maxstore.net/www/delivery';
 
         $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode(hash('sha256', 'revive-adserver'));
     }
 
-    function tearDown()
+    public function tearDown()
     {
         if ($this->original_server_port) {
             $_SERVER['SERVER_PORT'] = $this->original_server_port;
         }
     }
 
-    function test_MAX_commonGetDeliveryUrl_Uses_HTTP_Scheme_For_Nonsecure_URLs()
+    public function test_MAX_commonGetDeliveryUrl_Uses_HTTP_Scheme_For_Nonsecure_URLs()
     {
         $_SERVER['SERVER_PORT'] = 80;
-        $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 443;
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = 443;
         $url = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'http://www.maxstore.net/www/delivery/test.html', "HTTP delivery on standard, non-secure ports only need to generate plain HTTP URLs for delivery, with no explicit port.");
     }
 
-    function test_MAX_commonGetDeliveryUrl_Uses_HTTPS_Scheme_For_Secure_URLs()
+    public function test_MAX_commonGetDeliveryUrl_Uses_HTTPS_Scheme_For_Secure_URLs()
     {
         $_SERVER['SERVER_PORT'] = 443;
         $GLOBALS['_MAX']['SSL_REQUEST'] = true;
-        $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 443;
-        $url    = MAX_commonGetDeliveryUrl('test.html');
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = 443;
+        $url = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net/www/delivery/test.html', "Delivery requests that come in on the 'secure port' should use HTTPS URLs. %s");
         unset($GLOBALS['_MAX']['SSL_REQUEST']);
     }
 
-    function test_MAX_commonGetDeliveryUrl_Includes_Nonstandard_Secure_Port_Number()
+    public function test_MAX_commonGetDeliveryUrl_Includes_Nonstandard_Secure_Port_Number()
     {
         $_SERVER['SERVER_PORT'] = 4430;
         $GLOBALS['_MAX']['SSL_REQUEST'] = true;
-        $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 4430;
-        $url    = MAX_commonGetDeliveryUrl('test.html');
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = 4430;
+        $url = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net:4430/www/delivery/test.html', "A non-standard port number should be explicitly provided in delivery URLs. %s");
         unset($_SERVER['HTTPS']);
     }
 
-	/**
-	 * Test1 return a URL
-	 * A function to generate the URL for delivery scripts.
-	 *
-	 * @param string $file The file name of the delivery script.
-	 * @return string The URL to the delivery script.
-	 */
-	function test_MAX_commonConstructDeliveryUrl()
-	{
-		$this->sendMessage('test_MAX_commonConstructDeliveryUrl');
-        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] 	= 'www.maxstore.net/www/delivery';
-		$file 	= 'test.html';
-		$ret 	= MAX_commonConstructDeliveryUrl($file);
+    /**
+     * Test1 return a URL
+     * A function to generate the URL for delivery scripts.
+     *
+     * @param string $file The file name of the delivery script.
+     * @return string The URL to the delivery script.
+     */
+    public function test_MAX_commonConstructDeliveryUrl()
+    {
+        $this->sendMessage('test_MAX_commonConstructDeliveryUrl');
+        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = 'www.maxstore.net/www/delivery';
+        $file = 'test.html';
+        $ret = MAX_commonConstructDeliveryUrl($file);
         $this->assertEqual($ret, 'http://www.maxstore.net/www/delivery/test.html');
-	}
+    }
 
-	/**
-	 * Test1 return secure URL
-	 * A function to generate the secure URL for delivery scripts.
-	 *
-	 * @param string $file The file name of the delivery script.
-	 * @return string The URL to the delivery script.
-	 */
-	function test_MAX_commonConstructSecureDeliveryUrl()
-	{
-		$this->sendMessage('test_MAX_commonConstructSecureDeliveryUrl');
-        $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] 	= 'secure.maxstore.net/www/delivery';
-        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] 			= 444;
-		$file = 'test.html';
-		$ret 	= MAX_commonConstructSecureDeliveryUrl($file);
+    /**
+     * Test1 return secure URL
+     * A function to generate the secure URL for delivery scripts.
+     *
+     * @param string $file The file name of the delivery script.
+     * @return string The URL to the delivery script.
+     */
+    public function test_MAX_commonConstructSecureDeliveryUrl()
+    {
+        $this->sendMessage('test_MAX_commonConstructSecureDeliveryUrl');
+        $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] = 'secure.maxstore.net/www/delivery';
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = 444;
+        $file = 'test.html';
+        $ret = MAX_commonConstructSecureDeliveryUrl($file);
         $this->assertEqual($ret, 'https://secure.maxstore.net:444/www/delivery/test.html');
-	}
+    }
 
-	/**
-	 * Test1: return unsecure URL
-	 * Test2: return secure URL
-	 * A function to generate the URL for delivery scripts without a protocol.
-	 *
-	 * @param string $file The file name of the delivery script.
-	 * @param boolean $ssl Use the SSL delivery path (true) or not. Default is false.
-	 * @return string The parital URL to the delivery script (i.e. without
-	 *                an 'http:' or 'https:' prefix).
-	 */
-	function test_MAX_commonConstructPartialDeliveryUrl()
-	{
-		$this->sendMessage('test_MAX_commonConstructPartialDeliveryUrl');
-        $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] 	= 'secure.maxstore.net/www/delivery';
-        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] 	= 'www.maxstore.net/www/delivery';
-		$file = 'test.html';
-		// Test1
-		$ret = MAX_commonConstructPartialDeliveryUrl($file, false);
+    /**
+     * Test1: return unsecure URL
+     * Test2: return secure URL
+     * A function to generate the URL for delivery scripts without a protocol.
+     *
+     * @param string $file The file name of the delivery script.
+     * @param boolean $ssl Use the SSL delivery path (true) or not. Default is false.
+     * @return string The parital URL to the delivery script (i.e. without
+     *                an 'http:' or 'https:' prefix).
+     */
+    public function test_MAX_commonConstructPartialDeliveryUrl()
+    {
+        $this->sendMessage('test_MAX_commonConstructPartialDeliveryUrl');
+        $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] = 'secure.maxstore.net/www/delivery';
+        $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = 'www.maxstore.net/www/delivery';
+        $file = 'test.html';
+        // Test1
+        $ret = MAX_commonConstructPartialDeliveryUrl($file, false);
         $this->assertEqual($ret, '//www.maxstore.net/www/delivery/test.html');
         // Test2
-		$ret = MAX_commonConstructPartialDeliveryUrl($file, true);
+        $ret = MAX_commonConstructPartialDeliveryUrl($file, true);
         $this->assertEqual($ret, '//secure.maxstore.net/www/delivery/test.html');
-	}
+    }
 
-	/**
-	 * Remove an assortment of special characters from a variable or array:
-	 * 1.  Strip slashes if magic quotes are turned on.
-	 * 2.  Strip out any HTML
-	 * 3.  Strip out any CRLF
-	 * 4.  Remove any white space
-	 *
-	 * @access  public
-	 * @param   string $var  The variable to process.
-	 * @return  string       $var, minus any special quotes.
-	 */
-	function test_MAX_commonRemoveSpecialChars()
-	{
-		$this->sendMessage('test_MAX_commonRemoveSpecialChars');
-        $strIn0	= "Mr O'Reilly<br />".chr(13).chr(10);
-        $strIn1	= "'Mr Reilly'\r\n";
+    /**
+     * Remove an assortment of special characters from a variable or array:
+     * 1.  Strip slashes if magic quotes are turned on.
+     * 2.  Strip out any HTML
+     * 3.  Strip out any CRLF
+     * 4.  Remove any white space
+     *
+     * @access  public
+     * @param   string $var  The variable to process.
+     * @return  string       $var, minus any special quotes.
+     */
+    public function test_MAX_commonRemoveSpecialChars()
+    {
+        $this->sendMessage('test_MAX_commonRemoveSpecialChars');
+        $strIn0 = "Mr O'Reilly<br />" . chr(13) . chr(10);
+        $strIn1 = "'Mr Reilly'\r\n";
 
-		$strRe0 = "Mr O'Reilly";
-		$strRe1 = "'Mr Reilly'";
-		$aIn	= array(0 => $strIn0,
-						1 => array(0 => $strIn1),
-						);
-		MAX_commonRemoveSpecialChars($aIn);
-		$prn    = var_export($aIn[1][0], true);
+        $strRe0 = "Mr O'Reilly";
+        $strRe1 = "'Mr Reilly'";
+        $aIn = [0 => $strIn0,
+                        1 => [0 => $strIn1],
+                        ];
+        MAX_commonRemoveSpecialChars($aIn);
+        $prn = var_export($aIn[1][0], true);
 
         $this->assertEqual($aIn[0], $strRe0);
-        $this->assertEqual($aIn[1][0], $strRe1,'test_MAX_commonRemoveSpecialChars');
-	}
+        $this->assertEqual($aIn[1][0], $strRe1, 'test_MAX_commonRemoveSpecialChars');
+    }
 
-	/**
-	 * TODO: implement as web test
-	 * This function sends the anti-caching headers when called
-	 *
-	 */
-	function test_MAX_commonSetNoCacheHeaders()
-	{
-		$this->sendMessage('test_MAX_commonSetNoCacheHeaders: Not Implemented');
-	}
+    /**
+     * TODO: implement as web test
+     * This function sends the anti-caching headers when called
+     *
+     */
+    public function test_MAX_commonSetNoCacheHeaders()
+    {
+        $this->sendMessage('test_MAX_commonSetNoCacheHeaders: Not Implemented');
+    }
 
-	/**
-	 *
-	 * This function takes an array of variable names
-	 * and makes them available in the global scope
-	 *
-	 * $_POST values take precedence over $_GET values
-	 *
-	 */
-    function test_MAX_commonRegisterGlobalsArray()
+    /**
+     *
+     * This function takes an array of variable names
+     * and makes them available in the global scope
+     *
+     * $_POST values take precedence over $_GET values
+     *
+     */
+    public function test_MAX_commonRegisterGlobalsArray()
     {
         if (PHP_VERSION_ID >= 80100) {
             // Skip on PHP 8.1+
@@ -193,7 +193,7 @@ class Test_DeliveryCommon extends UnitTestCase
         $_POST['max_test_get'] = '1';
         $_GET['max_test_post'] = '0';
         $_POST['max_test_post'] = '1';
-        MAX_commonRegisterGlobalsArray(array('max_test_get', 'max_test_post'));
+        MAX_commonRegisterGlobalsArray(['max_test_get', 'max_test_post']);
         $this->assertTrue(array_key_exists('max_test_get', $GLOBALS), 'max_test_get exists');
         $this->assertTrue(array_key_exists('max_test_post', $GLOBALS), 'max_test_post exists');
         $this->assertTrue($GLOBALS['max_test_get'], 'GLOBALS precedence error');
@@ -203,63 +203,63 @@ class Test_DeliveryCommon extends UnitTestCase
         eval('$GLOBALS = $tmpGlobals;');
     }
 
-	/**
-	 * Test1: return urldecoded/decrypted string
-	 * Test2: return urldecoded string
-	 *
-	 * This function takes the "source" value and normalises it
-	 * and encrypts it if necessary
-	 *
-	 * @param string The value from the source parameter
-	 * @return string Encrypted source
-	 */
-	function test_MAX_commonDeriveSource()
-	{
+    /**
+     * Test1: return urldecoded/decrypted string
+     * Test2: return urldecoded string
+     *
+     * This function takes the "source" value and normalises it
+     * and encrypts it if necessary
+     *
+     * @param string The value from the source parameter
+     * @return string Encrypted source
+     */
+    public function test_MAX_commonDeriveSource()
+    {
         $str = "http://www.somewhere.com/index.php?a=this is a file&b=43589uhhjkh";
-	    // Test1: obfuscate (encrypt) and return
-	    $source = urlencode($str);
-		$GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
-		$expect = '{obfs:220208208212266277277205205205278209213215223205220223210223278225213215277219214224223204278212220212261227263208220219209292219209292227292222219216223286226263272273271268267207220220218217220}';
+        // Test1: obfuscate (encrypt) and return
+        $source = urlencode($str);
+        $GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
+        $expect = '{obfs:220208208212266277277205205205278209213215223205220223210223278225213215277219214224223204278212220212261227263208220219209292219209292227292222219216223286226263272273271268267207220220218217220}';
         $return = MAX_commonDeriveSource($source);
         $this->assertEqual($return, $expect);
         // Test2: urldecode and return
-	    $source = urlencode($str);
-		$GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 0;
-		$expect = $str;
+        $source = urlencode($str);
+        $GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 0;
+        $expect = $str;
         $return = MAX_commonDeriveSource($source);
         $this->assertEqual($return, $expect);
-	}
+    }
 
     /**
      * Test the _MAX_commonEncrypt and _MAX_commonDecrypt functions.
      */
-	function test_MAX_commonEncryptDecrypt()
-	{
-		$this->sendMessage('test_MAX_commonEncryptDecrypt');
-		$string = 'Lorem ipsum dolor sit amet ipso facto';
-		$GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
-		$retEnc = MAX_commonEncrypt($string);
+    public function test_MAX_commonEncryptDecrypt()
+    {
+        $this->sendMessage('test_MAX_commonEncryptDecrypt');
+        $string = 'Lorem ipsum dolor sit amet ipso facto';
+        $GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
+        $retEnc = MAX_commonEncrypt($string);
         $this->assertNotEqual($retEnc, $string);
-		$retDec = MAX_commonDecrypt($retEnc);
+        $retDec = MAX_commonDecrypt($retEnc);
         $this->assertNotEqual($retDec, $retEnc);
         $this->assertEqual($retDec, $string);
 
-		$GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 0;
-		$retDec = MAX_commonDecrypt($string);
+        $GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 0;
+        $retDec = MAX_commonDecrypt($string);
         $this->assertEqual($retDec, $string);
-	}
+    }
 
-    function test_MAX_commonInitVariables()
+    public function test_MAX_commonInitVariables()
     {
         // Test 1 : common defaults
-		$GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
+        $GLOBALS['_MAX']['CONF']['delivery']['obfuscate'] = 1;
 
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
 
         MAX_commonInitVariables();
 
-        $this->assertEqual($context, array(), '$context');
+        $this->assertEqual($context, [], '$context');
         $this->assertEqual($source, '{obfs:}', '$source'); // only if conf->obfuscate
         $this->assertEqual($target, '', '$target');
         $this->assertEqual($withText, '', '$withText');
@@ -267,7 +267,7 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->assertEqual($withtext, $withText, '$withtext/$withText');
         $this->assertEqual($ct0, '', '$ct0');
         $this->assertEqual($what, '', '$what');
-        $this->assertTrue(in_array($loc, array(stripslashes($loc), $_SERVER['HTTP_REFERER'] ?? '','')));
+        $this->assertTrue(in_array($loc, [stripslashes($loc), $_SERVER['HTTP_REFERER'] ?? '', '']));
         $this->assertEqual($referer, null, '$referer');
         $this->assertEqual($zoneid, null, '$zoneid');
         $this->assertEqual($campaignid, null, '$campaignid');
@@ -279,32 +279,32 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
 
-        $zoneid     = '1 and (select * from users)';
+        $zoneid = '1 and (select * from users)';
         $campaignid = '1 and (select * from users)';
-        $bannerid   = '1 and (select * from users)';
-        $clientid   = '1 and (select * from users)';
+        $bannerid = '1 and (select * from users)';
+        $clientid = '1 and (select * from users)';
 
         MAX_commonInitVariables();
 
-        $this->assertEqual($GLOBALS['zoneid']      , '');
-        $this->assertEqual($GLOBALS['campaignid']  , '');
-        $this->assertEqual($GLOBALS['clientid']    , '');
-        $this->assertEqual($GLOBALS['bannerid']    , '');
-        $this->assertEqual($GLOBALS['what']        , '');
+        $this->assertEqual($GLOBALS['zoneid'], '');
+        $this->assertEqual($GLOBALS['campaignid'], '');
+        $this->assertEqual($GLOBALS['clientid'], '');
+        $this->assertEqual($GLOBALS['bannerid'], '');
+        $this->assertEqual($GLOBALS['what'], '');
 
         // Test 3 : "what" field should get value from id field
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $bannerid   = '456';
+        $bannerid = '456';
         MAX_commonInitVariables();
-        $this->assertEqual($GLOBALS['what']    , 'bannerid:456');
+        $this->assertEqual($GLOBALS['what'], 'bannerid:456');
 
         // Test 4 : id fields should get value from "what" field
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
         $what = 'bannerid:456';
         MAX_commonInitVariables();
-        $this->assertEqual($GLOBALS['what']    , 'bannerid:456');
+        $this->assertEqual($GLOBALS['what'], 'bannerid:456');
         $this->assertEqual($GLOBALS['bannerid'], '456');
 
         // Test 5 : bad what field should leave empty what and id field
@@ -313,13 +313,13 @@ class Test_DeliveryCommon extends UnitTestCase
 
         $what = 'bannerid:1 and (select * from users)';
         MAX_commonInitVariables();
-        $this->assertEqual($GLOBALS['what']    , 'bannerid:1 and (select * from users)');
+        $this->assertEqual($GLOBALS['what'], 'bannerid:1 and (select * from users)');
         $this->assertEqual($GLOBALS['bannerid'], '');
 
         // Test 6 : target and charset fields should contain no whitespace
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $target  = '';
+        $target = '';
         $charset = '';
         MAX_commonInitVariables();
         $this->assertEqual($GLOBALS['target'], '');
@@ -327,7 +327,7 @@ class Test_DeliveryCommon extends UnitTestCase
 
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $target  = 'select * from users';
+        $target = 'select * from users';
         $charset = 'select * from users';
         MAX_commonInitVariables();
         $this->assertEqual($GLOBALS['target'], '');
@@ -335,7 +335,7 @@ class Test_DeliveryCommon extends UnitTestCase
 
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $target  = '_self';
+        $target = '_self';
         $charset = 'LATIN-1';
         MAX_commonInitVariables();
         $this->assertEqual($GLOBALS['target'], '_self');
@@ -344,21 +344,21 @@ class Test_DeliveryCommon extends UnitTestCase
         // Test 7 : withtext and withText fields (numeric 0 or 1)
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $withText  = 1;
+        $withText = 1;
         MAX_commonInitVariables();
         $this->assertEqual($GLOBALS['withText'], 1);
         $this->assertEqual($GLOBALS['withtext'], 1);
 
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $withtext  = 1;
+        $withtext = 1;
         MAX_commonInitVariables();
         $this->assertFalse(isset($GLOBALS['withText']));
         $this->assertEqual($GLOBALS['withtext'], 1);
 
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;
-        $withtext  = 'select * from users';
+        $withtext = 'select * from users';
         MAX_commonInitVariables();
         $this->assertEqual($GLOBALS['withtext'], 0);
 
@@ -370,7 +370,7 @@ class Test_DeliveryCommon extends UnitTestCase
         //$referer = '';
     }
 
-    function _unsetMAXGlobals()
+    public function _unsetMAXGlobals()
     {
         unset($GLOBALS['zoneid']);
         unset($GLOBALS['campaignid']);
@@ -382,7 +382,7 @@ class Test_DeliveryCommon extends UnitTestCase
         unset($GLOBALS['withText']);
         unset($GLOBALS['withtext']);
 
-        MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid', 'charset'));
+        MAX_commonRegisterGlobalsArray(['context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid', 'charset']);
     }
 
 
@@ -390,12 +390,12 @@ class Test_DeliveryCommon extends UnitTestCase
      * @todo create this as web test as it sends headers
      *
      */
-    function test_MAX_commonDisplay1x1()
+    public function test_MAX_commonDisplay1x1()
     {
         $this->assertTrue(true);
     }
 
-    function test_OX_Delivery_Common_checkClickSignature_noTimestamp()
+    public function test_OX_Delivery_Common_checkClickSignature_noTimestamp()
     {
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(0, 0, ''));
 
@@ -409,7 +409,7 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(2, 1, 'http://example.com/'));
     }
 
-    function test_OX_Delivery_Common_checkClickSignature_withTimestamp()
+    public function test_OX_Delivery_Common_checkClickSignature_withTimestamp()
     {
         // Set Now
         $GLOBALS['_MAX']['NOW'] = gmmktime(10, 50, 0, 2, 25, 2021);
@@ -452,7 +452,4 @@ class Test_DeliveryCommon extends UnitTestCase
         // Cleanup
         unset($GLOBALS['_MAX']['NOW']);
     }
-
 }
-
-?>

@@ -22,26 +22,31 @@ require_once MAX_PATH . '/www/admin/config.php';
 /*-------------------------------------------------------*/
 
 // Send header with charset info
-header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
+header("Content-Type: text/html" . (isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=" . $phpAds_CharSet : ""));
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/CampaignZoneLink.php';
 
-phpAds_registerGlobalUnslashed('action', 'campaignid', 'allSelected',
-        'text-linked', 'text-available');
+phpAds_registerGlobalUnslashed(
+    'action',
+    'campaignid',
+    'allSelected',
+    'text-linked',
+    'text-available'
+);
 
-$agencyId   = OA_Permission::getAgencyId();
-$oDalZones  = OA_Dal::factoryDAL('zones');
-$action     = $GLOBALS["action"];
+$agencyId = OA_Permission::getAgencyId();
+$oDalZones = OA_Dal::factoryDAL('zones');
+$action = $GLOBALS["action"];
 $campaignId = $GLOBALS['campaignid'];
 
-OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
-OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 OA_Permission::checkSessionToken();
 
-$aZonesIds = array();
-$aZonesIdsHash = array();
+$aZonesIds = [];
+$aZonesIdsHash = [];
 foreach ($_REQUEST['ids'] as $zone) {
     if (substr($zone, 0, 1) == 'z') {
         $aZonesIds[] = (int) substr($zone, 1);
@@ -56,23 +61,23 @@ foreach ($_REQUEST['ids'] as $zone) {
 // higlighted as "just linked". It doesn't make to put all zone ids in $aZonesIdsHash as
 // only
 if ($GLOBALS['allSelected'] == 'true') {
-    $aZonesIds = array();
+    $aZonesIds = [];
     $link = ($action == 'link');
     $text = ($link ? $GLOBALS['text-available'] : $GLOBALS['text-linked']);
     $websites = $oDalZones->getWebsitesAndZones($agencyId, $campaignId, !$link, $text);
     foreach ($websites as $website) {
         $zones = $website['zones'];
         foreach ($zones as $zoneid => $zone) {
-        	$aZonesIds []= $zoneid;
+            $aZonesIds [] = $zoneid;
         }
     }
 }
 
 switch ($action) {
-    case "link" :
+    case "link":
             $result = $oDalZones->linkZonesToCampaign($aZonesIds, $campaignId);
         break;
-    case "unlink" :
+    case "unlink":
             $result = $oDalZones->unlinkZonesFromCampaign($aZonesIds, $campaignId);
         break;
 };
@@ -88,22 +93,22 @@ $oTpl->display();
 // We need to
 echo "<!--result-info-start-->";
 switch ($action) {
-    case "link" :
+    case "link":
             if ($result == -1) {
                 echo $GLOBALS['strLinkingZonesProblem'];
             } else {
-                echo $result." ".$GLOBALS['strZonesLinked'];
+                echo $result . " " . $GLOBALS['strZonesLinked'];
             }
         break;
-    case "unlink" :
+    case "unlink":
             if ($result == -1) {
                 echo $GLOBALS['strUnlinkingZonesProblem'];
             } else {
-                echo $result." ".$GLOBALS['strZonesUnlinked'];
+                echo $result . " " . $GLOBALS['strZonesUnlinked'];
             }
         break;
 };
 echo "<!--result-info-end-->";
 
 // CSRF Token
-echo "<!--token-value-start-->".phpAds_SessionGetToken()."<!--token-value-end-->";
+echo "<!--token-value-start-->" . phpAds_SessionGetToken() . "<!--token-value-end-->";

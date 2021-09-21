@@ -70,7 +70,7 @@ if (!$allTrackersValid) {
     echo "<br /><strong>$strErrorsFound</strong><br /><br />";
     echo "$strRepairAppenedCodes<br />";
     echo "<form action='' METHOD='GET'>";
-    echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."' />";
+    echo "<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "' />";
     echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }
@@ -81,5 +81,3 @@ if (!$allTrackersValid) {
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

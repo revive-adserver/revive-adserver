@@ -21,6 +21,6 @@ $GLOBALS['strDelete'] = "Padam";
 $GLOBALS['strZone'] = "Tiada";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Amaran penyahaktifan untuk kempen {id} dihantar melalui emel";

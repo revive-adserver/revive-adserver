@@ -24,7 +24,7 @@ class Plugins_BannerTypeText extends OX_Component
      * Return the media (content) type
      *
      */
-    function getContentType()
+    public function getContentType()
     {
         return 'text';
     }
@@ -33,7 +33,7 @@ class Plugins_BannerTypeText extends OX_Component
      * return the storage type
      *
      */
-    function getStorageType()
+    public function getStorageType()
     {
         return 'txt';
     }
@@ -43,7 +43,7 @@ class Plugins_BannerTypeText extends OX_Component
      *
      * @return string A string describing the type of plugin.
      */
-    function getOptionDescription()
+    public function getOptionDescription()
     {
         return 'Generic Text Banner';
     }
@@ -53,18 +53,22 @@ class Plugins_BannerTypeText extends OX_Component
      *
      * @param object form
      */
-    function buildForm(&$form, &$row)
+    public function buildForm(&$form, &$row)
     {
-        $header = $form->createElement('header', 'header_txt', $GLOBALS['strTextBanner']." -  banner text");
+        $header = $form->createElement('header', 'header_txt', $GLOBALS['strTextBanner'] . " -  banner text");
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
 
-        $textG['textarea'] =  $form->createElement('textarea', 'bannertext', null,
-            array(
-                'class' =>'code', 'cols'=>'45', 'rows'=>'10', 'wrap'=>'off',
-                'dir' => 'ltr', 'style'=>'width:550px;'
-            ));
-        $form->addGroup($textG, 'text_banner_g', null, array("<br>", ""), false);
+        $textG['textarea'] = $form->createElement(
+            'textarea',
+            'bannertext',
+            null,
+            [
+                'class' => 'code', 'cols' => '45', 'rows' => '10', 'wrap' => 'off',
+                'dir' => 'ltr', 'style' => 'width:550px;'
+            ]
+        );
+        $form->addGroup($textG, 'text_banner_g', null, ["<br>", ""], false);
 
         $form->addElement('header', 'header_b_links', "Banner link");
         $form->addElement('text', 'url', $GLOBALS['strURL']);
@@ -74,22 +78,21 @@ class Plugins_BannerTypeText extends OX_Component
         $form->addElement('text', 'statustext', $GLOBALS['strStatusText']);
 
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
-
     }
 
-    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $aFields['iframe_friendly'] = false;
         
         return true;
     }
 
-    function processForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         return true;
     }
 
-    function validateForm(&$form)
+    public function validateForm(&$form)
     {
         return true;
     }
@@ -102,11 +105,8 @@ class Plugins_BannerTypeText extends OX_Component
      * @param array $banner
      * @return string
      */
-    function getBannerCache($buffer, &$noScript, $banner)
+    public function getBannerCache($buffer, &$noScript, $banner)
     {
         return $buffer;
     }
-
 }
-
-?>

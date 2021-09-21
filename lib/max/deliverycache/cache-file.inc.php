@@ -15,53 +15,48 @@ function phpAds_cacheDelete ($name='')
 {
     // DO NOT ALLOW CACHE DELETION AS IT WOULD CAUSE IT TO BE STALE!
     return;
-	if ($name != '') {
-		$filename = 'cache-'.md5($name).'.php';
-		if (file_exists(phpAds_path.'/cache/'.$filename)) {
-			@unlink (phpAds_path.'/cache/'.$filename);
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		$cachedir = @opendir(phpAds_path.'/cache/');
-		while (false !== ($filename = @readdir($cachedir))) {
-			if (preg_match('#^cache-[0-9A-F]{32}.php$#i', $filename)) {
-				@unlink (phpAds_path.'/cache/'.$filename);
-			}
-		}
-		@closedir($cachedir);
-		return true;
-	}
+    if ($name != '') {
+        $filename = 'cache-'.md5($name).'.php';
+        if (file_exists(phpAds_path.'/cache/'.$filename)) {
+            @unlink (phpAds_path.'/cache/'.$filename);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        $cachedir = @opendir(phpAds_path.'/cache/');
+        while (false !== ($filename = @readdir($cachedir))) {
+            if (preg_match('#^cache-[0-9A-F]{32}.php$#i', $filename)) {
+                @unlink (phpAds_path.'/cache/'.$filename);
+            }
+        }
+        @closedir($cachedir);
+        return true;
+    }
 }
 */
 
-function phpAds_cacheInfo ()
+function phpAds_cacheInfo()
 {
-	$result = array();
+    $result = [];
 
-	$cachedir = @opendir(phpAds_path.'/cache/');
+    $cachedir = @opendir(phpAds_path . '/cache/');
 
-	while (false !== ($filename = @readdir($cachedir)))
-	{
-		if (preg_match('#^cache-[0-9A-F]{32}.php$#i', $filename))
-		{
-			$cache_complete = false;
-			$cache_contents	= '';
-			$cache_name     = '';
+    while (false !== ($filename = @readdir($cachedir))) {
+        if (preg_match('#^cache-[0-9A-F]{32}.php$#i', $filename)) {
+            $cache_complete = false;
+            $cache_contents = '';
+            $cache_name = '';
 
-			@include (phpAds_path.'/cache/'.$filename);
+            @include(phpAds_path . '/cache/' . $filename);
 
-			if ($cache_complete == true)
-			{
-				$result[$cache_name] = strlen(serialize($cache_contents));
-			}
-		}
-	}
+            if ($cache_complete == true) {
+                $result[$cache_name] = strlen(serialize($cache_contents));
+            }
+        }
+    }
 
-	@closedir($cachedir);
+    @closedir($cachedir);
 
-	return ($result);
+    return ($result);
 }
-
-?>

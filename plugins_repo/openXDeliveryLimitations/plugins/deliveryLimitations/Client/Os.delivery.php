@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's operating system passes this limitation's test.
  */
-function MAX_checkClient_Os($limitation, $op, $aParams = array())
+function MAX_checkClient_Os($limitation, $op, $aParams = [])
 {
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT'];

@@ -21,9 +21,9 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  */
 class MAX_Plugin_Common
 {
-    var $module;
-    var $package;
-    var $name;
+    public $module;
+    public $package;
+    public $name;
 
     /**
      * Method for reading the specific plugin config file
@@ -36,7 +36,7 @@ class MAX_Plugin_Common
      * @return array                       Configuration array
      *
      */
-    function getConfig($processSections = false, $commonPackageConfig = true)
+    public function getConfig($processSections = false, $commonPackageConfig = true)
     {
         $name = $commonPackageConfig ? null : $this->name;
         return MAX_Plugin::getConfig($this->module, $this->package, $name, $processSections);
@@ -51,7 +51,7 @@ class MAX_Plugin_Common
      * @return string  Config file name
      *
      */
-    function getConfigFileName($commonPackageConfig = true)
+    public function getConfigFileName($commonPackageConfig = true)
     {
         $name = $commonPackageConfig ? null : $this->name;
         return MAX_Plugin::getConfigFileName($this->module, $this->package, $name);
@@ -63,7 +63,7 @@ class MAX_Plugin_Common
      * @return string  Module config file name
      *
      */
-    function getModuleConfigFileName()
+    public function getModuleConfigFileName()
     {
         return MAX_Plugin::getConfigFileName($this->module);
     }
@@ -80,10 +80,16 @@ class MAX_Plugin_Common
      * @return mixed                            Data of the cache (or false if no cache available)
      *
      */
-    function getCacheById($id, $doNotTestCacheValidity = true, $options = null)
+    public function getCacheById($id, $doNotTestCacheValidity = true, $options = null)
     {
-        return MAX_Plugin::getCacheForPluginById($id, $this->module, $this->package, $this->name,
-            $doNotTestCacheValidity, $options);
+        return MAX_Plugin::getCacheForPluginById(
+            $id,
+            $this->module,
+            $this->package,
+            $this->name,
+            $doNotTestCacheValidity,
+            $options
+        );
     }
 
     /**
@@ -97,10 +103,16 @@ class MAX_Plugin_Common
      * @return bool             True if no problem, else false
      *
      */
-    function saveCache($data, $id, $options = null)
+    public function saveCache($data, $id, $options = null)
     {
-        return MAX_Plugin::saveCacheForPlugin($data, $id, $this->module, $this->package, $this->name,
-            $options);
+        return MAX_Plugin::saveCacheForPlugin(
+            $data,
+            $id,
+            $this->module,
+            $this->package,
+            $this->name,
+            $options
+        );
     }
 
     /**
@@ -112,7 +124,7 @@ class MAX_Plugin_Common
      * @return bool         True if no problem, else false
      *
      */
-    function cleanCache($mode = 'ingroup')
+    public function cleanCache($mode = 'ingroup')
     {
         return MAX_Plugin::cleanPluginCache($this->module, $this->package, $this-> name, $mode);
     }
@@ -123,11 +135,8 @@ class MAX_Plugin_Common
      * @param string $string  String to translate
      * @return string  Translated string
      */
-    function translate($string)
+    public function translate($string)
     {
         return MAX_Plugin_Translation::translate($string, $this->module, $this->package);
     }
-
 }
-
-?>

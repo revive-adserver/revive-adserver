@@ -27,7 +27,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -41,7 +41,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
      * Test 2: Test correct results are returned with single data entry.
      * Test 3: Test correct results are returned with multiple data entries.
      */
-    function testGetAgencyEcpmRemnantCampaignsDeliveriesToDate()
+    public function testGetAgencyEcpmRemnantCampaignsDeliveriesToDate()
     {
         TestEnv::restoreEnv();
 
@@ -68,7 +68,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
      * Test 2: Test correct results are returned with single data entry.
      * Test 3: Test correct results are returned with multiple data entries.
      */
-    function testGetAgencyEcpmContractCampaignsDeliveriesToDate()
+    public function testGetAgencyEcpmContractCampaignsDeliveriesToDate()
     {
         $priority = 7;
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
@@ -184,7 +184,7 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $doCampaigns->revenue_type = MAX_FINANCE_CPC;
         $this->idCampaign2 = DataGenerator::generateOne($doCampaigns);
 
-        $doBanners   = OA_Dal::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $this->idCampaign2;
         $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $idBanner2 = DataGenerator::generateOne($doBanners);
@@ -214,9 +214,6 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
         $this->assertEqual($result[$this->idCampaign2]['sum_clicks'], 25);
         $this->assertEqual($result[$this->idCampaign2]['sum_conversions'], 5);
 
-        return array($agencyId1, $agencyId2);
+        return [$agencyId1, $agencyId2];
     }
-
 }
-
-?>

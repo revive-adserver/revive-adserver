@@ -6,9 +6,9 @@ require_once("../xajax.inc.php");
 
 function showOutput()
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("Hello");
-	return $objResponse;
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("Hello");
+    return $objResponse;
 }
 $xajax = new xajax();
 //$xajax->debugOn();

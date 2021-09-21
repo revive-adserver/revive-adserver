@@ -23,7 +23,7 @@ class TrackerServiceImpl extends BaseServiceImpl
     private $dllTracker;
 
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->dllTracker = new OA_Dll_Tracker();
@@ -128,15 +128,11 @@ class TrackerServiceImpl extends BaseServiceImpl
     public function getTracker($sessionId, $trackerId, &$oTrackerInfo)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->validateResult(
-                $this->dllTracker->getTracker($trackerId, $oTrackerInfo));
+                $this->dllTracker->getTracker($trackerId, $oTrackerInfo)
+            );
         } else {
-
             return false;
         }
     }
-
 }
-
-?>

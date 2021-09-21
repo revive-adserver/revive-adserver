@@ -24,26 +24,24 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Postalcode extends UnitTestCase
 {
-    function testCheckGeoPostalcode()
+    public function testCheckGeoPostalcode()
     {
         // == and !=
-        $this->assertTrue(MAX_checkGeo_Postalcode('502', '==', array('postal_code' => '502')));
-        $this->assertFalse(MAX_checkGeo_Postalcode('502', '!=', array('postal_code' => '502')));
-        $this->assertFalse(MAX_checkGeo_Postalcode('502', '==', array('postal_code' => '501')));
-        $this->assertTrue(MAX_checkGeo_Postalcode('502', '!=', array('postal_code' => '501')));
+        $this->assertTrue(MAX_checkGeo_Postalcode('502', '==', ['postal_code' => '502']));
+        $this->assertFalse(MAX_checkGeo_Postalcode('502', '!=', ['postal_code' => '502']));
+        $this->assertFalse(MAX_checkGeo_Postalcode('502', '==', ['postal_code' => '501']));
+        $this->assertTrue(MAX_checkGeo_Postalcode('502', '!=', ['postal_code' => '501']));
 
         // =~ and !~
-        $this->assertTrue(MAX_checkGeo_Postalcode('02', '=~', array('postal_code' => '502')));
-        $this->assertFalse(MAX_checkGeo_Postalcode('02', '!~', array('postal_code' => '502')));
-        $this->assertFalse(MAX_checkGeo_Postalcode('02', '=~', array('postal_code' => '501')));
-        $this->assertTrue(MAX_checkGeo_Postalcode('02', '!~', array('postal_code' => '501')));
+        $this->assertTrue(MAX_checkGeo_Postalcode('02', '=~', ['postal_code' => '502']));
+        $this->assertFalse(MAX_checkGeo_Postalcode('02', '!~', ['postal_code' => '502']));
+        $this->assertFalse(MAX_checkGeo_Postalcode('02', '=~', ['postal_code' => '501']));
+        $this->assertTrue(MAX_checkGeo_Postalcode('02', '!~', ['postal_code' => '501']));
 
         // =x and !x
-        $this->assertTrue(MAX_checkGeo_Postalcode('5[0-9]2', '=x', array('postal_code' => '502')));
-        $this->assertFalse(MAX_checkGeo_Postalcode('5[0-9]2', '!x', array('postal_code' => '502')));
-        $this->assertFalse(MAX_checkGeo_Postalcode('5[1-9]2', '=x', array('postal_code' => '501')));
-        $this->assertTrue(MAX_checkGeo_Postalcode('5[1-9]2', '!x', array('postal_code' => '501')));
+        $this->assertTrue(MAX_checkGeo_Postalcode('5[0-9]2', '=x', ['postal_code' => '502']));
+        $this->assertFalse(MAX_checkGeo_Postalcode('5[0-9]2', '!x', ['postal_code' => '502']));
+        $this->assertFalse(MAX_checkGeo_Postalcode('5[1-9]2', '=x', ['postal_code' => '501']));
+        $this->assertTrue(MAX_checkGeo_Postalcode('5[1-9]2', '!x', ['postal_code' => '501']));
     }
 }
-
-?>

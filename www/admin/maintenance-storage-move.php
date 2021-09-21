@@ -31,29 +31,25 @@ $doBanners = OA_Dal::factoryDO('banners');
 $doBanners->storagetype = 'sql';
 $doBanners->find();
 
-while ($doBanners->fetch())
-{
-	// Get the filename
-	$filename = $doBanners->filename;
+while ($doBanners->fetch()) {
+    // Get the filename
+    $filename = $doBanners->filename;
 
-	// Copy the file
-	$buffer = phpAds_ImageRetrieve('sql', $filename);
-	$doBanners->filename = phpAds_ImageStore('web', $filename, $buffer);
+    // Copy the file
+    $buffer = phpAds_ImageRetrieve('sql', $filename);
+    $doBanners->filename = phpAds_ImageStore('web', $filename, $buffer);
 
-	// TODO: Would be nice if we gave some indication to the user of success or failure!
-	if ($doBanners->filename != false)
-	{
-		phpAds_ImageDelete ('sql', $filename);
+    // TODO: Would be nice if we gave some indication to the user of success or failure!
+    if ($doBanners->filename != false) {
+        phpAds_ImageDelete('sql', $filename);
 
-	    $doBannersClone = clone($doBanners);
+        $doBannersClone = clone($doBanners);
 
-		$doBannersClone->imageurl = '';
-		$doBannersClone->storagetype = 'web';
+        $doBannersClone->imageurl = '';
+        $doBannersClone->storagetype = 'web';
 
         $doBannersClone->update();
-	}
+    }
 }
 
 Header("Location: maintenance-storage.php");
-
-?>

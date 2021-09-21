@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's netspeed passes this limitation's test.
  */
-function MAX_checkGeo_ConnectionType($limitation, $op, $aParams = array())
+function MAX_checkGeo_ConnectionType($limitation, $op, $aParams = [])
 {
     return MAX_limitationsMatchArrayClientGeo('connection_type', $limitation, $op, $aParams);
 }

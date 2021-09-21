@@ -20,36 +20,30 @@ require_once SIM_PATH . 'SimulationScenario.php';
  */
 class AndrewScenario extends SimulationScenario
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         $this->init("AndrewScenario");
         $this->setDateTime($GLOBALS['_MAX']['CONF']['sim']['starthour'], $GLOBALS['_MAX']['CONF']['sim']['startday']);
     }
 
-    function run()
+    public function run()
     {
         $this->newTables();
-        if (!$this->loadDataset('AndrewScenario.xml'))
-        {
+        if (!$this->loadDataset('AndrewScenario.xml')) {
             return false;
         }
         $this->printPrecis();
-        for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
-        {
-            $this->printHeading('Started iteration: '. $i, 3);
+        for ($i = 1;$i <= $this->scenarioConfig['iterations'];$i++) {
+            $this->printHeading('Started iteration: ' . $i, 3);
             $this->runPriority();
             $this->makeRequests($i);
-            $this->printHeading('Ended iteration: '. $i, 3);
+            $this->printHeading('Ended iteration: ' . $i, 3);
         }
         //$this->runMaintenance();
         $this->printPostSummary();
         $this->printSummaryData();
     }
-
 }
-
-?>

@@ -40,19 +40,19 @@ class Openads_Links
     public static function readLinksDotIni($file_links)
     {
         $links = new Config();
-        $root =& $links->parseConfig($file_links, 'inifile');
+        $root = &$links->parseConfig($file_links, 'inifile');
         if (PEAR::isError($root)) {
-            $links = array();
+            $links = [];
         } else {
             $links = $root->toArray();
             $links = $links['root'];
             foreach ($links as $table => $link_array) {
                 foreach ($link_array as $fk => $fv) {
                     $tmp = explode(':', $fv);
-                    $links[$table][$fk] = array(
+                    $links[$table][$fk] = [
                         'table' => $tmp[0],
                         'field' => $tmp[1]
-                    );
+                    ];
                 }
             }
         }
@@ -97,7 +97,7 @@ class Openads_Links
     public static function writeLinksDotIni($file_links, $link_array)
     {
         $links = new Config();
-        $root =& $links->parseConfig($file_links, 'inifile');
+        $root = &$links->parseConfig($file_links, 'inifile');
         $root = $root->toArray();
         $root = $root['root'];
 
@@ -121,7 +121,4 @@ class Openads_Links
         $links->parseConfig($root, 'phparray');
         return $links->writeConfig($file_links, 'inifile');
     }
-
 }
-
-?>

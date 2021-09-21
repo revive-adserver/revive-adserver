@@ -26,7 +26,7 @@ class OA_Algorithm_Dependency
      * @var OA_Algorithm_DependencySource
      */
     protected $source;
-    protected $selected = array();
+    protected $selected = [];
 
     /**
      * Normally, the item source is expected to be largely perfect and error free.
@@ -58,7 +58,7 @@ class OA_Algorithm_Dependency
      *                                doesn't exist, or has been deleted.
      * @return returns a new Algorithm::Dependency
      */
-    function __construct(OA_Algorithm_Dependency_Source $source, $selected = array(), $ignoreOrphans = false)
+    public function __construct(OA_Algorithm_Dependency_Source $source, $selected = [], $ignoreOrphans = false)
     {
         $this->source = $source;
         $this->ignoreOrphans = $ignoreOrphans;
@@ -88,10 +88,10 @@ class OA_Algorithm_Dependency
      *                reference to an empty array if no other items are needed, or false
      *                on error.
      */
-    function depends($items = array())
+    public function depends($items = [])
     {
-        $checked = array();
-        $depends = array();
+        $checked = [];
+        $depends = [];
         $stack = $items;
         $itemsKeys = array_flip($items);
         while ($id = array_shift($stack)) {
@@ -106,7 +106,7 @@ class OA_Algorithm_Dependency
             $deps = $item->getDependencies();
             foreach ($deps as $dependsOnId) {
                 if (!isset($checked[$dependsOnId])) {
-                    array_push($stack, $dependsOnId);
+                    $stack[] = $dependsOnId;
                 }
             }
             if (!isset($itemsKeys[$id])) {
@@ -137,7 +137,7 @@ class OA_Algorithm_Dependency
      *                an empty array if no items need to be acted upon, or false
      *                on error.
      */
-    function schedule($items = array())
+    public function schedule($items = [])
     {
         $depends = $this->depends($items);
         if (!is_array($depends)) {
@@ -162,11 +162,8 @@ class OA_Algorithm_Dependency
      * @see schedule()
      * @return array
      */
-    function scheduleAll()
+    public function scheduleAll()
     {
         return $this->schedule($this->source->getItemsIds());
     }
-
 }
-
-?>

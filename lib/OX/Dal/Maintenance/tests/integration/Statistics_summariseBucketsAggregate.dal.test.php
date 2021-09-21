@@ -24,11 +24,10 @@ Language_Loader::load();
  */
 class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,105 +35,105 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
     /**
      * A method to test the summariseBucketsAggregate() method.
      */
-    function testSummariseBucketsAggregate()
+    public function testSummariseBucketsAggregate()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         // Prepare standard test parameters
         $statisticsTableName = $aConf['table']['prefix'] . 'data_intermediate_ad';
-        $aMigrationMaps = array(
-            0 => array(
-                'method'           => 'aggregate',
-                'bucketTable'      => $aConf['table']['prefix'] . 'data_bkt_r',
-                'dateTimeColumn'   => 'interval_start',
-                'groupSource'      => array(
+        $aMigrationMaps = [
+            0 => [
+                'method' => 'aggregate',
+                'bucketTable' => $aConf['table']['prefix'] . 'data_bkt_r',
+                'dateTimeColumn' => 'interval_start',
+                'groupSource' => [
                     0 => 'interval_start',
                     1 => 'creative_id',
                     2 => 'zone_id'
-                ),
-                'groupDestination' => array(
+                ],
+                'groupDestination' => [
                     0 => 'date_time',
                     1 => 'ad_id',
                     2 => 'zone_id'
-                ),
-                'sumSource'        => array(
+                ],
+                'sumSource' => [
                     0 => 'count'
-                ),
-                'sumDestination'   => array(
+                ],
+                'sumDestination' => [
                     0 => 'requests'
-                ),
-                'sumDefault'       => array(
+                ],
+                'sumDefault' => [
                     0 => 0
-                )
-            ),
-            1 => array(
-                'method'           => 'aggregate',
-                'bucketTable'      => $aConf['table']['prefix'] . 'data_bkt_m',
-                'dateTimeColumn'   => 'interval_start',
-                'groupSource'      => array(
+                ]
+            ],
+            1 => [
+                'method' => 'aggregate',
+                'bucketTable' => $aConf['table']['prefix'] . 'data_bkt_m',
+                'dateTimeColumn' => 'interval_start',
+                'groupSource' => [
                     0 => 'interval_start',
                     1 => 'creative_id',
                     2 => 'zone_id'
-                ),
-                'groupDestination' => array(
+                ],
+                'groupDestination' => [
                     0 => 'date_time',
                     1 => 'ad_id',
                     2 => 'zone_id'
-                ),
-                'sumSource'        => array(
+                ],
+                'sumSource' => [
                     0 => 'count'
-                ),
-                'sumDestination'   => array(
+                ],
+                'sumDestination' => [
                     0 => 'impressions'
-                ),
-                'sumDefault'       => array(
+                ],
+                'sumDefault' => [
                     0 => 0
-                )
-            ),
-            2 => array(
-                'method'           => 'aggregate',
-                'bucketTable'      => $aConf['table']['prefix'] . 'data_bkt_c',
-                'dateTimeColumn'   => 'interval_start',
-                'groupSource'      => array(
+                ]
+            ],
+            2 => [
+                'method' => 'aggregate',
+                'bucketTable' => $aConf['table']['prefix'] . 'data_bkt_c',
+                'dateTimeColumn' => 'interval_start',
+                'groupSource' => [
                     0 => 'interval_start',
                     1 => 'creative_id',
                     2 => 'zone_id'
-                ),
-                'groupDestination' => array(
+                ],
+                'groupDestination' => [
                     0 => 'date_time',
                     1 => 'ad_id',
                     2 => 'zone_id'
-                ),
-                'sumSource'        => array(
+                ],
+                'sumSource' => [
                     0 => 'count'
-                ),
-                'sumDestination'   => array(
+                ],
+                'sumDestination' => [
                     0 => 'clicks'
-                ),
-                'sumDefault'       => array(
+                ],
+                'sumDefault' => [
                     0 => 0
-                )
-            )
-        );
-        $aDates = array(
+                ]
+            ]
+        ];
+        $aDates = [
             'start' => new Date('2008-08-21 09:00:00'),
-            'end'   => new Date('2008-08-21 09:59:59')
-        );
+            'end' => new Date('2008-08-21 09:59:59')
+        ];
 
         // Prepare the DAL object
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();
 
         $oNowDate = new Date();
-        $aExtras = array(
-            'operation_interval'    => $aConf['maintenance']['operationInterval'],
+        $aExtras = [
+            'operation_interval' => $aConf['maintenance']['operationInterval'],
             'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
-            'interval_start'        => $oDalMaintenanceStatistics->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
-            'interval_end'          => $oDalMaintenanceStatistics->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
-            'creative_id'           => 0,
-            'updated'               => $oDalMaintenanceStatistics->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
-        );
+            'interval_start' => $oDalMaintenanceStatistics->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
+            'interval_end' => $oDalMaintenanceStatistics->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
+            'creative_id' => 0,
+            'updated' => $oDalMaintenanceStatistics->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDalMaintenanceStatistics->timestampCastString,
+        ];
 
         // Test 1: Test with an incorrect method name in the mapping array
         $savedValue = $aMigrationMaps[0]['method'];
@@ -242,23 +241,23 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         // data_bkt_c tables in the incorrect operation interval
         $oData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $oData_bkt_r->interval_start = '2008-08-21 08:00:00';
-        $oData_bkt_r->creative_id    = 1;
-        $oData_bkt_r->zone_id        = 2;
-        $oData_bkt_r->count          = 10;
+        $oData_bkt_r->creative_id = 1;
+        $oData_bkt_r->zone_id = 2;
+        $oData_bkt_r->count = 10;
         DataGenerator::generateOne($oData_bkt_r);
 
         $oData_bkt_m = OA_Dal::factoryDO('data_bkt_m');
         $oData_bkt_m->interval_start = '2008-08-21 08:00:00';
-        $oData_bkt_m->creative_id    = 1;
-        $oData_bkt_m->zone_id        = 2;
-        $oData_bkt_m->count          = 9;
+        $oData_bkt_m->creative_id = 1;
+        $oData_bkt_m->zone_id = 2;
+        $oData_bkt_m->count = 9;
         DataGenerator::generateOne($oData_bkt_m);
 
         $oData_bkt_c = OA_Dal::factoryDO('data_bkt_c');
         $oData_bkt_c->interval_start = '2008-08-21 08:00:00';
-        $oData_bkt_c->creative_id    = 1;
-        $oData_bkt_c->zone_id        = 2;
-        $oData_bkt_c->count          = 1;
+        $oData_bkt_c->creative_id = 1;
+        $oData_bkt_c->zone_id = 2;
+        $oData_bkt_c->count = 1;
         DataGenerator::generateOne($oData_bkt_c);
 
         // Test 11: Test with data in the incorrect operation interval
@@ -269,23 +268,23 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         // data_bkt_c tables in the incorrect operation interval
         $oData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $oData_bkt_r->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_r->creative_id    = 1;
-        $oData_bkt_r->zone_id        = 2;
-        $oData_bkt_r->count          = 10;
+        $oData_bkt_r->creative_id = 1;
+        $oData_bkt_r->zone_id = 2;
+        $oData_bkt_r->count = 10;
         DataGenerator::generateOne($oData_bkt_r);
 
         $oData_bkt_m = OA_Dal::factoryDO('data_bkt_m');
         $oData_bkt_m->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_m->creative_id    = 1;
-        $oData_bkt_m->zone_id        = 2;
-        $oData_bkt_m->count          = 9;
+        $oData_bkt_m->creative_id = 1;
+        $oData_bkt_m->zone_id = 2;
+        $oData_bkt_m->count = 9;
         DataGenerator::generateOne($oData_bkt_m);
 
         $oData_bkt_c = OA_Dal::factoryDO('data_bkt_c');
         $oData_bkt_c->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_c->creative_id    = 1;
-        $oData_bkt_c->zone_id        = 2;
-        $oData_bkt_c->count          = 1;
+        $oData_bkt_c->creative_id = 1;
+        $oData_bkt_c->zone_id = 2;
+        $oData_bkt_c->count = 1;
         DataGenerator::generateOne($oData_bkt_c);
 
         // Test 12: Test with data in the correct operation interval
@@ -303,17 +302,17 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $rows = $oData_intermediate_ad->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad->fetch();
-        $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($oData_intermediate_ad->date_time, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->operation_interval, $aConf['maintenance']['operationInterval']);
         $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
-        $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
-        $this->assertEqual($oData_intermediate_ad->ad_id,                 1);
-        $this->assertEqual($oData_intermediate_ad->creative_id,           0);
-        $this->assertEqual($oData_intermediate_ad->zone_id,               2);
-        $this->assertEqual($oData_intermediate_ad->requests,              10);
-        $this->assertEqual($oData_intermediate_ad->impressions,           9);
-        $this->assertEqual($oData_intermediate_ad->clicks,                1);
+        $this->assertEqual($oData_intermediate_ad->interval_start, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->interval_end, '2008-08-21 09:59:59');
+        $this->assertEqual($oData_intermediate_ad->ad_id, 1);
+        $this->assertEqual($oData_intermediate_ad->creative_id, 0);
+        $this->assertEqual($oData_intermediate_ad->zone_id, 2);
+        $this->assertEqual($oData_intermediate_ad->requests, 10);
+        $this->assertEqual($oData_intermediate_ad->impressions, 9);
+        $this->assertEqual($oData_intermediate_ad->clicks, 1);
 
         // Clean up generated data
         DataGenerator::cleanUp();
@@ -322,44 +321,44 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         // data_bkt_c tables in the incorrect operation interval
         $oData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $oData_bkt_r->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_r->creative_id    = 2;
-        $oData_bkt_r->zone_id        = 2;
-        $oData_bkt_r->count          = 10;
+        $oData_bkt_r->creative_id = 2;
+        $oData_bkt_r->zone_id = 2;
+        $oData_bkt_r->count = 10;
         DataGenerator::generateOne($oData_bkt_r);
 
         $oData_bkt_m = OA_Dal::factoryDO('data_bkt_m');
         $oData_bkt_m->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_m->creative_id    = 2;
-        $oData_bkt_m->zone_id        = 2;
-        $oData_bkt_m->count          = 9;
+        $oData_bkt_m->creative_id = 2;
+        $oData_bkt_m->zone_id = 2;
+        $oData_bkt_m->count = 9;
         DataGenerator::generateOne($oData_bkt_m);
 
         $oData_bkt_c = OA_Dal::factoryDO('data_bkt_c');
         $oData_bkt_c->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_c->creative_id    = 2;
-        $oData_bkt_c->zone_id        = 2;
-        $oData_bkt_c->count          = 1;
+        $oData_bkt_c->creative_id = 2;
+        $oData_bkt_c->zone_id = 2;
+        $oData_bkt_c->count = 1;
         DataGenerator::generateOne($oData_bkt_c);
 
         $oData_bkt_r = OA_Dal::factoryDO('data_bkt_r');
         $oData_bkt_r->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_r->creative_id    = 11;
-        $oData_bkt_r->zone_id        = 12;
-        $oData_bkt_r->count          = 10000;
+        $oData_bkt_r->creative_id = 11;
+        $oData_bkt_r->zone_id = 12;
+        $oData_bkt_r->count = 10000;
         DataGenerator::generateOne($oData_bkt_r);
 
         $oData_bkt_m = OA_Dal::factoryDO('data_bkt_m');
         $oData_bkt_m->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_m->creative_id    = 11;
-        $oData_bkt_m->zone_id        = 12;
-        $oData_bkt_m->count          = 9960;
+        $oData_bkt_m->creative_id = 11;
+        $oData_bkt_m->zone_id = 12;
+        $oData_bkt_m->count = 9960;
         DataGenerator::generateOne($oData_bkt_m);
 
         $oData_bkt_c = OA_Dal::factoryDO('data_bkt_c');
         $oData_bkt_c->interval_start = '2008-08-21 09:00:00';
-        $oData_bkt_c->creative_id    = 11;
-        $oData_bkt_c->zone_id        = 12;
-        $oData_bkt_c->count          = 500;
+        $oData_bkt_c->creative_id = 11;
+        $oData_bkt_c->zone_id = 12;
+        $oData_bkt_c->count = 500;
         DataGenerator::generateOne($oData_bkt_c);
 
         // Test 13: Test with new data in the correct operation interval
@@ -377,17 +376,17 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $rows = $oData_intermediate_ad->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad->fetch();
-        $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($oData_intermediate_ad->date_time, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->operation_interval, $aConf['maintenance']['operationInterval']);
         $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
-        $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
-        $this->assertEqual($oData_intermediate_ad->ad_id,                 1);
-        $this->assertEqual($oData_intermediate_ad->creative_id,           0);
-        $this->assertEqual($oData_intermediate_ad->zone_id,               2);
-        $this->assertEqual($oData_intermediate_ad->requests,              10);
-        $this->assertEqual($oData_intermediate_ad->impressions,           9);
-        $this->assertEqual($oData_intermediate_ad->clicks,                1);
+        $this->assertEqual($oData_intermediate_ad->interval_start, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->interval_end, '2008-08-21 09:59:59');
+        $this->assertEqual($oData_intermediate_ad->ad_id, 1);
+        $this->assertEqual($oData_intermediate_ad->creative_id, 0);
+        $this->assertEqual($oData_intermediate_ad->zone_id, 2);
+        $this->assertEqual($oData_intermediate_ad->requests, 10);
+        $this->assertEqual($oData_intermediate_ad->impressions, 9);
+        $this->assertEqual($oData_intermediate_ad->clicks, 1);
 
         $oData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
         $oData_intermediate_ad->ad_id = 2;
@@ -395,17 +394,17 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $rows = $oData_intermediate_ad->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad->fetch();
-        $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($oData_intermediate_ad->date_time, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->operation_interval, $aConf['maintenance']['operationInterval']);
         $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
-        $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
-        $this->assertEqual($oData_intermediate_ad->ad_id,                 2);
-        $this->assertEqual($oData_intermediate_ad->creative_id,           0);
-        $this->assertEqual($oData_intermediate_ad->zone_id,               2);
-        $this->assertEqual($oData_intermediate_ad->requests,              10);
-        $this->assertEqual($oData_intermediate_ad->impressions,           9);
-        $this->assertEqual($oData_intermediate_ad->clicks,                1);
+        $this->assertEqual($oData_intermediate_ad->interval_start, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->interval_end, '2008-08-21 09:59:59');
+        $this->assertEqual($oData_intermediate_ad->ad_id, 2);
+        $this->assertEqual($oData_intermediate_ad->creative_id, 0);
+        $this->assertEqual($oData_intermediate_ad->zone_id, 2);
+        $this->assertEqual($oData_intermediate_ad->requests, 10);
+        $this->assertEqual($oData_intermediate_ad->impressions, 9);
+        $this->assertEqual($oData_intermediate_ad->clicks, 1);
 
         $oData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
         $oData_intermediate_ad->ad_id = 11;
@@ -413,23 +412,23 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         $rows = $oData_intermediate_ad->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad->fetch();
-        $this->assertEqual($oData_intermediate_ad->date_time,             '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->operation_interval,    $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($oData_intermediate_ad->date_time, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->operation_interval, $aConf['maintenance']['operationInterval']);
         $this->assertEqual($oData_intermediate_ad->operation_interval_id, OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']));
-        $this->assertEqual($oData_intermediate_ad->interval_start,        '2008-08-21 09:00:00');
-        $this->assertEqual($oData_intermediate_ad->interval_end,          '2008-08-21 09:59:59');
-        $this->assertEqual($oData_intermediate_ad->ad_id,                 11);
-        $this->assertEqual($oData_intermediate_ad->creative_id,           0);
-        $this->assertEqual($oData_intermediate_ad->zone_id,               12);
-        $this->assertEqual($oData_intermediate_ad->requests,              10000);
-        $this->assertEqual($oData_intermediate_ad->impressions,           9960);
-        $this->assertEqual($oData_intermediate_ad->clicks,                500);
+        $this->assertEqual($oData_intermediate_ad->interval_start, '2008-08-21 09:00:00');
+        $this->assertEqual($oData_intermediate_ad->interval_end, '2008-08-21 09:59:59');
+        $this->assertEqual($oData_intermediate_ad->ad_id, 11);
+        $this->assertEqual($oData_intermediate_ad->creative_id, 0);
+        $this->assertEqual($oData_intermediate_ad->zone_id, 12);
+        $this->assertEqual($oData_intermediate_ad->requests, 10000);
+        $this->assertEqual($oData_intermediate_ad->impressions, 9960);
+        $this->assertEqual($oData_intermediate_ad->clicks, 500);
 
         // Clean up generated data
         DataGenerator::cleanUp();
 
         // Also clean up the data migrated into the statistics table
-        $oData_intermediate_ad= OA_Dal::factoryDO('data_intermediate_ad');
+        $oData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
         $oData_intermediate_ad->data_intermediate_ad_id = 1;
         $oData_intermediate_ad->find();
         $oData_intermediate_ad->delete();
@@ -450,7 +449,4 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
         // Restore the test environment configuration
         TestEnv::restoreConfig();
     }
-
 }
-
-?>

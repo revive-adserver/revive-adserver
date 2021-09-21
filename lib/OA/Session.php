@@ -52,5 +52,4 @@ class OA_Session
         phpAds_SessionDataStore();
         return $message;
     }
-
 }

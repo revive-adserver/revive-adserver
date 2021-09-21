@@ -17,39 +17,42 @@ require_once MAX_PATH . '/lib/OA/DB/Table.php';
 class OA_UpgradePostscript_2_7_12_dev
 {
     /**
+     * @var string|mixed
+     */
+    public $tblApplicationVariable;
+    /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * DB table prefix
      *
      * @var unknown_type
      */
-    var $prefix;
-    var $tblCampaigns;
+    public $prefix;
+    public $tblCampaigns;
 
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
         // Insert the required application variable flag to ensure that
         // when the maintenance script next runs, it will process all
         // raw data into the new bucket format, so that any raw data not
         // previously summarised will be accounted for
 
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
-        $this->tblApplicationVariable = $aConf['prefix'].($aConf['application_variable'] ? $aConf['application_variable'] : 'application_variable');
+        $this->tblApplicationVariable = $aConf['prefix'] . ($aConf['application_variable'] ? $aConf['application_variable'] : 'application_variable');
 
         $query = "
             INSERT INTO
@@ -68,8 +71,7 @@ class OA_UpgradePostscript_2_7_12_dev
         $rs = $this->oDbh->exec($query);
 
         // Check for errors
-        if (PEAR::isError($rs))
-        {
+        if (PEAR::isError($rs)) {
             $this->logError($rs->getUserInfo());
             return false;
         }
@@ -78,12 +80,12 @@ class OA_UpgradePostscript_2_7_12_dev
         return true;
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }

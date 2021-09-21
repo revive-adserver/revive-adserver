@@ -12,49 +12,52 @@
 
 function phpAds_getPref($page_name, $var)
 {
-	global $session;
+    global $session;
 
-	$value = '';
+    $value = '';
 
-	if (isset($session['prefs'][$page_name][$var]))
-		$value = $session['prefs'][$page_name][$var];
+    if (isset($session['prefs'][$page_name][$var])) {
+        $value = $session['prefs'][$page_name][$var];
+    }
 
-	return $value;
+    return $value;
 }
 
 function phpAds_getPrefArray($page_name, $var)
 {
-	global $session;
+    global $session;
 
-	$value = array();
+    $value = [];
 
-	if (isset($session['prefs'][$page_name][$var]))
-		$value = explode (",", $session['prefs'][$page_name][$var]);
+    if (isset($session['prefs'][$page_name][$var])) {
+        $value = explode(",", $session['prefs'][$page_name][$var]);
+    }
 
-	return $value;
+    return $value;
 }
 
 function phpAds_updateExpandArray($expand_arr, $expand, $collapse)
 {
-	if ( ($expand != null) && ($expand != 'none') && ($expand != 'all') && !in_array($expand, $expand_arr))
-		$expand_arr[] = $expand;
+    if (($expand != null) && ($expand != 'none') && ($expand != 'all') && !in_array($expand, $expand_arr)) {
+        $expand_arr[] = $expand;
+    }
 
-	$index = array_search($collapse, $expand_arr);
-	if (is_integer($index))
-		unset($expand_arr[$index]);
+    $index = array_search($collapse, $expand_arr);
+    if (is_integer($index)) {
+        unset($expand_arr[$index]);
+    }
 
-	$index = array_search('', $expand_arr);
-	if (is_integer($index))
-		unset($expand_arr[$index]);
+    $index = array_search('', $expand_arr);
+    if (is_integer($index)) {
+        unset($expand_arr[$index]);
+    }
 
-	return $expand_arr;
+    return $expand_arr;
 }
 
 function phpAds_setPref($page_name, $var, $value)
 {
-	global $session;
+    global $session;
 
-	$session['prefs'][$page_name][$var] = $value;
+    $session['prefs'][$page_name][$var] = $value;
 }
-
-?>

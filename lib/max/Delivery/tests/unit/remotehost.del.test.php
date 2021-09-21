@@ -20,11 +20,10 @@ require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
  */
 class Test_DeliveryRemotehost extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -39,12 +38,12 @@ class Test_DeliveryRemotehost extends UnitTestCase
      * Only performs this conversion if the option to do so is set in the
      * configuration file.
      */
-    function test_MAX_remotehostProxyLookup()
+    public function test_MAX_remotehostProxyLookup()
     {
         $serverSave = $_SERVER;
 
         // This $_SERVER dump was provided by a user running HAProxy
-        $sampleSERVER = array (
+        $sampleSERVER = [
             'HTTP_HOST' => 'max.i12.de',
             'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; U; Linux i686; en-GB; rv:1.8.1.5) Gecko/20070718 Fedora/2.0.0.5-1.fc7 Firefox/2.0.0.5',
             'HTTP_ACCEPT' => 'text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
@@ -81,7 +80,7 @@ class Test_DeliveryRemotehost extends UnitTestCase
             'SCRIPT_NAME' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
             'PHP_SELF' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
             'REQUEST_TIME' => time(),
-        );
+        ];
         // I am unsure if this is a bug in OpenX or HAProxy, but the above dump does not contain
         // either an HTTP_VIA/REMOTE_HOST header, therefore OpenX assumes this is not proxied
         // I am adding it to "fix" the test
@@ -132,7 +131,7 @@ class Test_DeliveryRemotehost extends UnitTestCase
         $_SERVER = $serverSave;
     }
 
-    function test_MAX_remotehostAnonymise()
+    public function test_MAX_remotehostAnonymise()
     {
         $GLOBALS['_MAX']['CONF']['privacy']['anonymiseIp'] = false;
         $_SERVER['REMOTE_ADDR'] = '127.0.0.127';
@@ -155,7 +154,7 @@ class Test_DeliveryRemotehost extends UnitTestCase
      * present and the option to perform the lookup is not set, then the host name
      * is set to the remote IP address instead.
      */
-    function test_MAX_remotehostReverseLookup()
+    public function test_MAX_remotehostReverseLookup()
     {
         $return = MAX_remotehostReverseLookup();
         $this->assertTrue(true);
@@ -172,7 +171,7 @@ class Test_DeliveryRemotehost extends UnitTestCase
      *       just to be able to load the config information. The plugin system should be
      *       refactored to allow the Delivery Engine to load the information independently
      */
-    function test_MAX_remotehostSetGeoInfo()
+    public function test_MAX_remotehostSetGeoInfo()
     {
         $return = MAX_remotehostSetGeoInfo();
         $this->assertTrue(true);
@@ -186,7 +185,7 @@ class Test_DeliveryRemotehost extends UnitTestCase
      * @return boolean Returns true if the IP address is in a private network,
      *                 false otherwise.
      */
-    function test_MAX_remotehostPrivateAddress()
+    public function test_MAX_remotehostPrivateAddress()
     {
         $return = MAX_remotehostPrivateAddress('127.0.0.1');
         $this->assertTrue($return);
@@ -207,5 +206,3 @@ class Test_DeliveryRemotehost extends UnitTestCase
         $this->assertFalse($return);
     }
 }
-
-?>

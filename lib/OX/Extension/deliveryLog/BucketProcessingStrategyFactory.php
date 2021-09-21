@@ -18,7 +18,6 @@
  */
 class OX_Extension_DeliveryLog_BucketProcessingStrategyFactory
 {
-
     /**
      * Creates a BucketProcessingStrategy for aggregate type buckets.
      *
@@ -68,5 +67,3 @@ class OX_Extension_DeliveryLog_BucketProcessingStrategyFactory
         MAX::raiseError($message, MAX_ERROR_INVALIDARGS, PEAR_ERROR_DIE);
     }
 }
-
-?>

@@ -12,7 +12,7 @@
 
 $file = '/lib/max/Delivery/log.php';
 ###START_STRIP_DELIVERY
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+if (isset($GLOBALS['_MAX']['FILES'][$file])) {
     return;
 }
 ###END_STRIP_DELIVERY
@@ -35,13 +35,15 @@ require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
  * @param integer $zoneId The zone ID.
  * @param array   $aAd The ad-array (see page DocBlock); contains ad_id, zone_id, and all other available fields
  */
-function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
+function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = [])
 {
     // Only log requests if request logging is enabled
-    if (empty($GLOBALS['_MAX']['CONF']['logging']['adRequests'])) { return true; }
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['adRequests'])) {
+        return true;
+    }
 
     // Call all registered plugins that use the "logRequest" hook
-    OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOkayToLog($adId, $zoneId)));
+    OX_Delivery_Common_hook('logRequest', [$adId, $zoneId, $aAd, _viewersHostOkayToLog($adId, $zoneId)]);
 }
 
 /**
@@ -53,7 +55,9 @@ function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = array())
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
     // Only log impressions if impression logging is enabled
-    if (empty($GLOBALS['_MAX']['CONF']['logging']['adImpressions'])) { return true; }
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['adImpressions'])) {
+        return true;
+    }
 
     // Check to see if the ad impression logging action is blocked (as a result
     // of the settings & banner inactivity), and if so, exit impression logging
@@ -63,7 +67,7 @@ function MAX_Delivery_log_logAdImpression($adId, $zoneId)
     }
 
     // Call all registered plugins that use the "logImpression" hook
-    OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
+    OX_Delivery_Common_hook('logImpression', [$adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)]);
 }
 
 /**
@@ -75,10 +79,12 @@ function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
     // Only log clicks if click logging is enabled
-    if (empty($GLOBALS['_MAX']['CONF']['logging']['adClicks'])) { return true; }
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['adClicks'])) {
+        return true;
+    }
 
     // Call all registered plugins that use the "logClick" hook
-    OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
+    OX_Delivery_Common_hook('logClick', [$adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)]);
 }
 
 /**
@@ -93,7 +99,9 @@ function MAX_Delivery_log_logAdClick($adId, $zoneId)
 function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
     // Only log conversions if logging of tracker impressions logging is enabled
-    if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) { return true; }
+    if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) {
+        return true;
+    }
 
     // Prepare the raw database IP address, depending on if OpenX is running
     // with multiple delivery servers, or just a single server
@@ -109,7 +117,7 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
         $serverRawIp = $aConf['rawDatabase']['host'];
     }
     // Call all registered plugins that use the "logConversion" hook
-    $aConversionInfo = OX_Delivery_Common_hook('logConversion', array($trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)));
+    $aConversionInfo = OX_Delivery_Common_hook('logConversion', [$trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)]);
     // Check that the conversion was logged correctly
     if (is_array($aConversionInfo)) {
         // Return the result
@@ -174,8 +182,8 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
     if (count($aVariables)) {
         OX_Delivery_Common_hook(
             'logConversionVariable',
-            array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)),
-            empty($pluginId) ? null : $pluginId.'Variable'
+            [$aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)],
+            empty($pluginId) ? null : $pluginId . 'Variable'
         );
     }
 }
@@ -193,7 +201,7 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
  *                 information should not be logged.
  */
 
-function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
+function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -210,7 +218,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
                 break;
             }
         }
-        OX_Delivery_logMessage('user-agent browser : '.$agent.' is '.($allowed ? '' : 'not ').'allowed', 7);
+        OX_Delivery_logMessage('user-agent browser : ' . $agent . ' is ' . ($allowed ? '' : 'not ') . 'allowed', 7);
         if (!$allowed) {
             $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'enforceUserAgents';
             $okToLog = false;
@@ -222,7 +230,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
         $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
         foreach ($aKnownBots as $bot) {
             if (strpos($agent, $bot) !== false) {
-                OX_Delivery_logMessage('user-agent '.$agent.' is a known bot '.$bot, 7);
+                OX_Delivery_logMessage('user-agent ' . $agent . ' is a known bot ' . $bot, 7);
                 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
                 $okToLog = false;
             }
@@ -232,27 +240,29 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
     // Check if this IP address has been blocked
     if (!empty($aConf['logging']['ignoreHosts'])) {
         $hosts = str_replace(',', '|', $aConf['logging']['ignoreHosts']);
-        $hosts = '#^('.$hosts.')$#i';
+        $hosts = '#^(' . $hosts . ')$#i';
 
         // Format the hosts to ignore in a PCRE format
         $hosts = str_replace('.', '\.', $hosts);
         $hosts = str_replace('*', '[^.]+', $hosts);
         // Check if the viewer's IP address is in the ignore list
         if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
-            OX_Delivery_logMessage('viewer\'s ip is in the ignore list '.$_SERVER['REMOTE_ADDR'], 7);
+            OX_Delivery_logMessage('viewer\'s ip is in the ignore list ' . $_SERVER['REMOTE_ADDR'], 7);
             $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_ip';
             $okToLog = false;
         }
         // Check if the viewer's hostname is in the ignore list
         if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
-            OX_Delivery_logMessage('viewer\'s host is in the ignore list '.$_SERVER['REMOTE_HOST'], 7);
+            OX_Delivery_logMessage('viewer\'s host is in the ignore list ' . $_SERVER['REMOTE_HOST'], 7);
             $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreHosts_host';
             $okToLog = false;
         }
     }
-    if ($okToLog) OX_Delivery_logMessage('viewer\'s host is OK to log', 7);
+    if ($okToLog) {
+        OX_Delivery_logMessage('viewer\'s host is OK to log', 7);
+    }
 
-    $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
+    $result = OX_Delivery_Common_Hook('filterEvent', [$adId, $zoneId, $trackerId]);
     if (!empty($result) && is_array($result)) {
         foreach ($result as $pci => $value) {
             if ($value == true) {
@@ -305,13 +315,13 @@ function MAX_Delivery_log_getArrGetVariable(string $name, array $array = null)
 function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
 {
     if (!is_array($aArray)) {
-        $aArray = array();
+        $aArray = [];
     }
     if (empty($aArray[$index])) {
         $aArray[$index] = 0;
     } else {
         if (!is_integer($aArray[$index])) {
-           $aArray[$index] = intval($aArray[$index]);
+            $aArray[$index] = intval($aArray[$index]);
         }
     }
 }
@@ -381,7 +391,7 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
         $cookieData = MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index];
 
         // See if any plugin-components have added items to the conversion cookie...
-        $conversionParams =  OX_Delivery_Common_hook('addConversionParams', array(&$index, &$aAdIds, &$aZoneIds, &$aSetLastSeen, &$action, &$cookieData));
+        $conversionParams = OX_Delivery_Common_hook('addConversionParams', [&$index, &$aAdIds, &$aZoneIds, &$aSetLastSeen, &$action, &$cookieData]);
         if (!empty($conversionParams) && is_array($conversionParams)) {
             foreach ($conversionParams as $params) {
                 if (!empty($params) && is_array($params)) {
@@ -430,7 +440,7 @@ function MAX_Delivery_log_isClickBlocked($adId, $aBlockLoggingClick)
         if (isset($aBlockLoggingClick[$adId])) {
             $endBlock = MAX_commonUnCompressInt($aBlockLoggingClick[$adId]) + $GLOBALS['conf']['logging']['blockAdClicksWindow'];
             if ($endBlock >= MAX_commonGetTimeNow()) {
-                OX_Delivery_logMessage('adID '.$adId.' click is still blocked by block logging window ', 7);
+                OX_Delivery_logMessage('adID ' . $adId . ' click is still blocked by block logging window ', 7);
                 return true;
             }
         }
@@ -467,5 +477,3 @@ function _setLimitations($type, $index, $aItems, $aCaps)
         $aCaps['session_capping'][$index]
     );
 }
-
-?>

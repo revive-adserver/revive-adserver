@@ -25,7 +25,7 @@ class Test_OA_Dal_Maintenance_Priority_updateCampaignsEcpms extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,13 +33,13 @@ class Test_OA_Dal_Maintenance_Priority_updateCampaignsEcpms extends UnitTestCase
     /**
      * Method to test the updateCampaignsEcpms method.
      */
-    function testUpdateCampaignsEcpms()
+    public function testUpdateCampaignsEcpms()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDal = new OA_Dal_Maintenance_Priority();
 
-        $aOldEcpms = array('0.1', '0.2', '0.3', '0.4', '0.5');
-        $aCampaignsIds = array();
+        $aOldEcpms = ['0.1', '0.2', '0.3', '0.4', '0.5'];
+        $aCampaignsIds = [];
         foreach ($aOldEcpms as $ecpm) {
             $aCampaignsEcpms[$this->addCampaign($ecpm)] = $ecpm;
         }
@@ -60,7 +60,7 @@ class Test_OA_Dal_Maintenance_Priority_updateCampaignsEcpms extends UnitTestCase
         DataGenerator::cleanUp();
     }
 
-    function checkEcpm($campaignId, $ecpm)
+    public function checkEcpm($campaignId, $ecpm)
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignid = $campaignId;
@@ -68,12 +68,10 @@ class Test_OA_Dal_Maintenance_Priority_updateCampaignsEcpms extends UnitTestCase
         $this->assertEqual(round($ecpm, 3), round($doCampaigns->ecpm, 3));
     }
 
-    function addCampaign($ecpm)
+    public function addCampaign($ecpm)
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->ecpm = $ecpm;
         return DataGenerator::generateOne($doCampaigns);
     }
 }
-
-?>

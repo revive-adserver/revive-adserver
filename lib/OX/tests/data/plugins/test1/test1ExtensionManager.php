@@ -10,20 +10,16 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
+require_once(LIB_PATH . '/Extension/ExtensionCommon.php');
 
 class OX_Extension_foo extends OX_Extension_Common
 {
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function runTasksTestEvent()
+    public function runTasksTestEvent()
     {
         return 'Test Task OK';
     }
-
 }
-
-?>

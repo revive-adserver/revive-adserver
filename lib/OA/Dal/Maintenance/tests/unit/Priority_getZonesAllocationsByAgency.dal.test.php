@@ -28,7 +28,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -40,7 +40,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
      * Test 1: Test with no data, and ensure no data returned.
      * Test 2: Test with sample data, and ensure the correct data is returned.
      */
-    function testGetZonesAllocationsForEcpmRemnantByAgency()
+    public function testGetZonesAllocationsForEcpmRemnantByAgency()
     {
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
@@ -66,7 +66,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
      * Test 1: Test with no data, and ensure no data returned.
      * Test 2: Test with sample data, and ensure the correct data is returned.
      */
-    function testGetZonesAllocationsByAgencyAndCampaignPriority()
+    public function testGetZonesAllocationsByAgencyAndCampaignPriority()
     {
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
@@ -247,8 +247,6 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
                 )";
         $rows = $oDbh->exec($query);
 
-        return array($agencyId1, $agencyId2);
+        return [$agencyId1, $agencyId2];
     }
 }
-
-?>

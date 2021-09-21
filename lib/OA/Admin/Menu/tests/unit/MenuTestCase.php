@@ -18,13 +18,12 @@
  */
 abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
 {
-
-    function setUp()
+    public function setUp()
     {
         RV::disableErrorHandling();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         RV::enableErrorHandling();
     }
@@ -36,9 +35,9 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
      * @param array OA_Admin_Menu_Section $sections1
      * @param array OA_Admin_Menu_Section $sections2
      */
-    function assertSectionListsEqual($aSections1, $aSections2)
+    public function assertSectionListsEqual($aSections1, $aSections2)
     {
-    	  $this->assertEqual(count($aSections1), count($aSections2));
+        $this->assertEqual(count($aSections1), count($aSections2));
 
         for ($i = 0; $i < count($aSections1); $i++) {
             $this->assertSectionsEqual($aSections1[$i], $aSections2[$i]);
@@ -53,11 +52,11 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
      * @param OA_Admin_Menu_Section $section1
      * @param OA_Admin_Menu_Section $section2
      */
-    function assertSectionsEqual($section1, $section2)
+    public function assertSectionsEqual($section1, $section2)
     {
         $this->assertEqual($section1->getId(), $section2->getId());
         $this->assertEqual($section1->getName(), $section2->getName());
-        $this->assertEqual($section1->getLink(array()), $section2->getLink(array()));
+        $this->assertEqual($section1->getLink([]), $section2->getLink([]));
         $this->assertEqual($section1->getHelpLink(), $section2->getHelpLink());
         $this->assertEqual($section1->getRank(), $section2->getRank());
         $this->assertEqual($section1->isExclusive(), $section2->isExclusive());
@@ -66,11 +65,11 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
     }
 
 
-    function checkSectionData($sectionData, $section)
+    public function checkSectionData($sectionData, $section)
     {
         $this->assertEqual($sectionData['id'], $section->getId());
         $this->assertEqual($sectionData['name'], $section->getName());
-        $this->assertEqual($sectionData['link'], $section->getLink(array()));
+        $this->assertEqual($sectionData['link'], $section->getLink([]));
         $this->assertEqual($sectionData['helpLink'], $section->getHelpLink());
         $this->assertEqual($sectionData['rank'], $section->getRank());
         $this->assertEqual($sectionData['exclusive'], $section->isExclusive());
@@ -78,20 +77,20 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
     }
 
 
-    function generateSection($startId = 0)
+    public function generateSection($startId = 0)
     {
         return $this->generateSections(1, $startId);
     }
 
 
-    function generateSections($count, $startId = 0)
+    public function generateSections($count, $startId = 0)
     {
         if ($count == 1) {
             $aSectionData = $this->generateSectionData($count, $startId);
             return $this->generateSectionFromData($aSectionData[0]);
         }
 
-        $aSections = array();
+        $aSections = [];
         $aSectionData = $this->generateSectionData($count, $startId);
         for ($i = 0; $i < count($aSectionData); $i++) {
             $aSections[] = $this->generateSectionFromData($aSectionData[$i]);
@@ -101,33 +100,38 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
     }
 
 
-    function generateSectionFromData($data)
+    public function generateSectionFromData($data)
     {
-        return new OA_Admin_Menu_Section($data['id'], $data['name'], $data['link'], $data['exclusive'],
-              $data['helpLink'], $data['accPerm'], $data['rank'], $data['affixed']);
+        return new OA_Admin_Menu_Section(
+            $data['id'],
+            $data['name'],
+            $data['link'],
+            $data['exclusive'],
+            $data['helpLink'],
+            $data['accPerm'],
+            $data['rank'],
+            $data['affixed']
+        );
     }
 
 
-    function generateSectionData($count, $startId = 0)
+    public function generateSectionData($count, $startId = 0)
     {
-        $sectionData = array();
+        $sectionData = [];
 
         for ($i = 0; $i < $count; $i++) {
-          $id = $startId + $i;
+            $id = $startId + $i;
 
-          $sectionData[] = array('id' => "my-section$id",
+            $sectionData[] = ['id' => "my-section$id",
            'name' => "Test section $id",
            'link' => "/www/admin.test-$id.php",
            'exclusive' => ($i % 3) == 0 ? false : true,
            'helpLink' => "http://docs.openx.org/test$id",
-           'accPerm' => array(),
+           'accPerm' => [],
            'rank' => $id,
-           'affixed'   => ($i % 2) == 0);
+           'affixed' => ($i % 2) == 0];
         }
 
         return $sectionData;
     }
-
 }
-
-?>

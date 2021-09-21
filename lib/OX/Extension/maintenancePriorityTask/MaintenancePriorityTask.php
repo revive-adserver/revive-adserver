@@ -25,7 +25,8 @@ abstract class Plugins_MaintenancePriorityTask extends OX_Component
     /**
      * Constructor method
      */
-    function __construct($extension, $group, $component) {
+    public function __construct($extension, $group, $component)
+    {
     }
 
     /**
@@ -36,7 +37,7 @@ abstract class Plugins_MaintenancePriorityTask extends OX_Component
      * @abstract
      * @return OX_Maintenance_Priority_Task
      */
-    abstract function addMaintenancePriorityTask();
+    abstract public function addMaintenancePriorityTask();
 
     /**
      * Returns the class name of the task this task should run after or replace.
@@ -82,5 +83,3 @@ abstract class Plugins_MaintenancePriorityTask extends OX_Component
         return true;
     }
 }
-
-?>

@@ -21,7 +21,7 @@ require_once MAX_PATH . '/lib/OA/Creative/File.php';
 /* Client interface security                             */
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {

@@ -40,4 +40,3 @@ function Plugin_deliveryCacheStore_Delivery_cacheStore($filename, $cache_content
     // Return false as there is no delivery cache store plugin
     return false;
 }
-?>

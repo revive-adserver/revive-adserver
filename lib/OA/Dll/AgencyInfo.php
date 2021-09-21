@@ -31,49 +31,49 @@ class OA_Dll_AgencyInfo extends OA_Info
      *
      * @var integer $agencyId
      */
-    var $agencyId;
+    public $agencyId;
 
     /**
      * This field contains the ID of the agency account.
      *
      * @var integer $accountId
      */
-    var $accountId;
+    public $accountId;
 
     /**
      * This field provides the name of the agency.
      *
      * @var string $agencyName
      */
-    var $agencyName;
+    public $agencyName;
 
     /**
      * The password variable is the password for the agency.
      *
      * @var string $password
      */
-    var $password;
+    public $password;
 
     /**
      * This field provides the name of the contact for the agency.
      *
      * @var string $contactName
      */
-    var $contactName;
+    public $contactName;
 
     /**
      * This field provides the email address of the contact for the agency.
      *
      * @var string $emailAddress
      */
-    var $emailAddress;
+    public $emailAddress;
 
     /**
      * A boolean field to indicate if the banner is active
      *
      * @var int $status
      */
-    var $status;
+    public $status;
 
     /**
      * This method returns an array of fields with their corresponding types.
@@ -82,7 +82,7 @@ class OA_Dll_AgencyInfo extends OA_Info
      *
      * @return array
      */
-    function getFieldsTypes()
+    public function getFieldsTypes()
     {
         return [
             'agencyId' => 'integer',
@@ -95,5 +95,3 @@ class OA_Dll_AgencyInfo extends OA_Info
         ];
     }
 }
-
-?>

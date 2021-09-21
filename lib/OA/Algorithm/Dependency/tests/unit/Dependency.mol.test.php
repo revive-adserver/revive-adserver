@@ -22,87 +22,84 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
  */
 class Test_OA_Algorithm_Dependency extends UnitTestCase
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function testDependcy()
+    public function testDependcy()
     {
         // test depends
-        $items = array(
+        $items = [
             'C', 'B', 'F',
-            'A' => array('B', 'C'),
-            'E' => array('B'),
-            'D' => array('A', 'E'),
-        );
+            'A' => ['B', 'C'],
+            'E' => ['B'],
+            'D' => ['A', 'E'],
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $dep = new OA_Algorithm_Dependency($source);
 
-        $ret = $dep->depends(array('B'));
-        $this->assertEqual($ret, array());
+        $ret = $dep->depends(['B']);
+        $this->assertEqual($ret, []);
 
-        $ret = $dep->depends(array('A'));
-        $this->assertEqual($ret, array('B', 'C'));
+        $ret = $dep->depends(['A']);
+        $this->assertEqual($ret, ['B', 'C']);
 
-        $ret = $dep->depends(array('D'));
-        $this->assertEqual($ret, array('A', 'B', 'C', 'E'));
+        $ret = $dep->depends(['D']);
+        $this->assertEqual($ret, ['A', 'B', 'C', 'E']);
 
         // test schedule
-        $ret = $dep->schedule(array('G'));
+        $ret = $dep->schedule(['G']);
         $this->assertFalse($ret);
 
-        $ret = $dep->schedule(array('B'));
-        $this->assertEqual($ret, array('B'));
+        $ret = $dep->schedule(['B']);
+        $this->assertEqual($ret, ['B']);
 
-        $ret = $dep->schedule(array('A'));
-        $this->assertEqual($ret, array('A', 'B', 'C'));
+        $ret = $dep->schedule(['A']);
+        $this->assertEqual($ret, ['A', 'B', 'C']);
 
-        $ret = $dep->schedule(array('D'));
-        $this->assertEqual($ret, array('A', 'B', 'C', 'D', 'E'));
+        $ret = $dep->schedule(['D']);
+        $this->assertEqual($ret, ['A', 'B', 'C', 'D', 'E']);
 
         // test schedule all
         $ret = $dep->scheduleAll();
-        $this->assertEqual($ret, array('A', 'B', 'C', 'D', 'E', 'F'));
+        $this->assertEqual($ret, ['A', 'B', 'C', 'D', 'E', 'F']);
     }
 
-    function getAlgorithmWithData($selected = array(), $ignoreOrphans = false)
+    public function getAlgorithmWithData($selected = [], $ignoreOrphans = false)
     {
-        $items = array(
+        $items = [
             'C', 'B', 'F',
-            'A' => array('B', 'C'),
-        );
+            'A' => ['B', 'C'],
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         return new OA_Algorithm_Dependency($source, $selected, $ignoreOrphans);
     }
 
-    function testUseOfIgnoreOrphans()
+    public function testUseOfIgnoreOrphans()
     {
         $dep = $this->getAlgorithmWithData();
 
-        $ret = $dep->depends(array('A', 'G'));
+        $ret = $dep->depends(['A', 'G']);
         $this->assertFalse($ret);
-        $ret = $dep->schedule(array('A', 'G'));
+        $ret = $dep->schedule(['A', 'G']);
         $this->assertFalse($ret);
 
-        $dep = $this->getAlgorithmWithData(array(), $ignoreOrphans = true);
-        $ret = $dep->depends(array('A', 'G'));
-        $this->assertEqual($ret, array('B', 'C'));
-        $ret = $dep->schedule(array('A', 'G'));
-        $this->assertEqual($ret, array('A', 'B', 'C', 'G'));
+        $dep = $this->getAlgorithmWithData([], $ignoreOrphans = true);
+        $ret = $dep->depends(['A', 'G']);
+        $this->assertEqual($ret, ['B', 'C']);
+        $ret = $dep->schedule(['A', 'G']);
+        $this->assertEqual($ret, ['A', 'B', 'C', 'G']);
     }
 
-    function testUseOfSelected()
+    public function testUseOfSelected()
     {
-        $dep = $this->getAlgorithmWithData(array('C'));
+        $dep = $this->getAlgorithmWithData(['C']);
 
-        $ret = $dep->depends(array('A'));
-        $this->assertEqual($ret, array('B'));
+        $ret = $dep->depends(['A']);
+        $this->assertEqual($ret, ['B']);
 
-        $ret = $dep->schedule(array('A'));
-        $this->assertEqual($ret, array('A', 'B'));
+        $ret = $dep->schedule(['A']);
+        $this->assertEqual($ret, ['A', 'B']);
     }
 }
-
-?>

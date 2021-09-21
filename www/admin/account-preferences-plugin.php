@@ -34,40 +34,36 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 $oOptions = new OA_Admin_Option('preferences');
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
-$oComponentGroupManager  = new OX_Plugin_ComponentGroupManager();
-$aGroup     = $oComponentGroupManager->_getComponentGroupConfiguration($group);
-$enabled    = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group];
-$disabled   = ((!$enabled) && (OA_Permission::getAccountType()!=OA_ACCOUNT_ADMIN));
+$oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
+$aGroup = $oComponentGroupManager->_getComponentGroupConfiguration($group);
+$enabled = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group];
+$disabled = ((!$enabled) && (OA_Permission::getAccountType() != OA_ACCOUNT_ADMIN));
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
-    $aElements = array();
-    foreach ($aGroup['preferences'] as $k => $v)
-    {
-        $aElements[] = $group.'_'.$v['name'];
+    $aElements = [];
+    foreach ($aGroup['preferences'] as $k => $v) {
+        $aElements[] = $group . '_' . $v['name'];
 
         // Register the HTML element value
-        MAX_commonRegisterGlobalsArray(array($group.'_'.$v['name']));
+        MAX_commonRegisterGlobalsArray([$group . '_' . $v['name']]);
     }
-    $aCheckboxes = array();
+    $aCheckboxes = [];
 
     // Validation
     $valid = true;
-    $validationFile = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$group.'/processPreferences.php';
-    if (file_exists($validationFile))
-    {
-        $className = $group.'_processPreferences';
+    $validationFile = MAX_PATH . $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . $group . '/processPreferences.php';
+    if (file_exists($validationFile)) {
+        $className = $group . '_processPreferences';
         include($validationFile);
-        if (class_exists($className))
-        {
-            $oPlugin = new $className;
-            if (method_exists($oPlugin, 'validate'))
-            {
-                $aErrormessage = array();
+        if (class_exists($className)) {
+            $oPlugin = new $className();
+            if (method_exists($oPlugin, 'validate')) {
+                $aErrormessage = [];
                 $valid = $oPlugin->validate($aErrormessage);
             }
         }
@@ -76,16 +72,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if ($valid) {
         // Create a new settings object, and save the settings!
         $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
-        if ($result)
-        {
+        if ($result) {
             // Queue confirmation message
             $title = $group . ' ' . $GLOBALS['strPluginPreferences'];
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate(
+                $GLOBALS['strXPreferencesHaveBeenUpdated'],
+                [htmlspecialchars($title)]
+            );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
-            OX_Admin_Redirect::redirect('account-preferences-plugin.php?group='.$group);
+            OX_Admin_Redirect::redirect('account-preferences-plugin.php?group=' . $group);
         }
         // Could not write the settings configuration file, store this
         // error message and continue
@@ -101,29 +98,26 @@ $oOptions->selection($group);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-foreach ($aGroup['preferences'] as $k => $v)
-{
-    $aPreferences[0]['text'] = $group.($disabled ? ' - the Administrator has disabled this plugin, you may only change preferences when it is enabled.' : '');
-    $aPreferences[0]['items'][] = array(
-                                         'type'    => $v['type'],
-                                         'name'    => $group.'_'.$v['name'],
-                                         'text'    => $v['label'],
-                                         'req'     => $v['required'],
-                                         'size'    => $v['size'],
-                                         'value'   => $v['value'],
+foreach ($aGroup['preferences'] as $k => $v) {
+    $aPreferences[0]['text'] = $group . ($disabled ? ' - the Administrator has disabled this plugin, you may only change preferences when it is enabled.' : '');
+    $aPreferences[0]['items'][] = [
+                                         'type' => $v['type'],
+                                         'name' => $group . '_' . $v['name'],
+                                         'text' => $v['label'],
+                                         'req' => $v['required'],
+                                         'size' => $v['size'],
+                                         'value' => $v['value'],
                                          'visible' => $v['visible'],
-                                         'disabled'=> $disabled,
-                                         );
+                                         'disabled' => $disabled,
+                                         ];
 }
-$aPreferences[0]['items'][] = array(
-                                     'type'    => 'hiddenfield',
-                                     'name'    => 'group',
-                                     'value'   => $group,
-                                     );
+$aPreferences[0]['items'][] = [
+                                     'type' => 'hiddenfield',
+                                     'name' => 'group',
+                                     'value' => $group,
+                                     ];
 
 $oOptions->show($aPreferences, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

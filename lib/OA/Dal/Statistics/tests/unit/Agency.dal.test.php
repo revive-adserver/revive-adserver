@@ -28,22 +28,22 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
      *
      * @var OA_Dal_Statistics_Agency $_dalAgencyStatistics
      */
-    var $_dalAgencyStatistics;
+    public $_dalAgencyStatistics;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->_dalAgencyStatistics = new OA_Dal_Statistics_Agency();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -52,22 +52,25 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
      * Test agency daily statistics.
      *
      */
-    function testGetAgencyDailyStatistics()
+    public function testGetAgencyDailyStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign   = OA_Dal::factoryDO('campaigns');
-        $doBanner     = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doBanner = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner);
 
-        $doDataSummaryAdHourly            = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests  = 20;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 20;
         $doDataSummaryAdHourly->date_time = '2007-08-20';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         // 1. Get data existing range
         $aData = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
-            $doAgency->agencyid, new Date('2001-12-01'),  new Date('2007-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2007-09-19')
+        );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
         $aRow = current($aData);
@@ -84,7 +87,10 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $aData = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
-            $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2006-09-19')
+        );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
@@ -93,22 +99,25 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
      * Test agency hourly statistics.
      *
      */
-    function testGetAgencyHourlyStatistics()
+    public function testGetAgencyHourlyStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign   = OA_Dal::factoryDO('campaigns');
-        $doBanner     = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doBanner = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner);
 
-        $doDataSummaryAdHourly            = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests  = 20;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 20;
         $doDataSummaryAdHourly->date_time = '2007-08-20';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
 
         // 1. Get data existing range
         $aData = $this->_dalAgencyStatistics->getAgencyHourlyStatistics(
-            $doAgency->agencyid, new Date('2001-12-01'),  new Date('2007-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2007-09-19')
+        );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
         $aRow = current($aData);
@@ -126,7 +135,10 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $aData = $this->_dalAgencyStatistics->getAgencyHourlyStatistics(
-            $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2006-09-19')
+        );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
@@ -135,36 +147,41 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
      * Test agency advertiser statistics.
      *
      */
-    function testGetAgencyAdvertiserStatistics()
+    public function testGetAgencyAdvertiserStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign   = OA_Dal::factoryDO('campaigns');
-        $doBanner1    = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doBanner1 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner1);
 
-        $doBanner2     = OA_Dal::factoryDO('banners');
-        $this->generateBannerForCampaign($doCampaign,$doBanner2);
+        $doBanner2 = OA_Dal::factoryDO('banners');
+        $this->generateBannerForCampaign($doCampaign, $doBanner2);
 
-        $doDataSummaryAdHourly                 = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests       = 20;
-        $doDataSummaryAdHourly->total_revenue  = 4;
-        $doDataSummaryAdHourly->date_time      = '2007-08-20';
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 20;
+        $doDataSummaryAdHourly->total_revenue = 4;
+        $doDataSummaryAdHourly->date_time = '2007-08-20';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner1);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests      = 1;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 1;
         $doDataSummaryAdHourly->total_revenue = 6;
-        $doDataSummaryAdHourly->date_time      = '2007-08-08';
+        $doDataSummaryAdHourly->date_time = '2007-08-08';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner2);
 
         // 1. Get data existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyAdvertiserStatistics(
-            $doAgency->agencyid, new Date('2001-12-01'),  new Date('2007-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2007-09-19')
+        );
 
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 1,
-            'Some records should be returned');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 1,
+            'Some records should be returned'
+        );
 
         $rsAgencyStatistics->fetch();
 
@@ -184,58 +201,68 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyAdvertiserStatistics(
-            $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2006-09-19')
+        );
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test agency campaign statistics.
      *
      */
-    function testGetAgencyCampaignStatistics()
+    public function testGetAgencyCampaignStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign1  = OA_Dal::factoryDO('campaigns');
-        $doBanner1    = OA_Dal::factoryDO('banners');
+        $doCampaign1 = OA_Dal::factoryDO('campaigns');
+        $doBanner1 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign1, $doBanner1);
 
         $doCampaign2 = OA_Dal::factoryDO('campaigns');
-        $doBanner2   = OA_Dal::factoryDO('banners');
+        $doBanner2 = OA_Dal::factoryDO('banners');
         $this->generateBannerAndCampaignForAdvertiser($doAdvertiser, $doCampaign2, $doBanner2);
 
         $doBanner3 = OA_Dal::factoryDO('banners');
-        $this->generateBannerForCampaign($doCampaign2,$doBanner3);
+        $this->generateBannerForCampaign($doCampaign2, $doBanner3);
 
-        $doDataSummaryAdHourly                 = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests       = 2;
-        $doDataSummaryAdHourly->total_revenue  = 5;
-        $doDataSummaryAdHourly->date_time      = '2007-09-01';
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 2;
+        $doDataSummaryAdHourly->total_revenue = 5;
+        $doDataSummaryAdHourly->date_time = '2007-09-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner1);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests      = 4;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 4;
         $doDataSummaryAdHourly->total_revenue = 6;
-        $doDataSummaryAdHourly->clicks        = 7;
-        $doDataSummaryAdHourly->date_time     = '2007-08-29';
+        $doDataSummaryAdHourly->clicks = 7;
+        $doDataSummaryAdHourly->date_time = '2007-08-29';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner2);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->requests      = 0;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests = 0;
         $doDataSummaryAdHourly->total_revenue = 8;
-        $doDataSummaryAdHourly->clicks        = 6;
-        $doDataSummaryAdHourly->date_time     = '2007-09-10';
+        $doDataSummaryAdHourly->clicks = 6;
+        $doDataSummaryAdHourly->date_time = '2007-09-10';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner3);
 
         // 1. Get data existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyCampaignStatistics(
-            $doAgency->agencyid, new Date('2007-07-07'),  new Date('2007-09-12'));
+            $doAgency->agencyid,
+            new Date('2007-07-07'),
+            new Date('2007-09-12')
+        );
 
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsAgencyStatistics->fetch();
         $aRow1 = $rsAgencyStatistics->toArray();
@@ -264,55 +291,65 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyCampaignStatistics(
-            $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2006-09-19')
+        );
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test agency banner statistics.
      *
      */
-    function testGetAgencyBannerStatistics()
+    public function testGetAgencyBannerStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
-        $doCampaign   = OA_Dal::factoryDO('campaigns');
-        $doBanner1    = OA_Dal::factoryDO('banners');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doBanner1 = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner1);
 
-        $doBanner2     = OA_Dal::factoryDO('banners');
-        $this->generateBannerForCampaign($doCampaign,$doBanner2);
+        $doBanner2 = OA_Dal::factoryDO('banners');
+        $this->generateBannerForCampaign($doCampaign, $doBanner2);
 
-        $doDataSummaryAdHourly              = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->impressions = 1;
         $doDataSummaryAdHourly->date_time = '2007-01-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner1);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 0;
-        $doDataSummaryAdHourly->requests      = 4;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 0;
+        $doDataSummaryAdHourly->requests = 4;
         $doDataSummaryAdHourly->total_revenue = 6;
-        $doDataSummaryAdHourly->clicks        = 7;
-        $doDataSummaryAdHourly->date_time     = '2007-02-01';
+        $doDataSummaryAdHourly->clicks = 7;
+        $doDataSummaryAdHourly->date_time = '2007-02-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner2);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 0;
-        $doDataSummaryAdHourly->requests      = 4;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 0;
+        $doDataSummaryAdHourly->requests = 4;
         $doDataSummaryAdHourly->total_revenue = 6;
-        $doDataSummaryAdHourly->clicks        = 7;
-        $doDataSummaryAdHourly->date_time     = '2007-04-01';
+        $doDataSummaryAdHourly->clicks = 7;
+        $doDataSummaryAdHourly->date_time = '2007-04-01';
         $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner2);
 
         // 1. Get data existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyBannerStatistics(
-            $doAgency->agencyid, new Date('2006-07-07'),  new Date('2007-09-12'));
+            $doAgency->agencyid,
+            new Date('2006-07-07'),
+            new Date('2007-09-12')
+        );
 
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsAgencyStatistics->fetch();
         $aRow1 = $rsAgencyStatistics->toArray();
@@ -343,62 +380,72 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyBannerStatistics(
-            $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2006-09-19')
+        );
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test agency publisher statistics.
      *
      */
-    function testGetAgencyPublisherStatistics()
+    public function testGetAgencyPublisherStatistics()
     {
-        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doPublisher1 = OA_Dal::factoryDO('affiliates');
-        $doZone1      = OA_Dal::factoryDO('zones');
+        $doZone1 = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher1, $doZone1);
 
         $doPublisher2 = OA_Dal::factoryDO('affiliates');
-        $doZone2     = OA_Dal::factoryDO('zones');
+        $doZone2 = OA_Dal::factoryDO('zones');
         $this->generateZoneAndPublisherForAgency($doAgency, $doPublisher2, $doZone2);
 
-        $doZone3      = OA_Dal::factoryDO('zones');
+        $doZone3 = OA_Dal::factoryDO('zones');
         $this->generateZoneForPublisher($doPublisher2, $doZone3);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 100;
-        $doDataSummaryAdHourly->requests      = 0;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 100;
+        $doDataSummaryAdHourly->requests = 0;
         $doDataSummaryAdHourly->total_revenue = 0;
-        $doDataSummaryAdHourly->clicks        = 7;
-        $doDataSummaryAdHourly->date_time     = '2006-02-02';
+        $doDataSummaryAdHourly->clicks = 7;
+        $doDataSummaryAdHourly->date_time = '2006-02-02';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone1);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 12;
-        $doDataSummaryAdHourly->requests      = 411;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 12;
+        $doDataSummaryAdHourly->requests = 411;
         $doDataSummaryAdHourly->total_revenue = 116;
-        $doDataSummaryAdHourly->clicks        = 723;
-        $doDataSummaryAdHourly->date_time     = '2007-02-01';
+        $doDataSummaryAdHourly->clicks = 723;
+        $doDataSummaryAdHourly->date_time = '2007-02-01';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone2);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 12;
-        $doDataSummaryAdHourly->requests      = 411;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 12;
+        $doDataSummaryAdHourly->requests = 411;
         $doDataSummaryAdHourly->total_revenue = 116;
-        $doDataSummaryAdHourly->clicks        = 723;
-        $doDataSummaryAdHourly->date_time     = '2007-04-01';
+        $doDataSummaryAdHourly->clicks = 723;
+        $doDataSummaryAdHourly->date_time = '2007-04-01';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone3);
 
         // 1. Get data existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyPublisherStatistics(
-            $doAgency->agencyid, new Date('2005-07-07'),  new Date('2007-09-12'));
+            $doAgency->agencyid,
+            new Date('2005-07-07'),
+            new Date('2007-09-12')
+        );
 
         $rsAgencyStatistics->find();
 
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsAgencyStatistics->fetch();
         $aRow1 = $rsAgencyStatistics->toArray();
@@ -428,60 +475,70 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyPublisherStatistics(
-            $doAgency->agencyid,  new Date('2001-12-01'),  new Date('2004-09-19'));
+            $doAgency->agencyid,
+            new Date('2001-12-01'),
+            new Date('2004-09-19')
+        );
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
     }
 
     /**
      * Test agency zone statistics.
      *
      */
-    function testGetAgencyZoneStatistics()
+    public function testGetAgencyZoneStatistics()
     {
-        $doAgency          = OA_Dal::factoryDO('agency');
-        $doPublisher       = OA_Dal::factoryDO('affiliates');
-        $doZone1           = OA_Dal::factoryDO('zones');
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doZone1 = OA_Dal::factoryDO('zones');
         $doPublisher->name = 'test publisher name';
         $doZone1->zonename = 'test zone name';
         $this->generateZoneWithParents($doAgency, $doPublisher, $doZone1);
 
-        $doZone2     = OA_Dal::factoryDO('zones');
+        $doZone2 = OA_Dal::factoryDO('zones');
         $this->generateZoneForPublisher($doPublisher, $doZone2);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 0;
-        $doDataSummaryAdHourly->requests      = 0;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 0;
+        $doDataSummaryAdHourly->requests = 0;
         $doDataSummaryAdHourly->total_revenue = 0;
-        $doDataSummaryAdHourly->clicks        = 2;
-        $doDataSummaryAdHourly->date_time     = '2007-01-01';
+        $doDataSummaryAdHourly->clicks = 2;
+        $doDataSummaryAdHourly->date_time = '2007-01-01';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone1);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 1;
-        $doDataSummaryAdHourly->requests      = 2;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 1;
+        $doDataSummaryAdHourly->requests = 2;
         $doDataSummaryAdHourly->total_revenue = 3;
-        $doDataSummaryAdHourly->clicks        = 4;
-        $doDataSummaryAdHourly->date_time     = '2007-02-01';
+        $doDataSummaryAdHourly->clicks = 4;
+        $doDataSummaryAdHourly->date_time = '2007-02-01';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone2);
 
-        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDataSummaryAdHourly->impressions   = 1;
-        $doDataSummaryAdHourly->requests      = 2;
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions = 1;
+        $doDataSummaryAdHourly->requests = 2;
         $doDataSummaryAdHourly->total_revenue = 3;
-        $doDataSummaryAdHourly->clicks        = 4;
-        $doDataSummaryAdHourly->date_time     = '2007-03-01';
+        $doDataSummaryAdHourly->clicks = 4;
+        $doDataSummaryAdHourly->date_time = '2007-03-01';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone2);
 
         // 1. Get data existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyZoneStatistics(
-            $doAgency->agencyid, new Date('2007-01-01'), new Date('2007-03-01'));
+            $doAgency->agencyid,
+            new Date('2007-01-01'),
+            new Date('2007-03-01')
+        );
 
         $rsAgencyStatistics->find();
 
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 2,
+            '2 records should be returned'
+        );
 
         $rsAgencyStatistics->fetch();
         $aRow1 = $rsAgencyStatistics->toArray();
@@ -518,21 +575,27 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyZoneStatistics(
-            $doAgency->agencyid, new Date('2007-05-01'), new Date('2007-05-02'));
+            $doAgency->agencyid,
+            new Date('2007-05-01'),
+            new Date('2007-05-02')
+        );
         $rsAgencyStatistics->find();
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty');
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 0,
+            'Recordset should be empty'
+        );
 
         // 5. Get 1 rows
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyZoneStatistics(
-            $doAgency->agencyid, new Date('2007-01-02'),  new Date('2007-03-01'));
+            $doAgency->agencyid,
+            new Date('2007-01-02'),
+            new Date('2007-03-01')
+        );
         $rsAgencyStatistics->find();
 
-        $this->assertTrue($rsAgencyStatistics->getRowCount() == 1,
-            '1 records should be returned');
-
+        $this->assertTrue(
+            $rsAgencyStatistics->getRowCount() == 1,
+            '1 records should be returned'
+        );
     }
-
 }
-
-?>

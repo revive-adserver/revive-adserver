@@ -25,17 +25,17 @@ class DataObjects_AgencyTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testInsert()
+    public function testInsert()
     {
         // Insert an agency
 
@@ -58,10 +58,10 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $this->assertEqual($agencyContact, $doAgencyResult->contact);
         $this->assertEqual($agencyContactEmail, $doAgencyResult->email);
 
-        DataGenerator::cleanUp(array('agency'));
+        DataGenerator::cleanUp(['agency']);
     }
 
-    function testUpdate()
+    public function testUpdate()
     {
         // Insert an agency
         $doAgency = OA_Dal::factoryDO('agency');
@@ -81,9 +81,6 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $this->assertEqual($doAgencyResult->contact, 'baz');
         $this->assertEqual($doAgencyResult->email, 'quux');
 
-        DataGenerator::cleanUp(array('agency'));
-
+        DataGenerator::cleanUp(['agency']);
     }
-
 }
-?>

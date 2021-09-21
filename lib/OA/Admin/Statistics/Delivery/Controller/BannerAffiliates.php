@@ -22,7 +22,16 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossEntity.php
  */
 class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_Statistics_Delivery_CommonCrossEntity
 {
-
+    /**
+     * @var string[]|int[]
+     */
+    public $aPageContext;
+    public $aNodes;
+    /**
+     * @var mixed
+     */
+    public $coreParams;
+    public $hiddenEntitiesText;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +42,10 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'banner';
+        $this->entity = 'banner';
         $this->breakdown = 'affiliates';
 
         // This page uses the day span selector element
@@ -50,26 +59,26 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get the preferences
         $aPref = $GLOBALS['_MAX']['PREF'];
 
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
-        $placementId  = $this->_getId('placement');
-        $adId         = $this->_getId('ad');
+        $placementId = $this->_getId('placement');
+        $adId = $this->_getId('ad');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-        $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
+        $this->_checkAccess(['advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId]);
 
         // Add standard page parameters
-        $this->aPageParams = array(
-            'clientid'   => $advertiserId,
+        $this->aPageParams = [
+            'clientid' => $advertiserId,
             'campaignid' => $placementId,
-            'bannerid'   => $adId
-        );
+            'bannerid' => $adId
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -81,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.1.2.2.2';
-            $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
+            $this->aPageSections = ['2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3'];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->pageId = '1.2.2.4';
             $this->aPageSections[] = '1.2.2.1';
@@ -95,29 +104,29 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
-        $this->aPageContext = array('banners', $adId);
+        $this->aPageContext = ['banners', $adId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
-                'advertiser-edit.php?clientid='.$advertiserId,
+                'advertiser-edit.php?clientid=' . $advertiserId,
                 'iconAdvertiser'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
-            'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
+            'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
             'iconCampaign'
         );
         $this->_addShortcut(
             $GLOBALS['strBannerProperties'],
-            'banner-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
+            'banner-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
             'iconBanner'
         );
         $this->_addShortcut(
             $GLOBALS['strModifyBannerAcl'],
-            'banner-acl.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
+            'banner-acl.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
             'iconTargetingChannelAcl'
         );
 
@@ -134,20 +143,19 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->startLevel = MAX_getStoredValue('startlevel', 0, null, true);
 
         // Init nodes
-        $this->aNodes   = MAX_getStoredArray('nodes', array());
-        $expand         = MAX_getValue('expand', '');
-        $collapse       = MAX_getValue('collapse');
+        $this->aNodes = MAX_getStoredArray('nodes', []);
+        $expand = MAX_getValue('expand', '');
+        $collapse = MAX_getValue('collapse');
 
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
         $aParams = $this->coreParams;
-        $aParams['ad_id']  = $adId;
+        $aParams['ad_id'] = $adId;
 
-        switch ($this->startLevel)
-        {
+        switch ($this->startLevel) {
             case 1:
-                $this->aEntitiesData = $this->getZones($aParams, $this->startLevel, $expand, true);
+                $this->aEntitiesData = $this->getZones($aParams, $this->startLevel, $expand);
                 break;
             default:
                 $this->startLevel = 0;
@@ -158,30 +166,26 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         // Summarise the values into a the totals array, & format
         $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
-        $this->showHideLevels = array();
-        switch ($this->startLevel)
-        {
+        $this->showHideLevels = [];
+        switch ($this->startLevel) {
             case 1:
-                $this->showHideLevels = array(
-                    0 => array('text' => $GLOBALS['strShowParentAffiliates'], 'icon' => 'images/icon-affiliate.gif'),
-                );
+                $this->showHideLevels = [
+                    0 => ['text' => $GLOBALS['strShowParentAffiliates'], 'icon' => 'images/icon-affiliate.gif'],
+                ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveZonesHidden']}";
                 break;
             case 0:
-                $this->showHideLevels = array(
-                    1 => array('text' => $GLOBALS['strHideParentAffiliates'], 'icon' => 'images/icon-affiliate-d.gif'),
-                );
+                $this->showHideLevels = [
+                    1 => ['text' => $GLOBALS['strHideParentAffiliates'], 'icon' => 'images/icon-affiliate-d.gif'],
+                ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveAffiliatesHidden']}";
                 break;
         }
 
 
         // Save prefs
-        $this->aPagePrefs['startlevel']     = $this->startLevel;
-        $this->aPagePrefs['nodes']          = implode (",", $this->aNodes);
-        $this->aPagePrefs['hideinactive']   = $this->hideInactive;
+        $this->aPagePrefs['startlevel'] = $this->startLevel;
+        $this->aPagePrefs['nodes'] = implode(",", $this->aNodes);
+        $this->aPagePrefs['hideinactive'] = $this->hideInactive;
     }
-
 }
-
-?>

@@ -21,22 +21,22 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 {
-    var $dalClients;
+    public $dalClients;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->dalClients = OA_Dal::factoryDAL('clients');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -53,12 +53,12 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      * Test 6: Test with multiple advertisers, both match.
      * Test 7: Test with multiple advertisers, both match, but limit owning agency.
      */
-    function testGetClientByKeyword()
+    public function testGetClientByKeyword()
     {
         // Restore the test environment - tests rely on the fact that the
         // clients generated will start with client ID 1
         TestEnv::truncateAllTables();
-        $aIncludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
+        $aIncludeSystemTypes = [DataObjects_Clients::ADVERTISER_TYPE_MARKET];
 
         // Test 1
         $rsClients = $this->dalClients->getClientByKeyword('foo');
@@ -158,7 +158,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      * Test 2: Test with an advertiser that does not exist.
      * Test 3: Test with an existing advertiser.
      */
-    function testGetAdvertiserDetails()
+    public function testGetAdvertiserDetails()
     {
         // Test 1
         $aClients = $this->dalClients->getAdvertiserDetails(2);
@@ -209,7 +209,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      * Test 4: Test with tree advertisers, reverse sort order.
      * Test 5: Test with tree advertisers, but limit owning agency.
      */
-    function testGetAllAdvertisers()
+    public function testGetAllAdvertisers()
     {
         // Test 1
         $aClients = $this->dalClients->getAllAdvertisers('name', 'up');
@@ -258,8 +258,12 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
-        $aClients = $this->dalClients->getAllAdvertisers('name', 'up', null,
-                        array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
+        $aClients = $this->dalClients->getAllAdvertisers(
+            'name',
+            'up',
+            null,
+            [DataObjects_Clients::ADVERTISER_TYPE_MARKET]
+        );
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);
         $this->assertTrue(is_array($aClients[1]));
@@ -298,8 +302,12 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
-        $aClients = $this->dalClients->getAllAdvertisers('name', 'down', null,
-                        array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
+        $aClients = $this->dalClients->getAllAdvertisers(
+            'name',
+            'down',
+            null,
+            [DataObjects_Clients::ADVERTISER_TYPE_MARKET]
+        );
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);
         $this->assertTrue(is_array($aClients[1]));
@@ -346,7 +354,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      * Requirements:
      * Test 1: Re-perform Test 5 from above.
      */
-    function testGetAllAdvertisersForAgency()
+    public function testGetAllAdvertisersForAgency()
     {
         // Insert a single advertiser
         $doClients = OA_Dal::factoryDO('clients');
@@ -367,7 +375,4 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
         TestEnv::truncateAllTables();
     }
-
 }
-
-?>

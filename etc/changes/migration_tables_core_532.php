@@ -10,34 +10,30 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 class Migration_532 extends Migration
 {
-
-    function __construct()
+    public function __construct()
     {
         //$this->__construct();
 
-		$this->aTaskList_constructive[] = 'beforeAddField__clients__oac_adnetwork_id';
-		$this->aTaskList_constructive[] = 'afterAddField__clients__oac_adnetwork_id';
+        $this->aTaskList_constructive[] = 'beforeAddField__clients__oac_adnetwork_id';
+        $this->aTaskList_constructive[] = 'afterAddField__clients__oac_adnetwork_id';
 
 
-		$this->aObjectMap['clients']['oac_adnetwork_id'] = array('fromTable'=>'clients', 'fromField'=>'oac_adnetwork_id');
+        $this->aObjectMap['clients']['oac_adnetwork_id'] = ['fromTable' => 'clients', 'fromField' => 'oac_adnetwork_id'];
     }
 
 
 
-	function beforeAddField__clients__oac_adnetwork_id()
-	{
-		return $this->beforeAddField('clients', 'oac_adnetwork_id');
-	}
+    public function beforeAddField__clients__oac_adnetwork_id()
+    {
+        return $this->beforeAddField('clients', 'oac_adnetwork_id');
+    }
 
-	function afterAddField__clients__oac_adnetwork_id()
-	{
-		return $this->afterAddField('clients', 'oac_adnetwork_id');
-	}
-
+    public function afterAddField__clients__oac_adnetwork_id()
+    {
+        return $this->afterAddField('clients', 'oac_adnetwork_id');
+    }
 }
-
-?>

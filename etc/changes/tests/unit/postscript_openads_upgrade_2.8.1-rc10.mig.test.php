@@ -24,18 +24,18 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_postscript_2_8_1_RC10Test extends MigrationTest
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
-        $this->assertTrue($this->initDatabase(607, array('preferences')),'failed to created version 607 of campaigns of preference table');
+        $this->assertTrue($this->initDatabase(607, ['preferences']), 'failed to created version 607 of campaigns of preference table');
     }
 
-    function testExecute()
+    public function testExecute()
     {
         Mock::generatePartial(
             'OA_UpgradeLogger',
-            $mockLogger = 'OA_UpgradeLogger'.rand(),
-            array('logOnly', 'logError', 'log')
+            $mockLogger = 'OA_UpgradeLogger' . rand(),
+            ['logOnly', 'logError', 'log']
         );
 
         $oLogger = new $mockLogger($this);
@@ -45,8 +45,8 @@ class Migration_postscript_2_8_1_RC10Test extends MigrationTest
 
         Mock::generatePartial(
             'OA_Upgrade',
-            $mockUpgrade = 'OA_Upgrade'.rand(),
-            array('addPostUpgradeTask')
+            $mockUpgrade = 'OA_Upgrade' . rand(),
+            ['addPostUpgradeTask']
         );
         $mockUpgrade = new $mockUpgrade($this);
         $mockUpgrade->setReturnValue('addPostUpgradeTask', true);
@@ -56,7 +56,7 @@ class Migration_postscript_2_8_1_RC10Test extends MigrationTest
 
         // Run the upgrade
         $postscript = new OA_UpgradePostscript_2_8_1_rc10();
-        $ret = $postscript->execute(array(&$mockUpgrade));
+        $ret = $postscript->execute([&$mockUpgrade]);
         $this->assertTrue($ret);
 
         // Get the preference that we have inserted

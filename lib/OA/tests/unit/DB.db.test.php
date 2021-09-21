@@ -24,11 +24,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_DB extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,7 +35,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the database type is setup in the config .ini file.
      */
-    function testDbTypeDefined()
+    public function testDbTypeDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['database']['type']);
@@ -46,7 +45,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the database host is setup in the config .ini file.
      */
-    function testDbHostDefined()
+    public function testDbHostDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['database']['host']);
@@ -56,7 +55,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the database port is setup in the config .ini file.
      */
-    function testDbPortDefined()
+    public function testDbPortDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['database']['port']);
@@ -66,7 +65,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the database user is setup in the config .ini file.
      */
-    function testDbUserDefined()
+    public function testDbUserDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['database']['username']);
@@ -76,7 +75,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the database password is setup in the config .ini file.
      */
-    function testDbPasswordDefined()
+    public function testDbPasswordDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['database']['password']);
@@ -85,7 +84,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the database name is setup in the config .ini file.
      */
-    function testDbNameDefined()
+    public function testDbNameDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['database']['name']);
@@ -95,7 +94,7 @@ class Test_OA_DB extends UnitTestCase
     /**
      * Tests that the OpenX table prefix is setup in the config .ini file.
      */
-    function testDbPrefixDefined()
+    public function testDbPrefixDefined()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->assertNotNull($aConf['table']['prefix']);
@@ -105,12 +104,12 @@ class Test_OA_DB extends UnitTestCase
      * Tests that the database connection can be made, without using the
      * Dal class - that is, that the details specified above are okay.
      */
-    function testDbConnection()
+    public function testDbConnection()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $dbConnection = MDB2::singleton(
             strtolower($aConf['database']['type']) . '://' .
-            $aConf['database']['username'] . ':' .  $aConf['database']['password'] .
+            $aConf['database']['username'] . ':' . $aConf['database']['password'] .
             '@' . $aConf['database']['host'] . ':' . $aConf['database']['port'] . '/' .
             $aConf['database']['name']
         );
@@ -121,17 +120,17 @@ class Test_OA_DB extends UnitTestCase
      * Tests that the singleton() method only ever returns one
      * database connection.
      */
-    function testSingletonDbConnection()
+    public function testSingletonDbConnection()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
-        $firstConnection  = OA_DB::singleton();
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $firstConnection = OA_DB::singleton();
         $secondConnection = OA_DB::singleton();
         $this->assertIdentical($firstConnection, $secondConnection);
         $this->assertReference($firstConnection, $secondConnection);
         TestEnv::restoreConfig();
     }
 
-    function testSingleton()
+    public function testSingleton()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -141,38 +140,54 @@ class Test_OA_DB extends UnitTestCase
 
         $dsn = "{$aConf['database']['type']}://scott:tiger@non-existent-host:666/non-existent-database";
         RV::disableErrorHandling();
-        $oDbh =& OA_DB::singleton($dsn);
+        $oDbh = &OA_DB::singleton($dsn);
         RV::enableErrorHandling();
         $this->assertNotNull($oDbh);
         $this->assertTrue(PEAR::isError($oDbh));
     }
 
 
-    function testGetSequenceName()
+    public function testGetSequenceName()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $prefix = $conf['table']['prefix'] = 'ox_';
 
         $oDbh = OA_DB::singleton();
 
         if ($oDbh->dbsyntax == 'pgsql') {
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a'),
-                'ox_x_a_seq');
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a'),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a_seq');
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb'),
-                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq');
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab'),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq');
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'x', 'a'),
+                'ox_x_a_seq'
+            );
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a'),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a_seq'
+            );
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb'),
+                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq'
+            );
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab'),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq'
+            );
 
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a', false),
-                'ox_x_a');
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a', false),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a');
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb', false),
-                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-            $this->assertEqual(OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab', false),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'x', 'a', false),
+                'ox_x_a'
+            );
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a', false),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a'
+            );
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb', false),
+                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            );
+            $this->assertEqual(
+                OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab', false),
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            );
         } else {
             $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a'), 'x');
             $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a', false), 'x');
@@ -184,22 +199,22 @@ class Test_OA_DB extends UnitTestCase
     /**
      *  Method to tests function validateDatabaseName in MDB2 Manager modules
      */
-    function testValidateDatabaseName()
+    public function testValidateDatabaseName()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh  = OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         RV::disableErrorHandling();
         if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {
             $result = $oDbh->manager->validateDatabaseName('test white space ');
             $this->assertTrue(PEAR::isError($result));
-            $result = $oDbh->manager->validateDatabaseName('special'.chr(255).'char');
+            $result = $oDbh->manager->validateDatabaseName('special' . chr(255) . 'char');
             $this->assertTrue(PEAR::isError($result));
             $result = $oDbh->manager->validateDatabaseName('characters/that are not allowed in filenames.');
             $this->assertTrue(PEAR::isError($result));
             $result = $oDbh->manager->validateDatabaseName('abcdefghij1234567890123456789012345678901234567890123456789012345'); //65 chars
             $this->assertTrue(PEAR::isError($result));
-            $this->assertTrue ($oDbh->manager->validateDatabaseName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
+            $this->assertTrue($oDbh->manager->validateDatabaseName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
         }
         if ($aConf['database']['type'] == 'pgsql') {
             $result = $oDbh->manager->validateDatabaseName('abcdefghij123456789012345678901234567890123456789012345678901234'); //64 chars
@@ -215,13 +230,13 @@ class Test_OA_DB extends UnitTestCase
     /**
      *  Method to test function validateDatabaseName in MDB2 Manager modules
      */
-    function testValidateTableName()
+    public function testValidateTableName()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         RV::disableErrorHandling();
 
-        $vals = array(
+        $vals = [
                         0,
                         32, // chr(32) ox_32_ _test
                         33, // chr(33) ox_33_!_test
@@ -250,27 +265,25 @@ class Test_OA_DB extends UnitTestCase
                         93, // chr(93) ox_93_]_test
                         94, // chr(94) ox_94_^_test
                         96, // chr(96) ox_96_`_test
-                        123,// chr(123) ox_123_{_test
-                        124,// chr(124) ox_124_|_test
-                        125,// chr(125) ox_125_}_test
-                        126,// chr(126) ox_126_~_test
-                        156,// chr(156) ox_156_£_test
+                        123, // chr(123) ox_123_{_test
+                        124, // chr(124) ox_124_|_test
+                        125, // chr(125) ox_125_}_test
+                        126, // chr(126) ox_126_~_test
+                        156, // chr(156) ox_156_£_test
                         255,
-                    );
+                    ];
 
         //$pattern = '';
-        foreach ($vals as $i)
-        {
+        foreach ($vals as $i) {
             //$pattern.= '\\x'.dechex($i);
-            $result = OA_DB::validateTableName('o'.chr($i).'_table');
-            $this->assertTrue(PEAR::isError($result), 'chr('.$i.') /'.dechex($i));
+            $result = OA_DB::validateTableName('o' . chr($i) . '_table');
+            $this->assertTrue(PEAR::isError($result), 'chr(' . $i . ') /' . dechex($i));
         }
 
-        if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
-        {
+        if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {
             $result = OA_DB::validateTableName('abcdefghij1234567890123456789012345678901234567890123456789012345'); //65 chars
             $this->assertTrue(PEAR::isError($result));
-            $this->assertTrue (OA_DB::validateTableName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
+            $this->assertTrue(OA_DB::validateTableName('abcdefghij123456789012345678901234567890123456789012345678901234')); //64 chars
 
             $this->assertTrue(OA_DB::validateTableName('aBcDeFgHiJkLmNoPqRsTuVwXyZ_$1234567890'));
 
@@ -282,9 +295,7 @@ class Test_OA_DB extends UnitTestCase
             $this->assertFalse(PEAR::isError($result));
         }
 
-        if ($aConf['database']['type'] == 'pgsql')
-        {
-
+        if ($aConf['database']['type'] == 'pgsql') {
             $result = OA_DB::validateTableName('abcdefghij123456789012345678901234567890123456789012345678901234'); //64 chars
             $this->assertTrue(PEAR::isError($result));
 
@@ -307,7 +318,4 @@ class Test_OA_DB extends UnitTestCase
         }
         RV::enableErrorHandling();
     }
-
 }
-
-?>

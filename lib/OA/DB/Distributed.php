@@ -22,7 +22,6 @@ require_once 'MDB2.php';
  */
 class OA_DB_Distributed extends OA_DB
 {
-
     /**
      * A method to return a singleton database connection resource.
      *
@@ -68,22 +67,21 @@ class OA_DB_Distributed extends OA_DB
      *                      name     - Optional database name
      * @return string An string containing the DSN.
      */
-    static function getDsn($aConf = null)
+    public static function getDsn($aConf = null)
     {
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
         $dbType = $aConf['lb']['type'];
-    	$protocol = isset($aConf['lb']['protocol']) ? $aConf['lb']['protocol'] . '+' : '';
-    	$port = !empty($aConf['lb']['port']) ? ':' . $aConf['lb']['port'] : '';
-        $dsn = $dbType . '://' .
+        $protocol = isset($aConf['lb']['protocol']) ? $aConf['lb']['protocol'] . '+' : '';
+        $port = empty($aConf['lb']['port']) ? '' : ':' . $aConf['lb']['port'];
+        return $dbType . '://' .
             $aConf['lb']['username'] . ':' .
             $aConf['lb']['password'] . '@' .
             $protocol .
             $aConf['lb']['host'] .
             $port . '/' .
             $aConf['lb']['name'];
-        return $dsn;
     }
 
     /**
@@ -103,9 +101,9 @@ class OA_DB_Distributed extends OA_DB
      * @return array An array of driver specific options suitable for passing into
      *               the OA_DB::singleton method call.
      */
-    static function getDsnOptions($aConf = null)
+    public static function getDsnOptions($aConf = null)
     {
-        $aDriverOptions = array();
+        $aDriverOptions = [];
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
@@ -122,7 +120,4 @@ class OA_DB_Distributed extends OA_DB
         }
         return $aDriverOptions;
     }
-
 }
-
-?>

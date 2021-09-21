@@ -35,5 +35,3 @@ phpAds_registerGlobal('plugin');
 
 $oModule = new OA_Admin_Reports_Generate();
 $oModule->generate($plugin);
-
-?>

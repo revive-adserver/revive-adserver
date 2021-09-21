@@ -10,10 +10,9 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/decorator/AbstractDecorator.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/decorator/AbstractDecorator.php';
 
-class OA_Admin_UI_HTMLTagDecorator 
-    extends OA_Admin_UI_AbstractDecorator
+class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
 {
     /**
      * HTML tag name
@@ -34,15 +33,15 @@ class OA_Admin_UI_HTMLTagDecorator
     {
         parent::__construct($aParameters);
         
-        $this->_tagName = $aParameters['tag'] ? $aParameters['tag'] : 'span'; 
-        $this->_aAttributes = $aParameters['attributes'] ? $aParameters['attributes'] : 
-            array();
+        $this->_tagName = $aParameters['tag'] ? $aParameters['tag'] : 'span';
+        $this->_aAttributes = $aParameters['attributes'] ? $aParameters['attributes'] :
+            [];
     }
     
     
     /**
-     * 
-     * @return text that should be prepended to element when rendered, empty string if none 
+     *
+     * @return text that should be prepended to element when rendered, empty string if none
      * or decorator mode is set to append mode only.
      * @see OA_Admin_UI_Decorator::prepend()
      */
@@ -53,10 +52,10 @@ class OA_Admin_UI_HTMLTagDecorator
         $renderMode = $this->getRenderMode();
         //only prepend if in applicable mode
         if ($renderMode == 'wrap' || $renderMode == 'prepend') {
-            $prepend = "<".$this->_tagName;
+            $prepend = "<" . $this->_tagName;
             foreach ($this->_aAttributes as $name => $value) {
                 $value = addslashes($value);
-                $prepend .=' '.$name.'="'.$value.'"';
+                $prepend .= ' ' . $name . '="' . $value . '"';
             }
             $prepend .= ">";
         }
@@ -66,9 +65,9 @@ class OA_Admin_UI_HTMLTagDecorator
     
     
     /**
-     * 
+     *
      * @return text that should be appended to element when rendered, empty string if none
-     * or decorator mode is set to prepend mode only. 
+     * or decorator mode is set to prepend mode only.
      * @see OA_Admin_UI_Decorator::append()
      */
     public function append()
@@ -78,11 +77,9 @@ class OA_Admin_UI_HTMLTagDecorator
         $renderMode = $this->getRenderMode();
         //only append if in applicable mode
         if ($renderMode == 'wrap' || $renderMode == 'append') {
-            $append = "</".$this->_tagName.">";
+            $append = "</" . $this->_tagName . ">";
         }
         
         return $append;
-    }    
+    }
 }
-
-?>

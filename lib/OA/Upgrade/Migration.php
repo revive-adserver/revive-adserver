@@ -26,32 +26,32 @@ define('TIMESTAMP_FORMAT', '%Y-%m-%d %H:%M:%S');
 
 class Migration
 {
-    var $aObjectMap = array();
-	//$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
-	//or
+    public $aObjectMap = [];
+    //$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
+    //or
     //$this->aObjectMap['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
 
-    var $aTaskList_constructive;
-    var $aTaskList_destructive;
+    public $aTaskList_constructive;
+    public $aTaskList_destructive;
 
-    var $aErrors    = array();
-    var $aMessages  = array();
-    var $logFile = '';
+    public $aErrors = [];
+    public $aMessages = [];
+    public $logFile = '';
 
-    var $aSQLStatements = array();
+    public $aSQLStatements = [];
 
-    var $aDefinition = array();
+    public $aDefinition = [];
 
-    var $affectedRows = 0;
+    public $affectedRows = 0;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDBH;
+    public $oDBH;
 
-    var $prefix;
+    public $prefix;
 
-    function __construct()
+    public function __construct()
     {
         $this->_setupSQLStatements();
         //$this->__construct();
@@ -61,27 +61,21 @@ class Migration
 //    {
 //    }
 
-    function init(&$oDbh, $logfile='')
+    public function init(&$oDbh, $logfile = '')
     {
-        if ($oDbh)
-        {
+        if ($oDbh) {
             $this->oDBH = $oDbh;
         }
-        if (!$this->oDBH)
-        {
+        if (!$this->oDBH) {
             $this->oDBH = OA_DB::singleton();
-            if (PEAR::isError($this->oDBH))
-            {
+            if (PEAR::isError($this->oDBH)) {
                 return false;
             }
         }
-        if ($logfile)
-        {
+        if ($logfile) {
             $this->logFile = $logfile;
-        }
-        elseif (!$this->logFile)
-        {
-            $this->logFile = MAX_PATH.'/var/migration.log';
+        } elseif (!$this->logFile) {
+            $this->logFile = MAX_PATH . '/var/migration.log';
         }
         $this->_setupSQLStatements();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -93,7 +87,7 @@ class Migration
      *
      * @param string $message
      */
-    function _log($message)
+    public function _log($message)
     {
         $this->aMessages[] = $message;
         $log = fopen($this->logFile, 'a');
@@ -106,7 +100,7 @@ class Migration
      *
      * @param string $message
      */
-    function _logError($message)
+    public function _logError($message)
     {
         $this->aErrors[] = $message;
         $log = fopen($this->logFile, 'a');
@@ -114,34 +108,33 @@ class Migration
         fclose($log);
     }
 
-    function _setupSQLStatements()
+    public function _setupSQLStatements()
     {
         if (null === $this->oDBH) {
             return;
         }
 
-        switch ($this->oDBH->dbsyntax)
-        {
+        switch ($this->oDBH->dbsyntax) {
             case 'mysql':
             case 'mysqli':
                 $engine = $this->oDBH->getOption('default_table_type');
-                $this->aSQLStatements['table_copy_all']     = "INSERT IGNORE INTO %s SELECT * FROM %s";
+                $this->aSQLStatements['table_copy_all'] = "INSERT IGNORE INTO %s SELECT * FROM %s";
                 //$this->aSQLStatements['table_copy_cols'] = "INSERT IGNORE INTO (%s %s) VALUES (SELECT %s FROM %s)";
-                $this->aSQLStatements['table_update_col']   = "UPDATE IGNORE %s SET %s = %s.%s";
-                $this->aSQLStatements['table_copy']         = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
-                $this->aSQLStatements['table_copy_temp']    = "CREATE TEMPORARY TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
-                $this->aSQLStatements['table_rename']       = "RENAME TABLE %s TO %s";
-                $this->aSQLStatements['table_select']       = 'SELECT %s FROM %s';
-                $this->aSQLStatements['table_insert']       = 'INSERT INTO %s (%s) VALUES %s';
+                $this->aSQLStatements['table_update_col'] = "UPDATE IGNORE %s SET %s = %s.%s";
+                $this->aSQLStatements['table_copy'] = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_copy_temp'] = "CREATE TEMPORARY TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_rename'] = "RENAME TABLE %s TO %s";
+                $this->aSQLStatements['table_select'] = 'SELECT %s FROM %s';
+                $this->aSQLStatements['table_insert'] = 'INSERT INTO %s (%s) VALUES %s';
                 break;
             case 'pgsql':
-                $this->aSQLStatements['table_copy_all']   = 'INSERT INTO "%s" SELECT * FROM "%s"';
+                $this->aSQLStatements['table_copy_all'] = 'INSERT INTO "%s" SELECT * FROM "%s"';
                 $this->aSQLStatements['table_update_col'] = 'UPDATE "%s" SET %s = "%s".%s';
-                $this->aSQLStatements['table_copy']       = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
-                $this->aSQLStatements['table_copy_temp']  = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
-                $this->aSQLStatements['table_rename']     = 'ALTER TABLE "%s" RENAME TO "%s"';
-                $this->aSQLStatements['table_select']     = 'SELECT %s FROM "%s"';
-                $this->aSQLStatements['table_insert']     = 'INSERT INTO "%s" (%s) VALUES %s';
+                $this->aSQLStatements['table_copy'] = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                $this->aSQLStatements['table_copy_temp'] = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                $this->aSQLStatements['table_rename'] = 'ALTER TABLE "%s" RENAME TO "%s"';
+                $this->aSQLStatements['table_select'] = 'SELECT %s FROM "%s"';
+                $this->aSQLStatements['table_insert'] = 'INSERT INTO "%s" (%s) VALUES %s';
                 break;
             default:
                 '';
@@ -159,31 +152,30 @@ class Migration
      * @param string $index The index to be used in the $this->aSQLStatements array
      * @param string $sql The query template.
      */
-    function _putSqlStatement($syntax, $index, $sql)
+    public function _putSqlStatement($syntax, $index, $sql)
     {
         if ($this->oDBH->dbsyntax == $syntax) {
             $this->aSQLStatements[$index] = $sql;
         }
     }
 
-	function _getQuotedTableName($table)
-	{
-	    $table = $this->getPrefix().($GLOBALS['_MAX']['CONF']['table'][$table] ?? $table);
-	    $quoted = $this->oDBH->quoteIdentifier($table,true);
-	    if (PEAR::isError($quoted))
-	    {
-	        $this->_logError('Error quoting identifier: '.$quoted->getUserInfo());
-	        return $table;
-	    }
-	    return $quoted;
-	}
+    public function _getQuotedTableName($table)
+    {
+        $table = $this->getPrefix() . ($GLOBALS['_MAX']['CONF']['table'][$table] ?? $table);
+        $quoted = $this->oDBH->quoteIdentifier($table, true);
+        if (PEAR::isError($quoted)) {
+            $this->_logError('Error quoting identifier: ' . $quoted->getUserInfo());
+            return $table;
+        }
+        return $quoted;
+    }
 
-	/**
-	 * Returns database table prefix.
-	 *
-	 * @return string Table prefix
-	 */
-    function getPrefix()
+    /**
+     * Returns database table prefix.
+     *
+     * @return string Table prefix
+     */
+    public function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
@@ -195,7 +187,7 @@ class Migration
      * @param string $error
      * @return boolean Always false
      */
-    function _logErrorAndReturnFalse($error)
+    public function _logErrorAndReturnFalse($error)
     {
         $this->_logError($error);
         return false;
@@ -207,16 +199,15 @@ class Migration
      * @param array $aColumns
      * @return boolean
      */
-    function copyTableData($fromTable, $toTable)
+    public function copyTableData($fromTable, $toTable)
     {
-        $statement  = $this->aSQLStatements['table_copy_all'];
-        $prefix     = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $query      = sprintf($statement, $prefix.$toTable, $prefix.$fromTable);
-        $this->_log('select query prepared: '.$query);
-        $result     = $this->oDBH->exec($query);
-        if (PEAR::isError($result))
-        {
-            $this->_logError('error executing query: '.$result->getUserInfo());
+        $statement = $this->aSQLStatements['table_copy_all'];
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $query = sprintf($statement, $prefix . $toTable, $prefix . $fromTable);
+        $this->_log('select query prepared: ' . $query);
+        $result = $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            $this->_logError('error executing query: ' . $result->getUserInfo());
             return false;
         }
         $this->affectedRows = $result;
@@ -272,30 +263,29 @@ class Migration
      * @param string $toColumn
      * @return boolean
      */
-    function updateColumn($fromTable, $fromColumn, $toTable, $toColumn)
+    public function updateColumn($fromTable, $fromColumn, $toTable, $toColumn)
     {
         // ERROR: $this not initialised
         $prefix = $this->getPrefix();
-        $statement  = $this->aSQLStatements['table_update_col'];
-        $query      = sprintf($statement, $prefix.$toTable, $toColumn, $prefix.$fromTable, $fromColumn);
-        $this->_log('select query prepared: '.$query);
-        $result     = $this->oDBH->exec($query);
-        if (PEAR::isError($result))
-        {
-            $this->_logError('error executing statement: '.$result->getUserInfo());
+        $statement = $this->aSQLStatements['table_update_col'];
+        $query = sprintf($statement, $prefix . $toTable, $toColumn, $prefix . $fromTable, $fromColumn);
+        $this->_log('select query prepared: ' . $query);
+        $result = $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            $this->_logError('error executing statement: ' . $result->getUserInfo());
             return false;
         }
         $this->affectedRows = $result;
-        $this->_log('update complete: '.$this->affectedRows.' rows affected');
+        $this->_log('update complete: ' . $this->affectedRows . ' rows affected');
         return true;
     }
 
-    function beforeAddTable($table)
+    public function beforeAddTable($table)
     {
         return true;
     }
 
-    function afterAddTable($table)
+    public function afterAddTable($table)
     {
         if (isset($this->aObjectMap[$table])) {
             $fromTable = $this->aObjectMap[$table]['fromTable'];
@@ -304,95 +294,93 @@ class Migration
         return true;
     }
 
-    function beforeAddField($table, $field)
+    public function beforeAddField($table, $field)
     {
         return true;
     }
 
-    function afterAddField($table, $field)
+    public function afterAddField($table, $field)
     {
-        if ($this->aObjectMap[$table][$field])
-        {
+        if ($this->aObjectMap[$table][$field]) {
             $fromTable = $this->aObjectMap[$table][$field]['fromTable'];
             $fromField = $this->aObjectMap[$table][$field]['fromField'];
-            if ($fromTable.$fromField != $table.$field)
-            {
+            if ($fromTable . $fromField != $table . $field) {
                 return $this->updateColumn($fromTable, $fromField, $table, $field);
             }
         }
         return true;
     }
 
-    function beforeRenameField($table, $field)
+    public function beforeRenameField($table, $field)
     {
         // the $field param is the new field name
         // look up the field map to get the old field name
         return true;
     }
 
-    function afterRenameField($table, $field)
+    public function afterRenameField($table, $field)
     {
         // the $field param is the new field name
         // look up the field map to get the old field name
         return true;
     }
 
-    function beforeAlterField($table, $field)
+    public function beforeAlterField($table, $field)
     {
         return true;
     }
 
-    function afterAlterField($table, $field)
+    public function afterAlterField($table, $field)
     {
         return true;
     }
 
-    function beforeAddIndex($table, $index)
+    public function beforeAddIndex($table, $index)
     {
         return true;
     }
 
-    function afterAddIndex($table, $index)
+    public function afterAddIndex($table, $index)
     {
         return true;
     }
 
-    function beforeRemoveTable($table)
+    public function beforeRemoveTable($table)
     {
         return true;
     }
 
-    function afterRemoveTable($table)
+    public function afterRemoveTable($table)
     {
         return true;
     }
 
-    function beforeRenameTable($table)
+    public function beforeRenameTable($table)
     {
         return true;
     }
 
-    function afterRenameTable($table)
+    public function afterRenameTable($table)
     {
         return true;
     }
 
-    function beforeRemoveField($table, $field)
+    public function beforeRemoveField($table, $field)
     {
         return true;
     }
 
-    function afterRemoveField($table, $field)
+    public function afterRemoveField($table, $field)
     {
         return true;
     }
 
-    function beforeRemoveIndex($table, $index)
+    public function beforeRemoveIndex($table, $index)
     {
         return true;
     }
 
-    function afterRemoveIndex($table, $index)
+    public function afterRemoveIndex($table, $index)
     {
         return true;
     }
@@ -411,18 +399,17 @@ class Migration
      * @param int $idxMigration Migration number which calls this function
      * @return boolean True on success, false on error.
      */
-    function resetSequence($table, $field, $idxMigration)
+    public function resetSequence($table, $field, $idxMigration)
     {
         if ($this->oDBH->dbsyntax == 'pgsql') {
             $dbTable = new OA_DB_Table();
             $result = $dbTable->resetSequenceByData($table, $field);
             if (PEAR::isError($result)) {
                 return $this->_logErrorAndReturnFalse(
-                    "Error resetting {$table} sequence during migration $idxMigration: ".$result->getUserInfo());
+                    "Error resetting {$table} sequence during migration $idxMigration: " . $result->getUserInfo()
+                );
             }
         }
         return true;
     }
 }
-
-?>

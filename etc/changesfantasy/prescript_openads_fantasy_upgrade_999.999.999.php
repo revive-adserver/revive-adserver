@@ -14,20 +14,20 @@ $className = 'OA_UpgradePrescript';
 
 class OA_UpgradePrescript
 {
-    var $oUpgrade;
+    public $oUpgrade;
 
-    function __construct()
+    public function __construct()
     {
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
         $this->_log('OA_UpgradePrescript: Start Fantasy Upgrade');
         return true;
     }
 
-    function _log($msg)
+    public function _log($msg)
     {
         $logOld = $this->oUpgrade->oLogger->logFile;
         $this->oUpgrade->oLogger->setLogFile('fantasy.log');
@@ -35,5 +35,4 @@ class OA_UpgradePrescript
         $this->oUpgrade->oLogger->logFile = $logOld;
         return true;
     }
-
 }

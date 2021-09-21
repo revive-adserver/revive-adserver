@@ -22,8 +22,10 @@ require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('trackerid'));
-if (empty($trackerid)) $trackerid = 0;
+MAX_commonRegisterGlobalsArray(['trackerid']);
+if (empty($trackerid)) {
+    $trackerid = 0;
+}
 
 // Log the tracker impression
 if ($conf['logging']['trackerImpressions']) {
@@ -48,5 +50,3 @@ if ($conf['logging']['trackerImpressions']) {
 MAX_cookieFlush();
 // Send a 1 x 1 gif
 MAX_commonDisplay1x1();
-
-?>

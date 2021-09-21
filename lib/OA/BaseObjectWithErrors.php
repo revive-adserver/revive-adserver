@@ -26,44 +26,42 @@ class OA_BaseObjectWithErrors
      * @access private
      * @var string $_errorMessage
      */
-	var $_errorMessage;
+    public $_errorMessage;
 
-	/**
-	 * Constructor
-	 *
-	 */
-	function BaseObjectWithErrors()
-	{
-		$this->clearErrors();
-	}
+    /**
+     * Constructor
+     *
+     */
+    public function BaseObjectWithErrors()
+    {
+        $this->clearErrors();
+    }
 
-	/**
-	 * Clear Errors
-	 *
-	 */
-	function clearErrors()
-	{
-		$this->_errorMessage = "";
-	}
+    /**
+     * Clear Errors
+     *
+     */
+    public function clearErrors()
+    {
+        $this->_errorMessage = "";
+    }
 
-	/**
-	 * Get Last added Error
-	 *
-	 */
-	function getLastError()
-	{
-		return $this->_errorMessage;
-	}
+    /**
+     * Get Last added Error
+     *
+     */
+    public function getLastError()
+    {
+        return $this->_errorMessage;
+    }
 
-	/**
-	 * Added error message
-	 *
+    /**
+     * Added error message
+     *
      * @param string $errorMessage
-	 */
-	function raiseError($errorMessage)
-	{
-	    $this->_errorMessage = $errorMessage;
-	}
+     */
+    public function raiseError($errorMessage)
+    {
+        $this->_errorMessage = $errorMessage;
+    }
 }
-
-?>

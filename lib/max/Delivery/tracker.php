@@ -95,20 +95,20 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
     if (!max_trv) { var max_trv = new Array(); }
     if (!max_trv['{$trackerJsCode}']) { max_trv['{$trackerJsCode}'] = new Array(); }";
 
-        foreach($variables as $key => $variable) {
+        foreach ($variables as $key => $variable) {
             $variableQuerystring .= "&{$variable['name']}=\"+max_trv['{$trackerJsCode}']['{$variable['name']}']+\"";
             if ($tracker['variablemethod'] == 'custom') {
                 $buffer .= "
-    {$funcName}('{$trackerJsCode}', '{$variable['name']}', '".addcslashes($variable['variablecode'], "'")."');";
+    {$funcName}('{$trackerJsCode}', '{$variable['name']}', '" . addcslashes($variable['variablecode'], "'") . "');";
             } else {
                 $buffer .= "
     {$funcName}('{$trackerJsCode}', '{$variable['name']}');";
             }
         }
         if (!empty($variableQuerystring)) {
-			// Pass the return values from the logConversion hook call into the variables request
+            // Pass the return values from the logConversion hook call into the variables request
             foreach ($conversionInfo as $plugin => $pluginData) {
-                $conversionInfoParams = array();
+                $conversionInfoParams = [];
                 if (is_array($pluginData)) {
                     foreach ($pluginData as $key => $value) {
                         $conversionInfoParams[] = $key . '=' . urlencode($value);
@@ -122,16 +122,16 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
             }
         }
     }
-    if(!empty($tracker['appendcode'])) {
+    if (!empty($tracker['appendcode'])) {
         // Add the correct "inherit" parameter if an OpenX trackercode was found
-        $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
+        $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1=' . $trackerJsCode, $tracker['appendcode']);
 
         $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");
 
         // Replace template style variables
         $jscode = preg_replace("/\{m3_trackervariable:(.+?)\}/", "\"+max_trv['{$trackerJsCode}']['$1']+\"", $jscode);
 
-        $buffer .= "\n".preg_replace('/^/m', "\t", $jscode)."\n";
+        $buffer .= "\n" . preg_replace('/^/m', "\t", $jscode) . "\n";
     }
     if (empty($buffer)) {
         $buffer = "document.write(\"\");";
@@ -161,7 +161,7 @@ function MAX_trackerCheckForValidAction($trackerid)
 
     $now = MAX_commonGetTimeNow();
     $aConf = $GLOBALS['_MAX']['CONF'];
-    $aMatchingActions = array();
+    $aMatchingActions = [];
 
     // Iterate over all creatives linked to this tracker...
     foreach ($aTrackerLinkedAds as $creativeId => $aLinkedInfo) {
@@ -185,16 +185,16 @@ function MAX_trackerCheckForValidAction($trackerid)
                 // If the action occurred within the window (and sanity check that it's > 0), record this as a matching action
                 if ($lastSeenSecondsAgo <= $aLinkedInfo[$action . '_window'] && $lastSeenSecondsAgo > 0) {
                     // Index the matching array against the # seconds ago that the action occurred
-                    $aMatchingActions[$lastSeenSecondsAgo] = array(
-                        'action_type'   => $actionId,
-                        'tracker_type'  => $aLinkedInfo['tracker_type'],
-                        'status'        => $aLinkedInfo['status'],
-                        'cid'           => $creativeId,
-                        'zid'           => $zoneId,
-                        'dt'            => $lastAction,
-                        'window'        => $aLinkedInfo[$action . '_window'],
-                        'extra'         => $extra,
-                    );
+                    $aMatchingActions[$lastSeenSecondsAgo] = [
+                        'action_type' => $actionId,
+                        'tracker_type' => $aLinkedInfo['tracker_type'],
+                        'status' => $aLinkedInfo['status'],
+                        'cid' => $creativeId,
+                        'zid' => $zoneId,
+                        'dt' => $lastAction,
+                        'window' => $aLinkedInfo[$action . '_window'],
+                        'extra' => $extra,
+                    ];
                 }
             }
         }
@@ -213,12 +213,10 @@ function MAX_trackerCheckForValidAction($trackerid)
 
 function _getActionTypes()
 {
-    return array(0 => 'view', 1 => 'click');
+    return [0 => 'view', 1 => 'click'];
 }
 
 function _getTrackerTypes()
 {
-    return array(1 => 'sale', 2 => 'lead', 3 => 'signup');
+    return [1 => 'sale', 2 => 'lead', 3 => 'signup'];
 }
-
-?>

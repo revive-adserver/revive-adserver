@@ -22,13 +22,12 @@ require_once LIB_PATH . '/Plugin/Component.php';
  */
 abstract class Plugins_DeliveryLog extends OX_Component
 {
-
     // @todo - add database specific mapping in db layer
-    const TIMESTAMP_WITHOUT_ZONE = 'timestamp without time zone';
-    const INTEGER = 'integer';
-    const CHAR = 'char';
+    public const TIMESTAMP_WITHOUT_ZONE = 'timestamp without time zone';
+    public const INTEGER = 'integer';
+    public const CHAR = 'char';
 
-    const COUNT_COLUMN = 'count';
+    public const COUNT_COLUMN = 'count';
 
     /**
      * The type of bucket data that is stored, either
@@ -50,7 +49,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
     /**
      * The class constructor method, to be used by child implementations.
      */
-    function __construct()
+    public function __construct()
     {
         // Set the bucket processing strategy, based on the type.
         $dbType = $GLOBALS['_MAX']['CONF']['database']['type'];
@@ -162,14 +161,14 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *
      * @return array  Format: array(componentId => array(depends on componentId, ...), ...)
      */
-    abstract function getDependencies();
+    abstract public function getDependencies();
 
     /**
      * Returns the bucket table name
      *
      * @return string The bucket table bucket name without prefix.
      */
-    abstract function getBucketName();
+    abstract public function getBucketName();
 
     /**
      * Returns the bucket table name.
@@ -196,7 +195,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *
      * @return string The statistics table name without prefix.
      */
-    abstract function getStatisticsName();
+    abstract public function getStatisticsName();
 
     /**
      * Returns the bucket's destination statistics table, that is, the
@@ -370,7 +369,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                         relevant (and which will be used to limit which
      *                         data are migrated to the statistics table).
      */
-    abstract function getStatisticsMigration();
+    abstract public function getStatisticsMigration();
 
     /**
      * A public method to test the returned migration map array from
@@ -392,11 +391,11 @@ abstract class Plugins_DeliveryLog extends OX_Component
         }
         if ($aMap['method'] == 'aggregate') {
             return $this->_testStatisticsMigrationAggregate($aMap);
-        } else if ($aMap['method'] == 'raw') {
+        } elseif ($aMap['method'] == 'raw') {
             return $this->_testStatisticsMigrationRaw($aMap);
-        } else if ($aMap['method'] == 'rawSupplementary') {
+        } elseif ($aMap['method'] == 'rawSupplementary') {
             return $this->_testStatisticsMigrationRawSupplementary($aMap);
-        } else if ($aMap['method'] == 'custom') {
+        } elseif ($aMap['method'] == 'custom') {
             return $this->_testStatisticsMigrationCustom($aMap);
         }
         return false;
@@ -587,7 +586,6 @@ abstract class Plugins_DeliveryLog extends OX_Component
 
         // Everything looks okay!
         return true;
-
     }
 
     /**
@@ -694,11 +692,11 @@ abstract class Plugins_DeliveryLog extends OX_Component
         if (count($aArray1) != count($aArray2)) {
             return false;
         }
-        $aKeys1 = array();
+        $aKeys1 = [];
         foreach ($aArray1 as $key => $value) {
             $aKeys1[] = $key;
         }
-        $aKeys2 = array();
+        $aKeys2 = [];
         foreach ($aArray2 as $key => $value) {
             $aKeys2[] = $key;
         }
@@ -716,7 +714,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      * @param string $msg  Debugging message
      * @param int $err  Type of message (PEAR_LOG_INFO, PEAR_LOG_ERR, PEAR_LOG_WARN)
      */
-    function _logMessage($msg, $err=PEAR_LOG_INFO)
+    public function _logMessage($msg, $err = PEAR_LOG_INFO)
     {
         OA::debug($msg, $err);
     }
@@ -726,7 +724,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *
      * @param string $msg  Debugging message
      */
-    function _logError($msg)
+    public function _logError($msg)
     {
         $this->aErrors[] = $msg;
         $this->_logMessage($msg, PEAR_LOG_ERR);
@@ -797,7 +795,4 @@ abstract class Plugins_DeliveryLog extends OX_Component
     {
         return $this->oProcessingStrategy->pruneBucket($this, $oEnd, $oStart);
     }
-
 }
-
-?>

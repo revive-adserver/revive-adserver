@@ -30,7 +30,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      *
      * @return string A string describing the type of plugin.
      */
-    function getOptionDescription()
+    public function getOptionDescription()
     {
         return $this->translate('Demonstration Plugin HTML Banner Type');
     }
@@ -41,12 +41,11 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      * @param object $form
      * @param array $row
      */
-    function buildForm(&$form, &$row)
+    public function buildForm(&$form, &$row)
     {
         parent::buildForm($form, $row);
         $form->addElement('text', 'demofield', 'Demo Field');
         $form->addRule("demofield", $this->translate('Please enter http://www.revive-adserver.com'), 'regex', '/^http:\/\/www\.openx\.org$/');
-
     }
 
     /**
@@ -58,7 +57,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      * @param object $form
      * @return boolean
      */
-    function validateForm(&$form)
+    public function validateForm(&$form)
     {
         return true;
     }
@@ -73,10 +72,10 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      * @param array $aVariables
      * @return boolean
      */
-    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $aVariables['htmltemplate'] = $this->_buildHtmlTemplate($aVariables);
-        $aVariables['comments']     = $this->translate('Demonstration OpenX Banner Type ID %s', array($aFields['bannerid']));
+        $aVariables['comments'] = $this->translate('Demonstration OpenX Banner Type ID %s', [$aFields['bannerid']]);
         return true;
     }
 
@@ -89,7 +88,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      * @param array $aFields
      * @return boolean
      */
-    function processForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         /**
          * Uncomment the following lines IF
@@ -97,16 +96,13 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
         */
 
         $doBanners = OA_Dal::factoryDO('banners_demo');
-        if ($insert)
-        {
-            $doBanners->banners_demo_id      = $bannerid;
-            $doBanners->banners_demo_desc    = $aFields['description'];
+        if ($insert) {
+            $doBanners->banners_demo_id = $bannerid;
+            $doBanners->banners_demo_desc = $aFields['description'];
             return $doBanners->insert();
-        }
-        else
-        {
-            $doBanners->banners_demo_desc     = $aFields['description'];
-            $doBanners->whereAdd('banners_demo_id='.$bannerid, 'AND');
+        } else {
+            $doBanners->banners_demo_desc = $aFields['description'];
+            $doBanners->whereAdd('banners_demo_id=' . $bannerid, 'AND');
             return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
         return true;
@@ -119,17 +115,16 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      * @param array $aFields
      * @return string
      */
-    function _buildHtmlTemplate($aFields)
+    public function _buildHtmlTemplate($aFields)
     {
-        $result = '<div>' . $this->translate('Demonstration OpenX Banner Type ID %s', array($aFields['bannerid'])) . '</div>';
+        $result = '<div>' . $this->translate('Demonstration OpenX Banner Type ID %s', [$aFields['bannerid']]) . '</div>';
         return $result;
     }
 
-    function exportData($identity='')
+    public function exportData($identity = '')
     {
-        $oDbh   = OA_DB::singleton();
-        switch ($oDbh->dbsyntax)
-        {
+        $oDbh = OA_DB::singleton();
+        switch ($oDbh->dbsyntax) {
             case 'mysql':
             case 'mysqli':
                 $engine = $oDbh->getOption('default_table_type');
@@ -139,42 +134,38 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
                 $sql = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s" "%3$s"';
                 break;
         }
-        $aConf  = $GLOBALS['_MAX']['CONF']['table'];
-        if (!$identity)
-        {
-            $identity  = 'z_'.$this->component.date('Ymd_His');
+        $aConf = $GLOBALS['_MAX']['CONF']['table'];
+        if (!$identity) {
+            $identity = 'z_' . $this->component . date('Ymd_His');
         }
 
-        $tblSrc = $aConf['prefix'].'banners_demo';
-        $tblTgt = $aConf['prefix'].$identity.$tblSrc;
-        $where  = "WHERE 1=1";
-        $query  = sprintf($sql, $tblTgt, $tblSrc, $where);
+        $tblSrc = $aConf['prefix'] . 'banners_demo';
+        $tblTgt = $aConf['prefix'] . $identity . $tblSrc;
+        $where = "WHERE 1=1";
+        $query = sprintf($sql, $tblTgt, $tblSrc, $where);
         $result1 = $oDbh->exec($query);
 
-        $tblSrc = $aConf['prefix'].'banners';
-        $tblTgt = $aConf['prefix'].$identity.$tblSrc;
-        $where  = "WHERE ext_bannertype = '".$this->getComponentIdentifier()."'";
-        $query  = sprintf($sql, $tblTgt, $tblSrc, $where);
+        $tblSrc = $aConf['prefix'] . 'banners';
+        $tblTgt = $aConf['prefix'] . $identity . $tblSrc;
+        $where = "WHERE ext_bannertype = '" . $this->getComponentIdentifier() . "'";
+        $query = sprintf($sql, $tblTgt, $tblSrc, $where);
         $result2 = $oDbh->exec($query);
 
-        if ($result1 && $result2)
-        {
+        if ($result1 && $result2) {
             return OA_DB_Table::listOATablesCaseSensitive($identity);
         }
         return false;
     }
 
-    function fetchBannersJoined($fetchmode=MDB2_FETCHMODE_ORDERED)
+    public function fetchBannersJoined($fetchmode = MDB2_FETCHMODE_ORDERED)
     {
-        $aConf  = $GLOBALS['_MAX']['CONF']['table'];
-        $oDbh   = OA_DB::singleton();
-        $tblB   = $oDbh->quoteIdentifier($aConf['prefix'].'banners',true);
-        $tblD   = $oDbh->quoteIdentifier($aConf['prefix'].'banners_demo');
-        $query  = "SELECT * FROM ".$tableB." b"
-                 ." LEFT JOIN ".$tableD." d ON b.bannerid = d.banners_demo_id"
-                 ." WHERE b.ext_bannertype = '".$this->getComponentIdentifier()."'";
+        $aConf = $GLOBALS['_MAX']['CONF']['table'];
+        $oDbh = OA_DB::singleton();
+        $tblB = $oDbh->quoteIdentifier($aConf['prefix'] . 'banners', true);
+        $tblD = $oDbh->quoteIdentifier($aConf['prefix'] . 'banners_demo');
+        $query = "SELECT * FROM " . $tableB . " b"
+                 . " LEFT JOIN " . $tableD . " d ON b.bannerid = d.banners_demo_id"
+                 . " WHERE b.ext_bannertype = '" . $this->getComponentIdentifier() . "'";
         return $oDbh->queryAll($query, null, $fetchmode);
     }
-
 }
-?>

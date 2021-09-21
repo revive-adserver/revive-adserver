@@ -28,35 +28,35 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCO
 
 // Get input variables
 $pref = $GLOBALS['_MAX']['PREF'];
-$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true), null, true);
-$listorder      = MAX_getStoredValue('listorder', 'date_time');
+$hideinactive = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true), null, true);
+$listorder = MAX_getStoredValue('listorder', 'date_time');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
-$aNodes         = MAX_getStoredArray('nodes', array());
-$editStatuses   = MAX_getStoredValue('editStatuses', false, null, true);
-$day            = MAX_getStoredValue('day', null, 'stats-conversions.php');
-$howLong        = MAX_getStoredValue('howLong', 'd');
-$hour           = MAX_getStoredValue('hour', null, 'stats-conversions.php', true);
-$setPerPage     = (int) MAX_getStoredValue('setPerPage', 15);
-$pageID         = (int) MAX_getStoredValue('pageID', 1);
+$aNodes = MAX_getStoredArray('nodes', []);
+$editStatuses = MAX_getStoredValue('editStatuses', false, null, true);
+$day = MAX_getStoredValue('day', null, 'stats-conversions.php');
+$howLong = MAX_getStoredValue('howLong', 'd');
+$hour = MAX_getStoredValue('hour', null, 'stats-conversions.php', true);
+$setPerPage = (int) MAX_getStoredValue('setPerPage', 15);
+$pageID = (int) MAX_getStoredValue('pageID', 1);
 
 if (!empty($day)) {
     // Reset period
     $period_preset = '';
     // Always refresh howLong and hour
     $howLong = MAX_getValue('howLong', 'd');
-    $hour    = MAX_getValue('hour');
+    $hour = MAX_getValue('hour');
 } else {
-    $period_preset  = MAX_getStoredValue('period_preset', 'today');
-    $period_start   = MAX_getStoredValue('period_start', date('Y-m-d'));
-    $period_end     = MAX_getStoredValue('period_end', date('Y-m-d'));
+    $period_preset = MAX_getStoredValue('period_preset', 'today');
+    $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
+    $period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
 }
 
 if (is_numeric($hour) && $hour < 10 && strlen($hour) != 2) {
     $hour = '0' . $hour;
 }
 
-$expand         = MAX_getValue('expand', '');
-$collapse       = MAX_getValue('collapse');
+$expand = MAX_getValue('expand', '');
+$collapse = MAX_getValue('collapse');
 
 if ($clientid) {
     OA_Permission::enforceAccessToObject('clients', $clientid);
@@ -75,32 +75,32 @@ if ($zoneid) {
 }
 
 // Build $addUrl variable which will be added to any required link on this page, eg: expand, collapse, editStatuses
-$entityIds = array(
-    'entity'      => 'conversions',
-    'clientid'    => $clientid,
-    'campaignid'  => $campaignid,
-    'bannerid'    => $bannerid,
+$entityIds = [
+    'entity' => 'conversions',
+    'clientid' => $clientid,
+    'campaignid' => $campaignid,
+    'bannerid' => $bannerid,
     'affiliateid' => $affiliateid,
-    'zoneid'      => $zoneid,
-    'setPerPage'  => $setPerPage,
-    'pageID'      => $pageID
-);
+    'zoneid' => $zoneid,
+    'setPerPage' => $setPerPage,
+    'pageID' => $pageID
+];
 $addUrl = "entity=conversions&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&affiliateid=$affiliateid&zoneid=$zoneid&setPerPage=$setPerPage&pageID=$pageID";
 
 if (!empty($day)) {
-    $entityIds += array(
+    $entityIds += [
         'day' => $day,
         'hour' => $hour,
         'howLong' => $howLong
-    );
-    $addUrl .= "&day=".urlencode($day)."&hour=".urlencode($hour)."&howLong=".urlencode($howLong);
+    ];
+    $addUrl .= "&day=" . urlencode($day) . "&hour=" . urlencode($hour) . "&howLong=" . urlencode($howLong);
 } else {
-    $entityIds += array(
+    $entityIds += [
         'period_preset' => $period_preset,
         'period_start' => $period_start,
         'period_end' => $period_end,
-    );
-    $addUrl .= "&period_preset=".urlencode($period_preset)."&period_start=".urlencode($period_start)."&period_end=".urlencode($period_end);
+    ];
+    $addUrl .= "&period_preset=" . urlencode($period_preset) . "&period_start=" . urlencode($period_start) . "&period_end=" . urlencode($period_end);
 }
 // Adjust which nodes are opened closed...
 MAX_adjustNodes($aNodes, $expand, $collapse);
@@ -108,13 +108,11 @@ MAX_adjustNodes($aNodes, $expand, $collapse);
 if (!OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // editing statuses is allowed only for admin and agency
     $editStatuses = false;
-}
-else {
-    if($editStatuses) {
-        addPageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&'.$addUrl, 'iconZoom');
-    }
-    else {
-        addPageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&'.$addUrl, 'iconEdit');
+} else {
+    if ($editStatuses) {
+        addPageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&' . $addUrl, 'iconZoom');
+    } else {
+        addPageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&' . $addUrl, 'iconEdit');
     }
 }
 
@@ -125,7 +123,7 @@ if ($editStatuses) {
 }
 
 // Display navigation
-if(OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     // Navigation for publisher
     $conf = &$GLOBALS['_MAX']['CONF'];
     $conf['logging']['adRequests'] = false;
@@ -133,7 +131,7 @@ if(OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
-} elseif(OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Navigation for advertiser
     $clientid = OA_Permission::getEntityId();
 
@@ -151,24 +149,24 @@ $tabindex = 1;
 $advertisersHidden = 0;
 
 // Display date filter form
-if(empty($day)) {
+if (empty($day)) {
     $aDates = MAX_getDatesByPeriod($period_preset, $period_start, $period_end);
 } else {
-    $aDates = array();
+    $aDates = [];
     $oDayDate = new Date();
     $oDayDate->setDate($day, DATE_FORMAT_TIMESTAMP);
-    if(!empty($hour)) {
+    if (!empty($hour)) {
         // If hour is set build day date including hour
-        $aDates['day_hour'] = $oDayDate->format('%Y-%m-%d').' '.$hour;
+        $aDates['day_hour'] = $oDayDate->format('%Y-%m-%d') . ' ' . $hour;
     } else {
         // Build month, day, day_begin and day_end dependends on $howLong
-        switch($howLong) {
+        switch ($howLong) {
             case 'm':
                 $aDates['month'] = $oDayDate->format('%Y-%m');
                 break;
             case 'w':
                 $aDates['day_begin'] = $oDayDate->format('%Y-%m-%d');
-                $oDayDate->addSeconds(60*60*24*7); // Add 7 days
+                $oDayDate->addSeconds(60 * 60 * 24 * 7); // Add 7 days
                 $aDates['day_end'] = $oDayDate->format('%Y-%m-%d');
                 break;
             case 'd':
@@ -179,38 +177,38 @@ if(empty($day)) {
     }
 }
 
-$hiddenValues = array(
-    'entity'   => 'conversions',
+$hiddenValues = [
+    'entity' => 'conversions',
     'clientid' => $clientid,
     'campaignid' => $campaignid,
     'bannerid' => $bannerid,
     'affiliateid' => $affiliateid,
     'zoneid' => $zoneid,
-);
-if(!empty($period_preset)) {
+];
+if (!empty($period_preset)) {
     MAX_displayDateSelectionForm($period_preset, $period_start, $period_end, $pageName, $tabindex, $hiddenValues);
 } else {
     $comma = '';
-    foreach($aDates as $dateValue) {
-        echo $comma.$dateValue;
+    foreach ($aDates as $dateValue) {
+        echo $comma . $dateValue;
         $comma = ' - ';
     }
 }
 
 phpAds_ShowBreak();
 
-$aParams = array();
+$aParams = [];
 $aParams['agency_id'] = OA_Permission::getAgencyId();
 
-$aParams['clientid']    = $clientid;
-$aParams['campaignid']  = $campaignid;
-$aParams['bannerid']    = $bannerid;
+$aParams['clientid'] = $clientid;
+$aParams['campaignid'] = $campaignid;
+$aParams['bannerid'] = $bannerid;
 $aZonesIds = null; // Admin_DA class expects null if no zones to be used
 if (empty($zoneid) && !empty($affiliateid)) {
     $aZonesIds = Admin_DA::fromCache('getZonesIdsByAffiliateId', $affiliateid);
 }
-if(!empty($zoneid)) {
-    $aZonesIds = array($zoneid);
+if (!empty($zoneid)) {
+    $aZonesIds = [$zoneid];
 }
 $aParams['zonesIds'] = $aZonesIds;
 
@@ -238,7 +236,7 @@ if (!isset($pageID) || $pageID == 1) {
 $aConversions = Admin_DA::fromCache('getConversions', $aParams + $aDates);
 
 
-$pager = & Pager::factory($aParams);
+$pager = &Pager::factory($aParams);
 $per_page = $pager->_perPage;
 $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
@@ -248,27 +246,26 @@ $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 id="setPerPageSelec
 
 // Build the conversions array
 if (!empty($aConversions)) {
-
-    if($editStatuses) {
-        echo "<form id='connections-modify' action='connections-modify.php' name='connectionsmodify' id='connectionsmodify' method='POST'>"."\n";
-        echo "<input type='hidden' name='clientid' value='$clientid'>"."\n";
-        echo "<input type='hidden' name='campaignid' value='$campaignid'>"."\n";
-        echo "<input type='hidden' name='bannerid' value='$bannerid'>"."\n";
-        echo "<input type='hidden' name='affiliateid' value='$affiliateid'>"."\n";
-        echo "<input type='hidden' name='zoneid' value='$zoneid'>"."\n";
-        echo "<input type='hidden' name='day' value='".htmlspecialchars($day, ENT_QUOTES)."'>"."\n";
-        echo "<input type='hidden' name='hour' value='".htmlspecialchars($hour, ENT_QUOTES)."'>"."\n";
-        echo "<input type='hidden' name='howLong' value='".htmlspecialchars($howLong, ENT_QUOTES)."'>"."\n";
-        echo "<input type='hidden' name='period_preset' value='".htmlspecialchars($period_preset, ENT_QUOTES)."'>"."\n";
+    if ($editStatuses) {
+        echo "<form id='connections-modify' action='connections-modify.php' name='connectionsmodify' id='connectionsmodify' method='POST'>" . "\n";
+        echo "<input type='hidden' name='clientid' value='$clientid'>" . "\n";
+        echo "<input type='hidden' name='campaignid' value='$campaignid'>" . "\n";
+        echo "<input type='hidden' name='bannerid' value='$bannerid'>" . "\n";
+        echo "<input type='hidden' name='affiliateid' value='$affiliateid'>" . "\n";
+        echo "<input type='hidden' name='zoneid' value='$zoneid'>" . "\n";
+        echo "<input type='hidden' name='day' value='" . htmlspecialchars($day, ENT_QUOTES) . "'>" . "\n";
+        echo "<input type='hidden' name='hour' value='" . htmlspecialchars($hour, ENT_QUOTES) . "'>" . "\n";
+        echo "<input type='hidden' name='howLong' value='" . htmlspecialchars($howLong, ENT_QUOTES) . "'>" . "\n";
+        echo "<input type='hidden' name='period_preset' value='" . htmlspecialchars($period_preset, ENT_QUOTES) . "'>" . "\n";
         if ($period_preset == 'specific') {
-            echo "<input type='hidden' name='period_start' value='".htmlspecialchars($period_start, ENT_QUOTES)."'>"."\n";
-            echo "<input type='hidden' name='period_end' value='".htmlspecialchars($period_end, ENT_QUOTES)."'>"."\n";
+            echo "<input type='hidden' name='period_start' value='" . htmlspecialchars($period_start, ENT_QUOTES) . "'>" . "\n";
+            echo "<input type='hidden' name='period_end' value='" . htmlspecialchars($period_end, ENT_QUOTES) . "'>" . "\n";
         }
-        echo "<input type='hidden' name='returnurl' value='stats.php'>"."\n";
-        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'>"."\n";
-        echo "<input type='hidden' name='entity' value='conversions'>"."\n";
-        echo "<input type='hidden' name='setPerPage' value='".htmlspecialchars($setPerPage, ENT_QUOTES)."'>"."\n";
-        echo "<input type='hidden' name='pageID' value='".htmlspecialchars($pageID, ENT_QUOTES)."'>"."\n";
+        echo "<input type='hidden' name='returnurl' value='stats.php'>" . "\n";
+        echo "<input type='hidden' name='token' value='" . phpAds_SessionGetToken() . "'>" . "\n";
+        echo "<input type='hidden' name='entity' value='conversions'>" . "\n";
+        echo "<input type='hidden' name='setPerPage' value='" . htmlspecialchars($setPerPage, ENT_QUOTES) . "'>" . "\n";
+        echo "<input type='hidden' name='pageID' value='" . htmlspecialchars($pageID, ENT_QUOTES) . "'>" . "\n";
     }
 
     echo "
@@ -302,16 +299,16 @@ if (!empty($aConversions)) {
         <tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
     // Variable to determine if the row should be grey or white...
-    $i=0;
+    $i = 0;
 
-    $statusesColors = array(
-        MAX_CONNECTION_STATUS_IGNORE      => 'grey',
-        MAX_CONNECTION_STATUS_PENDING     => 'darkblue',
-        MAX_CONNECTION_STATUS_ONHOLD      => 'blue',
-        MAX_CONNECTION_STATUS_APPROVED    => 'green',
+    $statusesColors = [
+        MAX_CONNECTION_STATUS_IGNORE => 'grey',
+        MAX_CONNECTION_STATUS_PENDING => 'darkblue',
+        MAX_CONNECTION_STATUS_ONHOLD => 'blue',
+        MAX_CONNECTION_STATUS_APPROVED => 'green',
         MAX_CONNECTION_STATUS_DISAPPROVED => 'red',
-        MAX_CONNECTION_STATUS_DUPLICATE   => 'grey',
-    );
+        MAX_CONNECTION_STATUS_DUPLICATE => 'grey',
+    ];
 
     $totalRequests = 0;
     $totalViews = 0;
@@ -320,44 +317,44 @@ if (!empty($aConversions)) {
 
     // Loop through advertisers
     MAX_sortArray($aConversions, ($listorder == 'id' ? 'date_time' : $listorder), $orderdirection == 'up');
-    foreach($aConversions as $conversionId => $conversion) {
+    foreach ($aConversions as $conversionId => $conversion) {
         $conversionExpanded = MAX_isExpanded($conversionId, $expand, $aNodes, 'a');
 
-            $bgcolor = ($i++ % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
+        $bgcolor = ($i++ % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
 
-            $connectionStatus = $GLOBALS['_MAX']['STATUSES'][$conversion['connection_status']];
-            $translatedStatus = $GLOBALS[$connectionStatus];
+        $connectionStatus = $GLOBALS['_MAX']['STATUSES'][$conversion['connection_status']];
+        $translatedStatus = $GLOBALS[$connectionStatus];
 
-            echo "
+        echo "
         <tr height='25'$bgcolor>
             <td>";
-            if ($conversionExpanded) {
-                echo "&nbsp;<a href='".htmlspecialchars("$pageName?collapse=a$conversionId&$addUrl", ENT_QUOTES)."'><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
-            } else {
-                echo "&nbsp;<a href='".htmlspecialchars("$pageName?expand=a$conversionId&$addUrl", ENT_QUOTES)."'><img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
-            }
+        if ($conversionExpanded) {
+            echo "&nbsp;<a href='" . htmlspecialchars("$pageName?collapse=a$conversionId&$addUrl", ENT_QUOTES) . "'><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
+        } else {
+            echo "&nbsp;<a href='" . htmlspecialchars("$pageName?expand=a$conversionId&$addUrl", ENT_QUOTES) . "'><img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
+        }
 
-            $aConversionStatuses = array(
+        $aConversionStatuses = [
                 MAX_CONNECTION_STATUS_IGNORE,
                 MAX_CONNECTION_STATUS_PENDING,
                 MAX_CONNECTION_STATUS_ONHOLD,
                 MAX_CONNECTION_STATUS_APPROVED,
                 MAX_CONNECTION_STATUS_DISAPPROVED,
                 MAX_CONNECTION_STATUS_DUPLICATE,
-            );
+            ];
 
-            echo "{$conversion['date_time']}</td>";
-            if ($editStatuses) {
-                // Only managers can edit statuses. No constraint to the type of changes since OX-4138.
-                echo "<td align='center' style='padding: 0 4px'><nobr>";
-                foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusStr) {
-                    echo "&nbsp;<label><input type='radio' name='statusIds[$conversionId]' value='$statusId' ".($conversion['connection_status']==$statusId?' checked':'')." tabindex='".($tabindex++)."'>{$GLOBALS[$statusStr]}</label>";
-                }
-                echo "</nobr></td>";
-            } else {
-                echo "<td align='center' style='padding: 0 4px'><span style='color: {$statusesColors[$conversion['connection_status']]}'>{$translatedStatus}</span></td>";
+        echo "{$conversion['date_time']}</td>";
+        if ($editStatuses) {
+            // Only managers can edit statuses. No constraint to the type of changes since OX-4138.
+            echo "<td align='center' style='padding: 0 4px'><nobr>";
+            foreach ($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusStr) {
+                echo "&nbsp;<label><input type='radio' name='statusIds[$conversionId]' value='$statusId' " . ($conversion['connection_status'] == $statusId ? ' checked' : '') . " tabindex='" . ($tabindex++) . "'>{$GLOBALS[$statusStr]}</label>";
             }
-            echo "<td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>{$conversion['tracker_id']}</td>
+            echo "</nobr></td>";
+        } else {
+            echo "<td align='center' style='padding: 0 4px'><span style='color: {$statusesColors[$conversion['connection_status']]}'>{$translatedStatus}</span></td>";
+        }
+        echo "<td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>{$conversion['tracker_id']}</td>
             <td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>{$conversion['trackername']}</td>
             <td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>{$conversion['campaignid']}</td>
             <td align='$phpAds_TextAlignLeft' style='padding: 0 4px'>{$conversion['campaignname']}</td>
@@ -392,7 +389,7 @@ if (!empty($aConversions)) {
             $minutes = intval($partHour / 60);  // 60 seconds in a minute
             $seconds = $partHour - ($minutes * 60);
 
-            $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
+            $windowDelay = $days . "d " . $hours . "h " . $minutes . "m " . $seconds . "s";
 
             echo "
             <tr height='25'$bgcolor>
@@ -417,14 +414,14 @@ if (!empty($aConversions)) {
                             <td width='60%'>
                                 <table border='0' cellspacing='0' cellpadding='0'>
                                     <tr><th scope='col' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsVariables']}:</th><td></td></tr>";
-            foreach($aConVariables as $conVariable) {
+            foreach ($aConVariables as $conVariable) {
                 // Do not show hidden variables to publishers
                 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $conVariable['hidden'] == 't') {
                     continue;
                 }
-                echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".
-                        htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']).
-                        "</th><td style='padding-left: 8px'>".htmlspecialchars($conVariable['value'])."</td></tr>";
+                echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>" .
+                        htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']) .
+                        "</th><td style='padding-left: 8px'>" . htmlspecialchars($conVariable['value']) . "</td></tr>";
             }
             echo "
                                 </table>
@@ -432,7 +429,7 @@ if (!empty($aConversions)) {
                         </tr>
                     </table>
                 ";
-                echo "
+            echo "
                 </td>
             </tr>";
         }
@@ -445,14 +442,14 @@ if (!empty($aConversions)) {
             <td colspan='4' align='$phpAds_TextAlignLeft' nowrap>";
     echo "
             </td>
-            <td colspan='2' align='$phpAds_TextAlignRight' nowrap><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='".htmlspecialchars("$pageName?$addUrl&expand=all", ENT_QUOTES)."' accesskey='$keyExpandAll'>$strExpandAll</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=none' accesskey='$keyCollapseAll'>$strCollapseAll</a>&nbsp;&nbsp;</td>
+            <td colspan='2' align='$phpAds_TextAlignRight' nowrap><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='" . htmlspecialchars("$pageName?$addUrl&expand=all", ENT_QUOTES) . "' accesskey='$keyExpandAll'>$strExpandAll</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?$addUrl&amp;expand=none' accesskey='$keyCollapseAll'>$strCollapseAll</a>&nbsp;&nbsp;</td>
 
         </tr>";
     echo "<tr>
 
             <td colspan='4' align='$phpAds_TextAlignLeft' nowrap> ";
-    if($editStatuses) {
-             echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."' onClick='document.connectionsmodify.submit()'>"."\n";
+    if ($editStatuses) {
+        echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='" . ($tabindex++) . "' onClick='document.connectionsmodify.submit()'>" . "\n";
     }
 
     echo "
@@ -466,17 +463,17 @@ if (!empty($aConversions)) {
         <br /><br />
         ";
 
-    if($editStatuses) {
-        echo "</form>"."\n";
+    if ($editStatuses) {
+        echo "</form>" . "\n";
     }
 
-    echo "<form id='setPager' method='get' action='stats.php?".htmlspecialchars($_SERVER['QUERY_STRING'], ENT_QUOTES)."'>";
+    echo "<form id='setPager' method='get' action='stats.php?" . htmlspecialchars($_SERVER['QUERY_STRING'], ENT_QUOTES) . "'>";
 
     $getValues = preg_split('/&/D', $_SERVER['QUERY_STRING']);
     foreach ($getValues as $record) {
         $filed = explode('=', $record);
         if ($filed[0] != 'setPerPage' && $filed[0] != 'pageID') {
-            echo "<input type='hidden' name='". $filed[0]."' value='". $filed[1]."'>";
+            echo "<input type='hidden' name='" . $filed[0] . "' value='" . $filed[1] . "'>";
         }
     }
 
@@ -485,7 +482,7 @@ if (!empty($aConversions)) {
 
     echo "</form>";
 
-echo '
+    echo '
 <script type=\'text/javascript\'>
 <!--
 
@@ -505,7 +502,6 @@ function updatePerPage()
 
 -->
 </script>';
-
 } else {
     echo "
         <br /><br /><div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/info.gif' width='16' height='16' border='0' align='absmiddle'>$strNoStats</div>";
@@ -514,7 +510,7 @@ function updatePerPage()
 // Store preferences
 $session['prefs'][$pageName]['hideinactive'] = $hideinactive;
 $session['prefs'][$pageName]['listorder'] = $listorder;
-$session['prefs'][$pageName]['nodes'] = implode (",", $aNodes);
+$session['prefs'][$pageName]['nodes'] = implode(",", $aNodes);
 $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
 $session['prefs'][$pageName]['day'] = $day;
 $session['prefs'][$pageName]['howLong'] = $howLong;
@@ -527,5 +523,3 @@ phpAds_SessionDataStore();
 
 // Display page footer
 phpAds_PageFooter();
-
-?>

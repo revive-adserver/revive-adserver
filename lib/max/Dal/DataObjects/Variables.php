@@ -18,8 +18,8 @@ require_once 'Trackers.php';
 
 class DataObjects_Variables extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
-    var $refreshUpdatedFieldIfExists = true;
+    public $onDeleteCascade = true;
+    public $refreshUpdatedFieldIfExists = true;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -38,9 +38,12 @@ class DataObjects_Variables extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Variables',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Variables', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'trackerid' => 0,
         'name' => '',
         'datatype' => 'numeric',
@@ -55,17 +58,17 @@ class DataObjects_Variables extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->variableid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Variable';
     }
@@ -108,9 +111,9 @@ class DataObjects_Variables extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']   = $this->name;
+        $aAuditFields['key_desc'] = $this->name;
     }
 
     /**
@@ -123,21 +126,18 @@ class DataObjects_Variables extends DB_DataObjectCommon
         $variableCode = '';
         switch ($variableMethod) {
             case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS:
-                $variableCode = "var {$this->name} = \\'%%".strtoupper($this->name)."_VALUE%%\\'";
+                $variableCode = "var {$this->name} = \\'%%" . strtoupper($this->name) . "_VALUE%%\\'";
                 break;
             case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM:
                 $variableCode = '';
                 break;
             case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM:
-                $variableCode = "var {$this->name} = \\'".$this->variablecode."\\'";
+                $variableCode = "var {$this->name} = \\'" . $this->variablecode . "\\'";
                 break;
             default:
-                $variableCode = "var {$this->name} = escape(\\'%%".strtoupper($this->name)."_VALUE%%\\')";
+                $variableCode = "var {$this->name} = escape(\\'%%" . strtoupper($this->name) . "_VALUE%%\\')";
                 break;
         }
         $this->variablecode = $variableCode;
     }
-
 }
-
-?>

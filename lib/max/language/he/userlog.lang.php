@@ -26,5 +26,5 @@ $GLOBALS['strAction'] = "פעולה";
 $GLOBALS['strValue'] = "ערך";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }

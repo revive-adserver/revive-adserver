@@ -14,4 +14,3 @@
 $GLOBALS['strPublisherHistoryDescription'] = "Relatório de distribuição por sites de um anunciante";
 $GLOBALS['strPublisherZoneHistoryDescription'] = "Relatório de distribuição por sites e zonas de um anunciante";
 $GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = "Este relatório apresenta detalhes de toda atividade de rastreamento de conversões de um site (afiliado)";
-?>

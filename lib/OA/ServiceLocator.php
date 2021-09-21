@@ -19,8 +19,7 @@
   */
 class OA_ServiceLocator
 {
-
-    var $aService = array();
+    public $aService = [];
 
     /**
      * A method to return a singleton handle to the service locator class.
@@ -43,9 +42,9 @@ class OA_ServiceLocator
      * @param mixed $oService The object (service) being registered.
      * @return boolean Always returns true.
      */
-    function register($serviceName, &$oService)
+    public function register($serviceName, &$oService)
     {
-        $this->aService[$serviceName] =& $oService;
+        $this->aService[$serviceName] = &$oService;
         return true;
     }
 
@@ -54,7 +53,7 @@ class OA_ServiceLocator
      *
      * @param string $serviceName The name of the service being de-registered.
      */
-    function remove($serviceName)
+    public function remove($serviceName)
     {
         unset($this->aService[$serviceName]);
     }
@@ -66,7 +65,7 @@ class OA_ServiceLocator
      * @return mixed Either the service object requested, or false if the
      *               requested service was not registered.
      */
-    function &get($serviceName)
+    public function &get($serviceName)
     {
         if (isset($this->aService[$serviceName])) {
             return $this->aService[$serviceName];
@@ -83,12 +82,9 @@ class OA_ServiceLocator
      * @return mixed Either the service object requested, or false if the
      *               requested service was not registered.
      */
-    function &staticGet($serviceName)
+    public function &staticGet($serviceName)
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         return $oServiceLocator->get($serviceName);
     }
-
 }
-
-?>

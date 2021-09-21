@@ -4,68 +4,68 @@ require_once("../xajax.inc.php");
 // tests the select form
 function testForm($formData)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("formData: " . print_r($formData, true));
-	$objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("formData: " . print_r($formData, true));
+    $objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
+    return $objResponse->getXML();
 }
 
-// adds an option to the select 
+// adds an option to the select
 function addInput($aInputData)
 {
-	$sId = $aInputData['inputId'];
-	$sName = $aInputData['inputName'];
-	$sType = $aInputData['inputType'];
-	$sValue = $aInputData['inputValue'];
-	
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("inputData: " . print_r($aInputData, true));
-	$objResponse->addCreateInput("testForm1", $sType, $sName, $sId);
-	$objResponse->addAssign($sId, "value", $sValue);
-	return $objResponse->getXML();
+    $sId = $aInputData['inputId'];
+    $sName = $aInputData['inputName'];
+    $sType = $aInputData['inputType'];
+    $sValue = $aInputData['inputValue'];
+    
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("inputData: " . print_r($aInputData, true));
+    $objResponse->addCreateInput("testForm1", $sType, $sName, $sId);
+    $objResponse->addAssign($sId, "value", $sValue);
+    return $objResponse->getXML();
 }
 
-// adds an option to the select 
+// adds an option to the select
 function insertInput($aInputData)
 {
-	$sId = $aInputData['inputId'];
-	$sName = $aInputData['inputName'];
-	$sType = $aInputData['inputType'];
-	$sValue = $aInputData['inputValue'];
-	$sBefore = $aInputData['inputBefore'];
-	
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("inputData: " . print_r($aInputData, true));
-	$objResponse->addInsertInput($sBefore, $sType, $sName, $sId);
-	$objResponse->addAssign($sId, "value", $sValue);
-	return $objResponse->getXML();
+    $sId = $aInputData['inputId'];
+    $sName = $aInputData['inputName'];
+    $sType = $aInputData['inputType'];
+    $sValue = $aInputData['inputValue'];
+    $sBefore = $aInputData['inputBefore'];
+    
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("inputData: " . print_r($aInputData, true));
+    $objResponse->addInsertInput($sBefore, $sType, $sName, $sId);
+    $objResponse->addAssign($sId, "value", $sValue);
+    return $objResponse->getXML();
 }
 
-// adds an option to the select 
+// adds an option to the select
 function insertInputAfter($aInputData)
 {
-	$sId = $aInputData['inputId'];
-	$sName = $aInputData['inputName'];
-	$sType = $aInputData['inputType'];
-	$sValue = $aInputData['inputValue'];
-	$sAfter = $aInputData['inputAfter'];
-	
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("inputData: " . print_r($aInputData, true));
-	$objResponse->addInsertInputAfter($sAfter, $sType, $sName, $sId);
-	$objResponse->addAssign($sId, "value", $sValue);
-	return $objResponse->getXML();
+    $sId = $aInputData['inputId'];
+    $sName = $aInputData['inputName'];
+    $sType = $aInputData['inputType'];
+    $sValue = $aInputData['inputValue'];
+    $sAfter = $aInputData['inputAfter'];
+    
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("inputData: " . print_r($aInputData, true));
+    $objResponse->addInsertInputAfter($sAfter, $sType, $sName, $sId);
+    $objResponse->addAssign($sId, "value", $sValue);
+    return $objResponse->getXML();
 }
 
 function removeInput($aInputData)
 {
-	$sId = $aInputData['inputId'];
-	
-	$objResponse = new xajaxResponse();
-	
-	$objResponse->addRemove($sId);
+    $sId = $aInputData['inputId'];
+    
+    $objResponse = new xajaxResponse();
+    
+    $objResponse->addRemove($sId);
 
-	return $objResponse->getXML();
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

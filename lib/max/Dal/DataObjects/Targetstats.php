@@ -28,9 +28,12 @@ class DataObjects_Targetstats extends DB_DataObjectCommon
     public $modified;                        // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Targetstats',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Targetstats', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'day' => '%NO_DATE_TIME%',
         'campaignid' => 0,
         'target' => 0,
@@ -46,9 +49,8 @@ class DataObjects_Targetstats extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 }
-
-?>

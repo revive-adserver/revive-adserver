@@ -18,5 +18,3 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the main "Preferences" page
 OX_Admin_Redirect::redirect('account-user-name-language.php');
-
-?>

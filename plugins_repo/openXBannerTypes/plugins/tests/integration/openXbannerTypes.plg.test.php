@@ -20,43 +20,41 @@ require_once LIB_PATH . '/Plugin/Component.php';
  */
 class Plugins_TestOfPlugins_openXBannerTypes extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
         TestEnv::uninstallPluginPackage('openXBannerTypes');
         TestEnv::installPluginPackage('openXBannerTypes');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         TestEnv::uninstallPluginPackage('openXBannerTypes');
     }
 
-    function test_genericText_class()
+    public function test_genericText_class()
     {
         $oComponent = OX_Component::factory('bannerTypeText', 'oxText', 'genericText');
-        $this->_assertClass($oComponent,'bannerTypeText', 'oxText', 'genericText');
+        $this->_assertClass($oComponent, 'bannerTypeText', 'oxText', 'genericText');
     }
 
-    function test_genericHtml_class()
+    public function test_genericHtml_class()
     {
         $oComponent = OX_Component::factory('bannerTypeHtml', 'oxHtml', 'genericHtml');
         $this->_assertClass($oComponent, 'bannerTypeHtml', 'oxHtml', 'genericHtml');
         $this->assertTrue(method_exists($oComponent, 'buildHtmlTemplate'), 'missing method buildHtmlTemplate');
     }
 
-    function _assertClass($oComponent, $extension, $group, $component)
+    public function _assertClass($oComponent, $extension, $group, $component)
     {
-        $sender = $group.'_'.$component;
-        $this->assertIsA($oComponent, 'Plugins_'.$extension.'_'.$group.'_'.$component, $sender.' invalid class');
-        $this->assertIsA($oComponent, 'Plugins_'.$extension, $sender.' invalid parent class');
-        $this->assertTrue(method_exists($oComponent, 'getStorageType'), $sender.' missing method getStorageType');
-        $this->assertTrue(method_exists($oComponent, 'getContentType'), $sender.' missing method getContentType');
-        $this->assertTrue(method_exists($oComponent, 'getOptionDescription'), $sender.' missing method getOptionDescription');
-        $this->assertTrue(method_exists($oComponent, 'buildForm'), $sender.' missing method buildForm');
-        $this->assertTrue(method_exists($oComponent, 'validateForm'), $sender.' missing method validateForm');
-        $this->assertTrue(method_exists($oComponent, 'preprocessForm'), $sender.' missing method processForm');
-        $this->assertTrue(method_exists($oComponent, 'processForm'), $sender.' missing method processForm');
+        $sender = $group . '_' . $component;
+        $this->assertIsA($oComponent, 'Plugins_' . $extension . '_' . $group . '_' . $component, $sender . ' invalid class');
+        $this->assertIsA($oComponent, 'Plugins_' . $extension, $sender . ' invalid parent class');
+        $this->assertTrue(method_exists($oComponent, 'getStorageType'), $sender . ' missing method getStorageType');
+        $this->assertTrue(method_exists($oComponent, 'getContentType'), $sender . ' missing method getContentType');
+        $this->assertTrue(method_exists($oComponent, 'getOptionDescription'), $sender . ' missing method getOptionDescription');
+        $this->assertTrue(method_exists($oComponent, 'buildForm'), $sender . ' missing method buildForm');
+        $this->assertTrue(method_exists($oComponent, 'validateForm'), $sender . ' missing method validateForm');
+        $this->assertTrue(method_exists($oComponent, 'preprocessForm'), $sender . ' missing method processForm');
+        $this->assertTrue(method_exists($oComponent, 'processForm'), $sender . ' missing method processForm');
     }
 }
-
-?>

@@ -22,11 +22,10 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  */
 class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -34,7 +33,7 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
     /**
      * The method to test the getActiveZones() method.
      */
-    function testGetActiveZones()
+    public function testGetActiveZones()
     {
         $oDal = new OA_Dal_Maintenance_Priority();
 
@@ -115,7 +114,7 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $aZone = $aResult[0];
-        $this->assertTrue(array_key_exists('zoneid'  , $aZone));
+        $this->assertTrue(array_key_exists('zoneid', $aZone));
         $this->assertTrue(array_key_exists('zonename', $aZone));
         $this->assertTrue(array_key_exists('zonetype', $aZone));
         $this->assertEqual($aZone['zoneid'], $idZoneFirst);
@@ -137,14 +136,14 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $aZone = $aResult[0];
-        $this->assertTrue(array_key_exists('zoneid'  , $aZone));
+        $this->assertTrue(array_key_exists('zoneid', $aZone));
         $this->assertTrue(array_key_exists('zonename', $aZone));
         $this->assertTrue(array_key_exists('zonetype', $aZone));
         $this->assertEqual($aZone['zoneid'], $idZoneFirst);
         $this->assertEqual($aZone['zonename'], 'First Zone');
         $this->assertEqual($aZone['zonetype'], 3);
         $aZone = $aResult[1];
-        $this->assertTrue(array_key_exists('zoneid'  , $aZone));
+        $this->assertTrue(array_key_exists('zoneid', $aZone));
         $this->assertTrue(array_key_exists('zonename', $aZone));
         $this->assertTrue(array_key_exists('zonetype', $aZone));
         $this->assertEqual($aZone['zoneid'], $idZoneSecond);
@@ -153,7 +152,4 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
 
         DataGenerator::cleanUp();
     }
-
 }
-
-?>

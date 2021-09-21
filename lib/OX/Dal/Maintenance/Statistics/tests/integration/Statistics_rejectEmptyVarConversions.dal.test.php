@@ -22,11 +22,10 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -44,10 +43,10 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * - With no conversions in the system.
      */
-    function testRejectEmptyVarConversions_1()
+    public function testRejectEmptyVarConversions_1()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // De-duplicate
         $this->oDal->rejectEmptyVarConversions($oStartDate, $oEndDate);
@@ -65,24 +64,24 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_2()
+    public function testRejectEmptyVarConversions_2()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $this->_insertDataIntermediateAdConnection($aData);
 
         // De-duplicate
@@ -113,33 +112,33 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_3()
+    public function testRejectEmptyVarConversions_3()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may be empty, that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Permitted Variable',
             'reject_if_empty' => 0
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
@@ -168,41 +167,41 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_4()
+    public function testRejectEmptyVarConversions_4()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may be empty, that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Permitted Variable',
             'reject_if_empty' => 0
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -228,41 +227,41 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_5()
+    public function testRejectEmptyVarConversions_5()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may be empty, that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Permitted Variable',
             'reject_if_empty' => 0
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -288,41 +287,41 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_6()
+    public function testRejectEmptyVarConversions_6()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may be empty, that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Permitted Variable',
             'reject_if_empty' => 0
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -353,33 +352,33 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_7()
+    public function testRejectEmptyVarConversions_7()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may not be empty, that
         // should be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Not Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Not Permitted Variable',
             'reject_if_empty' => 1
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
@@ -411,41 +410,41 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_8()
+    public function testRejectEmptyVarConversions_8()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may not be empty, that
         // should be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Not Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Not Permitted Variable',
             'reject_if_empty' => 1
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -474,41 +473,41 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_9()
+    public function testRejectEmptyVarConversions_9()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may not be empty, that
         // should be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Not Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Not Permitted Variable',
             'reject_if_empty' => 1
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -537,41 +536,41 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testRejectEmptyVarConversions_10()
+    public function testRejectEmptyVarConversions_10()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-05 12:59:59');
+        $oEndDate = new Date('2005-09-05 12:59:59');
 
         // Prepare the variable value, which may not be empty, that
         // should be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'       => 1,
-            'name'            => 'Empty Not Permitted Variable',
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Empty Not Permitted Variable',
             'reject_if_empty' => 1
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -663,8 +662,8 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
     {
         $doVariables = OA_Dal::factoryDO('variables');
 
-        $doVariables->trackerid       = $aData['trackerid'];
-        $doVariables->name            = $aData['name'];
+        $doVariables->trackerid = $aData['trackerid'];
+        $doVariables->name = $aData['name'];
         $doVariables->reject_if_empty = $aData['reject_if_empty'];
 
         return DataGenerator::generateOne($doVariables);
@@ -684,20 +683,20 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
 
         $doData_intermediate_ad_connection->server_raw_tracker_impression_id = $aData['server_raw_tracker_impression_id'];
-        $doData_intermediate_ad_connection->server_raw_ip                    = $aData['server_raw_ip'];
-        $doData_intermediate_ad_connection->tracker_id                       = $aData['tracker_id'];
-        $doData_intermediate_ad_connection->tracker_date_time                = $aData['tracker_date_time'];
-        $doData_intermediate_ad_connection->connection_date_time             = $aData['connection_date_time'];
-        $doData_intermediate_ad_connection->ad_id                            = $aData['ad_id'];
-        $doData_intermediate_ad_connection->zone_id                          = $aData['zone_id'];
-        $doData_intermediate_ad_connection->connection_action                = $aData['connection_action'];
-        $doData_intermediate_ad_connection->connection_window                = $aData['connection_window'];
-        $doData_intermediate_ad_connection->connection_status                = $aData['connection_status'];
+        $doData_intermediate_ad_connection->server_raw_ip = $aData['server_raw_ip'];
+        $doData_intermediate_ad_connection->tracker_id = $aData['tracker_id'];
+        $doData_intermediate_ad_connection->tracker_date_time = $aData['tracker_date_time'];
+        $doData_intermediate_ad_connection->connection_date_time = $aData['connection_date_time'];
+        $doData_intermediate_ad_connection->ad_id = $aData['ad_id'];
+        $doData_intermediate_ad_connection->zone_id = $aData['zone_id'];
+        $doData_intermediate_ad_connection->connection_action = $aData['connection_action'];
+        $doData_intermediate_ad_connection->connection_window = $aData['connection_window'];
+        $doData_intermediate_ad_connection->connection_status = $aData['connection_status'];
 
         // The "inside_window" column is historically from raw, SQL-based
         // conversion tracking, and is always set to "1" with the new
         // cookie-based, bucket-logged conversion system
-        $doData_intermediate_ad_connection->inside_window                    = 1;
+        $doData_intermediate_ad_connection->inside_window = 1;
 
         return DataGenerator::generateOne($doData_intermediate_ad_connection);
     }
@@ -712,13 +711,13 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
      *                     indexed by column name.
      * @return integer The ID of the conversion inserted.
      */
-    function _insertDataIntermediateAdVariableValue($aData)
+    public function _insertDataIntermediateAdVariableValue($aData)
     {
         $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
 
         $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $aData['data_intermediate_ad_connection_id'];
-        $doData_intermediate_ad_variable_value->tracker_variable_id                = $aData['tracker_variable_id'];
-        $doData_intermediate_ad_variable_value->value                              = $aData['value'];
+        $doData_intermediate_ad_variable_value->tracker_variable_id = $aData['tracker_variable_id'];
+        $doData_intermediate_ad_variable_value->value = $aData['value'];
 
         if (is_null($aData['value'])) {
             // Hack the DB_DataObject so that the DataGenerator will not override
@@ -730,5 +729,3 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         return DataGenerator::generateOne($doData_intermediate_ad_variable_value);
     }
 }
-
-?>

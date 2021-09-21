@@ -16,7 +16,7 @@ Language_Loader::load();
 
 class Dummy_Plugins_DeliveryLimitations extends Plugins_DeliveryLimitations
 {
-    function getName()
+    public function getName()
     {
         return 'bla';
     }
@@ -30,17 +30,17 @@ class Dummy_Plugins_DeliveryLimitations extends Plugins_DeliveryLimitations
  */
 class Plugins_DeliveryLimitations_Test extends UnitTestCase
 {
-     function Plugins_DeliveryLimitations_TestCase()
+    public function Plugins_DeliveryLimitations_TestCase()
     {
         parent::__construct();
     }
 
-    function testCompile()
+    public function testCompile()
     {
         $oPlugin = new Dummy_Plugins_DeliveryLimitations();
-        $oPlugin->init(array('data' => 'Mozilla', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
+        $oPlugin->init(['data' => 'Mozilla', 'comparison' => '==', 'group' => 'group', 'component' => 'component']);
         $this->assertEqual('MAX_checkGroup_component(\'Mozilla\', \'==\')', $oPlugin->compile());
-        $oPlugin->init(array('data' => 'Mozil\\la', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
+        $oPlugin->init(['data' => 'Mozil\\la', 'comparison' => '==', 'group' => 'group', 'component' => 'component']);
         $this->assertEqual('MAX_checkGroup_component(\'Mozil\\\\la\', \'==\')', $oPlugin->compile());
     }
 }

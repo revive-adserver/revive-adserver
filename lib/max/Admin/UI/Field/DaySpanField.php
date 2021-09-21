@@ -22,11 +22,11 @@ require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 class Admin_UI_DaySpanField extends Admin_UI_Field
 {
     /* @var string */
-    var $_fieldSelectionValue;
+    public $_fieldSelectionValue;
     /* @var array */
-    var $_fieldSelectionNames;
+    public $_fieldSelectionNames;
     /* @var boolean */
-    var $_autoSubmit;
+    public $_autoSubmit;
 
     /**
      * Constructor
@@ -34,11 +34,11 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */
-    function __construct($name = 'DaySpanField',
-                         $fieldSelectionDefault = 'last_month',
-                         $aFieldSelectionNames = null
-                        )
-    {
+    public function __construct(
+        $name = 'DaySpanField',
+        $fieldSelectionDefault = 'last_month',
+        $aFieldSelectionNames = null
+    ) {
         parent::__construct();
         if (is_null($aFieldSelectionNames)) {
             $aFieldSelectionNames = $this->getDefaultSelectionNames();
@@ -58,19 +58,19 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      * @static
      * @see Admin_UI_DaySpanField::__construct()
      */
-    function getDefaultSelectionNames()
+    public function getDefaultSelectionNames()
     {
-        return array(
-            'today'       => $GLOBALS['strCollectedToday'],
-            'yesterday'   => $GLOBALS['strCollectedYesterday'],
-            'this_week'   => $GLOBALS['strCollectedThisWeek'],
-            'last_week'   => $GLOBALS['strCollectedLastWeek'],
+        return [
+            'today' => $GLOBALS['strCollectedToday'],
+            'yesterday' => $GLOBALS['strCollectedYesterday'],
+            'this_week' => $GLOBALS['strCollectedThisWeek'],
+            'last_week' => $GLOBALS['strCollectedLastWeek'],
             'last_7_days' => $GLOBALS['strCollectedLast7Days'],
-            'this_month'  => $GLOBALS['strCollectedThisMonth'],
-            'last_month'  => $GLOBALS['strCollectedLastMonth'],
-            'all_stats'   => $GLOBALS['strCollectedAllStats'],
-            'specific'    => $GLOBALS['strCollectedSpecificDates']
-          );
+            'this_month' => $GLOBALS['strCollectedThisMonth'],
+            'last_month' => $GLOBALS['strCollectedLastMonth'],
+            'all_stats' => $GLOBALS['strCollectedAllStats'],
+            'specific' => $GLOBALS['strCollectedSpecificDates']
+          ];
     }
 
 
@@ -79,7 +79,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     /**
      * A method to enable the auto-submit feature on selection change
      */
-    function enableAutoSubmit()
+    public function enableAutoSubmit()
     {
         $this->_autoSubmit = true;
     }
@@ -87,7 +87,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     /**
      * A method to disable the auto-submit feature on selection change
      */
-    function disableAutoSubmit()
+    public function disableAutoSubmit()
     {
         $this->_autoSubmit = false;
     }
@@ -97,7 +97,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      *
      * @param string $presetValue The preset value.
      */
-    function setValue($presetValue)
+    public function setValue($presetValue)
     {
         $this->_fieldSelectionValue = $presetValue;
         $this->_value = new OA_Admin_DaySpan($presetValue);
@@ -108,7 +108,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      *
      * @param array $aQuerystring The querystring of this field.
      */
-    function setValueFromArray($aFieldValues)
+    public function setValueFromArray($aFieldValues)
     {
         $fieldSelectionName = $aFieldValues[$this->_name . '_preset'];
         if (!empty($fieldSelectionName)) {
@@ -117,7 +117,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                 $sStartDate = $aFieldValues[$this->_name . '_start'];
                 $oStartDate = new Date();
 
-                if($sStartDate == '') {
+                if ($sStartDate == '') {
                     $sStartDate = '1995-01-01';
                 }
 
@@ -126,7 +126,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                 $sEndDate = $aFieldValues[$this->_name . '_end'];
                 $oEndDate = new Date();
 
-                if($sEndDate != '') {
+                if ($sEndDate != '') {
                     $oEndDate->setDate($sEndDate);
                 }
 
@@ -146,7 +146,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      *
      * @return Date the start date of the this field.
      */
-    function getStartDate()
+    public function getStartDate()
     {
         $oDaySpan = $this->_value;
         $value = is_null($oDaySpan) ? null : $oDaySpan->getStartDate();
@@ -158,7 +158,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      *
      * @return Date the end date of the this field.
      */
-    function getEndDate()
+    public function getEndDate()
     {
         $oDaySpan = $this->_value;
         $value = is_null($oDaySpan) ? null : $oDaySpan->getEndDate();
@@ -170,9 +170,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      *
      * @return array the begin and end dates of the span
      */
-    function getDaySpanArray()
+    public function getDaySpanArray()
     {
-        $aDaySpan = array();
+        $aDaySpan = [];
         $oDaySpan = $this->_value;
         if (!empty($oDaySpan)) {
             $aDaySpan['day_begin'] = $oDaySpan->getStartDateString();
@@ -184,7 +184,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     /**
      * A method that echos the HTML for this field.
      */
-    function display()
+    public function display()
     {
         $oStartDate = $this->getStartDate();
         $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%d %B %Y ');
@@ -203,11 +203,11 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         echo "
         </select>
         <label for='{$this->_name}_start' style='margin-left: 1em'>$strFrom</label>
-        <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='" . $this->_tabIndex++ . "' />
+        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='" . $this->_tabIndex++ . "' />
         <label for='{$this->_name}_end' style='margin-left: 1em'> $strTo</label>
-        <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='" . $this->_tabIndex++ . "' />
+        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='" . $this->_tabIndex++ . "' />
         <script type='text/javascript'>
         <!--
         Calendar.setup({
@@ -253,7 +253,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
           }
 
           if ((start != undefined && end != undefined) && (start.getTime() > end.getTime())) {
-            alert('".addslashes($GLOBALS['strFieldStartDateBeforeEnd'])."');
+            alert('" . addslashes($GLOBALS['strFieldStartDateBeforeEnd']) . "');
             return false;
           }
           return true;
@@ -290,11 +290,11 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                     $oTmpDaySpan->setSpanPresetValue($v);
                     $oTmpStartDate = $oTmpDaySpan->getStartDate();
                     $sTmpStartDate = $oTmpStartDate->format('%d %B %Y');
-                    $oTmpEndDate   = $oTmpDaySpan->getEndDate();
-                    $sTmpEndDate   = $oTmpEndDate->format('%d %B %Y');
+                    $oTmpEndDate = $oTmpDaySpan->getEndDate();
+                    $sTmpEndDate = $oTmpEndDate->format('%d %B %Y');
                 } else {
                     $sTmpStartDate = '';
-                    $sTmpEndDate   = '';
+                    $sTmpEndDate = '';
                 }
                 echo "
             if ({$this->_name}SelectName == '$v') {
@@ -344,5 +344,3 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         </script>";
     }
 }
-
-?>

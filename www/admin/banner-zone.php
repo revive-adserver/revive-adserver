@@ -27,9 +27,9 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
-OA_Permission::enforceAccessToObject('banners',   $bannerid);
+OA_Permission::enforceAccessToObject('banners', $bannerid);
 
 /*-------------------------------------------------------*/
 /* Store preferences									 */
@@ -40,37 +40,36 @@ phpAds_SessionDataStore();
 
 
     // Get input parameters
-    $advertiserId   = MAX_getValue('clientid');
-    $campaignId     = MAX_getValue('campaignid');
-    $bannerId       = MAX_getValue('bannerid');
-    $aCurrentZones  = MAX_getValue('includezone');
-    $listorder      = MAX_getStoredValue('listorder', 'name');
+    $advertiserId = MAX_getValue('clientid');
+    $campaignId = MAX_getValue('campaignid');
+    $bannerId = MAX_getValue('bannerid');
+    $aCurrentZones = MAX_getValue('includezone');
+    $listorder = MAX_getStoredValue('listorder', 'name');
     $orderdirection = MAX_getStoredValue('orderdirection', 'up');
-    $submit         = MAX_getValue('submit');
+    $submit = MAX_getValue('submit');
 
     // Initialise some parameters
     $pageName = basename($_SERVER['SCRIPT_NAME']);
     $tabindex = 1;
     $agencyId = OA_Permission::getAgencyId();
-    $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId);
+    $aEntities = ['clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId];
 
     // Process submitted form
-    if (isset($submit))
-    {
+    if (isset($submit)) {
         OA_Permission::checkSessionToken();
 
-        $dalZones       = OA_Dal::factoryDAL('zones');
-        $prioritise     = false;
-        $error          = false;
-        $aPreviousZones = Admin_DA::getAdZones(array('ad_id' => $bannerId));
-        $aDeleteZones   = array();
+        $dalZones = OA_Dal::factoryDAL('zones');
+        $prioritise = false;
+        $error = false;
+        $aPreviousZones = Admin_DA::getAdZones(['ad_id' => $bannerId]);
+        $aDeleteZones = [];
 
         // First, remove any zones that should be deleted.
         if (!empty($aPreviousZones)) {
             $unlinked = 0;
             foreach ($aPreviousZones as $aAdZone) {
                 $zoneId = $aAdZone['zone_id'];
-                if ((empty($aCurrentZones[$zoneId])) && ($zoneId > 0))  {
+                if ((empty($aCurrentZones[$zoneId])) && ($zoneId > 0)) {
                     // Schedule for deletion
                     $aDeleteZones[] = $zoneId;
                 } else {
@@ -96,7 +95,7 @@ phpAds_SessionDataStore();
             if (PEAR::isError($linked)
                 || $linked == -1) {
                 $error = $linked;
-            } elseif($linked > 0) {
+            } elseif ($linked > 0) {
                 $prioritise = true;
             }
         }
@@ -109,17 +108,17 @@ phpAds_SessionDataStore();
         // Move on to the next page
         if (!$error) {
             // Queue confirmation message
-            $translation = new OX_Translation ();
+            $translation = new OX_Translation();
             if ($linked > 0) {
-                $linked_message = $translation->translate ( $GLOBALS['strXZonesLinked'], array($linked));
+                $linked_message = $translation->translate($GLOBALS['strXZonesLinked'], [$linked]);
             }
             if ($unlinked > 0) {
-                $unlinked_message = $translation->translate ( $GLOBALS['strXZonesUnlinked'], array($unlinked));
+                $unlinked_message = $translation->translate($GLOBALS['strXZonesUnlinked'], [$unlinked]);
             }
             if ($linked > 0 || $unlinked > 0) {
-                $translated_message = $linked_message. ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ').$unlinked_message;
+                $translated_message = $linked_message . ($linked_message != '' && $unlinked_message != '' ? ', ' : ' ') . $unlinked_message;
                 OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-          	}
+            }
 
             Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
             exit;
@@ -127,14 +126,14 @@ phpAds_SessionDataStore();
     }
 
     // Display navigation
-    $aOtherCampaigns = Admin_DA::getPlacements(array('agency_id' => $agencyId));
-    $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignId), false);
+    $aOtherCampaigns = Admin_DA::getPlacements(['agency_id' => $agencyId]);
+    $aOtherBanners = Admin_DA::getAds(['placement_id' => $campaignId], false);
     MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
     // Main code
     $aAd = Admin_DA::getAd($bannerId);
-    $aParams = array('agency_id' => $agencyId);
-    $aExtraParams = array();
+    $aParams = ['agency_id' => $agencyId];
+    $aExtraParams = [];
     if ($aAd['type'] == 'txt') {
         // If the banner is a text banner, only select zones (and their parent
         // publishers) where the zone type is a text zone
@@ -146,21 +145,21 @@ phpAds_SessionDataStore();
         $aParams['zone_height'] = $aAd['height'] . ',-1';
         if ($aAd['type'] == 'html') {
             // In addition, if the banner is an HTML banner, only select zones
-            // (and their parent publishers) where the zone type is NOT an 
+            // (and their parent publishers) where the zone type is NOT an
             // email/newsletter zone
-            $aTypes = array(
+            $aTypes = [
                 phpAds_ZoneBanner,
                 phpAds_ZoneInterstitial,
                 phpAds_ZonePopup,
                 MAX_ZoneClick,
                 OX_ZoneVideoInstream,
                 OX_ZoneVideoOverlay,
-            );
+            ];
             $aExtraParams['zone_type'] = implode(',', $aTypes);
         }
     }
     $aPublishers = Admin_DA::getPublishers($aParams, true);
-    $aLinkedZones = Admin_DA::getAdZones(array('ad_id' => $bannerId), false, 'zone_id');
+    $aLinkedZones = Admin_DA::getAdZones(['ad_id' => $bannerId], false, 'zone_id');
 
     echo "
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
@@ -168,7 +167,7 @@ phpAds_SessionDataStore();
 <input type='hidden' name='clientid' value='$advertiserId'>
 <input type='hidden' name='campaignid' value='$campaignId'>
 <input type='hidden' name='bannerid' value='$bannerId'>
-<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>";
+<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>";
 
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
@@ -189,7 +188,7 @@ phpAds_SessionDataStore();
     $zoneToSelect = false;
     if (!empty($aPublishers)) {
         MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
-        $i=0;
+        $i = 0;
 
         //select all checkboxes
         $publisherIdList = '';
@@ -197,13 +196,13 @@ phpAds_SessionDataStore();
             $publisherIdList .= $publisherId . '|';
         }
 
-        echo"<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"".$publisherIdList."\");'><label for='selectAllField'>".$strSelectUnselectAll."</label>";
+        echo"<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"" . $publisherIdList . "\");'><label for='selectAllField'>" . $strSelectUnselectAll . "</label>";
 
         foreach ($aPublishers as $publisherId => $aPublisher) {
             $publisherName = $aPublisher['name'];
-		    $aZones = Admin_DA::getZones($aParams + $aExtraParams + array('publisher_id' => $publisherId), true);
+            $aZones = Admin_DA::getZones($aParams + $aExtraParams + ['publisher_id' => $publisherId], true);
             if (!empty($aZones)) {
-		        $zoneToSelect = true;
+                $zoneToSelect = true;
                 $bgcolor = ($i % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
                 $bgcolorSave = $bgcolor;
 
@@ -215,10 +214,12 @@ phpAds_SessionDataStore();
                     }
                 }
                 $checked = $allchecked ? ' checked' : '';
-                if ($i > 0) echo "
+                if ($i > 0) {
+                    echo "
 <tr height='1'>
     <td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>
 </tr>";
+                }
                 echo "
 <tr height='25'$bgcolor>
     <td>
@@ -227,7 +228,7 @@ phpAds_SessionDataStore();
                 <td>&nbsp;</td>
                 <td valign='top'><input id='affiliate$publisherId' name='affiliate[$publisherId]' type='checkbox' value='t'$checked onClick='toggleZones($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
                 <td valign='top'><img src='" . OX::assetPath() . "/images/icon-affiliate.gif' align='absmiddle'>&nbsp;</td>
-                <td><a href='affiliate-edit.php?affiliateid=$publisherId'>".htmlspecialchars($publisherName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><a href='affiliate-edit.php?affiliateid=$publisherId'>" . htmlspecialchars($publisherName) . "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
     </td>
@@ -238,7 +239,7 @@ phpAds_SessionDataStore();
                 $tabindex++;
                 if (!empty($aZones)) {
                     MAX_sortArray($aZones, ($listorder == 'id' ? 'zone_id' : $listorder), $orderdirection == 'up');
-                    foreach($aZones as $zoneId => $aZone) {
+                    foreach ($aZones as $zoneId => $aZone) {
                         $zoneName = $aZone['name'];
                         $zoneDescription = $aZone['description'];
                         $zoneIsActive = (isset($aZone['active']) && $aZone['active'] == 't') ? true : false;
@@ -254,12 +255,12 @@ phpAds_SessionDataStore();
                 <td width='28'>&nbsp;</td>
                 <td valign='top'><input name='includezone[$zoneId]' id='a$publisherId' type='checkbox' value='t'$checked onClick='toggleAffiliate($publisherId);' tabindex='$tabindex'>&nbsp;&nbsp;</td>
                 <td valign='top'><img src='$zoneIcon' align='absmiddle'>&nbsp;</td>
-                <td><a href='zone-edit.php?affiliateid=$publisherId&zoneid=$zoneId'>".htmlspecialchars($zoneName)."</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><a href='zone-edit.php?affiliateid=$publisherId&zoneid=$zoneId'>" . htmlspecialchars($zoneName) . "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             </tr>
         </table>
     </td>
     <td>$zoneId</td>
-    <td>".htmlspecialchars($zoneDescription)."</td>
+    <td>" . htmlspecialchars($zoneDescription) . "</td>
 </tr>";
                     }
                 }

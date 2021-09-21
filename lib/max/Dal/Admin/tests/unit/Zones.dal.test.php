@@ -25,100 +25,100 @@ Language_Loader::load();
  */
 class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 {
-    var $dalZones;
+    public $dalZones;
 
     /**
      * A sample structure for tests containing websites and zones
      *
      * @var array
      */
-    var $_aWebsitesAndZones = array ( 1 => array (
+    public $_aWebsitesAndZones = [ 1 => [
                                             'name' => 'website 1',
                                             'oac_category_id' => 6510,
                                             'zones' =>
-                                                 array (
-                                                   1 => array ( 'zonename' => 'zone 1 on web 1', 'oac_category_id' => 6510 ),
-                                                   2 => array ( 'zonename' => 'zone 2 on web 1', 'oac_category_id' => 6502 ),
-                                                   3 => array ( 'zonename' => 'zone 3 on web 1', 'oac_category_id' => 'null' )
-                                                 )
-                                          ),
-                                     2 => array (
+                                                 [
+                                                   1 => [ 'zonename' => 'zone 1 on web 1', 'oac_category_id' => 6510 ],
+                                                   2 => [ 'zonename' => 'zone 2 on web 1', 'oac_category_id' => 6502 ],
+                                                   3 => [ 'zonename' => 'zone 3 on web 1', 'oac_category_id' => 'null' ]
+                                                 ]
+                                          ],
+                                     2 => [
                                             'name' => 'website 2',
                                             'oac_category_id' => 'null',
                                             'zones' =>
-                                                 array (
-                                                   1 => array ( 'zonename' => 'zone 1 on web 2', 'oac_category_id' => 6581 ),
-                                                   2 => array ( 'zonename' => 'zone 2 on web 2', 'oac_category_id' => 6502 ),
-                                                 )
-                                          ),
-                                     3 => array (
+                                                 [
+                                                   1 => [ 'zonename' => 'zone 1 on web 2', 'oac_category_id' => 6581 ],
+                                                   2 => [ 'zonename' => 'zone 2 on web 2', 'oac_category_id' => 6502 ],
+                                                 ]
+                                          ],
+                                     3 => [
                                             'name' => 'website 3',
                                             'oac_category_id' => 6581,
                                             'zones' => 'null'
-                                          )
-                             );
+                                          ]
+                             ];
 
     /**
      * A sample structure for tests containing advertisers and campaigns
      *
      * @var array
      */
-     var $_aAdvertisersAndCampaigns = array ( 1 => array (
+    public $_aAdvertisersAndCampaigns = [ 1 => [
                                             'clientname' => 'Advertiser 1',
                                             'campaigns' =>
-                                                 array (
-                                                   1 => array ( 'campaignname' => 'campaign 1 adv 1'),
-                                                   2 => array ( 'campaignname' => 'campaign 2 adv 1'),
-                                                 )
-                                          ),
-                                          2 => array (
+                                                 [
+                                                   1 => [ 'campaignname' => 'campaign 1 adv 1'],
+                                                   2 => [ 'campaignname' => 'campaign 2 adv 1'],
+                                                 ]
+                                          ],
+                                          2 => [
                                             'clientname' => 'Advertiser 2',
                                             'campaigns' =>
-                                                 array (
-                                                   1 => array ( 'campaignname' => 'campaign 1 adv 2'),
-                                                 )
-                                          )
-                                   );
-     /**
-      * A sample structure for tests containing categories
-      *
-      * @var array
-      */
-     var $_aCategories = array(
-            65 => array(
+                                                 [
+                                                   1 => [ 'campaignname' => 'campaign 1 adv 2'],
+                                                 ]
+                                          ]
+                                   ];
+    /**
+     * A sample structure for tests containing categories
+     *
+     * @var array
+     */
+    public $_aCategories = [
+            65 => [
                 'name' => 'Micro processor',
-                'subcategories' => array(
+                'subcategories' => [
                     6502 => 'Apple II',
                     6510 => 'Commedore 64',
                     6581 => 'C64 SID'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
-            array('checkPermissions')
+            ['checkPermissions']
         );
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->dalZones = OA_Dal::factoryDAL('zones');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testGetZoneByKeyword()
+    public function testGetZoneByKeyword()
     {
         // Search for zones when none exist.
         $expected = 0;
@@ -211,7 +211,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
     }
 
-    function testGetZoneForInvocationForm()
+    public function testGetZoneForInvocationForm()
     {
         // Insert a publisher
         $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -226,13 +226,13 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $doZone->delivery = 1;
         $zoneId = DataGenerator::generateOne($doZone);
 
-        $aExpected = array(
+        $aExpected = [
             'affiliateid' => $affiliateId,
             'height' => 5,
             'width' => 10,
             'delivery' => 1,
             'website' => 'http://example.com'
-        );
+        ];
         $aActual = $this->dalZones->getZoneForInvocationForm($zoneId);
 
         ksort($aExpected);
@@ -245,12 +245,12 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Tests getWebsitesAndZonesList method
      *
      */
-    function testGetWebsitesAndZonesList()
+    public function testGetWebsitesAndZonesList()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
         // Test get all zones on empty database
-        $aResult   = $dalZones->getWebsitesAndZonesList(null);
+        $aResult = $dalZones->getWebsitesAndZonesList(null);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
@@ -260,8 +260,8 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Create agency 2 - to check if returned zones are only from one agency
@@ -269,36 +269,36 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId2 = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones for 2nd agency
-        $aAffiliatesIds2 = array();
-        $aZonesIds2 = array();
+        $aAffiliatesIds2 = [];
+        $aZonesIds2 = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId2, $aAffiliatesIds2, $aZonesIds2);
 
         // Test get all zones (no categories)
-        $aResult   = $dalZones->getWebsitesAndZonesList($agencyId);
+        $aResult = $dalZones->getWebsitesAndZonesList($agencyId);
         $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
 
         $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult),2);                              // We should get 2 websites
-        $this->assertEqual(count($aResult[$aAffiliatesIds[1]]['zones']),3); // First website has 3 zones
+        $this->assertEqual(count($aResult), 2);                              // We should get 2 websites
+        $this->assertEqual(count($aResult[$aAffiliatesIds[1]]['zones']), 3); // First website has 3 zones
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
         // Link campaigns to zones
         $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
 
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][1],$aCampaignsIds[1][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][1],$aCampaignsIds[1][2]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][1],$aCampaignsIds[2][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][2],$aCampaignsIds[1][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][3],$aCampaignsIds[1][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[2][1],$aCampaignsIds[2][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[1][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[1][2]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[2][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][2], $aCampaignsIds[1][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][3], $aCampaignsIds[1][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[2][1], $aCampaignsIds[2][1]);
 
         // Test linked
-        $aResult   = $dalZones->getWebsitesAndZonesList($agencyId,$aCampaignsIds[1][1]);
+        $aResult = $dalZones->getWebsitesAndZonesList($agencyId, $aCampaignsIds[1][1]);
         $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         // Manually set isLinked
         foreach ($aExpected as $affiliateId => $aWebsite) {
@@ -306,8 +306,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
                 // If zone is linked with campaign[1][1]
                 if ($zoneId == $aZonesIds[1][1] ||
                     $zoneId == $aZonesIds[1][2] ||
-                    $zoneId == $aZonesIds[1][3])
-                {
+                    $zoneId == $aZonesIds[1][3]) {
                     $aExpected[$affiliateId]['zones'][$zoneId]['linked'] = true;
                 } else {
                     $aExpected[$affiliateId]['zones'][$zoneId]['linked'] = false;
@@ -315,19 +314,18 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             }
         }
         $this->assertEqual($aResult, $aExpected);
-
     }
 
     /**
      * Tests getZonesList method
      *
      */
-    function CCC_testGetZonesList()
+    public function CCC_testGetZonesList()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
         // Test get all zones on empty database
-        $aResult   = $dalZones->getZonesList($agencyId);
+        $aResult = $dalZones->getZonesList($agencyId);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
@@ -337,42 +335,41 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Test get all zones
-        $aResult   = $dalZones->getZonesList($agencyId);
+        $aResult = $dalZones->getZonesList($agencyId);
         $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult),5);      // found 5 zones
+        $this->assertEqual(count($aResult), 5);      // found 5 zones
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
         // Link campaigns to zones
         $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
 
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][1],$aCampaignsIds[1][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][1],$aCampaignsIds[1][2]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][1],$aCampaignsIds[2][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][2],$aCampaignsIds[1][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[1][3],$aCampaignsIds[1][1]);
-        $dllZonePartialMock->linkCampaign($aZonesIds[2][1],$aCampaignsIds[2][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[1][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[1][2]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[2][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][2], $aCampaignsIds[1][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[1][3], $aCampaignsIds[1][1]);
+        $dllZonePartialMock->linkCampaign($aZonesIds[2][1], $aCampaignsIds[2][1]);
 
         // Test linked
-        $aResult   = $dalZones->getZonesList($agencyId,$aCampaignsIds[1][1]);
+        $aResult = $dalZones->getZonesList($agencyId, $aCampaignsIds[1][1]);
         $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         // Manually set isLinked
         foreach ($aExpected as $key => $aZone) {
             // If zone is linked with campaign[1][1]
             if ($aZone['zoneid'] == $aZonesIds[1][1] ||
                 $aZone['zoneid'] == $aZonesIds[1][2] ||
-                $aZone['zoneid'] == $aZonesIds[1][3])
-            {
+                $aZone['zoneid'] == $aZonesIds[1][3]) {
                 $aExpected[$key]['islinked'] = true;
             } else {
                 $aExpected[$key]['islinked'] = false;
@@ -381,7 +378,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($aResult, $aExpected);
 
         // Test get 3 zones from first website by search string
-        $aResult   = $dalZones->getZonesList($agencyId, null, null, 'web 1');
+        $aResult = $dalZones->getZonesList($agencyId, null, null, 'web 1');
         $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, 'web 1');
         $this->assertEqual($aResult, $aExpected);
     }
@@ -394,24 +391,24 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * @param array $aAffiliatesIds return array with affiliates Ids
      * @param array $aZonesIds      return array with zones Ids
      */
-    function _createWebsitesAndZones($aWebsitesAndZones, $agencyId, &$aAffiliatesIds, &$aZonesIds)
+    public function _createWebsitesAndZones($aWebsitesAndZones, $agencyId, &$aAffiliatesIds, &$aZonesIds)
     {
         $doAffiliate = OA_Dal::factoryDO('affiliates');
         $doZones = OA_Dal::factoryDO('zones');
         foreach ($aWebsitesAndZones as $websiteKey => $aWebsite) {
-            $doAffiliate->name            = $aWebsite['name'];
-            $doAffiliate->agencyid        = $agencyId;
+            $doAffiliate->name = $aWebsite['name'];
+            $doAffiliate->agencyid = $agencyId;
             $aAffiliatesIds[$websiteKey] = DataGenerator::generateOne($doAffiliate);
             if (is_array($aWebsite['zones'])) {
                 foreach ($aWebsite['zones'] as $zoneKey => $aZone) {
-                    $doZones->zonename        = $aZone['zonename'];
-                    $doZones->affiliateid     = $aAffiliatesIds[$websiteKey];
-                    if (array_key_exists('width',$aZone) && array_key_exists('height',$aZone)) {
-                        $doZones->width       = $aZone['width'];
-                        $doZones->height      = $aZone['height'];
+                    $doZones->zonename = $aZone['zonename'];
+                    $doZones->affiliateid = $aAffiliatesIds[$websiteKey];
+                    if (array_key_exists('width', $aZone) && array_key_exists('height', $aZone)) {
+                        $doZones->width = $aZone['width'];
+                        $doZones->height = $aZone['height'];
                     }
-                    if (array_key_exists('delivery',$aZone)) {
-                        $doZones->delivery    = $aZone['delivery'];
+                    if (array_key_exists('delivery', $aZone)) {
+                        $doZones->delivery = $aZone['delivery'];
                     }
                     $aZonesIds[$websiteKey][$zoneKey] = DataGenerator::generateOne($doZones);
                 }
@@ -419,26 +416,26 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         }
     }
 
-   /**
-    * Add advertiosers and campaigns to database
-    *
-    * @param array $aAdvertisersAndCampaigns formated as var _aAdvertisersAndCampaigns
-    * @param int $agencyId agency Id of existing agency
-    * @param array $aClientsIds   return array with clients Ids
-    * @param array $aCampaignsIds return array with campaigns Ids
-    */
-    function _createAdvertisersAndCampaigns($aAdvertisersAndCampaigns, $agencyId, &$aClientsIds, &$aCampaignsIds)
+    /**
+     * Add advertiosers and campaigns to database
+     *
+     * @param array $aAdvertisersAndCampaigns formated as var _aAdvertisersAndCampaigns
+     * @param int $agencyId agency Id of existing agency
+     * @param array $aClientsIds   return array with clients Ids
+     * @param array $aCampaignsIds return array with campaigns Ids
+     */
+    public function _createAdvertisersAndCampaigns($aAdvertisersAndCampaigns, $agencyId, &$aClientsIds, &$aCampaignsIds)
     {
         $doClients = OA_Dal::factoryDO('clients');
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         foreach ($aAdvertisersAndCampaigns as $advKey => $aAdvertiser) {
-            $doClients->clientname        = $aAdvertiser['clientname'];
-            $doClients->agencyid          = $agencyId;
+            $doClients->clientname = $aAdvertiser['clientname'];
+            $doClients->agencyid = $agencyId;
             $aClientsIds[$advKey] = DataGenerator::generateOne($doClients);
             if (is_array($aAdvertiser['campaigns'])) {
                 foreach ($aAdvertiser['campaigns'] as $campaignKey => $aCampaign) {
                     $doCampaigns->campaignname = $aCampaign['campaignname'];
-                    $doCampaigns->clientid     = $aClientsIds[$advKey];
+                    $doCampaigns->clientid = $aClientsIds[$advKey];
                     $aCampaignsIds[$advKey][$campaignKey] = DataGenerator::generateOne($doCampaigns);
                 }
             }
@@ -456,24 +453,24 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * @param array $aZonesIds array of zones Id
      * @return array
      */
-    function _buildExpectedArrayOfWebsitesAndZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds)
+    public function _buildExpectedArrayOfWebsitesAndZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds)
     {
         $aZones = $this->_buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
-        $aExpected = array();
-        foreach($aZones as $aZone) {
+        $aExpected = [];
+        foreach ($aZones as $aZone) {
             if (!array_key_exists($aZone['affiliateid'], $aExpected)) {
                 $aExpected[$aZone['affiliateid']] =
-                    array (
-                        'name'   => $aZone['affiliatename'],
+                    [
+                        'name' => $aZone['affiliatename'],
                         'linked' => null,
-                        'zones'  => [],
-                    );
+                        'zones' => [],
+                    ];
             }
             $aExpected[$aZone['affiliateid']]['zones'][$aZone['zoneid']] =
-                array (
-                    'name'    => $aZone['zonename'],
-                    'linked'  => $aZone['linked'] ?? null,
-                );
+                [
+                    'name' => $aZone['zonename'],
+                    'linked' => $aZone['linked'] ?? null,
+                ];
         }
         return $aExpected;
     }
@@ -490,26 +487,26 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * @param string $searchString string matched to zones/websites names
      * @return array
      */
-    function _buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, $searchString = null)
+    public function _buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, $searchString = null)
     {
-        $aExpected = array();
+        $aExpected = [];
         foreach ($aWebsitesAndZones as $websiteKey => $aWebsite) {
             if (is_array($aWebsite['zones'])) {
                 foreach ($aWebsite['zones'] as $zoneKey => $aZone) {
                     // Add zone to list if zone name or parent website name includes search string
                     if (!isset($searchString) ||
-                             ((stripos($aWebsitesAndZones[$websiteKey]['name'], $searchString) !== false) ||
+                             (
+                                 (stripos($aWebsitesAndZones[$websiteKey]['name'], $searchString) !== false) ||
                               (stripos($aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'], $searchString) !== false)
                              )
-                         )
-                    {
-                        $aExpected[] = array (
-                                        'zoneid'                    => $aZonesIds[$websiteKey][$zoneKey],
-                                        'zonename'                  => $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'],
-                                        'affiliateid'               => $aAffiliatesIds[$websiteKey],
-                                        'affiliatename'             => $aWebsitesAndZones[$websiteKey]['name'],
-                                        'islinked'                  => null
-                                      );
+                         ) {
+                        $aExpected[] = [
+                                        'zoneid' => $aZonesIds[$websiteKey][$zoneKey],
+                                        'zonename' => $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'],
+                                        'affiliateid' => $aAffiliatesIds[$websiteKey],
+                                        'affiliatename' => $aWebsitesAndZones[$websiteKey]['name'],
+                                        'islinked' => null
+                                      ];
                     }
                 }
             }
@@ -521,7 +518,8 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Method to test countZones method
      *
      */
-    function testcountZones() {
+    public function testcountZones()
+    {
         $dalZones = OA_Dal::factoryDAL('zones');
 
         // Create agency
@@ -535,13 +533,13 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($result, 0);
 
         // Generate websites and zones
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
         // Create agency 2
@@ -549,13 +547,13 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId2 = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones for agency 2
-        $aAffiliatesIds2 = array();
-        $aZonesIds2 = array();
+        $aAffiliatesIds2 = [];
+        $aZonesIds2 = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId2, $aAffiliatesIds2, $aZonesIds2);
 
         // Generate advertisers and campaigns for agency 2
-        $aClientsIds2 = array();
-        $aCampaignsIds2 = array();
+        $aClientsIds2 = [];
+        $aCampaignsIds2 = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId2, $aClientsIds2, $aCampaignsIds2);
 
         $result = $dalZones->countZones($agencyId, null, true);
@@ -569,9 +567,9 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($result, 5);
 
         // Link zones to campaigns
-        $aFlatZonesIds1 = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds1 = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds1, $aCampaignsIds[1][1]);
-        $aFlatZonesIds2 = array($aZonesIds[1][1], $aZonesIds[2][1]);
+        $aFlatZonesIds2 = [$aZonesIds[1][1], $aZonesIds[2][1]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds2, $aCampaignsIds[1][2]);
 
         $result = $dalZones->countZones($agencyId, $aCampaignsIds[1][1], true);
@@ -589,7 +587,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Method to test linkZonesToCampaign method
      *
      */
-    function _internalTestLinkZonesToCampaign()
+    public function _internalTestLinkZonesToCampaign()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
@@ -600,29 +598,29 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // Generate websites and zones
         $aWebsitesAndZones = $this->_aWebsitesAndZones;
-        $aWebsitesAndZones[1]['zones'][1]['width']    = 468;
-        $aWebsitesAndZones[1]['zones'][1]['height']   = 60;
+        $aWebsitesAndZones[1]['zones'][1]['width'] = 468;
+        $aWebsitesAndZones[1]['zones'][1]['height'] = 60;
         $aWebsitesAndZones[1]['zones'][1]['delivery'] = phpAds_ZoneBanner;
-        $aWebsitesAndZones[1]['zones'][2]['width']    = 468;
-        $aWebsitesAndZones[1]['zones'][2]['height']   = 60;
+        $aWebsitesAndZones[1]['zones'][2]['width'] = 468;
+        $aWebsitesAndZones[1]['zones'][2]['height'] = 60;
         $aWebsitesAndZones[1]['zones'][2]['delivery'] = phpAds_ZoneText;
-        $aWebsitesAndZones[1]['zones'][3]['width']    = 468;
-        $aWebsitesAndZones[1]['zones'][3]['height']   = 60;
+        $aWebsitesAndZones[1]['zones'][3]['width'] = 468;
+        $aWebsitesAndZones[1]['zones'][3]['height'] = 60;
         $aWebsitesAndZones[1]['zones'][3]['delivery'] = MAX_ZoneEmail;
-        $aWebsitesAndZones[2]['zones'][1]['width']    = -1;
-        $aWebsitesAndZones[2]['zones'][1]['height']   = 60;
+        $aWebsitesAndZones[2]['zones'][1]['width'] = -1;
+        $aWebsitesAndZones[2]['zones'][1]['height'] = 60;
         $aWebsitesAndZones[2]['zones'][1]['delivery'] = phpAds_ZoneBanner;
-        $aWebsitesAndZones[2]['zones'][2]['width']    = 120;
-        $aWebsitesAndZones[2]['zones'][2]['height']   = -1;
+        $aWebsitesAndZones[2]['zones'][2]['width'] = 120;
+        $aWebsitesAndZones[2]['zones'][2]['height'] = -1;
         $aWebsitesAndZones[2]['zones'][1]['delivery'] = phpAds_ZoneBanner;
 
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
         // Create agency 2
@@ -630,92 +628,92 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId2 = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones for agency 2
-        $aAffiliatesIds2 = array();
-        $aZonesIds2 = array();
+        $aAffiliatesIds2 = [];
+        $aZonesIds2 = [];
         $this->_createWebsitesAndZones($aWebsitesAndZones, $agencyId2, $aAffiliatesIds2, $aZonesIds2);
 
         // Generate advertisers and campaigns for agency 2
-        $aClientsIds2 = array();
-        $aCampaignsIds2 = array();
+        $aClientsIds2 = [];
+        $aCampaignsIds2 = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId2, $aClientsIds2, $aCampaignsIds2);
 
-        $aBannerIds = array();
+        $aBannerIds = [];
 
         // Add banners to campaigns
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width       = 468;
-        $doBanners->height      = 60;
+        $doBanners->width = 468;
+        $doBanners->height = 60;
         $doBanners->storagetype = 'web';
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 1';
+        $doBanners->name = 'Banner 1 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 2';
+        $doBanners->name = 'Banner 1 campaign 1 adv 2';
         $doBanners->campaignid = $aCampaignsIds[2][1];
-        $aBannerIds[2][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[2][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->width      = 120;
-        $doBanners->height     = 600;
+        $doBanners->width = 120;
+        $doBanners->height = 600;
 
-        $doBanners->name       = 'Banner 2 campaign 1 adv 1';
+        $doBanners->name = 'Banner 2 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][2]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][2] = DataGenerator::generateOne($doBanners);
 
 
-        $doBanners->name       = 'Banner 1 campaign 2 adv 1';
+        $doBanners->name = 'Banner 1 campaign 2 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][2];
-        $aBannerIds[1][2][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][2][1] = DataGenerator::generateOne($doBanners);
 
         // One banner for agency 2
-        $doBanners->name       = 'Banner 1 campaign 1 adv 1 (agency 2)';
+        $doBanners->name = 'Banner 1 campaign 1 adv 1 (agency 2)';
         $doBanners->campaignid = $aCampaignsIds2[1][1];
-        $aBannerIds2[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds2[1][1][1] = DataGenerator::generateOne($doBanners);
 
         // One text banner
         $doBanners->storagetype = 'txt';
-        $doBanners->width      = 0;
-        $doBanners->height     = 0;
+        $doBanners->width = 0;
+        $doBanners->height = 0;
 
-        $doBanners->name       = 'Banner 3 campaign 1 adv 1';
+        $doBanners->name = 'Banner 3 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][3]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][3] = DataGenerator::generateOne($doBanners);
 
         // Empty zones array
-        $result = $dalZones->linkZonesToCampaign(array(),$aCampaignsIds[1][1]);
+        $result = $dalZones->linkZonesToCampaign([], $aCampaignsIds[1][1]);
         $this->assertEqual($result, -1);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),0);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 0);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),0);
+        $this->assertEqual($doAdZoneAssoc->count(), 0);
 
         // One of zones is from different agency
-        $result = $dalZones->linkZonesToCampaign(array($aZonesIds2[1][1], $aZonesIds[1][1]), $aCampaignsIds[1][1]);
+        $result = $dalZones->linkZonesToCampaign([$aZonesIds2[1][1], $aZonesIds[1][1]], $aCampaignsIds[1][1]);
         $this->assertEqual($result, -1);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),0);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 0);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),0);
+        $this->assertEqual($doAdZoneAssoc->count(), 0);
 
         // Add 5 zones to campaign
-        $aFlatZonesIds = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds, $aCampaignsIds[1][1]);
         $this->assertEqual($result, 4);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),4);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 4);
 
         $doPlacementZoneAssoc->orderBy('zone_id');
         $doPlacementZoneAssoc->find();
         $counter = 0;
-        $aExpectedLinkedZonesIds = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[2][1], $aZonesIds[2][2]);
-        while($doPlacementZoneAssoc->fetch()) {
+        $aExpectedLinkedZonesIds = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[2][1], $aZonesIds[2][2]];
+        while ($doPlacementZoneAssoc->fetch()) {
             $aPlacementZoneAssoc = $doPlacementZoneAssoc->toArray();
             $this->assertEqual($aPlacementZoneAssoc['zone_id'], $aExpectedLinkedZonesIds[$counter]);
             $this->assertEqual($aPlacementZoneAssoc['placement_id'], $aCampaignsIds[1][1]);
@@ -730,29 +728,29 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
         $this->assertEqual($doAdZoneAssoc->count(), 4);
 
-        $aExpectedAdZoneAssocs = array(
-                        array ('zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]),
-                        array ('zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]),
-                        array ('zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]),
-                        array ('zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3])
-                );
-        foreach($aExpectedAdZoneAssocs as $row => $aExpectedAdZoneAssoc) {
-            $doAdZoneAssoc          = OA_Dal::factoryDO('ad_zone_assoc');
+        $aExpectedAdZoneAssocs = [
+                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+                        ['zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]],
+                        ['zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]],
+                        ['zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3]]
+                ];
+        foreach ($aExpectedAdZoneAssocs as $row => $aExpectedAdZoneAssoc) {
+            $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
-            $doAdZoneAssoc->ad_id   = $aExpectedAdZoneAssoc['ad_id'];
+            $doAdZoneAssoc->ad_id = $aExpectedAdZoneAssoc['ad_id'];
             $this->assertEqual($doAdZoneAssoc->count(), 1, "found {$doAdZoneAssoc->count()} row ad_zone_assoc for \$aExpectedAdZoneAssocs[{$row}] when expected 1 row");
         }
     }
 
 
-    function testLinkZonesToCampaignWithAuditTrail()
+    public function testLinkZonesToCampaignWithAuditTrail()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = true;
         $this->_internalTestLinkZonesToCampaign();
     }
 
 
-    function testLinkZonesToCampaignWithNoAuditTrail()
+    public function testLinkZonesToCampaignWithNoAuditTrail()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = false;
         $this->_internalTestLinkZonesToCampaign();
@@ -763,7 +761,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Method to test checkZonesRealm method
      *
      */
-    function test_checkZonesRealm()
+    public function test_checkZonesRealm()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
@@ -773,13 +771,13 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
         // Create agency 2
@@ -787,79 +785,79 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId2 = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones for agency 2
-        $aAffiliatesIds2 = array();
-        $aZonesIds2 = array();
+        $aAffiliatesIds2 = [];
+        $aZonesIds2 = [];
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId2, $aAffiliatesIds2, $aZonesIds2);
 
         // Generate advertisers and campaigns for agency 2
-        $aClientsIds2 = array();
-        $aCampaignsIds2 = array();
+        $aClientsIds2 = [];
+        $aCampaignsIds2 = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId2, $aClientsIds2, $aCampaignsIds2);
 
         // Add banners to campaigns
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width       = 468;
-        $doBanners->height      = 60;
+        $doBanners->width = 468;
+        $doBanners->height = 60;
         $doBanners->storagetype = 'web';
 
-        $doBanners->name       = 'Banner 1 campaign 1 ag 1';
+        $doBanners->name = 'Banner 1 campaign 1 ag 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 1 ag 2';
+        $doBanners->name = 'Banner 1 campaign 1 ag 2';
         $doBanners->campaignid = $aCampaignsIds2[1][1];
-        $aBannerIds2[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds2[1][1][1] = DataGenerator::generateOne($doBanners);
 
         // Test empty zones - campaign
-        $result = $dalZones->_checkZonesRealm(array(), $aCampaignsIds[1][1]);
+        $result = $dalZones->_checkZonesRealm([], $aCampaignsIds[1][1]);
         $this->assertFalse($result);
 
         // Test one matching zone and one from other agency - campaign
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds2[1][1], $aZonesIds[1][1]), $aCampaignsIds[1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds2[1][1], $aZonesIds[1][1]], $aCampaignsIds[1][1]);
         $this->assertFalse($result);
 
         // Test zones from the same agency - campaign
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), $aCampaignsIds[1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], $aCampaignsIds[1][1]);
         $this->assertTrue($result);
 
         // Test non existing campaign
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), -1);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], -1);
         $this->assertFalse($result);
 
         // Test empty zones - banner
-        $result = $dalZones->_checkZonesRealm(array(), null, $aBannerIds[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([], null, $aBannerIds[1][1][1]);
         $this->assertFalse($result);
 
         // Test one matching zone and one from other agency - banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds2[1][1], $aZonesIds[1][1]), null, $aBannerIds[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds2[1][1], $aZonesIds[1][1]], null, $aBannerIds[1][1][1]);
         $this->assertFalse($result);
 
         // Test zones from the same agency - banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), null, $aBannerIds[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], null, $aBannerIds[1][1][1]);
         $this->assertTrue($result);
 
         // Test non existing banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), null, -1);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], null, -1);
         $this->assertFalse($result);
 
         // Test empty zones - campaign and banner
-        $result = $dalZones->_checkZonesRealm(array(), $aCampaignsIds[1][1], $aBannerIds[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([], $aCampaignsIds[1][1], $aBannerIds[1][1][1]);
         $this->assertFalse($result);
 
         // Test one matching zone and one from other agency - campaign and banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds2[1][1], $aZonesIds[1][1]), $aCampaignsIds[1][1], $aBannerIds[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds2[1][1], $aZonesIds[1][1]], $aCampaignsIds[1][1], $aBannerIds[1][1][1]);
         $this->assertFalse($result);
 
         // Test zones from the same agency - campaign and banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), $aCampaignsIds[1][1], $aBannerIds[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], $aCampaignsIds[1][1], $aBannerIds[1][1][1]);
         $this->assertTrue($result);
 
         // Test non existing campaign and banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), -1, -1);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], -1, -1);
         $this->assertFalse($result);
 
         // Test zones from the same agency - mismatching campaign and banner
-        $result = $dalZones->_checkZonesRealm(array($aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]), $aCampaignsIds[1][1], $aBannerIds2[1][1][1]);
+        $result = $dalZones->_checkZonesRealm([$aZonesIds[1][1], $aZonesIds[1][3], $aZonesIds[2][1]], $aCampaignsIds[1][1], $aBannerIds2[1][1][1]);
         $this->assertFalse($result);
     }
 
@@ -867,7 +865,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Tests unlinkZonesFromCampaign method
      *
      */
-    function testUnlinkZonesFromCampaign()
+    public function testUnlinkZonesFromCampaign()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
@@ -878,89 +876,89 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // Generate websites and zones
         $aWebsitesAndZones = $this->_aWebsitesAndZones;
-        foreach($aWebsitesAndZones as $websiteKey => $aWebsite) {
+        foreach ($aWebsitesAndZones as $websiteKey => $aWebsite) {
             if (is_array($aWebsite['zones'])) {
-                foreach($aWebsite['zones'] as $zoneKey => $aZone) {
-                     $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['width']    = 468;
-                     $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['height']   = 60;
-                     $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['delivery'] = phpAds_ZoneBanner;
+                foreach ($aWebsite['zones'] as $zoneKey => $aZone) {
+                    $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['width'] = 468;
+                    $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['height'] = 60;
+                    $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['delivery'] = phpAds_ZoneBanner;
                 }
             }
         }
 
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
-        $aBannerIds = array();
+        $aBannerIds = [];
 
         // Add banners to campaigns
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width      = 468;
-        $doBanners->height     = 60;
+        $doBanners->width = 468;
+        $doBanners->height = 60;
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 1';
+        $doBanners->name = 'Banner 1 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 2 campaign 1 adv 1';
+        $doBanners->name = 'Banner 2 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][2]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][2] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 2';
+        $doBanners->name = 'Banner 1 campaign 1 adv 2';
         $doBanners->campaignid = $aCampaignsIds[2][1];
-        $aBannerIds[2][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[2][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 2 adv 1';
+        $doBanners->name = 'Banner 1 campaign 2 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][2];
-        $aBannerIds[1][2][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][2][1] = DataGenerator::generateOne($doBanners);
 
         // Link banners and zones to campaigns
-        $aFlatZonesIds1 = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds1 = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds1, $aCampaignsIds[1][1]);
-        $aFlatZonesIds2 = array($aZonesIds[1][1], $aZonesIds[2][1]);
+        $aFlatZonesIds2 = [$aZonesIds[1][1], $aZonesIds[2][1]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds2, $aCampaignsIds[1][2]);
 
         // Empty zones array
-        $result = $dalZones->unlinkZonesFromCampaign(array(),$aCampaignsIds[1][1]);
+        $result = $dalZones->unlinkZonesFromCampaign([], $aCampaignsIds[1][1]);
         $this->assertEqual($result, 0);
 
         // Check if there is still 7 placement_zone_assoc (5 zones linked to $aCampaignsIds[1][1] and 2 zones linked to $aCampaignsIds[1][2])
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),7);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 7);
 
         // Check if there is still 12 ad_zone_assoc (5*2=10 banners linked to $aCampaignsIds[1][1] and 2*1=2 banners linked to $aCampaignsIds[1][2])
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),12);
+        $this->assertEqual($doAdZoneAssoc->count(), 12);
 
         // remove all zones from $aCampaignsIds[1][2]
         $result = $dalZones->unlinkZonesFromCampaign($aFlatZonesIds2, $aCampaignsIds[1][2]);
         $this->assertEqual($result, 2);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),5);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 5);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),10);
+        $this->assertEqual($doAdZoneAssoc->count(), 10);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $doPlacementZoneAssoc->placement_id =  $aCampaignsIds[1][2];
-        $this->assertEqual($doPlacementZoneAssoc->count(),0);
+        $doPlacementZoneAssoc->placement_id = $aCampaignsIds[1][2];
+        $this->assertEqual($doPlacementZoneAssoc->count(), 0);
 
         // Remove 4 zones from campaign 1
-        $aFlatZonesIds3 = array($aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds3 = [$aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->unlinkZonesFromCampaign($aFlatZonesIds3, $aCampaignsIds[1][1]);
         $this->assertEqual($result, 4);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),1);       // one zone<->campaing
+        $this->assertEqual($doPlacementZoneAssoc->count(), 1);       // one zone<->campaing
 
         $doPlacementZoneAssoc->find();
         $doPlacementZoneAssoc->fetch();
@@ -970,53 +968,53 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),2);              // zone with 2 banners
+        $this->assertEqual($doAdZoneAssoc->count(), 2);              // zone with 2 banners
 
         // expected result:
         //  $aBannerIds[1][1][1] linked to zone $aZonesIds[1][1]
         //  $aBannerIds[1][1][2] linked to zone $aZonesIds[1][1]
 
-        $aExpectedAdZoneAssocs = array(
-                        array ('zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]),
-                        array ('zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]),
-                );
-        foreach($aExpectedAdZoneAssocs as $aExpectedAdZoneAssoc) {
-            $doAdZoneAssoc          = OA_Dal::factoryDO('ad_zone_assoc');
+        $aExpectedAdZoneAssocs = [
+                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]],
+                ];
+        foreach ($aExpectedAdZoneAssocs as $aExpectedAdZoneAssoc) {
+            $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
-            $doAdZoneAssoc->ad_id   = $aExpectedAdZoneAssoc['ad_id'];
+            $doAdZoneAssoc->ad_id = $aExpectedAdZoneAssoc['ad_id'];
             $this->assertEqual($doAdZoneAssoc->count(), 1, "ad_zone_assoc not found for zone_id={$aExpectedAdZoneAssoc['zone_id']} and ad_id={$aExpectedAdZoneAssoc['ad_id']}");
         }
 
         // Remove last linked zone
-        $result = $dalZones->unlinkZonesFromCampaign(array($aZonesIds[1][1]), $aCampaignsIds[1][1]);
+        $result = $dalZones->unlinkZonesFromCampaign([$aZonesIds[1][1]], $aCampaignsIds[1][1]);
         $this->assertEqual($result, 1);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),0);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 0);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),0);
+        $this->assertEqual($doAdZoneAssoc->count(), 0);
     }
 
-   function testCheckZoneLinkedToActiveCampaign()
+    public function testCheckZoneLinkedToActiveCampaign()
     {
         $dllZonePartialMock = new PartialMockOA_Dll_Zone();
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
 
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->width  = '468';
+        $doZones->width = '468';
         $doZones->height = '60';
-        $zoneId  = DataGenerator::generateOne($doZones);
+        $zoneId = DataGenerator::generateOne($doZones);
         $zoneId2 = DataGenerator::generateOne($doZones);
 
         $doCampaigns = OA_Dal::factoryDo('campaigns');
         $campaignId1 = DataGenerator::generateOne($doCampaigns);
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width  = '468';
+        $doBanners->width = '468';
         $doBanners->height = '60';
-        $doBanners->campaignid=$campaignId1;
+        $doBanners->campaignid = $campaignId1;
         $bannerId = DataGenerator::generateOne($doBanners);
 
         $doCampaigns = OA_Dal::factoryDo('campaigns');
@@ -1045,7 +1043,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Method to test linkZonesToBanner method
      *
      */
-    function _internalTestLinkZonesToBanner()
+    public function _internalTestLinkZonesToBanner()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
@@ -1056,29 +1054,29 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // Generate websites and zones
         $aWebsitesAndZones = $this->_aWebsitesAndZones;
-        $aWebsitesAndZones[1]['zones'][1]['width']    = 468;
-        $aWebsitesAndZones[1]['zones'][1]['height']   = 60;
+        $aWebsitesAndZones[1]['zones'][1]['width'] = 468;
+        $aWebsitesAndZones[1]['zones'][1]['height'] = 60;
         $aWebsitesAndZones[1]['zones'][1]['delivery'] = phpAds_ZoneBanner;
-        $aWebsitesAndZones[1]['zones'][2]['width']    = 468;
-        $aWebsitesAndZones[1]['zones'][2]['height']   = 60;
+        $aWebsitesAndZones[1]['zones'][2]['width'] = 468;
+        $aWebsitesAndZones[1]['zones'][2]['height'] = 60;
         $aWebsitesAndZones[1]['zones'][2]['delivery'] = phpAds_ZoneText;
-        $aWebsitesAndZones[1]['zones'][3]['width']    = 468;
-        $aWebsitesAndZones[1]['zones'][3]['height']   = 60;
+        $aWebsitesAndZones[1]['zones'][3]['width'] = 468;
+        $aWebsitesAndZones[1]['zones'][3]['height'] = 60;
         $aWebsitesAndZones[1]['zones'][3]['delivery'] = MAX_ZoneEmail;
-        $aWebsitesAndZones[2]['zones'][1]['width']    = -1;
-        $aWebsitesAndZones[2]['zones'][1]['height']   = 60;
+        $aWebsitesAndZones[2]['zones'][1]['width'] = -1;
+        $aWebsitesAndZones[2]['zones'][1]['height'] = 60;
         $aWebsitesAndZones[2]['zones'][1]['delivery'] = phpAds_ZoneBanner;
-        $aWebsitesAndZones[2]['zones'][2]['width']    = 120;
-        $aWebsitesAndZones[2]['zones'][2]['height']   = -1;
+        $aWebsitesAndZones[2]['zones'][2]['width'] = 120;
+        $aWebsitesAndZones[2]['zones'][2]['height'] = -1;
         $aWebsitesAndZones[2]['zones'][1]['delivery'] = phpAds_ZoneBanner;
 
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
         // Create agency 2
@@ -1086,91 +1084,91 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $agencyId2 = DataGenerator::generateOne($doAgency);
 
         // Generate websites and zones for agency 2
-        $aAffiliatesIds2 = array();
-        $aZonesIds2 = array();
+        $aAffiliatesIds2 = [];
+        $aZonesIds2 = [];
         $this->_createWebsitesAndZones($aWebsitesAndZones, $agencyId2, $aAffiliatesIds2, $aZonesIds2);
 
         // Generate advertisers and campaigns for agency 2
-        $aClientsIds2 = array();
-        $aCampaignsIds2 = array();
+        $aClientsIds2 = [];
+        $aCampaignsIds2 = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId2, $aClientsIds2, $aCampaignsIds2);
 
-        $aBannerIds = array();
+        $aBannerIds = [];
 
         // Add banners to campaigns
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width       = 468;
-        $doBanners->height      = 60;
+        $doBanners->width = 468;
+        $doBanners->height = 60;
         $doBanners->storagetype = 'web';
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 1';
+        $doBanners->name = 'Banner 1 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 2';
+        $doBanners->name = 'Banner 1 campaign 1 adv 2';
         $doBanners->campaignid = $aCampaignsIds[2][1];
-        $aBannerIds[2][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[2][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->width      = 120;
-        $doBanners->height     = 600;
+        $doBanners->width = 120;
+        $doBanners->height = 600;
 
-        $doBanners->name       = 'Banner 2 campaign 1 adv 1';
+        $doBanners->name = 'Banner 2 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][2]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][2] = DataGenerator::generateOne($doBanners);
 
 
-        $doBanners->name       = 'Banner 1 campaign 2 adv 1';
+        $doBanners->name = 'Banner 1 campaign 2 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][2];
-        $aBannerIds[1][2][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][2][1] = DataGenerator::generateOne($doBanners);
 
         // One banner for agency 2
-        $doBanners->name       = 'Banner 1 campaign 1 adv 1 (agency 2)';
+        $doBanners->name = 'Banner 1 campaign 1 adv 1 (agency 2)';
         $doBanners->campaignid = $aCampaignsIds2[1][1];
-        $aBannerIds2[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds2[1][1][1] = DataGenerator::generateOne($doBanners);
 
         // One text banner
         $doBanners->storagetype = 'txt';
-        $doBanners->width      = 0;
-        $doBanners->height     = 0;
+        $doBanners->width = 0;
+        $doBanners->height = 0;
 
-        $doBanners->name       = 'Banner 3 campaign 1 adv 1';
+        $doBanners->name = 'Banner 3 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][3]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][3] = DataGenerator::generateOne($doBanners);
 
         // Empty zones array
-        $result = $dalZones->linkZonesToCampaign(array(),$aBannerIds[1][1][1]);
+        $result = $dalZones->linkZonesToCampaign([], $aBannerIds[1][1][1]);
         $this->assertEqual($result, -1);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),0);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 0);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),0);
+        $this->assertEqual($doAdZoneAssoc->count(), 0);
 
         // One of zones is from different agency
-        $result = $dalZones->linkZonesToBanner(array($aZonesIds2[1][1], $aZonesIds[1][1]), $aBannerIds2[1][1][1]);
+        $result = $dalZones->linkZonesToBanner([$aZonesIds2[1][1], $aZonesIds[1][1]], $aBannerIds2[1][1][1]);
         $this->assertEqual($result, -1);
 
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),0);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 0);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),0);
+        $this->assertEqual($doAdZoneAssoc->count(), 0);
 
         // Add 5 zones to banner 1, only 2 should succeed
-        $aFlatZonesIds = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToBanner($aFlatZonesIds, $aBannerIds[1][1][1]);
         $this->assertEqual($result, 2);
 
         // Add 5 zones to banner 2, only 1 should succeed
-        $aFlatZonesIds = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToBanner($aFlatZonesIds, $aBannerIds[1][1][2]);
         $this->assertEqual($result, 1);
 
         // Add 5 zones to banner 3, only 1 should succeed
-        $aFlatZonesIds = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToBanner($aFlatZonesIds, $aBannerIds[1][1][3]);
         $this->assertEqual($result, 1);
 
@@ -1186,28 +1184,28 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
         $this->assertEqual($doAdZoneAssoc->count(), 4);
 
-        $aExpectedAdZoneAssocs = array(
-                        array ('zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]),
-                        array ('zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]),
-                        array ('zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]),
-                        array ('zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3])
-                );
-        foreach($aExpectedAdZoneAssocs as $row => $aExpectedAdZoneAssoc) {
-            $doAdZoneAssoc          = OA_Dal::factoryDO('ad_zone_assoc');
+        $aExpectedAdZoneAssocs = [
+                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+                        ['zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]],
+                        ['zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]],
+                        ['zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3]]
+                ];
+        foreach ($aExpectedAdZoneAssocs as $row => $aExpectedAdZoneAssoc) {
+            $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
-            $doAdZoneAssoc->ad_id   = $aExpectedAdZoneAssoc['ad_id'];
+            $doAdZoneAssoc->ad_id = $aExpectedAdZoneAssoc['ad_id'];
             $this->assertEqual($doAdZoneAssoc->count(), 1, "found {$doAdZoneAssoc->count()} row ad_zone_assoc for \$aExpectedAdZoneAssocs[{$row}] when expected 1 row");
         }
     }
 
-    function testLinkZonesToBannerWithAuditTrail()
+    public function testLinkZonesToBannerWithAuditTrail()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = true;
         $this->_internalTestLinkZonesToBanner();
     }
 
 
-    function testLinkZonesToBannerWithNoAuditTrail()
+    public function testLinkZonesToBannerWithNoAuditTrail()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabledForZoneLinking'] = false;
         $this->_internalTestLinkZonesToBanner();
@@ -1217,7 +1215,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * Tests unlinkZonesFromBanner method
      *
      */
-    function testUnlinkZonesFromBanner()
+    public function testUnlinkZonesFromBanner()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
@@ -1228,66 +1226,66 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // Generate websites and zones
         $aWebsitesAndZones = $this->_aWebsitesAndZones;
-        foreach($aWebsitesAndZones as $websiteKey => $aWebsite) {
+        foreach ($aWebsitesAndZones as $websiteKey => $aWebsite) {
             if (is_array($aWebsite['zones'])) {
-                foreach($aWebsite['zones'] as $zoneKey => $aZone) {
-                     $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['width']    = 468;
-                     $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['height']   = 60;
-                     $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['delivery'] = phpAds_ZoneBanner;
+                foreach ($aWebsite['zones'] as $zoneKey => $aZone) {
+                    $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['width'] = 468;
+                    $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['height'] = 60;
+                    $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['delivery'] = phpAds_ZoneBanner;
                 }
             }
         }
 
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
+        $aAffiliatesIds = [];
+        $aZonesIds = [];
         $this->_createWebsitesAndZones($aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
         // Generate advertisers and campaigns
-        $aClientsIds = array();
-        $aCampaignsIds = array();
+        $aClientsIds = [];
+        $aCampaignsIds = [];
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId, $aClientsIds, $aCampaignsIds);
 
-        $aBannerIds = array();
+        $aBannerIds = [];
 
         // Add banners to campaigns
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width      = 468;
-        $doBanners->height     = 60;
+        $doBanners->width = 468;
+        $doBanners->height = 60;
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 1';
+        $doBanners->name = 'Banner 1 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 2 campaign 1 adv 1';
+        $doBanners->name = 'Banner 2 campaign 1 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][1];
-        $aBannerIds[1][1][2]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][1][2] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 1 adv 2';
+        $doBanners->name = 'Banner 1 campaign 1 adv 2';
         $doBanners->campaignid = $aCampaignsIds[2][1];
-        $aBannerIds[2][1][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[2][1][1] = DataGenerator::generateOne($doBanners);
 
-        $doBanners->name       = 'Banner 1 campaign 2 adv 1';
+        $doBanners->name = 'Banner 1 campaign 2 adv 1';
         $doBanners->campaignid = $aCampaignsIds[1][2];
-        $aBannerIds[1][2][1]   = DataGenerator::generateOne($doBanners);
+        $aBannerIds[1][2][1] = DataGenerator::generateOne($doBanners);
 
         // Link banners and zones to campaigns
-        $aFlatZonesIds1 = array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds1 = [$aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds1, $aCampaignsIds[1][1]);
-        $aFlatZonesIds2 = array($aZonesIds[1][1], $aZonesIds[2][1]);
+        $aFlatZonesIds2 = [$aZonesIds[1][1], $aZonesIds[2][1]];
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds2, $aCampaignsIds[1][2]);
 
         // Empty zones array
-        $result = $dalZones->unlinkZonesFromBanner(array(),$aBannerIds[1][1][1]);
+        $result = $dalZones->unlinkZonesFromBanner([], $aBannerIds[1][1][1]);
         $this->assertEqual($result, 0);
 
         // Check if there is still 7 placement_zone_assoc (5 zones linked to $aCampaignsIds[1][1] and 2 zones linked to $aCampaignsIds[1][2])
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),7);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 7);
 
         // Check if there is still 12 ad_zone_assoc (5*2=10 banners linked to $aCampaignsIds[1][1] and 2*1=2 banners linked to $aCampaignsIds[1][2])
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),12);
+        $this->assertEqual($doAdZoneAssoc->count(), 12);
 
         // remove all zones from $aBannerIds[1][2][1]
         $result = $dalZones->unlinkZonesFromBanner($aFlatZonesIds2, $aBannerIds[1][2][1]);
@@ -1295,14 +1293,14 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // still 7, as placement_zone_assoc should be untouched
         $doPlacementZoneAssoc = OA_Dal::factoryDO('placement_zone_assoc');
-        $this->assertEqual($doPlacementZoneAssoc->count(),7);
+        $this->assertEqual($doPlacementZoneAssoc->count(), 7);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),10);
+        $this->assertEqual($doAdZoneAssoc->count(), 10);
 
         // Remove 4 zones from campaign 1
-        $aFlatZonesIds3 = array($aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]);
+        $aFlatZonesIds3 = [$aZonesIds[1][2], $aZonesIds[1][3], $aZonesIds[2][1], $aZonesIds[2][2]];
         $result = $dalZones->unlinkZonesFromBanner($aFlatZonesIds3, $aBannerIds[1][1][1]);
         $this->assertEqual($result, 4);
         $result = $dalZones->unlinkZonesFromBanner($aFlatZonesIds3, $aBannerIds[1][1][2]);
@@ -1310,33 +1308,31 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),2);              // zone with 2 banners
+        $this->assertEqual($doAdZoneAssoc->count(), 2);              // zone with 2 banners
 
         // expected result:
         //  $aBannerIds[1][1][1] linked to zone $aZonesIds[1][1]
         //  $aBannerIds[1][1][2] linked to zone $aZonesIds[1][1]
 
-        $aExpectedAdZoneAssocs = array(
-                        array ('zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]),
-                        array ('zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]),
-                );
-        foreach($aExpectedAdZoneAssocs as $aExpectedAdZoneAssoc) {
-            $doAdZoneAssoc          = OA_Dal::factoryDO('ad_zone_assoc');
+        $aExpectedAdZoneAssocs = [
+                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]],
+                ];
+        foreach ($aExpectedAdZoneAssocs as $aExpectedAdZoneAssoc) {
+            $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
-            $doAdZoneAssoc->ad_id   = $aExpectedAdZoneAssoc['ad_id'];
+            $doAdZoneAssoc->ad_id = $aExpectedAdZoneAssoc['ad_id'];
             $this->assertEqual($doAdZoneAssoc->count(), 1, "ad_zone_assoc not found for zone_id={$aExpectedAdZoneAssoc['zone_id']} and ad_id={$aExpectedAdZoneAssoc['ad_id']}");
         }
 
         // Remove last linked zone
-        $result = $dalZones->unlinkZonesFromBanner(array($aZonesIds[1][1]), $aBannerIds[1][1][1]);
+        $result = $dalZones->unlinkZonesFromBanner([$aZonesIds[1][1]], $aBannerIds[1][1][1]);
         $this->assertEqual($result, 1);
-        $result = $dalZones->unlinkZonesFromBanner(array($aZonesIds[1][1]), $aBannerIds[1][1][2]);
+        $result = $dalZones->unlinkZonesFromBanner([$aZonesIds[1][1]], $aBannerIds[1][1][2]);
         $this->assertEqual($result, 1);
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
-        $this->assertEqual($doAdZoneAssoc->count(),0);
+        $this->assertEqual($doAdZoneAssoc->count(), 0);
     }
-
 }
-?>

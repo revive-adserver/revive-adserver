@@ -35,7 +35,7 @@ function OA_HeaderNavigation()
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         phpAds_PageHeader("agency-access");
         $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-        MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
+        MAX_displayInventoryBreadcrumbs([["name" => $doAgency->name]], "agency");
     } else {
         phpAds_PageHeader("agency-user");
     }
@@ -59,10 +59,8 @@ if (OA_Permission::isUserLinkedToAdmin()) {
 
 $userAccess->setAllowedPermissions($aAllowedPermissions);
 
-$userAccess->setHiddenFields(array('agencyid' => $agencyid));
-$userAccess->setRedirectUrl('agency-access.php?agencyid='.$agencyid);
-$userAccess->setBackUrl('agency-user-start.php?agencyid='.$agencyid);
+$userAccess->setHiddenFields(['agencyid' => $agencyid]);
+$userAccess->setRedirectUrl('agency-access.php?agencyid=' . $agencyid);
+$userAccess->setBackUrl('agency-user-start.php?agencyid=' . $agencyid);
 
 $userAccess->process();
-
-?>

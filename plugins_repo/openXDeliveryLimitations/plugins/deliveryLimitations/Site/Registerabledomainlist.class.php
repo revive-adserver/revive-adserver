@@ -25,19 +25,19 @@ require_once RV_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_DeliveryLimitations
 {
-    var $defaultComparison = '=x';
+    public $defaultComparison = '=x';
 
     /**
      * Override the parent contstructor to:
      *  - Set the comparison operators (which are bespoke to this plugin); and
      *  - Set the name of the delivery rule for use in the UI.
      */
-    function __construct()
+    public function __construct()
     {
-        $this->aOperations = array(
+        $this->aOperations = [
             '=x' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these registerable domains', $this->extension, $this->group),
             '!x' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $this->extension, $this->group)
-        );
+        ];
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Registerable Domain List';
     }
@@ -45,7 +45,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     /**
      * Override the parent method to display the UI for the delivery rule.
      */
-    function displayData()
+    public function displayData()
     {
         if (extension_loaded('intl')) {
             $this->_displayMainUI();
@@ -59,27 +59,27 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      * the PHP intl extension is loaded, and the delivery rule is able to
      * be used.
      */
-    function _displayMainUI()
+    public function _displayMainUI()
     {
-    	global $tabindex;
+        global $tabindex;
         // require_once is used here so that the JavaScript that updates lists
         // is only included once in the HTML, no matter times the plugin is
         // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
         echo
             "<div style=\"float: left;\">" .
-                "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='".($tabindex++)."'>" .
+                "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
                   htmlspecialchars(isset($this->data) ? $this->data : "") .
                 "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .
               "<p>" . $this->translate('Enter domains below to remove matching entries from the list') . "</p>" .
-              "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='".($tabindex++)."'></textarea>" .
+              "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'></textarea>" .
               "<br /><br />" .
               "<input id='removeDomains' type='button' value='" . $this->translate('Remove Domains') . "' onclick='deliveryRules_Site_UpdateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
               "<br /><br />" .
               "<div id='removeMessage{$this->executionorder}'></div>" .
-            "</div>";        
+            "</div>";
     }
 
     /**
@@ -87,7 +87,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      * the PHP intil extension is not loaded, and the delivery rule is not
      * able to be used.
      */
-    function _displayIntlMissingWarning()
+    public function _displayIntlMissingWarning()
     {
         echo
             "<div class='errormessage' style='width: 50%;'>" .
@@ -110,11 +110,12 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      * - Ensure that domain dots are treated as literal dots; and
      * - Replace newline separation in the string with alternate regex markers
      *   (|).
-     * 
+     *
      * @param string $sData The input data string.
      * @return string The transformed string.
      */
-    function _preCompile($sData) {
+    public function _preCompile($sData)
+    {
         $aData = explode("\n", $sData);
         $aCompiledData = [];
         foreach ($aData as $key => $registerableDomain) {
@@ -125,17 +126,17 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
             $registerableDomain .= '\z';
             $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
             array_push($aCompiledData, $registerableDomain);
-        }       
+        }
         return implode($aCompiledData, "|");
     }
 
-   /**
-    * Override the parent compile() method, because the parent doesn't
-    * correctly call the _preCompile() method.
-    *
-    * @return string The delivery limitation in compiled form.
-    */
-    function compile()
+    /**
+     * Override the parent compile() method, because the parent doesn't
+     * correctly call the _preCompile() method.
+     *
+     * @return string The delivery limitation in compiled form.
+     */
+    public function compile()
     {
         return $this->compileData($this->_preCompile($this->data));
     }
@@ -146,9 +147,9 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      *
      * @return string A "\n" separated string of sanitised registerable domains.
      */
-    function getData()
+    public function getData()
     {
-        return $this->_sanitiseData($this->data); 
+        return $this->_sanitiseData($this->data);
     }
     
     /**
@@ -165,12 +166,12 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      *        the line is added to the output list;
      *  - Deduplicates the list of registerable domains; and
      *  - Sorts the registerable domains into ascending order.
-     * 
+     *
      * @param string $data A "\n" separated string of input registerable
      *                      domains and/or URLs.
      * @return string A "\n" separated string of registerable domains.
      */
-    function _sanitiseData($data)
+    public function _sanitiseData($data)
     {
         $aData = explode("\n", $data);
         $aSanitisedData = [];
@@ -193,7 +194,4 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
         }
         return implode($aSanitisedData, "\n");
     }
-        
 }
-
-?>

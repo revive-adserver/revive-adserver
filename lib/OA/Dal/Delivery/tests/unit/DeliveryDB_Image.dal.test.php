@@ -22,11 +22,10 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -37,25 +36,25 @@ class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
         MAX_Dal_Delivery_Include();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testImageServeUTC()
+    public function testImageServeUTC()
     {
         $this->_testImageServe('UTC');
     }
-    function testImageServeCEST()
+    public function testImageServeCEST()
     {
         $this->_testImageServe('CET');
     }
-    function testImageServeEST()
+    public function testImageServeEST()
     {
         $this->_testImageServe('EST');
     }
 
-    function _testImageServe($timeZone)
+    public function _testImageServe($timeZone)
     {
         OA_setTimeZone($timeZone);
 
@@ -78,45 +77,43 @@ class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
         unset($GLOBALS['_HEADERS']);
         unset($_SERVER['HTTP_IF_MODIFIED_SINCE']);
         MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with '.$timeZone)) {
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^Last-Modified: /i', $GLOBALS['_HEADERS'][0]);
             $this->assertPattern('/^Content-Type: /i', $GLOBALS['_HEADERS'][1]);
         }
 
         // 1-day old If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
-        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now - 86400).' GMT';
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now - 86400) . ' GMT';
         MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with '.$timeZone)) {
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^Last-Modified: /i', $GLOBALS['_HEADERS'][0]);
             $this->assertPattern('/^Content-Type: /i', $GLOBALS['_HEADERS'][1]);
         }
 
         // 1-day future If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
-        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now + 86400).' GMT';
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now + 86400) . ' GMT';
         MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 1, 'Mismatching headers with '.$timeZone)) {
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 1, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^HTTP\/1.0 304/i', $GLOBALS['_HEADERS'][0]);
         }
 
         // 1 minute ago If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
-        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now - 60).' GMT';
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now - 60) . ' GMT';
         MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with '.$timeZone)) {
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^Last-Modified: /i', $GLOBALS['_HEADERS'][0]);
             $this->assertPattern('/^Content-Type: /i', $GLOBALS['_HEADERS'][1]);
         }
 
         // 1 minute in future If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
-        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now + 60).' GMT';
+        $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now + 60) . ' GMT';
         MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 1, 'Mismatching headers with '.$timeZone)) {
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 1, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^HTTP\/1.0 304/i', $GLOBALS['_HEADERS'][0]);
         }
     }
 }
-
-?>

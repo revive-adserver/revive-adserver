@@ -20,12 +20,12 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
     /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     public function execute($aParams)
     {
@@ -78,12 +78,12 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
     {
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
 
-        $tblAcls = $aConf['prefix'].($aConf[$tableName] ? $aConf[$tableName] : $tableName);
+        $tblAcls = $aConf['prefix'] . ($aConf[$tableName] ? $aConf[$tableName] : $tableName);
         $qTblAcls = $this->oDbh->quoteIdentifier($tblAcls, true);
         $qId = $this->oDbh->quoteIdentifier($idName, true);
 
         $qTypes = array_map([$this->oDbh, 'quote'], \RV\Upgrade\GeoIp2Migration::RULE_TYPES);
-        $where = "type IN (".join(', ', $qTypes).")";
+        $where = "type IN (" . implode(', ', $qTypes) . ")";
 
         $deletedRows = [];
 
@@ -102,7 +102,7 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
             try {
                 $new = \RV\Upgrade\GeoIp2Migration::migrate($row);
 
-                $this->logOnly("Migrating {$tableName} [id{$row[$idName]},{$row['executionorder']}]: {$row['type']} to {$new['type']} -> ".print_r($new, true));
+                $this->logOnly("Migrating {$tableName} [id{$row[$idName]},{$row['executionorder']}]: {$row['type']} to {$new['type']} -> " . print_r($new, true));
 
                 $ret = $updateStmt->execute($new);
 
@@ -147,7 +147,7 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
                 $logical = "IF(logical = 'or', {$this->oDbh->quote($row['logical'])}, logical)";
 
                 do {
-                    $ret = $this->oDbh->exec("UPDATE {$qTblAcls} SET executionorder = executionorder - 1, logical = {$logical} WHERE {$qId} = {$id} AND executionorder = ".++$executionOrder);
+                    $ret = $this->oDbh->exec("UPDATE {$qTblAcls} SET executionorder = executionorder - 1, logical = {$logical} WHERE {$qId} = {$id} AND executionorder = " . ++$executionOrder);
 
                     if (PEAR::isError($ret)) {
                         $this->oDbh->rollback();

@@ -24,12 +24,12 @@ use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
  */
 class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
         TestEnv::restoreConfig();
     }
 
-    function test_packUnpackCookie()
+    public function test_packUnpackCookie()
     {
         $variables = 27;
 
@@ -56,7 +56,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         });
     }
 
-    function testAnonymous()
+    public function testAnonymous()
     {
         $data = [
             "1.2.0.0" => [
@@ -73,7 +73,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-Anonymous-IP-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-Anonymous-IP-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -83,7 +83,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testCity()
+    public function testCity()
     {
         $data = [
             "2.125.160.216" => [
@@ -123,7 +123,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-City-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-City-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -133,7 +133,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testConnectionType()
+    public function testConnectionType()
     {
         $data = [
             "175.16.199.0" => [
@@ -150,7 +150,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-Connection-Type-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-Connection-Type-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -160,7 +160,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testCountry()
+    public function testCountry()
     {
         $data = [
             "2.125.160.216" => [
@@ -180,7 +180,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-Country-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-Country-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -190,7 +190,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testDensityIncome()
+    public function testDensityIncome()
     {
         $data = [
             "5.83.124.0" => [
@@ -203,7 +203,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-DensityIncome-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-DensityIncome-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -213,7 +213,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testDomain()
+    public function testDomain()
     {
         $data = [
             "1.2.0.0" => [
@@ -224,7 +224,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-Domain-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-Domain-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -234,7 +234,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testISP()
+    public function testISP()
     {
         $data = [
             "1.0.128.0" => [
@@ -249,7 +249,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-ISP-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-ISP-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -259,7 +259,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testASN()
+    public function testASN()
     {
         $data = [
             "1.128.0.0" => [
@@ -268,7 +268,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoLite2-ASN-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoLite2-ASN-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;
@@ -278,7 +278,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
         }
     }
 
-    function testEnterprise()
+    public function testEnterprise()
     {
         $data = [
             "216.160.83.56" => [
@@ -300,7 +300,7 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
             ],
         ];
 
-        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__.'/../data/GeoIP2-Enterprise-Test.mmdb');
+        $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] = realpath(__DIR__ . '/../data/GeoIP2-Enterprise-Test.mmdb');
 
         foreach ($data as $ip => $aExpected) {
             $GLOBALS['_MAX']['GEO_IP'] = $ip;

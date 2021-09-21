@@ -18,21 +18,16 @@ function getLastChangeset()
 {
     $dh = opendir(MAX_CHG);
     if ($dh) {
-        while (false !== ($file = readdir($dh)))
-        {
-            $aMatches = array();
-            if (preg_match('/changes_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
-            {
+        while (false !== ($file = readdir($dh))) {
+            $aMatches = [];
+            if (preg_match('/changes_[\w\W]+_[\d]+\.xml/', $file, $aMatches)) {
                 $aFiles[] = $file;
             }
         }
         krsort($aFiles);
-        if (count($aFiles)>0)
-        {
+        if (count($aFiles) > 0) {
             $result = $aFiles[0];
-        }
-        else
-        {
+        } else {
             $result = false;
         }
     }
@@ -43,9 +38,8 @@ function getLastChangeset()
 function getChangesFile()
 {
     $changesFile = $_COOKIE['changesetFile'];
-    if ((!$changesFile) || (!file_exists(MAX_CHG.$changesFile)))
-    {
-        $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
+    if ((!$changesFile) || (!file_exists(MAX_CHG . $changesFile))) {
+        $changesFile = MAX_PATH . '/var/changes_tables_core.xml';
     }
     return $changesFile;
 }
@@ -53,59 +47,44 @@ function getChangesFile()
 function getSchemaFile($changesFile)
 {
     $schemaFile = $_COOKIE['schemaFile'];
-    if (!$schemaFile)
-    {
-        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    if (!$schemaFile) {
+        $schemaFile = MAX_PATH . '/etc/tables_core.xml';
     }
-    if ($changesFile)
-    {
-        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+    if ($changesFile) {
+        $schemaFile = 'changes/' . str_replace('changes_', 'schema_', $changesFile);
     }
     return $schemaFile;
 }
 
 require_once './init.php';
 
-if (array_key_exists('schemaPath', $_COOKIE) && ($_COOKIE['schemaPath']))
-{
-    define('MAX_CHG', MAX_PATH.'/'.$_COOKIE['schemaPath'].'changes/'); //.'/etc/changes/');
+if (array_key_exists('schemaPath', $_COOKIE) && ($_COOKIE['schemaPath'])) {
+    define('MAX_CHG', MAX_PATH . '/' . $_COOKIE['schemaPath'] . 'changes/'); //.'/etc/changes/');
     //$schemaPath = '/'.$_COOKIE['schemaPath'];
     $schemaPath = $_COOKIE['schemaPath'];
-}
-else
-{
-    define('MAX_CHG', MAX_PATH.'/etc/changes/');
+} else {
+    define('MAX_CHG', MAX_PATH . '/etc/changes/');
 }
 
-if (array_key_exists('select_changesets', $_POST))
-{
+if (array_key_exists('select_changesets', $_POST)) {
     $file = $_POST['select_changesets'];
-    if (empty($file))
-    {
+    if (empty($file)) {
         $file = getLastChangeset();
     }
     setcookie('changesetFile', $file);
-    $file = MAX_CHG.$file;
-}
-else if (array_key_exists('xajax', $_POST))
-{
+    $file = MAX_CHG . $file;
+} elseif (array_key_exists('xajax', $_POST)) {
     $file = $_COOKIE['changesetFile'];
-}
-else if (in_array('exit', $_POST))
-{
-    $file = MAX_CHG.$_COOKIE['changesetFile'];
-}
-else if (array_key_exists('btn_migration_create', $_POST))
-{
+} elseif (in_array('exit', $_POST)) {
+    $file = MAX_CHG . $_COOKIE['changesetFile'];
+} elseif (array_key_exists('btn_migration_create', $_POST)) {
     $schemaFile = $_COOKIE['schemaFile'];
-    if (!$schemaFile)
-    {
-        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    if (!$schemaFile) {
+        $schemaFile = MAX_PATH . '/etc/tables_core.xml';
     }
     $changesFile = $_COOKIE['changesetFile'];
-    if ($changesFile)
-    {
-        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+    if ($changesFile) {
+        $schemaFile = 'changes/' . str_replace('changes_', 'schema_', $changesFile);
 
         require_once 'oaSchema.php';
         $oaSchema = new Openads_Schema_Manager($schemaFile, '', $schemaPath);
@@ -114,33 +93,27 @@ else if (array_key_exists('btn_migration_create', $_POST))
             die(join("<br />\n", $aErrs));
         }
 
-        $oaSchema->writeMigrationClass(MAX_CHG.$changesFile, MAX_CHG);
-        $file = MAX_CHG.$changesFile;
+        $oaSchema->writeMigrationClass(MAX_CHG . $changesFile, MAX_CHG);
+        $file = MAX_CHG . $changesFile;
     }
-}
-else if (array_key_exists('btn_field_save', $_POST))
-{
+} elseif (array_key_exists('btn_field_save', $_POST)) {
     $schemaFile = $_COOKIE['schemaFile'];
-    if (!$schemaFile)
-    {
+    if (!$schemaFile) {
         $schemaFile = 'tables_core.xml';
-        $file = MAX_PATH.'/etc/tables_core.xml';
+        $file = MAX_PATH . '/etc/tables_core.xml';
     }
     $changesFile = $_COOKIE['changesetFile'];
-    if (!$changesFile)
-    {
+    if (!$changesFile) {
         //$changesFile = MAX_PATH.'/var/changes_tables_core.xml';
         $changesFile = 'changes_tables_core.xml';
-        $changesPath = MAX_PATH.'/var/';
-        $file = $changesPath.$changesFile;
-    }
-    else
-    {
+        $changesPath = MAX_PATH . '/var/';
+        $file = $changesPath . $changesFile;
+    } else {
         $schemaFile = str_replace('changes_', 'schema_', $changesFile);
-        $file = MAX_CHG.$schemaFile;
-        $schemaFile = 'changes/'.$schemaFile;
+        $file = MAX_CHG . $schemaFile;
+        $schemaFile = 'changes/' . $schemaFile;
         $changesPath = MAX_CHG;
-        $file = $changesPath.$changesFile;
+        $file = $changesPath . $changesFile;
     }
 
     require_once 'oaSchema.php';
@@ -154,21 +127,15 @@ else if (array_key_exists('btn_field_save', $_POST))
     $field_name = $_POST['fld_old_name'];
     $field_name_was = $_POST['fld_new_name'];
     $oaSchema->fieldWasSave($file, $table_name, $field_name, $field_name_was);
-}
-else if (array_key_exists('btn_table_save', $_POST))
-{
+} elseif (array_key_exists('btn_table_save', $_POST)) {
     $schemaFile = $_COOKIE['schemaFile'];
-    if (!$schemaFile)
-    {
-        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    if (!$schemaFile) {
+        $schemaFile = MAX_PATH . '/etc/tables_core.xml';
     }
     $changesFile = $_COOKIE['changesetFile'];
-    if (!$changesFile)
-    {
-        $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
-    }
-    else
-    {
+    if (!$changesFile) {
+        $changesFile = MAX_PATH . '/var/changes_tables_core.xml';
+    } else {
         //$schemaFile = MAX_CHG.str_replace('changes_', 'schema_', $changesFile);
 //        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
 //        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
@@ -184,41 +151,30 @@ else if (array_key_exists('btn_table_save', $_POST))
     //$table_name = $_POST['table_name'];
     $table_name = $_POST['tbl_old_name'];
     $table_name_was = $_POST['tbl_new_name'];
-    $oaSchema->tableWasSave(MAX_CHG.$changesFile, $table_name, $table_name_was);
+    $oaSchema->tableWasSave(MAX_CHG . $changesFile, $table_name, $table_name_was);
 
-    $file = MAX_CHG.$changesFile;
-}
-else
-{
+    $file = MAX_CHG . $changesFile;
+} else {
     $file = getLastChangeset();
-    if ($file)
-    {
+    if ($file) {
         setcookie('changesetFile', $file);
-        $file = MAX_CHG.$file;
+        $file = MAX_CHG . $file;
     }
 }
 
-require_once PATH_DEV.'/lib/xajax.inc.php';
+require_once PATH_DEV . '/lib/xajax.inc.php';
 
-if ($file && file_exists($file))
-{
+if ($file && file_exists($file)) {
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($file);
     exit();
-}
-else
-{
-    if ($file)
-    {
-        echo 'archive.php: error reading '.$file;
-    }
-    else
-    {
+} else {
+    if ($file) {
+        echo 'archive.php: error reading ' . $file;
+    } else {
         echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
     }
 
 //    header('Location: schema.php');
 //    exit;
 }
-
-?>

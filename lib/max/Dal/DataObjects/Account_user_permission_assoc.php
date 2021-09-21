@@ -27,26 +27,29 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
     public $is_allowed;                      // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_permission_assoc',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_permission_assoc', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'is_allowed' => 1,
     ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return 0;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Account User Permission Association';
     }
@@ -57,8 +60,8 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = 'Account #'.$this->account_id.' -> User #'.$this->user_id . ' -> Permission #' . $this->permission_id;
+        $aAuditFields['key_desc'] = 'Account #' . $this->account_id . ' -> User #' . $this->user_id . ' -> Permission #' . $this->permission_id;
     }
 }

@@ -42,19 +42,19 @@ $aBlockLoggingClick = $_COOKIE[$conf['var']['blockLoggingClick']] ?? [];
 
 if (!empty($conf['deliveryLog']['enabled'])) {
     foreach ($adId as $k => $v) {
-        OX_Delivery_logMessage('$adId['.$k.']='.$v, 7);
+        OX_Delivery_logMessage('$adId[' . $k . ']=' . $v, 7);
     }
     foreach ($zoneId as $k => $v) {
-        OX_Delivery_logMessage('$zoneId['.$k.']='.$v, 7);
+        OX_Delivery_logMessage('$zoneId[' . $k . ']=' . $v, 7);
     }
     foreach ($creativeId as $k => $v) {
-        OX_Delivery_logMessage('$creativeId['.$k.']='.$v, 7);
+        OX_Delivery_logMessage('$creativeId[' . $k . ']=' . $v, 7);
     }
     foreach ($lastClick as $k => $v) {
-        OX_Delivery_logMessage('$lastClick['.$k.']='.$v, 7);
+        OX_Delivery_logMessage('$lastClick[' . $k . ']=' . $v, 7);
     }
     foreach ($aBlockLoggingClick as $k => $v) {
-        OX_Delivery_logMessage('$aBlockLoggingClick['.$k.']='.$v, 7);
+        OX_Delivery_logMessage('$aBlockLoggingClick[' . $k . ']=' . $v, 7);
     }
 }
 
@@ -130,8 +130,8 @@ function _getZoneAd($zoneId)
     } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
         reset($zoneLinkedAds['ads']);
         // we select the first (and only) banner linked to this email zone
-        foreach($zoneLinkedAds['ads'] as $priority => $ads) {
-            foreach($ads as $adId => $ad) {
+        foreach ($zoneLinkedAds['ads'] as $priority => $ads) {
+            foreach ($ads as $adId => $ad) {
                 break;
             }
         }
@@ -142,5 +142,3 @@ function _getZoneAd($zoneId)
 
     return $adId;
 }
-
-?>

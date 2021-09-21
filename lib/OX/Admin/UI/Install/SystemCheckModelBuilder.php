@@ -25,25 +25,23 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
      */
     public function processUpgraderMessages($aMessages, $existingInstallationStatus)
     {
-        $aResult = array();
+        $aResult = [];
 
-        $aCheckInfo['error'] = array();
-        $aCheckInfo['warning'] = array();
-        $aCheckInfo['info'] = array();
+        $aCheckInfo['error'] = [];
+        $aCheckInfo['warning'] = [];
+        $aCheckInfo['info'] = [];
 
-        $sErr  = '#! ';
+        $sErr = '#! ';
         $sWarn = '#> ';
-        foreach ($aMessages AS $key => $message) {
+        foreach ($aMessages as $key => $message) {
             $key = 'application';
-            if (substr($message, 0 , 3) == $sErr) {
+            if (substr($message, 0, 3) == $sErr) {
                 $message = str_replace($sErr, '', $message);
                 $aCheckInfo['error'][$key][] = $message;
-            }
-            else if (substr($message, 0, 3) == $sWarn) {
+            } elseif (substr($message, 0, 3) == $sWarn) {
                 $message = str_replace($sWarn, '', $message);
                 $aCheckInfo['warning'][$key][] = $message;
-            }
-            else {
+            } else {
                 $aCheckInfo['info'][] = $message; //collect messages as general
             }
         }
@@ -56,15 +54,18 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         if ($aSection['hasError']) {
             $message = $GLOBALS['strAppCheckErrors'];
             if ($existingInstallationStatus == OA_STATUS_MAX_DBINTEG_FAILED) {
-                $message .= '<br>'.$GLOBALS['strAppCheckDbIntegrityError'];
+                $message .= '<br>' . $GLOBALS['strAppCheckDbIntegrityError'];
             }
 
             $aSection['errors']['general'] = $message;
         }
 
         $aResult['appcheck'] = $aSection;
-        $oCheckModel = new SystemCheckModel($aResult, $aSection['hasError'],
-            $aSection['hasWarning']);
+        $oCheckModel = new SystemCheckModel(
+            $aResult,
+            $aSection['hasError'],
+            $aSection['hasWarning']
+        );
 
         return $oCheckModel;
     }
@@ -79,12 +80,11 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
      */
     public function processEnvironmentCheck($aSysInfo)
     {
-
-        $aResult = array();
+        $aResult = [];
 
         //cookie section
         $aEnvCookie = $aSysInfo['COOKIES'];
-        $aSection = $this->buildCheckSection($aEnvCookie,  $GLOBALS['strBrowserCookies']);
+        $aSection = $this->buildCheckSection($aEnvCookie, $GLOBALS['strBrowserCookies']);
         $aSection['checks']['enabled'] = $this->buildCheckEntry('enabled', $aEnvCookie, true, 'OK', 'DISABLED');
         $aSection = $this->buildCheckSectionMessages($aEnvCookie, $aSection);
         $aResult['cookies'] = $aSection;
@@ -94,43 +94,43 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection = $this->buildCheckSection($aEnvPhp, $GLOBALS['strPHPConfiguration']);
 
         // PHP version
-        $aSection['checks']['version'] = array(
+        $aSection['checks']['version'] = [
             'name' => 'version',
-            'value'=> $aEnvPhp['actual']['version'],
+            'value' => $aEnvPhp['actual']['version'],
             'hasWarning' => !empty($aEnvPhp['warning']['version']),
             'hasError' => !empty($aEnvPhp['error']['version']),
-        );
+        ];
 
         // For some reason installer discards timzone check and does its own..
         $timezone = OX_Admin_Timezones::getTimezone();
         $timezoneErr = 'System/Localtime' == $timezone;
         $aSection['hasWarning'] = $timezoneErr;
-        $aSection['checks']['timezone'] =  array(
+        $aSection['checks']['timezone'] = [
             'name' => 'timezone',
             'value' => $timezone,
             'hasWarning' => $timezoneErr,
-            'warnings' => $timezoneErr ? array($GLOBALS['strTimezoneLocal']) : null
-        );
+            'warnings' => $timezoneErr ? [$GLOBALS['strTimezoneLocal']] : null
+        ];
 
         // Memory limit
         $memLimit = $aEnvPhp['actual']['memory_limit'];
-        $memLimit = ($memLimit !='' ? $memLimit : 'Not Set');
-        if(is_numeric($memLimit)) {
+        $memLimit = ($memLimit != '' ? $memLimit : 'Not Set');
+        if (is_numeric($memLimit)) {
             // convert into MB
             $memLimit = ($memLimit / 1048576) . ' MB';
         }
-        $aSection['checks']['memory_limit'] = array(
+        $aSection['checks']['memory_limit'] = [
             'name' => 'memory_limit',
             'value' => $memLimit,
             'warning' => $aEnvPhp['warning']['memory_limit'] ?? false,
             'error' => $aEnvPhp['error']['memory_limit'] ?? false,
-        );
+        ];
 
         // Safe mode, magic quotes, register_argc_argv
         $aSection['checks']['safe_mode'] = $this->buildCheckEntry('safe_mode', $aEnvPhp, 0, 'OFF', 'ON');
         $aSection['checks']['register_argc_argv'] = $this->buildCheckEntry('register_argc_argv', $aEnvPhp, 0, 'OFF', 'ON');
         if ($aEnvPhp['actual']['register_argc_argv'] == 0) {
-                $aSection['checks']['register_argc_argv']['warning'] = $GLOBALS['strWarningRegisterArgcArv'];
+            $aSection['checks']['register_argc_argv']['warning'] = $GLOBALS['strWarningRegisterArgcArv'];
         }
 
         // PHP configuration's file_uploads value
@@ -161,12 +161,12 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aEnvPerms = $aSysInfo['PERMS'];
         $aSection = $this->buildCheckSection($aEnvPerms, 'File Permissions');
         foreach ($aEnvPerms['actual'] as $idx => $aVal) {
-            $aSection['checks'][$aVal['file']] = array(
+            $aSection['checks'][$aVal['file']] = [
                 'name' => $aVal['file'],
-                'value'=> $aVal['result'],
-                'errors'=> empty($aVal['message']) ? null : array($aVal['message']),
+                'value' => $aVal['result'],
+                'errors' => empty($aVal['message']) ? null : [$aVal['message']],
                 'hasError' => $aVal['error']
-            );
+            ];
         }
         $aSection = $this->buildCheckSectionMessages($aEnvPerms, $aSection);
         $aResult['perms'] = $aSection;
@@ -194,12 +194,11 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
      */
     protected function buildCheckSection($aSysInfoPart, $title)
     {
-        $aSection = array();
+        $aSection = [];
         $aSection['header'] = $title;
-        if(empty($aSysInfoPart['error'])) {
+        if (empty($aSysInfoPart['error'])) {
             $aSection['hasError'] = false;
-        }
-        else {
+        } else {
             $aSection['hasError'] = true;
         }
         $aSection['hasWarning'] = !empty($aSysInfoPart['warning']);
@@ -233,18 +232,18 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection['warnCount'] = $warnCount;
         $okCount = count($aSection['checks']) - $errCount - $warnCount;
 
-        $aStatus = array();
+        $aStatus = [];
         if ($errCount) {
-            $aStatus[] = " $errCount ".($errCount > 1 ? $GLOBALS['strCheckErrors'] : $GLOBALS['strCheckError']);
+            $aStatus[] = " $errCount " . ($errCount > 1 ? $GLOBALS['strCheckErrors'] : $GLOBALS['strCheckError']);
         }
         if ($warnCount) {
-            $aStatus[] = " $warnCount ".($warnCount > 1 ? $GLOBALS['strCheckWarnings'] : $GLOBALS['strCheckWarning']);
+            $aStatus[] = " $warnCount " . ($warnCount > 1 ? $GLOBALS['strCheckWarnings'] : $GLOBALS['strCheckWarning']);
         }
         if ($okCount) {
             $aStatus[] = " $okCount OK";
         }
 
-        $aSection['header'].= " - ".join(', ', $aStatus);
+        $aSection['header'] .= " - " . join(', ', $aStatus);
 
 //        echo "<pre>";
 //        var_dump($aSection);
@@ -268,20 +267,20 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
      */
     protected function buildCheckSectionMessages($aSysInfoPart, $aSection)
     {
-        if(!empty($aSysInfoPart['error'])) {
-            foreach ($aSysInfoPart['error'] AS $key => $errorMessage) {
+        if (!empty($aSysInfoPart['error'])) {
+            foreach ($aSysInfoPart['error'] as $key => $errorMessage) {
                 $aSection['errors'][$key] = $errorMessage;
             }
         }
 
-        if(!empty($aSysInfoPart['warning'])) {
-            foreach ($aSysInfoPart['warning'] AS $key => $errorMessage) {
+        if (!empty($aSysInfoPart['warning'])) {
+            foreach ($aSysInfoPart['warning'] as $key => $errorMessage) {
                 $aSection['warnings'][$key] = $errorMessage;
             }
         }
 
-        if(!empty($aSysInfoPart['info'])) {
-            foreach ($aSysInfoPart['info'] AS $key => $infoMessage) {
+        if (!empty($aSysInfoPart['info'])) {
+            foreach ($aSysInfoPart['info'] as $key => $infoMessage) {
                 $aSection['infos'][$key] = $infoMessage;
             }
         }
@@ -310,16 +309,16 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aWarnings = $this->getCheckMessages($checkName, 'warning', $aSysInfoPart, true);
         $aInfos = $this->getCheckMessages($checkName, 'info', $aSysInfoPart, true);
 
-        $aCheck = array(
+        $aCheck = [
             'name' => $checkName,
-            'value'=> $aSysInfoPart['actual'][$checkName] == $compareVal ? $valEqualLabel : $valOtherLabel,
+            'value' => $aSysInfoPart['actual'][$checkName] == $compareVal ? $valEqualLabel : $valOtherLabel,
             'hasWarning' => !empty($aWarnings),
             'warnings' => $aWarnings,
             'hasError' => !empty($aErrors),
             'errors' => $aErrors,
-            'hasInfo' =>!empty($aInfos),
+            'hasInfo' => !empty($aInfos),
             'infos' => $aInfos
-        );
+        ];
 
         return $aCheck;
     }
@@ -344,7 +343,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aMessages = $hasMessages
             ? is_array($aSysInfoPart[$messageType][$checkName])
                 ? $aSysInfoPart[$messageType][$checkName]
-                :  array($aSysInfoPart[$messageType][$checkName])
+                : [$aSysInfoPart[$messageType][$checkName]]
             : null;
 
         if ($clear && $hasMessages) {
@@ -414,8 +413,4 @@ class SystemCheckModel
         return isset($aSections[$sectionName])
             && $aSections[$sectionName]['hasWarning'];
     }
-
-
 }
-
-?>

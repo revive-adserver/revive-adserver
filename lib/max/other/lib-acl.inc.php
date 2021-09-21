@@ -57,40 +57,40 @@ function MAX_AclAdjust($acl, $action)
         $deliveryLimitationPlugin = OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
         $defaultComparison = $deliveryLimitationPlugin->defaultComparison;
 
-        $acl[$count] = array(
+        $acl[$count] = [
             'comparison' => $defaultComparison,
             'data' => '',
             'executionorder' => $count,
-            'logical' => isset($acl[$count - 1]) ? $acl[$count - 1]['logical']:'',
+            'logical' => isset($acl[$count - 1]) ? $acl[$count - 1]['logical'] : '',
             'type' => $_REQUEST['type']
-        );
+        ];
     }
     if (!empty($action['del'])) {
         $idx = key($action['del']);
         unset($acl[$idx]);
-        for ($i = $idx+1; $i<$count; $i++) {
+        for ($i = $idx + 1; $i < $count; $i++) {
             $acl[$i]['executionorder']--;
         }
     }
     if (!empty($action['down'])) {
         $idx = key($action['down']);
         $acl[$idx]['executionorder']++;
-        $acl[$idx+1]['executionorder']--;
+        $acl[$idx + 1]['executionorder']--;
     }
 
     if (!empty($action['up'])) {
         $idx = key($action['up']);
         $acl[$idx]['executionorder']--;
-        $acl[$idx-1]['executionorder']++;
+        $acl[$idx - 1]['executionorder']++;
     }
 
     if (!empty($action['clear']) && $action['clear'] == 'true') {
-        $acl = array();
+        $acl = [];
     }
 
     if (!empty($acl)) {
         // ReIndex the acl array
-        $copy = array();
+        $copy = [];
         foreach ($acl as $idx => $value) {
             $copy[$value['executionorder']] = $value;
         }
@@ -129,16 +129,16 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     }
 
     switch ($page) {
-        case 'banner-acl.php' :
-            $table      = 'banners';
-            $aclsTable  = 'acls';
-            $fieldId    = 'bannerid';
+        case 'banner-acl.php':
+            $table = 'banners';
+            $aclsTable = 'acls';
+            $fieldId = 'bannerid';
             break;
 
         case 'channel-acl.php':
-            $table      = 'channel';
-            $aclsTable  = 'acls_channel';
-            $fieldId    = 'channelid';
+            $table = 'channel';
+            $aclsTable = 'acls_channel';
+            $fieldId = 'channelid';
             break;
 
         default:
@@ -158,9 +158,9 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
     if ($mysqlInUse) {
         // Store the original ACLS table info, in case of data truncation
-        $originalAcls = array();
+        $originalAcls = [];
         $doAcls = OA_Dal::factoryDO($aclsTable);
-        $doAcls->whereAdd($fieldId.' = '.$aclsObjectId);
+        $doAcls->whereAdd($fieldId . ' = ' . $aclsObjectId);
         $doAcls->find();
         while ($doAcls->fetch()) {
             $originalAcls[] = $doAcls->toArray();
@@ -227,7 +227,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
     if ($page == 'channel-acl.php') {
-        $affected_ads = array();
+        $affected_ads = [];
         $table = modifyTableName('acls');
         $query = "
             SELECT
@@ -256,7 +256,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 function MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId)
 {
     $doAcls = OA_Dal::factoryDO($aclsTable);
-    $doAcls->whereAdd($fieldId.' = '.$aclsObjectId);
+    $doAcls->whereAdd($fieldId . ' = ' . $aclsObjectId);
     return $doAcls->delete(true);
 }
 
@@ -264,14 +264,14 @@ function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
 {
     if (!empty($acls)) {
         foreach ($acls as $index => $acl) {
-            $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
+            $deliveryLimitationPlugin = &OA_aclGetComponentFromRow($acl);
 
             $doAcls = OA_Dal::factoryDO($aclsTable);
-            $doAcls->$fieldId       = $aclsObjectId;
-            $doAcls->logical        = $acl['logical'];
-            $doAcls->type           = $acl['type'];
-            $doAcls->comparison     = $acl['comparison'];
-            $doAcls->data           = $deliveryLimitationPlugin->getData();
+            $doAcls->$fieldId = $aclsObjectId;
+            $doAcls->logical = $acl['logical'];
+            $doAcls->type = $acl['type'];
+            $doAcls->comparison = $acl['comparison'];
+            $doAcls->data = $deliveryLimitationPlugin->getData();
             $doAcls->executionorder = $acl['executionorder'];
             $id = $doAcls->insert();
             if (!$id) {
@@ -303,7 +303,7 @@ function MAX_AclGetCompiled($aAcls)
         return "true";
     } else {
         ksort($aAcls);
-        $compiledAcls = array();
+        $compiledAcls = [];
         foreach ($aAcls as $acl) {
             $deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl);
             if ($deliveryLimitationPlugin) {
@@ -319,11 +319,12 @@ function MAX_AclGetCompiled($aAcls)
     }
 }
 
-function MAX_AclGetPlugins($acls) {
+function MAX_AclGetPlugins($acls)
+{
     if (empty($acls)) {
         return '';
     }
-    $acl_plugins = array();
+    $acl_plugins = [];
     ksort($acls);
     foreach ($acls as $acl) {
         if (!in_array($acl['type'], $acl_plugins)) {
@@ -359,13 +360,13 @@ function MAX_AclValidate($page, $aParams)
 
         switch ($page) {
             case 'banner-acl.php':
-                $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
-                $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls', true);
+                $qTable = $oDbh->quoteIdentifier($prefix . 'banners', true);
+                $qAclsTable = $oDbh->quoteIdentifier($prefix . 'acls', true);
                 $qId = $oDbh->quoteIdentifier('bannerid', true);
                 break;
             case 'channel-acl.php':
-                $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
-                $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls_channel', true);
+                $qTable = $oDbh->quoteIdentifier($prefix . 'channel', true);
+                $qAclsTable = $oDbh->quoteIdentifier($prefix . 'acls_channel', true);
                 $qId = $oDbh->quoteIdentifier('channelid', true);
                 break;
         }
@@ -393,7 +394,7 @@ function MAX_AclValidate($page, $aParams)
     $aData = $oResult->fetchRow();
 
     $compiledLimitation = $aData['compiledlimitation'];
-    $aclPlugins        = $aData['acl_plugins'];
+    $aclPlugins = $aData['acl_plugins'];
 
     $oResult = $oStmtAcl->execute($aParams);
 
@@ -415,7 +416,7 @@ function MAX_AclValidate($page, $aParams)
     }
 
     $newCompiledLimitation = MAX_AclGetCompiled($aAcls);
-    $newAclPlugins         = MAX_AclGetPlugins($aAcls);
+    $newAclPlugins = MAX_AclGetPlugins($aAcls);
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $aclPlugins)) {
         return true;
@@ -426,12 +427,13 @@ function MAX_AclValidate($page, $aParams)
     }
 }
 
-function MAX_AclCopy($page, $from, $to) {
+function MAX_AclCopy($page, $from, $to)
+{
     $oDbh = OA_DB::singleton();
-    $conf =& $GLOBALS['_MAX']['CONF'];
+    $conf = &$GLOBALS['_MAX']['CONF'];
     $table = modifyTableName('acls');
     switch ($page) {
-        case 'channel-acl.php' :
+        case 'channel-acl.php':
             echo "Not implemented";
             break;
         default:
@@ -440,7 +442,7 @@ function MAX_AclCopy($page, $from, $to) {
                 DELETE FROM
                       {$table}
                 WHERE
-                    bannerid = ". $oDbh->quote($to, 'integer');
+                    bannerid = " . $oDbh->quote($to, 'integer');
             $res = $oDbh->exec($query);
             if (PEAR::isError($res)) {
                 return $res;
@@ -450,11 +452,11 @@ function MAX_AclCopy($page, $from, $to) {
             $query = "
                 INSERT INTO {$table} (bannerid, logical, type, comparison, data, executionorder)
                     SELECT
-                        ". $oDbh->quote($to, 'integer') .", logical, type, comparison, data, executionorder
+                        " . $oDbh->quote($to, 'integer') . ", logical, type, comparison, data, executionorder
                     FROM
                         {$table}
                     WHERE
-                        bannerid= ". $oDbh->quote($from, 'integer') ."
+                        bannerid= " . $oDbh->quote($from, 'integer') . "
                     ORDER BY executionorder
             ";
             $res = $oDbh->exec($query);
@@ -522,15 +524,15 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 {
     $dbh = OA_DB::singleton();
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-    $qTable = $dbh->quoteIdentifier($prefix.$objectTable, true);
-    $qAclsTable = $dbh->quoteIdentifier($prefix.$aclsTable, true);
+    $qTable = $dbh->quoteIdentifier($prefix . $objectTable, true);
+    $qAclsTable = $dbh->quoteIdentifier($prefix . $aclsTable, true);
     $qIdColumn = $dbh->quoteIdentifier($idColumn, true);
     $result = $dbh->exec("UPDATE {$qTable} SET compiledlimitation = '', acl_plugins = '' WHERE NOT EXISTS(SELECT 1 FROM $qAclsTable a WHERE a.{$qIdColumn} = {$qTable}.{$qIdColumn})");
     if (PEAR::isError($result)) {
         return $result;
     }
 
-    $dalAcls =& OA_Dal::factoryDAL('acls');
+    $dalAcls = &OA_Dal::factoryDAL('acls');
     $rsAcls = $dalAcls->getRsAcls($aclsTable, $idColumn);
     if (PEAR::isError($rsAcls)) {
         return $rsAcls;
@@ -541,9 +543,9 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
     }
 
     // Init variable to store limitation types to be upgraded
-    $aUpgradeByType = array();
+    $aUpgradeByType = [];
     // Init array to store all banner ACLs
-    $aAcls = array();
+    $aAcls = [];
 
     // Fetch first row
     if (!$rsAcls->fetch()) {
@@ -572,9 +574,9 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
         // Was this the last one? Is the next record linked to another entity?
         if (!$result || $row[$idColumn] != $rsAcls->get($idColumn)) {
             // Yes, we need to save!
-            $aEntities = array($idColumn => $row[$idColumn]);
+            $aEntities = [$idColumn => $row[$idColumn]];
             OA_aclRecompile($aAcls, $aEntities, $page);
-            $aAcls = array();
+            $aAcls = [];
         }
     } while ($result);
 
@@ -583,13 +585,13 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 
 function OA_aclRecompileBanners($upgrade = false)
 {
-    $conf =& $GLOBALS['_MAX']['CONF'];
+    $conf = &$GLOBALS['_MAX']['CONF'];
     return OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
 }
 
 function OA_aclRecompileChannels($upgrade = false)
 {
-    $conf =& $GLOBALS['_MAX']['CONF'];
+    $conf = &$GLOBALS['_MAX']['CONF'];
     return OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
 }
 
@@ -613,12 +615,12 @@ function OA_aclRecompile($aAcls, $aParams, $page)
 
         switch ($page) {
             case 'banner-acl.php':
-                $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
+                $qTable = $oDbh->quoteIdentifier($prefix . 'banners', true);
                 $qId = $oDbh->quoteIdentifier('bannerid', true);
                 $var = "bannerid";
                 break;
             case 'channel-acl.php':
-                $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
+                $qTable = $oDbh->quoteIdentifier($prefix . 'channel', true);
                 $qId = $oDbh->quoteIdentifier('channelid', true);
                 $var = "channelid";
                 break;
@@ -666,7 +668,7 @@ function MAX_AclReCompileAll($upgrade = false)
 
 function MAX_aclAStripslashed($aArray)
 {
-    foreach ($aArray AS $key => $item) {
+    foreach ($aArray as $key => $item) {
         if (is_array($item)) {
             $aArray[$key] = MAX_aclAStripslashed($item);
         } else {
@@ -680,7 +682,7 @@ function modifyTableName($table)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $oDbh = OA_DB::singleton();
-    return $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table'][$table], true);
+    return $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table'][$table], true);
 }
 
 
@@ -691,8 +693,9 @@ function modifyTableName($table)
  * @param array $aAcls
  * @return boolean array of strings with errors messages if inputs aren't correct, true if is correct
  */
-function OX_AclCheckInputsFields($aAcls, $page){
-    $aErrors = array();
+function OX_AclCheckInputsFields($aAcls, $page)
+{
+    $aErrors = [];
     foreach ($aAcls as $aclId => $acl) {
         if ($deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl)) {
             $deliveryLimitationPlugin->init($acl);
@@ -708,10 +711,8 @@ function OX_AclCheckInputsFields($aAcls, $page){
             }
         }
     }
-    if (count($aErrors)>0) {
+    if (count($aErrors) > 0) {
         return $aErrors;
     }
     return true;
 }
-
-?>

@@ -22,7 +22,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  */
 class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
-
+    /**
+     * @var string[]|int[]
+     */
+    public $aPageContext;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +36,10 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'banner';
+        $this->entity = 'banner';
         $this->breakdown = 'history';
 
         // This page uses the day span selector element
@@ -50,22 +53,22 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
-        $placementId  = $this->_getId('placement');
-        $adId         = $this->_getId('ad');
+        $placementId = $this->_getId('placement');
+        $adId = $this->_getId('ad');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-        $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
+        $this->_checkAccess(['advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId]);
 
         // Add standard page parameters
-        $this->aPageParams = array(
-            'clientid'   => $advertiserId,
+        $this->aPageParams = [
+            'clientid' => $advertiserId,
             'campaignid' => $placementId,
-            'bannerid'   => $adId);
+            'bannerid' => $adId];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -77,7 +80,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.1.2.2.1';
-            $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
+            $this->aPageSections = ['2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3'];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->pageId = '1.2.2.1';
             $this->aPageSections[] = '1.2.2.1';
@@ -91,40 +94,36 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
-        $this->aPageContext = array('banners', $adId);
+        $this->aPageContext = ['banners', $adId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
-                'advertiser-edit.php?clientid='.$advertiserId,
+                'advertiser-edit.php?clientid=' . $advertiserId,
                 'iconAdvertiser'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
-            'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
+            'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
             'iconCampaign'
         );
         $this->_addShortcut(
             $GLOBALS['strBannerProperties'],
-            'banner-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
+            'banner-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
             'iconBanner'
         );
         $this->_addShortcut(
             $GLOBALS['strModifyBannerAcl'],
-            'banner-acl.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
+            'banner-acl.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
             'iconTargetingChannelAcl'
         );
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'ad_id' => $adId
-        );
+        ];
         $this->prepare($aParams, 'stats.php');
-
     }
-
 }
-
-?>

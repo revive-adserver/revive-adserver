@@ -24,7 +24,7 @@ class OX_Admin_UI_Controller_Request
      * Instance parameters
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
 
     /**
@@ -54,8 +54,7 @@ class OX_Admin_UI_Controller_Request
     {
         if ((null === $value) && isset($this->_params[$key])) {
             unset($this->_params[$key]);
-        }
-        elseif (null !== $value) {
+        } elseif (null !== $value) {
             $this->_params[$key] = $value;
         }
 
@@ -77,11 +76,9 @@ class OX_Admin_UI_Controller_Request
     {
         if (isset($this->_params[$keyName])) {
             return $this->_params[$keyName];
-        }
-        elseif (isset($_GET[$keyName])) {
+        } elseif (isset($_GET[$keyName])) {
             return $_GET[$keyName];
-        }
-        elseif (isset($_POST[$keyName])) {
+        } elseif (isset($_POST[$keyName])) {
             return $_POST[$keyName];
         }
 
@@ -191,8 +188,8 @@ class OX_Admin_UI_Controller_Request
     public function getBaseUrl()
     {
         if ($this->baseUrl == null) {
-            $baseUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
-            $baseUrl .= OX_getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
+            $baseUrl = 'http' . ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '') . '://';
+            $baseUrl .= OX_getHostNameWithPort() . substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/') + 1);
 
             $this->baseUrl = $baseUrl;
         }
@@ -214,11 +211,9 @@ class OX_Admin_UI_Controller_Request
 
             if (isset($_SERVER['HTTP_X_REWRITE_URL'])) { // check this first so IIS will catch
                 $requestUri = $_SERVER['HTTP_X_REWRITE_URL'];
-            }
-            elseif (isset($_SERVER['REQUEST_URI'])) {
+            } elseif (isset($_SERVER['REQUEST_URI'])) {
                 $requestUri = $_SERVER['REQUEST_URI'];
-            }
-            elseif (isset($_SERVER['ORIG_PATH_INFO'])) { // IIS 5.0, PHP as CGI
+            } elseif (isset($_SERVER['ORIG_PATH_INFO'])) { // IIS 5.0, PHP as CGI
                 $requestUri = $_SERVER['ORIG_PATH_INFO'];
                 if (!empty($_SERVER['QUERY_STRING'])) {
                     $requestUri .= '?' . $_SERVER['QUERY_STRING'];
@@ -230,7 +225,4 @@ class OX_Admin_UI_Controller_Request
 
         return $this->requestUri;
     }
-
 }
-
-?>

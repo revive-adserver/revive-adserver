@@ -11,7 +11,7 @@
 */
 
 /**
- * A model describing a page header. Allows to specify title, title icon class, 
+ * A model describing a page header. Allows to specify title, title icon class,
  * include breadcrumbs if any.
  */
 class OA_Admin_UI_Model_PageHeaderModel
@@ -25,7 +25,7 @@ class OA_Admin_UI_Model_PageHeaderModel
     
     /**
      * CSS class indicating icon which will be displayed next to title. If none
-     * specified icon will be read from navigation entry. 
+     * specified icon will be read from navigation entry.
      * I none specified no icon is used and page title is aligned with content.
      *
      * @var string
@@ -33,12 +33,12 @@ class OA_Admin_UI_Model_PageHeaderModel
     private $iconClass;
     
     /**
-     * Indicates whether page is 
+     * Indicates whether page is
      * - default - icon and class read from nav structure
-     * - list - icon is read from nav, title uses last breadcrumb segment eg. 
+     * - list - icon is read from nav, title uses last breadcrumb segment eg.
      *      'Campaigns of Coca Cola', 'Banners in Coca Cola Summer Campaign'
      * - edit - add entity name after page title
-     * - new - add parent entity name after title - 'Add new campaign for advertiser Coca Cola' 
+     * - new - add parent entity name after title - 'Add new campaign for advertiser Coca Cola'
      *
      * @var string
      */
@@ -47,8 +47,8 @@ class OA_Admin_UI_Model_PageHeaderModel
     
     /**
      * You can add entity name which will be displayed after page title. This
-     * is most likely used by edit pages and list pages (where entity name 
-     * inlcudes accordingly: edited entity name, or entity whose sub items are shown 
+     * is most likely used by edit pages and list pages (where entity name
+     * inlcudes accordingly: edited entity name, or entity whose sub items are shown
      *
      * @var string
      */
@@ -73,7 +73,7 @@ class OA_Admin_UI_Model_PageHeaderModel
     /**
      * If eg. adding new item, we can add additional info - what is added where.
      * This inicates the "where" name.
-     *      
+     *
      * @var string
      */
     private $newTargetName;
@@ -193,7 +193,7 @@ class OA_Admin_UI_Model_PageHeaderModel
     public function getNewTargetLink()
     {
         return $this->newTargetLink;
-    }    
+    }
     
     /**
      * @param string $newTargetName
@@ -217,7 +217,7 @@ class OA_Admin_UI_Model_PageHeaderModel
     public function setNewTargetLink($newTargetLink)
     {
         $this->newTargetLink = $newTargetLink;
-    }    
+    }
     
     
     /**
@@ -226,7 +226,7 @@ class OA_Admin_UI_Model_PageHeaderModel
      */
     public function isEmpty()
     {
-       return empty($this->title);
+        return empty($this->title);
     }
 
     /**
@@ -279,5 +279,3 @@ class OA_Admin_UI_Model_PageHeaderModel
         }
     }
 }
-
-?>

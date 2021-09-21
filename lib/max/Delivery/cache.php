@@ -17,7 +17,7 @@
 
 $file = '/lib/max/Delivery/cache.php';
 ###START_STRIP_DELIVERY
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+if (isset($GLOBALS['_MAX']['FILES'][$file])) {
     return;
 }
 ###END_STRIP_DELIVERY
@@ -27,7 +27,7 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
  * Constant used for permanent caching
  *
  */
-define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
+define('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 
 
 /**
@@ -35,11 +35,11 @@ define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
  *
  * @var array
  */
-$GLOBALS['OA_Delivery_Cache'] = array(
+$GLOBALS['OA_Delivery_Cache'] = [
     'prefix' => 'deliverycache_',
-    'host'   => OX_getHostName(),
+    'host' => OX_getHostName(),
     'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
-);
+];
 
 /**
  * A function to fetch a cache entry.
@@ -56,7 +56,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 
     $aCacheVar = OX_Delivery_Common_hook(
         'cacheRetrieve',
-        array($filename),
+        [$filename],
         $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
     );
     if ($aCacheVar !== false) {
@@ -71,9 +71,8 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
             $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
         }
         $now = MAX_commonGetTimeNow();
-        if (    (isset($aCacheVar['cache_time']) && $aCacheVar['cache_time'] + $expiryTime < $now)
-             || (isset($aCacheVar['cache_expire']) && $aCacheVar['cache_expire'] < $now) )
-        {
+        if ((isset($aCacheVar['cache_time']) && $aCacheVar['cache_time'] + $expiryTime < $now)
+             || (isset($aCacheVar['cache_expire']) && $aCacheVar['cache_expire'] < $now)) {
             // Update expiry, needed to enable permanent caching if needed
             OA_Delivery_Cache_store($name, $aCacheVar['cache_contents'], $isHash);
             OX_Delivery_logMessage("Cache EXPIRED: {$name}", 7);
@@ -108,7 +107,7 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
 
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 
-    $aCacheVar = array();
+    $aCacheVar = [];
     $aCacheVar['cache_contents'] = $cache;
     $aCacheVar['cache_name'] = $name;
     $aCacheVar['cache_time'] = MAX_commonGetTimeNow();
@@ -116,7 +115,7 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
 
     return OX_Delivery_Common_hook(
         'cacheStore',
-        array($filename, $aCacheVar),
+        [$filename, $aCacheVar],
         $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
     );
 }
@@ -135,8 +134,8 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
 function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
     OX_Delivery_Common_hook(
-        'preCacheStore_'.OA_Delivery_Cache_getHookName($name),
-        array($name, &$cache)
+        'preCacheStore_' . OA_Delivery_Cache_getHookName($name),
+        [$name, &$cache]
     );
     if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
         return $cache;
@@ -169,11 +168,11 @@ function OA_Delivery_Cache_getHookName($name)
  */
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
-    if(!$isHash) {
+    if (!$isHash) {
         // If not a hash yet
         $name = md5($name);
     }
-    return $GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
+    return $GLOBALS['OA_Delivery_Cache']['prefix'] . $name . '.php';
 }
 
 
@@ -190,7 +189,7 @@ function OA_Delivery_Cache_getName($functionName)
     $args = func_get_args();
     $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
 
-    return join('^', $args).'@'.$GLOBALS['OA_Delivery_Cache']['host'];
+    return join('^', $args) . '@' . $GLOBALS['OA_Delivery_Cache']['host'];
 }
 
 /**
@@ -205,7 +204,7 @@ function OA_Delivery_Cache_getName($functionName)
  */
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $ad_id);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $ad_id);
     if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aRows = OA_Dal_Delivery_getAd($ad_id);
@@ -226,7 +225,7 @@ function MAX_cacheGetAd($ad_id, $cached = true)
  */
 function MAX_cacheGetAccountTZs($cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__);
     if (!$cached || ($aResult = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aResult = OA_Dal_Delivery_getAccountTZs();
@@ -287,7 +286,7 @@ function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
  */
 function MAX_cacheGetZoneLinkedAdInfos($zoneId, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
     if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aRows = OA_Dal_Delivery_getZoneLinkedAdInfos($zoneId);
@@ -309,7 +308,7 @@ function MAX_cacheGetZoneLinkedAdInfos($zoneId, $cached = true)
  */
 function MAX_cacheGetZoneInfo($zoneId, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
     if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aRows = OA_Dal_Delivery_getZoneInfo($zoneId);
@@ -333,7 +332,7 @@ function MAX_cacheGetZoneInfo($zoneId, $cached = true)
  */
 function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
     if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
@@ -356,7 +355,7 @@ function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
  */
 function MAX_cacheGetLinkedAdInfos($search, $campaignid, $laspart, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
     if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aAds = OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid, $laspart);
@@ -379,7 +378,7 @@ function MAX_cacheGetLinkedAdInfos($search, $campaignid, $laspart, $cached = tru
  */
 function MAX_cacheGetCreative($filename, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
     if (!$cached || ($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aCreative = OA_Dal_Delivery_getCreative($filename);
@@ -401,7 +400,7 @@ function MAX_cacheGetCreative($filename, $cached = true)
  */
 function MAX_cacheGetTracker($trackerid, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
     if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aTracker = OA_Dal_Delivery_getTracker($trackerid);
@@ -422,7 +421,7 @@ function MAX_cacheGetTracker($trackerid, $cached = true)
  */
 function MAX_cacheGetTrackerLinkedCreatives($trackerid = null, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
     if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aTracker = OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid);
@@ -443,7 +442,7 @@ function MAX_cacheGetTrackerLinkedCreatives($trackerid = null, $cached = true)
  */
 function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
     if (!$cached || ($aVariables = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aVariables = OA_Dal_Delivery_getTrackerVariables($trackerid);
@@ -464,11 +463,11 @@ function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
     // Default delay is 5 minutes
-    $interval    = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-    $delay       = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
+    $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
+    $delay = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 
-    $now         = MAX_commonGetTimeNow();
-    $today       = strtotime(date('Y-m-d'), $now);
+    $now = MAX_commonGetTimeNow();
+    $today = strtotime(date('Y-m-d'), $now);
     $nextRunTime = $today + (floor(($now - $today) / $interval) + 1) * $interval + $delay;
 
     // Adding the delay could shift the time to the next operation interval,
@@ -477,7 +476,7 @@ function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
         $nextRunTime -= $interval;
     }
 
-    $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    $cName = OA_Delivery_Cache_getName(__FUNCTION__);
     if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName)) === false) {
         MAX_Dal_Delivery_Include();
         $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
@@ -506,7 +505,7 @@ function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
  */
 function MAX_cacheGetChannelLimitations($channelid, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
     if (!$cached || ($limitations = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $limitations = OA_Dal_Delivery_getChannelLimitations($channelid);
@@ -528,7 +527,7 @@ function MAX_cacheGetChannelLimitations($channelid, $cached = true)
  */
 function OA_cacheGetPublisherZones($affiliateid, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
     if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $output = OA_Dal_Delivery_getPublisherZones($affiliateid);
@@ -537,5 +536,3 @@ function OA_cacheGetPublisherZones($affiliateid, $cached = true)
 
     return $output;
 }
-
-?>

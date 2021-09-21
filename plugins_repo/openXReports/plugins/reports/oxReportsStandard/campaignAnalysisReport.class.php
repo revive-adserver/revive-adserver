@@ -59,48 +59,47 @@ require_once LIB_PATH . '/Extension/reports/Reports.php';
  */
 class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_Reports
 {
-
     /**
      * Local storage variable for the placement ID.
      *
      * @var integer
      */
-    var $_placementId;
+    public $_placementId;
 
     /**
      * Local storage variable for the placement name.
      *
      * @var string
      */
-    var $_placementName;
+    public $_placementName;
 
     /**
      * Local storage variable for the advertiser ID.
      *
      * @var integer
      */
-    var $_advertiserId;
+    public $_advertiserId;
 
     /**
      * Local storage variable for the advertiser name.
      *
      * @var string
      */
-    var $_advertiserName;
+    public $_advertiserName;
 
     /**
      * The local implementation of the initInfo() method to set all of the
      * required values for this report.
      */
-    function initInfo()
+    public function initInfo()
     {
-        $this->_name         = $this->translate("Campaign Analysis Report");
-        $this->_description  = $this->translate("This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.");
-        $this->_category     = 'standard';
+        $this->_name = $this->translate("Campaign Analysis Report");
+        $this->_description = $this->translate("This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.");
+        $this->_category = 'standard';
         $this->_categoryName = $this->translate("Standard Reports");
-        $this->_author       = 'Rob Hunter';
-        $this->_export       = 'xls';
-        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+        $this->_author = 'Rob Hunter';
+        $this->_export = 'xls';
+        $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER];
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -111,34 +110,34 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      * required information for laying out the plugin's report generation
      * screen/the variables required for generating the report.
      */
-    function getDefaults()
+    public function getDefaults()
     {
         // Obtain the user's session-based default values for the report
         global $session;
         $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $default_campaign      = isset($session['prefs']['GLOBALS']['report_campaign'])      ? $session['prefs']['GLOBALS']['report_campaign']      : '';
+        $default_campaign = isset($session['prefs']['GLOBALS']['report_campaign']) ? $session['prefs']['GLOBALS']['report_campaign'] : '';
         // Prepare the array for displaying the generation page
-        $aImport = array(
-            'period'   => array(
-                'title'   => $GLOBALS['strPeriod'],
-                'type'    => 'date-month',
+        $aImport = [
+            'period' => [
+                'title' => $GLOBALS['strPeriod'],
+                'type' => 'date-month',
                 'default' => $default_period_preset
-            ),
-            'campaign' => array(
-                'title'   => $GLOBALS['strCampaign'],
-                'type'    => 'campaignid-dropdown',
-                'default' =>  $default_campaign
-            ),
-            'sheets'   => array(
-                'title'   => $GLOBALS['strWorksheets'],
-                'type'    => 'sheet',
-                'sheets'  => array(
+            ],
+            'campaign' => [
+                'title' => $GLOBALS['strCampaign'],
+                'type' => 'campaignid-dropdown',
+                'default' => $default_campaign
+            ],
+            'sheets' => [
+                'title' => $GLOBALS['strWorksheets'],
+                'type' => 'sheet',
+                'sheets' => [
                     'daily_breakdown' => $this->translate("Daily Breakdown"),
-                    'ad_breakdown'    => $this->translate("Ad Breakdown"),
-                    'zone_breakdown'  => $this->translate("Zone Breakdown")
-                )
-            )
-        );
+                    'ad_breakdown' => $this->translate("Ad Breakdown"),
+                    'zone_breakdown' => $this->translate("Zone Breakdown")
+                ]
+            ]
+        ];
         return $aImport;
     }
 
@@ -147,14 +146,14 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      * values used for the report by the user to the user's session
      * preferences, so that they can be re-used in other reports.
      */
-    function saveDefaults()
+    public function saveDefaults()
     {
         global $session;
         if (isset($_REQUEST['period_preset'])) {
             $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
         if (isset($_REQUEST['campaign'])) {
-            $session['prefs']['GLOBALS']['report_campaign']      = $_REQUEST['campaign'];
+            $session['prefs']['GLOBALS']['report_campaign'] = $_REQUEST['campaign'];
         }
         phpAds_SessionDataStore();
     }
@@ -166,12 +165,12 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      * @param integer          $placementId The ID of the placement the report is for.
      * @param array            $aSheets     An array of sheets that should be in the report.
      */
-    function execute($oDaySpan = null, $placementId = null, $aSheets = null)
+    public function execute($oDaySpan = null, $placementId = null, $aSheets = null)
     {
-    	$checkResult = $this->_checkParameters($oDaySpan, $placementId, $aSheets);
-    	if ($checkResult !== true) {
-    		return $checkResult;
-    	}
+        $checkResult = $this->_checkParameters($oDaySpan, $placementId, $aSheets);
+        if ($checkResult !== true) {
+            return $checkResult;
+        }
         // Save the placement ID for use later
         $this->_placementId = $placementId;
         // Locate and save the placement's name & owning advertiser
@@ -182,8 +181,8 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
             // Could not find the placement, set false
             // for the placement name, and the owning
             // advertiser ID and advertiser name
-            $this->_placementName  = false;
-            $this->_advertiserId   = false;
+            $this->_placementName = false;
+            $this->_advertiserId = false;
             $this->_advertiserName = false;
         } else {
             // Get and store the placement name and the
@@ -191,7 +190,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
             $aPlacement = $doCampaigns->toArray();
             $aPlacement['name'] = $aPlacement['campaignname'];
             $this->_placementName = MAX_getPlacementName($aPlacement);
-            $this->_advertiserId  = $aPlacement['clientid'];
+            $this->_advertiserId = $aPlacement['clientid'];
             if ($aPlacement['anonymous'] == 't') {
                 $campaignAnonymous = true;
             } else {
@@ -238,13 +237,12 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      * @param array            $aSheets     An array of sheets that should be in the report.
      * @return bool|int - True if no errors, error code otherwise
      */
-    function _checkParameters($oDaySpan, $placementId, $aSheets)
+    public function _checkParameters($oDaySpan, $placementId, $aSheets)
     {
         if (!isset($aSheets['daily_breakdown']) &&
             !isset($aSheets['ad_breakdown']) &&
-            !isset($aSheets['zone_breakdown']))
-        {
-        	return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
+            !isset($aSheets['zone_breakdown'])) {
+            return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
         }
         return true;
     }
@@ -256,9 +254,9 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function _getReportParametersForDisplay()
+    public function _getReportParametersForDisplay()
     {
-        $aParams = array();
+        $aParams = [];
         if ($this->_advertiserName !== false) {
             $key = $GLOBALS['strClient'];
             $aParams[$key] = $this->_advertiserName;
@@ -277,15 +275,15 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      *
      * @access private
      */
-    function _addDailyBreakdownWorksheet()
+    public function _addDailyBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
         $_REQUEST['clientid'] = $this->_advertiserId;
@@ -313,17 +311,17 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      *
      * @access private
      */
-    function _addAdBreakdownWorksheet()
+    public function _addAdBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['expand']     = 'none';
+        $_REQUEST['expand'] = 'none';
         $_REQUEST['startlevel'] = 0;
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
@@ -351,17 +349,17 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      *
      * @access private
      */
-    function _addZoneBreakdownWorksheet()
+    public function _addZoneBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['expand']     = 'none';
+        $_REQUEST['expand'] = 'none';
         $_REQUEST['startlevel'] = 0;
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
@@ -382,7 +380,4 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
             $aData
         );
     }
-
 }
-
-?>

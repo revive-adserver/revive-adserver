@@ -16,21 +16,21 @@
 
 function MAX_layerGetLimitations()
 {
-	$agent = $GLOBALS['_MAX']['CLIENT'];
+    $agent = $GLOBALS['_MAX']['CLIENT'];
 
-	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
-				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
-				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
-				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5
-				  ? false : true;
+    $compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
+                  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
+                  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
+                  $agent['browser'] == 'op' && $agent['maj_ver'] < 5
+                  ? false : true;
 
-	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
-	$richmedia = true;
+    //$richmedia  = $agent['platform'] == 'Win' ? true : false;
+    $richmedia = true;
 
-	return array (
-		'richmedia'  => $richmedia,
-		'compatible' => $compatible
-	);
+    return [
+        'richmedia' => $richmedia,
+        'compatible' => $compatible
+    ];
 }
 
 
@@ -41,23 +41,36 @@ function MAX_layerGetLimitations()
 
 function MAX_layerPutJs($output, $uniqid)
 {
-	global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
+    global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
 
-	// Register input variables
-	MAX_commonRegisterGlobalsArray(array('stickyness', 'offsetx', 'offsety', 'hide',
-					       'transparancy', 'delay', 'trail'));
+    // Register input variables
+    MAX_commonRegisterGlobalsArray(['stickyness', 'offsetx', 'offsety', 'hide',
+                           'transparancy', 'delay', 'trail']);
 
 
-	if (!isset($trail) || $trail == '') $trail = 0;
-	if (!isset($stickyness) || $stickyness == '') $stickyness = 5;
+    if (!isset($trail) || $trail == '') {
+        $trail = 0;
+    }
+    if (!isset($stickyness) || $stickyness == '') {
+        $stickyness = 5;
+    }
 
-	if (!isset($offsetx) || $offsetx == '') $offsetx = 10;
-	if (!isset($offsety) || $offsety == '') $offsety = 10;
+    if (!isset($offsetx) || $offsetx == '') {
+        $offsetx = 10;
+    }
+    if (!isset($offsety) || $offsety == '') {
+        $offsety = 10;
+    }
 
-	if (!isset($hide) || $hide == '') $hide = 0;
-	if (!isset($transparancy) || $transparancy == '') $transparancy = 0;
-	if (!isset($delay) || $delay == '') $delay = 90;
-?>
+    if (!isset($hide) || $hide == '') {
+        $hide = 0;
+    }
+    if (!isset($transparancy) || $transparancy == '') {
+        $transparancy = 0;
+    }
+    if (!isset($delay) || $delay == '') {
+        $delay = 90;
+    } ?>
 
 
 
@@ -172,9 +185,8 @@ function MAX_followMouse_<?php echo $uniqid; ?>() {
 
 
 <?php
-if ($hide == 1)
-{
-	?>
+if ($hide == 1) {
+        ?>
 	var transparancy = 100;
 
 	if (MAX_<?php echo $uniqid; ?>_NoMove > <?php echo $delay; ?>)
@@ -190,34 +202,27 @@ if ($hide == 1)
 		MAX_setVisibility_<?php echo $uniqid; ?>(transparancy);
 
 	<?php
-}
-else
-{
-	?>
+    } else {
+        ?>
 	MAX_setVisibility_<?php echo $uniqid; ?>(100);
 	<?php
-}
-?>
+    } ?>
 	if (MAX_<?php echo $uniqid; ?>_NoMove < <?php echo $delay; ?>)
 	{
 	<?php
-if ($trail == 1)
-{
-	?>		// Calculate new position
+if ($trail == 1) {
+        ?>		// Calculate new position
 		MAX_<?php echo $uniqid; ?>_speedX = MAX_<?php echo $uniqid; ?>_speedX * (<?php echo $stickyness; ?> / 10) + (MAX_<?php echo $uniqid; ?>_posX_new - MAX_<?php echo $uniqid; ?>_posX_old) / 30;
 		MAX_<?php echo $uniqid; ?>_speedY = MAX_<?php echo $uniqid; ?>_speedY * (<?php echo $stickyness; ?> / 10) + (MAX_<?php echo $uniqid; ?>_posY_new - MAX_<?php echo $uniqid; ?>_posY_old) / 30;
 		MAX_<?php echo $uniqid; ?>_posX_old = MAX_<?php echo $uniqid; ?>_posX_old + MAX_<?php echo $uniqid; ?>_speedX;
 		MAX_<?php echo $uniqid; ?>_posY_old = MAX_<?php echo $uniqid; ?>_posY_old + MAX_<?php echo $uniqid; ?>_speedY;
 	<?php
-}
-else
-{
-	?>
+    } else {
+        ?>
 		MAX_<?php echo $uniqid; ?>_posX_old = MAX_<?php echo $uniqid; ?>_posX_new;
 		MAX_<?php echo $uniqid; ?>_posY_old = MAX_<?php echo $uniqid; ?>_posY_new;
 	<?php
-}
-?>
+    } ?>
 		// Set position of banner
 		MAX_setPos_<?php echo $uniqid; ?> (
 			MAX_<?php echo $uniqid; ?>_posX_old + <?php echo $offsetx; ?>,
@@ -237,12 +242,11 @@ else
 
 function MAX_layerGetHtml($output, $uniqid)
 {
-	return '
-<div id="MAX_'.$uniqid.'" style="position:absolute; width:'.$output['width'].'px; height:'.$output['height'].'px; z-index:99; left: 0px; top: 0px; visibility: hidden; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);">
-'.$output['html'].'
+    return '
+<div id="MAX_' . $uniqid . '" style="position:absolute; width:' . $output['width'] . 'px; height:' . $output['height'] . 'px; z-index:99; left: 0px; top: 0px; visibility: hidden; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);">
+' . $output['html'] . '
 </div>
 ';
-
 }
 
 ?>

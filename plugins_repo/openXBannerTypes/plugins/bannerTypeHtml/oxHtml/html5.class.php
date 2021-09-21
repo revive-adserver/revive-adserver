@@ -35,7 +35,7 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
      *
      * @return string A string describing the type of plugin.
      */
-    function getOptionDescription()
+    public function getOptionDescription()
     {
         return $this->translate("HTML5 Banner (ZIP package)");
     }
@@ -44,9 +44,9 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
      * @param HTML_QuickForm $form
      * @param array $row
      */
-    function buildForm(&$form, &$row)
+    public function buildForm(&$form, &$row)
     {
-        if (!empty($row['parameters']))  {
+        if (!empty($row['parameters'])) {
             $parameters = unserialize($row['parameters']);
             if (is_array($parameters)) {
                 $row += $parameters;
@@ -59,25 +59,27 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
 
         $row['filename'] = '';
 
-        addUploadGroup($form, $row,
-            array(
-                'uploadName'  => 'html5zip',
-                'radioName'   => 'rhtml5zip',
-                'imageName'   => _getContentTypeIconImageName('html'),
-                'fileName'    => isset($row['html5_name']) ? $row['html5_name'] : '',
-                'fileSize'    => isset($row['html5_size']) ? _getPrettySize($row['html5_size']) : '',
-                'newLabel'    => $GLOBALS['strNewBannerFile'],
+        addUploadGroup(
+            $form,
+            $row,
+            [
+                'uploadName' => 'html5zip',
+                'radioName' => 'rhtml5zip',
+                'imageName' => _getContentTypeIconImageName('html'),
+                'fileName' => isset($row['html5_name']) ? $row['html5_name'] : '',
+                'fileSize' => isset($row['html5_size']) ? _getPrettySize($row['html5_size']) : '',
+                'newLabel' => $GLOBALS['strNewBannerFile'],
                 'updateLabel' => $GLOBALS['strUploadOrKeep'],
-            )
+            ]
         );
 
         $form->addElement('header', 'header_b_links', "Banner link");
         $form->addElement('text', 'url', $GLOBALS['strURL']);
 
         $form->addElement('header', 'header_b_display', 'Banner display');
-        $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].":");
+        $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'] . ":");
         $sizeG['width']->setSize(5);
-        $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'].":");
+        $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'] . ":");
         $sizeG['height']->setSize(5);
 
         if (!empty($row['bannerid'])) {
@@ -89,7 +91,7 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
 
         // Validation rules
-        $numericRule = [$GLOBALS['strNumericField'] , 'numeric'];
+        $numericRule = [$GLOBALS['strNumericField'], 'numeric'];
         $form->addGroupRule('size', [
             'width' => [$numericRule],
             'height' => [$numericRule],
@@ -121,7 +123,7 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
         return true;
     }
 
-    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         if (null !== $this->manager) {
             $aVariables['width'] = $this->manager->getWidth() ?: $aFields['width'];
@@ -141,5 +143,4 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
 
         return true;
     }
-
 }

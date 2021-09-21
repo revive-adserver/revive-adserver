@@ -24,13 +24,13 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_postscript_2_7_26_beta_RC5Test extends MigrationTest
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
-        $this->assertTrue($this->initDatabase(604, array('preferences', 'account_preference_assoc')).'failed to created version 604 of campaigns of preference table and account_preference_assoc table');
+        $this->assertTrue($this->initDatabase(604, ['preferences', 'account_preference_assoc']) . 'failed to created version 604 of campaigns of preference table and account_preference_assoc table');
     }
 
-    function testExecute()
+    public function testExecute()
     {
         // Add the auto_alter_html_banners_for_click_tracking to the preferences table
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -53,8 +53,8 @@ class Migration_postscript_2_7_26_beta_RC5Test extends MigrationTest
         }
 
         // test that just one preference exists and is auto_alter_html_banners_for_click_tracking
-        $this->assertTrue($numberPreferences==1);
-        $this->assertTrue($aPreferences['preference_name']=='auto_alter_html_banners_for_click_tracking');
+        $this->assertTrue($numberPreferences == 1);
+        $this->assertTrue($aPreferences['preference_name'] == 'auto_alter_html_banners_for_click_tracking');
 
 
         // Add three account preferences associations for the auto_alter_html_banners_for_click_tracking
@@ -83,12 +83,12 @@ class Migration_postscript_2_7_26_beta_RC5Test extends MigrationTest
         $numberAccountPreferenceAssoc = $doAccountPreferenceAssoc->getRowCount();
 
         // test that three account preference association have been added to account_preference_assoc table
-        $this->assertTrue($numberAccountPreferenceAssoc==3);
+        $this->assertTrue($numberAccountPreferenceAssoc == 3);
 
         Mock::generatePartial(
             'OA_UpgradeLogger',
-            $mockLogger = 'OA_UpgradeLogger'.rand(),
-            array('logOnly', 'logError', 'log')
+            $mockLogger = 'OA_UpgradeLogger' . rand(),
+            ['logOnly', 'logError', 'log']
         );
 
         $oLogger = new $mockLogger($this);
@@ -98,8 +98,8 @@ class Migration_postscript_2_7_26_beta_RC5Test extends MigrationTest
 
         Mock::generatePartial(
             'OA_Upgrade',
-            $mockUpgrade = 'OA_Upgrade'.rand(),
-            array('addPostUpgradeTask')
+            $mockUpgrade = 'OA_Upgrade' . rand(),
+            ['addPostUpgradeTask']
         );
 
 
@@ -111,7 +111,7 @@ class Migration_postscript_2_7_26_beta_RC5Test extends MigrationTest
 
         // Run the upgrade
         $postscript = new OA_UpgradePostscript_2_7_26_beta_rc5();
-        $postscript->execute(array(&$mockUpgrade));
+        $postscript->execute([&$mockUpgrade]);
 
 
         $doPreferences = OA_Dal::factoryDO('preferences');

@@ -234,7 +234,7 @@ $GLOBALS['strDayOfWeek'] = "Den v týdnu";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Neděle';
 $GLOBALS['strDayFullNames'][1] = 'Pondělí';
@@ -245,7 +245,7 @@ $GLOBALS['strDayFullNames'][5] = 'Pátek';
 $GLOBALS['strDayFullNames'][6] = 'Sobota';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Ne';
 $GLOBALS['strDayShortCuts'][1] = 'Po';
@@ -487,16 +487,16 @@ $GLOBALS['strDeliveryCappingTotal'] = "celkem";
 $GLOBALS['strDeliveryCappingSession'] = "za relaci";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "Omezit zobrazení kampaně na:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "Omezit zobrazení zóny na:";
 

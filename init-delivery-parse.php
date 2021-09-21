@@ -26,7 +26,7 @@
  */
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
-    $fixMysqli = function($conf) {
+    $fixMysqli = function ($conf) {
         if (0 === stripos($conf['database']['type'] ?? '', 'mysql')) {
             $conf['database']['type'] = 'mysqli';
         }
@@ -83,32 +83,27 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     exit(1);
 }
 
-if (!function_exists('mergeConfigFiles'))
-{
+if (!function_exists('mergeConfigFiles')) {
     function mergeConfigFiles($realConfig, $fakeConfig)
     {
         foreach ($fakeConfig as $key => $value) {
             if (is_array($value)) {
                 if (!isset($realConfig[$key])) {
-                    $realConfig[$key] = array();
+                    $realConfig[$key] = [];
                 }
                 $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
+            } elseif (isset($realConfig[$key]) && is_array($realConfig[$key])) {
+                $realConfig[$key][0] = $value;
             } else {
-                if (isset($realConfig[$key]) && is_array($realConfig[$key])) {
-                    $realConfig[$key][0] = $value;
-                } else {
-                    if (isset($realConfig) && !is_array($realConfig)) {
-                        $temp = $realConfig;
-                        $realConfig = array();
-                        $realConfig[0] = $temp;
-                    }
-                    $realConfig[$key] = $value;
+                if (isset($realConfig) && !is_array($realConfig)) {
+                    $temp = $realConfig;
+                    $realConfig = [];
+                    $realConfig[0] = $temp;
                 }
+                $realConfig[$key] = $value;
             }
         }
         unset($realConfig['realConfig']);
         return $realConfig;
     }
 }
-
-?>

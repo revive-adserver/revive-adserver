@@ -19,16 +19,15 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
  */
 class OA_Permission_User
 {
+    /**
+     * @var array
+     */
+    public $aUser;
 
     /**
      * @var array
      */
-    var $aUser;
-
-    /**
-     * @var array
-     */
-    var $aAccount;
+    public $aAccount;
 
     /**
      * Class constructor
@@ -36,7 +35,7 @@ class OA_Permission_User
      * @param DataObjects_Users $doUsers
      * @return OA_Permission_User
      */
-    function __construct($doUsers, $skipDatabaseAccess = false)
+    public function __construct($doUsers, $skipDatabaseAccess = false)
     {
         if (!is_a($doUsers, 'DataObjects_Users')) {
             MAX::raiseError('doUser not a DataObjects_Users');
@@ -60,7 +59,7 @@ class OA_Permission_User
         }
     }
 
-    function __wakeup()
+    public function __wakeup()
     {
         if (defined('phpAds_installing')) {
             // We could be upgrading from a version that doesn't have all the necessary tables
@@ -74,7 +73,7 @@ class OA_Permission_User
             $aAccounts[$adminAccountId] = true;
         }
 
-        $doAUA  = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA = OA_Dal::factoryDO('account_user_assoc');
         $doAUA->whereInAdd('account_id', array_keys($aAccounts));
         $doAUA->user_id = $this->aUser['user_id'];
 
@@ -91,10 +90,9 @@ class OA_Permission_User
         OA_Permission::enforceTrue($this->aUser['is_admin'] || !isset($aAccounts[$this->aAccount['account_id']]));
     }
 
-    function loadAccountData($accountId)
+    public function loadAccountData($accountId)
     {
-        if (!empty($accountId))
-        {
+        if (!empty($accountId)) {
             $this->_clearAccountData();
 
             $doAccount = OA_Dal::factoryDO('accounts');
@@ -131,14 +129,14 @@ class OA_Permission_User
      * A private method to clear the $aAccount array
      *
      */
-    function _clearAccountData()
+    public function _clearAccountData()
     {
-        $this->aAccount = array(
-            'account_id'   => 0,
+        $this->aAccount = [
+            'account_id' => 0,
             'account_type' => '',
-            'entity_id'    => 0,
-            'agency_id'    => 0
-        );
+            'entity_id' => 0,
+            'agency_id' => 0
+        ];
     }
 
     /**
@@ -146,7 +144,7 @@ class OA_Permission_User
      *
      * @return mixed The ID as integer on success, false otherwise
      */
-    function _getEntityId()
+    public function _getEntityId()
     {
         $doEntity = $this->_getEntityDO();
         if (!empty($doEntity)) {
@@ -168,7 +166,7 @@ class OA_Permission_User
      *
      * @return mixed The ID as integer on success, false otherwise
      */
-    function _getAgencyId()
+    public function _getAgencyId()
     {
         $doEntity = $this->_getEntityDO();
         if (!empty($doEntity)) {
@@ -188,11 +186,11 @@ class OA_Permission_User
      *
      * @return bool True if the user is linked to the admin account
      */
-    function _isAdmin()
+    public function _isAdmin()
     {
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->user_id = $this->aUser['user_id'];
-        $doAUA  = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA = OA_Dal::factoryDO('account_user_assoc');
         $doAUA->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
         $doUsers->joinAdd($doAUA);
         return (bool)$doUsers->count();
@@ -203,7 +201,7 @@ class OA_Permission_User
      *
      * @return DB_DataObjectCommon
      */
-    function &_getEntityDO()
+    public function &_getEntityDO()
     {
         switch ($this->aAccount['account_type']) {
             case OA_ACCOUNT_MANAGER:
@@ -223,5 +221,3 @@ class OA_Permission_User
         return $doEntity;
     }
 }
-
-?>

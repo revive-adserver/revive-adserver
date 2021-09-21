@@ -17,7 +17,7 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Preferences extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
+    public $onDeleteCascade = true;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -27,9 +27,12 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     public $account_type;                    // VARCHAR(16) => openads_varchar => 130
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Preferences',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Preferences', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'preference_name' => '',
         'account_type' => '',
     ];
@@ -37,17 +40,17 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->preference_id;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Preference';
     }
@@ -81,9 +84,9 @@ class DataObjects_Preferences extends DB_DataObjectCommon
         // Special case - return the admin account ID only,
         // as changes to the types of preferences in the
         // system need only be viewed by the admin
-        $aAccountIds = array(
+        $aAccountIds = [
             OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
-        );
+        ];
         return $aAccountIds;
     }
 
@@ -93,8 +96,8 @@ class DataObjects_Preferences extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = $this->preference_name;
+        $aAuditFields['key_desc'] = $this->preference_name;
     }
 }

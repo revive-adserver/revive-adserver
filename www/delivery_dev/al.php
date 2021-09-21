@@ -22,12 +22,12 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('layerstyle'));
+MAX_commonRegisterGlobalsArray(['layerstyle']);
 if (!isset($layerstyle) || empty($layerstyle)) {
     $layerstyle = 'geocities';
 }
 
-$plugin = MAX_PATH.$conf['pluginPaths']['plugins'].'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
+$plugin = MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php';
 
 if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include($plugin)) {
     // Don't generate output when plugin layerstyleisn't available,just send javascript comment on fail
@@ -37,13 +37,13 @@ if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include($plugin)) {
 }
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
+MAX_commonRegisterGlobalsArray(['block', 'blockcampaign', 'exclude', 'mmm_fo', 'q']);
 
 if (isset($context) && !is_array($context)) {
     $context = MAX_commonUnpackContext($context);
 }
 if (!is_array($context)) {
-    $context = array();
+    $context = [];
 }
 
 $limitations = MAX_layerGetLimitations();
@@ -64,17 +64,17 @@ if ($limitations['compatible']) {
 
     // Block this banner for next invocation
     if (!empty($block) && !empty($output['bannerid'])) {
-        $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+        $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
     }
 
     // Block this campaign for next invocation
     if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-        $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+        $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
     }
 
     // Block this campaign for next invocation
     if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-        $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+        $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
     }
     // Append any data to the context array
     if (!empty($output['context'])) {
@@ -92,4 +92,3 @@ if ($limitations['compatible']) {
     MAX_layerPutJs($output, $uniqid);
     ob_flush();
 }
-?>

@@ -31,7 +31,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
     /**
      * Test the creation of the class.
      */
-    function testCreate()
+    public function testCreate()
     {
         $oSetUpdateRequirements = new OX_Maintenance_Statistics_Task_SetUpdateRequirements();
         $this->assertTrue(is_a($oSetUpdateRequirements, 'OX_Maintenance_Statistics_Task_SetUpdateRequirements'));
@@ -40,14 +40,14 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
     /**
      * A method to test the run() method.
      */
-    function testRun()
+    public function testRun()
     {
         // Create a reference to the OpenX configuration so that settings
         // can be changed while the tests are running
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
 
         // Create the database connection and service locator objects
-        $oDbh            = OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oServiceLocator = OA_ServiceLocator::instance();
 
         // Create the "log_maintenance_statistics" table required for the tests
@@ -64,23 +64,23 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         Mock::generatePartial(
             'OX_Maintenance_Statistics_Task_SetUpdateRequirements',
             'PartialOX_Maintenance_Statistics_Task_SetUpdateRequirements',
-            array(
+            [
                 '_getMaintenanceStatisticsLastRunInfo',
                 '_getEarliestLoggedDeliveryData',
-            )
+            ]
         );
 
         // Prepare an array of times that the MSE should be run at, to
         // test the effects of different times and data sets
-        $aMSERunTimes = array(
+        $aMSERunTimes = [
             0 => new Date('2008-08-12 13:00:01'),
             1 => new Date('2008-08-12 13:30:01'),
             2 => new Date('2008-08-12 14:00:01')
-        );
+        ];
 
 
         // Create an array of valid operation interval values for runnung tests
-        $aOperationIntervals = array(30, 60);
+        $aOperationIntervals = [30, 60];
 
         /*-------------------------------------------------------------*/
         /* NO DATA TESTS                                               */
@@ -109,16 +109,16 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 2);
 
-                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate));
+                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getMaintenanceStatisticsLastRunInfo', null);
 
-                $oSetUpdateRequirements->expectAt(0, '_getEarliestLoggedDeliveryData', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI));
+                $oSetUpdateRequirements->expectAt(0, '_getEarliestLoggedDeliveryData', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getEarliestLoggedDeliveryData', null);
 
-                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate));
+                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(1, '_getMaintenanceStatisticsLastRunInfo', null);
 
-                $oSetUpdateRequirements->expectAt(1, '_getEarliestLoggedDeliveryData', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR));
+                $oSetUpdateRequirements->expectAt(1, '_getEarliestLoggedDeliveryData', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR]);
                 $oSetUpdateRequirements->setReturnValueAt(1, '_getEarliestLoggedDeliveryData', null);
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
@@ -129,9 +129,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 // Test the results of the task run
                 $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                 $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
-
             }
-
         }
 
         /*-------------------------------------------------------------*/
@@ -172,16 +170,16 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 2);
 
-                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate));
+                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getMaintenanceStatisticsLastRunInfo', null);
 
-                $oSetUpdateRequirements->expectAt(0, '_getEarliestLoggedDeliveryData', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI));
+                $oSetUpdateRequirements->expectAt(0, '_getEarliestLoggedDeliveryData', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getEarliestLoggedDeliveryData', $oEarliestLoggedDataDateOI);
 
-                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate));
+                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(1, '_getMaintenanceStatisticsLastRunInfo', null);
 
-                $oSetUpdateRequirements->expectAt(1, '_getEarliestLoggedDeliveryData', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR));
+                $oSetUpdateRequirements->expectAt(1, '_getEarliestLoggedDeliveryData', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR]);
                 $oSetUpdateRequirements->setReturnValueAt(1, '_getEarliestLoggedDeliveryData', $oEarliestLoggedDataDateHour);
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
@@ -195,7 +193,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                     // There is no data logged before "now"; therefore, no udpates will be run
                     $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
-
                 } elseif ($key == 1) {
 
                     // There is logged data before "now", but a complete operation interval
@@ -209,7 +206,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                         $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                     }
-
                 } elseif ($key == 2) {
 
                     // There is logged data before "now", and a complete operation interval
@@ -217,11 +213,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                     // hour, so the MSE will update the intermedaite and final tables
                     $this->assertTrue($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
-
                 }
-
             }
-
         }
 
         /*-------------------------------------------------------------*/
@@ -262,13 +255,13 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 1);
 
-                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate));
+                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getMaintenanceStatisticsLastRunInfo', $oLastMSERunOI);
 
-                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate));
+                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(1, '_getMaintenanceStatisticsLastRunInfo', null);
 
-                $oSetUpdateRequirements->expectAt(0, '_getEarliestLoggedDeliveryData', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR));
+                $oSetUpdateRequirements->expectAt(0, '_getEarliestLoggedDeliveryData', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getEarliestLoggedDeliveryData', $oEarliestLoggedDataDateHour);
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
@@ -282,7 +275,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                     // There is no data logged before "now"; therefore, no udpates will be run
                     $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
-
                 } elseif ($key == 1) {
 
                     // There is logged data before "now", but a complete operation interval
@@ -296,7 +288,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                         $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                     }
-
                 } elseif ($key == 2) {
 
                     // There is logged data before "now", and a complete operation interval
@@ -304,11 +295,8 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                     // hour, so the MSE will update the intermedaite and final tables
                     $this->assertTrue($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
-
                 }
-
             }
-
         }
 
         /*-------------------------------------------------------------*/
@@ -347,10 +335,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                 $oSetUpdateRequirements->expectCallCount('_getMaintenanceStatisticsLastRunInfo', 2);
                 $oSetUpdateRequirements->expectCallCount('_getEarliestLoggedDeliveryData', 0);
 
-                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate));
+                $oSetUpdateRequirements->expectAt(0, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(0, '_getMaintenanceStatisticsLastRunInfo', $oLastMSERunOI);
 
-                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', array(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate));
+                $oSetUpdateRequirements->expectAt(1, '_getMaintenanceStatisticsLastRunInfo', [OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oRunDate]);
                 $oSetUpdateRequirements->setReturnValueAt(1, '_getMaintenanceStatisticsLastRunInfo', $oLastMSERunHour);
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
@@ -364,7 +352,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                     // There is no data logged before "now"; therefore, no udpates will be run
                     $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
-
                 } elseif ($key == 1) {
 
                     // There is logged data before "now", but a complete operation interval
@@ -378,7 +365,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                         $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                     }
-
                 } elseif ($key == 2) {
 
                     // There is logged data before "now", and a complete operation interval
@@ -386,17 +372,11 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                     // hour, so the MSE will update the intermedaite and final tables
                     $this->assertTrue($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
-
                 }
-
             }
-
         }
 
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
-
 }
-
-?>

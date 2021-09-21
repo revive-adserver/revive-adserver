@@ -15,21 +15,18 @@ $className = 'OA_UpgradePostscript_2_1_29';
 
 class OA_UpgradePostscript_2_1_29
 {
-
-    function __construct()
+    public $oUpgrade;
+    public function __construct()
     {
-
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
-        if (!$this->configPan())
-        {
+        $this->oUpgrade = &$aParams[0];
+        if (!$this->configPan()) {
             return false;
         }
-        if (!$this->configMax())
-        {
+        if (!$this->configMax()) {
             return false;
         }
         $this->oUpgrade->addPostUpgradeTask('Rebuild_Banner_Cache');
@@ -38,10 +35,9 @@ class OA_UpgradePostscript_2_1_29
         return true;
     }
 
-    function configPan()
+    public function configPan()
     {
-        if (!$this->oUpgrade->oConfiguration->putNewConfigFile())
-        {
+        if (!$this->oUpgrade->oConfiguration->putNewConfigFile()) {
             $this->oUpgrade->oLogger->logError('Installation failed to create the configuration file');
             return false;
         }
@@ -49,22 +45,19 @@ class OA_UpgradePostscript_2_1_29
         $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $this->oUpgrade->oConfiguration->setupConfigPan($aConfig);
         $this->oUpgrade->oConfiguration->writeConfig();
-        if (!$this->oUpgrade->oConfiguration->oSettings->backupConfig(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg))
-        {
+        if (!$this->oUpgrade->oConfiguration->oSettings->backupConfig(MAX_PATH . '/var/' . $this->oUpgrade->oPAN->fileCfg)) {
             $this->oUpgrade->oLogger->logError('Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)');
             $this->oUpgrade->message = 'Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)';
         }
-        if (file_exists(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg))
-        {
-            unlink(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg);
+        if (file_exists(MAX_PATH . '/var/' . $this->oUpgrade->oPAN->fileCfg)) {
+            unlink(MAX_PATH . '/var/' . $this->oUpgrade->oPAN->fileCfg);
         }
         return true;
     }
 
-    function configMax()
+    public function configMax()
     {
-        if (!$this->oUpgrade->oVersioner->removeMaxVersion())
-        {
+        if (!$this->oUpgrade->oVersioner->removeMaxVersion()) {
             $this->oUpgrade->oLogger->logError('Failed to remove your old application version');
             $this->oUpgrade->message = 'Failed to remove your old application version';
             return false;
@@ -73,5 +66,3 @@ class OA_UpgradePostscript_2_1_29
         return true;
     }
 }
-
-?>

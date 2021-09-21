@@ -49,21 +49,20 @@ if (!empty($affiliateid)) {
         addPageTools($affiliateid);
         addWebsitePageTools($affiliateid);
         phpAds_PageHeader("4.2.7", $oHeaderModel);
-        phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.7"));
+        phpAds_ShowSections(["4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.7"]);
     } else {
         addPageTools($affiliateid);
         phpAds_PageHeader('2.3', $oHeaderModel);
-        $sections = array('2.1');
+        $sections = ['2.1'];
         if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
             $sections[] = '2.2';
         }
         $sections[] = '2.3';
         phpAds_ShowSections($sections);
     }
-}
-else {
+} else {
     phpAds_PageHeader("4.2.1", $oHeaderModel);
-    phpAds_ShowSections(array("4.2.1"));
+    phpAds_ShowSections(["4.2.1"]);
 }
 
 
@@ -88,7 +87,7 @@ $oTpl->assign('unlinkPage', 'affiliate-user-unlink.php');
 
 
 $doUsers = OA_Dal::factoryDO('users');
-$oTpl->assign('users', array('aUsers' => $doUsers->getAccountUsersByEntity('affiliates', $affiliateid)));
+$oTpl->assign('users', ['aUsers' => $doUsers->getAccountUsersByEntity('affiliates', $affiliateid)]);
 $oTpl->display();
 
 /*-------------------------------------------------------*/
@@ -99,7 +98,5 @@ phpAds_PageFooter();
 
 function addPageTools($affiliateid)
 {
-    addPageLinkTool($GLOBALS["strLinkUser_Key"], "affiliate-user-start.php?affiliateid=$affiliateid", "iconWebsiteUserAdd", $GLOBALS["keyLinkUser"] );
+    addPageLinkTool($GLOBALS["strLinkUser_Key"], "affiliate-user-start.php?affiliateid=$affiliateid", "iconWebsiteUserAdd", $GLOBALS["keyLinkUser"]);
 }
-
-?>

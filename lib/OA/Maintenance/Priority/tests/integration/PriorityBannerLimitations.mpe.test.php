@@ -25,15 +25,14 @@ Language_Loader::load();
  */
 class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
         // Install the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
         TestEnv::installPluginPackage('openXDeliveryLimitations', false);
-
     }
 
-    function tearDown()
+    public function tearDown()
     {
         // Uninstall the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
@@ -66,7 +65,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
      * impressions per hour for Banner ID 1 all day on 2008-02-26, and
      * 1,000 impressions per hour for Banner ID 2 all day on 2008-02-37.
      */
-    function testCampaign()
+    public function testCampaign()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInteval'] = 60;
@@ -78,46 +77,46 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
 
         // Prepare the test campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->views             = 48000;
-        $doCampaigns->clicks            = -1;
-        $doCampaigns->conversions       = -1;
-        $doCampaigns->activate_time     = '2008-02-26 00:00:00';
-        $doCampaigns->expire_time       = '2008-02-27 23:59:59';
-        $doCampaigns->priority          = 10;
+        $doCampaigns->views = 48000;
+        $doCampaigns->clicks = -1;
+        $doCampaigns->conversions = -1;
+        $doCampaigns->activate_time = '2008-02-26 00:00:00';
+        $doCampaigns->expire_time = '2008-02-27 23:59:59';
+        $doCampaigns->priority = 10;
         $doCampaigns->target_impression = 0;
-        $doCampaigns->target_click      = 0;
+        $doCampaigns->target_click = 0;
         $doCampaigns->target_conversion = 0;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 
         // Prepare the first banner
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
-        $doBanners->active     = 't';
-        $doBanners->weight     = 1;
+        $doBanners->active = 't';
+        $doBanners->weight = 1;
         $bannerId1 = DataGenerator::generateOne($doBanners);
 
         $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->bannerid       = $bannerId1;
-        $doAcls->logical        = 'and';
-        $doAcls->type           = 'deliveryLimitations:Time:Date';
-        $doAcls->comparison     = '==';
-        $doAcls->data           = '20080226';
+        $doAcls->bannerid = $bannerId1;
+        $doAcls->logical = 'and';
+        $doAcls->type = 'deliveryLimitations:Time:Date';
+        $doAcls->comparison = '==';
+        $doAcls->data = '20080226';
         $doAcls->executionorder = 0;
         DataGenerator::generateOne($doAcls);
 
         // Prepare the second banner
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
-        $doBanners->active     = 't';
-        $doBanners->weight     = 1;
+        $doBanners->active = 't';
+        $doBanners->weight = 1;
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
         $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->bannerid       = $bannerId2;
-        $doAcls->logical        = 'and';
-        $doAcls->type           = 'deliveryLimitations:Time:Date';
-        $doAcls->comparison     = '==';
-        $doAcls->data           = '20080227';
+        $doAcls->bannerid = $bannerId2;
+        $doAcls->logical = 'and';
+        $doAcls->type = 'deliveryLimitations:Time:Date';
+        $doAcls->comparison = '==';
+        $doAcls->data = '20080227';
         $doAcls->executionorder = 0;
         DataGenerator::generateOne($doAcls);
 
@@ -128,12 +127,12 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         // Link the banners to the zone
         $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAd_zone_assoc->zone_id = $zoneId;
-        $doAd_zone_assoc->ad_id   = $bannerId1;
+        $doAd_zone_assoc->ad_id = $bannerId1;
         DataGenerator::generateOne($doAd_zone_assoc);
 
         $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAd_zone_assoc->zone_id = $zoneId;
-        $doAd_zone_assoc->ad_id   = $bannerId2;
+        $doAd_zone_assoc->ad_id = $bannerId2;
         DataGenerator::generateOne($doAd_zone_assoc);
 
         // Run the code to get the required ad impressions over
@@ -174,18 +173,18 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
             $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
             $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oNowDate);
             $doData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
-            $doData_intermediate_ad->day                   = $aDates['start']->format('%Y-%m-%d');
-            $doData_intermediate_ad->hour                  = $aDates['start']->format('%H');
-            $doData_intermediate_ad->operation_interval    = $aConf['maintenance']['operationInteval'];
+            $doData_intermediate_ad->day = $aDates['start']->format('%Y-%m-%d');
+            $doData_intermediate_ad->hour = $aDates['start']->format('%H');
+            $doData_intermediate_ad->operation_interval = $aConf['maintenance']['operationInteval'];
             $doData_intermediate_ad->operation_interval_id = $operationIntervalId;
-            $doData_intermediate_ad->interval_start        = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-            $doData_intermediate_ad->interval_end          = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
-            $doData_intermediate_ad->ad_id                 = $bannerId;
-            $doData_intermediate_ad->zone_id               = $zoneId;
-            $doData_intermediate_ad->requests              = $impressions;
-            $doData_intermediate_ad->impressions           = $impressions;
-            $doData_intermediate_ad->clicks                = 0;
-            $doData_intermediate_ad->conversions           = 0;
+            $doData_intermediate_ad->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
+            $doData_intermediate_ad->interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
+            $doData_intermediate_ad->ad_id = $bannerId;
+            $doData_intermediate_ad->zone_id = $zoneId;
+            $doData_intermediate_ad->requests = $impressions;
+            $doData_intermediate_ad->impressions = $impressions;
+            $doData_intermediate_ad->clicks = 0;
+            $doData_intermediate_ad->conversions = 0;
             DataGenerator::generateOne($doData_intermediate_ad);
 
             // Drop the temporary table that is used to store the

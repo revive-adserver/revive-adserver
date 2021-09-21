@@ -10,17 +10,17 @@ class OX_Vast_Common_Csv
      * If the UTF8 signature appears as the first 3 bytes of the file, Excel
      * will correctly decode characters into UTF-8.
      */
-    const UTF8_SIGNATURE = "\xef\xbb\xbf";
+    public const UTF8_SIGNATURE = "\xef\xbb\xbf";
     
     /**
      * A terminating character for each CSV line.
      */
-    const LINE_TERMINATOR = "\n";
+    public const LINE_TERMINATOR = "\n";
     
     /**
-     * Formats a single line of CSV output. Appends a new line character at the 
+     * Formats a single line of CSV output. Appends a new line character at the
      * end of the line.
-     * 
+     *
      * @param $data data to format
      * @return formatted CSV line
      */
@@ -28,7 +28,6 @@ class OX_Vast_Common_Csv
     {
         $result = '';
         if (!empty($data)) {
-            
             $result = self::escapeForCsv($data[0]);
             $size = count($data);
             for ($i = 1; $i < $size; $i++) {

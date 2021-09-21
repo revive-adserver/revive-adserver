@@ -15,10 +15,10 @@
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
  */
-function Plugin_BannerTypeHTML_oxHtml_html5_Delivery_adRender(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer)
+function Plugin_BannerTypeHTML_oxHtml_html5_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc, $referer)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
-    $filename = htmlspecialchars(_adRenderBuildImageUrlPrefix()."/{$aBanner['filename']}/index.html");
+    $filename = htmlspecialchars(_adRenderBuildImageUrlPrefix() . "/{$aBanner['filename']}/index.html");
     $logImpression = json_encode($logView && $aConf['logging']['adImpressions']);
 
     $aBanner['htmlcache'] = <<<EOF
@@ -35,5 +35,3 @@ EOF;
 
     return _adRenderHtml($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
-
-?>

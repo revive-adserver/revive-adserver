@@ -22,7 +22,16 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossEntity.php
  */
 class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Statistics_Delivery_CommonCrossEntity
 {
-
+    /**
+     * @var string[]|int[]
+     */
+    public $aPageContext;
+    public $aNodes;
+    /**
+     * @var mixed
+     */
+    public $coreParams;
+    public $hiddenEntitiesText;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +42,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'zone';
+        $this->entity = 'zone';
         $this->breakdown = 'campaigns';
 
         // This page uses the day span selector element
@@ -50,24 +59,24 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get the preferences
         $aPref = $GLOBALS['_MAX']['PREF'];
 
         // Get parameters
         $publisherId = $this->_getId('publisher');
-        $zoneId      = $this->_getId('zone');
+        $zoneId = $this->_getId('zone');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
+        $this->_checkAccess(['publisher' => $publisherId, 'zone' => $zoneId]);
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'zoneid'      => $zoneId
-        );
+            'zoneid' => $zoneId
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -79,29 +88,29 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.2.2';
-            $this->aPageSections = array('2.4.2.1', '2.4.2.2');
+            $this->aPageSections = ['2.4.2.1', '2.4.2.2'];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.2.2';
-            $this->aPageSections = array('1.2.1', '1.2.2');
+            $this->aPageSections = ['1.2.1', '1.2.2'];
         }
 
         // Add breadcrumbs
         $this->_addBreadcrumbs('zone', $zoneId);
 
         // Add context
-        $this->aPageContext = array('zones', $zoneId);
+        $this->aPageContext = ['zones', $zoneId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
-            'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
+            'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId,
             'iconZone'
         );
 
@@ -118,9 +127,9 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $this->startLevel = MAX_getStoredValue('startlevel', 0, null, true);
 
         // Init nodes
-        $this->aNodes   = MAX_getStoredArray('nodes', array());
-        $expand         = MAX_getValue('expand', '');
-        $collapse       = MAX_getValue('collapse');
+        $this->aNodes = MAX_getStoredArray('nodes', []);
+        $expand = MAX_getValue('expand', '');
+        $collapse = MAX_getValue('collapse');
 
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
@@ -128,10 +137,9 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $aParams = $this->coreParams;
         $aParams['zone_id'] = $zoneId;
 
-        switch ($this->startLevel)
-        {
+        switch ($this->startLevel) {
             case 1:
-                $this->aEntitiesData = $this->getBanners($aParams, $this->startLevel, $expand, true);
+                $this->aEntitiesData = $this->getBanners($aParams, $this->startLevel, $expand);
                 break;
             default:
                 $this->startLevel = 0;
@@ -142,37 +150,33 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         // Summarise the values into a the totals array, & format
         $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
-        $this->showHideLevels = array();
-        switch ($this->startLevel)
-        {
+        $this->showHideLevels = [];
+        switch ($this->startLevel) {
             case 1:
-                $this->showHideLevels = array(
-                    0 => array('text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif')
-                );
+                $this->showHideLevels = [
+                    0 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif']
+                ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveBannersHidden']}";
                 break;
             case 0:
-                $this->showHideLevels = array(
-                    1 => array('text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif')
-                );
+                $this->showHideLevels = [
+                    1 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif']
+                ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveCampaignsHidden']}";
                 break;
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
+        $this->aPageParams = ['affiliateid' => $publisherId, 'zoneid' => $zoneId];
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'));
 
         $this->_loadParams();
 
         // Save prefs
-        $this->aPagePrefs['startlevel']     = $this->startLevel;
-        $this->aPagePrefs['nodes']          = implode (",", $this->aNodes);
-        $this->aPagePrefs['hideinactive']   = $this->hideInactive;
-        $this->aPagePrefs['startlevel']     = $this->startLevel;
+        $this->aPagePrefs['startlevel'] = $this->startLevel;
+        $this->aPagePrefs['nodes'] = implode(",", $this->aNodes);
+        $this->aPagePrefs['hideinactive'] = $this->hideInactive;
+        $this->aPagePrefs['startlevel'] = $this->startLevel;
     }
-
 }
-
-?>

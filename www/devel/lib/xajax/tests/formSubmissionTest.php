@@ -3,10 +3,10 @@ require_once("../xajax.inc.php");
 
 function testForm($formData)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("formData: " . print_r($formData, true));
-	$objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("formData: " . print_r($formData, true));
+    $objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

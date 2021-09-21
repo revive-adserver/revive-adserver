@@ -26,19 +26,19 @@ function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId)
     if (!empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $GLOBALS['_MAX']['deliveryData']['geo'] = $GLOBALS['_MAX']['CLIENT_GEO'];
     } else {
-        $GLOBALS['_MAX']['deliveryData']['geo'] = array(
-            'country_code'  => null,
-            'region'        => null,
-            'city'          => null,
-            'postal_code'   => null,
-            'latitude'      => null,
-            'longitude'     => null,
-            'dma_code'      => null,
-            'area_code'     => null,
-            'organisation'  => null,
-            'netspeed'      => null,
-            'continent'     => null
-        );
+        $GLOBALS['_MAX']['deliveryData']['geo'] = [
+            'country_code' => null,
+            'region' => null,
+            'city' => null,
+            'postal_code' => null,
+            'latitude' => null,
+            'longitude' => null,
+            'dma_code' => null,
+            'area_code' => null,
+            'organisation' => null,
+            'netspeed' => null,
+            'continent' => null
+        ];
     }
 }
 
@@ -56,5 +56,3 @@ function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo_Delivery_logClick($adI
 {
     Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId);
 }
-
-?>

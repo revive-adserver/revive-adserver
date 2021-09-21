@@ -36,6 +36,6 @@ $GLOBALS['strCollectedAllEvents'] = "Vsi dogodki";
 $GLOBALS['strClear'] = "Počisti";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";

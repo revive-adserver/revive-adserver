@@ -240,7 +240,7 @@ $GLOBALS['strDayOfWeek'] = "יו םבשבוע";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'ראשון';
 $GLOBALS['strDayFullNames'][1] = 'שני';
@@ -251,7 +251,7 @@ $GLOBALS['strDayFullNames'][5] = 'שישי';
 $GLOBALS['strDayFullNames'][6] = 'שבת';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'א';
 $GLOBALS['strDayShortCuts'][1] = 'ב';
@@ -565,17 +565,17 @@ $GLOBALS['strDeliveryCappingTotal'] = "בסך הכל";
 $GLOBALS['strDeliveryCappingSession'] = "בכל סשן";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['limit'] = "להגביל צפיית באנרים ל:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "להגביל צפיית קמפיין ל:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "להגביל צפיית באיזורים ל:";
 

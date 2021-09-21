@@ -10,4 +10,4 @@
 +---------------------------------------------------------------------------+
 */
 
-require __DIR__.'/../../../oxLogVast/etc/postscript_install_oxLogVast.php';
+require __DIR__ . '/../../../oxLogVast/etc/postscript_install_oxLogVast.php';

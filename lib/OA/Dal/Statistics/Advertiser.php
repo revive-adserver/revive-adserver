@@ -23,36 +23,36 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
  */
 class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 {
-   /**
-    * This method returns statistics for a given advertiser, broken down by day.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param bool $localTZ Should stats be using the manager TZ or UTC?
-    *
-    * @return array Each row containing:
-    *   <ul>
-    *   <li><b>day date</b> The day
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    */
-    function getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
+    /**
+     * This method returns statistics for a given advertiser, broken down by day.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return array Each row containing:
+     *   <ul>
+     *   <li><b>day date</b> The day
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     */
+    public function getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $advertiserId   = $this->oDbh->quote($advertiserId, 'integer');
+        $advertiserId = $this->oDbh->quote($advertiserId, 'integer');
 
-        $tableClients   = $this->quoteTableName('clients');
+        $tableClients = $this->quoteTableName('clients');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -82,36 +82,36 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
         return $this->getDailyStatsAsArray($query, $localTZ);
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by day and hour.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param bool $localTZ Should stats be using the manager TZ or UTC?
-    *
-    * @return array Each row containing:
-    *   <ul>
-    *   <li><b>day date</b> The day
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    */
-    function getAdvertiserHourlyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
+    /**
+     * This method returns statistics for a given advertiser, broken down by day and hour.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return array Each row containing:
+     *   <ul>
+     *   <li><b>day date</b> The day
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     */
+    public function getAdvertiserHourlyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $advertiserId   = $this->oDbh->quote($advertiserId, 'integer');
+        $advertiserId = $this->oDbh->quote($advertiserId, 'integer');
 
-        $tableClients   = $this->quoteTableName('clients');
+        $tableClients = $this->quoteTableName('clients');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -144,37 +144,37 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
         return $this->getHourlyStatsAsArray($query, $localTZ);
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by campaign.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param bool $localTZ Should stats be using the manager TZ or UTC?
-    *
-    * @return RecordSet
-    *   <ul>
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    */
-    function getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
+    /**
+     * This method returns statistics for a given advertiser, broken down by campaign.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     */
+    public function getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $advertiserId   = $this->oDbh->quote($advertiserId, 'integer');
+        $advertiserId = $this->oDbh->quote($advertiserId, 'integer');
 
-        $tableClients   = $this->quoteTableName('clients');
+        $tableClients = $this->quoteTableName('clients');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -203,39 +203,39 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
         return DBC::NewRecordSet($query);
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by banner.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param bool $localTZ Should stats be using the manager TZ or UTC?
-    *
-    * @return RecordSet
-    *   <ul>
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>bannerID integer</b> The ID of the banner
-    *   <li><b>bannerName string (255)</b> The name of the banner
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    */
-    function getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
+    /**
+     * This method returns statistics for a given advertiser, broken down by banner.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>bannerID integer</b> The ID of the banner
+     *   <li><b>bannerName string (255)</b> The name of the banner
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     */
+    public function getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $advertiserId   = $this->oDbh->quote($advertiserId, 'integer');
+        $advertiserId = $this->oDbh->quote($advertiserId, 'integer');
 
-        $tableClients   = $this->quoteTableName('clients');
+        $tableClients = $this->quoteTableName('clients');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -266,39 +266,39 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
         return DBC::NewRecordSet($query);
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by publisher.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param bool $localTZ Should stats be using the manager TZ or UTC?
-    *
-    * @return RecordSet
-    *   <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    */
-    function getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
+    /**
+     * This method returns statistics for a given advertiser, broken down by publisher.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     */
+    public function getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $advertiserId    = $this->oDbh->quote($advertiserId, 'integer');
+        $advertiserId = $this->oDbh->quote($advertiserId, 'integer');
 
-        $tableClients    = $this->quoteTableName('clients');
-        $tableCampaigns  = $this->quoteTableName('campaigns');
-        $tableBanners    = $this->quoteTableName('banners');
-        $tableSummary    = $this->quoteTableName('data_summary_ad_hourly');
-        $tableZones      = $this->quoteTableName('zones');
+        $tableClients = $this->quoteTableName('clients');
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
+        $tableZones = $this->quoteTableName('zones');
         $tableAffiliates = $this->quoteTableName('affiliates');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -336,41 +336,41 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
         return DBC::NewRecordSet($query);
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by zone.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param bool $localTZ Should stats be using the manager TZ or UTC?
-    *
-    * @return RecordSet
-    *   <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>zoneID integer</b> The ID of the zone
-    *   <li><b>zoneName string (255)</b> The name of the zone
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    */
-    function getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
+    /**
+     * This method returns statistics for a given advertiser, broken down by zone.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     *
+     * @return RecordSet
+     *   <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>zoneID integer</b> The ID of the zone
+     *   <li><b>zoneName string (255)</b> The name of the zone
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     */
+    public function getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $advertiserId    = $this->oDbh->quote($advertiserId, 'integer');
+        $advertiserId = $this->oDbh->quote($advertiserId, 'integer');
 
-        $tableClients    = $this->quoteTableName('clients');
-        $tableCampaigns  = $this->quoteTableName('campaigns');
-        $tableBanners    = $this->quoteTableName('banners');
-        $tableSummary    = $this->quoteTableName('data_summary_ad_hourly');
-        $tableZones      = $this->quoteTableName('zones');
+        $tableClients = $this->quoteTableName('clients');
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
+        $tableZones = $this->quoteTableName('zones');
         $tableAffiliates = $this->quoteTableName('affiliates');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -410,7 +410,4 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 
         return DBC::NewRecordSet($query);
     }
-
 }
-
-?>

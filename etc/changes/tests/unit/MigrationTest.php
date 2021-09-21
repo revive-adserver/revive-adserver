@@ -11,7 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
-require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php');
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
 require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
@@ -34,22 +34,22 @@ abstract class MigrationTest extends DbTestCase
      * @var MDB2_Driver_Common
      *
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * Upgrade class.
      *
      * @var OA_DB_Upgrade
      */
-    var $oDBUpgrader;
+    public $oDBUpgrader;
 
-    function setUp()
+    public function setUp()
     {
         $this->oDbh = OA_DB::singleton();
     }
 
 
-    function tearDown()
+    public function tearDown()
     {
         if (isset($this->oaTable)) {
             $this->oaTable->dropAllTables();
@@ -68,40 +68,35 @@ abstract class MigrationTest extends DbTestCase
      * @param array $aTables An array of table names (no prefix) to create.
      * @return boolean True on success, false otherwise.
      */
-    function initDatabase($schemaVersion, $aTables)
+    public function initDatabase($schemaVersion, $aTables)
     {
         $prefix = $this->getPrefix();
         $this->initOaTable("/etc/changes/schema_tables_core_{$schemaVersion}.xml");
 
         $aExistingTables = $this->oDbh->manager->listTables();
 
-        foreach ($aTables as $table)
-        {
-            if (in_array($prefix . $table, $aExistingTables))
-            {
-                if (!$this->oaTable->dropTable($prefix . $table))
-                {
+        foreach ($aTables as $table) {
+            if (in_array($prefix . $table, $aExistingTables)) {
+                if (!$this->oaTable->dropTable($prefix . $table)) {
                     return false;
                 }
             }
-            if (!$this->oaTable->createTable($table))
-            {
+            if (!$this->oaTable->createTable($table)) {
                 return false;
             }
-            if (!$this->oaTable->truncateTable($prefix . $table))
-            {
+            if (!$this->oaTable->truncateTable($prefix . $table)) {
                 return false;
             }
         }
         return true;
     }
 
-    function upgradeToVersion($version)
+    public function upgradeToVersion($version)
     {
         Mock::generatePartial(
             'OA_UpgradeLogger',
-            $mockLogger = 'OA_UpgradeLogger'.rand(),
-            array('logOnly', 'logError', 'log')
+            $mockLogger = 'OA_UpgradeLogger' . rand(),
+            ['logOnly', 'logError', 'log']
         );
 
         $oLogger = new $mockLogger($this);
@@ -110,33 +105,32 @@ abstract class MigrationTest extends DbTestCase
         $oLogger->setReturnValue('log', true);
 
         $this->oDBUpgrader = new OA_DB_Upgrade($oLogger);
-        $this->oDBUpgrader->logFile = MAX_PATH.'/var/DB_Upgrade.test.log';
+        $this->oDBUpgrader->logFile = MAX_PATH . '/var/DB_Upgrade.test.log';
         $this->oDBUpgrader->initMDB2Schema();
-        $auditor   = new OA_DB_UpgradeAuditor();
+        $auditor = new OA_DB_UpgradeAuditor();
         $this->oDBUpgrader->oAuditor = &$auditor;
         $this->assertTrue($auditor->init($this->oDBUpgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
         // execute all database upgrade actions for a given schema version
         // constructive first
         $this->oDBUpgrader->init('constructive', 'tables_core', $version);
         $this->oDBUpgrader->doBackups = false;
-        $this->assertTrue($this->oDBUpgrader->upgrade(),'constructive');
+        $this->assertTrue($this->oDBUpgrader->upgrade(), 'constructive');
         // use same changeset, switch timing only to execute destructive
         $this->oDBUpgrader->init('destructive', 'tables_core', $version, true);
-        $this->assertTrue($this->oDBUpgrader->upgrade(),'destructive');
+        $this->assertTrue($this->oDBUpgrader->upgrade(), 'destructive');
     }
 
-    function _dropAllBackupTables()
+    public function _dropAllBackupTables()
     {
         if (isset($this->oDBUpgrader)) {
             $aDBTables = $this->oDBUpgrader->_listTables('z_');
-            foreach ($aDBTables AS $table)
-            {
+            foreach ($aDBTables as $table) {
                 $this->oDBUpgrader->_dropBackup($table);
             }
         }
     }
 
-    function setupPanConfig()
+    public function setupPanConfig()
     {
         if (file_exists(CONFIG_PATH)) {
             rename(CONFIG_PATH, TMP_CONFIG_PATH);
@@ -146,7 +140,7 @@ abstract class MigrationTest extends DbTestCase
     }
 
 
-    function restorePanConfig()
+    public function restorePanConfig()
     {
         unlink(CONFIG_PATH);
 
@@ -155,4 +149,3 @@ abstract class MigrationTest extends DbTestCase
         }
     }
 }
-?>

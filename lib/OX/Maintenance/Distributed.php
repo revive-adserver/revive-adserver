@@ -34,7 +34,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class OX_Maintenance_Distributed
 {
-
     /**
      * A method to run distributed maintenance.
      */
@@ -53,8 +52,7 @@ class OX_Maintenance_Distributed
         }
 
         $oLock = OA_DB_AdvisoryLock::factory();
-        if (!$oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED))
-        {
+        if (!$oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED)) {
             OA::debug('Maintenance Distributed Engine Already Running', PEAR_LOG_INFO);
             return;
         }
@@ -66,7 +64,7 @@ class OX_Maintenance_Distributed
 
         // Ensure the current time is registered with the OA_ServiceLocator
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oNow =& $oServiceLocator->get('now');
+        $oNow = &$oServiceLocator->get('now');
         if (!$oNow) {
             // Record the current time, and register with the OA_ServiceLocator
             $oNow = new Date();
@@ -84,11 +82,11 @@ class OX_Maintenance_Distributed
         OA::debug(' - Will process data for all operation intervals before and up to start', PEAR_LOG_DEBUG);
         OA::debug('   time of ' . $aPreviousOperationIntervalDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aPreviousOperationIntervalDates['start']->tz->getShortName(), PEAR_LOG_DEBUG);
         foreach ($aBuckets as $sBucketName => $oBucketClass) {
-            if ($oBucketClass->testStatisticsMigration($oBucketClass->getStatisticsMigration())){
+            if ($oBucketClass->testStatisticsMigration($oBucketClass->getStatisticsMigration())) {
                 $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
                 $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);
             } else {
-                OA::debug('  - Skipping '.$sBucketName, PEAR_LOG_DEBUG);
+                OA::debug('  - Skipping ' . $sBucketName, PEAR_LOG_DEBUG);
             }
         }
 
@@ -97,5 +95,3 @@ class OX_Maintenance_Distributed
         OA::debug('Maintenance Distributed Engine Completed', PEAR_LOG_INFO);
     }
 }
-
-?>

@@ -22,12 +22,12 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DataObjects_CampaignsTest extends DalUnitTestCase
 {
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testInsert()
+    public function testInsert()
     {
         $numTrackers = 2;
         $clientId = 7;
@@ -39,7 +39,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
 
         // Test non empty connection wondows
         $GLOBALS['_MAX']['CONF']['logging']['defaultImpressionConnectionWindow'] = 1000;
-        $GLOBALS['_MAX']['CONF']['logging']['defaultClickConnectionWindow']      = 2000;
+        $GLOBALS['_MAX']['CONF']['logging']['defaultClickConnectionWindow'] = 2000;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientId;
         $campaignId = DataGenerator::generateOne($doCampaigns);
@@ -47,7 +47,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns->viewwindow, 1000);
         $this->assertEqual($doCampaigns->clickwindow, 2000);
         $GLOBALS['_MAX']['CONF']['logging']['defaultImpressionConnectionWindow'] = '';
-        $GLOBALS['_MAX']['CONF']['logging']['defaultClickConnectionWindow']      = '';
+        $GLOBALS['_MAX']['CONF']['logging']['defaultClickConnectionWindow'] = '';
 
         // Add trackers
         $doTrackers = OA_Dal::factoryDO('trackers');
@@ -71,10 +71,10 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns_trackers->count(), $numTrackers);
 
         // Delete any data which wasn't created by DataGenerator
-        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers','trackers'));
+        DataGenerator::cleanUp(['campaigns', 'campaigns_trackers', 'trackers']);
     }
 
-    function testUpdateExpire()
+    public function testUpdateExpire()
     {
         $ndv = OX_DATAOBJECT_NULL;
 
@@ -101,73 +101,73 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertNull($doCampaigns->expire_time);
     }
 
-    function testGetStatus()
+    public function testGetStatus()
     {
         $ndv = OX_DATAOBJECT_NULL;
 
-        $past   = date('Y-m-d', time() - 200000);
+        $past = date('Y-m-d', time() - 200000);
         $future = date('Y-m-d', time() + 200000);
 
-        $aInsertTests = array(
-            0  => array(0,  null,                       null,       null,       OA_ENTITY_STATUS_RUNNING),
-            1  => array(0,  OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_RUNNING),
-            2  => array(0,  OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_RUNNING),
-            3  => array(0,  OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_RUNNING),
-            4  => array(0,  OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_PAUSED),
-            5  => array(0,  null,                       $past,      null,       OA_ENTITY_STATUS_RUNNING),
-            6  => array(0,  null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING),
-            7  => array(0,  OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-            8  => array(0,  OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-            9  => array(0,  OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_RUNNING),
-            10 => array(0,  OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING),
-            11 => array(0,  OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-            12 => array(0,  OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-            13 => array(0,  OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED),
-            14 => array(0,  OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING),
-            15 => array(0,  null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-            16 => array(0,  null,                       null,       $future,    OA_ENTITY_STATUS_RUNNING),
-            17 => array(0,  OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-            18 => array(0,  OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-            19 => array(0,  OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-            20 => array(0,  OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_RUNNING),
-            21 => array(0,  OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-            22 => array(0,  OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-            23 => array(0,  OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-            24 => array(0,  OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED),
-            25 => array(0,  null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-            26 => array(0,  null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-            27 => array(0,  OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-            28 => array(0,  OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-            29 => array(0,  OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-            30 => array(0,  OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-            31 => array(0,  OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-            32 => array(0,  OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-            33 => array(0,  OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-            34 => array(0,  OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-            35 => array(0,  null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-            36 => array(0,  null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            37 => array(0,  OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-            38 => array(0,  OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            39 => array(0,  OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-            40 => array(0,  OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            41 => array(0,  OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-            42 => array(0,  OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            43 => array(0,  OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-            44 => array(0,  OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-        );
+        $aInsertTests = [
+            0 => [0,  null,                       null,       null,       OA_ENTITY_STATUS_RUNNING],
+            1 => [0,  OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_RUNNING],
+            2 => [0,  OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_RUNNING],
+            3 => [0,  OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_RUNNING],
+            4 => [0,  OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_PAUSED],
+            5 => [0,  null,                       $past,      null,       OA_ENTITY_STATUS_RUNNING],
+            6 => [0,  null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING],
+            7 => [0,  OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+            8 => [0,  OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+            9 => [0,  OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_RUNNING],
+            10 => [0,  OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING],
+            11 => [0,  OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+            12 => [0,  OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+            13 => [0,  OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED],
+            14 => [0,  OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING],
+            15 => [0,  null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+            16 => [0,  null,                       null,       $future,    OA_ENTITY_STATUS_RUNNING],
+            17 => [0,  OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+            18 => [0,  OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+            19 => [0,  OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+            20 => [0,  OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_RUNNING],
+            21 => [0,  OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+            22 => [0,  OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+            23 => [0,  OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+            24 => [0,  OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED],
+            25 => [0,  null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+            26 => [0,  null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+            27 => [0,  OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+            28 => [0,  OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+            29 => [0,  OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+            30 => [0,  OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+            31 => [0,  OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+            32 => [0,  OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+            33 => [0,  OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+            34 => [0,  OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+            35 => [0,  null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+            36 => [0,  null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            37 => [0,  OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+            38 => [0,  OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            39 => [0,  OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+            40 => [0,  OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            41 => [0,  OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+            42 => [0,  OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            43 => [0,  OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+            44 => [0,  OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+        ];
 
         foreach ($aInsertTests as $testKey => $aTest) {
             $doCampaigns = OA_Dal::factoryDO('campaigns');
             if (isset($aTest[1])) {
-                $doCampaigns->status   = $aTest[1];
+                $doCampaigns->status = $aTest[1];
             }
             if (isset($aTest[2])) {
                 $doCampaigns->activate_time = $aTest[2];
             }
             if (isset($aTest[3])) {
-                $doCampaigns->expire_time   = $aTest[3];
+                $doCampaigns->expire_time = $aTest[3];
             }
-            $campaignId  = DataGenerator::generateOne($doCampaigns);
+            $campaignId = DataGenerator::generateOne($doCampaigns);
             $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
             $this->assertEqual($doCampaigns->status, $aTest[4], "Insert test {$testKey} failed, expected {$aTest[4]}, got $doCampaigns->status");
 
@@ -175,255 +175,255 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
             $aInsertTests[$testKey][0] = $campaignId;
         }
 
-        $aUpdateTests = array(
-            0 => array(
-                0  => array(null,                       null,       null,       OA_ENTITY_STATUS_RUNNING),
-                1  => array(OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_RUNNING),
-                2  => array(OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_RUNNING),
-                3  => array(OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_RUNNING),
-                4  => array(OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_PAUSED),
-                5  => array(null,                       $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                6  => array(null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                7  => array(OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                8  => array(OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                9  => array(OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                10 => array(OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                11 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                12 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                13 => array(OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED),
-                14 => array(OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                15 => array(null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                16 => array(null,                       null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                17 => array(OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                18 => array(OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                19 => array(OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                20 => array(OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                21 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                22 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                23 => array(OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                24 => array(OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED),
-                25 => array(null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                26 => array(null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                27 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                28 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                29 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                30 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                31 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                32 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                33 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                34 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                35 => array(null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                36 => array(null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                37 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                38 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                39 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                40 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                41 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                42 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                43 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                44 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            ),
+        $aUpdateTests = [
+            0 => [
+                0 => [null,                       null,       null,       OA_ENTITY_STATUS_RUNNING],
+                1 => [OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_RUNNING],
+                2 => [OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_RUNNING],
+                3 => [OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_RUNNING],
+                4 => [OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_PAUSED],
+                5 => [null,                       $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                6 => [null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                7 => [OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                8 => [OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                9 => [OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                10 => [OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                11 => [OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                12 => [OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                13 => [OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED],
+                14 => [OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                15 => [null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                16 => [null,                       null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                17 => [OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                18 => [OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                19 => [OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                20 => [OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                21 => [OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                22 => [OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                23 => [OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                24 => [OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED],
+                25 => [null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                26 => [null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                27 => [OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                28 => [OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                29 => [OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                30 => [OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                31 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                32 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                33 => [OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                34 => [OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                35 => [null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                36 => [null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                37 => [OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                38 => [OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                39 => [OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                40 => [OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                41 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                42 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                43 => [OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                44 => [OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            ],
 
             // Paused banner
-            4 => array(
-                0  => array(null,                       null,       null,       OA_ENTITY_STATUS_PAUSED),
-                1  => array(OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_RUNNING),
-                2  => array(OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_PAUSED),
-                3  => array(OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_PAUSED),
-                4  => array(OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_PAUSED),
-                5  => array(null,                       $past,      null,       OA_ENTITY_STATUS_PAUSED),
-                6  => array(null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                7  => array(OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                8  => array(OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                9  => array(OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_PAUSED),
-                10 => array(OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                11 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_PAUSED),
-                12 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                13 => array(OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED),
-                14 => array(OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                15 => array(null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                16 => array(null,                       null,       $future,    OA_ENTITY_STATUS_PAUSED),
-                17 => array(OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                18 => array(OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                19 => array(OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                20 => array(OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_PAUSED),
-                21 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                22 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_PAUSED),
-                23 => array(OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                24 => array(OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED),
-                25 => array(null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                26 => array(null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                27 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                28 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                29 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                30 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                31 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                32 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                33 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                34 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                35 => array(null,                       $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                36 => array(null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                37 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                38 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                39 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                40 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                41 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                42 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                43 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                44 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            ),
+            4 => [
+                0 => [null,                       null,       null,       OA_ENTITY_STATUS_PAUSED],
+                1 => [OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_RUNNING],
+                2 => [OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_PAUSED],
+                3 => [OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_PAUSED],
+                4 => [OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_PAUSED],
+                5 => [null,                       $past,      null,       OA_ENTITY_STATUS_PAUSED],
+                6 => [null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                7 => [OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                8 => [OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                9 => [OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_PAUSED],
+                10 => [OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                11 => [OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_PAUSED],
+                12 => [OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                13 => [OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED],
+                14 => [OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                15 => [null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                16 => [null,                       null,       $future,    OA_ENTITY_STATUS_PAUSED],
+                17 => [OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                18 => [OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                19 => [OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                20 => [OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_PAUSED],
+                21 => [OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                22 => [OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_PAUSED],
+                23 => [OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                24 => [OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED],
+                25 => [null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                26 => [null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                27 => [OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                28 => [OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                29 => [OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                30 => [OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                31 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                32 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                33 => [OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                34 => [OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                35 => [null,                       $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                36 => [null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                37 => [OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                38 => [OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                39 => [OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                40 => [OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                41 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                42 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                43 => [OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                44 => [OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            ],
 
             // Awaiting banner - Don't reset activation
-            8 => array(
-                0  => array(null,                       null,       null,       OA_ENTITY_STATUS_AWAITING),
-                1  => array(OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_AWAITING),
-                2  => array(OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_AWAITING),
-                3  => array(OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_AWAITING),
-                4  => array(OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_AWAITING),
-                5  => array(null,                       $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                6  => array(null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                7  => array(OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                8  => array(OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                9  => array(OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                10 => array(OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                11 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_RUNNING),
-                12 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                13 => array(OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED),
-                14 => array(OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING),
-                15 => array(null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                16 => array(null,                       null,       $future,    OA_ENTITY_STATUS_AWAITING),
-                17 => array(OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                18 => array(OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_AWAITING),
-                19 => array(OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                20 => array(OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_AWAITING),
-                21 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                22 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_AWAITING),
-                23 => array(OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                24 => array(OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_AWAITING),
-                25 => array(null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                26 => array(null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                27 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                28 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                29 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                30 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                31 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                32 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                33 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                34 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                35 => array(null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                36 => array(null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                37 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                38 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                39 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                40 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                41 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                42 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                43 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                44 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            ),
+            8 => [
+                0 => [null,                       null,       null,       OA_ENTITY_STATUS_AWAITING],
+                1 => [OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_AWAITING],
+                2 => [OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_AWAITING],
+                3 => [OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_AWAITING],
+                4 => [OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_AWAITING],
+                5 => [null,                       $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                6 => [null,                       $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                7 => [OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                8 => [OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                9 => [OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                10 => [OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                11 => [OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_RUNNING],
+                12 => [OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                13 => [OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_PAUSED],
+                14 => [OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_AWAITING],
+                15 => [null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                16 => [null,                       null,       $future,    OA_ENTITY_STATUS_AWAITING],
+                17 => [OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                18 => [OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_AWAITING],
+                19 => [OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                20 => [OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_AWAITING],
+                21 => [OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                22 => [OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_AWAITING],
+                23 => [OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                24 => [OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_AWAITING],
+                25 => [null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                26 => [null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                27 => [OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                28 => [OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                29 => [OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                30 => [OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                31 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                32 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                33 => [OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                34 => [OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                35 => [null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                36 => [null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                37 => [OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                38 => [OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                39 => [OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                40 => [OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                41 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                42 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                43 => [OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                44 => [OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            ],
 
             // Awaiting banner - Reset activation
-            10 => array(
-                0  => array(null,                       $ndv,       null,       OA_ENTITY_STATUS_RUNNING),
-                1  => array(OA_ENTITY_STATUS_RUNNING,   $ndv,       null,       OA_ENTITY_STATUS_RUNNING),
-                2  => array(OA_ENTITY_STATUS_AWAITING,  $ndv,       null,       OA_ENTITY_STATUS_RUNNING),
-                3  => array(OA_ENTITY_STATUS_EXPIRED,   $ndv,       null,       OA_ENTITY_STATUS_RUNNING),
-                4  => array(OA_ENTITY_STATUS_PAUSED,    $ndv,       null,       OA_ENTITY_STATUS_PAUSED),
-                16 => array(null,                       $ndv,       $future,    OA_ENTITY_STATUS_RUNNING),
-                17 => array(OA_ENTITY_STATUS_RUNNING,   $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                18 => array(OA_ENTITY_STATUS_RUNNING,   $ndv,       $future,    OA_ENTITY_STATUS_RUNNING),
-                19 => array(OA_ENTITY_STATUS_AWAITING,  $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                20 => array(OA_ENTITY_STATUS_AWAITING,  $ndv,       $future,    OA_ENTITY_STATUS_RUNNING),
-                21 => array(OA_ENTITY_STATUS_EXPIRED,   $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                22 => array(OA_ENTITY_STATUS_EXPIRED,   $ndv,       $future,    OA_ENTITY_STATUS_RUNNING),
-                23 => array(OA_ENTITY_STATUS_PAUSED,    $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                24 => array(OA_ENTITY_STATUS_PAUSED,    $ndv,       $future,    OA_ENTITY_STATUS_PAUSED),
-            ),
+            10 => [
+                0 => [null,                       $ndv,       null,       OA_ENTITY_STATUS_RUNNING],
+                1 => [OA_ENTITY_STATUS_RUNNING,   $ndv,       null,       OA_ENTITY_STATUS_RUNNING],
+                2 => [OA_ENTITY_STATUS_AWAITING,  $ndv,       null,       OA_ENTITY_STATUS_RUNNING],
+                3 => [OA_ENTITY_STATUS_EXPIRED,   $ndv,       null,       OA_ENTITY_STATUS_RUNNING],
+                4 => [OA_ENTITY_STATUS_PAUSED,    $ndv,       null,       OA_ENTITY_STATUS_PAUSED],
+                16 => [null,                       $ndv,       $future,    OA_ENTITY_STATUS_RUNNING],
+                17 => [OA_ENTITY_STATUS_RUNNING,   $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                18 => [OA_ENTITY_STATUS_RUNNING,   $ndv,       $future,    OA_ENTITY_STATUS_RUNNING],
+                19 => [OA_ENTITY_STATUS_AWAITING,  $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                20 => [OA_ENTITY_STATUS_AWAITING,  $ndv,       $future,    OA_ENTITY_STATUS_RUNNING],
+                21 => [OA_ENTITY_STATUS_EXPIRED,   $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                22 => [OA_ENTITY_STATUS_EXPIRED,   $ndv,       $future,    OA_ENTITY_STATUS_RUNNING],
+                23 => [OA_ENTITY_STATUS_PAUSED,    $ndv,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                24 => [OA_ENTITY_STATUS_PAUSED,    $ndv,       $future,    OA_ENTITY_STATUS_PAUSED],
+            ],
 
             // Expired banner - Don't reset expiry
-            17 => array(
-                0  => array(null,                       null,       null,       OA_ENTITY_STATUS_EXPIRED),
-                1  => array(OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_EXPIRED),
-                2  => array(OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_EXPIRED),
-                3  => array(OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_EXPIRED),
-                4  => array(OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_EXPIRED),
-                5  => array(null,                       $past,      null,       OA_ENTITY_STATUS_EXPIRED),
-                6  => array(null,                       $future,    null,       OA_ENTITY_STATUS_EXPIRED),
-                7  => array(OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_EXPIRED),
-                8  => array(OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_EXPIRED),
-                9  => array(OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_EXPIRED),
-                10 => array(OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_EXPIRED),
-                11 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_EXPIRED),
-                12 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_EXPIRED),
-                13 => array(OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_EXPIRED),
-                14 => array(OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_EXPIRED),
-                15 => array(null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                16 => array(null,                       null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                17 => array(OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                18 => array(OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                19 => array(OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                20 => array(OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                21 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                22 => array(OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_RUNNING),
-                23 => array(OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED),
-                24 => array(OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED),
-                25 => array(null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                26 => array(null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                27 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                28 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                29 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                30 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                31 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                32 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                33 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED),
-                34 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING),
-                35 => array(null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                36 => array(null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                37 => array(OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                38 => array(OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                39 => array(OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                40 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                41 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING),
-                42 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-                43 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED),
-                44 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED), // Shouldn't never happen
-            ),
+            17 => [
+                0 => [null,                       null,       null,       OA_ENTITY_STATUS_EXPIRED],
+                1 => [OA_ENTITY_STATUS_RUNNING,   null,       null,       OA_ENTITY_STATUS_EXPIRED],
+                2 => [OA_ENTITY_STATUS_AWAITING,  null,       null,       OA_ENTITY_STATUS_EXPIRED],
+                3 => [OA_ENTITY_STATUS_EXPIRED,   null,       null,       OA_ENTITY_STATUS_EXPIRED],
+                4 => [OA_ENTITY_STATUS_PAUSED,    null,       null,       OA_ENTITY_STATUS_EXPIRED],
+                5 => [null,                       $past,      null,       OA_ENTITY_STATUS_EXPIRED],
+                6 => [null,                       $future,    null,       OA_ENTITY_STATUS_EXPIRED],
+                7 => [OA_ENTITY_STATUS_RUNNING,   $past,      null,       OA_ENTITY_STATUS_EXPIRED],
+                8 => [OA_ENTITY_STATUS_RUNNING,   $future,    null,       OA_ENTITY_STATUS_EXPIRED],
+                9 => [OA_ENTITY_STATUS_AWAITING,  $past,      null,       OA_ENTITY_STATUS_EXPIRED],
+                10 => [OA_ENTITY_STATUS_AWAITING,  $future,    null,       OA_ENTITY_STATUS_EXPIRED],
+                11 => [OA_ENTITY_STATUS_EXPIRED,   $past,      null,       OA_ENTITY_STATUS_EXPIRED],
+                12 => [OA_ENTITY_STATUS_EXPIRED,   $future,    null,       OA_ENTITY_STATUS_EXPIRED],
+                13 => [OA_ENTITY_STATUS_PAUSED,    $past,      null,       OA_ENTITY_STATUS_EXPIRED],
+                14 => [OA_ENTITY_STATUS_PAUSED,    $future,    null,       OA_ENTITY_STATUS_EXPIRED],
+                15 => [null,                       null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                16 => [null,                       null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                17 => [OA_ENTITY_STATUS_RUNNING,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                18 => [OA_ENTITY_STATUS_RUNNING,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                19 => [OA_ENTITY_STATUS_AWAITING,  null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                20 => [OA_ENTITY_STATUS_AWAITING,  null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                21 => [OA_ENTITY_STATUS_EXPIRED,   null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                22 => [OA_ENTITY_STATUS_EXPIRED,   null,       $future,    OA_ENTITY_STATUS_RUNNING],
+                23 => [OA_ENTITY_STATUS_PAUSED,    null,       $past,      OA_ENTITY_STATUS_EXPIRED],
+                24 => [OA_ENTITY_STATUS_PAUSED,    null,       $future,    OA_ENTITY_STATUS_PAUSED],
+                25 => [null,                       $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                26 => [null,                       $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                27 => [OA_ENTITY_STATUS_RUNNING,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                28 => [OA_ENTITY_STATUS_RUNNING,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                29 => [OA_ENTITY_STATUS_AWAITING,  $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                30 => [OA_ENTITY_STATUS_AWAITING,  $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                31 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                32 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                33 => [OA_ENTITY_STATUS_PAUSED,    $past,      $past,      OA_ENTITY_STATUS_EXPIRED],
+                34 => [OA_ENTITY_STATUS_PAUSED,    $future,    $future,    OA_ENTITY_STATUS_AWAITING],
+                35 => [null,                       $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                36 => [null,                       $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                37 => [OA_ENTITY_STATUS_RUNNING,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                38 => [OA_ENTITY_STATUS_RUNNING,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                39 => [OA_ENTITY_STATUS_AWAITING,  $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                40 => [OA_ENTITY_STATUS_AWAITING,  $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                41 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $future,    OA_ENTITY_STATUS_RUNNING],
+                42 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+                43 => [OA_ENTITY_STATUS_PAUSED,    $past,      $future,    OA_ENTITY_STATUS_PAUSED],
+                44 => [OA_ENTITY_STATUS_PAUSED,    $future,    $past,      OA_ENTITY_STATUS_EXPIRED], // Shouldn't never happen
+            ],
 
             // Expired banner - Reset expiry
-            19 => array(
-                0  => array(null,                       null,       $ndv,       OA_ENTITY_STATUS_RUNNING),
-                1  => array(OA_ENTITY_STATUS_RUNNING,   null,       $ndv,       OA_ENTITY_STATUS_RUNNING),
-                2  => array(OA_ENTITY_STATUS_AWAITING,  null,       $ndv,       OA_ENTITY_STATUS_RUNNING),
-                3  => array(OA_ENTITY_STATUS_EXPIRED,   null,       $ndv,       OA_ENTITY_STATUS_RUNNING),
-                4  => array(OA_ENTITY_STATUS_PAUSED,    null,       $ndv,       OA_ENTITY_STATUS_PAUSED),
-                5  => array(null,                       $past,      $ndv,       OA_ENTITY_STATUS_RUNNING),
-                6  => array(null,                       $future,    $ndv,       OA_ENTITY_STATUS_AWAITING),
-                7  => array(OA_ENTITY_STATUS_RUNNING,   $past,      $ndv,       OA_ENTITY_STATUS_RUNNING),
-                8  => array(OA_ENTITY_STATUS_RUNNING,   $future,    $ndv,       OA_ENTITY_STATUS_AWAITING),
-                9  => array(OA_ENTITY_STATUS_AWAITING,  $past,      $ndv,       OA_ENTITY_STATUS_RUNNING),
-                10 => array(OA_ENTITY_STATUS_AWAITING,  $future,    $ndv,       OA_ENTITY_STATUS_AWAITING),
-                11 => array(OA_ENTITY_STATUS_EXPIRED,   $past,      $ndv,       OA_ENTITY_STATUS_RUNNING),
-                12 => array(OA_ENTITY_STATUS_EXPIRED,   $future,    $ndv,       OA_ENTITY_STATUS_AWAITING),
-                13 => array(OA_ENTITY_STATUS_PAUSED,    $past,      $ndv,       OA_ENTITY_STATUS_PAUSED),
-                14 => array(OA_ENTITY_STATUS_PAUSED,    $future,    $ndv,       OA_ENTITY_STATUS_AWAITING),
-            ),
+            19 => [
+                0 => [null,                       null,       $ndv,       OA_ENTITY_STATUS_RUNNING],
+                1 => [OA_ENTITY_STATUS_RUNNING,   null,       $ndv,       OA_ENTITY_STATUS_RUNNING],
+                2 => [OA_ENTITY_STATUS_AWAITING,  null,       $ndv,       OA_ENTITY_STATUS_RUNNING],
+                3 => [OA_ENTITY_STATUS_EXPIRED,   null,       $ndv,       OA_ENTITY_STATUS_RUNNING],
+                4 => [OA_ENTITY_STATUS_PAUSED,    null,       $ndv,       OA_ENTITY_STATUS_PAUSED],
+                5 => [null,                       $past,      $ndv,       OA_ENTITY_STATUS_RUNNING],
+                6 => [null,                       $future,    $ndv,       OA_ENTITY_STATUS_AWAITING],
+                7 => [OA_ENTITY_STATUS_RUNNING,   $past,      $ndv,       OA_ENTITY_STATUS_RUNNING],
+                8 => [OA_ENTITY_STATUS_RUNNING,   $future,    $ndv,       OA_ENTITY_STATUS_AWAITING],
+                9 => [OA_ENTITY_STATUS_AWAITING,  $past,      $ndv,       OA_ENTITY_STATUS_RUNNING],
+                10 => [OA_ENTITY_STATUS_AWAITING,  $future,    $ndv,       OA_ENTITY_STATUS_AWAITING],
+                11 => [OA_ENTITY_STATUS_EXPIRED,   $past,      $ndv,       OA_ENTITY_STATUS_RUNNING],
+                12 => [OA_ENTITY_STATUS_EXPIRED,   $future,    $ndv,       OA_ENTITY_STATUS_AWAITING],
+                13 => [OA_ENTITY_STATUS_PAUSED,    $past,      $ndv,       OA_ENTITY_STATUS_PAUSED],
+                14 => [OA_ENTITY_STATUS_PAUSED,    $future,    $ndv,       OA_ENTITY_STATUS_AWAITING],
+            ],
 
-        );
+        ];
 
         foreach ($aUpdateTests as $srcId => $aSuite) {
             foreach ($aSuite as $testKey => $aTest) {
                 $doCampaigns = OA_Dal::staticGetDO('campaigns', $aInsertTests[$srcId][0]);
-                $campaignId  = DataGenerator::generateOne($doCampaigns);
+                $campaignId = DataGenerator::generateOne($doCampaigns);
                 $doCampaigns = OA_Dal::factoryDO('campaigns');
                 $doCampaigns->campaignid = $campaignId;
                 if (isset($aTest[0])) {
-                    $doCampaigns->status   = $aTest[0];
+                    $doCampaigns->status = $aTest[0];
                 }
                 if (isset($aTest[1])) {
                     $doCampaigns->activate_time = $aTest[1];
                 }
                 if (isset($aTest[2])) {
-                    $doCampaigns->expire_time   = $aTest[2];
+                    $doCampaigns->expire_time = $aTest[2];
                 }
                 $doCampaigns->update();
                 $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
@@ -432,10 +432,10 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         }
     }
 
-    function testSetStatus2()
+    public function testSetStatus2()
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $campaignId  = DataGenerator::generateOne($doCampaigns);
+        $campaignId = DataGenerator::generateOne($doCampaigns);
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
 
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
@@ -453,26 +453,26 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
     }
 
-    function testSetStatus3()
+    public function testSetStatus3()
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $campaignId  = DataGenerator::generateOne($doCampaigns);
+        $campaignId = DataGenerator::generateOne($doCampaigns);
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
-        $bannerId  = DataGenerator::generateOne($doBanners);
+        $bannerId = DataGenerator::generateOne($doBanners);
 
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
 
         $doDia = OA_Dal::factoryDO('data_intermediate_ad');
-        $doDia->date_time             = '2008-01-01';
-        $doDia->operation_interval    = 1;
+        $doDia->date_time = '2008-01-01';
+        $doDia->operation_interval = 1;
         $doDia->operation_interval_id = 1;
-        $doDia->interval_start        = '2008-01-01';
-        $doDia->interval_end          = '2008-01-01';
-        $doDia->ad_id       = $bannerId;
-        $doDia->zone_id     = 0;
+        $doDia->interval_start = '2008-01-01';
+        $doDia->interval_end = '2008-01-01';
+        $doDia->ad_id = $bannerId;
+        $doDia->zone_id = 0;
         $doDia->creative_id = 0;
         $doDia->impressions = 100;
         $this->assertTrue($doDia->insert());
@@ -487,16 +487,16 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
 
         $doDia = OA_Dal::factoryDO('data_intermediate_ad');
-        $doDia->date_time             = '2008-01-01';
-        $doDia->operation_interval    = 1;
+        $doDia->date_time = '2008-01-01';
+        $doDia->operation_interval = 1;
         $doDia->operation_interval_id = 1;
-        $doDia->interval_start        = '2008-01-01';
-        $doDia->interval_end          = '2008-01-01';
-        $doDia->ad_id       = $bannerId;
-        $doDia->zone_id     = 0;
+        $doDia->interval_start = '2008-01-01';
+        $doDia->interval_end = '2008-01-01';
+        $doDia->ad_id = $bannerId;
+        $doDia->zone_id = 0;
         $doDia->creative_id = 0;
         $doDia->impressions = 100;
-        $doDia->clicks      = 100;
+        $doDia->clicks = 100;
         $doDia->conversions = 100;
         $this->assertTrue($doDia->insert());
 
@@ -510,7 +510,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_EXPIRED);
 
-        $doCampaigns->clicks      = -1;
+        $doCampaigns->clicks = -1;
         $doCampaigns->conversions = 200;
         $doCampaigns->update();
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
@@ -523,7 +523,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     }
 
 
-    function testUpdateHighWithNoTargetSet()
+    public function testUpdateHighWithNoTargetSet()
     {
         //test for OX-3635
         $expire = '2030-01-01';
@@ -531,7 +531,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->name = 'Some test campaign';
         $doCampaigns->expire_time = $expire;
-        $doCampaigns->views  = -1;
+        $doCampaigns->views = -1;
         $doCampaigns->clicks = -1;
         $doCampaigns->conversions = -1;
         $doCampaigns->priority = 5;
@@ -549,8 +549,4 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $this->assertEqual($doCampaigns->status, OA_ENTITY_STATUS_RUNNING);
     }
-
-
 }
-
-?>

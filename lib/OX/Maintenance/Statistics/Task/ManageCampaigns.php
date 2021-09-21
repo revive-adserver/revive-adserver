@@ -26,13 +26,12 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
  */
 class OX_Maintenance_Statistics_Task_ManageCampaigns extends OX_Maintenance_Statistics_Task
 {
-
     /**
      * The constructor method.
      *
      * @return OX_Maintenance_Statistics_Task_ManageCampaigns
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -41,19 +40,16 @@ class OX_Maintenance_Statistics_Task_ManageCampaigns extends OX_Maintenance_Stat
      * The implementation of the OA_Task::run() method that performs
      * the required task of activating/deactivating campaigns.
      */
-    function run()
+    public function run()
     {
         if ($this->oController->updateIntermediate) {
             $oServiceLocator = OA_ServiceLocator::instance();
-            $oDate =& $oServiceLocator->get('now');
-            $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+            $oDate = &$oServiceLocator->get('now');
+            $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
             $message = '- Managing (activating/deactivating) campaigns';
             $this->oController->report .= "$message.\n";
             OA::debug($message);
             $this->report .= $oDal->manageCampaigns($oDate);
         }
     }
-
 }
-
-?>

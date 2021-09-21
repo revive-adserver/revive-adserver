@@ -22,7 +22,6 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
  */
 class OA_Admin_Statistics_Daily
 {
-
     /**
      * A method to parse the day paramer, check it's validity, and store it
      * in the provided $aDates array.
@@ -31,20 +30,20 @@ class OA_Admin_Statistics_Daily
      *                      contain the valid day as the "day_begin" and
      *                      "day_end" values.
      */
-    function parseDay(&$aDates)
+    public function parseDay(&$aDates)
     {
         $day = MAX_getValue('day', '');
         if (!preg_match('/^(\d\d\d\d)(\d\d)(\d\d)$/D', $day, $matches)) {
             phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
         if (!checkdate($matches[2], $matches[3], $matches[1])) {
             phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
-        $aDates = array();
+        $aDates = [];
         $aDates['day_begin'] = "{$matches[1]}-{$matches[2]}-{$matches[3]}";
-        $aDates['day_end']   = "{$matches[1]}-{$matches[2]}-{$matches[3]}";
+        $aDates['day_end'] = "{$matches[1]}-{$matches[2]}-{$matches[3]}";
     }
 
     /**
@@ -58,7 +57,7 @@ class OA_Admin_Statistics_Daily
      * @param OA_Admin_Statistics_Common $oCaller The calling object, with the
      *                                            $pageURI parameter set.
      */
-    function showContext($aDates, $currentDay, $oCaller)
+    public function showContext($aDates, $currentDay, $oCaller)
     {
         $pageURI = preg_replace('/day=\d{8}(&amp;|&)?/', '', $oCaller->pageURI);
         if (!preg_match('/entity/', $pageURI)) {
@@ -75,7 +74,4 @@ class OA_Admin_Statistics_Daily
             );
         }
     }
-
 }
-
-?>

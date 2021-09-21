@@ -30,7 +30,7 @@ class Plugins_DeliveryLimitations_Geo_UsMetro extends Plugins_DeliveryLimitation
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - US Metro Code';
@@ -41,7 +41,7 @@ class Plugins_DeliveryLimitations_Geo_UsMetro extends Plugins_DeliveryLimitation
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return $this->hasCapability('metro_code');
     }
@@ -51,18 +51,15 @@ class Plugins_DeliveryLimitations_Geo_UsMetro extends Plugins_DeliveryLimitation
      *
      * @return void
      */
-    function displayArrayData()
+    public function displayArrayData()
     {
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
         echo "<div class='box'>";
         foreach ($this->res as $code => $name) {
             echo "<div class='boxrow'>";
-            echo "<input tabindex='".($tabindex++)."' ";
-            echo "type='checkbox' id='c_{$this->executionorder}_{$code}' name='acl[{$this->executionorder}][data][]' value='{$code}'".(in_array($code, $this->data) ? ' CHECKED' : '').">{$name}</div>";
+            echo "<input tabindex='" . ($tabindex++) . "' ";
+            echo "type='checkbox' id='c_{$this->executionorder}_{$code}' name='acl[{$this->executionorder}][data][]' value='{$code}'" . (in_array($code, $this->data) ? ' CHECKED' : '') . ">{$name}</div>";
         }
         echo "</div>";
     }
-
 }
-
-?>

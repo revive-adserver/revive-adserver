@@ -25,25 +25,25 @@ MAX_commonRemoveSpecialChars($_REQUEST);
 
 // Get the viewer ID, and the ad, campaign, creative and zone variables to be logged
 // from the request variables
-$viewerId     = MAX_cookieGetUniqueViewerId();
+$viewerId = MAX_cookieGetUniqueViewerId();
 MAX_cookieAdd($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 
-$aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
+$aAdIds = MAX_Delivery_log_getArrGetVariable('adId');
 $aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
 $aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
-$aZoneIds     = MAX_Delivery_log_getArrGetVariable('zoneId');
+$aZoneIds = MAX_Delivery_log_getArrGetVariable('zoneId');
 
 // Get any ad, campaign and zone capping information from the request variables
-$aCapAd['block']                 = MAX_Delivery_log_getArrGetVariable('blockAd');
-$aCapAd['capping']               = MAX_Delivery_log_getArrGetVariable('capAd');
-$aCapAd['session_capping']       = MAX_Delivery_log_getArrGetVariable('sessionCapAd');
-$aCapCampaign['block']           = MAX_Delivery_log_getArrGetVariable('blockCampaign');
-$aCapCampaign['capping']         = MAX_Delivery_log_getArrGetVariable('capCampaign');
+$aCapAd['block'] = MAX_Delivery_log_getArrGetVariable('blockAd');
+$aCapAd['capping'] = MAX_Delivery_log_getArrGetVariable('capAd');
+$aCapAd['session_capping'] = MAX_Delivery_log_getArrGetVariable('sessionCapAd');
+$aCapCampaign['block'] = MAX_Delivery_log_getArrGetVariable('blockCampaign');
+$aCapCampaign['capping'] = MAX_Delivery_log_getArrGetVariable('capCampaign');
 $aCapCampaign['session_capping'] = MAX_Delivery_log_getArrGetVariable('sessionCapCampaign');
-$aCapZone['block']               = MAX_Delivery_log_getArrGetVariable('blockZone');
-$aCapZone['capping']             = MAX_Delivery_log_getArrGetVariable('capZone');
-$aCapZone['session_capping']     = MAX_Delivery_log_getArrGetVariable('sessionCapZone');
-$aSetLastSeen                    = MAX_Delivery_log_getArrGetVariable('lastView');
+$aCapZone['block'] = MAX_Delivery_log_getArrGetVariable('blockZone');
+$aCapZone['capping'] = MAX_Delivery_log_getArrGetVariable('capZone');
+$aCapZone['session_capping'] = MAX_Delivery_log_getArrGetVariable('sessionCapZone');
+$aSetLastSeen = MAX_Delivery_log_getArrGetVariable('lastView');
 
 // Loop over the ads to be logged (there may be more than one due to internal re-directs)
 // and log each ad, and th  en set any capping cookies required

@@ -37,6 +37,6 @@ $GLOBALS['strCollectedAllEvents'] = "Visi įvykiai";
 $GLOBALS['strClear'] = "Ištrinti";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Aktyvacijos pranešimas apie kampaniją {id} išsiųstas el. paštu";

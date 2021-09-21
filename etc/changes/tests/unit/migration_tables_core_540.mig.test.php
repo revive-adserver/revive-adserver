@@ -23,13 +23,13 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_540Test extends MigrationTest
 {
-    function testMigrateStatus()
+    public function testMigrateStatus()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(539, array('affiliates', 'banners', 'campaigns', 'clients', 'zones'));
+        $this->initDatabase(539, ['affiliates', 'banners', 'campaigns', 'clients', 'zones']);
 
-        $tblBanners    = $this->oDbh->quoteIdentifier($prefix.'banners', true);
-        $tblCampaigns  = $this->oDbh->quoteIdentifier($prefix.'campaigns', true);
+        $tblBanners = $this->oDbh->quoteIdentifier($prefix . 'banners', true);
+        $tblCampaigns = $this->oDbh->quoteIdentifier($prefix . 'campaigns', true);
 
         $this->oDbh->exec("INSERT INTO {$tblBanners} (active) VALUES ('t')");
         $this->oDbh->exec("INSERT INTO {$tblBanners} (active) VALUES ('f')");
@@ -49,22 +49,21 @@ class Migration_540Test extends MigrationTest
         $this->upgradeToVersion(540);
 
         $aBanners = $this->oDbh->getAssoc("SELECT bannerid, status FROM {$tblBanners} ORDER BY bannerid");
-        $aExpected = array (
+        $aExpected = [
             1 => OA_ENTITY_STATUS_RUNNING,
             2 => OA_ENTITY_STATUS_PAUSED
-        );
+        ];
         $this->assertEqual($aBanners, $aExpected);
 
         $aCampaigns = $this->oDbh->getAssoc("SELECT campaignid, status FROM {$tblCampaigns} ORDER BY campaignid");
-        $aExpected = array (
+        $aExpected = [
             1 => OA_ENTITY_STATUS_RUNNING,
             2 => OA_ENTITY_STATUS_AWAITING,
             3 => OA_ENTITY_STATUS_EXPIRED,
             4 => OA_ENTITY_STATUS_EXPIRED,
             5 => OA_ENTITY_STATUS_EXPIRED,
             6 => OA_ENTITY_STATUS_EXPIRED
-        );
+        ];
         $this->assertEqual($aCampaigns, $aExpected);
     }
-
 }

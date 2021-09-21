@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once __DIR__.'/lib/MaxMindGeoIP2.php';
+require_once __DIR__ . '/lib/MaxMindGeoIP2.php';
 
 use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
 
@@ -24,5 +24,3 @@ function Plugin_geoTargeting_rvMaxMindGeoIP2_rvMaxMindGeoIP2_Delivery_getGeoInfo
 {
     return MaxMindGeoIP2::getGeoInfo($useCookie);
 }
-
-

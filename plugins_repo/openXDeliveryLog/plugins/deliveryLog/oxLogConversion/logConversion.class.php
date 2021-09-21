@@ -19,26 +19,25 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  */
 class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_DeliveryLog
 {
-
-    function __construct()
+    public function __construct()
     {
         // Conversions are NOT aggregate
         $this->type = 'raw';
         parent::__construct();
     }
 
-    function onInstall()
+    public function onInstall()
     {
         // no additional code (stored procedures) are required for logging conversions
         return true;
     }
 
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'deliveryLog:oxLogConversion:logConversion' => array(
-            )
-        );
+        return [
+            'deliveryLog:oxLogConversion:logConversion' => [
+            ]
+        ];
     }
 
     /**
@@ -46,7 +45,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
      *
      * @return string The bucket table bucket name without prefix.
      */
-    function getBucketName()
+    public function getBucketName()
     {
         return 'data_bkt_a';
     }
@@ -58,19 +57,19 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
      */
     public function getBucketTableColumns()
     {
-        $aColumns = array(
-            'server_conv_id'          => self::INTEGER ,
-            'server_ip'               => self::CHAR,
-            'tracker_id'              => self::INTEGER ,
-            'date_time'               => self::TIMESTAMP_WITHOUT_ZONE,
-            'action_date_time'        => self::TIMESTAMP_WITHOUT_ZONE,
-            'creative_id'             => self::INTEGER ,
-            'zone_id'                 => self::INTEGER ,
-            'ip_address'              => self::CHAR  ,
-            'action'                  => self::INTEGER,
-            'window'                  => self::INTEGER,
-            'status'                  => self::INTEGER
-        );
+        $aColumns = [
+            'server_conv_id' => self::INTEGER,
+            'server_ip' => self::CHAR,
+            'tracker_id' => self::INTEGER,
+            'date_time' => self::TIMESTAMP_WITHOUT_ZONE,
+            'action_date_time' => self::TIMESTAMP_WITHOUT_ZONE,
+            'creative_id' => self::INTEGER,
+            'zone_id' => self::INTEGER,
+            'ip_address' => self::CHAR,
+            'action' => self::INTEGER,
+            'window' => self::INTEGER,
+            'status' => self::INTEGER
+        ];
         return $aColumns;
     }
 
@@ -99,45 +98,45 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
      */
     public function getStatisticsMigration()
     {
-        $aMap = array(
-            'method'            => 'raw',
-            'bucketTable'       => $this->getBucketTableName(),
-            'dateTimeColumn'    => 'date_time',
-            'source'            => array(
-                0  => 'server_conv_id',
-                1  => 'server_ip',
-                2  => 'tracker_id',
-                3  => 'date_time',
-                4  => 'action_date_time',
-                5  => 'creative_id',
-                6  => 'zone_id',
-                7  => 'ip_address',
-                8  => 'action',
-                9  => 'window',
+        $aMap = [
+            'method' => 'raw',
+            'bucketTable' => $this->getBucketTableName(),
+            'dateTimeColumn' => 'date_time',
+            'source' => [
+                0 => 'server_conv_id',
+                1 => 'server_ip',
+                2 => 'tracker_id',
+                3 => 'date_time',
+                4 => 'action_date_time',
+                5 => 'creative_id',
+                6 => 'zone_id',
+                7 => 'ip_address',
+                8 => 'action',
+                9 => 'window',
                 10 => 'status'
-            ),
-            'destination'       => array(
-                0  => 'server_raw_tracker_impression_id',
-                1  => 'server_raw_ip',
-                2  => 'tracker_id',
-                3  => 'tracker_date_time',
-                4  => 'connection_date_time',
-                5  => 'ad_id',
-                6  => 'zone_id',
-                7  => 'tracker_ip_address',
-                8  => 'connection_action',
-                9  => 'connection_window',
+            ],
+            'destination' => [
+                0 => 'server_raw_tracker_impression_id',
+                1 => 'server_raw_ip',
+                2 => 'tracker_id',
+                3 => 'tracker_date_time',
+                4 => 'connection_date_time',
+                5 => 'ad_id',
+                6 => 'zone_id',
+                7 => 'tracker_ip_address',
+                8 => 'connection_action',
+                9 => 'connection_window',
                 10 => 'connection_status'
-            ),
-            'extrasDestination' => array(
+            ],
+            'extrasDestination' => [
                 11 => 'creative_id',
                 12 => 'inside_window'
-            ),
-            'extrasValue'       => array(
+            ],
+            'extrasValue' => [
                 11 => '0',
                 12 => '1'
-            )
-        );
+            ]
+        ];
         return $aMap;
     }
 
@@ -146,7 +145,4 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
     {
         return parent::getEarliestLoggedDataDate('date_time');
     }
-
 }
-
-?>

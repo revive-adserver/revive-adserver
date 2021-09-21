@@ -29,7 +29,7 @@ $oOptions = new OA_Admin_Option('settings');
 $prefSection = "database";
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // FORM IS NOW DISABLED
 // If the settings page is a submission, deal with the form data
@@ -139,122 +139,120 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$oSettings = array (
-    array (
-        'text'  => $strDatabaseServer,
-        'items' => array (
-            array (
-                'type'       => 'select',
-                'name'       => 'database_type',
-                'text'       => $strDbType,
-                'items'      => array($GLOBALS['_MAX']['CONF']['database']['type'] => $GLOBALS['_MAX']['CONF']['database']['type']),
-                'disabled'   => true,
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
-                    'type'    => 'checkbox',
-                    'name'    => 'database_localsocket',
-                    'text'    => $strDbLocal,
+$oSettings = [
+    [
+        'text' => $strDatabaseServer,
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'database_type',
+                'text' => $strDbType,
+                'items' => [$GLOBALS['_MAX']['CONF']['database']['type'] => $GLOBALS['_MAX']['CONF']['database']['type']],
+                'disabled' => true,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                    'type' => 'checkbox',
+                    'name' => 'database_localsocket',
+                    'text' => $strDbLocal,
                     'onclick' => 'toggleSocketInput(this);',
-                    'disabled'   => true,
-            ),
-            array (
-                    'type'    => 'hidden',
-                    'name'    => 'database_protocol',
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
-                    'type'    => 'text',
-                    'name'    => 'database_socket',
-                    'text'    => $strDbSocket,
-                    'disabled'   => true,
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
-                'type'       => 'text',
-                'name'       => 'database_host',
-                'text'       => $strDbHost,
-                'disabled'   => true,
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
-                'type'       => 'text',
-                'name'       => 'database_port',
-                'text'       => $strDbPort,
-                'check'      => 'wholeNumber',
-                'disabled'   => true,
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
-                'type'       => 'text',
-                'name'       => 'database_username',
-                'text'       => $strDbUser,
-                'disabled'   => true,
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
-                'type'       => 'text',
-                'name'       => 'database_name',
-                'text'       => $strDbName,
-                'value'     => stripslashes($GLOBALS['_MAX']['CONF']['database']['name']),
-                'decode'    => true,
-                'disabled'   => true,
-            )
-        )
-    ),
-    array (
-        'text'  => $strAdvancedSettings,
-        'items' => array (
-            array (
-                'type'      => 'select',
-                'name'      => 'table_type',
-                'text'      => $strTablesType,
-                'items'      => array($GLOBALS['_MAX']['CONF']['table']['type'] => $GLOBALS['_MAX']['CONF']['table']['type']),
-                'disabled'   => true,
+                    'disabled' => true,
+            ],
+            [
+                    'type' => 'hidden',
+                    'name' => 'database_protocol',
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                    'type' => 'text',
+                    'name' => 'database_socket',
+                    'text' => $strDbSocket,
+                    'disabled' => true,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'database_host',
+                'text' => $strDbHost,
+                'disabled' => true,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'database_port',
+                'text' => $strDbPort,
+                'check' => 'wholeNumber',
+                'disabled' => true,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'database_username',
+                'text' => $strDbUser,
+                'disabled' => true,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'database_name',
+                'text' => $strDbName,
+                'value' => stripslashes($GLOBALS['_MAX']['CONF']['database']['name']),
+                'decode' => true,
+                'disabled' => true,
+            ]
+        ]
+    ],
+    [
+        'text' => $strAdvancedSettings,
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'table_type',
+                'text' => $strTablesType,
+                'items' => [$GLOBALS['_MAX']['CONF']['table']['type'] => $GLOBALS['_MAX']['CONF']['table']['type']],
+                'disabled' => true,
 
-            ),
-            array (
-                'type'      => 'break'
-            ),
-            array (
-                'type'      => 'text',
-                'name'      => 'table_prefix',
-                'text'      => $strTablesPrefix,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'table_prefix',
+                'text' => $strTablesPrefix,
                 'maxlength' => '7',
-                'value'     => stripslashes($GLOBALS['_MAX']['CONF']['table']['prefix']),
-                'decode'    => true,
-                'disabled'   => true,
-            )
-        )
-    ),
-    array (
-        'text'  => $strDatabaseOptimalisations,
-        'items' => array (
-            array (
-                'type'      => 'checkbox',
-                'name'      => 'database_persistent',
-                'text'      => $strPersistentConnections,
-                'disabled'   => true,
-            )
-        ),
-    ),
-);
+                'value' => stripslashes($GLOBALS['_MAX']['CONF']['table']['prefix']),
+                'decode' => true,
+                'disabled' => true,
+            ]
+        ]
+    ],
+    [
+        'text' => $strDatabaseOptimalisations,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'database_persistent',
+                'text' => $strPersistentConnections,
+                'disabled' => true,
+            ]
+        ],
+    ],
+];
 $oOptions->oTpl->assign('formIsDisabled', true);
 $oOptions->show($oSettings, $aErrormessage, true);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

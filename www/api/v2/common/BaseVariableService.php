@@ -20,10 +20,8 @@ class BaseVariableService
 {
     protected $oVariableServiceImpl;
 
-    function __construct()
+    public function __construct()
     {
         $this->oVariableServiceImpl = new VariableServiceImpl();
     }
 }
-
-?>

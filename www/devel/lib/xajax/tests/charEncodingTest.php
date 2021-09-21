@@ -3,24 +3,24 @@ require_once("../xajax.inc.php");
 
 function setOptions($formData)
 {
-	$_SESSION['useEncoding'] = $formData['useEncoding'];
-	$_SESSION['htmlEntities'] = (boolean)$formData['htmlEntities'];
-	$_SESSION['decodeUTF8'] = (boolean)$formData['decodeUTF8'];
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("Your options have been saved.");
-	return $objResponse;
+    $_SESSION['useEncoding'] = $formData['useEncoding'];
+    $_SESSION['htmlEntities'] = (bool)$formData['htmlEntities'];
+    $_SESSION['decodeUTF8'] = (bool)$formData['decodeUTF8'];
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("Your options have been saved.");
+    return $objResponse;
 }
 
 function testForm($strText, $formData, $arrArray)
 {
-	global $useEncoding, $htmlEntities;
-	$objResponse = new xajaxResponse($useEncoding, $htmlEntities);
-	$data = "Text:\n" . $strText;
-	$data .= "\n\nFormData:\n" . print_r($formData, true);
-	$data .= "\n\nArray:\n" .print_r($arrArray, true); 
-	$objResponse->addAlert($data);
-	$objResponse->addAssign("submittedDiv", "innerHTML", "<pre>".$data."</pre>");
-	return $objResponse->getXML();
+    global $useEncoding, $htmlEntities;
+    $objResponse = new xajaxResponse($useEncoding, $htmlEntities);
+    $data = "Text:\n" . $strText;
+    $data .= "\n\nFormData:\n" . print_r($formData, true);
+    $data .= "\n\nArray:\n" . print_r($arrArray, true);
+    $objResponse->addAlert($data);
+    $objResponse->addAssign("submittedDiv", "innerHTML", "<pre>" . $data . "</pre>");
+    return $objResponse->getXML();
 }
 
 $useEncoding = "UTF-8";
@@ -31,28 +31,28 @@ session_start();
 session_name("xajaxCharEncodingTest");
 
 if (@$_GET['refresh'] == "yes") {
-	session_destroy();
-	header("location: charEncodingTest.php");
-	exit();
+    session_destroy();
+    header("location: charEncodingTest.php");
+    exit();
 }
 
 if (isset($_SESSION['useEncoding'])) {
-	$useEncoding = $_SESSION['useEncoding'];	
+    $useEncoding = $_SESSION['useEncoding'];
 }
 if (isset($_SESSION['htmlEntities'])) {
-	$htmlEntities = $_SESSION['htmlEntities'];	
+    $htmlEntities = $_SESSION['htmlEntities'];
 }
 if (isset($_SESSION['decodeUTF8'])) {
-	$decodeUTF8 = $_SESSION['decodeUTF8'];	
+    $decodeUTF8 = $_SESSION['decodeUTF8'];
 }
 
 $xajax = new xajax();
 $xajax->setCharEncoding($useEncoding);
 if ($htmlEntities) {
-	$xajax->outputEntitiesOn();	
+    $xajax->outputEntitiesOn();
 }
 if ($decodeUTF8) {
-	$xajax->decodeUTF8InputOn();
+    $xajax->decodeUTF8InputOn();
 }
 //$xajax->debugOn();
 $xajax->registerFunction("setOptions");
@@ -105,10 +105,18 @@ function callXajax()
 
 <form id="optionsForm" onsubmit="return false;">
 <p>Encoding: <input type="text" value="<?php echo $useEncoding ?>" name="useEncoding" /><br />
-Output HTML Entities? <input type="radio" name="htmlEntities" value="1" <?php if ($htmlEntities) echo ' checked="checked"' ?>/> Yes
- <input type="radio" name="htmlEntities" value="0" <?php if (!$htmlEntities) echo ' checked="checked"' ?>/> No<br />
-Decode UTF-8 Input? <input type="radio" name="decodeUTF8" value="1" <?php if ($decodeUTF8) echo ' checked="checked"' ?>/> Yes
- <input type="radio" name="decodeUTF8" value="0" <?php if (!$decodeUTF8) echo ' checked="checked"' ?>/> No<br />
+Output HTML Entities? <input type="radio" name="htmlEntities" value="1" <?php if ($htmlEntities) {
+    echo ' checked="checked"';
+} ?>/> Yes
+ <input type="radio" name="htmlEntities" value="0" <?php if (!$htmlEntities) {
+    echo ' checked="checked"';
+} ?>/> No<br />
+Decode UTF-8 Input? <input type="radio" name="decodeUTF8" value="1" <?php if ($decodeUTF8) {
+    echo ' checked="checked"';
+} ?>/> Yes
+ <input type="radio" name="decodeUTF8" value="0" <?php if (!$decodeUTF8) {
+    echo ' checked="checked"';
+} ?>/> No<br />
 <p><input type="submit" value="Save Options" onclick="xajax_setOptions(xajax.getFormValues('optionsForm')); return false;" /></p>
 </form>
 

@@ -42,20 +42,17 @@ class OX_Admin_UI_Install_InstallStatus
     public function __construct($oUpgrader)
     {
         if ($oUpgrader->isRecoveryRequired()) {
-             $this->isRecovery = true;
-        }
-        else {
+            $this->isRecovery = true;
+        } else {
             if ($oUpgrader->isFreshInstall()) {
                 $this->isInstall = true;
-            }
-            else {
-                PEAR::pushErrorHandling ( null );
+            } else {
+                PEAR::pushErrorHandling(null);
                 $oUpgrader->canUpgradeOrInstall();
-                PEAR::popErrorHandling ();
+                PEAR::popErrorHandling();
                 if ($oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION) {
                     $this->isUpToDate = true;
-                }
-                else {
+                } else {
                     $this->isUpgrade = true;
                 }
             }
@@ -98,5 +95,3 @@ class OX_Admin_UI_Install_InstallStatus
         return $this->isUpToDate;
     }
 }
-
-?>

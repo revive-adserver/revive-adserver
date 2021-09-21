@@ -24,7 +24,9 @@
 
 $q = strtolower($_GET["q"]);
 $limit = strtolower($_GET["limit"]);
-if (!$q) return;
+if (!$q) {
+    return;
+}
 
 // Require the initialisation file
 require_once '../../init.php';
@@ -40,13 +42,13 @@ switch (OA_Permission::getAccountType()) {
         // list, as the admin account can see all accounts and therefore users in
         // its realm
         $oDbh = OA_DB::singleton();
-        $query = $oDbh->quote('%'.$q.'%');
+        $query = $oDbh->quote('%' . $q . '%');
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->whereAdd('username LIKE ' . $query . ' OR email_address LIKE ' . $query);
         $doUsers->limit($limit);
         $doUsers->find();
         while ($doUsers->fetch()) {
-            echo htmlspecialchars($doUsers->user_id) . '|' . htmlspecialchars($doUsers->email_address) . '|' . htmlspecialchars($doUsers->username)."\n";
+            echo htmlspecialchars($doUsers->user_id) . '|' . htmlspecialchars($doUsers->email_address) . '|' . htmlspecialchars($doUsers->username) . "\n";
         }
         break;
 
@@ -59,8 +61,8 @@ switch (OA_Permission::getAccountType()) {
         // current account, and to the advertiser and trafficker accounts that are in the
         // current account's realm -- display only these users -- but also exclude any
         // user that is also linked to the admin account
-        $aAdminUserIds = array();
-        $aUserIds = array();
+        $aAdminUserIds = [];
+        $aUserIds = [];
         $oDbh = OA_DB::singleton();
         // Get the ID of all users linked to the admin account
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
@@ -96,7 +98,7 @@ switch (OA_Permission::getAccountType()) {
         $aInfo = $doAgency->toArray();
         $agencyId = $aInfo['agencyid'];
         // Find all advertiser accounts in the current manager account's realm
-        $aAdvertiserAccountIds = array();
+        $aAdvertiserAccountIds = [];
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId;
         $doClients->find();
@@ -120,7 +122,7 @@ switch (OA_Permission::getAccountType()) {
             }
         }
         // Find all trafficker accounts in the current manager account's realm
-        $aTraffickerAccountIds = array();
+        $aTraffickerAccountIds = [];
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->agencyid = $agencyId;
         $doAffiliates->find();
@@ -148,14 +150,14 @@ switch (OA_Permission::getAccountType()) {
         if (empty($aUserIds)) {
             break;
         }
-        $query = $oDbh->quote('%'.$q.'%');
+        $query = $oDbh->quote('%' . $q . '%');
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->whereAdd('(username LIKE ' . $query . ' OR email_address LIKE ' . $query . ')');
         $doUsers->whereAdd('user_id IN (' . implode($aUserIds, ',') . ')');
         $doUsers->limit($limit);
         $doUsers->find();
         while ($doUsers->fetch()) {
-            echo htmlspecialchars($doUsers->user_id) . '|' . htmlspecialchars($doUsers->email_address) . '|' . htmlspecialchars($doUsers->username)."\n";
+            echo htmlspecialchars($doUsers->user_id) . '|' . htmlspecialchars($doUsers->email_address) . '|' . htmlspecialchars($doUsers->username) . "\n";
         }
         break;
 
@@ -171,5 +173,3 @@ switch (OA_Permission::getAccountType()) {
         // any other accounts - therefore, do not bother displaying any autocomplete information
         break;
 }
-
-?>

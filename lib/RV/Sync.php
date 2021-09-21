@@ -25,14 +25,14 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class RV_Sync
 {
-    var $aConf;
-    var $aPref;
-    var $_conf;
+    public $aConf;
+    public $aPref;
+    public $_conf;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * Constructor
@@ -40,7 +40,7 @@ class RV_Sync
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    function __construct($conf = null, $pref = null)
+    public function __construct($conf = null, $pref = null)
     {
         $this->aConf = $conf ?? $GLOBALS['_MAX']['CONF'] ?? null;
         $this->aPref = $pref ?? $GLOBALS['_MAX']['PREF'] ?? null;
@@ -74,11 +74,11 @@ class RV_Sync
     public static function getConfigVersion($version)
     {
         $a = [
-            'dev'     => -0.001,
+            'dev' => -0.001,
             'beta-rc' => 0.1,
-            'beta'    => 0.2,
-            'rc'      => 0.3,
-            'stable'  => 0.4
+            'beta' => 0.2,
+            'rc' => 0.3,
+            'stable' => 0.4
         ];
 
         $version = RV::stripVersion(strtolower($version), ['dev', 'stable']);
@@ -105,13 +105,13 @@ class RV_Sync
             // Add the beta-rc
             $returnValue += $a['beta-rc'] + $aMatches[1] / 1000;
             return $returnValue;
-        } else if (count($v) == 4) {
+        } elseif (count($v) == 4) {
             // Check that it is a tag or rc numer
             if (isset($a[$v[3]])) {
                 // Add the beta
                 $returnValue += $a[$v[3]];
                 return $returnValue;
-            } else if (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
+            } elseif (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
                 // Add the rc
                 $returnValue += $a['rc'] + $aMatches[1] / 1000;
                 return $returnValue;
@@ -139,7 +139,7 @@ class RV_Sync
      *
      *               Item 1 is either the error message (item 1 != 0), or an array containing update info
      */
-    function checkForUpdates($already_seen = 0)
+    public function checkForUpdates($already_seen = 0)
     {
         global $XML_RPC_erruser;
 
@@ -148,7 +148,7 @@ class RV_Sync
             // so do not communicate with the server that provides the
             // details of what upgrades are available - just return an
             // 800 "error"
-            $aReturn = array(-2, 'Check for updates has been disabled by the administrator.');
+            $aReturn = [-2, 'Check for updates has been disabled by the administrator.'];
             return $aReturn;
         }
 
@@ -172,47 +172,47 @@ class RV_Sync
 
         // Prepare the parameters required for the XML-RPC call to
         // obtain if an update is available for this installation
-        $params = array(
+        $params = [
             new XML_RPC_Value(PRODUCT_NAME, 'string'),
             new XML_RPC_Value(self::getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value($platform_hash, 'string')
-        );
+        ];
 
         // Has the Revive Adserver admin user kindly agreed to share the
         // technology stack that it is running on, to help the community?
-        $aTechStack = array(
+        $aTechStack = [
             'data' => false
-        );
+        ];
         if ($this->aConf['sync']['shareStack']) {
             // Thanks, admin user! You're a star! Prepare the technology stack
             // data and add it to the XML-RPC call
             if ($this->oDbh->dbsyntax == 'mysql' || $this->oDbh->dbsyntax == 'mysqli') {
                 $dbms = 'MySQL';
-            } else if ($this->oDbh->dbsyntax == 'pgsql') {
+            } elseif ($this->oDbh->dbsyntax == 'pgsql') {
                 $dbms = 'PostgreSQL';
             } else {
                 $dbms = 'UnknownSQL';
             }
-            $aTechStack = array(
-                'os_type'                   => php_uname('s'),
-                'os_version'                => php_uname('r'),
+            $aTechStack = [
+                'os_type' => php_uname('s'),
+                'os_version' => php_uname('r'),
 
-                'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
-                'webserver_version'         => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+                'webserver_type' => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+                'webserver_version' => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
-                'db_type'                   => $dbms,
-                'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
+                'db_type' => $dbms,
+                'db_version' => $this->oDbh->queryOne("SELECT VERSION()"),
 
-                'php_version'               => phpversion(),
-                'php_sapi'                  => ucfirst(php_sapi_name()),
-                'php_extensions'            => get_loaded_extensions(),
-                'php_register_globals'      => (bool)ini_get('register_globals'),
-                'php_magic_quotes_gpc'      => (bool)ini_get('magic_quotes_gpc'),
-                'php_safe_mode'             => (bool)ini_get('safe_mode'),
-                'php_open_basedir'          => (bool)strlen(ini_get('open_basedir')),
-                'php_upload_tmp_readable'   => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR)
-            );
+                'php_version' => phpversion(),
+                'php_sapi' => ucfirst(php_sapi_name()),
+                'php_extensions' => get_loaded_extensions(),
+                'php_register_globals' => (bool)ini_get('register_globals'),
+                'php_magic_quotes_gpc' => (bool)ini_get('magic_quotes_gpc'),
+                'php_safe_mode' => (bool)ini_get('safe_mode'),
+                'php_open_basedir' => (bool)strlen(ini_get('open_basedir')),
+                'php_upload_tmp_readable' => (bool)is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR)
+            ];
         }
         $params[] = XML_RPC_Encode($aTechStack);
 
@@ -227,7 +227,7 @@ class RV_Sync
             // XML-RPC server found, now checking for errors
             if (!$response->faultCode()) {
                 // No fault! Woo! Get the response and return it!
-                $aReturn = array(0, XML_RPC_Decode($response->value()));
+                $aReturn = [0, XML_RPC_Decode($response->value())];
                 // Prepare cache
                 $cache = $aReturn[1];
                 // Update last run
@@ -236,7 +236,7 @@ class RV_Sync
                 OA::debug("Sync: updates found!", PEAR_LOG_INFO);
             } else {
                 // Boo! An error! (Well, maybe - if it's 800, yay!)
-                $aReturn = array($response->faultCode(), $response->faultString());
+                $aReturn = [$response->faultCode(), $response->faultString()];
                 // Prepare cache
                 $cache = false;
                 // Update last run
@@ -257,14 +257,11 @@ class RV_Sync
             return $aReturn;
         }
 
-        $aReturn = array(-1, 'No response from the remote XML-RPC server.');
+        $aReturn = [-1, 'No response from the remote XML-RPC server.'];
 
         // Also write to the debug log
         OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_ERR);
 
         return $aReturn;
     }
-
 }
-
-?>

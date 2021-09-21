@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Register input variables
-phpAds_registerGlobal ('returnurl');
+phpAds_registerGlobal('returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -34,29 +34,26 @@ OA_Permission::checkSessionToken();
 
 if (!empty($clientid)) {
     $ids = explode(',', $clientid);
-    while (list(,$clientid) = each($ids)) {
-
+    foreach ($ids as $clientid) {
         // Security check
         OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_DELETE);
-
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientid = $clientid;
         if ($doClients->get($clientid)) {
             $aAdvertiser = $doClients->toArray();
         }
-
         $doClients->delete();
     }
 
     // Queue confirmation message
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
 
     if (count($ids) == 1) {
-        $translated_message = $translation->translate ($GLOBALS['strAdvertiserHasBeenDeleted'], array(
+        $translated_message = $translation->translate($GLOBALS['strAdvertiserHasBeenDeleted'], [
             htmlspecialchars($aAdvertiser['clientname'])
-        ));
+        ]);
     } else {
-        $translated_message = $translation->translate ($GLOBALS['strAdvertisersHaveBeenDeleted']);
+        $translated_message = $translation->translate($GLOBALS['strAdvertisersHaveBeenDeleted']);
     }
 
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
@@ -78,6 +75,4 @@ if (!isset($returnurl) && $returnurl == '') {
     $returnurl = 'advertiser-index.php';
 }
 
-header("Location: ".$returnurl);
-
-?>
+header("Location: " . $returnurl);

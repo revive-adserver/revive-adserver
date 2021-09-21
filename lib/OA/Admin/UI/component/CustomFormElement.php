@@ -17,80 +17,77 @@
  * is actually custom-{elementName}.html
  */
 
-require_once MAX_PATH.'/lib/pear/HTML/QuickForm/static.php';
+require_once MAX_PATH . '/lib/pear/HTML/QuickForm/static.php';
 
-class OA_Admin_UI_Component_CustomFormElement 
-    extends HTML_QuickForm_static
+class OA_Admin_UI_Component_CustomFormElement extends HTML_QuickForm_static
 {
     private $vars;
     private $visible;
     private $templateId;
     
-   /**
-    * Class constructor
-    * 
-    * @param mixed $elementName    custom element name or if its array then first element
-    * is element name and the second one is template name
-    */
-    function __construct($elementName = null, $elementLabel = null, $vars = null, $visible = true)
+    /**
+     * Class constructor
+     *
+     * @param mixed $elementName    custom element name or if its array then first element
+     * is element name and the second one is template name
+     */
+    public function __construct($elementName = null, $elementLabel = null, $vars = null, $visible = true)
     {
         if (is_array($elementName)) {
             $name = $elementName[0];
-            $templateId = $elementName[1]; 
-        }
-        else {
+            $templateId = $elementName[1];
+        } else {
             $name = $elementName;
             $templateId = $elementName;
         }
         
         parent::__construct($name, $elementLabel);
         $this->_type = 'custom';
-        $this->templateId = $templateId; 
+        $this->templateId = $templateId;
         $this->vars = $vars;
         $this->visible = $visible;
     }
 
 
     /**
-     * Returns custom variables and values assigned to this element. 
+     * Returns custom variables and values assigned to this element.
      * This items are used during rendering phase of custom element
      *
      */
-    function getVars()
+    public function getVars()
     {
         return $this->vars;
     }
     
     
     /**
-     * Returns custom variables and values assigned to this element. 
+     * Returns custom variables and values assigned to this element.
      * This items are used during rendering phase of custom element
      *
      */
-    function getTemplateId()
+    public function getTemplateId()
     {
         return $this->templateId;
-    }    
+    }
     
     
     /**
      * Returns if this element is visible and thus should generate a break
      */
-    function isVisible()
+    public function isVisible()
     {
         return $this->visible;
     }
     
     
     
-   /**
-    * Accepts a renderer
-    *
-    * @param HTML_QuickForm_Renderer    renderer object
-    */
-    function accept(&$renderer, $required=false, $error=null)
+    /**
+     * Accepts a renderer
+     *
+     * @param HTML_QuickForm_Renderer    renderer object
+     */
+    public function accept(&$renderer, $required = false, $error = null)
     {
         $renderer->renderElement($this, $required, $error);
     }
-} 
-?>
+}

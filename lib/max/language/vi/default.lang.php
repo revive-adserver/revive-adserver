@@ -190,7 +190,7 @@ $GLOBALS['strDayOfWeek'] = "Ngày trong tuần";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Chủ Nhật';
 $GLOBALS['strDayFullNames'][1] = 'Thứ hai';
@@ -201,7 +201,7 @@ $GLOBALS['strDayFullNames'][5] = 'Thứ Sáu';
 $GLOBALS['strDayFullNames'][6] = 'Thứ Bảy';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Chủ nhật';
 $GLOBALS['strDayShortCuts'][1] = 'Thứ hai';
@@ -246,15 +246,15 @@ $GLOBALS['strHiddenAdvertiser'] = "Nhà quảng cáo";
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 
 // Website

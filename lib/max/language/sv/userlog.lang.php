@@ -38,7 +38,7 @@ $GLOBALS['strCollectedAllEvents'] = "Alla händelser";
 $GLOBALS['strClear'] = "Rensa";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Rapport för annonsör {id} skicka via e-post";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampanj {id} aktiverad";

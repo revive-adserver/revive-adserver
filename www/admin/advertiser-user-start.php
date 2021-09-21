@@ -38,17 +38,16 @@ phpAds_SessionDataStore();
 $oHeaderModel = buildAdvertiserHeaderModel($clientid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader('advertiser-access', $oHeaderModel);
-    phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.1"));
-}
-else {
-	$sections = array();
-	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
-    	$sections[] = '2.2';
-	}
+    phpAds_ShowSections(["4.1.2", "4.1.3", "4.1.5", "4.1.5.1"]);
+} else {
+    $sections = [];
+    if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
+        $sections[] = '2.2';
+    }
     $sections[] = '2.3';
     $sections[] = '2.3.1';
     phpAds_PageHeader('advertiser-access', $oHeaderModel);
-	phpAds_ShowSections($sections);
+    phpAds_ShowSections($sections);
 }
 
 /*-------------------------------------------------------*/
@@ -69,5 +68,3 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-if(!defined('SMARTY_DIR')) {
+if (!defined('SMARTY_DIR')) {
     define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 }
 
@@ -23,30 +23,29 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenadsAdmin
  */
-class OA_Plugin_Template
-    extends OA_Admin_Template
+class OA_Plugin_Template extends OA_Admin_Template
 {
     /**
      * @var string
      */
-    var $templateName;
+    public $templateName;
 
     /**
      * @var string
      */
-    var $cacheId;
+    public $cacheId;
 
     /**
      * @var int
      */
-    var $_tabIndex = 0;
+    public $_tabIndex = 0;
 
     /**
      * @var string
      */
     private $adminGroupName;
 
-    function __construct($templateName, $adminGroupName)
+    public function __construct($templateName, $adminGroupName)
     {
         $this->adminGroupName = $adminGroupName;
 
@@ -54,7 +53,7 @@ class OA_Plugin_Template
     }
 
 
-    function init($templateName)
+    public function init($templateName)
     {
         parent::init($templateName);
 
@@ -64,11 +63,9 @@ class OA_Plugin_Template
         $pluginBaseDir = $this->get_template_vars('pluginBaseDir'); //with trailing /
         $pluginTemplateDir = $this->get_template_vars('pluginTemplateDir'); //with trailing /
 
-        $absoluteTemplateDir = $pluginBaseDir.$this->adminGroupName.$pluginTemplateDir;
+        $absoluteTemplateDir = $pluginBaseDir . $this->adminGroupName . $pluginTemplateDir;
 
         $this->template_dir = is_dir($absoluteTemplateDir)
             ? $absoluteTemplateDir : $pluginTemplateDir;
     }
 }
-
-?>

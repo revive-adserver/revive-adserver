@@ -20,11 +20,10 @@ require_once MAX_PATH . '/lib/OX/Translation.php';
  */
 class Test_OX_Translation extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -32,7 +31,7 @@ class Test_OX_Translation extends UnitTestCase
     /**
      * A method to test the core translation system using the strKey mechanism
      */
-    function testCoreTranslateByKey()
+    public function testCoreTranslateByKey()
     {
         $GLOBALS['strTestString'] = 'Test string';
 
@@ -48,7 +47,7 @@ class Test_OX_Translation extends UnitTestCase
      * If no strKey exists, then the string should be returned unchanged
      *
      */
-    function testCoreTranslateByPlainString()
+    public function testCoreTranslateByPlainString()
     {
         unset($GLOBALS['strTestString']);
 
@@ -64,13 +63,13 @@ class Test_OX_Translation extends UnitTestCase
      * If an array of substitution values is provided, they should be replaced in order
      *
      */
-    function testCoreTranslateBySubstitutedString()
+    public function testCoreTranslateBySubstitutedString()
     {
         $GLOBALS['strTestString'] = 'Test %s string';
 
         $oTrans = new OX_Translation();
         $source = 'TestString';
-        $aValues = array('test');
+        $aValues = ['test'];
         $expected = 'Test test string';
         $translation = $oTrans->translate($source, $aValues);
 
@@ -80,14 +79,14 @@ class Test_OX_Translation extends UnitTestCase
 
         $oTrans = new OX_Translation();
         $source = 'TestString';
-        $aValues = array('test', 10);
+        $aValues = ['test', 10];
         $expected = 'Test test string 10 times';
         $translation = $oTrans->translate($source, $aValues);
 
         $this->assertEqual($expected, $translation);
     }
 
-    function testPluginTranslationByPlainString()
+    public function testPluginTranslationByPlainString()
     {
         $transPath = '/tests/data/_lang';
         $GLOBALS['_MAX']['PREF']['language'] = 'en';
@@ -114,10 +113,7 @@ class Test_OX_Translation extends UnitTestCase
 
         // Translation of a translated string that contains substitutions
         $expected = 'This is a test frog with a 3 number in it';
-        $result = $oTrans->translate('This is a test %s with a %d number in it', array('frog', 3));
+        $result = $oTrans->translate('This is a test %s with a %d number in it', ['frog', 3]);
         $this->assertEqual($expected, $result);
-
     }
 }
-
-?>

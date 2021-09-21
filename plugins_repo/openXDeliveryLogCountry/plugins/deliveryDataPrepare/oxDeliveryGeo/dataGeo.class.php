@@ -18,14 +18,12 @@ require_once LIB_PATH . '/Plugin/Component.php';
  */
 class Plugins_DeliveryDataPrepare_OxDeliveryGeo_DataGeo extends OX_Component
 {
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'deliveryDataPrepare:oxDeliveryGeo:dataGeo' => array(
+        return [
+            'deliveryDataPrepare:oxDeliveryGeo:dataGeo' => [
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon'
-            )
-        );
+            ]
+        ];
     }
 }
-
-?>

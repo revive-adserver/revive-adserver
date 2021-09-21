@@ -101,10 +101,10 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
 
         // PostgreSQL needs two int4, we generate them using crc32
-        $sId = array(
+        $sId = [
             crc32($platformHash) & 0x7FFFFFFF,
             crc32($sName) & 0x7FFFFFFF
-        );
+        ];
 
         return serialize($sId);
     }

@@ -22,19 +22,18 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTestCase
 {
-
     /**
      * Local copy of the OX_Dal_Maintenance_Statistics MSE DAL class for
      * use in the tests.
      *
      * @var OX_Dal_Maintenance_Statistics
      */
-    var $oDal;
+    public $oDal;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -52,10 +51,10 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * - With no conversions in the system.
      */
-    function testDeduplicateConversions_1()
+    public function testDeduplicateConversions_1()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // De-duplicate
         $this->oDal->deduplicateConversions($oStartDate, $oEndDate);
@@ -73,24 +72,24 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_2()
+    public function testDeduplicateConversions_2()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $this->_insertDataIntermediateAdConnection($aData);
 
         // De-duplicate
@@ -115,39 +114,39 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_3()
+    public function testDeduplicateConversions_3()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $this->_insertDataIntermediateAdConnection($aData);
 
         // De-duplicate
@@ -176,34 +175,34 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_4()
+    public function testDeduplicateConversions_4()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
@@ -231,42 +230,42 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_5()
+    public function testDeduplicateConversions_5()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -292,42 +291,42 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_6()
+    public function testDeduplicateConversions_6()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -352,42 +351,42 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_7()
+    public function testDeduplicateConversions_7()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -413,52 +412,52 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_8()
+    public function testDeduplicateConversions_8()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
@@ -487,60 +486,60 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_9()
+    public function testDeduplicateConversions_9()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -566,60 +565,60 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_10()
+    public function testDeduplicateConversions_10()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -645,60 +644,60 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_11()
+    public function testDeduplicateConversions_11()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -724,65 +723,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_12()
+    public function testDeduplicateConversions_12()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -808,65 +807,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_13()
+    public function testDeduplicateConversions_13()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -892,65 +891,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_14()
+    public function testDeduplicateConversions_14()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -976,65 +975,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_15()
+    public function testDeduplicateConversions_15()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1060,65 +1059,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_16()
+    public function testDeduplicateConversions_16()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1144,65 +1143,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_17()
+    public function testDeduplicateConversions_17()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1231,34 +1230,34 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_18()
+    public function testDeduplicateConversions_18()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
@@ -1286,42 +1285,42 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_19()
+    public function testDeduplicateConversions_19()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1347,42 +1346,42 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_20()
+    public function testDeduplicateConversions_20()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1407,42 +1406,42 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the status remains as "approved".
      */
-    function testDeduplicateConversions_21()
+    public function testDeduplicateConversions_21()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1472,52 +1471,52 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      * tracked, it is not possible to de-duplicate the conversions,
      * because the values are absent.
      */
-    function testDeduplicateConversions_22()
+    public function testDeduplicateConversions_22()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
@@ -1546,60 +1545,60 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_23()
+    public function testDeduplicateConversions_23()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1625,60 +1624,60 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_24()
+    public function testDeduplicateConversions_24()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1704,60 +1703,60 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_25()
+    public function testDeduplicateConversions_25()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Do NOT insert any logged variable value - it has not been
         // tracked correctly in this test, for some reason
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1787,65 +1786,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      * tracked, it is not possible to de-duplicate the conversions,
      * because the values are absent.
      */
-    function testDeduplicateConversions_26()
+    public function testDeduplicateConversions_26()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1871,65 +1870,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_27()
+    public function testDeduplicateConversions_27()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -1955,65 +1954,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_28()
+    public function testDeduplicateConversions_28()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => NULL
-        );
+            'tracker_variable_id' => 1,
+            'value' => null
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -2040,65 +2039,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      * Tests to ensure the first conversion remains as "approved",
      * while the second has been changed to "duplicate".
      */
-    function testDeduplicateConversions_29()
+    public function testDeduplicateConversions_29()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId1 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId2 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId2,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -2139,65 +2138,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_30()
+    public function testDeduplicateConversions_30()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => ''
-        );
+            'tracker_variable_id' => 1,
+            'value' => ''
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -2224,65 +2223,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *
      * Tests to ensure the statuses remain as "approved".
      */
-    function testDeduplicateConversions_31()
+    public function testDeduplicateConversions_31()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value1'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value1'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value2'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value2'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -2310,65 +2309,65 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      * Tests to ensure the first conversion remains as "approved",
      * while the second has been changed to "duplicate".
      */
-    function testDeduplicateConversions_32()
+    public function testDeduplicateConversions_32()
     {
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:29:59');
+        $oEndDate = new Date('2005-09-07 12:29:59');
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Test, Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Test, Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $this->_insertVariable($aData);
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId1 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:30:00',
-            'connection_date_time'             => '2005-09-05 12:29:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:30:00',
+            'connection_date_time' => '2005-09-05 12:29:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId2 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId2,
-            'tracker_variable_id'                => 1,
-            'value'                              => 'value'
-        );
+            'tracker_variable_id' => 1,
+            'value' => 'value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate
@@ -2441,97 +2440,97 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *   required de-duplication window does not have its "approved" status
      *   changed.
      */
-    function testDeduplicateConversions_33()
+    public function testDeduplicateConversions_33()
     {
         // Prepare the non-unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Tracker ID 1 Non-Unique Variable',
-            'is_unique'     => 0,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Tracker ID 1 Non-Unique Variable',
+            'is_unique' => 0,
             'unique_window' => 3600
-        );
+        ];
         $trackerVariableId1 = $this->_insertVariable($aData);
 
         // Prepare the unique variable value that should
         // be tracked with Tracker ID 1
-        $aData = array(
-            'trackerid'     => 1,
-            'name'          => 'Tracker ID 1 Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 1,
+            'name' => 'Tracker ID 1 Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $trackerVariableId2 = $this->_insertVariable($aData);
 
         // Prepare the unique variable value that should
         // be tracked with tracker ID 2
-        $aData = array(
-            'trackerid'     => 2,
-            'name'          => 'Trackers ID 2 Unique Variable',
-            'is_unique'     => 1,
+        $aData = [
+            'trackerid' => 2,
+            'name' => 'Trackers ID 2 Unique Variable',
+            'is_unique' => 1,
             'unique_window' => 3600
-        );
+        ];
         $trackerVariableId3 = $this->_insertVariable($aData);
 
         /******************************************************************/
 
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09,
         // using Tracker ID 1
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 1,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 12:10:00',
-            'connection_date_time'             => '2005-09-05 12:09:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId1 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable values for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
-            'tracker_variable_id'                => $trackerVariableId1,
-            'value'                              => 'non-unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId1,
+            'value' => 'non-unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
-            'tracker_variable_id'                => $trackerVariableId2,
-            'value'                              => 'unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId2,
+            'value' => 'unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 12:15:00, from a click on ad ID 7, zone ID 8, at 12:14,
         // using Tracker ID 2
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 2,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 2,
-            'tracker_date_time'                => '2005-09-05 12:15:00',
-            'connection_date_time'             => '2005-09-05 12:14:00',
-            'ad_id'                            => 7,
-            'zone_id'                          => 8,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 2,
+            'tracker_date_time' => '2005-09-05 12:15:00',
+            'connection_date_time' => '2005-09-05 12:14:00',
+            'ad_id' => 7,
+            'zone_id' => 8,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId2 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId2,
-            'tracker_variable_id'                => $trackerVariableId3,
-            'value'                              => 'unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId3,
+            'value' => 'unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate the 12:00 - 13:00 hour
         $oStartDate = new Date('2005-09-05 12:00:00');
-        $oEndDate   = new Date('2005-09-07 12:59:59');
+        $oEndDate = new Date('2005-09-07 12:59:59');
         $this->oDal->deduplicateConversions($oStartDate, $oEndDate);
 
         // Test the results
@@ -2545,67 +2544,67 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
 
         // Insert a connection at 13:05:00, from a click on ad ID 5, zone ID 6, at 13:04,
         // using Tracker ID 1
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 3,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 13:05:00',
-            'connection_date_time'             => '2005-09-05 13:04:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 13:05:00',
+            'connection_date_time' => '2005-09-05 13:04:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId3 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable values for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId3,
-            'tracker_variable_id'                => $trackerVariableId1,
-            'value'                              => 'non-unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId1,
+            'value' => 'non-unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId3,
-            'tracker_variable_id'                => $trackerVariableId2,
-            'value'                              => 'unique tracked value, but a different one :-)'
-        );
+            'tracker_variable_id' => $trackerVariableId2,
+            'value' => 'unique tracked value, but a different one :-)'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 13:06:00, from a click on ad ID 5, zone ID 6, at 13:05,
         // using Tracker ID 1
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 4,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 13:06:00',
-            'connection_date_time'             => '2005-09-05 13:05:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 13:06:00',
+            'connection_date_time' => '2005-09-05 13:05:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId4 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable values for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId4,
-            'tracker_variable_id'                => $trackerVariableId1,
-            'value'                              => 'non-unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId1,
+            'value' => 'non-unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId4,
-            'tracker_variable_id'                => $trackerVariableId2,
-            'value'                              => 'unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId2,
+            'value' => 'unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate the 13:00 - 14:00 hour
         $oStartDate = new Date('2005-09-05 13:00:00');
-        $oEndDate   = new Date('2005-09-07 13:59:59');
+        $oEndDate = new Date('2005-09-07 13:59:59');
         $this->oDal->deduplicateConversions($oStartDate, $oEndDate);
 
         // Test the results
@@ -2646,61 +2645,61 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
 
         // Insert a connection at 14:02:00, from a click on ad ID 5, zone ID 6, at 14:01,
         // using Tracker ID 1
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 5,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 1,
-            'tracker_date_time'                => '2005-09-05 14:02:00',
-            'connection_date_time'             => '2005-09-05 14:01:00',
-            'ad_id'                            => 5,
-            'zone_id'                          => 6,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 14:02:00',
+            'connection_date_time' => '2005-09-05 14:01:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId5 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable values for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId5,
-            'tracker_variable_id'                => $trackerVariableId1,
-            'value'                              => 'non-unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId1,
+            'value' => 'non-unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId5,
-            'tracker_variable_id'                => $trackerVariableId2,
-            'value'                              => 'unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId2,
+            'value' => 'unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // Insert a connection at 14:15:00, from a click on ad ID 7, zone ID 8, at 14:14,
         // using Tracker ID 2
-        $aData = array(
+        $aData = [
             'server_raw_tracker_impression_id' => 6,
-            'server_raw_ip'                    => 'singleDB',
-            'tracker_id'                       => 2,
-            'tracker_date_time'                => '2005-09-05 14:15:00',
-            'connection_date_time'             => '2005-09-05 14:14:00',
-            'ad_id'                            => 7,
-            'zone_id'                          => 8,
-            'connection_action'                => MAX_CONNECTION_AD_CLICK,
-            'connection_window'                => 1209600,
-            'connection_status'                => MAX_CONNECTION_STATUS_APPROVED
-        );
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 2,
+            'tracker_date_time' => '2005-09-05 14:15:00',
+            'connection_date_time' => '2005-09-05 14:14:00',
+            'ad_id' => 7,
+            'zone_id' => 8,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+        ];
         $conversionId6 = $this->_insertDataIntermediateAdConnection($aData);
 
         // Insert the variable value for the conversion
-        $aData = array(
+        $aData = [
             'data_intermediate_ad_connection_id' => $conversionId6,
-            'tracker_variable_id'                => $trackerVariableId3,
-            'value'                              => 'unique tracked value'
-        );
+            'tracker_variable_id' => $trackerVariableId3,
+            'value' => 'unique tracked value'
+        ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
         // De-duplicate the 14:00 - 15:00 hour
         $oStartDate = new Date('2005-09-05 14:00:00');
-        $oEndDate   = new Date('2005-09-07 14:59:59');
+        $oEndDate = new Date('2005-09-07 14:59:59');
         $this->oDal->deduplicateConversions($oStartDate, $oEndDate);
 
         // Test the results
@@ -2828,10 +2827,10 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
     {
         $doVariables = OA_Dal::factoryDO('variables');
 
-        $doVariables->trackerid       = $aData['trackerid'];
-        $doVariables->name            = $aData['name'];
-        $doVariables->is_unique       = $aData['is_unique'];
-        $doVariables->unique_window   = $aData['unique_window'];
+        $doVariables->trackerid = $aData['trackerid'];
+        $doVariables->name = $aData['name'];
+        $doVariables->is_unique = $aData['is_unique'];
+        $doVariables->unique_window = $aData['unique_window'];
 
         return DataGenerator::generateOne($doVariables);
     }
@@ -2850,20 +2849,20 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
 
         $doData_intermediate_ad_connection->server_raw_tracker_impression_id = $aData['server_raw_tracker_impression_id'];
-        $doData_intermediate_ad_connection->server_raw_ip                    = $aData['server_raw_ip'];
-        $doData_intermediate_ad_connection->tracker_id                       = $aData['tracker_id'];
-        $doData_intermediate_ad_connection->tracker_date_time                = $aData['tracker_date_time'];
-        $doData_intermediate_ad_connection->connection_date_time             = $aData['connection_date_time'];
-        $doData_intermediate_ad_connection->ad_id                            = $aData['ad_id'];
-        $doData_intermediate_ad_connection->zone_id                          = $aData['zone_id'];
-        $doData_intermediate_ad_connection->connection_action                = $aData['connection_action'];
-        $doData_intermediate_ad_connection->connection_window                = $aData['connection_window'];
-        $doData_intermediate_ad_connection->connection_status                = $aData['connection_status'];
+        $doData_intermediate_ad_connection->server_raw_ip = $aData['server_raw_ip'];
+        $doData_intermediate_ad_connection->tracker_id = $aData['tracker_id'];
+        $doData_intermediate_ad_connection->tracker_date_time = $aData['tracker_date_time'];
+        $doData_intermediate_ad_connection->connection_date_time = $aData['connection_date_time'];
+        $doData_intermediate_ad_connection->ad_id = $aData['ad_id'];
+        $doData_intermediate_ad_connection->zone_id = $aData['zone_id'];
+        $doData_intermediate_ad_connection->connection_action = $aData['connection_action'];
+        $doData_intermediate_ad_connection->connection_window = $aData['connection_window'];
+        $doData_intermediate_ad_connection->connection_status = $aData['connection_status'];
 
         // The "inside_window" column is historically from raw, SQL-based
         // conversion tracking, and is always set to "1" with the new
         // cookie-based, bucket-logged conversion system
-        $doData_intermediate_ad_connection->inside_window                    = 1;
+        $doData_intermediate_ad_connection->inside_window = 1;
 
         return DataGenerator::generateOne($doData_intermediate_ad_connection);
     }
@@ -2878,13 +2877,13 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      *                     indexed by column name.
      * @return integer The ID of the conversion inserted.
      */
-    function _insertDataIntermediateAdVariableValue($aData)
+    public function _insertDataIntermediateAdVariableValue($aData)
     {
         $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
 
         $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $aData['data_intermediate_ad_connection_id'];
-        $doData_intermediate_ad_variable_value->tracker_variable_id                = $aData['tracker_variable_id'];
-        $doData_intermediate_ad_variable_value->value                              = $aData['value'];
+        $doData_intermediate_ad_variable_value->tracker_variable_id = $aData['tracker_variable_id'];
+        $doData_intermediate_ad_variable_value->value = $aData['value'];
 
         if (is_null($aData['value'])) {
             // Hack the DB_DataObject so that the DataGenerator will not override
@@ -2895,7 +2894,4 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
 
         return DataGenerator::generateOne($doData_intermediate_ad_variable_value);
     }
-
 }
-
-?>

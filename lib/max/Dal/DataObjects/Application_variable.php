@@ -25,9 +25,12 @@ class DataObjects_Application_variable extends DB_DataObjectCommon
     public $value;                           // TEXT() => openads_text => 162
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Application_variable',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Application_variable', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'name' => '',
         'value' => '',
     ];
@@ -40,9 +43,8 @@ class DataObjects_Application_variable extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 }
-
-?>

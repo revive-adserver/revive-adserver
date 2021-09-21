@@ -34,7 +34,10 @@ function MAX_checkGeo_Latlong($limitation, $op, $aParams = [])
     if ($aParams && isset($aParams['latitude']) && isset($aParams['longitude'])) {
         $aRegion = MAX_geoReplaceEmptyWithZero(MAX_limitationsGetAFromS($limitation));
         $result = MAX_geoIsPointInsideRect(
-            $aParams['latitude'], $aParams['longitude'], $aRegion);
+            $aParams['latitude'],
+            $aParams['longitude'],
+            $aRegion
+        );
         if ($op == '==') {
             return $result;
         } else {

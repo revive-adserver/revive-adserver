@@ -30,16 +30,15 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $oOptions = new OA_Admin_Option('settings');
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 $pattern = '/[^a-zA-Z0-9\._-]/';
-$group   = preg_replace($pattern, '', $_REQUEST['group']);
-$plugin  = preg_replace($pattern, '', $_REQUEST['plugin']);
+$group = preg_replace($pattern, '', $_REQUEST['group']);
+$plugin = preg_replace($pattern, '', $_REQUEST['plugin']);
 
 if ($plugin) {
-    $backURL =  "plugin-index.php?action=info&package=$plugin";
-}
-else {
+    $backURL = "plugin-index.php?action=info&package=$plugin";
+} else {
     $backURL = "plugin-index.php?selection=plugins";
 }
 
@@ -48,59 +47,51 @@ $oManager = new OX_Plugin_ComponentGroupManager();
 $aComponentSettings = $oManager->getComponentGroupSettings($group, true);
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
-{
+if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
-    foreach ($aComponentSettings as $k => $v)
-    {
-        if (0 == strcmp($v['type'], 'checkbox'))
-        {
-            $aItemSettings = array($group => $v['key'], 'bool' => 'true');
-        }
-        else
-        {
-            $aItemSettings = array($group => $v['key']);
+    $aElements = [];
+    foreach ($aComponentSettings as $k => $v) {
+        if (0 == strcmp($v['type'], 'checkbox')) {
+            $aItemSettings = [$group => $v['key'], 'bool' => 'true'];
+        } else {
+            $aItemSettings = [$group => $v['key']];
         }
 
-        $aElements += array($group.'_'.$v['key'] => $aItemSettings);
+        $aElements += [$group . '_' . $v['key'] => $aItemSettings];
 
         // Register the HTML element value
-        MAX_commonRegisterGlobalsArray(array($group.'_'.$v['key']));
+        MAX_commonRegisterGlobalsArray([$group . '_' . $v['key']]);
     }
 
     $valid = true;
-    $validationFile = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$group.'/processSettings.php';
-    if (file_exists($validationFile))
-    {
-        $className = $group.'_processSettings';
+    $validationFile = MAX_PATH . $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . $group . '/processSettings.php';
+    if (file_exists($validationFile)) {
+        $className = $group . '_processSettings';
         include($validationFile);
-        if (class_exists($className))
-        {
-            $oPlugin = new $className;
-            if (method_exists($oPlugin, 'validate'))
-            {
-                $aErrormessage = array();
+        if (class_exists($className)) {
+            $oPlugin = new $className();
+            if (method_exists($oPlugin, 'validate')) {
+                $aErrormessage = [];
                 $valid = $oPlugin->validate($aErrormessage);
             }
         }
     }
 
-    if ($valid)
-    {
+    if ($valid) {
         $aErrormessage = null;
         // Create a new settings object, and save the settings!
         $oSettings = new OA_Admin_Settings();
         $result = $oSettings->processSettingsFromForm($aElements);
-        if ($result)
-        {
+        if ($result) {
             // Queue confirmation message
             $title = $group . ' ' . $GLOBALS['strPluginSettings'];
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate(
+                $GLOBALS['strXPreferencesHaveBeenUpdated'],
+                [htmlspecialchars($title)]
+            );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
             // The settings configuration file was written correctly,
@@ -118,43 +109,42 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings[0]['text'] = $group.' '.$strConfigurationSettings;
+$aSettings[0]['text'] = $group . ' ' . $strConfigurationSettings;
 
 $oTrans = new OX_Translation($GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . $group . '/_lang');
 
 $count = count($aComponentSettings);
 $i = 0;
-foreach ($aComponentSettings as $k => $v)
-{
-    $aSettings[0]['items'][] = array(
-                                     'type'    => $v['type'],
-                                     'name'    => $group.'_'.$v['key'],
-                                     'text'    => $oTrans->translate($v['label']),
-                                     'req'     => $v['required'],
-                                     'size'    => $v['size'],
-                                     'value'   => $v['value'],
+foreach ($aComponentSettings as $k => $v) {
+    $aSettings[0]['items'][] = [
+                                     'type' => $v['type'],
+                                     'name' => $group . '_' . $v['key'],
+                                     'text' => $oTrans->translate($v['label']),
+                                     'req' => $v['required'],
+                                     'size' => $v['size'],
+                                     'value' => $v['value'],
                                      'visible' => $v['visible'],
-                                     );
+                                     ];
     //add break after a field excluding last
     $i++;
     if ($i < $count) {
-        $aSettings[0]['items'][] = array (
-                    'type'    => 'break'
-                );
+        $aSettings[0]['items'][] = [
+                    'type' => 'break'
+                ];
     }
 }
 
 
-$aSettings[0]['items'][] = array(
-                                 'type'    => 'hiddenfield',
-                                 'name'    => 'group',
-                                 'value'   => $group,
-                                 );
-$aSettings[0]['items'][] = array(
-                                 'type'    => 'hiddenfield',
-                                 'name'    => 'plugin',
-                                 'value'   => $plugin,
-                                 );
+$aSettings[0]['items'][] = [
+                                 'type' => 'hiddenfield',
+                                 'name' => 'group',
+                                 'value' => $group,
+                                 ];
+$aSettings[0]['items'][] = [
+                                 'type' => 'hiddenfield',
+                                 'name' => 'plugin',
+                                 'value' => $plugin,
+                                 ];
 
 
 /*-------------------------------------------------------*/
@@ -177,6 +167,3 @@ $oTpl->display();
 $oOptions->show($aSettings, $aErrormessage);
 
 phpAds_PageFooter();
-
-
-?>

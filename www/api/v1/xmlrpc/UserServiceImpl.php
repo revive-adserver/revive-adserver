@@ -31,14 +31,14 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @var OA_Dll_User $_dllUser
      */
-    var $_dllUser;
+    public $_dllUser;
 
     /**
      *
      * The UserServiceImpl method is the constructor for the
      * UserServiceImpl class.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_dllUser = new OA_Dll_User();
@@ -54,7 +54,7 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function _validateResult($result)
+    public function _validateResult($result)
     {
         if ($result) {
             return true;
@@ -77,17 +77,13 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function addUser($sessionId, &$oUser)
+    public function addUser($sessionId, &$oUser)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllUser->modify($oUser));
-
         } else {
-
             return false;
         }
-
     }
     /**
      * The modifyUser method checks if an user ID exists and
@@ -103,25 +99,18 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function modifyUser($sessionId, &$oUser)
+    public function modifyUser($sessionId, &$oUser)
     {
         if ($this->verifySession($sessionId)) {
-
             if (isset($oUser->userId)) {
-
                 return $this->_validateResult($this->_dllUser->modify($oUser));
-
             } else {
-
                 $this->raiseError("Field 'userId' in structure does not exists");
                 return false;
             }
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -135,14 +124,11 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function deleteUser($sessionId, $userId)
+    public function deleteUser($sessionId, $userId)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllUser->delete($userId));
-
         } else {
-
             return false;
         }
     }
@@ -158,14 +144,13 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getUser($sessionId, $userId, &$oUser)
+    public function getUser($sessionId, $userId, &$oUser)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllUser->getUser($userId, $oUser));
+                $this->_dllUser->getUser($userId, $oUser)
+            );
         } else {
-
             return false;
         }
     }
@@ -182,15 +167,16 @@ class UserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getUserListByAccountId($sessionId, $accountId, &$aUserList)
+    public function getUserListByAccountId($sessionId, $accountId, &$aUserList)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllUser->getUserListByAccountId($accountId,
-                                                    $aUserList));
+                $this->_dllUser->getUserListByAccountId(
+                    $accountId,
+                    $aUserList
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -205,14 +191,13 @@ class UserServiceImpl extends BaseServiceImpl
      * @param int $newSsoUserId
      * @return bool
      */
-    function updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)
+    public function updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllUser->updateSsoUserId($oldSsoUserId, $newSsoUserId));
+                $this->_dllUser->updateSsoUserId($oldSsoUserId, $newSsoUserId)
+            );
         } else {
-
             return false;
         }
     }
@@ -227,19 +212,14 @@ class UserServiceImpl extends BaseServiceImpl
      * @param string $email
      * @return bool
      */
-    function updateUserEmailBySsoId($sessionId, $ssoUserId, $email)
+    public function updateUserEmailBySsoId($sessionId, $ssoUserId, $email)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllUser->updateUserEmailBySsoId($ssoUserId, $email));
+                $this->_dllUser->updateUserEmailBySsoId($ssoUserId, $email)
+            );
         } else {
-
             return false;
         }
     }
-
 }
-
-
-?>

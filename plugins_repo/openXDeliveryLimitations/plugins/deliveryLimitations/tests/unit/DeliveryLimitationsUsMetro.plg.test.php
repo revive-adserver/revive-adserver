@@ -24,18 +24,16 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_UsMetro extends UnitTestCase
 {
-    function testCheckGeoDma()
+    public function testCheckGeoDma()
     {
         // =~ and !~ - Single country
-        $this->assertTrue(MAX_checkGeo_UsMetro('662',    '=~', array('metro_code' => '662')));
-        $this->assertTrue(MAX_checkGeo_UsMetro('662',   '!~', array('metro_code' => '790')));
+        $this->assertTrue(MAX_checkGeo_UsMetro('662', '=~', ['metro_code' => '662']));
+        $this->assertTrue(MAX_checkGeo_UsMetro('662', '!~', ['metro_code' => '790']));
 
         // =~ and !~ - Multiple country
-        $this->assertTrue(MAX_checkGeo_UsMetro('662,790', '=~', array('metro_code' => '662')));
-        $this->assertTrue(MAX_checkGeo_UsMetro('662,790', '=~', array('metro_code' => '790')));
-        $this->assertTrue(MAX_checkGeo_UsMetro('662,790', '!~', array('metro_code' => '100')));
-        $this->assertFalse(MAX_checkGeo_UsMetro('662,790', '!~', array('metro_code' => '790')));
+        $this->assertTrue(MAX_checkGeo_UsMetro('662,790', '=~', ['metro_code' => '662']));
+        $this->assertTrue(MAX_checkGeo_UsMetro('662,790', '=~', ['metro_code' => '790']));
+        $this->assertTrue(MAX_checkGeo_UsMetro('662,790', '!~', ['metro_code' => '100']));
+        $this->assertFalse(MAX_checkGeo_UsMetro('662,790', '!~', ['metro_code' => '790']));
     }
 }
-
-?>

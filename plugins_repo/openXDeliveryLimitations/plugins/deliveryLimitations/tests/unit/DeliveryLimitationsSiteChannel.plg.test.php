@@ -24,44 +24,44 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        $aConf = & $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['pluginGroupComponents']['Site'] = 1;
         $aConf['pluginPaths']['plugins'] = '/plugins_repo/openXDeliveryLimitations/plugins/';
     }
 
-    function tearDown()
+    public function tearDown()
     {
         TestEnv::restoreConfig();
     }
 
-    function __construct()
- 	    {
- 	        parent::__construct();
- 	        //TestEnv::restoreEnv();
- 	        $this->aIds = TestEnv::loadData('delivery_001','mdb2schema');
- 	    }
+    public function __construct()
+    {
+        parent::__construct();
+        //TestEnv::restoreEnv();
+        $this->aIds = TestEnv::loadData('delivery_001', 'mdb2schema');
+    }
 
-    function testCompile()
+    public function testCompile()
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Site', 'Channel');
-        $oPlugin->init(array('data' => '21', 'comparison' => '=='));
+        $oPlugin->init(['data' => '21', 'comparison' => '==']);
         $this->assertEqual("(MAX_checkSite_Channel('21', '=='))", $oPlugin->compile());
 
-        $oPlugin->init(array('data' => '21,43', 'comparison' => '=='));
+        $oPlugin->init(['data' => '21,43', 'comparison' => '==']);
         $this->assertEqual("(MAX_checkSite_Channel('21', '==') && MAX_checkSite_Channel('43', '=='))", $oPlugin->compile());
 
-        $oPlugin->init(array('data' => '21,43', 'comparison' => '=~'));
+        $oPlugin->init(['data' => '21,43', 'comparison' => '=~']);
         $this->assertEqual("(MAX_checkSite_Channel('21', '=~') || MAX_checkSite_Channel('43', '=~'))", $oPlugin->compile());
 
-        $oPlugin->init(array('data' => '21,43', 'comparison' => '!~'));
+        $oPlugin->init(['data' => '21,43', 'comparison' => '!~']);
         $this->assertEqual("!(MAX_checkSite_Channel('21', '!~') || MAX_checkSite_Channel('43', '!~'))", $oPlugin->compile());
     }
 
-    function testMAX_checkSite_Channel()
+    public function testMAX_checkSite_Channel()
     {
-        $channelid  = $this->aIds['channel'][10];
+        $channelid = $this->aIds['channel'][10];
         $GLOBALS['loc'] = 'localhost2';
         $this->assertTrue(MAX_checkSite_Channel($channelid, '=='));
 
@@ -70,9 +70,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends UnitTestCas
         $this->assertTrue(MAX_checkSite_Channel($channelid, '=='));
 
         // Clear cache
-        $GLOBALS['_MAX']['channel_results'] = array();
+        $GLOBALS['_MAX']['channel_results'] = [];
         $this->assertFalse(MAX_checkSite_Channel($channelid, '=='));
     }
 }
-
-?>

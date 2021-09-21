@@ -12,14 +12,12 @@
 
 require_once 'demoUI-common.php';
 
-phpAds_PageHeader("demo-menu-i",'','../../');
+phpAds_PageHeader("demo-menu-i", '', '../../');
 
-$oTpl    = new OA_Plugin_Template('demoUI.html','demoUserInterface');
+$oTpl = new OA_Plugin_Template('demoUI.html', 'demoUserInterface');
 
 $message = 'OpenX User Interface Demonstration';
-$oTpl->assign('message',$message);
+$oTpl->assign('message', $message);
 $oTpl->display();
 
 phpAds_PageFooter();
-
-?>

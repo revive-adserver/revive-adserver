@@ -21,7 +21,6 @@
  */
 class OX_Extension_DeliveryLog_DB_Common
 {
-
     /**
      * A method to install whatever database support functionality
      * is required to allow the deliveryLog extension to operate
@@ -51,7 +50,4 @@ class OX_Extension_DeliveryLog_DB_Common
     {
         return true;
     }
-
 }
-
-?>

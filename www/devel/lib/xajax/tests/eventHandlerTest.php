@@ -1,18 +1,18 @@
 <?php
 require_once("../xajax.inc.php");
 
-function addHandler($sId,$sHandler)
+function addHandler($sId, $sHandler)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addHandler($sId, "click", $sHandler);
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addHandler($sId, "click", $sHandler);
+    return $objResponse->getXML();
 }
 
-function removeHandler($sId,$sHandler)
+function removeHandler($sId, $sHandler)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addRemoveHandler($sId, "click", $sHandler);
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addRemoveHandler($sId, "click", $sHandler);
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

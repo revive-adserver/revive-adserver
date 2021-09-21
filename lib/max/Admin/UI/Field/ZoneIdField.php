@@ -14,59 +14,59 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 
 class Admin_UI_ZoneIdField extends Admin_UI_Field
 {
-    function display()
+    public function display()
     {
         echo "
-        <select name='{$this->_name}' tabindex='".($this->_tabIndex++)."'>";
+        <select name='{$this->_name}' tabindex='" . ($this->_tabIndex++) . "'>";
         $this->displayZonesAsOptionList();
         echo "
         </select>";
     }
 
-    function getZones()
+    public function getZones()
     {
         global $list_filters;
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-            $aParams = array();
+            $aParams = [];
             $aPublishers = Admin_DA::getPublishers($aParams);
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
-                $aParams = array('publisher_id' => $list_filters['publisher']);
+                $aParams = ['publisher_id' => $list_filters['publisher']];
             } else { // else use all publishers
-                $aParams = array('publisher_id' => implode(',',array_keys($aPublishers)));
+                $aParams = ['publisher_id' => implode(',', array_keys($aPublishers))];
             }
             if (isset($this->_filter)) {
                 $aParams['zone_inventory_forecast_type'] = $this->getForecastType();
             }
             $aZones = Admin_DA::getZones($aParams);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $aParams = array('agency_id' => OA_Permission::getEntityId());
+            $aParams = ['agency_id' => OA_Permission::getEntityId()];
             $aPublishers = Admin_DA::getPublishers($aParams);
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
-                $aParams = array('publisher_id' => $list_filters['publisher']);
+                $aParams = ['publisher_id' => $list_filters['publisher']];
             } else { // else use all of this agency's publishers
-                $aParams = array('publisher_id' => implode(',',array_keys($aPublishers)));
+                $aParams = ['publisher_id' => implode(',', array_keys($aPublishers))];
             }
             if (isset($this->_filter)) {
                 $aParams['zone_inventory_forecast_type'] = $this->getForecastType();
             }
             $aZones = Admin_DA::getZones($aParams);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            $aParams = array('publisher_id' => OA_Permission::getEntityId());
+            $aParams = ['publisher_id' => OA_Permission::getEntityId()];
             $aPublishers = Admin_DA::getPublishers($aParams);
-            $aParams = array('publisher_id' => implode(',',array_keys($aPublishers)));
+            $aParams = ['publisher_id' => implode(',', array_keys($aPublishers))];
             if (isset($this->_filter)) {
                 $aParams['zone_inventory_forecast_type'] = $this->getForecastType();
             }
             $aZones = Admin_DA::getZones($aParams);
         } else {
-            $aPublishers = array();
-            $aZones = array();
+            $aPublishers = [];
+            $aZones = [];
         }
 
-        $aZoneArray = array();
+        $aZoneArray = [];
         foreach ($aPublishers as $publisherId => $aPublisher) {
             foreach ($aZones as $zoneId => $aZone) {
                 if ($aZone['publisher_id'] == $publisherId) {
@@ -78,25 +78,25 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
         return $aZoneArray;
     }
 
-    function getForecastType ()
+    public function getForecastType()
     {
         switch ($this->_filter) {
-        case FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED :
+        case FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED:
             return 1;
             break;
-        case FILTER_ZONE_INVENTORY_COUNTRY_INDEXED :
+        case FILTER_ZONE_INVENTORY_COUNTRY_INDEXED:
             return 2;
             break;
-        case FILTER_ZONE_INVENTORY_SOURCE_INDEXED :
+        case FILTER_ZONE_INVENTORY_SOURCE_INDEXED:
             return 4;
             break;
-        case FILTER_ZONE_INVENTORY_CHANNEL_INDEXED :
+        case FILTER_ZONE_INVENTORY_CHANNEL_INDEXED:
             return 8;
             break;
         }
     }
 
-    function displayZonesAsOptionList()
+    public function displayZonesAsOptionList()
     {
         $aZones = $this->getZones();
         foreach ($aZones as $zoneId => $aZone) {
@@ -105,5 +105,3 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
         }
     }
 }
-
-?>

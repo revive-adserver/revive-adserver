@@ -28,13 +28,12 @@ require_once OX_PATH . '/lib/OX.php';
  */
 class OX_Maintenance_Statistics_Task_DeDuplicateConversions extends OX_Maintenance_Statistics_Task
 {
-
     /**
      * The constructor method.
      *
      * @return OX_Maintenance_Statistics_Task_DeDuplicateConversions
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -43,7 +42,7 @@ class OX_Maintenance_Statistics_Task_DeDuplicateConversions extends OX_Maintenan
      * The implementation of the OA_Task::run() method that performs
      * the required task of de-duplicating and rejecting conversions.
      */
-    function run()
+    public function run()
     {
         if ($this->oController->updateIntermediate) {
 
@@ -54,17 +53,13 @@ class OX_Maintenance_Statistics_Task_DeDuplicateConversions extends OX_Maintenan
 
             // Get the MSE DAL to perform the de-duplication
             $oServiceLocator = OA_ServiceLocator::instance();
-            $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+            $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
 
             // De-duplicate conversions
             $oDal->deduplicateConversions($oStartDate, $this->oController->oUpdateIntermediateToDate);
 
             // Reject empty variable conversions
             $oDal->rejectEmptyVarConversions($oStartDate, $this->oController->oUpdateIntermediateToDate);
-
         }
     }
-
 }
-
-?>

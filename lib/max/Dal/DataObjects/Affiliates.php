@@ -17,16 +17,16 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Affiliates extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
-    var $refreshUpdatedFieldIfExists = true;
+    public $onDeleteCascade = true;
+    public $refreshUpdatedFieldIfExists = true;
 
     /**
      * BC-compatible user details
      *
      * @todo Please remove later
      */
-    var $username;
-    var $password;
+    public $username;
+    public $password;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -46,9 +46,12 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'agencyid' => 0,
         'name' => '',
         'mnemonic' => '',
@@ -65,7 +68,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      *
      * @return string
      */
-    function getUserId()
+    public function getUserId()
     {
         return $this->affiliateid;
     }
@@ -76,22 +79,22 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      *
      * @return integer
      */
-    function getNeedsToAgree()
+    public function getNeedsToAgree()
     {
         return $this->last_accepted_agency_agreement ? 0 : 1;
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->affiliateid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Affiliate';
     }
@@ -105,7 +108,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      *                 admin account ID if no owning
      *                 manager account can be found.
      */
-    function getOwningManagerId()
+    public function getOwningManagerId()
     {
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->agencyid = $this->agencyid;
@@ -126,7 +129,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      *
      * @see DB_DataObject::insert()
      */
-    function insert()
+    public function insert()
     {
         // Create account first
         $result = $this->createAccount(OA_ACCOUNT_TRAFFICKER, $this->name);
@@ -136,13 +139,13 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
 
         // Store data to create a user
         if (!empty($this->username) && !empty($this->password)) {
-            $aUser = array(
+            $aUser = [
                 'contact_name' => $this->contact,
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
                 'default_account_id' => $this->account_id
-            );
+            ];
         }
 
         $affiliateId = parent::insert();
@@ -163,17 +166,17 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      *
      * @see DB_DataObject::update()
      */
-    function update($dataObject = false)
+    public function update($dataObject = false)
     {
         // Store data to create a user
         if (!empty($this->username) && !empty($this->password)) {
-            $aUser = array(
+            $aUser = [
                 'contact_name' => $this->contact,
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
                 'default_account_id' => $this->account_id
-            );
+            ];
         }
 
         $ret = parent::update($dataObject);
@@ -196,9 +199,9 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      *
      * @see DB_DataObject::delete()
      */
-    function delete($useWhere = false, $cascade = true, $parentid = null)
+    public function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-        $result =  parent::delete($useWhere, $cascade, $parentid);
+        $result = parent::delete($useWhere, $cascade, $parentid);
         if ($result) {
             $this->deleteAccount();
         }
@@ -206,7 +209,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         return $result;
     }
 
-    function duplicate()
+    public function duplicate()
     {
         // Get unique name
         $this->name = $GLOBALS['strCopyOf'] . ' ' . $this->name;
@@ -220,7 +223,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
             $doZones = OA_Dal::factoryDO('zones');
             $doZones->affiliateid = $old_affiliateid;
             $doZones->find();
-            while($doZones->fetch()) {
+            while ($doZones->fetch()) {
                 $doOriginalZones = OA_Dal::factoryDO('zones');
                 $doOriginalZones->get($doZones->zoneid);
                 $new_zoneid = $doOriginalZones->duplicate($new_affiliateid);
@@ -237,11 +240,8 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = $this->name;
+        $aAuditFields['key_desc'] = $this->name;
     }
-
 }
-
-?>

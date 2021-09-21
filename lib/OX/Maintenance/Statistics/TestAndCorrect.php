@@ -22,15 +22,14 @@ require_once OX_PATH . '/lib/OA/Dal.php';
  */
 class OX_Maintenance_Statistics_TestAndCorrect
 {
-
     /**
      * Connection to the database.
      *
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
-    function __construct()
+    public function __construct()
     {
         // Get a connection to the datbase
         $this->oDbh = OA_DB::singleton();
@@ -45,7 +44,8 @@ class OX_Maintenance_Statistics_TestAndCorrect
      * @param Date $oEndDate   The end date/time of the range to test & correct.
      * @return boolean True if the date range seems okay, false otherwise.
      */
-    function checkRangeData($oStartDate, $oEndDate) {
+    public function checkRangeData($oStartDate, $oEndDate)
+    {
 
         // Test that there are no rows in the data_intermediate_ad table where the
         // operation interval value does not match that in the configuration file
@@ -94,7 +94,7 @@ class OX_Maintenance_Statistics_TestAndCorrect
      * @param Date $oStartDate The start date/time of the range to operate on.
      * @param Date $oEndDate   The end date/time of the farnce to operate on.
      */
-    function issueOne($oStartDate, $oEndDate)
+    public function issueOne($oStartDate, $oEndDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $sQuery = "
@@ -172,9 +172,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
         while ($aRow = $rsResult->fetchRow()) {
             $message = "        Inspecting operation interval {$aRow['date_time']}...\n";
             echo $message;
-            $requestRemainder    = $aRow['summary_requests'] % $aRow['intermediate_requests'];
+            $requestRemainder = $aRow['summary_requests'] % $aRow['intermediate_requests'];
             $impressionRemainder = $aRow['summary_impressions'] % $aRow['intermediate_impressions'];
-            $clickRemainder      = $aRow['summary_clicks'] % $aRow['intermediate_clicks'];
+            $clickRemainder = $aRow['summary_clicks'] % $aRow['intermediate_clicks'];
             $conversionRemainder = $aRow['summary_conversions'] % $aRow['intermediate_conversions'];
             if (!($requestRemainder == 0 && $impressionRemainder == 0 && $clickRemainder == 0 && $conversionRemainder == 0)) {
                 $message = "            Operation interval's data discrepancy is not a result of multiple summarisation of\n            data_intermediate_ad into data_summary_ad_hourly. Cannot correct this operation\n            interval automatically - you will need to inspect the data manually once this script\n            has completed running!\n";
@@ -286,7 +286,7 @@ class OX_Maintenance_Statistics_TestAndCorrect
      * @param Date $oStartDate The start date/time of the range to operate on.
      * @param Date $oEndDate   The end date/time of the farnce to operate on.
      */
-    function issueTwo($oStartDate, $oEndDate)
+    public function issueTwo($oStartDate, $oEndDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $sQuery = "
@@ -500,7 +500,4 @@ class OX_Maintenance_Statistics_TestAndCorrect
             }
         }
     }
-
 }
-
-?>

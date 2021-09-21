@@ -23,27 +23,27 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
 {
     private $mockDal;
 
-    const IDX_ADS = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::IDX_ADS;
-    const IDX_WEIGHT = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::IDX_WEIGHT;
-    const IDX_ZONES = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::IDX_ZONES;
+    public const IDX_ADS = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::IDX_ADS;
+    public const IDX_WEIGHT = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::IDX_WEIGHT;
+    public const IDX_ZONES = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::IDX_ZONES;
 
-    const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::ALPHA;
+    public const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::ALPHA;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generate(
             'OA_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockOA_Dal_Maintenance_Priority'.rand()
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand()
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_ECPMforContract',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforContract',
-            array('_getDal', '_factoryDal', 'calculateCampaignEcpm'
-            )
+            ['_getDal', '_factoryDal', 'calculateCampaignEcpm'
+            ]
         );
     }
 
@@ -52,7 +52,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
      * both arrays contain floats. All values are first rounded
      * to the given precision before comparing
      */
-    function assertEqualsFloatsArray($aExpected, $aChecked, $precision = 4)
+    public function assertEqualsFloatsArray($aExpected, $aChecked, $precision = 4)
     {
         $this->assertTrue(is_array($aExpected));
         $this->assertTrue(is_array($aChecked));
@@ -61,9 +61,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         $this->assertEqual($aExpected, $aChecked);
     }
 
-    function roundArray($arr, $precision)
+    public function roundArray($arr, $precision)
     {
-        foreach($arr as $k => $v) {
+        foreach ($arr as $k => $v) {
             if (is_array($v)) {
                 $arr[$k] = $this->roundArray($v, $precision);
             } else {
@@ -76,26 +76,26 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
     /**
      * A method to test the prepareCampaignsParameters() method.
      */
-    function DISABLED_testPrepareCampaignsParameters()
+    public function DISABLED_testPrepareCampaignsParameters()
     {
-        $aCampaignsInfo = array();
-        $aEcpm = array();
-        $aCampaignsDeliveredImpressions = array();
-        $aExpAdsEcpmPowAlpha = array();
-        $aExpZonesEcpmPowAlphaSums = array();
-        $aAdsGoals = array();
+        $aCampaignsInfo = [];
+        $aEcpm = [];
+        $aCampaignsDeliveredImpressions = [];
+        $aExpAdsEcpmPowAlpha = [];
+        $aExpZonesEcpmPowAlphaSums = [];
+        $aAdsGoals = [];
 
         ///////////////////////////////////////////////////
         // one ad linked to one zone
         ///////////////////////////////////////////////////
-        $aCampaignsInfo[$campaignId1 = 1] = array(
-            self::IDX_ADS => array(
-                $adId1 = 1 => array(
+        $aCampaignsInfo[$campaignId1 = 1] = [
+            self::IDX_ADS => [
+                $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId1 = 1),
-                )
-            ),
-        );
+                    self::IDX_ZONES => [$zoneId1 = 1],
+                ]
+            ],
+        ];
         $aAdsGoals[$zoneId1][$adId1] = 100;
         $aEcpm[$campaignId1] = 0.5;
         $aExpAdsEcpmPowAlpha[$adId1] = pow(0.5, self::ALPHA);
@@ -106,14 +106,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         ///////////////////////////////////////////////////
         // one ad linked to two zones
         ///////////////////////////////////////////////////
-        $aCampaignsInfo[$campaignId2 = 2] = array(
-            self::IDX_ADS => array(
-                $adId2 = 2 => array(
+        $aCampaignsInfo[$campaignId2 = 2] = [
+            self::IDX_ADS => [
+                $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId2 = 2, $zoneId3 = 3),
-                )
-            ),
-        );
+                    self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
+                ]
+            ],
+        ];
         $aAdsGoals[$zoneId2][$adId2] = 200;
         $aAdsGoals[$zoneId3][$adId2] = 200;
         $aEcpm[$campaignId2] = 0.6;
@@ -133,7 +133,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         $oEcpm->setReturnReference('_getDal', $oDal);
         $oEcpm->__construct();
         foreach ($aEcpm as $campId => $ecpm) {
-            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
+            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, [$campId, '*']);
         }
 
         // Test
@@ -147,23 +147,23 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
     /**
      * A method to test the calculateDeliveryProbabilities() method.
      */
-    function DISABLED_testCalculateDeliveryProbabilities()
+    public function DISABLED_testCalculateDeliveryProbabilities()
     {
-        $aExpAdZonesProbabilities = array();
-        $aZonesAvailableImpressions = array();
-        $aZoneAdGoal = array();
+        $aExpAdZonesProbabilities = [];
+        $aZonesAvailableImpressions = [];
+        $aZoneAdGoal = [];
 
         ///////////////////////////////////////////////////
         // one ad linked to one zone
         ///////////////////////////////////////////////////
-        $aCampaignsInfo[$campaignId1 = 1] = array(
-            self::IDX_ADS => array(
-                $adId1 = 1 => array(
+        $aCampaignsInfo[$campaignId1 = 1] = [
+            self::IDX_ADS => [
+                $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId1 = 1),
-                )
-            ),
-        );
+                    self::IDX_ZONES => [$zoneId1 = 1],
+                ]
+            ],
+        ];
         $aEcpm[$campaignId1] = 0.1;
         $aZoneAdGoal[$zoneId1][$adId1] = $G = 20;
         $aZonesAvailableImpressions[$zoneId1] = $M = 10;
@@ -173,14 +173,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         ///////////////////////////////////////////////////
         // one ad linked to two zones
         ///////////////////////////////////////////////////
-        $aCampaignsInfo[$campaignId2 = 2] = array(
-            self::IDX_ADS => array(
-                $adId2 = 2 => array(
+        $aCampaignsInfo[$campaignId2 = 2] = [
+            self::IDX_ADS => [
+                $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId2 = 2, $zoneId3 = 3),
-                )
-            ),
-        );
+                    self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
+                ]
+            ],
+        ];
         $aEcpm[$campaignId2] = 0.6;
         // as many impressions in first zone as in second, sum equal to required minimum
         $aZoneAdGoal[$zoneId2][$adId2] = $G1 = 200;
@@ -195,14 +195,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         ///////////////////////////////////////////////////
         // one ad linked to one zone (undersubscribed)
         ///////////////////////////////////////////////////
-        $aCampaignsInfo[$campaignId3 = 3] = array(
-            self::IDX_ADS => array(
-                $adId3 = 3 => array(
+        $aCampaignsInfo[$campaignId3 = 3] = [
+            self::IDX_ADS => [
+                $adId3 = 3 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId4 = 4),
-                )
-            ),
-        );
+                    self::IDX_ZONES => [$zoneId4 = 4],
+                ]
+            ],
+        ];
         $aEcpm[$campaignId4] = 0.1;
         $aZoneAdGoal[$zoneId4][$adId3] = $G = 5;
         $aZonesAvailableImpressions[$zoneId4] = $M = 10;
@@ -213,22 +213,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         ///////////////////////////////////////////////////
         // two ads with different eCPM linked to same zone
         ///////////////////////////////////////////////////
-        $aCampaignsInfo[$campaignId4 = 4] = array(
-            self::IDX_ADS => array(
-                $adId4 = 4 => array(
+        $aCampaignsInfo[$campaignId4 = 4] = [
+            self::IDX_ADS => [
+                $adId4 = 4 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId5 = 5),
-                )
-            ),
-        );
-        $aCampaignsInfo[$campaignId5 = 5] = array(
-            self::IDX_ADS => array(
-                $adId5 = 5 => array(
+                    self::IDX_ZONES => [$zoneId5 = 5],
+                ]
+            ],
+        ];
+        $aCampaignsInfo[$campaignId5 = 5] = [
+            self::IDX_ADS => [
+                $adId5 = 5 => [
                     self::IDX_WEIGHT => 1,
-                    self::IDX_ZONES => array($zoneId5 = 5),
-                )
-            ),
-        );
+                    self::IDX_ZONES => [$zoneId5 = 5],
+                ]
+            ],
+        ];
         $aEcpm[$campaignId4] = $ecpm1 = 0.3;
         $aEcpm[$campaignId5] = $ecpm2 = 0.6;
         $aZoneAdGoal[$zoneId5][$adId4] = $G = 100;
@@ -252,7 +252,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPM class
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforContract($this);
         foreach ($aEcpm as $campId => $ecpm) {
-            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, array($campId, '*'));
+            $oEcpm->setReturnValue('calculateCampaignEcpm', $ecpm, [$campId, '*']);
         }
         $oEcpm->setReturnReference('_getDal', $oDal);
         $oEcpm->__construct();
@@ -264,5 +264,3 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
         $this->assertEqualsFloatsArray($aExpAdZonesProbabilities, $aAdZonesProbabilities);
     }
 }
-
-?>

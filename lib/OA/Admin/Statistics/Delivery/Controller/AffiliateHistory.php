@@ -22,7 +22,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  */
 class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
-
+    /**
+     * @var string[]|int[]
+     */
+    public $aPageContext;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +36,10 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'affiliate';
+        $this->entity = 'affiliate';
         $this->breakdown = 'history';
 
         // This page uses the day span selector element
@@ -50,19 +53,19 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $publisherId = $this->_getId('publisher');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId));
+        $this->_checkAccess(['publisher' => $publisherId]);
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId
-        );
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -74,31 +77,31 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.1';
-            $this->aPageSections = array('2.4.1', '2.4.2', '2.4.3');
+            $this->aPageSections = ['2.4.1', '2.4.2', '2.4.3'];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.1';
-            $this->aPageSections = array('1.1', '1.2', '1.3');
+            $this->aPageSections = ['1.1', '1.2', '1.3'];
         }
 
         // Add breadcrumbs
         $this->_addBreadcrumbs('publisher', $publisherId);
 
         // Add context
-        $this->aPageContext = array('publishers', $publisherId);
+        $this->aPageContext = ['publishers', $publisherId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'publisher_id' => $publisherId
-        );
+        ];
 
         // Limit by advertiser
         $advertiserId = (int)MAX_getValue('clientid', '');
@@ -108,7 +111,4 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
 
         $this->prepare($aParams, 'stats.php');
     }
-
 }
-
-?>

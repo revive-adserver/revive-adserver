@@ -20,8 +20,7 @@ require_once MAX_PATH . '/lib/OX/Admin/Timezones.php';
  */
 class Test_OX_Admin_Timezones extends UnitTestCase
 {
-
-    function testAvailableTimezones()
+    public function testAvailableTimezones()
     {
         global $_DATE_TIMEZONE_DATA;
 
@@ -42,12 +41,12 @@ class Test_OX_Admin_Timezones extends UnitTestCase
 
             // Check label to ensure it was created properly
             $offset = OX_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
-            $offset = ($_DATE_TIMEZONE_DATA[$key]['offset'] >=0) ? 'GMT+'. $offset : 'GMT-'. $offset;
+            $offset = ($_DATE_TIMEZONE_DATA[$key]['offset'] >= 0) ? 'GMT+' . $offset : 'GMT-' . $offset;
             $this->assertEqual($value, "($offset) $key");
         }
     }
 
-    function testGetTimezone()
+    public function testGetTimezone()
     {
         // Set environment variable
         date_default_timezone_set('America/Detroit');
@@ -55,36 +54,34 @@ class Test_OX_Admin_Timezones extends UnitTestCase
         $this->assertEqual('America/Detroit', $timezone);
     }
 
-    function testGetConfigTimezoneValue()
+    public function testGetConfigTimezoneValue()
     {
-        $aConfigTimezone = array(
+        $aConfigTimezone = [
             'America/Detroit' => 'Europe/London',
             'Europe/London' => 'Europe/London'
-        );
+        ];
 
-        $aResult = array(
-            'America/Detroit'   => 'America/Detroit',
-            'Europe/London'     => ''
-        );
+        $aResult = [
+            'America/Detroit' => 'America/Detroit',
+            'Europe/London' => ''
+        ];
 
         foreach ($aConfigTimezone as $tz => $aTimezone) {
             $this->assertEqual(OX_Admin_Timezones::getConfigTimezoneValue($tz, $aTimezone), $aResult[$tz]);
         }
     }
 
-    function test_convertOffset()
+    public function test_convertOffset()
     {
-        $aOffset = array (
+        $aOffset = [
             '18000000' => '0500',
             '11224000' => '0307',
             '34200000' => '0930',
             '45900000' => '1245'
-        );
+        ];
 
         foreach ($aOffset as $offset => $result) {
             $this->assertEqual(OX_Admin_Timezones::_convertOffset($offset), $result);
         }
     }
 }
-
-?>

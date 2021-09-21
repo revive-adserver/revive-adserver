@@ -16,10 +16,9 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 
 class Admin_UI_SheetSelectionField extends Admin_UI_Field
 {
-    function display()
+    public function display()
     {
-        if (!count($this->_value))
-        {
+        if (!count($this->_value)) {
             echo "
             <input type='hidden' id='sheets_0' name='sheets[0]' value='1' checked='checked' /><label for='sheets_0'><strong>Default</strong></label><br />";
         } else {
@@ -30,14 +29,12 @@ class Admin_UI_SheetSelectionField extends Admin_UI_Field
         }
     }
     
-    function setValueFromArray($aFieldValues)
+    public function setValueFromArray($aFieldValues)
     {
         if (isset($aFieldValues['sheets']) && is_array($aFieldValues['sheets'])) {
             $this->_value = $aFieldValues['sheets'];
         } else {
-            $this->_value = array();
+            $this->_value = [];
         }
     }
 }
-
-?>

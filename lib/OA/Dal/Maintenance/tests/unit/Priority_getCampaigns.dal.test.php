@@ -28,7 +28,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,7 +36,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
     /**
      * A method to test the getCampaigns method.
      */
-    function testGetCampaigns()
+    public function testGetCampaigns()
     {
         /**
          * @TODO Locate where clean up doesn't happen before this test, and fix!
@@ -123,7 +123,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
      *
      * @access private
      */
-    function _generateStatsOne()
+    public function _generateStatsOne()
     {
         $oDate = new Date();
         $oDate->setHour(23);
@@ -138,9 +138,9 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $oDate->subtractSpan(new Date_Span('2-0-0-0'));
         $expiryDateLessTwoDays = $oDate->getDate(DATE_FORMAT_ISO);
 
-        $doAcls      = OA_Dal::factoryDO('acls');
+        $doAcls = OA_Dal::factoryDO('acls');
 
-        $doBanners   = OA_Dal::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         // default values
         $doBanners->status = OA_ENTITY_STATUS_RUNNING;
         $doBanners->contenttype = 'gif';
@@ -250,7 +250,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $idCampaign5 = DataGenerator::generateOne($doCampaigns);
 
         // Add 1st banner to campaign 1
-        $doBanners->campaignid=$idCampaign1;
+        $doBanners->campaignid = $idCampaign1;
         $doBanners->alt = 'Campaign1 - Banner 1';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
@@ -275,7 +275,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
 
         // Add 2nd banner to campaign 1
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid=$idCampaign1;
+        $doBanners->campaignid = $idCampaign1;
         $doBanners->alt = 'Campaign1 - Banner 2';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
@@ -299,13 +299,13 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $idAcls4 = DataGenerator::generateOne($doAcls);
 
         // Add 1st banner to campaign 2  ????
-        $doBanners->campaignid=$idCampaign2;
+        $doBanners->campaignid = $idCampaign2;
         $doBanners->alt = 'Campaign2 - Banner 1';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $idBanner3 = DataGenerator::generateOne($doBanners);
 
-        $doBanners->campaignid=$idCampaign2;
+        $doBanners->campaignid = $idCampaign2;
         $doBanners->alt = 'Campaign2 - Banner 2';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
@@ -329,7 +329,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $idAcls6 = DataGenerator::generateOne($doAcls);
 
         // Add 2nd banner to campaign 2
-        $doBanners->campaignid=$idCampaign2;
+        $doBanners->campaignid = $idCampaign2;
         $doBanners->alt = 'Campaign2 - Banner 3';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
@@ -353,7 +353,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $idAcls8 = DataGenerator::generateOne($doAcls);
 
         // Add 1st banner to campaign 3
-        $doBanners->campaignid=$idCampaign3;
+        $doBanners->campaignid = $idCampaign3;
         $doBanners->alt = 'Campaign3 - Banner 1';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
@@ -377,7 +377,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $idAcls10 = DataGenerator::generateOne($doAcls);
 
         // Add 2nd banner to campaign 3
-        $doBanners->campaignid=$idCampaign3;
+        $doBanners->campaignid = $idCampaign3;
         $doBanners->alt = 'Campaign3 - Banner 2';
         $doBanners->acls_updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $doBanners->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
@@ -400,7 +400,4 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doAcls->executionorder = 1;
         $idAcls12 = DataGenerator::generateOne($doAcls);
     }
-
 }
-
-?>

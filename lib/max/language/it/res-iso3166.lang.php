@@ -250,6 +250,3 @@ $phpAds_ISO3166['YE'] = "Yemen";
 $phpAds_ISO3166['YU'] = "Yugoslavia";
 $phpAds_ISO3166['ZM'] = "Zambia";
 $phpAds_ISO3166['ZW'] = "Zimbabwe";
-
-
-?>

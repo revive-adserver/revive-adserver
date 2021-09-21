@@ -17,97 +17,88 @@
 
 class OA_BaseUpgradeAuditor
 {
-
     // needs to be defined in the child class
-    var $action_table_xml_filename;
+    public $action_table_xml_filename;
 
-    var $logTable   = '';
+    public $logTable = '';
 
-	function __construct()
-	{
-	}
+    public function __construct()
+    {
+    }
 
-	function init($oDbh='', $oLogger='')
-	{
-	    if ($oDbh)
-	    {
+    public function init($oDbh = '', $oLogger = '')
+    {
+        if ($oDbh) {
             $this->oDbh = $oDbh;
-	    }
-	    else
-	    {
+        } else {
             $this->oDbh = OA_DB::singleton();
-	    }
+        }
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         // so that this class can log to the caller's log
         // and write it's own log if necessary (testing)
-        if ($oLogger)
-        {
-            $this->oLogger= $oLogger;
+        if ($oLogger) {
+            $this->oLogger = $oLogger;
         }
         return $this->_checkCreateAuditTable();
-	}
+    }
 
-	function getLogTableName()
-	{
-	    return $this->oDbh->quoteIdentifier($this->prefix.$this->logTable,true);
-	}
+    public function getLogTableName()
+    {
+        return $this->oDbh->quoteIdentifier($this->prefix . $this->logTable, true);
+    }
 
-	/**
+    /**
      * audit actions taken
      *
      * @param array $aParams
      * @return boolean
      */
-    function logAuditAction($aParams=array())
+    public function logAuditAction($aParams = [])
     {
         $aParams = $this->_escapeParams($aParams);
-        $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
-        $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
+        $columns = implode(",", array_keys($this->aParams)) . ',' . implode(",", array_keys($aParams));
+        $values = implode(",", array_values($this->aParams)) . ',' . implode(",", array_values($aParams));
         $table = $this->getLogTableName();
-        $query = "INSERT INTO {$table} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
+        $query = "INSERT INTO {$table} ({$columns}, updated) VALUES ({$values}, '" . OA::getNow() . "')";
         $auditId = $this->getNextUpgradeActionId();
         $result = $this->oDbh->exec($query);
-        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}"))
-        {
+        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}")) {
             return false;
         }
         return $auditId;
     }
 
-    function updateAuditAction($aParams=array())
+    public function updateAuditAction($aParams = [])
     {
         $id = (isset($aParams['id']) ? $aParams['id'] : $this->getUpgradeActionId());
         unset($aParams['id']);
-        if (!$id)
-        {
+        if (!$id) {
             $this->logError('upgrade_action_id is empty');
             return false;
         }
         $aParams = $this->_escapeParams($aParams);
 
         $values = '';
-        foreach ($aParams AS $k => $v)
-        {
-            $values.= "{$k}={$v},";
+        foreach ($aParams as $k => $v) {
+            $values .= "{$k}={$v},";
         }
-        $values.= "updated='".OA::getNow()."'";
+        $values .= "updated='" . OA::getNow() . "'";
         $table = $this->getLogTableName();
         $query = "UPDATE {$table} SET {$values} WHERE upgrade_action_id={$id}";
         $result = $this->oDbh->exec($query);
 
-        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}"))
-        {
+        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}")) {
             return false;
         }
         return true;
     }
 
-    function setKeyParams($aParams='')
+    public function setKeyParams($aParams = '')
     {
         $this->aParams = $this->_escapeParams($aParams);
     }
 
-    function getNextUpgradeActionId()
+    public function getNextUpgradeActionId()
     {
         return true;
     }
@@ -119,39 +110,34 @@ class OA_BaseUpgradeAuditor
      *
      * @return boolean
      */
-    function _createAuditTable()
+    public function _createAuditTable()
     {
-        $xmlfile = MAX_PATH.$this->action_table_xml_filename;
+        $xmlfile = MAX_PATH . $this->action_table_xml_filename;
 
         $oTable = new OA_DB_Table();
         $oTable->init($xmlfile);
         return $oTable->createTable($this->logTable);
     }
 
-    function _checkCreateAuditTable()
+    public function _checkCreateAuditTable()
     {
         $this->aDBTables = OA_DB_Table::listOATablesCaseSensitive();
-        if (!in_array($this->prefix.$this->logTable, $this->aDBTables))
-        {
-            $this->log('creating '.$this->logTable.' audit table');
-            if (!$this->_createAuditTable())
-            {
-                $this->logError('failed to create '.$this->logTable.' audit table');
+        if (!in_array($this->prefix . $this->logTable, $this->aDBTables)) {
+            $this->log('creating ' . $this->logTable . ' audit table');
+            if (!$this->_createAuditTable()) {
+                $this->logError('failed to create ' . $this->logTable . ' audit table');
                 return false;
             }
-            $this->log('successfully created '.$this->logTable.' audit table');
+            $this->log('successfully created ' . $this->logTable . ' audit table');
         }
         return true;
     }
 
-    function _escapeParams($aParams)
+    public function _escapeParams($aParams)
     {
-        foreach ($aParams AS $k => $v)
-        {
+        foreach ($aParams as $k => $v) {
             $aParams[$k] = $this->oDbh->quote($v);
         }
         return $aParams;
     }
-
 }
-?>

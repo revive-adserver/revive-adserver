@@ -37,118 +37,118 @@ $prefSection = "banner-delivery";
 $aDeliveryCacheStores = OX_Component::getComponents('deliveryCacheStore', null, false);
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
+    $aElements = [];
     // Banner Delivery Cache Settings
-    $aElements += array(
-        'delivery_cacheExpire' => array('delivery' => 'cacheExpire'),
-        'delivery_cacheStorePlugin' => array('delivery' => 'cacheStorePlugin')
-    );
+    $aElements += [
+        'delivery_cacheExpire' => ['delivery' => 'cacheExpire'],
+        'delivery_cacheStorePlugin' => ['delivery' => 'cacheStorePlugin']
+    ];
 
     // Banner Delivery Settings
-    $aElements += array(
-        'delivery_acls' => array(
+    $aElements += [
+        'delivery_acls' => [
             'delivery' => 'acls',
-            'bool'     => true
-        ),
-        'delivery_aclsDirectSelection' => array(
+            'bool' => true
+        ],
+        'delivery_aclsDirectSelection' => [
             'delivery' => 'aclsDirectSelection',
-            'bool'     => true
-        ),
-        'delivery_obfuscate' => array(
+            'bool' => true
+        ],
+        'delivery_obfuscate' => [
             'delivery' => 'obfuscate',
-            'bool'     => true
-        ),
-        'delivery_clickUrlValidity' => array('delivery' => 'clickUrlValidity'),
-        'defaultBanner_imageUrl' => array('defaultBanner' => 'imageUrl'),
-        'defaultBanner_invalidZoneHtmlBanner' => array('defaultBanner' => 'invalidZoneHtmlBanner'),
-        'defaultBanner_suspendedAccountHtmlBanner' => array('defaultBanner' => 'suspendedAccountHtmlBanner'),
-        'defaultBanner_inactiveAccountHtmlBanner' => array('defaultBanner' => 'inactiveAccountHtmlBanner'),
-    );
+            'bool' => true
+        ],
+        'delivery_clickUrlValidity' => ['delivery' => 'clickUrlValidity'],
+        'defaultBanner_imageUrl' => ['defaultBanner' => 'imageUrl'],
+        'defaultBanner_invalidZoneHtmlBanner' => ['defaultBanner' => 'invalidZoneHtmlBanner'],
+        'defaultBanner_suspendedAccountHtmlBanner' => ['defaultBanner' => 'suspendedAccountHtmlBanner'],
+        'defaultBanner_inactiveAccountHtmlBanner' => ['defaultBanner' => 'inactiveAccountHtmlBanner'],
+    ];
     // Invocation Defaults
-    $aElements += array(
-        'delivery_clicktracking' => array('delivery' => 'clicktracking')
-    );
+    $aElements += [
+        'delivery_clicktracking' => ['delivery' => 'clicktracking']
+    ];
     // Privacy Settings
-    $aElements += array(
-        'privacy_disableViewerId' => array(
-            'privacy'  => 'disableViewerId',
+    $aElements += [
+        'privacy_disableViewerId' => [
+            'privacy' => 'disableViewerId',
             'bool' => true
-        ),
-        'privacy_anonymiseIp' => array(
-            'privacy'  => 'anonymiseIp',
+        ],
+        'privacy_anonymiseIp' => [
+            'privacy' => 'anonymiseIp',
             'bool' => true
-        ),
-    );
+        ],
+    ];
     // P3P Privacy Policies
-    $aElements += array(
-        'p3p_policies' => array(
-            'p3p'  => 'policies',
+    $aElements += [
+        'p3p_policies' => [
+            'p3p' => 'policies',
             'bool' => true
-        ),
-        'p3p_compactPolicy'  => array('p3p' => 'compactPolicy'),
-        'p3p_policyLocation' => array('p3p' => 'policyLocation')
-    );
+        ],
+        'p3p_compactPolicy' => ['p3p' => 'compactPolicy'],
+        'p3p_policyLocation' => ['p3p' => 'policyLocation']
+    ];
     // OpenX Server Access Paths
-    $aElements += array(
-        'webpath_admin' => array(
-            'webpath'      => 'admin',
-            'preg_match'   => '#/$#',
+    $aElements += [
+        'webpath_admin' => [
+            'webpath' => 'admin',
+            'preg_match' => '#/$#',
             'preg_replace' => ''
-        ),
-        'webpath_delivery' => array(
-            'webpath'      => 'delivery',
-            'preg_match'   => '#/$#',
+        ],
+        'webpath_delivery' => [
+            'webpath' => 'delivery',
+            'preg_match' => '#/$#',
             'preg_replace' => ''
-        ),
-        'webpath_deliverySSL' => array(
-            'webpath'      => 'deliverySSL',
-            'preg_match'   => '#/$#',
+        ],
+        'webpath_deliverySSL' => [
+            'webpath' => 'deliverySSL',
+            'preg_match' => '#/$#',
             'preg_replace' => ''
-        ),
-        'webpath_images' => array(
-            'webpath'      => 'images',
-            'preg_match'   => '#/$#',
+        ],
+        'webpath_images' => [
+            'webpath' => 'images',
+            'preg_match' => '#/$#',
             'preg_replace' => ''
-        ),
-        'webpath_imagesSSL' => array(
-            'webpath'      => 'imagesSSL',
-            'preg_match'   => '#/$#',
+        ],
+        'webpath_imagesSSL' => [
+            'webpath' => 'imagesSSL',
+            'preg_match' => '#/$#',
             'preg_replace' => ''
-        )
-    );
+        ]
+    ];
     // Delivery File Names
-    $aElements += array(
-        'file_click'           => array('file' => 'click'),
-        'file_signedClick'     => array('file' => 'signedClick'),
-        'file_conversionvars'  => array('file' => 'conversionvars'),
-        'file_content'         => array('file' => 'content'),
-        'file_conversion'      => array('file' => 'conversion'),
-        'file_conversionjs'    => array('file' => 'conversionjs'),
-        'file_frame'           => array('file' => 'frame'),
-        'file_image'           => array('file' => 'image'),
-        'file_js'              => array('file' => 'js'),
-        'file_layer'           => array('file' => 'layer'),
-        'file_log'             => array('file' => 'log'),
-        'file_popup'           => array('file' => 'popup'),
-        'file_view'            => array('file' => 'view'),
-        'file_xmlrpc'          => array('file' => 'xmlrpc'),
-        'file_local'           => array('file' => 'local'),
-        'file_frontcontroller' => array('file' => 'frontcontroller'),
-        'file_singlepagecall'  => array('file' => 'singlepagecall'),
-        'file_spcjs'           => array('file' => 'spcjs'),
-        'file_asyncjsjs'       => array('file' => 'asyncjsjs'),
-        'file_asyncjs'         => array('file' => 'asyncjs'),
-        'file_asyncspc'        => array('file' => 'asyncspc'),
-    );
+    $aElements += [
+        'file_click' => ['file' => 'click'],
+        'file_signedClick' => ['file' => 'signedClick'],
+        'file_conversionvars' => ['file' => 'conversionvars'],
+        'file_content' => ['file' => 'content'],
+        'file_conversion' => ['file' => 'conversion'],
+        'file_conversionjs' => ['file' => 'conversionjs'],
+        'file_frame' => ['file' => 'frame'],
+        'file_image' => ['file' => 'image'],
+        'file_js' => ['file' => 'js'],
+        'file_layer' => ['file' => 'layer'],
+        'file_log' => ['file' => 'log'],
+        'file_popup' => ['file' => 'popup'],
+        'file_view' => ['file' => 'view'],
+        'file_xmlrpc' => ['file' => 'xmlrpc'],
+        'file_local' => ['file' => 'local'],
+        'file_frontcontroller' => ['file' => 'frontcontroller'],
+        'file_singlepagecall' => ['file' => 'singlepagecall'],
+        'file_spcjs' => ['file' => 'spcjs'],
+        'file_asyncjsjs' => ['file' => 'asyncjsjs'],
+        'file_asyncjs' => ['file' => 'asyncjs'],
+        'file_asyncspc' => ['file' => 'asyncspc'],
+    ];
     // Test the suitability of the cache store type, if required
-    MAX_commonRegisterGlobalsArray(array('delivery_cacheStorePlugin'));
+    MAX_commonRegisterGlobalsArray(['delivery_cacheStorePlugin']);
     if (isset($delivery_cacheStorePlugin)) {
         // Check for problems in selected delivery store plugin
         $oDeliveryCacheStore = &OX_Component::factoryByComponentIdentifier($delivery_cacheStorePlugin);
@@ -156,10 +156,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if ($result !== true) {
             $aErrormessage[1][] = $oTranslation->translate(
                 'ErrorInCacheStorePlugin',
-                array($oDeliveryCacheStore->getName())
+                [$oDeliveryCacheStore->getName()]
             );
             foreach ($result as $error) {
-                $aErrormessage[1][] = " - ".$error;
+                $aErrormessage[1][] = " - " . $error;
             }
         }
     }
@@ -171,9 +171,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Queue confirmation message
             $setPref = $oOptions->getSettingsPreferences($prefSection);
             $title = $setPref[$prefSection]['name'];
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-                array(htmlspecialchars($title)));
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate(
+                $GLOBALS['strXSettingsHaveBeenUpdated'],
+                [htmlspecialchars($title)]
+            );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
             // The settings configuration file was written correctly,
@@ -183,7 +185,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Could not write the settings configuration file, store this
         // error message and continue
         $aErrormessage[0][] = $strUnableToWriteConfig;
-
     }
 }
 
@@ -198,393 +199,391 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 // This page depends on deliveryCacheStore plugins, so use the plugin
 // information from earlier to generate the elements for the plugins
 // which is required in the next section
-$aCacheStoresSelect = array();
+$aCacheStoresSelect = [];
 foreach ($aDeliveryCacheStores as $pluginKey => $oCacheStore) {
     $aCacheStoresSelect[$oCacheStore->getComponentIdentifier()] = $oCacheStore->getName();
 }
 
-$aDeliveryCacheSettings = array (
-    array (
-            'type'    => 'text',
-            'name'    => 'delivery_cacheExpire',
-            'text'    => $strDeliveryCacheLimit,
-            'check'   => 'wholeNumber'
-        ),
-    array (
-            'type'    => 'break',
+$aDeliveryCacheSettings = [
+    [
+            'type' => 'text',
+            'name' => 'delivery_cacheExpire',
+            'text' => $strDeliveryCacheLimit,
+            'check' => 'wholeNumber'
+        ],
+    [
+            'type' => 'break',
             'visible' => !empty($aCacheStoresSelect)
-        ),
-    array (
-            'type'  => 'select',
-            'name'  => 'delivery_cacheStorePlugin',
-            'text'  => $strDeliveryCacheStore,
-            'items'   => $aCacheStoresSelect,
+        ],
+    [
+            'type' => 'select',
+            'name' => 'delivery_cacheStorePlugin',
+            'text' => $strDeliveryCacheStore,
+            'items' => $aCacheStoresSelect,
             'visible' => !empty($aCacheStoresSelect)
-        )
-);
+        ]
+];
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array(
-    array (
-        'text'  => $strDeliveryCaching,
+$aSettings = [
+    [
+        'text' => $strDeliveryCaching,
         'items' => $aDeliveryCacheSettings
-    ),
-    array (
-        'text'  => $strBannerDelivery,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'delivery_acls',
-                'text'    => $strDeliveryAcls
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'delivery_aclsDirectSelection',
-                'text'    => $strDeliveryAclsDirectSelection
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'delivery_obfuscate',
-                'text'    => $strDeliveryObfuscate
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'delivery_clickUrlValidity',
-                'text'    => $strDeliveryClickUrlValidity,
-                'check'   => 'wholeNumber',
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'defaultBanner_imageUrl',
-                'text'    => $strGlobalDefaultBannerUrl,
-                'check'   => 'url'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'textarea',
-                'name'    => 'defaultBanner_invalidZoneHtmlBanner',
-                'text'    => $strGlobalDefaultBannerInvalidZone,
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'textarea',
-                'name'    => 'defaultBanner_suspendedAccountHtmlBanner',
-                'text'    => $strGlobalDefaultBannerSuspendedAccount,
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'textarea',
-                'name'    => 'defaultBanner_inactiveAccountHtmlBanner',
-                'text'    => $strGlobalDefaultBannerInactiveAccount,
-            ),
-        )
-    ),
-    array (
-        'text' 	=> $strPrivacySettings,
-        'items'	=> array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'privacy_disableViewerId',
-                'text'	  => $strDisableViewerId
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type' 	  => 'checkbox',
-                'name' 	  => 'privacy_anonymiseIp',
-                'text' 	  => $strAnonymiseIp,
-            ),
-        )
-    ),
-    array (
-        'text' 	=> $strP3PSettings,
-        'items'	=> array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'p3p_policies',
-                'text'	  => $strUseP3P
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type' 	  => 'text',
-                'name' 	  => 'p3p_compactPolicy',
-                'text' 	  => $strP3PCompactPolicy,
-                'size'	  => 35,
+    ],
+    [
+        'text' => $strBannerDelivery,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'delivery_acls',
+                'text' => $strDeliveryAcls
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'delivery_aclsDirectSelection',
+                'text' => $strDeliveryAclsDirectSelection
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'delivery_obfuscate',
+                'text' => $strDeliveryObfuscate
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'delivery_clickUrlValidity',
+                'text' => $strDeliveryClickUrlValidity,
+                'check' => 'wholeNumber',
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'defaultBanner_imageUrl',
+                'text' => $strGlobalDefaultBannerUrl,
+                'check' => 'url'
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'defaultBanner_invalidZoneHtmlBanner',
+                'text' => $strGlobalDefaultBannerInvalidZone,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'defaultBanner_suspendedAccountHtmlBanner',
+                'text' => $strGlobalDefaultBannerSuspendedAccount,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'defaultBanner_inactiveAccountHtmlBanner',
+                'text' => $strGlobalDefaultBannerInactiveAccount,
+            ],
+        ]
+    ],
+    [
+        'text' => $strPrivacySettings,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'privacy_disableViewerId',
+                'text' => $strDisableViewerId
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'privacy_anonymiseIp',
+                'text' => $strAnonymiseIp,
+            ],
+        ]
+    ],
+    [
+        'text' => $strP3PSettings,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'p3p_policies',
+                'text' => $strUseP3P
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'p3p_compactPolicy',
+                'text' => $strP3PCompactPolicy,
+                'size' => 35,
                 'depends' => 'p3p_policies==true'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type' 	  => 'text',
-                'name' 	  => 'p3p_policyLocation',
-                'text' 	  => $strP3PPolicyLocation,
-                'size'	  => 35,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'p3p_policyLocation',
+                'text' => $strP3PPolicyLocation,
+                'size' => 35,
                 'depends' => 'p3p_policies==true',
-                'check'   => 'url'
-            )
-        )
-    ),
-    array (
-        'text'  => $strWebPath,
-        'items' => array (
-            array (
-                'type'    => 'url',
-                'name'    => 'webpath_admin',
-                'text'    => $strAdminUrlPrefix,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'urln',
-                'name'    => 'webpath_delivery',
-                'text'    => $strDeliveryUrlPrefix,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'urls',
-                'name'    => 'webpath_deliverySSL',
-                'text'    => $strDeliveryUrlPrefixSSL,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'urln',
-                'name'    => 'webpath_images',
-                'text'    => $strImagesUrlPrefix,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'urls',
-                'name'    => 'webpath_imagesSSL',
-                'text'    => $strImagesUrlPrefixSSL,
-                'size'    => 35
-            )
-        )
-    ),
-    array (
-        'text'  => $strDeliveryFilenames,
-        'items' => array (
-            array (
-                'type'    => 'text',
-                'name'    => 'file_click',
-                'text'    => $strDeliveryFilenamesAdClick,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),array (
-                'type'    => 'text',
-                'name'    => 'file_signedClick',
-                'text'    => $strDeliveryFilenamesSignedAdClick,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_conversionvars',
-                'text'    => $strDeliveryFilenamesAdConversionVars,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_content',
-                'text'    => $strDeliveryFilenamesAdContent,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_conversion',
-                'text'    => $strDeliveryFilenamesAdConversion,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_conversionjs',
-                'text'    => $strDeliveryFilenamesAdConversionJS,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_frame',
-                'text'    => $strDeliveryFilenamesAdFrame,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_image',
-                'text'    => $strDeliveryFilenamesAdImage,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_js',
-                'text'    => $strDeliveryFilenamesAdJS,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_layer',
-                'text'    => $strDeliveryFilenamesAdLayer,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_log',
-                'text'    => $strDeliveryFilenamesAdLog,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_popup',
-                'text'    => $strDeliveryFilenamesAdPopup,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_view',
-                'text'    => $strDeliveryFilenamesAdView,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_xmlrpc',
-                'text'    => $strDeliveryFilenamesXMLRPC,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_local',
-                'text'    => $strDeliveryFilenamesLocal,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_frontcontroller',
-                'text'    => $strDeliveryFilenamesFrontController,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_singlepagecall',
-                'text'    => $strDeliveryFilenamesSinglePageCall,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_spcjs',
-                'text'    => $strDeliveryFilenamesSinglePageCallJS,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_asyncjsjs',
-                'text'    => $strDeliveryFilenamesAsyncJS,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_asyncjs',
-                'text'    => $strDeliveryFilenamesAsyncPHP,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'file_asyncspc',
-                'text'    => $strDeliveryFilenamesAsyncSPC,
-                'req'     => true
-            ),
-        )
-    )
-);
+                'check' => 'url'
+            ]
+        ]
+    ],
+    [
+        'text' => $strWebPath,
+        'items' => [
+            [
+                'type' => 'url',
+                'name' => 'webpath_admin',
+                'text' => $strAdminUrlPrefix,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'urln',
+                'name' => 'webpath_delivery',
+                'text' => $strDeliveryUrlPrefix,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'urls',
+                'name' => 'webpath_deliverySSL',
+                'text' => $strDeliveryUrlPrefixSSL,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'urln',
+                'name' => 'webpath_images',
+                'text' => $strImagesUrlPrefix,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'urls',
+                'name' => 'webpath_imagesSSL',
+                'text' => $strImagesUrlPrefixSSL,
+                'size' => 35
+            ]
+        ]
+    ],
+    [
+        'text' => $strDeliveryFilenames,
+        'items' => [
+            [
+                'type' => 'text',
+                'name' => 'file_click',
+                'text' => $strDeliveryFilenamesAdClick,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ], [
+                'type' => 'text',
+                'name' => 'file_signedClick',
+                'text' => $strDeliveryFilenamesSignedAdClick,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_conversionvars',
+                'text' => $strDeliveryFilenamesAdConversionVars,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_content',
+                'text' => $strDeliveryFilenamesAdContent,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_conversion',
+                'text' => $strDeliveryFilenamesAdConversion,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_conversionjs',
+                'text' => $strDeliveryFilenamesAdConversionJS,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_frame',
+                'text' => $strDeliveryFilenamesAdFrame,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_image',
+                'text' => $strDeliveryFilenamesAdImage,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_js',
+                'text' => $strDeliveryFilenamesAdJS,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_layer',
+                'text' => $strDeliveryFilenamesAdLayer,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_log',
+                'text' => $strDeliveryFilenamesAdLog,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_popup',
+                'text' => $strDeliveryFilenamesAdPopup,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_view',
+                'text' => $strDeliveryFilenamesAdView,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_xmlrpc',
+                'text' => $strDeliveryFilenamesXMLRPC,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_local',
+                'text' => $strDeliveryFilenamesLocal,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_frontcontroller',
+                'text' => $strDeliveryFilenamesFrontController,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_singlepagecall',
+                'text' => $strDeliveryFilenamesSinglePageCall,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_spcjs',
+                'text' => $strDeliveryFilenamesSinglePageCallJS,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_asyncjsjs',
+                'text' => $strDeliveryFilenamesAsyncJS,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_asyncjs',
+                'text' => $strDeliveryFilenamesAsyncPHP,
+                'req' => true
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'file_asyncspc',
+                'text' => $strDeliveryFilenamesAsyncSPC,
+                'req' => true
+            ],
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

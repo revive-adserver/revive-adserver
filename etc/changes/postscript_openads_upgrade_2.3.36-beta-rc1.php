@@ -15,30 +15,25 @@ $className = 'OA_UpgradePostscript_2_3_36';
 
 class OA_UpgradePostscript_2_3_36
 {
-    var $oUpgrade;
-    var $oSchema;
+    public $oUpgrade;
+    public $oSchema;
 
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
-        if (PEAR::isError($this->removeDashboardColumns()))
-        {
-            return false;
-        }
-        return true;
+        $this->oUpgrade = &$aParams[0];
+        return !PEAR::isError($this->removeDashboardColumns());
     }
 
-    function removeDashboardColumns()
+    public function removeDashboardColumns()
     {
-        $this->oSchema  = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
+        $this->oSchema = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $table = 'preference';
-        $aColumns = array(
+        $aColumns = [
                           'ad_clicks_sum',
                           'ad_views_sum',
                           'ad_clicks_per_second',
@@ -46,31 +41,25 @@ class OA_UpgradePostscript_2_3_36
                           'ad_cs_data_last_sent',
                           'ad_cs_data_last_sent',
                           'ad_cs_data_last_received',
-                        );
+                        ];
         OA_DB::setCaseSensitive();
-        $aDef  = $this->oSchema->getDefinitionFromDatabase(array($prefix.$table));
+        $aDef = $this->oSchema->getDefinitionFromDatabase([$prefix . $table]);
         OA_DB::disableCaseSensitive();
-        if (is_array($aDef) && count($aDef)>0)
-        {
-            $aTask['remove'] = array();
-            if (isset($aDef['tables'][$prefix.$table]))
-            {
-                foreach ($aColumns AS $column)
-                {
-                    if (isset($aDef['tables'][$prefix.$table]['fields'][$column]))
-                    {
-                        $aTask['remove'][$column] = array();
+        if (is_array($aDef) && $aDef !== []) {
+            $aTask['remove'] = [];
+            if (isset($aDef['tables'][$prefix . $table])) {
+                foreach ($aColumns as $column) {
+                    if (isset($aDef['tables'][$prefix . $table]['fields'][$column])) {
+                        $aTask['remove'][$column] = [];
                         $this->oUpgrade->oLogger->logOnly("preference.{$column} found");
                     }
                 }
             }
-            if (count($aTask['remove']) > 0)
-            {
-                $result = $this->oSchema->db->manager->alterTable($prefix.$table, $aTask, false);
+            if ($aTask['remove'] !== []) {
+                $result = $this->oSchema->db->manager->alterTable($prefix . $table, $aTask, false);
             }
         }
         $this->oUpgrade->oLogger->logOnly('preference table schema upgrade for dashboard unnecessary');
         return true;
     }
-
 }

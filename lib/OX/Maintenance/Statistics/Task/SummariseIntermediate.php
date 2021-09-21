@@ -23,13 +23,12 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  */
 class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_Statistics_Task
 {
-
     /**
      * An array to store packages (plugins) which have been installed in OpenX.
      *
      * @var array
      */
-    var $aPackages;
+    public $aPackages;
 
     /**
      * An array to store start/end dates of the operation intervals that need
@@ -37,21 +36,20 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      *
      * @var array
      */
-    var $aRunDates;
+    public $aRunDates;
 
     /**
      * The constructor method.
      *
      * @return OX_Maintenance_Statistics_Task_MigrateBucketData
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         // Locate all plugins (packages) that have been installed
         $oPluginManager = new OX_PluginManager();
         $this->aPackages = $oPluginManager->getPackagesList();
-
     }
 
     /**
@@ -60,7 +58,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      * statistics table(s) specified by the appropriate plugin
      * components.
      */
-    function run()
+    public function run()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($this->oController && $this->oController->updateIntermediate) {
@@ -80,17 +78,17 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
 
             // Get the MSE DAL to perform the data migration
             $oServiceLocator = OA_ServiceLocator::instance();
-            $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+            $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
 
             // Prepare the "now" date
-            $oNowDate =& $oServiceLocator->get('now');
+            $oNowDate = &$oServiceLocator->get('now');
             if (!$oNowDate) {
                 $oNowDate = new Date();
             }
 
             // Prepare an array of possible start and end dates for the migration, unless they have been set already
             if (empty($this->aRunDates)) {
-                $this->aRunDates = array();
+                $this->aRunDates = [];
                 $oStartDate = new Date();
                 $oStartDate->copy($this->oController->oLastDateIntermediate);
                 $oStartDate->addSeconds(1);
@@ -104,10 +102,10 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     $oStoreStartDate->copy($oStartDate);
                     $oStoreEndDate = new Date();
                     $oStoreEndDate->copy($oEndDate);
-                    $this->aRunDates[] = array(
+                    $this->aRunDates[] = [
                         'start' => $oStoreStartDate,
-                        'end'   => $oStoreEndDate
-                    );
+                        'end' => $oStoreEndDate
+                    ];
                     // Go to the next operation interval
                     $oStartDate->copy($oEndDate);
                     $oStartDate->addSeconds(1);
@@ -218,22 +216,22 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             $aRunComponents = $this->_prepareMaps($aSummariseComponents, 'aggregate');
             // Run each migration map by statistics table
             foreach ($aRunComponents as $statisticsTable => $aMaps) {
-                $aBucketTables = array();
+                $aBucketTables = [];
                 foreach ($aMaps as $aMap) {
                     $aBucketTables[] = $aMap['bucketTable'];
                 }
                 foreach ($this->aRunDates as $aDates) {
-                    $aExtras = array();
+                    $aExtras = [];
                     // Is this the data_intermeidate_ad statistics table? It's special!
                     if ($statisticsTable == $aConf['table']['prefix'] . 'data_intermediate_ad') {
-                        $aExtras = array(
-                            'operation_interval'    => $aConf['maintenance']['operationInterval'],
+                        $aExtras = [
+                            'operation_interval' => $aConf['maintenance']['operationInterval'],
                             'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']),
-                            'interval_start'        => $oDal->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
-                            'interval_end'          => $oDal->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
-                            'creative_id'           => 0,
-                            'updated'               => $oDal->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
-                        );
+                            'interval_start' => $oDal->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
+                            'interval_end' => $oDal->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
+                            'creative_id' => 0,
+                            'updated' => $oDal->oDbh->quote($oNowDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $oDal->timestampCastString,
+                        ];
                     }
                     $message = "- Migrating aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
                     OA::debug($message, PEAR_LOG_DEBUG);
@@ -282,12 +280,12 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
 
             // Run each migration map by statistics table
             foreach ($aRunComponents as $statisticsTable => $aMaps) {
-                $aBucketTables = array();
+                $aBucketTables = [];
                 foreach ($aMaps as $aMap) {
                     $aBucketTables[] = $aMap['bucketTable'];
                 }
                 foreach ($this->aRunDates as $aDates) {
-                    $aExtras = array();
+                    $aExtras = [];
 
                     $message = "- Migrating aggregate bucket data from the '" . implode("', '", $aBucketTables) . "' bucket table(s)";
                     OA::debug($message, PEAR_LOG_DEBUG);
@@ -315,7 +313,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                 }
             }
         }
-        $this->aRunDates = array();
+        $this->aRunDates = [];
     }
 
     /**
@@ -331,14 +329,14 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      * @access private
      * @return array An array of plugins components, as described above.
      */
-    function _locateComponents()
+    public function _locateComponents()
     {
-        $aSummariseComponents = array();
+        $aSummariseComponents = [];
         foreach ($this->aPackages as $aPluginInfo) {
             foreach ($aPluginInfo['contents'] as $aContents) {
                 if ($aContents['extends'] == 'deliveryLog') {
                     foreach ($aContents['components'] as $aComponent) {
-                        $oComponent =& OX_Component::factory('deliveryLog', $aContents['name'], $aComponent['name']);
+                        $oComponent = &OX_Component::factory('deliveryLog', $aContents['name'], $aComponent['name']);
                         if ($oComponent->enabled) {
                             $destinationTable = $oComponent->getStatisticsTableName();
                             $aSummariseComponents[$destinationTable][get_class($oComponent)] = $oComponent;
@@ -366,7 +364,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      */
     private function _prepareMaps($aSummariseComponents, $type)
     {
-        $aRunComponents = array();
+        $aRunComponents = [];
         if ($type == 'raw' || $type == 'rawSupplementary') {
             foreach ($aSummariseComponents as $statisticsTable => $aComponents) {
                 foreach ($aComponents as $componentClassName => $oComponent) {
@@ -380,13 +378,13 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         // statistics table and continue with the next table
                         unset($aRunComponents[$statisticsTable]);
                         break;
-                    } else if ($aMap['method'] == $type) {
+                    } elseif ($aMap['method'] == $type) {
                         // Nice! We can migrate the raw or raw supplementary data
                         $aRunComponents[$statisticsTable][$componentClassName] = $aMap;
                     }
                 }
             }
-        } else if ($type == 'aggregate') {
+        } elseif ($type == 'aggregate') {
             foreach ($aSummariseComponents as $statisticsTable => $aComponents) {
                 foreach ($aComponents as $oComponent) {
                     $aMap = $oComponent->getStatisticsMigration();
@@ -399,13 +397,13 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     }
                 }
             }
-        } else if ($type == 'custom') {
+        } elseif ($type == 'custom') {
             foreach ($aSummariseComponents as $statisticsTable => $aComponents) {
                 foreach ($aComponents as $oComponent) {
                     $aMap = $oComponent->getStatisticsMigration();
                     if (!$oComponent->testStatisticsMigration($aMap)) {
                         continue;
-        }
+                    }
                     if ($aMap['method'] == $type) {
                         // Nice! We can migrate aggregate data
                         $aRunComponents[$statisticsTable][get_class($oComponent)] = $aMap;
@@ -427,7 +425,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         // Check to see if the "mse_process_raw" application variable
         // flag has been set
         $doApplication_variable = OA_Dal::factoryDO('application_variable');
-        $doApplication_variable->name  = 'mse_process_raw';
+        $doApplication_variable->name = 'mse_process_raw';
         $doApplication_variable->value = '1';
         $doApplication_variable->find();
         if ($doApplication_variable->getRowCount() > 0) {
@@ -454,7 +452,6 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             $message = "- Deleting the 'mse_process_raw' application variable flag.";
             OA::debug($message, PEAR_LOG_DEBUG);
             $doApplication_variable->delete();
-
         }
     }
 
@@ -477,7 +474,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         OA::debug($message, PEAR_LOG_DEBUG);
 
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->migrateRawRequests($oStart, $oEnd);
     }
 
@@ -500,7 +497,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         OA::debug($message, PEAR_LOG_DEBUG);
 
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->migrateRawImpressions($oStart, $oEnd);
     }
 
@@ -523,10 +520,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         OA::debug($message, PEAR_LOG_DEBUG);
 
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->migrateRawClicks($oStart, $oEnd);
     }
-
 }
-
-?>

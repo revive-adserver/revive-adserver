@@ -19,6 +19,4 @@ require_once LIB_PATH . '/Plugin/Component.php';
 
 $oTrans = new OX_Translation($GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . '/oxPlugin/_lang/');
 
-require_once('lib/oxPlugin.inc.php')
-
-?>
+require_once('lib/oxPlugin.inc.php');

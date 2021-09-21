@@ -1,0 +1,18 @@
+parameters:
+	level: 0
+	paths:
+		- .
+	excludePaths:
+		analyseAndScan:
+			- www/devel
+			- www/delivery
+			- */tests/*
+		analyse:
+			- lib/vendor
+			- lib/pear
+			- etc
+	bootstrapFiles:
+		- phpstan-bootstrap.php
+	ignoreErrors:
+		- '#undefined property#'
+		- '#should return#'

@@ -10,33 +10,27 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 class Migration_604 extends Migration
 {
-
-    function __construct()
+    public function __construct()
     {
         //$this->__construct();
 
-		$this->aTaskList_destructive[] = 'beforeRemoveField__banners__autohtml';
-		$this->aTaskList_destructive[] = 'afterRemoveField__banners__autohtml';
-
-
+        $this->aTaskList_destructive[] = 'beforeRemoveField__banners__autohtml';
+        $this->aTaskList_destructive[] = 'afterRemoveField__banners__autohtml';
     }
 
 
 
-	function beforeRemoveField__banners__autohtml()
-	{
-		return $this->beforeRemoveField('banners', 'autohtml');
-	}
+    public function beforeRemoveField__banners__autohtml()
+    {
+        return $this->beforeRemoveField('banners', 'autohtml');
+    }
 
-	function afterRemoveField__banners__autohtml()
-	{
-		return $this->afterRemoveField('banners', 'autohtml');
-	}
-
+    public function afterRemoveField__banners__autohtml()
+    {
+        return $this->afterRemoveField('banners', 'autohtml');
+    }
 }
-
-?>

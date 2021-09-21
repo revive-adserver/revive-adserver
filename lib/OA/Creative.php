@@ -16,11 +16,11 @@
  */
 class OA_Creative
 {
-    var $contentType;
-    var $width;
-    var $height;
-    var $content;
-    var $name;
+    public $contentType;
+    public $width;
+    public $height;
+    public $content;
+    public $name;
 
     /**
      * Class constructor
@@ -29,13 +29,11 @@ class OA_Creative
      * @param string $fileName
      * @return OA_Creative
      */
-    function __construct($contentType, $width = 0, $height = 0, $content = '')
+    public function __construct($contentType, $width = 0, $height = 0, $content = '')
     {
         $this->contentType = $contentType;
-        $this->width       = $contentType;
-        $this->height      = $contentType;
-        $this->content     = $contentType;
+        $this->width = $contentType;
+        $this->height = $contentType;
+        $this->content = $contentType;
     }
 }
-
-?>

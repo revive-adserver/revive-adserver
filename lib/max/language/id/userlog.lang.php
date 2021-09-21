@@ -38,7 +38,7 @@ $GLOBALS['strCollectedAllEvents'] = "Semua acara";
 $GLOBALS['strClear'] = "Bersih";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Laporkan pengiklan {id} kirim melalui email";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campaign {id} diaktifkan";

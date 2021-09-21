@@ -23,10 +23,10 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 {
-    var $oDbh;
-    var $prefix;
+    public $oDbh;
+    public $prefix;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->oDbh = OA_DB::singleton();
@@ -38,7 +38,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         MAX_Dal_Delivery_Include();
     }
 
-    function test_DeliveryDB_getZoneInfo()
+    public function test_DeliveryDB_getZoneInfo()
     {
         $GLOBALS['_MAX']['CONF']['defaultBanner']['invalidZoneHtmlBanner'] = '<h1>No-zone!</h1>';
         $GLOBALS['_MAX']['CONF']['defaultBanner']['inactiveAccountHtmlBanner'] = '<h1>Inactive!</h1>';
@@ -95,21 +95,21 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         // Create a zone
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename                = 'Zone 1';
-        $doZones->affiliateid             = $aTrafficker['affiliateid'];
-        $doZones->delivery                = 0;
-        $doZones->description             = 'Zone Description';
-        $doZones->width                   = 468;
-        $doZones->height                  = 60;
-        $doZones->chain                   = 500;
-        $doZones->prepend                 = 'foo!';
-        $doZones->append                  = 'bar!';
-        $doZones->appendtype              = 0;
-        $doZones->forceappend             = 't';
+        $doZones->zonename = 'Zone 1';
+        $doZones->affiliateid = $aTrafficker['affiliateid'];
+        $doZones->delivery = 0;
+        $doZones->description = 'Zone Description';
+        $doZones->width = 468;
+        $doZones->height = 60;
+        $doZones->chain = 500;
+        $doZones->prepend = 'foo!';
+        $doZones->append = 'bar!';
+        $doZones->appendtype = 0;
+        $doZones->forceappend = 't';
         $doZones->inventory_forecast_type = '0';
-        $doZones->block                   = 14400;
-        $doZones->capping                 = 100;
-        $doZones->session_capping         = 10;
+        $doZones->block = 14400;
+        $doZones->capping = 100;
+        $doZones->session_capping = 10;
         $zoneId = DataGenerator::generateOne($doZones);
 
         // Test 2: Test with a non-existing zone
@@ -138,7 +138,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Add the "default_banner_image_url" preference
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'default_banner_image_url';
-        $doPreferences->account_type    = OA_ACCOUNT_TRAFFICKER;
+        $doPreferences->account_type = OA_ACCOUNT_TRAFFICKER;
         $defaultBannerImageUrlPrefrenceID = DataGenerator::generateOne($doPreferences);
 
         // Test 4: Test with an existing zone, one preference but
@@ -157,9 +157,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         // Add a "default_banner_image_url" preference value for the admin user
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $adminAccountId;
+        $doAccount_preference_assoc->account_id = $adminAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerImageUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.fornax.net/blog/uploads/service_with_a_smile.jpg';
+        $doAccount_preference_assoc->value = 'http://www.fornax.net/blog/uploads/service_with_a_smile.jpg';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 5: Test with an existing zone, one preference and
@@ -179,7 +179,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Add the "default_banner_destination_url" preference
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'default_banner_destination_url';
-        $doPreferences->account_type    = OA_ACCOUNT_TRAFFICKER;
+        $doPreferences->account_type = OA_ACCOUNT_TRAFFICKER;
         $defaultBannerDestinationUrlPrefrenceID = DataGenerator::generateOne($doPreferences);
 
         // Test 6: Test with an existing zone, two preferences and
@@ -200,9 +200,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Overload the "default_banner_image_url" preference value for the admin user
         // with a preference value for the manager
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $managerAccountId;
+        $doAccount_preference_assoc->account_id = $managerAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerImageUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.fornax.net/blog/uploads/ikea-cat-some-assembly-required.jpg';
+        $doAccount_preference_assoc->value = 'http://www.fornax.net/blog/uploads/ikea-cat-some-assembly-required.jpg';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 7: Test with an existing zone, two preference and
@@ -223,9 +223,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Overload the "default_banner_image_url" preference value for the admin and
         // manager users with a preference value for the trafficker
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $traffickerAccountId;
+        $doAccount_preference_assoc->account_id = $traffickerAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerImageUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.fornax.net/blog/uploads/bt.jpg';
+        $doAccount_preference_assoc->value = 'http://www.fornax.net/blog/uploads/bt.jpg';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 8: Test with an existing zone, two preference and
@@ -246,9 +246,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Add a "default_banner_destination_url" preference value for an account that isn't one of
         // the admin, manager and trafficker accounts created above
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $traffickerAccountId + 1;
+        $doAccount_preference_assoc->account_id = $traffickerAccountId + 1;
         $doAccount_preference_assoc->preference_id = $defaultBannerDestinationUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.fornax.net/';
+        $doAccount_preference_assoc->value = 'http://www.fornax.net/';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 9: Test with an existing zone, two preferences and
@@ -268,9 +268,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         // Add a "default_banner_destination_url" preference value for the admin account
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $adminAccountId;
+        $doAccount_preference_assoc->account_id = $adminAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerDestinationUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.fornax.net/';
+        $doAccount_preference_assoc->value = 'http://www.fornax.net/';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 10: Test with an existing zone, two preferences and
@@ -292,9 +292,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Overload the "default_banner_destination_url" preference value for the admin user
         // with a preference value for the manager
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $managerAccountId;
+        $doAccount_preference_assoc->account_id = $managerAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerDestinationUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.fornax.net/blog/';
+        $doAccount_preference_assoc->value = 'http://www.fornax.net/blog/';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 11: Test with an existing zone, two preferences and
@@ -316,9 +316,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         // Overload the "default_banner_destination_url" preference value for the admin and
         // manager users with a preference value for the trafficker
         $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccount_preference_assoc->account_id    = $traffickerAccountId;
+        $doAccount_preference_assoc->account_id = $traffickerAccountId;
         $doAccount_preference_assoc->preference_id = $defaultBannerDestinationUrlPrefrenceID;
-        $doAccount_preference_assoc->value         = 'http://www.openx.org/';
+        $doAccount_preference_assoc->value = 'http://www.openx.org/';
         DataGenerator::generateOne($doAccount_preference_assoc);
 
         // Test 12: Test with an existing zone, two preferences and
@@ -367,7 +367,4 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['suspendedAccountHtmlBanner']);
         $this->assertTrue($aResult['skip_log_blank']);
     }
-
 }
-
-?>

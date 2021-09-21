@@ -204,7 +204,7 @@ $GLOBALS['strDayOfWeek'] = "A hét napja";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Vasárnap';
 $GLOBALS['strDayFullNames'][1] = 'Hétfő';
@@ -215,7 +215,7 @@ $GLOBALS['strDayFullNames'][5] = 'Péntek';
 $GLOBALS['strDayFullNames'][6] = 'Szombat';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'V';
 $GLOBALS['strDayShortCuts'][1] = 'H';
@@ -431,18 +431,18 @@ $GLOBALS['strDeliveryCappingTotal'] = "összesen";
 $GLOBALS['strDeliveryCappingSession'] = "egy session alatt";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['title'] = "Kézbesítési plafon látogatónként";
 $GLOBALS['strCappingBanner']['limit'] = "Reklám megmutatva ennyiszer:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['title'] = "Kézbesítési plafon látogatónként";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['title'] = "Kézbesítési plafon látogatónként";
 

@@ -26,29 +26,31 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
     public $linked;                          // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_assoc',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_assoc', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'linked' => '%NO_DATE_TIME%',
     ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function insert()
+    public function insert()
     {
         $this->linked = date('Y-m-d H:i:s');
         return parent::insert();
     }
 
-    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
+    public function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
         // delete also all permissions linked to this account/user
         $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
         $doAccount_user_permission_assoc->user_id = $this->user_id;
         $doAccount_user_permission_assoc->account_id = $this->account_id;
-        if ($useWhere)
-        {
+        if ($useWhere) {
             $doAccount_user_permission_assoc->_query['condition'] = $this->_query['condition'];
         }
         $doAccount_user_permission_assoc->delete($useWhere, false, $parentid);
@@ -56,17 +58,17 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
         return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return 0;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Account User Association';
     }
@@ -77,8 +79,8 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = 'Account #'.$this->account_id.' -> User #'.$this->user_id;
+        $aAuditFields['key_desc'] = 'Account #' . $this->account_id . ' -> User #' . $this->user_id;
     }
 }

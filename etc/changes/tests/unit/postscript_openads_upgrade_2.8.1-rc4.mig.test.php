@@ -24,21 +24,21 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_postscript_2_8_1_RC4Test extends MigrationTest
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
-        $this->assertTrue($this->initDatabase(606, array(
+        $this->assertTrue($this->initDatabase(606, [
             'banners',
             'ad_zone_assoc',
-        )));
+        ]));
     }
 
-    function testExecute()
+    public function testExecute()
     {
         Mock::generatePartial(
             'OA_UpgradeLogger',
-            $mockLogger = 'OA_UpgradeLogger'.rand(),
-            array('logOnly', 'logError', 'log')
+            $mockLogger = 'OA_UpgradeLogger' . rand(),
+            ['logOnly', 'logError', 'log']
         );
 
         $oLogger = new $mockLogger($this);
@@ -48,8 +48,8 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
 
         Mock::generatePartial(
             'OA_Upgrade',
-            $mockUpgrade = 'OA_Upgrade'.rand(),
-            array('addPostUpgradeTask')
+            $mockUpgrade = 'OA_Upgrade' . rand(),
+            ['addPostUpgradeTask']
         );
         $mockUpgrade = new $mockUpgrade($this);
         $mockUpgrade->setReturnValue('addPostUpgradeTask', true);
@@ -61,7 +61,7 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         $oDbh = $this->oaTable->oDbh;
 
         // Create a regular banner
-        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'banners', true)." (
+        $sql = "INSERT INTO " . $oDbh->quoteIdentifier($prefix . 'banners', true) . " (
             bannerid,
             contenttype,
             storagetype,
@@ -76,7 +76,7 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         $this->assertTrue($oDbh->exec($sql));
 
         // Create a text banner
-        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'banners', true)." (
+        $sql = "INSERT INTO " . $oDbh->quoteIdentifier($prefix . 'banners', true) . " (
             bannerid,
             contenttype,
             storagetype,
@@ -91,7 +91,7 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         $this->assertTrue($oDbh->exec($sql));
 
         // Create a text banner
-        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'banners', true)." (
+        $sql = "INSERT INTO " . $oDbh->quoteIdentifier($prefix . 'banners', true) . " (
             bannerid,
             contenttype,
             storagetype,
@@ -106,29 +106,29 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         $this->assertTrue($oDbh->exec($sql));
 
         // Link only the html banner to zone 0
-        $sql = "INSERT INTO ".$oDbh->quoteIdentifier($prefix.'ad_zone_assoc', true)." (
+        $sql = "INSERT INTO " . $oDbh->quoteIdentifier($prefix . 'ad_zone_assoc', true) . " (
             ad_id,
             zone_id,
             link_type
         ) VALUES (
             1,
             0,
-            ".MAX_AD_ZONE_LINK_DIRECT."
+            " . MAX_AD_ZONE_LINK_DIRECT . "
         )
         ";
         $this->assertTrue($oDbh->exec($sql));
 
         // Verify that only 1 banner is direct-selectable
-        $sql = "SELECT COUNT(*) FROM  ".$oDbh->quoteIdentifier($prefix.'ad_zone_assoc', true)." WHERE zone_id = 0";
+        $sql = "SELECT COUNT(*) FROM  " . $oDbh->quoteIdentifier($prefix . 'ad_zone_assoc', true) . " WHERE zone_id = 0";
         $this->assertEqual($oDbh->query($sql)->fetchOne(), 1);
 
         // Run the upgrade
         $postscript = new OA_UpgradePostscript_2_8_1_rc4();
-        $ret = $postscript->execute(array(&$mockUpgrade));
+        $ret = $postscript->execute([&$mockUpgrade]);
         $this->assertTrue($ret);
 
         // Verify that the banners are direct-selectable
-        $sql = "SELECT COUNT(*) FROM  ".$oDbh->quoteIdentifier($prefix.'ad_zone_assoc', true)." WHERE zone_id = 0";
+        $sql = "SELECT COUNT(*) FROM  " . $oDbh->quoteIdentifier($prefix . 'ad_zone_assoc', true) . " WHERE zone_id = 0";
         $this->assertEqual($oDbh->query($sql)->fetchOne(), 3);
     }
 }

@@ -30,7 +30,6 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/ZoneScopeField.php';
  */
 class FieldFactory
 {
-
     /**
      * Creates a new Field object of the appropriate subclass.
      *
@@ -60,7 +59,4 @@ class FieldFactory
         }
         return $oField;
     }
-
 }
-
-?>

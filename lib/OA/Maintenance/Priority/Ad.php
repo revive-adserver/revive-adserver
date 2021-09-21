@@ -22,55 +22,54 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  */
 class OA_Maintenance_Priority_Ad
 {
-
     /**
      * The ad's ID.
      *
      * @var integer
      */
-    var $id;
+    public $id;
 
     /**
      * The ad's activity status (active, or not active).
      *
      * @var boolean
      */
-    var $active;
+    public $active;
 
     /**
      * The ad's type (eg. 'sql').
      *
      * @var string
      */
-    var $type;
+    public $type;
 
     /**
      * The ad's weight.
      *
      * @var integer
      */
-    var $weight;
+    public $weight;
 
-    var $requiredImpressions;
-    var $requestedImpressions;
-    var $toBeDelivered;
+    public $requiredImpressions;
+    public $requestedImpressions;
+    public $toBeDelivered;
 
-    var $zones = array();
+    public $zones = [];
 
-    var $pastRequiredImpressions;
-    var $pastRequestedImpressions;
-    var $pastActualImpressions;
-    var $pastAdZonePriorityFactor;
-    var $pastZoneTrafficFraction;
-    var $pastToBeDelivered;
-    var $campaignPriority;
+    public $pastRequiredImpressions;
+    public $pastRequestedImpressions;
+    public $pastActualImpressions;
+    public $pastAdZonePriorityFactor;
+    public $pastZoneTrafficFraction;
+    public $pastToBeDelivered;
+    public $campaignPriority;
 
     /**
      * A local instance of the OA_Dal_Maintenance_Priority class.
      *
      * @var OA_Dal_Maintenance_Priority
      */
-    var $oMaxDalMaintenancePriority;
+    public $oMaxDalMaintenancePriority;
 
     /**
      * The class constructor method.
@@ -84,7 +83,7 @@ class OA_Maintenance_Priority_Ad
      *      'type'   -> The ad type (eg. 'sql').
      *      'weight' -> The ad weight.
      */
-	function __construct($aParams)
+    public function __construct($aParams)
     {
         // Test the input values
         $valid = true;
@@ -122,9 +121,9 @@ class OA_Maintenance_Priority_Ad
             return;
         }
         // Store the required supplied values
-        $this->id     = $aParams['ad_id'];
+        $this->id = $aParams['ad_id'];
         $this->active = isset($aParams['active']) ? $aParams['active'] : null;
-        $this->type   = isset($aParams['type']) ? $aParams['type'] : null;
+        $this->type = isset($aParams['type']) ? $aParams['type'] : null;
         $this->weight = isset($aParams['weight']) ? $aParams['weight'] : null;
         // Set the object's data access layer objects
         $this->oMaxDalMaintenancePriority = $this->_getOA_Dal_Maintenance_Priority();
@@ -136,10 +135,10 @@ class OA_Maintenance_Priority_Ad
      * @access private
      * @return OA_Dal_Maintenance_Priority
      */
-    function _getOA_Dal_Maintenance_Priority()
+    public function _getOA_Dal_Maintenance_Priority()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();
             $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -162,12 +161,12 @@ class OA_Maintenance_Priority_Ad
      *                   [executionorder]    => 1
      *               )
      */
-	function getDeliveryLimitations()
-	{
-		return $this->oMaxDalMaintenancePriority->getAllDeliveryLimitationsByTypeId($this->id, 'ad');
-	}
+    public function getDeliveryLimitations()
+    {
+        return $this->oMaxDalMaintenancePriority->getAllDeliveryLimitationsByTypeId($this->id, 'ad');
+    }
 
-	/**
+    /**
      * A private method to abort script execution when an attempt is made
      * to instantiate the entity with incorrect parameters.
      *
@@ -175,11 +174,8 @@ class OA_Maintenance_Priority_Ad
      */
     protected function _abort()
     {
-            $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
-            OA::debug($error, PEAR_LOG_EMERG);
-            exit();
+        $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
+        OA::debug($error, PEAR_LOG_EMERG);
+        exit();
     }
-
 }
-
-?>

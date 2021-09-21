@@ -267,7 +267,6 @@ $phpAds_ISO3166['A1'] = "Anonymous Proxy";
 $phpAds_ISO3166['A2'] = "Satellite Provider";
 
 // Load localized strings
-if (file_exists(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-iso3166.lang.php'))
-	@include(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-iso3166.lang.php');
-
-?>
+if (file_exists(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-iso3166.lang.php')) {
+    @include(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-iso3166.lang.php');
+}

@@ -28,11 +28,11 @@ require_once 'Log.php';
  */
 class Test_OA_Dal_DeliveryDB extends UnitTestCase
 {
-    var $oDbh;
-    var $prefix;
-    var $aIds;
+    public $oDbh;
+    public $prefix;
+    public $aIds;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->oDbh = OA_DB::singleton();
@@ -49,7 +49,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * A private method to close delivery connection after tests are run
      *
      */
-    function _testCloseConnection()
+    public function _testCloseConnection()
     {
         if ($this->oDbh->dbsyntax == 'pgsql') {
             if (!empty($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
@@ -63,7 +63,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * establish a singleton connection to the database
      *
      */
-    function test_OA_Dal_Delivery_connect()
+    public function test_OA_Dal_Delivery_connect()
     {
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
@@ -79,7 +79,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * executes a sql query
      *
      */
-    function test_OA_Dal_Delivery_query()
+    public function test_OA_Dal_Delivery_query()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $res = OA_Dal_Delivery_query("SELECT * FROM " . $this->_getTableName('banners') . " limit 1");
@@ -89,7 +89,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
     }
 
-    function _getTableName($table)
+    public function _getTableName($table)
     {
         return $this->oDbh->quoteIdentifier($this->prefix . $table, true);
     }
@@ -98,7 +98,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * returns an array of properties for a zone
      *
      */
-    function test_OA_Dal_Delivery_getZoneInfo()
+    public function test_OA_Dal_Delivery_getZoneInfo()
     {
         $zoneid = $this->aIds['zones'][61];
         $aReturn = OA_Dal_Delivery_getZoneInfo($zoneid);
@@ -111,7 +111,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * return an array of zone properties and arrays of linked ads for a given zone
      *
      */
-    function test_OA_Dal_Delivery_getZoneLinkedAds()
+    public function test_OA_Dal_Delivery_getZoneLinkedAds()
     {
         $zoneid = $this->aIds['zones'][61];
         $aReturn = OA_Dal_Delivery_getZoneLinkedAds($zoneid);
@@ -135,7 +135,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * return an array of zone properties and arrays of linked ads for a given zone
      *
      */
-    function test_OA_Dal_Delivery_getZoneLinkedAdInfos()
+    public function test_OA_Dal_Delivery_getZoneLinkedAdInfos()
     {
         $zoneid = $this->aIds['zones'][61];
         $aReturn = OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid);
@@ -158,7 +158,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * return an array of ads that match a given search term
      *
      */
-    function test_OA_Dal_Delivery_getLinkedAds()
+    public function test_OA_Dal_Delivery_getLinkedAds()
     {
         $placementid = $this->aIds['campaigns'][1];
         $search = 'campaignid:' . $placementid;
@@ -227,7 +227,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * get an ad array formatted for render given an ad id
      *
      */
-    function test_OA_Dal_Delivery_getAd()
+    public function test_OA_Dal_Delivery_getAd()
     {
         $ad_id = $this->aIds['banners'][1];
         $aReturn = OA_Dal_Delivery_getAd($ad_id);
@@ -239,7 +239,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * get the plugins required and compiled limitations string for a given channel id
      *
      */
-    function test_OA_Dal_Delivery_getChannelLimitations()
+    public function test_OA_Dal_Delivery_getChannelLimitations()
     {
         $channelid = $this->aIds['channel'][1];
         $aReturn = OA_Dal_Delivery_getChannelLimitations($channelid);
@@ -251,7 +251,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     /**
      * get SQL-stored creative
      **/
-    function test_OA_Dal_Delivery_getCreative()
+    public function test_OA_Dal_Delivery_getCreative()
     {
         // The images table is empty as there are problems with
         $filename = 'adOneTwoOneID.gif';
@@ -272,7 +272,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * get tracker details
      *
      */
-    function test_OA_Dal_Delivery_getTracker()
+    public function test_OA_Dal_Delivery_getTracker()
     {
         $trackerid = $this->aIds['trackers'][1];
         $aReturn = OA_Dal_Delivery_getTracker($trackerid);
@@ -293,7 +293,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * get tracker variables
      *
      */
-    function test_OA_Dal_Delivery_getTrackerVariables()
+    public function test_OA_Dal_Delivery_getTrackerVariables()
     {
         $trackerid = 1;
         $aReturn = OA_Dal_Delivery_getTrackerVariables($trackerid);
@@ -304,312 +304,309 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      * proper low/override prioritisation with campaign weight coming first
      *
      */
-    function test_setPriorityFromWeights()
+    public function test_setPriorityFromWeights()
     {
-        $aAds = array();
+        $aAds = [];
         $this->assertFalse(_setPriorityFromWeights($aAds));
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 0,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertFalse(_setPriorityFromWeights($aAds));
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 0,
-            ),
-        );
+            ],
+        ];
         $this->assertFalse(_setPriorityFromWeights($aAds));
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 1);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.5);
         $this->assertEqual($aAds[1]['priority'], 0.5);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 2,
                 'weight' => 2,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.25);
         $this->assertEqual($aAds[1]['priority'], 0.25);
         $this->assertEqual($aAds[2]['priority'], 0.5);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 4,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 2,
                 'weight' => 2,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.1);
         $this->assertEqual($aAds[1]['priority'], 0.4);
         $this->assertEqual($aAds[2]['priority'], 0.5);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 12,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 13,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 2,
                 'weight' => 2,
                 'campaign_weight' => 3,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.12);
         $this->assertEqual($aAds[1]['priority'], 0.13);
         $this->assertEqual($aAds[2]['priority'], 0.75);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 0,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 2,
                 'weight' => 2,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.5);
         $this->assertEqual($aAds[1]['priority'], 0);
         $this->assertEqual($aAds[2]['priority'], 0.5);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 4,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 2,
                 'weight' => 2,
                 'campaign_weight' => 0,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.2);
         $this->assertEqual($aAds[1]['priority'], 0.8);
         $this->assertEqual($aAds[2]['priority'], 0);
 
-        $aAds = array(
-            array(
+        $aAds = [
+            [
                 'placement_id' => 1,
                 'weight' => 1,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 1,
                 'weight' => 4,
                 'campaign_weight' => 1,
-            ),
-            array(
+            ],
+            [
                 'placement_id' => 2,
                 'weight' => 0,
                 'campaign_weight' => 1,
-            ),
-        );
+            ],
+        ];
         $this->assertTrue(_setPriorityFromWeights($aAds));
         $this->assertEqual($aAds[0]['priority'], 0.2);
         $this->assertEqual($aAds[1]['priority'], 0.8);
         $this->assertEqual($aAds[2]['priority'], 0);
     }
 
-    function test_getTotalPrioritiesByCP()
+    public function test_getTotalPrioritiesByCP()
     {
         // Test an empty array
-        $aAds = array();
+        $aAds = [];
         $aResult = _getTotalPrioritiesByCP($aAds, true);
-        $aExpected = array();
+        $aExpected = [];
         $this->assertEqual($aResult, $aExpected);
         $aResult = _getTotalPrioritiesByCP($aAds, false);
-        $aExpected = array();
+        $aExpected = [];
         $this->assertEqual($aResult, $aExpected);
 
         // Test a single ad at CP 5 with 0.5 priority and pf 1
-        $aAds = array(
-            5 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
-            ),
-        );
+        $aAds = [
+            5 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1],
+            ],
+        ];
         $aResult = _getTotalPrioritiesByCP($aAds, true);
-        $aExpected = array(
+        $aExpected = [
             5 => 0.5,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
         $aResult = _getTotalPrioritiesByCP($aAds, false);
-        $aExpected = array(
+        $aExpected = [
             5 => 1,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
 
         // Test two ads at CP 1/5 with 0.5 priority and pf 1
-        $aAds = array(
-            1 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
-            ),
-            5 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
-            ),
-        );
+        $aAds = [
+            1 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1],
+            ],
+            5 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1],
+            ],
+        ];
         $aResult = _getTotalPrioritiesByCP($aAds, true);
-        $aExpected = array(
+        $aExpected = [
             1 => 1,
             5 => 0.5,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
         $aResult = _getTotalPrioritiesByCP($aAds, false);
-        $aExpected = array(
+        $aExpected = [
             1 => 1,
             5 => 0.5,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
 
         // Test three ads at CP 1/5/10 with 0.5 priority and pf 1 (cp 1 not to be delivered)
-        $aAds = array(
-            1 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 0),
-            ),
-            5 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
-            ),
-            10 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
-            ),
-        );
+        $aAds = [
+            1 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 0],
+            ],
+            5 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1],
+            ],
+            10 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1],
+            ],
+        ];
         $aResult = _getTotalPrioritiesByCP($aAds, true);
-        $aExpected = array(
+        $aExpected = [
             1 => 1,
             5 => 0.5 / 0.50001,
             10 => 0.5 / 1.00001,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
         $aResult = _getTotalPrioritiesByCP($aAds, false);
-        $aExpected = array(
+        $aExpected = [
             1 => 1,
             5 => 0.5 / 0.50001,
             10 => 0.5 / 1.00001,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
 
         // Test three ads at CP 5 with 0.3 priority and pf 1,10,100
-        $aAds = array(
-            5 => array(
-                array('priority' => 0.3, 'priority_factor' => 1, 'to_be_delivered' => 1),
-                array('priority' => 0.3, 'priority_factor' => 10, 'to_be_delivered' => 1),
-                array('priority' => 0.3, 'priority_factor' => 100, 'to_be_delivered' => 1),
-            ),
-        );
+        $aAds = [
+            5 => [
+                ['priority' => 0.3, 'priority_factor' => 1, 'to_be_delivered' => 1],
+                ['priority' => 0.3, 'priority_factor' => 10, 'to_be_delivered' => 1],
+                ['priority' => 0.3, 'priority_factor' => 100, 'to_be_delivered' => 1],
+            ],
+        ];
         $aResult = _getTotalPrioritiesByCP($aAds, true);
-        $aExpected = array(
+        $aExpected = [
             5 => (0.3 + 3 + 30) / (0.1 + 0.3 + 3 + 30),
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
         $aResult = _getTotalPrioritiesByCP($aAds, false);
-        $aExpected = array(
+        $aExpected = [
             5 => 1,
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
 
         // Test three ads at CP 1/5/10 with 0.5 priority and decreasing pf (cp 1 not to be delivered)
-        $aAds = array(
-            1 => array(
-                array('priority' => 0.5, 'priority_factor' => 100, 'to_be_delivered' => 0),
-            ),
-            5 => array(
-                array('priority' => 0.5, 'priority_factor' => 10, 'to_be_delivered' => 1),
-            ),
-            10 => array(
-                array('priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1),
-            ),
-        );
+        $aAds = [
+            1 => [
+                ['priority' => 0.5, 'priority_factor' => 100, 'to_be_delivered' => 0],
+            ],
+            5 => [
+                ['priority' => 0.5, 'priority_factor' => 10, 'to_be_delivered' => 1],
+            ],
+            10 => [
+                ['priority' => 0.5, 'priority_factor' => 1, 'to_be_delivered' => 1],
+            ],
+        ];
         $aResult = _getTotalPrioritiesByCP($aAds, true);
-        $aExpected = array(
+        $aExpected = [
             1 => 1,
             5 => 5 / (5 + 0.00001),
             10 => 0.5 / (0.5 + 5 + 0.00001),
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
         $aResult = _getTotalPrioritiesByCP($aAds, false);
-        $aExpected = array(
+        $aExpected = [
             1 => 1,
             5 => 5 / (5 + 0.00001),
             10 => 0.5 / (0.5 + 5 + 0.00001),
-        );
+        ];
         $this->assertEqual($aResult, $aExpected);
-
     }
 }
-
-?>

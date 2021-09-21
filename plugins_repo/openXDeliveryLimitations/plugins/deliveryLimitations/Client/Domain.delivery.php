@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked.
  * @return boolean Whether this impression's domain passes this limitation's test.
  */
-function MAX_checkClient_Domain($limitation, $op, $aParams = array())
+function MAX_checkClient_Domain($limitation, $op, $aParams = [])
 {
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT'];
@@ -37,10 +37,8 @@ function MAX_checkClient_Domain($limitation, $op, $aParams = array())
     if (MAX_limitationsIsOperatorRegexp($op)) {
         $domain = $host;
     } else {
-        $domain = substr($host,-(strlen($limitation)));
+        $domain = substr($host, -(strlen($limitation)));
     }
 
     return MAX_limitationsMatchStringValue($domain, $limitation, $op);
 }
-
-?>

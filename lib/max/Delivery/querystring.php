@@ -38,7 +38,7 @@ function MAX_querystringConvertParams()
         $qs = substr($qs, 0, $pos);
     }
     // 2.  Parse the remaining string
-    $aGet = array();
+    $aGet = [];
     $paramStr = $conf['var']['params'] . '=';
     $paramPos = strpos($qs, $paramStr);
     if (is_numeric($paramPos)) {
@@ -55,7 +55,7 @@ function MAX_querystringConvertParams()
         $aPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '&') : false;
         if ($aPos && !$qPos) {
             $desturl = substr($aGet[$conf['var']['dest']], 0, $aPos);
-            $destparams = substr($aGet[$conf['var']['dest']], $aPos+1);
+            $destparams = substr($aGet[$conf['var']['dest']], $aPos + 1);
             $aGet[$conf['var']['dest']] = $desturl . '?' . $destparams;
         }
     } else {
@@ -132,7 +132,7 @@ function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
     $aValidVariables = array_values($conf['var']);
 
     // See if any plugin-components have added items to the click url...
-    $componentParams =  OX_Delivery_Common_hook('addUrlParams', [['bannerid' => $adId]]);
+    $componentParams = OX_Delivery_Common_hook('addUrlParams', [['bannerid' => $adId]]);
     if (!empty($componentParams) && is_array($componentParams)) {
         foreach ($componentParams as $params) {
             if (!empty($params) && is_array($params)) {
@@ -184,11 +184,11 @@ function MAX_querystringParseStr($qs, &$aArr, $delim = '&')
     $aArr = $_GET;
     // Parse the rest of the array and add to the request array.
     $aElements = explode($delim, $qs);
-    foreach($aElements as $element) {
+    foreach ($aElements as $element) {
         $len = strpos($element, '=');
         if ($len !== false) {
             $name = substr($element, 0, $len);
-            $value = substr($element, $len+1);
+            $value = substr($element, $len + 1);
             $aArr[$name] = urldecode($value);
         }
     }
@@ -220,5 +220,3 @@ function MAX_querystringCheckDestinationSignature($adId, $zoneId, $dest): bool
 
     return true;
 }
-
-?>

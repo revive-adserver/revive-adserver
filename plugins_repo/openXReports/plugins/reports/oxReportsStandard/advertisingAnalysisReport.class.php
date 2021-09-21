@@ -60,20 +60,19 @@ require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
  */
 class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugins_ReportsScope
 {
-
     /**
      * The local implementation of the initInfo() method to set all of the
      * required values for this report.
      */
-    function initInfo()
+    public function initInfo()
     {
-        $this->_name         = $this->translate("Advertising Analysis Report");
-        $this->_description  = $this->translate("This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone.");
-        $this->_category     = 'standard';
+        $this->_name = $this->translate("Advertising Analysis Report");
+        $this->_description = $this->translate("This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone.");
+        $this->_category = 'standard';
         $this->_categoryName = $this->translate("Standard Reports");
-        $this->_author       = 'Rob Hunter';
-        $this->_export       = 'xls';
-        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+        $this->_author = 'Rob Hunter';
+        $this->_export = 'xls';
+        $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER];
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -84,38 +83,38 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      * required information for laying out the plugin's report generation
      * screen/the variables required for generating the report.
      */
-    function getDefaults()
+    public function getDefaults()
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset    = isset($session['prefs']['GLOBALS']['report_period_preset'])    ? $session['prefs']['GLOBALS']['report_period_preset']    : 'last_month';
+        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
         $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
+        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
         // Prepare which worksheets can be in the report
-        $aSheets = array(
-            'daily_breakdown'    => $this->translate("Daily Breakdown"),
+        $aSheets = [
+            'daily_breakdown' => $this->translate("Daily Breakdown"),
             'campaign_breakdown' => $this->translate("Campaign Breakdown")
-        );
+        ];
         $aSheets['zone_breakdown'] = $this->translate("Zone Breakdown");
         // Prepare the array for displaying the generation page
-        $aImport = array(
-            'period' => array(
-                'title'            => $GLOBALS['strPeriod'],
-                'type'             => 'date-month',
-                'default'          => $default_period_preset
-            ),
-            'scope'  => array(
-                'title'            => $GLOBALS['strLimitations'],
-                'type'             => 'scope',
+        $aImport = [
+            'period' => [
+                'title' => $GLOBALS['strPeriod'],
+                'type' => 'date-month',
+                'default' => $default_period_preset
+            ],
+            'scope' => [
+                'title' => $GLOBALS['strLimitations'],
+                'type' => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
-                'scope_publisher'  => $default_scope_publisher
-            ),
-            'sheets' => array(
-                'title'            => $GLOBALS['strWorksheets'],
-                'type'             => 'sheet',
-                'sheets'           => $aSheets
-            )
-        );
+                'scope_publisher' => $default_scope_publisher
+            ],
+            'sheets' => [
+                'title' => $GLOBALS['strWorksheets'],
+                'type' => 'sheet',
+                'sheets' => $aSheets
+            ]
+        ];
         return $aImport;
     }
 
@@ -124,17 +123,17 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      * values used for the report by the user to the user's session
      * preferences, so that they can be re-used in other reports.
      */
-    function saveDefaults()
+    public function saveDefaults()
     {
         global $session;
         if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
         if (isset($_REQUEST['scope_advertiser'])) {
             $session['prefs']['GLOBALS']['report_scope_advertiser'] = $_REQUEST['scope_advertiser'];
         }
         if (isset($_REQUEST['scope_publisher'])) {
-            $session['prefs']['GLOBALS']['report_scope_publisher']  = $_REQUEST['scope_publisher'];
+            $session['prefs']['GLOBALS']['report_scope_publisher'] = $_REQUEST['scope_publisher'];
         }
         phpAds_SessionDataStore();
     }
@@ -146,7 +145,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
      * @param array $aSheets  An array of sheets that should be in the report.
      */
-    function execute($oDaySpan = null, $oScope = null, $aSheets = null)
+    public function execute($oDaySpan = null, $oScope = null, $aSheets = null)
     {
         $checkResult = $this->_checkParameters($oDaySpan, $oScope, $aSheets);
         if ($checkResult !== true) {
@@ -184,12 +183,11 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      *
      * @return bool|int - True if no errors, error code otherwise
      */
-    function _checkParameters($oDaySpan, $oScope, $aSheets)
+    public function _checkParameters($oDaySpan, $oScope, $aSheets)
     {
         if (!isset($aSheets['daily_breakdown']) &&
             !isset($aSheets['campaign_breakdown']) &&
-            !isset($aSheets['zone_breakdown']))
-        {
+            !isset($aSheets['zone_breakdown'])) {
             return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
         }
         return true;
@@ -202,9 +200,9 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function _getReportParametersForDisplay()
+    public function _getReportParametersForDisplay()
     {
-        $aParams = array();
+        $aParams = [];
         $aParams += $this->_getDisplayableParametersFromScope();
         $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
@@ -216,15 +214,15 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      *
      * @access private
      */
-    function _addDailyBreakdownWorksheet()
+    public function _addDailyBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
         // Select the correct statistics page controller type
@@ -270,17 +268,17 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      *
      * @access private
      */
-    function _addCampaignBreakdownWorksheet()
+    public function _addCampaignBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['expand']     = 'none';
+        $_REQUEST['expand'] = 'none';
         $_REQUEST['startlevel'] = 0;
         // Select the correct statistics page controller type
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
@@ -320,17 +318,17 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      *
      * @access private
      */
-    function _addZoneBreakdownWorksheet()
+    public function _addZoneBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['expand']     = 'none';
+        $_REQUEST['expand'] = 'none';
         $_REQUEST['startlevel'] = 0;
         // Select the correct statistics page controller type
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
@@ -365,7 +363,4 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
             $aData
         );
     }
-
 }
-
-?>

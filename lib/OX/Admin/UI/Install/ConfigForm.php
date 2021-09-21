@@ -10,15 +10,14 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once 'BaseForm.php';
 
 /**
  * @package OX_Admin_UI
  * @subpackage Install
  */
-class OX_Admin_UI_Install_ConfigForm
-    extends OX_Admin_UI_Install_BaseForm
+class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
 {
     /**
      * Available admin languages
@@ -44,7 +43,7 @@ class OX_Admin_UI_Install_ConfigForm
 
         $this->addElement('hidden', 'action', $action);
 
-        if ($prevPathRequired)  {
+        if ($prevPathRequired) {
             $this->buildPreviousPathSection();
         }
 
@@ -60,17 +59,17 @@ class OX_Admin_UI_Install_ConfigForm
 
     protected function buildAdminSection()
     {
-        $this->addElement('hidden', 'moreFieldsShown', 0, array('id' => 'moreFieldsShown'));
+        $this->addElement('hidden', 'moreFieldsShown', 0, ['id' => 'moreFieldsShown']);
 
         //build form
         $this->addElement('header', 'h_admin', $GLOBALS['strAdminAccount']);
-        $this->addElement('text', 'adminName', $GLOBALS['strAdminUsername'], array('class' => 'medium'));
-        $this->addElement('password', 'adminPassword', $GLOBALS['strAdminPassword'], array('class' => 'medium'));
-        $this->addElement('password', 'adminPassword2', $GLOBALS['strRepeatPassword'], array('class' => 'medium'));
-        $this->addElement('text', 'adminEmail', $GLOBALS['strAdministratorEmail'], array('class' => 'medium'));
-        $this->addElement('select', 'adminLanguage', $GLOBALS['strLanguage'], $this->aLanguages, array('class' => 'small'));
-        $this->addElement('select', 'prefsTimezone', $GLOBALS['strTimezone'], $this->aTimezones, array('class' => 'medium'));
-        $this->addElement('static', 'moreFields', '<a href="#" id="showMoreFields">'.$GLOBALS['strConfigSeeMoreFields'].'</a>');
+        $this->addElement('text', 'adminName', $GLOBALS['strAdminUsername'], ['class' => 'medium']);
+        $this->addElement('password', 'adminPassword', $GLOBALS['strAdminPassword'], ['class' => 'medium']);
+        $this->addElement('password', 'adminPassword2', $GLOBALS['strRepeatPassword'], ['class' => 'medium']);
+        $this->addElement('text', 'adminEmail', $GLOBALS['strAdministratorEmail'], ['class' => 'medium']);
+        $this->addElement('select', 'adminLanguage', $GLOBALS['strLanguage'], $this->aLanguages, ['class' => 'small']);
+        $this->addElement('select', 'prefsTimezone', $GLOBALS['strTimezone'], $this->aTimezones, ['class' => 'medium']);
+        $this->addElement('static', 'moreFields', '<a href="#" id="showMoreFields">' . $GLOBALS['strConfigSeeMoreFields'] . '</a>');
 
         //Form validation rules
         $this->addRequiredRule('adminName', $GLOBALS['strAdminUsername']);
@@ -91,18 +90,42 @@ class OX_Admin_UI_Install_ConfigForm
 
         //build form
         $this->addElement('header', 'h_paths', $GLOBALS['strConfigurationSettings']);
-        $this->addElement('text', 'webpathAdmin', $GLOBALS['strWebPathSimple'],
-            array('prefix' => $http_s, 'class' => 'large'));
-        $this->addElement('text', 'webpathDelivery', $GLOBALS['strDeliveryPath'],
-            array('prefix' => $http, 'class' => 'large'));
-        $this->addElement('text', 'webpathImages', $GLOBALS['strImagePath'],
-            array('prefix' => $http, 'class' => 'large'));
-        $this->addElement('text', 'webpathDeliverySSL', $GLOBALS['strDeliverySslPath'],
-            array('prefix' => $https, 'class' => 'large'));
-        $this->addElement('text', 'webpathImagesSSL', $GLOBALS['strImageSslPath'],
-            array('prefix' => $https, 'class' => 'large'));
-        $this->addElement('text', 'storeWebDir', $GLOBALS['strImageStore'],
-            array('class' => 'large'));
+        $this->addElement(
+            'text',
+            'webpathAdmin',
+            $GLOBALS['strWebPathSimple'],
+            ['prefix' => $http_s, 'class' => 'large']
+        );
+        $this->addElement(
+            'text',
+            'webpathDelivery',
+            $GLOBALS['strDeliveryPath'],
+            ['prefix' => $http, 'class' => 'large']
+        );
+        $this->addElement(
+            'text',
+            'webpathImages',
+            $GLOBALS['strImagePath'],
+            ['prefix' => $http, 'class' => 'large']
+        );
+        $this->addElement(
+            'text',
+            'webpathDeliverySSL',
+            $GLOBALS['strDeliverySslPath'],
+            ['prefix' => $https, 'class' => 'large']
+        );
+        $this->addElement(
+            'text',
+            'webpathImagesSSL',
+            $GLOBALS['strImageSslPath'],
+            ['prefix' => $https, 'class' => 'large']
+        );
+        $this->addElement(
+            'text',
+            'storeWebDir',
+            $GLOBALS['strImageStore'],
+            ['class' => 'large']
+        );
 
         //Form validation rules
         $this->addRequiredRule('webpathAdmin', $GLOBALS['strWebPathSimple']);
@@ -113,8 +136,8 @@ class OX_Admin_UI_Install_ConfigForm
         $this->addRequiredRule('storeWebDir', $GLOBALS['strImageStore']);
 
 
-        $this->addDecorator('h_paths', 'tag', array('tag' => 'div',
-            'attributes' => array('id' => 'moreFields', 'class' => 'hide')));
+        $this->addDecorator('h_paths', 'tag', ['tag' => 'div',
+            'attributes' => ['id' => 'moreFields', 'class' => 'hide']]);
     }
 
 
@@ -122,8 +145,12 @@ class OX_Admin_UI_Install_ConfigForm
     {
         //build form
         $this->addElement('header', 'h_old_path', $GLOBALS['strPreviousInstallTitle']);
-        $this->addElement('text', 'previousPath', $GLOBALS['strPathToPrevious'],
-            array('class' => 'medium'));
+        $this->addElement(
+            'text',
+            'previousPath',
+            $GLOBALS['strPathToPrevious'],
+            ['class' => 'medium']
+        );
         //Form validation rules
         $this->addRequiredRule('previousPath', $GLOBALS['strPathToPrevious']);
     }
@@ -145,7 +172,7 @@ class OX_Admin_UI_Install_ConfigForm
     public function populateConfig()
     {
         $aFields = $this->exportValues();
-        $aConfig = array();
+        $aConfig = [];
         $aConfig['webpath']['admin'] = $aFields['webpathAdmin'];
         $aConfig['webpath']['delivery'] = $aFields['webpathDelivery'];
         $aConfig['webpath']['images'] = $aFields['webpathImages'];
@@ -154,18 +181,18 @@ class OX_Admin_UI_Install_ConfigForm
         $aConfig['store']['webDir'] = $aFields['storeWebDir'];
         $aConfig['previousInstallationPath'] = $aFields['previousPath'];
 
-        $aAdmin = array();
+        $aAdmin = [];
         $aAdmin['name'] = $aFields['adminName'];
         $aAdmin['pword'] = $aFields['adminPassword'];
         $aAdmin['pword2'] = $aFields['adminPassword2'];
         $aAdmin['email'] = $aFields['adminEmail'];
         $aAdmin['language'] = $aFields['adminLanguage'];
 
-        $aPrefs = array();
+        $aPrefs = [];
         $aPrefs['timezone'] = $aFields['prefsTimezone'];
 
 
-        return array('config' => $aConfig, 'admin' => $aAdmin, 'prefs' => $aPrefs);
+        return ['config' => $aConfig, 'admin' => $aAdmin, 'prefs' => $aPrefs];
     }
 
 
@@ -175,18 +202,18 @@ class OX_Admin_UI_Install_ConfigForm
      */
     public function populateForm($aConfig)
     {
-        $aFields = array();
+        $aFields = [];
 
         $aPathConfig = $aConfig['config'];
 
         //config part
-        $aFields = array();
+        $aFields = [];
         $aFields['webpathAdmin'] = $aPathConfig['webpath']['admin'];
         $aFields['webpathDelivery'] = $aPathConfig['webpath']['delivery'];
         $aFields['webpathImages'] = $aPathConfig['webpath']['images'];
         $aFields['webpathDeliverySSL'] = $aPathConfig['webpath']['deliverySSL'];
         $aFields['webpathImagesSSL'] = $aPathConfig['webpath']['imagesSSL'];
-        $aFields['storeWebDir'] =  $aPathConfig['store']['webDir'];
+        $aFields['storeWebDir'] = $aPathConfig['store']['webDir'];
         $aFields['previousPath'] = $aPathConfig['previousInstallationPath'];
 
 
@@ -202,5 +229,3 @@ class OX_Admin_UI_Install_ConfigForm
         $this->setDefaults($aFields);
     }
 }
-
-?>

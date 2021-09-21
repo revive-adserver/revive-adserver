@@ -29,9 +29,12 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     public $autotrack;                       // ENUM('t','f') => openads_enum => 130
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Tracker_append',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Tracker_append', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'tracker_id' => 0,
         'rank' => 0,
         'tagcode' => '',
@@ -45,7 +48,7 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     /**
      * Override insert as "rank" is a keyword on MySQL 8 and identifiers need extra quoting.
      */
-    function insert()
+    public function insert()
     {
         global $_DB_DATAOBJECT;
 
@@ -63,7 +66,7 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     /**
      * Override insert as "rank" is a keyword on MySQL 8 and identifiers need extra quoting.
      */
-    function update($dataObject = false)
+    public function update($dataObject = false)
     {
         global $_DB_DATAOBJECT;
 
@@ -71,12 +74,10 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
 
         $_DB_DATAOBJECT['CONFIG']['quote_identifiers'] = true;
 
-        $return =  parent::update($dataObject);
+        $return = parent::update($dataObject);
 
         $_DB_DATAOBJECT['CONFIG']['quote_identifiers'] = $quoteIdentifiers;
 
         return $return;
     }
 }
-
-?>

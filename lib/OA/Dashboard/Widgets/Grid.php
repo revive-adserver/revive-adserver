@@ -18,12 +18,11 @@ require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
  */
 class OA_Dashboard_Widget_Grid extends OA_Dashboard_Widget
 {
-
     /**
      * A method to launch and display the widget
      *
      */
-    function display()
+    public function display()
     {
         $oTpl = new OA_Admin_Template('dashboard/grid.html');
 
@@ -34,7 +33,4 @@ class OA_Dashboard_Widget_Grid extends OA_Dashboard_Widget
 
         $oTpl->display();
     }
-
 }
-
-?>

@@ -19,6 +19,9 @@
     <include name="composer.json"/>
     <include name="composer.lock"/>
     <exclude name="build.sh"/>
+    <exclude name="ecs.php"/>
+    <exclude name="phpstan*"/>
+    <exclude name="rector.php"/>
 
     <!-- Subdirectory rules -->
     <exclude name="docs/**"/>
@@ -74,6 +77,9 @@
 
   <patternset id="dist.excluded">
     <!-- Files in the main directory -->
+    <include name="ecs.php"/>
+    <include name="phpstan*"/>
+    <include name="rector.php"/>
     <include name="tests.xsl"/>
     <include name="*.xml"/>
     <include name="*.properties"/>

@@ -24,9 +24,9 @@ class OA_Dashboard_Widget extends OA_Central
      *
      * @var int
      */
-    var $accessList;
+    public $accessList;
 
-    var $widgetName;
+    public $widgetName;
 
     /**
      * The class constructor
@@ -34,7 +34,7 @@ class OA_Dashboard_Widget extends OA_Central
      * @param array $aParams The parameters array, usually $_REQUEST
      * @return OA_Dashboard_Widget
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -55,10 +55,10 @@ class OA_Dashboard_Widget extends OA_Central
      * A method to check for permissions to display the widget
      *
      */
-    function checkAccess()
+    public function checkAccess()
     {
         if (empty($this->accessList)) {
-            $this->accessList = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+            $this->accessList = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER];
         }
 
         OA_Permission::enforceAccount($this->accessList);
@@ -69,9 +69,7 @@ class OA_Dashboard_Widget extends OA_Central
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    function display()
+    public function display()
     {
     }
 }
-
-?>

@@ -10,87 +10,87 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
-require_once MAX_PATH.'/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Migration.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 
 class Migration_609 extends Migration
 {
-    function __construct()
+    public function __construct()
     {
         //$this->__construct();
 
-		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__activate_time';
-		$this->aTaskList_constructive[] = 'afterAddField__campaigns__activate_time';
-		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__expire_time';
-		$this->aTaskList_constructive[] = 'afterAddField__campaigns__expire_time';
-		$this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__expire';
-		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__expire';
-		$this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__activate';
-		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__activate';
+        $this->aTaskList_constructive[] = 'beforeAddField__campaigns__activate_time';
+        $this->aTaskList_constructive[] = 'afterAddField__campaigns__activate_time';
+        $this->aTaskList_constructive[] = 'beforeAddField__campaigns__expire_time';
+        $this->aTaskList_constructive[] = 'afterAddField__campaigns__expire_time';
+        $this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__expire';
+        $this->aTaskList_destructive[] = 'afterRemoveField__campaigns__expire';
+        $this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__activate';
+        $this->aTaskList_destructive[] = 'afterRemoveField__campaigns__activate';
 
 
-		$this->aObjectMap['campaigns']['activate_time'] = array('fromTable'=>'campaigns', 'fromField'=>'activate_time');
-		$this->aObjectMap['campaigns']['expire_time'] = array('fromTable'=>'campaigns', 'fromField'=>'expire_time');
+        $this->aObjectMap['campaigns']['activate_time'] = ['fromTable' => 'campaigns', 'fromField' => 'activate_time'];
+        $this->aObjectMap['campaigns']['expire_time'] = ['fromTable' => 'campaigns', 'fromField' => 'expire_time'];
     }
 
 
 
-	function beforeAddField__campaigns__activate_time()
-	{
-		return $this->beforeAddField('campaigns', 'activate_time');
-	}
+    public function beforeAddField__campaigns__activate_time()
+    {
+        return $this->beforeAddField('campaigns', 'activate_time');
+    }
 
-	function afterAddField__campaigns__activate_time()
-	{
-		return $this->afterAddField('campaigns', 'activate_time');
-	}
+    public function afterAddField__campaigns__activate_time()
+    {
+        return $this->afterAddField('campaigns', 'activate_time');
+    }
 
-	function beforeAddField__campaigns__expire_time()
-	{
-		return $this->beforeAddField('campaigns', 'expire_time');
-	}
+    public function beforeAddField__campaigns__expire_time()
+    {
+        return $this->beforeAddField('campaigns', 'expire_time');
+    }
 
-	function afterAddField__campaigns__expire_time()
-	{
-		return $this->afterAddField('campaigns', 'expire_time') && $this->migrateActivateExpire();
-	}
+    public function afterAddField__campaigns__expire_time()
+    {
+        return $this->afterAddField('campaigns', 'expire_time') && $this->migrateActivateExpire();
+    }
 
-	function beforeRemoveField__campaigns__expire()
-	{
-		return $this->beforeRemoveField('campaigns', 'expire');
-	}
+    public function beforeRemoveField__campaigns__expire()
+    {
+        return $this->beforeRemoveField('campaigns', 'expire');
+    }
 
-	function afterRemoveField__campaigns__expire()
-	{
-		return $this->afterRemoveField('campaigns', 'expire');
-	}
+    public function afterRemoveField__campaigns__expire()
+    {
+        return $this->afterRemoveField('campaigns', 'expire');
+    }
 
-	function beforeRemoveField__campaigns__activate()
-	{
-		return $this->beforeRemoveField('campaigns', 'activate');
-	}
+    public function beforeRemoveField__campaigns__activate()
+    {
+        return $this->beforeRemoveField('campaigns', 'activate');
+    }
 
-	function afterRemoveField__campaigns__activate()
-	{
-		return $this->afterRemoveField('campaigns', 'activate');
-	}
+    public function afterRemoveField__campaigns__activate()
+    {
+        return $this->afterRemoveField('campaigns', 'activate');
+    }
 
-	function migrateActivateExpire()
-	{
+    public function migrateActivateExpire()
+    {
         $aConf = $GLOBALS['_MAX']['CONF'];
-	    $oDbh = $this->oDBH;
+        $oDbh = $this->oDBH;
 
         $prefix = $this->getPrefix();
-        foreach (array(
-            'tblAppVar'    => 'application_variable',
-            'tblAccounts'  => 'accounts',
-            'tblAgency'    => 'agency',
-            'tblClients'   => 'clients',
+        foreach ([
+            'tblAppVar' => 'application_variable',
+            'tblAccounts' => 'accounts',
+            'tblAgency' => 'agency',
+            'tblClients' => 'clients',
             'tblCampaigns' => 'campaigns',
-            'tblPrefs'     => 'preferences',
-            'tblAccPrefs'  => 'account_preference_assoc',
-        ) as $k => $v) {
-            $$k = $oDbh->quoteIdentifier($prefix.($aConf[$v] ?? $v), true);
+            'tblPrefs' => 'preferences',
+            'tblAccPrefs' => 'account_preference_assoc',
+        ] as $k => $v) {
+            $$k = $oDbh->quoteIdentifier($prefix . ($aConf[$v] ?? $v), true);
         }
 
         // Get admin account ID
@@ -127,24 +127,24 @@ class Migration_609 extends Migration
         if ($useTransaction) {
             $oDbh->beginTransaction();
         }
-        $oStmt = $oDbh->prepare("UPDATE {$tblCampaigns} SET activate_time = ?, expire_time = ? WHERE campaignid = ?", array('timestamp', 'timestamp', 'integer'));
+        $oStmt = $oDbh->prepare("UPDATE {$tblCampaigns} SET activate_time = ?, expire_time = ? WHERE campaignid = ?", ['timestamp', 'timestamp', 'integer']);
 
-        $query = "SELECT a.agencyid, COALESCE(p.value, ".$oDbh->quote($adminTz).") AS tz FROM {$tblAgency} a LEFT JOIN {$tblAccPrefs} p ON (a.account_id = p.account_id AND p.preference_id = {$tzId})";
+        $query = "SELECT a.agencyid, COALESCE(p.value, " . $oDbh->quote($adminTz) . ") AS tz FROM {$tblAgency} a LEFT JOIN {$tblAccPrefs} p ON (a.account_id = p.account_id AND p.preference_id = {$tzId})";
         foreach ($oDbh->getAssoc($query) as $agencyId => $tz) {
             $this->_log("Converting agency ID {$agencyId}");
             $query = "SELECT campaignid, activate, expire FROM {$tblCampaigns} JOIN {$tblClients} USING (clientid) WHERE agencyid = {$agencyId}";
             foreach ($oDbh->getAssoc($query) as $campaignId => $aCampaign) {
                 $this->_log("Converting campaign ID {$campaignId} (a: {$aCampaign['activate']}, e: {$aCampaign['expire']})");
-                $result = $oStmt->execute(array(
+                $result = $oStmt->execute([
                     $this->_convertDate($aCampaign['activate'], $tz, 0),
-                    $this->_convertDate($aCampaign['expire'],   $tz, 1),
+                    $this->_convertDate($aCampaign['expire'], $tz, 1),
                     $campaignId
-                ));
+                ]);
                 if (PEAR::isError($result)) {
                     if ($useTransaction) {
                         $oDbh->rollback();
                     }
-                    return $this->_logErrorAndReturnFalse("Error: ".$result->getDebugInfo());
+                    return $this->_logErrorAndReturnFalse("Error: " . $result->getDebugInfo());
                 }
             }
         }
@@ -154,25 +154,22 @@ class Migration_609 extends Migration
 
         $this->_log("Migration completed");
 
-	    return true;
-	}
+        return true;
+    }
 
-	function _convertDate($date, $tz, $end)
-	{
-	    if (empty($date) || $date == '0000-00-00') {
-	        return null;
-	    }
-	    $oDate = new Date($date);
-	    $oDate->setTZByID($tz);
-	    if ($end) {
-	        $oDate->setHour(23);
-	        $oDate->setMinute(59);
-	        $oDate->setSecond(59);
-	    }
-	    $oDate->toUTC();
-	    return $oDate->getDate(DATE_FORMAT_ISO);
-	}
-
+    public function _convertDate($date, $tz, $end)
+    {
+        if (empty($date) || $date == '0000-00-00') {
+            return null;
+        }
+        $oDate = new Date($date);
+        $oDate->setTZByID($tz);
+        if ($end) {
+            $oDate->setHour(23);
+            $oDate->setMinute(59);
+            $oDate->setSecond(59);
+        }
+        $oDate->toUTC();
+        return $oDate->getDate(DATE_FORMAT_ISO);
+    }
 }
-
-?>

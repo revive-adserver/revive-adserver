@@ -18,13 +18,13 @@
  */
 class RV_Admin_Languages
 {
-    public static $aOldLanguagesMap = array(
+    public static $aOldLanguagesMap = [
         'chinese_gb2312' => 'zh_CN',
         'chinese_big5' => 'zh_CN',
         'czech' => 'cs',
         'dutch' => 'nl',
         'english' => 'en',
-        'english_affiliates'=> 'en',
+        'english_affiliates' => 'en',
         'english_us' => 'en',
         'french' => 'fr',
         'german' => 'de',
@@ -38,7 +38,7 @@ class RV_Admin_Languages
         'russian_koi8r' => 'ru',
         'spanish' => 'es',
         'turkish' => 'tr'
-    );
+    ];
 
     /**
      * A method for returning an array of the available translations.
@@ -47,9 +47,9 @@ class RV_Admin_Languages
      */
     public static function getAvailableLanguages()
     {
-        $languages = array();
+        $languages = [];
 
-        foreach (glob(MAX_PATH.'/lib/max/language/*/index.lang.php') as $file) {
+        foreach (glob(MAX_PATH . '/lib/max/language/*/index.lang.php') as $file) {
             unset($translation_readable);
             if (preg_match('#/([^/]+)/index\.lang\.php#', $file, $m)) {
                 include($file);

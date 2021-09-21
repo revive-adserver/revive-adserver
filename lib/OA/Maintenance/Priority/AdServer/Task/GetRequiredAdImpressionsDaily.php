@@ -43,13 +43,12 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  */
 class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extends OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions
 {
-
     /**
      * The class constructor method.
      *
      * @return OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->type = 'a daily target is set';
@@ -65,17 +64,17 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
      * @access private
      * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects.
      */
-    function _getValidCampaigns()
+    public function _getValidCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = $this->oDal->_getDbConnection();
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
-        $aWheres = array(
-            array("$table.priority >= 1", 'AND'),
-            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
-            array("($table.target_impression > 0 OR $table.target_click > 0 OR $table.target_conversion > 0)", 'AND'),
-            array("($table.expire_time IS NULL OR ($table.views = -1 AND $table.clicks = -1 AND $table.conversions = -1))", 'AND'),
-        );
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'], true);
+        $aWheres = [
+            ["$table.priority >= 1", 'AND'],
+            ["$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+            ["($table.target_impression > 0 OR $table.target_click > 0 OR $table.target_conversion > 0)", 'AND'],
+            ["($table.expire_time IS NULL OR ($table.views = -1 AND $table.clicks = -1 AND $table.conversions = -1))", 'AND'],
+        ];
         return $this->_getAllCampaigns($aWheres);
     }
 
@@ -91,11 +90,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
      *
      * @param OX_Maintenance_Priority_Campaign $oCampaign
      */
-    function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'daily', $ignorePast = false)
+    public function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'daily', $ignorePast = false)
     {
         parent::getCampaignImpressionInventoryRequirement($oCampaign, 'daily');
     }
-
 }
-
-?>

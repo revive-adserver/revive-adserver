@@ -10,25 +10,22 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
 
 
 /**
  * Wrapper rule for HTML_QuickForm "minlength" rule.
  */
-class OA_Admin_UI_Rule_JQueryMinLengthRule
-    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
+class OA_Admin_UI_Rule_JQueryMinLengthRule extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
 {
     /**
-     * Returns Jquery validation plugin "minLength" rule 
+     * Returns Jquery validation plugin "minLength" rule
      * "minLength": $rule['format']
      * @param array $rule
      * @return string
      */
     public function getJQueryValidationRule($rule)
     {
-        return "\"minLength\": ".$rule['format'];    
+        return "\"minLength\": " . $rule['format'];
     }
 }
-
-?>

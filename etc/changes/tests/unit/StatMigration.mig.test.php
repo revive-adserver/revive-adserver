@@ -22,22 +22,22 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  */
 class StatMigrationTest extends MigrationTest
 {
-    var $configPath;
+    public $configPath;
 
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
-        $this->initDatabase(108, array('adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad'));
+        $this->initDatabase(108, ['adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad']);
         $this->configPath = MAX_PATH . '/var/config.inc.php';
     }
 
 
-    function testMigrateCompactStats()
+    public function testMigrateCompactStats()
     {
         $oDbh = &$this->oDbh;
 
         $migration = new StatMigration();
-        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
+        $migration->init($this->oDbh, MAX_PATH . '/var/DB_Upgrade.test.log');
 
         $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertCompactStatsTestData');
 
@@ -48,18 +48,18 @@ class StatMigrationTest extends MigrationTest
     }
 
 
-    function prepareTestData(&$mapCImpressions, &$mapCClicks, $functionInsertTestData)
+    public function prepareTestData(&$mapCImpressions, &$mapCClicks, $functionInsertTestData)
     {
-        $aBannerIds = array(1,2,3);
-        $aZoneIds = array(1,2,3);
-        $aDays = array("2007-05-10", "2007-05-11", "2007-05-12");
-        $aCImpressions = array(5, 7, 12, 32, 4);
-        $aCClicks = array(8, 4, 15, 9, 2);
+        $aBannerIds = [1, 2, 3];
+        $aZoneIds = [1, 2, 3];
+        $aDays = ["2007-05-10", "2007-05-11", "2007-05-12"];
+        $aCImpressions = [5, 7, 12, 32, 4];
+        $aCClicks = [8, 4, 15, 9, 2];
 
 
         foreach ($aBannerIds as $bannerId) {
             foreach ($aZoneIds as $zoneId) {
-                foreach($aDays as $day) {
+                foreach ($aDays as $day) {
                     for ($hour = 0; $hour < 24; $hour++) {
                         $mapCImpressions[$bannerId][$zoneId][$day][$hour] =
                             $aCImpressions[$hour % count($aCImpressions)];
@@ -74,28 +74,27 @@ class StatMigrationTest extends MigrationTest
     }
 
 
-    function _insertCompactStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
+    public function _insertCompactStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
     {
-
-        $aValues = array(
+        $aValues = [
             'bannerid' => $bannerId,
             'zoneid' => $zoneId,
             'day' => $day,
             'hour' => $hour,
             'views' => $mapCImpressions[$bannerId][$zoneId][$day][$hour],
-            'clicks' => $mapCClicks[$bannerId][$zoneId][$day][$hour]);
+            'clicks' => $mapCClicks[$bannerId][$zoneId][$day][$hour]];
         $sql = OA_DB_Sql::sqlForInsert('adstats', $aValues);
         $this->oDbh->exec($sql);
     }
 
 
-    function _checkDataTable($table, $cEntries, $mapCImpressions, $mapCClicks)
+    public function _checkDataTable($table, $cEntries, $mapCImpressions, $mapCClicks)
     {
-        $table = $this->oDbh->quoteIdentifier($this->getPrefix().$table,true);
+        $table = $this->oDbh->quoteIdentifier($this->getPrefix() . $table, true);
         $rsDsah = DBC::NewRecordSet("SELECT * FROM $table");
         $this->assertTrue($rsDsah->find());
         $this->assertEqual($cEntries, $rsDsah->getRowCount());
-        while($rsDsah->fetch()) {
+        while ($rsDsah->fetch()) {
             $bannerId = $rsDsah->get('ad_id');
             $zoneId = $rsDsah->get('zone_id');
             $day = $rsDsah->get('day');
@@ -103,38 +102,37 @@ class StatMigrationTest extends MigrationTest
             $this->assertEqual($mapCImpressions[$bannerId][$zoneId][$day][$hour], $rsDsah->get('impressions'));
             $this->assertEqual($mapCClicks[$bannerId][$zoneId][$day][$hour], $rsDsah->get('clicks'));
         }
-
     }
 
 
-    function _insertRawStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
+    public function _insertRawStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
     {
         $this->_insertRawStatsRows($bannerId, $zoneId, $day, $hour, 'adviews', $mapCImpressions);
         $this->_insertRawStatsRows($bannerId, $zoneId, $day, $hour, 'adclicks', $mapCClicks);
     }
 
 
-    function _insertRawStatsRows($bannerId, $zoneId, $day, $hour, $table, $mapCRows)
+    public function _insertRawStatsRows($bannerId, $zoneId, $day, $hour, $table, $mapCRows)
     {
         for ($idxRow = 0; $idxRow < $mapCRows[$bannerId][$zoneId][$day][$hour]; $idxRow++) {
             $minutes = mt_rand(0, 59);
             $seconds = mt_rand(0, 59);
             $timestamp = "$day $hour:$minutes:$seconds";
-            $aValues = array(
+            $aValues = [
                 'bannerid' => $bannerId,
                 'zoneid' => $zoneId,
-                't_stamp' => $timestamp);
+                't_stamp' => $timestamp];
             $sql = OA_DB_Sql::sqlForInsert($table, $aValues);
             $this->oDbh->exec($sql);
         }
     }
 
 
-    function testMigrateRawStats()
+    public function testMigrateRawStats()
     {
         $oDbh = &$this->oDbh;
         $migration = new StatMigration();
-        $migration->init($oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
+        $migration->init($oDbh, MAX_PATH . '/var/DB_Upgrade.test.log');
 
         $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertRawStatsTestData');
 
@@ -144,7 +142,7 @@ class StatMigrationTest extends MigrationTest
         $this->_checkDataTable('data_intermediate_ad', $cEntries, $mapCImpressions, $mapCClicks);
     }
 
-    function testStatsCompacted()
+    public function testStatsCompacted()
     {
         $migration = new StatMigration();
         $this->_initPanConfigStatsCompacted('true');
@@ -155,11 +153,10 @@ class StatMigrationTest extends MigrationTest
     }
 
 
-    function _initPanConfigStatsCompacted($value)
+    public function _initPanConfigStatsCompacted($value)
     {
         $fPanConfig = fopen($this->configPath, "wt");
         fwrite($fPanConfig, "<?php\n\$phpAds_config['compact_stats'] = $value;\n?>\n");
         fclose($fPanConfig);
     }
 }
-?>

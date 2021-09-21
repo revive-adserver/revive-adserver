@@ -13,7 +13,7 @@
 /*
  * NOTE: If this list of event ever changes (IDs or names), the Video Reports must be updated as well
  */
-$aVastEventStrToIdMap = array(
+$aVastEventStrToIdMap = [
      'start' => 1,
      'midpoint' => 2,
      'firstquartile' => 3,
@@ -26,9 +26,9 @@ $aVastEventStrToIdMap = array(
      'unmute' => 10,
      'resume' => 11,
      'pause' => 12,
-);
+];
 
-MAX_commonRegisterGlobalsArray(array('event', 'video_time_posn'));
+MAX_commonRegisterGlobalsArray(['event', 'video_time_posn']);
 
 // Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
@@ -41,14 +41,14 @@ if (!empty($bannerid) && isset($aVastEventStrToIdMap[$event])) {
     $time = MAX_commonGetTimeNow();
     $oi = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
 
-    $GLOBALS['_MAX']['deliveryData'] = array(
-        'interval_start'    => gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60)),
-        'creative_id'       => (int)$bannerid,
-        'zone_id'           => (int)$zoneid,
-        'vast_event_id'     => $aVastEventStrToIdMap[$event],
-    );
+    $GLOBALS['_MAX']['deliveryData'] = [
+        'interval_start' => gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60)),
+        'creative_id' => (int)$bannerid,
+        'zone_id' => (int)$zoneid,
+        'vast_event_id' => $aVastEventStrToIdMap[$event],
+    ];
 
-    OX_Delivery_Common_hook('logImpressionVast', array($bannerid, $zoneid, _viewersHostOkayToLog()));
+    OX_Delivery_Common_hook('logImpressionVast', [$bannerid, $zoneid, _viewersHostOkayToLog()]);
 }
 
 MAX_cookieFlush();

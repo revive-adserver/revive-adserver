@@ -16,8 +16,8 @@
  * PostgreSQL database engine.
  */
 
-$aCustomFunctions = array();
-$aBackupFunctions = array();
+$aCustomFunctions = [];
+$aBackupFunctions = [];
 
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION DATE_ADD(timestamptz, interval) RETURNS timestamptz AS $$
@@ -205,5 +205,3 @@ BEGIN
   EXECUTE 'INSERT INTO ' || t_new || ' SELECT * FROM ' || t_old;
 END;
 $$ LANGUAGE plpgsql STRICT;";
-
-?>

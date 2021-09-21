@@ -17,7 +17,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 
 // Register input variables
-phpAds_registerGlobal ('report');
+phpAds_registerGlobal('report');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
@@ -39,5 +39,3 @@ $oModule->displayReportGeneration($report, $_GET['error']);
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

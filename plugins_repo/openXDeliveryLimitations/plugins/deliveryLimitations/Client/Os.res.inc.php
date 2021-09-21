@@ -15,12 +15,12 @@
  * @subpackage DeliveryLimitations
  */
 
-$res = array(
-    'w7'        => 'Windows 7',
-    'xp'        => 'Windows XP',
-    '2k'        => 'Windows 2000',
-    'linux'     => 'Linux',
-    'freebsd'   => 'FreeBSD',
-    'sun'       => 'Solaris',
-    'osx'       => 'Mac OSX',
-);
+$res = [
+    'w7' => 'Windows 7',
+    'xp' => 'Windows XP',
+    '2k' => 'Windows 2000',
+    'linux' => 'Linux',
+    'freebsd' => 'FreeBSD',
+    'sun' => 'Solaris',
+    'osx' => 'Mac OSX',
+];

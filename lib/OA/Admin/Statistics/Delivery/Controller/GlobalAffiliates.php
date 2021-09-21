@@ -22,7 +22,12 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  */
 class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_Statistics_Delivery_CommonEntity
 {
-
+    public $aNodes;
+    /**
+     * @var mixed
+     */
+    public $coreParams;
+    public $hiddenEntitiesText;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +38,10 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'global';
+        $this->entity = 'global';
         $this->breakdown = 'affiliates';
 
         // This page uses the day span selector element
@@ -50,7 +55,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get the preferences
         $aPref = $GLOBALS['_MAX']['PREF'];
@@ -60,7 +65,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
 
         // HTML Framework
         $this->pageId = '2.4';
-        $this->aPageSections = array('2.1', '2.4', '2.2');
+        $this->aPageSections = ['2.1', '2.4', '2.2'];
 
         $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == true), null, true);
         $this->showHideInactive = true;
@@ -68,9 +73,9 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
         $this->startLevel = MAX_getStoredValue('startlevel', 0, null, true);
 
         // Init nodes
-        $this->aNodes   = MAX_getStoredArray('nodes', array());
-        $expand         = MAX_getValue('expand', '');
-        $collapse       = MAX_getValue('collapse');
+        $this->aNodes = MAX_getStoredArray('nodes', []);
+        $expand = MAX_getValue('expand', '');
+        $collapse = MAX_getValue('collapse');
 
         // Adjust which nodes are opened closed...
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
@@ -86,8 +91,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
 
         $this->_loadParams();
 
-        switch ($this->startLevel)
-        {
+        switch ($this->startLevel) {
             case 1:
                 $this->aEntitiesData = $this->getZones($aParams, $this->startLevel, $expand);
                 break;
@@ -100,31 +104,27 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
         // Summarise the values into a the totals array, & format
         $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
-        $this->showHideLevels = array();
-        switch ($this->startLevel)
-        {
+        $this->showHideLevels = [];
+        switch ($this->startLevel) {
             case 1:
-                $this->showHideLevels = array(
-                    0 => array('text' => $GLOBALS['strShowParentAffiliates'], 'icon' => 'images/icon-affiliate.gif'),
-                );
+                $this->showHideLevels = [
+                    0 => ['text' => $GLOBALS['strShowParentAffiliates'], 'icon' => 'images/icon-affiliate.gif'],
+                ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveZonesHidden']}";
                 break;
             case 0:
-                $this->showHideLevels = array(
-                    1 => array('text' => $GLOBALS['strHideParentAffiliates'], 'icon' => 'images/icon-affiliate-d.gif'),
-                );
+                $this->showHideLevels = [
+                    1 => ['text' => $GLOBALS['strHideParentAffiliates'], 'icon' => 'images/icon-affiliate-d.gif'],
+                ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveAffiliatesHidden']}";
                 break;
         }
 
 
         // Save prefs
-        $this->aPagePrefs['startlevel']   = $this->startLevel;
-        $this->aPagePrefs['nodes']        = implode (",", $this->aNodes);
+        $this->aPagePrefs['startlevel'] = $this->startLevel;
+        $this->aPagePrefs['nodes'] = implode(",", $this->aNodes);
         $this->aPagePrefs['hideinactive'] = $this->hideInactive;
-        $this->aPagePrefs['startlevel']   = $this->startLevel;
+        $this->aPagePrefs['startlevel'] = $this->startLevel;
     }
-
 }
-
-?>

@@ -14,13 +14,13 @@ class Test_OX_Admin_UI_Event_ModifyingTestEventListener
 {
     public $aCallCount;
 
-    function __construct()
+    public function __construct()
     {
-        $this->aCallCount = array();
+        $this->aCallCount = [];
     }
 
 
-    function onUpdate(OX_Admin_UI_Event_EventContext $context)
+    public function onUpdate(OX_Admin_UI_Event_EventContext $context)
     {
         $eventName = $context->eventName;
         unset($context->eventName);
@@ -39,8 +39,5 @@ class Test_OX_Admin_UI_Event_ModifyingTestEventListener
         }
 
         $this->aCallCount[$eventName]['lastContext'] = $context;
-
     }
 }
-
-?>

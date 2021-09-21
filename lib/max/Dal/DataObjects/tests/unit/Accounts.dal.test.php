@@ -25,12 +25,12 @@ class DataObjects_AccoutnsTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -38,7 +38,7 @@ class DataObjects_AccoutnsTest extends DalUnitTestCase
     /**
      * Test method _relinkOrDeleteUsers
      */
-    function test_relinkOrDeleteUsers()
+    public function test_relinkOrDeleteUsers()
     {
         // Insert an agency
         $doAgency = OA_Dal::factoryDO('agency');
@@ -95,8 +95,5 @@ class DataObjects_AccoutnsTest extends DalUnitTestCase
         $doUsers->user_id = $managerUserID;
         $doUsers->find();
         $this->assertFalse($doUsers->fetch());
-
     }
-
 }
-?>

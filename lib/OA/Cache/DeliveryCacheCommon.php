@@ -24,12 +24,13 @@ class OA_Cache_DeliveryCacheCommon
      *
      * @var Plugins_DeliveryCacheStore
      */
-    var $oCacheStorePlugin;
+    public $oCacheStorePlugin;
 
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct()
+    {
         $this->oCacheStorePlugin =
             &OX_Component::factoryByComponentIdentifier(
                 $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
@@ -45,7 +46,8 @@ class OA_Cache_DeliveryCacheCommon
      *
      * @return boolean True if the entries were succesfully deleted
      */
-    function invalidateAll(){
+    public function invalidateAll()
+    {
         return $this->invalidateFile(null);
     }
 
@@ -56,7 +58,8 @@ class OA_Cache_DeliveryCacheCommon
      * @param string $sName The cache entry name
      * @return bool True if the entry was succesfully deleted
      */
-    function invalidateFile($sName) {
+    public function invalidateFile($sName)
+    {
         // Check if plugin is loaded
         if ($this->oCacheStorePlugin !== false) {
             return $this->oCacheStorePlugin->deleteCacheFile($sName);
@@ -72,8 +75,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $zoneId Zone Id
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetAdCache($bannerId){
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetAd', $bannerId);
+    public function invalidateGetAdCache($bannerId)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetAd', $bannerId);
         return $this->invalidateFile($sName);
     }
 
@@ -81,8 +85,9 @@ class OA_Cache_DeliveryCacheCommon
      * Invalidate GetAccountTZs cache file
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetAccountTZsCache(){
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetAccountTZs');
+    public function invalidateGetAccountTZsCache()
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetAccountTZs');
         return $this->invalidateFile($sName);
     }
 
@@ -92,8 +97,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $zoneId Zone Id
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateZoneLinkedAdsCache($zoneId){
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetZoneLinkedAds', $zoneId);
+    public function invalidateZoneLinkedAdsCache($zoneId)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetZoneLinkedAds', $zoneId);
         return $this->invalidateFile($sName);
     }
 
@@ -103,8 +109,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $zoneId Zone Id
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetZoneInfoCache($zoneId){
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetZoneInfo', $zoneId);
+    public function invalidateGetZoneInfoCache($zoneId)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetZoneInfo', $zoneId);
         return $this->invalidateFile($sName);
     }
 
@@ -114,8 +121,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param string $filename Filename of cached image (creative)
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetCreativeCache($filename) {
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetCreative', $filename);
+    public function invalidateGetCreativeCache($filename)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetCreative', $filename);
         return $this->invalidateFile($sName);
     }
 
@@ -125,8 +133,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $trackerId Tracker Id
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetTrackerCache($trackerId) {
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetTracker', $trackerId);
+    public function invalidateGetTrackerCache($trackerId)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetTracker', $trackerId);
         return $this->invalidateFile($sName);
     }
 
@@ -136,8 +145,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $trackerId Tracker Id
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetTrackerVariablesCache($trackerId) {
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetTrackerVariables', $trackerId);
+    public function invalidateGetTrackerVariablesCache($trackerId)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetTrackerVariables', $trackerId);
         return $this->invalidateFile($sName);
     }
 
@@ -146,8 +156,9 @@ class OA_Cache_DeliveryCacheCommon
      *
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateCheckIfMaintenanceShouldRunCache() {
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheCheckIfMaintenanceShouldRun');
+    public function invalidateCheckIfMaintenanceShouldRunCache()
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheCheckIfMaintenanceShouldRun');
         return $this->invalidateFile($sName);
     }
 
@@ -157,8 +168,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $channelId Channel Id
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetChannelLimitationsCache($channelId) {
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetChannelLimitations', $channelId);
+    public function invalidateGetChannelLimitationsCache($channelId)
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetChannelLimitations', $channelId);
         return $this->invalidateFile($sName);
     }
 
@@ -167,8 +179,9 @@ class OA_Cache_DeliveryCacheCommon
      *
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidateGetGoogleJavaScriptCache() {
-        $sName  = OA_Delivery_Cache_getName('MAX_cacheGetGoogleJavaScript');
+    public function invalidateGetGoogleJavaScriptCache()
+    {
+        $sName = OA_Delivery_Cache_getName('MAX_cacheGetGoogleJavaScript');
         return $this->invalidateFile($sName);
     }
 
@@ -178,9 +191,9 @@ class OA_Cache_DeliveryCacheCommon
      * @param int $affiliateId Affiliate Id (also know as Website Id or Publisher Id)
      * @return boolean True if the entry was succesfully deleted
      */
-    function invalidatePublisherZonesCache($affiliateId){
-        $sName  = OA_Delivery_Cache_getName('OA_cacheGetPublisherZones', $affiliateId);
+    public function invalidatePublisherZonesCache($affiliateId)
+    {
+        $sName = OA_Delivery_Cache_getName('OA_cacheGetPublisherZones', $affiliateId);
         return $this->invalidateFile($sName);
     }
 }
-?>

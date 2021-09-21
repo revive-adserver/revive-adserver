@@ -25,17 +25,17 @@ class DataObjects_ImagesTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testGetUniqueFileNameForDuplication()
+    public function testGetUniqueFileNameForDuplication()
     {
         // Insert an image
         $doImages = OA_Dal::factoryDO('images');
@@ -53,12 +53,12 @@ class DataObjects_ImagesTest extends DalUnitTestCase
     
     /**
      * Tests the timestamps are updated correctly.
-     * 
+     *
      * Test 1: Tests the current timestamp is inserted for a new image.
      * Test 2: Tests the timestamp is updated when an image is updated.
      *
      */
-    function testUpdate()
+    public function testUpdate()
     {
         // Test 1
         // Get the start time of the test
@@ -71,10 +71,10 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         $doImages->contents = '';
         DataGenerator::generateOne($doImages);
         
-         // Get the image out of the DB
+        // Get the image out of the DB
         $doImages = OA_Dal::staticGetDO('images', 'filename', 'foo.jpg');
         
-        // Check the timestamp is > time at start of test and <= current time 
+        // Check the timestamp is > time at start of test and <= current time
         // Deal with MySQL 4.0 timestamps
         if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doImages->t_stamp, $m)) {
             $doImages->t_stamp = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
@@ -82,7 +82,7 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         $actual = strtotime($doImages->t_stamp);
         $this->assertTrue($actual > $start && $actual <= time());
         
-        // Test 2       
+        // Test 2
         // Update the image
         $doImages->contents = '1';
         sleep(1);
@@ -99,6 +99,4 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         $actual = strtotime($doImages->t_stamp);
         $this->assertTrue($actual > $oldTime && $actual <= time());
     }
-
 }
-?>

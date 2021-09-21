@@ -23,13 +23,12 @@ Language_Loader::load();
  */
 class Test_DeliveryLimitations extends UnitTestCase
 {
-
-    var $tmpCookie;
+    public $tmpCookie;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -39,7 +38,7 @@ class Test_DeliveryLimitations extends UnitTestCase
      * test (Dummy) plugins which are then used by the test scripts to test the extension point integrations.
      *
      */
-    function setUp()
+    public function setUp()
     {
         //install the package of test (dummy) plugins for testing the extension points
         unset($GLOBALS['_MAX']['CONF']['plugins']['openXTests']);
@@ -49,10 +48,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         MAX_commonInitVariables();
         $this->tmpCookie = $_COOKIE;
-        $_COOKIE = array();
+        $_COOKIE = [];
     }
 
-    function tearDown()
+    public function tearDown()
     {
         $_COOKIE = $this->tmpCookie;
         // Uninstall
@@ -63,23 +62,23 @@ class Test_DeliveryLimitations extends UnitTestCase
     /**
      * A method test the MAX_limitationsCheckAcl function.
      */
-    function test_MAX_limitationsCheckAcl()
+    public function test_MAX_limitationsCheckAcl()
     {
         $source = '';
 
-        $row['compiledlimitation']  = 'false';
-        $row['acl_plugins']         = '';
+        $row['compiledlimitation'] = 'false';
+        $row['acl_plugins'] = '';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertFalse($return);
 
-        $row['compiledlimitation']  = 'true';
-        $row['acl_plugins']         = '';
+        $row['compiledlimitation'] = 'true';
+        $row['acl_plugins'] = '';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);
 
         // Test of dummy deliveryLimitation plugin
-        $row['compiledlimitation']  = 'MAX_checkDummy_Dummy(\'1\', \'==\') and MAX_checkDummy_Dummy(\'2\', \'==\')';
-        $row['acl_plugins']         = 'deliveryLimitations:Dummy:Dummy';
+        $row['compiledlimitation'] = 'MAX_checkDummy_Dummy(\'1\', \'==\') and MAX_checkDummy_Dummy(\'2\', \'==\')';
+        $row['acl_plugins'] = 'deliveryLimitations:Dummy:Dummy';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);
     }
@@ -89,7 +88,7 @@ class Test_DeliveryLimitations extends UnitTestCase
      *
      * @TODO Needs to be update to test ad capping & blocking.
      */
-    function test_limitationsIsAdCapped()
+    public function test_limitationsIsAdCapped()
     {
         $this->_testIsThingCapped('Ad');
     }
@@ -99,7 +98,7 @@ class Test_DeliveryLimitations extends UnitTestCase
      *
      * @TODO Needs to be update to test campaign capping & blocking.
      */
-    function test_limitationsIsCampaignCapped()
+    public function test_limitationsIsCampaignCapped()
     {
         $this->_testIsThingCapped('Campaign');
     }
@@ -109,41 +108,42 @@ class Test_DeliveryLimitations extends UnitTestCase
      *
      * @TODO Needs to be update to test zone capping & blocking.
      */
-    function broken_test_limitationsIsZoneCapped()
+    public function broken_test_limitationsIsZoneCapped()
     {
         $this->_testIsThingCapped('Zone');
     }
 
-    function _testIsThingCapped($thing) {
+    public function _testIsThingCapped($thing)
+    {
         $conf = $GLOBALS['_MAX']['CONF'];
         $now = MAX_commonGetTimeNow();
 
-        switch($thing) {
+        switch ($thing) {
             case 'Ad':
-                $functionName           = '_limitationsIsAdCapped';
-                $capCookieName          = $conf['var']['capAd'];
-                $sessionCapCookieName   = $conf['var']['sessionCapAd'];
-                $blockCookieName        = $conf['var']['blockAd'];
+                $functionName = '_limitationsIsAdCapped';
+                $capCookieName = $conf['var']['capAd'];
+                $sessionCapCookieName = $conf['var']['sessionCapAd'];
+                $blockCookieName = $conf['var']['blockAd'];
                 break;
             case 'Campaign':
-                $functionName           = '_limitationsIsCampaignCapped';
-                $capCookieName          = $conf['var']['capCampaign'];
-                $sessionCapCookieName   = $conf['var']['sessionCapCampaign'];
-                $blockCookieName        = $conf['var']['blockCampaign'];
+                $functionName = '_limitationsIsCampaignCapped';
+                $capCookieName = $conf['var']['capCampaign'];
+                $sessionCapCookieName = $conf['var']['sessionCapCampaign'];
+                $blockCookieName = $conf['var']['blockCampaign'];
                 break;
             case 'Zone':
-                $functionName           = '_limitationsIsZoneCapped';
-                $capCookieName          = $conf['var']['capZone'];
-                $sessionCapCookieName   = $conf['var']['sessionCapZone'];
-                $blockCookieName        = $conf['var']['blockZone'];
+                $functionName = '_limitationsIsZoneCapped';
+                $capCookieName = $conf['var']['capZone'];
+                $sessionCapCookieName = $conf['var']['sessionCapZone'];
+                $blockCookieName = $conf['var']['blockZone'];
         }
 
         // Test 1: No capping
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id         = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 0;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
@@ -152,10 +152,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 2: Cap of 3, not seen yet
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 3;
+        $id = 123;
+        $cap = 3;
         $sessionCap = 0;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
@@ -164,10 +164,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 3: Cap of 3, seen two times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 3;
+        $id = 123;
+        $cap = 3;
         $sessionCap = 0;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $_COOKIE[$capCookieName][$id] = 2;
         $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
@@ -175,10 +175,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 4: Cap of 3, seen three times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 3;
+        $id = 123;
+        $cap = 3;
         $sessionCap = 0;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $_COOKIE[$capCookieName][$id] = 3;
         $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
@@ -186,10 +186,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 5: Cap of 3, seen four times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 3;
+        $id = 123;
+        $cap = 3;
         $sessionCap = 0;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $_COOKIE[$capCookieName][$id] = 4;
         $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
@@ -197,10 +197,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 6: Session cap of 3, not seen yet
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 3;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         unset($_COOKIE[$capCookieName][$id]);
         unset($_COOKIE[$sessionCapCookieName][$id]);
@@ -209,10 +209,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 7: Session cap of 3, seen two times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 3;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $_COOKIE[$sessionCapCookieName][$id] = 2;
         $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
@@ -220,10 +220,10 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 8: Session cap of 3, seen three times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 3;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $_COOKIE[$sessionCapCookieName][$id] = 3;
         $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
@@ -231,20 +231,20 @@ class Test_DeliveryLimitations extends UnitTestCase
 
         // Test 9: Session cap of 3, seen four times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 3;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $_COOKIE[$sessionCapCookieName][$id] = 4;
         $return = $functionName($id, $cap, $sessionCap, $block, $showCappedNoCookie);
         $this->assertTrue($return);
 
         // Test 10: First impression (cap = 2, block = 60s)
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 2;
-        $block      = 60;
+        $block = 60;
         $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         unset($_COOKIE[$sessionCapCookieName][$id]);
@@ -253,10 +253,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $this->assertFalse($return);
 
         // Test 11: Second impression (cap = 2, block 60s)
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 2;
-        $block      = 60;
+        $block = 60;
         $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         $_COOKIE[$sessionCapCookieName][$id] = 1;
@@ -265,10 +265,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $this->assertFalse($return);
 
         // Test 12: Third impression within block (cap = 2, block 60s)
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 2;
-        $block      = 60;
+        $block = 60;
         $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         $_COOKIE[$sessionCapCookieName][$id] = 2;
@@ -277,10 +277,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $this->assertTrue($return);
 
         // Test 13: Third impression outside block (cap = 2, block = 60s)
-        $id       = 123;
-        $cap        = 0;
+        $id = 123;
+        $cap = 0;
         $sessionCap = 2;
-        $block      = 60;
+        $block = 60;
         $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
         $_COOKIE[$sessionCapCookieName][$id] = 2;
@@ -289,10 +289,10 @@ class Test_DeliveryLimitations extends UnitTestCase
         $this->assertFalse($return);
 
         // Test 10: newViewerId cookie set
-        $id       = 123;
-        $cap        = 3;
+        $id = 123;
+        $cap = 3;
         $sessionCap = 0;
-        $block      = 0;
+        $block = 0;
         $showCappedNoCookie = 0;
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
         unset($_COOKIE[$capCookieName][$id]);
@@ -301,5 +301,3 @@ class Test_DeliveryLimitations extends UnitTestCase
         $this->assertTrue($return);
     }
 }
-
-?>

@@ -14,12 +14,10 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/ZoneIdField.php';
 
 class Admin_UI_ZoneScopeField extends Admin_UI_ZoneIdField
 {
-    function displayZonesAsOptionList()
+    public function displayZonesAsOptionList()
     {
         echo "
         <option value='all'>-- {$GLOBALS['strAllAvailZones']} --</option>";
         parent::displayZonesAsOptionList();
     }
 }
-
-?>

@@ -25,13 +25,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationTags
 {
-
     /**
      * Return name of plugin
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate("Image Tag");
     }
@@ -43,7 +42,7 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
      *
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         return 'Image Tag';
     }
@@ -53,17 +52,17 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
-        if(is_array($extra) && $extra['delivery'] == phpAds_ZoneText) {
+        if (is_array($extra) && $extra['delivery'] == phpAds_ZoneText) {
             return false;
         } else {
             return $isAllowed;
         }
     }
 
-    function getOrder()
+    public function getOrder()
     {
         parent::getOrder();
         return 4;
@@ -74,15 +73,15 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
      *
      * @return array    Group of options
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
-        $options = array (
-            'spacer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'what'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        $options = [
+            'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'what' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'campaignid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'target'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'source'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-        );
+            'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        ];
 
         return $options;
     }
@@ -92,17 +91,17 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
      *
      * @return string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
-        $aComments = array(
-            'Third Party Comment'  => '',
-            'SSL Backup Comment'   => '',
-            'Comment'              => $this->translate("
+        $aComments = [
+            'Third Party Comment' => '',
+            'SSL Backup Comment' => '',
+            'Comment' => $this->translate("
   * This tag only shows image banners. There is no width or height in
   * these banners, so if you want these tags to allocate space for the
   * ad before it shows, you will need to add this information to the
   * <img> tag."),
-            );
+            ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -114,7 +113,4 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
 
         return $buffer;
     }
-
 }
-
-?>

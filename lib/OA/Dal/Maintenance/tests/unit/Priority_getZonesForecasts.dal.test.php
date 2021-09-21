@@ -27,12 +27,12 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
     private $zoneId1;
     private $zoneId2;
 
-    const DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S';
+    public const DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -40,7 +40,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
     /**
      * The method to test the getZonesForecasts() method.
      */
-    function testgetZonesForecasts()
+    public function testgetZonesForecasts()
     {
         $this->_createTestData();
         $operationInterval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
@@ -54,8 +54,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
 
         // Test with bad input
         $badAgencyId = -1;
-        $result = $oDal->getZonesForecasts($lowerDateStr,$upperDateStr);
-        $expected = array();
+        $result = $oDal->getZonesForecasts($lowerDateStr, $upperDateStr);
+        $expected = [];
         $this->assertEqual($result, $expected);
 
         // Test with data outside the range
@@ -66,8 +66,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
         $startDateStr = $aDates['start']->format(self::DATE_TIME_FORMAT);
         $endDateStr = $aDates['end']->format(self::DATE_TIME_FORMAT);
 
-        $doDIA      = OA_Dal::factoryDO('data_intermediate_ad');
-        $aDIAs = DataGenerator::generate($doDIA,1);
+        $doDIA = OA_Dal::factoryDO('data_intermediate_ad');
+        $aDIAs = DataGenerator::generate($doDIA, 1);
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
         $doDIA->date_time = $startDateStr;
         $doDIA->operation_interval = $operationInterval;
@@ -76,8 +76,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
         $doDIA->impressions = 1000;
         $doDIA->update();
 
-        $result = $oDal->getZonesForecasts($startDateStr,$endDateStr);
-        $expected = array();
+        $result = $oDal->getZonesForecasts($startDateStr, $endDateStr);
+        $expected = [];
         $this->assertEqual($result, $expected);
 
         // Test with data inside the range
@@ -88,17 +88,18 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
         $startDateStr = $aDates['start']->format(self::DATE_TIME_FORMAT);
         $endDateStr = $aDates['end']->format(self::DATE_TIME_FORMAT);
 
-        $aDIAs = DataGenerator::generate($doDIA,1);
+        $aDIAs = DataGenerator::generate($doDIA, 1);
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
-        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);;
+        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);
+        ;
         $doDIA->operation_interval = $operationInterval;
         $doDIA->zone_id = $this->zoneId1;
         $doDIA->ad_id = 1;
         $doDIA->impressions = 70;
         $doDIA->update();
 
-        $result = $oDal->getZonesForecasts($startDateStr,$endDateStr);
-        $expected = array($this->zoneId1 => 70);
+        $result = $oDal->getZonesForecasts($startDateStr, $endDateStr);
+        $expected = [$this->zoneId1 => 70];
         $this->assertEqual($result, $expected);
 
         // Test with more data from the same zone
@@ -111,7 +112,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
 
         $aDIAs = DataGenerator::generate($doDIA, 3);
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
-        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);;
+        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);
+        ;
         $doDIA->operation_interval = $operationInterval;
         $doDIA->zone_id = $this->zoneId1;
         $doDIA->ad_id = 2;
@@ -119,7 +121,8 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
         $doDIA->update();
 
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[1]);
-        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);;
+        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);
+        ;
         $doDIA->operation_interval = $operationInterval;
         $doDIA->zone_id = $this->zoneId1;
         $doDIA->ad_id = 4;
@@ -127,19 +130,20 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
         $doDIA->update();
 
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[2]);
-        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);;
+        $doDIA->date_time = $previousOIDate['start']->format(self::DATE_TIME_FORMAT);
+        ;
         $doDIA->operation_interval = $operationInterval;
         $doDIA->zone_id = $this->zoneId2;
         $doDIA->ad_id = 4;
         $doDIA->impressions = 15000;
         $doDIA->update();
 
-        $result = $oDal->getZonesForecasts($startDateStr,$endDateStr);
+        $result = $oDal->getZonesForecasts($startDateStr, $endDateStr);
 
-        $expected = array(
+        $expected = [
             $this->zoneId1 => 200,
             $this->zoneId2 => 15000
-        );
+        ];
         $this->assertEqual($result, $expected);
 
         DataGenerator::cleanUp();
@@ -150,7 +154,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
      *
      * @access private
      */
-    function _createTestData()
+    public function _createTestData()
     {
         // Add zones
         $doZones = OA_Dal::factoryDO('zones');
@@ -162,5 +166,3 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
         $this->zoneId2 = $idZone2 = DataGenerator::generateOne($doZones);
     }
 }
-
-?>

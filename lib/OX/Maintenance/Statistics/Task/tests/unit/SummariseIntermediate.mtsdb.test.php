@@ -24,11 +24,10 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,12 +35,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
     /**
      * Test the creation of the class.
      */
-    function testCreate()
+    public function testCreate()
     {
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $this->assertTrue(is_a($oSummariseIntermediate, 'OX_Maintenance_Statistics_Task_MigrateBucketData'));
     }
-
 }
-
-?>

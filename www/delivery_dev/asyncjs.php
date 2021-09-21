@@ -32,7 +32,7 @@ header("ETag: {$etag}");
 if (!empty($conf['delivery']['assetClientCacheExpire'])) {
     $expire = (int)$conf['delivery']['assetClientCacheExpire'];
 
-    header("Expire: ".gmdate('D, d M Y H:i:s \G\M\T', MAX_commonGetTimeNow() + $expire));
+    header("Expire: " . gmdate('D, d M Y H:i:s \G\M\T', MAX_commonGetTimeNow() + $expire));
     header("Cache-Control: private, max-age={$expire}");
 }
 
@@ -40,4 +40,4 @@ if (!empty($conf['delivery']['assetClientCacheExpire'])) {
 MAX_cookieGetUniqueViewerId();
 MAX_cookieFlush();
 
-require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['asyncjsjs'];
+require __DIR__ . '/' . $GLOBALS['_MAX']['CONF']['file']['asyncjsjs'];

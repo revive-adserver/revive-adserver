@@ -23,7 +23,4 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_DeliveryLimitations_CommaSeparatedData extends Plugins_DeliveryLimitations_ArrayData
 {
-
 }
-
-?>

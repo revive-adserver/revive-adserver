@@ -21,27 +21,26 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  */
 class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+    public $crossEntitiesCache;
 
-    var $crossEntitiesCache;
-
-    function getAdvertiserPublishers($advertiserId)
+    public function getAdvertiserPublishers($advertiserId)
     {
-        $aParams = array(
+        $aParams = [
             'advertiser_id' => $advertiserId,
-            'include' => array('publisher_id'),
-            'exclude' => array('ad_id', 'zone_id'),
-            'custom_columns' => array()
-        );
+            'include' => ['publisher_id'],
+            'exclude' => ['ad_id', 'zone_id'],
+            'custom_columns' => []
+        ];
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
-            $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('advertiser_id' => $advertiserId, 'placement_anonymous' => 't'));
+            $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['advertiser_id' => $advertiserId, 'placement_anonymous' => 't']);
         } else {
-            $aAnonPlacements = array();
+            $aAnonPlacements = [];
         }
 
         // Get stats publisher list
-        $aStatsPublishers = array();
+        $aStatsPublishers = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -50,7 +49,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
 
         // Get all publishers
-        $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
+        $aPublishers = Admin_DA::fromCache('getPublishers', [], true);
 
         // Intersect
         foreach ($aPublishers as $k => $v) {
@@ -68,23 +67,23 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aPublishers;
     }
 
-    function getAdvertiserZones($advertiserId)
+    public function getAdvertiserZones($advertiserId)
     {
-        $aParams = array(
+        $aParams = [
             'advertiser_id' => $advertiserId,
-            'include' => array('publisher_id'),
-            'custom_columns' => array()
-        );
+            'include' => ['publisher_id'],
+            'custom_columns' => []
+        ];
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
-            $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('advertiser_id' => $advertiserId, 'placement_anonymous' => 't'));
+            $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['advertiser_id' => $advertiserId, 'placement_anonymous' => 't']);
         } else {
-            $aAnonPlacements = array();
+            $aAnonPlacements = [];
         }
 
         // Get stats zone list
-        $aStatsZones = array();
+        $aStatsZones = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -93,7 +92,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
 
         // Get all zones
-        $aZones = Admin_DA::fromCache('getZones', array(), true);
+        $aZones = Admin_DA::fromCache('getZones', [], true);
 
         // Intersect
         foreach ($aZones as $k => $v) {
@@ -111,24 +110,24 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aZones;
     }
 
-    function getCampaignPublishers($placementId)
+    public function getCampaignPublishers($placementId)
     {
-        $aParams = array(
+        $aParams = [
             'placement_id' => $placementId,
-            'include' => array('publisher_id'),
-            'exclude' => array('ad_id', 'zone_id'),
-            'custom_columns' => array()
-        );
+            'include' => ['publisher_id'],
+            'exclude' => ['ad_id', 'zone_id'],
+            'custom_columns' => []
+        ];
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
-            $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
+            $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['placement_id' => $placementId, 'placement_anonymous' => 't']);
         } else {
-            $aAnonPlacements = array();
+            $aAnonPlacements = [];
         }
 
         // Get stats publisher list
-        $aStatsPublishers = array();
+        $aStatsPublishers = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -137,7 +136,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
 
         // Get all publishers
-        $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
+        $aPublishers = Admin_DA::fromCache('getPublishers', [], true);
 
         // Intersect
         foreach ($aPublishers as $k => $v) {
@@ -155,23 +154,23 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aPublishers;
     }
 
-    function getCampaignZones($placementId)
+    public function getCampaignZones($placementId)
     {
-        $aParams = array(
+        $aParams = [
             'placement_id' => $placementId,
-            'exclude' => array('ad_id'),
-            'custom_columns' => array()
-        );
+            'exclude' => ['ad_id'],
+            'custom_columns' => []
+        ];
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
-            $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
+            $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['placement_id' => $placementId, 'placement_anonymous' => 't']);
         } else {
-            $aAnonPlacements = array();
+            $aAnonPlacements = [];
         }
 
         // Get stats zone list
-        $aStatsZones = array();
+        $aStatsZones = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -180,7 +179,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
 
         // Get all zones
-        $aZones = Admin_DA::fromCache('getZones', array(), true);
+        $aZones = Admin_DA::fromCache('getZones', [], true);
 
         // Intersect
         foreach ($aZones as $k => $v) {
@@ -198,24 +197,24 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aZones;
     }
 
-    function getBannerPublishers($adId, $placementId)
+    public function getBannerPublishers($adId, $placementId)
     {
-        $aParams = array(
+        $aParams = [
             'ad_id' => $adId,
-            'include' => array('publisher_id'),
-            'exclude' => array('ad_id', 'zone_id'),
-            'custom_columns' => array()
-        );
+            'include' => ['publisher_id'],
+            'exclude' => ['ad_id', 'zone_id'],
+            'custom_columns' => []
+        ];
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
-            $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
+            $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['placement_id' => $placementId, 'placement_anonymous' => 't']);
         } else {
-            $aAnonPlacements = array();
+            $aAnonPlacements = [];
         }
 
         // Get stats publisher list
-        $aStatsPublishers = array();
+        $aStatsPublishers = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -224,7 +223,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
         
         // Get all publishers
-        $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
+        $aPublishers = Admin_DA::fromCache('getPublishers', [], true);
 
         // Intersect
         foreach ($aPublishers as $k => $v) {
@@ -242,23 +241,23 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aPublishers;
     }
 
-    function getBannerZones($adId, $placementId)
+    public function getBannerZones($adId, $placementId)
     {
-        $aParams = array(
+        $aParams = [
             'ad_id' => $adId,
-            'exclude' => array('ad_id'),
-            'custom_columns' => array()
-        );
+            'exclude' => ['ad_id'],
+            'custom_columns' => []
+        ];
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             // Get anonymous campaigns
-            $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_id' => $placementId, 'placement_anonymous' => 't'));
+            $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['placement_id' => $placementId, 'placement_anonymous' => 't']);
         } else {
-            $aAnonPlacements = array();
+            $aAnonPlacements = [];
         }
 
         // Get stats zone list
-        $aStatsZones = array();
+        $aStatsZones = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -267,7 +266,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
 
         // Get all zones
-        $aZones = Admin_DA::fromCache('getZones', array(), true);
+        $aZones = Admin_DA::fromCache('getZones', [], true);
 
         // Intersect
         foreach ($aZones as $k => $v) {
@@ -285,26 +284,26 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aZones;
     }
 
-    function getPublisherCampaigns($publisherId)
+    public function getPublisherCampaigns($publisherId)
     {
-        $aParams = array(
+        $aParams = [
             'publisher_id' => $publisherId,
-            'include' => array('placement_id'),
-            'exclude' => array('ad_id', 'zone_id'),
-            'custom_columns' => array()
-        );
+            'include' => ['placement_id'],
+            'exclude' => ['ad_id', 'zone_id'],
+            'custom_columns' => []
+        ];
 
         // Get stats campaign list
-        $aStatsPlacements = array();
+        $aStatsPlacements = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPlacements[$v['placement_id']] = true;
-            }                       
+            }
         }
 
         // Get all campaigns
-        $aPlacements = Admin_DA::fromCache('getPlacements', array(), true);
+        $aPlacements = Admin_DA::fromCache('getPlacements', [], true);
 
         // Intersect
         foreach ($aPlacements as $k => $v) {
@@ -319,28 +318,28 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aPlacements;
     }
 
-    function getPublisherBanners($publisherId)
+    public function getPublisherBanners($publisherId)
     {
-        $aParams = array(
+        $aParams = [
             'publisher_id' => $publisherId,
-            'exclude' => array('zone_id'),
-            'custom_columns' => array()
-        );
+            'exclude' => ['zone_id'],
+            'custom_columns' => []
+        ];
 
         // Get stats banner list
-        $aStatsAds = array();
+        $aStatsAds = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsAds[$v['ad_id']] = true;
-            }  
+            }
         }
 
         // Get all banners
-        $aAds = Admin_DA::fromCache('getAds', array());
+        $aAds = Admin_DA::fromCache('getAds', []);
 
         // Get anonymous campaigns
-        $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_anonymous' => 't'));
+        $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['placement_anonymous' => 't']);
 
         // Intersect
         foreach ($aAds as $k => $v) {
@@ -357,26 +356,26 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aAds;
     }
 
-    function getZoneCampaigns($zoneId)
+    public function getZoneCampaigns($zoneId)
     {
-        $aParams = array(
+        $aParams = [
             'zone_id' => $zoneId,
-            'include' => array('placement_id'),
-            'exclude' => array('ad_id', 'zone_id'),
-            'custom_columns' => array()
-        );
+            'include' => ['placement_id'],
+            'exclude' => ['ad_id', 'zone_id'],
+            'custom_columns' => []
+        ];
 
         // Get stats campaign list
-        $aStatsPlacements = array();
+        $aStatsPlacements = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPlacements[$v['placement_id']] = true;
-            }              
+            }
         }
 
         // Get all campaigns
-        $aPlacements = Admin_DA::fromCache('getPlacements', array(), true);
+        $aPlacements = Admin_DA::fromCache('getPlacements', [], true);
 
         // Intersect
         foreach ($aPlacements as $k => $v) {
@@ -391,16 +390,16 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aPlacements;
     }
 
-    function getZoneBanners($zoneId)
+    public function getZoneBanners($zoneId)
     {
-        $aParams = array(
+        $aParams = [
             'zone_id' => $zoneId,
-            'exclude' => array('zone_id'),
-            'custom_columns' => array()
-        );
+            'exclude' => ['zone_id'],
+            'custom_columns' => []
+        ];
 
         // Get stats banner list
-        $aStatsAds = array();
+        $aStatsAds = [];
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
@@ -409,10 +408,10 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         }
 
         // Get all banners
-        $aAds = Admin_DA::fromCache('getAds', array());
+        $aAds = Admin_DA::fromCache('getAds', []);
 
         // Get anonymous campaigns
-        $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_anonymous' => 't'));
+        $aAnonPlacements = Admin_DA::fromCache('getPlacements', ['placement_anonymous' => 't']);
 
         // Intersect
         foreach ($aAds as $k => $v) {
@@ -429,7 +428,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         return $aAds;
     }
 
-    function addCrossBreadCrumbs($type, $entityId, $level = 0)
+    public function addCrossBreadCrumbs($type, $entityId, $level = 0)
     {
         $cache = $this->crossEntitiesCache;
         switch ($type) {
@@ -471,7 +470,4 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             break;
         }
     }
-
 }
-
-?>

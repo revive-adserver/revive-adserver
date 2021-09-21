@@ -29,25 +29,25 @@ $oOptions = new OA_Admin_Option('settings');
 $prefSection = 'update';
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
+    $aElements = [];
     // Synchronisation Settings
-    $aElements += array(
-        'sync_checkForUpdates' => array(
+    $aElements += [
+        'sync_checkForUpdates' => [
             'sync' => 'checkForUpdates',
             'bool' => true
-        ),
-        'sync_shareStack' => array(
+        ],
+        'sync_shareStack' => [
             'sync' => 'shareStack',
             'bool' => true
-        )
-    );
+        ]
+    ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
@@ -55,9 +55,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strXSettingsHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
         // The settings configuration file was written correctly,
@@ -79,32 +81,30 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'    => $strCheckForUpdates,
-        'items'   => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'sync_checkForUpdates',
-                'text'    => $strAdminCheckUpdates
-            )
-        )
-    ),
-    array (
-        'text'    => $strWhenCheckingForUpdates,
-        'items'   => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'sync_shareStack',
-                'text'    => $strAdminShareStack,
+$aSettings = [
+    [
+        'text' => $strCheckForUpdates,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'sync_checkForUpdates',
+                'text' => $strAdminCheckUpdates
+            ]
+        ]
+    ],
+    [
+        'text' => $strWhenCheckingForUpdates,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'sync_shareStack',
+                'text' => $strAdminShareStack,
                 'depends' => 'sync_checkForUpdates==1'
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

@@ -199,7 +199,7 @@ $GLOBALS['strDayOfWeek'] = "Dia de la setmana";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Diumenge';
 $GLOBALS['strDayFullNames'][1] = 'Dilluns';
@@ -210,7 +210,7 @@ $GLOBALS['strDayFullNames'][5] = 'Divendres';
 $GLOBALS['strDayFullNames'][6] = 'Dissabte';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Dg';
 $GLOBALS['strDayShortCuts'][1] = 'Dl';
@@ -313,15 +313,15 @@ $GLOBALS['strOS'] = "SO";
 $GLOBALS['strDeliveryCappingTotal'] = "en total";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 
 // Website

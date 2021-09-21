@@ -25,13 +25,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_InvocationTags
 {
-
     /**
      * Return name of plugin
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate("iFrame Tag");
     }
@@ -43,7 +42,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
      *
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         return 'iFrame Tag';
     }
@@ -53,7 +52,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
         if ((is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
@@ -63,7 +62,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         }
     }
 
-    function getOrder()
+    public function getOrder()
     {
         parent::getOrder();
         return 2;
@@ -74,19 +73,19 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
      *
      * @return array    Group of options
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
-        $options = array (
-            'spacer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'what'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        $options = [
+            'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'what' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             //'clientid'    => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'campaignid'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'target'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'source'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'refresh'     => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'size'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'campaignid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'refresh' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'size' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'transparent' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-        );
+        ];
 
         return $options;
     }
@@ -96,9 +95,9 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
      *
      * @return string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
-        $aComments['Comment'] =  $this->translate("
+        $aComments['Comment'] = $this->translate("
   * If iFrames are not supported by the viewer's browser, then this
   * tag only shows image banners. There is no width or height in these
   * banners, so if you want these tags to allocate space for the ad
@@ -109,28 +108,32 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;
         $buffer = $mi->buffer;
-        $uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
+        $uniqueid = 'a' . substr(md5(uniqid('', 1)), 0, 7);
 
         if (isset($mi->refresh) && $mi->refresh != '') {
             if (is_array($mi->parameters)) {
-                $mi->parameters = array('refresh' => "refresh=".$mi->refresh) + $mi->parameters;
+                $mi->parameters = ['refresh' => "refresh=" . $mi->refresh] + $mi->parameters;
             } else {
-                $mi->parameters['refresh'] = "refresh=".$mi->refresh;
+                $mi->parameters['refresh'] = "refresh=" . $mi->refresh;
             }
         }
 
-        if (empty($mi->frame_width )) { $mi->frame_width  = $mi->width; }
-        if (empty($mi->frame_height)) { $mi->frame_height = $mi->height; }
-        $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='".MAX_commonConstructDeliveryUrl($conf['file']['frame']);
+        if (empty($mi->frame_width)) {
+            $mi->frame_width = $mi->width;
+        }
+        if (empty($mi->frame_height)) {
+            $mi->frame_height = $mi->height;
+        }
+        $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='" . MAX_commonConstructDeliveryUrl($conf['file']['frame']);
         if (sizeof($mi->parameters) > 0) {
-            $buffer .= "?".implode ("&amp;", $mi->parameters);
+            $buffer .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer .= "' frameborder='0' scrolling='no'";
         if (isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1') {
-            $buffer .= " width='".$mi->frame_width."'";
+            $buffer .= " width='" . $mi->frame_width . "'";
         }
         if (isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1') {
-            $buffer .= " height='".$mi->frame_height."'";
+            $buffer .= " height='" . $mi->frame_height . "'";
         }
         if (isset($mi->transparent) && $mi->transparent == '1') {
             $buffer .= " allowtransparency='true'";
@@ -138,19 +141,16 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         $buffer .= " allow='autoplay'";
         $buffer .= ">";
         if (isset($mi->refresh) && $mi->refresh != '') {
-            unset ($mi->parameters['refresh']);
+            unset($mi->parameters['refresh']);
         }
 
         $buffer .= $mi->backupImage;
         $buffer .= "</iframe>\n";
 
         if (isset($mi->target) && $mi->target != '') {
-            $mi->parameters['target'] = "target=".urlencode($mi->target);
+            $mi->parameters['target'] = "target=" . urlencode($mi->target);
         }
 
         return $buffer;
     }
-
 }
-
-?>

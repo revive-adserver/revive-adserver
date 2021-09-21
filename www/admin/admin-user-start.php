@@ -26,7 +26,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("admin-access");
-phpAds_ShowSections(array("4.1", "4.3", "4.4", "4.4.1"));
+phpAds_ShowSections(["4.1", "4.3", "4.4", "4.4.1"]);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -44,5 +44,3 @@ $oTpl->display();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

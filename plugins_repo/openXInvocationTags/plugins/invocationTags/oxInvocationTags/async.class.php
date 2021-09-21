@@ -26,13 +26,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTags
 {
-
     /**
      * Return name of plugin
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate("Asynchronous JS Tag");
     }
@@ -44,7 +43,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      *
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         return 'Asynchronous JS Tag';
     }
@@ -54,13 +53,13 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
         return $isAllowed;
     }
 
-    function getOrder()
+    public function getOrder()
     {
         parent::getOrder();
         return 0;
@@ -71,7 +70,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      *
      * @return array    Group of options
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
         if (is_array($this->defaultOptions)) {
             if (in_array('comments', $this->defaultOptions)) {
@@ -81,14 +80,14 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
             unset($this->defaultOptions['cacheBuster']);
         }
 
-        $options = array (
-            'spacer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'what'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'block'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        $options = [
+            'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'what' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'block' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-        );
+            'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        ];
 
         return $options;
     }
@@ -98,13 +97,13 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      *
      * @return string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
-        $aComments = array(
+        $aComments = [
             'SSL Backup Comment' => "",
             'SSL Delivery Comment' => "",
-            'Comment'              => "",
-        );
+            'Comment' => "",
+        ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -123,23 +122,23 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
         unset($mi->parameters['cb']);
 
         // Add ID
-        $mi->parameters['id'] = 'id='.md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
+        $mi->parameters['id'] = 'id=' . md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
 
         // Remap as tag attributes with data-revive prefix
         $mi->parameters = array_map(function ($v) use ($conf) {
-            return preg_replace('#^(.*)=(.*)$#', 'data-'.$conf['var']['product'].'-$1="$2"', $v);
+            return preg_replace('#^(.*)=(.*)$#', 'data-' . $conf['var']['product'] . '-$1="$2"', $v);
         }, $mi->parameters);
 
-        $buffer .= '<ins '.join(' ', $mi->parameters).'></ins>'.PHP_EOL;
+        $buffer .= '<ins ' . join(' ', $mi->parameters) . '></ins>' . PHP_EOL;
         if ($conf['webpath']['delivery'] == $conf['webpath']['deliverySSL']) {
             // Yes, we can use the short version!
-            $buffer .= '<script async src="'.MAX_commonConstructPartialDeliveryUrl($conf['file']['asyncjs']).'"></script>';
+            $buffer .= '<script async src="' . MAX_commonConstructPartialDeliveryUrl($conf['file']['asyncjs']) . '"></script>';
         } else {
             // Bummer, we need the longer variant
-            $url = array(
+            $url = [
                 MAX_commonConstructDeliveryUrl($conf['file']['asyncjs']),
                 MAX_commonConstructSecureDeliveryUrl($conf['file']['asyncjs']),
-            );
+            ];
             $buffer .= <<<EOF
 <script>
 (function () {
@@ -158,11 +157,9 @@ EOF;
         return $buffer;
     }
 
-    function setInvocation(&$invocation) {
+    public function setInvocation(&$invocation)
+    {
         $this->maxInvocation = &$invocation;
         $this->maxInvocation->canDetectCharset = true;
     }
-
 }
-
-?>

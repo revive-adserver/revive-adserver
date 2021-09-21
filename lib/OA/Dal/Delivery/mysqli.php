@@ -25,7 +25,8 @@
  * @return mysqli|false    The MySQL database resource
  *                           or false on failure
  */
-function OA_Dal_Delivery_connect($database = 'database') {
+function OA_Dal_Delivery_connect($database = 'database')
+{
     // If a connection already exists, then return that
     if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && $GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof mysqli) {
         return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
@@ -35,11 +36,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
 
     // No connection exists, so create one
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($conf[$database])) {
-        $dbConf = $conf[$database];
-    } else {
-        $dbConf = $conf['database'];
-    }
+    $dbConf = empty($conf[$database]) ? $conf['database'] : $conf[$database];
 
     $dbPersistent = empty($dbConf['persistent']) ? '' : 'p:';
     $dbHost = $dbConf['host'];
@@ -51,7 +48,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
     mysqli_report(MYSQLI_REPORT_OFF);
 
     if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
-        $dbLink = @mysqli_connect($dbPersistent.'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
+        $dbLink = @mysqli_connect($dbPersistent . 'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
     } elseif ($dbConf['ssl']) {
         $init = mysqli_init();
         mysqli_ssl_set(
@@ -62,12 +59,12 @@ function OA_Dal_Delivery_connect($database = 'database') {
             empty($dbConf['capath']) ? null : $dbConf['capath'],
             null
         );
-        if ($dbLink = @mysqli_real_connect($init, $dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort)) {
+        if ($dbLink = @mysqli_real_connect($init, $dbPersistent . $dbHost, $dbUser, $dbPassword, $dbName, $dbPort)) {
             // Connection successful (else: $dbLink == false)
             $dbLink = $init;
         }
     } else {
-        $dbLink = @mysqli_connect($dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+        $dbLink = @mysqli_connect($dbPersistent . $dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
     }
 
     if ($dbLink) {
@@ -93,7 +90,8 @@ function OA_Dal_Delivery_connect($database = 'database') {
  * @return resource|false  The MySQL resource if the query suceeded
  *                          or false on failure
  */
-function OA_Dal_Delivery_query($query, $database = 'database') {
+function OA_Dal_Delivery_query($query, $database = 'database')
+{
     // Connect to the database if necessary
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
 
@@ -118,7 +116,8 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
  * @param mysqli_result $resource The MySQL resource
  * @return array
  */
-function OA_Dal_Delivery_fetchAssoc($resource) {
+function OA_Dal_Delivery_fetchAssoc($resource)
+{
     return mysqli_fetch_assoc($resource);
 }
 
@@ -178,41 +177,34 @@ function OX_unescapeBlob($blob)
 
 function OX_escapeIdentifier($string)
 {
-    return '`'.$string.'`';
+    return '`' . $string . '`';
 }
 
 function OX_Dal_Delivery_regex($column, $regexp)
 {
-    return $column." REGEXP '".$regexp."'";
+    return $column . " REGEXP '" . $regexp . "'";
 }
 
 function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
-
-    $result = OA_Dal_Delivery_query(
+    return OA_Dal_Delivery_query(
         $query,
         'rawDatabase'
     );
-    return $result;
 }
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $counter = 'count')
 {
     $aQuery = array_map('OX_escapeString', $aQuery);
-    if ($increment) {
-    $aQuery[$counter] = 1;
-    } else {
-        $aQuery[$counter] = -1;
-    }
+    $aQuery[$counter] = $increment ? 1 : -1;
     $query = "
         INSERT INTO {$tableName}
             (" . implode(', ', array_keys($aQuery)) . ")
             VALUES ('" . implode("', '", $aQuery) . "')
     ";
-    $query .= " ON DUPLICATE KEY UPDATE $counter = $counter + {$aQuery[$counter]}";
-    return $query;
+    return $query . " ON DUPLICATE KEY UPDATE $counter = $counter + {$aQuery[$counter]}";
 }
 
 function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
@@ -231,5 +223,3 @@ function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
         return "AND {$p1} NOT {$p2} ";
     }
 }
-
-?>

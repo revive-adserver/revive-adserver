@@ -16,24 +16,24 @@
 
 function MAX_layerGetLimitations()
 {
-	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
-	$richmedia = true;
-	$compatible = true;
+    //$richmedia  = $agent['platform'] == 'Win' ? true : false;
+    $richmedia = true;
+    $compatible = true;
 
     if (isset($GLOBALS['_MAX']['CLIENT'])) {
         $agent = $GLOBALS['_MAX']['CLIENT'];
 
-    	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
-    				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
-    				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
-    				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5
-    				  ? false : true;
-	}
+        $compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
+                      $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
+                      $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
+                      $agent['browser'] == 'op' && $agent['maj_ver'] < 5
+                      ? false : true;
+    }
 
-	return array (
-		'richmedia'  => $richmedia,
-		'compatible' => $compatible
-	);
+    return [
+        'richmedia' => $richmedia,
+        'compatible' => $compatible
+    ];
 }
 
 
@@ -44,17 +44,15 @@ function MAX_layerGetLimitations()
 
 function MAX_layerPutJs($output, $uniqid)
 {
-	global $align, $collapsetime, $padding;
+    global $align, $collapsetime, $padding;
 
-	// Register input variables
-	MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding'));
+    // Register input variables
+    MAX_commonRegisterGlobalsArray(['align', 'collapsetime', 'padding']);
 
 
-	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 4 + $padding*2;
-	$layer_height = $output['height'] + 30 + $padding*2;
-
-?>
+    // Calculate layer size (inc. borders)
+    $layer_width = $output['width'] + 4 + $padding * 2;
+    $layer_height = $output['height'] + 30 + $padding * 2; ?>
 
 function MAX_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
@@ -161,10 +159,9 @@ function MAX_geopop(what, ad)
 			o[_s][_v] = 'visible';
 <?php
 
-if (isset($collapsetime) && $collapsetime > 0)
-	echo "\t\t\treturn window.setTimeout('MAX_geopop(\\'collapse\\', \\'".$uniqid."\\')', ".($collapsetime * 1000).");";
-
-?>
+if (isset($collapsetime) && $collapsetime > 0) {
+    echo "\t\t\treturn window.setTimeout('MAX_geopop(\\'collapse\\', \\'" . $uniqid . "\\')', " . ($collapsetime * 1000) . ");";
+} ?>
 
 			break;
 	}
@@ -189,48 +186,50 @@ MAX_timerid['<?php echo $uniqid; ?>'] = MAX_geopop('open', '<?php echo $uniqid; 
 
 function MAX_layerGetHtml($output, $uniqid)
 {
-	global $target;
-	global $align, $collapsetime, $padding, $closetext;
+    global $target;
+    global $align, $collapsetime, $padding, $closetext;
 
-	$conf = $GLOBALS['_MAX']['CONF'];
+    $conf = $GLOBALS['_MAX']['CONF'];
 
-	// Register input variables
-	MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding', 'closetext'));
+    // Register input variables
+    MAX_commonRegisterGlobalsArray(['align', 'collapsetime', 'padding', 'closetext']);
 
 
-	if (!isset($padding)) $padding = '2';
+    if (!isset($padding)) {
+        $padding = '2';
+    }
 
-	// Calculate layer size (inc. borders)
-	$layer_width = $output['width'] + 4 + $padding*2;
-	$layer_height = $output['height'] + 30 + $padding*2;
+    // Calculate layer size (inc. borders)
+    $layer_width = $output['width'] + 4 + $padding * 2;
+    $layer_height = $output['height'] + 30 + $padding * 2;
 
-	// Create imagepath
-	$imagepath = _adRenderBuildImageUrlPrefix() . '/layerstyles/geocities/';
+    // Create imagepath
+    $imagepath = _adRenderBuildImageUrlPrefix() . '/layerstyles/geocities/';
 
-	// return HTML code
-	return '
-<div id="MAX_c'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:98; left: 0px; top: 0px; visibility: hidden">
+    // return HTML code
+    return '
+<div id="MAX_c' . $uniqid . '" style="position:absolute; width:' . $layer_width . 'px; height:' . $layer_height . 'px; z-index:98; left: 0px; top: 0px; visibility: hidden">
 	<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-style: ridge; border-color: #ffffff">
 		<tr>
 			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px">' .
-				'<img src="'.$imagepath.'expand.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" onclick="MAX_geopop(\'expand\', \''.$uniqid.'\')" />' .
-				'<img src="'.$imagepath.'close.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'close\', \''.$uniqid.'\')" />' .
-			'</td>
+                '<img src="' . $imagepath . 'expand.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" onclick="MAX_geopop(\'expand\', \'' . $uniqid . '\')" />' .
+                '<img src="' . $imagepath . 'close.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'close\', \'' . $uniqid . '\')" />' .
+            '</td>
 		</tr>
-'.(strlen($output['url']) && strlen($output['alt']) ?
+' . (strlen($output['url']) && strlen($output['alt']) ?
 '		<tr>
-			<td bgcolor="#FFFFCC" align="center" style="font-family: Arial, helvetica, sans-serif; font-size: 11px; padding: 2px"><a href="'.$output['url'].'" '.(isset($target) ? 'target="'.$target.'"' : '').'style="color: #0000ff">'.$output['alt'].'</a></td>
+			<td bgcolor="#FFFFCC" align="center" style="font-family: Arial, helvetica, sans-serif; font-size: 11px; padding: 2px"><a href="' . $output['url'] . '" ' . (isset($target) ? 'target="' . $target . '"' : '') . 'style="color: #0000ff">' . $output['alt'] . '</a></td>
 		</tr>
-' : '').
+' : '') .
 '	</table>
 </div>
-<div id="MAX_o'.$uniqid.'" style="position:absolute; width:'.$layer_width.'px; height:'.$layer_height.'px; z-index:99; left: 0px; top: 0px; visibility: hidden">
+<div id="MAX_o' . $uniqid . '" style="position:absolute; width:' . $layer_width . 'px; height:' . $layer_height . 'px; z-index:99; left: 0px; top: 0px; visibility: hidden">
 	<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-style: outset; border-color: #ffffff">
 		<tr>
 			<td bordercolor="#DDDDDD" bgcolor="#000099" align="right" style="padding: 3px 3px 2px">' .
-				'<img src="'.$imagepath.'expand-d.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" />' .
-				'<img src="'.$imagepath.'collapse.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'collapse\', \''.$uniqid.'\')" />' .
-			'</td>
+                '<img src="' . $imagepath . 'expand-d.gif" alt="" style="width:12px;height:12px;margin: 0 3px;" />' .
+                '<img src="' . $imagepath . 'collapse.gif" alt="" style="width:12px;height:12px;" onclick="MAX_geopop(\'collapse\', \'' . $uniqid . '\')" />' .
+            '</td>
 		</tr>
 		<tr>
 			<td>
@@ -239,16 +238,16 @@ function MAX_layerGetHtml($output, $uniqid)
 						<td align="center">
 							<table border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
 								<tr>
-									<td width="'.$output['width'].'" height="'.$output['height'].'" align="center" valign="middle" style="padding: '.$padding.'px">'.$output['html'].'</td>
+									<td width="' . $output['width'] . '" height="' . $output['height'] . '" align="center" valign="middle" style="padding: ' . $padding . 'px">' . $output['html'] . '</td>
 								</tr>
 							</table>
 						</td>
-					</tr>'.(strlen($closetext) ? '
+					</tr>' . (strlen($closetext) ? '
 					<tr>
 						<td align="center" bgcolor="#FFFFFF" style="font-family: Arial, helvetica, sans-serif; font-size: 9px; padding: 1px">' .
-							'<a href="#" onclick="MAX_geopop(\'collapse\', \''.$uniqid.'\');return!1;" style="color:#0000ff">'.$closetext.'</a>' .
-						'</td>
-					</tr>' : '').'
+                            '<a href="#" onclick="MAX_geopop(\'collapse\', \'' . $uniqid . '\');return!1;" style="color:#0000ff">' . $closetext . '</a>' .
+                        '</td>
+					</tr>' : '') . '
 				</table>
 			</td>
 		</tr>

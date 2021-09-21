@@ -28,16 +28,14 @@ class BasePublisherService
      *
      * @var PublisherServiceImpl $_oPublisherServiceImp
      */
-    var $_oPublisherServiceImp;
+    public $_oPublisherServiceImp;
 
     /**
      * This method initialises Service implementation object field.
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->_oPublisherServiceImp = new PublisherServiceImpl();
     }
 }
-
-?>

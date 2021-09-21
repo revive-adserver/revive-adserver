@@ -24,11 +24,10 @@ Language_Loader::load();
  */
 class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,45 +35,45 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
     /**
      * A method to test the summariseBucketsRawSupplementary() method.
      */
-    function testSummariseBucketsRawSupplementary()
+    public function testSummariseBucketsRawSupplementary()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         // Prepare standard test parameters
         $statisticsTableName = $aConf['table']['prefix'] . 'data_intermediate_ad_variable_value';
-        $aMigrationDetails = array(
-            'method'                 => 'rawSupplementary',
-            'masterTable'            => $aConf['table']['prefix'] . 'data_intermediate_ad_connection',
-            'masterTablePrimaryKeys' => array(
+        $aMigrationDetails = [
+            'method' => 'rawSupplementary',
+            'masterTable' => $aConf['table']['prefix'] . 'data_intermediate_ad_connection',
+            'masterTablePrimaryKeys' => [
                 0 => 'data_intermediate_ad_connection_id'
-            ),
-            'bucketTablePrimaryKeys' => array(
+            ],
+            'bucketTablePrimaryKeys' => [
                 0 => 'data_intermediate_ad_connection_id'
-            ),
-            'masterTableKeys'       => array(
+            ],
+            'masterTableKeys' => [
                 0 => 'server_raw_tracker_impression_id',
                 1 => 'server_raw_ip'
-            ),
-            'bucketTableKeys'       => array(
+            ],
+            'bucketTableKeys' => [
                 0 => 'server_conv_id',
                 1 => 'server_ip'
-            ),
-            'masterDateTimeColumn'   => 'tracker_date_time',
-            'bucketTable'            => $aConf['table']['prefix'] . 'data_bkt_a_var',
-            'source'                 => array(
-                0  => 'tracker_variable_id',
-                1  => 'value'
-            ),
-            'destination'            => array(
-                0  => 'tracker_variable_id',
-                1  => 'value'
-            )
-        );
-        $aDates = array(
+            ],
+            'masterDateTimeColumn' => 'tracker_date_time',
+            'bucketTable' => $aConf['table']['prefix'] . 'data_bkt_a_var',
+            'source' => [
+                0 => 'tracker_variable_id',
+                1 => 'value'
+            ],
+            'destination' => [
+                0 => 'tracker_variable_id',
+                1 => 'value'
+            ]
+        ];
+        $aDates = [
             'start' => new Date('2008-08-21 09:00:00'),
-            'end'   => new Date('2008-08-21 09:59:59')
-        );
+            'end' => new Date('2008-08-21 09:59:59')
+        ];
 
         // Prepare the DAL object
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
@@ -186,17 +185,17 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
         // in the incorrect operation interval
         $oData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
         $oData_intermediate_ad_connection->server_raw_tracker_impression_id = 1;
-        $oData_intermediate_ad_connection->server_raw_ip                    = 'localhost';
-        $oData_intermediate_ad_connection->tracker_id                       = 2;
-        $oData_intermediate_ad_connection->tracker_date_time                = '2008-08-21 08:15:00';
-        $oData_intermediate_ad_connection->connection_date_time             = '2008-08-21 07:15:00';
-        $oData_intermediate_ad_connection->ad_id                            = 3;
-        $oData_intermediate_ad_connection->zone_id                          = 4;
-        $oData_intermediate_ad_connection->tracker_ip_address               = '127.0.0.1';
-        $oData_intermediate_ad_connection->connection_action                = MAX_CONNECTION_AD_CLICK;
-        $oData_intermediate_ad_connection->connection_window                = 3600;
-        $oData_intermediate_ad_connection->connection_status                = MAX_CONNECTION_STATUS_APPROVED;
-        $oData_intermediate_ad_connection->inside_window                    = 1;
+        $oData_intermediate_ad_connection->server_raw_ip = 'localhost';
+        $oData_intermediate_ad_connection->tracker_id = 2;
+        $oData_intermediate_ad_connection->tracker_date_time = '2008-08-21 08:15:00';
+        $oData_intermediate_ad_connection->connection_date_time = '2008-08-21 07:15:00';
+        $oData_intermediate_ad_connection->ad_id = 3;
+        $oData_intermediate_ad_connection->zone_id = 4;
+        $oData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
+        $oData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_CLICK;
+        $oData_intermediate_ad_connection->connection_window = 3600;
+        $oData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $oData_intermediate_ad_connection->inside_window = 1;
         $conversionId = DataGenerator::generateOne($oData_intermediate_ad_connection);
 
         // Test 11: Test with data in the incorrect operation interval
@@ -207,32 +206,32 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
         // in the correct operation interval
         $oData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
         $oData_intermediate_ad_connection->server_raw_tracker_impression_id = 2;
-        $oData_intermediate_ad_connection->server_raw_ip                    = 'localhost';
-        $oData_intermediate_ad_connection->tracker_id                       = 2;
-        $oData_intermediate_ad_connection->tracker_date_time                = '2008-08-21 09:15:00';
-        $oData_intermediate_ad_connection->connection_date_time             = '2008-08-21 08:15:00';
-        $oData_intermediate_ad_connection->ad_id                            = 3;
-        $oData_intermediate_ad_connection->zone_id                          = 4;
-        $oData_intermediate_ad_connection->tracker_ip_address               = '127.0.0.1';
-        $oData_intermediate_ad_connection->connection_action                = MAX_CONNECTION_AD_CLICK;
-        $oData_intermediate_ad_connection->connection_window                = 3600;
-        $oData_intermediate_ad_connection->connection_status                = MAX_CONNECTION_STATUS_APPROVED;
-        $oData_intermediate_ad_connection->inside_window                    = 1;
+        $oData_intermediate_ad_connection->server_raw_ip = 'localhost';
+        $oData_intermediate_ad_connection->tracker_id = 2;
+        $oData_intermediate_ad_connection->tracker_date_time = '2008-08-21 09:15:00';
+        $oData_intermediate_ad_connection->connection_date_time = '2008-08-21 08:15:00';
+        $oData_intermediate_ad_connection->ad_id = 3;
+        $oData_intermediate_ad_connection->zone_id = 4;
+        $oData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
+        $oData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_CLICK;
+        $oData_intermediate_ad_connection->connection_window = 3600;
+        $oData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $oData_intermediate_ad_connection->inside_window = 1;
         $conversionId1 = DataGenerator::generateOne($oData_intermediate_ad_connection);
 
         $oData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
         $oData_intermediate_ad_connection->server_raw_tracker_impression_id = 3;
-        $oData_intermediate_ad_connection->server_raw_ip                    = 'localhost';
-        $oData_intermediate_ad_connection->tracker_id                       = 9;
-        $oData_intermediate_ad_connection->tracker_date_time                = '2008-08-21 09:16:00';
-        $oData_intermediate_ad_connection->connection_date_time             = '2008-08-21 08:16:00';
-        $oData_intermediate_ad_connection->ad_id                            = 6;
-        $oData_intermediate_ad_connection->zone_id                          = 7;
-        $oData_intermediate_ad_connection->tracker_ip_address               = '127.0.0.1';
-        $oData_intermediate_ad_connection->connection_action                = MAX_CONNECTION_AD_IMPRESSION;
-        $oData_intermediate_ad_connection->connection_window                = 3600;
-        $oData_intermediate_ad_connection->connection_status                = MAX_CONNECTION_STATUS_APPROVED;
-        $oData_intermediate_ad_connection->inside_window                    = 1;
+        $oData_intermediate_ad_connection->server_raw_ip = 'localhost';
+        $oData_intermediate_ad_connection->tracker_id = 9;
+        $oData_intermediate_ad_connection->tracker_date_time = '2008-08-21 09:16:00';
+        $oData_intermediate_ad_connection->connection_date_time = '2008-08-21 08:16:00';
+        $oData_intermediate_ad_connection->ad_id = 6;
+        $oData_intermediate_ad_connection->zone_id = 7;
+        $oData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
+        $oData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_IMPRESSION;
+        $oData_intermediate_ad_connection->connection_window = 3600;
+        $oData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+        $oData_intermediate_ad_connection->inside_window = 1;
         $conversionId2 = DataGenerator::generateOne($oData_intermediate_ad_connection);
 
         // Test 12: Test with data in the correct operation interval, but
@@ -242,24 +241,24 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
 
         // Add some supplementary data for the conversions above!
         $oData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
-        $oData_bkt_a_var->server_conv_id      = 2;
-        $oData_bkt_a_var->server_ip           = 'localhost';
+        $oData_bkt_a_var->server_conv_id = 2;
+        $oData_bkt_a_var->server_ip = 'localhost';
         $oData_bkt_a_var->tracker_variable_id = 99;
-        $oData_bkt_a_var->value               = 'foo';
+        $oData_bkt_a_var->value = 'foo';
         DataGenerator::generateOne($oData_bkt_a_var);
 
         $oData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
-        $oData_bkt_a_var->server_conv_id      = 2;
-        $oData_bkt_a_var->server_ip           = 'localhost';
+        $oData_bkt_a_var->server_conv_id = 2;
+        $oData_bkt_a_var->server_ip = 'localhost';
         $oData_bkt_a_var->tracker_variable_id = 100;
-        $oData_bkt_a_var->value               = '156.99';
+        $oData_bkt_a_var->value = '156.99';
         DataGenerator::generateOne($oData_bkt_a_var);
 
         $oData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
-        $oData_bkt_a_var->server_conv_id      = 3;
-        $oData_bkt_a_var->server_ip           = 'localhost';
+        $oData_bkt_a_var->server_conv_id = 3;
+        $oData_bkt_a_var->server_ip = 'localhost';
         $oData_bkt_a_var->tracker_variable_id = 15;
-        $oData_bkt_a_var->value               = '123456789';
+        $oData_bkt_a_var->value = '123456789';
         DataGenerator::generateOne($oData_bkt_a_var);
 
         // Test 12: Test with data in the correct operation interval
@@ -274,25 +273,25 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
 
         $oData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
         $oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $conversionId1;
-        $oData_intermediate_ad_variable_value->tracker_variable_id                = 99;
+        $oData_intermediate_ad_variable_value->tracker_variable_id = 99;
         $oData_intermediate_ad_variable_value->find();
         $rows = $oData_intermediate_ad_variable_value->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad_variable_value->fetch();
         $this->assertEqual($oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id, $conversionId1);
-        $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id,                99);
-        $this->assertEqual($oData_intermediate_ad_variable_value->value,                              'foo');
+        $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id, 99);
+        $this->assertEqual($oData_intermediate_ad_variable_value->value, 'foo');
 
         $oData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
         $oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $conversionId1;
-        $oData_intermediate_ad_variable_value->tracker_variable_id                = 100;
+        $oData_intermediate_ad_variable_value->tracker_variable_id = 100;
         $oData_intermediate_ad_variable_value->find();
         $rows = $oData_intermediate_ad_variable_value->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad_variable_value->fetch();
         $this->assertEqual($oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id, $conversionId1);
-        $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id,                100);
-        $this->assertEqual($oData_intermediate_ad_variable_value->value,                              '156.99');
+        $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id, 100);
+        $this->assertEqual($oData_intermediate_ad_variable_value->value, '156.99');
 
         $oData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
         $oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $conversionId2;
@@ -302,14 +301,14 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
 
         $oData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
         $oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $conversionId2;
-        $oData_intermediate_ad_variable_value->tracker_variable_id                = 15;
+        $oData_intermediate_ad_variable_value->tracker_variable_id = 15;
         $oData_intermediate_ad_variable_value->find();
         $rows = $oData_intermediate_ad_variable_value->getRowCount();
         $this->assertEqual($rows, 1);
         $oData_intermediate_ad_variable_value->fetch();
         $this->assertEqual($oData_intermediate_ad_variable_value->data_intermediate_ad_connection_id, $conversionId2);
-        $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id,                15);
-        $this->assertEqual($oData_intermediate_ad_variable_value->value,                              '123456789');
+        $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id, 15);
+        $this->assertEqual($oData_intermediate_ad_variable_value->value, '123456789');
 
         // Clean up generated data
         DataGenerator::cleanUp();
@@ -331,7 +330,4 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
         // Restore the test environment configuration
         TestEnv::restoreConfig();
     }
-
 }
-
-?>

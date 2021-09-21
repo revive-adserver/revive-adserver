@@ -20,26 +20,22 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Empty extends UnitTestCase
 {
-
     /**
      * A method to test the deliveryBlocked() method.
      */
-    function testDeliveryBlocked()
+    public function testDeliveryBlocked()
     {
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'Client:IP',
-            'comparison'     => '==',
-            'data'           => '192.168.0.1',
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'Client:IP',
+            'comparison' => '==',
+            'data' => '192.168.0.1',
             'executionorder' => 1
-        );
+        ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 
         $oDate = new Date('2006-02-05');
         $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
     }
-
 }
-
-?>

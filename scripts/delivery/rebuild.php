@@ -28,8 +28,8 @@ echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 // Set the MAX_PATH constant (this assumes that the script is located in
 // MAX_PATH . '/scripts'
 define('MAX_PATH', dirname(dirname(dirname(__FILE__))));
-define('OX_PATH',  dirname(dirname(dirname(__FILE__))));
-define('LIB_PATH', MAX_PATH.'/lib/OX');
+define('OX_PATH', dirname(dirname(dirname(__FILE__))));
+define('LIB_PATH', MAX_PATH . '/lib/OX');
 define('RV_PATH', MAX_PATH);
 
 $ignored_files = [
@@ -56,13 +56,13 @@ function get_microtime()
 }
 
 // Source folder for the file to be processed
-$input_dir  = MAX_PATH . '/www/delivery_dev/';
+$input_dir = MAX_PATH . '/www/delivery_dev/';
 // Destination folder for the compiled scripts
 $output_dir = MAX_PATH . '/www/delivery/';
 
 $start_time = get_microtime();
 
-$DIR_INPUT  = opendir($input_dir);
+$DIR_INPUT = opendir($input_dir);
 $DIR_OUTPUT = opendir($output_dir);
 
 $header = file_get_contents($input_dir . 'template.php');
@@ -122,5 +122,3 @@ $end_time = get_microtime();
 
 echo "  => Time taken: " . ($end_time - $start_time) . " s\n";
 echo "=> FINISHED RE-COMPILING THE DELIVERY ENGINE FILES\n\n";
-
-?>

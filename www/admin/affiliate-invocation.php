@@ -51,15 +51,15 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doAffiliates->find();
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         phpAds_PageContext(
-            MAX_buildName ($row['affiliateid'], $row['name']),
-            "affiliate-invocation.php?affiliateid=".$row['affiliateid'],
+            MAX_buildName($row['affiliateid'], $row['name']),
+            "affiliate-invocation.php?affiliateid=" . $row['affiliateid'],
             $affiliateid == $row['affiliateid']
         );
     }
     addWebsitePageTools($affiliateid);
     phpAds_PageHeader("4.2.5", $oHeaderModel);
 } else {
-    $sections = array();
+    $sections = [];
     $sections[] = "2.1";
     if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
         $sections[] = "2.2";
@@ -82,6 +82,3 @@ $maxInvocation->placeInvocationForm();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-
-?>

@@ -30,5 +30,3 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 // phpAds_cacheDelete();
 
 OX_Admin_Redirect::redirect('maintenance-cache.php');
-
-?>

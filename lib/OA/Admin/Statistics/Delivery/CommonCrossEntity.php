@@ -21,17 +21,18 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  */
 class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
 {
-
-    var $aAnonAdvertisers;
-    var $aAnonPlacements;
+    public $listOrderField;
+    public $listOrderDirection;
+    public $aAnonAdvertisers;
+    public $aAnonPlacements;
 
     /**
      * PHP5-style constructor
      */
-    function __construct($params)
+    public function __construct($params)
     {
         // Override links
-        $this->entityLinks = array();
+        $this->entityLinks = [];
 
         parent::__construct($params);
     }
@@ -47,19 +48,17 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      * @param string Key name
      * @return array Full entity stats with entity data
      */
-    function mergeData($aParams, $key)
+    public function mergeData($aParams, $key)
     {
         $aEntitiesData = parent::mergeData($aParams, $key);
 
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            if (is_null($this->aAnonAdvertisers)) {
-                $this->aAnonAdvertisers = array();
-                $this->aAnonPlacements  = array();
-                $aPlacements = Admin_DA::fromCache('getPlacements', array('placement_anonymous' => 't'));
-                foreach ($aPlacements as $placementId => $placement) {
-                    $this->aAnonAdvertisers[$placement['advertiser_id']] = true;
-                    $this->aAnonPlacements[$placementId] = true;
-                }
+        if ((OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) && is_null($this->aAnonAdvertisers)) {
+            $this->aAnonAdvertisers = [];
+            $this->aAnonPlacements = [];
+            $aPlacements = Admin_DA::fromCache('getPlacements', ['placement_anonymous' => 't']);
+            foreach ($aPlacements as $placementId => $placement) {
+                $this->aAnonAdvertisers[$placement['advertiser_id']] = true;
+                $this->aAnonPlacements[$placementId] = true;
             }
         }
 
@@ -67,11 +66,11 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
             if (!isset($this->data[$key][$entityId])) {
                 unset($aEntitiesData[$entityId]);
             } elseif ($key == 'advertiser_id' && isset($this->aAnonAdvertisers[$entityId])) {
-                    $aEntitiesData[$entityId]['hidden'] = true;
+                $aEntitiesData[$entityId]['hidden'] = true;
             } elseif ($key == 'placement_id' && isset($this->aAnonPlacements[$entityId])) {
-                    $aEntitiesData[$entityId]['hidden'] = true;
+                $aEntitiesData[$entityId]['hidden'] = true;
             } elseif ($key == 'ad_id' && isset($this->aAnonPlacements[$aEntitiesData[$entityId]['placement_id']])) {
-                    $aEntitiesData[$entityId]['hidden'] = true;
+                $aEntitiesData[$entityId]['hidden'] = true;
             } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                 if (isset($aParams['placement_id'])) {
                     $aEntitiesData[$entityId]['hidden'] = isset($this->aAnonPlacements[$aParams['placement_id']]);
@@ -89,16 +88,16 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      *
      * @param array Entities array
      */
-    function fixLinkParams(&$aEntitiesData)
+    public function fixLinkParams(&$aEntitiesData)
     {
         foreach ($aEntitiesData as $entityId => $aEntity) {
-            $linkparams = array();
+            $linkparams = [];
             $params = $this->_removeDuplicateParams($aEntity['linkparams']);
             foreach ($params as $k => $v) {
-                $linkparams[] = $k.'='.urlencode($v);
+                $linkparams[] = $k . '=' . urlencode($v);
             }
-            if (count($linkparams)) {
-                $aEntitiesData[$entityId]['linkparams'] .= '&'.join('&', $linkparams);
+            if ($linkparams !== []) {
+                $aEntitiesData[$entityId]['linkparams'] .= '&' . implode('&', $linkparams);
             }
         }
     }
@@ -109,7 +108,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      * @param array Entities array
      * @param string Name which should be used for hidden entitiies
      */
-    function maskHiddenEntities(&$aEntitiesData, $entityType)
+    public function maskHiddenEntities(&$aEntitiesData, $entityType)
     {
         $this->fixLinkParams($aEntitiesData);
 
@@ -121,11 +120,11 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                         break;
 
                     case 'campaign':
-                        $tmp = array(
-                            'placement_id'  => $aEntitiesData[$entityId]['id'],
-                            'name'          => $aEntitiesData[$entityId]['name'],
-                            'anonymous'     => true
-                        );
+                        $tmp = [
+                            'placement_id' => $aEntitiesData[$entityId]['id'],
+                            'name' => $aEntitiesData[$entityId]['name'],
+                            'anonymous' => true
+                        ];
                         $aEntitiesData[$entityId]['name'] = MAX_getPlacementName($tmp);
                         break;
 
@@ -156,7 +155,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         }
     }
 
-    function getAdvertisers($aParams, $level, $expand = '')
+    public function getAdvertisers($aParams, $level, $expand = '')
     {
         $aEntitiesData = parent::getAdvertisers($aParams, $level, $expand);
 
@@ -165,7 +164,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         return $aEntitiesData;
     }
 
-    function getCampaigns($aParams, $level, $expand = '')
+    public function getCampaigns($aParams, $level, $expand = '')
     {
         $aEntitiesData = parent::getCampaigns($aParams, $level, $expand);
 
@@ -177,7 +176,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         return $aEntitiesData;
     }
 
-    function getBanners($aParams, $level, $expand = '')
+    public function getBanners($aParams, $level, $expand = '')
     {
         $aEntitiesData = parent::getBanners($aParams, $level, $expand);
 
@@ -189,7 +188,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         return $aEntitiesData;
     }
 
-    function getPublishers($aParams, $level, $expand = '')
+    public function getPublishers($aParams, $level, $expand = '')
     {
         $aEntitiesData = parent::getPublishers($aParams, $level, $expand);
 
@@ -201,7 +200,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         return $aEntitiesData;
     }
 
-    function getZones($aParams, $level, $expand = '')
+    public function getZones($aParams, $level, $expand = '')
     {
         $aEntitiesData = parent::getZones($aParams, $level, $expand);
 
@@ -219,13 +218,13 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      * @param array Query parameters
      * @param array Entities array
      */
-    function addDirectSelection($aParams, &$aEntitiesData)
+    public function addDirectSelection($aParams, &$aEntitiesData)
     {
-        $aParams['exclude'] = array('ad_id');
+        $aParams['exclude'] = ['ad_id'];
         $aParams['zone_id'] = 0;
 
         // Get plugin aParams
-        $pluginParams = array();
+        $pluginParams = [];
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->addQueryParams($pluginParams);
         }
@@ -247,7 +246,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                 $zone['name'] = $GLOBALS['strGenerateBannercode'];
                 $zone['prefix'] = 'x';
                 $zone['id'] = '-';
-                $zone['icon'] =  OX::assetPath().'/images/icon-generatecode.gif';
+                $zone['icon'] = OX::assetPath() . '/images/icon-generatecode.gif';
                 $zone['htmlclass'] = 'last';
 
                 if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {
@@ -258,7 +257,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                         $this->listOrderDirection == 'up'
                     );
                 } elseif ($this->listOrderDirection == 'up') {
-                    array_push($aEntitiesData, $zone);
+                    $aEntitiesData[] = $zone;
                 } else {
                     array_unshift($aEntitiesData, $zone);
                 }
@@ -272,13 +271,13 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      * @param array Query parameters
      * @param array Entities array
      */
-    function addBlanks($aParams, &$aEntitiesData)
+    public function addBlanks($aParams, &$aEntitiesData)
     {
-        $aParams['exclude'] = array('zone_id');
+        $aParams['exclude'] = ['zone_id'];
         $aParams['ad_id'] = 0;
 
         // Get plugin aParams
-        $pluginParams = array();
+        $pluginParams = [];
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->addQueryParams($pluginParams);
         }
@@ -300,7 +299,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                 $zone['name'] = 'Blank impressions';
                 $zone['prefix'] = 'x';
                 $zone['id'] = '-';
-                $zone['icon'] =  OX::assetPath().'/images/icon-banner-disabled.png';
+                $zone['icon'] = OX::assetPath() . '/images/icon-banner-disabled.png';
                 $zone['htmlclass'] = 'last';
 
                 if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {
@@ -311,14 +310,11 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                         $this->listOrderDirection == 'up'
                     );
                 } elseif ($this->listOrderDirection == 'up') {
-                    array_push($aEntitiesData, $zone);
+                    $aEntitiesData[] = $zone;
                 } else {
                     array_unshift($aEntitiesData, $zone);
                 }
             }
         }
     }
-
 }
-
-?>

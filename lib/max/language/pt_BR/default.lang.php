@@ -232,7 +232,7 @@ $GLOBALS['strDayOfWeek'] = "Dia da semana";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Domingo';
 $GLOBALS['strDayFullNames'][1] = 'Segunda';
@@ -243,7 +243,7 @@ $GLOBALS['strDayFullNames'][5] = 'Sexta';
 $GLOBALS['strDayFullNames'][6] = 'Sábado';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Dom';
 $GLOBALS['strDayShortCuts'][1] = 'Seg';
@@ -487,17 +487,17 @@ $GLOBALS['strDeliveryCappingTotal'] = "no total";
 $GLOBALS['strDeliveryCappingSession'] = "por sessão";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['limit'] = "Limitar visualização de banners a:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "Limitar visualizações da campanha a:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "Limitar visualizações de zonas a:";
 

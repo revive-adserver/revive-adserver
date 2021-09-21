@@ -14,13 +14,13 @@ require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 
 class OrganisationSelectionFieldTest extends UnitTestCase
 {
-    function testAdvertiserIsAcceptedFromQueryString()
+    public function testAdvertiserIsAcceptedFromQueryString()
     {
         $factory = new FieldFactory();
 
-        $query_array = array(
+        $query_array = [
             'example_advertiser' => 392
-        );
+        ];
 
         $field = $factory->newField('scope');
         $field->setName('example');
@@ -32,13 +32,13 @@ class OrganisationSelectionFieldTest extends UnitTestCase
         $this->assertEqual($advertiser_id, 392);
     }
 
-    function testPublisherIsAcceptedFromQueryString()
+    public function testPublisherIsAcceptedFromQueryString()
     {
         $factory = new FieldFactory();
 
-        $query_array = array(
+        $query_array = [
             'example_publisher' => 768
-        );
+        ];
 
         $field = $factory->newField('scope');
         $field->setName('example');
@@ -50,5 +50,3 @@ class OrganisationSelectionFieldTest extends UnitTestCase
         $this->assertEqual($publisher_id, 768);
     }
 }
-
-?>

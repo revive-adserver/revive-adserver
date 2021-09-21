@@ -11,7 +11,7 @@
 */
 
 // Define a constant to avoid displaying the login screen
-define ('OA_SKIP_LOGIN', 1);
+define('OA_SKIP_LOGIN', 1);
 
 // Require the initialisation file
 require_once '../../init.php';
@@ -27,5 +27,3 @@ if ($method == 'POST') {
 } else {
     $recovery_page->handleGet($_GET);
 }
-
-?>

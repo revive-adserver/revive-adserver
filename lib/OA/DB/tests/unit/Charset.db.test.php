@@ -23,16 +23,15 @@ require_once MAX_PATH . '/lib/OA/DB/Charset.php';
  */
 class Test_OA_DB_Charset extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function testMySQL()
+    public function testMySQL()
     {
         $oDbh = OA_DB::singleton();
 
@@ -67,7 +66,7 @@ class Test_OA_DB_Charset extends UnitTestCase
         $this->assertEqual($oDbc->getDatabaseCharset(), $oDbc->getConfigurationValue());
     }
 
-    function testPgSQL()
+    public function testPgSQL()
     {
         $oDbh = OA_DB::singleton();
 
@@ -90,6 +89,3 @@ class Test_OA_DB_Charset extends UnitTestCase
         $this->assertEqual($oDbc->getDatabaseCharset(), $oDbc->getConfigurationValue());
     }
 }
-
-
-?>

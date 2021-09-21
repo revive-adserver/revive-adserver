@@ -21,7 +21,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
-phpAds_registerGlobal ('returnurl');
+phpAds_registerGlobal('returnurl');
 
 
 // Security check
@@ -37,42 +37,38 @@ OA_Permission::checkSessionToken();
 
 if (!empty($trackerid)) {
     $ids = explode(',', $trackerid);
-    while (list(,$trackerid) = each($ids)) {
-
-		$doTrackers = OA_Dal::factoryDO('trackers');
-	    $doTrackers->trackerid = $trackerid;
-
-		if ($doTrackers->find()) {
-			// Clone the found DB_DataObject, as cannot delete() once
-			// it has been fetch()ed
-			$doTrackersClone = clone($doTrackers);
-			// Fetch the tracker so that we can get the name of the
-			// tracker for the delete message
-			$doTrackers->fetch();
-			$aTracker = $doTrackers->toArray();
-			// Delete the cloned DB_DataObejct
-			$doTrackersClone->delete();
-		}
+    foreach ($ids as $trackerid) {
+        $doTrackers = OA_Dal::factoryDO('trackers');
+        $doTrackers->trackerid = $trackerid;
+        if ($doTrackers->find()) {
+            // Clone the found DB_DataObject, as cannot delete() once
+            // it has been fetch()ed
+            $doTrackersClone = clone($doTrackers);
+            // Fetch the tracker so that we can get the name of the
+            // tracker for the delete message
+            $doTrackers->fetch();
+            $aTracker = $doTrackers->toArray();
+            // Delete the cloned DB_DataObejct
+            $doTrackersClone->delete();
+        }
     }
 
     // Queue confirmation message
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
 
     if (count($ids) == 1) {
-        $translated_message = $translation->translate ($GLOBALS['strTrackerHasBeenDeleted'], array(
+        $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenDeleted'], [
             htmlspecialchars($aTracker['trackername'])
-        ));
+        ]);
     } else {
-        $translated_message = $translation->translate ($GLOBALS['strTrackersHaveBeenDeleted']);
+        $translated_message = $translation->translate($GLOBALS['strTrackersHaveBeenDeleted']);
     }
 
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 }
 
 if (empty($returnurl)) {
-	$returnurl = 'advertiser-trackers.php';
+    $returnurl = 'advertiser-trackers.php';
 }
 
-header ("Location: ".$returnurl."?clientid=".$clientid);
-
-?>
+header("Location: " . $returnurl . "?clientid=" . $clientid);

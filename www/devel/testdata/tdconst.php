@@ -16,13 +16,10 @@
  */
 
 if (!defined('TD_PATH')) {
-    define('TD_PATH', MAX_PATH.'/www/devel/testdata/');
+    define('TD_PATH', MAX_PATH . '/www/devel/testdata/');
 }
-define('TD_TEMPLATES', SIM_PATH.'/templates');
-define('TD_DATAPATH', MAX_PATH.'/tests/datasets/mdb2schema/');
+define('TD_TEMPLATES', SIM_PATH . '/templates');
+define('TD_DATAPATH', MAX_PATH . '/tests/datasets/mdb2schema/');
 
 error_reporting(E_ALL ^ E_NOTICE);
 define('TEST_ENVIRONMENT_RUNNING', true);
-
-
-?>

@@ -18,12 +18,11 @@
 
 function checkPermissions($aFiles)
 {
-    if (($aErrs = OX_DevToolbox::checkFilePermissions($aFiles)) !== true)
-    {
+    if (($aErrs = OX_DevToolbox::checkFilePermissions($aFiles)) !== true) {
         setcookie('schemaFile', '');
         setcookie('schemaPath', '');
         $errorMessage = join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n";
-        if(isset($aErrs['fixes'])) {
+        if (isset($aErrs['fixes'])) {
             $errorMessage .= 'To fix, please execute the following commands:' . "<br /><br >\n" .
             join("<br />\n", $aErrs['fixes']);
         }
@@ -35,13 +34,11 @@ require_once './init.php';
 
 $action = $_REQUEST['action'];
 
-switch ($action)
-{
+switch ($action) {
     case 'about':
         $item = $_REQUEST['item'];
         include 'templates/frameheader.html';
-        switch ($item)
-        {
+        switch ($item) {
             case 'upgrade_packages':
                 include 'templates/about_uppkg.html';
                 break;
@@ -63,7 +60,7 @@ switch ($action)
         }
         break;
     case 'upgrade_package':
-        checkPermissions(array(MAX_PATH.'/etc/changes'));
+        checkPermissions([MAX_PATH . '/etc/changes']);
         include 'uppkg.php';
         break;
     case 'create_plugin':
@@ -89,10 +86,10 @@ switch ($action)
         break;
     case 'upgrade_array':
         global $readPath, $writeFile;
-        $readPath  = (array_key_exists('read' ,$_REQUEST) ? MAX_PATH.$_REQUEST['read']  : MAX_PATH.'/etc/changes');
-        $writeFile = (array_key_exists('write',$_REQUEST) ? MAX_PATH.$_REQUEST['write'] : MAX_PATH.'/etc/changes/openads_upgrade_array.txt');
-        checkPermissions(array($writeFile));
-        include MAX_PATH.'/scripts/upgrade/buildPackagesArray.php';
+        $readPath = (array_key_exists('read', $_REQUEST) ? MAX_PATH . $_REQUEST['read'] : MAX_PATH . '/etc/changes');
+        $writeFile = (array_key_exists('write', $_REQUEST) ? MAX_PATH . $_REQUEST['write'] : MAX_PATH . '/etc/changes/openads_upgrade_array.txt');
+        checkPermissions([$writeFile]);
+        include MAX_PATH . '/scripts/upgrade/buildPackagesArray.php';
         $array = file_get_contents($writeFile);
         $aVersions = unserialize($array);
         $info = print_r($aVersions, true);
@@ -100,10 +97,10 @@ switch ($action)
     case 'generate_dataobjects':
         global $schema, $pathdbo;
         $GLOBALS['_MAX']['CONF']['debug']['priority'] = PEAR_LOG_INFO;
-        $schema  = (array_key_exists('schema' ,$_REQUEST)  ? MAX_PATH.$_REQUEST['schema']  : MAX_PATH . '/etc/tables_core.xml');
-        $pathdbo = (array_key_exists('dbopath' ,$_REQUEST) ? MAX_PATH.$_REQUEST['dbopath'] : MAX_PATH . '/lib/max/Dal/DataObjects');
-        checkPermissions(array($pathdbo));
-        include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
+        $schema = (array_key_exists('schema', $_REQUEST) ? MAX_PATH . $_REQUEST['schema'] : MAX_PATH . '/etc/tables_core.xml');
+        $pathdbo = (array_key_exists('dbopath', $_REQUEST) ? MAX_PATH . $_REQUEST['dbopath'] : MAX_PATH . '/lib/max/Dal/DataObjects');
+        checkPermissions([$pathdbo]);
+        include MAX_PATH . '/scripts/db_dataobject/rebuild.php';
         break;
     default:
         include 'templates/index.html';
@@ -111,6 +108,3 @@ switch ($action)
 }
 
 include 'templates/body_action.html';
-
-
-?>

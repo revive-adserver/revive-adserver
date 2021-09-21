@@ -16,9 +16,9 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 
 class Admin_UI_CampaignSelectionField extends Admin_UI_Field
 {
-    function display()
+    public function display()
     {
-        $aParams = array();
+        $aParams = [];
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $aParams['agency_id'] = OA_Permission::getEntityId();
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
@@ -31,7 +31,7 @@ class Admin_UI_CampaignSelectionField extends Admin_UI_Field
         $aPlacements = $this->multiSort($aPlacements, "name", true);
 
         echo "
-        <select name='{$this->_name}' tabindex='".($this->_tabIndex++)."'>";
+        <select name='{$this->_name}' tabindex='" . ($this->_tabIndex++) . "'>";
         foreach ($aPlacements as $aPlacement) {
             $selected = $aPlacement['placement_id'] == $this->getValue() ? " selected='selected'" : '';
             $name = MAX_getPlacementName($aPlacement);
@@ -42,5 +42,3 @@ class Admin_UI_CampaignSelectionField extends Admin_UI_Field
         </select>";
     }
 }
-
-?>

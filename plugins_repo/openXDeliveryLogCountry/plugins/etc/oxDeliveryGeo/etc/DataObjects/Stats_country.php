@@ -13,7 +13,7 @@
 /**
  * Table Definition for stats_country
  */
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 class DataObjects_Stats_country extends DB_DataObjectCommon
 {
@@ -31,16 +31,18 @@ class DataObjects_Stats_country extends DB_DataObjectCommon
     public $country;                         // CHAR(3) => openads_char => 130
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Stats_country',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Stats_country', $k, $v);
+    }
 
-    var $defaultValues = array(
+    public $defaultValues = [
                 'date_time' => '%NO_DATE_TIME%',
                 'impressions' => 0,
                 'clicks' => 0,
                 'country' => '',
-                );
+                ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-?>

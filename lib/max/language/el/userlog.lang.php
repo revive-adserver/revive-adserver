@@ -25,5 +25,5 @@ $GLOBALS['strAction'] = "Ενέργεια";
 $GLOBALS['strValue'] = "Τιμή";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }

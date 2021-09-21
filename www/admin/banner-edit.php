@@ -28,42 +28,42 @@ $htmltemplate = MAX_commonGetValueUnslashed('htmltemplate');
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
-     'alink'
-    ,'alink_chosen'
-    ,'alt'
-    ,'alt_imageurl'
-    ,'asource'
-    ,'atar'
-    ,'adserver'
-    ,'bannertext'
-    ,'campaignid'
-    ,'clientid'
-    ,'comments'
-    ,'description'
-    ,'ext_bannertype'
-    ,'height'
-    ,'imageurl'
-    ,'keyword'
-    ,'message'
-    ,'replaceimage'
-    ,'replacealtimage'
-    ,'status'
-    ,'statustext'
-    ,'type'
-    ,'submit'
-    ,'target'
-    ,'transparent'
-    ,'upload'
-    ,'url'
-    ,'weight'
-    ,'width'
+    'alink',
+    'alink_chosen',
+    'alt',
+    'alt_imageurl',
+    'asource',
+    'atar',
+    'adserver',
+    'bannertext',
+    'campaignid',
+    'clientid',
+    'comments',
+    'description',
+    'ext_bannertype',
+    'height',
+    'imageurl',
+    'keyword',
+    'message',
+    'replaceimage',
+    'replacealtimage',
+    'status',
+    'statustext',
+    'type',
+    'submit',
+    'target',
+    'transparent',
+    'upload',
+    'url',
+    'weight',
+    'width'
 );
 
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
@@ -94,8 +94,8 @@ if ($bannerid != '') {
     }
 
     // Set basic values
-    $type               = $aBanner['storagetype'];
-    $ext_bannertype     = $aBanner['ext_bannertype'];
+    $type = $aBanner['storagetype'];
+    $ext_bannertype = $aBanner['ext_bannertype'];
 
     if (empty($ext_bannertype)) {
         if ($type == 'html') {
@@ -108,53 +108,45 @@ if ($bannerid != '') {
         $aBanner['replaceimage'] = "f"; //select keep image by default
     }
 
-    $aBanner['clientid']   = $clientid;
-
-}
-else {
+    $aBanner['clientid'] = $clientid;
+} else {
     // Set default values for new banner
-    $aBanner['bannerid']     = '';
-    $aBanner['campaignid']   = $campaignid;
-    $aBanner['clientid']     = $clientid;
-    $aBanner['alt']          = '';
-    $aBanner['status']       = '';
-    $aBanner['bannertext']   = '';
-    $aBanner['url']          = "http://";
-    $aBanner['target']       = '';
-    $aBanner['imageurl']     = "http://";
-    $aBanner['width']        = '';
-    $aBanner['height']       = '';
+    $aBanner['bannerid'] = '';
+    $aBanner['campaignid'] = $campaignid;
+    $aBanner['clientid'] = $clientid;
+    $aBanner['alt'] = '';
+    $aBanner['status'] = '';
+    $aBanner['bannertext'] = '';
+    $aBanner['url'] = "http://";
+    $aBanner['target'] = '';
+    $aBanner['imageurl'] = "http://";
+    $aBanner['width'] = '';
+    $aBanner['height'] = '';
     $aBanner['htmltemplate'] = '';
-    $aBanner['description']  = '';
-    $aBanner['comments']     = '';
-    $aBanner['contenttype']  = '';
-    $aBanner['adserver']     = 'none';
-    $aBanner['keyword']      = '';
-    $aBanner["weight"]       = $pref['default_banner_weight'];
+    $aBanner['description'] = '';
+    $aBanner['comments'] = '';
+    $aBanner['contenttype'] = '';
+    $aBanner['adserver'] = 'none';
+    $aBanner['keyword'] = '';
+    $aBanner["weight"] = $pref['default_banner_weight'];
 
     $aBanner['iframe_friendly'] = true;
 }
-if ($ext_bannertype)
-{
+if ($ext_bannertype) {
     $oComponent = OX_Component::factoryByComponentIdentifier($ext_bannertype);
     //  we may want to use the ancestor class for some sort of generic functionality
-    if (!$oComponent)
-    {
+    if (!$oComponent) {
         $oComponent = OX_Component::getFallbackHandler($extension);
     }
     $formDisabled = (!$oComponent || !$oComponent->enabled);
 }
-if ((!$ext_bannertype) && $type && (!in_array($type, array('sql','web','url','html','txt'))))
-{
+if ((!$ext_bannertype) && $type && (!in_array($type, ['sql', 'web', 'url', 'html', 'txt']))) {
     $oComponent = OX_Component::factoryByComponentIdentifier($type);
     $formDisabled = (!$oComponent || !$oComponent->enabled);
-    if ($oComponent)
-    {
+    if ($oComponent) {
         $ext_bannertype = $type;
         $type = $oComponent->getStorageType();
-    }
-    else
-    {
+    } else {
         $ext_bannertype = '';
         $type = '';
     }
@@ -163,19 +155,29 @@ if ((!$ext_bannertype) && $type && (!in_array($type, array('sql','web','url','ht
 
 // If adding a new banner or used storing type is disabled
 // determine which bannertype to show as default
-$show_sql   = $conf['allowedBanners']['sql'];
-$show_web   = $conf['allowedBanners']['web'];
-$show_url   = $conf['allowedBanners']['url'];
-$show_html  = $conf['allowedBanners']['html'];
-$show_txt   = $conf['allowedBanners']['text'];
+$show_sql = $conf['allowedBanners']['sql'];
+$show_web = $conf['allowedBanners']['web'];
+$show_url = $conf['allowedBanners']['url'];
+$show_html = $conf['allowedBanners']['html'];
+$show_txt = $conf['allowedBanners']['text'];
 
-if (isset($type) && $type == "sql")      $show_sql     = true;
-if (isset($type) && $type == "web")      $show_web     = true;
-if (isset($type) && $type == "url")      $show_url     = true;
-if (isset($type) && $type == "html")     $show_html    = true;
-if (isset($type) && $type == "txt")      $show_txt     = true;
+if (isset($type) && $type == "sql") {
+    $show_sql = true;
+}
+if (isset($type) && $type == "web") {
+    $show_web = true;
+}
+if (isset($type) && $type == "url") {
+    $show_url = true;
+}
+if (isset($type) && $type == "html") {
+    $show_html = true;
+}
+if (isset($type) && $type == "txt") {
+    $show_txt = true;
+}
 
-$bannerTypes = array();
+$bannerTypes = [];
 if ($show_web) {
     $bannerTypes['web']['web'] = $GLOBALS['strWebBanner'];
 }
@@ -183,58 +185,62 @@ if ($show_sql) {
     $bannerTypes['sql']['sql'] = $GLOBALS['strMySQLBanner'];
 }
 if ($show_url) {
-    $bannerTypes['url']['url']= $GLOBALS['strURLBanner'];
+    $bannerTypes['url']['url'] = $GLOBALS['strURLBanner'];
 }
 if ($show_html) {
     $aBannerTypeHtml = OX_Component::getComponents('bannerTypeHtml');
-    foreach ($aBannerTypeHtml AS $tmpComponent)
-    {
+    foreach ($aBannerTypeHtml as $tmpComponent) {
         $componentIdentifier = $tmpComponent->getComponentIdentifier();
         $bannerTypes['html'][$componentIdentifier] = $tmpComponent->getOptionDescription();
     }
 }
 if ($show_txt) {
     $aBannerTypeText = OX_Component::getComponents('bannerTypeText');
-    foreach ($aBannerTypeText AS $tmpComponent)
-    {
+    foreach ($aBannerTypeText as $tmpComponent) {
         $componentIdentifier = $tmpComponent->getComponentIdentifier();
         $bannerTypes['text'][$componentIdentifier] = $tmpComponent->getOptionDescription();
     }
 }
 
-if (!$type)
-{
-    if ($show_txt)     $type = "txt";
-    if ($show_html)    $type = "html";
-    if ($show_url)     $type = "url";
-    if ($show_sql)     $type = "sql";
-    if ($show_web)     $type = "web";
+if (!$type) {
+    if ($show_txt) {
+        $type = "txt";
+    }
+    if ($show_html) {
+        $type = "html";
+    }
+    if ($show_url) {
+        $type = "url";
+    }
+    if ($show_sql) {
+        $type = "sql";
+    }
+    if ($show_web) {
+        $type = "web";
+    }
 }
 
 // Build banner form
 $form = buildBannerForm($type, $aBanner, $oComponent, $formDisabled);
 
 $valid = $form->validate();
-if ($valid && $oComponent && $oComponent->enabled)
-{
+if ($valid && $oComponent && $oComponent->enabled) {
     $valid = $oComponent->validateForm($form);
 }
-if ($valid)
-{
+if ($valid) {
     //process submitted values
     processForm($bannerid, $form, $oComponent, $formDisabled);
-}
-else { //either validation failed or form was not submitted, display the form
+} else { //either validation failed or form was not submitted, display the form
     displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
 }
 
 
 
-function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled=false)
+function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled = false)
 {
     // Initialise some parameters
     $pageName = basename($_SERVER['SCRIPT_NAME']);
-    $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
+    $aEntities = ['clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid];
 
     $entityId = OA_Permission::getEntityId();
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
@@ -244,8 +250,8 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
     }
 
     // Display navigation
-    $aOtherCampaigns = Admin_DA::getPlacements(array($entityType => $entityId));
-    $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignid), false);
+    $aOtherCampaigns = Admin_DA::getPlacements([$entityType => $entityId]);
+    $aOtherBanners = Admin_DA::getAds(['placement_id' => $campaignid], false);
 
     // Display banner preview
     MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
@@ -256,9 +262,9 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
     /*-------------------------------------------------------*/
     $oTpl = new OA_Admin_Template('banner-edit.html');
 
-    $oTpl->assign('clientId',  $clientid);
-    $oTpl->assign('campaignId',  $campaignid);
-    $oTpl->assign('bannerId',  $bannerid);
+    $oTpl->assign('clientId', $clientid);
+    $oTpl->assign('campaignId', $campaignid);
+    $oTpl->assign('bannerId', $bannerid);
     $oTpl->assign('bannerTypes', $bannerTypes);
     $oTpl->assign('bannerType', ($ext_bannertype ? $ext_bannertype : $type));
     $oTpl->assign('bannerHeight', $aBanner["height"]);
@@ -276,10 +282,10 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
 }
 
 
-function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false)
+function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = false)
 {
     //-- Build forms
-    $form = new OA_Admin_UI_Component_Form("bannerForm", "POST", $_SERVER['SCRIPT_NAME'], null, array("enctype"=>"multipart/form-data"));
+    $form = new OA_Admin_UI_Component_Form("bannerForm", "POST", $_SERVER['SCRIPT_NAME'], null, ["enctype" => "multipart/form-data"]);
     $form->forceClientValidation(true);
     $form->addElement('hidden', 'clientid', $aBanner['clientid']);
     $form->addElement('hidden', 'campaignid', $aBanner['campaignid']);
@@ -294,18 +300,16 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     $form->addElement('header', 'header_basic', $GLOBALS['strBasicInformation']);
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $form->addElement('text', 'description', $GLOBALS['strName']);
-    }
-    else {
+    } else {
         $form->addElement('static', 'description', $GLOBALS['strName'], $aBanner['description']);
     }
 
     //local banners
     if ($type == 'sql' || $type == 'web') {
         if ($type == 'sql') {
-            $header = $form->createElement('header', 'header_sql', $GLOBALS['strMySQLBanner']." -  banner creative");
-        }
-        else {
-            $header = $form->createElement('header', 'header_sql', $GLOBALS['strWebBanner']." -  banner creative");
+            $header = $form->createElement('header', 'header_sql', $GLOBALS['strMySQLBanner'] . " -  banner creative");
+        } else {
+            $header = $form->createElement('header', 'header_sql', $GLOBALS['strWebBanner'] . " -  banner creative");
         }
         $header->setAttribute('icon', 'icon-banner-stored.gif');
         $form->addElement($header);
@@ -313,16 +317,18 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         $imageName = _getContentTypeIconImageName($aBanner['contenttype']);
         $size = _getBannerSizeText($type, $aBanner['filename']);
 
-        addUploadGroup($form, $aBanner,
-            array(
+        addUploadGroup(
+            $form,
+            $aBanner,
+            [
                 'uploadName' => 'upload',
                 'radioName' => 'replaceimage',
-                'imageName'  => $imageName,
-                'fileName'  => $aBanner['filename'],
-                'fileSize'  => $size,
-                'newLabel'  => $GLOBALS['strNewBannerFile'],
-                'updateLabel'  => $GLOBALS['strUploadOrKeep'],
-              )
+                'imageName' => $imageName,
+                'fileName' => $aBanner['filename'],
+                'fileSize' => $size,
+                'newLabel' => $GLOBALS['strNewBannerFile'],
+                'updateLabel' => $GLOBALS['strUploadOrKeep'],
+              ]
         );
 
         $form->addElement('header', 'header_b_links', "Banner link");
@@ -337,26 +343,26 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         $form->addElement('text', 'bannertext', $GLOBALS['strTextBelow']);
 
         if (!empty($aBanner['bannerid'])) {
-            $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].":");
+            $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'] . ":");
             $sizeG['width']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
             $sizeG['width']->setSize(5);
 
-            $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'].":");
+            $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'] . ":");
             $sizeG['height']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
             $sizeG['height']->setSize(5);
             $form->addGroup($sizeG, 'size', $GLOBALS['strSize'], "&nbsp;", false);
 
             //validation rules
             $translation = new OX_Translation();
-            $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
-            $widthPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strWidth'])), 'min', 1);
-            $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
-            $heightPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strHeight'])), 'min', 1);
-            $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
+            $widthRequiredRule = [$translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strWidth']]), 'required'];
+            $widthPositiveRule = [$translation->translate($GLOBALS['strXGreaterThanZeroField'], [$GLOBALS['strWidth']]), 'min', 1];
+            $heightRequiredRule = [$translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strHeight']]), 'required'];
+            $heightPositiveRule = [$translation->translate($GLOBALS['strXGreaterThanZeroField'], [$GLOBALS['strHeight']]), 'min', 1];
+            $numericRule = [$GLOBALS['strNumericField'], 'numeric'];
 
-            $form->addGroupRule('size', array(
-                'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule),
-                'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
+            $form->addGroupRule('size', [
+                'width' => [$widthRequiredRule, $numericRule, $widthPositiveRule],
+                'height' => [$heightRequiredRule, $numericRule, $heightPositiveRule]]);
         }
 
         //TODO $form->addRule("size", 'Please enter a number', 'numeric'); //this should make all fields in group size are numeric
@@ -382,26 +388,26 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         $form->addElement('text', 'statustext', $GLOBALS['strStatusText']);
         $form->addElement('text', 'bannertext', $GLOBALS['strTextBelow']);
 
-        $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'].":");
+        $sizeG['width'] = $form->createElement('text', 'width', $GLOBALS['strWidth'] . ":");
         $sizeG['width']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
         $sizeG['width']->setSize(5);
 
-        $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'].":");
+        $sizeG['height'] = $form->createElement('text', 'height', $GLOBALS['strHeight'] . ":");
         $sizeG['height']->setAttribute('onChange', 'oa_sizeChangeUpdateMessage("warning_change_banner_size");');
         $sizeG['height']->setSize(5);
         $form->addGroup($sizeG, 'size', $GLOBALS['strSize'], "&nbsp;", false);
 
         //validation rules
         $translation = new OX_Translation();
-        $widthRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strWidth'])), 'required');
-        $widthPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strWidth'])), 'min', 1);
-        $heightRequiredRule = array($translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strHeight'])), 'required');
-        $heightPositiveRule = array($translation->translate($GLOBALS['strXGreaterThanZeroField'], array($GLOBALS['strHeight'])), 'min', 1);
-        $numericRule = array($GLOBALS['strNumericField'] , 'numeric');
+        $widthRequiredRule = [$translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strWidth']]), 'required'];
+        $widthPositiveRule = [$translation->translate($GLOBALS['strXGreaterThanZeroField'], [$GLOBALS['strWidth']]), 'min', 1];
+        $heightRequiredRule = [$translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strHeight']]), 'required'];
+        $heightPositiveRule = [$translation->translate($GLOBALS['strXGreaterThanZeroField'], [$GLOBALS['strHeight']]), 'min', 1];
+        $numericRule = [$GLOBALS['strNumericField'], 'numeric'];
 
-        $form->addGroupRule('size', array(
-            'width' => array($widthRequiredRule, $numericRule, $widthPositiveRule),
-            'height' => array($heightRequiredRule, $numericRule, $heightPositiveRule)));
+        $form->addGroupRule('size', [
+            'width' => [$widthRequiredRule, $numericRule, $widthPositiveRule],
+            'height' => [$heightRequiredRule, $numericRule, $heightPositiveRule]]);
     }
 
     //html & text banners
@@ -419,7 +425,7 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         $weightElem->setSize(6);
         $form->addElement($weightElem);
         $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
-        $weightPositiveRule = $translation->translate($GLOBALS['strXPositiveWholeNumberField'], array($GLOBALS['strWeight']));
+        $weightPositiveRule = $translation->translate($GLOBALS['strXPositiveWholeNumberField'], [$GLOBALS['strWeight']]);
         $form->addRule('weight', $weightPositiveRule, 'regex', '#^\d+$#');
         $form->addRule('weight', $weightPositiveRule, 'nonzero');
     }
@@ -431,15 +437,14 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
 
     //validation rules
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
+        $urlRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strName']]);
         $form->addRule('description', $urlRequiredMsg, 'required');
     }
 
     //set banner values
     $form->setDefaults($aBanner);
 
-    if ($formDisabled)
-    {
+    if ($formDisabled) {
         $form->freeze();
     }
 
@@ -449,36 +454,35 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
 
 function addUploadGroup($form, $aBanner, $vars)
 {
-        $uploadG = [];
+    $uploadG = [];
 
-        $update = !empty($vars['fileName']);
+    $update = !empty($vars['fileName']);
 
-        if ($update) {
-            $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='".OX::assetPath()."/images/".$vars['imageName']."' align='absmiddle'> ").$vars['fileName']." <i dir=".$GLOBALS['phpAds_TextDirection'].">(".$vars['fileSize'].")</i>", 'f');
-            $uploadG['radio2'] = $form->createElement('radio', $vars['radioName'], null, null, 't');
-            $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this)", "style" => "width: 250px;"));
+    if ($update) {
+        $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='" . OX::assetPath() . "/images/" . $vars['imageName'] . "' align='absmiddle'> ") . $vars['fileName'] . " <i dir=" . $GLOBALS['phpAds_TextDirection'] . ">(" . $vars['fileSize'] . ")</i>", 'f');
+        $uploadG['radio2'] = $form->createElement('radio', $vars['radioName'], null, null, 't');
+        $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, ["onchange" => "selectFile(this)", "style" => "width: 250px;"]);
 
-            $form->addGroup($uploadG, $vars['uploadName'].'_group', $vars['updateLabel'], array("<br>", "", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"), false);
-        } else { //add new creative
-            $uploadG['hidden'] = $form->createElement("hidden", $vars['radioName']);
-            $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this)", "size" => 26, "style" => "width: 250px"));
+        $form->addGroup($uploadG, $vars['uploadName'] . '_group', $vars['updateLabel'], ["<br>", "", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"], false);
+    } else { //add new creative
+        $uploadG['hidden'] = $form->createElement("hidden", $vars['radioName']);
+        $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, ["onchange" => "selectFile(this)", "size" => 26, "style" => "width: 250px"]);
 
-            $form->addGroup($uploadG, $vars['uploadName'].'_group', $vars['newLabel'], "<br>", false);
+        $form->addGroup($uploadG, $vars['uploadName'] . '_group', $vars['newLabel'], "<br>", false);
 
-            if (!empty($vars['decorateId'])) {
-                $form->addDecorator($vars['uploadName'].'_group', 'process', array('tag' => 'tr',
-                    'addAttributes' => array('id' => $vars['decorateId'].'{numCall}',
-                    'style' => 'display:none')));
-            }
-
+        if (!empty($vars['decorateId'])) {
+            $form->addDecorator($vars['uploadName'] . '_group', 'process', ['tag' => 'tr',
+                    'addAttributes' => ['id' => $vars['decorateId'] . '{numCall}',
+                    'style' => 'display:none']]);
         }
-        $form->setDefaults(array(
+    }
+    $form->setDefaults([
             $vars['radioName'] => $update ? 'f' : 't',
-        ));
+        ]);
 }
 
 
-function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
+function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
 {
     $aFields = $form->exportValues();
 
@@ -490,28 +494,28 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         }
     }
 
-    $aVariables = array();
-    $aVariables['campaignid']      = $aFields['campaignid'];
-    $aVariables['target']          = isset($aFields['target']) ? $aFields['target'] : '';
-    $aVariables['height']          = isset($aFields['height']) ? $aFields['height'] : 0;
-    $aVariables['width']           = isset($aFields['width'])  ? $aFields['width'] : 0;
-    $aVariables['weight']          = !empty($aFields['weight']) ? $aFields['weight'] : 0;
-    $aVariables['adserver']        = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
-    $aVariables['alt']             = !empty($aFields['alt']) ? $aFields['alt'] : '';
-    $aVariables['bannertext']      = !empty($aFields['bannertext']) ? $aFields['bannertext'] : '';
-    $aVariables['htmltemplate']    = !empty($aFields['htmltemplate']) ? $aFields['htmltemplate'] : '';
-    $aVariables['description']     = !empty($aFields['description']) ? $aFields['description'] : '';
-    $aVariables['imageurl']        = (!empty($aFields['imageurl']) && $aFields['imageurl'] != 'http://') ? $aFields['imageurl'] : '';
-    $aVariables['url']             = (!empty($aFields['url']) && $aFields['url'] != 'http://') ? $aFields['url'] : '';
-    $aVariables['status']          = ($aFields['status'] != '') ? $aFields['status'] : '';
-    $aVariables['statustext']      = !empty($aFields['statustext']) ? $aFields['statustext'] : '';
-    $aVariables['storagetype']     = $aFields['type'];
-    $aVariables['ext_bannertype']  = $aFields['ext_bannertype'];
-    $aVariables['comments']        = $aFields['comments'];
+    $aVariables = [];
+    $aVariables['campaignid'] = $aFields['campaignid'];
+    $aVariables['target'] = isset($aFields['target']) ? $aFields['target'] : '';
+    $aVariables['height'] = isset($aFields['height']) ? $aFields['height'] : 0;
+    $aVariables['width'] = isset($aFields['width']) ? $aFields['width'] : 0;
+    $aVariables['weight'] = !empty($aFields['weight']) ? $aFields['weight'] : 0;
+    $aVariables['adserver'] = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
+    $aVariables['alt'] = !empty($aFields['alt']) ? $aFields['alt'] : '';
+    $aVariables['bannertext'] = !empty($aFields['bannertext']) ? $aFields['bannertext'] : '';
+    $aVariables['htmltemplate'] = !empty($aFields['htmltemplate']) ? $aFields['htmltemplate'] : '';
+    $aVariables['description'] = !empty($aFields['description']) ? $aFields['description'] : '';
+    $aVariables['imageurl'] = (!empty($aFields['imageurl']) && $aFields['imageurl'] != 'http://') ? $aFields['imageurl'] : '';
+    $aVariables['url'] = (!empty($aFields['url']) && $aFields['url'] != 'http://') ? $aFields['url'] : '';
+    $aVariables['status'] = ($aFields['status'] != '') ? $aFields['status'] : '';
+    $aVariables['statustext'] = !empty($aFields['statustext']) ? $aFields['statustext'] : '';
+    $aVariables['storagetype'] = $aFields['type'];
+    $aVariables['ext_bannertype'] = $aFields['ext_bannertype'];
+    $aVariables['comments'] = $aFields['comments'];
     $aVariables['iframe_friendly'] = $aFields['iframe_friendly'] ? 1 : 0;
 
-    $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
-    $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
+    $aVariables['filename'] = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
+    $aVariables['contenttype'] = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
 
     if ($aFields['type'] == 'url') {
         $aVariables['contenttype'] = OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl']);
@@ -524,9 +528,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $aVariables['contenttype'] = 'txt';
     }
 
-    $aVariables['alt_filename']    = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
+    $aVariables['alt_filename'] = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
     $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
-    $aVariables['alt_imageurl']    = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
+    $aVariables['alt_imageurl'] = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
 
     if (isset($aFields['keyword']) && $aFields['keyword'] != '') {
         $keywordArray = preg_split('/[ ,]+/D', $aFields['keyword']);
@@ -543,10 +547,10 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $aFile = $oFile->getFileDetails();
 
         if (!empty($aFile)) {
-            $aVariables['filename']      = $aFile['filename'];
-            $aVariables['contenttype']   = $aFile['contenttype'];
-            $aVariables['width']         = $aFile['width'];
-            $aVariables['height']        = $aFile['height'];
+            $aVariables['filename'] = $aFile['filename'];
+            $aVariables['contenttype'] = $aFile['contenttype'];
+            $aVariables['width'] = $aFile['width'];
+            $aVariables['height'] = $aFile['height'];
             $aVariables['pluginversion'] = $aFile['pluginversion'];
         }
 
@@ -564,7 +568,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         }
     }
     if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0
-        &&  $aFields['replacealtimage'] == 't') {
+        && $aFields['replacealtimage'] == 't') {
 
         //TODO: Check image only? - Wasn't enforced before
         $oFile = OA_Creative_File::factoryUploadedFile('uploadalt');
@@ -573,7 +577,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
         $aFile = $oFile->getFileDetails();
 
         if (!empty($aFile)) {
-            $aVariables['alt_filename']    = $aFile['filename'];
+            $aVariables['alt_filename'] = $aFile['filename'];
             $aVariables['alt_contenttype'] = $aFile['contenttype'];
         }
     }
@@ -591,18 +595,16 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
     // Clients are only allowed to modify certain fields, ensure that other fields are unchanged
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        $aVariables['weight']       = $aBanner['weight'];
-        $aVariables['description']  = $aBanner['name'];
-        $aVariables['comments']     = $aBanner['comments'];
+        $aVariables['weight'] = $aBanner['weight'];
+        $aVariables['description'] = $aBanner['name'];
+        $aVariables['comments'] = $aBanner['comments'];
     }
 
     $insert = (empty($bannerid)) ? true : false;
 
-    if ($oComponent)
-    {
+    if ($oComponent) {
         $result = $oComponent->preprocessForm($insert, $bannerid, $aFields, $aVariables);
-        if ($result === false)
-        {
+        if ($result === false) {
             // handle error
             return false;
         }
@@ -622,36 +624,35 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
             MAX_addDefaultPlacementZones($bannerid, $aVariables['campaignid']);
         }
     }
-    if ($oComponent)
-    {
+    if ($oComponent) {
         $result = $oComponent->processForm($insert, $bannerid, $aFields, $aVariables);
-        if ($result === false)
-        {
+        if ($result === false) {
             // handle error
             // remove rec from banners table?
             return false;
         }
     }
 
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
     if ($insert) {
         // Queue confirmation message
-        $translated_message = $translation->translate ( $GLOBALS['strBannerHasBeenAdded'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
+        $translated_message = $translation->translate($GLOBALS['strBannerHasBeenAdded'], [
+            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
             htmlspecialchars($aFields['description'])
-        ));
+        ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
-        $nextPage = "campaign-banners.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid'];
-    }
-    else {
-        $translated_message = $translation->translate($GLOBALS['strBannerHasBeenUpdated'],
-        array (
-            MAX::constructURL ( MAX_URL_ADMIN, 'banner-edit.php?clientid='.$aFields['clientid'].'&campaignid='.$aFields['campaignid'].'&bannerid='.$aFields['bannerid'] ),
-            htmlspecialchars ( $aFields ['description'])
-        ));
+        $nextPage = "campaign-banners.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'];
+    } else {
+        $translated_message = $translation->translate(
+            $GLOBALS['strBannerHasBeenUpdated'],
+            [
+            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $aFields['bannerid']),
+            htmlspecialchars($aFields ['description'])
+        ]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        $nextPage = "banner-edit.php?clientid=".$aFields['clientid']."&campaignid=".$aFields['campaignid']."&bannerid=$bannerid";
+        $nextPage = "banner-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'] . "&bannerid=$bannerid";
     }
 
     // Go to the next page
@@ -661,10 +662,10 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
 function checkForErrorFileUploaded($oFile)
 {
-	if (PEAR::isError($oFile)) {
-	    phpAds_PageHeader(1);
-	    phpAds_Die($GLOBALS['strErrorOccurred'], htmlspecialchars($oFile->getMessage()). "<br>Please make sure you selected a valid file.");
-	}
+    if (PEAR::isError($oFile)) {
+        phpAds_PageHeader(1);
+        phpAds_Die($GLOBALS['strErrorOccurred'], htmlspecialchars($oFile->getMessage()) . "<br>Please make sure you selected a valid file.");
+    }
 }
 
 function _getContentTypeIconImageName($contentType)

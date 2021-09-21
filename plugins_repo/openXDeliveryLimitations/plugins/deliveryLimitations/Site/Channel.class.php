@@ -30,17 +30,17 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  */
 class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    var $bannerid;
-    var $agencyid;
-    var $defaultComparison = '=~';
+    public $bannerid;
+    public $agencyid;
+    public $defaultComparison = '=~';
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Site - Delivery Rule Set';
     }
 
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         $this->aOperations['=='] = $this->translate('Is all of');
@@ -51,7 +51,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return ($page != 'channel-acl.php');
     }
@@ -61,13 +61,13 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
      *
      * @return void
      */
-    function displayArrayData()
+    public function displayArrayData()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->bannerid = (isset($GLOBALS['bannerid'])) ? $GLOBALS['bannerid'] : 0;
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
 
-        $aChannels = array();
+        $aChannels = [];
 
         // Get all of the agency channels that could be used for this banner
         //  select the agency ID that owns this banner (it may be the admin ID, 0)
@@ -108,7 +108,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             $aChannels[$channelId] = $aChannel;
         }
 
-        $aSelectedChannels = array();
+        $aSelectedChannels = [];
         // Sort the list, and move selected items to the top of the list
         usort($aChannels, '_sortByChannelName');
         foreach ($aChannels as $index => $aChannel) {
@@ -123,15 +123,16 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             if (empty($aChannel['affiliateid'])) {
                 $editUrl = "channel-acl.php?agencyid={$this->agencyid}&channelid={$aChannel['channelid']}";
             } else {
-                $editUrl = "channel-acl.php?affiliateid={$aChannel['affiliateid']}&channelid={$aChannel['channelid']}";             }
+                $editUrl = "channel-acl.php?affiliateid={$aChannel['affiliateid']}&channelid={$aChannel['channelid']}";
+            }
             echo "
                 <div class='boxrow'>
                     <input
-                        tabindex='".($tabindex++)."'
+                        tabindex='" . ($tabindex++) . "'
                         type='checkbox'
                         id='c_{$this->executionorder}_{$aChannel['channelid']}'
                         name='acl[{$this->executionorder}][data][]'
-                        value='{$aChannel['channelid']}'".(in_array($aChannel['channelid'], $this->data) ? ' checked="checked"' : '')."
+                        value='{$aChannel['channelid']}'" . (in_array($aChannel['channelid'], $this->data) ? ' checked="checked"' : '') . "
                     />
                     " . htmlspecialchars($aChannel['channelname']) . "
                     <a href='{$editUrl}' target='_blank'><img src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strView']}'></a>
@@ -145,7 +146,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
      *
      * @return string
      */
-    function compile()
+    public function compile()
     {
         switch ($this->comparison) {
             case '==':
@@ -163,7 +164,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             return 'true';
         }
 
-        $compile = array();
+        $compile = [];
         foreach ($aChannelIds as $channelId) {
             $compile[] = $this->compileData($channelId);
         }
@@ -176,11 +177,13 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     }
 }
 
-function _sortByChannelName($a, $b) {
+function _sortByChannelName($a, $b)
+{
     $a['channelname'] = strtolower($a['channelname']);
     $b['channelname'] = strtolower($b['channelname']);
 
-    if ($a['channelname'] == $b['channelname']) return 0;
+    if ($a['channelname'] == $b['channelname']) {
+        return 0;
+    }
     return strcmp($a['channelname'], $b['channelname']);
 }
-?>

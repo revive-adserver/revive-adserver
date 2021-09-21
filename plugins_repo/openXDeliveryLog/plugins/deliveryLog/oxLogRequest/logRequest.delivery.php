@@ -15,16 +15,16 @@
  * @subpackage openxDeliveryLog
  */
 
-function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest($adId = 0, $zoneId = 0, $aAd = array(), $okToLog = true)
+function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest($adId = 0, $zoneId = 0, $aAd = [], $okToLog = true)
 {
-    if (!$okToLog) { return false; }
+    if (!$okToLog) {
+        return false;
+    }
     $aData = $GLOBALS['_MAX']['deliveryData'];
-    $aQuery = array(
+    $aQuery = [
         'interval_start' => $aData['interval_start'],
-        'creative_id'    => (int)$aData['creative_id'],
-        'zone_id'        => (int)$aData['zone_id']
-    );
+        'creative_id' => (int)$aData['creative_id'],
+        'zone_id' => (int)$aData['zone_id']
+    ];
     return OX_bucket_updateTable('data_bkt_r', $aQuery);
 }
-
-?>

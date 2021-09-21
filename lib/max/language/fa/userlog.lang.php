@@ -38,6 +38,6 @@ $GLOBALS['strCollectedAllEvents'] = "تمام وقایع";
 $GLOBALS['strClear'] = "پاک کردن";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";

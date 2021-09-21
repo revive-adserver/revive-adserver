@@ -15,16 +15,14 @@ $className = 'OX_testScript';
 
 class OX_testScript
 {
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams='')
+    public function execute($aParams = '')
     {
         global $testScriptResult;
         $testScriptResult = true;
         return true;
     }
-
 }

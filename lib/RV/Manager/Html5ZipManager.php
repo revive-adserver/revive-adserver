@@ -143,10 +143,10 @@ EOF;
             $source = new Filesystem(new ZipArchiveAdapter($zipFile, null, $basedir));
         }
 
-        $this->mountManager = new MountManager(array(
-            'src'  => $source,
+        $this->mountManager = new MountManager([
+            'src' => $source,
             'dst' => $this->destination,
-        ));
+        ]);
 
         $this->verifyContent();
         $this->parseSize();
@@ -233,7 +233,7 @@ EOF;
             return $html;
         }
 
-        $newhead = substr($head, 0, $pos).self::$reviveScript.substr($head, $pos);
+        $newhead = substr($head, 0, $pos) . self::$reviveScript . substr($head, $pos);
 
         preg_match_all('#<script.*?>(.*?)</script>#is', $head, $m);
 
@@ -327,7 +327,7 @@ EOF;
             return $dir;
         }
 
-        throw new \RuntimeException("Multiple '*.html' files found, please rename the main one to 'index.html'".print_r($htmls, true));
+        throw new \RuntimeException("Multiple '*.html' files found, please rename the main one to 'index.html'" . print_r($htmls, true));
     }
 
     /**

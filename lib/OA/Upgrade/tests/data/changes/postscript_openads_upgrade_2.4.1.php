@@ -14,17 +14,12 @@ $className = 'OA_UpgradePostscript';
 
 class OA_UpgradePostscript
 {
-
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
         return true;
     }
-
 }
-
-?>

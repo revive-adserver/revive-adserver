@@ -21,15 +21,14 @@ Language_Loader::load();
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
         // Install the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
         TestEnv::installPluginPackage('openXDeliveryLimitations', false);
-
     }
 
-    function tearDown()
+    public function tearDown()
     {
         // Uninstall the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
@@ -38,18 +37,18 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
     /**
      * A method to test the deliveryBlocked() method.
      */
-    function testDeliveryBlocked()
+    public function testDeliveryBlocked()
     {
         OA_setTimeZoneUTC();
 
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Day',
-            'comparison'     => '=~',
-            'data'           => '1,5,4,6',
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Day',
+            'comparison' => '=~',
+            'data' => '1,5,4,6',
             'executionorder' => 1
-        );
+        ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 
         $oDate = new Date('2006-02-05'); // Sunday
@@ -68,14 +67,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
         $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));
 
         // Test timezone
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Day',
-            'comparison'     => '=~',
-            'data'           => '1,5,4,6@America/New_York',
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Day',
+            'comparison' => '=~',
+            'data' => '1,5,4,6@America/New_York',
             'executionorder' => 1
-        );
+        ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 
         $oDate = new Date('2006-02-05'); // Sunday, but Saturday in GMT-5
@@ -95,7 +94,4 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
 
         OA_setTimeZoneLocal();
     }
-
 }
-
-?>

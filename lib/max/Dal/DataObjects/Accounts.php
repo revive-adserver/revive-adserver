@@ -18,10 +18,10 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 class DataObjects_Accounts extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
-    var $onDeleteCascadeSkip = array(
+    public $onDeleteCascade = true;
+    public $onDeleteCascadeSkip = [
         'audit', 'users'
-    );
+    ];
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -31,9 +31,12 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     public $account_name;                    // VARCHAR(255) => openads_varchar => 2
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Accounts',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Accounts', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'account_type' => '',
     ];
 
@@ -45,7 +48,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
      *
      * @see DB_DataObject::insert()
      */
-    function insert()
+    public function insert()
     {
         $result = parent::insert();
 
@@ -66,7 +69,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
      * @return boolean  True on success else false
      * @access public
      **/
-    function deleteCascade($linkedRefs, $primaryKey, $parentid)
+    public function deleteCascade($linkedRefs, $primaryKey, $parentid)
     {
         $result = parent::deleteCascade($linkedRefs, $primaryKey, $parentid);
         // Delete users or link them to other accounts
@@ -80,22 +83,22 @@ class DataObjects_Accounts extends DB_DataObjectCommon
      * Returns ADMIN account ID
      *
      */
-    function getAdminAccountId()
+    public function getAdminAccountId()
     {
         return OA_Dal_ApplicationVariables::get('admin_account_id');
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->account_id;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Account';
     }
@@ -106,10 +109,10 @@ class DataObjects_Accounts extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
         if (count($aAuditFields)) {
-            $aAuditFields['key_desc']     = $this->account_name;
+            $aAuditFields['key_desc'] = $this->account_name;
         }
     }
 
@@ -119,7 +122,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
      *
      * @return bool True on succes False on error
      */
-    function _relinkOrDeleteUsers()
+    public function _relinkOrDeleteUsers()
     {
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->default_account_id = $this->account_id;

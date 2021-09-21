@@ -22,96 +22,101 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  */
 class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function testGetDependencyOrderedPlugins()
+    public function testGetDependencyOrderedPlugins()
     {
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
-            $mockSetup = 'OX_Extension_DeliveryLog_Setup'.__CLASS__.__FUNCTION__,
-            array('getComponentsDependencies')
+            $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
+            ['getComponentsDependencies']
         );
 
         $oSetup = new $mockSetup($this);
 
         $aAllComponentsDependencies = $this->_getDependencies();
-        $aComponentsToSchedule = array('extension1:group1:component2', 'extension1:group1:component3');
+        $aComponentsToSchedule = ['extension1:group1:component2', 'extension1:group1:component3'];
         $oSetup->setReturnValue('getComponentsDependencies', $aAllComponentsDependencies);
         // second parameter is mocked so we just pass array
-        $aOrdered = $oSetup->getDependencyOrderedPlugins($aComponentsToSchedule, array());
-        $aExpected = array(
+        $aOrdered = $oSetup->getDependencyOrderedPlugins($aComponentsToSchedule, []);
+        $aExpected = [
             'extension1:group1:component3',
             'extension1:group1:component2',
-        );
+        ];
         $this->assertEqual($aOrdered, $aExpected);
     }
 
-    function testGetComponentsDependencies()
+    public function testGetComponentsDependencies()
     {
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
-            $mockSetup = 'OX_Extension_DeliveryLog_Setup'.__CLASS__.__FUNCTION__,
-            array('_factoryComponentById')
+            $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
+            ['_factoryComponentById']
         );
 
         $oSetup = new $mockSetup($this);
 
-        $oSetup->setReturnValue('_factoryComponentById',
+        $oSetup->setReturnValue(
+            '_factoryComponentById',
             new PluginTestComponent1(),
-            array('extension1:group1:component1'));
-        $oSetup->setReturnValue('_factoryComponentById',
+            ['extension1:group1:component1']
+        );
+        $oSetup->setReturnValue(
+            '_factoryComponentById',
             new PluginTestComponent2(),
-            array('extension1:group1:component2'));
-        $oSetup->setReturnValue('_factoryComponentById',
+            ['extension1:group1:component2']
+        );
+        $oSetup->setReturnValue(
+            '_factoryComponentById',
             new PluginTestComponent3(),
-            array('extension1:group1:component3'));
+            ['extension1:group1:component3']
+        );
         $aDependencies = $oSetup->getComponentsDependencies(
-            array(
-                'hook1' => array(
+            [
+                'hook1' => [
                     'extension1:group1:component1',
                     'extension1:group1:component2',
-                ),
-                'hook2' => array(
+                ],
+                'hook2' => [
                     'extension1:group1:component3',
-                ),
-            )
+                ],
+            ]
         );
         $aExpectedDependencies = $this->_getDependencies();
 
         $this->assertEqual($aDependencies, $aExpectedDependencies);
     }
 
-    function _getDependencies()
+    public function _getDependencies()
     {
-        return array(
-            'extension1:group1:component1' => array(
+        return [
+            'extension1:group1:component1' => [
                 'extension1:group1:component2', // component1 depends on component2
-            ),
-            'extension1:group1:component2' => array(
+            ],
+            'extension1:group1:component2' => [
                 'extension1:group1:component3', // component2 depends on component3
-            ),
-            'extension1:group1:component3' => array( // component3 do not depend on anything
-            ),
-        );
+            ],
+            'extension1:group1:component3' => [ // component3 do not depend on anything
+            ],
+        ];
     }
 
-    function testGetExtensionGroupComponentFromId()
+    public function testGetExtensionGroupComponentFromId()
     {
-        $aExpected = array('extensionName', 'groupName', 'componentName');
+        $aExpected = ['extensionName', 'groupName', 'componentName'];
         $ret = OX_Extension_DeliveryLog_Setup::getExtensionGroupComponentFromId('extensionName:groupName:componentName');
         $this->assertEqual($aExpected, $ret);
     }
 
-    function testGeneratePluginsCode()
+    public function testGeneratePluginsCode()
     {
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
-            $mockSetup = 'OX_Extension_DeliveryLog_Setup'.__CLASS__.__FUNCTION__,
-            array('getFilePathToPlugin')
+            $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
+            ['getFilePathToPlugin']
         );
 
         $oSetup = new $mockSetup($this);
@@ -120,56 +125,62 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         $oSetup->setReturnValue(
             'getFilePathToPlugin',
             $testDataDir . 'logBoo.delivery.php',
-            array('extension1','group1','component1')
+            ['extension1', 'group1', 'component1']
         );
         $oSetup->setReturnValue(
             'getFilePathToPlugin',
             $testDataDir . 'logFoo.delivery.php',
-            array('extension1','group1','component2')
+            ['extension1', 'group1', 'component2']
         );
 
-        $aHooks = array(
-                'hook1' => array(
+        $aHooks = [
+                'hook1' => [
                     'extension1:group1:component1',
                     'extension1:group1:component2',
-                ),
-        );
+                ],
+        ];
         $code = $oSetup->generatePluginsCode($aHooks);
         $this->assertPattern('/foo/', $code);
         $this->assertPattern('/boo/', $code);
     }
 
-    function testInstallComponents()
+    public function testInstallComponents()
     {
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
-            $mockSetup = 'OX_Extension_DeliveryLog_Setup'.__CLASS__.__FUNCTION__,
-            array('_getComponents', '_logError', '_factoryComponentById')
+            $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
+            ['_getComponents', '_logError', '_factoryComponentById']
         );
         $oSetup = new $mockSetup($this);
-        $aComponents = array(
+        $aComponents = [
             new PluginTestComponent1(),
             new PluginTestComponent2(),
-        );
+        ];
         $oSetup->setReturnValue('_getComponents', $aComponents);
-        $ret = $oSetup->installComponents('boo', array('boo'));
+        $ret = $oSetup->installComponents('boo', ['boo']);
         $this->assertTrue($ret);
 
         // test that it recovers
         $aComponents[] = new PluginTestComponent3();
         $oSetup = new $mockSetup($this);
         $oSetup->setReturnValue('_getComponents', $aComponents);
-        $oSetup->setReturnValue('_factoryComponentById',
+        $oSetup->setReturnValue(
+            '_factoryComponentById',
             new PluginTestComponent1(),
-            array('extension1:group1:component1'));
-        $oSetup->setReturnValue('_factoryComponentById',
+            ['extension1:group1:component1']
+        );
+        $oSetup->setReturnValue(
+            '_factoryComponentById',
             new PluginTestComponent2(),
-            array('extension1:group1:component2'));
-        $oSetup->setReturnValue('_factoryComponentById',
+            ['extension1:group1:component2']
+        );
+        $oSetup->setReturnValue(
+            '_factoryComponentById',
             new PluginTestComponent3(),
-            array('extension1:group1:component3'));
+            ['extension1:group1:component3']
+        );
 
-        $ret = $oSetup->installComponents('boo', array('boo'));
+        $ret = $oSetup->installComponents('boo', ['boo']);
         $this->assertFalse($ret);
         foreach ($aComponents as $component) {
             if (!is_a($component, 'PluginTestComponent3')) {
@@ -185,31 +196,31 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
  */
 abstract class PluginTestComponentCommon extends Plugins_DeliveryLog
 {
-    static public $wasRecovered = false;
+    public static $wasRecovered = false;
 
-    function onInstall()
+    public function onInstall()
     {
         return true;
     }
 
-    function onUninstall()
+    public function onUninstall()
     {
         self::$wasRecovered = true;
     }
 
-    function checkRecovered()
+    public function checkRecovered()
     {
         return self::$wasRecovered;
     }
 
-    function getBucketName()
+    public function getBucketName()
     {
         return 'foo';
     }
 
-    function getBucketTableColumns()
+    public function getBucketTableColumns()
     {
-        return array();
+        return [];
     }
 }
 
@@ -219,26 +230,26 @@ abstract class PluginTestComponentCommon extends Plugins_DeliveryLog
  */
 class PluginTestComponent1 extends PluginTestComponentCommon
 {
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'extension1:group1:component1' => array(
+        return [
+            'extension1:group1:component1' => [
                 'extension1:group1:component2', // component1 depends on component2
-            ),
-        );
+            ],
+        ];
     }
 
-    function getComponentIdentifier()
+    public function getComponentIdentifier()
     {
         return 'extension1:group1:component1';
     }
 
-    function getStatisticsName()
+    public function getStatisticsName()
     {
         return 'fake_table';
     }
 
-    function getStatisticsMigration()
+    public function getStatisticsMigration()
     {
         return false;
     }
@@ -250,26 +261,26 @@ class PluginTestComponent1 extends PluginTestComponentCommon
  */
 class PluginTestComponent2 extends PluginTestComponentCommon
 {
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'extension1:group1:component2' => array(
+        return [
+            'extension1:group1:component2' => [
                 'extension1:group1:component3', // component2 depends on component3
-            ),
-        );
+            ],
+        ];
     }
 
-    function getComponentIdentifier()
+    public function getComponentIdentifier()
     {
         return 'extension1:group1:component2';
     }
 
-    function getStatisticsName()
+    public function getStatisticsName()
     {
         return 'fake_table';
     }
 
-    function getStatisticsMigration()
+    public function getStatisticsMigration()
     {
         return false;
     }
@@ -281,33 +292,31 @@ class PluginTestComponent2 extends PluginTestComponentCommon
  */
 class PluginTestComponent3 extends PluginTestComponentCommon
 {
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'extension1:group1:component3' => array( // component3 do not depend on anything
-            ),
-        );
+        return [
+            'extension1:group1:component3' => [ // component3 do not depend on anything
+            ],
+        ];
     }
 
-    function onInstall()
+    public function onInstall()
     {
         return false;
     }
 
-    function getComponentIdentifier()
+    public function getComponentIdentifier()
     {
         return 'extension1:group1:component3';
     }
 
-    function getStatisticsName()
+    public function getStatisticsName()
     {
         return 'fake_table';
     }
 
-    function getStatisticsMigration()
+    public function getStatisticsMigration()
     {
         return false;
     }
 }
-
-?>

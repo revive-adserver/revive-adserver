@@ -23,5 +23,5 @@ $GLOBALS['strZone'] = "Oblasť";
 $GLOBALS['strAction'] = "Akcia";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }

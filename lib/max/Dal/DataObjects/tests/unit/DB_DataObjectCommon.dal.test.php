@@ -26,19 +26,19 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         DataGenerator::cleanUp(
-            array('agency', 'clients')
+            ['agency', 'clients']
         );
     }
 
-    function tearDown()
+    public function tearDown()
     {
         // assuming that all test data was created by DataGenerator
         // If it is necessary to recreate entire database we still could do it on the end
@@ -46,44 +46,44 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         //DataGenerator::cleanUp(array('banners'));
     }
 
-    function testFactoryDAL()
+    public function testFactoryDAL()
     {
         $doClients = OA_Dal::factoryDO('clients');
         $dalClients = $doClients->factoryDAL();
         $this->assertIsA($dalClients, 'MAX_Dal_Common');
     }
 
-    function testSetDefaultValue()
+    public function testSetDefaultValue()
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
 
         // Test 1 : Date Values
 
-        $doCampaigns->expire_time = $doCampaigns->setDefaultValue('expire_time',6);
+        $doCampaigns->expire_time = $doCampaigns->setDefaultValue('expire_time', 6);
         $this->assertNull($doCampaigns->expire_time);
 
-        $doCampaigns->activate_time = $doCampaigns->setDefaultValue('activate_time',6);
+        $doCampaigns->activate_time = $doCampaigns->setDefaultValue('activate_time', 6);
         $this->assertNull($doCampaigns->expire_time);
 
-        $doCampaigns->updated = $doCampaigns->setDefaultValue('updated',6);
+        $doCampaigns->updated = $doCampaigns->setDefaultValue('updated', 6);
         $this->assertTrue($doCampaigns->updated);
-        $this->assertTrue(time()-strtotime($doCampaigns->updated) < 10, 'elapsed time exceeds margin of 10 seconds');
+        $this->assertTrue(time() - strtotime($doCampaigns->updated) < 10, 'elapsed time exceeds margin of 10 seconds');
     }
 
-    function testGetAll()
+    public function testGetAll()
     {
         // test it returns empty array when no data
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $aCheck = $doCampaigns->getAll();
-        $this->assertEqual($aCheck, array());
+        $this->assertEqual($aCheck, []);
 
         // Insert campaigns with default data
         // and few additional records required for testing filters
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignName = 'test name';
-        $aData = array(
-            'reportlastdate' => array('2007-04-03 18:39:45')
-        );
+        $aData = [
+            'reportlastdate' => ['2007-04-03 18:39:45']
+        ];
 
         DataGenerator::setData('clients', $aData);
         $aCampaignId = DataGenerator::generate($doCampaigns, 2, true);
@@ -104,11 +104,11 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaigns = clone($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll();
         $this->assertEqual(count($aCheck), count($aCampaignId));
-        $this->assertEqual(array_keys($aCheck), array(0, 1));
+        $this->assertEqual(array_keys($aCheck), [0, 1]);
 
         // test indexing with primary keys
         $doCampaigns = clone($doCampaignsFilter);
-        $aCheck = $doCampaigns->getAll(array(), $indexWithPrimaryKey = true);
+        $aCheck = $doCampaigns->getAll([], $indexWithPrimaryKey = true);
         $aTest = array_keys($aCheck);
         sort($aTest);
         $this->assertEqual($aCampaignId, $aTest);
@@ -118,7 +118,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // test flattening if only one field
         $doCampaigns = clone($doCampaignsFilter);
-        $aCheck = $doCampaigns->getAll(array('campaignname'), $indexWithPrimaryKey = false, $flatten = true);
+        $aCheck = $doCampaigns->getAll(['campaignname'], $indexWithPrimaryKey = false, $flatten = true);
         foreach ($aCheck as $check) {
             $this->assertEqual($check, $campaignName);
         }
@@ -131,19 +131,19 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $aCheck = $doCampaigns->getAll('campaignname', $indexBy = 'clientid', $flatten = true);
         $this->assertEqual(count($aCheck), 2);
-        $this->assertEqual(array_keys($aCheck), array($clientId, $clientId2));
+        $this->assertEqual(array_keys($aCheck), [$clientId, $clientId2]);
     }
 
-    function testBelongsToAccount()
+    public function testBelongsToAccount()
     {
         // Create dummy user
-        $aUser = array(
+        $aUser = [
             'contact_name' => 'contact',
             'email_address' => 'email@example.com',
-            'username' => 'dummy'.rand(1,1000),
+            'username' => 'dummy' . rand(1, 1000),
             'password' => 'password',
             'default_account_id' => 222,
-        );
+        ];
         $doUser = OA_Dal::factoryDO('users');
         $doUser->setFrom($aUser);
         $doUser->insert();
@@ -152,13 +152,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doAgencyInsert = OA_Dal::factoryDO('agency');
         $agencyid = DataGenerator::generateOne($doAgencyInsert);
         $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-        $aUser = array(
+        $aUser = [
             'contact_name' => 'contact',
             'email_address' => 'email@example.com',
-            'username' => 'username'.rand(1,1000),
+            'username' => 'username' . rand(1, 1000),
             'password' => 'password',
             'default_account_id' => $doAgency->account_id,
-        );
+        ];
         $userId = $doAgency->createUser($aUser);
         $this->assertTrue($doAgency->belongsToAccount($doAgency->account_id));
         $this->assertFalse($doAgency->belongsToAccount(222));
@@ -198,10 +198,10 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertTrue($doBanners->belongsToAccount($doAgency->account_id));
         $this->assertFalse($doBanners->belongsToAccount(222));
 
-        DataGenerator::cleanUp(array('banners'));
+        DataGenerator::cleanUp(['banners']);
     }
 
-    function testAddReferenceFilter()
+    public function testAddReferenceFilter()
     {
         // Create test data
         $agencyId1 = DataGenerator::generateOne('agency');
@@ -252,12 +252,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns->find(), 0);
     }
 
-    function testAddListOrderBy()
+    public function testAddListOrderBy()
     {
         // very quick test
-        $data = array(
-            'name' => array('name 1', 'name 2')
-        );
+        $data = [
+            'name' => ['name 1', 'name 2']
+        ];
 
         DataGenerator::setData('agency', $data);
         DataGenerator::generate('agency', 2);
@@ -277,7 +277,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aAgency, $data['name']);
     }
 
-    function testGetTableWithoutPrefix()
+    public function testGetTableWithoutPrefix()
     {
         $table = 'agency';
         $doAgency = OA_Dal::factoryDO($table);
@@ -285,15 +285,15 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $prefix = 'abc';
         $doAgency->_prefix = $prefix;
-        $doAgency->__table = $prefix.$table;
+        $doAgency->__table = $prefix . $table;
         $this->assertEqual($doAgency->getTableWithoutPrefix(), $table);
     }
 
-    function testGetUniqueValuesFromColumn()
+    public function testGetUniqueValuesFromColumn()
     {
-        $data = array(
-            'name' => array(1, 1, 2, 2, 3) // 3 unique
-        );
+        $data = [
+            'name' => [1, 1, 2, 2, 3] // 3 unique
+        ];
 
         DataGenerator::setData('agency', $data);
         DataGenerator::generate('agency', 5);
@@ -302,15 +302,15 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doAgency = OA_Dal::factoryDO('agency');
         $aUnique = $doAgency->getUniqueValuesFromColumn('name');
         sort($aUnique);
-        $this->assertEqual($aUnique, array(1,2,3));
+        $this->assertEqual($aUnique, [1, 2, 3]);
 
         $doAgency = OA_Dal::factoryDO('agency');
         $aUnique = $doAgency->getUniqueValuesFromColumn('name', $exceptValue = 2);
         sort($aUnique);
-        $this->assertEqual(array_values($aUnique), array(1,3));
+        $this->assertEqual(array_values($aUnique), [1, 3]);
     }
 
-    function testGetUniqueNameForDuplication()
+    public function testGetUniqueNameForDuplication()
     {
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name = $name = 'test name';
@@ -319,7 +319,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Test first duplication
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
         $uniqueName = $doAgency->getUniqueNameForDuplication('name');
-        $this->assertEqual($uniqueName, $name.' (2)');
+        $this->assertEqual($uniqueName, $name . ' (2)');
 
         // Add that unique name to database
         $doAgency = OA_Dal::factoryDO('agency');
@@ -329,7 +329,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Test second duplication
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
         $uniqueName = $doAgency->getUniqueNameForDuplication('name');
-        $this->assertEqual($uniqueName, $name.' (3)');
+        $this->assertEqual($uniqueName, $name . ' (3)');
 
         // Test duplication from duplicate
         $doAgency = OA_Dal::staticGetDO('agency', $duplicateAgencyId);
@@ -337,7 +337,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($name . ' (3)', $nameFromDuplicate);
     }
 
-    function testDeleteById()
+    public function testDeleteById()
     {
         // Create few records
         $aAgencyId = DataGenerator::generate('agency', 3);
@@ -365,9 +365,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
      * Test delete() and deleteOnCascade()
      *
      */
-    function testDelete()
+    public function testDelete()
     {
-        DataGenerator::cleanUp(array('audit'));
+        DataGenerator::cleanUp(['audit']);
         // Create few records
         $aAgencyId = DataGenerator::generate('agency', 3);
         $agencyId = array_pop($aAgencyId);
@@ -396,10 +396,10 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $aClientId1Test = $doClients->getAll('clientid');
         $this->assertEqual($aClientId1, $aClientId1Test); // only two should left
-        DataGenerator::cleanUp(array('audit'));
+        DataGenerator::cleanUp(['audit']);
     }
 
-    function testUpdate()
+    public function testUpdate()
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 18:39:45';
@@ -427,12 +427,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertTrue(strtotime($doBanners1->updated) <= strtotime($doBanners2->updated));
 
         // Test updates is equal or greater than our checkpoint time
-        $this->assertTrue($time <= strtotime($doBanners2->updated), 'Test that timestamp was refreshed (timestamp: '.$time.' is lower than ' . strtotime($doBanners2->updated));
+        $this->assertTrue($time <= strtotime($doBanners2->updated), 'Test that timestamp was refreshed (timestamp: ' . $time . ' is lower than ' . strtotime($doBanners2->updated));
 
-        DataGenerator::cleanUp(array('banners'));
+        DataGenerator::cleanUp(['banners']);
     }
 
-    function testInsert()
+    public function testInsert()
     {
         $time = time();
         $doBanners = OA_Dal::factoryDO('banners');
@@ -458,17 +458,17 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doBannersCheck = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual($string, $doBannersCheck->comments);
 
-        DataGenerator::cleanUp(array('banners'));
+        DataGenerator::cleanUp(['banners']);
     }
 
-    function testGetFirstPrimaryKey()
+    public function testGetFirstPrimaryKey()
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $key = $doBanners->getFirstPrimaryKey();
         $this->assertEqual($key, 'bannerid');
     }
 
-    function testConnection()
+    public function testConnection()
     {
         $dbh = OA_DB::singleton();
 
@@ -481,18 +481,18 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertReference($dbh, $dbh1);
 
         // Now take the connection from DataObject
-        $dbh1 =& $doBanners->getDatabaseConnection();
+        $dbh1 = &$doBanners->getDatabaseConnection();
         $this->assertIdentical($dbh, $dbh1);
 
         // But why this one doesn't work?
         // $this->assertReference($dbh, $dbh1);
     }
 
-    function testAutoincrementsVsSerial()
+    public function testAutoincrementsVsSerial()
     {
         $prefix = OA_Dal::getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $table = $oDbh->quoteIdentifier($prefix.'ad_category_assoc');
+        $table = $oDbh->quoteIdentifier($prefix . 'ad_category_assoc');
         $sqlInsert = "INSERT INTO {$table} (category_id, ad_id) VALUES (1, 1)";
         DBC::execute($sqlInsert);
 
@@ -505,15 +505,15 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $id2 = DataGenerator::generateOne('ad_category_assoc');
 
         // Not only above code should work but also id2 should be equal id1+1
-        $this->assertEqual($id2, $id1+1);
+        $this->assertEqual($id2, $id1 + 1);
     }
 
-    function testPrepAuditArray()
+    public function testPrepAuditArray()
     {
         Mock::generatePartial(
             'DB_DataObjectCommon',
-            $mockDo = 'DB_DataObjectCommon'.rand(),
-            array('_cloneObjectFromDatabase')
+            $mockDo = 'DB_DataObjectCommon' . rand(),
+            ['_cloneObjectFromDatabase']
         );
 
         $oDoOld = new $mockDo($this);
@@ -523,7 +523,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDoOld->col2 = 'abc';
         $oMockDbh = new stdClass();
         $oMockDbh->database_name = 'dbtest';
-        $aTable = array('col1'=>129,'col2'=>130);
+        $aTable = ['col1' => 129, 'col2' => 130];
         global $_DB_DATAOBJECT;
         $_DB_DATAOBJECT['CONNECTIONS'][$oDoOld->_database_dsn_md5] = $oMockDbh;
         $_DB_DATAOBJECT['INI'][$oMockDbh->database_name][$oDoOld->_tableName] = $aTable;
@@ -531,8 +531,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // prepare *insert* audit values
         $aResult = $oDoOld->_prepAuditArray(1, null);
         $this->assertIsA($aResult, 'array');
-        $this->assertEqual($aResult['col1'],111);
-        $this->assertEqual($aResult['col2'],'abc');
+        $this->assertEqual($aResult['col1'], 111);
+        $this->assertEqual($aResult['col2'], 'abc');
 
         $oDoNew = clone($oDoOld);
         $oDoNew->col1 = 222;
@@ -545,32 +545,32 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // prepare *update* audit values
         $aResult = $oDo->_prepAuditArray(2, $oDoOld);
         $this->assertIsA($aResult, 'array');
-        $this->assertEqual($aResult['col1']['was'],111);
-        $this->assertEqual($aResult['col2']['was'],'abc');
-        $this->assertEqual($aResult['col1']['is'],222);
-        $this->assertEqual($aResult['col2']['is'],'def');
+        $this->assertEqual($aResult['col1']['was'], 111);
+        $this->assertEqual($aResult['col2']['was'], 'abc');
+        $this->assertEqual($aResult['col1']['is'], 222);
+        $this->assertEqual($aResult['col2']['is'], 'def');
 
         // prepare *delete* audit values
         $oDo = clone($oDoNew);
         $oDo->_tableName = 'table1';
         $aResult = $oDo->_prepAuditArray(3, null);
         $this->assertIsA($aResult, 'array');
-        $this->assertEqual($aResult['col1'],222);
-        $this->assertEqual($aResult['col2'],'def');
+        $this->assertEqual($aResult['col1'], 222);
+        $this->assertEqual($aResult['col2'], 'def');
     }
 
-    function testAudit()
+    public function testAudit()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = true;
 
         Mock::generatePartial(
             'DB_DataObjectCommon',
-            $mockDO = 'DB_DataObjectCommon'.rand(),
-            array('_prepAuditArray','_buildAuditArray','_auditEnabled','insert','_getContext','_getContextId','getOwningAccountIds')
+            $mockDO = 'DB_DataObjectCommon' . rand(),
+            ['_prepAuditArray', '_buildAuditArray', '_auditEnabled', 'insert', '_getContext', '_getContextId', 'getOwningAccountIds']
         );
 
         $oDO = new $mockDO($this);
-        $aPrep = array('col1'=>111,'col2'=>'abc');
+        $aPrep = ['col1' => 111, 'col2' => 'abc'];
         $oDO->setReturnValue('_prepAuditArray', $aPrep);
         $oDO->expectOnce('_prepAuditArray');
         $oDO->setReturnValue('_buildAuditArray', null);
@@ -579,7 +579,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $oDO->expectOnce('_auditEnabled');
         $oDO->setReturnValue('_getContextId', 2);
         $oDO->expectOnce('_getContextId');
-        $oDO->setReturnValue('getOwningAccountIds', array(OA_ACCOUNT_MANAGER => 0));
+        $oDO->setReturnValue('getOwningAccountIds', [OA_ACCOUNT_MANAGER => 0]);
         $oDO->expectOnce('getOwningAccountIds');
 
         $oDO->_tableName = $oDO->__table = 'table1';
@@ -602,16 +602,16 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     }
 
 
-    function testFormatValue()
+    public function testFormatValue()
     {
         $dbObject = new DB_DataObjectCommon();
         $dbObject->someValue = true;
 
-        $valueType = array('booleanVar' => array('val' => true, 'type' => 145, 'expected' => 'true'),
-                            'intVar1' => array('val' => 123, 'type' => 1, 'expected' => '123'),
-                            'intVar2' => array('val' => 234, 'type' => 129, 'expected' => '234'),
-                            'blobVar1'=> array('val' => '<p>12345</p>', 'type'=> 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'),
-                            'blobVar2'=> array('val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;'));
+        $valueType = ['booleanVar' => ['val' => true, 'type' => 145, 'expected' => 'true'],
+                            'intVar1' => ['val' => 123, 'type' => 1, 'expected' => '123'],
+                            'intVar2' => ['val' => 234, 'type' => 129, 'expected' => '234'],
+                            'blobVar1' => ['val' => '<p>12345</p>', 'type' => 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'],
+                            'blobVar2' => ['val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;']];
 
         foreach ($valueType as $name => $arr) {
             $dbObject->$name = $arr['val'];
@@ -622,19 +622,18 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     }
 
 
-    function testBoolToStr()
+    public function testBoolToStr()
     {
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr('t'),'true');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr('1'),'true');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr(1),'true');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr(true),'true');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr('true'),'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('t'), 'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('1'), 'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(1), 'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(true), 'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('true'), 'true');
 
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr('f'),'false');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr('0'),'false');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr(0),'false');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr(false),'false');
-        $this->assertEqual(DB_DataObjectCommon::_boolToStr('false'),'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('f'), 'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('0'), 'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(0), 'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(false), 'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('false'), 'false');
     }
-
 }

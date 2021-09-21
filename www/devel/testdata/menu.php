@@ -23,7 +23,6 @@ require_once 'HTML/TreeMenu.php';
  */
 class Menu
 {
-
     /**
      * A method to return the HTML code needed to display a tree-based
      * menu of all the simulations.
@@ -31,43 +30,43 @@ class Menu
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
-    function buildTree()
+    public function buildTree()
     {
         $icon_pkg = "package.png";
 
         // Create the root of the test suite
-        $menu     = new HTML_TreeMenu();
+        $menu = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
-                            array(
+            [
                                 'text' => 'Test Datasets',
                                 'icon' => $icon_pkg,
                                 'link' => 'home.php',
                                 'linkTarget' => 'right'
-                            )
-                        );
+                            ]
+        );
         // Create the top-level test groups
 
-        $aTypes = array('datasets'=>'menu.php');
+        $aTypes = ['datasets' => 'menu.php'];
         foreach ($aTypes as $type => $link) {
             $nodeName = $type . 'RootNode';
             ${$nodeName} = new HTML_TreeNode(
-                                array(
+                [
                                     'text' => ucwords($type),
                                     'icon' => $icon_pkg,
                                     'link' => $link,
                                     'linkTarget' => "left"
-                                )
-                            );
-            $list = get_file_list(TD_DATAPATH, '.xml',true);
+                                ]
+            );
+            $list = get_file_list(TD_DATAPATH, '.xml', true);
             foreach ($list as $index => $file) {
                 ${$nodeName}->addItem(
                     new HTML_TreeNode(
-                        array(
+                        [
                             'text' => $file,
                             'icon' => $icon_pkg,
                             'link' => "action.php?&datasetfile={$file}",
                             'linkTarget' => 'right'
-                            )
+                            ]
                     )
                 );
             }
@@ -76,16 +75,14 @@ class Menu
         $menu->addItem($rootNode);
 
         $tree = new HTML_TreeMenu_DHTML($menu);
-        $code  = file_get_contents(MAX_PATH . '/tests/testClasses/menu.css');
+        $code = file_get_contents(MAX_PATH . '/tests/testClasses/menu.css');
         $code .= "\n<script>\n";
         $code .= file_get_contents(MAX_PATH . '/tests/testClasses/TreeMenu.js');
         $code .= "\n</script>";
         $code .= $tree->toHTML();
         return $code;
     }
-
 }
 
 // Output the menu of tests
 echo Menu::buildTree();
-?>

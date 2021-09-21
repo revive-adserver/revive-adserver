@@ -29,84 +29,84 @@ $oOptions = new OA_Admin_Option('settings');
 $prefSection = "banner-logging";
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
+    $aElements = [];
     // Banner Logging Settings
-    $aElements += array(
-        'logging_adRequests'          => array(
-             'logging'                => 'adRequests',
-             'bool'                   => 'true',
-         ),
-        'logging_adImpressions'       => array(
-             'logging'                => 'adImpressions',
-             'bool'                   => 'true',
-         ),
-        'logging_adClicks'            => array(
-             'logging'                => 'adClicks',
-             'bool'                   => 'true',
-         ),
-        'logging_reverseLookup'       => array(
-             'logging'                => 'reverseLookup',
-             'bool'                   => 'true',
-         ),
-        'logging_proxyLookup'         => array(
-             'logging'                => 'proxyLookup',
-             'bool'                   => 'true',
-         )
-    );
+    $aElements += [
+        'logging_adRequests' => [
+             'logging' => 'adRequests',
+             'bool' => 'true',
+         ],
+        'logging_adImpressions' => [
+             'logging' => 'adImpressions',
+             'bool' => 'true',
+         ],
+        'logging_adClicks' => [
+             'logging' => 'adClicks',
+             'bool' => 'true',
+         ],
+        'logging_reverseLookup' => [
+             'logging' => 'reverseLookup',
+             'bool' => 'true',
+         ],
+        'logging_proxyLookup' => [
+             'logging' => 'proxyLookup',
+             'bool' => 'true',
+         ]
+    ];
     
     // Block Inactive Banner Settings
-    $aElements += array(
-         'logging_blockInactiveBanners'=> array(
-             'logging'                => 'blockInactiveBanners',
-             'bool'                   => 'true',
-         )
-     );
+    $aElements += [
+         'logging_blockInactiveBanners' => [
+             'logging' => 'blockInactiveBanners',
+             'bool' => 'true',
+         ]
+     ];
     
     // Block Banner Logging Window Settings
-    $aElements += array(
-         'logging_blockAdClicksWindow'=> array(
-             'logging'                => 'blockAdClicksWindow',
-         )
-     );
+    $aElements += [
+         'logging_blockAdClicksWindow' => [
+             'logging' => 'blockAdClicksWindow',
+         ]
+     ];
 
     // Block Banner Logging Settings
-    $aElements += array(
-        'logging_ignoreHosts' => array(
-            'logging'      => 'ignoreHosts',
-            'preg_split'   => "/ |,|;|\r|\n/",
-            'merge'        => ',',
+    $aElements += [
+        'logging_ignoreHosts' => [
+            'logging' => 'ignoreHosts',
+            'preg_split' => "/ |,|;|\r|\n/",
+            'merge' => ',',
             'merge_unique' => true,
-        )
-    );
+        ]
+    ];
 
     // Block User-Agents
-    $aElements += array(
-        'logging_ignoreUserAgents' => array(
-            'logging'      => 'ignoreUserAgents',
-            'preg_split'   => "/\r|\n/",
-            'merge'        => '|',
+    $aElements += [
+        'logging_ignoreUserAgents' => [
+            'logging' => 'ignoreUserAgents',
+            'preg_split' => "/\r|\n/",
+            'merge' => '|',
             'merge_unique' => true,
-            'trim'         => true,
-        )
-    );
+            'trim' => true,
+        ]
+    ];
 
     // Enforce User-Agents
-    $aElements += array(
-        'logging_enforceUserAgents' => array(
-            'logging'      => 'enforceUserAgents',
-            'preg_split'   => "/\r|\n/",
-            'merge'        => '|',
+    $aElements += [
+        'logging_enforceUserAgents' => [
+            'logging' => 'enforceUserAgents',
+            'preg_split' => "/\r|\n/",
+            'merge' => '|',
             'merge_unique' => true,
-            'trim'         => true,
-        )
-    );
+            'trim' => true,
+        ]
+    ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
@@ -114,9 +114,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strXSettingsHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
         // The settings configuration file was written correctly,
@@ -138,93 +140,91 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strBannerLogging,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_adRequests',
-                'text'    => $strLogAdRequests,
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_adImpressions',
-                'text'    => $strLogAdImpressions,
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_adClicks',
-                'text'    => $strLogAdClicks,
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_reverseLookup',
-                'text'    => $strReverseLookup,
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_proxyLookup',
-                'text'    => $strProxyLookup,
-            )
-        )
-    ),
-    array (
-        'text'  => $strPreventLogging,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_blockInactiveBanners',
-                'text'    => $strBlockInactiveBanners,
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_blockAdClicksWindow',
-                'text'    => $strBlockAdClicks,
-                'check'   => 'wholeNumber',
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'      => 'textarea',
-                'name'      => 'logging_ignoreHosts',
-                'text'      => $strIgnoreHosts,
-                'preg_split'=> '/,/',
-                'merge'     => "\n",
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'textarea',
-                'name'    => 'logging_ignoreUserAgents',
-                'text'    => $strIgnoreUserAgents,
-                'preg_split'=> '/\|/',
-                'merge'     => "\n",
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'textarea',
-                'name'    => 'logging_enforceUserAgents',
-                'text'    => $strEnforceUserAgents,
-                'preg_split'=> '/\|/',
-                'merge'     => "\n",
-            )
-        )
-    )
-);
+$aSettings = [
+    [
+        'text' => $strBannerLogging,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_adRequests',
+                'text' => $strLogAdRequests,
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_adImpressions',
+                'text' => $strLogAdImpressions,
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_adClicks',
+                'text' => $strLogAdClicks,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_reverseLookup',
+                'text' => $strReverseLookup,
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_proxyLookup',
+                'text' => $strProxyLookup,
+            ]
+        ]
+    ],
+    [
+        'text' => $strPreventLogging,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_blockInactiveBanners',
+                'text' => $strBlockInactiveBanners,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'logging_blockAdClicksWindow',
+                'text' => $strBlockAdClicks,
+                'check' => 'wholeNumber',
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'logging_ignoreHosts',
+                'text' => $strIgnoreHosts,
+                'preg_split' => '/,/',
+                'merge' => "\n",
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'logging_ignoreUserAgents',
+                'text' => $strIgnoreUserAgents,
+                'preg_split' => '/\|/',
+                'merge' => "\n",
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'textarea',
+                'name' => 'logging_enforceUserAgents',
+                'text' => $strEnforceUserAgents,
+                'preg_split' => '/\|/',
+                'merge' => "\n",
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

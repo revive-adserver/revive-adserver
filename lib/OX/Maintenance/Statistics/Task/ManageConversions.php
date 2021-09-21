@@ -29,13 +29,12 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
  */
 class OX_Maintenance_Statistics_Task_ManageConversions extends OX_Maintenance_Statistics_Task
 {
-
     /**
      * The constructor method.
      *
      * @return OX_Maintenance_Statistics_Task_ManageConversions
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -44,7 +43,7 @@ class OX_Maintenance_Statistics_Task_ManageConversions extends OX_Maintenance_St
      * The implementation of the OA_Task::run() method that performs
      * the required task of managing conversions.
      */
-    function run()
+    public function run()
     {
         if ($this->oController->updateIntermediate) {
 
@@ -55,14 +54,10 @@ class OX_Maintenance_Statistics_Task_ManageConversions extends OX_Maintenance_St
 
             // Get the MSE DAL to perform the conversion management
             $oServiceLocator = OA_ServiceLocator::instance();
-            $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+            $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
 
             // Manage conversions
             $oDal->manageConversions($oStartDate, $this->oController->oUpdateIntermediateToDate);
-
         }
     }
-
 }
-
-?>

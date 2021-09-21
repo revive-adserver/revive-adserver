@@ -31,30 +31,30 @@ class MAX
      */
     public static function errorConstantToString($errorCode)
     {
-        $aErrorCodes = array(
-            MAX_ERROR_INVALIDARGS           => 'invalid arguments',
-            MAX_ERROR_INVALIDCONFIG         => 'invalid config',
-            MAX_ERROR_NODATA                => 'no data',
-            MAX_ERROR_NOCLASS               => 'no class',
-            MAX_ERROR_NOMETHOD              => 'no method',
-            MAX_ERROR_NOAFFECTEDROWS        => 'no affected rows',
-            MAX_ERROR_NOTSUPPORTED          => 'not supported',
-            MAX_ERROR_INVALIDCALL           => 'invalid call',
-            MAX_ERROR_INVALIDAUTH           => 'invalid auth',
-            MAX_ERROR_EMAILFAILURE          => 'email failure',
-            MAX_ERROR_DBFAILURE             => 'db failure',
-            MAX_ERROR_DBTRANSACTIONFAILURE  => 'db transaction failure',
-            MAX_ERROR_BANNEDUSER            => 'banned user',
-            MAX_ERROR_NOFILE                => 'no file',
-            MAX_ERROR_INVALIDFILEPERMS      => 'invalid file perms',
-            MAX_ERROR_INVALIDSESSION        => 'invalid session',
-            MAX_ERROR_INVALIDPOST           => 'invalid post',
-            MAX_ERROR_INVALIDTRANSLATION    => 'invalid translation',
-            MAX_ERROR_FILEUNWRITABLE        => 'file unwritable',
-            MAX_ERROR_INVALIDREQUEST        => 'invalid request',
-            MAX_ERROR_INVALIDTYPE           => 'invalid type',
-        );
-        if (in_array($errorCode, array_keys($aErrorCodes))) {
+        $aErrorCodes = [
+            MAX_ERROR_INVALIDARGS => 'invalid arguments',
+            MAX_ERROR_INVALIDCONFIG => 'invalid config',
+            MAX_ERROR_NODATA => 'no data',
+            MAX_ERROR_NOCLASS => 'no class',
+            MAX_ERROR_NOMETHOD => 'no method',
+            MAX_ERROR_NOAFFECTEDROWS => 'no affected rows',
+            MAX_ERROR_NOTSUPPORTED => 'not supported',
+            MAX_ERROR_INVALIDCALL => 'invalid call',
+            MAX_ERROR_INVALIDAUTH => 'invalid auth',
+            MAX_ERROR_EMAILFAILURE => 'email failure',
+            MAX_ERROR_DBFAILURE => 'db failure',
+            MAX_ERROR_DBTRANSACTIONFAILURE => 'db transaction failure',
+            MAX_ERROR_BANNEDUSER => 'banned user',
+            MAX_ERROR_NOFILE => 'no file',
+            MAX_ERROR_INVALIDFILEPERMS => 'invalid file perms',
+            MAX_ERROR_INVALIDSESSION => 'invalid session',
+            MAX_ERROR_INVALIDPOST => 'invalid post',
+            MAX_ERROR_INVALIDTRANSLATION => 'invalid translation',
+            MAX_ERROR_FILEUNWRITABLE => 'file unwritable',
+            MAX_ERROR_INVALIDREQUEST => 'invalid request',
+            MAX_ERROR_INVALIDTYPE => 'invalid type',
+        ];
+        if (array_key_exists($errorCode, $aErrorCodes)) {
             return strtoupper($aErrorCodes[$errorCode]);
         } else {
             return 'PEAR';
@@ -109,12 +109,13 @@ EOF;
         if ($behaviour == PEAR_ERROR_DIE) {
             // Log fatal message here as execution will stop
             $errorType = MAX::errorConstantToString($type);
-            if (!is_string($message)) $message = print_r($message, true);
+            if (!is_string($message)) {
+                $message = print_r($message, true);
+            }
             OA::debug($type . ' :: ' . $message, PEAR_LOG_EMERG);
             exit();
         }
-        $error = PEAR::raiseError($message, $type, $behaviour);
-        return $error;
+        return PEAR::raiseError($message, $type, $behaviour);
     }
 
     /**
@@ -143,10 +144,8 @@ EOF;
         // happens from the root of virtual hosts)
         $path .= '/';
         // Modify the admin URL for different SSL port if required
-        if ($aConf['openads']['sslPort'] != 443) {
-            if ($GLOBALS['_MAX']['HTTP'] == 'https://') {
-                $path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path, 1);
-            }
+        if ($aConf['openads']['sslPort'] != 443 && $GLOBALS['_MAX']['HTTP'] == 'https://') {
+            $path = preg_replace('#/#', ':' . $aConf['openads']['sslPort'] . '/', $path, 1);
         }
         // Return the URL
         return $GLOBALS['_MAX']['HTTP'] . $path . $file;
@@ -210,10 +209,8 @@ $oPEAR->setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
 /*-------------------------------------------------------*/
 
 // Define defaults
-$clientCache = array();
-$campaignCache = array();
-$bannerCache = array();
-$zoneCache = array();
-$affiliateCache = array();
-
-?>
+$clientCache = [];
+$campaignCache = [];
+$bannerCache = [];
+$zoneCache = [];
+$affiliateCache = [];

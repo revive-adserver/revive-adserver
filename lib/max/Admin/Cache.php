@@ -20,23 +20,19 @@ require_once MAX_PATH . '/lib/max/language/Loader.php';
  */
 class MAX_Admin_Cache
 {
-
     /**
      * A method for returning an array of the available delivery caching modes.
      *
      * @return array An array of strings representing the available delivery caching modes.
      */
-    function AvailableCachingModes()
+    public function AvailableCachingModes()
     {
         Language_Loader::load('default');
-        $modes = array();
+        $modes = [];
         $modes['none'] = $GLOBALS['strNone'];
         if (is_writable(MAX_PATH . '/var/cache')) {
             $modes['file'] = $GLOBALS['strCacheFiles'];
         }
         return $modes;
     }
-
 }
-
-?>

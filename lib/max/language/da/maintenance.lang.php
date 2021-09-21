@@ -94,5 +94,3 @@ $GLOBALS['strAndPlain'] = "og";
 //  Deliver Limitations
 
 //  Append codes
-
-

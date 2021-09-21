@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Migration.php';
 
 
 /**
@@ -21,65 +21,64 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
  */
 class Test_Migration extends UnitTestCase
 {
+    public $path;
 
-    var $path;
+    public $aChangesVars;
+    public $aOptions;
 
-    var $aChangesVars;
-    var $aOptions;
+    public $aDefinition;
+    public $oDbh;
+    public $oTable;
 
-    var $aDefinition;
-    var $oDbh;
-    var $oTable;
-
-    var $test_schema_file;
+    public $test_schema_file;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
         $this->oTable = new OA_DB_Table();
-        $this->oTable->init(MAX_PATH.'/lib/OA/Upgrade/tests/data/migration_test_1.xml');
+        $this->oTable->init(MAX_PATH . '/lib/OA/Upgrade/tests/data/migration_test_1.xml');
         $this->aDefinition = $this->oTable->aDefinition;
     }
 
-    function test_replaceColumns()
+    public function test_replaceColumns()
     {
         $this->_createTestTables();
-        $this->_insertTestData(array(1=>'1st text field'));
-        $this->_insertTestData(array(2=>'2nd text field'));
-        $this->_insertTestData(array(3=>'3rd text field'));
+        $this->_insertTestData([1 => '1st text field']);
+        $this->_insertTestData([2 => '2nd text field']);
+        $this->_insertTestData([3 => '3rd text field']);
         $oMigration = new Migration();
         $oMigration->init($this->oDbh, MAX_PATH . "/var/DB_Upgrade.test.log");
         $oMigration->aDefinition = $this->aDefinition;
-        $toTable    = 'table1';
-        $toField    = 'a_text_field_new';
-        $fromTable  = 'table1';
-        $fromField  = 'a_text_field';
+        $toTable = 'table1';
+        $toField = 'a_text_field_new';
+        $fromTable = 'table1';
+        $fromField = 'a_text_field';
         $oMigration->updateColumn($fromTable, $fromField, $toTable, $toField);
-        $this->assertEqual(count($oMigration->aErrors),0);
+        $this->assertEqual(count($oMigration->aErrors), 0);
         $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
         $this->_dropTestTables();
     }
 
-    function test_afterAddField()
+    public function test_afterAddField()
     {
         $this->_createTestTables();
-        $this->_insertTestData(array(1=>'1st text field'));
-        $this->_insertTestData(array(2=>'2nd text field'));
-        $this->_insertTestData(array(3=>'3rd text field'));
+        $this->_insertTestData([1 => '1st text field']);
+        $this->_insertTestData([2 => '2nd text field']);
+        $this->_insertTestData([3 => '3rd text field']);
         $oMigration = new Migration();
         $oMigration->init($this->oDbh, MAX_PATH . "/var/DB_Upgrade.test.log");
         $oMigration->aDefinition = $this->aDefinition;
-        $oMigration->aObjectMap['table1']['a_text_field_new'] = array('fromTable'=>'table1', 'fromField'=>'a_text_field');
+        $oMigration->aObjectMap['table1']['a_text_field_new'] = ['fromTable' => 'table1', 'fromField' => 'a_text_field'];
         $oMigration->afterAddField('table1', 'a_text_field_new');
-        $this->assertEqual(count($oMigration->aErrors),0);
+        $this->assertEqual(count($oMigration->aErrors), 0);
         $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
         $this->_dropTestTables();
     }
@@ -113,48 +112,43 @@ class Test_Migration extends UnitTestCase
      *
      * @param mdb2 connection $oDbh
      */
-    function _createTestTables()
+    public function _createTestTables()
     {
         $this->_dropTestTables();
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
-        $this->assertTrue($this->oTable->createTable('table1'),'error creating test table1');
-        $this->assertTrue($this->oTable->createTable('table2'),'error creating test table2');
+        $this->assertTrue($this->oTable->createTable('table1'), 'error creating test table1');
+        $this->assertTrue($this->oTable->createTable('table2'), 'error creating test table2');
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array('table1', $aExistingTables), '_createTestTables');
         $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
     }
 
-    function _insertTestData($aData)
+    public function _insertTestData($aData)
     {
         $aDef = $this->aDefinition['tables']['table1']['fields'];
         $aDef['b_id_field']['key'] = true;
         $expect = count($aData);
-        foreach ($aData as $k=>$v)
-        {
+        foreach ($aData as $k => $v) {
             $aDef['b_id_field']['value'] = $k;
             $aDef['a_text_field']['value'] = $v;
-            $this->assertEqual($this->oDbh->replace('table1', $aDef),1,'error inserting test data');
+            $this->assertEqual($this->oDbh->replace('table1', $aDef), 1, 'error inserting test data');
         }
     }
 
-    function _dropTestTables()
+    public function _dropTestTables()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        if (in_array('table1', $aExistingTables))
-        {
-            $this->assertTrue($this->oTable->dropTable('table1'),'error dropping test table1');
+        if (in_array('table1', $aExistingTables)) {
+            $this->assertTrue($this->oTable->dropTable('table1'), 'error dropping test table1');
         }
-        if (in_array('table2', $aExistingTables))
-        {
-            $this->assertTrue($this->oTable->dropTable('table2'),'error dropping test table2');
+        if (in_array('table2', $aExistingTables)) {
+            $this->assertTrue($this->oTable->dropTable('table2'), 'error dropping test table2');
         }
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse(in_array('table1', $aExistingTables), '_dropTestTables');
         $this->assertFalse(in_array('table2', $aExistingTables), '_dropTestTables');
     }
 }
-
-?>

@@ -26,7 +26,7 @@ class OA_DB_Charset
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * Class constructor
@@ -34,7 +34,7 @@ class OA_DB_Charset
      * @param MDB2_Driver_Common $oDbh
      * @return OA_DB_Charset
      */
-    function __construct($oDbh)
+    public function __construct($oDbh)
     {
         if (!empty($oDbh) && !PEAR::isError($oDbh)) {
             $connection = $oDbh->getConnection();
@@ -54,11 +54,9 @@ class OA_DB_Charset
     {
         if (!empty($oDbh) && !PEAR::isError($oDbh)) {
             $driver = strtolower($oDbh->dbsyntax);
-            $class  = 'OA_DB_Charset_'.$driver;
-            require_once dirname(__FILE__).'/Charset/'.$driver.'.php';
-
-            $class = new $class($oDbh);
-            return $class;
+            $class = 'OA_DB_Charset_' . $driver;
+            require_once dirname(__FILE__) . '/Charset/' . $driver . '.php';
+            return new $class($oDbh);
         }
     }
 
@@ -69,7 +67,7 @@ class OA_DB_Charset
      *
      * @return mixed A string containing the charset or false if it cannot be retrieved
      */
-    function getDatabaseCharset()
+    public function getDatabaseCharset()
     {
         OA::debug('Cannot run abstract method');
         exit;
@@ -82,7 +80,7 @@ class OA_DB_Charset
      *
      * @return mixed A string containing the charset or false if it cannot be retrieved
      */
-    function getClientCharset()
+    public function getClientCharset()
     {
         OA::debug('Cannot run abstract method');
         exit;
@@ -93,10 +91,10 @@ class OA_DB_Charset
      *
      * @return mixed A string containing the charset or false if no action is needed after connection
      */
-    function getConfigurationValue()
+    public function getConfigurationValue()
     {
         $databaseCharset = $this->getDatabaseCharset();
-        $clientCharset   = $this->getClientCharset();
+        $clientCharset = $this->getClientCharset();
 
         if (!empty($databaseCharset) && !empty($clientCharset) && $clientCharset != $databaseCharset) {
             return $databaseCharset;
@@ -113,11 +111,9 @@ class OA_DB_Charset
      * @param string $charset
      * @return mixed True on success, PEAR_Error otherwise
      */
-    function setClientCharset($charset)
+    public function setClientCharset($charset)
     {
         OA::debug('Cannot run abstract method');
         exit;
     }
 }
-
-?>

@@ -26,17 +26,16 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
 {
-
-    var $_aValues;
+    public $_aValues;
     // The character/string to delimit the data
-    var $delimiter = ',';
+    public $delimiter = ',';
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
-        $this->aOperations = array(
+        $this->aOperations = [
             '=~' => MAX_Plugin_Translation::translate('Is any of', $this->extension, $this->group),
-            '!~' => MAX_Plugin_Translation::translate('Is not any of', $this->extension, $this->group));
+            '!~' => MAX_Plugin_Translation::translate('Is not any of', $this->extension, $this->group)];
     }
 
     /**
@@ -44,11 +43,11 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      *
      * DO NOT DELETE OTHERWISE THE PLUGIN UPGRADE WILL FAIL!
      */
-    final function Plugins_DeliveryLimitations_ArrayData()
+    final public function Plugins_DeliveryLimitations_ArrayData()
     {
     }
 
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         if (is_array($this->data)) {
@@ -61,7 +60,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      *
      * @param array $aValues
      */
-    function setAValues($aValues)
+    public function setAValues($aValues)
     {
         $this->_aValues = $aValues;
     }
@@ -77,7 +76,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      * @param mixed $data An optional, expanded form delivery limitation.
      * @return string The delivery limitation in flattened format.
      */
-    function _flattenData($data = null)
+    public function _flattenData($data = null)
     {
         $result = parent::_flattenData($data);
         if (is_array($result)) {
@@ -97,16 +96,16 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      * @param string $data An optional, flat form delivery limitation data string.
      * @return mixed The delivery limitation data in expanded format.
      */
-    function _expandData($data = null)
+    public function _expandData($data = null)
     {
         $result = parent::_expandData($data);
         if (!is_array($result)) {
-            return strlen($result) ? explode($this->delimiter, $result) : array();
+            return strlen($result) ? explode($this->delimiter, $result) : [];
         }
         return $result;
     }
 
-    function displayData()
+    public function displayData()
     {
         // An ugly hack to overcome the problem with duplicated displayData() methods.
         $this->data = $this->_expandData($this->data);
@@ -114,7 +113,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
         $this->data = $this->_flattenData($this->data);
     }
 
-    function _preCompile($sData)
+    public function _preCompile($sData)
     {
         $aData = $this->_expandData($sData);
         $aItems = MAX_limitationsGetPreprocessedArray($aData);
@@ -130,7 +129,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      * @return array
      * @see overlap
      */
-    function _getAPositiveValues($aLimitation)
+    public function _getAPositiveValues($aLimitation)
     {
         $aResult = $this->_expandData($aLimitation['data']);
         if ($aLimitation['comparison'] == '!='
@@ -142,14 +141,14 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
     }
 
 
-     /**
-     * Method to check input data
-     *
-     * @param array $data Most important to check is $data['data'] field.
-     * By default the empty string check is done.
-     * @return bool|string true or error message
-     */
-    function checkInputData($data)
+    /**
+    * Method to check input data
+    *
+    * @param array $data Most important to check is $data['data'] field.
+    * By default the empty string check is done.
+    * @return bool|string true or error message
+    */
+    public function checkInputData($data)
     {
 //        $result = parent::checkInputData($data);
 //        if ($result === true) { //if parent check was OK
@@ -164,10 +163,6 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
 //
 //        return $result;
 
-          return true;
+        return true;
     }
-
-
 }
-
-?>

@@ -37,6 +37,6 @@ $GLOBALS['strCollectedAllEvents'] = "全てのイベント";
 $GLOBALS['strClear'] = "クリア";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";

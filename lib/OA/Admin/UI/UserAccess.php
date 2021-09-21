@@ -18,35 +18,46 @@ require_once MAX_PATH . '/lib/OA/Session.php';
  */
 class OA_Admin_UI_UserAccess
 {
-    var $accountId;
-    var $userid;
-    var $request = array();
-    var $pagePrefix; // admin/agency/advertiser/affiliate
-    var $aErrors = array();
-    var $oPlugin;
-    var $callbackHeaderNavigation;
-    var $callbackFooterNavigation;
-    var $aAllowedPermissions = array();
-    var $aPermissions = array();
-    var $aHiddenFields = array();
-    var $redirectUrl;
-    var $backUrl;
+    public $accountId;
+    public $userid;
+    public $request = [];
+    public $pagePrefix; // admin/agency/advertiser/affiliate
+    public $aErrors = [];
+    public $oPlugin;
+    public $callbackHeaderNavigation;
+    public $callbackFooterNavigation;
+    public $aAllowedPermissions = [];
+    public $aPermissions = [];
+    public $aHiddenFields = [];
+    public $redirectUrl;
+    public $backUrl;
 
-    function init()
+    public function init()
     {
         $this->initRequest();
         $this->oPlugin = OA_Auth::staticGetAuthPlugin();
         if (empty($this->userid)) {
             $this->userid = $this->oPlugin->getMatchingUserId(
-                $this->request['email_address'], $this->request['login']);
+                $this->request['email_address'],
+                $this->request['login']
+            );
         }
     }
 
-    function initRequest()
+    public function initRequest()
     {
-        $this->request = phpAds_registerGlobalUnslashed (
-            'userid', 'login', 'passwd', 'passwd2', 'link', 'contact_name',
-            'email_address', 'permissions', 'submit', 'language', 'token'
+        $this->request = phpAds_registerGlobalUnslashed(
+            'userid',
+            'login',
+            'passwd',
+            'passwd2',
+            'link',
+            'contact_name',
+            'email_address',
+            'permissions',
+            'submit',
+            'language',
+            'token'
         );
         // Sanitize userid
         if (!empty($this->request['userid'])) {
@@ -58,43 +69,51 @@ class OA_Admin_UI_UserAccess
         }
     }
 
-    function setAccountId($accountId)
+    public function setAccountId($accountId)
     {
         $this->accountId = $accountId;
     }
 
-    function setPagePrefix($pagePrefix)
+    public function setPagePrefix($pagePrefix)
     {
         $this->pagePrefix = $pagePrefix;
     }
 
-    function setNavigationHeaderCallback($callback)
+    public function setNavigationHeaderCallback($callback)
     {
         $this->callbackHeaderNavigation = $callback;
     }
 
-    function setNavigationFooterCallback($callback)
+    public function setNavigationFooterCallback($callback)
     {
         $this->callbackFooterNavigation = $callback;
     }
 
-    function process()
+    public function process()
     {
         if (!empty($this->request['submit'])) {
             if (preg_match('#[\x00-\x1F\x7F]#', $this->request['login'])) {
-                $this->aErrors = array($GLOBALS['strInvalidUsername']);
+                $this->aErrors = [$GLOBALS['strInvalidUsername']];
             } else {
                 $this->aErrors = $this->oPlugin->validateUsersData($this->request);
             }
             if (empty($this->aErrors)) {
                 $this->userid = $this->oPlugin->saveUser(
-                    $this->userid, $this->request['login'], $this->request['passwd'],
-                    $this->request['contact_name'], $this->request['email_address'],
-                    $this->request['language'], $this->accountId);
+                    $this->userid,
+                    $this->request['login'],
+                    $this->request['passwd'],
+                    $this->request['contact_name'],
+                    $this->request['email_address'],
+                    $this->request['language'],
+                    $this->accountId
+                );
                 if ($this->userid) {
                     OA_Admin_UI_UserAccess::linkUserToAccount(
-                        $this->userid, $this->accountId, $this->aPermissions,
-                        $this->aAllowedPermissions);
+                        $this->userid,
+                        $this->accountId,
+                        $this->aPermissions,
+                        $this->aAllowedPermissions
+                    );
                     OX_Admin_Redirect::redirect($this->getRedirectUrl());
                 } else {
                     $this->aErrors = $this->oPlugin->getSignupErrors();
@@ -104,14 +123,14 @@ class OA_Admin_UI_UserAccess
         $this->display();
     }
 
-    function display()
+    public function display()
     {
         $this->_processHeaderNavigation();
 
         require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-        $oTpl = new OA_Admin_Template($this->pagePrefix.'-user.html');
-        $oTpl->assign('action', $this->pagePrefix.'-user.php');
+        $oTpl = new OA_Admin_Template($this->pagePrefix . '-user.html');
+        $oTpl->assign('action', $this->pagePrefix . '-user.php');
         $oTpl->assign('backUrl', $this->backUrl);
         $oTpl->assign('method', 'POST');
         $oTpl->assign('aErrors', $this->aErrors);
@@ -122,7 +141,7 @@ class OA_Admin_UI_UserAccess
         $oTpl->assign('showLinkButton', !empty($this->request['link']));
 
         $doUsers = OA_Dal::staticGetDO('users', $this->userid);
-        $userData = array();
+        $userData = [];
         if ($doUsers) {
             $userData = $doUsers->toArray();
         } else {
@@ -133,19 +152,21 @@ class OA_Admin_UI_UserAccess
         }
         $userData['userid'] = $this->userid;
 
-        $aTplFields = array(
-            array(
-                'title'     => $GLOBALS['strUserDetails'],
-                'fields'    => $this->oPlugin->getUserDetailsFields($userData,
-                                   $this->request['link'])
-            )
-        );
+        $aTplFields = [
+            [
+                'title' => $GLOBALS['strUserDetails'],
+                'fields' => $this->oPlugin->getUserDetailsFields(
+                    $userData,
+                    $this->request['link']
+                )
+            ]
+        ];
         $aPermissionsFields = $this->_builPermissionFields();
         if (!empty($aPermissionsFields)) {
-            $aTplFields[] = array(
-                'title'     => $GLOBALS['strPermissions'],
-                'fields'    => $aPermissionsFields
-            );
+            $aTplFields[] = [
+                'title' => $GLOBALS['strPermissions'],
+                'fields' => $aPermissionsFields
+            ];
         }
         $oTpl->assign('fields', $aTplFields);
 
@@ -159,9 +180,9 @@ class OA_Admin_UI_UserAccess
         phpAds_PageFooter();
     }
 
-    function _builPermissionFields()
+    public function _builPermissionFields()
     {
-        $aPermissionsFields = array();
+        $aPermissionsFields = [];
         $c = 0;
         foreach ($this->aAllowedPermissions as $permissionId => $aPermission) {
             if (is_array($aPermission)) {
@@ -171,18 +192,21 @@ class OA_Admin_UI_UserAccess
                 $indent = false;
                 $onClick = false;
             }
-            $aPermissionsFields[$c] = array(
-                        'name'      => 'permissions[]',
-                        'label'     => $permissionName,
-                        'type'      => 'checkbox',
-                        'value'     => $permissionId,
-                        'checked'   => OA_Permission::hasPermission($permissionId,
-                            $this->accountId, $this->userid),
-                        'disabled'  => OA_Permission::isUserLinkedToAdmin($this->userid),
-                        'break'     => false,
-                        'id'        => 'permissions_'.$permissionId,
-                        'indent'     => $indent,
-                    );
+            $aPermissionsFields[$c] = [
+                        'name' => 'permissions[]',
+                        'label' => $permissionName,
+                        'type' => 'checkbox',
+                        'value' => $permissionId,
+                        'checked' => OA_Permission::hasPermission(
+                            $permissionId,
+                            $this->accountId,
+                            $this->userid
+                        ),
+                        'disabled' => OA_Permission::isUserLinkedToAdmin($this->userid),
+                        'break' => false,
+                        'id' => 'permissions_' . $permissionId,
+                        'indent' => $indent,
+                    ];
             if ($onClick) {
                 $aPermissionsFields[$c]['onclick'] = $onClick;
             }
@@ -191,14 +215,14 @@ class OA_Admin_UI_UserAccess
         return $aPermissionsFields;
     }
 
-    function _processHeaderNavigation()
+    public function _processHeaderNavigation()
     {
         if (is_callable($this->callbackHeaderNavigation)) {
             call_user_func($this->callbackHeaderNavigation);
         }
     }
 
-    function _processFooterNavigation()
+    public function _processFooterNavigation()
     {
         if (is_callable($this->callbackFooterNavigation)) {
             call_user_func($this->callbackFooterNavigation);
@@ -226,27 +250,27 @@ class OA_Admin_UI_UserAccess
      *
      * @param array $aAllowedPermissions
      */
-    function setAllowedPermissions($aAllowedPermissions)
+    public function setAllowedPermissions($aAllowedPermissions)
     {
         $this->aAllowedPermissions = $aAllowedPermissions;
     }
 
-    function setHiddenFields($aHiddenFields)
+    public function setHiddenFields($aHiddenFields)
     {
         $this->aHiddenFields = $aHiddenFields;
     }
 
-    function setRedirectUrl($redirectUrl)
+    public function setRedirectUrl($redirectUrl)
     {
         $this->redirectUrl = $redirectUrl;
     }
 
-    function setBackUrl($backUrl)
+    public function setBackUrl($backUrl)
     {
         $this->backUrl = $backUrl;
     }
 
-    function getRedirectUrl()
+    public function getRedirectUrl()
     {
         if (!empty($this->redirectUrl)) {
             return $this->redirectUrl;
@@ -266,7 +290,8 @@ class OA_Admin_UI_UserAccess
         $oPlugin = OA_Auth::staticGetAuthPlugin();
         $oPlugin->setTemplateVariables($oTpl);
         $helpString = OA_Admin_UI_UserAccess::getHelpString(
-            $oTpl->get_template_vars('sso'));
+            $oTpl->get_template_vars('sso')
+        );
         $oTpl->assign('strLinkUserHelp', $helpString);
     }
 
@@ -285,40 +310,40 @@ class OA_Admin_UI_UserAccess
      * @param string $entityName
      * @param integer $entityId
      */
-    function _getHiddenFields($userData, $link, $entities = array())
+    public function _getHiddenFields($userData, $link, $entities = [])
     {
-        $hiddenFields = array(
-            array(
+        $hiddenFields = [
+            [
                 'name' => 'submit',
                 'value' => true
-            ),
-            array(
+            ],
+            [
                 'name' => 'login',
                 'value' => $userData['username']
-            ),
-            array(
-                'name'  => 'link',
+            ],
+            [
+                'name' => 'link',
                 'value' => $link
-            ),
-            array(
-                'name'  => 'token',
+            ],
+            [
+                'name' => 'token',
                 'value' => phpAds_SessionGetToken(),
-            ),
-        );
-        $fields = array('userid', 'email_address');
+            ],
+        ];
+        $fields = ['userid', 'email_address'];
         foreach ($fields as $field) {
             if (!empty($userData[$field])) {
-                $hiddenFields[] = array(
-                    'name'  => $field,
+                $hiddenFields[] = [
+                    'name' => $field,
                     'value' => $userData[$field]
-                );
+                ];
             }
         }
-        foreach ($entities as $entityName => $entityId)  {
-                $hiddenFields[] = array(
+        foreach ($entities as $entityName => $entityId) {
+            $hiddenFields[] = [
                     'name' => $entityName,
                     'value' => $entityId
-                );
+                ];
         }
         return $hiddenFields;
     }
@@ -411,9 +436,12 @@ class OA_Admin_UI_UserAccess
                 OA_Session::setMessage($GLOBALS['strUserAccountUpdated']);
             }
             OA_Permission::setAccountAccess($accountId, $userId);
-            OA_Permission::storeUserAccountsPermissions($permissions, $accountId,
-                $userId, $aAllowedPermissions);
+            OA_Permission::storeUserAccountsPermissions(
+                $permissions,
+                $accountId,
+                $userId,
+                $aAllowedPermissions
+            );
         }
     }
-
 }

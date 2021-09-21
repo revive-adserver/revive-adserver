@@ -31,13 +31,13 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 /**
  * Base Sevice Implementation
  */
-class BaseServiceImpl extends  OA_BaseObjectWithErrors
+class BaseServiceImpl extends OA_BaseObjectWithErrors
 {
     /**
      * Constructor
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->BaseObjectWithErrors();
 
@@ -53,7 +53,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
      * @param string $sessionId
      *
      */
-    function _setSessionId($sessionId)
+    public function _setSessionId($sessionId)
     {
         global $_COOKIE;
         $_COOKIE['sessionID'] = $sessionId;
@@ -67,7 +67,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
      * @param string $sessionId
      * @return boolean
      */
-    function verifySession($sessionId)
+    public function verifySession($sessionId)
     {
         if (!$this->_verifySessionLength($sessionId)) {
             return false;
@@ -76,10 +76,8 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
         $this->_setSessionId($sessionId);
 
         if (OA_Auth::isLoggedIn()) {
-
             return true;
         } else {
-
             $this->raiseError('Session ID is invalid');
             return false;
         }
@@ -94,14 +92,12 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
      *
      * @return boolean
      */
-    function _verifySessionLength($sessionId)
+    public function _verifySessionLength($sessionId)
     {
         if (strlen($sessionId) > 32) {
-
             $this->raiseError('Session ID greater 32 characters');
             return false;
         } else {
-
             return true;
         }
     }
@@ -111,12 +107,11 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
      *
      * @return boolean
      */
-    function preInitSession()
+    public function preInitSession()
     {
         global $pref;
         $oDbh = OA_DB::singleton();
-        if (PEAR::isError($oDbh))
-        {
+        if (PEAR::isError($oDbh)) {
             $this->raiseError("Could not connect to database");
             return false;
         }
@@ -136,7 +131,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
      * Post init session
      *
      */
-    function postInitSession()
+    public function postInitSession()
     {
         global $session, $pref;
         global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid;
@@ -155,30 +150,47 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
 
         // Register variables
         phpAds_registerGlobalUnslashed(
-        'affiliateid'
-        ,'agencyid'
-        ,'bannerid'
-        ,'campaignid'
-        ,'channelid'
-        ,'clientid'
-        ,'day'
-        ,'trackerid'
-        ,'userlogid'
-        ,'zoneid'
+            'affiliateid',
+            'agencyid',
+            'bannerid',
+            'campaignid',
+            'channelid',
+            'clientid',
+            'day',
+            'trackerid',
+            'userlogid',
+            'zoneid'
         );
 
-        if (!isset($affiliateid))   $affiliateid = '';
-        if (!isset($agencyid))      $agencyid = OA_Permission::getAgencyId();
-        if (!isset($bannerid))      $bannerid = '';
-        if (!isset($campaignid))    $campaignid = '';
-        if (!isset($channelid))     $channelid = '';
-        if (!isset($clientid))      $clientid = '';
-        if (!isset($day))           $day = '';
-        if (!isset($trackerid))     $trackerid = '';
-        if (!isset($userlogid))     $userlogid = '';
-        if (!isset($zoneid))        $zoneid = '';
+        if (!isset($affiliateid)) {
+            $affiliateid = '';
+        }
+        if (!isset($agencyid)) {
+            $agencyid = OA_Permission::getAgencyId();
+        }
+        if (!isset($bannerid)) {
+            $bannerid = '';
+        }
+        if (!isset($campaignid)) {
+            $campaignid = '';
+        }
+        if (!isset($channelid)) {
+            $channelid = '';
+        }
+        if (!isset($clientid)) {
+            $clientid = '';
+        }
+        if (!isset($day)) {
+            $day = '';
+        }
+        if (!isset($trackerid)) {
+            $trackerid = '';
+        }
+        if (!isset($userlogid)) {
+            $userlogid = '';
+        }
+        if (!isset($zoneid)) {
+            $zoneid = '';
+        }
     }
 }
-
-
-?>

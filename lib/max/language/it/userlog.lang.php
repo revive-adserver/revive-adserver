@@ -38,7 +38,7 @@ $GLOBALS['strCollectedAllEvents'] = "Tutti gli eventi";
 $GLOBALS['strClear'] = "Pulisci";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Relazione per l'interzionista {id} inviato per email";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campagna {id} attivata";

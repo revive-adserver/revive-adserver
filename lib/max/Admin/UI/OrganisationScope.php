@@ -21,61 +21,59 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 class Admin_UI_OrganisationScope
 {
     /* @var int */
-    var $_publisherId;
+    public $_publisherId;
     /* @var int */
-    var $_advertiserId;
+    public $_advertiserId;
     /* @var int */
-    var $_agencyId;
+    public $_agencyId;
     /* @var boolean */
-    var $_anonymous;
+    public $_anonymous;
 
     /**
      * PHP4 constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_publisherId = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) ? OA_Permission::getEntityId() : false;
         $this->_advertiserId = OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) ? OA_Permission::getEntityId() : false;
         $this->_agencyId = OA_Permission::isAccount(OA_ACCOUNT_ADMIN) ? false : OA_Permission::getAgencyId();
     }
-    function getPublisherId()
+    public function getPublisherId()
     {
         return $this->_publisherId;
     }
-    function setPublisherId($publisherId)
+    public function setPublisherId($publisherId)
     {
         if (is_numeric($publisherId) && !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_publisherId = $publisherId;
         }
     }
-    function getAdvertiserId()
+    public function getAdvertiserId()
     {
         return $this->_advertiserId;
     }
-    function setAdvertiserId($advertiserId)
+    public function setAdvertiserId($advertiserId)
     {
         if (is_numeric($advertiserId) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_advertiserId = $advertiserId;
         }
     }
-    function getAgencyId()
+    public function getAgencyId()
     {
         return $this->_agencyId;
     }
-    function setAgencyId($agencyId)
+    public function setAgencyId($agencyId)
     {
         if (is_numeric($agencyId) && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $this->_agencyId = $agencyId;
         }
     }
-    function getAnonymous()
+    public function getAnonymous()
     {
         return $this->_anonymous;
     }
-    function setAnonymous($anonymous)
+    public function setAnonymous($anonymous)
     {
         $this->_anonymous = $anonymous;
     }
 }
-
-?>

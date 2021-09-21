@@ -22,13 +22,12 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  */
 class MAX_Dal_Entities extends MAX_Dal_Common
 {
-
     /**
      * The constructor method.
      *
      * @return MAX_Dal_Entities
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -55,7 +54,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *                      .
      *                  )
      */
-    function getAdsByCampaignId($campaignId)
+    public function getAdsByCampaignId($campaignId)
     {
         // Test the input values
         if (!is_numeric($campaignId)) {
@@ -63,7 +62,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'], true);
         $query = "
             SELECT
                 bannerid AS ad_id,
@@ -73,7 +72,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                campaignid = ". $this->oDbh->quote($campaignId, 'integer') ."
+                campaignid = " . $this->oDbh->quote($campaignId, 'integer') . "
             ORDER BY
                 ad_id";
         $rc = $this->oDbh->query($query);
@@ -83,7 +82,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         if ($rc->numRows() < 1) {
             return null;
         }
-        $aResult = array();
+        $aResult = [];
         while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['ad_id']] = $aRow;
         }
@@ -106,7 +105,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *                      )
      *                  )
      */
-    function getDeliveryLimitationsByAdId($adId)
+    public function getDeliveryLimitationsByAdId($adId)
     {
         // Test the input values
         if (!is_numeric($adId)) {
@@ -114,7 +113,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'], true);
         $query = "
             SELECT
                 logical AS logical,
@@ -125,7 +124,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                bannerid = ". $this->oDbh->quote($adId, 'integer');
+                bannerid = " . $this->oDbh->quote($adId, 'integer');
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -133,14 +132,14 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         if ($rc->numRows() < 1) {
             return null;
         }
-        $aResult = array();
+        $aResult = [];
         while ($aRow = $rc->fetchRow()) {
-            $aResult[$aRow['executionorder']] = array(
-                'logical'    => $aRow['logical'],
-                'type'       => $aRow['type'],
+            $aResult[$aRow['executionorder']] = [
+                'logical' => $aRow['logical'],
+                'type' => $aRow['type'],
                 'comparison' => $aRow['comparison'],
-                'data'       => $aRow['data']
-            );
+                'data' => $aRow['data']
+            ];
         }
         return $aResult;
     }
@@ -161,7 +160,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *                      )
      *                  )
      */
-    function getDeliveryLimitationsByChannelId($channelId)
+    public function getDeliveryLimitationsByChannelId($channelId)
     {
         // Test the input values
         if (!is_numeric($channelId)) {
@@ -169,7 +168,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls_channel'],true);
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls_channel'], true);
         $query = "
             SELECT
                 logical AS logical,
@@ -180,7 +179,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                channelid = ". $this->oDbh->quote($channelId, 'integer');
+                channelid = " . $this->oDbh->quote($channelId, 'integer');
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -188,16 +187,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         if ($rc->numRows() < 1) {
             return null;
         }
-        $aResult = array();
+        $aResult = [];
         while ($aRow = $rc->fetchRow()) {
-            $aResult[$aRow['executionorder']] = array(
-                'logical'    => $aRow['logical'],
-                'type'       => $aRow['type'],
+            $aResult[$aRow['executionorder']] = [
+                'logical' => $aRow['logical'],
+                'type' => $aRow['type'],
                 'comparison' => $aRow['comparison'],
-                'data'       => $aRow['data']
-            );
+                'data' => $aRow['data']
+            ];
         }
         return $aResult;
     }
-
 }

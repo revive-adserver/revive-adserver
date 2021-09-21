@@ -35,7 +35,7 @@ $GLOBALS['strCollectedAllEvents'] = "Všechny události";
 $GLOBALS['strClear'] = "Vyčistit";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Report pro inzerenta {id} poslat emailem";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampaň {id} aktivována";

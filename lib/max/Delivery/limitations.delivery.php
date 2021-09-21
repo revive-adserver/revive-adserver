@@ -33,7 +33,7 @@
  * @return boolean
  * @see MAX_limitationsMatchString
  */
-function MAX_limitationsMatchStringClientGeo($paramName, $limitation, $op, $aParams = array())
+function MAX_limitationsMatchStringClientGeo($paramName, $limitation, $op, $aParams = [])
 {
     return MAX_limitationsMatchString($paramName, $limitation, $op, $aParams, 'CLIENT_GEO');
 }
@@ -58,8 +58,12 @@ function MAX_limitationsMatchStringClientGeo($paramName, $limitation, $op, $aPar
  * @see MAX_limitationsMatchStringValue
  */
 function MAX_limitationsMatchString(
-    $paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
-{
+    $paramName,
+    $limitation,
+    $op,
+    $aParams = [],
+    $namespace = 'CLIENT'
+) {
     if ($limitation == '') {
         return true;
     }
@@ -95,7 +99,7 @@ function MAX_limitationsMatchString(
 function MAX_limitationsMatchNumericValue($value, $limitation, $op)
 {
     if (!is_numeric($value) || !is_numeric($limitation)) {
-		return !MAX_limitationsIsOperatorPositive($op);
+        return !MAX_limitationsIsOperatorPositive($op);
     }
 
     switch ($op) {
@@ -106,7 +110,7 @@ function MAX_limitationsMatchNumericValue($value, $limitation, $op)
         case 'ge': return $value >= $limitation;
     }
 
-	return !MAX_limitationsIsOperatorPositive($op);
+    return !MAX_limitationsIsOperatorPositive($op);
 }
 
 /**
@@ -123,8 +127,12 @@ function MAX_limitationsMatchNumericValue($value, $limitation, $op)
  *
  */
 function MAX_limitationsMatchNumeric(
-    $paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
-{
+    $paramName,
+    $limitation,
+    $op,
+    $aParams = [],
+    $namespace = 'CLIENT'
+) {
     if ($limitation == '') {
         return !MAX_limitationsIsOperatorPositive($op);
     }
@@ -132,11 +140,11 @@ function MAX_limitationsMatchNumeric(
         $aParams = $GLOBALS['_MAX'][$namespace];
     }
 
-	if (!isset($aParams[$paramName])) {
-		return !MAX_limitationsIsOperatorPositive($op);
-	} else {
-	    $value = $aParams[$paramName];
-	}
+    if (!isset($aParams[$paramName])) {
+        return !MAX_limitationsIsOperatorPositive($op);
+    } else {
+        $value = $aParams[$paramName];
+    }
 
     return MAX_limitationsMatchNumericValue($value, $limitation, $op);
 }
@@ -144,7 +152,7 @@ function MAX_limitationsMatchNumeric(
 /**
  * @deprecated
  */
-function MAX_limitationMatchNumeric($paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
+function MAX_limitationMatchNumeric($paramName, $limitation, $op, $aParams = [], $namespace = 'CLIENT')
 {
     return MAX_limitationsMatchNumeric($paramName, $limitation, $op, $aParams, $namespace);
 }
@@ -202,7 +210,7 @@ function MAX_limitationsMatchStringValue($value, $limitation, $op)
  * @param array $aParams
  * @return boolean true if the value matches the limitation, false otherwise.
  */
-function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, &$aParams = array())
+function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, &$aParams = [])
 {
     return MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams, 'CLIENT_GEO');
 }
@@ -221,7 +229,7 @@ function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, &$aPar
  * @param string $namespace
  * @return boolean True if the value matches the limitations, false otherwise.
  */
-function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = array(), $namespace='CLIENT')
+function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = [], $namespace = 'CLIENT')
 {
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX'][$namespace] ?? [];
@@ -260,16 +268,16 @@ function MAX_limitationsMatchArrayValue($value, $limitation, $op)
 {
     if ($op == '==') {
         return strcasecmp($limitation, $value) == 0;
-    } else if ($op == '=~') {
+    } elseif ($op == '=~') {
         if ($value == '') {
             return true;
         }
-        return stripos(','.$limitation.',', ','.$value.',') !== false;
+        return stripos(',' . $limitation . ',', ',' . $value . ',') !== false;
     } else {
         if ($value == '') {
             return false;
         }
-        return stripos(','.$limitation.',', ','.$value.',') === false;
+        return stripos(',' . $limitation . ',', ',' . $value . ',') === false;
     }
 }
 
@@ -336,10 +344,10 @@ function MAX_limitationsIsOperatorPositive($op)
  */
 function MAX_limitationsGetAOperationsEquality($oPlugin)
 {
-    return array(
+    return [
         '==' => $GLOBALS['strEqualTo'],
         '!=' => $GLOBALS['strDifferentFrom'],
-    );
+    ];
 }
 
 /**
@@ -352,12 +360,12 @@ function MAX_limitationsGetAOperationsEquality($oPlugin)
  */
 function MAX_limitationsGetAOperationsForNumeric($oPlugin)
 {
-    return array(
-        'lt'  => $GLOBALS['strLessThan'],
-        'gt'  => $GLOBALS['strGreaterThan'],
-        'le'  => $GLOBALS['strLessOrEqualTo'],
-        'ge'  => $GLOBALS['strGreaterOrEqualTo'],
-    );
+    return [
+        'lt' => $GLOBALS['strLessThan'],
+        'gt' => $GLOBALS['strGreaterThan'],
+        'le' => $GLOBALS['strLessOrEqualTo'],
+        'ge' => $GLOBALS['strGreaterOrEqualTo'],
+    ];
 }
 
 /**
@@ -370,12 +378,12 @@ function MAX_limitationsGetAOperationsForNumeric($oPlugin)
  */
 function MAX_limitationsGetAOperationsForString($oPlugin)
 {
-    return MAX_limitationsGetAOperationsEquality($oPlugin) + array(
+    return MAX_limitationsGetAOperationsEquality($oPlugin) + [
         '=~' => MAX_Plugin_Translation::translate('Contains', $oPlugin->extension, $oPlugin->group),
         '!~' => MAX_Plugin_Translation::translate('Does not contain', $oPlugin->extension, $oPlugin->group),
         '=x' => MAX_Plugin_Translation::translate('Regex match', $oPlugin->extension, $oPlugin->group),
         '!x' => MAX_Plugin_Translation::translate('Regex does not match', $oPlugin->extension, $oPlugin->group)
-    );
+    ];
 }
 
 // STRING UTILITY FUNCTIONS
@@ -401,7 +409,7 @@ function MAX_stringContains($sString, $sToken)
  */
 function MAX_limitationsGetAFromS($sString)
 {
-    return strlen($sString) ? explode(',', $sString) : array();
+    return strlen($sString) ? explode(',', $sString) : [];
 }
 
 /**
@@ -438,8 +446,9 @@ function MAX_limitationsGetPreprocessedString($sString)
  * @param array $aArray Array of strings.
  * @return array Array of preprocessed string.
  */
-function MAX_limitationsGetPreprocessedArray($aArray) {
-    $aItems = array();
+function MAX_limitationsGetPreprocessedArray($aArray)
+{
+    $aItems = [];
     foreach ($aArray as $key => $sItem) {
         $aItems[$key] = MAX_limitationsGetPreprocessedString($sItem);
     }
@@ -543,6 +552,3 @@ function MAX_ipContainsStar($ip)
 {
     return MAX_stringContains($ip, '*');
 }
-
-
-?>

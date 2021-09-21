@@ -22,32 +22,32 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
 {
-    var $dalChannel;
+    public $dalChannel;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->dalChannel = OA_Dal::factoryDAL('channel');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testGetChannelsAndAffiliates()
+    public function testGetChannelsAndAffiliates()
     {
         // Insert 2 channels
-        $aData = array(
-            'acls_updated' => array('2007-04-04 17:27:33')
-        );
+        $aData = [
+            'acls_updated' => ['2007-04-04 17:27:33']
+        ];
 
         DataGenerator::setData('channel', $aData);
         $aChannelId = DataGenerator::generate('channel', 2, true);
@@ -64,7 +64,4 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
         $aChannel = $rsChannel->export();
         $this->assertEqual(count($aChannel), 4);
     }
-
-
 }
-?>

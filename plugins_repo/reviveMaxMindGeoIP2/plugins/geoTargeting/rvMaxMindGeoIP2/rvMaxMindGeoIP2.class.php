@@ -10,8 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once __DIR__.'/rvMaxMindGeoIP2.delivery.php';
-require_once __DIR__.'/lib/MaxMindGeoLite2Downloader.php';
+require_once __DIR__ . '/rvMaxMindGeoIP2.delivery.php';
+require_once __DIR__ . '/lib/MaxMindGeoLite2Downloader.php';
 
 use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
 use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoLite2Downloader;
@@ -29,7 +29,7 @@ class Plugins_GeoTargeting_rvMaxMindGeoIP2_RvMaxMindGeoIP2 extends OX_Component 
      *
      * @return string A string describing the class.
      */
-    function getName()
+    public function getName()
     {
         return "MaxMind GeoIP2";
     }
@@ -37,12 +37,12 @@ class Plugins_GeoTargeting_rvMaxMindGeoIP2_RvMaxMindGeoIP2 extends OX_Component 
     /**
      * {@inheritdoc}
      */
-    function getCapabilities()
+    public function getCapabilities()
     {
         return MaxMindGeoIP2::getCapabilities();
     }
 
-    function onEnable()
+    public function onEnable()
     {
         if (MaxMindGeoIP2::hasCustomConfig()) {
             return true;

@@ -21,12 +21,12 @@ function Plugin_deliveryLog_oxLogVast_logImpressionVast_Delivery_logImpressionVa
         return false;
     }
 
-    $aQuery = array(
+    $aQuery = [
         'interval_start' => $aData['interval_start'],
-        'creative_id'    => $aData['creative_id'],
-        'zone_id'        => $aData['zone_id'],
-        'vast_event_id'  => $aData['vast_event_id'],
-    );
+        'creative_id' => $aData['creative_id'],
+        'zone_id' => $aData['zone_id'],
+        'vast_event_id' => $aData['vast_event_id'],
+    ];
 
     return OX_bucket_updateTable('data_bkt_vast_e', $aQuery);
 }

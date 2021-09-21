@@ -19,7 +19,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
-phpAds_registerGlobal ('returnurl');
+phpAds_registerGlobal('returnurl');
 
 
 // Security check
@@ -38,29 +38,26 @@ OA_Permission::checkSessionToken();
 
 if (!empty($zoneid)) {
     $ids = explode(',', $zoneid);
-    while (list(,$zoneid) = each($ids)) {
-
+    foreach ($ids as $zoneid) {
         // Security check
         OA_Permission::enforceAccessToObject('zones', $zoneid);
-
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->zoneid = $zoneid;
         if ($doZones->get($zoneid)) {
             $aZone = $doZones->toArray();
         }
-
         $doZones->delete();
     }
 
     // Queue confirmation message
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
 
     if (count($ids) == 1) {
-        $translated_message = $translation->translate ($GLOBALS['strZoneHasBeenDeleted'], array(
+        $translated_message = $translation->translate($GLOBALS['strZoneHasBeenDeleted'], [
             htmlspecialchars($aZone['zonename'])
-        ));
+        ]);
     } else {
-        $translated_message = $translation->translate ($GLOBALS['strZonesHaveBeenDeleted']);
+        $translated_message = $translation->translate($GLOBALS['strZonesHaveBeenDeleted']);
     }
 
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
@@ -70,6 +67,4 @@ if (!isset($returnurl) && $returnurl == '') {
     $returnurl = 'affiliate-zones.php';
 }
 
-Header("Location: ".$returnurl."?affiliateid=$affiliateid");
-
-?>
+Header("Location: " . $returnurl . "?affiliateid=$affiliateid");

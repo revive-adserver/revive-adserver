@@ -27,10 +27,11 @@ class DataObjects_Data_intermediate_ad_variable_value extends DB_DataObjectCommo
     public $value;                           // VARCHAR(50) => openads_varchar => 2
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad_variable_value',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad_variable_value', $k, $v);
+    }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-
-?>

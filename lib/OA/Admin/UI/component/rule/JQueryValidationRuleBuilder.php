@@ -12,6 +12,10 @@
 
 class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
 {
+    /**
+     * @var mixed[]
+     */
+    public $quickFormRuleNameToAdaptorMap;
     private $oAdaptorRegistry;
     
     public function __construct()
@@ -30,8 +34,8 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
      * based on active client rules.
      * Please not that this does not take into account some properties of the
-     * rule like. eg. 'reset' and "dependent" at the moment. 
-     * 
+     * rule like. eg. 'reset' and "dependent" at the moment.
+     *
      * $rules parameter array contains quickform rule data entries in a form:
      *   array(
      *           'type'        => $type,
@@ -41,8 +45,8 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      *           'reset'       => $reset,
      *           'dependent'   => $dependent
      *       );
-     * 
-     * Example input entry for field "name" which is "required" and must be 
+     *
+     * Example input entry for field "name" which is "required" and must be
      * min 6 characters long :
      * 'name' => array(
      *   array(
@@ -62,44 +66,44 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      *           'dependent'   => null
      *       ),
      * );
-     * 
-     * @param map $rules <elementName> => <elementRules> array map 
+     *
+     * @param map $rules <elementName> => <elementRules> array map
      */
     public function getJQueryValidationRulesScript($rules)
     {
-        $registry = $this->getAdaptorRegistry();        
+        $registry = $this->getAdaptorRegistry();
         $rulesText .= "rules: {\n";
         $messagesText .= "messages: {\n";
         $rulesCount = count($rules);
         $i = 1;
-        foreach($rules as $elementName => $elementRules) {
-            $rulesText.= " \"$elementName\": {\n";
-            $messagesText.= " \"$elementName\": {\n";
+        foreach ($rules as $elementName => $elementRules) {
+            $rulesText .= " \"$elementName\": {\n";
+            $messagesText .= " \"$elementName\": {\n";
             $j = 1;
-            $elementRules = array_filter($elementRules, array($this, 'filterNonSupported'));
+            $elementRules = array_filter($elementRules, [$this, 'filterNonSupported']);
             $elemRulesCount = count($elementRules);
             foreach ($elementRules as $rule) {
                 $ruleAdaptor = $registry->getJQueryRuleAdaptor($rule['type']);
-                $rulesText .= "  ".$ruleAdaptor->getJQueryValidationRule($rule);
-                $messagesText .= "  ".$ruleAdaptor->getJQueryValidationMessage($rule);
+                $rulesText .= "  " . $ruleAdaptor->getJQueryValidationRule($rule);
+                $messagesText .= "  " . $ruleAdaptor->getJQueryValidationMessage($rule);
                 if ($j < $elemRulesCount) {
                     $rulesText .= ",\n";
                     $messagesText .= ",\n";
                 }
                 $j++;
             }
-            $rulesText.= " }";
-            $messagesText.= " }";
+            $rulesText .= " }";
+            $messagesText .= " }";
             if ($i < $rulesCount) {
-                $rulesText.= ",\n";
-                $messagesText.= ",\n"; //close element array
+                $rulesText .= ",\n";
+                $messagesText .= ",\n"; //close element array
             }
             $i++;
         }
         $rulesText .= "},\n"; //close rules array
         $messagesText .= "}\n"; //close messages array
         
-        return $rulesText."\n".$messagesText;
+        return $rulesText . "\n" . $messagesText;
     }
     
     
@@ -115,7 +119,7 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      * Return a JS JQuery validator custom validation method installation script
      * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
      * based on active client rules.
-     * 
+     *
      * $rules parameter array contains quickform rule data entries in a form:
      *   array(
      *           'type'        => $type,
@@ -125,43 +129,44 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      *           'reset'       => $reset,
      *           'dependent'   => $dependent
      *       );
-     * 
-     * Output script is build as follows 
+     *
+     * Output script is build as follows
      * If appriopriate JQuery adapter is registered and it returns a custom method code:
      * - Add $.validator.methods
      * - Add rule name taken from rule type
-     * - Add equals 
+     * - Add equals
      * - Add function definition from appriopriate JQuery adapter.
-     *  
-     * "validator.methods.".$rule['type'] = 
+     *
+     * "validator.methods.".$rule['type'] =
      *      $registry->getJQueryRuleAdaptor($rule['type'])->getJQueryValidationMethodCode();
-     * 
+     *
      * Example output for registered JQuery-enabled 'unique' rule:
      * $.validator.methods.unique = function(value, element, otherValuesArr) {
      *      return $.inArray(value, otherValuesArr) == -1;
      * };
-     * 
-     * @param map $rules <elementName> => <elementRules> array map 
+     *
+     * @param map $rules <elementName> => <elementRules> array map
      */
     public function getJQueryValidationMethodsScript($rules)
     {
-        $registry = OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry::singleton();        
-        foreach($rules as $elementName => $rules) {
+        $registry = OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry::singleton();
+        foreach ($rules as $elementName => $rules) {
             foreach ($rules as $rule) {
                 $ruleAdaptor = $registry->getJQueryRuleAdaptor($rule['type']);
                 if (!empty($ruleAdaptor)) {
                     $ruleMethod = $ruleAdaptor->getJQueryValidationMethodCode($rule);
                     if (!empty($ruleMethod)) {
-                        $methodsText .= "$.validator.methods.".$rule['type']." = ";
-                        $methodsText .= $ruleMethod.";\n";
+                        $methodsText .= "$.validator.methods." . $rule['type'] . " = ";
+                        $methodsText .= $ruleMethod . ";\n";
                     }
                 }
             }
-;           $methodsText.= "\n"; 
+;
+            $methodsText .= "\n";
         }
         
         return $methodsText;
-    }    
+    }
     
     
     
@@ -188,4 +193,3 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
         return $adaptor->getJQueryValidationMessage($rule);
     }
 }
-?>

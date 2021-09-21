@@ -18,12 +18,12 @@
  */
 class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function testMigrateError()
+    public function testMigrateError()
     {
         try {
             \RV\Upgrade\GeoIp2Migration::migrate([
@@ -37,7 +37,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
         $this->fail('exception expected');
     }
 
-    function testMigrateAreacode()
+    public function testMigrateAreacode()
     {
         try {
             \RV\Upgrade\GeoIp2Migration::migrate([
@@ -51,7 +51,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
         $this->fail('exception expected');
     }
 
-    function testMigrateDma()
+    public function testMigrateDma()
     {
         $this->assertEqual(
             \RV\Upgrade\GeoIp2Migration::migrate([
@@ -65,7 +65,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
         );
     }
 
-    function testMigrateNetspeed()
+    public function testMigrateNetspeed()
     {
         $this->assertEqual(
             \RV\Upgrade\GeoIp2Migration::migrate([
@@ -79,7 +79,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
         );
     }
 
-    function testMigrateRegion()
+    public function testMigrateRegion()
     {
         // No change for US
         $this->assertEqual(
@@ -160,6 +160,5 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
                 'data' => 'TW|KHH'
             ]
         );
-
     }
 }

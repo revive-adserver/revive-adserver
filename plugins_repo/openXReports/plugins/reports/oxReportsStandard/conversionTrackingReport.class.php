@@ -108,21 +108,20 @@ require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
  */
 class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins_ReportsScope
 {
-
     /**
      * The local implementation of the initInfo() method to set all of the
      * required values for this report.
      */
-    function initInfo()
+    public function initInfo()
     {
-        $this->_name         = $this->translate("Conversion Tracking Report");
-        $this->_description  = $this->translate("A detailed breakdown of all conversion activity by advertiser or website.");
-        $this->_category     = 'standard';
+        $this->_name = $this->translate("Conversion Tracking Report");
+        $this->_description = $this->translate("A detailed breakdown of all conversion activity by advertiser or website.");
+        $this->_category = 'standard';
         $this->_categoryName = $this->translate("Standard Reports");
-        $this->_author       = 'Scott Switzer';
-        $this->_export       = 'xls';
+        $this->_author = 'Scott Switzer';
+        $this->_export = 'xls';
         if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] && $this->_hasTrackers()) {
-            $this->_authorize = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
+            $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER];
         }
 
         $this->_import = $this->getDefaults();
@@ -134,38 +133,38 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * required information for laying out the plugin's report generation
      * screen/the variables required for generating the report.
      */
-    function getDefaults()
+    public function getDefaults()
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset    = isset($session['prefs']['GLOBALS']['report_period_preset'])    ? $session['prefs']['GLOBALS']['report_period_preset']    : 'last_month';
+        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
         $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
+        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
         // Prepare the array for displaying the generation page
-        $aImport = array(
-            'period' => array(
-                'title'            => $GLOBALS['strPeriod'],
-                'type'             => 'date-month',
-                'default'          => $default_period_preset
-            ),
-            'scope'  => array(
-                'title'            => $GLOBALS['strLimitations'],
-                'type'             => 'scope',
+        $aImport = [
+            'period' => [
+                'title' => $GLOBALS['strPeriod'],
+                'type' => 'date-month',
+                'default' => $default_period_preset
+            ],
+            'scope' => [
+                'title' => $GLOBALS['strLimitations'],
+                'type' => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
-                'scope_publisher'  => $default_scope_publisher
-            ),
-            'sheets' => array(
-                'title'            => $GLOBALS['strWorksheets'],
-                'type'             => 'sheet',
-                'sheets'           => array(
-                    'performance_by_day'   => $this->translate("Performance by Day"),
-                    'connection_by_day'    => $this->translate("Connection Summary by Day"),
-                    'variable_by_day'      => $this->translate("Variable Summary by Day"),
+                'scope_publisher' => $default_scope_publisher
+            ],
+            'sheets' => [
+                'title' => $GLOBALS['strWorksheets'],
+                'type' => 'sheet',
+                'sheets' => [
+                    'performance_by_day' => $this->translate("Performance by Day"),
+                    'connection_by_day' => $this->translate("Connection Summary by Day"),
+                    'variable_by_day' => $this->translate("Variable Summary by Day"),
                     'variable_by_variable' => $this->translate("Variable Summary by Variable"),
-                    'connection_detail'    => $this->translate("Connection Detail")
-                )
-            )
-        );
+                    'connection_detail' => $this->translate("Connection Detail")
+                ]
+            ]
+        ];
         return $aImport;
     }
 
@@ -174,17 +173,17 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * values used for the report by the user to the user's session
      * preferences, so that they can be re-used in other reports.
      */
-    function saveDefaults()
+    public function saveDefaults()
     {
         global $session;
         if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
         if (isset($_REQUEST['scope_advertiser'])) {
             $session['prefs']['GLOBALS']['report_scope_advertiser'] = $_REQUEST['scope_advertiser'];
         }
         if (isset($_REQUEST['scope_publisher'])) {
-            $session['prefs']['GLOBALS']['report_scope_publisher']  = $_REQUEST['scope_publisher'];
+            $session['prefs']['GLOBALS']['report_scope_publisher'] = $_REQUEST['scope_publisher'];
         }
         phpAds_SessionDataStore();
     }
@@ -196,7 +195,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
      * @param array $aSheets  An array of sheets that should be in the report.
      */
-    function execute($oDaySpan = null, $oScope = null, $aSheets = null)
+    public function execute($oDaySpan = null, $oScope = null, $aSheets = null)
     {
         $checkResult = $this->_checkParameters($oDaySpan, $oScope, $aSheets);
         if ($checkResult !== true) {
@@ -212,7 +211,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         // Prepare the output writer for generation
         $this->_oReportWriter->openWithFilename($reportFileName);
         // Prepare the conversion data required for the report
-        $aConnections      = $this->_prepareConnections();
+        $aConnections = $this->_prepareConnections();
         $aTrackerVariables = $this->_prepareTrackerVariables($aConnections);
         $this->_prepareConnectionsWindowDelay($aConnections, $aTrackerVariables);
         // Add the worksheets to the report, as required
@@ -244,14 +243,13 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *
      * @return bool|int - True if no errors, error code otherwise
      */
-    function _checkParameters($oDaySpan, $oScope, $aSheets)
+    public function _checkParameters($oDaySpan, $oScope, $aSheets)
     {
         if (!isset($aSheets['performance_by_day']) &&
             !isset($aSheets['connection_by_day']) &&
             !isset($aSheets['variable_by_day']) &&
             !isset($aSheets['variable_by_variable']) &&
-            !isset($aSheets['connection_detail']))
-        {
+            !isset($aSheets['connection_detail'])) {
             return PLUGINS_REPORTS_MISSING_SHEETS_ERROR;
         }
         return true;
@@ -264,9 +262,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function _getReportParametersForDisplay()
+    public function _getReportParametersForDisplay()
     {
-        $aParams = array();
+        $aParams = [];
         $aParams += $this->_getDisplayableParametersFromScope();
         $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
@@ -278,15 +276,15 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *
      * @access private
      */
-    function _addPerformanceByDayWorksheet()
+    public function _addPerformanceByDayWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
         if (!empty($this->_oScope->_advertiserId)) {
@@ -332,7 +330,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *
      * @access private
      */
-    function _addConnectionByDayWorksheet($aConnections, $aTrackerVariables)
+    public function _addConnectionByDayWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
         $worksheetName = $this->translate("Connection Summary by Day");
@@ -348,7 +346,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $trackerName = MAX_getTrackerName($aTracker['tracker_name'], null, $trackerAnonymous, $trackerId);
             $aStatus = $this->_getConnectionStatuses();
             // Prepare the tracker's data
-            $aHeaders = array();
+            $aHeaders = [];
             $key = $GLOBALS['strDate'];
             $aHeaders[$key] = 'date';
             $key = $this->translate("Total Connections");
@@ -376,7 +374,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 $aDayArray = $oDaySpan->getDayArray();
                 foreach ($aDayArray as $day) {
                     if (!isset($aDays[$day])) {
-                        $aDays[$day] = array();
+                        $aDays[$day] = [];
                     }
                 }
             } else {
@@ -385,7 +383,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 $minTime = $curTime;
                 foreach ($aDays as $day => $aSummary) {
                     $time = strtotime($day);
-                    if ($minTime>$time) {
+                    if ($minTime > $time) {
                         $minTime = $time;
                     }
                 }
@@ -393,14 +391,14 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 while ($minTime < $curTime) {
                     $day = date('Y-m-d', $minTime);
                     if (!isset($aDays[$day])) {
-                        $aDays[$day] = array();
+                        $aDays[$day] = [];
                     }
-                    $minTime = mktime(0,0,0,date('m',$minTime),date('d',$minTime)+1,date('Y',$minTime));
+                    $minTime = mktime(0, 0, 0, date('m', $minTime), date('d', $minTime) + 1, date('Y', $minTime));
                 }
             }
             // Sort data
             ksort($aDays);
-            $aData = array();
+            $aData = [];
             $row = 0;
             foreach ($aDays as $day => $aDay) {
                 $aData[$row][0] = $day;
@@ -415,7 +413,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             }
             // Add the worksheet sub-report
             $this->_oReportWriter->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
-            $aDays = array(); // Reset data
+            $aDays = []; // Reset data
         }
     }
 
@@ -425,7 +423,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *
      * @access private
      */
-    function _addVariableByDayWorksheet($aConnections, $aTrackerVariables)
+    public function _addVariableByDayWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
         $worksheetName = $this->translate("Variable Summary by Day");
@@ -440,7 +438,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
             $trackerName = MAX_getTrackerName($aTracker['tracker_name'], null, $trackerAnonymous, $trackerId);
             // Prepare the tracker's data
-            $aHeaders = array();
+            $aHeaders = [];
             $key = $GLOBALS['strDate'];
             $aHeaders[$key] = 'date';
             $key = $GLOBALS['strConversions'];
@@ -459,7 +457,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     }
                 }
             }
-            $aDays = array();
+            $aDays = [];
             $row = 0;
             if (!empty($aConnections[$trackerId]['connections'])) {
                 foreach ($aConnections[$trackerId]['connections'] as $connectionId => $aConnection) {
@@ -484,7 +482,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 $aDayArray = $oDaySpan->getDayArray();
                 foreach ($aDayArray as $day) {
                     if (!isset($aDays[$day])) {
-                        $aDays[$day] = array();
+                        $aDays[$day] = [];
                     }
                 }
             } else {
@@ -493,7 +491,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 $minTime = $curTime;
                 foreach ($aDays as $day => $aSummary) {
                     $time = strtotime($day);
-                    if ($minTime>$time) {
+                    if ($minTime > $time) {
                         $minTime = $time;
                     }
                 }
@@ -501,14 +499,14 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 while ($minTime < $curTime) {
                     $day = date('Y-m-d', $minTime);
                     if (!isset($aDays[$day])) {
-                        $aDays[$day] = array();
+                        $aDays[$day] = [];
                     }
-                    $minTime = mktime(0,0,0,date('m',$minTime),date('d',$minTime)+1,date('Y',$minTime));
+                    $minTime = mktime(0, 0, 0, date('m', $minTime), date('d', $minTime) + 1, date('Y', $minTime));
                 }
             }
             // Sort data
             ksort($aDays);
-            $aData = array();
+            $aData = [];
             $row = 0;
             foreach ($aDays as $day => $aDay) {
                 $aData[$row][0] = $day;
@@ -516,20 +514,20 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 $col = 2;
                 if (!empty($aTracker['variables'])) {
                     foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
-                        if ( ($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric')
+                        if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric')
                           && ($aTrackerVariable['tracker_variable_is_unique'] == 0)
-                          && (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') ) {
-                                $var = $aDay['variables'][$trackerVariableId] > 0 ? $aDay['variables'][$trackerVariableId] : 0;
-                                $stat = $aDay['status'][MAX_CONNECTION_STATUS_APPROVED] > 0 ? $aDay['status'][MAX_CONNECTION_STATUS_APPROVED] : 0;
-                                $aData[$row][$col++] = $var;
-                                $aData[$row][$col++] = ( ($var > 0) && ($stat > 0) ) ? $var / $stat : 0;
+                          && (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't')) {
+                            $var = $aDay['variables'][$trackerVariableId] > 0 ? $aDay['variables'][$trackerVariableId] : 0;
+                            $stat = $aDay['status'][MAX_CONNECTION_STATUS_APPROVED] > 0 ? $aDay['status'][MAX_CONNECTION_STATUS_APPROVED] : 0;
+                            $aData[$row][$col++] = $var;
+                            $aData[$row][$col++] = (($var > 0) && ($stat > 0)) ? $var / $stat : 0;
                         }
                     }
                 }
                 $row++;
             }
             $this->_oReportWriter->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
-            $aDays = array(); // Reset data
+            $aDays = []; // Reset data
         }
     }
 
@@ -544,7 +542,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *       to format and display totals and averages that is only applicable for
      *       numeric variables..... right????
      */
-    function _addVariableByVariableWorksheet($aConnections, $aTrackerVariables)
+    public function _addVariableByVariableWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
         $worksheetName = $this->translate("Variable Summary by Variable");
@@ -569,8 +567,8 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     }
                     $bdVariableName = !empty($aBdVariable['tracker_variable_description']) ? $aBdVariable['tracker_variable_description'] : $aBdVariable['tracker_variable_name'];
                     $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
-                    $trackerName = MAX_getTrackerName($aTracker['tracker_name'].' - '.$bdVariableName, null, $trackerAnonymous, $trackerId);
-                    $aHeaders = array();
+                    $trackerName = MAX_getTrackerName($aTracker['tracker_name'] . ' - ' . $bdVariableName, null, $trackerAnonymous, $trackerId);
+                    $aHeaders = [];
                     $key = $GLOBALS['strValue'];
                     $aHeaders[$key] = $aBdVariable['tracker_variable_data_type'] == 'date' ? 'datetime' : 'text';
                     $key = $GLOBALS['strConversions'];
@@ -589,7 +587,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                             }
                         }
                     }
-                    $aVariables = array();
+                    $aVariables = [];
                     $row = 0;
                     if (!empty($aConnections[$trackerId]['connections'])) {
                         foreach ($aConnections[$trackerId]['connections'] as $connectionId => $aConnection) {
@@ -605,7 +603,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                             }
                         }
                     }
-                    $aData = array();
+                    $aData = [];
                     $row = 0;
                     foreach ($aVariables as $value => $aVariable) {
                         $aData[$row][0] = $aBdVariable['tracker_variable_data_type'] == 'date' ? $this->_oReportWriter->convertToDate($value) : $value;
@@ -613,13 +611,13 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                         $col = 2;
                         if (!empty($aTracker['variables'])) {
                             foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
-                                if ( ($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric')
+                                if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric')
                                   && ($aTrackerVariable['tracker_variable_is_unique'] == 0)
-                                  && (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') ) {
-                                        $var = $aVariable['variables'][$trackerVariableId] > 0 ? $aVariable['variables'][$trackerVariableId] : 0;
-                                        $stat = $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED] > 0 ? $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED] : 0;
-                                        $aData[$row][$col++] = $var;
-                                        $aData[$row][$col++] = ( ($var > 0) && ($stat > 0) ) ? $var / $stat : 0;
+                                  && (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't')) {
+                                    $var = $aVariable['variables'][$trackerVariableId] > 0 ? $aVariable['variables'][$trackerVariableId] : 0;
+                                    $stat = $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED] > 0 ? $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED] : 0;
+                                    $aData[$row][$col++] = $var;
+                                    $aData[$row][$col++] = (($var > 0) && ($stat > 0)) ? $var / $stat : 0;
                                 }
                             }
                         }
@@ -637,7 +635,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *
      * @access private
      */
-    function _addConnectionDetailWorksheet($aConnections, $aTrackerVariables)
+    public function _addConnectionDetailWorksheet($aConnections, $aTrackerVariables)
     {
         // Create a worksheet
         $worksheetName = $this->translate("Connection Detail");
@@ -652,7 +650,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
             $trackerAnonymous = $this->_isTrackerLinkedToAnonymousCampaign($trackerId);
             $trackerName = MAX_getTrackerName($aTracker['tracker_name'], null, $trackerAnonymous, $trackerId);
-            $aHeaders = array();
+            $aHeaders = [];
             $key = $this->translate("Connection ID");
             $aHeaders[$key] = 'id';
             $key = $this->translate("Connection Date / Time");
@@ -713,7 +711,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $aHeaders[$key] = 'text';
             $key = $GLOBALS['strWindowDelay'];
             $aHeaders[$key] = 'text';
-            $aData = array();
+            $aData = [];
             if (!empty($aConnections[$trackerId]['connections'])) {
                 $row = 0;
                 foreach ($aConnections[$trackerId]['connections'] as $connectionId => $aConnection) {
@@ -768,27 +766,27 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @access private
      * @return boolean True if the current user has trackers, false otherwise.
      */
-    function _hasTrackers()
+    public function _hasTrackers()
     {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-            $aParams = array('advertiser_id' => OA_Permission::getEntityId());
+            $aParams = ['advertiser_id' => OA_Permission::getEntityId()];
             $aTrackers = Admin_DA::getTrackers($aParams);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $aParams = array('agency_id' => OA_Permission::getEntityId());
+            $aParams = ['agency_id' => OA_Permission::getEntityId()];
             $aTrackers = Admin_DA::getTrackers($aParams);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-            $aTrackers = Admin_DA::getTrackers(array());
+            $aTrackers = Admin_DA::getTrackers([]);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            $aTrackers = array();
-            $aParams = array('publisher_id' => OA_Permission::getEntityId());
+            $aTrackers = [];
+            $aParams = ['publisher_id' => OA_Permission::getEntityId()];
             $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'placement_id');
             if (!empty($aPlacementZones)) {
-                $aParams = array('placement_id' => implode(',', array_keys($aPlacementZones)));
+                $aParams = ['placement_id' => implode(',', array_keys($aPlacementZones))];
                 $aTrackers = array_merge($aTrackers, Admin_DA::getTrackers($aParams));
             }
             $aAdZones = Admin_DA::getAdZones($aParams, false, 'ad_id');
             if (!empty($aAdZones)) {
-                $aParams = array('ad_id' => implode(',', array_keys($aAdZones)));
+                $aParams = ['ad_id' => implode(',', array_keys($aAdZones))];
                 $aTrackers = array_merge($aTrackers, Admin_DA::getTrackers($aParams));
             }
         }
@@ -842,20 +840,20 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *          )
      *      )
      */
-    function _prepareConnections()
+    public function _prepareConnections()
     {
-        $aConnections = array();
+        $aConnections = [];
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare the start and end dates for the conversion range
         $oDaySpan = new OA_Admin_DaySpan();
         $oDaySpan->setSpanDays($this->_oDaySpan->oStartDate, $this->_oDaySpan->oEndDate);
         $oDaySpan->toUTC();
         $startDateString = $oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S');
-        $endDateString   = $oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S');
+        $endDateString = $oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S');
         // Prepare the agency/advertiser/publisher limitations
-        $agencyId     = $this->_oScope->getAgencyId();
+        $agencyId = $this->_oScope->getAgencyId();
         $advertiserId = $this->_oScope->getAdvertiserId();
-        $publisherId  = $this->_oScope->getPublisherId();
+        $publisherId = $this->_oScope->getPublisherId();
         // Prepare the query to select the required conversions and variable values
         $query = "
             SELECT
@@ -954,7 +952,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         $rsConversions->find();
         while ($rsConversions->fetch()) {
             $aConversion = $rsConversions->toArray();
-            $trackerId    = $aConversion['tracker_id'];
+            $trackerId = $aConversion['tracker_id'];
             $connectionId = $aConversion['data_intermediate_ad_connection_id'];
             // Does this tracker/connection pair exist in the result array already?
             // It might, due to multiple attached variable values...
@@ -966,42 +964,42 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 $oConnectionDate = new Date($aConversion['connection_date_time']);
                 $oConnectionDate->setTZbyID('UTC');
                 $oConnectionDate->convertTZ($this->_oDaySpan->oStartDate->tz);
-                $aConnections[$trackerId]['connections'][$connectionId] = array (
+                $aConnections[$trackerId]['connections'][$connectionId] = [
                     'data_intermediate_ad_connection_id' => $connectionId,
-                    'tracker_date_time'                  => $oTrackerDate->format('%Y-%m-%d %H:%M:%S'),
-                    'tracker_day'                        => $oTrackerDate->format('%Y-%m-%d'),
-                    'connection_date_time'               => $oConnectionDate->format('%Y-%m-%d %H:%M:%S'),
-                    'connection_status'                  => $aConversion['connection_status'],
-                    'connection_channel'                 => $aConversion['connection_channel'],
-                    'connection_action'                  => $aConversion['connection_action'],
-                    'connection_ip_address'              => $aConversion['connection_ip_address'],
-                    'connection_country'                 => $aConversion['connection_country'],
-                    'connection_domain'                  => $aConversion['connection_domain'],
-                    'connection_language'                => $aConversion['connection_language'],
-                    'connection_os'                      => $aConversion['connection_os'],
-                    'connection_browser'                 => $aConversion['connection_browser'],
-                    'connection_comments'                => $aConversion['connection_comments'],
-                    'advertiser_id'                      => $aConversion['advertiser_id'],
-                    'advertiser_name'                    => $aConversion['advertiser_name'],
-                    'placement_id'                       => $aConversion['placement_id'],
-                    'placement_name'                     => $aConversion['placement_name'],
-                    'ad_id'                              => $aConversion['ad_id'],
-                    'ad_name'                            => $aConversion['ad_name'],
-                    'ad_alt'                             => $aConversion['ad_alt'],
-                    'publisher_id'                       => $aConversion['publisher_id'],
-                    'publisher_name'                     => $aConversion['publisher_name'],
-                    'zone_id'                            => $aConversion['zone_id'],
-                    'zone_name'                          => $aConversion['zone_name'],
-                    'tracker_id'                         => $aConversion['tracker_id'],
-                );
+                    'tracker_date_time' => $oTrackerDate->format('%Y-%m-%d %H:%M:%S'),
+                    'tracker_day' => $oTrackerDate->format('%Y-%m-%d'),
+                    'connection_date_time' => $oConnectionDate->format('%Y-%m-%d %H:%M:%S'),
+                    'connection_status' => $aConversion['connection_status'],
+                    'connection_channel' => $aConversion['connection_channel'],
+                    'connection_action' => $aConversion['connection_action'],
+                    'connection_ip_address' => $aConversion['connection_ip_address'],
+                    'connection_country' => $aConversion['connection_country'],
+                    'connection_domain' => $aConversion['connection_domain'],
+                    'connection_language' => $aConversion['connection_language'],
+                    'connection_os' => $aConversion['connection_os'],
+                    'connection_browser' => $aConversion['connection_browser'],
+                    'connection_comments' => $aConversion['connection_comments'],
+                    'advertiser_id' => $aConversion['advertiser_id'],
+                    'advertiser_name' => $aConversion['advertiser_name'],
+                    'placement_id' => $aConversion['placement_id'],
+                    'placement_name' => $aConversion['placement_name'],
+                    'ad_id' => $aConversion['ad_id'],
+                    'ad_name' => $aConversion['ad_name'],
+                    'ad_alt' => $aConversion['ad_alt'],
+                    'publisher_id' => $aConversion['publisher_id'],
+                    'publisher_name' => $aConversion['publisher_name'],
+                    'zone_id' => $aConversion['zone_id'],
+                    'zone_name' => $aConversion['zone_name'],
+                    'tracker_id' => $aConversion['tracker_id'],
+                ];
             }
             // Store the variable value associated with this connection, if one exists
             $trackerVariableId = $aConversion['tracker_variable_id'];
             if (!empty($trackerVariableId)) {
-                $aConnections[$trackerId]['connections'][$connectionId]['variables'][$trackerVariableId] = array (
-                    'tracker_variable_id'    => $trackerVariableId,
+                $aConnections[$trackerId]['connections'][$connectionId]['variables'][$trackerVariableId] = [
+                    'tracker_variable_id' => $trackerVariableId,
                     'tracker_variable_value' => $aConversion['tracker_variable_value'],
-                );
+                ];
             }
         }
         // Return the connections
@@ -1036,9 +1034,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *      )
      *
      */
-    function _prepareTrackerVariables($aConnections)
+    public function _prepareTrackerVariables($aConnections)
     {
-        $aTrackerVariables = array();
+        $aTrackerVariables = [];
         $aConf = $GLOBALS['_MAX']['CONF'];
         // If the user is a publisher, set the publisher ID
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
@@ -1092,21 +1090,21 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 // It might be, in the case of a tracker having multiple variables...
                 if (!isset($aTrackerVariables[$trackerId])) {
                     // It's not set, store the tracker ID and name
-                    $aTrackerVariables[$trackerId]['tracker_id']   = $trackerId;
+                    $aTrackerVariables[$trackerId]['tracker_id'] = $trackerId;
                     $aTrackerVariables[$trackerId]['tracker_name'] = $aTrackerVariable['tracker_name'];
                 }
                 // Store the variable associated with this tracker, if one exists
                 $trackerVariableId = $aTrackerVariable['tracker_variable_id'];
                 if (!empty($trackerVariableId)) {
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_id']          = $trackerVariableId;
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_name']        = $aTrackerVariable['tracker_variable_name'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_id'] = $trackerVariableId;
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_name'] = $aTrackerVariable['tracker_variable_name'];
                     $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_description'] = $aTrackerVariable['tracker_variable_description'];
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_data_type']   = $aTrackerVariable['tracker_variable_data_type'];
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_purpose']     = $aTrackerVariable['tracker_variable_purpose'];
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_is_unique']   = $aTrackerVariable['tracker_variable_is_unique'];
-                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden']      = $aTrackerVariable['tracker_variable_hidden'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_data_type'] = $aTrackerVariable['tracker_variable_data_type'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_purpose'] = $aTrackerVariable['tracker_variable_purpose'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_is_unique'] = $aTrackerVariable['tracker_variable_is_unique'];
+                    $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden'] = $aTrackerVariable['tracker_variable_hidden'];
                     if (!is_null($aTrackerVariable['tracker_variable_visible'])) {
-                        $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden']  = $aTrackerVariable['tracker_variable_visible'] ? 'f' : 't';
+                        $aTrackerVariables[$trackerId]['variables'][$trackerVariableId]['tracker_variable_hidden'] = $aTrackerVariable['tracker_variable_visible'] ? 'f' : 't';
                     }
                 }
             }
@@ -1126,20 +1124,20 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *                                 {@link Plugins_Reports_Standard_ConversionTrackingReport::_prepareTrackerVariables()}
      *                                 method.
      */
-    function _prepareConnectionsWindowDelay(&$aConnections, $aTrackerVariables)
+    public function _prepareConnectionsWindowDelay(&$aConnections, $aTrackerVariables)
     {
         foreach ($aConnections as $trackerId => $aTracker) {
-            foreach($aTracker['connections'] as $connectionId => $aConnection) {
+            foreach ($aTracker['connections'] as $connectionId => $aConnection) {
                 // Count the window delay
-   	            $eventDateSt = strtotime($aConnection['tracker_date_time']." ");
-                $secondsLeft = $eventDateSt - strtotime($aConnection['connection_date_time']." ");
-                $days        = intval($secondsLeft / 86400);  // 86400 seconds in a day
-                $partDay     = $secondsLeft - ($days * 86400);
-                $hours       = intval($partDay / 3600);  // 3600 seconds in an hour
-                $partHour    = $partDay - ($hours * 3600);
-                $minutes     = intval($partHour / 60);  // 60 seconds in a minute
-                $seconds     = $partHour - ($minutes * 60);
-                $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
+                $eventDateSt = strtotime($aConnection['tracker_date_time'] . " ");
+                $secondsLeft = $eventDateSt - strtotime($aConnection['connection_date_time'] . " ");
+                $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
+                $partDay = $secondsLeft - ($days * 86400);
+                $hours = intval($partDay / 3600);  // 3600 seconds in an hour
+                $partHour = $partDay - ($hours * 3600);
+                $minutes = intval($partHour / 60);  // 60 seconds in a minute
+                $seconds = $partHour - ($minutes * 60);
+                $windowDelay = $days . "d " . $hours . "h " . $minutes . "m " . $seconds . "s";
                 $aConnections[$trackerId]['connections'][$connectionId]['window_delay'] = $windowDelay;
             }
         }
@@ -1155,7 +1153,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @return boolean True if the tracker is linked to an anonymous campaign,
      *                 false otherwise.
      */
-    function _isTrackerLinkedToAnonymousCampaign($trackerId)
+    public function _isTrackerLinkedToAnonymousCampaign($trackerId)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
@@ -1176,7 +1174,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     c.campaignid = ct.campaignid
                 )
             WHERE
-                t.trackerid = ". DBC::makeLiteral($trackerId, 'integer');
+                t.trackerid = " . DBC::makeLiteral($trackerId, 'integer');
         $rsTracker = DBC::NewRecordSet($query);
         $rsTracker->find();
         if (!$rsTracker->fetch()) {
@@ -1198,7 +1196,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @access private
      * @return boolean Falseif the user is an advertiser, true otherwise.
      */
-    function _shouldDisplaySourceField()
+    public function _shouldDisplaySourceField()
     {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             return false;
@@ -1213,10 +1211,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @param integer $code The connection type code.
      * @return string The translated text value, eg. "Integer".
      */
-    function _decodeConnectionType($code)
+    public function _decodeConnectionType($code)
     {
-        switch ($code)
-        {
+        switch ($code) {
             case MAX_CONNECTION_AD_IMPRESSION:
                 return $GLOBALS['strImpression'];
             case MAX_CONNECTION_AD_CLICK:
@@ -1236,16 +1233,16 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      *
      * @return array The array of statuses.
      */
-    function _getConnectionStatuses()
+    public function _getConnectionStatuses()
     {
-        return array(
-            MAX_CONNECTION_STATUS_PENDING     => $GLOBALS['strStatusPending'],
-            MAX_CONNECTION_STATUS_APPROVED    => $GLOBALS['strStatusApproved'],
-            MAX_CONNECTION_STATUS_DUPLICATE   => $GLOBALS['strStatusDuplicate'],
+        return [
+            MAX_CONNECTION_STATUS_PENDING => $GLOBALS['strStatusPending'],
+            MAX_CONNECTION_STATUS_APPROVED => $GLOBALS['strStatusApproved'],
+            MAX_CONNECTION_STATUS_DUPLICATE => $GLOBALS['strStatusDuplicate'],
             MAX_CONNECTION_STATUS_DISAPPROVED => $GLOBALS['strStatusDisapproved'],
-            MAX_CONNECTION_STATUS_ONHOLD      => $GLOBALS['strStatusOnHold'],
-            MAX_CONNECTION_STATUS_IGNORE      => $GLOBALS['strStatusIgnore'],
-        );
+            MAX_CONNECTION_STATUS_ONHOLD => $GLOBALS['strStatusOnHold'],
+            MAX_CONNECTION_STATUS_IGNORE => $GLOBALS['strStatusIgnore'],
+        ];
     }
 
     /**
@@ -1255,12 +1252,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      * @param integer $code A connection status type code.
      * @return string The translated text value, eg. "Approved".
      */
-    function _decodeConnectionStatus($code)
+    public function _decodeConnectionStatus($code)
     {
         $aStatus = $this->_getConnectionStatuses();
         return $this->translate($aStatus[$code]);
     }
-
 }
-
-?>

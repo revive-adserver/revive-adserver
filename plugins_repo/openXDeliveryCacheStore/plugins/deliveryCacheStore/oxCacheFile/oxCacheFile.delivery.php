@@ -21,9 +21,9 @@
  * Make sure that the custom path is used if set
  */
 if (!empty($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'])) {
-    $GLOBALS['OA_Delivery_Cache']['path'] = trim($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath']).'/';
+    $GLOBALS['OA_Delivery_Cache']['path'] = trim($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath']) . '/';
 } else {
-    $GLOBALS['OA_Delivery_Cache']['path'] = MAX_PATH.'/var/cache/';
+    $GLOBALS['OA_Delivery_Cache']['path'] = MAX_PATH . '/var/cache/';
 }
 
 /**
@@ -38,7 +38,7 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetriev
     $cache_contents = '';
 
     // We are assuming that most of the time cache will exists
-    $ok = @include($GLOBALS['OA_Delivery_Cache']['path'].$filename);
+    $ok = @include($GLOBALS['OA_Delivery_Cache']['path'] . $filename);
 
     if ($ok && $cache_complete == true) {
         return $cache_contents;
@@ -60,19 +60,19 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
         return false;
     }
 
-    $filename = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
+    $filename = $GLOBALS['OA_Delivery_Cache']['path'] . $filename;
 
-    $cache_literal  = "<"."?php\n\n";
-    $cache_literal .= "$"."cache_contents   = ".var_export($cache_contents, true).";\n\n";
-    $cache_literal .= "$"."cache_complete   = true;\n\n";
-    $cache_literal .= "?".">";
+    $cache_literal = "<" . "?php\n\n";
+    $cache_literal .= "$" . "cache_contents   = " . var_export($cache_contents, true) . ";\n\n";
+    $cache_literal .= "$" . "cache_complete   = true;\n\n";
+    $cache_literal .= "?" . ">";
 
     // Write cache to a temp file, then rename it, overwritng the old cache
     // On *nix systems this should guarantee atomicity
-    $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
+    $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'] . 'tmp_');
     if ($fp = @fopen($tmp_filename, 'wb')) {
-        @fwrite ($fp, $cache_literal, strlen($cache_literal));
-        @fclose ($fp);
+        @fwrite($fp, $cache_literal, strlen($cache_literal));
+        @fclose($fp);
 
         if (!@rename($tmp_filename, $filename)) {
             // On some systems rename() doesn't overwrite destination
@@ -94,5 +94,3 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
     }
     return false;
 }
-
-?>

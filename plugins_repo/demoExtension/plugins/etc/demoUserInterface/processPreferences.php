@@ -16,34 +16,27 @@
  */
 class demoUserInterface_processPreferences
 {
-
     /**
      * Method that is called on settings form submission
      * Error messages are appended to the 0 index of the array
      *
      * @return boolean
      */
-    function validate(&$aErrorMessage)
+    public function validate(&$aErrorMessage)
     {
-        if (isset($GLOBALS['demopref_Admin']))
-        {
-            if (!$GLOBALS['demopref_Admin'])
-            {
-               $myErrorCondition = true;
-               $strMyErrorMessage = 'Error';
+        if (isset($GLOBALS['demopref_Admin'])) {
+            if (!$GLOBALS['demopref_Admin']) {
+                $myErrorCondition = true;
+                $strMyErrorMessage = 'Error';
             }
         }
         // test
         /*$myErrorCondition = true;
         $strMyErrorMessage = 'Error';*/
-        if ($myErrorCondition)
-        {
+        if ($myErrorCondition) {
             $aErrorMessage[0][] = $strMyErrorMessage;
             return false;
         }
         return true;
     }
 }
-
-
-?>

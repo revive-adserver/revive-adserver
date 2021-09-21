@@ -15,6 +15,4 @@
  * @subpackage DeliveryLimitations
  */
 
-$res = array('Su','Mo','Tu','We','Th','Fr','Sa');
-
-?>
+$res = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];

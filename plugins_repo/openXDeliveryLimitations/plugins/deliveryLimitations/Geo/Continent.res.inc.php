@@ -15,6 +15,6 @@
  * @subpackage DeliveryLimitations
  */
 
-require __DIR__.'/data/res-continent.inc.php';
+require __DIR__ . '/data/res-continent.inc.php';
 
 $res = $RV_Geo_Continent;

@@ -18,6 +18,6 @@
  *             we need to look into how best to do these kinds of bulk translates
  */
 
-require __DIR__.'/data/res-iso3166-1.inc.php';
+require __DIR__ . '/data/res-iso3166-1.inc.php';
 
 $res = $RV_Geo_ISO3166_1;

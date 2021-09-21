@@ -15,21 +15,21 @@
  */
 class OA_Admin_UI_AccountSwitch
 {
-    const MAX_ACCOUNTS_IN_GROUP = 10;
-    const MAX_ACCOUNTS_IN_SEARCH = 20;
+    public const MAX_ACCOUNTS_IN_GROUP = 10;
+    public const MAX_ACCOUNTS_IN_SEARCH = 20;
     
     public static function assignModel(OA_Admin_Template $template, $query = '')
     {
         $accounts = OA_Permission::getLinkedAccounts(true, true);
-        $remainingCounts = array ();
+        $remainingCounts = [];
         
         // Prepare recently used accountName
-        $recentlyUsed = array();
+        $recentlyUsed = [];
         global $session;
         if (empty($query) && !empty($session['recentlyUsedAccounts'])) {
-            $allAcountsNoGroups = array();
-            foreach ($accounts as $k => $v) {
-                foreach($accounts[$k] as $accountId => $accountName) {
+            $allAcountsNoGroups = [];
+            foreach (array_keys($accounts) as $k) {
+                foreach ($accounts[$k] as $accountId => $accountName) {
                     $allAcountsNoGroups[$accountId] = $accountName;
                 }
             }
@@ -40,7 +40,7 @@ class OA_Admin_UI_AccountSwitch
                 if (++$added > self::MAX_ACCOUNTS_IN_GROUP) {
                     break;
                 }
-            	$recentlyUsed[$recentlyUserAccountId] = $allAcountsNoGroups[$recentlyUserAccountId];
+                $recentlyUsed[$recentlyUserAccountId] = $allAcountsNoGroups[$recentlyUserAccountId];
             }
         }
         
@@ -48,9 +48,8 @@ class OA_Admin_UI_AccountSwitch
         if (isset($accounts[OA_ACCOUNT_ADMIN])) {
             $adminAccounts = self::filterByNameAndLimit($accounts[OA_ACCOUNT_ADMIN], $query, $remainingCounts, OA_ACCOUNT_ADMIN);
             unset($accounts[OA_ACCOUNT_ADMIN]);
-        }
-        else {
-            $adminAccounts = array ();
+        } else {
+            $adminAccounts = [];
         }
         
         $showSearchAndRecent = false;
@@ -68,7 +67,7 @@ class OA_Admin_UI_AccountSwitch
         
         // Prepend recently used to the results
         if (!empty($recentlyUsed) && $showSearchAndRecent) {
-            $accounts = array_merge(array($GLOBALS['strRecentlyUsed'] => $recentlyUsed), $accounts);
+            $accounts = array_merge([$GLOBALS['strRecentlyUsed'] => $recentlyUsed], $accounts);
         }
         
         $template->assign('adminAccounts', $adminAccounts);
@@ -83,27 +82,29 @@ class OA_Admin_UI_AccountSwitch
     public static function addToRecentlyUsedAccounts($accountId)
     {
         global $session;
-        if (empty($session['recentlyUsedAccounts']))
-        {
+        if (empty($session['recentlyUsedAccounts'])) {
             $session['recentlyUsedAccounts']['a' . $accountId] = $accountId;
         } else {
-            $session['recentlyUsedAccounts'] = array_merge(array('a' . $accountId => $accountId), 
-                $session['recentlyUsedAccounts']);
+            $session['recentlyUsedAccounts'] = array_merge(
+                ['a' . $accountId => $accountId],
+                $session['recentlyUsedAccounts']
+            );
         }
         phpAds_SessionDataStore();
     }
 
-    private static function filterByNameAndLimit($accounts, $q, &$remainingCounts, 
-            $remainingCountsKey)
-    {
-        $result = array ();
+    private static function filterByNameAndLimit(
+        $accounts,
+        $q,
+        &$remainingCounts,
+        $remainingCountsKey
+    ) {
+        $result = [];
         $added = 0;
         $limit = empty($q) ? self::MAX_ACCOUNTS_IN_GROUP : self::MAX_ACCOUNTS_IN_SEARCH;
         foreach ($accounts as $id => $name) {
-            if (empty($q) || stripos($name, $q) !== false) {
-                if ($added++ < $limit) {
-                    $result[$id] = $name;
-                }
+            if ((empty($q) || stripos($name, $q) !== false) && $added++ < $limit) {
+                $result[$id] = $name;
             }
         }
         

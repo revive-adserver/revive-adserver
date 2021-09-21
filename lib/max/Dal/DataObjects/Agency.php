@@ -17,16 +17,16 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Agency extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
-    var $refreshUpdatedFieldIfExists = true;
+    public $onDeleteCascade = true;
+    public $refreshUpdatedFieldIfExists = true;
 
     /**
      * BC-compatible user details
      *
      * @todo Please remove later
      */
-    var $username;
-    var $password;
+    public $username;
+    public $password;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -41,9 +41,12 @@ class DataObjects_Agency extends DB_DataObjectCommon
     public $status;                          // SMALLINT(6) => openads_smallint => 129
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Agency',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Agency', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'name' => '',
         'email' => '',
         'updated' => '%DATE_TIME%',
@@ -58,7 +61,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
      *
      * @see DB_DataObject::insert()
      */
-    function insert()
+    public function insert()
     {
         // Create account first
         $result = $this->createAccount(OA_ACCOUNT_MANAGER, $this->name);
@@ -68,13 +71,13 @@ class DataObjects_Agency extends DB_DataObjectCommon
 
         // Store data to create a user
         if (!empty($this->username) && !empty($this->password)) {
-            $aUser = array(
+            $aUser = [
                 'contact_name' => $this->contact,
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
                 'default_account_id' => $this->account_id
-            );
+            ];
         }
 
         $agencyid = parent::insert();
@@ -104,17 +107,17 @@ class DataObjects_Agency extends DB_DataObjectCommon
      *
      * @see DB_DataObject::update()
      */
-    function update($dataObject = false)
+    public function update($dataObject = false)
     {
         // Store data to create a user
         if (!empty($this->username) && !empty($this->password)) {
-            $aUser = array(
+            $aUser = [
                 'contact_name' => $this->contact,
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
                 'default_account_id' => $this->account_id
-            );
+            ];
         }
 
         $ret = parent::update($dataObject);
@@ -137,9 +140,9 @@ class DataObjects_Agency extends DB_DataObjectCommon
      *
      * @see DB_DataObject::delete()
      */
-    function delete($useWhere = false, $cascade = true, $parentid = null)
+    public function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-        $result =  parent::delete($useWhere, $cascade, $parentid);
+        $result = parent::delete($useWhere, $cascade, $parentid);
         if ($result) {
             $this->deleteAccount();
         }
@@ -152,22 +155,22 @@ class DataObjects_Agency extends DB_DataObjectCommon
      *
      * @return string
      */
-    function getUserId()
+    public function getUserId()
     {
         return $this->agencyid;
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->agencyid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Agency';
     }
@@ -178,18 +181,18 @@ class DataObjects_Agency extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = $this->name;
+        $aAuditFields['key_desc'] = $this->name;
     }
 
-    function agencyExists($agencyName)
+    public function agencyExists($agencyName)
     {
         $this->name = $agencyName;
         return (bool)$this->count();
     }
 
-    function belongsToAccount($accountId = null)
+    public function belongsToAccount($accountId = null)
     {
         // Set the account ID, if not passed in
         if (empty($accountId)) {
@@ -206,5 +209,3 @@ class DataObjects_Agency extends DB_DataObjectCommon
         return $result;
     }
 }
-
-?>

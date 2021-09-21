@@ -23,9 +23,8 @@ require_once LIB_PATH . '/Extension/deliveryLog/Setup.php';
  */
 class postscript_install_oxLogClick
 {
-
-    const DELIVERY_LOG_EXTENSION = 'deliveryLog';
-    const DELIVERY_LOG_GROUP     = 'oxLogClick';
+    public const DELIVERY_LOG_EXTENSION = 'deliveryLog';
+    public const DELIVERY_LOG_GROUP = 'oxLogClick';
 
     /**
      * Calls onInstall method for the required component and group.
@@ -35,11 +34,9 @@ class postscript_install_oxLogClick
      *
      * @return boolean True on success, else false.
      */
-    function execute()
+    public function execute()
     {
         $oSetup = new OX_Extension_DeliveryLog_Setup();
-        return $oSetup->installComponents(self::DELIVERY_LOG_EXTENSION, array(self::DELIVERY_LOG_GROUP));
+        return $oSetup->installComponents(self::DELIVERY_LOG_EXTENSION, [self::DELIVERY_LOG_GROUP]);
     }
 }
-
-?>

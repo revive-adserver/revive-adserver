@@ -24,19 +24,19 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        $aConf = & $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['pluginGroupComponents']['Geo'] = 1;
         $aConf['pluginPaths']['plugins'] = '/plugins_repo/openXDeliveryLimitations/plugins/';
     }
 
-    function tearDown()
+    public function tearDown()
     {
         TestEnv::restoreConfig();
     }
 
-    function testCompile()
+    public function testCompile()
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'City');
         $rawData = 'GB|London, Manchester';
@@ -47,7 +47,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
         $this->assertEqual('MAX_checkGeo_City(\'gb|london,manchester\', \'==\')', $oPlugin->compile());
     }
 
-    function testMAX_checkGeo_City()
+    public function testMAX_checkGeo_City()
     {
         $this->assertTrue(MAX_checkGeo_City('PL|Poznan,Wroclaw', '=~', ['country' => 'PL', 'city' => 'Poznan']));
         $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw', '=~', ['country' => 'PL', 'city' => 'Poznan']));
@@ -61,14 +61,12 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
         $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw', '!~', ['country' => 'PL', 'city' => 'Warszawa']));
         $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek', '!~', ['country' => 'PL', 'city' => 'Szczecin']));
         $this->assertTrue(MAX_checkGeo_City('pl|', '!~', ['country' => 'PL', 'city' => 'Szczecin']));
-}
+    }
 
-    function testGetName()
+    public function testGetName()
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'City');
         $oPlugin->init([]); // Assume it is called in the production after talking to Andrew
         $this->assertEqual('Geo - Country / City', $oPlugin->displayName);
     }
 }
-
-?>

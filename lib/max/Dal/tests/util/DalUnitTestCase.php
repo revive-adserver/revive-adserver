@@ -28,7 +28,8 @@ class DalUnitTestCase extends UnitTestCase
      *    @return boolean                    True if all tests passed.
      *    @access public
      */
-    function run(&$reporter) {
+    public function run(&$reporter)
+    {
         $this->setUpFixture();
         $ret = parent::run($reporter);
         $this->tearDownFixture();
@@ -39,14 +40,16 @@ class DalUnitTestCase extends UnitTestCase
      * setUpFixture() method is executed once before running all the tests
      *
      */
-    function setUpFixture() {
+    public function setUpFixture()
+    {
     }
     
     /**
      * tearDownFixture() method is executed once after running all the tests
      *
      */
-    function tearDownFixture() {
+    public function tearDownFixture()
+    {
     }
     
     /**
@@ -55,7 +58,7 @@ class DalUnitTestCase extends UnitTestCase
      *
      * @var boolean
      */
-    var $stripUpdated = true;
+    public $stripUpdated = true;
 
     /**
      *    Will trigger a pass if the two DataObjects have
@@ -67,12 +70,13 @@ class DalUnitTestCase extends UnitTestCase
      *    @return boolean              True on pass
      *    @access public
      */
-    function assertEqualDataObjects($first, $second, $message = "%s")
+    public function assertEqualDataObjects($first, $second, $message = "%s")
     {
         return $this->assertExpectation(
-                    new EqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
-                    $this->stripUpdated($this->stripPrivateFields($second)),
-                    $message);
+            new EqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
+            $this->stripUpdated($this->stripPrivateFields($second)),
+            $message
+        );
     }
 
     /**
@@ -85,12 +89,13 @@ class DalUnitTestCase extends UnitTestCase
      *    @return boolean              True on pass
      *    @access public
      */
-    function assertNotEqualDataObjects($first, $second, $message = "%s")
+    public function assertNotEqualDataObjects($first, $second, $message = "%s")
     {
         return $this->assertExpectation(
-                    new NotEqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
-                    $this->stripUpdated($this->stripPrivateFields($second)),
-                    $message);
+            new NotEqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
+            $this->stripUpdated($this->stripPrivateFields($second)),
+            $message
+        );
     }
 
     /**
@@ -100,11 +105,13 @@ class DalUnitTestCase extends UnitTestCase
      *    @return boolean                        True on pass
      *    @access public
      */
-    function assertEmpty($value, $message = "%s") {
+    public function assertEmpty($value, $message = "%s")
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                "[" . $dumper->describeValue($value) . "] should be empty");
+            $message,
+            "[" . $dumper->describeValue($value) . "] should be empty"
+        );
         return $this->assertTrue(empty($value), $message);
     }
 
@@ -115,11 +122,13 @@ class DalUnitTestCase extends UnitTestCase
      *    @return boolean               True on pass.
      *    @access public
      */
-    function assertNotEmpty($value, $message = "%s") {
+    public function assertNotEmpty($value, $message = "%s")
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                "[" . $dumper->describeValue($value) . "] should not be null");
+            $message,
+            "[" . $dumper->describeValue($value) . "] should not be null"
+        );
         return $this->assertTrue(!empty($value), $message);
     }
 
@@ -130,7 +139,7 @@ class DalUnitTestCase extends UnitTestCase
      *   @param DataObject $do
      *   @return DataObject
      */
-    function stripPrivateFields($do)
+    public function stripPrivateFields($do)
     {
         if (is_object($do)) {
             $fields = get_object_vars($do);
@@ -150,7 +159,7 @@ class DalUnitTestCase extends UnitTestCase
      *   @param bool $stripPrivateFields  Should we also strip private fields?
      *   @return DataObject
      */
-    function stripKeys($do)
+    public function stripKeys($do)
     {
         if (is_a($do, 'DB_DataObject')) {
             $keys = $do->keys();
@@ -161,7 +170,7 @@ class DalUnitTestCase extends UnitTestCase
         return $do;
     }
 
-    function stripUpdated($do)
+    public function stripUpdated($do)
     {
         if ($this->stripUpdated && $do->refreshUpdatedFieldIfExists) {
             unset($do->updated);
@@ -169,9 +178,8 @@ class DalUnitTestCase extends UnitTestCase
         return $do;
     }
 
-    function getPrefix()
+    public function getPrefix()
     {
         return OA_Dal::getTablePrefix();
     }
-    
 }

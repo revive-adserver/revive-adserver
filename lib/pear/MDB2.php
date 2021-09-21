@@ -364,7 +364,7 @@ class MDB2
     {
         $dsninfo = MDB2::parseDSN($dsn);
         if (empty($dsninfo['phptype'])) {
-            $err = MDB2::raiseError(MDB2_ERROR_NOT_FOUND,
+            $err = MDB2::customRaiseError(MDB2_ERROR_NOT_FOUND,
                 null, null, 'no RDBMS driver specified');
             return $err;
         }

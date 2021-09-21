@@ -32,7 +32,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.5");
-phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
+phpAds_ShowSections(["5.1", "5.2", "5.3", "5.5", "5.6", "5.4"]);
 phpAds_MaintenanceSelection("zones");
 
 
@@ -41,69 +41,71 @@ phpAds_MaintenanceSelection("zones");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-function phpAds_showCache ()
+function phpAds_showCache()
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
-	global $strSize, $strKiloByte;
-	global $phpAds_TextDirection;
+    $conf = $GLOBALS['_MAX']['CONF'];
+    global $strSize, $strKiloByte;
+    global $phpAds_TextDirection;
 
-	$rows = phpAds_cacheInfo();
+    $rows = phpAds_cacheInfo();
 
-	if (is_array($rows)) {
-		$i=0;
+    if (is_array($rows)) {
+        $i = 0;
 
-		// Header
-		echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-		echo "<tr height='25'>";
-		echo "<td height='25'><b>".$strSize."</b></td>";
-		echo "</tr>";
+        // Header
+        echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
+        echo "<tr height='25'>";
+        echo "<td height='25'><b>" . $strSize . "</b></td>";
+        echo "</tr>";
 
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 
-		foreach (array_keys($rows) as $key) {
-			strtok($key, "=");
-			$what = strtok("&");
+        foreach (array_keys($rows) as $key) {
+            strtok($key, "=");
+            $what = strtok("&");
 
-			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
+            if ($i > 0) {
+                echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>";
+            }
 
-	    	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
+            echo "<tr height='25' " . ($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "") . ">";
 
-			echo "<td height='25'>";
-			echo "&nbsp;&nbsp;";
+            echo "<td height='25'>";
+            echo "&nbsp;&nbsp;";
 
-			// Icon
-			if (substr($what,0,5) == 'zone:')
-				echo "<img src='" . OX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;";
-			else
-				echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
+            // Icon
+            if (substr($what, 0, 5) == 'zone:') {
+                echo "<img src='" . OX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;";
+            } else {
+                echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
+            }
 
 
-			// Name
-			echo $what;
-			echo "</td>";
+            // Name
+            echo $what;
+            echo "</td>";
 
-			echo "<td height='25'>".round ($rows[$key] / 1024)." ".$strKiloByte."</td>";
+            echo "<td height='25'>" . round($rows[$key] / 1024) . " " . $strKiloByte . "</td>";
 
-			echo "</tr>";
-			$i++;
-		}
+            echo "</tr>";
+            $i++;
+        }
 
-		// Footer
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-		echo "</table>";
-	}
+        // Footer
+        echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+        echo "</table>";
+    }
 }
 
 
-echo "<br />".$strDeliveryCacheExplaination;
+echo "<br />" . $strDeliveryCacheExplaination;
 
 if (!empty($conf['delivery']['cache'])) {
-    switch ($conf['delivery']['cache'])
-    {
-    	case 'shm': 		echo $strDeliveryCacheSharedMem; break;
-    	case 'sysvshm': 	echo $strDeliveryCacheSharedMem; break;
-    	case 'file': 		echo $strDeliveryCacheFiles; break;
-    	default:    		echo $strDeliveryCacheDatabase; break;
+    switch ($conf['delivery']['cache']) {
+        case 'shm': 		echo $strDeliveryCacheSharedMem; break;
+        case 'sysvshm': 	echo $strDeliveryCacheSharedMem; break;
+        case 'file': 		echo $strDeliveryCacheFiles; break;
+        default:    		echo $strDeliveryCacheDatabase; break;
     }
 } else {
     echo $strDeliveryCacheDatabase;
@@ -112,7 +114,7 @@ echo "<br /><br />";
 
 phpAds_ShowBreak();
 
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-cache-rebuild.php'>$strRebuildDeliveryCache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/" . $phpAds_TextDirection . "/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-cache-rebuild.php'>$strRebuildDeliveryCache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 echo "<br /><br />";
@@ -126,5 +128,3 @@ echo "<br /><br />";
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

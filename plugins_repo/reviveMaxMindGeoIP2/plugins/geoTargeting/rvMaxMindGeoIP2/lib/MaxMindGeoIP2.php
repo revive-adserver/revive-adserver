@@ -6,9 +6,9 @@ use MaxMind\Db\Reader;
 
 class MaxMindGeoIP2
 {
-    const DEFAULT_MMDB = MAX_PATH.'/var/plugins/rvMaxMindGeoIP2/GeoLite2-City.mmdb';
+    public const DEFAULT_MMDB = MAX_PATH . '/var/plugins/rvMaxMindGeoIP2/GeoLite2-City.mmdb';
 
-    const GEO = [
+    public const GEO = [
         'version' => '2',
         'country' => '',
         'continent' => '',
@@ -24,7 +24,7 @@ class MaxMindGeoIP2
         'subdivision_2' => '',
     ];
 
-    const TRAITS = [
+    public const TRAITS = [
         'is_anonymous' => '',
         'is_anonymous_vpn' => '',
         'is_hosting_provider' => '',
@@ -41,7 +41,7 @@ class MaxMindGeoIP2
         'autonomous_system_organization' => '',
     ];
 
-    const CAPABILITIES = [
+    public const CAPABILITIES = [
         'Anonymous-IP' => [
             'is_anonymous' => true,
             'is_anonymous_vpn' => true,

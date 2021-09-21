@@ -13,7 +13,7 @@
 /**
  * Table Definition for banners_demo
  */
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 class DataObjects_Banners_demo extends DB_DataObjectCommon
 {
@@ -25,11 +25,14 @@ class DataObjects_Banners_demo extends DB_DataObjectCommon
     public $banners_demo_desc;               // VARCHAR(16) => openads_varchar => 130
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banners_demo',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Banners_demo', $k, $v);
+    }
 
-    var $defaultValues = array(
+    public $defaultValues = [
                 'banners_demo_desc' => '',
-                );
+                ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -39,9 +42,8 @@ class DataObjects_Banners_demo extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 }
-
-?>

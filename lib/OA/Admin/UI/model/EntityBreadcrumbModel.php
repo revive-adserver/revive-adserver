@@ -11,17 +11,17 @@
 */
 
 /**
- * A model describing a page header. Allows to specify title, title icon class, 
+ * A model describing a page header. Allows to specify title, title icon class,
  * include breadcrumbs if any.
- * 
+ *
  * Newly created model is empty, so if page is given such a model no title nor icon
  * will be displayed.
- * 
+ *
  */
 class OA_Admin_UI_Model_EntityBreadcrumbModel
 {
     /**
-     * 
+     *
      *
      * @var array
      */
@@ -29,7 +29,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbModel
     
     public function __construct()
     {
-        $this->aSegments = array();
+        $this->aSegments = [];
     }
     
     
@@ -43,5 +43,3 @@ class OA_Admin_UI_Model_EntityBreadcrumbModel
         $this->aSegments[] = $oSegment;
     }
 }
-
-?>

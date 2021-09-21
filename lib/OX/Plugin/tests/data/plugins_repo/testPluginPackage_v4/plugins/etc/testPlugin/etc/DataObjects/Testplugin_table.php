@@ -13,7 +13,7 @@
 /**
  * Table Definition for testplugin_table
  */
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 class DataObjects_Testplugin_table extends DB_DataObjectCommon
 {
@@ -21,12 +21,15 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'testplugin_table';                // table name
-    public $testplugin_id;                   // INT(10) => openads_int => 129 
-    public $testplugin_desc;                 // VARCHAR(128) => openads_varchar => 2 
-    public $updated;                         // DATETIME() => openads_datetime => 14 
+    public $testplugin_id;                   // INT(10) => openads_int => 129
+    public $testplugin_desc;                 // VARCHAR(128) => openads_varchar => 2
+    public $updated;                         // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Testplugin_table',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGet('DataObjects_Testplugin_table', $k, $v);
+    }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -42,22 +45,22 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
      *                 "account_id" column of the audit trail
      *                 database table.
      */
-    function getOwningAccountId()
+    public function getOwningAccountId()
     {
         return OA_ACCOUNT_ADMIN_ID;
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->testplugin_id;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'testPlugin String';
     }
@@ -68,9 +71,8 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']   = $this->testplugin_desc;
+        $aAuditFields['key_desc'] = $this->testplugin_desc;
     }
-
 }

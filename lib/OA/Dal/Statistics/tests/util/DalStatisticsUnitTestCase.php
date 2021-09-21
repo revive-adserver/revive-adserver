@@ -31,18 +31,18 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Campaigns &$doCampaign  campaign object
      * @param DataObjects_Bannerts &$doBanner     banner object
      */
-    function generateBannerWithParents(&$doAgency, &$doAdvertiser, &$doCampaign, &$doBanner)
+    public function generateBannerWithParents(&$doAgency, &$doAdvertiser, &$doCampaign, &$doBanner)
     {
         $doAgency->agencyid = DataGenerator::generateOne($doAgency);
 
         $doAdvertiser->agencyid = $doAgency->agencyid;
         $doAdvertiser->clientid = DataGenerator::generateOne($doAdvertiser);
 
-        $doCampaign->clientid   = $doAdvertiser->clientid;
+        $doCampaign->clientid = $doAdvertiser->clientid;
         $doCampaign->campaignid = DataGenerator::generateOne($doCampaign);
 
         $doBanner->campaignid = $doCampaign->campaignid;
-        $doBanner->bannerid   = DataGenerator::generateOne($doBanner);
+        $doBanner->bannerid = DataGenerator::generateOne($doBanner);
     }
 
     /**
@@ -51,10 +51,10 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Campaigns &$doCampaign  campaign object
      * @param DataObjects_Bannerts &$doBanner     banner object
      */
-    function generateBannerForCampaign(&$doCampaign, &$doBanner)
+    public function generateBannerForCampaign(&$doCampaign, &$doBanner)
     {
         $doBanner->campaignid = $doCampaign->campaignid;
-        $doBanner->bannerid   = DataGenerator::generateOne($doBanner);
+        $doBanner->bannerid = DataGenerator::generateOne($doBanner);
     }
 
     /**
@@ -64,13 +64,13 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Campaigns &$doCampaign  campaign object
      * @param DataObjects_Bannerts &$doBanner     banner object
      */
-    function generateBannerAndCampaignForAdvertiser(&$doAdvertiser, &$doCampaign, &$doBanner)
+    public function generateBannerAndCampaignForAdvertiser(&$doAdvertiser, &$doCampaign, &$doBanner)
     {
-        $doCampaign->clientid   = $doAdvertiser->clientid;
+        $doCampaign->clientid = $doAdvertiser->clientid;
         $doCampaign->campaignid = DataGenerator::generateOne($doCampaign);
 
         $doBanner->campaignid = $doCampaign->campaignid;
-        $doBanner->bannerid   = DataGenerator::generateOne($doBanner);
+        $doBanner->bannerid = DataGenerator::generateOne($doBanner);
     }
 
     /**
@@ -80,15 +80,15 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Affiliates &$doPublisher publisher object
      * @param DataObjects_Zones &$doZone           zone object
      */
-    function generateZoneWithParents(&$doAgency, &$doPublisher, &$doZone)
+    public function generateZoneWithParents(&$doAgency, &$doPublisher, &$doZone)
     {
         $doAgency->agencyid = DataGenerator::generateOne($doAgency);
 
-        $doPublisher->agencyid    = $doAgency->agencyid;
+        $doPublisher->agencyid = $doAgency->agencyid;
         $doPublisher->affiliateid = DataGenerator::generateOne($doPublisher);
 
         $doZone->affiliateid = $doPublisher->affiliateid;
-        $doZone->zoneid      = DataGenerator::generateOne($doZone);
+        $doZone->zoneid = DataGenerator::generateOne($doZone);
     }
 
     /**
@@ -98,13 +98,13 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Affiliates &$doPublisher publisher object
      * @param DataObjects_Zones &$doZone           zone object
      */
-    function generateZoneAndPublisherForAgency(&$doAgency, &$doPublisher, &$doZone)
+    public function generateZoneAndPublisherForAgency(&$doAgency, &$doPublisher, &$doZone)
     {
-        $doPublisher->agencyid    = $doAgency->agencyid;
+        $doPublisher->agencyid = $doAgency->agencyid;
         $doPublisher->affiliateid = DataGenerator::generateOne($doPublisher);
 
         $doZone->affiliateid = $doPublisher->affiliateid;
-        $doZone->zoneid      = DataGenerator::generateOne($doZone);
+        $doZone->zoneid = DataGenerator::generateOne($doZone);
     }
 
     /**
@@ -113,10 +113,10 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Affiliates &$doPublisher publisher object
      * @param DataObjects_Zones &$doZone           zone object
      */
-    function generateZoneForPublisher(&$doPublisher, &$doZone)
+    public function generateZoneForPublisher(&$doPublisher, &$doZone)
     {
         $doZone->affiliateid = $doPublisher->affiliateid;
-        $doZone->zoneid      = DataGenerator::generateOne($doZone);
+        $doZone->zoneid = DataGenerator::generateOne($doZone);
     }
 
     /**
@@ -125,7 +125,7 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Data_summary_ad_hourly &$doDataSummaryAdHourly  statistics object
      * @param DataObjects_Banners                &$doBanner               banner object
      */
-    function generateDataSummaryAdHourlyForBanner(&$doDataSummaryAdHourly, &$doBanner)
+    public function generateDataSummaryAdHourlyForBanner(&$doDataSummaryAdHourly, &$doBanner)
     {
         $doDataSummaryAdHourly->ad_id = $doBanner->bannerid;
         DataGenerator::generateOne($doDataSummaryAdHourly);
@@ -137,7 +137,7 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Data_summary_ad_hourly &$doDataSummaryAdHourly  statistics object
      * @param DataObjects_Zones                 &$doZone                  zone object
      */
-    function generateDataSummaryAdHourlyForZone(&$doDataSummaryAdHourly, &$doZone)
+    public function generateDataSummaryAdHourlyForZone(&$doDataSummaryAdHourly, &$doZone)
     {
         $doDataSummaryAdHourly->zone_id = $doZone->zoneid;
         DataGenerator::generateOne($doDataSummaryAdHourly);
@@ -150,10 +150,10 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param DataObjects_Banners                &$doBanner
      * @param DataObjects_Zones                  &$doZone
      */
-    function generateDataSummaryAdHourlyForBannerAndZone(&$doDataSummaryAdHourly, &$doBanner, &$doZone)
+    public function generateDataSummaryAdHourlyForBannerAndZone(&$doDataSummaryAdHourly, &$doBanner, &$doZone)
     {
         $doDataSummaryAdHourly->zone_id = $doZone->zoneid;
-        $doDataSummaryAdHourly->ad_id   = $doBanner->bannerid;
+        $doDataSummaryAdHourly->ad_id = $doBanner->bannerid;
         DataGenerator::generateOne($doDataSummaryAdHourly);
     }
 
@@ -163,9 +163,9 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param array $aRow  result array from statistics
      * @param string $fieldName  field name
      */
-    function assertFieldExists($aRow, $fieldName)
+    public function assertFieldExists($aRow, $fieldName)
     {
-        $this->assertTrue(array_key_exists($fieldName, $aRow), 'Field \''.$fieldName.'\' is missing');
+        $this->assertTrue(array_key_exists($fieldName, $aRow), 'Field \'' . $fieldName . '\' is missing');
     }
 
     /**
@@ -175,9 +175,9 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param string $fieldName  field name
      * @param string $fieldValue  field value
      */
-    function assertFieldEqual($aRow, $fieldName, $fieldValue)
+    public function assertFieldEqual($aRow, $fieldName, $fieldValue)
     {
-        $this->assertEqual($aRow[$fieldName], $fieldValue, 'Field \''.$fieldName.'\' value is incorrect');
+        $this->assertEqual($aRow[$fieldName], $fieldValue, 'Field \'' . $fieldName . '\' value is incorrect');
     }
 
     /**
@@ -188,7 +188,7 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      * @param string $fieldName  field name
      * @param string $fieldValue  field value for 1 argument
      */
-    function ensureRowSequence(&$aRow1, &$aRow2, $fieldName, $fieldValue)
+    public function ensureRowSequence(&$aRow1, &$aRow2, $fieldName, $fieldValue)
     {
         if ($aRow1[$fieldName] != $fieldValue) {
             $aRowD = $aRow1;
@@ -196,7 +196,4 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
             $aRow2 = $aRowD;
         }
     }
-
 }
-
-?>

@@ -26,16 +26,16 @@ class OA_DB_Sql
      * @param array $aValues
      * @return string
      */
-	public static function sqlForInsert($table, $aValues)
-	{
-	    foreach($aValues as $column => $value) {
-	        $aValues[$column] = DBC::makeLiteral($value);
-	    }
+    public static function sqlForInsert($table, $aValues)
+    {
+        foreach ($aValues as $column => $value) {
+            $aValues[$column] = DBC::makeLiteral($value);
+        }
         $sColumns = implode(",", array_keys($aValues));
         $sValues = implode(",", $aValues);
         $table = self::modifyTableName($table);
         return "INSERT INTO {$table} ($sColumns) VALUES ($sValues)";
-	}
+    }
 
 
     /**
@@ -68,7 +68,7 @@ class OA_DB_Sql
      * @param array $aColumns List of columns, defaults to '*'.
      * @return DataSpace
      */
-    public static function selectWhereOne($table, $idColumn, $id, $aColumns = array('*'))
+    public static function selectWhereOne($table, $idColumn, $id, $aColumns = ['*'])
     {
         $sColumns = implode(' ', $aColumns);
         $table = self::modifyTableName($table);
@@ -95,9 +95,9 @@ class OA_DB_Sql
      */
     public static function updateWhereOne($table, $idColumn, $id, $aValues)
     {
-        $aSet = array();
+        $aSet = [];
         foreach ($aValues as $column => $value) {
-            $aSet []= "$column = " . DBC::makeLiteral($value);
+            $aSet [] = "$column = " . DBC::makeLiteral($value);
         }
         $sSet = implode(",", $aSet);
         $table = self::modifyTableName($table);
@@ -120,8 +120,6 @@ class OA_DB_Sql
     {
         $oDbh = OA_DB::singleton();
 
-        return $oDbh->quoteIdentifier(self::getPrefix().$table, true);
+        return $oDbh->quoteIdentifier(self::getPrefix() . $table, true);
     }
 }
-
-?>

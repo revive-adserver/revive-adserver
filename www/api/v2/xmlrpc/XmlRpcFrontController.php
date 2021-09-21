@@ -566,7 +566,6 @@ class XmlRpcFrontController
     {
         $service = new ZoneXmlRpcService();
         return $service->addZone($message);
-
     }
 
     public function deleteZone($message)
@@ -653,6 +652,3 @@ class XmlRpcFrontController
         return $service->zoneHourlyStatistics($message);
     }
 }
-
-
-

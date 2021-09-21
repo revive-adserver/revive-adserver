@@ -24,24 +24,27 @@ require_once MAX_PATH . '/lib/OA/PermanentCache.php';
  */
 class OA_Central_Common
 {
-
+    /**
+     * @var \OA_Dal_Central_Common
+     */
+    public $oDal;
     /**
      * @var Cache_Lite
      */
-    var $oCache;
+    public $oCache;
 
     /**
      * Class constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->oDal = new OA_Dal_Central_Common();
-        $this->oCache = new Cache_Lite_Function(array(
-            'cacheDir'                      => MAX_PATH . '/var/cache/',
-            'lifeTime'                      => 86400,
-            'defaultGroup'                  => get_class($this),
+        $this->oCache = new Cache_Lite_Function([
+            'cacheDir' => MAX_PATH . '/var/cache/',
+            'lifeTime' => 86400,
+            'defaultGroup' => get_class($this),
             'dontCacheWhenTheResultIsFalse' => true
-        ));
+        ]);
     }
 
     /**
@@ -50,7 +53,7 @@ class OA_Central_Common
      * @param string $cacheName The cache name
      * @return mixed The cached content
      */
-    function retrievePermanentCache($cacheName)
+    public function retrievePermanentCache($cacheName)
     {
         $oCache = new OA_PermanentCache();
         return $oCache->get($cacheName);

@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 
 
-$aEntityMap = array();
+$aEntityMap = [];
 
 if (!empty($clientid)) {
     if (!OA_Permission::hasAccessToObject('clients', $clientid)) {
@@ -47,8 +47,8 @@ if (!empty($clientid)) {
 
 if (count($aEntityMap)) {
     $idx = 0;
-    while (list($k,$v) = each($aEntityMap)) {
-        $aEntityMap[$k] = $k . ': { "name": "' . addslashes($v) . '","idx":"'.($idx++).'" }';
+    foreach ($aEntityMap as $k => $v) {
+        $aEntityMap[$k] = $k . ': { "name": "' . addslashes($v) . '","idx":"' . ($idx++) . '" }';
     }
     
     echo "{" . implode(', ', $aEntityMap) . "}";
@@ -56,5 +56,3 @@ if (count($aEntityMap)) {
 }
 
 echo "{ }";
-
-?>

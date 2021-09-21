@@ -34,5 +34,3 @@ interface OX_Admin_UI_Storage
      */
     public function set($propertyName, $value);
 }
-
-?>

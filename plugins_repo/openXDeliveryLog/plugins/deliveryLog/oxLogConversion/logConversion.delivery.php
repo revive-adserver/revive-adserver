@@ -28,9 +28,11 @@ MAX_Dal_Delivery_Include();
  */
 function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion($trackerId, $serverRawIp, $aConversion, $okToLog = true)
 {
-    if (!$okToLog) { return false; }
+    if (!$okToLog) {
+        return false;
+    }
     // Initiate the connection to the database (before using mysql_real_escape_string)
- 	OA_Dal_Delivery_connect('rawDatabase');
+    OA_Dal_Delivery_connect('rawDatabase');
 
     $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a';
 
@@ -39,18 +41,18 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
     }
     $time = $GLOBALS['_MAX']['NOW'];
 
-    $aValues = array(
-        'server_ip'        => $serverRawIp,
-        'tracker_id'       => (int)$trackerId,
-        'date_time'        => gmdate('Y-m-d H:i:s', $time),
+    $aValues = [
+        'server_ip' => $serverRawIp,
+        'tracker_id' => (int)$trackerId,
+        'date_time' => gmdate('Y-m-d H:i:s', $time),
         'action_date_time' => gmdate('Y-m-d H:i:s', $aConversion['dt']),
-        'creative_id'      => (int)$aConversion['cid'],
-        'zone_id'          => (int)$aConversion['zid'],
-        'ip_address'       => $_SERVER['REMOTE_ADDR'],
-        'action'           => $aConversion['action_type'],
-        'window'           => $aConversion['window'],
-        'status'           => $aConversion['status']
-    );
+        'creative_id' => (int)$aConversion['cid'],
+        'zone_id' => (int)$aConversion['zid'],
+        'ip_address' => $_SERVER['REMOTE_ADDR'],
+        'action' => $aConversion['action_type'],
+        'window' => $aConversion['window'],
+        'status' => $aConversion['status']
+    ];
 
     // Need to also escape identifier as "window" is reserved since PgSQL 8.4
     $aFields = array_map('OX_escapeIdentifier', array_keys($aValues));
@@ -67,11 +69,9 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
     if (!$result) {
         return false;
     }
-    $aResult = array(
+    $aResult = [
         'server_conv_id' => OA_Dal_Delivery_insertId('rawDatabase', $table, 'server_conv_id'),
         'server_raw_ip' => $serverRawIp
-    );
+    ];
     return $aResult;
 }
-
-?>

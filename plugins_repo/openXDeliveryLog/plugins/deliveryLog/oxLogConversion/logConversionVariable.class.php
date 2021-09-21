@@ -19,26 +19,25 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  */
 class Plugins_DeliveryLog_OxLogConversion_LogConversionVariable extends Plugins_DeliveryLog
 {
-
-    function __construct()
+    public function __construct()
     {
         // Conversion variable values are NOT aggregate
         $this->type = 'raw';
         parent::__construct();
     }
 
-    function onInstall()
+    public function onInstall()
     {
         // no additional code (stored procedures) are required for logging conversions
         return true;
     }
 
-    function getDependencies()
+    public function getDependencies()
     {
-        return array(
-            'deliveryLog:oxLogConversion:logConversionVariable' => array(
-            )
-        );
+        return [
+            'deliveryLog:oxLogConversion:logConversionVariable' => [
+            ]
+        ];
     }
 
     /**
@@ -46,7 +45,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversionVariable extends Plugins_
      *
      * @return string The bucket table bucket name without prefix.
      */
-    function getBucketName()
+    public function getBucketName()
     {
         return 'data_bkt_a_var';
     }
@@ -58,7 +57,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversionVariable extends Plugins_
      */
     public function getBucketTableColumns()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -87,37 +86,34 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversionVariable extends Plugins_
     public function getStatisticsMigration()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $aMap = array(
-            'method'                 => 'rawSupplementary',
-            'masterTable'            => $aConf['table']['prefix'] . 'data_intermediate_ad_connection',
-            'masterTablePrimaryKeys' => array(
+        $aMap = [
+            'method' => 'rawSupplementary',
+            'masterTable' => $aConf['table']['prefix'] . 'data_intermediate_ad_connection',
+            'masterTablePrimaryKeys' => [
                 0 => 'data_intermediate_ad_connection_id'
-            ),
-            'bucketTablePrimaryKeys' => array(
+            ],
+            'bucketTablePrimaryKeys' => [
                 0 => 'data_intermediate_ad_connection_id'
-            ),
-            'masterTableKeys'       => array(
+            ],
+            'masterTableKeys' => [
                 0 => 'server_raw_tracker_impression_id',
                 1 => 'server_raw_ip'
-            ),
-            'bucketTableKeys'       => array(
+            ],
+            'bucketTableKeys' => [
                 0 => 'server_conv_id',
                 1 => 'server_ip'
-            ),
-            'masterDateTimeColumn'   => 'tracker_date_time',
-            'bucketTable'            => $this->getBucketTableName(),
-            'source'                 => array(
-                0  => 'tracker_variable_id',
-                1  => 'value'
-            ),
-            'destination'            => array(
-                0  => 'tracker_variable_id',
-                1  => 'value'
-            )
-        );
+            ],
+            'masterDateTimeColumn' => 'tracker_date_time',
+            'bucketTable' => $this->getBucketTableName(),
+            'source' => [
+                0 => 'tracker_variable_id',
+                1 => 'value'
+            ],
+            'destination' => [
+                0 => 'tracker_variable_id',
+                1 => 'value'
+            ]
+        ];
         return $aMap;
     }
-
 }
-
-?>

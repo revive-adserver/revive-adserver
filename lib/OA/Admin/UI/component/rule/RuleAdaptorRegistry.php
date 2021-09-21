@@ -26,22 +26,22 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
             $instance = new OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry();
         }
         return $instance;
-    } 
+    }
 
     
-    function __construct()
+    public function __construct()
     {
-        $this->quickFormRuleNameToAdaptorMap = array();
+        $this->quickFormRuleNameToAdaptorMap = [];
     }
     
     
     /**
      * Registers OA_Admin_UI_Rule_QuickFormToJQueryRuleAdaptor for a given quickform rule
-     * 
+     *
      * @return true if successfully registered, false if there is already adaptor
-     * registered for this quickform rule. 
+     * registered for this quickform rule.
      */
-    function registerJQueryRuleAdaptor($quickFormRuleName, $path, $className)
+    public function registerJQueryRuleAdaptor($quickFormRuleName, $path, $className)
     {
         $quickFormRuleName = strtolower($quickFormRuleName);
         
@@ -51,10 +51,10 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
         }
         
         if (isset($GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName])) {
-            return false;    
+            return false;
         }
         
-        $GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName] = array($path, $className);
+        $GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName] = [$path, $className];
 
         return true;
     }
@@ -68,7 +68,7 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
      * @param string $quickFormRuleName a name of quickform rule adaptro is retrieved
      * @return OA_Admin_UI_Rule_QuickFormToJQueryRuleAdaptor
      */
-    function getJQueryRuleAdaptor($quickFormRuleName)
+    public function getJQueryRuleAdaptor($quickFormRuleName)
     {
         $quickFormRuleName = strtolower($quickFormRuleName);
         if (!isset($GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName])) {
@@ -84,5 +84,3 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
         return $this->quickFormRuleNameToAdaptorMap[$quickFormRuleName];
     }
 }
-
-?>

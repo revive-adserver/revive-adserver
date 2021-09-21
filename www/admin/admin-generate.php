@@ -30,9 +30,9 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 $oHeader = new OA_Admin_UI_Model_PageHeaderModel($GLOBALS['strGenerateBannercode'], 'iconDirectSelectionLarge');
 phpAds_PageHeader(null, $oHeader);
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    $sections = array("4.1", "4.3");
+    $sections = ["4.1", "4.3"];
 } else {
-    $sections = array("4.1", "4.2", "4.3");
+    $sections = ["4.1", "4.2", "4.3"];
 }
 if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
     $sections[] = '4.4';
@@ -57,6 +57,3 @@ echo $maxInvocation->placeInvocationForm();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-
-?>

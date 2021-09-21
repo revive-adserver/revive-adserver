@@ -23,11 +23,10 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task/ManageCampaigns.php';
  */
 class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -35,7 +34,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
     /**
      * Test the creation of the class.
      */
-    function testCreate()
+    public function testCreate()
     {
         $oManageCampaigns = new OX_Maintenance_Statistics_Task_ManageCampaigns();
         $this->assertTrue(is_a($oManageCampaigns, 'OX_Maintenance_Statistics_Task_ManageCampaigns'));
@@ -44,7 +43,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
     /**
      * A method to test the run() method.
      */
-    function testRun()
+    public function testRun()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
 
@@ -71,7 +70,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectOnce('manageCampaigns', array($oDateNow));
+        $oDal->expectOnce('manageCampaigns', [$oDateNow]);
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
@@ -82,7 +81,4 @@ class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
         $oManageCampaigns->run();
         $oDal->tally();
     }
-
 }
-
-?>

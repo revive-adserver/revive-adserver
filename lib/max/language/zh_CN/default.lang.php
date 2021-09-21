@@ -218,7 +218,7 @@ $GLOBALS['strDayOfWeek'] = "星期";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = '周日';
 $GLOBALS['strDayFullNames'][1] = '周一';
@@ -229,7 +229,7 @@ $GLOBALS['strDayFullNames'][5] = '周五';
 $GLOBALS['strDayFullNames'][6] = '周六';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = '日';
 $GLOBALS['strDayShortCuts'][1] = '一';
@@ -461,17 +461,17 @@ $GLOBALS['strDeliveryCappingTotal'] = "次（总计）";
 $GLOBALS['strDeliveryCappingSession'] = "次／会话";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['limit'] = "限制展示";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "限制展示";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "限制展示";
 

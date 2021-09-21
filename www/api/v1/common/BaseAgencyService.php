@@ -28,16 +28,14 @@ class BaseAgencyService
      *
      * @var AgencyServiceImpl $_oAgencyServiceImp
      */
-    var $_oAgencyServiceImp;
+    public $_oAgencyServiceImp;
 
     /**
      * This method initialises Service implementation object field.
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->_oAgencyServiceImp = new AgencyServiceImpl();
     }
 }
-
-?>

@@ -88,24 +88,18 @@ class OA_DB
         $databaseType = $aDSN['phptype'];
 
         // Is this a MySQL database connection that should happen via SSL?
-        if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) && !empty($aDriverOptions['ssl'])) {
-            // Modify the DSN string to include the required CA and CAPATH options
-            if (!empty($aDriverOptions['ca']) && !empty($aDriverOptions['capath'])) {
-                $dsn .= "?ca={$aDriverOptions['ca']}&capth={$aDriverOptions['capath']}";
-            }
+        // Modify the DSN string to include the required CA and CAPATH options
+        if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) && !empty($aDriverOptions['ssl']) && (!empty($aDriverOptions['ca']) && !empty($aDriverOptions['capath']))) {
+            $dsn .= "?ca={$aDriverOptions['ca']}&capth={$aDriverOptions['capath']}";
         }
 
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
-        if (isset($GLOBALS['_OA']['CONNECTIONS'])) {
-            $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
-        } else {
-            $aConnections = array();
-        }
-        if (!(count($aConnections) > 0) || !(in_array($dsnMd5, $aConnections))) {
+        $aConnections = isset($GLOBALS['_OA']['CONNECTIONS']) ? array_keys($GLOBALS['_OA']['CONNECTIONS']) : [];
+        if (count($aConnections) <= 0 || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
-            $aOptions = array();
+            $aOptions = [];
             // Sequence column name
             $aOptions['seqcol_name'] = 'id';
             // Set the index name format
@@ -142,11 +136,9 @@ class OA_DB
             $aOptions += OA_DB::getDatatypeMapOptions();
 
             // Is this a MySQL database connection?
-            if (strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) {
-                // Should this connection happen over SSL?
-                if (!empty($aDriverOptions['ssl'])) {
-                    $aOptions['ssl'] = true;
-                }
+            // Should this connection happen over SSL?
+            if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) && !empty($aDriverOptions['ssl'])) {
+                $aOptions['ssl'] = true;
             }
 
             // Create the new database connection
@@ -162,11 +154,11 @@ class OA_DB
                 $client_flags = 0;
                 // Should this connection happen over SSL?
                 if (!empty($aDriverOptions['ssl'])) {
-                    $client_flags = $client_flags | MYSQLI_CLIENT_SSL;
+                    $client_flags |= MYSQLI_CLIENT_SSL;
                 }
                 // Should this connection use compression?
                 if (!empty($aDriverOptions['compress'])) {
-                    $client_flags = $client_flags | MYSQLI_CLIENT_COMPRESS;
+                    $client_flags |= MYSQLI_CLIENT_COMPRESS;
                 }
                 // Are there any MySQL connection flags to set?
                 if ($client_flags != 0) {
@@ -212,11 +204,11 @@ class OA_DB
      * @return array
      * @static
      */
-    static function getDatatypeMapOptions()
+    public static function getDatatypeMapOptions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $aOptions = array();
+        $aOptions = [];
         $aOptions['datatype_map'] = '';
         $aOptions['datatype_map_callback'] = '';
         $aOptions['nativetype_map_callback'] = '';
@@ -230,26 +222,26 @@ class OA_DB
             require_once $customTypesFile;
             if (!empty($aDatatypes)) {
                 reset($aDatatypes);
-                while (list($key, $value) = each($aDatatypes)) {
+                foreach ($aDatatypes as $key => $value) {
                     $aOptions['datatype_map'] =
                         array_merge(
                             (array)$aOptions['datatype_map'],
-                            array($key => $value)
+                            [$key => $value]
                         );
                     $aOptions['datatype_map_callback'] =
                         array_merge(
                             (array)$aOptions['datatype_map_callback'],
-                            array($key => 'datatype_' . $key . '_callback')
+                            [$key => 'datatype_' . $key . '_callback']
                         );
                 }
             }
             if (!empty($aNativetypes)) {
                 reset($aNativetypes);
-                while (list(, $value) = each($aNativetypes)) {
+                foreach ($aNativetypes as $value) {
                     $aOptions['nativetype_map_callback'] =
                         array_merge(
                             (array)$aOptions['nativetype_map_callback'],
-                            array($value => 'nativetype_' . $value . '_callback')
+                            [$value => 'nativetype_' . $value . '_callback']
                         );
                 }
             }
@@ -276,7 +268,7 @@ class OA_DB
      *
      * @return string An string containing the DSN.
      */
-    static function getDsn($aConf = null)
+    public static function getDsn($aConf = null)
     {
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
@@ -286,10 +278,8 @@ class OA_DB
             $socket = $aConf['database']['socket'];
 
             // Pgsql socket connection: unix(:5432)
-            if ($dbType == 'pgsql') {
-                if (!empty($aConf['database']['port'])) {
-                    $socket .= ':' . $aConf['database']['port'];
-                }
+            if ($dbType == 'pgsql' && !empty($aConf['database']['port'])) {
+                $socket .= ':' . $aConf['database']['port'];
             }
 
             $dsn = $dbType . '://' .
@@ -299,7 +289,7 @@ class OA_DB
                 $aConf['database']['name'];
         } else {
             $protocol = '';
-            $port = !empty($aConf['database']['port']) ? ':' . $aConf['database']['port'] : '';
+            $port = empty($aConf['database']['port']) ? '' : ':' . $aConf['database']['port'];
             $dsn = $dbType . '://' .
                 $aConf['database']['username'] . ':' .
                 $aConf['database']['password'] . '@' .
@@ -329,9 +319,9 @@ class OA_DB
      * @return array An array of driver specific options suitable for passing into
      *               the OA_DB::singleton method call.
      */
-    static function getDsnOptions($aConf = null)
+    public static function getDsnOptions($aConf = null)
     {
-        $aDriverOptions = array();
+        $aDriverOptions = [];
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
@@ -363,7 +353,7 @@ class OA_DB
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    static function changeDatabase($name)
+    public static function changeDatabase($name)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Overwrite the database name
@@ -385,7 +375,7 @@ class OA_DB
      *
      * @return mixed True if the database was created correctly, PEAR_Error otherwise.
      */
-    static function createDatabase($name)
+    public static function createDatabase($name)
     {
         $dsn = OA_DB::_getDefaultDsn();
         $oDbh = OA_DB::singleton($dsn);
@@ -427,7 +417,7 @@ class OA_DB
      *
      * @return mixed True on success, PEAR_Error otherwise.
      */
-    static function createFunctions($onlyBackup = false)
+    public static function createFunctions($onlyBackup = false)
     {
         $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
@@ -466,7 +456,7 @@ class OA_DB
      *
      * @return mixed true if the language is successfully loaded, otherwise PEAR_Error.
      */
-    static function _createLanguage($lang = 'plpgsql')
+    public static function _createLanguage($lang = 'plpgsql')
     {
         $oDbh = OA_DB::singleton();
 
@@ -509,7 +499,7 @@ class OA_DB
      *
      * @return boolean True if the database was dropped correctly, false otherwise.
      */
-    static function dropDatabase($name)
+    public static function dropDatabase($name)
     {
         $dsn = OA_DB::_getDefaultDsn();
         $oDbh = OA_DB::singleton($dsn);
@@ -522,7 +512,7 @@ class OA_DB
         }
         // Throw away any connections to this database since it doesn't exist anymore
         unset($GLOBALS['_OA']['CONNECTIONS']);
-        $GLOBALS['_MDB2_databases'] = array();
+        $GLOBALS['_MDB2_databases'] = [];
         return true;
     }
 
@@ -535,7 +525,7 @@ class OA_DB
      * @access private
      * @return string The default database DSN.
      */
-    static function _getDefaultDsn()
+    public static function _getDefaultDsn()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare a new DSN array, without a database name, so that
@@ -543,8 +533,7 @@ class OA_DB
         // be created
         $aDatabaseDSN = $aConf;
         $aDatabaseDSN['database']['name'] = '';
-        $dsn = OA_DB::getDsn($aDatabaseDSN);
-        return $dsn;
+        return OA_DB::getDsn($aDatabaseDSN);
     }
 
     /**
@@ -555,7 +544,7 @@ class OA_DB
      * @static
      * @return void
      */
-    static function setCaseSensitive()
+    public static function setCaseSensitive()
     {
         $newOptionsValue = OA_DB_MDB2_DEFAULT_OPTIONS ^ MDB2_PORTABILITY_FIX_CASE;
         $oDbh = OA_DB::singleton();
@@ -571,7 +560,7 @@ class OA_DB
      * @static
      * @return void
      */
-    static function disableCaseSensitive()
+    public static function disableCaseSensitive()
     {
         $oDbh = OA_DB::singleton();
         $oDbh->setOption('portability', OA_DB_MDB2_DEFAULT_OPTIONS);
@@ -585,7 +574,7 @@ class OA_DB
      *
      * @return mixed True on succes, PEAR_Error otherwise
      */
-    static function setSchema($oDbh)
+    public static function setSchema($oDbh)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -635,7 +624,7 @@ class OA_DB
      *
      * @return mixed True on succes, PEAR_Error otherwise
      */
-    static function setCharset($oDbh)
+    public static function setCharset($oDbh)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -662,7 +651,7 @@ class OA_DB
      *
      * @return string Sequence name
      */
-    static function getSequenceName($oDbh, $table, $field, $appendSuffix = true)
+    public static function getSequenceName($oDbh, $table, $field, $appendSuffix = true)
     {
         if ($oDbh->dbsyntax == 'pgsql') {
             $tableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] . $table;
@@ -693,7 +682,7 @@ class OA_DB
      * @static
      * @return void
      */
-    static function setQuoteIdentifier()
+    public static function setQuoteIdentifier()
     {
         $oDbh = OA_DB::singleton();
         $quote = false;
@@ -718,7 +707,7 @@ class OA_DB
      * @static
      * @return void
      */
-    static function disabledQuoteIdentifier()
+    public static function disabledQuoteIdentifier()
     {
         $oDbh = OA_DB::singleton();
         $oDbh->setOption('quote_identifier', false);
@@ -735,7 +724,7 @@ class OA_DB
      *
      * @return void
      */
-    static function disconnect($dsn)
+    public static function disconnect($dsn)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
@@ -744,7 +733,7 @@ class OA_DB
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
         $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
-        if ((count($aConnections) > 0) && (in_array($dsnMd5, $aConnections))) {
+        if (($aConnections !== []) && (in_array($dsnMd5, $aConnections))) {
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->disconnect();
             unset($GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]);
         }
@@ -756,10 +745,10 @@ class OA_DB
      * @static
      * @return void
      */
-    static function disconnectAll()
+    public static function disconnectAll()
     {
         if (is_array($GLOBALS['_OA']['CONNECTIONS'])) {
-            foreach ($GLOBALS['_OA']['CONNECTIONS'] as $key => $oDbh) {
+            foreach (array_keys($GLOBALS['_OA']['CONNECTIONS']) as $key) {
                 $GLOBALS['_OA']['CONNECTIONS'][$key]->disconnect();
                 unset($GLOBALS['_OA']['CONNECTIONS'][$key]);
             }
@@ -774,7 +763,7 @@ class OA_DB
      *
      * @return true if valid PEAR error otherwise
      */
-    static function validateTableName($name)
+    public static function validateTableName($name)
     {
         /*if ( !preg_match( '/^([a-zA-z_])([a-zA-z0-9_])*$/', $name) )
         {
@@ -808,8 +797,4 @@ class OA_DB
         }
         return true;
     }
-
-
 }
-
-?>

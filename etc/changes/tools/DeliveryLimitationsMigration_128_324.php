@@ -12,7 +12,6 @@
 
 class DeliveryLimitationsUpgrade
 {
-
     /**
      * A method to upgrade delivery limitation plugins where the limitation data
      * is stored as an "string" type from v0.3.29-alpha to v0.3.31-alpha.
@@ -22,7 +21,7 @@ class DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
         return MAX_limitationsGetAUpgradeForString($op, $sData);
     }
@@ -36,7 +35,7 @@ class DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
         return MAX_limitationsGetADowngradeForString($op, $sData);
     }
@@ -48,11 +47,10 @@ class DeliveryLimitationsUpgrade
      * @param string $sData
      * @return array
      */
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return $this->getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData);
     }
-
 }
 
 class DeliveryLimitationsUpgradeArray extends DeliveryLimitationsUpgrade
@@ -66,7 +64,7 @@ class DeliveryLimitationsUpgradeArray extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
         return MAX_limitationsGetAUpgradeForArray($op, $sData);
     }
@@ -80,15 +78,19 @@ class DeliveryLimitationsUpgradeArray extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
         return MAX_limitationsGetADowngradeForArray($op, $sData);
     }
 }
 
-class Upgrade_DeliveryLimitations_Client_Browser extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Client_Browser extends DeliveryLimitationsUpgradeArray
+{
+}
 
-class Upgrade_DeliveryLimitations_Client_Domain extends DeliveryLimitationsUpgrade { }
+class Upgrade_DeliveryLimitations_Client_Domain extends DeliveryLimitationsUpgrade
+{
+}
 
 class Upgrade_DeliveryLimitations_Client_Ip extends DeliveryLimitationsUpgrade
 {
@@ -101,9 +103,9 @@ class Upgrade_DeliveryLimitations_Client_Ip extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 
     /**
@@ -115,9 +117,9 @@ class Upgrade_DeliveryLimitations_Client_Ip extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 }
 
@@ -132,7 +134,7 @@ class Upgrade_DeliveryLimitations_Client_Language extends DeliveryLimitationsUpg
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
         return MAX_limitationsGetAUpgradeForLanguage($op, $sData);
     }
@@ -146,18 +148,19 @@ class Upgrade_DeliveryLimitations_Client_Language extends DeliveryLimitationsUpg
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
         return MAX_limitationsGetADowngradeForLanguage($op, $sData);
     }
-
 }
 
-class Upgrade_DeliveryLimitations_Client_Os extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Client_Os extends DeliveryLimitationsUpgradeArray
+{
+}
 
 class Upgrade_DeliveryLimitations_Client_Useragent extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetAUpgradeFor20Regexp($op, $sData);
     }
@@ -165,7 +168,7 @@ class Upgrade_DeliveryLimitations_Client_Useragent extends DeliveryLimitationsUp
 
 class Upgrade_DeliveryLimitations_Geo_Areacode extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForContains($op, $sData);
     }
@@ -173,7 +176,6 @@ class Upgrade_DeliveryLimitations_Geo_Areacode extends DeliveryLimitationsUpgrad
 
 class Upgrade_DeliveryLimitations_Geo_City extends DeliveryLimitationsUpgrade
 {
-
     /**
      * A method to upgrade the Geo:City delivery limitation plugin from v0.3.29-alpha
      * to v0.3.31-alpha format.
@@ -183,9 +185,9 @@ class Upgrade_DeliveryLimitations_Geo_City extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 
     /**
@@ -197,28 +199,36 @@ class Upgrade_DeliveryLimitations_Geo_City extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForGeoCity($op, $sData);
     }
 }
 
-class Upgrade_DeliveryLimitations_Geo_Continent extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Geo_Continent extends DeliveryLimitationsUpgradeArray
+{
+}
 
-class Upgrade_DeliveryLimitations_Geo_Country extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Geo_Country extends DeliveryLimitationsUpgradeArray
+{
+}
 
-class Upgrade_DeliveryLimitations_Geo_Dma extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Geo_Dma extends DeliveryLimitationsUpgradeArray
+{
+}
 
-class Upgrade_DeliveryLimitations_Geo_Latlong extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Geo_Latlong extends DeliveryLimitationsUpgradeArray
+{
+}
 
 class Upgrade_DeliveryLimitations_Geo_Netspeed extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForGeoNetspeed($op, $sData);
     }
@@ -226,7 +236,7 @@ class Upgrade_DeliveryLimitations_Geo_Netspeed extends DeliveryLimitationsUpgrad
 
 class Upgrade_DeliveryLimitations_Geo_Organisation extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForContains($op, $sData);
     }
@@ -234,7 +244,7 @@ class Upgrade_DeliveryLimitations_Geo_Organisation extends DeliveryLimitationsUp
 
 class Upgrade_DeliveryLimitations_Geo_Postalcode extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForContains($op, $sData);
     }
@@ -251,9 +261,9 @@ class Upgrade_DeliveryLimitations_Geo_Region extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 
     /**
@@ -265,23 +275,25 @@ class Upgrade_DeliveryLimitations_Geo_Region extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 
 
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForGeoRegion($op, $sData);
     }
 }
 
-class Upgrade_DeliveryLimitations_Site_Channel extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Site_Channel extends DeliveryLimitationsUpgradeArray
+{
+}
 
 class Upgrade_DeliveryLimitations_Site_Pageurl extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForContains($op, $sData);
     }
@@ -289,7 +301,7 @@ class Upgrade_DeliveryLimitations_Site_Pageurl extends DeliveryLimitationsUpgrad
 
 class Upgrade_DeliveryLimitations_Site_Referingpage extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetUpgradeForContains($op, $sData);
     }
@@ -297,14 +309,15 @@ class Upgrade_DeliveryLimitations_Site_Referingpage extends DeliveryLimitationsU
 
 class Upgrade_DeliveryLimitations_Site_Source extends DeliveryLimitationsUpgrade
 {
-    function getUpgradeFromEarly($op, $sData)
+    public function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetAUpgradeFor20Regexp($op, $sData);
     }
-
 }
 
-class Upgrade_DeliveryLimitations_Site_Variable extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Site_Variable extends DeliveryLimitationsUpgradeArray
+{
+}
 
 class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
 {
@@ -317,9 +330,9 @@ class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the new
      *               v0.3.31-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
+    public function getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 
     /**
@@ -331,15 +344,19 @@ class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
      * @return array An array of two items, indexed by "op" and "data", which are the old
      *               v0.3.29-alpha format versions of the parameters above.
      */
-    function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
+    public function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
-        return array('op' => $op, 'data' => $sData);
+        return ['op' => $op, 'data' => $sData];
     }
 }
 
-class Upgrade_DeliveryLimitations_Time_Day extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Time_Day extends DeliveryLimitationsUpgradeArray
+{
+}
 
-class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeArray { }
+class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeArray
+{
+}
 
 // UPGRADE/DOWNGRADE helper functions
 
@@ -357,7 +374,7 @@ class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeAr
 function MAX_limitationsGetAUpgradeForString($op, $sData)
 {
     $sData = preg_replace('#[\\*]+#', '*', $sData);
-    $aResult = array();
+    $aResult = [];
     if ($sData == '*'
         || preg_match('#^\\*[^\\*]+$#', $sData)
         || preg_match('#^[^\\*]+\\*$#', $sData)
@@ -395,12 +412,8 @@ function MAX_limitationsGetAUpgradeForString($op, $sData)
  */
 function MAX_limitationsGetAUpgradeForArray($op, $sData)
 {
-    $aResult = array('data' => $sData);
-    if (MAX_limitationsIsOperatorPositive($op)) {
-        $aResult['op'] = '=~';
-    } else {
-        $aResult['op'] = '!~';
-    }
+    $aResult = ['data' => $sData];
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
     return $aResult;
 }
 
@@ -433,7 +446,7 @@ function MAX_limitationsGetAUpgradeForLanguage($op, $sData)
  */
 function OA_limitationsGetAUpgradeFor20Regexp($op, $sData)
 {
-    $aResult = array();
+    $aResult = [];
     $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=x' : '!x';
     $aResult['data'] = $sData;
     return $aResult;
@@ -448,7 +461,7 @@ function OA_limitationsGetAUpgradeFor20Regexp($op, $sData)
  */
 function OA_limitationsGetUpgradeForContains($op, $sData)
 {
-    $aResult = array();
+    $aResult = [];
     $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
     $aResult['data'] = $sData;
     return $aResult;
@@ -463,9 +476,9 @@ function OA_limitationsGetUpgradeForContains($op, $sData)
  */
 function OA_limitationsGetUpgradeForGeoCity($op, $sData)
 {
-    $aResult = array();
+    $aResult = [];
     $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
-    $aResult['data'] = '|'.$sData;
+    $aResult['data'] = '|' . $sData;
     return $aResult;
 }
 
@@ -478,12 +491,12 @@ function OA_limitationsGetUpgradeForGeoCity($op, $sData)
  */
 function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
 {
-    $aData = array();
+    $aData = [];
     foreach (explode(',', $sData) as $v) {
         $country = substr($v, 0, 2);
-        $region  = substr($v, 2);
+        $region = substr($v, 2);
         if (!isset($aData[$country])) {
-            $aData[$country] = array();
+            $aData[$country] = [];
             $aCount[$country] = 0;
         }
         $aData[$country][] = $region;
@@ -492,22 +505,22 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
     ksort($aData);
 
     $country = key($aData);
-    $sData = $country.'|'.join(',', $aData[$country]);
+    $sData = $country . '|' . implode(',', $aData[$country]);
     unset($aData[$country]);
 
-    $aResult = array();
+    $aResult = [];
     $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
     $aResult['data'] = $sData;
 
-    if (count($aData)) {
-        $aResult['add'] = array();
+    if ($aData !== []) {
+        $aResult['add'] = [];
         foreach ($aData as $country => $aRegions) {
-            $aResult['add'][] = array(
-                'type'       => 'Geo:Region',
-                'logical'    => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
+            $aResult['add'][] = [
+                'type' => 'Geo:Region',
+                'logical' => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
                 'comparison' => MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~',
-                'data'       => $country.'|'.join(',', $aRegions)
-            );
+                'data' => $country . '|' . implode(',', $aRegions)
+            ];
         }
     }
 
@@ -523,14 +536,14 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
  */
 function OA_limitationsGetUpgradeForGeoNetspeed($op, $sData)
 {
-    $aTrans = array('unknown','dialup','cabledsl', 'corporate');
+    $aTrans = ['unknown', 'dialup', 'cabledsl', 'corporate'];
     $aData = explode(',', $sData);
     foreach ($aData as $k => $v) {
         $aData[$k] = $aTrans[$v];
     }
-    $sData = join(',', $aData);
+    $sData = implode(',', $aData);
 
-    $aResult = array();
+    $aResult = [];
     $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
     $aResult['data'] = $sData;
     return $aResult;
@@ -583,12 +596,8 @@ function MAX_limitationsGetADowngradeForString($op, $sData)
  */
 function MAX_limitationsGetADowngradeForArray($op, $sData)
 {
-    $aResult = array('data' => $sData);
-    if (MAX_limitationsIsOperatorPositive($op)) {
-        $aResult['op'] = '==';
-    } else {
-        $aResult['op'] = '!=';
-    }
+    $aResult = ['data' => $sData];
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '==' : '!=';
     return $aResult;
 }
 
@@ -646,5 +655,3 @@ function MAX_limitationsIsOperatorContains($op)
 {
     return $op == '=~' || $op == '!~';
 }
-
-?>

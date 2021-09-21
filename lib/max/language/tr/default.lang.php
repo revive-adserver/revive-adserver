@@ -230,7 +230,7 @@ $GLOBALS['strDayOfWeek'] = "Haftanın günü";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Pazar';
 $GLOBALS['strDayFullNames'][1] = 'Pazartesi';
@@ -241,7 +241,7 @@ $GLOBALS['strDayFullNames'][5] = 'Cuma';
 $GLOBALS['strDayFullNames'][6] = 'Cumartesi';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Pa';
 $GLOBALS['strDayShortCuts'][1] = 'Pt';
@@ -511,17 +511,17 @@ $GLOBALS['strDeliveryCappingTotal'] = "toplam";
 $GLOBALS['strDeliveryCappingSession'] = "oturum başına";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['limit'] = "Banner gösterimlerini şununla sınırla:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "Kampanya gösterimlerini şununla sınırla:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "Alan gösterimlerini şununla sınırla:";
 

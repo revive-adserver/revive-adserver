@@ -22,7 +22,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Empty.p
  */
 class OA_Maintenance_Priority_DeliveryLimitation_Factory
 {
-    static $aPlugins;
+    public static $aPlugins;
 
     /**
      * A factory method to return the appropriate
@@ -61,7 +61,4 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
         // Unknown plugin? Return the empty MPE DL class
         return new OA_Maintenance_Priority_DeliveryLimitation_Empty($aDeliveryLimitation);
     }
-
 }
-
-?>

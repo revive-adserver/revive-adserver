@@ -26,61 +26,61 @@ require_once MAX_PATH . '/lib/OA/Info.php';
 
 class OA_Dll_AdvertiserInfo extends OA_Info
 {
-
     /**
      * This required field provides the ID of the advertiser.
      *
      * @var integer $advertiserId
      */
-    var $advertiserId;
+    public $advertiserId;
 
     /**
      * This field contains the ID of the advertiser account.
      *
      * @var integer $accountId
      */
-    var $accountId;
+    public $accountId;
 
     /**
      * This option provides the ID of the agency to associate with the advertiser.
      *
      * @var integer $agencyId
      */
-    var $agencyId;
+    public $agencyId;
 
     /**
      * This required field provides the name of the advertiser.
      *
      * @var string $advertiserName
      */
-    var $advertiserName;
+    public $advertiserName;
 
     /**
      * This option provides the name of the contact for the advertiser.
      *
      * @var string $contactName
      */
-    var $contactName;
+    public $contactName;
 
     /**
      * This field provides the email address of the contact.
      *
      * @var string $emailAddress
      */
-    var $emailAddress;
+    public $emailAddress;
 
     /**
      * This field provides any additional comments to be stored.
      *
      * @var string $comments
      */
-    var $comments;
+    public $comments;
 
     /**
      * This method sets all default values when adding a new advertiser.
      *
      */
-    function setDefaultForAdd() {
+    public function setDefaultForAdd()
+    {
         if (empty($this->agencyId)) {
             $this->agencyId = OA_Permission::getAgencyId();
         }
@@ -93,9 +93,9 @@ class OA_Dll_AdvertiserInfo extends OA_Info
      *
      * @return array
      */
-    function getFieldsTypes()
+    public function getFieldsTypes()
     {
-        return array(
+        return [
                     'advertiserId' => 'integer',
                     'accountId' => 'integer',
                     'agencyId' => 'integer',
@@ -103,8 +103,6 @@ class OA_Dll_AdvertiserInfo extends OA_Info
                     'contactName' => 'string',
                     'emailAddress' => 'string',
                     'comments' => 'string',
-                );
+                ];
     }
 }
-
-?>

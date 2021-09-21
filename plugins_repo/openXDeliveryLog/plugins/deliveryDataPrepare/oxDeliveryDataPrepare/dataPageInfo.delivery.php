@@ -19,7 +19,9 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
 {
     // prevent from running twice
     static $executed;
-    if ($executed) return;
+    if ($executed) {
+        return;
+    }
     $executed = true;
 
     if (!empty($_GET['loc'])) {
@@ -49,5 +51,3 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo_Delivery_
 {
     Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo();
 }
-
-?>

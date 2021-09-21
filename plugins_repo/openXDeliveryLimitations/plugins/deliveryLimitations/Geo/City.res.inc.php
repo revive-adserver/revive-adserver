@@ -15,4 +15,4 @@
  * @subpackage DeliveryLimitations
  */
 
-require __DIR__.'/Country.res.inc.php';
+require __DIR__ . '/Country.res.inc.php';

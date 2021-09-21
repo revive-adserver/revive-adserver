@@ -3,10 +3,10 @@ require("../xajax.inc.php");
 
 function callScript()
 {
-	$response = new xajaxResponse();
-	$value2 = "this is a string";
-	$response->addScriptCall("myJSFunction", "arg1", 9432.12, array("myKey" => "some value", "key2" => $value2));
-	return $response;
+    $response = new xajaxResponse();
+    $value2 = "this is a string";
+    $response->addScriptCall("myJSFunction", "arg1", 9432.12, ["myKey" => "some value", "key2" => $value2]);
+    return $response;
 }
 
 $xajax = new xajax();

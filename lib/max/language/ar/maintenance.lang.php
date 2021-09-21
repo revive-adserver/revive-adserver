@@ -111,5 +111,3 @@ $GLOBALS['strAndPlain'] = "و";
 //  Deliver Limitations
 
 //  Append codes
-
-

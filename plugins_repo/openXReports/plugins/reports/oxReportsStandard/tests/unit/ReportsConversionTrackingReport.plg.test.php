@@ -24,24 +24,24 @@ class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends 
     /**
      * @var Plugins_Reports_Standard_ConversionTrackingReport
      */
-    var $oPlugin;
+    public $oPlugin;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         //$this->oPlugin = &MAX_Plugin::factory('reports', 'oxStandard', 'conversionTrackingReport');
-        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = str_replace('reports/oxReportsStandard/tests/unit','',dirname(str_replace(MAX_PATH,'',__FILE__)));
+        $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = str_replace('reports/oxReportsStandard/tests/unit', '', dirname(str_replace(MAX_PATH, '', __FILE__)));
         $this->oPlugin = &OX_Component::factory('reports', 'oxReportsStandard', 'conversionTrackingReport');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
         TestEnv::restoreConfig();
@@ -50,7 +50,7 @@ class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends 
     /**
      * A method to test the _prepareTrackerVariables() method.
      */
-    function test_prepareTrackerVariables()
+    public function test_prepareTrackerVariables()
     {
         // Prepare test data
         $doTrackers = OA_Dal::factoryDO('trackers');
@@ -67,12 +67,10 @@ class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends 
         $variablepublisherId = DataGenerator::generateOne($doVariablePublisher);
 
         // Tests with empty connections table
-        $result = $this->oPlugin->_prepareTrackerVariables(array());
-        $this->assertEqual(count($result),0);
+        $result = $this->oPlugin->_prepareTrackerVariables([]);
+        $this->assertEqual(count($result), 0);
         // Tests with one existing tracker in connections table
-        $result = $this->oPlugin->_prepareTrackerVariables(array( $trackerId => array()));
-        $this->assertEqual(count($result),1);
+        $result = $this->oPlugin->_prepareTrackerVariables([ $trackerId => []]);
+        $this->assertEqual(count($result), 1);
     }
 }
-
-?>

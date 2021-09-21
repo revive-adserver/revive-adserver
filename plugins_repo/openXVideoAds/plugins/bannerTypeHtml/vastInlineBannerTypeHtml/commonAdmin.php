@@ -23,15 +23,15 @@ require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common
 
 abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends Plugins_BannerTypeHTML
 {
-    abstract function getBannerShortName();
-    abstract function getZoneToLinkShortName();
-    abstract function getHelpAdTypeDescription();
-    private $requiredElement = array();
+    abstract public function getBannerShortName();
+    abstract public function getZoneToLinkShortName();
+    abstract public function getHelpAdTypeDescription();
+    private $requiredElement = [];
 
     /**
      * Return the media (content) type
      */
-    function getContentType()
+    public function getContentType()
     {
         return 'html';
     }
@@ -40,7 +40,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      * return the storage type
      *
      */
-    function getStorageType()
+    public function getStorageType()
     {
         return 'html';
     }
@@ -49,9 +49,9 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
 
     private $validationFailed = false;
 
-    function buildForm(&$form, &$bannerRow)
+    public function buildForm(&$form, &$bannerRow)
     {
-        if($form->isSubmitted()) {
+        if ($form->isSubmitted()) {
             $form->addElement('html', 'video_form_error', VideoAdsHelper::getWarningMessage('Validation failed!'));
         }
     }
@@ -64,10 +64,10 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      * @param array $aVariables
      * @return boolean
      */
-    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
-        combineVideoUrl( $aFields );
-        $aVastVariables = array();
+        combineVideoUrl($aFields);
+        $aVastVariables = [];
         $aVastVariables['banner_vast_element_id'] = $aFields['banner_vast_element_id'];
         $aVastVariables['vast_element_type'] = 'singlerow'; //$aFields['vast_element_type'];
         $aVastVariables['vast_video_id'] = $aFields['vast_video_id'];
@@ -108,81 +108,78 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      * @param array $aFields
      * @return boolean
      */
-    function processForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
         $rowId = $aFields['banner_vast_element_id'];
-        $doBanners->vast_element_type               = $aFields['vast_element_type'];
-        $doBanners->vast_video_id                   = $aFields['vast_video_id'];
-        $doBanners->vast_video_duration             = $aFields['vast_video_duration'];
-        $doBanners->vast_video_delivery             = $aFields['vast_video_delivery'];
-        $doBanners->vast_video_type                 = $aFields['vast_video_type'];
-        $doBanners->vast_video_bitrate              = $aFields['vast_video_bitrate'];
-        $doBanners->vast_video_height               = $aFields['vast_video_height'];
-        $doBanners->vast_video_width                = $aFields['vast_video_width'];
-        $doBanners->vast_video_outgoing_filename    = $aFields['vast_video_outgoing_filename'];
-        $doBanners->vast_video_clickthrough_url     = $aFields['vast_video_clickthrough_url'];
-        $doBanners->vast_overlay_height             = $aFields['vast_overlay_height'];
-        $doBanners->vast_overlay_width              = $aFields['vast_overlay_width'];
-        $doBanners->vast_overlay_action             = $aFields['vast_overlay_action'];
-        $doBanners->vast_overlay_format             = $aFields['vast_overlay_format'];
-        $doBanners->vast_overlay_text_title         = $aFields['vast_overlay_text_title'];
-        $doBanners->vast_overlay_text_description   = $aFields['vast_overlay_text_description'];
-        $doBanners->vast_overlay_text_call          = $aFields['vast_overlay_text_call'];
-        $doBanners->vast_companion_banner_id        = $aFields['vast_companion_banner_id'];
-        $doBanners->vast_creative_type              = $aFields['vast_creative_type'];
-        $doBanners->vast_thirdparty_impression      = $aFields['vast_thirdparty_impression'];
+        $doBanners->vast_element_type = $aFields['vast_element_type'];
+        $doBanners->vast_video_id = $aFields['vast_video_id'];
+        $doBanners->vast_video_duration = $aFields['vast_video_duration'];
+        $doBanners->vast_video_delivery = $aFields['vast_video_delivery'];
+        $doBanners->vast_video_type = $aFields['vast_video_type'];
+        $doBanners->vast_video_bitrate = $aFields['vast_video_bitrate'];
+        $doBanners->vast_video_height = $aFields['vast_video_height'];
+        $doBanners->vast_video_width = $aFields['vast_video_width'];
+        $doBanners->vast_video_outgoing_filename = $aFields['vast_video_outgoing_filename'];
+        $doBanners->vast_video_clickthrough_url = $aFields['vast_video_clickthrough_url'];
+        $doBanners->vast_overlay_height = $aFields['vast_overlay_height'];
+        $doBanners->vast_overlay_width = $aFields['vast_overlay_width'];
+        $doBanners->vast_overlay_action = $aFields['vast_overlay_action'];
+        $doBanners->vast_overlay_format = $aFields['vast_overlay_format'];
+        $doBanners->vast_overlay_text_title = $aFields['vast_overlay_text_title'];
+        $doBanners->vast_overlay_text_description = $aFields['vast_overlay_text_description'];
+        $doBanners->vast_overlay_text_call = $aFields['vast_overlay_text_call'];
+        $doBanners->vast_companion_banner_id = $aFields['vast_companion_banner_id'];
+        $doBanners->vast_creative_type = $aFields['vast_creative_type'];
+        $doBanners->vast_thirdparty_impression = $aFields['vast_thirdparty_impression'];
 
-        if ( !$insert && ($rowId == 'banner_vast_element_id') ){
+        if (!$insert && ($rowId == 'banner_vast_element_id')) {
             // If the mode was update, but we dont have a valid pk value for $rowId
             // it probably because the user removed the plugin, cleaned out the table
             // and then reinstalled  - we therefore need to do an insert NOT an update
             $insert = true;
         }
 
-        if ($insert)
-        {
+        if ($insert) {
             $doBanners->banner_vast_element_id = $bannerid;
-            $doBanners->banner_id            = $bannerid;
+            $doBanners->banner_id = $bannerid;
             return $doBanners->insert();
-        }
-        else
-        {
-            $doBanners->whereAdd('banner_vast_element_id='. (int)$rowId, 'AND');
+        } else {
+            $doBanners->whereAdd('banner_vast_element_id=' . (int)$rowId, 'AND');
             return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
     }
 
 
-    function getExtendedBannerInfo($banner)
+    public function getExtendedBannerInfo($banner)
     {
         $actualBannerId = $banner['bannerid'];
-        $vastElements = array();
-        if ( $actualBannerId ){
+        $vastElements = [];
+        if ($actualBannerId) {
             $vastElements = $this->fetchBannersJoined($actualBannerId);
             // For now assume 1:1 relationship
-            if ( isset($vastElements[0]) ){
+            if (isset($vastElements[0])) {
                 $elementRow = $vastElements[0];
-                $banner = array_merge( $banner, $elementRow );
+                $banner = array_merge($banner, $elementRow);
             }
 
-            $aDeliveryFieldsNotUsed = array();
-            parseVideoUrl( $banner, $aDeliveryFieldsNotUsed, $banner );
+            $aDeliveryFieldsNotUsed = [];
+            parseVideoUrl($banner, $aDeliveryFieldsNotUsed, $banner);
         }
         return $banner;
     }
 
-    function fetchBannersJoined($bannerId, $fetchmode=MDB2_FETCHMODE_ORDERED)
+    public function fetchBannersJoined($bannerId, $fetchmode = MDB2_FETCHMODE_ORDERED)
     {
-        $aConf  = $GLOBALS['_MAX']['CONF']['table'];
-        $oDbh   = OA_DB::singleton();
-        $tblB   = $oDbh->quoteIdentifier($aConf['prefix'].'banners',true);
-        $tblD   = $oDbh->quoteIdentifier($aConf['prefix'].'banner_vast_element');
-        $query  = "SELECT d.* FROM ".$tblB." b"
-                     ." LEFT JOIN ".$tblD." d ON b.bannerid = d.banner_id"
-                     ." WHERE b.ext_bannertype = '".$this->getComponentIdentifier()."'"
-                     ." AND b.bannerid = ".(int)$bannerId;
-        $joinedResult = $oDbh->queryAll($query, null, MDB2_FETCHMODE_ASSOC, false, false, true );
+        $aConf = $GLOBALS['_MAX']['CONF']['table'];
+        $oDbh = OA_DB::singleton();
+        $tblB = $oDbh->quoteIdentifier($aConf['prefix'] . 'banners', true);
+        $tblD = $oDbh->quoteIdentifier($aConf['prefix'] . 'banner_vast_element');
+        $query = "SELECT d.* FROM " . $tblB . " b"
+                     . " LEFT JOIN " . $tblD . " d ON b.bannerid = d.banner_id"
+                     . " WHERE b.ext_bannertype = '" . $this->getComponentIdentifier() . "'"
+                     . " AND b.bannerid = " . (int)$bannerId;
+        $joinedResult = $oDbh->queryAll($query, null, MDB2_FETCHMODE_ASSOC, false, false, true);
         return $joinedResult;
     }
 
@@ -195,24 +192,24 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      * @param object $form
      * @return boolean
      */
-    function validateForm(&$form)
+    public function validateForm(&$form)
     {
-        if($form->isSubmitted()) {
-            $errors = array();
-            foreach($this->requiredElement as $requiredElement) {
+        if ($form->isSubmitted()) {
+            $errors = [];
+            foreach ($this->requiredElement as $requiredElement) {
                 $fieldName = $requiredElement[0];
                 $fieldNameWhenRequired = $requiredElement[1];
                 $fieldValueWhenRequired = $requiredElement[2];
                 $fieldValueWhenRequiredSubmittedValue = $form->getSubmitValue($fieldNameWhenRequired);
-                if($fieldValueWhenRequiredSubmittedValue == $fieldValueWhenRequired) {
+                if ($fieldValueWhenRequiredSubmittedValue == $fieldValueWhenRequired) {
                     $submittedValue = $form->getSubmitValue($fieldName);
-                    if(empty($submittedValue)) {
+                    if (empty($submittedValue)) {
                         $errors[] = $this->getFieldLabel($fieldName);
                     }
                 }
             }
 
-            if(count($errors) == 0) {
+            if (count($errors) == 0) {
                 if ($form->getSubmitValue('vast_video_type') != 'video/webm' || $form->getSubmitValue('vast_video_delivery') == 'progressive') {
                     $form->removeElement('video_form_error');
                     return true;
@@ -232,14 +229,14 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         return true;
     }
 
-    function getPossibleCompanions($aBannerRow)
+    public function getPossibleCompanions($aBannerRow)
     {
-        $aParams = array( 'placement_id' => $aBannerRow['campaignid'] );
+        $aParams = [ 'placement_id' => $aBannerRow['campaignid'] ];
         $possibleCompanions = Admin_DA::_getEntities('ad', $aParams, true);
-        $selectableCompanions = array( 0 => 'none' );
-        foreach( $possibleCompanions as $currentCompanion ){
+        $selectableCompanions = [ 0 => 'none' ];
+        foreach ($possibleCompanions as $currentCompanion) {
             // Only allow linking to banners that are not of type "vast"
-            if ( strpos( $currentCompanion['ext_bannertype'], 'vast' ) === false ){
+            if (strpos($currentCompanion['ext_bannertype'], 'vast') === false) {
                 $strNameToDisplay = $currentCompanion['name'] . " (" . $currentCompanion['width'] . "x" . $currentCompanion['height'] . " )";
                 $selectableCompanions[$currentCompanion['ad_id'] ] = $strNameToDisplay;
             }
@@ -248,20 +245,20 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     }
 
 
-    function getAllFieldsLabels()
+    public function getAllFieldsLabels()
     {
-        $labels = array(
+        $labels = [
             'vast_video_type' => "Video type",
             'vast_video_duration' => "Video duration in seconds",
             'vast_net_connection_url' => "RTMP server URL",
             'vast_video_filename' => 'Video filename',
             'vast_video_filename_http' => 'Video URL', // not submitted in the form itself, but string is displayed to
             'vast_video_delivery' => 'Video delivery method',
-        );
+        ];
         return $labels;
     }
 
-    function getFieldLabel($fieldName)
+    public function getFieldLabel($fieldName)
     {
         $labels = $this->getAllFieldsLabels();
         return $labels[$fieldName];
@@ -279,29 +276,29 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      * @param $fieldNameWhenRequired string
      * @param $fieldValueWhenRequired string
      */
-    function addFormRequiredElement(&$form, $element, $fieldNameWhenRequired = null, $fieldValueWhenRequired = null)
+    public function addFormRequiredElement(&$form, $element, $fieldNameWhenRequired = null, $fieldValueWhenRequired = null)
     {
         // add the red star in the name
         $element[2] = $this->getLabelWithRequiredStar($element[2]);
 
         // we do not add the element as "required" in the form, as we need to test which fields
         // are required depending on overlay types, video delivery types, etc.
-        call_user_func_array(array($form, 'addElement'), $element);
+        call_user_func_array([$form, 'addElement'], $element);
 
         $fieldName = $element[1];
         $this->setElementIsRequired($fieldName, $fieldNameWhenRequired, $fieldValueWhenRequired);
     }
 
-    function getLabelWithRequiredStar($label)
+    public function getLabelWithRequiredStar($label)
     {
         return $label . ' <font color="red">*</font>';
     }
-    function setElementIsRequired($fieldName, $fieldNameWhenRequired, $fieldValueWhenRequired)
+    public function setElementIsRequired($fieldName, $fieldNameWhenRequired, $fieldValueWhenRequired)
     {
-        $this->requiredElement[] = array( $fieldName , $fieldNameWhenRequired, $fieldValueWhenRequired);
+        $this->requiredElement[] = [ $fieldName, $fieldNameWhenRequired, $fieldValueWhenRequired];
     }
 
-    function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
+    public function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
     {
         $form->addElement('hidden', 'banner_vast_element_id', "banner_vast_element_id");
         $form->addElement('hidden', 'vast_element_type', "singlerow");
@@ -309,28 +306,27 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $this->addVastVideoUrlFields($form, $bannerRow, $isNewBanner);
 
         $advancedUser = false;
-        if ( $advancedUser ){
+        if ($advancedUser) {
             // Bitrate of encoded video in Kbps
             $form->addElement('text', 'vast_video_bitrate', "vast_video_bitrate");
             // Pixel dimensions of video
             $form->addElement('text', 'vast_video_width', "vast_video_width");
             $form->addElement('text', 'vast_video_height', "vast_video_height");
-        }
-        else {
+        } else {
             // hide these for now - the player ignores them anyway - atm
             $form->addElement('hidden', 'vast_video_bitrate', "vast_video_bitrate");
             $form->addElement('hidden', 'vast_video_width', "vast_video_width");
             $form->addElement('hidden', 'vast_video_height', "vast_video_height");
         }
 
-        if ( $isNewBanner ){
+        if ($isNewBanner) {
             $bannerRow['vast_video_bitrate'] = '400';
             $bannerRow['vast_video_width'] = '640';
             $bannerRow['vast_video_height'] = '480';
         }
     }
 
-    function addThirdPartyImpressionTracking( &$form )
+    public function addThirdPartyImpressionTracking(&$form)
     {
         $form->addElement('header', 'thirdpartyimp_title', 'Third party impression tracking');
         $form->addElement('html', 'thirdpartyimp_help', '
@@ -339,46 +335,50 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         	The URL can contain any of the supported <a href="http://documentation.revive-adserver.com/display/DOCS/Magic+Macros" target="_blank">magic macros</a>.
         					');
 
-        $form->addElement(  'text',
-        					'vast_thirdparty_impression',
-        					'Impression tracking beacon URL <br>(incl. http://)');
+        $form->addElement(
+            'text',
+            'vast_thirdparty_impression',
+            'Impression tracking beacon URL <br>(incl. http://)'
+        );
     }
 
 
-    function addVastCompanionsToForm( &$form, $selectableCompanions)
+    public function addVastCompanionsToForm(&$form, $selectableCompanions)
     {
         $form->addElement('header', 'companion_status', "Companion banner");
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignid = $GLOBALS['campaignid'];
         $doCampaigns->find();
         $doCampaigns->fetch();
-        if(OX_Util_Utils::getCampaignType($doCampaigns->priority) == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL)
-        {
-            $form->addElement('html', 'companion_help_contract',
-                            '<br/><b>Note:</b> Revive Adserver currently doesn\'t support the display of a companion banner for "Contract" campaigns.
-                             <br/>If you wish to display a companion banner, please select a "Remnant" or "Override" campaign.');
+        if (OX_Util_Utils::getCampaignType($doCampaigns->priority) == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+            $form->addElement(
+                'html',
+                'companion_help_contract',
+                '<br/><b>Note:</b> Revive Adserver currently doesn\'t support the display of a companion banner for "Contract" campaigns.
+                             <br/>If you wish to display a companion banner, please select a "Remnant" or "Override" campaign.'
+            );
 
             return;
         }
         $helpLinkPlayer = VideoAdsHelper::getHelpLinkVideoPlayerConfig();
 
         $form->addElement('html', 'companion_help', 'To associate a companion banner to this video ad, select a banner from the companion banner dropdown. This banner will appear for the duration of the video ad. <br/>
-        					You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration. <a href="'.$helpLinkPlayer.'" target="_blank">Learn more</a>
+        					You will need to specify where this companion banner appears on the page while setting up your video ad in the video player plugin configuration. <a href="' . $helpLinkPlayer . '" target="_blank">Learn more</a>
         					');
 
-        $form->addElement('select','vast_companion_banner_id','Companion banner', $selectableCompanions);
+        $form->addElement('select', 'vast_companion_banner_id', 'Companion banner', $selectableCompanions);
     }
 
 
-    function addVastHardcodedDimensionsToForm(&$form, &$bannerRow, $dimension)
+    public function addVastHardcodedDimensionsToForm(&$form, &$bannerRow, $dimension)
     {
         $bannerRow['width'] = $dimension;
         $bannerRow['height'] = $dimension;
-        $form->addElement('hidden', 'width' );
+        $form->addElement('hidden', 'width');
         $form->addElement('hidden', 'height');
     }
 
-    function addIntroductionInlineHelp(&$form)
+    public function addIntroductionInlineHelp(&$form)
     {
         $helpString = $this->getHelpAdTypeDescription();
         $crossdomainUrl = MAX_commonConstructDeliveryUrl('crossdomain.xml');
@@ -386,29 +386,29 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $crossdomainUrl = parse_url($crossdomainUrl);
         $crossdomainUrl = $crossdomainUrl['scheme'] . '://' . $crossdomainUrl['host'] . '/crossdomain.xml';
 
-        $helpString .= "<br/><br/>To setup your ".$this->getBannerShortName().", you will need to:
+        $helpString .= "<br/><br/>To setup your " . $this->getBannerShortName() . ", you will need to:
         <ul style='list-style-type:decimal;padding-left:20px;padding-top:5px'>
         <li>Enter the information about your ad in the form below.</li>
-        <li><a href='".VideoAdsHelper::getHelpLinkOpenXPlugin() ."' target='_blank'>Link this ".$this->getBannerShortName()." to the desired zone.</a> The zone must be of the type \"".$this->getZoneToLinkShortName()."\".</li>
-        <li><a href='". VideoAdsHelper::getHelpLinkVideoPlayerConfig() ."' target='_blank'>Include the zone in the ad schedule of the video player plugin configuration in your webpage.</a></li>
-        <li>See the <a href='".VideoAdsHelper::getLinkCrossdomainExample()."' target='_blank'>details on how to ensure that Flash-based video players can load ads from ".PRODUCT_NAME.".</a></li>
+        <li><a href='" . VideoAdsHelper::getHelpLinkOpenXPlugin() . "' target='_blank'>Link this " . $this->getBannerShortName() . " to the desired zone.</a> The zone must be of the type \"" . $this->getZoneToLinkShortName() . "\".</li>
+        <li><a href='" . VideoAdsHelper::getHelpLinkVideoPlayerConfig() . "' target='_blank'>Include the zone in the ad schedule of the video player plugin configuration in your webpage.</a></li>
+        <li>See the <a href='" . VideoAdsHelper::getLinkCrossdomainExample() . "' target='_blank'>details on how to ensure that Flash-based video players can load ads from " . PRODUCT_NAME . ".</a></li>
     	</ul>";
-        $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">'.$helpString.'</span>' );
+        $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">' . $helpString . '</span>');
     }
 
-    function addVastVideoUrlFields(&$form, &$bannerRow, $isNewBanner)
+    public function addVastVideoUrlFields(&$form, &$bannerRow, $isNewBanner)
     {
         $vastVideoDelivery = $form->getSubmitValue('vast_video_delivery');
-        if(empty($vastVideoDelivery)
+        if (empty($vastVideoDelivery)
             && !empty($bannerRow['vast_video_delivery'])) {
             $vastVideoDelivery = $bannerRow['vast_video_delivery'];
         }
 
-        if ( $vastVideoDelivery == 'progressive' ) {
-            $urlFormatMode  = VAST_VIDEO_URL_PROGRESSIVE_FORMAT;
+        if ($vastVideoDelivery == 'progressive') {
+            $urlFormatMode = VAST_VIDEO_URL_PROGRESSIVE_FORMAT;
             $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formHttpProgressiveVideoUrlMode();";
         } else {
-            $urlFormatMode  = VAST_VIDEO_URL_STREAMING_FORMAT;
+            $urlFormatMode = VAST_VIDEO_URL_STREAMING_FORMAT;
             $videoUrlFormatOptionToRunOnPageLoad = " phpAds_formRtmpStreamingVideoUrlMode();";
         }
 
@@ -439,45 +439,54 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
 VIDEO_FORMAT_OPTION_JS;
 
         $videoUrlFormats[] = $form->createElement(
-        										'radio', 'vast_video_delivery', '',
-                                                'streaming (RTMP)',
-                                                VAST_VIDEO_URL_STREAMING_FORMAT,
-                                                array('id' => 'video-url-format-streaming', 'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ));
+            'radio',
+            'vast_video_delivery',
+            '',
+            'streaming (RTMP)',
+            VAST_VIDEO_URL_STREAMING_FORMAT,
+            ['id' => 'video-url-format-streaming', 'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ]
+        );
 
         $videoUrlFormats[] = $form->createElement(
-        								'radio', 'vast_video_delivery', '',
-                                        'progressive (HTTP)',
-                                        VAST_VIDEO_URL_PROGRESSIVE_FORMAT,
-                                        array('id' => 'video-url-format-progressive', 'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ));
-        $this->setElementIsRequired('vast_video_delivery',  'vast_overlay_action', VAST_OVERLAY_CLICK_TO_VIDEO);
+            'radio',
+            'vast_video_delivery',
+            '',
+            'progressive (HTTP)',
+            VAST_VIDEO_URL_PROGRESSIVE_FORMAT,
+            ['id' => 'video-url-format-progressive', 'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ]
+        );
+        $this->setElementIsRequired('vast_video_delivery', 'vast_overlay_action', VAST_OVERLAY_CLICK_TO_VIDEO);
         $form->addGroup($videoUrlFormats, 'VideoFormatAction', $this->getLabelWithRequiredStar($this->getFieldLabel('vast_video_delivery')), "<br/>");
         $this->addFormRequiredElement(
-                                $form,
-                                array('text', 'vast_net_connection_url', $this->getFieldLabel('vast_net_connection_url')),
-                                'vast_video_delivery',
-                                VAST_VIDEO_URL_STREAMING_FORMAT);
+            $form,
+            ['text', 'vast_net_connection_url', $this->getFieldLabel('vast_net_connection_url')],
+            'vast_video_delivery',
+            VAST_VIDEO_URL_STREAMING_FORMAT
+        );
         $this->addFormRequiredElement(
-                                $form,
-                                array('text', 'vast_video_filename', $this->getFieldLabel('vast_video_filename')),
-                                'vast_overlay_action',
-                                VAST_OVERLAY_CLICK_TO_VIDEO);
-        $form->addElement('html', 'jsForVideoFormat', $videoUrlFomatOptionJs );
+            $form,
+            ['text', 'vast_video_filename', $this->getFieldLabel('vast_video_filename')],
+            'vast_overlay_action',
+            VAST_OVERLAY_CLICK_TO_VIDEO
+        );
+        $form->addElement('html', 'jsForVideoFormat', $videoUrlFomatOptionJs);
 
         $vastVideoType = getVastVideoTypes();
         // adding empty SELECT entry to ensure users make a decision and select the right Video type
-        $vastVideoType = array_merge( array( '' => ''), $vastVideoType);
+        $vastVideoType = array_merge([ '' => ''], $vastVideoType);
 
         $this->addFormRequiredElement(
-                                $form,
-                                array('select', 'vast_video_type', $this->getFieldLabel('vast_video_type'), $vastVideoType),
-                                'vast_overlay_action',
-                                VAST_OVERLAY_CLICK_TO_VIDEO);
+            $form,
+            ['select', 'vast_video_type', $this->getFieldLabel('vast_video_type'), $vastVideoType],
+            'vast_overlay_action',
+            VAST_OVERLAY_CLICK_TO_VIDEO
+        );
         $this->addFormRequiredElement(
-                                $form,
-                                array('text', 'vast_video_duration', $this->getFieldLabel('vast_video_duration')),
-                                'vast_overlay_action',
-                                VAST_OVERLAY_CLICK_TO_VIDEO);
+            $form,
+            ['text', 'vast_video_duration', $this->getFieldLabel('vast_video_duration')],
+            'vast_overlay_action',
+            VAST_OVERLAY_CLICK_TO_VIDEO
+        );
         $form->addElement('text', 'vast_video_clickthrough_url', "Destination URL (incl. http://) <br />when user clicks on the video");
     }
-    
 }

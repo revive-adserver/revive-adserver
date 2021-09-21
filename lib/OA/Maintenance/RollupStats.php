@@ -27,16 +27,15 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
  */
 class OA_Maintenance_RollupStats extends MAX_Dal_Common
 {
-
     /**
      * The class constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function run($oDate)
+    public function run($oDate)
     {
         $this->_rollUpHourlyStatsToDaily($oDate);
         $this->_rollUpDailyStatsToMonthly($oDate);
@@ -48,7 +47,7 @@ class OA_Maintenance_RollupStats extends MAX_Dal_Common
      *
      * @param PEAR_Date $oDate The date before which hourly stats should be rolled up
      */
-    function _rollUpHourlyStatsToDaily($oDate)
+    public function _rollUpHourlyStatsToDaily($oDate)
     {
         $sDate = $oDate->format('%Y-%m-%d 00:00:00');
         $updated = OA::getNowUTC('Y-m-d h:i:s');
@@ -155,14 +154,13 @@ class OA_Maintenance_RollupStats extends MAX_Dal_Common
         OA::debug("Woo hoo stats rolled up for pre-{$sDate}", PEAR_LOG_INFO);
     }
 
-    function _rollUpDailyStatsToMonthly($oDate)
+    public function _rollUpDailyStatsToMonthly($oDate)
     {
         // Not implemented
         return true;
     }
-    function _getSqlOffsetFromString($string)
+    public function _getSqlOffsetFromString($string)
     {
         return substr($string, 4, 3) . ':' . substr($string, 7, 2);
     }
 }
-?>

@@ -39,26 +39,23 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source.php';
  */
 class OA_Algorithm_Dependency_Source_HoA extends OA_Algorithm_Dependency_Source
 {
-    private $hash = array();
+    private $hash = [];
 
-    function __construct($deps = array())
+    public function __construct($deps = [])
     {
         $this->hash = $deps;
     }
 
-    function _loadItemList()
+    public function _loadItemList()
     {
-        $items = array();
+        $items = [];
         foreach ($this->hash as $id => $dependency) {
             if (!is_array($dependency)) {
                 $id = $dependency;
-                $dependency = array();
+                $dependency = [];
             }
             $items[] = new OA_Algorithm_Dependency_Item($id, $dependency);
         }
         return $items;
     }
-
 }
-
-?>

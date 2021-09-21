@@ -31,7 +31,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 addPageTools();
 phpAds_PageHeader("4.4");
-phpAds_ShowSections(array("4.1", "4.3", "4.4"));
+phpAds_ShowSections(["4.1", "4.3", "4.4"]);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -51,7 +51,7 @@ $oTpl->assign('editPage', 'admin-user.php');
 $oTpl->assign('unlinkPage', 'admin-user-unlink.php');
 
 $doUsers = OA_Dal::factoryDO('users');
-$oTpl->assign('users', array('aUsers' => $doUsers->getAdminUsers()));
+$oTpl->assign('users', ['aUsers' => $doUsers->getAdminUsers()]);
 $oTpl->display();
 
 /*-------------------------------------------------------*/
@@ -62,8 +62,5 @@ phpAds_PageFooter();
 
 function addPageTools()
 {
-    addPageLinkTool($GLOBALS['strLinkUser_Key'], "admin-user-start.php", "iconAdvertiserAdd", $GLOBALS["keyLinkUser"] );
+    addPageLinkTool($GLOBALS['strLinkUser_Key'], "admin-user-start.php", "iconAdvertiserAdd", $GLOBALS["keyLinkUser"]);
 }
-
-
-?>

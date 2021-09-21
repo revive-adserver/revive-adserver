@@ -15,12 +15,13 @@ require_once MAX_PATH . '/lib/OX/Translation.php';
 
 class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 {
-    var $oTrans;
+    public $oTrans;
 
-    function __construct($name = 'AuditDaySpanField',
-                         $fieldSelectionDefault = 'all_events',
-                         $aFieldSelectionNames = null)
-    {
+    public function __construct(
+        $name = 'AuditDaySpanField',
+        $fieldSelectionDefault = 'all_events',
+        $aFieldSelectionNames = null
+    ) {
         parent::__construct($name, $fieldSelectionDefault, $aFieldSelectionNames);
         $this->oTrans = new OX_Translation();
     }
@@ -31,24 +32,24 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
      * @static
      * @see Admin_UI_DaySpanField::__construct()
      */
-    function getDefaultSelectionNames()
+    public function getDefaultSelectionNames()
     {
-        return array(
-            'all_events'  => $GLOBALS['strCollectedAllEvents'],
-            'today'       => $GLOBALS['strCollectedToday'],
-            'yesterday'   => $GLOBALS['strCollectedYesterday'],
-            'this_week'   => $GLOBALS['strCollectedThisWeek'],
-            'last_week'   => $GLOBALS['strCollectedLastWeek'],
+        return [
+            'all_events' => $GLOBALS['strCollectedAllEvents'],
+            'today' => $GLOBALS['strCollectedToday'],
+            'yesterday' => $GLOBALS['strCollectedYesterday'],
+            'this_week' => $GLOBALS['strCollectedThisWeek'],
+            'last_week' => $GLOBALS['strCollectedLastWeek'],
             'last_7_days' => $GLOBALS['strCollectedLast7Days'],
-            'this_month'  => $GLOBALS['strCollectedThisMonth'],
-            'last_month'  => $GLOBALS['strCollectedLastMonth'],
-            'specific'    => $GLOBALS['strCollectedSpecificDates']
-          );
+            'this_month' => $GLOBALS['strCollectedThisMonth'],
+            'last_month' => $GLOBALS['strCollectedLastMonth'],
+            'specific' => $GLOBALS['strCollectedSpecificDates']
+          ];
     }
     /**
      * A method that echos the HTML for this field.
      */
-    function display()
+    public function display()
     {
         $oStartDate = $this->getStartDate();
         $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%Y-%m-%d');
@@ -67,11 +68,11 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
         echo "
         </select>
         <label for='{$this->_name}_start' style='margin-left: 1em'> " . $this->oTrans->translate('From') . "</label>
-        <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='" . $this->_tabIndex++ . "' />
+        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='" . $this->_tabIndex++ . "' />
         <label for='{$this->_name}_end' style='margin-left: 1em'> " . $this->oTrans->translate('To') . "</label>
-        <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='" . $this->_tabIndex++ . "' />
+        <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='" . $this->_tabIndex++ . "' />
         <script type='text/javascript'>
         <!--
         Calendar.setup({
@@ -99,7 +100,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
         {
             document.getElementById('{$this->_name}_start').value = '$startDateStr';
             document.getElementById('{$this->_name}_start').value = '$endDateStr';
-            document.getElementById('{$this->_name}_preset').value = \"".addcslashes(stripslashes($this->_fieldSelectionValue), "\0..\37/\"\\")."\";
+            document.getElementById('{$this->_name}_preset').value = \"" . addcslashes(stripslashes($this->_fieldSelectionValue), "\0..\37/\"\\") . "\";
         }
         function {$this->_name}FormSubmit() {
             submitForm();
@@ -118,11 +119,11 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
                     $oTmpDaySpan->setSpanPresetValue($v);
                     $oTmpStartDate = $oTmpDaySpan->getStartDate();
                     $sTmpStartDate = $oTmpStartDate->format('%Y-%m-%d');
-                    $oTmpEndDate   = $oTmpDaySpan->getEndDate();
-                    $sTmpEndDate   = $oTmpEndDate->format('%Y-%m-%d');
+                    $oTmpEndDate = $oTmpDaySpan->getEndDate();
+                    $sTmpEndDate = $oTmpEndDate->format('%Y-%m-%d');
                 } else {
                     $sTmpStartDate = '';
-                    $sTmpEndDate   = '';
+                    $sTmpEndDate = '';
                 }
                 echo "
             if ({$this->_name}SelectName == '$v') {
@@ -170,4 +171,3 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
         </script>";
     }
 }
-?>

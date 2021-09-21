@@ -19,7 +19,7 @@ require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
  */
 class OA_Creative_File extends OA_Creative
 {
-    var $fileName;
+    public $fileName;
 
     /**
      * Class constructor
@@ -60,11 +60,11 @@ class OA_Creative_File extends OA_Creative
     public function readCreativeDetails($filePath, $aTypes = null)
     {
         if (!isset($aTypes)) {
-            $aTypes = array(
-                IMAGETYPE_GIF  => 'gif',
-                IMAGETYPE_PNG  => 'png',
+            $aTypes = [
+                IMAGETYPE_GIF => 'gif',
+                IMAGETYPE_PNG => 'png',
                 IMAGETYPE_JPEG => 'jpeg',
-            );
+            ];
         }
 
         if (!($aImage = @getimagesize($filePath))) {
@@ -76,21 +76,21 @@ class OA_Creative_File extends OA_Creative
         }
 
         $this->contentType = $aTypes[$aImage[2]];
-        $this->width   = $aImage[0];
-        $this->height  = $aImage[1];
+        $this->width = $aImage[0];
+        $this->height = $aImage[1];
 
         return true;
     }
 
     public function getFileDetails()
     {
-        return array(
-            'filename'      => $this->fileName,
-            'width'         => $this->width,
-            'height'        => $this->height,
-            'contenttype'   => $this->contentType,
+        return [
+            'filename' => $this->fileName,
+            'width' => $this->width,
+            'height' => $this->height,
+            'contenttype' => $this->contentType,
             'pluginversion' => 0,
-        );
+        ];
     }
 
     public function store($type)
@@ -101,7 +101,9 @@ class OA_Creative_File extends OA_Creative
     public function getContentTypeByExtension($alt = false)
     {
         return OA_Creative_File::staticGetContentTypeByExtension(
-            $this->fileName, $alt);
+            $this->fileName,
+            $alt
+        );
     }
 
     public static function staticGetContentTypeByExtension($fileName, $alt = false)
@@ -132,7 +134,7 @@ class OA_Creative_File extends OA_Creative
     public static function factory($filePath, $fileName = '')
     {
         if (!@is_readable($filePath)) {
-            return new PEAR_Error('Could not read the file: '.$filePath);
+            return new PEAR_Error('Could not read the file: ' . $filePath);
         }
 
         if (empty($fileName)) {
@@ -142,7 +144,7 @@ class OA_Creative_File extends OA_Creative
         $validImageExtensions = 'png|svg|gif|jpg|jpeg|jpe|tif|tiff|ppm|bmp|rle|dib|tga|pcz|wbmp|wbm';
         if (preg_match('/\.(?:dcr|rpm|mov)$/i', $fileName)) {
             $type = 'RichMedia';
-        } elseif (preg_match('/\.('.$validImageExtensions.')$/i', $fileName)) {
+        } elseif (preg_match('/\.(' . $validImageExtensions . ')$/i', $fileName)) {
             $type = 'Image';
         } else {
             return new PEAR_Error('The uploaded file does not have a valid extension.
@@ -150,7 +152,7 @@ class OA_Creative_File extends OA_Creative
         }
 
         require_once(MAX_PATH . '/lib/OA/Creative/File/' . $type . '.php');
-        $className = 'OA_Creative_File_'.$type;
+        $className = 'OA_Creative_File_' . $type;
 
         $oCreative = new $className($fileName);
 
@@ -175,11 +177,11 @@ class OA_Creative_File extends OA_Creative
         $filePath = tempnam(MAX_PATH . '/var', 'oa_creative_');
         // Open temp file
         if (!($fp = @fopen($filePath, 'w'))) {
-            return new PEAR_Error('Could not open the file: '.$filePath);
+            return new PEAR_Error('Could not open the file: ' . $filePath);
         }
         // Write to temp file
         if (!@fwrite($fp, $content)) {
-            return new PEAR_Error('Could not write to file: '.$filePath);
+            return new PEAR_Error('Could not write to file: ' . $filePath);
         }
 
         // Get new instance
@@ -200,27 +202,28 @@ class OA_Creative_File extends OA_Creative
      * @param string $variableName
      * @return OA_Creative_File|PEAR_Error
      */
-    public static function factoryUploadedFile($variableName) {
+    public static function factoryUploadedFile($variableName)
+    {
         if (!empty($_FILES[$variableName]['error'])) {
-            $aErrors = array(
-                UPLOAD_ERR_INI_SIZE   => "file size exceeds PHP max allowed size.",
-                UPLOAD_ERR_FORM_SIZE  => "file size exceeds form max allowed size.",
-                UPLOAD_ERR_PARTIAL    => "partial upload.",
-                UPLOAD_ERR_NO_FILE    => "no file uploaded.",
+            $aErrors = [
+                UPLOAD_ERR_INI_SIZE => "file size exceeds PHP max allowed size.",
+                UPLOAD_ERR_FORM_SIZE => "file size exceeds form max allowed size.",
+                UPLOAD_ERR_PARTIAL => "partial upload.",
+                UPLOAD_ERR_NO_FILE => "no file uploaded.",
                 UPLOAD_ERR_NO_TMP_DIR => "temp directory not available."
-            );
+            ];
             if (isset($aErrors[$_FILES[$variableName]['error']])) {
                 $message = $aErrors[$_FILES[$variableName]['error']];
             } else {
-                $message = 'Error code: '.$_FILES[$variableName]['error'];
+                $message = 'Error code: ' . $_FILES[$variableName]['error'];
             }
-            return new PEAR_Error('An error occurred dealing with the file upload: '.$message);
+            return new PEAR_Error('An error occurred dealing with the file upload: ' . $message);
         }
         if (!isset($_FILES[$variableName]['tmp_name']) || !is_uploaded_file($_FILES[$variableName]['tmp_name'])) {
-            return new PEAR_Error('Could not find the uploaded file: '.$variableName);
+            return new PEAR_Error('Could not find the uploaded file: ' . $variableName);
         }
         if (!isset($_FILES[$variableName]['name'])) {
-            return new PEAR_Error('Could not find the uploaded file name: '.$variableName);
+            return new PEAR_Error('Could not find the uploaded file name: ' . $variableName);
         }
         $fileName = basename($_FILES[$variableName]['name']);
         $filePath = $_FILES[$variableName]['tmp_name'];
@@ -228,13 +231,13 @@ class OA_Creative_File extends OA_Creative
             // The uploaded file is not directly readable, we should use a file from the var folder instead
             $tmpName = tempnam(MAX_PATH . '/var', 'oa_creative_');
             if ($tmpName === false) {
-                return new PEAR_Error('Cannot create a temporary file: '.$filePath);
+                return new PEAR_Error('Cannot create a temporary file: ' . $filePath);
             }
             // Move uploaded file to a temporary file
             if (!@move_uploaded_file($filePath, $tmpName)) {
                 // Cleanup
                 @unlink($tmpName);
-                return new PEAR_Error('Could not move the uploaded file to: '.$tmpName);
+                return new PEAR_Error('Could not move the uploaded file to: ' . $tmpName);
             }
             $filePath = $tmpName;
         }
@@ -250,5 +253,3 @@ class OA_Creative_File extends OA_Creative
         return $oCreative;
     }
 }
-
-?>

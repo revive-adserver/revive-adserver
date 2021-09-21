@@ -28,32 +28,29 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Client_Language extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Client - Language';
     }
 
 
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         $this->setAValues(array_keys($this->res));
     }
 
-    function displayArrayData()
+    public function displayArrayData()
     {
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
 
         echo "<div class='box'>";
         foreach ($this->res as $code => $name) {
             echo "<div class='boxrow'>";
-            echo "<input tabindex='".($tabindex++)."' ";
-            echo "type='checkbox' id='c_{$this->executionorder}_{$code}' name='acl[{$this->executionorder}][data][]' value='{$code}'".(in_array($code, $this->data) ? ' CHECKED' : '').">{$name}</div>";
+            echo "<input tabindex='" . ($tabindex++) . "' ";
+            echo "type='checkbox' id='c_{$this->executionorder}_{$code}' name='acl[{$this->executionorder}][data][]' value='{$code}'" . (in_array($code, $this->data) ? ' CHECKED' : '') . ">{$name}</div>";
         }
         echo "</div>";
     }
-
 }
-
-?>

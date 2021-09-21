@@ -19,14 +19,14 @@ function phpAds_getBannerCache($banner)
     $buffer = $banner['htmltemplate'];
 
     // Strip slashes from urls
-    $banner['url']      = stripslashes($banner['url']);
+    $banner['url'] = stripslashes($banner['url']);
     $banner['imageurl'] = stripslashes($banner['imageurl']);
 
     // The following properties depend on data from the invocation process
     // and can't yet be determined: {zoneid}, {bannerid}
     // These properties will be set during invocation
 
-    if($banner['adserver'] == 'none') {
+    if ($banner['adserver'] == 'none') {
         $buffer = php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer);
         return $buffer;
     }
@@ -36,8 +36,7 @@ function phpAds_getBannerCache($banner)
     }
 
     // Auto change HTML banner
-    if ($buffer != '')
-    {
+    if ($buffer != '') {
         // Put our click URL and our target parameter in all anchors...
         // The regexp should handle ", ', \", \' as delimiters
         if (preg_match_all('#<a(\s[^>]*?)href\s*=\s*(\\\\?[\'"])((?:https?:|)//.*?)\2(.*?) *>#is', $buffer, $m)) {
@@ -48,10 +47,10 @@ function phpAds_getBannerCache($banner)
                 // Remove target parameters
                 $pre = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[1][$k]));
                 $post = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
-                $attr = trim($pre.' '.$post);
+                $attr = trim($pre . ' ' . $post);
 
                 if (strlen($attr)) {
-                    $attr = ' '.$attr;
+                    $attr = ' ' . $attr;
                 }
 
                 $buffer = str_replace($v, "<a href={$q}{clickurl_html}{$urlDest}{$q} target={$q}{target}{$q}{$attr}>", $buffer);
@@ -61,9 +60,9 @@ function phpAds_getBannerCache($banner)
         // In addition, we need to add our clickURL to the clickTAG parameter if present, for 3rd party flash ads
         // the clickTag is case insentive match, as it is correct to use clicktag, CLICKTAG, etc.
         preg_match('/^(.*)(clickTAG)\s?=\s?(.*?)([\'"])(.*)$/is', $buffer, $matches);
-        if(count($matches) > 0) {
+        if (count($matches) > 0) {
             $matches[3] = html_entity_decode($matches[3], null, 'UTF-8');
-            $buffer = $matches[1] . $matches[2] . "={clickurl_enc}".urlencode($matches[3]).$matches[4].$matches[5];
+            $buffer = $matches[1] . $matches[2] . "={clickurl_enc}" . urlencode($matches[3]) . $matches[4] . $matches[5];
         }
     }
 
@@ -95,7 +94,7 @@ function php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer)
 {
     // Wrap the banner inside a link if it doesn't seem to handle clicks itself
     if (!empty($banner['url']) && !preg_match('#<(a|area|form|script|object|iframe) #i', $buffer)) {
-        return '<a href="{clickurl_html}" target="{target}">'.$buffer.'</a>';
+        return '<a href="{clickurl_html}" target="{target}">' . $buffer . '</a>';
     }
     return $buffer;
 }

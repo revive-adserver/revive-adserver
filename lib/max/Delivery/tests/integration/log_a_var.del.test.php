@@ -25,7 +25,7 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,9 +33,9 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
     /**
      * A method to test the MAX_Delivery_log_logVariableValues() function.
      */
-    function test_MAX_Delivery_log_logVariableValues()
+    public function test_MAX_Delivery_log_logVariableValues()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         $GLOBALS['_MAX']['NOW'] = time();
@@ -49,22 +49,22 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
 
         // Test calling the main logging function without any plugins installed,
         // to ensure that this does not result in any kind of error
-        $aVariables = array(
-            55 => array(
-                'variable_id'  => 55,
-                'tracker_id'   => 1,
-                'name'         => 'fooVar',
-                'type'         => 'string',
+        $aVariables = [
+            55 => [
+                'variable_id' => 55,
+                'tracker_id' => 1,
+                'name' => 'fooVar',
+                'type' => 'string',
                 'variablecode' => ''
-            ),
-            66 => array(
-                'variable_id'  => 66,
-                'tracker_id'   => 1,
-                'name'         => 'barVar',
-                'type'         => 'string',
+            ],
+            66 => [
+                'variable_id' => 66,
+                'tracker_id' => 1,
+                'name' => 'barVar',
+                'type' => 'string',
                 'variablecode' => ''
-            ),
-        );
+            ],
+        ];
         $_GET['fooVar'] = 'foo';
         $_GET['barVar'] = 'bar';
         MAX_Delivery_log_logVariableValues($aVariables, 1, 1, 'singleDB');
@@ -93,14 +93,14 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
         $this->assertEqual($rows, 2);
 
         $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
-        $doData_bkt_a_var->server_conv_id      = 1;
-        $doData_bkt_a_var->server_raw_ip       = 'singleDB';
+        $doData_bkt_a_var->server_conv_id = 1;
+        $doData_bkt_a_var->server_raw_ip = 'singleDB';
         $doData_bkt_a_var->tracker_variable_id = 55;
         $doData_bkt_a_var->find();
         $rows = $doData_bkt_a_var->getRowCount();
         $this->assertEqual($rows, 1);
         $doData_bkt_a_var->fetch();
-        $this->assertEqual($doData_bkt_a_var->value,     'foo');
+        $this->assertEqual($doData_bkt_a_var->value, 'foo');
         $this->assertEqual($doData_bkt_a_var->date_time, $oNowDate->format('%Y-%m-%d %H:%M:%S'));
 
 
@@ -109,9 +109,5 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
 
         // Restore the test configuration file
         TestEnv::restoreConfig();
-
     }
-
 }
-
-?>

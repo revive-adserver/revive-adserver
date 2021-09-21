@@ -19,12 +19,12 @@ global $installing;
 $installing = true;
 
 require_once '../../init.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Login.php';
-require_once MAX_PATH.'/lib/OX/Upgrade/Util/Job.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Login.php';
+require_once MAX_PATH . '/lib/OX/Upgrade/Util/Job.php';
 
 // No upgrade file? No installer!
-if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
+if (!file_exists(MAX_PATH . '/var/UPGRADE')) {
     header("Location: index.php");
     exit;
 }
@@ -32,16 +32,14 @@ if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
 // Some post-upgrade tasks could take a long time!
 @set_time_limit(0);
 
-$aErrors = array();
-$result = array('name'=>@$_REQUEST['task'],'status'=>'Invalid Request','errors'=>&$aErrors, 'type' => 'task');
-if (OA_Upgrade_Login::checkLogin(false))
-{
-    if (validRequest($result))
-    {
+$aErrors = [];
+$result = ['name' => @$_REQUEST['task'], 'status' => 'Invalid Request', 'errors' => &$aErrors, 'type' => 'task'];
+if (OA_Upgrade_Login::checkLogin(false)) {
+    if (validRequest($result)) {
         $oUpgrader = new OA_Upgrade();
         $aResponse = $oUpgrader->runPostUpgradeTask($_REQUEST['task']);
-        $result['errors']  = $aResponse['errors'];
-        if (count($result['errors'])>0) {
+        $result['errors'] = $aResponse['errors'];
+        if (count($result['errors']) > 0) {
             $result['status'] = 'Failed';
         } else {
             $result['status'] = 'OK';
@@ -56,16 +54,15 @@ if (OA_Upgrade_Login::checkLogin(false))
 OX_Upgrade_Util_Job::saveJobResult($result);
 
 
-require_once MAX_PATH.'/lib/JSON/JSON.php';
+require_once MAX_PATH . '/lib/JSON/JSON.php';
 $json = new Services_JSON();
 $output = $json->encode($result);
-header ("Content-Type: text/javascript");
+header("Content-Type: text/javascript");
 echo $output;
 
 function validRequest(&$result)
 {
-    if ((!isset($_REQUEST['task'])))
-    {
+    if ((!isset($_REQUEST['task']))) {
         OX_Upgrade_Util_Job::logError($result, 'Bad arguments');
         return false;
     }
@@ -78,5 +75,3 @@ function validRequest(&$result)
 
     return OX_Upgrade_Util_Job::isInstallerStepCompleted('database', $result);
 }
-
-?>

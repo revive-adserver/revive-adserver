@@ -20,15 +20,15 @@ require_once MAX_PATH . '/lib/OA/Central.php';
  */
 class Test_OA_Central extends UnitTestCase
 {
-    function testBuildUrl()
+    public function testBuildUrl()
     {
-        $aConf = array(
-            'protocol'  => 'http',
-            'host'      => 'www.example.com',
-            'path'      => '/foo',
-            'httpPort'  => 80,
+        $aConf = [
+            'protocol' => 'http',
+            'host' => 'www.example.com',
+            'path' => '/foo',
+            'httpPort' => 80,
             'httpsPort' => 443,
-        );
+        ];
 
         $this->assertEqual('http://www.example.com/foo', OA_Central::buildUrl($aConf));
 
@@ -57,24 +57,24 @@ class Test_OA_Central extends UnitTestCase
         $this->assertEqual('http://www.example.com:81/bar', OA_Central::buildUrl($aConf, 'path1'));
     }
 
-    function testGetXmlRpcClient()
+    public function testGetXmlRpcClient()
     {
         Mock::generatePartial(
             'OA_Central',
             'PartialMockOA_Central',
-            array('canUseSSL')
+            ['canUseSSL']
         );
 
         $oCentral = new PartialMockOA_Central();
         $oCentral->setReturnValue('canUseSSL', true);
 
-        $aConf = array(
-            'protocol'  => 'https',
-            'host'      => 'www.example.com',
-            'path'      => '/foo',
-            'httpPort'  => 80,
+        $aConf = [
+            'protocol' => 'https',
+            'host' => 'www.example.com',
+            'path' => '/foo',
+            'httpPort' => 80,
             'httpsPort' => 443,
-        );
+        ];
 
         $oClient = $oCentral->getXmlRpcClient($aConf);
         $this->assertTrue($oClient->protocol, 'ssl://');
@@ -86,5 +86,3 @@ class Test_OA_Central extends UnitTestCase
         $this->assertTrue($oClient->port, 80);
     }
 }
-
-?>

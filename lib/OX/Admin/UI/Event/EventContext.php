@@ -12,18 +12,16 @@
 
 /**
  * Event context object. Serves as a holder for the event data. Listeners of the
- * event may modify the context and caller will be able to get the results from it. 
- * 
+ * event may modify the context and caller will be able to get the results from it.
+ *
  * @package    OpenXAdmin
  */
 class OX_Admin_UI_Event_EventContext
 {
     public $data;
     
-    function __construct($data = null)
+    public function __construct($data = null)
     {
         $this->data = $data;
     }
 }
-
-?>

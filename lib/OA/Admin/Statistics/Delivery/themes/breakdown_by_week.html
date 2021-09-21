@@ -20,91 +20,16 @@
         {showInaccurateStatsWarning()}
     </div>
 
-    {scriptOpen:h}
-
-    function getImage() {
-
-       var imageLinkSrc      = document.getElementById('imageLinkSrc');
-       var imageLinkSrcTemp  = document.getElementById('imageLinkSrcTemp');
-
-       imageLinkSrc.style.display = 'none';
-       imageLinkSrcTemp.style.display = '';
-
-    }
-
-    function showGraph() {
-
-       var imgPath;
-       var imageLinkSrc      = document.getElementById('imageLinkSrc');
-       var imageLinkSrcTemp  = document.getElementById('imageLinkSrcTemp');
-       var graph             = document.getElementById('statsgraph');
-       var arrow             = document.getElementById('grapharrow');
-       var graphboxes        = document.getElementById('graphboxes');
-
-       if (graph.style.display == 'none') {
-
-            imgPath = '{aGraphData[tmpUrl]:h}';
-
-            if(imgPath != imageLinkSrc.src) {
-                imageLinkSrcTemp.src = imgPath;
-                window.setTimeout('getImage()', 3000);
-            }
-
-            graph.style.display = 'block';
-            graphboxes.style.display = 'block';
-            arrow.src = '{aGraphData[imgPath]}/triangle-d.gif';
-
-       } else {
-
-            graph.style.display = 'none';
-            graphboxes.style.display = 'none';
-            arrow.src = '{aGraphData[imgPath]}/ltr/triangle-l.gif';
-
-        }
-    }
-    {scriptClose:h}
-
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-    {if:!disableGraph}
-		<td style="padding-bottom:5px; white-space: nowrap;">
-			<br />
-			<a href="{pageURI}plugin=advertiser:statshistory" accesskey="e">
-            <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
-            </a>
-		</td>
-		<td width="90%">&nbsp;</td>
-	{else:}
 		<td style="padding-bottom:5px; white-space: nowrap;">
 			<br />
 			<span style="color: #999999;">
             <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
 		</td>
 		<td width="90%">&nbsp;</td>
-	{end:}
 	</tr>
 	</table>
-    <div id="statsgraph" style="text-align: center; display:none; background-color:#f9f9f9; border: 1px solid #cccccc; padding: 10px; width: 850px; margin-top: 15px; margin-bottom: 15px;">
-	    {if:aGraphData[noGraph]}
-	    	<div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;{aGraphData[noGraph]:h}</div>
-	    {else:}
-        <img id="imageLinkSrcTemp" src="" style="display: none;" />
-		    <img id="imageLinkSrc" src="{aGraphData[imgPath]}/ltr/preloader.gif" style="border: 1px solid #cccccc;padding: 5px;margin: 10px; background-color: #ffffff; text-align:center;" /><form method="post" action="{aGraphData[formSubmitLink]}">
-		    <div id="graphboxes" style="width: 90%; text-align: left; margin-left: auto; margin-right: auto; display: none; background-color:#eeeeee; padding: 10px; border: 1px solid #cccccc;">
-		    {foreach:aColumns,ck,cv}
-		    	<div style="width: 100px; float: left;"><input type="checkbox" id="graphFilter_{ck}" name="graphFilter[]" value="{ck}">&nbsp;<label for="graphFilter_{ck}">{cv}</label></div>
-		    {end:}
-      		<input type="Submit" value="Update" style="float: right;" />
-		    <br style="clear: both;" />
-		    </div>
-		    </form>
-    	{end:}
-        {if:autoShowGraph}
-            {scriptOpen:h}
-             myvar = showGraph();
-            {scriptClose:h}
-        {end:}
-    </div>
     </td>
   </tr>
   <tr>

@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once LIB_PATH.'/Plugin/ParserBase.php';
+require_once LIB_PATH . '/Plugin/ParserBase.php';
 
 /**
  * Parses an XML plugin install file
@@ -19,44 +19,41 @@ require_once LIB_PATH.'/Plugin/ParserBase.php';
  */
 class OX_ParserComponentGroup extends OX_ParserBase
 {
-
-    var $aNav    = array(OA_ACCOUNT_ADMIN => array(),
-                         OA_ACCOUNT_MANAGER => array(),
-                         OA_ACCOUNT_ADVERTISER => array(),
-                         OA_ACCOUNT_TRAFFICKER => array(),
-                         'checkers' => array(),
-                         );
-    var $aSchema = array(
-                          'mdb2schema'  => '',
-                          'dboschema'   => '',
-                          'dbolinks'    => '',
+    public $aNav = [OA_ACCOUNT_ADMIN => [],
+                         OA_ACCOUNT_MANAGER => [],
+                         OA_ACCOUNT_ADVERTISER => [],
+                         OA_ACCOUNT_TRAFFICKER => [],
+                         'checkers' => [],
+                         ];
+    public $aSchema = [
+                          'mdb2schema' => '',
+                          'dboschema' => '',
+                          'dbolinks' => '',
                           'dataobjects' => '',
-                           );
-    var $aData;
-    var $aComponents = array();
-    var $aComponent = array();
+                           ];
+    public $aData;
+    public $aComponents = [];
+    public $aComponent = [];
 
-    function startHandler($xp, $element, $attribs)
+    public function startHandler($xp, $element, $attribs)
     {
-
         parent::startHandler($xp, $element, $attribs);
 
-        switch ($this->element)
-        {
+        switch ($this->element) {
             case 'plugin':
 
-                $this->aNav = array(
-                                     OA_ACCOUNT_ADMIN => array(),
-                                     OA_ACCOUNT_MANAGER => array(),
-                                     OA_ACCOUNT_ADVERTISER => array(),
-                                     OA_ACCOUNT_TRAFFICKER => array(),
-                                    );
-                $this->aSchema  = array(
-                                      'mdb2schema'  => '',
-                                      'dboschema'   => '',
-                                      'dbolinks'    => '',
-                                      'dataobjects' => array(),
-                                       );
+                $this->aNav = [
+                                     OA_ACCOUNT_ADMIN => [],
+                                     OA_ACCOUNT_MANAGER => [],
+                                     OA_ACCOUNT_ADVERTISER => [],
+                                     OA_ACCOUNT_TRAFFICKER => [],
+                                    ];
+                $this->aSchema = [
+                                      'mdb2schema' => '',
+                                      'dboschema' => '',
+                                      'dbolinks' => '',
+                                      'dataobjects' => [],
+                                       ];
 
                 break;
             case 'plugin-install-navigation-admin-menu':
@@ -66,36 +63,32 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-navigation-checkers-checker':
             case 'plugin-install-configuration-setting':
             case 'plugin-install-configuration-preference':
-                $this->aData = array();
-                foreach ($attribs AS $k => $v)
-                {
+                $this->aData = [];
+                foreach ($attribs as $k => $v) {
                     $this->aData[strtolower($k)] = $v;
                 }
                 break;
             case 'plugin-install-configuration':
-                $this->aSettings = array();
-                $this->aPrefs = array();
-                if (isset($attribs[strtoupper('option')]))
-                {
+                $this->aSettings = [];
+                $this->aPrefs = [];
+                if (isset($attribs[strtoupper('option')])) {
                     $this->aConf['option'] = $attribs[strtoupper('option')];
                 }
                 break;
             case 'plugin-install-components-component':
-                $this->aData = array();
-                $this->aData['hooks'] = array();
-                $this->aComponent = array();
+                $this->aData = [];
+                $this->aData['hooks'] = [];
+                $this->aComponent = [];
                 break;
             case 'plugin-install-components':
-                $this->aComponents = array();
+                $this->aComponents = [];
                 break;
         }
     }
 
-    function endHandler($xp, $element)
+    public function endHandler($xp, $element)
     {
-
-        switch ($this->element)
-        {
+        switch ($this->element) {
             case 'plugin-install-navigation-admin-menu':
                 $this->aNav[OA_ACCOUNT_ADMIN][] = $this->aData;
                 break;
@@ -110,9 +103,10 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 break;
             case 'plugin-install-navigation-checkers-checker':
                 $this->aNav['checkers'][] = $this->aData;
+                // no break
             case 'plugin':
                 $this->aInstall['navigation'] = $this->aNav;
-                $this->aInstall['schema']     = $this->aSchema;
+                $this->aInstall['schema'] = $this->aSchema;
                 $this->aInstall['components'] = $this->aComponents;
                 break;
             case 'plugin-install-configuration-setting':
@@ -130,12 +124,11 @@ class OX_ParserComponentGroup extends OX_ParserBase
         parent::endHandler($xp, $element);
     }
 
-    function cdataHandler($xp, $data)
+    public function cdataHandler($xp, $data)
     {
         parent::cdataHandler($xp, $data);
 
-        switch ($this->element)
-        {
+        switch ($this->element) {
             case 'plugin-install-navigation-admin-menu':
             case 'plugin-install-navigation-manager-menu':
             case 'plugin-install-navigation-advertiser-menu':
@@ -145,19 +138,19 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 break;
             case 'plugin-install-schema-mdb2schema':
                 $this->aSchema['mdb2schema'] = $data;
-                $this->aAllFiles[] = array('name'=>$data.'.xml', 'path'=>OX_PLUGIN_GROUPPATH.'/etc/');
+                $this->aAllFiles[] = ['name' => $data . '.xml', 'path' => OX_PLUGIN_GROUPPATH . '/etc/'];
                 break;
             case 'plugin-install-schema-dboschema':
                 $this->aSchema['dboschema'] = $data;
-                $this->aAllFiles[] = array('name'=>$data.'.ini', 'path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
+                $this->aAllFiles[] = ['name' => $data . '.ini', 'path' => OX_PLUGIN_GROUPPATH . '/etc/DataObjects/'];
                 break;
             case 'plugin-install-schema-dbolinks':
                 $this->aSchema['dbolinks'] = $data;
-                $this->aAllFiles[] = array('name'=>$data.'.ini', 'path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
+                $this->aAllFiles[] = ['name' => $data . '.ini', 'path' => OX_PLUGIN_GROUPPATH . '/etc/DataObjects/'];
                 break;
             case 'plugin-install-schema-dataobject':
                 $this->aSchema['dataobjects'][] = $data;
-                $this->aAllFiles[] = array('name'=>$data, 'path'=>OX_PLUGIN_GROUPPATH.'/etc/DataObjects/');
+                $this->aAllFiles[] = ['name' => $data, 'path' => OX_PLUGIN_GROUPPATH . '/etc/DataObjects/'];
                 break;
             case 'plugin-install-configuration-setting':
                 $this->aData['value'] = $data;
@@ -175,11 +168,8 @@ class OX_ParserComponentGroup extends OX_ParserBase
                 $this->aData['hooks'][] = $data;
                 break;
             case 'plugin-name':
-                $this->aAllFiles[] = array('name'=>$data.'.xml', 'path'=>OX_PLUGIN_GROUPPATH.'/');
+                $this->aAllFiles[] = ['name' => $data . '.xml', 'path' => OX_PLUGIN_GROUPPATH . '/'];
                 break;
         }
-
     }
 }
-
-?>

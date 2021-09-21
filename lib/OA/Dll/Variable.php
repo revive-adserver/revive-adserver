@@ -20,10 +20,10 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Affiliates.php';
 
 class OA_Dll_Variable extends OA_Dll
 {
-    const ERROR_UNKNOWN_ID = 'Unknown variableId Error';
-    const ERROR_DELETE = 'Error deleting variable';
-    const ERROR_INVALID_DATA_TYPE = 'Invalid data type';
-    const ERROR_INVALID_PURPOSE = 'Invalid purpose';
+    public const ERROR_UNKNOWN_ID = 'Unknown variableId Error';
+    public const ERROR_DELETE = 'Error deleting variable';
+    public const ERROR_INVALID_DATA_TYPE = 'Invalid data type';
+    public const ERROR_INVALID_PURPOSE = 'Invalid purpose';
 
     /**
      * Performs data validation for a variable. The method connects
@@ -41,7 +41,6 @@ class OA_Dll_Variable extends OA_Dll
             if (!$this->checkStructureRequiredIntegerField($oVariableInfo, 'variableId') ||
                 !$this->checkIdExistence('variables', $oVariableInfo->variableId) ||
                 !$this->checkStructureNotRequiredStringField($oVariableInfo, 'variableName', 250)) {
-
                 return false;
             }
         } else {
@@ -49,7 +48,6 @@ class OA_Dll_Variable extends OA_Dll
             if (!$this->checkStructureRequiredIntegerField($oVariableInfo, 'trackerId') ||
                 !$this->checkIdExistence('trackers', $oVariableInfo->trackerId) ||
                 !$this->checkStructureRequiredStringField($oVariableInfo, 'variableName', 250)) {
-
                 return false;
             }
         }
@@ -64,7 +62,6 @@ class OA_Dll_Variable extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oVariableInfo, 'uniqueWindow') ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'variableCode', 255) ||
             !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'hidden')) {
-
             return false;
         }
         return true;
@@ -73,7 +70,7 @@ class OA_Dll_Variable extends OA_Dll
     private function checkDataType($oStructure)
     {
         $fieldName = 'dataType';
-        $aValidDataTypes = array('numeric', 'string', 'date');
+        $aValidDataTypes = ['numeric', 'string', 'date'];
 
         if (isset($oStructure->$fieldName) && !in_array($oStructure->$fieldName, $aValidDataTypes)) {
             $this->raiseError(self::ERROR_INVALID_DATA_TYPE);
@@ -85,7 +82,7 @@ class OA_Dll_Variable extends OA_Dll
     private function checkPurpose($oStructure)
     {
         $fieldName = 'purpose';
-        $aValidPurposes = array('basket_value', 'num_items', 'post_code');
+        $aValidPurposes = ['basket_value', 'num_items', 'post_code'];
 
         if (isset($oStructure->$fieldName) && !in_array($oStructure->$fieldName, $aValidPurposes)) {
             $this->raiseError(self::ERROR_INVALID_PURPOSE);
@@ -120,8 +117,10 @@ class OA_Dll_Variable extends OA_Dll
             // Check permission for the tracker.
             if (isset($oVariableInfo->trackerId)) {
                 if (!$this->checkPermissions(
-                        array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-                        'trackers', $oVariableInfo->trackerId)) {
+                    [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                    'trackers',
+                    $oVariableInfo->trackerId
+                )) {
                     return false;
                 }
                 // We need the trackerId so we can set the variableCode correctly.
@@ -133,8 +132,11 @@ class OA_Dll_Variable extends OA_Dll
                 $this->raiseError(self::ERROR_UNKNOWN_ID);
                 return false;
             }
-            if (!$this->checkPermissions(array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-                'variables', $oVariableInfo->variableId)) {
+            if (!$this->checkPermissions(
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'variables',
+                $oVariableInfo->variableId
+            )) {
                 return false;
             }
             $doVariable = OA_Dal::staticGetDO('variables', $oVariableInfo->variableId);
@@ -208,9 +210,10 @@ class OA_Dll_Variable extends OA_Dll
         }
 
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'variables', $variableId)) {
-
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'variables',
+            $variableId
+        )) {
             return false;
         }
 
@@ -247,9 +250,7 @@ class OA_Dll_Variable extends OA_Dll
 
             $oVariableInfo->setVariableDataFromArray($aVariableData);
             return true;
-
         } else {
-
             $this->raiseError(self::ERROR_UNKNOWN_ID);
             return false;
         }
@@ -283,7 +284,7 @@ class OA_Dll_Variable extends OA_Dll
         $dalAffiliates = new MAX_Dal_Admin_Affiliates();
         $rsLinkedWebsites = $dalAffiliates->getPublishersByTracker($trackerId);
         $rsLinkedWebsites->find();
-        $aWebsites = array();
+        $aWebsites = [];
         while ($rsLinkedWebsites->fetch() && $row = $rsLinkedWebsites->toArray()) {
             $aWebsites[] = $row['affiliateid'];
         }
@@ -320,7 +321,4 @@ class OA_Dll_Variable extends OA_Dll
         $doVariable_publisher->variable_id = $variableId;
         $doVariable_publisher->delete();
     }
-
 }
-
-?>

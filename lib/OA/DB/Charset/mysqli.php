@@ -28,7 +28,7 @@ class OA_DB_Charset_mysqli extends OA_DB_Charset
      * @param MDB2_Driver_Common $oDbh
      * @return OA_DB_Charset
      */
-    function __construct($oDbh)
+    public function __construct($oDbh)
     {
         $aVersion = $oDbh->getServerVersion();
         if (version_compare($aVersion['native'], '4.1.2', '>=')) {
@@ -41,7 +41,7 @@ class OA_DB_Charset_mysqli extends OA_DB_Charset
      *
      * @return mixed A string containing the charset or false if it cannot be retrieved
      */
-    function getDatabaseCharset()
+    public function getDatabaseCharset()
     {
         if ($this->oDbh) {
             return $this->oDbh->queryOne("SHOW VARIABLES LIKE 'character_set_database'", 'text', 1);
@@ -55,7 +55,7 @@ class OA_DB_Charset_mysqli extends OA_DB_Charset
      *
      * @return mixed A string containing the charset or false if it cannot be retrieved
      */
-    function getClientCharset()
+    public function getClientCharset()
     {
         if ($this->oDbh) {
             return $this->oDbh->queryOne("SHOW VARIABLES LIKE 'character_set_client'", 'text', 1);
@@ -70,7 +70,7 @@ class OA_DB_Charset_mysqli extends OA_DB_Charset
      * @param string $charset
      * @return mixed True on success, PEAR_Error otherwise
      */
-    function setClientCharset($charset)
+    public function setClientCharset($charset)
     {
         if (!empty($charset) && $this->oDbh) {
             $charset = $this->oDbh->quote($charset);
@@ -83,5 +83,3 @@ class OA_DB_Charset_mysqli extends OA_DB_Charset
         return true;
     }
 }
-
-?>

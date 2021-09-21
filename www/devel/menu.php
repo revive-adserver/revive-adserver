@@ -23,7 +23,6 @@ require_once 'HTML/TreeMenu.php';
  */
 class Menu
 {
-
     /**
      * A method to return the HTML code needed to display a tree-based
      * menu of all the simulations.
@@ -31,164 +30,156 @@ class Menu
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
-    function buildTree()
+    public function buildTree()
     {
-        $menu     = new HTML_TreeMenu();
+        $menu = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
-                            array(
+            [
                                 'text' => 'OpenX Developer Toolbox',
                                 'icon' => '',
                                 'link' => 'action.php?action=index',
                                 'linkTarget' => 'right'
-                            )
-                        );
-        $aItems[] = array(
+                            ]
+        );
+        $aItems[] = [
                             'title' => 'Plugins',
-                            'action'=>'about&item=plugins',
-                            'children'=> array(
-                                               0 => array(
-                                                          'title'=>'New Plugin',
-                                                          'action'=>'create_plugin',
-                                                         ),
-                                              )
-                        );
-        $aItems[] = array(
+                            'action' => 'about&item=plugins',
+                            'children' => [
+                                               0 => [
+                                                          'title' => 'New Plugin',
+                                                          'action' => 'create_plugin',
+                                                         ],
+                                              ]
+                        ];
+        $aItems[] = [
                             'title' => 'Schemas',
-                            'action'=>'about&item=schema',
-                            'children'=> array(
-                                               0 => array(
-                                                          'title'=>'Schema Editor',
-                                                          'action'=>'schema_editor',
-                                                         ),
-                                               1 => array(
-                                                          'title'=>'Changeset Archives',
-                                                          'action'=>'schema_changesets',
-                                                         ),
-                                              )
-                        );
-        $aItems[] = array(
+                            'action' => 'about&item=schema',
+                            'children' => [
+                                               0 => [
+                                                          'title' => 'Schema Editor',
+                                                          'action' => 'schema_editor',
+                                                         ],
+                                               1 => [
+                                                          'title' => 'Changeset Archives',
+                                                          'action' => 'schema_changesets',
+                                                         ],
+                                              ]
+                        ];
+        $aItems[] = [
                             'title' => 'Core Schema Utilities',
-                            'action'=>'about&item=core_utils',
-                            'children'=> array(
-                                               0 => array(
-                                                          'title'=>'Integrity Check',
-                                                          'action'=>'schema_integ',
-                                                         ),
-                                               1 => array(
-                                                          'title'=>'Dump Data',
-                                                          'action'=>'schema_datadump',
-                                                         ),
-                                               2 => array(
-                                                          'title'=>'Load Data',
-                                                          'action'=>'schema_dataload',
-                                                         ),
-                                              )
-                        );
-        $aItems[] = array(
+                            'action' => 'about&item=core_utils',
+                            'children' => [
+                                               0 => [
+                                                          'title' => 'Integrity Check',
+                                                          'action' => 'schema_integ',
+                                                         ],
+                                               1 => [
+                                                          'title' => 'Dump Data',
+                                                          'action' => 'schema_datadump',
+                                                         ],
+                                               2 => [
+                                                          'title' => 'Load Data',
+                                                          'action' => 'schema_dataload',
+                                                         ],
+                                              ]
+                        ];
+        $aItems[] = [
                             'title' => 'Schema Analysis',
-                            'action'=>'schema_analysis',
-                        );
+                            'action' => 'schema_analysis',
+                        ];
         // Generate DataObjects
-        $aDataObjects[] =  array(
-                              'title'=>'OpenX Core',
-                              'action'=>'generate_dataobjects',
-                             );
+        $aDataObjects[] = [
+                              'title' => 'OpenX Core',
+                              'action' => 'generate_dataobjects',
+                             ];
         $plugins = $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] AS $name => $enabled)
-        {
+        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] as $name => $enabled) {
             $schema = strtolower($name);
-            $aDataObjects[] =  array(
-                                  'title'=>$name,
-                                  'action'=>"generate_dataobjects&schema={$plugins}{$name}/etc/tables_{$name}.xml&dbopath={$plugins}{$name}/etc/DataObjects",
-                                 );
+            $aDataObjects[] = [
+                                  'title' => $name,
+                                  'action' => "generate_dataobjects&schema={$plugins}{$name}/etc/tables_{$name}.xml&dbopath={$plugins}{$name}/etc/DataObjects",
+                                 ];
         }
-        $aItems[] = array(
+        $aItems[] = [
                             'title' => 'Generate DataObjects',
-                            'action'=>'about&item=dataobjects',
-                            'children'=> $aDataObjects,
+                            'action' => 'about&item=dataobjects',
+                            'children' => $aDataObjects,
 
-                        );
+                        ];
 
         // Upgrade Packages
-        $aPackages[] =  array(
-                              'title'=>'New Core Upgrade Package',
-                              'action'=>'upgrade_package&name=OpenXCore',
-                             );
-        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] AS $name => $enabled)
-        {
-            $aPackages[] =  array(
-                                  'title'=>$name,
-                                  'action'=>'upgrade_package&name='.$name,
-                                 );
+        $aPackages[] = [
+                              'title' => 'New Core Upgrade Package',
+                              'action' => 'upgrade_package&name=OpenXCore',
+                             ];
+        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] as $name => $enabled) {
+            $aPackages[] = [
+                                  'title' => $name,
+                                  'action' => 'upgrade_package&name=' . $name,
+                                 ];
         }
-        $aItems[] = array(
+        $aItems[] = [
                             'title' => 'Upgrade Packages',
-                            'action'=>'about&item=upgrade_packages',
-                            'children'=> $aPackages,
+                            'action' => 'about&item=upgrade_packages',
+                            'children' => $aPackages,
 
-                        );
+                        ];
 
 
         // Upgrade Packages Array
-        $aUpgrades[] =  array(
-                              'title'=>'OpenX Core',
-                              'action'=>'upgrade_array&read=/etc/changes&write=/etc/changes/openads_upgrade_array.txt',
-                             );
-        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] AS $name => $enabled)
-        {
-            $aUpgrades[] =  array(
-                                  'title'=>$name,
-                                  'action'=>"upgrade_array&read={$plugins}{$name}/etc/changes&write={$plugins}{$name}/etc/changes/{$name}_upgrade_array.txt",
-                                 );
+        $aUpgrades[] = [
+                              'title' => 'OpenX Core',
+                              'action' => 'upgrade_array&read=/etc/changes&write=/etc/changes/openads_upgrade_array.txt',
+                             ];
+        foreach ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] as $name => $enabled) {
+            $aUpgrades[] = [
+                                  'title' => $name,
+                                  'action' => "upgrade_array&read={$plugins}{$name}/etc/changes&write={$plugins}{$name}/etc/changes/{$name}_upgrade_array.txt",
+                                 ];
         }
-        $aItems[] = array(
+        $aItems[] = [
                             'title' => 'Upgrade Packages Array',
-                            'action'=>'about&item=upgrade_array',
-                            'children'=> $aUpgrades,
+                            'action' => 'about&item=upgrade_array',
+                            'children' => $aUpgrades,
 
-                        );
-        foreach ($aItems as $aItem)
-        {
+                        ];
+        foreach ($aItems as $aItem) {
             $newNode = &$rootNode->addItem(
-                                            new HTML_TreeNode(
-                                                                array(
+                new HTML_TreeNode(
+                    [
                                                                     'text' => $aItem['title'],
                                                                     'icon' => 'package.png',
-                                                                    'link' => 'action.php?action='.$aItem['action'],
+                                                                    'link' => 'action.php?action=' . $aItem['action'],
                                                                     'linkTarget' => 'right'
-                                                                     )
-                                                             )
-                                           );
-            if (isset($aItem['children']))
-            {
-                foreach ($aItem['children'] AS $aChild)
-                {
+                                                                     ]
+                )
+            );
+            if (isset($aItem['children'])) {
+                foreach ($aItem['children'] as $aChild) {
                     $newNode->addItem(
-                                        new HTML_TreeNode(
-                                                            array(
+                        new HTML_TreeNode(
+                            [
                                                                 'text' => $aChild['title'],
                                                                 'icon' => 'Method.png',
-                                                                'link' => 'action.php?action='.$aChild['action'],
+                                                                'link' => 'action.php?action=' . $aChild['action'],
                                                                 'linkTarget' => 'right'
-                                                                 )
-                                                         )
-                                     );
+                                                                 ]
+                        )
+                    );
                 }
             }
         }
 
         $menu->addItem($rootNode);
-        $options = array('images'=>'assets/images');
+        $options = ['images' => 'assets/images'];
         $tree = new HTML_TreeMenu_DHTML($menu, $options);
-        $code  = file_get_contents(PATH_ASSETS . '/css/menu.css');
+        $code = file_get_contents(PATH_ASSETS . '/css/menu.css');
         $code .= "\n<script>\n";
         $code .= file_get_contents(PATH_ASSETS . '/js/TreeMenu.js');
         $code .= "\n</script>";
         $code .= $tree->toHTML();
         return $code;
     }
-
 }
 
 echo Menu::buildTree();
-?>

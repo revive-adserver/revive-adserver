@@ -38,6 +38,6 @@ $GLOBALS['strCollectedAllEvents'] = "所有事件";
 $GLOBALS['strClear'] = "清除";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "已發送發布商{id}報告郵件";

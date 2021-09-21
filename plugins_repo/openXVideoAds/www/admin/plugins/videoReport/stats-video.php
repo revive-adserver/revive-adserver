@@ -1,12 +1,13 @@
 <?php
+
 require_once '../../../../init.php';
 require_once '../../config.php';
 require_once MAX_PATH . '/lib/OA/Admin/TemplatePlugin.php';
 
-$inputVariables = array(
+$inputVariables = [
     'entity', 'entityId',
     'startDate', 'endDate', 'dimension',
-    'exportCsv', 'showAs', 'expandId');
+    'exportCsv', 'showAs', 'expandId'];
 MAX_commonRegisterGlobalsArray($inputVariables);
 PEAR::pushErrorHandling(null);
 
@@ -16,49 +17,48 @@ include_once 'lib/SmartyFunctions/function.url.php';
 include_once 'lib/SmartyFunctions/modifier.formatNumber.php';
 
 // Entity
-$availableEntities = array(
+$availableEntities = [
     'advertiser',
     'campaign',
     'banner',
     'website',
     'zone'
-);
-if(!in_array($entity, $availableEntities))
-{
+];
+if (!in_array($entity, $availableEntities)) {
     exit("Invalid input parameters");
 }
 
-$entityToRequiredAccess = array(
+$entityToRequiredAccess = [
     'advertiser' => 'clients',
     'campaign' => 'campaigns',
     'banner' => 'banners',
     'website' => 'affiliates',
     'zone' => 'zones',
-);
+];
 OA_Permission::enforceAccessToObject($entityToRequiredAccess[$entity], $entityId);
 $entityId = (int)$entityId;
 $startDate = urlencode($startDate);
 $endDate = urlencode($endDate);
 
 // "View by" dimension
-$availableDimensions = array();
-if(in_array($entity, array('campaign', 'advertiser'))) {
+$availableDimensions = [];
+if (in_array($entity, ['campaign', 'advertiser'])) {
     $availableDimensions['banner'] = "Banner";
-    if($entity == 'advertiser') {
+    if ($entity == 'advertiser') {
         $availableDimensions['campaign'] = "Campaign";
     }
 }
-if($entity == 'website') {
+if ($entity == 'website') {
     $availableDimensions['zone'] = "Zone";
 }
-$availableDimensions += array(
+$availableDimensions += [
     "day" => "Day",
     "week" => "Week",
     "month" => "Month",
     "year" => "Year",
     "hour-of-day" => "Hour of Day"
-);
-if(empty($dimension)) {
+];
+if (empty($dimension)) {
     $dimension = 'day';
 }
 $selectedDimension = $dimension;
@@ -68,18 +68,18 @@ $today = date('Y-m-d');
 $yesterday = date('Y-m-d', strtotime('1 day ago'));
 $sevenDaysAgo = date('Y-m-d', strtotime('7 days ago'));
 $thirtyDaysAgo = date('Y-m-d', strtotime('30 days ago'));
-$availableDateRanges = array(
-    'Today' => array($today, $today),
-    'Yesterday' => array($yesterday, $yesterday),
-    'Last 7 days' => array($sevenDaysAgo, $today),
-    'Last 30 days' => array($thirtyDaysAgo, $today),
-);
-if(empty($startDate) || empty($endDate)) {
+$availableDateRanges = [
+    'Today' => [$today, $today],
+    'Yesterday' => [$yesterday, $yesterday],
+    'Last 7 days' => [$sevenDaysAgo, $today],
+    'Last 30 days' => [$thirtyDaysAgo, $today],
+];
+if (empty($startDate) || empty($endDate)) {
     $defaultDateRange = 'Last 7 days';
     $startDate = $availableDateRanges[$defaultDateRange][0];
     $endDate = $availableDateRanges[$defaultDateRange][1];
 }
-if(($selectedDateRangeName = array_search(array($startDate,$endDate), $availableDateRanges)) === false) {
+if (($selectedDateRangeName = array_search([$startDate, $endDate], $availableDateRanges)) === false) {
     $selectedDateRangeName = "$startDate - $endDate";
 }
 
@@ -90,40 +90,41 @@ $dataTable = $videoReport->getVastStatistics(
     $entityId,
     $dimension,
     $startDate,
-    $endDate );
+    $endDate
+);
 $columns = $videoReport->getColumnsIdToNameInOrder($availableDimensions[$dimension]);
 $summaryRow = $videoReport->getSummaryRowFromDataTable($dataTable);
 
-if(!empty($exportCsv)) {
+if (!empty($exportCsv)) {
     require_once "stats-export-csv.php";
     exit;
 }
 
 // Expanded row
-if($selectedDimension == 'campaign') {
+if ($selectedDimension == 'campaign') {
     // Campaigns expand to Banners
     $selectedDimensionExpanded = 'banner';
-} elseif($selectedDimension == 'banner') {
+} elseif ($selectedDimension == 'banner') {
     // Banners do not expand
     $selectedDimensionExpanded = false;
-} elseif($selectedDimension == 'zone') {
+} elseif ($selectedDimension == 'zone') {
     // Zones do not expand
     $selectedDimensionExpanded = false;
-} else if($entity == 'advertiser') {
+} elseif ($entity == 'advertiser') {
     // Date expands to show Sub Campaigns when looking at an advertiser
     $selectedDimensionExpanded = 'campaign';
-} else if($entity == 'campaign') {
+} elseif ($entity == 'campaign') {
     // Date expands to show Sub Banners when looking at a campaign
     $selectedDimensionExpanded = 'banner';
-} else if($entity == 'website') {
+} elseif ($entity == 'website') {
     // Websites expand to Zones
     $selectedDimensionExpanded = 'zone';
-} else{
+} else {
     // Date do not expand when looking at Banners or Zones
     $selectedDimensionExpanded = false;
 }
 
-if($selectedDimensionExpanded && !empty($expandId)) {
+if ($selectedDimensionExpanded && !empty($expandId)) {
     $expandedDataTable = $videoReport->getVastStatistics(
         $entity,
         $entityId,
@@ -139,7 +140,7 @@ $isThereAnyData = @$summaryRow[1] > 0;
 $oTpl = new OA_Plugin_Template('video-report.html', 'openXVideoAds');
 $oTpl->register_function('url', 'smarty_function_url');
 $oTpl->register_modifier('formatNumber', 'smarty_modifier_formatNumber');
-$oTpl->assign('isThereAnyData', $isThereAnyData );
+$oTpl->assign('isThereAnyData', $isThereAnyData);
 $oTpl->assign('entityName', ucfirst($entity));
 $oTpl->assign('dataTable', $dataTable);
 $oTpl->assign('expandedDataTable', $expandedDataTable);
@@ -157,6 +158,6 @@ $oTpl->assign('availableDimensions', $availableDimensions);
 $oTpl->assign('selectedDimension', urlencode($selectedDimension));
 
 // VIEW
-phpAds_PageHeader("stats-vast-".$entity,'','../../');
+phpAds_PageHeader("stats-vast-" . $entity, '', '../../');
 $oTpl->display();
 phpAds_PageFooter();

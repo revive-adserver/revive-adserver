@@ -29,12 +29,12 @@ define('OX_COMPONENT_SUFFIX', '.class.php');
  */
 class OX_Component
 {
-    var $extension;
-    var $group;
-    var $component;
-    var $enabled;
+    public $extension;
+    public $group;
+    public $component;
+    public $enabled;
 
-    var $oTrans;
+    public $oTrans;
 
     /**
      * A factory method, for including and instantiating a component, given an
@@ -56,16 +56,15 @@ class OX_Component
         if ($component === null) {
             $component = $group;
         }
-        if (!self::_includeComponentFile($extension, $group, $component))
-        {
+        if (!self::_includeComponentFile($extension, $group, $component)) {
             return false;
         }
         $className = self::_getComponentClassName($extension, $group, $component);
         $obj = new $className($extension, $group, $component);
         $obj->extension = $extension;
-        $obj->group     = $group;
+        $obj->group = $group;
         $obj->component = $component;
-        $obj->enabled   = self::_isGroupEnabled($group, $extension);
+        $obj->enabled = self::_isGroupEnabled($group, $extension);
         $obj->oTrans = new OX_Translation($aConf['pluginPaths']['packages'] . $group . '/_lang');
 
         return $obj;
@@ -77,7 +76,7 @@ class OX_Component
         if (!$aParts) {
             return false;
         }
-        $returned = call_user_func_array(array('OX_Component', 'factory'), $aParts);
+        $returned = call_user_func_array(['OX_Component', 'factory'], $aParts);
         return $returned;
     }
 
@@ -88,7 +87,7 @@ class OX_Component
 
     public static function _isGroupEnabled($group)
     {
-        return ( self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group] ? true : false);
+        return (self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group] ? true : false);
     }
 
     /**
@@ -109,18 +108,14 @@ class OX_Component
         if ($component === null) {
             $component = $group;
         }
-        if ($extension == 'admin')
-        {
-            $fileName = MAX_PATH . $aConf['pluginPaths']['admin'] . $group . "/".  $group . OX_COMPONENT_SUFFIX;
-        }
-        else
-        {
-            $groupPath = empty($group) ? "" : $group."/";
+        if ($extension == 'admin') {
+            $fileName = MAX_PATH . $aConf['pluginPaths']['admin'] . $group . "/" . $group . OX_COMPONENT_SUFFIX;
+        } else {
+            $groupPath = empty($group) ? "" : $group . "/";
 
-            $fileName = MAX_PATH . $aConf['pluginPaths']['plugins'] . $extension . "/". $groupPath . $component . OX_COMPONENT_SUFFIX;
+            $fileName = MAX_PATH . $aConf['pluginPaths']['plugins'] . $extension . "/" . $groupPath . $component . OX_COMPONENT_SUFFIX;
         }
-        if (!file_exists($fileName))
-        {
+        if (!file_exists($fileName)) {
             //MAX::raiseError("Unable to include the file $fileName.");
             return false;
         }
@@ -176,19 +171,15 @@ class OX_Component
      */
     public static function getComponents($extension, $group = null, $recursive = 1, $enabledOnly = true)
     {
-        $aComponents = array();
+        $aComponents = [];
         $aGroups = self::_getComponentsFiles($extension, $group, $recursive);
         if (is_array($aGroups)) {
-            foreach ($aGroups as $group => $aComponentFiles)
-            {
-                if (self::_isGroupInstalled($group))
-                {
-                    foreach ($aComponentFiles as $i => $file)
-                    {
+            foreach ($aGroups as $group => $aComponentFiles) {
+                if (self::_isGroupInstalled($group)) {
+                    foreach ($aComponentFiles as $i => $file) {
                         $component = str_replace(OX_COMPONENT_SUFFIX, '', $file);
                         $oComponent = self::factory($extension, $group, $component);
-                        if ($oComponent !== false && (!$enabledOnly || $oComponent->enabled == true))
-                        {
+                        if ($oComponent !== false && (!$enabledOnly || $oComponent->enabled == true)) {
                             $aComponents[$oComponent->getComponentIdentifier()] = $oComponent;
                         }
                     }
@@ -220,31 +211,23 @@ class OX_Component
      */
     public static function _getComponentsFiles($extension, $group = null, $recursive = 1)
     {
-        $aResult = array();
+        $aResult = [];
         $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($extension != 'admin')
-        {
+        if ($extension != 'admin') {
             $pathExtension = $aConf['pluginPaths']['plugins'] . $extension . '/';
-        }
-        else
-        {
+        } else {
             $pathExtension = $aConf['pluginPaths']['admin'];
             $recursive = false;
         }
-        if (!empty($group))
-        {
+        if (!empty($group)) {
             $aGroups[] = $group;
+        } else {
+            $aGroups = self::_getComponentGroupsFromDirectory(MAX_PATH . $pathExtension);
         }
-        else
-        {
-        	$aGroups = self::_getComponentGroupsFromDirectory(MAX_PATH.$pathExtension);
-        }
-        foreach ($aGroups as $i => $group)
-        {
-            $aMatches = array();
-            $aFiles = self::_getComponentFilesFromDirectory(MAX_PATH.$pathExtension.$group, $recursive, $aMatches);
-            if (count($aFiles))
-            {
+        foreach ($aGroups as $i => $group) {
+            $aMatches = [];
+            $aFiles = self::_getComponentFilesFromDirectory(MAX_PATH . $pathExtension . $group, $recursive, $aMatches);
+            if (count($aFiles)) {
                 $aResult[$group] = $aFiles;
             }
         }
@@ -253,19 +236,14 @@ class OX_Component
 
     public static function _getComponentGroupsFromDirectory($directory)
     {
-        $aGroups = array();
-        if (is_readable($directory))
-        {
-            if ($aFiles = scandir($directory))
-            {
-                foreach ($aFiles as $i => $name)
-                {
-                    if (substr($name, 0, 1) == '.')
-                    {
+        $aGroups = [];
+        if (is_readable($directory)) {
+            if ($aFiles = scandir($directory)) {
+                foreach ($aFiles as $i => $name) {
+                    if (substr($name, 0, 1) == '.') {
                         continue;
                     }
-                    if (is_dir($directory.$name))
-                    {
+                    if (is_dir($directory . $name)) {
                         $aGroups[] = $name;
                     }
                 }
@@ -295,23 +273,17 @@ class OX_Component
      */
     public static function _getComponentFilesFromDirectory($directory, $recursive, &$aMatches)
     {
-        if (is_readable($directory))
-        {
-            $fileMask = '/([\w\W\d]+)'.preg_quote(OX_COMPONENT_SUFFIX).'/';
-            if ($aFiles = scandir($directory))
-            {
+        if (is_readable($directory)) {
+            $fileMask = '/([\w\W\d]+)' . preg_quote(OX_COMPONENT_SUFFIX) . '/';
+            if ($aFiles = scandir($directory)) {
                 $aMatches = array_merge($aMatches, preg_grep($fileMask, $aFiles));
-                if ($recursive)
-                {
-                    foreach ($aFiles as $i => $name)
-                    {
-                        if (substr($name, 0, 1) == '.')
-                        {
+                if ($recursive) {
+                    foreach ($aFiles as $i => $name) {
+                        if (substr($name, 0, 1) == '.') {
                             continue;
                         }
-                        if (is_dir($directory.DIRECTORY_SEPARATOR.$name))
-                        {
-                            self::_getComponentFilesFromDirectory($directory.DIRECTORY_SEPARATOR.$name, $recursive, $aMatches);
+                        if (is_dir($directory . DIRECTORY_SEPARATOR . $name)) {
+                            self::_getComponentFilesFromDirectory($directory . DIRECTORY_SEPARATOR . $name, $recursive, $aMatches);
                         }
                     }
                 }
@@ -340,8 +312,7 @@ class OX_Component
         if ($component === null) {
             $component = $group;
         }
-        if (!self::_isGroupEnabled($group))
-        {
+        if (!self::_isGroupEnabled($group)) {
             return false;
         }
         if (!self::_includeComponentFile($extension, $group, $component)) {
@@ -352,19 +323,19 @@ class OX_Component
         // PHP4/5 compatibility for get_class_methods.
         $aClassMethods = array_map('strtolower', (get_class_methods($className)));
         if (!$aClassMethods) {
-            $aClassMethods = array();
+            $aClassMethods = [];
         }
         if (!in_array(strtolower($staticMethod), $aClassMethods)) {
             MAX::raiseError("Method '$staticMethod()' not defined in class '$className'.", MAX_ERROR_INVALIDARGS);
             return false;
         }
         if (!isset($aParams)) {
-            return call_user_func(array($className, $staticMethod));
+            return call_user_func([$className, $staticMethod]);
         } else {
             if (!is_array($aParams)) {
-                $aParams = array($aParams);
+                $aParams = [$aParams];
             }
-            return call_user_func_array(array($className, $staticMethod), $aParams);
+            return call_user_func_array([$className, $staticMethod], $aParams);
         }
     }
 
@@ -389,19 +360,19 @@ class OX_Component
                 return false;
             }
         }
-        $aReturn = array();
+        $aReturn = [];
         foreach ($aComponents as $key => $oComponent) {
             // Check that the method name can be called
-            if (!is_callable(array($oComponent, $methodName))) {
+            if (!is_callable([$oComponent, $methodName])) {
                 $message = "Method '$methodName()' not defined in class '" .
                             self::_getComponentClassName($oComponent->extension, $oComponent->group, $oComponent->component) . "'.";
                 MAX::raiseError($message, MAX_ERROR_INVALIDARGS);
                 return false;
             }
             if (is_null($aParams)) {
-                $aReturn[$key] = call_user_func(array($aComponents[$key], $methodName));
+                $aReturn[$key] = call_user_func([$aComponents[$key], $methodName]);
             } else {
-                $aReturn[$key] = call_user_func_array(array($aComponents[$key], $methodName), $aParams);
+                $aReturn[$key] = call_user_func_array([$aComponents[$key], $methodName], $aParams);
             }
         }
         return $aReturn;
@@ -410,22 +381,19 @@ class OX_Component
     public static function getListOfRegisteredComponentsForHook($hook)
     {
         $aHooks = self::getComponentsHookCache();
-        if (isset($aHooks[$hook]))
-        {
+        if (isset($aHooks[$hook])) {
             return $aHooks[$hook];
         }
-        return array();
+        return [];
     }
 
     public static function getComponentsHookCache()
     {
-        if (!isset($GLOBALS['_MAX']['ComponentHooks']))
-        {
+        if (!isset($GLOBALS['_MAX']['ComponentHooks'])) {
             $oCache = new OA_Cache('Plugins', 'ComponentHooks');
             $oCache->setFileNameProtection(false);
             $GLOBALS['_MAX']['ComponentHooks'] = $oCache->load(true);
-            if ($GLOBALS['_MAX']['ComponentHooks'] === false)
-            {
+            if ($GLOBALS['_MAX']['ComponentHooks'] === false) {
                 require_once LIB_PATH . '/Plugin/PluginManager.php';
                 $oPluginManager = new OX_PluginManager();
                 $GLOBALS['_MAX']['ComponentHooks'] = $oPluginManager->getComponentHooks();
@@ -435,9 +403,9 @@ class OX_Component
         return $GLOBALS['_MAX']['ComponentHooks'];
     }
 
-    function getComponentIdentifier()
+    public function getComponentIdentifier()
     {
-        return implode(':', array($this->extension, $this->group, $this->component));
+        return implode(':', [$this->extension, $this->group, $this->component]);
     }
 
     /**
@@ -466,26 +434,24 @@ class OX_Component
     public static function getFallbackHandler($extension)
     {
         //$path = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'].$extension.'/';
-        $fileName = LIB_PATH.'/Extension/'.$extension.'/'.$extension.'.php';
-        if (!file_exists($fileName))
-        {
+        $fileName = LIB_PATH . '/Extension/' . $extension . '/' . $extension . '.php';
+        if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the file $fileName.");
             return false;
         }
         include_once $fileName;
-        $className  = 'Plugins_'.$extension;
-        if (!class_exists($className))
-        {
+        $className = 'Plugins_' . $extension;
+        if (!class_exists($className)) {
             MAX::raiseError("Plugin file included but class '$className' does not exist.");
             return false;
         }
         $oPlugin = new $className();
         $oPlugin->extension = $extension;
-        $oPlugin->enabled   = false;
+        $oPlugin->enabled = false;
         return $oPlugin;
     }
 
-    function translate($string, $aValues = array(), $pluralVar = false)
+    public function translate($string, $aValues = [], $pluralVar = false)
     {
         return $this->oTrans->translate($string, $aValues, $pluralVar);
     }
@@ -495,7 +461,7 @@ class OX_Component
      *
      * @return boolean The result of the attempt to enable this component
      */
-    function onEnable()
+    public function onEnable()
     {
         return true;
     }
@@ -505,15 +471,13 @@ class OX_Component
      *
      * @return boolean The result of the attempt to disable this component
      */
-    function onDisable()
+    public function onDisable()
     {
         return true;
     }
 
-    function getName()
+    public function getName()
     {
         return $this->getComponentIdentifier();
     }
 }
-
-?>

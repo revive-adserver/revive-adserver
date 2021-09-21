@@ -8,11 +8,11 @@ $xajax->setLogFile("xajax_error_log.log");
 
 function myErrorRiddenFunction()
 {
-	$value = $silly['nuts'];
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("Bad array value: $value");
-	include("file_doesnt_exist.php");
-	return $objResponse->getXML();
+    $value = $silly['nuts'];
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("Bad array value: $value");
+    include("file_doesnt_exist.php");
+    return $objResponse->getXML();
 }
 
 $xajax->registerFunction("myErrorRiddenFunction");

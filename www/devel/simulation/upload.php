@@ -12,12 +12,10 @@
 
 check_environment();
 
-if (array_key_exists('submit', $_REQUEST))
-{
+if (array_key_exists('submit', $_REQUEST)) {
     upload_scenarios();
 }
 
-include TPL_PATH.'/frameheader.html';
+include TPL_PATH . '/frameheader.html';
 
-include TPL_PATH.'/body_upload_scenario.html';
-?>
+include TPL_PATH . '/body_upload_scenario.html';

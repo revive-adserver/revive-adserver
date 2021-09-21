@@ -21,28 +21,28 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 
 // Register input variables
-phpAds_registerGlobal (
-     'action'
-    ,'trackerids'
-    ,'clickwindowday'
-    ,'clickwindowhour'
-    ,'clickwindowminute'
-    ,'clickwindows'
-    ,'clickwindowsecond'
-    ,'hideinactive'
-    ,'statusids'
-    ,'submit'
-    ,'viewwindowday'
-    ,'viewwindowhour'
-    ,'viewwindowminute'
-    ,'viewwindows'
-    ,'viewwindowsecond'
+phpAds_registerGlobal(
+    'action',
+    'trackerids',
+    'clickwindowday',
+    'clickwindowhour',
+    'clickwindowminute',
+    'clickwindows',
+    'clickwindowsecond',
+    'hideinactive',
+    'statusids',
+    'submit',
+    'viewwindowday',
+    'viewwindowhour',
+    'viewwindowminute',
+    'viewwindows',
+    'viewwindowsecond'
 );
 
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 /*-------------------------------------------------------*/
@@ -53,9 +53,9 @@ $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaigni
 phpAds_SessionDataStore();
 
 // Initalise any tracker based plugins
-$plugins = array();
+$plugins = [];
 $invocationPlugins = &OX_Component::getComponents('invocationTags');
-foreach($invocationPlugins as $pluginKey => $plugin) {
+foreach ($invocationPlugins as $pluginKey => $plugin) {
     if (!empty($plugin->trackerEvent)) {
         $plugins[] = $plugin;
         $fieldName = strtolower($plugin->trackerEvent);
@@ -83,10 +83,9 @@ if (!empty($campaignid)) {
         $doCampaigns_trackers->campaignid = $campaignid;
         $doCampaigns_trackers->delete();
         if (isset($trackerids) && is_array($trackerids)) {
-            for ($i=0; $i<sizeof($trackerids); $i++) {
-
-                $aFields = array('campaignid', 'trackerid', 'status');
-                $values = array($campaignid, $trackerids[$i], $statusids[$i]);
+            for ($i = 0; $i < sizeof($trackerids); $i++) {
+                $aFields = ['campaignid', 'trackerid', 'status'];
+                $values = [$campaignid, $trackerids[$i], $statusids[$i]];
 
                 $fieldsSize = count($aFields);
                 $doCampaigns_trackers = OA_Dal::factoryDO('campaigns_trackers');
@@ -95,19 +94,18 @@ if (!empty($campaignid)) {
                     $doCampaigns_trackers->$field = $values[$k];
                 }
                 $doCampaigns_trackers->insert();
-
             }
         }
 
         // Queue confirmation message
         $translation = new OX_Translation();
-        $translated_message = $translation->translate ( $GLOBALS['strCampaignTrackersHaveBeenUpdated'], array(
-            MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=".$clientid."&campaignid=".$campaignid),
+        $translated_message = $translation->translate($GLOBALS['strCampaignTrackersHaveBeenUpdated'], [
+            MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=" . $clientid . "&campaignid=" . $campaignid),
             htmlspecialchars($doCampaigns->campaignname)
-        ));
+        ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
-        OX_Admin_Redirect::redirect("campaign-trackers.php?clientid=".$clientid."&campaignid=".$campaignid);
+        OX_Admin_Redirect::redirect("campaign-trackers.php?clientid=" . $clientid . "&campaignid=" . $campaignid);
     }
 }
 
@@ -138,11 +136,11 @@ if (!isset($orderdirection)) {
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
 $agencyId = OA_Permission::getAgencyId();
-$aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid);
+$aEntities = ['clientid' => $clientid, 'campaignid' => $campaignid];
 
 // Display navigation
-$aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-$aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $clientid));
+$aOtherAdvertisers = Admin_DA::getAdvertisers(['agency_id' => $agencyId]);
+$aOtherCampaigns = Admin_DA::getPlacements(['advertiser_id' => $clientid]);
 MAX_displayNavigationCampaign($campaignid, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
 
 if (!empty($campaignid)) {
@@ -155,15 +153,15 @@ if (!empty($campaignid)) {
 $tabindex = 1;
 
 echo "\t\t\t\t<form name='availabletrackers' method='post' action='campaign-trackers.php'>\n";
-echo "\t\t\t\t<input type='hidden' name='campaignid' value='".$GLOBALS['campaignid']."'>\n";
-echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
+echo "\t\t\t\t<input type='hidden' name='campaignid' value='" . $GLOBALS['campaignid'] . "'>\n";
+echo "\t\t\t\t<input type='hidden' name='clientid' value='" . $GLOBALS['clientid'] . "'>\n";
 echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
-echo "\t\t\t\t<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>\n";
+echo "\t\t\t\t<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>\n";
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>"."\n";
-echo "<tr><td height='25' width='100%' colspan='3'><b>{$GLOBALS['strConversionWindow']}</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>" . "\n";
+echo "<tr><td height='25' width='100%' colspan='3'><b>{$GLOBALS['strConversionWindow']}</b></td></tr>" . "\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>" . "\n";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>" . "\n";
 
 
 // Header
@@ -179,18 +177,18 @@ echo "<tr height='25'><td nowrap>{$GLOBALS['strClick']}&nbsp;&nbsp;&nbsp;&nbsp;"
 OX_Display_ConversionWindowHTML('clickwindow', $campaign['clickwindow'], $tabindex);
 echo "</td></tr>";
 
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>" . "\n";
 
 // Linked trackers
-echo "<tr><td height='25' colspan='3'><b>{$GLOBALS['strLinkedTrackers']}</b></td></tr>"."\n";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
+echo "<tr><td height='25' colspan='3'><b>{$GLOBALS['strLinkedTrackers']}</b></td></tr>" . "\n";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>" . "\n";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>" . "\n";
 
 echo "<tr><td height='25' width='40%'>\n";
 echo "<b>&nbsp;&nbsp;<a href='campaign-trackers.php?clientid={$clientid}&campaignid={$campaignid}&listorder=name'>{$GLOBALS['strName']}</a>";
 
 if (($listorder == "name") || ($listorder == "")) {
-    if  (($orderdirection == "") || ($orderdirection == "down")) {
+    if (($orderdirection == "") || ($orderdirection == "down")) {
         echo " <a href='campaign-trackers.php?clientid={$clientid}&campaignid={$campaignid}&orderdirection=up'>";
         echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     } else {
@@ -206,7 +204,7 @@ echo "\t\t\t\t\t<td width='40'>";
 echo "<b><a href='campaign-trackers.php?clientid={$clientid}&campaignid={$campaignid}&listorder=id'>{$GLOBALS['strID']}</a>";
 
 if ($listorder == "id") {
-    if  (($orderdirection == "") || ($orderdirection == "down")) {
+    if (($orderdirection == "") || ($orderdirection == "down")) {
         echo " <a href='campaign-trackers.php?clientid={$clientid}&campaignid={$campaignid}&orderdirection=up'>";
         echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     } else {
@@ -233,8 +231,7 @@ $checkedall = true;
 if (!empty($campaignid)) {
     $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
     $doCampaign_trackers->campaignid = $campaignid;
-    $campaign_tracker_row = $doCampaign_trackers->getAll(array(), $indexBy = 'trackerid');
-
+    $campaign_tracker_row = $doCampaign_trackers->getAll([], $indexBy = 'trackerid');
 }
 
 $doTrackers = OA_Dal::factoryDO('trackers');
@@ -244,28 +241,27 @@ $doTrackers->find();
 
 if ($doTrackers->getRowCount() == 0) {
     echo "\t\t\t\t<tr bgcolor='#F6F6F6'>\n";
-    echo "\t\t\t\t\t<td colspan='4' height='25'>&nbsp;&nbsp;".$strNoTrackersToLink."</td>\n";
+    echo "\t\t\t\t\t<td colspan='4' height='25'>&nbsp;&nbsp;" . $strNoTrackersToLink . "</td>\n";
     echo "\t\t\t\t</tr>\n";
 } else {
     $trackers = $doTrackers->getAll();
 
     foreach ($trackers as $tracker) {
-
         if ($i > 0) {
             echo "\t\t\t\t<tr height='1'>\n";
             echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
             echo "\t\t\t\t</tr>\n";
         }
-        echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
+        echo "\t\t\t\t<tr height='25' " . ($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "") . ">\n";
 
         // Begin row
         echo "\t\t\t\t\t<td height='25'>";
 
         // Show checkbox
         if (isset($campaign_tracker_row[$tracker['trackerid']])) {
-            echo "<input id='trk".$tracker['trackerid']."' type='checkbox' name='trackerids[]' value='".$tracker['trackerid']."' checked onclick='phpAds_reviewAll();' tabindex='".($tabindex++)."'>";
+            echo "<input id='trk" . $tracker['trackerid'] . "' type='checkbox' name='trackerids[]' value='" . $tracker['trackerid'] . "' checked onclick='phpAds_reviewAll();' tabindex='" . ($tabindex++) . "'>";
         } else {
-            echo "<input id='trk".$tracker['trackerid']."' type='checkbox' name='trackerids[]' value='".$tracker['trackerid']."' onclick='phpAds_reviewAll();' tabindex='".($tabindex++)."'>";
+            echo "<input id='trk" . $tracker['trackerid'] . "' type='checkbox' name='trackerids[]' value='" . $tracker['trackerid'] . "' onclick='phpAds_reviewAll();' tabindex='" . ($tabindex++) . "'>";
             $checkedall = false;
         }
 
@@ -274,21 +270,21 @@ if ($doTrackers->getRowCount() == 0) {
 
         // Name
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            echo "<a href='tracker-edit.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."'>";
-            echo htmlspecialchars(phpAds_breakString ($tracker['trackername'], '60'))."</a>";
+            echo "<a href='tracker-edit.php?clientid=" . $tracker['clientid'] . "&trackerid=" . $tracker['trackerid'] . "'>";
+            echo htmlspecialchars(phpAds_breakString($tracker['trackername'], '60')) . "</a>";
         } else {
-            echo htmlspecialchars(phpAds_breakString ($tracker['trackername'], '60'));
+            echo htmlspecialchars(phpAds_breakString($tracker['trackername'], '60'));
         }
         echo "</td>\n";
 
         // ID
-        echo "\t\t\t\t\t<td height='25'>".$tracker['trackerid']."</td>\n";
+        echo "\t\t\t\t\t<td height='25'>" . $tracker['trackerid'] . "</td>\n";
 
         // Status
         $statuses = $GLOBALS['_MAX']['STATUSES'];
-        $startStatusesIds = array(1,2,4);
+        $startStatusesIds = [1, 2, 4];
         echo "\t\t\t\t\t<td height='25'>";
-        echo "<select name='statusids[]' id='statustrk".$tracker['trackerid']."' tabindex='".($tabindex++)."'>\n";
+        echo "<select name='statusids[]' id='statustrk" . $tracker['trackerid'] . "' tabindex='" . ($tabindex++) . "'>\n";
 
         if (isset($campaign_tracker_row[$tracker['trackerid']]['status'])) {
             $trackerStatusId = $campaign_tracker_row[$tracker['trackerid']]['status'];
@@ -296,9 +292,9 @@ if ($doTrackers->getRowCount() == 0) {
             $trackerStatusId = $tracker['status'];
         }
 
-        foreach($statuses as $statusId => $statusName) {
-            if(in_array($statusId, $startStatusesIds)) {
-                echo "<option value='$statusId' ". ($trackerStatusId == $statusId ? 'selected' : '')." >{$GLOBALS[$statusName]}&nbsp;</option>\n";
+        foreach ($statuses as $statusId => $statusName) {
+            if (in_array($statusId, $startStatusesIds)) {
+                echo "<option value='$statusId' " . ($trackerStatusId == $statusId ? 'selected' : '') . " >{$GLOBALS[$statusName]}&nbsp;</option>\n";
             }
         }
         echo "</select>\n";
@@ -307,11 +303,11 @@ if ($doTrackers->getRowCount() == 0) {
 
         // Mini Break Line
         echo "\t\t\t\t<tr height='1'>\n";
-        echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>\n";
+        echo "\t\t\t\t\t<td" . ($i % 2 == 0 ? " bgcolor='#F6F6F6'" : "") . "><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t\t<td colspan='3'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t</tr>\n";
 
-        echo "<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">";
+        echo "<tr height='25'" . ($i % 2 == 0 ? " bgcolor='#F6F6F6'" : "") . ">";
         echo "<td>&nbsp;</td>";
         echo "<td>&nbsp;</td>";
         echo "<td>&nbsp;</td>";
@@ -320,26 +316,26 @@ if ($doTrackers->getRowCount() == 0) {
     }
 }
 
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>"."\n";
-echo "<input type='checkbox' name='checkall' value=''".($checkedall == true ? ' checked' : '')." onclick='phpAds_toggleAll();' tabindex='".($tabindex++)."'>"."\n";
-echo "<b>".$strCheckAllNone."</b>"."\n";
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td></tr>" . "\n";
+echo "<tr " . ($i % 2 == 0 ? "bgcolor='#F6F6F6'" : "") . "><td height='25'>" . "\n";
+echo "<input type='checkbox' name='checkall' value=''" . ($checkedall == true ? ' checked' : '') . " onclick='phpAds_toggleAll();' tabindex='" . ($tabindex++) . "'>" . "\n";
+echo "<b>" . $strCheckAllNone . "</b>" . "\n";
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
 
-echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>"."\n";
-echo "<tr><td height='25' align='".$phpAds_TextAlignLeft."' nowrap>&nbsp;</td>\n";
-echo "<td colspan='2' align='".$phpAds_TextAlignRight."' nowrap>"."\n";
+echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>" . "\n";
+echo "<tr><td height='25' align='" . $phpAds_TextAlignLeft . "' nowrap>&nbsp;</td>\n";
+echo "<td colspan='2' align='" . $phpAds_TextAlignRight . "' nowrap>" . "\n";
 
-echo "&nbsp;&nbsp;</td></tr>"."\n";
-echo "</table>"."\n";
-echo "<br /><br /><br /><br />"."\n";
+echo "&nbsp;&nbsp;</td></tr>" . "\n";
+echo "</table>" . "\n";
+echo "<br /><br /><br /><br />" . "\n";
 
-echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>"."\n";
-echo "</form>"."\n";
+echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='" . ($tabindex++) . "'>" . "\n";
+echo "</form>" . "\n";
 
 ?>
 <script language='Javascript'>

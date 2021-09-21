@@ -30,88 +30,88 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      * @var integer $campaignId
      */
-    var $campaignId;
+    public $campaignId;
 
     /**
      * This field provides the ID of the advertiser to associate with the campaign.
      *
      * @var integer $advertiserId
      */
-    var $advertiserId;
+    public $advertiserId;
 
     /**
      * This field provides the name of the campaign.
      *
      * @var string $campaignName
      */
-    var $campaignName;
+    public $campaignName;
 
     /**
      * This field provides the date to start the campaign.
      *
      * @var date $startDate
      */
-    var $startDate;
+    public $startDate;
 
     /**
      * This field provides the date to end the campaign.
      *
      * @var date $endDate
      */
-    var $endDate;
+    public $endDate;
 
     /**
      * This field provides the number of impressions booked for the campaign.
      *
      * @var integer $impressions
      */
-    var $impressions;
+    public $impressions;
 
     /**
      * This field provides the number of clicks booked for the campaign.
      *
      * @var integer $clicks
      */
-    var $clicks;
+    public $clicks;
 
     /**
      * This field provides the priority level for the campaign.
      *
      * @var integer $priority
      */
-    var $priority;
+    public $priority;
 
     /**
      * This field provides the priority weight of this campaign.
      *
      * @var integer $weight
      */
-    var $weight;
+    public $weight;
 
     /**
      *
      * @var integer $targetImpressions
      */
-    var $targetImpressions;
+    public $targetImpressions;
 
     /**
      *
      * @var integer $targetClick
      */
-    var $targetClicks;
+    public $targetClicks;
 
     /**
      *
      * @var integer $targetConversions
      */
-    var $targetConversions;
+    public $targetConversions;
 
     /**
      * Revenue amount, eg 1.55.
      *
      * @var double $revenue
      */
-    var $revenue;
+    public $revenue;
 
     /**
      * Revenue type (CPM, CPA, etc) as defined in constants.php.
@@ -119,14 +119,14 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      * @var integer $revenueType
      */
-    var $revenueType;
+    public $revenueType;
 
     /**
      * Frequency capping: total views per user.
      *
      * @var integer $capping
      */
-    var $capping;
+    public $capping;
 
     /**
      * Frequency capping: total views per period.
@@ -134,24 +134,24 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      * @var integer $sessionCapping
      */
-    var $sessionCapping;
+    public $sessionCapping;
 
     /**
      * Frequency capping: reset period, in seconds.
      *
      * @var integer $block
      */
-    var $block;
+    public $block;
 
     /**
      * This field provides any additional comments to be stored.
      *
      * @var string $comments
      */
-    var $comments;
+    public $comments;
 
-    var $viewWindow;
-    var $clickWindow;
+    public $viewWindow;
+    public $clickWindow;
 
     /**
      * This method sets all default values when adding a new campaign.
@@ -159,7 +159,8 @@ class OA_Dll_CampaignInfo extends OA_Info
      * @access public
      *
      */
-    function setDefaultForAdd() {
+    public function setDefaultForAdd()
+    {
         // Default to 'no date'
         if (is_null($this->startDate)) {
             // It's ok to be NULL.  Don't worry about it.
@@ -218,7 +219,7 @@ class OA_Dll_CampaignInfo extends OA_Info
             // Leave null
         }
 
-         if (empty($this->viewWindow)) {
+        if (empty($this->viewWindow)) {
             $this->viewWindow = 0;
         }
 
@@ -234,9 +235,9 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      * @return array
      */
-    function getFieldsTypes()
+    public function getFieldsTypes()
     {
-        return array(
+        return [
                     'campaignId' => 'integer',
                     'advertiserId' => 'integer',
                     'campaignName' => 'string',
@@ -257,8 +258,6 @@ class OA_Dll_CampaignInfo extends OA_Info
                     'comments' => 'string',
                     'viewWindow' => 'integer',
                     'clickWindow' => 'integer'
-                );
+                ];
     }
 }
-
-?>

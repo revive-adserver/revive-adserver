@@ -129,7 +129,7 @@ class OA_Upgrade_Login
 
         $oDbh = OA_DB::singleton();
         if (!PEAR::isError($oDbh)) {
-            $tblPreferences = $oDbh->quoteIdentifier($prefix.$tableName, true);
+            $tblPreferences = $oDbh->quoteIdentifier($prefix . $tableName, true);
 
             $query = "SELECT admin, admin_pw FROM {$tblPreferences}";
 
@@ -146,8 +146,7 @@ class OA_Upgrade_Login
                     phpAds_SessionRegenerateId();
 
                     if (strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
-                        $aPref['admin_pw'] == md5($aCredentials['password']))
-                    {
+                        $aPref['admin_pw'] == md5($aCredentials['password'])) {
                         $doUser = OA_Dal::factoryDO('users');
                         $doUser->username = $aPref['admin'];
 
@@ -195,5 +194,3 @@ class OA_Upgrade_Login
         phpAds_SessionDataFetch();
     }
 }
-
-?>

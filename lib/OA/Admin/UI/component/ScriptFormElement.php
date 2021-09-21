@@ -11,23 +11,21 @@
 */
 
 /**
- * An element used to add JS script embedded in template 
+ * An element used to add JS script embedded in template
  */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/CustomFormElement.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/CustomFormElement.php';
 
-class OA_Admin_UI_Component_ScriptFormElement 
-    extends OA_Admin_UI_Component_CustomFormElement
+class OA_Admin_UI_Component_ScriptFormElement extends OA_Admin_UI_Component_CustomFormElement
 {
-   /**
-    * Class constructor
-    * 
-    * @param string $elementName    custom element name
-    */
-    function __construct($elementName = null, $vars = null)
+    /**
+     * Class constructor
+     *
+     * @param string $elementName    custom element name
+     */
+    public function __construct($elementName = null, $vars = null)
     {
         parent::__construct($elementName, null, $vars);
         $this->_type = 'script';
     }
-} 
-?>
+}

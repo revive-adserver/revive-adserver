@@ -34,26 +34,26 @@ class OX_Util_Utils
      * @param int $priority
      * @return int
      */
-   static function getCampaignType($priority)
-   {
-       if (null === $priority || '' === $priority) {
-           return null;
-       }
+    public static function getCampaignType($priority)
+    {
+        if (null === $priority || '' === $priority) {
+            return null;
+        }
 
-       $priority = (int)$priority;
+        $priority = (int)$priority;
 
-       if (0 === $priority) {
-           return OX_CAMPAIGN_TYPE_REMNANT;
-       } else if (-1 === $priority) {
-           return OX_CAMPAIGN_TYPE_OVERRIDE;
-       } else if (-2 === $priority) {
-           return OX_CAMPAIGN_TYPE_ECPM;
-       } else if ($priority > 0) {
-           return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
-       }
+        if (0 === $priority) {
+            return OX_CAMPAIGN_TYPE_REMNANT;
+        } elseif (-1 === $priority) {
+            return OX_CAMPAIGN_TYPE_OVERRIDE;
+        } elseif (-2 === $priority) {
+            return OX_CAMPAIGN_TYPE_ECPM;
+        } elseif ($priority > 0) {
+            return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
+        }
 
-       return null;
-   }
+        return null;
+    }
 
     /**
      * Returns campaign translation key based on a given priority. Uses getCampaignType
@@ -68,24 +68,21 @@ class OX_Util_Utils
      * @param int $priority
      * @return string translation key for a given campaign type
      */
-   static function getCampaignTypeTranslationKey($priority)
-   {
-       $type = OX_Util_Utils::getCampaignType($priority);
+    public static function getCampaignTypeTranslationKey($priority)
+    {
+        $type = OX_Util_Utils::getCampaignType($priority);
 
-       if ($type == OX_CAMPAIGN_TYPE_REMNANT) {
-           return 'strRemnant';
-       }
-       else if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
-           return 'strOverride';
-       }
-       else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
-           return 'strStandardContract';
-       }
-       else if ($type == OX_CAMPAIGN_TYPE_ECPM) {
-           return 'strECPM';
-       }
-       return null;
-   }
+        if ($type == OX_CAMPAIGN_TYPE_REMNANT) {
+            return 'strRemnant';
+        } elseif ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
+            return 'strOverride';
+        } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+            return 'strStandardContract';
+        } elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
+            return 'strECPM';
+        }
+        return null;
+    }
 
 
     /**
@@ -101,24 +98,21 @@ class OX_Util_Utils
      * @param int $priority
      * @return string translation key for a given campaign type description
      */
-   static function getCampaignTypeDescriptionTranslationKey($priority)
-   {
-       $type = OX_Util_Utils::getCampaignType($priority);
+    public static function getCampaignTypeDescriptionTranslationKey($priority)
+    {
+        $type = OX_Util_Utils::getCampaignType($priority);
 
-       if ($type == OX_CAMPAIGN_TYPE_REMNANT) {
-           return 'strRemnantInfo';
-       }
-       else if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
-           return 'strOverrideInfo';
-       }
-       else if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
-           return 'strStandardContractInfo';
-       }
-       else if ($type == OX_CAMPAIGN_TYPE_ECPM) {
-           return 'strECPMInfo';
-       }
-       return null;
-   }
+        if ($type == OX_CAMPAIGN_TYPE_REMNANT) {
+            return 'strRemnantInfo';
+        } elseif ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
+            return 'strOverrideInfo';
+        } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+            return 'strStandardContractInfo';
+        } elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
+            return 'strECPMInfo';
+        }
+        return null;
+    }
 
 
     /**
@@ -127,24 +121,24 @@ class OX_Util_Utils
      * @param int $priority
      * @return string name for given campaign type
      */
-   static function getCampaignTypeName($priority)
-   {
-       $key = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
+    public static function getCampaignTypeName($priority)
+    {
+        $key = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
 
-       if ($key) {
-           $name = $GLOBALS[$key];
-           return $name;
-       }
+        if ($key) {
+            $name = $GLOBALS[$key];
+            return $name;
+        }
 
-       return null;
-   }
+        return null;
+    }
 
     /**
      * Returns campaign status translation key based on a given campaign status.
      */
-   static function getCampaignStatusTranslationKey($status)
-   {
-       switch($status) {
+    public static function getCampaignStatusTranslationKey($status)
+    {
+        switch ($status) {
             case OA_ENTITY_STATUS_PENDING:
                 return 'strCampaignStatusPending';
 
@@ -171,8 +165,8 @@ class OX_Util_Utils
             break;
        }
 
-       return null;
-   }
+        return null;
+    }
 
     /**
      * Returns campaign status translated text based on given status.
@@ -180,41 +174,49 @@ class OX_Util_Utils
      * @param int $status
      * @return string name for given campaign type
      */
-   static function getCampaignStatusName($status)
-   {
-       $key = OX_Util_Utils::getCampaignStatusTranslationKey($status);
+    public static function getCampaignStatusName($status)
+    {
+        $key = OX_Util_Utils::getCampaignStatusTranslationKey($status);
 
-       if ($key) {
-           $name = $GLOBALS[$key];
-           return $name;
-       }
+        if ($key) {
+            $name = $GLOBALS[$key];
+            return $name;
+        }
 
-       return null;
-   }
+        return null;
+    }
 
-   /**
-    * Calculates the effective CPM (eCPM)
-    *
-    * @param int $revenueType revenue type (CPM, CPA, etc) as defined in constants.php.
-    * @param double $revenue revenue amount, eg 1.55.  CPM, CPC, CPA: the rate. Tenancy: the total.
-    * @param int $impressions the number of impressions.
-    * @param int $clicks the number of clicks
-    * @param int $conversions the number of conversions.
-    * @param string $startDate start date of the campaign. Required for tenancy.
-    * @param string $endDate end date of the campaign. Required for tenancy.
-    * @param double $defaultClickRatio click ratio to use when there are no impressions.
-    *                                 If null, uses the value in the config file.
-    * @param double $defaultConversionRatio conversion ratio to use when there are no impressions.
-    *                                 If null, uses the value in the config file.
-    *
-    * @return double the eCPM
-    */
-   public static function getEcpm($revenueType, $revenue, $impressions = 0, $clicks = 0, $conversions = 0,
-        $startDate = null, $endDate = null, $defaultClickRatio = null, $defaultConversionRatio = null)
-   {
-       $ecpm = 0.0;
+    /**
+     * Calculates the effective CPM (eCPM)
+     *
+     * @param int $revenueType revenue type (CPM, CPA, etc) as defined in constants.php.
+     * @param double $revenue revenue amount, eg 1.55.  CPM, CPC, CPA: the rate. Tenancy: the total.
+     * @param int $impressions the number of impressions.
+     * @param int $clicks the number of clicks
+     * @param int $conversions the number of conversions.
+     * @param string $startDate start date of the campaign. Required for tenancy.
+     * @param string $endDate end date of the campaign. Required for tenancy.
+     * @param double $defaultClickRatio click ratio to use when there are no impressions.
+     *                                 If null, uses the value in the config file.
+     * @param double $defaultConversionRatio conversion ratio to use when there are no impressions.
+     *                                 If null, uses the value in the config file.
+     *
+     * @return double the eCPM
+     */
+    public static function getEcpm(
+        $revenueType,
+        $revenue,
+        $impressions = 0,
+        $clicks = 0,
+        $conversions = 0,
+        $startDate = null,
+        $endDate = null,
+        $defaultClickRatio = null,
+        $defaultConversionRatio = null
+    ) {
+        $ecpm = 0.0;
 
-       switch($revenueType) {
+        switch ($revenueType) {
            case MAX_FINANCE_CPM:
                // eCPM = CPM
                return $revenue;
@@ -267,8 +269,6 @@ class OX_Util_Utils
                }
                break;
        }
-       return $ecpm;
-   }
+        return $ecpm;
+    }
 }
-
-?>

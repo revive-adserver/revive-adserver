@@ -16,22 +16,21 @@
 
 function getExtensionList()
 {
-    require_once(LIB_PATH.'/Extension.php');
+    require_once(LIB_PATH . '/Extension.php');
     return OX_Extension::getAllExtensionsArray();
 }
 
 class OX_PluginBuilder_Common
 {
+    public $aTemplates;
+    public $aValues;
 
-    var $aTemplates;
-    var $aValues;
+    public $aRegPattern;
+    public $aRegReplace;
 
-    var $aRegPattern;
-    var $aRegReplace;
+    public $pathPlugin;
 
-    var $pathPlugin;
-
-    function init($aVals)
+    public function init($aVals)
     {
         global $pathPlugin;
 
@@ -39,73 +38,61 @@ class OX_PluginBuilder_Common
 
         $this->aValues = $aVals;
 
-        $this->aTemplates['HEADER']     = 'header.xml.tpl';
-        $this->aTemplates['FILES']      = 'files.xml.tpl';
+        $this->aTemplates['HEADER'] = 'header.xml.tpl';
+        $this->aTemplates['FILES'] = 'files.xml.tpl';
 
-        foreach ($aVals AS $k => $v)
-        {
-            $this->aRegPattern[] = '/\{'.strtoupper($k).'\}/';
+        foreach ($aVals as $k => $v) {
+            $this->aRegPattern[] = '/\{' . strtoupper($k) . '\}/';
             $this->aRegReplace[] = $v;
         }
     }
 
-    function _compileTemplate($tag, &$data)
+    public function _compileTemplate($tag, &$data)
     {
-        if (!array_key_exists($tag, $this->aTemplates))
-        {
-            $data = str_replace('{'.strtoupper($tag).'}', '', $data);
+        if (!array_key_exists($tag, $this->aTemplates)) {
+            $data = str_replace('{' . strtoupper($tag) . '}', '', $data);
             return;
         }
-        if (!file_exists('etc/elements/'.$this->aTemplates[$tag]))
-        {
+        if (!file_exists('etc/elements/' . $this->aTemplates[$tag])) {
             return;
         }
-        $dataSource = file_get_contents('etc/elements/'.$this->aTemplates[$tag]);
-        if (!$dataSource)
-        {
+        $dataSource = file_get_contents('etc/elements/' . $this->aTemplates[$tag]);
+        if (!$dataSource) {
             return;
         }
         $this->_replaceTags($dataSource);
-        $data = str_replace('{'.strtoupper($tag).'}', $dataSource, $data);
+        $data = str_replace('{' . strtoupper($tag) . '}', $dataSource, $data);
     }
 
-    function _replaceTags(&$subject)
+    public function _replaceTags(&$subject)
     {
-        $result = preg_replace(array_values($this->aRegPattern),array_values($this->aRegReplace), $subject);
+        $result = preg_replace(array_values($this->aRegPattern), array_values($this->aRegReplace), $subject);
         $subject = ($result ? $result : $subject);
         return;
     }
 
-    function _renameFile($needle, $file)
+    public function _renameFile($needle, $file)
     {
-        if (substr_count($file, $needle))
-        {
+        if (substr_count($file, $needle)) {
             copy($file, str_replace($needle, $this->aValues[$needle], $file));
             unlink($file);
         }
     }
 
-    function _compileFiles($dir, $replace='')
+    public function _compileFiles($dir, $replace = '')
     {
         $dh = opendir($dir);
-        if ($dh)
-        {
-            while (false !== ($file = readdir($dh)))
-            {
-                if (substr($file, 0, 1) != '.')
-                {
-                    if (is_dir($dir.'/'.$file))
-                    {
-                        $this->_compileFiles($dir.'/'.$file, $replace);
-                    }
-                    else
-                    {
-                        $contents = file_get_contents($dir.'/'.$file);
+        if ($dh) {
+            while (false !== ($file = readdir($dh))) {
+                if (substr($file, 0, 1) != '.') {
+                    if (is_dir($dir . '/' . $file)) {
+                        $this->_compileFiles($dir . '/' . $file, $replace);
+                    } else {
+                        $contents = file_get_contents($dir . '/' . $file);
                         $this->_replaceTags($contents);
-                        $i = file_put_contents($dir.'/'.$file, $contents);
-                        if ($replace)
-                        {
-                            $this->_renameFile($replace, $dir.'/'.$file);
+                        $i = file_put_contents($dir . '/' . $file, $contents);
+                        if ($replace) {
+                            $this->_renameFile($replace, $dir . '/' . $file);
                         }
                     }
                 }
@@ -113,30 +100,26 @@ class OX_PluginBuilder_Common
             closedir($dh);
         }
     }
-
 }
 
 class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
 {
-    var $pathGroup;
-    var $pathComponents;
-    var $schema = false;
+    public $pathGroup;
+    public $pathComponents;
+    public $schema = false;
 
-    function init($aVals)
+    public function init($aVals)
     {
         parent::init($aVals);
 
-        $xmlTemplate = 'files-'.$this->aValues['extension'].'.xml.tpl';
-        if (file_exists('etc/elements/'.$xmlTemplate))
-        {
+        $xmlTemplate = 'files-' . $this->aValues['extension'] . '.xml.tpl';
+        if (file_exists('etc/elements/' . $xmlTemplate)) {
             $this->aTemplates['FILES'] = $xmlTemplate;
         }
-        if ($aVals['extension']=='admin')
-        {
+        if ($aVals['extension'] == 'admin') {
             $this->aTemplates['NAVIGATION'] = 'navigation.xml.tpl';
         }
-        if ($this->schema)
-        {
+        if ($this->schema) {
             $this->aTemplates['SCHEMA'] = 'schema.xml.tpl';
         }
 
@@ -153,16 +136,16 @@ class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
         }
 
         global $pathPackages;
-        $this->pathGroup = $pathPackages.$aVals['group'].'/';
+        $this->pathGroup = $pathPackages . $aVals['group'] . '/';
 
         // Create the components dir (is there a better place to do this?)
         $this->pathComponents = $pathPackages . "../{$this->aValues['extension']}/{$aVals['name']}/";
         mkdir($this->pathComponents, 0777, true);
     }
 
-    function putGroup()
+    public function putGroup()
     {
-        $groupDefinitionFile = $this->pathGroup.'group.xml';
+        $groupDefinitionFile = $this->pathGroup . 'group.xml';
 
         $dataTarget = file_get_contents($groupDefinitionFile);
 
@@ -172,7 +155,7 @@ class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
         $this->_compileTemplate('SCHEMA', $dataTarget);
         $i = file_put_contents($groupDefinitionFile, $dataTarget);
 
-        copy($groupDefinitionFile, str_replace('group',$this->aValues['name'], $groupDefinitionFile));
+        copy($groupDefinitionFile, str_replace('group', $this->aValues['name'], $groupDefinitionFile));
         unlink($groupDefinitionFile);
         $this->_compileFiles($this->pathPlugin, 'group');
 
@@ -187,9 +170,9 @@ class OX_PluginBuilder_Group extends OX_PluginBuilder_Common
 
 class OX_PluginBuilder_Package extends OX_PluginBuilder_Common
 {
-    var $pathPackages;
+    public $pathPackages;
 
-    function init($aVals)
+    public function init($aVals)
     {
         parent::init($aVals);
 
@@ -197,28 +180,25 @@ class OX_PluginBuilder_Package extends OX_PluginBuilder_Common
         $this->pathPackages = $pathPackages;
     }
 
-    function putPlugin()
+    public function putPlugin()
     {
-        $pluginDefinitionFile = $this->pathPackages.'plugin.xml';
+        $pluginDefinitionFile = $this->pathPackages . 'plugin.xml';
         $data = file_get_contents($pluginDefinitionFile);
         $this->_compileTemplate('HEADER', $data);
 
-        $groups ='';
-        foreach ($this->aValues['grouporder'] as $i => $group)
-        {
-            $groups.= "            <group name=\"{$group}\">{$i}</group>\n";
+        $groups = '';
+        foreach ($this->aValues['grouporder'] as $i => $group) {
+            $groups .= "            <group name=\"{$group}\">{$i}</group>\n";
         }
         $data = str_replace('{GROUPS}', $groups, $data);
         $data = str_replace('{NAME}', $this->aValues['name'], $data);
         $i = file_put_contents($pluginDefinitionFile, $data);
 
-        copy($pluginDefinitionFile, str_replace('plugin.xml',$this->aValues['name'] . '.xml', $pluginDefinitionFile));
+        copy($pluginDefinitionFile, str_replace('plugin.xml', $this->aValues['name'] . '.xml', $pluginDefinitionFile));
         unlink($pluginDefinitionFile);
 
-        $pluginReadmeFile = $this->pathPackages.'plugin.readme.txt';
+        $pluginReadmeFile = $this->pathPackages . 'plugin.readme.txt';
         copy($pluginReadmeFile, str_replace('plugin.readme.txt', $this->aValues['name'] . '.readme.txt', $pluginReadmeFile));
         unlink($pluginReadmeFile);
     }
 }
-
-?>

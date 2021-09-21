@@ -29,23 +29,23 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $oOptions = new OA_Admin_Option('settings');
 $prefSection = "plugins";
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
+    $aElements = [];
 
     // Plugin Settings
-    $aElements += array(
-        'pluginSettings_enableOnInstall' => array(
+    $aElements += [
+        'pluginSettings_enableOnInstall' => [
         'pluginSettings' => 'enableOnInstall',
-        'bool'    => true
-        ),
-        'pluginSettings_useMergedFunctions' => array('pluginSettings' => 'useMergedFunctions', 'bool' => true),
-    );
+        'bool' => true
+        ],
+        'pluginSettings_useMergedFunctions' => ['pluginSettings' => 'useMergedFunctions', 'bool' => true],
+    ];
 
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -55,9 +55,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
         $translation = new OX_Translation();
-        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'], array(htmlspecialchars($title)));
+        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'], [htmlspecialchars($title)]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-         // The settings configuration file was written correctly,
+        // The settings configuration file was written correctly,
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the settings configuration file, store this
@@ -75,27 +75,25 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => 'Plugin Settings',
-        'items' => array (
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'pluginSettings_enableOnInstall',
-                'text'  => $GLOBALS['strEnableNewPlugins']
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'pluginSettings_useMergedFunctions',
-                'text'  => $GLOBALS['strUseMergedFunctions']
-            ),
-        ),
-    ),
-);
+$aSettings = [
+    [
+        'text' => 'Plugin Settings',
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'pluginSettings_enableOnInstall',
+                'text' => $GLOBALS['strEnableNewPlugins']
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'pluginSettings_useMergedFunctions',
+                'text' => $GLOBALS['strUseMergedFunctions']
+            ],
+        ],
+    ],
+];
 
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

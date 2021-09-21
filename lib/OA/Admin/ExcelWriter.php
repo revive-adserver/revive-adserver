@@ -23,31 +23,35 @@ require_once 'Spreadsheet/Excel/Writer.php';
 class OA_Admin_ExcelWriter
 {
     /**
+     * @var array<string, mixed>
+     */
+    public $formats;
+    /**
      * ???
      *
      * @var Spreadsheet_Excel_Writer
      */
-    var $_workbook;
+    public $_workbook;
 
-    var $_formats;
-    var $_worksheet;
-    var $_currentRow;
+    public $_formats;
+    public $_worksheet;
+    public $_currentRow;
 
-    function &_getExcelWriter()
+    public function &_getExcelWriter()
     {
         return $this->_workbook;
     }
 
-    function _setExcelWriter(&$writer)
+    public function _setExcelWriter(&$writer)
     {
-        $this->_workbook =& $writer;
+        $this->_workbook = &$writer;
     }
 
     /**
      * Is this code ever used?
      * @deprecated
      */
-    function addWorksheet($name = '')
+    public function addWorksheet($name = '')
     {
         $workbook = $this->_getExcelWriter();
         $worksheet = $workbook->addWorksheet($name);
@@ -55,48 +59,48 @@ class OA_Admin_ExcelWriter
         return $worksheet;
     }
 
-    function getFormat($aFormat)
+    public function getFormat($aFormat)
     {
         if (!is_array($aFormat)) {
             return null;
         }
         sort($aFormat);
-        $formatKey = implode('.',$aFormat);
+        $formatKey = implode('.', $aFormat);
         if (empty($formatKey)) {
             return null;
         }
         if (empty($this->formats[$formatKey])) {
             $workbook = $this->_getExcelWriter();
-            $oFormat =&  $workbook->addFormat();
+            $oFormat = &$workbook->addFormat();
             foreach ($aFormat as $format) {
                 switch ($format) {
-                    case 'h1' :
+                    case 'h1':
                         $oFormat->setFgColor(44);
                         $oFormat->setPattern(1);
                         $oFormat->setSize(14);
                         $oFormat->setBold();
                         break;
-                    case 'h2' :
+                    case 'h2':
                         $oFormat->setFgColor('silver');
                         $oFormat->setPattern(1);
                         $oFormat->setBold();
                         break;
-                    case 'text-center' :
+                    case 'text-center':
                         $oFormat->setHAlign('center');
                         break;
-                    case 'fg-red' :
+                    case 'fg-red':
                         $oFormat->setFgColor('red');
                         break;
                     case 'warning':
                         $oFormat->setColor('red');
                         $oFormat->setBold();
                         break;
-                    case 'number' :
+                    case 'number':
                         // We need to show a dash if a 'number' value is zero
                         // We're not using $GLOBALS['excel_integer_formatting']
                         $oFormat->setNumFormat('#,##0;-#,##0;-');
                         break;
-                    case 'percent' :
+                    case 'percent':
                         // We prefer to see a dash instead of 0.000%
                         // Use no. of decimal places specified in preferences
                         $oFormat->setNumFormat($this->getPercentageDecimalFormat());
@@ -106,34 +110,34 @@ class OA_Admin_ExcelWriter
                     case 'id':
                         $oFormat->setNumFormat('###0');
                         break;
-                    case 'percent0' :
+                    case 'percent0':
                         $oFormat->setNumFormat('0%');
                         break;
-                    case 'currency' :
+                    case 'currency':
                         $oFormat->setNumFormat('"�"#,##0.00');
                         break;
-                    case 'decimal' :
+                    case 'decimal':
                         $oFormat->setNumFormat($GLOBALS['excel_decimal_formatting']);
                         break;
-                    case 'timespan' :
+                    case 'timespan':
                         $oFormat->setNumFormat('d"d" hh:mm:ss');
                         break;
-                    case 'date' :
+                    case 'date':
                         $oFormat->setNumFormat('d-mmm-yy');
                         break;
-                    case 'datetime' :
+                    case 'datetime':
                         $oFormat->setNumFormat('d-mmm-yy hh:mm:ss');
                         break;
-                    case 'border-top' :
+                    case 'border-top':
                         $oFormat->setTop(2);
                         break;
-                    case 'border-left' :
+                    case 'border-left':
                         $oFormat->setLeft(2);
                         break;
-                    case 'border-right' :
+                    case 'border-right':
                         $oFormat->setRight(2);
                         break;
-                    case 'border-bottom' :
+                    case 'border-bottom':
                         $oFormat->setBottom(2);
                         break;
                 }
@@ -145,19 +149,19 @@ class OA_Admin_ExcelWriter
         return $this->formats[$formatKey];
     }
 
-    function createReportWorksheet($name, $reportTitle, $aReportParameters, $aReportWarnings, $firstColSize = 8)
+    public function createReportWorksheet($name, $reportTitle, $aReportParameters, $aReportWarnings, $firstColSize = 8)
     {
         $workbook = $this->_getExcelWriter();
         if (is_null($workbook)) {
             return;
         }
-        $worksheet =&  $workbook->addWorksheet($name);
+        $worksheet = &$workbook->addWorksheet($name);
         $worksheet->setInputEncoding('UTF-8');
 
         $row = 1;
         // Write Report Title
-        $worksheet->write($row, 1, $reportTitle, $this->getFormat(array('h1', 'border-top','border-left')));
-        $worksheet->write($row, 2, '', $this->getFormat(array('h1','border-top','border-right')));
+        $worksheet->write($row, 1, $reportTitle, $this->getFormat(['h1', 'border-top', 'border-left']));
+        $worksheet->write($row, 2, '', $this->getFormat(['h1', 'border-top', 'border-right']));
         $row++;
 
         // Write Report Parameters
@@ -165,48 +169,48 @@ class OA_Admin_ExcelWriter
         $count = 0;
         foreach ($aReportParameters as $header => $value) {
             $count++;
-            $bottomFormat = ($count == $numItems) ? array('border-bottom') : array();
-            $worksheet->write($row, 1, $header, $this->getFormat(array_merge($bottomFormat, array('h2', 'border-left'))));
-            $worksheet->write($row, 2, $value, $this->getFormat(array_merge($bottomFormat, array('border-right'))));
+            $bottomFormat = ($count == $numItems) ? ['border-bottom'] : [];
+            $worksheet->write($row, 1, $header, $this->getFormat(array_merge($bottomFormat, ['h2', 'border-left'])));
+            $worksheet->write($row, 2, $value, $this->getFormat(array_merge($bottomFormat, ['border-right'])));
             $row++;
         }
-        $worksheet->setColumn(0,0,$firstColSize);
+        $worksheet->setColumn(0, 0, $firstColSize);
         $row += 2;
 
         // Write Report Warnings
         if (count($aReportWarnings)) {
             foreach ($aReportWarnings as $value) {
-                $worksheet->write($row, 1, $value, $this->getFormat(array('warning')));
+                $worksheet->write($row, 1, $value, $this->getFormat(['warning']));
                 $row++;
             }
             $row += 2;
         }
 
-        $this->_worksheet[$name] =& $worksheet;
+        $this->_worksheet[$name] = &$worksheet;
         $this->_currentRow[$name] = $row;
     }
 
-    function createReportSection($name, $reportDataTitle, $aReportDataHeaders, $aReportData, $colSize = 25, $addFormat = null)
+    public function createReportSection($name, $reportDataTitle, $aReportDataHeaders, $aReportData, $colSize = 25, $addFormat = null)
     {
         // Get the worksheet
-        $aSearch = array('{row}','{column0}','{column1}','{column2}','{column3}','{column4}','{column5}','{column6}','{column7}','{column8}','{column9}','{column10}','{column11}','{column12}','{column13}','{column14}','{column15}','{column16}','{column17}','{column18}','{column19}','{column20}','{column21}','{column22}','{column23}','{column24}');
-        $aReplace = array('','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        $aSearch = ['{row}', '{column0}', '{column1}', '{column2}', '{column3}', '{column4}', '{column5}', '{column6}', '{column7}', '{column8}', '{column9}', '{column10}', '{column11}', '{column12}', '{column13}', '{column14}', '{column15}', '{column16}', '{column17}', '{column18}', '{column19}', '{column20}', '{column21}', '{column22}', '{column23}', '{column24}'];
+        $aReplace = ['', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         $worksheet = $this->_worksheet[$name];
         $row = $this->_currentRow[$name];
 
         // Write Report Data Headers
         $col = 1;
         $numItems = count($aReportDataHeaders);
-        $aColumnFormats = array();
+        $aColumnFormats = [];
         foreach ($aReportDataHeaders as $header => $format) {
-            $aFormat = array('h2', 'text-center');
-            if($col == 1) {
+            $aFormat = ['h2', 'text-center'];
+            if ($col == 1) {
                 $aFormat[] = 'border-left';
             }
             if ($col == $numItems) {
                 $aFormat[] = 'border-right';
             }
-            $worksheet->write($row+1, $col, $header, $this->getFormat($aFormat));
+            $worksheet->write($row + 1, $col, $header, $this->getFormat($aFormat));
             $aColumnFormats[$col] = $format;
             $col++;
         }
@@ -215,12 +219,12 @@ class OA_Admin_ExcelWriter
         $columnCount = $col > $columnCount ? $col - 1 : $columnCount;
 
         // Set column widths
-        $worksheet->setColumn(1,$columnCount,$colSize);
+        $worksheet->setColumn(1, $columnCount, $colSize);
 
         // Write the report data title
-        for ($col=1; $col<=$columnCount; $col++) {
+        for ($col = 1; $col <= $columnCount; $col++) {
             $value = '';
-            $aFormat = array('h1','border-top');
+            $aFormat = ['h1', 'border-top'];
             if ($col == 1) {
                 $value = $reportDataTitle;
                 $aFormat[] = 'border-left';
@@ -233,11 +237,11 @@ class OA_Admin_ExcelWriter
         $row += 2;
         // Write the report data
         $firstRow = $row;
-        $lastRow = $row + count($aReportData)-1;
+        $lastRow = $row + count($aReportData) - 1;
         if ($lastRow < $firstRow) { // There was no data
-            for ($col=1; $col<=$columnCount; $col++) {
+            for ($col = 1; $col <= $columnCount; $col++) {
                 $value = '';
-                $aFormat = array('border-bottom');
+                $aFormat = ['border-bottom'];
                 if ($col == 1) {
                     $value = 'There is no data to display.';
                     $aFormat[] = 'border-left';
@@ -250,11 +254,10 @@ class OA_Admin_ExcelWriter
             $row++;
         } else {
             foreach ($aReportData as $k => $aReportDataRow) {
-
                 $col = 1;
 
                 foreach ($aReportDataRow as $value) {
-                    $aFormat = array($aColumnFormats[$col]);
+                    $aFormat = [$aColumnFormats[$col]];
                     if ($col == 1) {
                         $aFormat[] = 'border-left';
                     }
@@ -270,12 +273,12 @@ class OA_Admin_ExcelWriter
                     }
 
                     //additional field formating
-                    if($addFormat[$col][$k]) {
+                    if ($addFormat[$col][$k]) {
                         $aFormat[] = $addFormat[$col][$k];
                     }
 
-                    if (substr($value,0,1) == '=') {
-                        $aReplace[0] = $row+1;
+                    if (substr($value, 0, 1) == '=') {
+                        $aReplace[0] = $row + 1;
                         $value = str_replace($aSearch, $aReplace, $value);
 
                         $err = $worksheet->writeFormula($row, $col++, $value, $this->getFormat($aFormat));
@@ -291,17 +294,16 @@ class OA_Admin_ExcelWriter
         $this->_currentRow[$name] = $row;
     }
 
-    function getPercentageDecimalFormat()
+    public function getPercentageDecimalFormat()
     {
-        for ($cnt = 0 ; $cnt < $GLOBALS['pref']['ui_percentage_decimals']; $cnt++) {
+        for ($cnt = 0; $cnt < $GLOBALS['pref']['ui_percentage_decimals']; $cnt++) {
             $strPercentageDecimalPlaces .= '0';
         }
-        $strPercentageDecimalFormat = '#,##0.'.$strPercentageDecimalPlaces.'%;-#,##0.'.$strPercentageDecimalPlaces.'%;-';
 
-        return $strPercentageDecimalFormat;
+        return '#,##0.' . $strPercentageDecimalPlaces . '%;-#,##0.' . $strPercentageDecimalPlaces . '%;-';
     }
 
-    function convertToDate($value)
+    public function convertToDate($value)
     {
         if (!empty($value)) {
             $value = strtotime($value);
@@ -311,24 +313,22 @@ class OA_Admin_ExcelWriter
         return $value;
     }
 
-    function openWithFilename($filename)
+    public function openWithFilename($filename)
     {
         require_once 'Spreadsheet/Excel/Writer.php';
 
         $workbook = new Spreadsheet_Excel_Writer();
         $workbook->setVersion(8, 'UTF-8');
-        $workbook->setTempDir(MAX_PATH .'/var/cache');
+        $workbook->setTempDir(MAX_PATH . '/var/cache');
         $this->_setExcelWriter($workbook);
         $workbook->send($filename);
     }
 
-    function closeAndSend()
+    public function closeAndSend()
     {
         $workbook = $this->_getExcelWriter();
-        if (!is_null($workbook) && count($workbook->worksheets())>0) {
-        	$workbook->close();
-    	}
+        if (!is_null($workbook) && count($workbook->worksheets()) > 0) {
+            $workbook->close();
+        }
     }
-
 }
-?>

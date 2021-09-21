@@ -3,47 +3,46 @@ require_once("../xajax.inc.php");
 
 function testRegularFunction($formData)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("formData: " . print_r($formData, true));
-	$objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("formData: " . print_r($formData, true));
+    $objResponse->addAssign("submittedDiv", "innerHTML", nl2br(print_r($formData, true)));
+    return $objResponse->getXML();
 }
 
 function myPreFunction($funcName, $args)
 {
-	$objResponse = new xajaxResponse();
-	if ($args[1] == 0) {
-		$objResponse->addAlert("This is from the pre-function, which will now call " . $funcName);
-		return $objResponse;
-	}
-	$objResponse->addAlert("This is from the pre-function, which will now end the request.");
-	return array(false, $objResponse);
+    $objResponse = new xajaxResponse();
+    if ($args[1] == 0) {
+        $objResponse->addAlert("This is from the pre-function, which will now call " . $funcName);
+        return $objResponse;
+    }
+    $objResponse->addAlert("This is from the pre-function, which will now end the request.");
+    return [false, $objResponse];
 }
 
 class myPreObject
 {
-	var $message = "This is from the pre-function object method";
-	
-	function preMethod($funcName, $args)
-	{
-		$objResponse = new xajaxResponse();
-		if ($args[1] == 0) {
-			$objResponse->addAlert($this->message . ", which will now call " . $funcName);
-			return $objResponse;
-		}
-		$objResponse->addAlert($this->message . ", which will now end the request.");
-		return array(false, $objResponse);		
-	}
+    public $message = "This is from the pre-function object method";
+    
+    public function preMethod($funcName, $args)
+    {
+        $objResponse = new xajaxResponse();
+        if ($args[1] == 0) {
+            $objResponse->addAlert($this->message . ", which will now call " . $funcName);
+            return $objResponse;
+        }
+        $objResponse->addAlert($this->message . ", which will now end the request.");
+        return [false, $objResponse];
+    }
 }
 
 $xajax = new xajax();
 //$xajax->debugOn();
 if (@$_GET['useObjects'] == "true") {
-	$preObj = new myPreObject();
-	$xajax->registerPreFunction(array("myPreFunction", &$preObj, "preMethod"));
-}
-else {
-	$xajax->registerPreFunction("myPreFunction");
+    $preObj = new myPreObject();
+    $xajax->registerPreFunction(["myPreFunction", &$preObj, "preMethod"]);
+} else {
+    $xajax->registerPreFunction("myPreFunction");
 }
 $xajax->registerFunction("testRegularFunction");
 $xajax->processRequests();

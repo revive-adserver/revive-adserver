@@ -11,5 +11,3 @@
 */
 
 require('./www/delivery/ajs.php');
-
-?>

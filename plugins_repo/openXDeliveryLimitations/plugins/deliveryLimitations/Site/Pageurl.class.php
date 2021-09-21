@@ -25,14 +25,11 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_DeliveryLimitations_Site_Pageurl extends Plugins_DeliveryLimitations
 {
-    var $defaultComparison = '=~';
+    public $defaultComparison = '=~';
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Site - Page URL';
     }
-
 }
-
-?>

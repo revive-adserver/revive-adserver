@@ -18,44 +18,42 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
  * - if the list is not empty current user must have at least one of the permissions required by this acceptor
  *
  */
-class OA_Admin_SectionPermissionChecker
-    implements OA_Admin_Menu_IChecker
+class OA_Admin_SectionPermissionChecker implements OA_Admin_Menu_IChecker
 {
-    var $aPermissions; //list of permissions user must have for the checker to be satisfied (only on of the list is required)
+    public $aPermissions; //list of permissions user must have for the checker to be satisfied (only on of the list is required)
 
-    function __construct($aPermissions = array())
+    public function __construct($aPermissions = [])
     {
         if (!is_array($aPermissions)) {
-            $aPermissions = array($aPermissions);
+            $aPermissions = [$aPermissions];
         }
         $this->aPermissions = $aPermissions;
     }
 
 
-    function check($oSection)
+    public function check($oSection)
     {
         $aPermissions = $this->_getAcceptedPermissions();
 
         //no required permissions, we can show the section
-        if (empty ($aPermissions)) {
+        if (empty($aPermissions)) {
             return true;
-		}
+        }
 
         $hasRequiredPermission = false;
-        for($i = 0; $i < count ( $aPermissions ); $i ++) {
-            $hasRequiredPermission = OA_Permission::hasPermission ( $aPermissions [$i] );
+        foreach ($aPermissions as $i => $aPermission) {
+            $hasRequiredPermission = OA_Permission::hasPermission($aPermission);
             if ($hasRequiredPermission) {
                 break;
             }
         }
 
         return $hasRequiredPermission;
-	}
+    }
 
 
-    function _getAcceptedPermissions()
+    public function _getAcceptedPermissions()
     {
         return $this->aPermissions;
     }
 }
-?>

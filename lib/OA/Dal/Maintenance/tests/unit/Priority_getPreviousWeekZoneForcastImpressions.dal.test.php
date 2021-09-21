@@ -25,7 +25,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -41,7 +41,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
      * Test 4: Test with data, and ensure that an array with the correct
      *         forecasts is returned.
      */
-    function testGetPreviousWeekZoneForcastImpressions()
+    public function testGetPreviousWeekZoneForcastImpressions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
@@ -64,11 +64,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
         for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
-            $expected =  array(
+            $expected = [
                         'zone_id' => 1,
                         'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
                         'operation_interval_id' => $operationIntervalID
-            );
+            ];
             $this->assertEqual($aResult[$operationIntervalID], $expected);
         }
 
@@ -82,7 +82,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
 
-        $doDIA      = OA_Dal::factoryDO('data_intermediate_ad');
+        $doDIA = OA_Dal::factoryDO('data_intermediate_ad');
         $aDIAs = DataGenerator::generate($doDIA, 4);
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
 
@@ -172,5 +172,3 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         DataGenerator::cleanUp();
     }
 }
-
-?>

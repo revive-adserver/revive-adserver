@@ -33,13 +33,20 @@ class TrackerXmlRpcService extends BaseTrackerService
         $oTrackerInfo = new OA_Dll_TrackerInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oTrackerInfo, $oParams, 1,
-                array('clientId', 'trackerName', 'description', 'status',
-                    'type', 'linkCampaigns', 'variableMethod'),
-                $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oTrackerInfo,
+                $oParams,
+                1,
+                ['clientId', 'trackerName', 'description', 'status',
+                    'type', 'linkCampaigns', 'variableMethod'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -59,17 +66,24 @@ class TrackerXmlRpcService extends BaseTrackerService
      */
     public function modifyTracker(&$oParams)
     {
-        $sessionId  = null;
+        $sessionId = null;
         $oTrackerInfo = new OA_Dll_TrackerInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oTrackerInfo, $oParams, 1,
-                array('trackerId', 'trackerName', 'description', 'status',
-                    'type', 'linkCampaigns', 'variableMethod'),
-                $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oTrackerInfo,
+                $oParams,
+                1,
+                ['trackerId', 'trackerName', 'description', 'status',
+                    'type', 'linkCampaigns', 'variableMethod'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -92,9 +106,12 @@ class TrackerXmlRpcService extends BaseTrackerService
         $trackerId = null;
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$trackerId),
-            array(true, true), $oParams, $oResponseWithError )) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$trackerId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
@@ -110,7 +127,7 @@ class TrackerXmlRpcService extends BaseTrackerService
      * @param XML_RPC_Message $oParams
      * @return generated result (data or error)
      */
-    function linkTrackerToCampaign($oParams)
+    public function linkTrackerToCampaign($oParams)
     {
         $sessionId = null;
         $trackerId = null;
@@ -118,9 +135,12 @@ class TrackerXmlRpcService extends BaseTrackerService
         $oResponseWithError = null;
 
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$trackerId, &$campaignId, &$status),
-                array(true, true, true, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$trackerId, &$campaignId, &$status],
+            [true, true, true, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         if ($this->oTrackerServiceImpl->linkTrackerToCampaign($sessionId, $trackerId, $campaignId, $status)) {
@@ -137,21 +157,22 @@ class TrackerXmlRpcService extends BaseTrackerService
         $oTrackerInfo = new OA_Dll_TrackerInfo();
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$trackerId),
-                array(true, true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$trackerId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
-        if ($this->oTrackerServiceImpl->getTracker($sessionId,
-                $trackerId, $oTrackerInfo)) {
-
+        if ($this->oTrackerServiceImpl->getTracker(
+            $sessionId,
+            $trackerId,
+            $oTrackerInfo
+        )) {
             return XmlRpcUtils::getEntityResponse($oTrackerInfo);
         } else {
-
             return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
         }
     }
-
 }
-
-?>

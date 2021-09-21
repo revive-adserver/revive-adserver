@@ -39,33 +39,31 @@ Language_Loader::load('userlog');
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if ($row = $doUserLog->toArray())
-{
-	echo "<br />";
-	echo "<table cellpadding='0' cellspacing='0' border='0'>";
+if ($row = $doUserLog->toArray()) {
+    echo "<br />";
+    echo "<table cellpadding='0' cellspacing='0' border='0'>";
 
-	echo "<tr height='20'><td><b>".$strDate."</b>:&nbsp;&nbsp;</td>";
-	echo "<td>".strftime($date_format, $row['timestamp']).", ".strftime($minute_format, $row['timestamp'])."</td></tr>";
+    echo "<tr height='20'><td><b>" . $strDate . "</b>:&nbsp;&nbsp;</td>";
+    echo "<td>" . strftime($date_format, $row['timestamp']) . ", " . strftime($minute_format, $row['timestamp']) . "</td></tr>";
 
-	echo "<tr height='20'><td><b>".$strUser."</b>:&nbsp;&nbsp;</td><td>";
-	switch ($row['usertype'])
-	{
-		case phpAds_userDeliveryEngine:	echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;".$strDeliveryEngine; break;
-		case phpAds_userMaintenance:	echo "<img src='" . OX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
-		case phpAds_userAdministrator:	echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
-	}
-	echo "</td></tr>";
+    echo "<tr height='20'><td><b>" . $strUser . "</b>:&nbsp;&nbsp;</td><td>";
+    switch ($row['usertype']) {
+        case phpAds_userDeliveryEngine:	echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;" . $strDeliveryEngine; break;
+        case phpAds_userMaintenance:	echo "<img src='" . OX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;" . $strMaintenance; break;
+        case phpAds_userAdministrator:	echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;" . $strAdministrator; break;
+    }
+    echo "</td></tr>";
 
-	$action = $strUserlog[$row['action']];
-	$action = str_replace ('{id}', $row['object'], $action);
-	echo "<tr height='20'><td><b>".$strAction."</b>:&nbsp;&nbsp;</td><td>".$action."</td></tr>";
-	echo "</table>";
+    $action = $strUserlog[$row['action']];
+    $action = str_replace('{id}', $row['object'], $action);
+    echo "<tr height='20'><td><b>" . $strAction . "</b>:&nbsp;&nbsp;</td><td>" . $action . "</td></tr>";
+    echo "</table>";
 
-	phpAds_ShowBreak();
+    phpAds_ShowBreak();
 
-	echo "<br /><br />";
-	echo "<pre>".$row['details']."</pre>";
-	echo "<br /><br />";
+    echo "<br /><br />";
+    echo "<pre>" . $row['details'] . "</pre>";
+    echo "<br /><br />";
 }
 
 
@@ -75,5 +73,3 @@ if ($row = $doUserLog->toArray())
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

@@ -20,8 +20,6 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Trackers.php';
 
 class OA_Dll_TrackerInfo extends OA_Info
 {
-
-
     // Required fields
     public $trackerId;
     public $clientId;
@@ -65,7 +63,7 @@ class OA_Dll_TrackerInfo extends OA_Info
 
     public function getFieldsTypes()
     {
-        return array(
+        return [
             'trackerId' => 'integer',
             'clientId' => 'integer',
             'trackerName' => 'string',
@@ -74,7 +72,7 @@ class OA_Dll_TrackerInfo extends OA_Info
             'type' => 'integer',
             'linkCampaigns' => 'boolean',
             'variableMethod' => 'string'
-        );
+        ];
     }
 
     /**
@@ -115,7 +113,4 @@ class OA_Dll_TrackerInfo extends OA_Info
 
         $this->readDataFromArray($aTrackerData);
     }
-
 }
-
-?>

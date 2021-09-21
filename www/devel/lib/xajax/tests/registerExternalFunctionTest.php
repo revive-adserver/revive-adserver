@@ -3,8 +3,8 @@ require_once("../xajax.inc.php");
 
 $xajax = new xajax();
 //$xajax->debugOn();
-$xajax->registerExternalFunction("myExternalFunction","tests/myExternalFunction.php");
-$xajax->registerExternalFunction(array("myFunction", "myExternalClass","myMethod"),"tests/myExternalFunction.php");
+$xajax->registerExternalFunction("myExternalFunction", "tests/myExternalFunction.php");
+$xajax->registerExternalFunction(["myFunction", "myExternalClass", "myMethod"], "tests/myExternalFunction.php");
 $xajax->processRequests();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"

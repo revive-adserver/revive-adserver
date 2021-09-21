@@ -20,33 +20,33 @@ class OA_UpgradePostscript_2_8_2_rc8
     /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
 
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
 
         $prefix = $aConf['prefix'];
-        foreach (array(
-            'tblAppVar'    => 'application_variable',
-            'tblAccounts'  => 'accounts',
-            'tblAgency'    => 'agency',
-            'tblClients'   => 'clients',
+        foreach ([
+            'tblAppVar' => 'application_variable',
+            'tblAccounts' => 'accounts',
+            'tblAgency' => 'agency',
+            'tblClients' => 'clients',
             'tblCampaigns' => 'campaigns',
-            'tblBanners'   => 'banners',
-            'tblAcls'      => 'acls',
-            'tblPrefs'     => 'preferences',
-            'tblAccPrefs'  => 'account_preference_assoc',
-        ) as $k => $v) {
-            $$k = $this->oDbh->quoteIdentifier($prefix.($aConf[$v] ? $aConf[$v] : $v), true);
+            'tblBanners' => 'banners',
+            'tblAcls' => 'acls',
+            'tblPrefs' => 'preferences',
+            'tblAccPrefs' => 'account_preference_assoc',
+        ] as $k => $v) {
+            $$k = $this->oDbh->quoteIdentifier($prefix . ($aConf[$v] ? $aConf[$v] : $v), true);
         }
 
         // Get admin account ID
@@ -83,7 +83,7 @@ class OA_UpgradePostscript_2_8_2_rc8
                     {$tblAgency} a USING (agencyid) LEFT JOIN
                     {$tblAccPrefs} p ON (p.account_id = a.account_id AND p.preference_id = {$tzId})";
 
-        $tzPart = "COALESCE(p.value, ".$this->oDbh->quote($adminTz).")";
+        $tzPart = "COALESCE(p.value, " . $this->oDbh->quote($adminTz) . ")";
 
         $wherePart = "
                     ac.bannerid = b.bannerid AND
@@ -130,15 +130,14 @@ class OA_UpgradePostscript_2_8_2_rc8
         return true;
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }
-
 }

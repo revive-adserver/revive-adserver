@@ -20,12 +20,12 @@ require_once MAX_PATH . '/lib/max/other/common.php';
  */
 class CommonTest extends UnitTestCase
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function test_MAX_isAnonymous()
+    public function test_MAX_isAnonymous()
     {
         $this->assertTrue(MAX_isAnonymous(true));
         $this->assertTrue(MAX_isAnonymous('t'));
@@ -33,25 +33,25 @@ class CommonTest extends UnitTestCase
         $this->assertFalse(MAX_isAnonymous('f'));
     }
 
-	function test_MAX_commonSlashArray()
-	{
-		$this->sendMessage('test_MAX_commonSlashArray');
-		$strIn0	= "Mr O\'Reilly";
-		$strIn1	= '"Mr Reilly"\n';
-		$strRe0 = addslashes($strIn0);
-		$strRe1 = addslashes($strIn1);
+    public function test_MAX_commonSlashArray()
+    {
+        $this->sendMessage('test_MAX_commonSlashArray');
+        $strIn0 = "Mr O\'Reilly";
+        $strIn1 = '"Mr Reilly"\n';
+        $strRe0 = addslashes($strIn0);
+        $strRe1 = addslashes($strIn1);
 
-		$aIn	= array(0 => $strIn0,
-						1 => array(0 => $strIn1),
-						);
-		$aRet 	= MAX_commonSlashArray($aIn);
+        $aIn = [0 => $strIn0,
+                        1 => [0 => $strIn1],
+                        ];
+        $aRet = MAX_commonSlashArray($aIn);
 
         $this->assertEqual($aRet[0], $strRe0);
         $this->assertEqual($aRet[1][0], $strRe1);
-	}
+    }
 
 
-    function test_MAX_commonUnslashArray()
+    public function test_MAX_commonUnslashArray()
     {
         $sValue = 'abcd';
         $this->assertEqual('abcd', MAX_commonUnslashArray($sValue));
@@ -59,14 +59,14 @@ class CommonTest extends UnitTestCase
         $this->assertEqual('abcd', MAX_commonUnslashArray($sValue));
         $sValue = 'ab\\\\cd';
         $this->assertEqual('ab\\cd', MAX_commonUnslashArray($sValue));
-        $aValue = array('abcd', 'ab\\cd', 'ab\\\\cd');
-        $this->assertEqual(array('abcd', 'abcd', 'ab\\cd'), MAX_commonUnslashArray($aValue));
-        $aValue = array('abcd', 'ab\\cd', 'ab\\\\cd', array('abcd', 'ab\\\\cd'));
-        $this->assertEqual(array('abcd', 'abcd', 'ab\\cd', array('abcd', 'ab\\cd')), MAX_commonUnslashArray($aValue));
+        $aValue = ['abcd', 'ab\\cd', 'ab\\\\cd'];
+        $this->assertEqual(['abcd', 'abcd', 'ab\\cd'], MAX_commonUnslashArray($aValue));
+        $aValue = ['abcd', 'ab\\cd', 'ab\\\\cd', ['abcd', 'ab\\\\cd']];
+        $this->assertEqual(['abcd', 'abcd', 'ab\\cd', ['abcd', 'ab\\cd']], MAX_commonUnslashArray($aValue));
     }
 
 
-    function test_Max_commonGetValueSlashed()
+    public function test_Max_commonGetValueSlashed()
     {
         // Please see the description below
 //        $_REQUEST['aaa'] = 'blah\'';
@@ -76,7 +76,7 @@ class CommonTest extends UnitTestCase
     }
 
 
-    function test_Max_commonGetValueUnslashed()
+    public function test_Max_commonGetValueUnslashed()
     {
         // Please let me know how to test such functionality in PHP if I can't change
         // the php configuration run-time? We need some facility for running some
@@ -86,7 +86,7 @@ class CommonTest extends UnitTestCase
     }
 
 
-    function test_MAX_commonGetPostValueUnslashed()
+    public function test_MAX_commonGetPostValueUnslashed()
     {
         // We can't really test slashed/unslashed
         $_POST['aaa'] = 'bbb';
@@ -95,11 +95,10 @@ class CommonTest extends UnitTestCase
     }
 
 
-    function test_MAX_addslashes()
+    public function test_MAX_addslashes()
     {
         $item = 'ab\'cd';
         MAX_addslashes($item);
         $this->assertEqual('ab\\\'cd', $item);
     }
 }
-?>

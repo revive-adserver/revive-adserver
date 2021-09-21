@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 /**
  * DB_DataObject for data_bkt_r
@@ -31,13 +31,15 @@ class DataObjects_Data_bkt_a_var extends DB_DataObjectCommon
     public $date_time;                       // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_a_var',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_a_var', $k, $v);
+    }
 
-    var $defaultValues = array(
+    public $defaultValues = [
                 'server_ip' => '',
-                );
+                ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-?>

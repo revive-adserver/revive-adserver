@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once LIB_PATH.'/Plugin/ParserPlugin.php';
+require_once LIB_PATH . '/Plugin/ParserPlugin.php';
 
 /**
  * A class for testing the ParserPackage class.
@@ -20,23 +20,21 @@ require_once LIB_PATH.'/Plugin/ParserPlugin.php';
  */
 class Test_OX_ParserPlugin extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function test_ParseEmpty()
+    public function test_ParseEmpty()
     {
-        $file = LIB_PATH.'/Plugin/tests/data/testParsePluginEmpty.xml';
-        $this->assertTrue(file_exists($file),'file not found '.$file);
-        if (file_exists($file))
-        {
+        $file = LIB_PATH . '/Plugin/tests/data/testParsePluginEmpty.xml';
+        $this->assertTrue(file_exists($file), 'file not found ' . $file);
+        if (file_exists($file)) {
             $oParser = new OX_ParserPlugin();
-            $this->assertIsA($oParser,'OX_ParserPlugin');
+            $this->assertIsA($oParser, 'OX_ParserPlugin');
             $result = $oParser->setInputFile($file);
             $this->assertFalse(PEAR::isError($result));
             $result = $oParser->parse();
@@ -48,18 +46,17 @@ class Test_OX_ParserPlugin extends UnitTestCase
 
             $this->_assertStructure($aPlugin);
 
-            $this->assertEqual(count($aPlugin['install']['contents']),0);
+            $this->assertEqual(count($aPlugin['install']['contents']), 0);
         }
     }
 
-    function test_ParseFull()
+    public function test_ParseFull()
     {
-        $file = LIB_PATH.'/Plugin/tests/data/testParsePluginFull.xml';
-        $this->assertTrue(file_exists($file),'file not found '.$file);
-        if (file_exists($file))
-        {
+        $file = LIB_PATH . '/Plugin/tests/data/testParsePluginFull.xml';
+        $this->assertTrue(file_exists($file), 'file not found ' . $file);
+        if (file_exists($file)) {
             $oParser = new OX_ParserPlugin();
-            $this->assertIsA($oParser,'OX_ParserPlugin');
+            $this->assertIsA($oParser, 'OX_ParserPlugin');
             $result = $oParser->setInputFile($file);
             $this->assertFalse(PEAR::isError($result));
             $result = $oParser->parse();
@@ -72,22 +69,20 @@ class Test_OX_ParserPlugin extends UnitTestCase
             $this->_assertStructure($aPlugin);
             $this->assertEqual($aPlugin['version'], '0.0.1-test-RC1');
 
-            $this->assertEqual(count($aPlugin['install']['contents']),2);
-            $this->assertEqual($aPlugin['install']['contents'][1]['name'],'testPlugin1');
-            $this->assertEqual($aPlugin['install']['contents'][2]['name'],'testPlugin2');
+            $this->assertEqual(count($aPlugin['install']['contents']), 2);
+            $this->assertEqual($aPlugin['install']['contents'][1]['name'], 'testPlugin1');
+            $this->assertEqual($aPlugin['install']['contents'][2]['name'], 'testPlugin2');
 
-            $this->assertEqual(count($aPlugin['allfiles']),2);
-            $this->assertEqual($aPlugin['allfiles'][0]['name'],'testParsePackage.xml');
-            $this->assertEqual($aPlugin['allfiles'][0]['path'],OX_PLUGIN_PLUGINPATH);
-            $this->assertEqual($aPlugin['allfiles'][1]['name'],'testParsePackage.readme.txt');
-            $this->assertEqual($aPlugin['allfiles'][1]['path'],OX_PLUGIN_PLUGINPATH);
+            $this->assertEqual(count($aPlugin['allfiles']), 2);
+            $this->assertEqual($aPlugin['allfiles'][0]['name'], 'testParsePackage.xml');
+            $this->assertEqual($aPlugin['allfiles'][0]['path'], OX_PLUGIN_PLUGINPATH);
+            $this->assertEqual($aPlugin['allfiles'][1]['name'], 'testParsePackage.readme.txt');
+            $this->assertEqual($aPlugin['allfiles'][1]['path'], OX_PLUGIN_PLUGINPATH);
         }
     }
 
-    function _assertStructure($aPlugin)
+    public function _assertStructure($aPlugin)
     {
-        $this->assertTrue(array_key_exists('contents', $aPlugin['install']),'array key not found [install][contents]');
+        $this->assertTrue(array_key_exists('contents', $aPlugin['install']), 'array key not found [install][contents]');
     }
 }
-
-?>

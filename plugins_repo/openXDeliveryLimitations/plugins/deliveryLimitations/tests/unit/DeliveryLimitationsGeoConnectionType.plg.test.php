@@ -24,18 +24,16 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_ConnectionType extends UnitTestCase
 {
-    function testCheckGeoConnectionType()
+    public function testCheckGeoConnectionType()
     {
         // =~ and !~ - Single country
-        $this->assertTrue(MAX_checkGeo_ConnectionType('dialup',    '=~', array('connection_type' => 'dialup')));
-        $this->assertTrue(MAX_checkGeo_ConnectionType('dialup',    '!~', array('connection_type' => 'cabledsl')));
+        $this->assertTrue(MAX_checkGeo_ConnectionType('dialup', '=~', ['connection_type' => 'dialup']));
+        $this->assertTrue(MAX_checkGeo_ConnectionType('dialup', '!~', ['connection_type' => 'cabledsl']));
 
         // =~ and !~ - Multiple country
-        $this->assertTrue(MAX_checkGeo_ConnectionType('cabledsl,corporate',  '=~', array('connection_type' => 'cabledsl')));
-        $this->assertTrue(MAX_checkGeo_ConnectionType('cabledsl,corporate',  '=~', array('connection_type' => 'corporate')));
-        $this->assertTrue(MAX_checkGeo_ConnectionType('cabledsl,corporate',  '!~', array('connection_type' => 'unknown')));
-        $this->assertFalse(MAX_checkGeo_ConnectionType('cabledsl,corporate', '!~', array('connection_type' => 'cabledsl')));
+        $this->assertTrue(MAX_checkGeo_ConnectionType('cabledsl,corporate', '=~', ['connection_type' => 'cabledsl']));
+        $this->assertTrue(MAX_checkGeo_ConnectionType('cabledsl,corporate', '=~', ['connection_type' => 'corporate']));
+        $this->assertTrue(MAX_checkGeo_ConnectionType('cabledsl,corporate', '!~', ['connection_type' => 'unknown']));
+        $this->assertFalse(MAX_checkGeo_ConnectionType('cabledsl,corporate', '!~', ['connection_type' => 'cabledsl']));
     }
 }
-
-?>

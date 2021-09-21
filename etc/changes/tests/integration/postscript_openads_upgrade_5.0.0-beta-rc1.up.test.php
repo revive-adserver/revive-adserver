@@ -59,7 +59,8 @@ class Test_postscript_5_0_0_beta_rc1 extends MigrationTest
 
     public function test_configMigration()
     {
-        $migration = new RV_UpgradePostscript_5_0_0_beta_rc1;
+        $migration = new RV_UpgradePostscript_5_0_0_beta_rc1();
+        $migration->oUpgrade = new OA_Upgrade();
 
         $method = new \ReflectionMethod('RV_UpgradePostscript_5_0_0_beta_rc1', 'migrateConfiguration');
         $method->setAccessible(true);
@@ -167,6 +168,5 @@ class Test_postscript_5_0_0_beta_rc1 extends MigrationTest
                 'executionorder' => '2',
             ],
         ];
-
     }
 }

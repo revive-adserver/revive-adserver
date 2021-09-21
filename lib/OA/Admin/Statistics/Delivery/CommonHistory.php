@@ -22,34 +22,49 @@ require_once 'Pager.php';
  */
 class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Delivery_Common
 {
-
+    /**
+     * @var mixed
+     */
+    public $listOrderField;
+    /**
+     * @var mixed|string
+     */
+    public $listOrderDirection;
+    /**
+     * @var mixed|array<string, mixed>|bool
+     */
+    public $pagerLinks;
+    /**
+     * @var mixed[]|string|null|bool
+     */
+    public $pagerSelect;
     /**
      * The starting day of the page's report span.
      *
      * @var PEAR::Date
      */
-    var $oStartDate;
+    public $oStartDate;
 
     /**
      * The number of days that the page's report spans.
      *
      * @var integer
      */
-    var $spanDays;
+    public $spanDays;
 
     /**
      * The number of weeks that the page's report spans.
      *
      * @var integer
      */
-    var $spanWeeks;
+    public $spanWeeks;
 
     /**
      * The number of months that the page's report spans.
      *
      * @var integer
      */
-    var $spanMonths;
+    public $spanMonths;
 
     /**
      * The type of statistics breakdown to display. One of:
@@ -61,37 +76,37 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      *
      * @var string
      */
-    var $statsBreakdown;
+    public $statsBreakdown;
 
     /**
      * Enter description here...
      *
      * @var unknown_type
      */
-    var $statsKey;
+    public $statsKey;
 
     /**
      * Enter description here...
      *
      * @var unknown_type
      */
-    var $averageDesc;
+    public $averageDesc;
 
     /**
      * @var bool
      */
-    var $disablePager = false;
+    public $disablePager = false;
 
     /**
      * PHP5-style constructor
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set the output type "history" style delivery statistcs
         $this->outputType = 'deliveryHistory';
 
         // Get list order and direction
-        $this->listOrderField     = MAX_getStoredValue('listorder', 'key');
+        $this->listOrderField = MAX_getStoredValue('listorder', 'key');
         $this->listOrderDirection = MAX_getStoredValue('orderdirection', 'down');
 
         // Ensure the history class is prepared
@@ -100,7 +115,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         parent::__construct($aParams);
 
         // Store the preferences
-        $this->aPagePrefs['listorder']      = $this->listOrderField;
+        $this->aPagePrefs['listorder'] = $this->listOrderField;
         $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
     }
 
@@ -113,16 +128,16 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      * @access private
      * @return boolean True on empty, false if at least one row of data.
      */
-    function _isEmptyResultArray()
+    public function _isEmptyResultArray()
     {
         if (!is_array($this->aStatsData)) {
             return true;
         }
-        foreach($this->aStatsData as $aRecord) {
+        foreach ($this->aStatsData as $aRecord) {
             if (
                 $aRecord['sum_requests'] != '-' ||
-                $aRecord['sum_views']    != '-' ||
-                $aRecord['sum_clicks']   != '-'
+                $aRecord['sum_views'] != '-' ||
+                $aRecord['sum_clicks'] != '-'
             ) {
                 return false;
             }
@@ -136,7 +151,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      * @param array  $aParams Query parameters
      * @param string $link    Optional link for the leftmost column content
      */
-    function prepare(&$aParams, $link = '')
+    public function prepare(&$aParams, $link = '')
     {
         parent::prepare($aParams);
 
@@ -148,14 +163,14 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $aStats = $this->getHistory($aParams, $link);
 
         if ($this->noStatsAvailable) {
-            $this->aStatsData = array();
+            $this->aStatsData = [];
             return;
         }
 
         if ($this->disablePager) {
             $use_pager = false;
         } elseif ($this->statsBreakdown == 'week') {
-            $per_page  = 4;
+            $per_page = 4;
             $use_pager = count($aStats) > $per_page;
         } elseif ($this->aGlobalPrefs['period_preset'] == 'this_month' || $this->aGlobalPrefs['period_preset'] == 'last_month') {
             // Do not use pager when showing last or current month
@@ -163,12 +178,12 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         } elseif ($this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow') {
             $use_pager = false;
         } else {
-            $per_page  = 15;
+            $per_page = 15;
             $use_pager = count($aStats) > $per_page;
         }
 
         if ($use_pager) {
-            $params = array(
+            $params = [
                 'itemData' => $aStats,
                 'perPage' => (int) MAX_getStoredValue('setPerPage', $per_page),
                 'delta' => 8,
@@ -176,12 +191,12 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
                 'clearIfVoid' => false,
                 'urlVar' => 'page',
                 'useSessions' => false,
-                'mode'  => 'Jumping'
-            );
+                'mode' => 'Jumping'
+            ];
 
             if ($params['perPage'] % $per_page || $params['perPage'] > $per_page * 4) {
                 // Reset the perPage and the request parameters when not matching the available values
-                $params['perPage']      = $per_page;
+                $params['perPage'] = $per_page;
                 $_REQUEST['setPerPage'] = $per_page;
             }
 
@@ -190,8 +205,11 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             $this->pagerLinks = $pager->getLinks();
             $this->pagerLinks = $this->pagerLinks['all'];
 
-            $this->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2',
-                $pager->getPerPageSelectBox($per_page, $per_page * 4, $per_page));
+            $this->pagerSelect = preg_replace(
+                '/(<select.*?)(>)/i',
+                '$1 onchange="this.form.submit()"$2',
+                $pager->getPerPageSelectBox($per_page, $per_page * 4, $per_page)
+            );
         } else {
             $this->aStatsData = $aStats;
             $this->pagerLinks = false;
@@ -204,7 +222,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $this->oHistory->formatRows($this->aStatsData, $this);
     }
 
-    function getColspan()
+    public function getColspan()
     {
         return count($this->aColumns) + 1;
     }
@@ -215,7 +233,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      * @param array  $aParams Query parameters
      * @param string $link    Optional link for the leftmost column content
      */
-    function getHistory($aParams, $link = '')
+    public function getHistory($aParams, $link = '')
     {
         $oNow = new Date();
         $aParams['tz'] = $oNow->tz->getID();
@@ -223,7 +241,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $method = $this->oHistory->setBreakdownInfo($this);
 
         // Add plugin aParams
-        $pluginParams = array();
+        $pluginParams = [];
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->addQueryParams($pluginParams);
         }
@@ -247,10 +265,10 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         // Set some of the variables that used to be set by getSpan
         if (!empty($aStats)) {
-            $dates = array_keys ($aStats);
+            $dates = array_keys($aStats);
 
             // assumes first row has earliest date
-            $firstDate = new Date ($dates[0]);
+            $firstDate = new Date($dates[0]);
 
             // Convert to current TZ
             $firstDate->setTZbyID('UTC');
@@ -261,7 +279,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
             if (empty($this->aDates)) {
                 $this->aDates['day_begin'] = $firstDate->format('%Y-%m-%d');
-                $this->aDates['day_end']   = $oNow->format('%Y-%m-%d');
+                $this->aDates['day_end'] = $oNow->format('%Y-%m-%d');
             }
 
             $this->oStartDate = new Date($firstDate);
@@ -270,7 +288,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);
         $this->oHistory->fillGapsAndLink($aStats, $aDates, $this, $link);
 
-        if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->aColumns)))) {
+        if (!in_array($this->listOrderField, array_merge([$this->statsBreakdown], array_keys($this->aColumns)))) {
             $this->listOrderField = $this->statsBreakdown;
             $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
         }
@@ -304,7 +322,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      *
      * @param array Stats array
      */
-    function exportArray()
+    public function exportArray()
     {
         $parent = parent::exportArray();
 
@@ -320,19 +338,15 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
                 break;
         }
 
-        $headers = array_merge(array($this->statsKey), $parent['headers']);
-        $formats = array_merge(array($key_format), $parent['formats']);
-        $data    = array();
+        $headers = array_merge([$this->statsKey], $parent['headers']);
+        $formats = array_merge([$key_format], $parent['formats']);
+        $data = [];
 
         $headers[] = $this->statsKey;
 
         foreach ($this->aStatsData as $h) {
-            $row = array();
-            if ($this->statsBreakdown == 'week') {
-                $row[] = $h['week'];
-            } else {
-                $row[] = $h['date_f'];
-            }
+            $row = [];
+            $row[] = $this->statsBreakdown == 'week' ? $h['week'] : $h['date_f'];
             foreach (array_keys($this->aColumns) as $ck) {
                 if ($this->showColumn($ck)) {
                     $row[] = $h[$ck];
@@ -342,12 +356,10 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             $data[] = $row;
         }
 
-        return array(
+        return [
             'headers' => $headers,
             'formats' => $formats,
-            'data'    => $data
-        );
+            'data' => $data
+        ];
     }
 }
-
-?>

@@ -15,16 +15,14 @@ $className = 'postscript_upgrade_testPlugin_0_0_2';
 
 class postscript_upgrade_testPlugin_0_0_2
 {
-
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams=array())
+    public function execute($aParams = [])
     {
         $oManager = new OX_Plugin_ComponentGroupManager();
-        $oManager->_logMessage('testPluginPackage 0.0.3 : '. get_class($this));
+        $oManager->_logMessage('testPluginPackage 0.0.3 : ' . get_class($this));
         return true;
     }
 }

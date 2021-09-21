@@ -26,7 +26,7 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate('File based cache');
     }
@@ -36,11 +36,11 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
      *
      * @return bool|array True if there is no problems or array of string with error messages otherwise
      */
-    function getStatus()
+    public function getStatus()
     {
         $deliveryPath = $this->_getCachePath();
         if (!is_writable($deliveryPath)) {
-            return array($this->translate('Unable to write to') . ' ' . htmlspecialchars($deliveryPath));
+            return [$this->translate('Unable to write to') . ' ' . htmlspecialchars($deliveryPath)];
         }
         return true;
     }
@@ -51,11 +51,11 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
      * @param string $filename The cache entry filename (hashed name)
      * @return bool True if the entres were succesfully deleted
      */
-    function _deleteCacheFile($filename)
+    public function _deleteCacheFile($filename)
     {
-        $filename = $this->_getCachePath().$filename;
+        $filename = $this->_getCachePath() . $filename;
         if (file_exists($filename)) {
-            @unlink ($filename);
+            @unlink($filename);
             return true;
         }
         return false;
@@ -67,13 +67,13 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
      *
      * @return bool True if the entres were succesfully deleted
      */
-    function _deleteAll()
+    public function _deleteAll()
     {
         $cachedir = @opendir($this->_getCachePath());
 
         while (false !== ($filename = @readdir($cachedir))) {
             if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename)) {
-                @unlink ($this->_getCachePath().$filename);
+                @unlink($this->_getCachePath() . $filename);
             }
         }
         @closedir($cachedir);
@@ -81,12 +81,12 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
         return true;
     }
 
-    function _getCachePath() {
+    public function _getCachePath()
+    {
         if (!empty($GLOBALS['_MAX']['CONF'][$this->group]['cachePath'])) {
-            return trim($GLOBALS['_MAX']['CONF'][$this->group]['cachePath']).'/';
+            return trim($GLOBALS['_MAX']['CONF'][$this->group]['cachePath']) . '/';
         } else {
-            return MAX_PATH.'/var/cache/';
+            return MAX_PATH . '/var/cache/';
         }
     }
 }
-?>

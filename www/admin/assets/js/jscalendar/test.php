@@ -23,7 +23,7 @@ Test for calendar.php
 // "calendar.php" -- I think it's best if you leave it inside the
 // "/jscalendar/" directory.  Just put here the correct path to it, such as
 // "../jscalendar/calendar.php" or something.
-require_once ('calendar.php');
+require_once('calendar.php');
 
 // parameters to constructor:
 //     1. the absolute URL path to the calendar files
@@ -63,11 +63,13 @@ chdir('lang');
 foreach (glob('*.js') as $filename) {
     $l = preg_replace('/(^calendar-|.js$)/', '', $filename);
     $selected = '';
-    if ($l == $lang)
+    if ($l == $lang) {
         $selected = 'selected="selected" ';
+    }
     $display = $l;
-    if ($l == 'en')
+    if ($l == 'en') {
         $display = 'EN';
+    }
     echo '<option ' . $selected . 'value="' . $l . '">' . $display . '</option>';
 }
      ?>
@@ -92,15 +94,16 @@ foreach (glob('*.js') as $filename) {
      <td>
        <?php $calendar->make_input_field(
            // calendar options go here; see the documentation and/or calendar-setup.js
-           array('firstDay'       => 1, // show Monday first
-                 'showsTime'      => true,
-                 'showOthers'     => true,
-                 'ifFormat'       => '%Y-%m-%d %I:%M %P',
-                 'timeFormat'     => '12'),
+           ['firstDay' => 1, // show Monday first
+                 'showsTime' => true,
+                 'showOthers' => true,
+                 'ifFormat' => '%Y-%m-%d %I:%M %P',
+                 'timeFormat' => '12'],
            // field attributes go here
-           array('style'       => 'width: 15em; color: #840; background-color: #ff8; border: 1px solid #000; text-align: center',
-                 'name'        => 'date1',
-                 'value'       => strftime('%Y-%m-%d %I:%M %P', strtotime('now')))); ?>
+           ['style' => 'width: 15em; color: #840; background-color: #ff8; border: 1px solid #000; text-align: center',
+                 'name' => 'date1',
+                 'value' => strftime('%Y-%m-%d %I:%M %P', strtotime('now'))]
+     ); ?>
      </td>
      </tr>
      </table>

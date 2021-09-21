@@ -22,27 +22,27 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
 {
-    var $dalAgency;
+    public $dalAgency;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->dalAgency = OA_Dal::factoryDAL('agency');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testGetLogoutUrl()
+    public function testGetLogoutUrl()
     {
         // Insert an agency without a logout url
         $doAgency = OA_Dal::factoryDO('agency');
@@ -53,7 +53,7 @@ class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
         $GLOBALS['_MAX']['CONF']['webpath']['admin'] = $path;
         $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = 443;
         $GLOBALS['_MAX']['HTTP'] = 'http://';
-        $expected = 'http://'.$path.'/index.php';
+        $expected = 'http://' . $path . '/index.php';
         $this->assertEqual($this->dalAgency->getLogoutUrl($agencyId), $expected);
 
         // Insert an agency with a logout url
@@ -63,7 +63,5 @@ class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
 
         $expected = 'http://example.com';
         $this->assertEqual($this->dalAgency->getLogoutUrl($agencyId), $expected);
-
     }
 }
-?>

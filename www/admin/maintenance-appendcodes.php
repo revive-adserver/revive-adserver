@@ -33,8 +33,8 @@ phpAds_MaintenanceSelection("appendcodes");
 
 echo "<br />";
 
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>". $strAppendCodesDesc ."<br /><br />";
-echo "&nbsp;<a href='maintenance-appendcode-check.php'>". $strCheckAppendCodes ."</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/" . $phpAds_TextDirection . "/icon-undo.gif' border='0' align='absmiddle'>" . $strAppendCodesDesc . "<br /><br />";
+echo "&nbsp;<a href='maintenance-appendcode-check.php'>" . $strCheckAppendCodes . "</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();
 
@@ -43,5 +43,3 @@ phpAds_ShowBreak();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

@@ -23,13 +23,13 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Migration_538Test extends MigrationTest
 {
-    function testMigration()
+    public function testMigration()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(537, array('data_intermediate_ad', 'data_summary_ad_hourly'));
+        $this->initDatabase(537, ['data_intermediate_ad', 'data_summary_ad_hourly']);
 
-        $tableDia   = $this->oDbh->quoteIdentifier($prefix.'data_intermediate_ad', true);
-        $tableDsah  = $this->oDbh->quoteIdentifier($prefix.'data_summary_ad_hourly', true);
+        $tableDia = $this->oDbh->quoteIdentifier($prefix . 'data_intermediate_ad', true);
+        $tableDsah = $this->oDbh->quoteIdentifier($prefix . 'data_summary_ad_hourly', true);
 
         $query = "
             INSERT INTO {$tableDia} (
@@ -75,12 +75,12 @@ class Migration_538Test extends MigrationTest
 
         $this->upgradeToVersion(538);
 
-        $aExpected = array(
-            array(
-                'date_time'   => '2007-01-01 01:00:00',
+        $aExpected = [
+            [
+                'date_time' => '2007-01-01 01:00:00',
                 'impressions' => '1'
-            )
-        );
+            ]
+        ];
 
         $aResult = $this->oDbh->queryAll("SELECT date_time, impressions FROM {$tableDia} ORDER BY date_time");
         $this->assertEqual($aResult, $aExpected);

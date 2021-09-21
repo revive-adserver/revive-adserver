@@ -34,7 +34,8 @@ class OA_Maintenance_Regenerate
      * @param Date $oEndDate
      * @return boolean
      */
-    function checkDates($oStartDate, $oEndDate) {
+    public function checkDates($oStartDate, $oEndDate)
+    {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $operationInterval = $aConf['maintenance']['operation_interval'];
         if ($operationInterval <= 60) {
@@ -85,19 +86,20 @@ class OA_Maintenance_Regenerate
         return true;
     }
 
-   /**
-    * Clears intermediate abd summary statistics in selected date range from tables:
-    *  - data_intermediate_ad_connection
-    *  - data_intermediate_ad_variable_value
-    *  - data_intermediate_ad
-    *  - data_summary_ad_hourly
-    *  - data_summary_ad_zone_assoc
-    *
-    * @static
-    * @param Date $oStartDate
-    * @param Date $oEndDate
-    */
-    public static function clearIntermediateAndSummaryTables($oStartDate, $oEndDate) {
+    /**
+     * Clears intermediate abd summary statistics in selected date range from tables:
+     *  - data_intermediate_ad_connection
+     *  - data_intermediate_ad_variable_value
+     *  - data_intermediate_ad
+     *  - data_summary_ad_hourly
+     *  - data_summary_ad_zone_assoc
+     *
+     * @static
+     * @param Date $oStartDate
+     * @param Date $oEndDate
+     */
+    public static function clearIntermediateAndSummaryTables($oStartDate, $oEndDate)
+    {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Create a Data Access Layer object
@@ -161,4 +163,3 @@ class OA_Maintenance_Regenerate
         $rows = $oDbh->exec($query);
     }
 }
-?>

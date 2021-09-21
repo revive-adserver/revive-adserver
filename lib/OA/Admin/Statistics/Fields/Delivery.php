@@ -25,7 +25,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  */
 class OA_StatisticsFieldsDelivery
 {
-
     /**
      * An array of the fields that the statistics plugin provides support for.
      *
@@ -67,12 +66,12 @@ class OA_StatisticsFieldsDelivery
      *
      * @var array
      */
-    var $_aFields;
+    public $_aFields;
 
     /**
      * @var int
      */
-    var $displayOrder = 0;
+    public $displayOrder = 0;
 
     /**
      * A method to return the name of the plugin. Must be implemented
@@ -81,7 +80,7 @@ class OA_StatisticsFieldsDelivery
      * @abstract
      * @return string A string describing the plugin class.
      */
-    function getName()
+    public function getName()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -97,18 +96,18 @@ class OA_StatisticsFieldsDelivery
      * @return array An array of fields, indexed by "field", giving the
      *               "short" name - {@see $this->_aFields}.
      */
-    function getFields(&$oController)
+    public function getFields(&$oController)
     {
         // Get the preferences
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $aFields = array();
+        $aFields = [];
         foreach ($this->_aFields as $k => $v) {
             if (isset($v['ctrl']) && !is_a($oController, $v['ctrl'])) {
                 continue;
             }
             if (isset($v['pref'])) {
                 $var = $v['pref'];
-                $aFields[$k] = !empty($aPref[$var.'_label']) ? $aPref[$var.'_label'] : '';
+                $aFields[$k] = empty($aPref[$var . '_label']) ? '' : $aPref[$var . '_label'];
             }
             if (empty($aFields[$k])) {
                 $aFields[$k] = isset($v['short']) ? $v['short'] : $v['name'];
@@ -124,9 +123,9 @@ class OA_StatisticsFieldsDelivery
      * @return array An array of fields, indexed by "field", giving the
      *               "link" value - {@see $this->_aFields}.
      */
-    function getColumnLinks()
+    public function getColumnLinks()
     {
-        $aLinks = array();
+        $aLinks = [];
         foreach ($this->_aFields as $k => $v) {
             if (!empty($v['link'])) {
                 $aLinks[$k] = $v['link'];
@@ -142,11 +141,11 @@ class OA_StatisticsFieldsDelivery
      * @return array An array of fields, indexed by "field", giving a true
      *               or false value for display - {@see $this->_aFields}.
      */
-    function getVisibleColumns()
+    public function getVisibleColumns()
     {
         // Get the preferences
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $aColumns = array();
+        $aColumns = [];
         foreach ($this->_aFields as $k => $v) {
             $aColumns[$k] = false;
             if (isset($v['pref'])) {
@@ -166,9 +165,9 @@ class OA_StatisticsFieldsDelivery
      * @return array An array of fields, indexed by "field", with "0" as the
      *               value in each column - {@see $this->_aFields}.
      */
-    function getEmptyRow()
+    public function getEmptyRow()
     {
-        $aNames = array();
+        $aNames = [];
         foreach (array_keys($this->_aFields) as $k) {
             $aNames[$k] = 0;
         }
@@ -201,9 +200,9 @@ class OA_StatisticsFieldsDelivery
      *
      * @return array As described above.
      */
-    function getHistorySpanParams()
+    public function getHistorySpanParams()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -216,7 +215,7 @@ class OA_StatisticsFieldsDelivery
      *                         all "id" formatted columns (from the
      *                         {@link $this->_aFields} array) are set to "-".
      */
-    function _formatStats(&$aRow, $isTotal = false)
+    public function _formatStats(&$aRow, $isTotal = false)
     {
         foreach ($this->_aFields as $k => $v) {
             if (array_key_exists($k, $aRow)) {
@@ -243,10 +242,10 @@ class OA_StatisticsFieldsDelivery
      *               any columns where the "ctf" type is true IF conversion tracking
      *               has been disabled in the system.
      */
-    function getVisibilitySettings()
+    public function getVisibilitySettings()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $aPrefs = array();
+        $aPrefs = [];
         foreach ($this->_aFields as $v) {
             // Should the column be ignored due to conversion tracking?
             if (!$aConf['logging']['trackerImpressions'] && $v['ctf']) {
@@ -271,9 +270,9 @@ class OA_StatisticsFieldsDelivery
      *
      * @return array An array of column preference names.
      */
-    function getConversionColumnPreferenceNames()
+    public function getConversionColumnPreferenceNames()
     {
-        $aPrefs = array();
+        $aPrefs = [];
         foreach ($this->_aFields as $v) {
             if (isset($v['ctf'])) {
                 $aPrefs[] = $v['pref'];
@@ -289,7 +288,7 @@ class OA_StatisticsFieldsDelivery
      * @return string The column preference name, or null
      *                if not found
      */
-    function getSumConversionsColumnPreferenceName()
+    public function getSumConversionsColumnPreferenceName()
     {
         if (isset($this->_aFields['sum_conversions'])) {
             return $this->_aFields['sum_conversions']['pref'];
@@ -298,9 +297,9 @@ class OA_StatisticsFieldsDelivery
     }
 
 
-    function getSumFieldNames()
+    public function getSumFieldNames()
     {
-        $aFields = array();
+        $aFields = [];
         foreach ($this->_aFields as $k => $v) {
             if ($v['format'] != 'percent') {
                 $aFields[] = $k;
@@ -310,12 +309,12 @@ class OA_StatisticsFieldsDelivery
         return $aFields;
     }
 
-    function getPreferenceNames()
+    public function getPreferenceNames()
     {
         // Get the preferences
         $pref = $GLOBALS['_MAX']['PREF'];
 
-        $prefs = array();
+        $prefs = [];
         foreach ($this->_aFields as $k => $v) {
             if (isset($v['pref'])) {
                 $prefs[$k] = $v['pref'];
@@ -325,9 +324,9 @@ class OA_StatisticsFieldsDelivery
         return $prefs;
     }
 
-    function getDefaultRanks()
+    public function getDefaultRanks()
     {
-        $prefs = array();
+        $prefs = [];
         foreach ($this->_aFields as $k => $v) {
             if (isset($v['pref']) && isset($v['rank'])) {
                 $prefs[$v['pref']] = $v['rank'];
@@ -343,7 +342,7 @@ class OA_StatisticsFieldsDelivery
      * @param array Row of stats
      * @return boolean True if the row is active
      */
-    function isRowActive($row)
+    public function isRowActive($row)
     {
         foreach ($this->_aFields as $k => $v) {
             if (!empty($v['active']) && $row[$k] > 0) {
@@ -354,19 +353,19 @@ class OA_StatisticsFieldsDelivery
         return false;
     }
 
-    function addQueryParams(&$aParams)
+    public function addQueryParams(&$aParams)
     {
     }
 
-    function mergeData(&$aRows, $method, $aParams)
+    public function mergeData(&$aRows, $method, $aParams)
     {
     }
 
-    function mergeAds(&$ads)
+    public function mergeAds(&$ads)
     {
     }
 
-    function mergeZones(&$zones)
+    public function mergeZones(&$zones)
     {
     }
 
@@ -375,7 +374,7 @@ class OA_StatisticsFieldsDelivery
      *
      * @param array Row of stats
      */
-    function summarizeStats(&$row)
+    public function summarizeStats(&$row)
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -386,9 +385,9 @@ class OA_StatisticsFieldsDelivery
      *
      * @param array Formats
      */
-    function getFormats()
+    public function getFormats()
     {
-        $ret[] = array();
+        $ret[] = [];
 
         foreach ($this->_aFields as $k => $v) {
             $ret[$k] = $v['format'];
@@ -405,12 +404,12 @@ class OA_StatisticsFieldsDelivery
      * @param array Parameter array
      * @param array Empty row
      */
-    function mergeConversions(&$aRows, $method, $aParams, $emptyRow)
+    public function mergeConversions(&$aRows, $method, $aParams, $emptyRow)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $aParams['include'] = isset($aParams['include']) ? array_flip($aParams['include']) : array();
-        $aParams['exclude'] = isset($aParams['exclude']) ? array_flip($aParams['exclude']) : array();
+        $aParams['include'] = isset($aParams['include']) ? array_flip($aParams['include']) : [];
+        $aParams['exclude'] = isset($aParams['exclude']) ? array_flip($aParams['exclude']) : [];
 
         // Primary key
         if ($method == 'getEntitiesStats') {
@@ -422,50 +421,50 @@ class OA_StatisticsFieldsDelivery
                 $aFields[] = "diac.zone_id AS pkey";
             }
         } else {
-            $aParams['exclude']['ad_id']   = true;
+            $aParams['exclude']['ad_id'] = true;
             $aParams['exclude']['zone_id'] = true;
 
             if ($method == 'getDayHistory') {
-                $tzMethod    = 'format';
-                $tzArgs      = array('%Y-%m-%d');
+                $tzMethod = 'format';
+                $tzArgs = ['%Y-%m-%d'];
             } elseif ($method == 'getMonthHistory') {
-                $tzMethod    = 'format';
-                $tzArgs      = array('%Y-%m');
+                $tzMethod = 'format';
+                $tzArgs = ['%Y-%m'];
             } elseif ($method == 'getDayOfWeekHistory') {
-                $tzMethod    = 'getDayOfWeek';
-                $tzArgs      = array();
+                $tzMethod = 'getDayOfWeek';
+                $tzArgs = [];
             } elseif ($method == 'getHourHistory') {
-                $tzMethod    = 'getHour';
-                $tzArgs      = array();
+                $tzMethod = 'getHour';
+                $tzArgs = [];
             }
 
             $aFields[] = "DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS day_and_hour";
-            $aGroupBy = array('day_and_hour');
+            $aGroupBy = ['day_and_hour'];
         }
 
-        $aFrom   = array(
+        $aFrom = [
             "{$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac"
-        );
-        $aWhere   = array("diac.inside_window = 1");
+        ];
+        $aWhere = ["diac.inside_window = 1"];
 
-        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
-                        " AND diac.connection_action = ".MAX_CONNECTION_AD_IMPRESSION.",1,0)) AS sum_conversions_".MAX_CONNECTION_AD_IMPRESSION;
-        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
-                        " AND diac.connection_action = ".MAX_CONNECTION_AD_CLICK.",1,0)) AS sum_conversions_".MAX_CONNECTION_AD_CLICK;
-        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
-                        " AND diac.connection_action = ".MAX_CONNECTION_AD_ARRIVAL.",1,0)) AS sum_conversions_".MAX_CONNECTION_AD_ARRIVAL;
-        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
-                        " AND diac.connection_action = ".MAX_CONNECTION_MANUAL.",1,0)) AS sum_conversions_".MAX_CONNECTION_MANUAL;
-        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.",1,0)) AS sum_conversions";
-        $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_PENDING.",1,0)) AS sum_conversions_pending";
+        $aFields[] = "SUM(IF(diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED .
+                        " AND diac.connection_action = " . MAX_CONNECTION_AD_IMPRESSION . ",1,0)) AS sum_conversions_" . MAX_CONNECTION_AD_IMPRESSION;
+        $aFields[] = "SUM(IF(diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED .
+                        " AND diac.connection_action = " . MAX_CONNECTION_AD_CLICK . ",1,0)) AS sum_conversions_" . MAX_CONNECTION_AD_CLICK;
+        $aFields[] = "SUM(IF(diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED .
+                        " AND diac.connection_action = " . MAX_CONNECTION_AD_ARRIVAL . ",1,0)) AS sum_conversions_" . MAX_CONNECTION_AD_ARRIVAL;
+        $aFields[] = "SUM(IF(diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED .
+                        " AND diac.connection_action = " . MAX_CONNECTION_MANUAL . ",1,0)) AS sum_conversions_" . MAX_CONNECTION_MANUAL;
+        $aFields[] = "SUM(IF(diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . ",1,0)) AS sum_conversions";
+        $aFields[] = "SUM(IF(diac.connection_status = " . MAX_CONNECTION_STATUS_PENDING . ",1,0)) AS sum_conversions_pending";
 
         if (!empty($aParams['day_begin']) && !empty($aParams['day_end'])) {
             $oStartDate = new Date("{$aParams['day_begin']} 00:00:00");
-            $oEndDate   = new Date("{$aParams['day_end']} 23:59:59");
+            $oEndDate = new Date("{$aParams['day_end']} 23:59:59");
             $oStartDate->toUTC();
             $oEndDate->toUTC();
-            $aWhere[] = "diac.tracker_date_time BETWEEN '".$oStartDate->format('%Y-%m-%d %H:%M:%S')."'".
-                        " AND '".$oEndDate->format('%Y-%m-%d %H:%M:%S')."'";
+            $aWhere[] = "diac.tracker_date_time BETWEEN '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'" .
+                        " AND '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         }
 
         if (!empty($aParams['agency_id'])) {
@@ -485,7 +484,7 @@ class OA_StatisticsFieldsDelivery
                 $aWhere[] = "m.clientid = '{$aParams['advertiser_id']}'";
             }
             if (isset($aParams['include']['advertiser_id']) && !isset($aParams['exclude']['advertiser_id'])) {
-                $aFields[]  = "m.clientid AS advertiser_id";
+                $aFields[] = "m.clientid AS advertiser_id";
                 $aGroupBy[] = "advertiser_id";
             }
         }
@@ -496,7 +495,7 @@ class OA_StatisticsFieldsDelivery
                 $aWhere[] = "b.campaignid = '{$aParams['placement_id']}'";
             }
             if (isset($aParams['include']['placement_id']) && !isset($aParams['exclude']['placement_id'])) {
-                $aFields[]  = "b.campaignid AS placement_id";
+                $aFields[] = "b.campaignid AS placement_id";
                 $aGroupBy[] = "placement_id";
             }
         }
@@ -507,7 +506,7 @@ class OA_StatisticsFieldsDelivery
                 $aWhere[] = "z.affiliateid = '{$aParams['publisher_id']}'";
             }
             if (isset($aParams['include']['publisher_id']) && !isset($aParams['exclude']['publisher_id'])) {
-                $aFields[]  = "z.affiliateid AS publisher_id";
+                $aFields[] = "z.affiliateid AS publisher_id";
                 $aGroupBy[] = "publisher_id";
             }
         }
@@ -515,7 +514,7 @@ class OA_StatisticsFieldsDelivery
             $aWhere[] = "diac.ad_id = '{$aParams['ad_id']}'";
         }
         if (!isset($aParams['exclude']['ad_id'])) {
-            $aFields[]  = "diac.ad_id AS ad_id";
+            $aFields[] = "diac.ad_id AS ad_id";
             $aGroupBy[] = "ad_id";
         }
         // Using isset: zone_id could be 0 in case of direct selection
@@ -523,20 +522,20 @@ class OA_StatisticsFieldsDelivery
             $aWhere[] = "diac.zone_id = '{$aParams['zone_id']}'";
         }
         if (!isset($aParams['exclude']['zone_id'])) {
-            $aFields[]  = "diac.zone_id AS zone_id";
+            $aFields[] = "diac.zone_id AS zone_id";
             $aGroupBy[] = "zone_id";
         }
 
-        $sFields   = count($aFields)  ? join(', ', $aFields)  : '';
-        $sFrom     = count($aFrom)    ? join(' ', $aFrom)   : '';
-        $sWhere    = count($aWhere)   ? 'WHERE '.join(' AND ', $aWhere)   : '';
-        $sGroupBy  = count($aGroupBy) ? 'GROUP BY '.join(', ', $aGroupBy) : '';
+        $sFields = count($aFields) ? implode(', ', $aFields) : '';
+        $sFrom = count($aFrom) ? implode(' ', $aFrom) : '';
+        $sWhere = count($aWhere) ? 'WHERE ' . implode(' AND ', $aWhere) : '';
+        $sGroupBy = count($aGroupBy) ? 'GROUP BY ' . implode(', ', $aGroupBy) : '';
 
-        $query = "SELECT ".$sFields." FROM ".$sFrom." ".$sWhere." ".$sGroupBy;
+        $query = "SELECT " . $sFields . " FROM " . $sFrom . " " . $sWhere . " " . $sGroupBy;
         $oDbh = OA_DB::singleton();
         $key = $method == 'getEntitiesStats' ? 'pkey' : 'day_and_hour';
         $oRes = $oDbh->query($query);
-        $aResult = array();
+        $aResult = [];
         if (!PEAR::isError($oRes)) {
             while ($row = $oRes->fetchRow()) {
                 $aResult[$row[$key]] = $row;
@@ -546,18 +545,15 @@ class OA_StatisticsFieldsDelivery
         if ($method != 'getEntitiesStats') {
             $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
         }
-        foreach ($aResult AS $k => $row) {
+        foreach ($aResult as $k => $row) {
             if (!isset($aRows[$k])) {
                 $aRows[$k] = $emptyRow;
             }
-			foreach($row as $field => $value) {
-				if(!isset($aRows[$k][$field])){
-					$aRows[$k][$field] = $value;
-				}
-			}
+            foreach ($row as $field => $value) {
+                if (!isset($aRows[$k][$field])) {
+                    $aRows[$k][$field] = $value;
+                }
+            }
         }
     }
-
 }
-
-?>

@@ -9,7 +9,6 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 */
-
 /**
  * @package    Revive Adserver
  *
@@ -17,7 +16,6 @@
  * pre-initialisation "pre-check.php" file, and also as part of the delivery
  * engine, maintenance engine, etc.
  */
-
 /**
  * Returns the minimum required amount of memory required for operation.
  *
@@ -36,26 +34,26 @@ function OX_getMinimumRequiredMemory($limit = null)
     }
     return 134217728; // 128MB in bytes (128 * 1048576)
 }
-
 /**
  * Get the PHP memory_limit value in bytes.
  *
  * @return integer The memory_limit value set in PHP, in bytes
  *                 (or -1, if no limit).
  */
-function OX_getMemoryLimitSizeInBytes() {
+function OX_getMemoryLimitSizeInBytes()
+{
     $phpMemoryLimit = ini_get('memory_limit');
     if (empty($phpMemoryLimit) || $phpMemoryLimit == -1) {
         // No memory limit
         return -1;
     }
-    $aSize = array(
+    $aSize = [
         'G' => 1073741824,
         'M' => 1048576,
         'K' => 1024
-    );
+    ];
     $phpMemoryLimitInBytes = $phpMemoryLimit;
-    foreach($aSize as $type => $multiplier) {
+    foreach ($aSize as $type => $multiplier) {
         $pos = strpos($phpMemoryLimit, $type);
         if (!$pos) {
             $pos = strpos($phpMemoryLimit, strtolower($type));
@@ -66,7 +64,6 @@ function OX_getMemoryLimitSizeInBytes() {
     }
     return $phpMemoryLimitInBytes;
 }
-
 /**
  * Test if the memory_limit can be changed.
  *
@@ -87,7 +84,6 @@ function OX_checkMemoryCanBeSet()
     @ini_set('memory_limit', $phpMemoryLimitInBytes);
     return $memoryCanBeSet;
 }
-
 /**
  * Increase the PHP memory_limit value to the supplied size, if required.
  *
@@ -96,18 +92,12 @@ function OX_checkMemoryCanBeSet()
  *                 supplied, or if the attempt to set a larger memory_limit was
  *                 successful; false otherwise.
  */
-function OX_increaseMemoryLimit($setMemory) {
+function OX_increaseMemoryLimit($setMemory)
+{
     $phpMemoryLimitInBytes = OX_getMemoryLimitSizeInBytes();
     if ($phpMemoryLimitInBytes == -1) {
         // Memory is unlimited
         return true;
     }
-    if ($setMemory > $phpMemoryLimitInBytes) {
-        if (@ini_set('memory_limit', $setMemory) === false) {
-            return false;
-        }
-    }
-    return true;
+    return !($setMemory > $phpMemoryLimitInBytes && @ini_set('memory_limit', $setMemory) === false);
 }
-
-?>

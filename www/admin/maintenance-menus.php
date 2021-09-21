@@ -38,24 +38,22 @@ echo "<br />";
 echo $strMenusPrecis;
 echo "<br /><br />";
 
-if (!empty($action))
-{
+if (!empty($action)) {
     OA_Permission::checkSessionToken();
 
-    switch ($action)
-    {
+    switch ($action) {
         case 'build':
-            require_once(LIB_PATH.'/Extension/admin.php');
+            require_once(LIB_PATH . '/Extension/admin.php');
             $oExtensionManager = new OX_Extension_admin();
             $oExtensionManager->runTasksOnDemand();
             break;
         default:
     }
-    echo $strMenusCachedOk.'</br>';
+    echo $strMenusCachedOk . '</br>';
 }
 
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-menus.php?action=build&amp;token=".urlencode(phpAds_SessionGetToken())."'>Rebuild Menu Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/" . $phpAds_TextDirection . "/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-menus.php?action=build&amp;token=" . urlencode(phpAds_SessionGetToken()) . "'>Rebuild Menu Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 
@@ -64,5 +62,3 @@ phpAds_ShowBreak();
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

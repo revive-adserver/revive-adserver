@@ -37,5 +37,3 @@ OA_Maintenance_Priority::run();
 // phpAds_cacheDelete();
 
 OX_Admin_Redirect::redirect('maintenance-priority.php');
-
-?>

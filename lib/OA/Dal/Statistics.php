@@ -34,21 +34,21 @@ class OA_Dal_Statistics extends OA_Dal
      *
      * @return string
      */
-    function getWhereDate($oStartDate, $oEndDate, $localTZ = false, $dateField = 's.date_time')
+    public function getWhereDate($oStartDate, $oEndDate, $localTZ = false, $dateField = 's.date_time')
     {
         $where = '';
         if (isset($oStartDate)) {
             $oStart = $this->setTimeAndReturnUTC($oStartDate, $localTZ, 0, 0, 0);
             $where .= '
                 AND ' .
-                $dateField .' >= '.$this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
+                $dateField . ' >= ' . $this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
 
         if (isset($oEndDate)) {
             $oEnd = $this->setTimeAndReturnUTC($oEndDate, $localTZ, 23, 59, 59);
             $where .= '
                 AND ' .
-                $dateField .' <= '.$this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
+                $dateField . ' <= ' . $this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
         return $where;
     }
@@ -105,16 +105,16 @@ class OA_Dal_Statistics extends OA_Dal
      * @param bool $localTZ
      * @return array
      */
-    function getDailyStatsAsArray($query, $localTZ = false)
+    public function getDailyStatsAsArray($query, $localTZ = false)
     {
-        $oTz  = $this->getTimeZone($localTZ);
+        $oTz = $this->getTimeZone($localTZ);
         if ($oTz->getShortName() == 'UTC') {
             // Disable TZ conversion
             $oTz = false;
         } else {
             $oUTC = new Date_TimeZone('UTC');
         }
-        $aResult = array();
+        $aResult = [];
         $oResult = $this->oDbh->query($query);
         while ($aRow = $oResult->fetchRow()) {
             if ($oTz) {
@@ -154,16 +154,16 @@ class OA_Dal_Statistics extends OA_Dal
      * @param bool $localTZ
      * @return array
      */
-    function getHourlyStatsAsArray($query, $localTZ = false)
+    public function getHourlyStatsAsArray($query, $localTZ = false)
     {
-        $oTz  = $this->getTimeZone($localTZ);
+        $oTz = $this->getTimeZone($localTZ);
         if ($oTz->getShortName() == 'UTC') {
             // Disable TZ conversion
             $oTz = false;
         } else {
             $oUTC = new Date_TimeZone('UTC');
         }
-        $aResult = array();
+        $aResult = [];
         $oResult = $this->oDbh->query($query);
 
         while ($aRow = $oResult->fetchRow()) {
@@ -185,21 +185,19 @@ class OA_Dal_Statistics extends OA_Dal
     /**
      * Add quote for table name.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param string $tableName
      *
      * @return string  quotes table name
      */
-    function quoteTableName($tableName)
+    public function quoteTableName($tableName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         return $this->oDbh->quoteIdentifier(
-                            $aConf['table']['prefix'].$aConf['table'][$tableName],
-                            true);
+            $aConf['table']['prefix'] . $aConf['table'][$tableName],
+            true
+        );
     }
-
 }
-
-?>

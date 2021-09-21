@@ -30,9 +30,12 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     public $to_be_delivered;                 // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ad_zone_assoc',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Ad_zone_assoc', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'priority' => 0,
         'link_type' => 1,
         'priority_factor' => 0,
@@ -42,17 +45,17 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->ad_zone_assoc_id;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Ad Zone Association';
     }
@@ -87,14 +90,14 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
         // advertiser and the website accounts should be able to see
         // the audit entries, so the results of two calls need to be
         // merged
-        $aAdvertiserAccountIds = array();
+        $aAdvertiserAccountIds = [];
         if (!empty($this->ad_id)) {
             // Ad/zone assocs don't have an account_id, get it from
             // the parent banner (stored in the "banners" table) using
             // the "ad_id" key
             $aAdvertiserAccountIds = $this->_getOwningAccountIds('banners', 'ad_id');
         }
-        $aWebsiteAccountIds = array();
+        $aWebsiteAccountIds = [];
         if (!empty($this->zone_id)) {
             // Ad/zone assocs don't have an account_id, get it from
             // the parent zone (stored in the "zones" table) using
@@ -120,17 +123,13 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = 'Ad #'.$this->ad_id.' -> Zone #'.$this->zone_id;
-        switch ($actionid)
-        {
+        $aAuditFields['key_desc'] = 'Ad #' . $this->ad_id . ' -> Zone #' . $this->zone_id;
+        switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['bannerid']            = $this->bannerid;
+                        $aAuditFields['bannerid'] = $this->bannerid;
                         break;
         }
     }
-
 }
-
-?>

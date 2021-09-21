@@ -10,23 +10,26 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/pear/HTML/QuickForm.php';
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/ArrayRenderer.php';
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/RuleAdaptorRegistry.php';
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/decorator/DecoratorFactory.php';
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/JQueryValidationRuleBuilder.php';
+require_once MAX_PATH . '/lib/pear/HTML/QuickForm.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/ArrayRenderer.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/RuleAdaptorRegistry.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/decorator/DecoratorFactory.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/JQueryValidationRuleBuilder.php';
 
 
-class OA_Admin_UI_Component_Form
-    extends HTML_QuickForm
+class OA_Admin_UI_Component_Form extends HTML_QuickForm
 {
+    /**
+     * @var mixed[]
+     */
+    public $decorators;
     private $dispatcher;
     private $id;
     private $forceClientValidation;
     private $jQueryValidationBuilder;
     private $hasRequiredFields;
 
-    function __construct($formName='', $method='POST', $action='', $target='', $attributes=null, $trackSubmit = true)
+    public function __construct($formName = '', $method = 'POST', $action = '', $target = '', $attributes = null, $trackSubmit = true)
     {
         parent::__construct($formName, $method, $action, $target, $attributes, $trackSubmit);
         $this->id = $formName;
@@ -34,89 +37,165 @@ class OA_Admin_UI_Component_Form
         $this->hasRequiredFields = false;
 
         //register custom fields
-        parent::registerElementType('html',
-            MAX_PATH.'/lib/OA/Admin/UI/component/Html.php',
-            'OA_Admin_UI_Component_Html');
+        parent::registerElementType(
+            'html',
+            MAX_PATH . '/lib/OA/Admin/UI/component/Html.php',
+            'OA_Admin_UI_Component_Html'
+        );
 
-        parent::registerElementType('controls',
-            MAX_PATH.'/lib/OA/Admin/UI/component/FormControls.php',
-            'OA_Admin_UI_Component_FormControls');
+        parent::registerElementType(
+            'controls',
+            MAX_PATH . '/lib/OA/Admin/UI/component/FormControls.php',
+            'OA_Admin_UI_Component_FormControls'
+        );
 
-        parent::registerElementType('break',
-            MAX_PATH.'/lib/OA/Admin/UI/component/FormBreak.php',
-            'OA_Admin_UI_Component_FormBreak');
+        parent::registerElementType(
+            'break',
+            MAX_PATH . '/lib/OA/Admin/UI/component/FormBreak.php',
+            'OA_Admin_UI_Component_FormBreak'
+        );
 
-        parent::registerElementType('custom',
-            MAX_PATH.'/lib/OA/Admin/UI/component/CustomFormElement.php',
-            'OA_Admin_UI_Component_CustomFormElement');
+        parent::registerElementType(
+            'custom',
+            MAX_PATH . '/lib/OA/Admin/UI/component/CustomFormElement.php',
+            'OA_Admin_UI_Component_CustomFormElement'
+        );
 
-        parent::registerElementType('plugin-custom',
-            MAX_PATH.'/lib/OA/Admin/UI/component/CustomPluginFormElement.php',
-            'OA_Admin_UI_Component_CustomPluginFormElement');
+        parent::registerElementType(
+            'plugin-custom',
+            MAX_PATH . '/lib/OA/Admin/UI/component/CustomPluginFormElement.php',
+            'OA_Admin_UI_Component_CustomPluginFormElement'
+        );
 
-        parent::registerElementType('script',
-            MAX_PATH.'/lib/OA/Admin/UI/component/ScriptFormElement.php',
-            'OA_Admin_UI_Component_ScriptFormElement');
+        parent::registerElementType(
+            'script',
+            MAX_PATH . '/lib/OA/Admin/UI/component/ScriptFormElement.php',
+            'OA_Admin_UI_Component_ScriptFormElement'
+        );
 
-        parent::registerElementType('plugin-script',
-            MAX_PATH.'/lib/OA/Admin/UI/component/PluginScriptFormElement.php',
-            'OA_Admin_UI_Component_PluginScriptFormElement');
+        parent::registerElementType(
+            'plugin-script',
+            MAX_PATH . '/lib/OA/Admin/UI/component/PluginScriptFormElement.php',
+            'OA_Admin_UI_Component_PluginScriptFormElement'
+        );
 
         //register additional rules
         $this->registerRule('wholenumber', 'regex', '/^\d+$/');
         $this->registerRule('wholenumber-', 'regex', '/^\d+$|^\-$/');
         $this->registerRule('formattednumber', 'regex', '/^\d+$|^\d(,\d{3})+$/');
         $this->registerRule('decimal', 'regex', '/^([+-])?\d+(\.\d+)?$/');
-        $this->registerRule('decimalplaces', 'rule', 'OA_Admin_UI_Rule_DecimalPlaces',
-            MAX_PATH.'/lib/OA/Admin/UI/component/rule/DecimalPlaces.php');
-        $this->registerRule('min', 'rule', 'OA_Admin_UI_Rule_Min',
-            MAX_PATH.'/lib/OA/Admin/UI/component/rule/Min.php');
-        $this->registerRule('max', 'rule', 'OA_Admin_UI_Rule_Max',
-            MAX_PATH.'/lib/OA/Admin/UI/component/rule/Max.php');
+        $this->registerRule(
+            'decimalplaces',
+            'rule',
+            'OA_Admin_UI_Rule_DecimalPlaces',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/DecimalPlaces.php'
+        );
+        $this->registerRule(
+            'min',
+            'rule',
+            'OA_Admin_UI_Rule_Min',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Min.php'
+        );
+        $this->registerRule(
+            'max',
+            'rule',
+            'OA_Admin_UI_Rule_Max',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Max.php'
+        );
 
-        $this->registerRule('unique', 'rule', 'OA_Admin_UI_Rule_Unique',
-            MAX_PATH.'/lib/OA/Admin/UI/component/rule/Unique.php');
+        $this->registerRule(
+            'unique',
+            'rule',
+            'OA_Admin_UI_Rule_Unique',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Unique.php'
+        );
 
-        $this->registerRule('equal', 'rule', 'OA_Admin_UI_Rule_Equal',
-            MAX_PATH.'/lib/OA/Admin/UI/component/rule/Equal.php');
+        $this->registerRule(
+            'equal',
+            'rule',
+            'OA_Admin_UI_Rule_Equal',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Equal.php'
+        );
 
         //register jquery rule adaptors
-        $this->registerJQueryRuleAdaptor('required', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormRequiredRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryRequiredRule');
+        $this->registerJQueryRuleAdaptor(
+            'required',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormRequiredRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryRequiredRule'
+        );
 
-        $this->registerJQueryRuleAdaptor('minlength', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMinLengthRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMinLengthRule');
-        $this->registerJQueryRuleAdaptor('maxlength', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMaxLengthRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMaxLengthRule');
+        $this->registerJQueryRuleAdaptor(
+            'minlength',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMinLengthRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMinLengthRule'
+        );
+        $this->registerJQueryRuleAdaptor(
+            'maxlength',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMaxLengthRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMaxLengthRule'
+        );
 
-        $this->registerJQueryRuleAdaptor('email', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormEmailRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryEmailRule');
+        $this->registerJQueryRuleAdaptor(
+            'email',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormEmailRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryEmailRule'
+        );
 
-        $this->registerJQueryRuleAdaptor('numeric', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormDigitsRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryDigitsRule');
-        $this->registerJQueryRuleAdaptor('nonzero', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormNonZeroRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryNonZeroRule');
-        $this->registerJQueryRuleAdaptor('decimal', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormNumberRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryNumberRule');
-        $this->registerJQueryRuleAdaptor('min', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMinRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMinRule');
-        $this->registerJQueryRuleAdaptor('max', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormMaxRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMaxRule');
-        $this->registerJQueryRuleAdaptor('decimalplaces', MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormDecimalPlacesAdaptor.php',
-            'OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor');
+        $this->registerJQueryRuleAdaptor(
+            'numeric',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormDigitsRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryDigitsRule'
+        );
+        $this->registerJQueryRuleAdaptor(
+            'nonzero',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormNonZeroRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryNonZeroRule'
+        );
+        $this->registerJQueryRuleAdaptor(
+            'decimal',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormNumberRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryNumberRule'
+        );
+        $this->registerJQueryRuleAdaptor(
+            'min',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMinRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMinRule'
+        );
+        $this->registerJQueryRuleAdaptor(
+            'max',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMaxRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryMaxRule'
+        );
+        $this->registerJQueryRuleAdaptor(
+            'decimalplaces',
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormDecimalPlacesAdaptor.php',
+            'OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor'
+        );
 
 
-        $this->registerJQueryRuleAdaptor("unique", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormUniqueRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryUniqueRule');
+        $this->registerJQueryRuleAdaptor(
+            "unique",
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormUniqueRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryUniqueRule'
+        );
 
-        $this->registerJQueryRuleAdaptor("equal", MAX_PATH.'/lib/OA/Admin/UI/component/rule/QuickFormEqualRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryEqualRule');
+        $this->registerJQueryRuleAdaptor(
+            "equal",
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormEqualRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryEqualRule'
+        );
 
         //register element decorators
-        $this->registerElementDecorator('tag', MAX_PATH.'/lib/OA/Admin/UI/component/decorator/HTMLTagDecorator.php',
-            'OA_Admin_UI_HTMLTagDecorator');
-        $this->registerElementDecorator('process', MAX_PATH.'/lib/OA/Admin/UI/component/decorator/ProcessingDecorator.php',
-            'OA_Admin_UI_ProcessingDecorator');
+        $this->registerElementDecorator(
+            'tag',
+            MAX_PATH . '/lib/OA/Admin/UI/component/decorator/HTMLTagDecorator.php',
+            'OA_Admin_UI_HTMLTagDecorator'
+        );
+        $this->registerElementDecorator(
+            'process',
+            MAX_PATH . '/lib/OA/Admin/UI/component/decorator/ProcessingDecorator.php',
+            'OA_Admin_UI_ProcessingDecorator'
+        );
 
 
         //apply flat class
@@ -132,7 +211,7 @@ class OA_Admin_UI_Component_Form
         }
     }
 
-    function validate()
+    public function validate()
     {
         $ret = parent::validate();
 
@@ -215,7 +294,7 @@ class OA_Admin_UI_Component_Form
      * @throws   HTML_QuickForm_Error
      *
      */
-    function addRule($element, $message, $type, $format=null, $validation=null, $reset = false, $force = false)
+    public function addRule($element, $message, $type, $format = null, $validation = null, $reset = false, $force = false)
     {
         if (empty($validation) && $this->forceClientValidation) {
             $validation = 'client';
@@ -226,16 +305,16 @@ class OA_Admin_UI_Component_Form
         return parent::addRule($element, $message, $type, $format, $validation, $reset, $force);
     }
 
-    function addGroupRule($group, $arg1, $type='', $format=null, $howmany=0, $validation = 'server', $reset = false)
+    public function addGroupRule($group, $arg1, $type = '', $format = null, $howmany = 0, $validation = 'server', $reset = false)
     {
         if (empty($validation) && $this->forceClientValidation) {
             $validation = 'client';
         }
 
         if (is_array($arg1)) {
-            foreach($arg1 as $elementIndex => $rules) {
+            foreach ($arg1 as $elementIndex => $rules) {
                 foreach ($rules as $rule) {
-                    if($rule[1] == 'required') {
+                    if ($rule[1] == 'required') {
                         $this->hasRequiredFields = true;
                     }
                 }
@@ -248,7 +327,7 @@ class OA_Admin_UI_Component_Form
         return parent::addGroupRule($group, $arg1, $type, $format, $howmany, $validation, $reset);
     }
 
-    public function addElements($elements = array())
+    public function addElements($elements = [])
     {
         foreach ($elements as $element) {
             $this->addElement($element);
@@ -269,7 +348,7 @@ class OA_Admin_UI_Component_Form
      * @access   public
      * @throws   HTML_QuickForm_Error
      */
-    function &addGroup($elements, $name=null, $groupLabel='', $separator=null, $appendName = false)
+    public function &addGroup($elements, $name = null, $groupLabel = '', $separator = null, $appendName = false)
     {
         return parent::addGroup($elements, $name, $groupLabel, $separator, $appendName);
     }
@@ -280,7 +359,7 @@ class OA_Admin_UI_Component_Form
         $elementDecorators = $this->decorators[$elementName];
 
         if (empty($elementDecorators)) {
-            $elementDecorators = array();
+            $elementDecorators = [];
         }
         $elementDecorators[] = OA_Admin_UI_Decorator_Factory::newDecorator($decoratorName, $decoratorOptions);
 
@@ -294,19 +373,17 @@ class OA_Admin_UI_Component_Form
     }
 
 
-    function toArray($collectHidden = false)
+    public function toArray($collectHidden = false)
     {
         $renderer = new OA_Admin_UI_Component_ArrayRenderer($collectHidden);
         $this->accept($renderer);
         return $renderer->toArray();
-     }
+    }
 
 
     public function serialize()
     {
-        $result =  $this->toArray(true);
-
-        return $result;
+        return $this->toArray(true);
     }
 
 
@@ -370,43 +447,43 @@ class OA_Admin_UI_Component_Form
      */
     private function getActiveRules()
     {
-        $js_escape = array(
-            "\r"    => '\r',
-            "\n"    => '\n',
-            "\t"    => '\t',
-            "'"     => "\\'",
-            '"'     => '\"',
-            '\\'    => '\\\\'
-        );
+        $js_escape = [
+            "\r" => '\r',
+            "\n" => '\n',
+            "\t" => '\t',
+            "'" => "\\'",
+            '"' => '\"',
+            '\\' => '\\\\'
+        ];
 
-        $activeRules = array();
-        $jqueryMessages = array();
+        $activeRules = [];
+        $jqueryMessages = [];
 
         foreach ($this->_rules as $elementName => $rules) {
-            $activeRules[$elementName] = array();
-            $jqueryMessages[$elementName] = array();
+            $activeRules[$elementName] = [];
+            $jqueryMessages[$elementName] = [];
             foreach ($rules as $rule) {
                 if ('client' == $rule['validation'] || $this->forceClientValidation) {
                     unset($element);
 
-                    $dependent  = isset($rule['dependent']) && is_array($rule['dependent']);
+                    $dependent = isset($rule['dependent']) && is_array($rule['dependent']);
                     $rule['message'] = strtr($rule['message'], $js_escape);
 
                     if (isset($rule['group'])) {
-                        $group    = $this->getElement($rule['group']);
+                        $group = $this->getElement($rule['group']);
                         // No JavaScript validation for frozen elements
                         if ($group->isFrozen()) {
                             continue 2;
                         }
-                        $elements =& $group->getElements();
+                        $elements = &$group->getElements();
                         foreach (array_keys($elements) as $key) {
                             if ($elementName == $group->getElementName($key)) {
-                                $element =& $elements[$key];
+                                $element = &$elements[$key];
                                 break;
                             }
                         }
                     } elseif ($dependent) {
-                        $element   =  array();
+                        $element = [];
                         $element[] = $this->getElement($elementName);
                         foreach ($rule['dependent'] as $elName) {
                             $element[] = $this->getElement($elName);
@@ -434,10 +511,8 @@ class OA_Admin_UI_Component_Form
     }
 
 
-    function hasRequiredFields()
+    public function hasRequiredFields()
     {
         return $this->hasRequiredFields;
     }
 }
-
-?>

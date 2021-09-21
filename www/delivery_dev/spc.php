@@ -24,7 +24,7 @@ MAX_commonSetNoCacheHeaders();
 /* Register input variables                              */
 /*-------------------------------------------------------*/
 
-MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
+MAX_commonRegisterGlobalsArray(['zones', 'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz']);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -35,13 +35,15 @@ $source = MAX_commonDeriveSource($source);
 
 $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
 
-if(!empty($zones)) {
+if (!empty($zones)) {
     $zones = explode('|', $zones);
     foreach ($zones as $thisZone) {
-        if (empty($thisZone)) continue;
+        if (empty($thisZone)) {
+            continue;
+        }
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if (!empty($nz)) {
-            list($zonename,$thisZoneid) = explode('=', $thisZone);
+            list($zonename, $thisZoneid) = explode('=', $thisZone);
             $varname = $zonename;
         } else {
             $thisZoneid = $varname = $thisZone;
@@ -50,7 +52,7 @@ if(!empty($zones)) {
         // Clear deiveryData between iterations
         unset($GLOBALS['_MAX']['deliveryData']);
 
-        $what = 'zone:'.$thisZoneid;
+        $what = 'zone:' . $thisZoneid;
 
         //OX_Delivery_logMessage('$what='.$what, 7);
         //OX_Delivery_logMessage('$context='.print_r($context,true), 7);
@@ -67,11 +69,11 @@ if(!empty($zones)) {
 
         // Block this banner for next invocation
         if (!empty($block) && !empty($output['bannerid'])) {
-            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+            $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
         }
         // Block this campaign for next invocation
         if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+            $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
         }
         // Pass the context array back to the next call, have to iterate over elements to prevent duplication
         if (!empty($output['context'])) {
@@ -89,5 +91,3 @@ MAX_cookieFlush();
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 
 echo $spc_output;
-
-?>

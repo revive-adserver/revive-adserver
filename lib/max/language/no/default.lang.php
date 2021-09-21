@@ -162,7 +162,7 @@ $GLOBALS['strDayOfWeek'] = "Ukedag";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Søndag';
 $GLOBALS['strDayFullNames'][1] = 'Mandag';
@@ -173,7 +173,7 @@ $GLOBALS['strDayFullNames'][5] = 'Fredag';
 $GLOBALS['strDayFullNames'][6] = 'Lørdag';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Sø';
 $GLOBALS['strDayShortCuts'][1] = 'Ma';
@@ -276,15 +276,15 @@ $GLOBALS['strSource'] = "Kilde";
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 
 // Website

@@ -18,18 +18,14 @@
 require_once '../../../init.php';
 require_once 'tdconst.php';
 
-function get_file_list($directory, $ext, $strip_ext=false)
+function get_file_list($directory, $ext, $strip_ext = false)
 {
-    $aFiles = array();
+    $aFiles = [];
     $dh = opendir($directory);
-    if ($dh)
-    {
-        while (false !== ($file = readdir($dh)))
-        {
-            if (strpos($file, $ext)>0)
-            {
-                if ($strip_ext)
-                {
+    if ($dh) {
+        while (false !== ($file = readdir($dh))) {
+            if (strpos($file, $ext) > 0) {
+                if ($strip_ext) {
                     $file = str_replace($ext, '', $file);
                 }
                 $aFiles[] = $file;
@@ -40,8 +36,3 @@ function get_file_list($directory, $ext, $strip_ext=false)
     natcasesort($aFiles);
     return $aFiles;
 }
-
-
-
-
-?>

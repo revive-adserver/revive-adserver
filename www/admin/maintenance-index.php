@@ -17,9 +17,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Redirect to the maintenance settings page
-if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
-{
+if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
     OX_Admin_Redirect::redirect('maintenance-maintenance.php');
 }
-
-?>

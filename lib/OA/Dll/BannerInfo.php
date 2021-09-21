@@ -26,27 +26,26 @@ require_once MAX_PATH . '/lib/OA/Info.php';
 
 class OA_Dll_BannerInfo extends OA_Info
 {
-
     /**
      * This field provides the ID of the banner.
      *
      * @var integer $bannerId
      */
-    var $bannerId;
+    public $bannerId;
 
     /**
      * This field provides the ID of the campaign to associate with the banner.
      *
      * @var integer $campaignId
      */
-    var $campaignId;
+    public $campaignId;
 
     /**
      * This field provides the name of the banner.
      *
      * @var integer $bannerName
      */
-    var $bannerName;
+    public $bannerName;
 
     /**
      * This field provides the storageType for the banner, which is one of
@@ -54,91 +53,91 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var string $storageType
      */
-    var $storageType;
+    public $storageType;
 
     /**
      * This field provides the URL for the image file for an external banner.
      *
      * @var string $imageURL
      */
-    var $imageURL;
+    public $imageURL;
 
     /**
      * This field provides the HTML template for a HTML banner.
      *
      * @var text $htmlTemplate
      */
-    var $htmlTemplate;
+    public $htmlTemplate;
 
     /**
      * This field provides the width of the banner.
      *
      * @var integer $width
      */
-    var $width;
+    public $width;
 
     /**
      * This field provides the height of the banner.
      *
      * @var integer $height
      */
-    var $height;
+    public $height;
 
     /**
      * This field provides the priority weight of the banner.
      *
      * @var integer $weight
      */
-    var $weight;
+    public $weight;
 
     /**
      * This field provides the HTML target of the banner (e.g. _blank, _self)
      *
      * @var text $target
      */
-    var $target;
+    public $target;
 
     /**
      * This field provides the destination URL of the banner.
      *
      * @var text $url
      */
-    var $url;
+    public $url;
 
     /**
      * This field provides the Text value of the text banner.
      *
      * @var string $bannerText
      */
-    var $bannerText;
+    public $bannerText;
 
     /**
      * A boolean field to indicate if the banner is active
      *
      * @var int $status
      */
-    var $status;
+    public $status;
 
     /**
      * A text field for HTML banners to indicate which adserver this ad is from
      *
      * @var string $adserver
      */
-    var $adserver;
+    public $adserver;
 
     /**
      * This field provides transparency information for SWF banners
      *
      * @var boolean
      */
-    var $transparent;
+    public $transparent;
 
     /**
      * Frequency capping: total views per user.
      *
      * @var integer $capping
      */
-    var $capping;
+    public $capping;
 
     /**
      * Frequency capping: total views per period.
@@ -146,14 +145,14 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var integer $sessionCapping
      */
-    var $sessionCapping;
+    public $sessionCapping;
 
     /**
      * Frequency capping: reset period, in seconds.
      *
      * @var integer $block
      */
-    var $block;
+    public $block;
 
     /**
      * An array field for SQL/Web banners to contain the image name and binary data
@@ -166,7 +165,7 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var array
      */
-    var $aImage;
+    public $aImage;
 
     /**
      * An array field for SQL/Web banners to contain the backup image name and binary data
@@ -182,42 +181,42 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var array
      */
-    var $aBackupImage;
+    public $aBackupImage;
 
     /**
      * This field provides any additional comments to be stored.
      *
      * @var string $comments
      */
-    var $comments;
+    public $comments;
 
     /**
      * This field provides the alt value for SQL/Web/External banners.
      *
      * @var string $alt
      */
-    var $alt;
+    public $alt;
 
     /**
      * This field provides the filename of the banner.
      *
      * @var string $filename
      */
-    var $filename;
+    public $filename;
 
     /**
      * This field provides appended code for this banner.
      *
      * @var string $append
      */
-    var $append;
+    public $append;
 
     /**
      * This field provides the filename of the banner.
      *
      * @var string $prepend
      */
-    var $prepend;
+    public $prepend;
 
     /**
      * This method sets all default values when adding a new banner.
@@ -225,7 +224,8 @@ class OA_Dll_BannerInfo extends OA_Info
      * @access public
      *
      */
-    function setDefaultForAdd() {
+    public function setDefaultForAdd()
+    {
         if (!isset($this->storageType)) {
             $this->storageType = 'html';
         }
@@ -263,15 +263,15 @@ class OA_Dll_BannerInfo extends OA_Info
         }
     }
 
-    function encodeImage($aImage)
+    public function encodeImage($aImage)
     {
-        return new XML_RPC_Value(array(
+        return new XML_RPC_Value([
             'filename' => new XML_RPC_Value($aImage['filename']),
-            'content'  => new XML_RPC_Value($aImage['content'], 'base64'),
-        ), 'struct');
+            'content' => new XML_RPC_Value($aImage['content'], 'base64'),
+        ], 'struct');
     }
 
-    function toArray()
+    public function toArray()
     {
         $aInfo = parent::toArray();
         if (isset($this->aImage)) {
@@ -290,9 +290,9 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @return array
      */
-    function getFieldsTypes()
+    public function getFieldsTypes()
     {
-        return array(
+        return [
                     'bannerId' => 'integer',
                     'campaignId' => 'integer',
                     'bannerName' => 'string',
@@ -318,8 +318,6 @@ class OA_Dll_BannerInfo extends OA_Info
                     'filename' => 'string',
                     'append' => 'string',
                     'prepend' => 'string',
-                );
+                ];
     }
 }
-
-?>

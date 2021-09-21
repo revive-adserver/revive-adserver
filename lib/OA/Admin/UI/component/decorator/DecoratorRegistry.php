@@ -19,29 +19,29 @@ class OA_Admin_UI_Decorator_Registry
      *
      * @return    OA_Admin_UI_Decorator_Registry
      */
-    function singleton()
+    public function singleton()
     {
         static $instance;
         if (!isset($instance)) {
             $instance = new OA_Admin_UI_Decorator_Registry();
         }
         return $instance;
-    } 
+    }
 
     
-    function __construct()
+    public function __construct()
     {
-        $this->decoratorNameToDecoratorMap = array();
+        $this->decoratorNameToDecoratorMap = [];
     }
     
     
     /**
      * Registers OA_Admin_UI_Decorator for a decorator
-     * 
+     *
      * @return true if successfully registered, false if there is already decorator
-     * registered for this name. 
+     * registered for this name.
      */
-    function registerJQueryRuleAdaptor($decoratorName, $path, $className)
+    public function registerJQueryRuleAdaptor($decoratorName, $path, $className)
     {
         $decoratorName = strtolower($decoratorName);
         
@@ -51,10 +51,10 @@ class OA_Admin_UI_Decorator_Registry
         }
         
         if (isset($GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName])) {
-            return false;    
+            return false;
         }
         
-        $GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName] = array($path, $className);
+        $GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName] = [$path, $className];
 
         return true;
     }
@@ -67,16 +67,16 @@ class OA_Admin_UI_Decorator_Registry
      * @param array $aParameters list of parameters to be passed to decorator constructor
      * @return OA_Admin_UI_Decorator
      */
-    function getJQueryRuleAdaptor($decoratorName, $aParameters =  null)
+    public function getJQueryRuleAdaptor($decoratorName, $aParameters = null)
     {
         $decoratorName = strtolower($decoratorName);
         if (!isset($GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName])) {
             return null;
         }
-        
+
         list($path, $class) = $GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName];
-        
-        return new $class($aParameters);        
+
+        return new $class($aParameters);
 
 //        if (!isset($this->decoratorNameToDecoratorMap[$decoratorName])) {
 //            include_once($path);
@@ -85,5 +85,3 @@ class OA_Admin_UI_Decorator_Registry
 //        return $this->decoratorNameToDecoratorMap[$decoratorName];
     }
 }
-
-?>

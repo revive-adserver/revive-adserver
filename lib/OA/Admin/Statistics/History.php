@@ -23,7 +23,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class OA_Admin_Statistics_History
 {
-
+    /**
+     * @var array<string, mixed>
+     */
+    public $aDates;
     /**
      * A method that can be inherited and used by children classes to get the
      * required date span of a statistics page.
@@ -38,7 +41,7 @@ class OA_Admin_Statistics_History
      * @param array  $aParams      An array of query parameters for
      *                             {@link Admin_DA::fromCache()}.
      */
-    function getSpan(&$oCaller, $aParams)
+    public function getSpan(&$oCaller, $aParams)
     {
         $oStartDate = new Date(date('Y-m-d'));
         $oStartDate->setHour(0);
@@ -46,7 +49,7 @@ class OA_Admin_Statistics_History
         $oStartDate->setSecond(0);
         // Check span using all plugins
         foreach ($oCaller->aPlugins as $oPlugin) {
-            $aPluginParams = call_user_func(array($oPlugin, 'getHistorySpanParams'));
+            $aPluginParams = call_user_func([$oPlugin, 'getHistorySpanParams']);
             $aSpan = Admin_DA::fromCache('getHistorySpan', $aParams + $aPluginParams);
             if (!empty($aSpan['start_date'])) {
                 $oDate = new Date($aSpan['start_date']);
@@ -60,17 +63,17 @@ class OA_Admin_Statistics_History
         $oStartDate->setHour(0);
         $oStartDate->setMinute(0);
         $oStartDate->setSecond(0);
-        $oNow  = new Date();
+        $oNow = new Date();
         $oSpan = new Date_Span(new Date($oStartDate), new Date($oNow->format('%Y-%m-%d')));
         // Store the span data required for stats display
         $oCaller->oStartDate = $oStartDate;
-        $oCaller->spanDays   = (int)ceil($oSpan->toDays());
-        $oCaller->spanWeeks  = (int)ceil($oCaller->spanDays / 7) + ($oCaller->spanDays % 7 ? 1 : 0);
+        $oCaller->spanDays = (int)ceil($oSpan->toDays());
+        $oCaller->spanWeeks = (int)ceil($oCaller->spanDays / 7) + ($oCaller->spanDays % 7 ? 1 : 0);
         $oCaller->spanMonths = (($oNow->getYear() - $oStartDate->getYear()) * 12) + ($oNow->getMonth() - $oStartDate->getMonth()) + 1;
         // Set the caller's aDates span in the event that it's empty
         if (empty($oCaller->aDates)) {
             $oCaller->aDates['day_begin'] = $oStartDate->format('%Y-%m-%d');
-            $oCaller->aDates['day_end']   = $oNow->format('%Y-%m-%d');
+            $oCaller->aDates['day_end'] = $oNow->format('%Y-%m-%d');
         }
     }
 
@@ -92,44 +95,44 @@ class OA_Admin_Statistics_History
      *                obtain the historical data - combined with other text to get the
      *                full method name (eg. "getDayHistory").
      */
-    function setBreakdownInfo(&$oCaller, $type = 'history')
+    public function setBreakdownInfo(&$oCaller, $type = 'history')
     {
         switch ($oCaller->statsBreakdown) {
         case 'week':
-            $oCaller->weekDays = array();
+            $oCaller->weekDays = [];
             $oDaySpan = new OA_Admin_DaySpan('this_week');
-            $oDate    = $oDaySpan->getStartDate();
+            $oDate = $oDaySpan->getStartDate();
             for ($i = 0; $i < 7; $i++) {
                 $oCaller->weekDays[$oDate->getDayOfWeek()] = $GLOBALS['strDayShortCuts'][$oDate->getDayOfWeek()];
                 $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
             }
-            $oCaller->statsKey       = $GLOBALS['strWeek'];
-            $oCaller->averageDesc    = $GLOBALS['strWeeks'];
+            $oCaller->statsKey = $GLOBALS['strWeek'];
+            $oCaller->averageDesc = $GLOBALS['strWeeks'];
             $method = 'getDayHistory';
             break;
 
         case 'month':
-            $oCaller->statsKey       = $GLOBALS['strSingleMonth'];
-            $oCaller->averageDesc    = $GLOBALS['strMonths'];
+            $oCaller->statsKey = $GLOBALS['strSingleMonth'];
+            $oCaller->averageDesc = $GLOBALS['strMonths'];
             $method = 'getMonthHistory';
             break;
 
-        case 'dow'  :
-            $oCaller->statsKey       = $GLOBALS['strDayOfWeek'];
-            $oCaller->averageDesc    = $GLOBALS['strWeekDays'];
+        case 'dow':
+            $oCaller->statsKey = $GLOBALS['strDayOfWeek'];
+            $oCaller->averageDesc = $GLOBALS['strWeekDays'];
             $method = 'getDayOfWeekHistory';
             break;
 
-        case 'hour' :
-            $oCaller->statsKey       = $GLOBALS['strHour'];
-            $oCaller->averageDesc    = $GLOBALS['strHours'];
+        case 'hour':
+            $oCaller->statsKey = $GLOBALS['strHour'];
+            $oCaller->averageDesc = $GLOBALS['strHours'];
             $method = 'getHourHistory';
             break;
 
-        default     :
+        default:
             $oCaller->statsBreakdown = 'day';
-            $oCaller->statsKey       = $GLOBALS['strDay'];
-            $oCaller->averageDesc    = $GLOBALS['strDays'];
+            $oCaller->statsKey = $GLOBALS['strDay'];
+            $oCaller->averageDesc = $GLOBALS['strDays'];
             $method = 'getDayHistory';
             break;
         }
@@ -155,18 +158,18 @@ class OA_Admin_Statistics_History
      * @param string $link    Optional partial URL to be used for creating the link for the
      *                        week, day, month, day of week or hour column items.
      */
-    function fillGapsAndLink(&$aStats, $aDates, $oCaller, $link = '')
+    public function fillGapsAndLink(&$aStats, $aDates, $oCaller, $link = '')
     {
         foreach ($aDates as $key => $date_f) {
 
             // Ensure that all the required items are set by adding empty rows, if required.
             if (!isset($aStats[$key])) {
-                $aStats[$key] = array($oCaller->statsBreakdown => $key) + $oCaller->aEmptyRow;
+                $aStats[$key] = [$oCaller->statsBreakdown => $key] + $oCaller->aEmptyRow;
             }
             $aStats[$key]['date_f'] = $date_f;
 
             // Calculate CTR and other columns, making sure that the method is available
-            if (is_callable(array($oCaller, '_summarizeStats'))) {
+            if (is_callable([$oCaller, '_summarizeStats'])) {
                 $oCaller->_summarizeStats($aStats[$key]);
             }
 
@@ -174,8 +177,8 @@ class OA_Admin_Statistics_History
             // if required - simply the $oCaller->aPageParams array with "entity" and
             // "breakdown" set as required
             if (!empty($link)) {
-                $aDayLinkParams = array();
-                $aDayLinkParams['entity']    = $oCaller->entity;
+                $aDayLinkParams = [];
+                $aDayLinkParams['entity'] = $oCaller->entity;
                 $aDayLinkParams['breakdown'] = $oCaller->dayLinkBreakdown;
                 $aDayLinkParams['statsBreakdown'] = 'hour';
                 $aDayLinkParams = array_merge($oCaller->aPageParams, $aDayLinkParams);
@@ -184,24 +187,24 @@ class OA_Admin_Statistics_History
             // Add links to the left hand column items, if required
             switch ($oCaller->statsBreakdown) {
 
-                case 'week' :
-                case 'day' :
+                case 'week':
+                case 'day':
                     // Set the "day/week" value
                     $oDate = new Date($key);
                     $aStats[$key]['day'] = $oDate->format($GLOBALS['date_format']);
                     if (!empty($link)) {
-                    // Set LHC day-breakdown link, if required:
+                        // Set LHC day-breakdown link, if required:
                         $aStats[$key]['link'] = $oCaller->_addPageParamsToURI($link, $aDayLinkParams) . 'day=' . str_replace('-', '', $key);
 
                         $aParams = $oCaller->_removeDuplicateParams($link);
-                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                            'day='.str_replace('-', '', $key), 1);
-                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                            'day='.str_replace('-', '', $key), 1);
+                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
+                            'day=' . str_replace('-', '', $key), 1);
+                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
+                            'day=' . str_replace('-', '', $key), 1);
                     }
                      break;
 
-                case 'month' :
+                case 'month':
                     // Set the "month" value
                     $oMonthStart = new Date(sprintf('%s-%02d', $key, 1));
                     $oMonthEnd = new Date();
@@ -210,23 +213,23 @@ class OA_Admin_Statistics_History
                     $aStats[$key]['month'] = $key;
                     if (!empty($link)) {
                         $aParams = $oCaller->_removeDuplicateParams($link);
-                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                            'period_preset=specific&'.
-                            'period_start='.$oMonthStart->format('%Y-%m-%d').'&'.
-                            'period_end='.$oMonthEnd->format('%Y-%m-%d'), 1);
-                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                            'period_preset=specific&'.
-                            'period_start='.$oMonthStart->format('%Y-%m-%d').'&'.
-                            'period_end='.$oMonthEnd->format('%Y-%m-%d'), 1);
+                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
+                            'period_preset=specific&' .
+                            'period_start=' . $oMonthStart->format('%Y-%m-%d') . '&' .
+                            'period_end=' . $oMonthEnd->format('%Y-%m-%d'), 1);
+                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
+                            'period_preset=specific&' .
+                            'period_start=' . $oMonthStart->format('%Y-%m-%d') . '&' .
+                            'period_end=' . $oMonthEnd->format('%Y-%m-%d'), 1);
                     }
                     break;
 
-                case 'dow' :
+                case 'dow':
                     // Set the "dow" value
                     $aStats[$key]['dow'] = $key;
                     break;
 
-                case 'hour' :
+                case 'hour':
                     // Set the "hour" value
                     $aStats[$key]['hour'] = $key;
                     if (
@@ -236,12 +239,12 @@ class OA_Admin_Statistics_History
                         $this->aDates['day_begin'] == $this->aDates['day_end']
                     ) {
                         $aParams = $oCaller->_removeDuplicateParams($link);
-                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                            'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
-                            'hour='.sprintf('%02d', $key), 1);
-                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                            'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
-                            'hour='.sprintf('%02d', $key), 1);
+                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
+                            'day=' . str_replace('-', '', $this->aDates['day_begin']) . '&' .
+                            'hour=' . sprintf('%02d', $key), 1);
+                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
+                            'day=' . str_replace('-', '', $this->aDates['day_begin']) . '&' .
+                            'hour=' . sprintf('%02d', $key), 1);
                     }
                     break;
 
@@ -274,18 +277,18 @@ class OA_Admin_Statistics_History
      *                                    that are available.
      * @return array The array, as described above.
      */
-    function getDatesArray($aDates, $breakdown, $oStatsStartDate)
+    public function getDatesArray($aDates, $breakdown, $oStatsStartDate)
     {
         // Does the day span selector element have dates set?
         if (($aDates['day_begin'] && $aDates['day_end']) || ($aDates['period_start'] && $aDates['period_end'])) {
             if ($aDates['day_begin'] && $aDates['day_end']) {
                 // Use the dates given by the day span selector element
                 $oStartDate = new Date($aDates['day_begin']);
-                $oEndDate   = new Date($aDates['day_end']);
+                $oEndDate = new Date($aDates['day_end']);
             } else {
                 // Use the dates given by the period_start and period_end
                 $oStartDate = new Date($aDates['period_start']);
-                $oEndDate   = new Date($aDates['period_end']);
+                $oEndDate = new Date($aDates['period_end']);
             }
             // Adjust end date to be now, if it's in the future
             if ($oEndDate->isFuture()) {
@@ -296,13 +299,13 @@ class OA_Admin_Statistics_History
             // Use the dates given by the statistics date limitation
             // and now
             $oStartDate = new Date($oStatsStartDate);
-            $oEndDate   = new Date(date('Y-m-d'));
+            $oEndDate = new Date(date('Y-m-d'));
         }
         // Prepare the return array
-        $aDatesResult = array();
+        $aDatesResult = [];
         switch ($breakdown) {
-            case 'week' :
-            case 'day' :
+            case 'week':
+            case 'day':
                 $oOneDaySpan = new Date_Span('1', '%d');
                 $oEndDate->addSpan($oOneDaySpan);
                 $oDate = new Date($oStartDate);
@@ -311,7 +314,7 @@ class OA_Admin_Statistics_History
                     $oDate->addSpan($oOneDaySpan);
                 }
                 break;
-            case 'month' :
+            case 'month':
                 $oOneMonthSpan = new Date_Span((string)($oEndDate->getDaysInMonth() - $oEndDate->getDay() + 1), '%d');
                 $oEndDate->addSpan($oOneMonthSpan);
                 $oDate = new Date($oStartDate);
@@ -321,12 +324,12 @@ class OA_Admin_Statistics_History
                     $oDate->addSpan($oOneMonthSpan);
                 }
                 break;
-            case 'dow' :
+            case 'dow':
                 for ($dow = 0; $dow < 7; $dow++) {
                     $aDatesResult[$dow] = $GLOBALS['strDayFullNames'][$dow];
                 }
                 break;
-            case 'hour' :
+            case 'hour':
                 for ($hour = 0; $hour < 24; $hour++) {
                     $aDatesResult[$hour] = sprintf('%02d:00 - %02d:59', $hour, $hour);
                 }
@@ -343,7 +346,7 @@ class OA_Admin_Statistics_History
      * @param object $oCaller The calling object. Expected to have the the class variable
      *                        "statsBreakdown" set.
      */
-    function prepareWeekBreakdown(&$aData, $oCaller)
+    public function prepareWeekBreakdown(&$aData, $oCaller)
     {
         // Only prepare the weekly breakdown if the statsBreakdown
         // in the caller is set to "week"
@@ -351,7 +354,7 @@ class OA_Admin_Statistics_History
             return;
         }
         $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
-        $aWeekData = array();
+        $aWeekData = [];
         ksort($aData);
         foreach ($aData as $key => $aRowData) {
             // Get the date for this row's data
@@ -371,7 +374,7 @@ class OA_Admin_Statistics_History
             if (!isset($aWeekData[$week])) {
                 $aWeekData[$week] = $oCaller->aEmptyRow;
                 $aWeekData[$week]['week'] = $week;
-                $aWeekData[$week]['data'] = array();
+                $aWeekData[$week]['data'] = [];
             }
             // Add the data from the row to the totals of the week
             foreach (array_keys($oCaller->aColumns) as $colKey) {
@@ -404,8 +407,7 @@ class OA_Admin_Statistics_History
                         $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')] = $oCaller->aEmptyRow;
                         $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format($GLOBALS['date_format']);
                     } elseif (!is_null($aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])
-                            && !array_key_exists('day', $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]))
-                    {
+                            && !array_key_exists('day', $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])) {
                         $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format($GLOBALS['date_format']);
                     }
                     $oDate->addSeconds(SECONDS_PER_DAY);
@@ -419,7 +421,7 @@ class OA_Admin_Statistics_History
             }
 
             // Calculate CTR and other columns, making sure that the method is available
-            if (is_callable(array($oCaller, '_summarizeStats'))) {
+            if (is_callable([$oCaller, '_summarizeStats'])) {
                 $oCaller->_summarizeStats($aWeekData[$week]);
             }
         }
@@ -435,7 +437,7 @@ class OA_Admin_Statistics_History
      * @param object $oCaller The calling object. Expected to have the the class variable
      *                        "statsBreakdown" set.
      */
-    function formatRows(&$aData, $oCaller)
+    public function formatRows(&$aData, $oCaller)
     {
         // Re-order the "day of week" breakdown, if required
         if ($oCaller->statsBreakdown == 'dow') {
@@ -447,7 +449,7 @@ class OA_Admin_Statistics_History
             }
         }
         // Format the rows
-        if (count($aData) > 0) {
+        if ($aData !== []) {
             $i = 1;
             reset($aData);
             foreach (array_keys($aData) as $key) {
@@ -456,11 +458,10 @@ class OA_Admin_Statistics_History
                     $targetPercent = $aMatches[0];
                     if ($targetPercent < 90) {
                         $aData[$key]['htmlclass'] = 'reddark';
-                    } else if ($targetPercent > 110) {
+                    } elseif ($targetPercent > 110) {
                         $aData[$key]['htmlclass'] = 'redlight';
                     }
-
-                } else if (($aData[$key]['ad_required_impressions'] > 0 || $aData[$key]['placement_required_impressions'] > 0) && $aData[$key]['target_ratio'] == '-') {
+                } elseif (($aData[$key]['ad_required_impressions'] > 0 || $aData[$key]['placement_required_impressions'] > 0) && $aData[$key]['target_ratio'] == '-') {
                     $aData[$key]['htmlclass'] = 'reddark';
                 }
                 // Set the row's "htmlclass" value as being light, or dark
@@ -484,10 +485,10 @@ class OA_Admin_Statistics_History
      *                        "statsBreakdown" set.
      * @param string $colour  An optional, fixed non-targeting issue colour for all items.
      */
-    function formatWeekRows(&$aData, $oCaller, $colour = null)
+    public function formatWeekRows(&$aData, $oCaller, $colour = null)
     {
         // Format the rows
-        if (count($aData) > 0) {
+        if ($aData !== []) {
             $i = 1;
             reset($aData);
             foreach (array_keys($aData) as $key) {
@@ -496,12 +497,12 @@ class OA_Admin_Statistics_History
                     $targetPercent = $aMatches[0];
                     if ($targetPercent < 90) {
                         $aData[$key]['htmlcolclass'] = 'reddark';
-                    } else if ($targetPercent > 110) {
+                    } elseif ($targetPercent > 110) {
                         $aData[$key]['htmlcolclass'] = 'redlight';
                     }
                 }
                 // Is there a weekly data array to format as well?
-                if (isset($aData[$key]['data']) && is_array($aData[$key]['data']) && count($aData[$key]['data']) > 0) {
+                if (isset($aData[$key]['data']) && is_array($aData[$key]['data']) && $aData[$key]['data'] !== []) {
                     $colour = ($i++ % 2 == 0) ? 'dark' : 'light';
                     $this->formatWeekRows($aData[$key]['data'], $oCaller, $colour);
                 }
@@ -527,19 +528,16 @@ class OA_Admin_Statistics_History
      *                        "statsBreakdown" set.
      * @param string $colour  An optional, fixed non-targeting issue colour for all items.
      */
-    function formatWeekRowsTotal(&$aData, $oCaller, $colour = null)
+    public function formatWeekRowsTotal(&$aData, $oCaller, $colour = null)
     {
         // Format the total row - is there a set target ratio?
         if (preg_match('/(\d+\.\d*)%/', $aData['target_ratio'], $aMatches)) {
             $targetPercent = $aMatches[0];
             if ($targetPercent < 90) {
                 $aData['htmlclass'] = 'reddark';
-            } else if ($targetPercent > 110) {
+            } elseif ($targetPercent > 110) {
                 $aData['htmlclass'] = 'redlight';
             }
         }
     }
-
 }
-
-?>

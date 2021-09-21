@@ -24,50 +24,48 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Time_Date extends UnitTestCase
 {
-    function testCheckTimeDay()
+    public function testCheckTimeDay()
     {
         OA_setTimeZoneUTC();
 
         // All operators, active
-        $this->assertTrue(MAX_checkTime_Date('20090701', '==', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '!=', array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '!=', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '<',  array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '>',  array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '<=', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '<=', array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '>=', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701', '>=', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '==', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '!=', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '!=', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '<', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '>', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '<=', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '<=', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '>=', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701', '>=', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
 
         // All operators, inactive
-        $this->assertFalse(MAX_checkTime_Date('20090701', '==', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701', '!=', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701', '<',  array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701', '>',  array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701', '<=', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701', '>=', array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
+        $this->assertFalse(MAX_checkTime_Date('20090701', '==', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701', '!=', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701', '<', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701', '>', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701', '<=', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701', '>=', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
 
         // All operators, active with TZ
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '==', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '!=', array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '!=', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '<',  array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '>',  array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '<=', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '<=', array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '>=', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '>=', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '==', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '!=', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '!=', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '<', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '>', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '<=', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '<=', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '>=', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertTrue(MAX_checkTime_Date('20090701@Europe/Rome', '>=', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
 
         // All operators, inactive with TZ
-        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '==', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '!=', array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '<',  array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '>',  array('timestamp' => mktime(0, 0, 0, 7, 1, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '<=', array('timestamp' => mktime(0, 0, 0, 7, 2, 2009))));
-        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '>=', array('timestamp' => mktime(0, 0, 0, 6, 30, 2009))));
+        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '==', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '!=', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '<', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '>', ['timestamp' => mktime(0, 0, 0, 7, 1, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '<=', ['timestamp' => mktime(0, 0, 0, 7, 2, 2009)]));
+        $this->assertFalse(MAX_checkTime_Date('20090701@Europe/Rome', '>=', ['timestamp' => mktime(0, 0, 0, 6, 30, 2009)]));
 
         OA_setTimeZoneLocal();
     }
 }
-
-?>

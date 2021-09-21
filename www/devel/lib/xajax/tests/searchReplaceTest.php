@@ -3,9 +3,9 @@ require_once("../xajax.inc.php");
 
 function replace($aForm)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addReplace('content', "innerHTML", $aForm['search'], $aForm['replace']);
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addReplace('content', "innerHTML", $aForm['search'], $aForm['replace']);
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

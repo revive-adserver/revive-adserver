@@ -13,7 +13,7 @@
 // Required files
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 
-if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cookie.php'])) {
+if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cookie.php'])) {
     // Required by PHP5.1.2
     require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 }
@@ -83,18 +83,18 @@ function phpAds_SessionSetAdminCookie($name, $value)
 
 function phpAds_SessionStart()
 {
-	global $session;
+    global $session;
 
-	if (empty($_COOKIE['sessionID'])) {
-		phpAds_clearSession();
+    if (empty($_COOKIE['sessionID'])) {
+        phpAds_clearSession();
 
         $sessionId = phpAds_SessionGenerateId();
 
         $dal = new MAX_Dal_Admin_Session();
         $dal->storeSerializedSession(serialize($session), $sessionId, OA_Permission::getUserId());
-	}
+    }
 
-	return $_COOKIE['sessionID'];
+    return $_COOKIE['sessionID'];
 }
 
 /*-------------------------------------------------------*/
@@ -144,9 +144,9 @@ function phpAds_SessionRegenerateId($deleteAllUserSessions = false)
 
 function phpAds_clearSession()
 {
-    $GLOBALS['session'] = array(
+    $GLOBALS['session'] = [
         '__authentic__' => true,
-    );
+    ];
 }
 
 /*-------------------------------------------------------*/
@@ -155,23 +155,23 @@ function phpAds_clearSession()
 
 function phpAds_SessionDataRegister($key, $value = '')
 {
-	global $session;
-
-    if (defined('OA_INSTALLATION_STATUS') && OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)  {
-		phpAds_SessionStart();
-	}
-
-	if (is_array($key) && $value == '') {
-		foreach (array_keys($key) as $name) {
-			$session[$name] = $key[$name];
-		}
-	} else {
-		$session[$key] = $value;
-	}
+    global $session;
 
     if (defined('OA_INSTALLATION_STATUS') && OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
-	   phpAds_SessionDataStore();
-	}
+        phpAds_SessionStart();
+    }
+
+    if (is_array($key) && $value == '') {
+        foreach (array_keys($key) as $name) {
+            $session[$name] = $key[$name];
+        }
+    } else {
+        $session[$key] = $value;
+    }
+
+    if (defined('OA_INSTALLATION_STATUS') && OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
+        phpAds_SessionDataStore();
+    }
 }
 
 /**
@@ -205,13 +205,13 @@ function phpAds_SessionDataDestroy()
 {
     $dal = new MAX_Dal_Admin_Session();
 
-	global $session;
+    global $session;
     $dal->deleteSession($_COOKIE['sessionID']);
 
     phpAds_SessionSetAdminCookie('sessionID', '');
 
-	unset($session);
-	unset($_COOKIE['sessionID']);
+    unset($session);
+    unset($_COOKIE['sessionID']);
 }
 
 function phpAds_SessionGetToken($tokenName = 'token')
@@ -242,5 +242,3 @@ function phpAds_SessionValidateToken($token, $tokenName = 'token')
     }
     return $result;
 }
-
-?>

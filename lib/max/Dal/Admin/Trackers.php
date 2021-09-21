@@ -14,12 +14,12 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class MAX_Dal_Admin_Trackers extends MAX_Dal_Common
 {
-    var $table = 'trackers';
+    public $table = 'trackers';
 
-    var $orderListName = array(
+    public $orderListName = [
         'name' => 'trackername',
-        'id'   => 'trackerid'
-    );
+        'id' => 'trackerid'
+    ];
 
     /**
      * Get all the campaigns linked to a given tracker.
@@ -34,7 +34,7 @@ class MAX_Dal_Admin_Trackers extends MAX_Dal_Common
         $doCampaignsTrackers->trackerid = $trackerId;
         $doCampaignsTrackers->find();
 
-        $aLinkedCampaigns = array();
+        $aLinkedCampaigns = [];
         while ($doCampaignsTrackers->fetch()) {
             $oCampaign = OA_Dal::staticGetDO('campaigns', $doCampaignsTrackers->campaignid);
             if ($oCampaign) {
@@ -94,5 +94,3 @@ class MAX_Dal_Admin_Trackers extends MAX_Dal_Common
         }
     }
 }
-
-?>

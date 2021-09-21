@@ -20,36 +20,36 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu/tests/unit/MenuTestCase.php';
  */
 class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 {
-    function setUp()
+    public function setUp()
     {
         RV::disableErrorHandling();
     }
 
 
-    function tearDown()
+    public function tearDown()
     {
         RV::enableErrorHandling();
     }
 
-    function testSingleton()
+    public function testSingleton()
     {
-    	//nimm 2 ;-)
-    	$menu1 = &OA_Admin_Menu::singleton();
-    	$menu2 = &OA_Admin_Menu::singleton();
-    	$this->assertReference($menu1, $menu2);
-    	$this->assertIdentical($menu1, $menu2);
+        //nimm 2 ;-)
+        $menu1 = &OA_Admin_Menu::singleton();
+        $menu2 = &OA_Admin_Menu::singleton();
+        $this->assertReference($menu1, $menu2);
+        $this->assertIdentical($menu1, $menu2);
 
-    	//add sth
-    	$section = $this->generateSection();
-    	$menu1->add($section);
+        //add sth
+        $section = $this->generateSection();
+        $menu1->add($section);
 
-    	$sections1 = $menu1->getRootSections();
-    	$sections2 = $menu2->getRootSections();
-    	$this->assertSectionListsEqual($sections1, $sections2);
+        $sections1 = $menu1->getRootSections();
+        $sections2 = $menu2->getRootSections();
+        $this->assertSectionListsEqual($sections1, $sections2);
     }
 
 
-    function testAdd()
+    public function testAdd()
     {
         $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
@@ -75,12 +75,12 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         //TODO test add null or string
     }
 
-    function testAddTwice()
+    public function testAddTwice()
     {
         $menu = new OA_Admin_Menu();
         $section1 = $this->generateSection(0);
         $fakeSection1 = $this->generateSection(0); //will generate with the
-                                                    //same data as the section above
+        //same data as the section above
         $this->assertFalse(SimpleTestCompatibility::isReference($section1, $fakeSection1));
 
         //add once
@@ -98,7 +98,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         $this->assertTrue(PEAR::isError($result));
     }
 
-    function testAddTo()
+    public function testAddTo()
     {
         $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
@@ -138,13 +138,13 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         }
     }
 
-    function testAddToTwice()
+    public function testAddToTwice()
     {
         $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
         $section1 = $this->generateSection(1);
         $fakeSection1 = $this->generateSection(1); //will generate with the
-                                                    //same data as the section above
+        //same data as the section above
         $this->assertFalse(SimpleTestCompatibility::isReference($section1, $fakeSection1));
 
         $menu->add($parent);
@@ -168,7 +168,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         $this->assertNotNull($menu->get($section1->getId()));
     }
 
-    function testAddToHierarchy()
+    public function testAddToHierarchy()
     {
         $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
@@ -184,11 +184,10 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         //check hierarchy
         for ($i = 0; $i < count($sections); $i++) {
             if ($i == 0) {
-        	   $expectedParent = $parent;
-        	}
-        	else {
+                $expectedParent = $parent;
+            } else {
                 $expectedParent = $sections[$i - 1];
-        	}
+            }
 
             $child = $menu->get($sections[$i]->getId());
             $childParent = $child->getParent();
@@ -202,7 +201,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         }
     }
 
-    function testGetRootSections()
+    public function testGetRootSections()
     {
         $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(10, 1);
@@ -214,7 +213,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         $this->assertSectionListsEqual($sections, $menu->getRootSections());
     }
 
-    function testGetNextSection()
+    public function testGetNextSection()
     {
         //build hierarchy
         $menu = new OA_Admin_Menu();
@@ -240,7 +239,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
     }
 
 
-    function testIsRootSection()
+    public function testIsRootSection()
     {
         $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(10, 0);
@@ -278,7 +277,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
     }
 
 
-    function testGetById()
+    public function testGetById()
     {
         $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(10, 1);
@@ -305,7 +304,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
     }
 
 
-    function testGetParents()
+    public function testGetParents()
     {
         $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(20, 1);
@@ -332,7 +331,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
         //get other parents
         for ($i = 1; $i < count($sections); $i++) {
-        	  $parents = null;
+            $parents = null;
             $parents = $menu->getParentSections($sections[$i]->getId());
             $this->assertNotNull($parents);
             $this->assertEqual($i, count($parents));
@@ -341,7 +340,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         }
     }
 
-    function testGetLevel()
+    public function testGetLevel()
     {
         $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(20, 1);
@@ -374,5 +373,3 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
         }
     }
 }
-
-?>

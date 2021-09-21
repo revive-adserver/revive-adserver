@@ -18,6 +18,3 @@ require_once '../../../../init.php';
 require_once 'lib/demoXajax.inc.php';
 
 include "templates/noframe.html";
-
-
-?>

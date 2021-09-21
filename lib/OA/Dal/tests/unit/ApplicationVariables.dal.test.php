@@ -20,11 +20,10 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  */
 class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,18 +32,18 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
      * Test set, getAll, delete
      *
      */
-    function testSetGetAllDelete()
+    public function testSetGetAllDelete()
     {
         // Force cache clean-up
         OA_Dal_ApplicationVariables::cleanCache();
 
         $result = OA_Dal_ApplicationVariables::getAll();
-        $this->assertEqual($result, array());
+        $this->assertEqual($result, []);
 
-        $aData = array(
+        $aData = [
             'one' => 'foo',
             'two' => 'bar'
-        );
+        ];
 
         foreach ($aData as $k => $v) {
             $result = OA_Dal_ApplicationVariables::set($k, $v);
@@ -72,7 +71,7 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
      * Test set, get and delete
      *
      */
-    function testSetGetDelete()
+    public function testSetGetDelete()
     {
         // Force cache clean-up
         OA_Dal_ApplicationVariables::cleanCache();
@@ -127,7 +126,7 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
      * Test delete
      *
      */
-    function testDelete()
+    public function testDelete()
     {
         $result = OA_Dal_ApplicationVariables::delete('foo');
         $this->assertFalse($result);
@@ -137,7 +136,7 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
      * Test generatin platform hash
      *
      */
-    function testGeneratePlatformHash()
+    public function testGeneratePlatformHash()
     {
         $hash1 = OA_Dal_ApplicationVariables::generatePlatformHash();
         $hash2 = OA_Dal_ApplicationVariables::generatePlatformHash();
@@ -146,5 +145,3 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
         $this->assertNotEqual($hash1, $hash2);
     }
 }
-
-?>

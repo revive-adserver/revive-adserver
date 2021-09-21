@@ -20,16 +20,16 @@ class OA_UpgradePostscript_3_0_0_rc1
     /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
 
         $this->_updateSyncServerSettings();
         $this->_removeShareDataSetting();
@@ -44,14 +44,14 @@ class OA_UpgradePostscript_3_0_0_rc1
      * Update the sync server configuration settings, as the server changed
      * with the release of Revive Adserver 3.0.0
      */
-    function _updateSyncServerSettings()
+    public function _updateSyncServerSettings()
     {
         $this->logOnly("Attempting to update the configuration file sync server settings");
         $oConfiguration = new OA_Admin_Settings();
-        $oConfiguration->aConf['oacSync']['protocol']  = 'https';
-        $oConfiguration->aConf['oacSync']['host']      = 'sync.revive-adserver.com';
-        $oConfiguration->aConf['oacSync']['path']      = '/xmlrpc.php';
-        $oConfiguration->aConf['oacSync']['httpPort']  = '80';
+        $oConfiguration->aConf['oacSync']['protocol'] = 'https';
+        $oConfiguration->aConf['oacSync']['host'] = 'sync.revive-adserver.com';
+        $oConfiguration->aConf['oacSync']['path'] = '/xmlrpc.php';
+        $oConfiguration->aConf['oacSync']['httpPort'] = '80';
         $oConfiguration->aConf['oacSync']['httpsPort'] = '443';
         if ($oConfiguration->writeConfigChange()) {
             $this->logOnly("Updated the configuration file sync server settings");
@@ -64,7 +64,7 @@ class OA_UpgradePostscript_3_0_0_rc1
      * Remove the sync server "share data" setting, as this was deprecated in
      * Revive Adserver 3.0.0
      */
-    function _removeShareDataSetting()
+    public function _removeShareDataSetting()
     {
         $this->logOnly("Attempting to remove the 'share data' sync setting from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
@@ -80,7 +80,7 @@ class OA_UpgradePostscript_3_0_0_rc1
      * Remove the entire "oacXmlRpc" setting section, as this was deprecated in
      * Revive Adserver 3.0.0
      */
-    function _removeOacXmlRpcSettings()
+    public function _removeOacXmlRpcSettings()
     {
         $this->logOnly("Attempting to remove the 'oacXmlRpc' settings from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
@@ -103,7 +103,7 @@ class OA_UpgradePostscript_3_0_0_rc1
      * Remove the entire "oacDashboard" setting section, as this was deprecated in
      * Revive Adserver 3.0.0
      */
-    function _removeOacDashboardSettings()
+    public function _removeOacDashboardSettings()
     {
         $this->logOnly("Attempting to remove the 'oacDashboard' settings from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
@@ -123,7 +123,7 @@ class OA_UpgradePostscript_3_0_0_rc1
      * Remove the UI "show contact us link" setting, as this was deprecated in
      * Revive Adserver 3.0.0
      */
-    function _removeShowContactUsLinkSetting()
+    public function _removeShowContactUsLinkSetting()
     {
         $this->logOnly("Attempting to remove the 'share data' sync setting from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
@@ -133,20 +133,16 @@ class OA_UpgradePostscript_3_0_0_rc1
         } else {
             $this->logError("Failed to remove the 'share data' sync setting from the configuration file");
         }
-
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }
-
 }
-
-?>

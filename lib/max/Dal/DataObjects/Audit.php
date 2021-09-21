@@ -14,9 +14,9 @@
  * Table Definition for audit
  */
 
-define('OA_AUDIT_ACTION_INSERT',1);
-define('OA_AUDIT_ACTION_UPDATE',2);
-define('OA_AUDIT_ACTION_DELETE',3);
+define('OA_AUDIT_ACTION_INSERT', 1);
+define('OA_AUDIT_ACTION_UPDATE', 2);
+define('OA_AUDIT_ACTION_DELETE', 3);
 
 require_once 'DB_DataObjectCommon.php';
 
@@ -41,9 +41,12 @@ class DataObjects_Audit extends DB_DataObjectCommon
     public $website_account_id;              // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Audit',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Audit', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'context' => '',
         'details' => '',
         'userid' => 0,
@@ -67,7 +70,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
      *                          account, false if doesn't, or null if it was not
      *                          possible to find the required object references.
      */
-    function belongsToAccount($accountId = null)
+    public function belongsToAccount($accountId = null)
     {
         // Set the account ID, if not passed in
         if (empty($accountId)) {
@@ -77,7 +80,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
         if (!$this->N) {
             $key = $this->getFirstPrimaryKey();
             if (empty($this->$key)) {
-                MAX::raiseError('Key on object is not set, table: '.$this->getTableWithoutPrefix());
+                MAX::raiseError('Key on object is not set, table: ' . $this->getTableWithoutPrefix());
                 return null;
             }
             if (!$this->find($autoFetch = true)) {
@@ -90,7 +93,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
         if ($accountType == OA_ACCOUNT_ADMIN) {
             // Admin always has access
             return true;
-        } else if ($accountType == OA_ACCOUNT_MANAGER) {
+        } elseif ($accountType == OA_ACCOUNT_MANAGER) {
             // Test if the account ID is equal to the account_id field
             if (is_null($this->account_id)) {
                 return null;
@@ -98,7 +101,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
             if ($this->account_id == $accountId) {
                 return true;
             }
-        } else if ($accountType == OA_ACCOUNT_ADVERTISER) {
+        } elseif ($accountType == OA_ACCOUNT_ADVERTISER) {
             // Test if the account ID is equal to the advertiser_account_id field
             if (is_null($this->advertiser_account_id)) {
                 return null;
@@ -106,7 +109,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
             if ($this->advertiser_account_id == $accountId) {
                 return true;
             }
-        } else if ($accountType == OA_ACCOUNT_TRAFFICKER) {
+        } elseif ($accountType == OA_ACCOUNT_TRAFFICKER) {
             // Test if the account ID is equal to the website_account_id field
             if (is_null($this->website_account_id)) {
                 return null;
@@ -117,7 +120,4 @@ class DataObjects_Audit extends DB_DataObjectCommon
         }
         return false;
     }
-
 }
-
-?>

@@ -32,10 +32,10 @@ class OA_Admin_UI_Page
      */
     protected function createPageContext()
     {
-       $context = new OA_Admin_Plugins_EventContext();
-       $context->pageId = $this->getId();
+        $context = new OA_Admin_Plugins_EventContext();
+        $context->pageId = $this->getId();
 
-       return $context;
+        return $context;
     }
     
     
@@ -60,5 +60,3 @@ class OA_Admin_UI_Page
         return $this->dispatcher;
     }
 }
-
-?>

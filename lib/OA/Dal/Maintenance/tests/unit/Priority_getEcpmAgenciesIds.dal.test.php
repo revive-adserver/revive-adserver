@@ -23,12 +23,12 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
  */
 class Test_OA_Dal_Maintenance_Priority_getEcpmAgenciesIds extends UnitTestCase
 {
-    public $aExpectedData = array();
+    public $aExpectedData = [];
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,7 +36,7 @@ class Test_OA_Dal_Maintenance_Priority_getEcpmAgenciesIds extends UnitTestCase
     /**
      * A method to test the getEcpmAgenciesIds method.
      */
-    function testGetEcpmAgenciesIds()
+    public function testGetEcpmAgenciesIds()
     {
         $this->_generateTestData();
         $da = new OA_Dal_Maintenance_Priority();
@@ -51,13 +51,13 @@ class Test_OA_Dal_Maintenance_Priority_getEcpmAgenciesIds extends UnitTestCase
      *
      * @access private
      */
-    function _generateTestData()
+    public function _generateTestData()
     {
         // Add agencies
         $agencyId1 = DataGenerator::generateOne('agency', true);
         $agencyId2 = DataGenerator::generateOne('agency', true);
         $agencyId3 = DataGenerator::generateOne('agency', true);
-        $this->aExpectedData = array($agencyId1, $agencyId2);
+        $this->aExpectedData = [$agencyId1, $agencyId2];
 
         // Add clients
         $doClients = OA_Dal::factoryDO('clients');
@@ -108,5 +108,3 @@ class Test_OA_Dal_Maintenance_Priority_getEcpmAgenciesIds extends UnitTestCase
         $idCampaign1 = DataGenerator::generateOne($doCampaigns);
     }
 }
-
-?>

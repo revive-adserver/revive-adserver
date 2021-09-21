@@ -29,7 +29,6 @@ require_once MAX_PATH . '/lib/wact/db/db.inc.php';
  */
 class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysqli implements OX_Extension_DeliveryLog_BucketProcessingStrategy
 {
-
     /**
      * Process an aggregate-type bucket.  This is MySQL specific.
      *
@@ -45,31 +44,31 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysqli implement
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
-        OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() , PEAR_LOG_INFO);
+        OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName(), PEAR_LOG_INFO);
 
         // Select all rows with interval_start <= previous OI start.
         $rsData = $this->getBucketTableContent($sTableName, $oEnd);
         $rowCount = $rsData->getRowCount();
 
-        OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);
+        OA::debug('  - ' . $rsData->getRowCount() . ' records found', PEAR_LOG_DEBUG);
 
         if ($rowCount) {
             // We can't do bulk inserts with ON DUPLICATE.
-            $aExecQueries = array();
+            $aExecQueries = [];
             if ($rsData->fetch()) {
                 // Get first row
                 $aRow = $rsData->toArray();
                 // Prepare INSERT
-                $sInsert    = "INSERT INTO {$sTableName} (".join(',', array_keys($aRow)).") VALUES ";
+                $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";
                 // Add first row data
-                $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
+                $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
                 $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
                 // Add first insert
                 $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
                 // Deal with the other rows
                 while ($rsData->fetch()) {
                     $aRow = $rsData->toArray();
-                    $sRow = '('.join(',', array_map(array(&$oMainDbh, 'quote'), $aRow)).')';
+                    $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
                     $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
                     $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
                 }
@@ -147,5 +146,3 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysqli implement
         return $rsDataRaw;
     }
 }
-
-?>

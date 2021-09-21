@@ -20,7 +20,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 
 
 // Register input variables
-phpAds_registerGlobal ('acl', 'action', 'submit');
+phpAds_registerGlobal('acl', 'action', 'submit');
 
 
 /*-------------------------------------------------------*/
@@ -49,8 +49,7 @@ if (empty($affiliateid)) { //if it's empty
         $ids = array_keys($aWebsites);
         $affiliateid = !empty($ids) ? $ids[0] : -1; //if no websites set to non-existent id
     }
-}
-else {
+} else {
     if (!isset($aWebsites[$affiliateid])) { //bad id, redirect
         $page = basename($_SERVER['SCRIPT_NAME']);
         OX_Admin_Redirect::redirect($page);
@@ -74,10 +73,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('channel-index.html');
 
-$channels = Admin_DA::getChannels(array('publisher_id' => $affiliateid), true);
-$aChannels = array();
+$channels = Admin_DA::getChannels(['publisher_id' => $affiliateid], true);
+$aChannels = [];
 foreach ($channels as $channelId => $channel) {
-	$aChannels[$channelId] = $channel;
+    $aChannels[$channelId] = $channel;
 }
 
 $oTpl->assign('aChannels', $aChannels);
@@ -115,13 +114,13 @@ function buildHeaderModel($websiteId)
     }
 
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-    $oHeaderModel = $builder->buildEntityHeader(array(
-        array ('name' => $websiteName, 'url' => $websiteEditUrl,
+    $oHeaderModel = $builder->buildEntityHeader([
+        ['name' => $websiteName, 'url' => $websiteEditUrl,
                'id' => $websiteId, 'entities' => getWebsiteMap(),
                'htmlName' => 'affiliateid'
-              ),
-        array('name' => '')
-    ), 'channels', 'list');
+              ],
+        ['name' => '']
+    ], 'channels', 'list');
 
     return $oHeaderModel;
 }
@@ -139,13 +138,11 @@ function getWebsiteMap()
     $doAffiliates->addSessionListOrderBy($sortPageName);
     $doAffiliates->find();
 
-    $aWebsiteMap = array();
+    $aWebsiteMap = [];
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-        $aWebsiteMap[$row['affiliateid']] = array('name' => $row['name'],
-            'url' => "affiliate-edit.php?affiliateid=".$row['affiliateid']);
+        $aWebsiteMap[$row['affiliateid']] = ['name' => $row['name'],
+            'url' => "affiliate-edit.php?affiliateid=" . $row['affiliateid']];
     }
 
     return $aWebsiteMap;
 }
-
-?>

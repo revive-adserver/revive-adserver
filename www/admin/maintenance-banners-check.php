@@ -36,13 +36,15 @@ if (!empty($action) && ($action == 'Rebuild')) {
 
     $result = processBanners(true);
     if (empty($result['errors'])) {
-        if (empty($returnurl)) { $returnurl = 'maintenance-banners-check.php'; }
+        if (empty($returnurl)) {
+            $returnurl = 'maintenance-banners-check.php';
+        }
         OX_Admin_Redirect::redirect($returnurl);
     } else {
         _showPageHeader();
         echo $GLOBALS['strBannerCacheErrorsFound'];
         echo "<ul>";
-       foreach ($result['errors'] as $error) {
+        foreach ($result['errors'] as $error) {
             $doCampaigns = OA_Dal::factoryDO('campaigns');
             if (empty($campaigns[$error['campaignid']])) {
                 if ($doCampaigns->get($error['campaignid'])) {
@@ -59,7 +61,7 @@ if (!empty($action) && ($action == 'Rebuild')) {
         _showPageHeader();
         echo $GLOBALS['strBannerCacheDifferencesFound'];
         echo "<form action='' METHOD='GET'>";
-        echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."' />";
+        echo "<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "' />";
         echo "<button type='submit' name='action' value='Rebuild'>{$GLOBALS['strBannerCacheRebuildButton']}</button>";
         echo "</form>";
     } else {
@@ -121,5 +123,3 @@ function _showPageHeader()
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

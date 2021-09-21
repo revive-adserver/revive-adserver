@@ -25,19 +25,18 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTags
 {
-
     /**
      * Use only for factory default plugin
      * @see MAX_Admin_Invocation::placeInvocationForm()
      */
-    var $defaultZone = phpAds_ZonePopup;
+    public $defaultZone = phpAds_ZonePopup;
 
     /**
      * Return name of plugin
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate("Popup Tag");
     }
@@ -49,7 +48,7 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      *
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         return 'Popup Tag';
     }
@@ -59,10 +58,10 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
-        if(is_array($extra) || (is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
+        if (is_array($extra) || (is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
             return false;
         } else {
             return $isAllowed;
@@ -74,7 +73,7 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      *
      * @return boolean
      */
-    function canGenerate()
+    public function canGenerate()
     {
         return !empty($this->maxInvocation->submitbutton);
     }
@@ -84,20 +83,20 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      *
      * @return array    Group of options
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
-        $options = array (
-            'spacer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'what'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'campaignid'    => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'absolute'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'popunder'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'timeout'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'delay'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        $options = [
+            'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'what' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'campaignid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'absolute' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'popunder' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'timeout' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'delay' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'windowoptions' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-        );
+        ];
 
         return $options;
     }
@@ -107,10 +106,10 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
      *
      * @return string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
-        $aComments = array(
-            'Third Party Comment'  => $this->translate("
+        $aComments = [
+            'Third Party Comment' => $this->translate("
   -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with
   -- the click tracking URL if this ad is to be delivered through a 3rd
   -- party (non-Max) adserver.
@@ -119,14 +118,14 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
   -- a cache-buster random number each time you deliver the tag through
   -- a 3rd party (non-Max) adserver.
   --"),
-            'Comment'              => $this->translate("
+            'Comment' => $this->translate("
   -- This tag has been generated for use on a non-SSL page. If this tag
   -- is to be placed on an SSL page, change all instances of
   --   'http://%s/...'
   -- to
   --   'https://%s/...'
-  --", array($conf['webpath']['delivery'],$conf['webpath']['deliverySSL'])),
-            );
+  --", [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]),
+            ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -137,13 +136,13 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
             $mi->parameters['popunder'] = "popunder=1";
         }
         if (isset($mi->left) && $mi->left != '' && $mi->left != '-') {
-            $mi->parameters['left'] = "left=".$mi->left;
+            $mi->parameters['left'] = "left=" . $mi->left;
         }
         if (isset($mi->top) && $mi->top != '' && $mi->top != '-') {
-            $mi->parameters['top'] = "top=".$mi->top;
+            $mi->parameters['top'] = "top=" . $mi->top;
         }
         if (isset($mi->timeout) && $mi->timeout != '' && $mi->timeout != '-') {
-            $mi->parameters['timeout'] = "timeout=".$mi->timeout;
+            $mi->parameters['timeout'] = "timeout=" . $mi->timeout;
         }
         if (isset($mi->toolbars) && $mi->toolbars == '1') {
             $mi->parameters['toolbars'] = "toolbars=1";
@@ -166,21 +165,18 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
 
         if (isset($mi->delay_type)) {
             if ($mi->delay_type == 'seconds' && isset($mi->delay) && $mi->delay != '' && $mi->delay != '-') {
-                $mi->parameters['delay'] = "delay=".$mi->delay;
+                $mi->parameters['delay'] = "delay=" . $mi->delay;
             } elseif ($mi->delay_type == 'exit') {
                 $mi->parameters['delay'] = "delay=exit";
             }
         }
-        $buffer .= "<script type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['popup']);
-        $buffer .= "?n=".$mi->uniqueid;
+        $buffer .= "<script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['popup']);
+        $buffer .= "?n=" . $mi->uniqueid;
         if (sizeof($mi->parameters) > 0) {
-            $buffer .= "&".implode ("&", $mi->parameters);
+            $buffer .= "&" . implode("&", $mi->parameters);
         }
         $buffer .= "'></script>\n";
 
         return $buffer;
     }
-
 }
-
-?>

@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class RV_Admin_DateTimeFormat
 {
-
     /**
      * A method that takes a UTC date/time string (e.g. as stored in the
      * database) and formats it using the user's locale information - both in
@@ -194,7 +193,4 @@ class RV_Admin_DateTimeFormat
     {
         return $oDateTime->format("{$GLOBALS['time_format']}");
     }
-
 }
-
-?>

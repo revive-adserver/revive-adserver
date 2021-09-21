@@ -37,19 +37,20 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
      *
      * @var OA_Cache_DeliveryCacheCommon
      */
-    var $oDeliveryCacheCommon;
+    public $oDeliveryCacheCommon;
 
-    function __construct(){
+    public function __construct()
+    {
         $this->oDeliveryCacheCommon = new OA_Cache_DeliveryCacheCommon();
     }
 
-    function setUp()
+    public function setUp()
     {
         // Make sure that delivery cache is clear for tests
         $this->oDeliveryCacheCommon->invalidateAll();
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
         $this->oDeliveryCacheCommon->invalidateAll();
@@ -61,7 +62,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
      * Check if tests can be runned
      *
      */
-    function skip()
+    public function skip()
     {
         // Skip tests if cache storage plugin
         // isn't installed or enabled
@@ -75,26 +76,28 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
      * Method tests invalidateAll method
      *
      */
-    function test_invalidateAll() {
-        for($i=0; $i<5; $i++) {
-            $filename = 'testname'.$i;
+    public function test_invalidateAll()
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $filename = 'testname' . $i;
             OA_Delivery_Cache_store($filename, $i);
         }
-        for($i=0; $i<5; $i++) {
-            $this->assertEqual($i, OA_Delivery_Cache_fetch('testname'.$i));
+        for ($i = 0; $i < 5; $i++) {
+            $this->assertEqual($i, OA_Delivery_Cache_fetch('testname' . $i));
         }
         $result = $this->oDeliveryCacheCommon->invalidateAll();
         $this->assertTrue($result);
 
-        for($i=0; $i<5; $i++) {
-            $this->assertFalse(OA_Delivery_Cache_fetch('testname'.$i));
+        for ($i = 0; $i < 5; $i++) {
+            $this->assertFalse(OA_Delivery_Cache_fetch('testname' . $i));
         }
     }
 
     /**
      * Method tests invalidateGetAdCache method
      */
-    function test_invalidateGetAdCache() {
+    public function test_invalidateGetAdCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -114,7 +117,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateGetAccountTZsCache method
      */
-    function test_invalidateGetAccountTZsCache() {
+    public function test_invalidateGetAccountTZsCache()
+    {
         $cachedData = MAX_cacheGetAccountTZs();
 
         // Add Admin user and set time zone in his preferences
@@ -124,14 +128,14 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
 
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'timezone';
-        $doPreferences->value           = 'new value';
-        $doPreferences->account_type    = 'ADMIN';
+        $doPreferences->value = 'new value';
+        $doPreferences->account_type = 'ADMIN';
         $preferencesId = DataGenerator::generateOne($doPreferences);
 
         $doAccountPreferenceAssoc = OA_Dal::factoryDO('account_preference_assoc');
-        $doAccountPreferenceAssoc->account_id    = $accountId;
+        $doAccountPreferenceAssoc->account_id = $accountId;
         $doAccountPreferenceAssoc->preference_id = $preferencesId;
-        $doAccountPreferenceAssoc->value         = 'new value';
+        $doAccountPreferenceAssoc->value = 'new value';
         DataGenerator::generateOne($doAccountPreferenceAssoc);
 
         // Expect no changes in cache
@@ -144,7 +148,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateZoneLinkedAdsCache method
      */
-    function test_invalidateZoneLinkedAdsCache() {
+    public function test_invalidateZoneLinkedAdsCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -176,7 +181,7 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         // Unlink banner
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->zone_id = $aIds['zones'][0];
-        $doAdZoneAssoc->ad_id   = $aIds['banners'][0];
+        $doAdZoneAssoc->ad_id = $aIds['banners'][0];
         $doAdZoneAssoc->delete();
         // Expect no changes in cache
         $this->assertEqual(MAX_cacheGetZoneLinkedAds($aIds['zones'][0]), $cachedData3);
@@ -189,7 +194,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateGetZoneInfoCache method
      */
-    function test_invalidateGetZoneInfoCache() {
+    public function test_invalidateGetZoneInfoCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -210,7 +216,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateGetCreativeCache method
      */
-    function test_invalidateGetCreativeCache() {
+    public function test_invalidateGetCreativeCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -230,7 +237,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateGetTrackerCache method
      */
-    function test_invalidateGetTrackerCache(){
+    public function test_invalidateGetTrackerCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -250,7 +258,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateGetTrackerVariablesCache method
      */
-    function test_invalidateGetTrackerVariablesCache(){
+    public function test_invalidateGetTrackerVariablesCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -270,22 +279,23 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateCheckIfMaintenanceShouldRunCache method
      */
-    function test_invalidateCheckIfMaintenanceShouldRunCache(){
-        $interval    = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-        $delay       = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
+    public function test_invalidateCheckIfMaintenanceShouldRunCache()
+    {
+        $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
+        $delay = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 
         // Set value for maintenace_timestamp that maintenace should run now
         $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->name  = 'maintenance_timestamp';
-        $doAppVar->value = MAX_commonGetTimeNow()-2*$interval;
+        $doAppVar->name = 'maintenance_timestamp';
+        $doAppVar->value = MAX_commonGetTimeNow() - 2 * $interval;
         $doAppVar->insert();
 
         $cachedData = MAX_cacheCheckIfMaintenanceShouldRun();
 
         // Set value for maintenace_timestamp that maintenace shouldn't be run
         $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->name  = 'maintenance_timestamp';
-        $doAppVar->value = MAX_commonGetTimeNow()+$delay+1;
+        $doAppVar->name = 'maintenance_timestamp';
+        $doAppVar->value = MAX_commonGetTimeNow() + $delay + 1;
         $doAppVar->update();
 
         // Expect no changes in cache
@@ -298,7 +308,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidateGetChannelLimitationsCache method
      */
-    function test_invalidateGetChannelLimitationsCache(){
+    public function test_invalidateGetChannelLimitationsCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -320,7 +331,8 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     /**
      * Method tests invalidatePublisherZonesCache method
      */
-    function test_invalidatePublisherZonesCache() {
+    public function test_invalidatePublisherZonesCache()
+    {
         $aIds = $this->_createTestData();
         $this->_createTestCacheFiles($aIds);
 
@@ -349,4 +361,3 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
         $this->assertNotEqual($cachedData3, $cachedData2);
     }
 }
-?>

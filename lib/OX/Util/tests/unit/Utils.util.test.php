@@ -13,16 +13,15 @@
 require_once(MAX_PATH . '/lib/OX/Util/Utils.php');
 require_once MAX_PATH . '/lib/pear/Date.php';
 
-class OX_Util_UtilsTest
-    extends UnitTestCase
+class OX_Util_UtilsTest extends UnitTestCase
 {
-    function testGetCampaignType()
+    public function testGetCampaignType()
     {
-        $aTestValues = array(
+        $aTestValues = [
             -2 => OX_CAMPAIGN_TYPE_ECPM,
             -1 => OX_CAMPAIGN_TYPE_OVERRIDE,
             0 => OX_CAMPAIGN_TYPE_REMNANT
-        );
+        ];
         for ($i = 1; $i <= 10; $i++) {
             $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
         }
@@ -34,9 +33,9 @@ class OX_Util_UtilsTest
     }
 
 
-    function testGetCampaignTranslationKey()
+    public function testGetCampaignTranslationKey()
     {
-        $aTestValues = array(-1 => 'strOverride', 0 => 'strRemnant');
+        $aTestValues = [-1 => 'strOverride', 0 => 'strRemnant'];
         for ($i = 1; $i <= 10; $i++) {
             $aTestValues[$i] = 'strStandardContract';
         }
@@ -47,7 +46,7 @@ class OX_Util_UtilsTest
         }
     }
 
-    function testGetEcpm()
+    public function testGetEcpm()
     {
         $revenue = 10;
         $clicks = 10;
@@ -65,35 +64,78 @@ class OX_Util_UtilsTest
         // eCPM = default click ratio * revenue * 1000
         $defaultClickRatio = null;
         $expected = 50;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_CPC, $revenue, $impressions,
-            $clicks, $conversions, null, null, $defaultClickRatio);
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_CPC,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            null,
+            null,
+            $defaultClickRatio
+        );
         $this->assertEqual($expected, $result);
 
         $defaultClickRatio = 0.05;
         $expected = 500;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_CPC, $revenue, $impressions,
-            $clicks, $conversions, null, null, $defaultClickRatio);
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_CPC,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            null,
+            null,
+            $defaultClickRatio
+        );
         $this->assertEqual($expected, $result);
 
         // CPA
         // eCPM = default conversion ratio * revenue * 1000
         $defaultConversionRatio = null;
         $expected = 1;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_CPA, $revenue, $impressions,
-            $clicks, $conversions, null, null, $defaultClickRatio, $defaultConversionRatio);
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_CPA,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            null,
+            null,
+            $defaultClickRatio,
+            $defaultConversionRatio
+        );
         $this->assertEqual($expected, $result);
 
         $defaultConversionRatio = 0.01;
         $expected = 100;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_CPA, $revenue, $impressions,
-            $clicks, $conversions, null, null, $defaultClickRatio, $defaultConversionRatio);
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_CPA,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            null,
+            null,
+            $defaultClickRatio,
+            $defaultConversionRatio
+        );
         $this->assertEqual($expected, $result);
 
         // Tenancy
         // eCPM = 0.
         $expected = 0;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions,
-            $clicks, $conversions, '2009-01-01', '2009-01-14', $defaultClickRatio, $defaultConversionRatio);
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_MT,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            '2009-01-01',
+            '2009-01-14',
+            $defaultClickRatio,
+            $defaultConversionRatio
+        );
         $this->assertEqual($expected, $result);
 
         // Test each type with some impressions
@@ -137,8 +179,15 @@ class OX_Util_UtilsTest
         // Beginning of campaign (no imps served)
         $impressions = 0;
         $expected = 0;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions,
-            $clicks, $conversions, $startDate->getDate(DATE_FORMAT_ISO), $endDate->getDate(DATE_FORMAT_ISO));
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_MT,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            $startDate->getDate(DATE_FORMAT_ISO),
+            $endDate->getDate(DATE_FORMAT_ISO)
+        );
         $this->assertEqual($expected, $result);
 
         // Half way through campaign (40,000 imps served)
@@ -152,8 +201,15 @@ class OX_Util_UtilsTest
 
         // eCPM = (revenue / totalDaysInCampaign) * daysInCampaignSoFar / impressions * 1000
         $expected = 125;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions, $clicks, $conversions,
-            $startDate->getDate(DATE_FORMAT_ISO), $endDate->getDate(DATE_FORMAT_ISO));
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_MT,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            $startDate->getDate(DATE_FORMAT_ISO),
+            $endDate->getDate(DATE_FORMAT_ISO)
+        );
         $this->assertEqual($expected, $result);
 
         // End of campaign (70,000 imps served)
@@ -164,19 +220,30 @@ class OX_Util_UtilsTest
         $this->assertEqual(10, $span->toDays());
 
         $expected = 142.857142857;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions, $clicks, $conversions,
-            $startDate->getDate(DATE_FORMAT_ISO), $endDate->getDate(DATE_FORMAT_ISO));
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_MT,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            $startDate->getDate(DATE_FORMAT_ISO),
+            $endDate->getDate(DATE_FORMAT_ISO)
+        );
 
         // Is this the correct margin?
         $this->assertWithinMargin($expected, $result, 0.0001, "Outside of margin");
 
         // No dates given
         $expected = 0;
-        $result = OX_Util_Utils::getEcpm(MAX_FINANCE_MT, $revenue, $impressions, $clicks, $conversions,
-            null, null);
+        $result = OX_Util_Utils::getEcpm(
+            MAX_FINANCE_MT,
+            $revenue,
+            $impressions,
+            $clicks,
+            $conversions,
+            null,
+            null
+        );
         $this->assertEqual($expected, $result);
-
     }
-
 }
-?>

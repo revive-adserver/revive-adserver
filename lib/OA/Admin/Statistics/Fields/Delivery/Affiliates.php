@@ -24,9 +24,8 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
-
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Set ordering to a high value to move columns to the right
@@ -36,119 +35,118 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
         /*$this->module  = 'statisticsFieldsDelivery';
         $this->package = 'affiliates';*/
 
-        $this->_aFields = array();
+        $this->_aFields = [];
 
         $this->_aFields['sum_revenue'] =
-            array(
-                'name'   => $GLOBALS['strRevenue'],
-                'short'  => $GLOBALS['strRevenue_short'],
-                'rank'   => 4,
-                'pref'   => 'ui_column_revenue',
+            [
+                'name' => $GLOBALS['strRevenue'],
+                'short' => $GLOBALS['strRevenue_short'],
+                'rank' => 4,
+                'pref' => 'ui_column_revenue',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_bv'] =
-            array(
-                'name'   => $GLOBALS['strBasketValue'],
-                'short'  => $GLOBALS['strBasketValue_short'],
-                'pref'   => 'ui_column_bv',
+            [
+                'name' => $GLOBALS['strBasketValue'],
+                'short' => $GLOBALS['strBasketValue_short'],
+                'pref' => 'ui_column_bv',
                 'format' => 'currency',
-                'ctf'    => true
-            );
+                'ctf' => true
+            ];
 
         $this->_aFields['sum_num_items'] =
-            array(
-                'name'   => $GLOBALS['strNumberOfItems'],
-                'short'  => $GLOBALS['strNumberOfItems_short'],
-                'pref'   => 'ui_column_num_items',
+            [
+                'name' => $GLOBALS['strNumberOfItems'],
+                'short' => $GLOBALS['strNumberOfItems_short'],
+                'pref' => 'ui_column_num_items',
                 'format' => 'default',
-                'ctf'    => true
-            );
+                'ctf' => true
+            ];
 
         $this->_aFields['sum_revcpc'] =
-            array(
-                'name'   => $GLOBALS['strRevenueCPC'],
-                'short'  => $GLOBALS['strRevenueCPC_short'],
-                'pref'   => 'ui_column_revcpc',
+            [
+                'name' => $GLOBALS['strRevenueCPC'],
+                'short' => $GLOBALS['strRevenueCPC_short'],
+                'pref' => 'ui_column_revcpc',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_erpm'] =
-            array(
-                'name'   => $GLOBALS['strERPM'],
-                'short'  => $GLOBALS['strERPM_short'],
-                'pref'   => 'ui_column_erpm',
+            [
+                'name' => $GLOBALS['strERPM'],
+                'short' => $GLOBALS['strERPM_short'],
+                'pref' => 'ui_column_erpm',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_erpc'] =
-            array(
-                'name'   => $GLOBALS['strERPC'],
-                'short'  => $GLOBALS['strERPC_short'],
-                'pref'   => 'ui_column_erpc',
+            [
+                'name' => $GLOBALS['strERPC'],
+                'short' => $GLOBALS['strERPC_short'],
+                'pref' => 'ui_column_erpc',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_erps'] =
-            array(
-                'name'   => $GLOBALS['strERPS'],
-                'short'  => $GLOBALS['strERPS_short'],
-                'pref'   => 'ui_column_erps',
+            [
+                'name' => $GLOBALS['strERPS'],
+                'short' => $GLOBALS['strERPS_short'],
+                'pref' => 'ui_column_erps',
                 'format' => 'currency',
-                'ctf'    => true
-            );
+                'ctf' => true
+            ];
 
         $this->_aFields['sum_eipm'] =
-            array(
-                'name'   => $GLOBALS['strEIPM'],
-                'short'  => $GLOBALS['strEIPM_short'],
-                'pref'   => 'ui_column_eipm',
+            [
+                'name' => $GLOBALS['strEIPM'],
+                'short' => $GLOBALS['strEIPM_short'],
+                'pref' => 'ui_column_eipm',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_eipc'] =
-            array(
-                'name'   => $GLOBALS['strEIPC'],
-                'short'  => $GLOBALS['strEIPC_short'],
-                'pref'   => 'ui_column_eipc',
+            [
+                'name' => $GLOBALS['strEIPC'],
+                'short' => $GLOBALS['strEIPC_short'],
+                'pref' => 'ui_column_eipc',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_eips'] =
-            array(
-                'name'   => $GLOBALS['strEIPS'],
-                'short'  => $GLOBALS['strEIPS_short'],
-                'pref'   => 'ui_column_eips',
+            [
+                'name' => $GLOBALS['strEIPS'],
+                'short' => $GLOBALS['strEIPS_short'],
+                'pref' => 'ui_column_eips',
                 'format' => 'currency',
-                'ctf'    => true
-            );
+                'ctf' => true
+            ];
 
         $this->_aFields['sum_ecpm'] =
-            array(
-                'name'   => $GLOBALS['strECPM'],
-                'short'  => $GLOBALS['strECPM_short'],
-                'rank'   => 5,
-                'pref'   => 'ui_column_ecpm',
+            [
+                'name' => $GLOBALS['strECPM'],
+                'short' => $GLOBALS['strECPM_short'],
+                'rank' => 5,
+                'pref' => 'ui_column_ecpm',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_ecpc'] =
-            array(
-                'name'   => $GLOBALS['strECPC'],
-                'short'  => $GLOBALS['strECPC_short'],
-                'pref'   => 'ui_column_ecpc',
+            [
+                'name' => $GLOBALS['strECPC'],
+                'short' => $GLOBALS['strECPC_short'],
+                'pref' => 'ui_column_ecpc',
                 'format' => 'currency'
-            );
+            ];
 
         $this->_aFields['sum_ecps'] =
-            array(
-                'name'   => $GLOBALS['strECPS'],
-                'short'  => $GLOBALS['strECPS_short'],
-                'pref'   => 'ui_column_ecps',
+            [
+                'name' => $GLOBALS['strECPS'],
+                'short' => $GLOBALS['strECPS_short'],
+                'pref' => 'ui_column_ecps',
                 'format' => 'currency',
-                'ctf'    => true
-            );
-
+                'ctf' => true
+            ];
     }
 
     /**
@@ -177,19 +175,19 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
      *
      * @return array As described above.
      */
-    function getHistorySpanParams()
+    public function getHistorySpanParams()
     {
-        $aParams = array();
-        $aParams['custom_table']   = 'data_intermediate_ad_connection';
-        $aParams['custom_columns'] = array("DATE_FORMAT(MIN(tracker_date_time), '%Y-%m-%d')" => 'start_date');
+        $aParams = [];
+        $aParams['custom_table'] = 'data_intermediate_ad_connection';
+        $aParams['custom_columns'] = ["DATE_FORMAT(MIN(tracker_date_time), '%Y-%m-%d')" => 'start_date'];
         return $aParams;
     }
 
-    function addQueryParams(&$aParams)
+    public function addQueryParams(&$aParams)
     {
-        $aParams['add_columns']['SUM(s.total_revenue)']      = 'sum_revenue';
+        $aParams['add_columns']['SUM(s.total_revenue)'] = 'sum_revenue';
         $aParams['add_columns']['SUM(s.total_basket_value)'] = 'sum_bv';
-        $aParams['add_columns']['SUM(s.total_num_items)']    = 'sum_num_items';
+        $aParams['add_columns']['SUM(s.total_num_items)'] = 'sum_num_items';
     }
 
     /**
@@ -199,19 +197,17 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
      *
      * @param array Row of stats
      */
-    function summarizeStats(&$row)
+    public function summarizeStats(&$row)
     {
-        $row['sum_revcpc']          = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
-        $row['sum_erpm']            = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
-        $row['sum_erpc']            = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
-        $row['sum_erps']            = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions'] : 0;
-        $row['sum_eipm']            = $row['sum_views'] ? $row['sum_income'] / $row['sum_views'] * 1000 : 0;
-        $row['sum_eipc']            = $row['sum_clicks'] ? $row['sum_income'] / $row['sum_clicks']: 0;
-        $row['sum_eips']            = $row['sum_conversions'] ? $row['sum_income'] / $row['sum_conversions']: 0;
-        $row['sum_ecpm']            = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
-        $row['sum_ecpc']            = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks']: 0;
-        $row['sum_ecps']            = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions']: 0;
+        $row['sum_revcpc'] = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
+        $row['sum_erpm'] = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
+        $row['sum_erpc'] = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
+        $row['sum_erps'] = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions'] : 0;
+        $row['sum_eipm'] = $row['sum_views'] ? $row['sum_income'] / $row['sum_views'] * 1000 : 0;
+        $row['sum_eipc'] = $row['sum_clicks'] ? $row['sum_income'] / $row['sum_clicks'] : 0;
+        $row['sum_eips'] = $row['sum_conversions'] ? $row['sum_income'] / $row['sum_conversions'] : 0;
+        $row['sum_ecpm'] = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
+        $row['sum_ecpc'] = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks'] : 0;
+        $row['sum_ecps'] = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions'] : 0;
     }
 }
-
-?>

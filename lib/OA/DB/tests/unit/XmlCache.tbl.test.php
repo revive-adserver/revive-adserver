@@ -22,68 +22,64 @@ require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';
  */
 class Test_OA_DB_XmlCache extends UnitTestCase
 {
-    var $oDbh;
-    var $oCache;
-    var $oSchema;
+    public $oDbh;
+    public $oCache;
+    public $oSchema;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        $this->oDbh    = OA_DB::singleton();
-        $this->oCache  = new OA_DB_XmlCache();
-        $this->oSchema = MDB2_Schema::factory($this->oDbh, array('force_defaults'=>false));
+        $this->oDbh = OA_DB::singleton();
+        $this->oCache = new OA_DB_XmlCache();
+        $this->oSchema = MDB2_Schema::factory($this->oDbh, ['force_defaults' => false]);
     }
 
-    function test_Etc()
+    public function test_Etc()
     {
-        foreach (glob(MAX_PATH.'/etc/tables_*.xml') as $fileName)
-        {
+        foreach (glob(MAX_PATH . '/etc/tables_*.xml') as $fileName) {
             $result = $this->oSchema->parseDatabaseDefinitionFile($fileName, true);
-            $this->assertIsA($result,'array','parsed definition is not an array: '.$fileName);
-            $cache  = $this->oCache->get($fileName);
-            $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
-            $this->assertEqual($result, $cache, 'FILE: '.$fileName);
+            $this->assertIsA($result, 'array', 'parsed definition is not an array: ' . $fileName);
+            $cache = $this->oCache->get($fileName);
+            $this->assertIsA($cache, 'array', 'cached definition is not an array: ' . $fileName);
+            $this->assertEqual($result, $cache, 'FILE: ' . $fileName);
 
             $this->_testPrimaryKey($result);
         }
-
     }
 
     /**
      * @todo Remove the hack for schema 049
      *
      */
-    function test_EtcChangesSchema()
+    public function test_EtcChangesSchema()
     {
-        foreach (glob(MAX_PATH.'/etc/changes/schema_tables_*.xml') as $fileName)
-        {
+        foreach (glob(MAX_PATH . '/etc/changes/schema_tables_*.xml') as $fileName) {
             $result = $this->oSchema->parseDatabaseDefinitionFile($fileName, true);
-            $this->assertIsA($result,'array','parsed definition is not an array: '.$fileName);
-            $cache  = $this->oCache->get($fileName);
-            $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
-            $this->assertEqual($result, $cache, 'FILE: '.$fileName);
+            $this->assertIsA($result, 'array', 'parsed definition is not an array: ' . $fileName);
+            $cache = $this->oCache->get($fileName);
+            $this->assertIsA($cache, 'array', 'cached definition is not an array: ' . $fileName);
+            $this->assertEqual($result, $cache, 'FILE: ' . $fileName);
 
             $this->_testPrimaryKey($result);
         }
     }
 
-    function test_EtcChangesChanges()
+    public function test_EtcChangesChanges()
     {
-        foreach (glob(MAX_PATH.'/etc/changes/changes_tables_*.xml') as $fileName)
-        {
+        foreach (glob(MAX_PATH . '/etc/changes/changes_tables_*.xml') as $fileName) {
             $result = $this->oSchema->parseChangesetDefinitionFile($fileName);
-            $this->assertIsA($result,'array','parsed definition is not an array: '.$fileName);
-            $cache  = $this->oCache->get($fileName);
-            $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
-            $this->assertEqual($result, $cache, 'FILE: '.$fileName);
+            $this->assertIsA($result, 'array', 'parsed definition is not an array: ' . $fileName);
+            $cache = $this->oCache->get($fileName);
+            $this->assertIsA($cache, 'array', 'cached definition is not an array: ' . $fileName);
+            $this->assertEqual($result, $cache, 'FILE: ' . $fileName);
         }
     }
 
-    function _testPrimaryKey($aSchema)
+    public function _testPrimaryKey($aSchema)
     {
         foreach ($aSchema['tables'] as $tableName => $aTable) {
             foreach ($aTable['indexes'] as $indexName => $aIndex) {
@@ -93,7 +89,4 @@ class Test_OA_DB_XmlCache extends UnitTestCase
             }
         }
     }
-
 }
-
-?>

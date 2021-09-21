@@ -22,7 +22,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
      * A method to launch and display the widget
      *
      */
-    function display()
+    public function display()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -43,5 +43,3 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
         phpAds_PageFooter('', true);
     }
 }
-
-?>

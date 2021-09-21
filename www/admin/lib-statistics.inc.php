@@ -14,11 +14,11 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 // Define defaults
-$clientCache = array();
-$campaignCache = array();
-$bannerCache = array();
-$zoneCache = array();
-$affiliateCache = array();
+$clientCache = [];
+$campaignCache = [];
+$bannerCache = [];
+$zoneCache = [];
+$affiliateCache = [];
 
 /*-------------------------------------------------------*/
 /* Limit a string to a number of characters              */
@@ -27,7 +27,7 @@ $affiliateCache = array();
 function phpAds_breakString($str, $maxLen, $append = "...")
 {
     return strlen($str) > $maxLen
-        ? rtrim(substr($str, 0, $maxLen-strlen($append))).$append
+        ? rtrim(substr($str, 0, $maxLen - strlen($append))) . $append
         : $str;
 }
 
@@ -37,7 +37,7 @@ function phpAds_breakString($str, $maxLen, $append = "...")
 
 function phpAds_buildName($id, $name)
 {
-    return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$id]</span> ".htmlspecialchars($name));
+    return ("<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id$id]</span> " . htmlspecialchars($name));
 }
 
 /*-------------------------------------------------------*/
@@ -49,7 +49,7 @@ function phpAds_getClientName($clientid)
     global $strUntitled;
     if ($clientid != '' && $clientid != 0) {
         $client_details = phpAds_getClientDetails($clientid);
-        return (phpAds_BuildName ($clientid, $client_details['clientname']));
+        return (phpAds_BuildName($clientid, $client_details['clientname']));
     } else {
         global $strUntitled;
         return ($strUntitled);
@@ -71,7 +71,7 @@ function phpAds_getCampaignName($campaignid, $check_blind = false)
         if ($check_blind && ($campaign_details['anonymous'] == 't')) {
             $campaign_name = $GLOBALS['strHiddenCampaign'] . ' ' . $campaign_details['campaignid'];
         } else {
-            $campaign_name = phpAds_BuildName ($campaignid, $campaign_details['campaignname']);
+            $campaign_name = phpAds_BuildName($campaignid, $campaign_details['campaignname']);
         }
     }
     return $campaign_name;
@@ -94,7 +94,7 @@ function phpAds_getTrackerName($trackerid)
 {
     if ($trackerid != '' && $trackerid != 0) {
         $tracker_details = phpAds_getTrackerDetails($trackerid);
-        return (phpAds_BuildName ($trackerid, $tracker_details['trackername']));
+        return (phpAds_BuildName($trackerid, $tracker_details['trackername']));
     } else {
         return ($strUntitled);
     }
@@ -146,10 +146,10 @@ function phpAds_buildBannerName($bannerid, $description = '', $alt = '', $limit 
         $name .= $strUntitled;
     }
     if (strlen($name) > $limit) {
-        $name = phpAds_breakString ($name, $limit);
+        $name = phpAds_breakString($name, $limit);
     }
     if ($bannerid != '') {
-        $name = $use_html ? "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$bannerid]</span> ".htmlspecialchars($name) : "[id$bannerid] ".htmlspecialchars($name);
+        $name = $use_html ? "<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id$bannerid]</span> " . htmlspecialchars($name) : "[id$bannerid] " . htmlspecialchars($name);
     } else {
         $name = htmlspecialchars($name);
     }
@@ -172,17 +172,17 @@ function phpAds_getBannerName($bannerid, $limit = 30, $id = true, $checkanonymou
         if ($checkanonymous) {
             $doCampaigns = OA_Dal::staticGetDO('campaigns', $row['campaignid']);
             $row['anonymous'] = $doCampaigns->anonymous;
-			if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && MAX_isAnonymous($row['anonymous'])) {
-				$row['description'] = $GLOBALS['strHiddenAd'] . ' ' . $bannerid;
-			}
+            if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) && MAX_isAnonymous($row['anonymous'])) {
+                $row['description'] = $GLOBALS['strHiddenAd'] . ' ' . $bannerid;
+            }
         }
         $bannerCache[$bannerid] = $row;
     }
 
     if ($id) {
-        return (phpAds_buildBannerName ($bannerid, $row['description'], $row['alt'], $limit));
+        return (phpAds_buildBannerName($bannerid, $row['description'], $row['alt'], $limit));
     } else {
-        return (phpAds_buildBannerName ('', $row['description'], $row['alt'], $limit));
+        return (phpAds_buildBannerName('', $row['description'], $row['alt'], $limit));
     }
 }
 
@@ -192,7 +192,7 @@ function phpAds_getBannerName($bannerid, $limit = 30, $id = true, $checkanonymou
 
 function phpAds_buildZoneName($zoneid, $zonename)
 {
-    return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$zoneid]</span> " . htmlspecialchars($zonename));
+    return ("<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id$zoneid]</span> " . htmlspecialchars($zonename));
 }
 
 /*-------------------------------------------------------*/
@@ -211,7 +211,7 @@ function phpAds_getZoneName($zoneid)
             $doZones = OA_Dal::staticGetDO('zones', $zoneid);
             $zoneCache[$zoneid] = $doZones->toArray();
         }
-        return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
+        return (phpAds_BuildZoneName($zoneid, $row['zonename']));
     } else {
         return ($strUntitled);
     }
@@ -223,7 +223,7 @@ function phpAds_getZoneName($zoneid)
 
 function phpAds_buildAffiliateName($affiliateid, $name)
 {
-    return ("<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id$affiliateid]</span> " . htmlspecialchars($name));
+    return ("<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id$affiliateid]</span> " . htmlspecialchars($name));
 }
 
 /*-------------------------------------------------------*/
@@ -243,7 +243,7 @@ function phpAds_getAffiliateName($affiliateid)
             $row = $doAffiliates->toArray();
             $affiliateCache[$affiliateid] = $row;
         }
-        return (phpAds_BuildAffiliateName ($affiliateid, $row['name']));
+        return (phpAds_BuildAffiliateName($affiliateid, $row['name']));
     } else {
         return ($strUntitled);
     }
@@ -277,17 +277,17 @@ function phpAds_buildRatio($numerator, $denominator)
     // Strip any non-digit characters from numbers
     $numerator = preg_replace('/[^0-9]/', '', $numerator);
     $denominator = preg_replace('/[^0-9]/', '', $denominator);
-    return ($denominator == 0 ? 0 : $numerator/$denominator);
+    return ($denominator == 0 ? 0 : $numerator / $denominator);
 }
 
-function phpAds_formatPercentage($number, $decimals=-1)
+function phpAds_formatPercentage($number, $decimals = -1)
 {
     $pref = $GLOBALS['_MAX']['PREF'];
     global $phpAds_DecimalPoint, $phpAds_ThousandsSeperator;
     if ($decimals < 0) {
         $decimals = $pref['ui_percentage_decimals'];
     }
-    return number_format($number*100, $decimals, $phpAds_DecimalPoint, $phpAds_ThousandsSeperator).'%';
+    return number_format($number * 100, $decimals, $phpAds_DecimalPoint, $phpAds_ThousandsSeperator) . '%';
 }
 
 function phpAds_buildRatioPercentage($numerator, $denominator)
@@ -295,7 +295,8 @@ function phpAds_buildRatioPercentage($numerator, $denominator)
     return phpAds_formatPercentage(phpAds_buildRatio($numerator, $denominator));
 }
 
-function phpAds_formatNumber($number, $decimals = 0) {
+function phpAds_formatNumber($number, $decimals = 0)
+{
     global $phpAds_ThousandsSeperator, $phpAds_DecimalPoint;
     if (!strcmp($number, '-')) {
         return '-';
@@ -307,7 +308,7 @@ function phpAds_formatNumber($number, $decimals = 0) {
 /* Get overview statistics                                 */
 /*-------------------------------------------------------*/
 
-function phpAds_totalStats($column, $bannerid, $timeconstraint="")
+function phpAds_totalStats($column, $bannerid, $timeconstraint = "")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $where = "";
@@ -320,11 +321,11 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint="")
         }
         if ($timeconstraint == "month") {
             $begin = date('Ymd', mktime(0, 0, 0, date('m'), 1, date('Y')));
-            $end   = date('Ymd', mktime(0, 0, 0, date('m') + 1, 1, date('Y')));
+            $end = date('Ymd', mktime(0, 0, 0, date('m') + 1, 1, date('Y')));
             $where .= "day >= $begin AND day < $end";
         } elseif ($timeconstraint == "week") {
             $begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d') - 6, date('Y')));
-            $end   = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
+            $end = date('Ymd', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
             $where .= "day >= $begin AND day < $end";
         } else {
             $begin = date('Ymd', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
@@ -346,19 +347,19 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint="")
     }
 }
 
-function phpAds_totalClicks($bannerid="", $timeconstraint="")
+function phpAds_totalClicks($bannerid = "", $timeconstraint = "")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     return phpAds_totalStats("clicks", $bannerid, $timeconstraint);
 }
 
-function phpAds_totalConversions($bannerid="", $timeconstraint="")
+function phpAds_totalConversions($bannerid = "", $timeconstraint = "")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     return phpAds_totalStats("conversions", $bannerid, $timeconstraint);
 }
 
-function phpAds_totalViews($bannerid="", $timeconstraint="")
+function phpAds_totalViews($bannerid = "", $timeconstraint = "")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     return phpAds_totalStats("impressions", $bannerid, $timeconstraint);
@@ -413,5 +414,3 @@ function phpAds_getTrackerDetails($trackerid)
     }
     return ($row);
 }
-
-?>

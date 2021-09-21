@@ -10,14 +10,13 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
 
 
 /**
  * Wrapper rule for "decimalplaces" rule.
  */
-class OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor
-    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
+class OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
 {
     /**
      * Returns a custom JS function which adds unique method to jquery
@@ -32,16 +31,14 @@ class OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor
     //this.optional(element) ||
     
     /**
-     * Returns custom Jquery validation "regex" rule 
+     * Returns custom Jquery validation "regex" rule
      * "regex": /regex/
      * @param array $rule
-     * @return JS string with unique rule definition 
+     * @return JS string with unique rule definition
      */
     public function getJQueryValidationRule($rule)
     {
-        $regex = '^\\\d+(\\\.\\\d{1,'.$rule['format'].'})?$'; //in JS when regexp is created via string all \ must be escaped
-        return '"'.$rule['type'].'": "'.$regex.'"';
+        $regex = '^\\\d+(\\\.\\\d{1,' . $rule['format'] . '})?$'; //in JS when regexp is created via string all \ must be escaped
+        return '"' . $rule['type'] . '": "' . $regex . '"';
     }
 }
-
-?>

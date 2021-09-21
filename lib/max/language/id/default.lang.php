@@ -233,7 +233,7 @@ $GLOBALS['strDayOfWeek'] = "Hari dalam minggu";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Sunday';
 $GLOBALS['strDayFullNames'][1] = 'Monday';
@@ -244,7 +244,7 @@ $GLOBALS['strDayFullNames'][5] = 'Friday';
 $GLOBALS['strDayFullNames'][6] = 'Saturday';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Su';
 $GLOBALS['strDayShortCuts'][1] = 'Mo';
@@ -562,19 +562,19 @@ $GLOBALS['strDeliveryCappingTotal'] = "jumlahnya";
 $GLOBALS['strDeliveryCappingSession'] = "per sesi";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['title'] = "Pengiriman capping per pengunjung";
 $GLOBALS['strCappingBanner']['limit'] = "Batasi penampilan banner pada:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['title'] = "Pengiriman capping per pengunjung";
 $GLOBALS['strCappingCampaign']['limit'] = "Batasi penampilan kampanye pada:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['title'] = "Pengiriman capping per pengunjung";
 $GLOBALS['strCappingZone']['limit'] = "Batasi penampilan zona pada:";

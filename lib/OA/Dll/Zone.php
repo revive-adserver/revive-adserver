@@ -39,14 +39,14 @@ class OA_Dll_Zone extends OA_Dll
      *
      * @return boolean
      */
-    function _setZoneDataFromArray(&$oZone, $zoneData)
+    public function _setZoneDataFromArray(&$oZone, $zoneData)
     {
-        $zoneData['publisherId']    = $zoneData['affiliateid'];
-        $zoneData['zoneId']         = $zoneData['zoneid'];
-        $zoneData['type']           = $zoneData['delivery'];
-        $zoneData['zoneName']       = $zoneData['zonename'];
+        $zoneData['publisherId'] = $zoneData['affiliateid'];
+        $zoneData['zoneId'] = $zoneData['zoneid'];
+        $zoneData['type'] = $zoneData['delivery'];
+        $zoneData['zoneName'] = $zoneData['zonename'];
         $zoneData['sessionCapping'] = $zoneData['session_capping'];
-        $zoneData['block']          = $zoneData['block'];
+        $zoneData['block'] = $zoneData['block'];
 
         if (preg_match('/^zone:(\d+)$/D', $zoneData['chain'], $m)) {
             $zoneData['chainedZoneId'] = (int)$m[1];
@@ -67,10 +67,9 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean
      *
      */
-    function _validateZoneType($type)
+    public function _validateZoneType($type)
     {
-
-        $arType = array(0, 1, 2, 3, 4);
+        $arType = [0, 1, 2, 3, 4];
 
         if (!isset($type) || in_array($type, $arType)) {
             $this->raiseError("Zone type is wrong!");
@@ -92,19 +91,18 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean
      *
      */
-    function _validate(&$oZone)
+    public function _validate(&$oZone)
     {
         if (!$this->_validateZoneType($oZone->type) ||
-            !$this->checkStructureNotRequiredStringField($oZone,  'zoneName', 245) ||
+            !$this->checkStructureNotRequiredStringField($oZone, 'zoneName', 245) ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'block') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'height') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'chainedZoneId') ||
-            !$this->checkStructureNotRequiredStringField($oZone,  'comments')
+            !$this->checkStructureNotRequiredStringField($oZone, 'comments')
         ) {
-
             return false;
         }
 
@@ -152,11 +150,10 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean
      *
      */
-    function _validateForStatistics($zoneId, $oStartDate, $oEndDate)
+    public function _validateForStatistics($zoneId, $oStartDate, $oEndDate)
     {
         if (!$this->checkIdExistence('zones', $zoneId) ||
             !$this->checkDateOrder($oStartDate, $oEndDate)) {
-
             return false;
         } else {
             return true;
@@ -172,14 +169,13 @@ class OA_Dll_Zone extends OA_Dll
      *
      * @return boolean  False if access denied and true if allowed.
      */
-    function checkStatisticsPermissions($zoneId)
+    public function checkStatisticsPermissions($zoneId)
     {
-       if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId))
-       {
-           return false;
-       } else {
-           return true;
-       }
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -200,22 +196,27 @@ class OA_Dll_Zone extends OA_Dll
      * @return success boolean True if the operation was successful
      *
      */
-    function modify(&$oZone)
+    public function modify(&$oZone)
     {
         if (!isset($oZone->zoneId)) {
             // Add
             $oZone->setDefaultForAdd();
-            if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
-                'affiliates', $oZone->publisherId, OA_PERM_ZONE_ADD))
-            {
+            if (!$this->checkPermissions(
+                $this->aAllowTraffickerAndAbovePerm,
+                'affiliates',
+                $oZone->publisherId,
+                OA_PERM_ZONE_ADD
+            )) {
                 return false;
             }
         } else {
             // Edit
             if (!$this->checkPermissions(
                 $this->aAllowTraffickerAndAbovePerm,
-                'zones', $oZone->zoneId, OA_PERM_ZONE_EDIT))
-            {
+                'zones',
+                $oZone->zoneId,
+                OA_PERM_ZONE_EDIT
+            )) {
                 return false;
             }
         }
@@ -223,8 +224,10 @@ class OA_Dll_Zone extends OA_Dll
         if (!empty($oZone->chainedZoneId)) {
             if (!$this->checkPermissions(
                 $this->aAllowTraffickerAndAbovePerm,
-                'zones', $oZone->chainedZoneId, OA_PERM_ZONE_EDIT))
-            {
+                'zones',
+                $oZone->chainedZoneId,
+                OA_PERM_ZONE_EDIT
+            )) {
                 return false;
             }
         }
@@ -232,22 +235,21 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData = (array) $oZone;
 
         // Name
-        $zoneData['zonename']       = $oZone->zoneName;
-        $zoneData['affiliateid']    = $oZone->publisherId;
-        $zoneData['delivery']       = $oZone->type;
-        $zoneData['width']          = $oZone->width;
-        $zoneData['height']         = $oZone->height;
-        $zoneData['capping']        = $oZone->capping > 0 ? $oZone->capping : 0;
-        $zoneData['session_capping']= $oZone->sessionCapping > 0 ? $oZone->sessionCapping : 0;
-        $zoneData['block']          = $oZone->block > 0 ? $oZone->block : 0;
-        $zoneData['chain']          = empty($oZone->chainedZoneId) ? null : 'zone:'.$oZone->chainedZoneId;
+        $zoneData['zonename'] = $oZone->zoneName;
+        $zoneData['affiliateid'] = $oZone->publisherId;
+        $zoneData['delivery'] = $oZone->type;
+        $zoneData['width'] = $oZone->width;
+        $zoneData['height'] = $oZone->height;
+        $zoneData['capping'] = $oZone->capping > 0 ? $oZone->capping : 0;
+        $zoneData['session_capping'] = $oZone->sessionCapping > 0 ? $oZone->sessionCapping : 0;
+        $zoneData['block'] = $oZone->block > 0 ? $oZone->block : 0;
+        $zoneData['chain'] = empty($oZone->chainedZoneId) ? null : 'zone:' . $oZone->chainedZoneId;
 
         if ($this->_validate($oZone)) {
             $doZone = OA_Dal::factoryDO('zones');
             if (!isset($zoneData['zoneId'])) {
                 $doZone->setFrom($zoneData);
                 $oZone->zoneId = $doZone->insert();
-
             } else {
                 $doZone->get($zoneData['zoneId']);
                 $doZone->setFrom($zoneData);
@@ -269,7 +271,7 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful
      *
      */
-    function delete($zoneId)
+    public function delete($zoneId)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) {
             return false;
@@ -301,7 +303,7 @@ class OA_Dll_Zone extends OA_Dll
      *
      * @return boolean
      */
-    function getZone($zoneId, &$oZone)
+    public function getZone($zoneId, &$oZone)
     {
         if ($this->checkIdExistence('zones', $zoneId)) {
             if (!$this->checkPermissions(null, 'zones', $zoneId)) {
@@ -315,9 +317,7 @@ class OA_Dll_Zone extends OA_Dll
 
             $this->_setZoneDataFromArray($oZone, $zoneData);
             return true;
-
         } else {
-
             $this->raiseError('Unknown zoneId Error');
             return false;
         }
@@ -333,12 +333,12 @@ class OA_Dll_Zone extends OA_Dll
      *
      * @return boolean
      */
-    function getZoneListByPublisherId($publisherId, &$aZoneList)
+    public function getZoneListByPublisherId($publisherId, &$aZoneList)
     {
-        $aZoneList = array();
+        $aZoneList = [];
 
         if (!$this->checkIdExistence('affiliates', $publisherId)) {
-                return false;
+            return false;
         }
 
         if (!$this->checkPermissions(null, 'affiliates', $publisherId)) {
@@ -381,16 +381,20 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneDailyStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getZoneDailyStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
-            $dalZone = new OA_Dal_Statistics_Zone;
-            $rsStatisticsData = $dalZone->getZoneDailyStatistics($zoneId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalZone = new OA_Dal_Statistics_Zone();
+            $rsStatisticsData = $dalZone->getZoneDailyStatistics(
+                $zoneId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -419,16 +423,20 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneHourlyStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getZoneHourlyStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
-            $dalZone = new OA_Dal_Statistics_Zone;
-            $rsStatisticsData = $dalZone->getZoneHourlyStatistics($zoneId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalZone = new OA_Dal_Statistics_Zone();
+            $rsStatisticsData = $dalZone->getZoneHourlyStatistics(
+                $zoneId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -459,16 +467,20 @@ class OA_Dll_Zone extends OA_Dll
      *
      */
 
-    function getZoneAdvertiserStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getZoneAdvertiserStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
-            $dalZone = new OA_Dal_Statistics_Zone;
-            $rsStatisticsData = $dalZone->getZoneAdvertiserStatistics($zoneId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalZone = new OA_Dal_Statistics_Zone();
+            $rsStatisticsData = $dalZone->getZoneAdvertiserStatistics(
+                $zoneId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -500,16 +512,20 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
-            $dalZone = new OA_Dal_Statistics_Zone;
-            $rsStatisticsData = $dalZone->getZoneCampaignStatistics($zoneId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalZone = new OA_Dal_Statistics_Zone();
+            $rsStatisticsData = $dalZone->getZoneCampaignStatistics(
+                $zoneId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -543,16 +559,20 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneBannerStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getZoneBannerStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
-            $dalZone = new OA_Dal_Statistics_Zone;
-            $rsStatisticsData = $dalZone->getZoneBannerStatistics($zoneId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalZone = new OA_Dal_Statistics_Zone();
+            $rsStatisticsData = $dalZone->getZoneBannerStatistics(
+                $zoneId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -567,7 +587,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param int $bannerId
      * @return bool
      */
-    function linkBanner($zoneId, $bannerId)
+    public function linkBanner($zoneId, $bannerId)
     {
         if ($this->checkIdExistence('zones', $zoneId)) {
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
@@ -576,9 +596,9 @@ class OA_Dll_Zone extends OA_Dll
             }
 
             if ($this->checkIdExistence('banners', $bannerId)) {
-                $aLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), false, 'ad_id');
+                $aLinkedAds = Admin_DA::getAdZones(['zone_id' => $zoneId], false, 'ad_id');
                 if (!isset($aLinkedAds[$bannerId])) {
-                    $result = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $bannerId));
+                    $result = Admin_DA::addAdZone(['zone_id' => $zoneId, 'ad_id' => $bannerId]);
 
                     if (PEAR::isError($result)) {
                         $this->raiseError($result->getMessage());
@@ -603,7 +623,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param int $campaignId
      * @return bool
      */
-    function linkCampaign($zoneId, $campaignId)
+    public function linkCampaign($zoneId, $campaignId)
     {
         if ($this->checkIdExistence('zones', $zoneId)) {
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
@@ -612,9 +632,9 @@ class OA_Dll_Zone extends OA_Dll
             }
 
             if ($this->checkIdExistence('campaigns', $campaignId)) {
-                $aLinkedPlacements = Admin_DA::getPlacementZones(array('zone_id' => $zoneId), false, 'placement_id');
+                $aLinkedPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], false, 'placement_id');
                 if (!isset($aLinkedPlacements[$campaignId])) {
-                    $result = Admin_DA::addPlacementZone(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
+                    $result = Admin_DA::addPlacementZone(['zone_id' => $zoneId, 'placement_id' => $campaignId]);
 
                     if (PEAR::isError($result)) {
                         $this->raiseError($result->getMessage());
@@ -640,18 +660,17 @@ class OA_Dll_Zone extends OA_Dll
      * @param int $bannerId
      * @return bool
      */
-    function unlinkBanner($zoneId, $bannerId)
+    public function unlinkBanner($zoneId, $bannerId)
     {
         if ($this->checkIdExistence('zones', $zoneId) &&
             $this->checkIdExistence('banners', $bannerId)) {
-
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
                 return false;
             }
 
             // $result will be true on success, false on failure and 0 on no rows affected.
-            $result = Admin_DA::deleteAdZones(array('zone_id' => $zoneId, 'ad_id' => $bannerId));
+            $result = Admin_DA::deleteAdZones(['zone_id' => $zoneId, 'ad_id' => $bannerId]);
             if ($result === 0) {
                 $this->raiseError('Unknown link for zoneId and bannerId Error');
                 return false;
@@ -668,43 +687,42 @@ class OA_Dll_Zone extends OA_Dll
      * @param int $campaignId
      * @return bool
      */
-    function unlinkCampaign($zoneId, $campaignId)
+    public function unlinkCampaign($zoneId, $campaignId)
     {
         if ($this->checkIdExistence('zones', $zoneId) &&
             $this->checkIdExistence('campaigns', $campaignId)) {
-
             $doZones = OA_Dal::staticGetDO('zones', $zoneId);
             if (!$this->checkPermissions(null, 'affiliates', $doZones->affiliateid, OA_PERM_ZONE_LINK)) {
                 return false;
             }
 
-            $result = Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $campaignId));
+            $result = Admin_DA::deletePlacementZones(['zone_id' => $zoneId, 'placement_id' => $campaignId]);
             if ($result === 0) {
-	           $this->raiseError('Unknown link for zoneId and campaignId Error');
-               return false;
+                $this->raiseError('Unknown link for zoneId and campaignId Error');
+                return false;
             } else {
-	           return $result;
+                return $result;
             }
         }
 
         return false;
     }
 
-    function generateTags($zoneId, $codeType, $aParams = [])
+    public function generateTags($zoneId, $codeType, $aParams = [])
     {
         // Backwards Compatibity Array for code types
-        $aBackwardsCompatibityTypes = array (
-            'adframe'         => 'invocationTags:oxInvocationTags:adframe',
-            'adjs'            => 'invocationTags:oxInvocationTags:adjs',
-            'adlayer'         => 'invocationTags:oxInvocationTags:adlayer',
-            'adview'          => 'invocationTags:oxInvocationTags:adview',
+        $aBackwardsCompatibityTypes = [
+            'adframe' => 'invocationTags:oxInvocationTags:adframe',
+            'adjs' => 'invocationTags:oxInvocationTags:adjs',
+            'adlayer' => 'invocationTags:oxInvocationTags:adlayer',
+            'adview' => 'invocationTags:oxInvocationTags:adview',
             'adviewnocookies' => 'invocationTags:oxInvocationTags:adviewnocookies',
-            'local'           => 'invocationTags:oxInvocationTags:local',
-            'popup'           => 'invocationTags:oxInvocationTags:popup',
-            'xmlrpc'          => 'invocationTags:oxInvocationTags:xmlrpc'
-        );
+            'local' => 'invocationTags:oxInvocationTags:local',
+            'popup' => 'invocationTags:oxInvocationTags:popup',
+            'xmlrpc' => 'invocationTags:oxInvocationTags:xmlrpc'
+        ];
         // Translate old code type to new Component Identifier
-        if (array_key_exists($codeType,$aBackwardsCompatibityTypes)) {
+        if (array_key_exists($codeType, $aBackwardsCompatibityTypes)) {
             $codeType = $aBackwardsCompatibityTypes[$codeType];
         }
         if ($this->checkIdExistence('zones', $zoneId)) {
@@ -714,7 +732,7 @@ class OA_Dll_Zone extends OA_Dll
             }
             $aAllowedTags = $this->getAllowedTags();
             if (!in_array($codeType, $aAllowedTags)) {
-                $this->raiseError('Field \'codeType\' must be one of the enum: '.join(', ', $aAllowedTags));
+                $this->raiseError('Field \'codeType\' must be one of the enum: ' . join(', ', $aAllowedTags));
                 return false;
             }
             if (!empty($codeType)) {
@@ -726,13 +744,13 @@ class OA_Dll_Zone extends OA_Dll
                 RV::disableErrorHandling();
                 $invocationTag = OX_Component::factoryByComponentIdentifier($codeType);
                 RV::enableErrorHandling();
-                if($invocationTag === false) {
+                if ($invocationTag === false) {
                     $this->raiseError('Error while factory invocationTag plugin');
                     return false;
                 }
                 $invocationTag->setInvocation($maxInvocation);
 
-                $aParams['zoneid']   = $zoneId;
+                $aParams['zoneid'] = $zoneId;
                 $aParams['codetype'] = $codeType;
 
                 $buffer = $maxInvocation->generateInvocationCode($invocationTag, $aParams);
@@ -751,16 +769,15 @@ class OA_Dll_Zone extends OA_Dll
      *
      * @return array of allowed invocation tags (strings)
      */
-    function getAllowedTags() {
-        $aAllowedTags = array();
+    public function getAllowedTags()
+    {
+        $aAllowedTags = [];
         $invocationTags = OX_Component::getComponents('invocationTags');
-        foreach($invocationTags as $pluginKey => $invocationTag) {
-            if ($invocationTag->isAllowed(null, null)){
+        foreach ($invocationTags as $pluginKey => $invocationTag) {
+            if ($invocationTag->isAllowed(null, null)) {
                 $aAllowedTags[] = $pluginKey;
             }
         }
         return $aAllowedTags;
     }
 }
-
-?>

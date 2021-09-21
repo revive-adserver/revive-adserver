@@ -12,15 +12,15 @@
 
 class script_tables_core_parent
 {
-    var $oDBUpgrade;
-    var $oDbh;
-    var $className;
+    public $oDBUpgrade;
+    public $oDbh;
+    public $className;
 
-    function __construct()
+    public function __construct()
     {
     }
 
-    function init($aParams)
+    public function init($aParams)
     {
         $this->className = get_class($this);
         $this->oDBUpgrade = $aParams[0];
@@ -29,35 +29,31 @@ class script_tables_core_parent
         return true;
     }
 
-    function execute_constructive($aParams)
+    public function execute_constructive($aParams)
     {
         $this->init($aParams);
         $this->_log('*********** constructive ****************');
         return true;
     }
 
-    function execute_destructive($aParams)
+    public function execute_destructive($aParams)
     {
         $this->init($aParams);
         $this->_log('*********** destructive ****************');
         return true;
     }
 
-    function _log($msg)
+    public function _log($msg)
     {
         $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
+        $this->oDBUpgrade->oLogger->logFile = MAX_PATH . '/var/fantasy.log';
         $this->oDBUpgrade->oLogger->logOnly($msg);
         $this->oDBUpgrade->oLogger->logFile = $logOld;
         return true;
     }
 
-    function _testName($id)
+    public function _testName($id)
     {
         return "[$this->className::TEST *{$id}*] ";
     }
-
-
 }
-
-?>

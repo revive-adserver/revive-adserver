@@ -24,9 +24,9 @@ if (!defined('T_ML_COMMENT')) {
     define('T_DOC_COMMENT', T_ML_COMMENT);
 }
 
-define('STATE_STD',             1);     # normal, copy input to output
-define('STATE_REQUIRE',         2);     # require found, wait to complete filename
-define('STATE_REQUIRE_ONCE',    3);     # require_once found, wait ...
+define('STATE_STD', 1);     # normal, copy input to output
+define('STATE_REQUIRE', 2);     # require found, wait to complete filename
+define('STATE_REQUIRE_ONCE', 3);     # require_once found, wait ...
 
 require_once RV_PATH . '/lib/RV.php';
 
@@ -56,18 +56,18 @@ class OX_Util_CodeMunger
     /**
      * like to see original whitespace or just reduced to minimum
      */
-    private $echoWhite   = false;
+    private $echoWhite = false;
 
     /**
      * debug, add token information
      */
-    private $dumpToken   = false;
+    private $dumpToken = false;
 
     /**
      * set to false if Pear should not be included
      * can also be set to OA's pear path, to slurp the pear, too.
      */
-    private $OA_Pear      = false; # 'lib/pear';
+    private $OA_Pear = false; # 'lib/pear';
 
     /**
      * Header used to generate the output PHP within
@@ -76,12 +76,12 @@ class OX_Util_CodeMunger
      */
     private $header;
 
-    private $onlyOnce = array();
+    private $onlyOnce = [];
     private $insidePhp = 0;
 
     public function resetCounters()
     {
-        $this->onlyOnce = array();
+        $this->onlyOnce = [];
         $this->insidePhp = 0;
     }
 
@@ -124,13 +124,13 @@ class OX_Util_CodeMunger
                 $dir = MAX_PATH . '/' . $this->OA_Pear . '/' . $dir;
                 chdir($dir);
             }
-            $ret = $this->parseFile(substr($filename, $pos+1));
+            $ret = $this->parseFile(substr($filename, $pos + 1));
             chdir($cwd);
             return $ret;
         } else {
-            if (file_exists($filename))
+            if (file_exists($filename)) {
                 return $this->parseFile($filename);
-            else {
+            } else {
                 if ($this->OA_Pear === false) {
                     return false;
                 }
@@ -162,15 +162,19 @@ class OX_Util_CodeMunger
         // Modify the MAX_PATH define due to dirname(__FILE__) point \www\delivery in delivery scripts
         // from: define('MAX_PATH', dirname(__FILE__));
         // to:   define('MAX_PATH', dirname(__FILE__).'/../..');
-        $code = preg_replace('/(define\(\'MAX_PATH\',\s*dirname\(__FILE__\))(\))/',
-                              '${1}.\'/../..\'${2}',
-                              $code);
+        $code = preg_replace(
+            '/(define\(\'MAX_PATH\',\s*dirname\(__FILE__\))(\))/',
+            '${1}.\'/../..\'${2}',
+            $code
+        );
         // Modify the OX_PATH define due to dirname(__FILE__) point \www\delivery in delivery scripts
         // from: define('OX_PATH', dirname(__FILE__));
         // to:   define('OX_PATH', dirname(__FILE__).'/../..');
-        $code = preg_replace('/(define\(\'OX_PATH\',\s*dirname\(__FILE__\))(\))/',
-                             '${1}.\'/../..\'${2}',
-                             $code);
+        $code = preg_replace(
+            '/(define\(\'OX_PATH\',\s*dirname\(__FILE__\))(\))/',
+            '${1}.\'/../..\'${2}',
+            $code
+        );
         return $code;
     }
 
@@ -222,23 +226,26 @@ class OX_Util_CodeMunger
 
                 // if we currently strip off none delivery code, ignore
                 // this token, start with next
-                if ($strip_delivery)
+                if ($strip_delivery) {
                     continue;
+                }
 
                 // in normal state, just add to our return buffer
-                if ($state === STATE_STD)
+                if ($state === STATE_STD) {
                     $ret .= $token;
-                else {
+                } else {
                     // we waiting to complete a require/require_once, so
                     // this is just happen !!!
                     if ($token === ';') {
-                        switch($state) {
+                        switch ($state) {
                             case STATE_REQUIRE_ONCE:
                                 // if we have done this file, don't slurp it again
                                 $thisfile = OX::realPathRelative($cur);
-                                if (array_key_exists($thisfile, $this->onlyOnce))
+                                if (array_key_exists($thisfile, $this->onlyOnce)) {
                                     break;
+                                }
                                 //fall through
+                                // no break
                             case STATE_REQUIRE:
                                 // try to load the file, if ...
                                 if (!($content = $this->flattenFile($cur))) {
@@ -257,33 +264,36 @@ class OX_Util_CodeMunger
                         // so keep the original content
                         $orig .= $token;
                         // and capture the filename if not the concat op.
-                        if (strpos('.()', $token) === false)
+                        if (strpos('.()', $token) === false) {
                             $cur .= $token;
+                        }
                     }
                 }
-
             } else {
-               // token array
+                // token array
                 list($id, $text) = $token;
 
                 // if we currently strip off none delivery code, we could leave
                 // this mode only in a comment ...
-                if ($strip_delivery && !$this->isComment($id))
+                if ($strip_delivery && !$this->isComment($id)) {
                     continue;
+                }
 
                 // is last was a newline and we don't like whitespace ...
                 if ($was_nl && !$this->echoWhite) {
                     // ... but this is one, cont. on next token
-                    if ($id === T_WHITESPACE)
+                    if ($id === T_WHITESPACE) {
                         continue;
-                    else if (!$this->echoComment && $this->isComment($id))
+                    } elseif (!$this->echoComment && $this->isComment($id))
                         ; // a comment should not trigger out newline-flag
-                    else
+                    else {
                         $was_nl = false;
+                    }
                 }
 
-                if ($this->dumpToken)
-                    $ret .= "[$id:".token_name($id).":" . $text . "]";
+                if ($this->dumpToken) {
+                    $ret .= "[$id:" . token_name($id) . ":" . $text . "]";
+                }
 
                 switch ($id) {
                     case T_COMMENT:
@@ -293,30 +303,35 @@ class OX_Util_CodeMunger
                         // check if we reach or leave a none-delivery-code secition
                         // and set flag ...
                         if ($this->echoComment) {
-                            if ($state === STATE_STD)
+                            if ($state === STATE_STD) {
                                 $ret .= $text;
+                            }
                         }
                         if ($strip_delivery) {
-                            if (strstr($text, '###END_STRIP_DELIVERY') !== false)
+                            if (strstr($text, '###END_STRIP_DELIVERY') !== false) {
                                 $strip_delivery = false;
+                            }
                         } else {
-                            if (strstr($text, '###START_STRIP_DELIVERY') !== false)
+                            if (strstr($text, '###START_STRIP_DELIVERY') !== false) {
                                 $strip_delivery = true;
+                            }
                         }
                         break;
 
                     case T_OPEN_TAG:
                         // keep track of begin/end php-code sections, to avoid
                         // have more than one begin or end in our result code
-                        if ($this->insidePhp == 0)
+                        if ($this->insidePhp == 0) {
                             $ret .= $text;
+                        }
                         $this->insidePhp++;
                         break;
 
                     case T_CLOSE_TAG:
                         $this->insidePhp--;
-                        if ($this->insidePhp == 0)
+                        if ($this->insidePhp == 0) {
                             $ret .= $text;
+                        }
                         break;
 
                     case T_REQUIRE:
@@ -337,19 +352,19 @@ class OX_Util_CodeMunger
 
                     case T_CONSTANT_ENCAPSED_STRING:
                         // just a string with quotes
-                        if ($state === STATE_STD)
+                        if ($state === STATE_STD) {
                             $ret .= $text;
-                        else {
+                        } else {
                             // strip off the quotes and add to filename
-                            $cur .= substr($text, 1, strlen($text)-2);
+                            $cur .= substr($text, 1, strlen($text) - 2);
                             $orig .= $text;
                         }
                         break;
 
                     case T_VARIABLE:
-                        if ($state === STATE_STD)
+                        if ($state === STATE_STD) {
                             $ret .= $text;
-                        else {
+                        } else {
                             // sorry boy, dynamic filename found
                             // append the original code to the output
                             // and return to normal state
@@ -359,9 +374,9 @@ class OX_Util_CodeMunger
                         break;
 
                     case T_STRING:
-                        if ($state === STATE_STD)
+                        if ($state === STATE_STD) {
                             $ret .= $text;
-                        else {
+                        } else {
                             // a require/require_once path may contain our
                             // special MAX_PATH, so add the real value instead
                             if ($text === 'MAX_PATH') {
@@ -377,9 +392,9 @@ class OX_Util_CodeMunger
                     case T_WHITESPACE:
                         // one or more spaces, newlines, ...
                         if ($state === STATE_STD) {
-                            if ($this->echoWhite)
+                            if ($this->echoWhite) {
                                 $ret .= $text;
-                            else if (strstr($text, "\n") !== false) {
+                            } elseif (strstr($text, "\n") !== false) {
                                 // a newline found, set our flag to avoid
                                 // multiple empty lines
                                 $was_nl = true;
@@ -394,9 +409,9 @@ class OX_Util_CodeMunger
                         break;
 
                     default:
-                        if ($state === STATE_STD)
+                        if ($state === STATE_STD) {
                             $ret .= $text;
-                        else {
+                        } else {
                             $cur .= $text;
                             $orig .= $text;
                         }
@@ -419,5 +434,3 @@ class OX_Util_CodeMunger
         return  ($id === T_COMMENT || $id === T_ML_COMMENT || $id === T_DOC_COMMENT);
     }
 }
-
-?>

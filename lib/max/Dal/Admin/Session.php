@@ -19,15 +19,15 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
  */
 class MAX_Dal_Admin_Session extends MAX_Dal_Common
 {
-    var $table = 'session';
+    public $table = 'session';
 
-	/**
+    /**
      * @param string $session_id
      * @return string A serialized array (probably)
      *
      * @todo Consider raise an error when no session is found.
      */
-    function getSerializedSession($session_id)
+    public function getSerializedSession($session_id)
     {
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
@@ -54,7 +54,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      * @param string $session_id
      * @return void
      */
-    function refreshSession($session_id)
+    public function refreshSession($session_id)
     {
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
@@ -67,7 +67,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      * @param string $serialized_session_data
      * @param string $session_id
      */
-    function storeSerializedSession($serialized_session_data, $session_id, $user_id = null)
+    public function storeSerializedSession($serialized_session_data, $session_id, $user_id = null)
     {
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
@@ -97,9 +97,9 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
     /**
      * Remove many unused sessions from storage.
      */
-    function pruneOldSessions()
+    public function pruneOldSessions()
     {
-        $qTbl = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session', true);
+        $qTbl = $this->oDbh->quoteIdentifier($this->getTablePrefix() . 'session', true);
 
         $dateTime = new \DateTime('now -12hours', new \DateTimeZone('UTC'));
         $qDateTime = $this->oDbh->quote($dateTime->format('Y-m-d H:i:s'));
@@ -110,7 +110,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
     /**
      * Remove a specific session from storage.
      */
-    function deleteSession($session_id)
+    public function deleteSession($session_id)
     {
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
@@ -121,14 +121,12 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
     /**
      * Remove all the sessions for a user.
      */
-    function deleteUserSessions($userId)
+    public function deleteUserSessions($userId)
     {
         $userId = (int)$userId;
 
-        $qTbl = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session', true);
+        $qTbl = $this->oDbh->quoteIdentifier($this->getTablePrefix() . 'session', true);
 
         $this->oDbh->exec("DELETE FROM {$qTbl} WHERE user_id = {$userId}");
     }
-
 }
-?>

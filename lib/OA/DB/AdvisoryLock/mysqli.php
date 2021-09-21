@@ -32,14 +32,14 @@ class OA_DB_AdvisoryLock_mysqli extends OA_DB_AdvisoryLock
         $iAcquired = $this->oDbh->extended->getOne(
             "SELECT GET_LOCK(?, ?)",
             'integer',
-            array(
+            [
                 $this->_sId,
                 $iWaitTime
-            ),
-            array(
+            ],
+            [
                 'text',
                 'integer'
-            )
+            ]
         );
 
         return !PEAR::isError($iAcquired) && !empty($iAcquired);
@@ -56,12 +56,12 @@ class OA_DB_AdvisoryLock_mysqli extends OA_DB_AdvisoryLock
         $iReleased = $this->oDbh->extended->getOne(
             "SELECT RELEASE_LOCK(?)",
             'integer',
-            array(
+            [
                 $this->_sId
-            ),
-            array(
+            ],
+            [
                 'text'
-            )
+            ]
         );
 
         return !PEAR::isError($iReleased) && !empty($iReleased);

@@ -12,7 +12,7 @@
 
 $file = '/lib/max/Delivery/remotehost.php';
 ###START_STRIP_DELIVERY
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+if (isset($GLOBALS['_MAX']['FILES'][$file])) {
     return;
 }
 ###END_STRIP_DELIVERY
@@ -62,11 +62,11 @@ function MAX_remotehostProxyLookup()
         if (!empty($_SERVER['HTTP_VIA']) || !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $proxy = true;
         } elseif (!empty($_SERVER['REMOTE_HOST'])) {
-            $aProxyHosts = array(
+            $aProxyHosts = [
                 'proxy',
                 'cache',
                 'inktomi'
-            );
+            ];
             foreach ($aProxyHosts as $proxyName) {
                 if (strpos($_SERVER['REMOTE_HOST'], $proxyName) !== false) {
                     $proxy = true;
@@ -79,13 +79,13 @@ function MAX_remotehostProxyLookup()
             OX_Delivery_logMessage('proxy detected', 7);
 
             // Try to find the "real" IP address the viewer has come from
-            $aHeaders = array(
+            $aHeaders = [
                 'HTTP_FORWARDED',
                 'HTTP_FORWARDED_FOR',
                 'HTTP_X_FORWARDED',
                 'HTTP_X_FORWARDED_FOR',
                 'HTTP_CLIENT_IP'
-            );
+            ];
 
             foreach ($aHeaders as $header) {
                 if (!empty($_SERVER[$header])) {
@@ -117,8 +117,8 @@ function MAX_remotehostProxyLookup()
                     // (so that we don't accidently do this twice)
                     $_SERVER['REMOTE_ADDR'] = $ip;
                     $_SERVER['REMOTE_HOST'] = '';
-                    $_SERVER['HTTP_VIA']    = '';
-                    OX_Delivery_logMessage('real address set to '.$ip, 7);
+                    $_SERVER['HTTP_VIA'] = '';
+                    OX_Delivery_logMessage('real address set to ' . $ip, 7);
 
                     return;
                 }
@@ -167,7 +167,7 @@ function MAX_remotehostSetGeoInfo()
     if (!is_null($type) && $type != 'none') {
         $aComponent = explode(':', $aConf['geotargeting']['type']);
         if (!empty($aComponent[1]) && (!empty($aConf['pluginGroupComponents'][$aComponent[1]]))) {
-            $GLOBALS['_MAX']['CLIENT_GEO'] = OX_Delivery_Common_hook('getGeoInfo', array(), $type);
+            $GLOBALS['_MAX']['CLIENT_GEO'] = OX_Delivery_Common_hook('getGeoInfo', [], $type);
         }
     }
 }
@@ -192,41 +192,44 @@ function MAX_remotehostAnonymise()
  */
 function MAX_remotehostPrivateAddress($ip)
 {
-	$ip = ip2long($ip);
+    $ip = ip2long($ip);
 
-	if (!$ip) return false;
+    if (!$ip) {
+        return false;
+    }
 
-	return (MAX_remotehostMatchSubnet($ip, '10.0.0.0', 8) ||
-		MAX_remotehostMatchSubnet($ip, '172.16.0.0', 12) ||
-		MAX_remotehostMatchSubnet($ip, '192.168.0.0', 16) ||
-		MAX_remotehostMatchSubnet($ip, '127.0.0.0', 8)
+    return (MAX_remotehostMatchSubnet($ip, '10.0.0.0', 8) ||
+        MAX_remotehostMatchSubnet($ip, '172.16.0.0', 12) ||
+        MAX_remotehostMatchSubnet($ip, '192.168.0.0', 16) ||
+        MAX_remotehostMatchSubnet($ip, '127.0.0.0', 8)
     );
 }
 
 function MAX_remotehostMatchSubnet($ip, $net, $mask)
 {
-	$net = ip2long($net);
+    $net = ip2long($net);
 
-	if (!is_integer($ip)) {
+    if (!is_integer($ip)) {
         $ip = ip2long($ip);
     }
 
-	if (!$ip || !$net) {
-		return false;
+    if (!$ip || !$net) {
+        return false;
     }
 
-	if (is_integer($mask)) {
-		// Netmask notation x.x.x.x/y used
+    if (is_integer($mask)) {
+        // Netmask notation x.x.x.x/y used
 
-		if ($mask > 32 || $mask <= 0)
-			return false;
-		elseif ($mask == 32)
-			$mask = ~0;
-		else
-			$mask = ~((1 << (32 - $mask)) - 1);
-	} elseif (!($mask = ip2long($mask))) {
-		return false;
+        if ($mask > 32 || $mask <= 0) {
+            return false;
+        } elseif ($mask == 32) {
+            $mask = ~0;
+        } else {
+            $mask = ~((1 << (32 - $mask)) - 1);
+        }
+    } elseif (!($mask = ip2long($mask))) {
+        return false;
     }
 
-	return ($ip & $mask) == ($net & $mask) ? true : false;
+    return ($ip & $mask) == ($net & $mask) ? true : false;
 }

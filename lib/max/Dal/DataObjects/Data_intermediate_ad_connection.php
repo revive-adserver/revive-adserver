@@ -17,7 +17,7 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Data_intermediate_ad_connection extends DB_DataObjectCommon
 {
-    var $refreshUpdatedFieldIfExists = true;
+    public $refreshUpdatedFieldIfExists = true;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -71,9 +71,12 @@ class DataObjects_Data_intermediate_ad_connection extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad_connection',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad_connection', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'server_raw_ip' => '',
         'tracker_date_time' => '%NO_DATE_TIME%',
         'connection_status' => 4,
@@ -84,5 +87,3 @@ class DataObjects_Data_intermediate_ad_connection extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-
-?>

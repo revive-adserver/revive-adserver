@@ -31,7 +31,7 @@
  */
 function parseIniFile($configPath = null, $configFile = null, $sections = true, $type = '.php')
 {
-    $fixMysqli = function($conf) {
+    $fixMysqli = function ($conf) {
         if (!isset($conf['database'])) {
             return $conf;
         }
@@ -85,7 +85,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
             // configured, so that the TestRenner class knows not to run any
             // tests, and return an empty config
             define('TEST_ENVIRONMENT_NO_CONFIG', true);
-            return array();
+            return [];
         }
     }
     // Is the .ini file for the hostname being used directly accessible?
@@ -140,36 +140,28 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     // the user is upgrading from an old version where the config
     // files have a .ini prefix instead of .php...
     global $installing;
-    if ($installing)
-    {
+    if ($installing) {
         // ah but MMM might be installed, check for the ini file
-        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini'))
-        {
+        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini')) {
             return parseIniFile($configPath, $configFile, $sections, '.ini');
         }
-        if (!$configFile)
-        {
+        if (!$configFile) {
             // Revive Adserver hasn't been installed, so use the distribution
             // .ini file; this deals with letting a PAN install get into the
             // ugprader
             return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
         }
         //return parseIniFile($configPath, $configFile, $sections, '.ini');
-
     }
     // Check to ensure Revive Adserver hasn't been installed
-    if (file_exists(MAX_PATH . '/var/INSTALLED'))
-    {
+    if (file_exists(MAX_PATH . '/var/INSTALLED')) {
         // ah but MMM might be installed, check for the ini file
-        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini'))
-        {
+        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini')) {
             return parseIniFile($configPath, $configFile, $sections, '.ini');
         }
-        echo PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n";
+        echo PRODUCT_NAME . " has been installed, but no configuration file " . $configPath . '/' . $host . $configFile . '.conf.php' . " was found.\n";
         exit(1);
     }
     // Revive Adserver hasn't been installed, so use the distribution .ini file
     return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
 }
-
-?>

@@ -26,18 +26,18 @@ class OX_Translation
      *
      * @var boolean $htmlSpecialChars
      */
-    var $htmlSpecialChars = false;
+    public $htmlSpecialChars = false;
 
     /**
      * The output language to translate strings into
      *
      * @var string The language code for the selected language
      */
-    var $locale = 'en_US';
+    public $locale = 'en_US';
 
-    var $zTrans = false;
+    public $zTrans = false;
 
-    var $debug = false;
+    public $debug = false;
 
     /**
      * Constructor class
@@ -45,7 +45,7 @@ class OX_Translation
      * @param string $transPath The (optional) path to look for .mo translation resources
      * @return OX_Translation
      */
-    function __construct($transPath = null)
+    public function __construct($transPath = null)
     {
         if (isset($GLOBALS['_MAX']['PREF']['language'])) {
             $this->locale = $GLOBALS['_MAX']['PREF']['language'];
@@ -75,7 +75,7 @@ class OX_Translation
      *
      * @return string The translated string
      */
-    function translate($string, $aValues = array(), $pluralVar = false)
+    public function translate($string, $aValues = [], $pluralVar = false)
     {
         if ($this->zTrans) {
             $return = $this->zTrans->_($string);
@@ -99,5 +99,3 @@ class OX_Translation
         return $return;
     }
 }
-
-?>

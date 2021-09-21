@@ -26,7 +26,7 @@ class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimit
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - ISP/Organisation';
@@ -37,11 +37,8 @@ class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimit
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return $this->hasCapability('isp');
     }
-
 }
-
-?>

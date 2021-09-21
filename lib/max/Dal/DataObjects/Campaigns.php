@@ -19,29 +19,29 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 class DataObjects_Campaigns extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
-    var $dalModelName = 'Campaigns';
-    var $refreshUpdatedFieldIfExists = true;
+    public $onDeleteCascade = true;
+    public $dalModelName = 'Campaigns';
+    public $refreshUpdatedFieldIfExists = true;
 
-    const PRIORITY_REMNANT = 0;
-    const PRIORITY_ECPM = -2;
-    const PRIORITY_MARKET_REMNANT = -3;
+    public const PRIORITY_REMNANT = 0;
+    public const PRIORITY_ECPM = -2;
+    public const PRIORITY_MARKET_REMNANT = -3;
 
     /**
      * Defines which campaigns priorities can be used together
      * with eCPM feature. (PRIORITY_ECPM_FROM should be smaller than
      * PRIORITY_ECPM_TO)
      */
-    const PRIORITY_ECPM_FROM = 6;
-    const PRIORITY_ECPM_TO = 9;
+    public const PRIORITY_ECPM_FROM = 6;
+    public const PRIORITY_ECPM_TO = 9;
 
     /**
      * Defines campaign types
      */
-    const CAMPAIGN_TYPE_DEFAULT = 0;
-    const CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN = 1;
-    const CAMPAIGN_TYPE_MARKET_ZONE_OPTIN = 2;
-    const CAMPAIGN_TYPE_MARKET_CONTRACT = 3;
+    public const CAMPAIGN_TYPE_DEFAULT = 0;
+    public const CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN = 1;
+    public const CAMPAIGN_TYPE_MARKET_ZONE_OPTIN = 2;
+    public const CAMPAIGN_TYPE_MARKET_CONTRACT = 3;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -80,9 +80,12 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $show_capped_no_cookie;           // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'campaignname' => '',
         'clientid' => 0,
         'views' => -1,
@@ -134,35 +137,34 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      * @param DataObjects_Campaigns $oldDoCampaigns
      */
-    function recalculateStatus($oldDoCampaigns = null)
+    public function recalculateStatus($oldDoCampaigns = null)
     {
         // special market campaigns are always active
         if ($this->type == self::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN ||
-            $this->type == self::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN)
-        {
+            $this->type == self::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
             $this->status = OA_ENTITY_STATUS_RUNNING;
             return;
         }
 
-        $this->_coalesce($oldDoCampaigns, array('expire_time'));
+        $this->_coalesce($oldDoCampaigns, ['expire_time']);
         if ($this->_isExpired()) {
             $this->status = OA_ENTITY_STATUS_EXPIRED;
             return;
         }
 
-        $this->_coalesce($oldDoCampaigns, array('views', 'clicks', 'conversions'));
+        $this->_coalesce($oldDoCampaigns, ['views', 'clicks', 'conversions']);
         if ($this->_hasExceeededBookings()) {
             $this->status = OA_ENTITY_STATUS_EXPIRED;
             return;
         }
 
-        $this->_coalesce($oldDoCampaigns, array('activate_time'));
+        $this->_coalesce($oldDoCampaigns, ['activate_time']);
         if ($this->_isAwaiting()) {
             $this->status = OA_ENTITY_STATUS_AWAITING;
             return;
         }
 
-        $this->_coalesce($oldDoCampaigns, array('status'));
+        $this->_coalesce($oldDoCampaigns, ['status']);
         if ($this->status == OA_ENTITY_STATUS_EXPIRED || $this->status == OA_ENTITY_STATUS_AWAITING) {
             if (isset($oldDoCampaigns)) {
                 if ($oldDoCampaigns->status == OA_ENTITY_STATUS_EXPIRED || $oldDoCampaigns->status == OA_ENTITY_STATUS_AWAITING) {
@@ -184,15 +186,14 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             }
         } else {
             // Set campaign inactive if weight and target are both null and autotargeting is disabled
-            $this->_coalesce($oldDoCampaigns, array('target_impression', 'target_click', 'target_conversion', 'weight'));
-            $targetOk     = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
-            $weightOk     = $this->weight > 0;
+            $this->_coalesce($oldDoCampaigns, ['target_impression', 'target_click', 'target_conversion', 'weight']);
+            $targetOk = $this->target_impression > 0 || $this->target_click > 0 || $this->target_conversion > 0;
+            $weightOk = $this->weight > 0;
             $autotargeted = !empty($this->expire_time) && $this->expire_time != 'NULL' &&
                 ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
             if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
-            }
-            elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && ($autotargeted || $targetOk || $weightOk)) {
+            } elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && ($autotargeted || $targetOk || $weightOk)) {
                 $this->status = OA_ENTITY_STATUS_RUNNING;
             }
         }
@@ -204,7 +205,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      * @param DataObjects_Campaigns $oldDoCampaigns
      * @param array $aFields
      */
-    function _coalesce($oldDoCampaigns, $aFields)
+    public function _coalesce($oldDoCampaigns, $aFields)
     {
         foreach ($aFields as $fieldName) {
             if (!isset($this->$fieldName) && isset($oldDoCampaigns)) {
@@ -218,7 +219,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      * @return bool
      */
-    function _isAwaiting()
+    public function _isAwaiting()
     {
         static $oServiceLocator;
 
@@ -245,7 +246,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      * @return bool
      */
-    function _isExpired()
+    public function _isExpired()
     {
         static $oServiceLocator;
 
@@ -272,7 +273,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      * @return bool
      */
-    function _hasExceeededBookings()
+    public function _hasExceeededBookings()
     {
         if (!empty($this->campaignid)) {
             if ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0) {
@@ -284,7 +285,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 $doDia->selectAdd('SUM(clicks) AS clicks');
                 $doDia->selectAdd('SUM(conversions) AS conversions');
                 $doDia->joinAdd($doBanners);
-                $aStats = $doDia->getAll(array());
+                $aStats = $doDia->getAll([]);
 
                 if (isset($aStats[0])) {
                     if ($this->views > 0 && ($aStats[0]['impressions'] ?? 0) >= $this->views) {
@@ -303,7 +304,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         return false;
     }
 
-    function update($dataObject = false)
+    public function update($dataObject = false)
     {
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
             $this->ecpm = $this->calculateEcpm();
@@ -317,10 +318,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         return parent::update($dataObject);
     }
 
-    function insert()
+    public function insert()
     {
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
-            $this->ecpm = $this->calculateEcpm();;
+            $this->ecpm = $this->calculateEcpm();
+            ;
         }
 
         // Set the correct campaign status
@@ -332,10 +334,10 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
 
         // Initalise any tracker based plugins
-        $plugins = array();
+        $plugins = [];
         require_once LIB_PATH . '/Plugin/Component.php';
         $invocationPlugins = OX_Component::getComponents('invocationTags');
-        foreach($invocationPlugins as $pluginKey => $plugin) {
+        foreach ($invocationPlugins as $pluginKey => $plugin) {
             if (!empty($plugin->trackerEvent)) {
                 $plugins[] = $plugin;
             }
@@ -371,9 +373,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      * @return integer The new campaignid
      */
-    function duplicate()
+    public function duplicate()
     {
-    	// Duplicate campaign
+        // Duplicate campaign
         $old_campaignId = $this->campaignid;
         $this->campaignname = $GLOBALS['strCopyOf'] . ' ' . $this->campaignname;
         unset($this->campaignid);
@@ -384,29 +386,29 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         $doBanners->campaignid = $old_campaignId;
         $doBanners->find();
         while ($doBanners->fetch()) {
-        	$doOriginalBanner = OA_Dal::factoryDO('banners');
-         	$doOriginalBanner->get($doBanners->bannerid);
-         	$new_bannerid = $doOriginalBanner->duplicate($new_campaignId);
+            $doOriginalBanner = OA_Dal::factoryDO('banners');
+            $doOriginalBanner->get($doBanners->bannerid);
+            $new_bannerid = $doOriginalBanner->duplicate($new_campaignId);
         }
 
         // Duplicate placement-zone-associations (Do this after duplicating tbe banners (and associated ad-zone-links)
         // The duplicatePlacementZones method will not trigger the auto-linking mechanism so you end up with a 1:1 duplicate of ad-zone links
-     	MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
+        MAX_duplicatePlacementZones($old_campaignId, $new_campaignId);
 
         return $new_campaignId;
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->campaignid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Campaign';
     }
@@ -443,19 +445,18 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         return $this->_getOwningAccountIds('clients', 'clientid');
     }
 
-   /**
-     * build a campaign specific audit array
-     *
-     * @param integer $actionid
-     * @param array $aAuditFields
-     */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    /**
+      * build a campaign specific audit array
+      *
+      * @param integer $actionid
+      * @param array $aAuditFields
+      */
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = $this->campaignname;
-        switch ($actionid)
-        {
+        $aAuditFields['key_desc'] = $this->campaignname;
+        switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['clientid']   = $this->clientid;
+                        $aAuditFields['clientid'] = $this->clientid;
                         break;
         }
     }
@@ -467,19 +468,19 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      * @param DataObjects_Campaigns $dataobjectOld
      * @param int $auditId
      */
-    function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
+    public function _postAuditTrigger($actionid, $dataobjectOld, $auditId)
     {
-        $aActionMap = array();
+        $aActionMap = [];
         $aActionMap[OA_ENTITY_STATUS_RUNNING][OA_ENTITY_STATUS_AWAITING] = 'started';
-        $aActionMap[OA_ENTITY_STATUS_RUNNING]['']  = 'restarted';
-        $aActionMap[OA_ENTITY_STATUS_EXPIRED]['']  = 'completed';
-        $aActionMap[OA_ENTITY_STATUS_PAUSED]['']   = 'paused';
+        $aActionMap[OA_ENTITY_STATUS_RUNNING][''] = 'restarted';
+        $aActionMap[OA_ENTITY_STATUS_EXPIRED][''] = 'completed';
+        $aActionMap[OA_ENTITY_STATUS_PAUSED][''] = 'paused';
         $aActionMap[OA_ENTITY_STATUS_AWAITING][''] = 'paused';
 
-        switch ($actionid)
-        {
+        switch ($actionid) {
             case OA_AUDIT_ACTION_INSERT:
                 $actionType = 'added';
+                // no break
             case OA_AUDIT_ACTION_UPDATE:
                 if (isset($this->status) && $dataobjectOld && $this->status != $dataobjectOld->status) {
                     if (isset($aActionMap[$this->status][$dataobjectOld->status])) {
@@ -490,44 +491,44 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 }
                 break;
             case OA_AUDIT_ACTION_DELETE:
-            	$actionType = 'deleted';
-            	break;
+                $actionType = 'deleted';
+                break;
         }
         if (isset($actionType)) {
             // Prepare action array
             $maxItems = 6;
-            $aAction = array(
+            $aAction = [
                 'campaignid' => $this->campaignid,
-                'name'       => $this->campaignname,
-                'clientid'   => $this->clientid,
-                'auditid'    => $auditId,
-                'action'     => $actionType
-            );
+                'name' => $this->campaignname,
+                'clientid' => $this->clientid,
+                'auditid' => $auditId,
+                'action' => $actionType
+            ];
             // Load cache
             require_once MAX_PATH . '/lib/OA/Cache.php';
             $oCache = new OA_Cache('campaignOverview', 'Widgets');
             $aCache = $oCache->load(true);
             if (!$aCache) {
                 // No cache, initialise
-                $aCache = array(
-                    'maxItems'  => $maxItems,
-                    'aAccounts' => array()
-                );
+                $aCache = [
+                    'maxItems' => $maxItems,
+                    'aAccounts' => []
+                ];
             }
             // Get owning account id
             $accountId = $this->doAudit->account_id;
             if (!isset($aCache['aAccounts'][$accountId])) {
                 // No cached array for this account id, initialise
-                $aCache['aAccounts'][$accountId] = array();
+                $aCache['aAccounts'][$accountId] = [];
             }
 
             // Add current action as first item
             array_unshift($aCache['aAccounts'][$accountId], $aAction);
 
             //if current campaign is deleted, delete campaignid in all messages concernig this campaign
-            if ($actionType=='deleted') {
-            	//var_dump($aCache['aAccounts'][$accountId]);
-             	foreach ($aCache['aAccounts'][$accountId] as $k => $v) {
+            if ($actionType == 'deleted') {
+                //var_dump($aCache['aAccounts'][$accountId]);
+                foreach ($aCache['aAccounts'][$accountId] as $k => $v) {
                     if ($v['campaignid'] == $aAction['campaignid']) {
                         $aCache['aAccounts'][$accountId][$k]['campaignid'] = "";
                     }
@@ -541,7 +542,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
     }
 
-    function calculateEcpm()
+    public function calculateEcpm()
     {
         if ($this->campaignid) {
             $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
@@ -552,8 +553,15 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         } else {
             $impressionsToDate = $clicksToDate = $conversionsToDate = 0;
         }
-        return OX_Util_Utils::getEcpm($this->revenue_type, $this->revenue,
-            $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate_time, $this->expire_time);
+        return OX_Util_Utils::getEcpm(
+            $this->revenue_type,
+            $this->revenue,
+            $impressionsToDate,
+            $clicksToDate,
+            $conversionsToDate,
+            $this->activate_time,
+            $this->expire_time
+        );
     }
 
     /**
@@ -562,7 +570,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *
      *
      */
-    function setEcpmEnabled()
+    public function setEcpmEnabled()
     {
         $ecpmEnabled = !empty($GLOBALS['_MAX']['PREF']['contract_ecpm_enabled']);
 
@@ -573,5 +581,3 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
     }
 }
-
-?>

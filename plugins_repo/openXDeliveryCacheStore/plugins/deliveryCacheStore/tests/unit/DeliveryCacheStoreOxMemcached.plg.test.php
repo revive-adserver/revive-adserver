@@ -36,12 +36,12 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
     /**
      * Memcached connection
      */
-    var $oMemcached;
+    public $oMemcached;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         _oxMemcached_MemcachedInit();
@@ -51,14 +51,14 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
     /**
      * Check if tests can be runned
      */
-    function _skip()
+    public function _skip()
     {
         // Skip tests if there is no Memcached connection
-		if (!isset($this->oMemcached)) {
-		    $this->skip("There are no memcached settings");
-		    return true;
+        if (!isset($this->oMemcached)) {
+            $this->skip("There are no memcached settings");
+            return true;
         }
-        if (@$this->oMemcached->getVersion()=== false) {
+        if (@$this->oMemcached->getVersion() === false) {
             $this->skip("There is no connection to the memcached server(s)");
             return true;
         };
@@ -73,8 +73,9 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
     /**
      * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve
      */
-    function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve() {
-        $content = array( 'string' => 'teststring', 'num' => -1);
+    public function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve()
+    {
+        $content = [ 'string' => 'teststring', 'num' => -1];
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($name);
         Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $content);
@@ -83,19 +84,20 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         $result = Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve($filename, $name);
         $this->assertEqual($result, $content);
 
-        $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+        $oPlgOxMemcached = new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $oPlgOxMemcached->deleteCacheFile($filename);
     }
 
     /**
      * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore
      */
-    function test_Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore() {
+    public function test_Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore()
+    {
         if ($this->_skip()) {
-           return;
+            return;
         }
 
-        $content = array( 'string' => 'teststring', 'num' => -1, 'file' => "\x02\x00\xff\xea\x01");
+        $content = [ 'string' => 'teststring', 'num' => -1, 'file' => "\x02\x00\xff\xea\x01"];
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($filename);
 
@@ -111,7 +113,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         $cacheContent = $this->oMemcached->get($filename);
         $this->assertEqual(serialize($content), $cacheContent);
 
-        $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+        $oPlgOxMemcached = new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $oPlgOxMemcached->deleteCacheFile($filename);
     }
 
@@ -122,13 +124,14 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
     /**
      * A method to test the _deleteCacheFile method
      */
-    function test__deleteCacheFile() {
+    public function test__deleteCacheFile()
+    {
         if ($this->_skip()) {
-           return;
+            return;
         }
 
-        $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
-        $content = NULL;
+        $oPlgOxMemcached = new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+        $content = null;
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
 
@@ -144,16 +147,17 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
     /**
      * A method to test the _deleteAll mathod
      */
-    function test__deleteAll() {
+    public function test__deleteAll()
+    {
         if ($this->_skip()) {
-           return;
+            return;
         }
 
-        $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
-        $content = NULL;
+        $oPlgOxMemcached = new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+        $content = null;
         $name = 'test';
         $filename = OA_Delivery_Cache_buildFileName($name);
-        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
+        $cachefile = $GLOBALS['OA_Delivery_Cache']['path'] . $filename;
 
         Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $content);
         $cacheContent = $this->oMemcached->get($filename);
@@ -164,4 +168,3 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
         $this->assertFalse($this->oMemcached->get($filename));
     }
 }
-?>

@@ -15,24 +15,24 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Trackers.php';
 
 class MAX_Dal_Admin_Variables extends MAX_Dal_Common
 {
-    var $table = 'variables';
+    public $table = 'variables';
 
-    function getTrackerVariables($zoneid, $affiliateid, $selectForAffiliate)
+    public function getTrackerVariables($zoneid, $affiliateid, $selectForAffiliate)
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableZ = $oDbh->quoteIdentifier($prefix.'zones',true);
-        $tableAza = $oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true);
-        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
-        $tableCt = $oDbh->quoteIdentifier($prefix.'campaigns_trackers',true);
-        $tableT = $oDbh->quoteIdentifier($prefix.'trackers',true);
-        $tableV = $oDbh->quoteIdentifier($prefix.'variables',true);
-        $tableVp = $oDbh->quoteIdentifier($prefix.'variable_publisher',true);
+        $tableZ = $oDbh->quoteIdentifier($prefix . 'zones', true);
+        $tableAza = $oDbh->quoteIdentifier($prefix . 'ad_zone_assoc', true);
+        $tableB = $oDbh->quoteIdentifier($prefix . 'banners', true);
+        $tableCt = $oDbh->quoteIdentifier($prefix . 'campaigns_trackers', true);
+        $tableT = $oDbh->quoteIdentifier($prefix . 'trackers', true);
+        $tableV = $oDbh->quoteIdentifier($prefix . 'variables', true);
+        $tableVp = $oDbh->quoteIdentifier($prefix . 'variable_publisher', true);
 
 
         $whereZoneAffiliate = empty($zoneid) ?
-            "z.affiliateid = ".DBC::makeLiteral($affiliateid) :
-            "z.zoneid = ".DBC::makeLiteral($zoneid);
+            "z.affiliateid = " . DBC::makeLiteral($affiliateid) :
+            "z.zoneid = " . DBC::makeLiteral($zoneid);
 
         $query = "
             SELECT DISTINCT
@@ -55,7 +55,7 @@ class MAX_Dal_Admin_Variables extends MAX_Dal_Common
                 v.datatype = 'numeric'
             ";
 
-        if($selectForAffiliate) {
+        if ($selectForAffiliate) {
             $query .= " AND (v.hidden = 'f' OR vp.visible = 1)";
         }
 
@@ -83,7 +83,4 @@ class MAX_Dal_Admin_Variables extends MAX_Dal_Common
         }
         return true;
     }
-
 }
-
-?>

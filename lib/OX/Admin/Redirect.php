@@ -24,7 +24,6 @@ require_once OX_PATH . '/lib/OX.php';
  */
 class OX_Admin_Redirect
 {
-
     /**
      * A method to perform redirects. Only suitable for use once OpenX is installed,
      * as it requires the OpenX configuration file to be correctly set up.
@@ -65,7 +64,7 @@ class OX_Admin_Redirect
         exit;
     }
 
-    function redirectIfNecessary($adminPage)
+    public function redirectIfNecessary($adminPage)
     {
         $oDesiredUrl = new MAX_Url();
         $oCurrentUrl = new MAX_Url();
@@ -78,7 +77,4 @@ class OX_Admin_Redirect
         }
         $this->redirect($adminPage);
     }
-
 }
-
-?>

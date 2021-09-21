@@ -20,7 +20,6 @@
  */
 class OA_Task
 {
-
     /**
      * A abstract method that needs to be implemented in child Task classes,
      * which will be called when the task needs to be performed.
@@ -28,11 +27,8 @@ class OA_Task
      * @abstract
      * @todo This method should really return a boolean.
      */
-    function run()
+    public function run()
     {
         return;
     }
-
 }
-
-?>

@@ -37,14 +37,14 @@ class Plugins_InvocationTags extends OX_Component
      * MAX_Admin_Invocation object in more object oriented way - as
      * object attributes
      */
-    var $maxInvocation;
+    public $maxInvocation;
 
     /**
      * Order in which the plugins should be displayed
      *
      * @var Integer
      */
-    static $order = 1;
+    public static $order = 1;
 
     /**
      * If set to false, the zone invocation screen will not display the text area and the options below.
@@ -59,7 +59,7 @@ class Plugins_InvocationTags extends OX_Component
      * @abstract
      * @return string A string describing the class.
      */
-    function getName()
+    public function getName()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -73,7 +73,7 @@ class Plugins_InvocationTags extends OX_Component
      * @abstract
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -93,7 +93,7 @@ class Plugins_InvocationTags extends OX_Component
      *                    - MAX_PLUGINS_INVOCATION_TAGS_CUSTOM - option name is name of the method
      *                                                           from plugin class
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -106,10 +106,10 @@ class Plugins_InvocationTags extends OX_Component
      *
      * @return boolean    True if allowed else false
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $settingString = 'isAllowed'.ucfirst($this->component);
+        $settingString = 'isAllowed' . ucfirst($this->component);
         return isset($aConf[$this->group][$settingString]) ? $aConf[$this->group][$settingString] : false;
     }
 
@@ -118,7 +118,7 @@ class Plugins_InvocationTags extends OX_Component
      *
      * @return boolean
      */
-    function canGenerate()
+    public function canGenerate()
     {
         return true;
     }
@@ -131,7 +131,7 @@ class Plugins_InvocationTags extends OX_Component
      * @param array $extra Information about the current request
      * @return string
      */
-    public function getHeaderHtml( $maxInvocation, $extra )
+    public function getHeaderHtml($maxInvocation, $extra)
     {
         return '';
     }
@@ -148,7 +148,8 @@ class Plugins_InvocationTags extends OX_Component
      *
      * @see generateInvocationCode()
      */
-    function setInvocation(&$invocation) {
+    public function setInvocation(&$invocation)
+    {
         $this->maxInvocation = &$invocation;
     }
 
@@ -157,7 +158,7 @@ class Plugins_InvocationTags extends OX_Component
      *
      * @return string    Generated invocation string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
         OA::debug('Cannot run abstract method');
         exit();
@@ -170,17 +171,17 @@ class Plugins_InvocationTags extends OX_Component
      *                                     'SSL Delivery Comment', 'SSL Backup Comment', 'Comment'
      *
      */
-    function prepareCommonInvocationData($aComments)
+    public function prepareCommonInvocationData($aComments)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;
 
-        $mi->macros = array(
+        $mi->macros = [
             'cachebuster' => 'INSERT_RANDOM_NUMBER_HERE',
-            'clickurl'    => 'INSERT_ENCODED_CLICKURL_HERE',
-        );
-        $mi->parameters = array();
-        $imgParams      = array();
+            'clickurl' => 'INSERT_ENCODED_CLICKURL_HERE',
+        ];
+        $mi->parameters = [];
+        $imgParams = [];
 
         // Setup option defaults
         $pluginOptions = new Plugins_InvocationTagsOptions();
@@ -199,28 +200,28 @@ class Plugins_InvocationTags extends OX_Component
 
         // Set parameters
         if (isset($mi->clientid) && strlen($mi->clientid) && $mi->clientid != '0') {
-            $mi->parameters['clientid'] = $this->options['clientid'] = $imgParams['clientid'] = "clientid=".$mi->clientid;
+            $mi->parameters['clientid'] = $this->options['clientid'] = $imgParams['clientid'] = "clientid=" . $mi->clientid;
         }
         if (isset($mi->zoneid) && $mi->zoneid != '') {
-            $mi->parameters['zoneid'] = $this->options['zoneid'] = $imgParams['zoneid'] = "zoneid=".urlencode($mi->zoneid);
+            $mi->parameters['zoneid'] = $this->options['zoneid'] = $imgParams['zoneid'] = "zoneid=" . urlencode($mi->zoneid);
         }
         if (isset($mi->campaignid) && strlen($mi->campaignid) && $mi->campaignid != '0') {
-            $mi->parameters['campaignid'] = $this->options['campaignid'] = $imgParams['campaignid'] = "campaignid=".$mi->campaignid;
+            $mi->parameters['campaignid'] = $this->options['campaignid'] = $imgParams['campaignid'] = "campaignid=" . $mi->campaignid;
         }
         if (isset($mi->bannerid) && $mi->bannerid != '') {
-            $mi->parameters['bannerid'] = $this->options['bannerid'] = $imgParams['bannerid'] = "bannerid=".urlencode($mi->bannerid);
+            $mi->parameters['bannerid'] = $this->options['bannerid'] = $imgParams['bannerid'] = "bannerid=" . urlencode($mi->bannerid);
         }
         if (isset($mi->what) && $mi->what != '') {
-            $mi->parameters['what'] = $this->options['what'] = $imgParams['what'] = "what=".str_replace (",+", ",_", $mi->what);
+            $mi->parameters['what'] = $this->options['what'] = $imgParams['what'] = "what=" . str_replace(",+", ",_", $mi->what);
         }
         if (isset($mi->source) && $mi->source != '') {
-            $mi->parameters['source'] = $this->options['source'] = $imgParams['source'] = "source=".urlencode($mi->source);
+            $mi->parameters['source'] = $this->options['source'] = $imgParams['source'] = "source=" . urlencode($mi->source);
         }
         if (isset($mi->target) && $mi->target != '') {
-            $mi->parameters['target'] = $this->options['target'] = $imgParams['target'] = "target=".urlencode($mi->target);
+            $mi->parameters['target'] = $this->options['target'] = $imgParams['target'] = "target=" . urlencode($mi->target);
         }
         if (isset($mi->charset) && $mi->charset != '') {
-            $mi->parameters['charset'] = $this->options['charset'] = $imgParams['charset'] = "charset=".urlencode($mi->charset);
+            $mi->parameters['charset'] = $this->options['charset'] = $imgParams['charset'] = "charset=" . urlencode($mi->charset);
         }
         if (!empty($mi->cachebuster)) {
             $mi->parameters['cb'] = $this->options['cb'] = $imgParams['cb'] = "cb=" . $mi->macros['cachebuster'];
@@ -232,7 +233,8 @@ class Plugins_InvocationTags extends OX_Component
             $name = $GLOBALS['_MAX']['CONF']['ui']['applicationName'];
         }
 
-        $buffer = sprintf("<!-- %s %s - Generated with %s v%s -->\n",
+        $buffer = sprintf(
+            "<!-- %s %s - Generated with %s v%s -->\n",
             $name,
             $this->getName(),
             PRODUCT_NAME,
@@ -254,12 +256,12 @@ class Plugins_InvocationTags extends OX_Component
             if (isset($aComments['SSL Delivery Comment'])) {
                 $comment .= $aComments['SSL Delivery Comment'];
             } else {
-                $comment .= $oTrans->translate('SSLDeliveryComment', array($conf['webpath']['delivery'], $conf['webpath']['deliverySSL']));
+                $comment .= $oTrans->translate('SSLDeliveryComment', [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]);
             }
             if (isset($aComments['SSL Backup Comment'])) {
                 $comment .= $aComments['SSL Backup Comment'];
             } else {
-                $comment .= $oTrans->translate('SSLBackupComment', array($conf['webpath']['delivery'], $conf['webpath']['deliverySSL']));
+                $comment .= $oTrans->translate('SSLBackupComment', [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]);
             }
             if (isset($aComments['Comment'])) {
                 $comment .= $aComments['Comment'];
@@ -272,32 +274,32 @@ class Plugins_InvocationTags extends OX_Component
         $mi->buffer = $buffer;
 
         // Set $mi->backupImage to the HTML for the backup image (same as used by adview)
-        $hrefParams = array();
-        $uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
+        $hrefParams = [];
+        $uniqueid = 'a' . substr(md5(uniqid('', 1)), 0, 7);
 
         if ((isset($mi->bannerid)) && ($mi->bannerid != '')) {
-            $hrefParams[] = "bannerid=".$mi->bannerid;
-            $hrefParams[] = "zoneid=".$mi->zoneid;
+            $hrefParams[] = "bannerid=" . $mi->bannerid;
+            $hrefParams[] = "zoneid=" . $mi->zoneid;
         } else {
-            $hrefParams[] = "n=".$uniqueid;
-            $imgParams[] = "n=".$uniqueid;
+            $hrefParams[] = "n=" . $uniqueid;
+            $imgParams[] = "n=" . $uniqueid;
         }
         if (!empty($mi->cachebuster) || !isset($mi->cachebuster)) {
             $hrefParams[] = "cb=" . $mi->macros['cachebuster'];
         }
-        $backup = "<a href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?".implode("&amp;", $hrefParams)."'";
+        $backup = "<a href='" . MAX_commonConstructDeliveryUrl($conf['file']['click']) . "?" . implode("&amp;", $hrefParams) . "'";
 
         if (isset($mi->target) && $mi->target != '') {
-            $backup .= " target='".$mi->target."'";
+            $backup .= " target='" . $mi->target . "'";
         } else {
             $backup .= " target='_blank'";
         }
-        $backup .= "><img src='".MAX_commonConstructDeliveryUrl($conf['file']['view']);
+        $backup .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view']);
         // Remove any paramaters that should not be passed into the IMG call
         unset($imgParams['target']);
 
         if (sizeof($imgParams) > 0) {
-            $backup .= "?".implode ("&amp;", $imgParams);
+            $backup .= "?" . implode("&amp;", $imgParams);
         }
         $backup .= "' border='0' alt='' /></a>";
         $mi->backupImage = $backup;
@@ -317,7 +319,7 @@ class Plugins_InvocationTags extends OX_Component
      *
      * @return string
      */
-    function generateOptions(&$maxInvocation)
+    public function generateOptions(&$maxInvocation)
     {
         $this->setInvocation($maxInvocation);
 
@@ -331,15 +333,15 @@ class Plugins_InvocationTags extends OX_Component
         $invocationOptions->setInvocation($maxInvocation);
 
         $htmlOptions = '';
-        foreach($show as $optionToShow => $methodType) {
-            if($methodType == MAX_PLUGINS_INVOCATION_TAGS_STANDARD) {
-                if(!method_exists($invocationOptions, $optionToShow)) {
+        foreach ($show as $optionToShow => $methodType) {
+            if ($methodType == MAX_PLUGINS_INVOCATION_TAGS_STANDARD) {
+                if (!method_exists($invocationOptions, $optionToShow)) {
                     MAX::raiseError("Method '$optionToShow' doesn't exists");
                 } else {
                     $htmlOptions .= $invocationOptions->$optionToShow();
                 }
             } else {
-                if(!method_exists($this, $optionToShow)) {
+                if (!method_exists($this, $optionToShow)) {
                     MAX::raiseError("Method '$optionToShow' doesn't exists");
                 } else {
                     $htmlOptions .= $this->$optionToShow();
@@ -349,5 +351,4 @@ class Plugins_InvocationTags extends OX_Component
 
         return $htmlOptions;
     }
-
 }

@@ -11,36 +11,34 @@
 */
 
 // Required files
-require_once(LIB_PATH.'/Extension/admin.php');
+require_once(LIB_PATH . '/Extension/admin.php');
 
 class Test_OX_Extension_admin extends UnitTestCase
 {
-
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function test_cacheMergedMenu()
+    public function test_cacheMergedMenu()
     {
         Mock::generatePartial(
-                                'OX_Plugin_ComponentGroupManager',
-                                $oMockGroupManager = 'OX_Plugin_ComponentGroupManager'.rand(),
-                                array(
+            'OX_Plugin_ComponentGroupManager',
+            $oMockGroupManager = 'OX_Plugin_ComponentGroupManager' . rand(),
+            [
                                       'mergeMenu',
-                                     )
-                             );
+                                     ]
+        );
         $oGroupManager = new $oMockGroupManager($this);
         $oGroupManager->setReturnValue('mergeMenu', true);
 
         Mock::generatePartial(
-                                'OX_Extension_admin',
-                                $oMockExtensionManager = 'OX_Extension_admin'.rand(),
-                                array(
+            'OX_Extension_admin',
+            $oMockExtensionManager = 'OX_Extension_admin' . rand(),
+            [
                                       '_getMenuObjectForAccount',
                                       '_getGroupManagerObject',
-                                     )
-                             );
+                                     ]
+        );
         $oMockExtensionManager = new $oMockExtensionManager($this);
 
         $oMenu = new OA_Admin_Menu('TEST');
@@ -55,13 +53,11 @@ class Test_OX_Extension_admin extends UnitTestCase
         $oMenuCache = OA_Admin_Menu::_loadFromCache('TEST');
 
         $this->assertTrue(is_a($oMenuCache, 'OA_Admin_Menu'));
-        $this->assertEqual(count($oMenuCache->aAllSections),1);
-        $this->assertTrue(array_key_exists('test',$oMenuCache->aAllSections));
+        $this->assertEqual(count($oMenuCache->aAllSections), 1);
+        $this->assertTrue(array_key_exists('test', $oMenuCache->aAllSections));
 
         OA_Admin_Menu::_clearCache('TEST');
 
         TestEnv::restoreConfig();
     }
 }
-
-?>

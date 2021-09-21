@@ -24,19 +24,19 @@ class Test_Authentication extends UnitTestCase
     /**
      * @var Plugins_Authentication_Internal_Internal
      */
-    var $oPlugin;
+    public $oPlugin;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
-        $this->oPlugin =  OA_Auth::staticGetAuthPlugin();
+        $this->oPlugin = OA_Auth::staticGetAuthPlugin();
     }
 
-    function testSuppliedCredentials()
+    public function testSuppliedCredentials()
     {
         $ret = $this->oPlugin->suppliedCredentials();
         $this->assertFalse($ret);
@@ -45,10 +45,9 @@ class Test_Authentication extends UnitTestCase
         $_POST['password'] = 'foo';
         $ret = $this->oPlugin->suppliedCredentials();
         $this->assertTrue($ret);
-
     }
 
-    function testAuthenticateUser()
+    public function testAuthenticateUser()
     {
         $username = 'boo';
         $password = 'foo';
@@ -65,17 +64,17 @@ class Test_Authentication extends UnitTestCase
         $this->assertIsA($ret, 'DataObjects_Users');
         $this->assertEqual($doUsers->username, $username);
 
-        $_POST['password'] = $password.rand();
+        $_POST['password'] = $password . rand();
         $ret = $this->oPlugin->authenticateUser();
         $this->assertFalse($ret);
     }
 
-    function testdllValidation()
+    public function testdllValidation()
     {
         Mock::generatePartial(
             'OA_Dll_User',
             'PartialMockOA_Dll_User',
-            array('raiseError')
+            ['raiseError']
         );
 
         $dllUserMock = new PartialMockOA_Dll_User();
@@ -110,5 +109,3 @@ class Test_Authentication extends UnitTestCase
         $dllUserMock->tally();
     }
 }
-
-?>

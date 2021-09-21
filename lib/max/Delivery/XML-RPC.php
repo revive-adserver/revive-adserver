@@ -43,9 +43,9 @@ XML_RPC_Client::setAutoBase64(true);
  * @since 2.3.32-beta
  */
 $xmlRpcView_OA =
-    array(
-        'sig' => array(
-                    array(
+    [
+        'sig' => [
+                    [
                         $GLOBALS['XML_RPC_Struct'],  // Return value
                         $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
                         $GLOBALS['XML_RPC_String'],  // What
@@ -54,21 +54,21 @@ $xmlRpcView_OA =
                         $GLOBALS['XML_RPC_String'],  // Source
                         $GLOBALS['XML_RPC_Boolean'], // WithText
                         $GLOBALS['XML_RPC_Array']    // Context
-                    )
-                ),
+                    ]
+                ],
         'doc' => 'When passed the "environment/cookies" struct, "what", "campaignid", "target", "source", ' .
                  '"withText", "context" returns the cookies to be set and the HTML code to display the ' .
                  'appropriate advertisement.'
-    );
+    ];
 /**
  * New OpenX signature / docs for SPC XML-RPC method
  *
  * @since 2.5.2-dev
  */
 $xmlRpcSPC_OA =
-    array(
-        'sig' => array(
-                    array(
+    [
+        'sig' => [
+                    [
                         $GLOBALS['XML_RPC_Struct'],  // Return value
                         $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
                         $GLOBALS['XML_RPC_String'],  // What
@@ -77,20 +77,20 @@ $xmlRpcSPC_OA =
                         $GLOBALS['XML_RPC_Boolean'], // WithText
                         $GLOBALS['XML_RPC_Boolean'], // Block
                         $GLOBALS['XML_RPC_Boolean'], // Block Campaign
-                    )
-                ),
+                    ]
+                ],
         'doc' => 'When passed the "environment/cookies" struct, "what", "target", "source", ' .
                  '"withtext", "block" and "blockcampaign" returns the cookies to be set and an array of HTML code to display the ' .
                  'selected advertisements.'
-    );
+    ];
 
 /**
  * MMM 0.3 / OpenX 2.3 backwards compatible signature / docs
  */
 $xmlRpcView_Max =
-    array(
-        'sig' => array(
-                    array(
+    [
+        'sig' => [
+                    [
                         $GLOBALS['XML_RPC_String'],  // Return value
                         $GLOBALS['XML_RPC_String'],  // What
                         $GLOBALS['XML_RPC_String'],  // Target
@@ -98,8 +98,8 @@ $xmlRpcView_Max =
                         $GLOBALS['XML_RPC_Boolean'], // WithText
                         $GLOBALS['XML_RPC_String'],  // IP Address
                         $GLOBALS['XML_RPC_Struct']   // Cookies
-                    ),
-                    array(
+                    ],
+                    [
                         $GLOBALS['XML_RPC_String'],  // Return value
                         $GLOBALS['XML_RPC_String'],  // What
                         $GLOBALS['XML_RPC_String'],  // Target
@@ -108,18 +108,18 @@ $xmlRpcView_Max =
                         $GLOBALS['XML_RPC_String'],  // IP Address
                         $GLOBALS['XML_RPC_Struct'],  // Cookies
                         $GLOBALS['XML_RPC_Array']    // Context - @since late 2.3
-                    )
-                ),
+                    ]
+                ],
         'doc' => '2.3 backwards compatibility method - deprecated'
-    );
+    ];
 
 /**
  * PAN / OpenX 2.0 backwards compatible signature / docs
  */
 $xmlRpcView_PAN =
-    array(
-        'sig' => array(
-                    array(
+    [
+        'sig' => [
+                    [
                         $GLOBALS['XML_RPC_Struct'],  // Return value
                         $GLOBALS['XML_RPC_Struct'],  // Environment
                         $GLOBALS['XML_RPC_String'],  // What
@@ -127,8 +127,8 @@ $xmlRpcView_PAN =
                         $GLOBALS['XML_RPC_String'],  // Target
                         $GLOBALS['XML_RPC_String'],  // Source
                         $GLOBALS['XML_RPC_Boolean']  // WithText
-                    ),
-                    array(
+                    ],
+                    [
                         $GLOBALS['XML_RPC_Struct'],  // Return value
                         $GLOBALS['XML_RPC_Struct'],  // Environment
                         $GLOBALS['XML_RPC_String'],  // What
@@ -137,10 +137,10 @@ $xmlRpcView_PAN =
                         $GLOBALS['XML_RPC_String'],  // Source
                         $GLOBALS['XML_RPC_Boolean'], // WithText
                         $GLOBALS['XML_RPC_Array']    // Context
-                    )
-                ),
+                    ]
+                ],
         'doc' => '2.0 Backwards compatibility method - deprecated'
-    );
+    ];
 
 
 /**
@@ -184,17 +184,18 @@ function OA_Delivery_XmlRpc_View($params)
     if ($numParams != 7) {
         // Return an error
         $errorCode = $XML_RPC_erruser + 21;
-        $errorMsg  = 'Incorrect number of parameters';
+        $errorMsg = 'Incorrect number of parameters';
         return new XML_RPC_Response(0, $errorCode, $errorMsg);
     }
 
     // Parse parameters
-    for ($i = 0; $i < $numParams; $i++)
-    {
+    for ($i = 0; $i < $numParams; $i++) {
         $p = $params->getParam($i);
 
         // Bump the params array to account for the inserted $charset parameter
-        if ($i == 6) { $view_params[] = ''; }
+        if ($i == 6) {
+            $view_params[] = '';
+        }
 
         if ($i) {
             // Put the decoded value the view arg array
@@ -206,37 +207,37 @@ function OA_Delivery_XmlRpc_View($params)
             if (!isset($p['remote_addr'])) {
                 // Return an error
                 $errorCode = $XML_RPC_erruser + 22;
-                $errorMsg  = "Missing 'remote_addr' member";
+                $errorMsg = "Missing 'remote_addr' member";
                 return new XML_RPC_Response(0, $errorCode, $errorMsg);
             }
             if (!isset($p['cookies']) || !is_array($p['cookies'])) {
                 // Return an error
                 $errorCode = $XML_RPC_erruser + 23;
-                $errorMsg  = "Missing 'cookies' member";
+                $errorMsg = "Missing 'cookies' member";
                 return new XML_RPC_Response(0, $errorCode, $errorMsg);
             }
 
-            $aServerVars = array(
-                'remote_addr'       => 'REMOTE_ADDR',
-                'remote_host'       => 'REMOTE_HOST',
+            $aServerVars = [
+                'remote_addr' => 'REMOTE_ADDR',
+                'remote_host' => 'REMOTE_HOST',
 
                 // Headers used for ACLs
-                'request_uri'       => 'REQUEST_URI',
-                'https'             => 'HTTPS',
-                'server_name'       => 'SERVER_NAME',
-                'http_host'         => 'HTTP_HOST',
-                'accept_language'   => 'HTTP_ACCEPT_LANGUAGE',
-                'referer'           => 'HTTP_REFERER',
-                'user_agent'        => 'HTTP_USER_AGENT',
+                'request_uri' => 'REQUEST_URI',
+                'https' => 'HTTPS',
+                'server_name' => 'SERVER_NAME',
+                'http_host' => 'HTTP_HOST',
+                'accept_language' => 'HTTP_ACCEPT_LANGUAGE',
+                'referer' => 'HTTP_REFERER',
+                'user_agent' => 'HTTP_USER_AGENT',
 
                 // Headers used for proxy lookup
-                'via'               => 'HTTP_VIA',
-                'forwarded'         => 'HTTP_FORWARDED',
-                'forwarded_for'     => 'HTTP_FORWARDED_FOR',
-                'x_forwarded'       => 'HTTP_X_FORWARDED',
-                'x_forwarded_for'   => 'HTTP_X_FORWARDED_FOR',
-                'client_ip'         => 'HTTP_CLIENT_IP'
-            );
+                'via' => 'HTTP_VIA',
+                'forwarded' => 'HTTP_FORWARDED',
+                'forwarded_for' => 'HTTP_FORWARDED_FOR',
+                'x_forwarded' => 'HTTP_X_FORWARDED',
+                'x_forwarded_for' => 'HTTP_X_FORWARDED_FOR',
+                'client_ip' => 'HTTP_CLIENT_IP'
+            ];
 
             // Extract environment vars to $_SERVER
             foreach ($aServerVars as $xmlName => $varName) {
@@ -261,8 +262,8 @@ function OA_Delivery_XmlRpc_View($params)
     $view_params[] = '';
     // Add $loc param
     $view_params[] =
-        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-        OX_getHostName().
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' .
+        OX_getHostName() .
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
     $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
@@ -271,7 +272,7 @@ function OA_Delivery_XmlRpc_View($params)
     //
     // MAX_adSelect signature is:
     // $what, $campaignid = '', $target = '', $source = '', $withtext = 0, $charset = '', $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = ''
-    $escape = array(
+    $escape = [
         'addslashes',
         'intval',
         'addslashes',
@@ -283,7 +284,7 @@ function OA_Delivery_XmlRpc_View($params)
         'addslashes',
         'addslashes',
         '', // referer doesn't need escaping
-    );
+    ];
     foreach ($escape as $key => $callback) {
         if (is_callable($callback)) {
             $view_params[$key] = $callback($view_params[$key]);
@@ -348,22 +349,21 @@ function OA_Delivery_XmlRpc_SPC($params)
     if ($numParams != 7) {
         // Return an error
         $errorCode = $XML_RPC_erruser + 21;
-        $errorMsg  = 'Incorrect number of parameters';
+        $errorMsg = 'Incorrect number of parameters';
         return new XML_RPC_Response(0, $errorCode, $errorMsg);
     }
 
     // Set the XML values into their correct variables to make life easier
-    $vars = array(
+    $vars = [
         1 => 'what',
         2 => 'target',
         3 => 'source',
         4 => 'withtext',
         5 => 'block',
         6 => 'blockcampaign',
-    );
+    ];
     // Parse parameters
-    for ($i = 0; $i < $numParams; $i++)
-    {
+    for ($i = 0; $i < $numParams; $i++) {
         $p = $params->getParam($i);
 
         if ($i) {
@@ -376,37 +376,37 @@ function OA_Delivery_XmlRpc_SPC($params)
             if (!isset($p['remote_addr'])) {
                 // Return an error
                 $errorCode = $XML_RPC_erruser + 22;
-                $errorMsg  = "Missing 'remote_addr' member";
+                $errorMsg = "Missing 'remote_addr' member";
                 return new XML_RPC_Response(0, $errorCode, $errorMsg);
             }
             if (!isset($p['cookies']) || !is_array($p['cookies'])) {
                 // Return an error
                 $errorCode = $XML_RPC_erruser + 23;
-                $errorMsg  = "Missing 'cookies' member";
+                $errorMsg = "Missing 'cookies' member";
                 return new XML_RPC_Response(0, $errorCode, $errorMsg);
             }
 
-            $aServerVars = array(
-                'remote_addr'       => 'REMOTE_ADDR',
-                'remote_host'       => 'REMOTE_HOST',
+            $aServerVars = [
+                'remote_addr' => 'REMOTE_ADDR',
+                'remote_host' => 'REMOTE_HOST',
 
                 // Headers used for ACLs
-                'request_uri'       => 'REQUEST_URI',
-                'https'             => 'HTTPS',
-                'server_name'       => 'SERVER_NAME',
-                'http_host'         => 'HTTP_HOST',
-                'accept_language'   => 'HTTP_ACCEPT_LANGUAGE',
-                'referer'           => 'HTTP_REFERER',
-                'user_agent'        => 'HTTP_USER_AGENT',
+                'request_uri' => 'REQUEST_URI',
+                'https' => 'HTTPS',
+                'server_name' => 'SERVER_NAME',
+                'http_host' => 'HTTP_HOST',
+                'accept_language' => 'HTTP_ACCEPT_LANGUAGE',
+                'referer' => 'HTTP_REFERER',
+                'user_agent' => 'HTTP_USER_AGENT',
 
                 // Headers used for proxy lookup
-                'via'               => 'HTTP_VIA',
-                'forwarded'         => 'HTTP_FORWARDED',
-                'forwarded_for'     => 'HTTP_FORWARDED_FOR',
-                'x_forwarded'       => 'HTTP_X_FORWARDED',
-                'x_forwarded_for'   => 'HTTP_X_FORWARDED_FOR',
-                'client_ip'         => 'HTTP_CLIENT_IP'
-            );
+                'via' => 'HTTP_VIA',
+                'forwarded' => 'HTTP_FORWARDED',
+                'forwarded_for' => 'HTTP_FORWARDED_FOR',
+                'x_forwarded' => 'HTTP_X_FORWARDED',
+                'x_forwarded_for' => 'HTTP_X_FORWARDED_FOR',
+                'client_ip' => 'HTTP_CLIENT_IP'
+            ];
 
             // Extract environment vars to $_SERVER
             foreach ($aServerVars as $xmlName => $varName) {
@@ -429,12 +429,12 @@ function OA_Delivery_XmlRpc_SPC($params)
     // Add defaults for not-applicable values
     $richmedia = true;
     $ct0 = '';
-    $context = array();
+    $context = [];
     // Make loc and referer global to ensure that the delivery limitations work correctly
     global $loc, $referer;
     $loc =
-        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-        OX_getHostName().
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' .
+        OX_getHostName() .
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
@@ -449,9 +449,11 @@ function OA_Delivery_XmlRpc_SPC($params)
         $nz = true;
     }
 
-    $spc_output = array();
+    $spc_output = [];
     foreach ($zones as $zone => $data) {
-        if (empty($zone)) continue;
+        if (empty($zone)) {
+            continue;
+        }
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if ($nz) {
             $varname = $zone;
@@ -464,17 +466,17 @@ function OA_Delivery_XmlRpc_SPC($params)
         unset($GLOBALS['_MAX']['deliveryData']);
 
         // Get the banner
-        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+        $output = MAX_adSelect('zone:' . $zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
         $spc_output[$varname] = $output;
 
         // Block this banner for next invocation
         if (!empty($block) && !empty($output['bannerid'])) {
-            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+            $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
         }
         // Block this campaign for next invocation
         if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+            $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
         }
         // Pass the context array back to the next call, have to iterate over elements to prevent duplication
         if (!empty($output['context'])) {
@@ -547,7 +549,7 @@ function OA_Delivery_XmlRpc_View_Max($params)
     if ($numParams < 6) {
         // Return an error
         $errorCode = $XML_RPC_erruser + 2;
-        $errorMsg  = 'Incorrect number of parameters';
+        $errorMsg = 'Incorrect number of parameters';
         return new XML_RPC_Response(0, $errorCode, $errorMsg);
     }
     // Extract the what parameter
@@ -566,22 +568,22 @@ function OA_Delivery_XmlRpc_View_Max($params)
     if ($numParams >= 7) {
         $contextXmlRpcValue = $params->getParam(6);
     } else {
-        $contextXmlRpcValue = new XML_RPC_Value(array(), $XML_RPC_Array);
+        $contextXmlRpcValue = new XML_RPC_Value([], $XML_RPC_Array);
     }
     // Generate 0 campaignid parameter
     $campaignidXmlRpcValue = new XML_RPC_Value(0, $XML_RPC_Int);
 
     // Create environment array
     $remoteInfoXmlRpcValue = new XML_RPC_Value(
-        array(
-            'remote_addr'   => $remoteAddressXmlRpcValue,
-            'cookies'       => $cookiesXmlRpcValue
-        ),
+        [
+            'remote_addr' => $remoteAddressXmlRpcValue,
+            'cookies' => $cookiesXmlRpcValue
+        ],
         $XML_RPC_Struct
     );
 
     // Recreate XML-RPC message
-    $msg = new XML_RPC_Message('openads.view', array(
+    $msg = new XML_RPC_Message('openads.view', [
         $remoteInfoXmlRpcValue,
         $whatXmlRpcValue,
         $campaignidXmlRpcValue,
@@ -589,7 +591,7 @@ function OA_Delivery_XmlRpc_View_Max($params)
         $sourceXmlRpcValue,
         $withTextXmlRpcValue,
         $contextXmlRpcValue
-    ));
+    ]);
 
     // Relay call to openads.view
     $xmlResponse = OA_Delivery_XmlRpc_View($msg);
@@ -601,16 +603,17 @@ function OA_Delivery_XmlRpc_View_Max($params)
     }
 
     // Change the response
-    $output  = XML_RPC_decode($xmlResponse->value());
+    $output = XML_RPC_decode($xmlResponse->value());
     $cookies = $output['cookies'];
     unset($output['cookies']);
 
     // Return XML-RPC response
     return new XML_RPC_Response(
-        new XML_RPC_Value(array(
+        new XML_RPC_Value(
+            [
                 XML_RPC_encode($output),
                 XML_RPC_encode($cookies)
-            ),
+            ],
             $XML_RPC_Array
         )
     );
@@ -632,7 +635,7 @@ function OA_Delivery_XmlRpc_View_PAN($params)
     $remote_info = XML_RPC_Decode($params->getParam(0));
 
     // Add empty cookies array
-    $remote_info['cookies'] = array();
+    $remote_info['cookies'] = [];
 
     // Create environment array
     $remoteInfoXmlRpcValue = XML_RPC_encode($remote_info);
@@ -641,11 +644,11 @@ function OA_Delivery_XmlRpc_View_PAN($params)
     if ($params->getNumParams() > 6) {
         $contextXmlRpcValue = $params->getParam(6);
     } else {
-        $contextXmlRpcValue = new XML_RPC_Value(array(), $XML_RPC_Array);
+        $contextXmlRpcValue = new XML_RPC_Value([], $XML_RPC_Array);
     }
 
     // Recreate XML-RPC message
-    $msg = new XML_RPC_Message('phpAds.view', array(
+    $msg = new XML_RPC_Message('phpAds.view', [
         $remoteInfoXmlRpcValue,
         $params->getParam(1),
         $params->getParam(2),
@@ -653,7 +656,7 @@ function OA_Delivery_XmlRpc_View_PAN($params)
         $params->getParam(4),
         $params->getParam(5),
         $contextXmlRpcValue
-    ));
+    ]);
 
     // Relay call to openads.view
     $xmlResponse = OA_Delivery_XmlRpc_View($msg);
@@ -661,5 +664,3 @@ function OA_Delivery_XmlRpc_View_PAN($params)
     // Check for errors as-is
     return $xmlResponse;
 }
-
-?>

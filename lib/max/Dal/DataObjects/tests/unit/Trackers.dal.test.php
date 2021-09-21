@@ -26,17 +26,17 @@ class DataObjects_TrackersTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function tearDown()
+    public function tearDown()
     {
-        DataGenerator::cleanUp(array('trackers'));
+        DataGenerator::cleanUp(['trackers']);
     }
 
-    function testDuplicate()
+    public function testDuplicate()
     {
         // Insert a tracker with some default data.
         $doTrackers = OA_Dal::factoryDO('trackers');
@@ -103,10 +103,6 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         $doCampaignTrackers->trackerid = $doNewCampaignTrackers->trackerid = null;
         $this->assertEqualDataObjects($this->stripKeys($doCampaignTrackers), $this->stripKeys($doNewCampaignTrackers));
 
-        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers','trackers','variables'));
-
+        DataGenerator::cleanUp(['campaigns', 'campaigns_trackers', 'trackers', 'variables']);
     }
-
 }
-
-?>

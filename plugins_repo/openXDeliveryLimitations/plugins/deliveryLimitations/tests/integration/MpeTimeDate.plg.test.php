@@ -21,15 +21,14 @@ Language_Loader::load();
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
 {
-    function setUp()
+    public function setUp()
     {
         // Install the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
         TestEnv::installPluginPackage('openXDeliveryLimitations', false);
-
     }
 
-    function tearDown()
+    public function tearDown()
     {
         // Uninstall the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
@@ -46,7 +45,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
      * Test 6: Test date >  delivery requirement
      * Test 7: Bad input, no date object passed to method
      */
-    function testDeliveryBlocked()
+    public function testDeliveryBlocked()
     {
         // Set timezone to UTC
         OA_setTimeZoneUTC();
@@ -58,14 +57,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $limitationData = $oDate->format('%Y%m%d@%Z');
 
         // Test 1
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '==',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '==',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
@@ -75,14 +74,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $this->assertTrue($oLimitationDate->deliveryBlocked($oLaterDate));
 
         // Test 2
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '!=',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '!=',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
@@ -92,14 +91,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $this->assertFalse($oLimitationDate->deliveryBlocked($oLaterDate));
 
         // Test 3
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '<=',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '<=',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
@@ -109,14 +108,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $this->assertTrue($oLimitationDate->deliveryBlocked($oLaterDate));
 
         // Test 4
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '>=',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '>=',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
@@ -126,14 +125,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $this->assertFalse($oLimitationDate->deliveryBlocked($oLaterDate));
 
         // Test 5
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '<',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '<',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
@@ -143,14 +142,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $this->assertTrue($oLimitationDate->deliveryBlocked($oLaterDate));
 
         // Test 6
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '>',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '>',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
@@ -160,29 +159,29 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         $this->assertFalse($oLimitationDate->deliveryBlocked($oLaterDate));
 
         // Test 7
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '>',
-            'data'           => $limitationData,
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '>',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         PEAR::pushErrorHandling(null);
         $this->assertTrue(is_a($oLimitationDate->deliveryBlocked('not a date'), 'pear_error'));
         PEAR::popErrorHandling();
 
         // Test with PST timezone
-        $limitationData = $oDate->format('%Y%m%d').'@America/New_York';
-        $aDeliveryLimitation = array(
-            'ad_id'          => 1,
-            'logical'        => 'and',
-            'type'           => 'deliveryLimitations:Time:Date',
-            'comparison'     => '==',
-            'data'           => $limitationData,
+        $limitationData = $oDate->format('%Y%m%d') . '@America/New_York';
+        $aDeliveryLimitation = [
+            'ad_id' => 1,
+            'logical' => 'and',
+            'type' => 'deliveryLimitations:Time:Date',
+            'comparison' => '==',
+            'data' => $limitationData,
             'executionorder' => 1
-        );
+        ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date (-1 day, 19pm in EST): true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
@@ -194,7 +193,4 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         // Reset timezone
         OA_setTimeZoneLocal();
     }
-
 }
-
-?>

@@ -27,19 +27,19 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 {
-    var $table = 'campaigns';
+    public $table = 'campaigns';
 
-	var $orderListName = array(
-        'name'        => 'campaignname',
-        'id'          => array('clientid', 'campaignid'),
-        'status'      => 'status',
-	// hack to sort by type asc first (non default campaigns always on top)
-	// DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
-	    'type+name'   => "(type=0) ASC, campaignname",
-	    'type+id'     => array('(type=0) ASC, clientid', 'campaignid'),
-	    'type+status' => '(type=0) ASC, status',
-        'updated'     => 'updated',
-    );
+    public $orderListName = [
+        'name' => 'campaignname',
+        'id' => ['clientid', 'campaignid'],
+        'status' => 'status',
+    // hack to sort by type asc first (non default campaigns always on top)
+    // DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
+        'type+name' => "(type=0) ASC, campaignname",
+        'type+id' => ['(type=0) ASC, clientid', 'campaignid'],
+        'type+status' => '(type=0) ASC, status',
+        'updated' => 'updated',
+    ];
 
     /**
      * Changes priority in campaigns belonging to a given agency.
@@ -49,15 +49,14 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param integer $priorityUpdateTo
      * @return array  Array of campaigns which priority was changed
      */
-    function updateCampaignsPriorityByAgency($agencyId, $priorityUpdateFrom, $priorityUpdateTo)
+    public function updateCampaignsPriorityByAgency($agencyId, $priorityUpdateFrom, $priorityUpdateTo)
     {
-        $aUpdatedCampaigns = array();
+        $aUpdatedCampaigns = [];
         $aCampaigns = $this->getAllCampaignsUnderAgency($agencyId, 'name', 'up');
         foreach ($aCampaigns as $campaignId => $aCampaign) {
             $aCampaign['status_changed'] = false;
             if ($aCampaign['priority'] != $priorityUpdateFrom
-                || $aCampaign['priority'] == $priorityUpdateTo)
-            {
+                || $aCampaign['priority'] == $priorityUpdateTo) {
                 continue;
             }
             $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
@@ -80,10 +79,10 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param integer $agencyId
      * @return array  Array of campaigns which ecpm_enabled was changed
      */
-    function updateEcpmEnabledByAgency($agencyId)
+    public function updateEcpmEnabledByAgency($agencyId)
     {
         $do = OA_Dal::factoryDO('Campaigns');
-        $aUpdatedCampaigns = array();
+        $aUpdatedCampaigns = [];
         $aCampaigns = $this->getAllCampaignsUnderAgency($agencyId, 'name', 'up');
         foreach ($aCampaigns as $campaignId => $aCampaign) {
             $aCampaign['status_changed'] = false;
@@ -108,7 +107,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param integer $campaignId The campaign ID.
      * @return boolean True if the campaign is targeted, false otherwise.
      */
-    function isTargeted($campaignId)
+    public function isTargeted($campaignId)
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
@@ -135,7 +134,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return mixed The number of ad impressions remaining, or the
      *               string "unlimited".
      */
-    function getAdImpressionsLeft($campaignId, $oDate = null)
+    public function getAdImpressionsLeft($campaignId, $oDate = null)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
@@ -175,7 +174,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return mixed The number of ad clicks remaining, or the
      *               string "unlimited".
      */
-    function getAdClicksLeft($campaignId, $oDate = null)
+    public function getAdClicksLeft($campaignId, $oDate = null)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
@@ -214,7 +213,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return mixed The number of ad conversions remaining, or the
      *               string "unlimited".
      */
-    function getAdConversionsLeft($campaignId, $oDate = null)
+    public function getAdConversionsLeft($campaignId, $oDate = null)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
@@ -261,7 +260,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param integer $campaignId The campaign ID.
      * @return string
      */
-    function getDaysLeftString($campaignId)
+    public function getDaysLeftString($campaignId)
     {
         global $date_format, $strNoExpiration, $strDaysLeft, $strEstimated,
                $strExpirationDate, $strNoExpirationEstimation, $strDaysAgo,
@@ -270,7 +269,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $prefix = $this->getTablePrefix();
 
         // Define array to store possible expiration date results
-        $aExpiration = array();
+        $aExpiration = [];
 
         // Get the campaign target info
         $now = OA::getNow('Y-m-d');
@@ -295,24 +294,24 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $oSpan = new Date_Span();
             $oSpan->setFromDateDiff($oNow, $oDate);
 
-            $aCampaignData['expire_f']  = $oDate->format($date_format);
+            $aCampaignData['expire_f'] = $oDate->format($date_format);
             $aCampaignData['days_left'] = $oSpan->toDays() * ($oDate->before($oNow) ? -1 : 1);
         }
 
         $oDbh = OA_DB::singleton();
-        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
-        $tableD = $oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true);
+        $tableB = $oDbh->quoteIdentifier($prefix . 'banners', true);
+        $tableD = $oDbh->quoteIdentifier($prefix . 'data_intermediate_ad', true);
 
         // Define array to return the expiration dates (if they exist)
-        $aReturn = array(
+        $aReturn = [
                          'estimatedExpiration' => '',
                          'campaignExpiration' => ''
-                         );
+                         ];
 
         // Does the campaign have lifetime impression targets?
         // If yes, try to get a stimated expiration date
         if ($aCampaignData['impressions'] > 0) {
-        	$query = "
+            $query = "
         	    SELECT
         	        SUM(dia.impressions) AS delivered,
         	        DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
@@ -322,19 +321,19 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         	    WHERE
         	        dia.ad_id = b.bannerid
         	        AND
-        	        b.campaignid = ". DBC::makeLiteral($campaignId);
-        	$rsImpressions = DBC::FindRecord($query);
-        	if ($rsImpressions) {
-        		$aImpressions = $rsImpressions->toArray();
-        		// Get the number of days until the campaign will end
-        		// based on the impression target delivery data
-        		$aExpiration = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
-        	}
+        	        b.campaignid = " . DBC::makeLiteral($campaignId);
+            $rsImpressions = DBC::FindRecord($query);
+            if ($rsImpressions) {
+                $aImpressions = $rsImpressions->toArray();
+                // Get the number of days until the campaign will end
+                // based on the impression target delivery data
+                $aExpiration = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
+            }
         }
         // Does the campaign have lifetime click targets?
         // If yes, try to get a stimated expiration date
         elseif ($aCampaignData['clicks'] > 0) {
-        	$query = "
+            $query = "
         	    SELECT
         	        SUM(dia.clicks) AS delivered,
         	        DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
@@ -344,19 +343,19 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         	    WHERE
         	        dia.ad_id = b.bannerid
         	        AND
-        	        b.campaignid = ". DBC::makeLiteral($campaignId);
-        	$rsClicks = DBC::FindRecord($query);
-        	if ($rsClicks) {
-        		$aClicks = $rsClicks->toArray();
-        		// Get the number of days until the campaign will end
-        		// based on the click target delivery data
-        		$aExpiration = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
-        	}
+        	        b.campaignid = " . DBC::makeLiteral($campaignId);
+            $rsClicks = DBC::FindRecord($query);
+            if ($rsClicks) {
+                $aClicks = $rsClicks->toArray();
+                // Get the number of days until the campaign will end
+                // based on the click target delivery data
+                $aExpiration = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
+            }
         }
         // Does the campaign have lifetime conversion targets?
         // If yes, try to get a stimated expiration date
         elseif ($aCampaignData['conversions'] > 0) {
-        	$query = "
+            $query = "
         	    SELECT
         	        SUM(dia.conversions) AS delivered,
         	        DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
@@ -366,14 +365,14 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         	    WHERE
         	        dia.ad_id = b.bannerid
         	        AND
-        	        b.campaignid = ". DBC::makeLiteral($campaignId);
-        	$rsConversions = DBC::FindRecord($query);
-        	if ($rsConversions) {
-        		$aConversions = $rsConversions->toArray();
-        		// Get the number of days until the campaign will end
-        		// based on the conversion target delivery data
-        		$aExpiration = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
-        	}
+        	        b.campaignid = " . DBC::makeLiteral($campaignId);
+            $rsConversions = DBC::FindRecord($query);
+            if ($rsConversions) {
+                $aConversions = $rsConversions->toArray();
+                // Get the number of days until the campaign will end
+                // based on the conversion target delivery data
+                $aExpiration = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
+            }
         }
 
         // flags to control if the campaign expiration date and
@@ -383,90 +382,90 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         // is there a expiration date?
         if (!empty($aCampaignData['expire_time'])) {
-        	$existExpirationDate = true;
+            $existExpirationDate = true;
         }
 
         if ($existExpirationDate) {
-        	// has the expiration date been reached?
-        	if ((int)$aCampaignData['days_left'] < 0) {
-        		$aReturn['campaignExpiration'] = $strCampaignStop . ": " .
-        		                                 $aCampaignData['expire_f'];
+            // has the expiration date been reached?
+            if ((int)$aCampaignData['days_left'] < 0) {
+                $aReturn['campaignExpiration'] = $strCampaignStop . ": " .
+                                                 $aCampaignData['expire_f'];
                 $aReturn['campaignExpiration'] = $aReturn['campaignExpiration'] .
                                                  " (" . abs((int)round($aCampaignData['days_left'])) .
                                                  " $strDaysAgo)";
-        	}else {
-        	    $aReturn['campaignExpiration'] = $strExpirationDate . ": " .
-        	                                     $aCampaignData['expire_f'];
+            } else {
+                $aReturn['campaignExpiration'] = $strExpirationDate . ": " .
+                                                 $aCampaignData['expire_f'];
                 $aReturn['campaignExpiration'] = $aReturn['campaignExpiration'] .
                                                  " (" . $strDaysLeft . ": " .
                                                  round($aCampaignData['days_left']) . ")";
-        	}
+            }
         } else {
-        	$aReturn['campaignExpiration'] = $strNoExpiration;
+            $aReturn['campaignExpiration'] = $strNoExpiration;
         }
 
         // There is a estimated expiration date?
         // If yes, check if the campaign expiration date is set up and compare
         // both expiration dates to show only relevant estimated expiration dates
         if (!empty($aExpiration)) {
-        	if ($existExpirationDate == true) {
-        		if (round($aCampaignData['days_left']) >= 0) {
-        			$campaignExpirationDate = new Date($aCampaignData['expire_time']);
-        			$aExpiration['date']->hour = 0;
-        			$aExpiration['date']->minute = 0;
-        			$aExpiration['date']->second = 0;
-        			$aExpiration['date']->partsecond = 0;
-        			$compareDate = Date::compare($aExpiration['date'], $campaignExpirationDate);
-        	        // the estimated expiration date is previous or equal to the
-        	        // campaign expiration date and hasn't the expiration date been reached?
-        	        if (($compareDate <= 0) && ((int)$aCampaignData['days_left'] >= 0)) {
-        	    	    $showEtimatedDate = true;
-        	        }
-        		}
-        	} else {
-        		$showEtimatedDate = true;
-        	}
+            if ($existExpirationDate == true) {
+                if (round($aCampaignData['days_left']) >= 0) {
+                    $campaignExpirationDate = new Date($aCampaignData['expire_time']);
+                    $aExpiration['date']->hour = 0;
+                    $aExpiration['date']->minute = 0;
+                    $aExpiration['date']->second = 0;
+                    $aExpiration['date']->partsecond = 0;
+                    $compareDate = Date::compare($aExpiration['date'], $campaignExpirationDate);
+                    // the estimated expiration date is previous or equal to the
+                    // campaign expiration date and hasn't the expiration date been reached?
+                    if (($compareDate <= 0) && ((int)$aCampaignData['days_left'] >= 0)) {
+                        $showEtimatedDate = true;
+                    }
+                }
+            } else {
+                $showEtimatedDate = true;
+            }
         } elseif (($existExpirationDate && round($aCampaignData['days_left']) >= 0) ||
                   (!$existExpirationDate)) {
-        	$aReturn['estimatedExpiration'] = $strEstimated . ": " .
-        	                                  $strNoExpirationEstimation;
+            $aReturn['estimatedExpiration'] = $strEstimated . ": " .
+                                              $strNoExpirationEstimation;
         }
 
         if ($showEtimatedDate) {
-        	$aExpiration['daysLeft'] = phpAds_formatNumber($aExpiration['daysLeft']);
-        	$aReturn['estimatedExpiration'] = $strEstimated  . ": " .
-        	                                  $aExpiration['date_f'] . " (" .
-        	                                  $strDaysLeft . ": " .
-        	                                  $aExpiration['daysLeft'] . ")";
+            $aExpiration['daysLeft'] = phpAds_formatNumber($aExpiration['daysLeft']);
+            $aReturn['estimatedExpiration'] = $strEstimated . ": " .
+                                              $aExpiration['date_f'] . " (" .
+                                              $strDaysLeft . ": " .
+                                              $aExpiration['daysLeft'] . ")";
         }
         return $aReturn;
     }
 
 
-/**
-     * A private method to caclucate the number of days left until a
-     * campaign expires based on the impression, click or conversion
-     * delivery targets & the delivery rate of the campaign to date.
-     *
-     * @param array $aDeliveryData An array of two items. "delivered":
-     *                             the number of impressions, clicks or
-     *                             conversions delivered so far; and
-     *                             "day_of_first": a string in YYYY-MM-DD
-     *                             format representing the day that the
-     *                             first impression, click or conversion
-     *                             was delivered.
-     * @param integer $target      The total number of impressions, clicks
-     *                             or conversions required to be delivered
-     *                             by the campaign.
-     * @return array An array of three items. "daysLeft": the estimated
-     *               number of days remaining until the campaign ends;
-     *               "date": the estimated date of expiration; and "date_f"
-     */
-    function _calculateRemainingDays($aDeliveryData, $target)
+    /**
+         * A private method to caclucate the number of days left until a
+         * campaign expires based on the impression, click or conversion
+         * delivery targets & the delivery rate of the campaign to date.
+         *
+         * @param array $aDeliveryData An array of two items. "delivered":
+         *                             the number of impressions, clicks or
+         *                             conversions delivered so far; and
+         *                             "day_of_first": a string in YYYY-MM-DD
+         *                             format representing the day that the
+         *                             first impression, click or conversion
+         *                             was delivered.
+         * @param integer $target      The total number of impressions, clicks
+         *                             or conversions required to be delivered
+         *                             by the campaign.
+         * @return array An array of three items. "daysLeft": the estimated
+         *               number of days remaining until the campaign ends;
+         *               "date": the estimated date of expiration; and "date_f"
+         */
+    public function _calculateRemainingDays($aDeliveryData, $target)
     {
         global $date_format;
         $oNowDate = new Date();
-        $aExpiration = array();
+        $aExpiration = [];
         // How many days since the first impression/click/conversion?
         if (!empty($aDeliveryData['day_of_first'])) {
             $oFirstDate = new Date($aDeliveryData['day_of_first']);
@@ -477,13 +476,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $daysSinceFirst = 1;
         }
         // Have *any* impressions/clicks/conversions been delivered?
-		if (!empty($aDeliveryData["delivered"]) && $aDeliveryData["delivered"] > 0) {
-		    $targetRemaining = $target - $aDeliveryData["delivered"];
-		    $deliveryRate = $aDeliveryData["delivered"] / $daysSinceFirst;
-			$daysLeft = (int) round($targetRemaining / $deliveryRate);
-		    $oSpan = new Date_Span();
-		    $oSpan->setFromDays($daysLeft);
-		    $oEstimatedEndDate = new Date();
+        if (!empty($aDeliveryData["delivered"]) && $aDeliveryData["delivered"] > 0) {
+            $targetRemaining = $target - $aDeliveryData["delivered"];
+            $deliveryRate = $aDeliveryData["delivered"] / $daysSinceFirst;
+            $daysLeft = (int) round($targetRemaining / $deliveryRate);
+            $oSpan = new Date_Span();
+            $oSpan->setFromDays($daysLeft);
+            $oEstimatedEndDate = new Date();
             $oEstimatedEndDate->addSpan($oSpan);
             if ($oEstimatedEndDate->before($oNowDate)) {
                 // Ooop! Wrapped into the past - get the biggest possible date
@@ -491,13 +490,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 $oEstimatedEndDate->subtractSeconds(1);
             }
             $estimatedEndDateFormat = $oEstimatedEndDate->format($date_format);
-        	$aExpiration = array(
-        		'daysLeft' => $daysLeft,
-        		'date_f'   => $estimatedEndDateFormat,
-        		'date' => $oEstimatedEndDate
-        	);
-		}
-		return $aExpiration;
+            $aExpiration = [
+                'daysLeft' => $daysLeft,
+                'date_f' => $estimatedEndDateFormat,
+                'date' => $oEstimatedEndDate
+            ];
+        }
+        return $aExpiration;
     }
 
     /**
@@ -510,21 +509,22 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return RecordSet
      * @access public
      */
-    function getCampaignAndClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = array())
+    public function getCampaignAndClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = [])
     {
         // always add default type
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
-            $aIncludeSystemTypes);
+            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
+            $aIncludeSystemTypes
+        );
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
         }
 
-        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=". DBC::makeLiteral($keyword) : '';
+        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=" . DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
-        $tableC = $oDbh->quoteIdentifier($prefix.'clients',true);
+        $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
+        $tableC = $oDbh->quoteIdentifier($prefix . 'clients', true);
 
         $query = "
         SELECT
@@ -537,14 +537,14 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         WHERE
             (
             m.clientid=c.clientid
-            AND (m.campaignname LIKE ".DBC::makeLiteral('%'.$keyword.'%')."
+            AND (m.campaignname LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
                 $whereCampaign)
-            AND m.type IN (". implode(',', $aIncludeSystemTypes) .")
+            AND m.type IN (" . implode(',', $aIncludeSystemTypes) . ")
             )
         ";
 
-        if($agencyId !== null) {
-            $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
+        if ($agencyId !== null) {
+            $query .= " AND c.agencyid=" . DBC::makeLiteral($agencyId);
         }
 
         return DBC::NewRecordSet($query);
@@ -561,23 +561,24 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *              included apart from default campaigns
      * @return array associative array $campaignId => array of campaign details
      */
-    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = array())
+    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = [])
     {
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
-            $aIncludeSystemTypes);
+            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
+            $aIncludeSystemTypes
+        );
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientid;
-        $doCampaigns->selectAs(array('campaignid'), 'placement_id');
-        $doCampaigns->selectAs(array('campaignname'), 'name');
+        $doCampaigns->selectAs(['campaignid'], 'placement_id');
+        $doCampaigns->selectAs(['campaignname'], 'name');
         $doCampaigns->whereInAdd('type', $aIncludeSystemTypes);
-        $doCampaigns->orderBy('(type='.DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.') ASC');
+        $doCampaigns->orderBy('(type=' . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . ') ASC');
         $doCampaigns->addListOrderBy($listorder, $orderdirection);
 
         $doCampaigns->find();
 
-        $aCampaigns = array();
+        $aCampaigns = [];
         while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
             // mask campaign name if anonymous campaign
             $row_campaigns['campaignname'] = MAX_getPlacementName($row_campaigns);
@@ -592,12 +593,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllCampaigns($listorder, $orderdirection, $aIncludeSystemTypes = array())
+    public function getAllCampaigns($listorder, $orderdirection, $aIncludeSystemTypes = [])
     {
         $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
 
         $query = "
             SELECT
@@ -610,12 +611,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             FROM
                 {$tableM}
             WHERE
-                type IN (". implode(',', $aIncludeSystemTypes) .") ".
-            $this->getSqlListOrder('type+'.$listorder, $orderdirection) // sort by type first
+                type IN (" . implode(',', $aIncludeSystemTypes) . ") " .
+            $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'priority', 'revenue'));
+        $aCampaigns = $rsCampaigns->getAll(['campaignid', 'clientid', 'campaignname', 'status', 'priority', 'revenue']);
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -626,13 +627,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = array())
+    public function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = [])
     {
         $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
-        $tableC = $oDbh->quoteIdentifier($prefix.'clients',true);
+        $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
+        $tableC = $oDbh->quoteIdentifier($prefix . 'clients', true);
 
         $query = "
             SELECT
@@ -647,15 +648,15 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 {$tableC} AS c
             WHERE
                 c.clientid=m.clientid
-                AND c.agencyid=". DBC::makeLiteral($agency_id) ."
-                AND m.type IN (". implode(',', $aIncludeSystemTypes) .") ".
-            $this->getSqlListOrder('type+'.$listorder, $orderdirection) // sort by type first
+                AND c.agencyid=" . DBC::makeLiteral($agency_id) . "
+                AND m.type IN (" . implode(',', $aIncludeSystemTypes) . ") " .
+            $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'priority', 'revenue'));
+        $aCampaigns = $rsCampaigns->getAll(['campaignid', 'clientid', 'campaignname', 'status', 'priority', 'revenue']);
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
-        $aRetCampaigns = array();
+        $aRetCampaigns = [];
         foreach ($aCampaigns as $campaignId => $aCampaign) {
             $aRetCampaigns[$campaignId]['status_changed'] = $aCampaign['status_changed'] ?? false;
             $aRetCampaigns[$campaignId]['status'] = $aCampaign['status'];
@@ -667,14 +668,14 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     }
 
 
-    function countActiveCampaigns()
+    public function countActiveCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
-        $tableM = $oDbh->quoteIdentifier($this->getTablePrefix().'campaigns',true);
+        $tableM = $oDbh->quoteIdentifier($this->getTablePrefix() . 'campaigns', true);
 
-        $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$tableM." WHERE status=".OA_ENTITY_STATUS_RUNNING;
+        $query_active_campaigns = "SELECT count(*) AS count" .
+            " FROM " . $tableM . " WHERE status=" . OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 
@@ -683,19 +684,19 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @todo Consider reducing duplication with countCampaignsUnderAgency()
      * @todo Consider moving to Agency DAL
      */
-    function countActiveCampaignsUnderAgency($agency_id)
+    public function countActiveCampaignsUnderAgency($agency_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
-        $tableM = $oDbh->quoteIdentifier($this->getTablePrefix().'campaigns',true);
-        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix().'clients',true);
+        $tableM = $oDbh->quoteIdentifier($this->getTablePrefix() . 'campaigns', true);
+        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix() . 'clients', true);
 
-        $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$tableM." AS m".
-            ",".$tableC." AS c".
-            " WHERE m.clientid=c.clientid".
-            " AND c.agencyid=". DBC::makeLiteral($agency_id) .
-            " AND m.status=".OA_ENTITY_STATUS_RUNNING;
+        $query_active_campaigns = "SELECT count(*) AS count" .
+            " FROM " . $tableM . " AS m" .
+            "," . $tableC . " AS c" .
+            " WHERE m.clientid=c.clientid" .
+            " AND c.agencyid=" . DBC::makeLiteral($agency_id) .
+            " AND m.status=" . OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 
@@ -704,9 +705,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param array $flat_campaign_data An flat array of campaign field arrays
      * @return array An array of arrays, representing a list of campaigns.
      */
-    function _rekeyCampaignsArray($flat_campaign_data)
+    public function _rekeyCampaignsArray($flat_campaign_data)
     {
-        $campaigns = array();
+        $campaigns = [];
         foreach ($flat_campaign_data as $row_campaign) {
             $campaigns[$row_campaign['campaignid']] = $row_campaign;
             $campaigns[$row_campaign['campaignid']]['expand'] = false;
@@ -726,12 +727,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *               such zones were found, or an MDB2_Error object
      *               on any kind of database error.
      */
-    function getLinkedEmailZoneIds($campaignId)
+    public function getLinkedEmailZoneIds($campaignId)
     {
         // Test input
         if (!is_integer($campaignId) || $campaignId <= 0) {
             // Not a valid campaign ID, return no found zones
-            $aResult = array();
+            $aResult = [];
             return $aResult;
         }
         // Prepare and execute query
@@ -759,7 +760,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         if (PEAR::isError($rsResult)) {
             return $rsResult;
         }
-        $aResult = array();
+        $aResult = [];
         while ($aRow = $rsResult->fetchRow()) {
             $aResult[] = $aRow['zone_id'];
         }
@@ -778,14 +779,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     private function _prepareIncludeSystemTypes($aIncludeSystemTypes)
     {
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
-            $aIncludeSystemTypes);
+            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
+            $aIncludeSystemTypes
+        );
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
         }
         return $aIncludeSystemTypes;
     }
-
 }
-
-?>

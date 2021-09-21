@@ -30,16 +30,13 @@ class Plugins_BannerTypeText_oxText_genericText extends Plugins_BannerTypeText
      *
      * @return string A string describing the type of plugin.
      */
-    function getOptionDescription()
+    public function getOptionDescription()
     {
         return $this->translate("Generic Text Banner");
     }
 
-    function buildForm(&$form, &$row)
+    public function buildForm(&$form, &$row)
     {
         parent::buildForm($form, $row);
     }
-
 }
-
-?>

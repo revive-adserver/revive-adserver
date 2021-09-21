@@ -224,7 +224,7 @@ $GLOBALS['strDayOfWeek'] = "Dag i veckan";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
-    $GLOBALS['strDayFullNames'] = array();
+    $GLOBALS['strDayFullNames'] = [];
 }
 $GLOBALS['strDayFullNames'][0] = 'Söndag';
 $GLOBALS['strDayFullNames'][1] = 'Måndag';
@@ -235,7 +235,7 @@ $GLOBALS['strDayFullNames'][5] = 'Fredag';
 $GLOBALS['strDayFullNames'][6] = 'Lördag';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
-    $GLOBALS['strDayShortCuts'] = array();
+    $GLOBALS['strDayShortCuts'] = [];
 }
 $GLOBALS['strDayShortCuts'][0] = 'Sö';
 $GLOBALS['strDayShortCuts'][1] = 'Må';
@@ -477,17 +477,17 @@ $GLOBALS['strDeliveryCappingTotal'] = "totalt";
 $GLOBALS['strDeliveryCappingSession'] = "per session";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
-    $GLOBALS['strCappingBanner'] = array();
+    $GLOBALS['strCappingBanner'] = [];
 }
 $GLOBALS['strCappingBanner']['limit'] = "Begränsa annonsvisningar till:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
-    $GLOBALS['strCappingCampaign'] = array();
+    $GLOBALS['strCappingCampaign'] = [];
 }
 $GLOBALS['strCappingCampaign']['limit'] = "Begränsa kampanjvisningar till:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
-    $GLOBALS['strCappingZone'] = array();
+    $GLOBALS['strCappingZone'] = [];
 }
 $GLOBALS['strCappingZone']['limit'] = "Begränsa zonvisningar till:";
 

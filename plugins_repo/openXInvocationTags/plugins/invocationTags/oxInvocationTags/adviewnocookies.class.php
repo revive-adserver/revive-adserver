@@ -29,14 +29,14 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      * Use only for factory default plugin
      * @see MAX_Admin_Invocation::placeInvocationForm()
      */
-    var $defaultZone = MAX_ZoneEmail;
+    public $defaultZone = MAX_ZoneEmail;
 
     /**
      * Return name of plugin
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->translate("No Cookie Image Tag");
     }
@@ -48,7 +48,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      *
      * @return string An English string describing the class.
      */
-    function getNameEN()
+    public function getNameEN()
     {
         return 'No Cookie Image Tag';
     }
@@ -58,10 +58,10 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null)
+    public function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
-        if((is_array($extra) && $extra['delivery'] != MAX_ZoneEmail) || ($this->maxInvocation && $this->maxInvocation->zone_invocation)) {
+        if ((is_array($extra) && $extra['delivery'] != MAX_ZoneEmail) || ($this->maxInvocation && $this->maxInvocation->zone_invocation)) {
             return false;
         } else {
             return $isAllowed;
@@ -73,22 +73,22 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      *
      * @return array    Group of options
      */
-    function getOptionsList()
+    public function getOptionsList()
     {
         if (!$this->maxInvocation->zone_invocation) {
-            $options = array (
-                'spacer'          => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-                'bannerid'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-                'target'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-                'source'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            );
+            $options = [
+                'spacer' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
+                'bannerid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+                'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+                'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            ];
         } else {
-            $options = array (
-                'spacer'          => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
+            $options = [
+                'spacer' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
                 //'bannerzone'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-                'target'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-                'source'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            );
+                'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+                'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            ];
         }
 
         return $options;
@@ -99,25 +99,25 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      *
      * @return string
      */
-    function generateInvocationCode()
+    public function generateInvocationCode()
     {
-        $aComments = array(
-            'Third Party Comment'  => '',
+        $aComments = [
+            'Third Party Comment' => '',
             'SSL Delivery Comment' => '',
-            'Comment'              => '',
-            );
+            'Comment' => '',
+            ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;
         $buffer = $mi->buffer;
 
-       if (!empty($mi->uniqueid) && ($mi->extra['delivery'] != MAX_ZoneEmail)) {
-            $mi->parameters[] = "n=".$mi->uniqueid;
+        if (!empty($mi->uniqueid) && ($mi->extra['delivery'] != MAX_ZoneEmail)) {
+            $mi->parameters[] = "n=" . $mi->uniqueid;
         }
         $buffer .= "<a href='";
         $buffer .= MAX_commonConstructDeliveryUrl($conf['file']['signedClick']);
-        $mi->clickParams = array();
+        $mi->clickParams = [];
 
         // Only need the banner id for direct selection not zone
         if (empty($mi->extra['delivery']) || ($mi->extra['delivery'] != MAX_ZoneEmail)) {
@@ -134,15 +134,15 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         }
         $buffer .= "'";
         if (isset($mi->target) && $mi->target != '') {
-            $buffer .= " target='".$mi->target."'";
+            $buffer .= " target='" . $mi->target . "'";
         } else {
             $buffer .= " target='_blank'";
         }
-        $buffer .= "><img src='".MAX_commonConstructDeliveryUrl($conf['file']['view']);
+        $buffer .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view']);
         // Without cookies, passing in the click URL to view is not possible
         unset($mi->parameters['ct0']);
         if (sizeof($mi->parameters) > 0) {
-            $buffer .= "?" . implode ("&amp;", $mi->parameters);
+            $buffer .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer .= "' border='0' alt='' /></a>\n";
 
@@ -155,11 +155,9 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      *
      * @return string    A string containing html for option
      */
-    function spacer()
+    public function spacer()
     {
         $option = "<tr bgcolor='#F6F6F6'><td height='10' colspan='3'>&nbsp;</td></tr>";
         return $option;
     }
 }
-
-?>

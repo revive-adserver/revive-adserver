@@ -21,6 +21,14 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
 {
     /**
+     * @var null
+     */
+    public $sPath;
+    /**
+     * @var null
+     */
+    public $rFile;
+    /**
      * Enter description here...
      *
      * @var string

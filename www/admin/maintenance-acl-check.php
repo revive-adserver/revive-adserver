@@ -51,7 +51,7 @@ echo $strBannerChannelResult;
 phpAds_ShowBreak();
 // Check the ACLs in the database against the compiled limitation strings...
 
-echo "<strong>". $strChannels .":</strong>";
+echo "<strong>" . $strChannels . ":</strong>";
 phpAds_showBreak();
 
 // Check all the channels...
@@ -62,7 +62,7 @@ $rsChannel = $dalChannel->getChannelsAndAffiliates();
 $rsChannel->find();
 $allChannelsValid = true;
 while ($rsChannel->fetch() && $row = $rsChannel->toArray()) {
-    if (!MAX_AclValidate('channel-acl.php', array('channelid' => $row['channelid']))) {
+    if (!MAX_AclValidate('channel-acl.php', ['channelid' => $row['channelid']])) {
         $allChannelsValid = false;
         $affiliateName = (!empty($row['affiliatename'])) ? $row['affiliatename'] : $strUntitled;
         echo "<a href='channel-acl.php?affiliateid={$row['affiliateid']}&channelid={$row['channelid']}'>{$row['name']}</a><br />";
@@ -82,7 +82,7 @@ $rsBanners->find();
 
 $allBannersValid = true;
 while ($rsBanners->fetch() && $row = $rsBanners->toArray()) {
-    if (!MAX_AclValidate('banner-acl.php', array('bannerid' => $row['bannerid']))) {
+    if (!MAX_AclValidate('banner-acl.php', ['bannerid' => $row['bannerid']])) {
         $allBannersValid = false;
         $bannerName = (!empty($row['description'])) ? $row['description'] : $strUntitled;
         $campaignName = (!empty($row['campaignname'])) ? $row['campaignname'] : $strUntitled;
@@ -96,10 +96,10 @@ if ($allBannersValid) {
 
 if (!$allBannersValid || !$allChannelsValid) {
     phpAds_ShowBreak();
-    echo "<br /><strong>". $strErrorsFound ."</strong><br /><br />";
+    echo "<br /><strong>" . $strErrorsFound . "</strong><br /><br />";
     echo $strRepairCompiledLimitations;
     echo "<form action='' METHOD='GET'>";
-    echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."' />";
+    echo "<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "' />";
     echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }
@@ -110,5 +110,3 @@ if (!$allBannersValid || !$allChannelsValid) {
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-?>

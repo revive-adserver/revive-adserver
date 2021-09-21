@@ -3,13 +3,13 @@ require_once("../xajax.inc.php");
 
 function largeResponse()
 {
-	$objResponse = new xajaxResponse();
-	$myResponse = "";
-	for ($i=0;$i<8000;$i++) {
-		$myResponse .= "<p>Here is paragraph $i for your reading pleasure.</p>\n";
-	}
-	$objResponse->addAssign("submittedDiv", "innerHTML", $myResponse);
-	return $objResponse;
+    $objResponse = new xajaxResponse();
+    $myResponse = "";
+    for ($i = 0;$i < 8000;$i++) {
+        $myResponse .= "<p>Here is paragraph $i for your reading pleasure.</p>\n";
+    }
+    $objResponse->addAssign("submittedDiv", "innerHTML", $myResponse);
+    return $objResponse;
 }
 
 $xajax = new xajax();

@@ -20,12 +20,12 @@ require_once LIB_PATH . '/Maintenance.php';
  */
 class OA_Maintenance_Status
 {
-    var $isAutoMaintenanceEnabled;
+    public $isAutoMaintenanceEnabled;
 
-    var $isScheduledMaintenanceRunning = false;
-    var $isAutoMaintenanceRunning      = false;
+    public $isScheduledMaintenanceRunning = false;
+    public $isAutoMaintenanceRunning = false;
 
-    function __construct()
+    public function __construct()
     {
         // Check auto-maintenance settings
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -43,7 +43,7 @@ class OA_Maintenance_Status
 
         // Get last runs
         $oLastCronRun = OX_Maintenance::getLastScheduledRun();
-        $oLastRun     = OX_Maintenance::getLastRun();
+        $oLastRun = OX_Maintenance::getLastRun();
 
         // Reset minutes and seconds
         if (isset($oLastCronRun)) {
@@ -63,5 +63,3 @@ class OA_Maintenance_Status
         }
     }
 }
-
-?>

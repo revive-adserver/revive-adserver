@@ -20,20 +20,20 @@ require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
  */
 class Test_OA_DB_Sql extends DbTestCase
 {
-    function testSqlForInsert()
+    public function testSqlForInsert()
     {
-        $sql = OA_DB_Sql::sqlForInsert('zones', array('zonetype' => 1, 'name' => "120x72"));
+        $sql = OA_DB_Sql::sqlForInsert('zones', ['zonetype' => 1, 'name' => "120x72"]);
         $oDbh = OA_DB::singleton();
-        $table = $oDbh->quoteIdentifier($this->getPrefix().'zones',true);
+        $table = $oDbh->quoteIdentifier($this->getPrefix() . 'zones', true);
         $this->assertEqual("INSERT INTO {$table} (zonetype,name) VALUES (1,'120x72')", $sql);
     }
 
-    function testDeleteWhereOne()
+    public function testDeleteWhereOne()
     {
         $this->oaTable->createTable('audit');
         $this->oaTable->createTable('acls');
 
-        DataGenerator::setData('acls', array('bannerid' => array(1,2,3), 'executionorder' => array(0,0,0,1,1,1,2,2,2)));
+        DataGenerator::setData('acls', ['bannerid' => [1, 2, 3], 'executionorder' => [0, 0, 0, 1, 1, 1, 2, 2, 2]]);
         DataGenerator::generate('acls', 5);
 
         OA_DB_Sql::deleteWhereOne('acls', 'bannerid', 1);
@@ -48,12 +48,12 @@ class Test_OA_DB_Sql extends DbTestCase
         $this->assertEqual(2, $doAcls->getRowCount());
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $this->oaTable->dropTable($aConf['table']['prefix'].'acls');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'acls');
     }
 
-    function testSelectWhereOne()
+    public function testSelectWhereOne()
     {
-        $this->initTables(array('banners', 'ad_zone_assoc', 'placement_zone_assoc', 'zones'));
+        $this->initTables(['banners', 'ad_zone_assoc', 'placement_zone_assoc', 'zones']);
 
         $id = DataGenerator::generateOne('banners');
         $rsBanners = OA_DB_Sql::selectWhereOne('banners', 'bannerid', $id);
@@ -61,16 +61,16 @@ class Test_OA_DB_Sql extends DbTestCase
         $this->assertFalse($rsBanners->fetch());
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $this->oaTable->dropTable($aConf['table']['prefix'].'banners');
-        $this->oaTable->dropTable($aConf['table']['prefix'].'ad_zone_assoc');
-        $this->oaTable->dropTable($aConf['table']['prefix'].'placement_zone_assoc');
-        $this->oaTable->dropTable($aConf['table']['prefix'].'zones');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'banners');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'ad_zone_assoc');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'placement_zone_assoc');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'zones');
     }
 
 
-    function testUpdateWhereOne()
+    public function testUpdateWhereOne()
     {
-        $this->initTables(array('campaigns', 'trackers'));
+        $this->initTables(['campaigns', 'trackers']);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'First';
@@ -87,8 +87,12 @@ class Test_OA_DB_Sql extends DbTestCase
         $doCampaigns->views = 50;
         $campaignId3 = DataGenerator::generateOne($doCampaigns);
 
-        $cUpdated = OA_DB_Sql::updateWhereOne('campaigns', 'campaignid', $campaignId2,
-            array('campaignname' => 'Second', 'views' => 20));
+        $cUpdated = OA_DB_Sql::updateWhereOne(
+            'campaigns',
+            'campaignid',
+            $campaignId2,
+            ['campaignname' => 'Second', 'views' => 20]
+        );
 
         $this->assertEqual(1, $cUpdated);
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId2);
@@ -100,9 +104,7 @@ class Test_OA_DB_Sql extends DbTestCase
 
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $this->oaTable->dropTable($aConf['table']['prefix'].'campaigns');
-        $this->oaTable->dropTable($aConf['table']['prefix'].'trackers');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'campaigns');
+        $this->oaTable->dropTable($aConf['table']['prefix'] . 'trackers');
     }
 }
-
-?>

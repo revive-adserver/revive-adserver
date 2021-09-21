@@ -53,8 +53,7 @@ $phpAds_config['table_prefix'] = 'panprefix_';
 
 // Database table type
 // below is a hack to allow tests to pass on pgsql
-if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli')
-{
+if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli') {
     $phpAds_config['table_type'] = 'PANENGINE';
 } else {
     $phpAds_config['table_type'] = '';
@@ -147,7 +146,7 @@ $phpAds_config['log_iponly'] = true;
 $phpAds_config['log_beacon'] = true;
 
 // Hosts to ignore (don't count adviews coming from them)
-$phpAds_config['ignore_hosts'] = array ();   // Example: array('slashdot.org', 'microsoft.com');
+$phpAds_config['ignore_hosts'] = [];   // Example: array('slashdot.org', 'microsoft.com');
 
 // Block logging of views for xx seconds after the last entry
 // This is to prevent logging after each page reload
@@ -239,5 +238,3 @@ $phpAds_config['type_html_php'] = false;
 /*********************************************************/
 
 define('phpAds_installed', true);
-
-?>

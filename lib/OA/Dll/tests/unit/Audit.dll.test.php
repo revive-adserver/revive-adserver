@@ -23,51 +23,50 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 
 class OA_Dll_AuditTest extends DllUnitTestCase
 {
-
     /**
      * Errors
      *
      */
-    var $unknownIdError = 'Unknown auditId Error';
+    public $unknownIdError = 'Unknown auditId Error';
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Audit',
             'PartialMockOA_Dll_Audit',
-            array()
+            []
         );
 
         OA_setTimeZone('Europe/Rome');
     }
 
-    function tearDown()
+    public function tearDown()
     {
-        DataGenerator::cleanUp(array('audit'));
+        DataGenerator::cleanUp(['audit']);
     }
 
-    function test_getActionName()
+    public function test_getActionName()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
-        $aActionName = array(
-            OA_AUDIT_ACTION_INSERT  => $GLOBALS['strInserted'],
-            OA_AUDIT_ACTION_UPDATE  => $GLOBALS['strUpdated'],
-            OA_AUDIT_ACTION_DELETE  => $GLOBALS['strDeleted']
-        );
+        $aActionName = [
+            OA_AUDIT_ACTION_INSERT => $GLOBALS['strInserted'],
+            OA_AUDIT_ACTION_UPDATE => $GLOBALS['strUpdated'],
+            OA_AUDIT_ACTION_DELETE => $GLOBALS['strDeleted']
+        ];
         foreach ($aActionName as $key => $str) {
             $this->assertIdentical($str, $dllAuditPartialMock->getActionName($key));
         }
     }
 
-    function test_getAuditDetail()
+    public function test_getAuditDetail()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oSpanDay  = new Date_Span('1-0-0-0');
+        $oSpanDay = new Date_Span('1-0-0-0');
 
         $oDate = new Date(OA::getNow());
         $oDate->toUTC();
@@ -102,27 +101,26 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[$idAudit] = $oAudit->toArray();
         $aExpect[$idAudit]['details'] = $aDetails;
 
-        foreach ($aExpect AS $i => $aExpRow)
-        {
+        foreach ($aExpect as $i => $aExpRow) {
             $aResRow = $dllAuditPartialMock->getAuditDetail($i);
 
             $this->assertIsA($aResRow, 'array');
-            $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
-            $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
-            $this->assertEqual($aResRow['context'],$aExpRow['context']);
-            $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
-            $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
-            $this->assertEqual($aResRow['username'],$aExpRow['username']);
-            $this->assertEqual($aResRow['details']['campaignname'],$aExpRow['details']['campaignname']);
-            $this->assertEqual($aResRow['details']['status'],$aExpRow['details']['status']);
+            $this->assertEqual($aResRow['auditid'], $aExpRow['auditid']);
+            $this->assertEqual($aResRow['actionid'], $aExpRow['actionid']);
+            $this->assertEqual($aResRow['context'], $aExpRow['context']);
+            $this->assertEqual($aResRow['contextid'], $aExpRow['contextid']);
+            $this->assertEqual($aResRow['parentid'], $aExpRow['parentid']);
+            $this->assertEqual($aResRow['username'], $aExpRow['username']);
+            $this->assertEqual($aResRow['details']['campaignname'], $aExpRow['details']['campaignname']);
+            $this->assertEqual($aResRow['details']['status'], $aExpRow['details']['status']);
         }
     }
 
-    function test_getAuditLog()
+    public function test_getAuditLog()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oSpanDay  = new Date_Span('1-0-0-0');
+        $oSpanDay = new Date_Span('1-0-0-0');
 
         $oDate = new Date(OA::getNow());
         $oDate->toUTC();
@@ -213,7 +211,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect[$idAudit] = $oAudit->toArray();
         $aExpect[$idAudit]['details'] = $aDetails;
 
-        $oSpanDay  = new Date_Span('1-0-0-0');
+        $oSpanDay = new Date_Span('1-0-0-0');
 
         $oSpanDate = new Date(OA::getNow());
         $oSpanDate->toUTC();
@@ -222,61 +220,60 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         // add 1 hour to make sure that the test passes even if it takes some time
         $oSpanDate->addSpan(new Date_Span('0-1-0-0'));
 
-        $startDate  = $oSpanDate->getDate();
-        $endDate    = $oDate->getDate();
-        $aParam = array(
-                    'start_date'    => $startDate,
-                    'end_date'      => $endDate,
-                    'startRecord'   => 0,
-                    'perPage'       => 10);
+        $startDate = $oSpanDate->getDate();
+        $endDate = $oDate->getDate();
+        $aParam = [
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'startRecord' => 0,
+                    'perPage' => 10];
         $aResults = $dllAuditPartialMock->getAuditLog($aParam);
 
         $this->assertIsA($aResults, 'array');
         $this->assertEqual(count($aResults), count($aExpect));
 
-        foreach ($aResults AS $i => $aResRow)
-        {
+        foreach ($aResults as $i => $aResRow) {
             $aExpRow = $aExpect[$aResRow['auditid']];
-            $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
-            $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
-            $this->assertEqual($aResRow['context'],$aExpRow['context']);
-            $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
-            $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
-            $this->assertEqual($aResRow['username'],$aExpRow['username']);
-            $this->assertEqual($aResRow['details']['campaignname'],$aExpRow['details']['campaignname']);
-            $this->assertEqual($aResRow['details']['status'],$aExpRow['details']['status']);
+            $this->assertEqual($aResRow['auditid'], $aExpRow['auditid']);
+            $this->assertEqual($aResRow['actionid'], $aExpRow['actionid']);
+            $this->assertEqual($aResRow['context'], $aExpRow['context']);
+            $this->assertEqual($aResRow['contextid'], $aExpRow['contextid']);
+            $this->assertEqual($aResRow['parentid'], $aExpRow['parentid']);
+            $this->assertEqual($aResRow['username'], $aExpRow['username']);
+            $this->assertEqual($aResRow['details']['campaignname'], $aExpRow['details']['campaignname']);
+            $this->assertEqual($aResRow['details']['status'], $aExpRow['details']['status']);
         }
     }
 
-    function test_getParentContextData()
+    public function test_getParentContextData()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $aExpect = array(
-            array(  //  Banner
-                'parentcontext'     => $GLOBALS['strCampaign'],
-                'parentcontextid'   => 1
-            ),
-            array(  //  Campaign
-                'parentcontext'     => $GLOBALS['strClient'],
-                'parentcontextid'   => 2
-            ),
-            array(  //  Channel
-                'parentcontext'     => $GLOBALS['strAffiliate'],
-                'parentcontextid'   => 3
-            ),
-            array(  //  Zone
-                'parentcontext'     => $GLOBALS['strAffiliate'],
-                'parentcontextid'   => 4
-            ),
-        );
+        $aExpect = [
+            [  //  Banner
+                'parentcontext' => $GLOBALS['strCampaign'],
+                'parentcontextid' => 1
+            ],
+            [  //  Campaign
+                'parentcontext' => $GLOBALS['strClient'],
+                'parentcontextid' => 2
+            ],
+            [  //  Channel
+                'parentcontext' => $GLOBALS['strAffiliate'],
+                'parentcontextid' => 3
+            ],
+            [  //  Zone
+                'parentcontext' => $GLOBALS['strAffiliate'],
+                'parentcontextid' => 4
+            ],
+        ];
 
-        $aContext = array(
-            array('context' => 'banners',    'details' => array('campaignid' => 1)),
-            array('context' => 'campaigns',  'details' => array('clientid' => 2)),
-            array('context' => 'channel',   'details' => array('affiliateid' => 3)),
-            array('context' => 'zones',      'details' => array('affiliateid' => 4)),
-        );
+        $aContext = [
+            ['context' => 'banners',    'details' => ['campaignid' => 1]],
+            ['context' => 'campaigns',  'details' => ['clientid' => 2]],
+            ['context' => 'channel',   'details' => ['affiliateid' => 3]],
+            ['context' => 'zones',      'details' => ['affiliateid' => 4]],
+        ];
 
         for ($i = 0; $i < 4; $i++) {
             $result = $dllAuditPartialMock->getParentContextData($aContext[$i]);
@@ -285,18 +282,18 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $this->assertEqual($aContext[$i]['parentcontextid'], $aExpect[$i]['parentcontextid']);
         }
 
-        $aContext = array('context' => 'Client');
+        $aContext = ['context' => 'Client'];
         $result = $dllAuditPartialMock->getParentContextData($aContext);
         $this->assertFalse($result);
         $this->assertTrue(empty($aContext['parentcontext']));
         $this->assertTrue(empty($aContext['parentcontextid']));
     }
 
-    function test_getChildren()
+    public function test_getChildren()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oSpanDay  = new Date_Span('1-0-0-0');
+        $oSpanDay = new Date_Span('1-0-0-0');
 
         $oDate = new Date(OA::getNow());
         $oDate->toUTC();
@@ -356,10 +353,10 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAuditParent2 = $oAudit->insert();
 
-        $aParam = array(
-            'perPage'       => 10,
-            'startRecord'   => 0
-        );
+        $aParam = [
+            'perPage' => 10,
+            'startRecord' => 0
+        ];
         $aResult = $dllAuditPartialMock->getAuditLog($aParam);
         $this->assertEqual(count($aResult), 2);
 
@@ -377,11 +374,11 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $this->assertFalse($aChildren3);
     }
 
-    function test_hasChildren()
+    public function test_hasChildren()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oSpanDay  = new Date_Span('1-0-0-0');
+        $oSpanDay = new Date_Span('1-0-0-0');
 
         $oDate = new Date(OA::getNow());
         $oDate->toUTC();
@@ -441,10 +438,10 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $idAuditParent2 = $oAudit->insert();
 
-        $aParam = array(
-            'perPage'       => 10,
-            'startRecord'   => 0
-        );
+        $aParam = [
+            'perPage' => 10,
+            'startRecord' => 0
+        ];
         $aResult = $dllAuditPartialMock->getAuditLog($aParam);
         $this->assertEqual(count($aResult), 2);
 
@@ -461,17 +458,17 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $this->assertFalse($hasChildren4);
     }
 
-    function test__removeParentContextId()
+    public function test__removeParentContextId()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $aExpect    = array('bannerid', 'campaignid', 'clientid', 'affiliateid');
-        $aContext   = array(
-            array('context' => 'images',     'details' => array('bannerid' => 1)),
-            array('context' => 'banners',    'details' => array('campaignid' => 2)),
-            array('context' => 'campaigns',  'details' => array('clientid' => 3)),
-            array('context' => 'zones',      'details' => array('affiliateid' => 4)),
-        );
+        $aExpect = ['bannerid', 'campaignid', 'clientid', 'affiliateid'];
+        $aContext = [
+            ['context' => 'images',     'details' => ['bannerid' => 1]],
+            ['context' => 'banners',    'details' => ['campaignid' => 2]],
+            ['context' => 'campaigns',  'details' => ['clientid' => 3]],
+            ['context' => 'zones',      'details' => ['affiliateid' => 4]],
+        ];
 
         for ($i = 0; $i < 4; $i++) {
             $result = $dllAuditPartialMock->_removeParentContextId($aContext[$i]);
@@ -480,11 +477,11 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         }
     }
 
-    function test_getAuditLogForAuditWidget()
+    public function test_getAuditLogForAuditWidget()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
 
-        $oSpanDay  = new Date_Span('1-0-0-0');
+        $oSpanDay = new Date_Span('1-0-0-0');
 
         $oDate = new Date(OA::getNow());
         $oDate->toUTC();
@@ -571,27 +568,28 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $oAudit->details = serialize($aDetails);
         $oAudit->insert();
 
-        $aParams = array();
+        $aParams = [];
         $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget($aParams);
 
         $this->assertIsA($aResults, 'array');
-        $this->assertEqual(count($aResults),5);
+        $this->assertEqual(count($aResults), 5);
 
         $oNow = new Date();
 
-        foreach ($aResults AS $i => $aResRow)
-        {
+        foreach ($aResults as $i => $aResRow) {
             $aExpRow = $aExpect[$aResRow['auditid']];
 
-            $this->assertEqual($aResRow['auditid'],$aExpRow['auditid']);
-            $this->assertEqual($aResRow['actionid'],$aExpRow['actionid']);
-            $this->assertEqual($aResRow['context'],
-                $dllAuditPartialMock->getContextDescription($aExpRow['context']));
-            $this->assertEqual($aResRow['contextid'],$aExpRow['contextid']);
-            $this->assertEqual($aResRow['parentid'],$aExpRow['parentid']);
-            $this->assertEqual($aResRow['username'],$aExpRow['username']);
-            $this->assertEqual($aResRow['details']['campaignname'],$aExpRow['details']['campaignname']);
-            $this->assertEqual($aResRow['details']['status'],$aExpRow['details']['status']);
+            $this->assertEqual($aResRow['auditid'], $aExpRow['auditid']);
+            $this->assertEqual($aResRow['actionid'], $aExpRow['actionid']);
+            $this->assertEqual(
+                $aResRow['context'],
+                $dllAuditPartialMock->getContextDescription($aExpRow['context'])
+            );
+            $this->assertEqual($aResRow['contextid'], $aExpRow['contextid']);
+            $this->assertEqual($aResRow['parentid'], $aExpRow['parentid']);
+            $this->assertEqual($aResRow['username'], $aExpRow['username']);
+            $this->assertEqual($aResRow['details']['campaignname'], $aExpRow['details']['campaignname']);
+            $this->assertEqual($aResRow['details']['status'], $aExpRow['details']['status']);
 
             $oDate = new Date($aResRow['updated']);
             $oDate->setTZ($oNow->tz);
@@ -599,14 +597,14 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $this->assertEqual($oDate->getDate(), $aExpRow['updated']);
         }
         // Check that the account_id filter is working
-        $aParams = array('account_id' => 2);
+        $aParams = ['account_id' => 2];
         $aResults = $dllAuditPartialMock->getAuditLogForAuditWidget($aParams);
 
         $this->assertIsA($aResults, 'array');
-        $this->assertEqual(count($aResults),1);
+        $this->assertEqual(count($aResults), 1);
     }
 
-    function testGetContext()
+    public function testGetContext()
     {
         $audit = new OA_Dll_Audit();
         $context = $audit->getContextDescription($table = 'campaigns');
@@ -619,7 +617,4 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $context = $audit->getContextDescription($table);
         $this->assertEqual($context, $table);
     }
-
 }
-
-?>

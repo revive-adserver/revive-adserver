@@ -26,29 +26,22 @@ function logSQL($oDbh, $scope, $message, $context)
 {
     // don't log 'explain' queries or we spiral out of control
     // don't log queries against temporary tables (cos the tables won't exist to use for explain)
-    if ((substr_count($message, 'EXPLAIN')==0) && (substr_count($message, 'tmp_')==0))
-    {
-        $log = fopen(MAX_PATH."/var/sql.log", 'a');
+    if ((substr_count($message, 'EXPLAIN') == 0) && (substr_count($message, 'tmp_') == 0)) {
+        $log = fopen(MAX_PATH . "/var/sql.log", 'a');
 
         $aStatements = $oDbh->options['log_statements'];
 
-        foreach ($aStatements AS $statement)
-        {
+        foreach ($aStatements as $statement) {
             $i = strpos($message, strtoupper($statement));
-            if ($i > -1)
-            {
+            if ($i > -1) {
                 $query = $message;
-                if ($i > 0)
-                {
-                    if (strpos($message,'PREPARE MDB2_STATEMENT')<0)
-                    {
-                        $query = substr($query,$i, strlen($query)-1);
-                    }
+                if ($i > 0 && strpos($message, 'PREPARE MDB2_STATEMENT') < 0) {
+                    $query = substr($query, $i, strlen($query) - 1);
                 }
-                $query = preg_replace('/[\s\t\n]+/',' ',$query);
-                $query = str_replace('\n','',$query);
+                $query = preg_replace('/[\s\t\n]+/', ' ', $query);
+                $query = str_replace('\n', '', $query);
                 $query = stripslashes($query);
-                fwrite($log, "[".trim($scope)."] ".trim($query)."; \n");
+                fwrite($log, "[" . trim($scope) . "] " . trim($query) . "; \n");
             }
         }
         fclose($log);
@@ -62,7 +55,6 @@ function logSQL($oDbh, $scope, $message, $context)
  */
 class OA
 {
-
     /**
      * A method to log debugging messages to the location configured by the user.
      *
@@ -84,7 +76,7 @@ class OA
      *
      * @TODO Logging to anything other than a file is probably broken - test!
      */
-    static function debug($message = null, $priority = PEAR_LOG_INFO)
+    public static function debug($message = null, $priority = PEAR_LOG_INFO)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $tempDebugPrefix;
@@ -112,19 +104,19 @@ class OA
         // Grab DSN if we are logging to a database
         $dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
         // Instantiate a logger object based on logging options
-        $aLoggerConf = array(
+        $aLoggerConf = [
             $aConf['log']['paramsUsername'],
             $aConf['log']['paramsPassword'],
-            'dsn'        => $dsn,
-            'mode'       => octdec($aConf['log']['fileMode']),
+            'dsn' => $dsn,
+            'mode' => octdec($aConf['log']['fileMode']),
             'timeFormat' => '%b %d %H:%M:%S %z'
-        );
+        ];
         if (is_null($message) && $aConf['log']['type'] == 'file') {
             $aLoggerConf['lineFormat'] = '%4$s';
-        } else if ($aConf['log']['type'] == 'file') {
+        } elseif ($aConf['log']['type'] == 'file') {
             $aLoggerConf['lineFormat'] = '%1$s %2$s [%3$9s]  %4$s';
         }
-        $ident = (!empty($GLOBALS['_MAX']['LOG_IDENT'])) ? $GLOBALS['_MAX']['LOG_IDENT'] : $aConf['log']['ident'];
+        $ident = (empty($GLOBALS['_MAX']['LOG_IDENT'])) ? $aConf['log']['ident'] : $GLOBALS['_MAX']['LOG_IDENT'];
         if (($ident == $aConf['log']['ident'] . '-delivery') && empty($aConf['deliveryLog']['enabled'])) {
             unset($GLOBALS['tempDebugPrefix']);
             return true;
@@ -132,12 +124,12 @@ class OA
         if ($ident == $aConf['log']['ident'] . '-delivery') {
             $logFile = $aConf['deliveryLog']['name'];
             list($micro_seconds, $seconds) = explode(" ", microtime());
-            $message = (round(1000 *((float)$micro_seconds + (float)$seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message;
+            $message = (round(1000 * ((float)$micro_seconds + (float)$seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message;
         } else {
             $logFile = $aConf['log']['name'];
         }
 
-        $ident .= (!empty($GLOBALS['_MAX']['thread_id'])) ? '-' . $GLOBALS['_MAX']['thread_id'] : '';
+        $ident .= (empty($GLOBALS['_MAX']['thread_id'])) ? '' : '-' . $GLOBALS['_MAX']['thread_id'];
 
         $oLogger = Log::singleton(
             $aConf['log']['type'],
@@ -153,7 +145,7 @@ class OA
                 if (is_array($userinfo)) {
                     $userinfo = implode(', ', $userinfo);
                 }
-            $message .= ' : ' . $userinfo;
+                $message .= ' : ' . $userinfo;
             }
         }
         // Obtain backtrace information
@@ -169,9 +161,9 @@ class OA
         }
         // Show entire stack, line-by-line
         if ($aConf['log']['lineNumbers']) {
-            foreach($aBacktrace as $aErrorBacktrace) {
+            foreach ($aBacktrace as $aErrorBacktrace) {
                 if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
-                    $message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
+                    $message .= "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
                     $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
                 }
             }
@@ -185,7 +177,7 @@ class OA
         // Log the message
         if (is_null($message) && $aConf['log']['type'] == 'file') {
             $message = ' ';
-        } else if (!is_null($tempDebugPrefix) && $aConf['log']['type'] == 'file') {
+        } elseif (!is_null($tempDebugPrefix) && $aConf['log']['type'] == 'file') {
             $message = $tempDebugPrefix . $message;
         }
         $result = $oLogger->log(htmlspecialchars($message), $priority);
@@ -197,7 +189,7 @@ class OA
         return $result;
     }
 
-    static function switchLogIdent($name = 'debug')
+    public static function switchLogIdent($name = 'debug')
     {
         if ($name == 'debug') {
             $GLOBALS['_MAX']['LOG_IDENT'] = $GLOBALS['_MAX']['CONF']['log']['ident'];
@@ -214,48 +206,44 @@ class OA
      *                       debug() method is next called, in the event that
      *                       the logging is to a file.
      */
-    static function setTempDebugPrefix($prefix)
+    public static function setTempDebugPrefix($prefix)
     {
         global $tempDebugPrefix;
         $tempDebugPrefix = $prefix;
     }
 
 
-    static function logMem($msg='', $peak=false)
+    public static function logMem($msg = '', $peak = false)
     {
         /*if (isset($aConf['debug']['logmem']) && $aConf['debug']['logmem'])
         {*/
-            $aConf = $GLOBALS['_MAX']['CONF'];
-            $oLogger = Log::singleton(
-                $aConf['log']['type'],
-                MAX_PATH . '/var/memory.log',
-                $aConf['log']['ident'],
-                array()
-            );
-            $pid = getmypid();
-            //$msg.= ' MEMORY USAGE (% KB PID ): ' . `ps --pid $pid --no-headers -o%mem,rss,pid`;
-            $mem = `ps --pid $pid --no-headers -orss`;
-            $mem = round((memory_get_usage()/1048576),2). ' / ps '.$mem;
-            $msg = '['.rtrim($mem,chr(10)).']('.$msg.')';
-            $aLast = array_pop(debug_backtrace());
-            if ($aLast['function']=='logMem')
-            {
-                $msg.= str_replace(MAX_PATH,'',$aLast['file'].' -> line '.$aLast['line']);
-            }
-            else
-            {
-                $msg.= $aLast['class'] . $aLast['type'] . $aLast['function'] . ': ';
-            }
-            $oLogger->log($msg, PEAR_LOG_INFO);
-            if ($peak)
-            {
-                $peak = memory_get_peak_usage()/1048576;
-                $oLogger->log('PEAK: '.$peak, PEAR_LOG_INFO);
-            }
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oLogger = Log::singleton(
+            $aConf['log']['type'],
+            MAX_PATH . '/var/memory.log',
+            $aConf['log']['ident'],
+            []
+        );
+        $pid = getmypid();
+        //$msg.= ' MEMORY USAGE (% KB PID ): ' . `ps --pid $pid --no-headers -o%mem,rss,pid`;
+        $mem = `ps --pid $pid --no-headers -orss`;
+        $mem = round((memory_get_usage() / 1048576), 2) . ' / ps ' . $mem;
+        $msg = '[' . rtrim($mem, chr(10)) . '](' . $msg . ')';
+        $aLast = array_pop(debug_backtrace());
+        if ($aLast['function'] == 'logMem') {
+            $msg .= str_replace(MAX_PATH, '', $aLast['file'] . ' -> line ' . $aLast['line']);
+        } else {
+            $msg .= $aLast['class'] . $aLast['type'] . $aLast['function'] . ': ';
+        }
+        $oLogger->log($msg, PEAR_LOG_INFO);
+        if ($peak) {
+            $peak = memory_get_peak_usage() / 1048576;
+            $oLogger->log('PEAK: ' . $peak, PEAR_LOG_INFO);
+        }
         //}
     }
 
-    static function logMemPeak($msg='')
+    public static function logMemPeak($msg = '')
     {
         OA::logMem($msg, true);
     }
@@ -270,7 +258,7 @@ class OA
      * @return string An appropriately formatted date/time string, representing
      *                the "current" date/time, offset if required.
      */
-    static function getNow($format = null)
+    public static function getNow($format = null)
     {
         if (is_null($format)) {
             $format = 'Y-m-d H:i:s';
@@ -287,7 +275,7 @@ class OA
      * @return string An appropriately formatted date/time string, representing
      *                the "current" date/time, offset if required.
      */
-    static function getNowUTC($format = null)
+    public static function getNowUTC($format = null)
     {
         if (is_null($format)) {
             $format = 'Y-m-d H:i:s';
@@ -300,9 +288,9 @@ class OA
      *
      * @return mixed An array of the available extensions, or false if none is present
      */
-    static function getAvailableSSLExtensions()
+    public static function getAvailableSSLExtensions()
     {
-        $aResult = array();
+        $aResult = [];
 
         if (extension_loaded('curl')) {
             $aCurl = curl_version();
@@ -316,8 +304,5 @@ class OA
 
         return count($aResult) ? $aResult : false;
     }
-
 }
 ###END_STRIP_DELIVERY
-
-?>

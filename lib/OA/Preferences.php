@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  */
 class OA_Preferences
 {
-
     /**
      * A static method to load the current account's preferences from the
      * database and store them in the global array $GLOBALS['_MAX']['PREF'].
@@ -76,7 +75,7 @@ class OA_Preferences
                 $doAccounts->account_id = $accountId;
                 $doAccounts->find();
                 if ($doAccounts->getRowCount() > 0) {
-                    $aCurrentAccountType = $doAccounts->getAll(array('account_type'), false, true);
+                    $aCurrentAccountType = $doAccounts->getAll(['account_type'], false, true);
                     $currentAccountType = $aCurrentAccountType[0];
                 }
             }
@@ -88,7 +87,7 @@ class OA_Preferences
         }
         // Get all of the preference types that exist
         $doPreferences = OA_Dal::factoryDO('preferences');
-        $aPreferenceTypes = $doPreferences->getAll(array(), true);
+        $aPreferenceTypes = $doPreferences->getAll([], true);
         // Are there any preference types in the system?
         if (empty($aPreferenceTypes)) {
             OA_Preferences::_unsetPreferences();
@@ -104,7 +103,7 @@ class OA_Preferences
         }
         // Prepare an array to store the preferences that should
         // eventually be set in the global array
-        $aPreferences = array();
+        $aPreferences = [];
         // Put the admin account's preferences into the temporary
         // storage array for preferences
         if ($loadAdminOnly == true || !($currentAccountType == OA_ACCOUNT_ADMIN && $parentOnly)) {
@@ -144,15 +143,15 @@ class OA_Preferences
                         $doClients->account_id = $accountId;
                         $doClients->find();
                         if ($doClients->getRowCount() == 1) {
-                            $aOwningAgencyId = $doClients->getAll(array('agencyid'), false, true);
+                            $aOwningAgencyId = $doClients->getAll(['agencyid'], false, true);
                             $owningAgencyId = $aOwningAgencyId[0];
                         }
-                    } else if ($currentAccountType == OA_ACCOUNT_TRAFFICKER) {
+                    } elseif ($currentAccountType == OA_ACCOUNT_TRAFFICKER) {
                         $doAffiliates = OA_Dal::factoryDO('affiliates');
                         $doAffiliates->account_id = $accountId;
                         $doAffiliates->find();
                         if ($doAffiliates->getRowCount() == 1) {
-                            $aOwningAgencyId = $doAffiliates->getAll(array('agencyid'), false, true);
+                            $aOwningAgencyId = $doAffiliates->getAll(['agencyid'], false, true);
                             $owningAgencyId = $aOwningAgencyId[0];
                         }
                     }
@@ -168,7 +167,7 @@ class OA_Preferences
                     // The manager account "owning" the advertiser or
                     // trafficker account has some preferences that
                     // override the admin account preferences
-                    $aManagerAccountId = $doAgency->getAll(array('account_id'), false, true);
+                    $aManagerAccountId = $doAgency->getAll(['account_id'], false, true);
                     $managerAccountId = $aManagerAccountId[0];
                     // Get the manager account's preference values
                     $aManagerPreferenceValues = OA_Preferences::_getPreferenceValues($managerAccountId);
@@ -242,9 +241,9 @@ class OA_Preferences
         $doAccount_preference_assoc->account_id = $accountId;
         $doAccount_preference_assoc->whereInAdd('preference_id', $aPrefsIds);
         $doAccount_preference_assoc->find();
-        $aPrefs = array();
+        $aPrefs = [];
         $prefsIdsFlip = array_flip($aPrefsIds);
-        while($doAccount_preference_assoc->fetch()) {
+        while ($doAccount_preference_assoc->fetch()) {
             $aPrefs[$prefsIdsFlip[$doAccount_preference_assoc->preference_id]] = $doAccount_preference_assoc->value;
         }
         OA_Preferences::cachePreferences($accountId, $aPrefs);
@@ -268,8 +267,8 @@ class OA_Preferences
     {
         // keep preferences ids in static memory cache
         static $aPrefIdsCache;
-        $aPrefFound = array();
-        $aPrefNotFound = array();
+        $aPrefFound = [];
+        $aPrefNotFound = [];
         foreach ($aPrefNames as $prefName) {
             if (isset($aPrefIdsCache[$accountType][$prefName])) {
                 $aPrefFound[$prefName] = $aPrefIdsCache[$accountType][$prefName];
@@ -306,7 +305,7 @@ class OA_Preferences
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->account_type = $accountType;
         $doPreferences->whereInAdd('preference_name', $aPrefNames);
-        return $doPreferences->getAll(array('preference_id'), 'preference_name');
+        return $doPreferences->getAll(['preference_id'], 'preference_name');
     }
 
     /**
@@ -325,16 +324,16 @@ class OA_Preferences
      */
     public static function cachePreferences($accountId, $aPreferences, $readOnly = true, $cleanCache = false)
     {
-        static $aCache = array();
+        static $aCache = [];
         if ($cleanCache) {
-            $aCache = array();
+            $aCache = [];
             return $aCache;
         }
 
         if ($readOnly) {
             // Just read cache - read and write needs to be done in the same method due to
             //                   static variables limitations
-            $prefsFound = array();
+            $prefsFound = [];
             foreach ($aPreferences as $prefName) {
                 if (isset($aCache[$accountId][$prefName])) {
                     $prefsFound[$prefName] = $aCache[$accountId][$prefName];
@@ -416,7 +415,9 @@ class OA_Preferences
     public static function processPreferencesFromForm(array $aElementNames, array $aCheckboxes)
     {
         phpAds_registerGlobalUnslashed('token');
-        if (!phpAds_SessionValidateToken($GLOBALS['token'])) { return false; }
+        if (!phpAds_SessionValidateToken($GLOBALS['token'])) {
+            return false;
+        }
 
         // Get all of the preference types that exist
         $aPreferenceTypes = self::getPreferenceTypes();
@@ -445,8 +446,8 @@ class OA_Preferences
         // Get the parent account preferences
         $aParentPreferences = self::loadPreferences(false, true, true);
         // Prepare the preference values that should be saved or deleted
-        $aSavePreferences = array();
-        $aDeletePreferences = array();
+        $aSavePreferences = [];
+        $aDeletePreferences = [];
         foreach ($aElementNames as $preferenceName) {
             // Ensure that the current account has permission to process
             // the preference type
@@ -461,7 +462,7 @@ class OA_Preferences
             if (isset($aCheckboxes[$preferenceName]) && !isset($GLOBALS[$preferenceName])) {
                 // Set the value of the element to the false string ""
                 $GLOBALS[$preferenceName] = '';
-            } else if (isset($aCheckboxes[$preferenceName]) && $GLOBALS[$preferenceName]) {
+            } elseif (isset($aCheckboxes[$preferenceName]) && $GLOBALS[$preferenceName]) {
                 // Set the value of the element to the true string "1"
                 $GLOBALS[$preferenceName] = '1';
             }
@@ -473,7 +474,7 @@ class OA_Preferences
                     // The preference value is different from the parent, so it
                     // needs to be stored
                     $aSavePreferences[$preferenceName] = $GLOBALS[$preferenceName];
-                } else if ($currentAccountType != OA_ACCOUNT_ADMIN) {
+                } elseif ($currentAccountType != OA_ACCOUNT_ADMIN) {
                     // The preference value is not different from the parent, so
                     // it should be deleted if not the admin account (in case it
                     // exists for the account, and so would not inherit correctly
@@ -532,7 +533,8 @@ class OA_Preferences
      * @return boolean True if the current account can access/process the preference
      *                 level, false otherwise.
      */
-    public static function hasAccess($currentAccount, $preferenceLevel) {
+    public static function hasAccess($currentAccount, $preferenceLevel)
+    {
         // If there is no preference level, any account can use/process
         if (is_null($preferenceLevel) || $preferenceLevel == '') {
             return true;
@@ -621,38 +623,38 @@ class OA_Preferences
     public static function getPreferenceDefaults()
     {
         $aPrefs = [
-            'default_banner_image_url'                      => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''],
-            'default_banner_destination_url'                => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''],
-            'default_banner_weight'                         => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1],
-            'default_campaign_weight'                       => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1],
-            'warn_email_admin'                              => ['account_type' => OA_ACCOUNT_ADMIN,        'default' => true],
-            'warn_email_admin_impression_limit'             => ['account_type' => OA_ACCOUNT_ADMIN,        'default' => 100],
-            'warn_email_admin_day_limit'                    => ['account_type' => OA_ACCOUNT_ADMIN,        'default' => 1],
-            'campaign_ecpm_enabled'                         => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => false],
-            'contract_ecpm_enabled'                         => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => false],
-            'warn_email_manager'                            => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => true],
-            'warn_email_manager_impression_limit'           => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => 100],
-            'warn_email_manager_day_limit'                  => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => 1],
-            'warn_email_advertiser'                         => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
-            'warn_email_advertiser_impression_limit'        => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 100],
-            'warn_email_advertiser_day_limit'               => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1],
-            'timezone'                                      => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => ''],
-            'tracker_default_status'                        => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_STATUS_APPROVED],
-            'tracker_default_type'                          => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_TYPE_SALE],
-            'tracker_link_campaigns'                        => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false],
-            'ui_show_campaign_info'                         => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
-            'ui_show_banner_info'                           => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
-            'ui_show_campaign_preview'                      => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false],
-            'ui_show_banner_html'                           => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false],
-            'ui_show_banner_preview'                        => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
-            'ui_html_wyswyg_enabled'                        => ['account_type' => null,                    'default' => false],
-            'ui_hide_inactive'                              => ['account_type' => null,                    'default' => false],
-            'ui_show_matching_banners'                      => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => true],
-            'ui_show_matching_banners_parents'              => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => false],
-            'ui_show_entity_id'                             => ['account_type' => null,                    'default' => false],
-            'ui_novice_user'                                => ['account_type' => null,                    'default' => true],
-            'ui_week_start_day'                             => ['account_type' => null,                    'default' => 1],
-            'ui_percentage_decimals'                        => ['account_type' => null,                    'default' => 2],
+            'default_banner_image_url' => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''],
+            'default_banner_destination_url' => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''],
+            'default_banner_weight' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1],
+            'default_campaign_weight' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1],
+            'warn_email_admin' => ['account_type' => OA_ACCOUNT_ADMIN,        'default' => true],
+            'warn_email_admin_impression_limit' => ['account_type' => OA_ACCOUNT_ADMIN,        'default' => 100],
+            'warn_email_admin_day_limit' => ['account_type' => OA_ACCOUNT_ADMIN,        'default' => 1],
+            'campaign_ecpm_enabled' => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => false],
+            'contract_ecpm_enabled' => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => false],
+            'warn_email_manager' => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => true],
+            'warn_email_manager_impression_limit' => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => 100],
+            'warn_email_manager_day_limit' => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => 1],
+            'warn_email_advertiser' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
+            'warn_email_advertiser_impression_limit' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 100],
+            'warn_email_advertiser_day_limit' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1],
+            'timezone' => ['account_type' => OA_ACCOUNT_MANAGER,      'default' => ''],
+            'tracker_default_status' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_STATUS_APPROVED],
+            'tracker_default_type' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_TYPE_SALE],
+            'tracker_link_campaigns' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false],
+            'ui_show_campaign_info' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
+            'ui_show_banner_info' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
+            'ui_show_campaign_preview' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false],
+            'ui_show_banner_html' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false],
+            'ui_show_banner_preview' => ['account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true],
+            'ui_html_wyswyg_enabled' => ['account_type' => null,                    'default' => false],
+            'ui_hide_inactive' => ['account_type' => null,                    'default' => false],
+            'ui_show_matching_banners' => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => true],
+            'ui_show_matching_banners_parents' => ['account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => false],
+            'ui_show_entity_id' => ['account_type' => null,                    'default' => false],
+            'ui_novice_user' => ['account_type' => null,                    'default' => true],
+            'ui_week_start_day' => ['account_type' => null,                    'default' => 1],
+            'ui_percentage_decimals' => ['account_type' => null,                    'default' => 2],
         ];
 
         require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
@@ -663,9 +665,9 @@ class OA_Preferences
 
         foreach ($aStatisticsFieldsDelivery as $obj) {
             foreach (array_keys($obj->getVisibilitySettings()) as $prefName) {
-                $aPrefs[$prefName]          = ['account_type' => OA_ACCOUNT_MANAGER, 'default' => false];
-                $aPrefs[$prefName.'_label'] = ['account_type' => OA_ACCOUNT_MANAGER, 'default' => ''];
-                $aPrefs[$prefName.'_rank']  = ['account_type' => OA_ACCOUNT_MANAGER, 'default' => 0];
+                $aPrefs[$prefName] = ['account_type' => OA_ACCOUNT_MANAGER, 'default' => false];
+                $aPrefs[$prefName . '_label'] = ['account_type' => OA_ACCOUNT_MANAGER, 'default' => ''];
+                $aPrefs[$prefName . '_rank'] = ['account_type' => OA_ACCOUNT_MANAGER, 'default' => 0];
             }
         }
 
@@ -680,8 +682,8 @@ class OA_Preferences
         $rank = 1;
         foreach ($aDefaultColumns as $prefName) {
             if (isset($aPrefs[$prefName])) {
-                $aPrefs[$prefName]['default']         = true;
-                $aPrefs[$prefName.'_rank']['default'] = $rank++;
+                $aPrefs[$prefName]['default'] = true;
+                $aPrefs[$prefName . '_rank']['default'] = $rank++;
             }
         }
 
@@ -719,13 +721,13 @@ class OA_Preferences
 
             /** @var DataObjects_Account_preference_assoc $doAPA */
             $doAPA = OA_Dal::factoryDO('account_preference_assoc');
-            $doAPA->account_id    = $adminAccountId;
+            $doAPA->account_id = $adminAccountId;
             $doAPA->preference_id = $preferenceId;
-            $doAPA->value         = $aPref['default'];
+            $doAPA->value = $aPref['default'];
             $result = $doAPA->insert();
 
             if (!$result) {
-                throw new Exception("error adding preference default for $prefName: '".$aPref['default']."'");
+                throw new Exception("error adding preference default for $prefName: '" . $aPref['default'] . "'");
             }
         }
 
@@ -810,10 +812,10 @@ class OA_Preferences
                         $aPreferenceValue['value'];
                 } else {
                     $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
-                        array(
+                        [
                             'account_type' => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
-                            'value'        => $aPreferenceValue['value']
-                        );
+                            'value' => $aPreferenceValue['value']
+                        ];
                 }
             }
         }
@@ -844,7 +846,7 @@ class OA_Preferences
             $aPreference = $doPreferences->toArray();
             $aPreferenceTypes[$aPreference['preference_name']] = [
                 'preference_id' => $aPreference['preference_id'],
-                'account_type'  => $aPreference['account_type']
+                'account_type' => $aPreference['account_type']
             ];
         }
 

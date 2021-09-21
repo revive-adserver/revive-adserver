@@ -21,126 +21,117 @@ require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 require_once 'Config.php';
 
-require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_PATH.'/lib/OA/DB/Table.php';
-require_once MAX_PATH.'/lib/OA/Dal/Links.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table.php';
+require_once MAX_PATH . '/lib/OA/Dal/Links.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php';
 
 class Openads_Schema_Manager
 {
+    public $oSchema;
 
-    var $oSchema;
+    public $aDB_definition;
 
-    var $aDB_definition;
+    public $aDump_options;
+    public $aDD_definition;
+    public $dd_file;
 
-    var $aDump_options;
-    var $aDD_definition;
-    var $dd_file;
+    public $path_schema_final;
+    public $path_schema_trans;
 
-    var $path_schema_final;
-    var $path_schema_trans;
+    public $path_changes_final;
+    public $path_changes_trans;
 
-    var $path_changes_final;
-    var $path_changes_trans;
+    public $path_links_final;
+    public $path_links_trans;
 
-    var $path_links_final;
-    var $path_links_trans;
+    public $path_dbo;
+    public $use_links;
 
-    var $path_dbo;
-    var $use_links;
+    public $file_schema_core;
+    public $schema_final;
+    public $schema_trans;
 
-    var $file_schema_core;
-    var $schema_final;
-    var $schema_trans;
+    public $file_changes_core;
+    public $changes_final;
+    public $changes_trans;
 
-    var $file_changes_core;
-    var $changes_final;
-    var $changes_trans;
+    public $file_links_core;
+    public $links_final = false;
+    public $links_trans = false;
 
-    var $file_links_core;
-    var $links_final = false;
-    var $links_trans = false;
+    public $working_file_schema;
+    public $working_file_links;
 
-    var $working_file_schema;
-    var $working_file_links;
+    public $oValidator;
 
-    var $oValidator;
+    public $version;
 
-    var $version;
+    public $aFile_perms;
 
-    var $aFile_perms;
+    public $dbo_name = 'openads_dbo';
 
-    var $dbo_name = 'openads_dbo';
+    public $oLogger;
 
-    var $oLogger;
-
-    var $aXMLRPCServer = false;
+    public $aXMLRPCServer = false;
 
     /**
      * php5 class constructor
      *
      * @param string The XML schema file we are working on
      */
-    function __construct($file_schema = 'tables_core.xml', $file_changes='', $path_schema)
+    public function __construct($file_schema = 'tables_core.xml', $file_changes = '', $path_schema)
     {
         $this->oLogger = new OA_UpgradeLogger();
         $this->oLogger->setLogFile('schema.log');
 
-        if (empty($path_schema))
-        {
+        if (empty($path_schema)) {
             $path_schema = '/etc/';
         }
-        if (substr($path_schema,0,1)!='/')
-        {
-            $path_schema = '/'.$path_schema;
+        if (substr($path_schema, 0, 1) != '/') {
+            $path_schema = '/' . $path_schema;
         }
-        $lastPath = substr($path_schema,strlen($path_schema)-4,4);
-        if ($lastPath!='etc/' && $lastPath!='etc\\')
-        {
-            $path_schema = $path_schema.'etc/';
+        $lastPath = substr($path_schema, strlen($path_schema) - 4, 4);
+        if ($lastPath != 'etc/' && $lastPath != 'etc\\') {
+            $path_schema = $path_schema . 'etc/';
         }
 
-        $this->path_schema_final  = MAX_PATH.$path_schema;
-        $this->path_schema_trans  = MAX_PATH.'/var/';
-        $this->path_changes_final = MAX_PATH.$path_schema.'changes/';
-        $this->path_changes_trans = MAX_PATH.'/var/';
+        $this->path_schema_final = MAX_PATH . $path_schema;
+        $this->path_schema_trans = MAX_PATH . '/var/';
+        $this->path_changes_final = MAX_PATH . $path_schema . 'changes/';
+        $this->path_changes_trans = MAX_PATH . '/var/';
 
-        if ($path_schema == '/etc/')
-        {
-            $this->path_dbo = MAX_PATH.'/lib/max/Dal/DataObjects/';
-        }
-        else
-        {
-            $this->path_dbo = $this->path_schema_final.'DataObjects/';
+        if ($path_schema == '/etc/') {
+            $this->path_dbo = MAX_PATH . '/lib/max/Dal/DataObjects/';
+        } else {
+            $this->path_dbo = $this->path_schema_final . 'DataObjects/';
         }
 
         //$this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
         $this->path_links_final = $this->path_dbo;
-        $this->path_links_trans = MAX_PATH.'/var/';
+        $this->path_links_trans = MAX_PATH . '/var/';
 
-        $file_changes   = ($file_changes ? $file_changes : 'changes_'.$file_schema);
-        $file_links     = 'db_schema.links.ini';
+        $file_changes = ($file_changes ? $file_changes : 'changes_' . $file_schema);
+        $file_links = 'db_schema.links.ini';
 
-        $this->schema_final = $this->path_schema_final.$file_schema;
-        $this->schema_trans = $this->path_schema_trans.$file_schema;
+        $this->schema_final = $this->path_schema_final . $file_schema;
+        $this->schema_trans = $this->path_schema_trans . $file_schema;
 
         $this->oLogger->log($this->schema_final);
 
-        $this->use_links = ($file_schema=='tables_core.xml');
-        if ($this->use_links)
-        {
-            $this->links_final = $this->path_links_final.$file_links;
-            $this->links_trans = $this->path_links_trans.$file_links;
+        $this->use_links = ($file_schema == 'tables_core.xml');
+        if ($this->use_links) {
+            $this->links_final = $this->path_links_final . $file_links;
+            $this->links_trans = $this->path_links_trans . $file_links;
         }
 
-        $this->changes_final = $this->path_changes_final.$file_changes;
-        $this->changes_trans = $this->path_changes_trans.$file_changes;
+        $this->changes_final = $this->path_changes_final . $file_changes;
+        $this->changes_trans = $this->path_changes_trans . $file_changes;
 
         $this->oLogger->log($this->changes_final);
 
-        if ($this->use_links)
-        {
-            $this->aFile_perms = array(
+        if ($this->use_links) {
+            $this->aFile_perms = [
                                         $this->path_schema_trans,
                                         $this->path_changes_final,
                                         $this->path_changes_trans,
@@ -148,50 +139,47 @@ class Openads_Schema_Manager
                                         $this->links_final,
                                         $this->schema_final,
                                         MAX_SCHEMA_LOG,
-                                        MAX_PATH.'/www/devel/'
-                                    );
-        }
-        else
-        {
-            $this->aFile_perms = array(
+                                        MAX_PATH . '/www/devel/'
+                                    ];
+        } else {
+            $this->aFile_perms = [
                                         $this->path_schema_trans,
                                         $this->path_changes_final,
                                         $this->path_changes_trans,
                                         $this->schema_final,
                                         MAX_SCHEMA_LOG,
-                                        MAX_PATH.'/www/devel/'
-                                    );
+                                        MAX_PATH . '/www/devel/'
+                                    ];
         }
 
 
-        $this->aDump_options = array (
-                                        'output_mode'   =>    'file',
-                                        'output'        =>    $this->schema_trans,
-                                        'end_of_line'   =>    "\n",
-                                        'xsl_file'      =>    "xsl/mdb2_schema.xsl",
-                                        'custom_tags'   => array('version'=>'', 'status'=>'transitional')
-                                      );
+        $this->aDump_options = [
+                                        'output_mode' => 'file',
+                                        'output' => $this->schema_trans,
+                                        'end_of_line' => "\n",
+                                        'xsl_file' => "xsl/mdb2_schema.xsl",
+                                        'custom_tags' => ['version' => '', 'status' => 'transitional']
+                                      ];
 
         //$GLOBALS['_MAX']['CONF']['database']['name'] = $this->dbo_name;
-        $this->oSchema  = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()), $this->aDump_options);
+        $this->oSchema = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()), $this->aDump_options);
 
-        $this->dd_file = PATH_DEV.'/etc/dd.generic.xml';
+        $this->dd_file = PATH_DEV . '/etc/dd.generic.xml';
         $this->aDD_definition = $this->oSchema->parseDictionaryDefinitionFile($this->dd_file);
         ksort($this->aDD_definition);
 
         //$this->aXMLRPCServer = array('path'=>'/upms/xmlrpc.php', 'host'=>'localhost','port'=>'80');
     }
 
-    function createNew($name)
+    public function createNew($name)
     {
-        $this->aDump_options['custom_tags']['version']  = '000';
-        $this->aDump_options['custom_tags']['status']   = 'final';
-        $this->aDump_options['output']       = $this->path_schema_trans.'tables_'.$name.'.xml';
-        $this->aDump_options['xsl_file']     = "xsl/mdb2_schema.xsl";
-        $this->aDB_definition['name']        = $name;
+        $this->aDump_options['custom_tags']['version'] = '000';
+        $this->aDump_options['custom_tags']['status'] = 'final';
+        $this->aDump_options['output'] = $this->path_schema_trans . 'tables_' . $name . '.xml';
+        $this->aDump_options['xsl_file'] = "xsl/mdb2_schema.xsl";
+        $this->aDB_definition['name'] = $name;
         $result = $this->oSchema->dumpDatabase($this->aDB_definition, $this->aDump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
-        if (!Pear::iserror($result))
-        {
+        if (!Pear::iserror($result)) {
             return true;
         }
         $this->oLogger->logError($result->getUserInfo());
@@ -205,40 +193,32 @@ class Openads_Schema_Manager
      * @param string $output : path and filename for output
      * @return boolean
      */
-    function createChangeset($output='', $comments='', $version='')
+    public function createChangeset($output = '', $comments = '', $version = '')
     {
-        if (file_exists($this->schema_trans) && file_exists($this->schema_final))
-        {
-            $aPrev_definition                   = $this->oSchema->parseDatabaseDefinitionFile($this->schema_final);
-            $aCurr_definition                   = $this->oSchema->parseDatabaseDefinitionFile($this->schema_trans);
+        if (file_exists($this->schema_trans) && file_exists($this->schema_final)) {
+            $aPrev_definition = $this->oSchema->parseDatabaseDefinitionFile($this->schema_final);
+            $aCurr_definition = $this->oSchema->parseDatabaseDefinitionFile($this->schema_trans);
             //$aCurr_definition                   = $this->aDB_definition;
-            $aChanges                           = $this->oSchema->compareDefinitions($aCurr_definition, $aPrev_definition);
-            if (isset($aChanges['tables']['add']))
-            {
-                foreach ($aChanges['tables']['add'] AS $table => $val)
-                {
-                    $aChanges['tables']['add'][$table] = array('was'=>$table);
+            $aChanges = $this->oSchema->compareDefinitions($aCurr_definition, $aPrev_definition);
+            if (isset($aChanges['tables']['add'])) {
+                foreach ($aChanges['tables']['add'] as $table => $val) {
+                    $aChanges['tables']['add'][$table] = ['was' => $table];
                 }
             }
-            $this->aDump_options['output']      = ($output ? $output : $this->changes_trans);
-            $this->aDump_options['xsl_file']    = "xsl/mdb2_changeset.xsl";
-            $this->aDump_options['split']       = true;
-            $aChanges['version']                = ($version ? $version : $aCurr_definition['version']);
-            $aChanges['name']                   = $aCurr_definition['name'];
-            $aChanges['comments']               = htmlspecialchars($comments);
+            $this->aDump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
+            $this->aDump_options['split'] = true;
+            $aChanges['version'] = ($version ? $version : $aCurr_definition['version']);
+            $aChanges['name'] = $aCurr_definition['name'];
+            $aChanges['comments'] = htmlspecialchars($comments);
             $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
-            if (!Pear::iserror($result))
-            {
+            if (!Pear::iserror($result)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 $this->oLogger->logError($result->getUserInfo());
                 return false;
             }
-        }
-        else
-        {
+        } else {
             $this->oLogger->logError('one or more files not found:');
             $this->oLogger->logError($this->schema_trans);
             $this->oLogger->logError($this->schema_final);
@@ -253,27 +233,23 @@ class Openads_Schema_Manager
      * @param string $output : path and filename for output
      * @return boolean
      */
-    function saveChangeset($input_file, $comments='')
+    public function saveChangeset($input_file, $comments = '')
     {
-        if (file_exists($input_file))
-        {
-            $aChanges                           = $this->oSchema->parseChangesetDefinitionFile($input_file);
-            $this->aDump_options['output']      = ($output ? $output : $this->changes_trans);
-            $this->aDump_options['xsl_file']    = "xsl/mdb2_changeset.xsl";
-            $aChanges['comments']               = $comments;
-            $this->aDump_options['split']       = true;
+        if (file_exists($input_file)) {
+            $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
+            $this->aDump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
+            $aChanges['comments'] = $comments;
+            $this->aDump_options['split'] = true;
             $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
-            if (!Pear::iserror($result))
-            {
+            if (!Pear::iserror($result)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 $this->oLogger->logError($result->getUserInfo());
                 return false;
             }
         }
-        $this->oLogger->logError('file not found: '.$input_file);
+        $this->oLogger->logError('file not found: ' . $input_file);
         return false;
     }
 
@@ -283,25 +259,21 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function createTransitional()
+    public function createTransitional()
     {
-        $result = ($this->deleteSchemaTrans() &&  $this->deleteLinksTrans());
-        if ($result)
-        {
+        $result = ($this->deleteSchemaTrans() && $this->deleteLinksTrans());
+        if ($result) {
             $result = (file_exists($this->schema_final));
-            if ($result)
-            {
+            if ($result) {
                 $this->working_file_schema = $this->schema_final;
                 $this->parseWorkingDefinitionFile();
                 $this->version = $this->_getNextVersion();
                 $this->writeWorkingDefinitionFile();
                 $result = file_exists($this->schema_trans);
             }
-            if ($result && $this->use_links)
-            {
+            if ($result && $this->use_links) {
                 $result = (!empty($this->links_final) && file_exists($this->links_final));
-                if ($result)
-                {
+                if ($result) {
                     copy($this->links_final, $this->links_trans);
                     $result = file_exists($this->links_trans);
                 }
@@ -317,51 +289,41 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function commitFinal($comments='', $version='')
+    public function commitFinal($comments = '', $version = '')
     {
-        if ($this->use_links && (!file_exists($this->links_trans)))
-        {
+        if ($this->use_links && (!file_exists($this->links_trans))) {
             return false;
         }
-        if (!file_exists($this->schema_trans))
-        {
+        if (!file_exists($this->schema_trans)) {
             return false;
         }
-        if (!$this->setWorkingFiles())
-        {
+        if (!$this->setWorkingFiles()) {
             return false;
         }
-        if (!$this->parseWorkingDefinitionFile())
-        {
+        if (!$this->parseWorkingDefinitionFile()) {
             return false;
         }
-        $this->version =  ($version ? $version : $this->version);
+        $this->version = ($version ? $version : $this->version);
         $basename = $this->_getBasename();
-        $this->aDB_definition['version'] =  $this->version;
-        $this->aDump_options['custom_tags']['status']='final';
-        $this->changes_final = $this->path_changes_final.'changes_'.$basename.'.xml';
-        if (!$this->createChangeset($this->changes_final, $comments, $version))
-        {
+        $this->aDB_definition['version'] = $this->version;
+        $this->aDump_options['custom_tags']['status'] = 'final';
+        $this->changes_final = $this->path_changes_final . 'changes_' . $basename . '.xml';
+        if (!$this->createChangeset($this->changes_final, $comments, $version)) {
             return false;
         }
-        if (!$this->writeWorkingDefinitionFile($this->schema_final))
-        {
+        if (!$this->writeWorkingDefinitionFile($this->schema_final)) {
             return false;
         }
-        if (!$this->writeWorkingDefinitionFile($this->path_changes_final.'schema_'.$basename.'.xml'))
-        {
+        if (!$this->writeWorkingDefinitionFile($this->path_changes_final . 'schema_' . $basename . '.xml')) {
             return false;
         }
-        if (!$this->_generateDataObjects($this->changes_final, $basename))
-        {
+        if (!$this->_generateDataObjects($this->changes_final, $basename)) {
             return false;
         }
-        if ($this->use_links)
-        {
+        if ($this->use_links) {
             copy($this->links_trans, $this->links_final);
         }
-        if (!$this->writeMigrationClass($this->changes_final, $this->path_changes_final))
-        {
+        if (!$this->writeMigrationClass($this->changes_final, $this->path_changes_final)) {
             return false;
         }
         $this->deleteTransitional();
@@ -372,14 +334,11 @@ class Openads_Schema_Manager
      *
      * @return integer
      */
-    function _getNextVersion()
+    public function _getNextVersion()
     {
-        if (!$this->aXMLRPCServer)
-        {
+        if (!$this->aXMLRPCServer) {
             $id = $this->version + 1;
-        }
-        else
-        {
+        } else {
             $id = $this->_getNextVersionXMLRPC();
         }
         return str_pad($id, 3, '0', STR_PAD_LEFT);
@@ -397,9 +356,9 @@ class Openads_Schema_Manager
      *
      * @return string
      */
-    function _getBasename()
+    public function _getBasename()
     {
-        return basename(str_replace('.xml', '_'.$this->version,$this->schema_final));
+        return basename(str_replace('.xml', '_' . $this->version, $this->schema_final));
     }
 
     /**
@@ -408,25 +367,18 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function setWorkingFiles()
+    public function setWorkingFiles()
     {
-        if (file_exists($this->schema_trans))
-        {
+        if (file_exists($this->schema_trans)) {
             $this->working_file_schema = $this->schema_trans;
-        }
-        else if (file_exists($this->schema_final))
-        {
+        } elseif (file_exists($this->schema_final)) {
             $this->working_file_schema = $this->schema_final;
         }
 
-        if ($this->use_links)
-        {
-            if (!empty($this->links_trans) && file_exists($this->links_trans))
-            {
+        if ($this->use_links) {
+            if (!empty($this->links_trans) && file_exists($this->links_trans)) {
                 $this->working_file_links = $this->links_trans;
-            }
-            else if (!empty($this->links_final) && file_exists($this->links_final))
-            {
+            } elseif (!empty($this->links_final) && file_exists($this->links_final)) {
                 $this->working_file_links = $this->links_final;
             }
         }
@@ -439,25 +391,21 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function parseWorkingDefinitionFile()
+    public function parseWorkingDefinitionFile()
     {
-        if (file_exists($this->working_file_schema))
-        {
+        if (file_exists($this->working_file_schema)) {
             $result = $this->oSchema->parseDatabaseDefinitionFile($this->working_file_schema);
-            if (!Pear::iserror($result))
-            {
+            if (!Pear::iserror($result)) {
                 $this->aDB_definition = $result;
                 $this->version = $this->aDB_definition['version'];
                 return true;
-            }
-            else
-            {
+            } else {
                 $this->oLogger->logError($result->getUserInfo());
                 return false;
             }
         }
-        $this->oLogger->logError('file not found: '.$this->working_file_schema);
-        $this->aDB_definition = array();
+        $this->oLogger->logError('file not found: ' . $this->working_file_schema);
+        $this->aDB_definition = [];
         return false;
     }
 
@@ -467,14 +415,13 @@ class Openads_Schema_Manager
      * @param strin $output : path and filename for output
      * @return boolean
      */
-    function writeWorkingDefinitionFile($output='')
+    public function writeWorkingDefinitionFile($output = '')
     {
         $this->aDump_options['custom_tags']['version'] = $this->version;
-        $this->aDump_options['output']       = ($output ? $output : $this->schema_trans);
-        $this->aDump_options['xsl_file']     = "xsl/mdb2_schema.xsl";
+        $this->aDump_options['output'] = ($output ? $output : $this->schema_trans);
+        $this->aDump_options['xsl_file'] = "xsl/mdb2_schema.xsl";
         $result = $this->oSchema->dumpDatabase($this->aDB_definition, $this->aDump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
-        if (!Pear::iserror($result))
-        {
+        if (!Pear::iserror($result)) {
             return true;
         }
         $this->oLogger->logError($result->getUserInfo());
@@ -486,7 +433,7 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function deleteTransitional()
+    public function deleteTransitional()
     {
         return $this->deleteLinksTrans() &&
                $this->deleteChangesTrans() &&
@@ -498,15 +445,13 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function deleteLinksTrans()
+    public function deleteLinksTrans()
     {
-        if ($this->use_links)
-        {
-            if (!empty($this->links_final) && file_exists($this->links_trans))
-            {
+        if ($this->use_links) {
+            if (!empty($this->links_final) && file_exists($this->links_trans)) {
                 unlink($this->links_trans);
             }
-            return ! file_exists($this->links_trans);
+            return !file_exists($this->links_trans);
         }
         return true;
     }
@@ -516,27 +461,25 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function deleteChangesTrans()
+    public function deleteChangesTrans()
     {
-        if (file_exists($this->changes_trans))
-        {
+        if (file_exists($this->changes_trans)) {
             unlink($this->changes_trans);
         }
-        return ! file_exists($this->changes_trans);
+        return !file_exists($this->changes_trans);
     }
 
-     /**
-     * erase the transitional schema file
-     *
-     * @return boolean
-     */
-    function deleteSchemaTrans()
+    /**
+    * erase the transitional schema file
+    *
+    * @return boolean
+    */
+    public function deleteSchemaTrans()
     {
-        if (file_exists($this->schema_trans))
-        {
+        if (file_exists($this->schema_trans)) {
             unlink($this->schema_trans);
         }
-        return ! file_exists($this->schema_trans);
+        return !file_exists($this->schema_trans);
     }
 
     /**
@@ -550,47 +493,37 @@ class Openads_Schema_Manager
      * @param string $field_type_new
      * @return boolean
      */
-    function fieldSave($table_name, $field_name_old, $field_name_new, $field_type_old, $field_type_new)
+    public function fieldSave($table_name, $field_name_old, $field_name_new, $field_type_old, $field_type_new)
     {
         $this->parseWorkingDefinitionFile();
         $aTbl_definition = $this->aDB_definition['tables'][$table_name];
-        if ($field_name_new && ($field_name_new != $field_name_old))
-        {
+        if ($field_name_new && ($field_name_new != $field_name_old)) {
             // have to muck around to ensure same field order
-            foreach ($aTbl_definition['fields'] AS $k => $v)
-            {
-                if ($field_name_old == $k)
-                {
+            foreach ($aTbl_definition['fields'] as $k => $v) {
+                if ($field_name_old == $k) {
                     $aFld_definition = $v;
                     $aFld_definition['was'] = $field_name_old;
                     $aFields_ordered[$field_name_new] = $aFld_definition;
-                }
-                else
-                {
+                } else {
                     $aFields_ordered[$k] = $v;
                 }
             }
             $aTbl_definition['fields'] = $aFields_ordered;
             $valid = $this->validate_field($table_name, $aFld_definition, $field_name_new);
-            if ($valid)
-            {
+            if ($valid) {
                 $this->updateFieldIndexRelations($table_name, $aTbl_definition, $field_name_old, $field_name_new);
             }
-        }
-        else if ($field_type_new && ($field_type_new != $field_type_old))
-        {
+        } elseif ($field_type_new && ($field_type_new != $field_type_old)) {
             $aFld_definition = $this->aDD_definition[$field_type_new];
             $aTbl_definition['fields'][$field_name_old] = $aFld_definition;
             $valid = true;
         }
-        if ($valid)
-        {
+        if ($valid) {
             unset($this->aDB_definition['tables'][$table_name]);
             $valid = $this->validate_table($aTbl_definition, $table_name);
-            if ($valid)
-            {
+            if ($valid) {
                 $this->aDB_definition['tables'][$table_name] = $aTbl_definition;
-                ksort($this->aDB_definition['tables'],SORT_STRING);
+                ksort($this->aDB_definition['tables'], SORT_STRING);
                 return $this->writeWorkingDefinitionFile();
             }
         }
@@ -605,21 +538,19 @@ class Openads_Schema_Manager
      * @param string $dd_field_name
      * @return boolean
      */
-    function fieldAdd($table_name, $field_name, $dd_field_name)
+    public function fieldAdd($table_name, $field_name, $dd_field_name)
     {
         $this->parseWorkingDefinitionFile();
         $aFld_definition = $this->aDD_definition[$dd_field_name];
         $valid = $this->validate_field($table_name, $aFld_definition, $field_name);
-        if ($valid)
-        {
+        if ($valid) {
             $aTbl_definition = $this->aDB_definition['tables'][$table_name];
             $aTbl_definition['fields'][$field_name] = $aFld_definition;
             unset($this->aDB_definition['tables'][$table_name]);
             $valid = $this->validate_table($aTbl_definition, $table_name);
-            if ($valid)
-            {
+            if ($valid) {
                 $this->aDB_definition['tables'][$table_name] = $aTbl_definition;
-                ksort($this->aDB_definition['tables'],SORT_STRING);
+                ksort($this->aDB_definition['tables'], SORT_STRING);
                 return $this->writeWorkingDefinitionFile();
             }
         }
@@ -634,7 +565,7 @@ class Openads_Schema_Manager
      * @param string $field_name
      * @return boolean
      */
-    function fieldDelete($table_name, $field_name)
+    public function fieldDelete($table_name, $field_name)
     {
         $this->parseWorkingDefinitionFile();
         $aTbl_definition = $this->aDB_definition['tables'][$table_name];
@@ -643,10 +574,9 @@ class Openads_Schema_Manager
         $this->updateFieldIndexRelations($table_name, $aTbl_definition, $field_name, '');
         unset($this->aDB_definition['tables'][$table_name]);
         $valid = $this->validate_table($aTbl_definition, $table_name);
-        if ($valid)
-        {
+        if ($valid) {
             $this->aDB_definition['tables'][$table_name] = $aTbl_definition;
-            ksort($this->aDB_definition['tables'],SORT_STRING);
+            ksort($this->aDB_definition['tables'], SORT_STRING);
             return $this->writeWorkingDefinitionFile();
         }
         return false;
@@ -662,83 +592,66 @@ class Openads_Schema_Manager
      * @param string $field_type_new
      * @return boolean
      */
-    function fieldWasSave($input_file, $table_name, $field_name, $field_name_was)
+    public function fieldWasSave($input_file, $table_name, $field_name, $field_name_was)
     {
-
         $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
 
-        if (PEAR::isError($aChanges))
-        {
+        if (PEAR::isError($aChanges)) {
             $this->oLogger->logError($aChanges->getUserInfo());
             return false;
         }
 
-        if (isset($aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]))
-        {
+        if (isset($aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name])) {
             $aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]['was'] = $field_name_was;
-        }
-        else if (isset($aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]))
-        {
+        } elseif (isset($aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name])) {
             $aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]['was'] = $field_name_was;
-            if (isset($aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]))
-            {
+            if (isset($aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was])) {
                 unset($aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]);
-                if (empty($aChanges['destructive']['tables']['change'][$table_name]['remove']))
-                {
+                if (empty($aChanges['destructive']['tables']['change'][$table_name]['remove'])) {
                     unset($aChanges['destructive']['tables']['change'][$table_name]['remove']);
                 }
-                if (empty($aChanges['destructive']['tables']['change'][$table_name]))
-                {
+                if (empty($aChanges['destructive']['tables']['change'][$table_name])) {
                     unset($aChanges['destructive']['tables']['change'][$table_name]);
                 }
-                if (empty($aChanges['destructive']['tables']['change']))
-                {
+                if (empty($aChanges['destructive']['tables']['change'])) {
                     unset($aChanges['destructive']['tables']['change']);
                 }
             }
         }
-        $this->aDump_options['output']     = $input_file;
-        $this->aDump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
-        $this->aDump_options['split']      = false;
-        $this->aDump_options['rewrite']    = true; // this is a rewrite of a previously split changeset, don't split it again
+        $this->aDump_options['output'] = $input_file;
+        $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
+        $this->aDump_options['split'] = false;
+        $this->aDump_options['rewrite'] = true; // this is a rewrite of a previously split changeset, don't split it again
         $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
 
         return false;
     }
 
-    function tableWasSave($input_file, $table_name, $table_name_was)
+    public function tableWasSave($input_file, $table_name, $table_name_was)
     {
-
         $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
-        if ($table_name != $table_name_was)
-        {
-            if (isset($aChanges['constructive']['tables']['add'][$table_name]))
-            {
+        if ($table_name != $table_name_was) {
+            if (isset($aChanges['constructive']['tables']['add'][$table_name])) {
                 unset($aChanges['constructive']['tables']['add'][$table_name]);
-                if (empty($aChanges['constructive']['tables']['add']))
-                {
+                if (empty($aChanges['constructive']['tables']['add'])) {
                     unset($aChanges['constructive']['tables']['add']);
                 }
                 $aChanges['constructive']['tables']['rename'][$table_name]['was'] = $table_name_was;
-                if (isset($aChanges['destructive']['tables']['remove'][$table_name_was]))
-                {
+                if (isset($aChanges['destructive']['tables']['remove'][$table_name_was])) {
                     unset($aChanges['destructive']['tables']['remove'][$table_name_was]);
-                    if (empty($aChanges['destructive']['tables']['remove']))
-                    {
+                    if (empty($aChanges['destructive']['tables']['remove'])) {
                         unset($aChanges['destructive']['tables']['remove']);
                     }
                 }
-            }
-            else if (isset($aChanges['constructive']['tables']['rename'][$table_name]))
-            {
+            } elseif (isset($aChanges['constructive']['tables']['rename'][$table_name])) {
                 $aChanges['constructive']['tables']['rename'][$table_name]['was'] = $table_name_was;
             }
         }
 
-        $this->aDump_options['output']     = $input_file;
-        $this->aDump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
-        $this->aDump_options['split']      = false;
-        $this->aDump_options['rewrite']    = true; // this is a rewrite of a previously split changeset, don't split it again
+        $this->aDump_options['output'] = $input_file;
+        $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
+        $this->aDump_options['split'] = false;
+        $this->aDump_options['rewrite'] = true; // this is a rewrite of a previously split changeset, don't split it again
         $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
 
         return false;
@@ -751,7 +664,7 @@ class Openads_Schema_Manager
      * @param string $index_name
      * @return boolean
      */
-    function indexDelete($table_name, $index_name)
+    public function indexDelete($table_name, $index_name)
     {
         $this->parseWorkingDefinitionFile();
         unset($this->aDB_definition['tables'][$table_name]['indexes'][$index_name]);
@@ -768,64 +681,54 @@ class Openads_Schema_Manager
      * @param boolean $unique
      * @return boolean
      */
-    function indexAdd($table_name, $index_name, $aIndex_fields, $primary='', $unique='', $idx_fld_sort)
+    public function indexAdd($table_name, $index_name, $aIndex_fields, $primary = '', $unique = '', $idx_fld_sort)
     {
-        if ($primary)
-        {
-            $index_name = $table_name.'_pkey';
+        if ($primary) {
+            $index_name = $table_name . '_pkey';
         }
-        if ($primary && $unique)
-        {
+        if ($primary && $unique) {
             $this->oLogger->logError('Index cannot be both primary and unique');
             return false;
         }
         $this->parseWorkingDefinitionFile();
         $aTable = $this->aDB_definition['tables'][$table_name];
-        foreach ($aTable['indexes'] AS $name=>$aDef)
-        {
-            if ($name == $index_name)
-            {
+        foreach ($aTable['indexes'] as $name => $aDef) {
+            if ($name == $index_name) {
                 $this->oLogger->logError('Index with this name already exists for this table');
                 return false;
             }
-            if ($primary && $aDef['primary'])
-            {
+            if ($primary && $aDef['primary']) {
                 $this->oLogger->logError('Table can have only one primary constraint');
                 return false;
             }
         }
-        $aNewIndex['fields']    = array();
-        $aNewIndex['primary']   = $primary;
-        $aNewIndex['unique']    = $unique;
-        foreach ($aIndex_fields AS $fld_name=>$null)
-        {
-            if ($primary || $unique)
-            {
-                if (!$aTable['fields'][$fld_name]['notnull'])
-                {
+        $aNewIndex['fields'] = [];
+        $aNewIndex['primary'] = $primary;
+        $aNewIndex['unique'] = $unique;
+        foreach ($aIndex_fields as $fld_name => $null) {
+            if ($primary || $unique) {
+                if (!$aTable['fields'][$fld_name]['notnull']) {
                     $this->oLogger->logError('Primary key fields must be not null');
                     return false;
                 }
             }
-            $aNewIndex['fields'][$fld_name] = array('sorting'=>'ascending');
+            $aNewIndex['fields'][$fld_name] = ['sorting' => 'ascending'];
             //$aNewIndex['fields'][$fld_name]['sorting'] = $idx_fld_sort[$fld_name]; //'descending';
         }
         $this->aDB_definition['tables'][$table_name]['indexes'][$index_name] = $aNewIndex;
         return $this->writeWorkingDefinitionFile();
     }
 
-    function _sortIndexFields($aIndex_def)
+    public function _sortIndexFields($aIndex_def)
     {
-        foreach ($aIndex_def['fields'] as $field => $aDef)
-        {
+        foreach ($aIndex_def['fields'] as $field => $aDef) {
             $aIdx_sort[$aDef['order']] = $field;
         }
         ksort($aIdx_sort);
         reset($aIdx_sort);
-        foreach ($aIdx_sort as $k => $field)
-        {
-            $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
-            $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
+        foreach ($aIdx_sort as $k => $field) {
+            $sorting = ($aIndex_definition['fields'][$field]['sorting'] ? 'ascending' : 'descending');
+            $aIdx_new['fields'][$field] = ['sorting' => $sorting];
         }
         reset($aIdx_new['fields']);
         return $aIdx_new;
@@ -839,7 +742,7 @@ class Openads_Schema_Manager
      * @param array $aIndex_definition
      * @return boolean
      */
-    function indexSave($table_name, $index_name, $aIndex_definition)
+    public function indexSave($table_name, $index_name, $aIndex_definition)
     {
         $this->parseWorkingDefinitionFile();
         $idx_old = $this->aDB_definition['tables'][$table_name]['indexes'][$index_name];
@@ -856,26 +759,20 @@ class Openads_Schema_Manager
 //            $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
 //        }
 //        reset($aIdx_new['fields']);
-        if (isset($aIndex_definition['unique']))
-        {
+        if (isset($aIndex_definition['unique'])) {
             $aIdx_new['unique'] = $aIndex_definition['unique'];
         }
-        if (isset($aIndex_definition['primary']))
-        {
+        if (isset($aIndex_definition['primary'])) {
             $aIdx_new['primary'] = $aIndex_definition['primary'];
         }
-        if ($aIndex_definition['was']!=$aIndex_definition['name'])
-        {
+        if ($aIndex_definition['was'] != $aIndex_definition['name']) {
             $idx_name = $aIndex_definition['name'];
-        }
-        else
-        {
+        } else {
             $idx_name = $aIndex_definition['was'];
         }
         unset($this->aDB_definition['tables'][$table_name]['indexes'][$index_name]);
         $valid = $this->validate_index($table_name, $aIdx_new, $idx_name);
-        if ($valid)
-        {
+        if ($valid) {
             $this->aDB_definition['tables'][$table_name]['indexes'][$idx_name] = $aIdx_new;
             return $this->writeWorkingDefinitionFile();
         }
@@ -888,16 +785,15 @@ class Openads_Schema_Manager
      * @param string $new_table_name
      * @return boolean
      */
-    function tableNew($new_table_name)
+    public function tableNew($new_table_name)
     {
         $this->parseWorkingDefinitionFile();
-        $aFld_definition = array($new_table_name.'_id'=>array('type'=>'openads_mediumint','length'=>'9','default'=>'','notnull'=>'true'));
-        $aTbl_definition = array('fields'=>$aFld_definition);
+        $aFld_definition = [$new_table_name . '_id' => ['type' => 'openads_mediumint', 'length' => '9', 'default' => '', 'notnull' => 'true']];
+        $aTbl_definition = ['fields' => $aFld_definition];
         $valid = $this->validate_table($aTbl_definition, $new_table_name);
-        if ($valid)
-        {
+        if ($valid) {
             $this->aDB_definition['tables'][$new_table_name] = $aTbl_definition;
-            ksort($this->aDB_definition['tables'],SORT_STRING);
+            ksort($this->aDB_definition['tables'], SORT_STRING);
             return $this->writeWorkingDefinitionFile();
         }
         return false;
@@ -910,7 +806,7 @@ class Openads_Schema_Manager
      * @param string $table_name
      * @return boolean
      */
-    function tableDelete($table_name)
+    public function tableDelete($table_name)
     {
         $this->parseWorkingDefinitionFile();
         $this->deleteTableLinkRelations($table_name);
@@ -926,27 +822,21 @@ class Openads_Schema_Manager
      * @param string $table_name_new
      * @return boolean
      */
-    function tableSave($table_name, $table_name_new)
+    public function tableSave($table_name, $table_name_new)
     {
         $this->parseWorkingDefinitionFile();
         $aTbl_definition = $this->aDB_definition['tables'][$table_name];
-        if ($table_name_new && ($table_name_new != $table_name))
-        {
+        if ($table_name_new && ($table_name_new != $table_name)) {
             $valid = $this->validate_table($aTbl_definition, $table_name_new);
-        }
-        else
-        {
+        } else {
             $valid = false;
         }
-        if ($valid)
-        {
+        if ($valid) {
             $this->aDB_definition['tables'][$table_name_new] = $aTbl_definition;
             unset($this->aDB_definition['tables'][$table_name]);
-            ksort($this->aDB_definition['tables'],SORT_STRING);
-            if ($this->writeWorkingDefinitionFile())
-            {
-                if ($this->updateTableLinkRelations($table_name, $table_name_new))
-                {
+            ksort($this->aDB_definition['tables'], SORT_STRING);
+            if ($this->writeWorkingDefinitionFile()) {
+                if ($this->updateTableLinkRelations($table_name, $table_name_new)) {
                     return true;
                 }
             }
@@ -961,14 +851,12 @@ class Openads_Schema_Manager
      * @param string $link_name
      * @return mixed     true on success or PEAR_ERROR
      */
-    function linkDelete($table_name, $link_name)
+    public function linkDelete($table_name, $link_name)
     {
-        if ($this->use_links && (!empty($this->links_trans)))
-        {
+        if ($this->use_links && (!empty($this->links_trans))) {
             $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
             unset($aLinks[$table_name][$link_name]);
             return Openads_Links::writeLinksDotIni($this->links_trans, $aLinks);
-
         }
         return true;
     }
@@ -981,10 +869,9 @@ class Openads_Schema_Manager
      * @param string $link_add_target
      * @return mixed     true on success or PEAR_ERROR
      */
-    function linkAdd($table_name, $link_add, $link_add_target)
+    public function linkAdd($table_name, $link_add, $link_add_target)
     {
-        if ($this->use_links && (!empty($this->links_trans)))
-        {
+        if ($this->use_links && (!empty($this->links_trans))) {
             $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
             $aLinks[$table_name][$link_add] = $link_add_target;
             return Openads_Links::writeLinksDotIni($this->links_trans, $aLinks);
@@ -998,15 +885,15 @@ class Openads_Schema_Manager
      * @param string $table_name
      * @return array
      */
-    function readForeignKeys($table_name)
+    public function readForeignKeys($table_name)
     {
         if ($this->use_links && (!empty($this->links_trans))) {
             $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
             if (!isset($aLinks[$table_name])) {
-                $aLinks[$table_name] = array();
+                $aLinks[$table_name] = [];
             }
         } else {
-            $aLinks = array();
+            $aLinks = [];
         }
         return $aLinks;
     }
@@ -1016,16 +903,15 @@ class Openads_Schema_Manager
      *
      * @return array
      */
-    function getLinkTargets()
+    public function getLinkTargets()
     {
-        $aLinks_targets = array();
-        if ($this->use_links)
-        {
+        $aLinks_targets = [];
+        if ($this->use_links) {
             foreach ($this->aDB_definition['tables'] as $tk => $tv) {
                 if (isset($tv['indexes'])) {
                     foreach ($tv['indexes'] as $v) {
                         if (isset($v['primary']) && $v['primary'] && count($v['fields']) == 1) {
-                            $aLinks_targets["$tk:".key($v['fields'])] = "$tk (".key($v['fields']).")";
+                            $aLinks_targets["$tk:" . key($v['fields'])] = "$tk (" . key($v['fields']) . ")";
                         }
                     }
                 }
@@ -1041,12 +927,11 @@ class Openads_Schema_Manager
      * @param string $tbl_name
      * @return boolean
      */
-    function validate_table($aTbl_definition, $tbl_name)
+    public function validate_table($aTbl_definition, $tbl_name)
     {
         $this->init_schema_validator();
         $result = $this->oValidator->validateTable($this->aDB_definition['tables'], $aTbl_definition, $tbl_name);
-        if (PEAR::iserror($result))
-        {
+        if (PEAR::iserror($result)) {
             $this->oLogger->logError($result->getUserInfo());
             return false;
         }
@@ -1061,12 +946,11 @@ class Openads_Schema_Manager
      * @param string $field_name
      * @return boolean
      */
-    function validate_field($table_name, $aField_definition, $field_name)
+    public function validate_field($table_name, $aField_definition, $field_name)
     {
         $this->init_schema_validator();
         $result = $this->oValidator->validateField($this->aDB_definition['tables'][$table_name]['fields'], $aField_definition, $field_name);
-        if (PEAR::iserror($result))
-        {
+        if (PEAR::iserror($result)) {
             $this->oLogger->logError($result->getUserInfo());
             return false;
         }
@@ -1081,12 +965,11 @@ class Openads_Schema_Manager
      * @param string $idx_name
      * @return boolean
      */
-    function validate_index($table_name, $aIdx_definition, $idx_name)
+    public function validate_index($table_name, $aIdx_definition, $idx_name)
     {
         $this->init_schema_validator();
         $result = $this->oValidator->validateIndex($this->aDB_definition['tables'][$table_name]['indexes'], $aIdx_definition, $idx_name);
-        if (PEAR::iserror($result))
-        {
+        if (PEAR::iserror($result)) {
             $this->oLogger->logError($result->getUserInfo());
             return false;
         }
@@ -1103,34 +986,23 @@ class Openads_Schema_Manager
      * @param string $field_name_new
      * @return mixed     true on success or PEAR_ERROR
      */
-    function updateFieldIndexRelations($table_name, &$aTable_definition, $field_name_old, $field_name_new)
+    public function updateFieldIndexRelations($table_name, &$aTable_definition, $field_name_old, $field_name_new)
     {
-        if (!empty($aTable_definition['indexes']) && is_array($aTable_definition['indexes']))
-        {
-            foreach ($aTable_definition['indexes'] as $idx_name => $aIndex)
-            {
-                if (is_array($aIndex['fields']) && array_key_exists($field_name_old, $aIndex['fields']))
-                {
-                    foreach ($aIndex['fields'] AS $field => $aTarget)
-                    {
-                        if ($field_name_old == $field)
-                        {
-                            if ($field_name_new)
-                            {
+        if (!empty($aTable_definition['indexes']) && is_array($aTable_definition['indexes'])) {
+            foreach ($aTable_definition['indexes'] as $idx_name => $aIndex) {
+                if (is_array($aIndex['fields']) && array_key_exists($field_name_old, $aIndex['fields'])) {
+                    foreach ($aIndex['fields'] as $field => $aTarget) {
+                        if ($field_name_old == $field) {
+                            if ($field_name_new) {
                                 $aFields_ordered[$field_name_new] = $aTarget;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             $aFields_ordered[$field] = $aTarget;
                         }
                     }
-                    if (is_array($aFields_ordered))
-                    {
+                    if (is_array($aFields_ordered)) {
                         $aTable_definition['indexes'][$idx_name]['fields'] = $aFields_ordered;
-                    }
-                    else
-                    {
+                    } else {
                         unset($aTable_definition['indexes'][$idx_name]);
                     }
                 }
@@ -1148,40 +1020,31 @@ class Openads_Schema_Manager
      * @param string $field_name_new
      * @return mixed     true on success or PEAR_ERROR
      */
-    function updateFieldLinkRelations($table_name, $field_name_old, $field_name_new)
+    public function updateFieldLinkRelations($table_name, $field_name_old, $field_name_new)
     {
-        if ($this->use_links)
-        {
+        if ($this->use_links) {
             if (!empty($this->links_trans)) {
                 $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
                 reset($aLinks);
-                foreach ($aLinks AS $table => $aKeys)
-                {
-                    foreach ($aKeys AS $field => $aTarget)
-                    {
-                        if (($aTarget['table']==$table_name) && ($aTarget['field']==$field_name_old))
-                        {
+                foreach ($aLinks as $table => $aKeys) {
+                    foreach ($aKeys as $field => $aTarget) {
+                        if (($aTarget['table'] == $table_name) && ($aTarget['field'] == $field_name_old)) {
                             unset($aLinks[$table][$field]);
-                            if ($field_name_new)
-                            {
+                            if ($field_name_new) {
                                 $aTarget['field'] = $field_name_new;
                                 $aLinks[$table][$field] = $aTarget;
                             }
-                            if (!is_array($aLinks[$table]))
-                            {
+                            if (!is_array($aLinks[$table])) {
                                 unset($aLinks[$table]);
                             }
                         }
-                        if (($table==$table_name) && ($field==$field_name_old))
-                        {
+                        if (($table == $table_name) && ($field == $field_name_old)) {
                             unset($aLinks[$table][$field]);
-                            if ($field_name_new)
-                            {
+                            if ($field_name_new) {
                                 $field = $field_name_new;
                                 $aLinks[$table][$field] = $aTarget;
                             }
-                            if (!is_array($aLinks[$table]))
-                            {
+                            if (!is_array($aLinks[$table])) {
                                 unset($aLinks[$table]);
                             }
                         }
@@ -1200,22 +1063,17 @@ class Openads_Schema_Manager
      * @param string $table_name
      * @return mixed     true on success or PEAR_ERROR
      */
-    function deleteTableLinkRelations($table_name)
+    public function deleteTableLinkRelations($table_name)
     {
-        if ($this->use_links)
-        {
+        if ($this->use_links) {
             if (!empty($this->links_trans)) {
                 $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-                foreach ($aLinks AS $table => $aKeys)
-                {
-                    if (($table==$table_name))
-                    {
+                foreach ($aLinks as $table => $aKeys) {
+                    if (($table == $table_name)) {
                         unset($aLinks[$table]);
                     }
-                    foreach ($aKeys AS $field => $aTarget)
-                    {
-                        if (($aTarget['table']==$table_name))
-                        {
+                    foreach ($aKeys as $field => $aTarget) {
+                        if (($aTarget['table'] == $table_name)) {
                             unset($aLinks[$table][$field]);
                         }
                     }
@@ -1234,25 +1092,19 @@ class Openads_Schema_Manager
      * @param string $table_name_new
      * @return mixed     true on success or PEAR_ERROR
      */
-    function updateTableLinkRelations($table_name, $table_name_new)
+    public function updateTableLinkRelations($table_name, $table_name_new)
     {
-        if ($this->use_links)
-        {
+        if ($this->use_links) {
             if (!empty($this->links_trans)) {
                 $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-                if (isset($aLinks[$table_name]))
-                {
+                if (isset($aLinks[$table_name])) {
                     $aLinks[$table_name_new] = $aLinks[$table_name];
                     unset($aLinks[$table_name]);
                 }
 
-                foreach ($aLinks AS $table => $aKeys)
-                {
-                    foreach ($aKeys AS $field => $aTarget)
-
-                    {
-                        if (($aTarget['table']==$table_name))
-                        {
+                foreach ($aLinks as $table => $aKeys) {
+                    foreach ($aKeys as $field => $aTarget) {
+                        if (($aTarget['table'] == $table_name)) {
                             $aLinks[$table][$field]['table'] = $table_name_new;
                         }
                     }
@@ -1268,18 +1120,16 @@ class Openads_Schema_Manager
      *
      * @return MDB2_Schema_Validate
      */
-    function init_schema_validator()
+    public function init_schema_validator()
     {
-        if (!isset($this->oValidator))
-        {
-            $fail_on_invalid_names = array();
+        if (!isset($this->oValidator)) {
+            $fail_on_invalid_names = [];
             $valid_types = $this->oSchema->options['valid_types'];
             $force_defaults = '';
 
             $this->oValidator = new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
         }
-        if (!Pear::iserror($this->oValidator))
-        {
+        if (!Pear::iserror($this->oValidator)) {
             return $this->oValidator;
         }
         $this->oLogger->logError($this->oValidator->getUserInfo());
@@ -1335,11 +1185,11 @@ class Openads_Schema_Manager
      *
      * @param string $file_changes
      */
-    function writeMigrationClass($file_changes)
+    public function writeMigrationClass($file_changes)
     {
-        $method_buffer      = '';
-        $task_buffer        = '';
-        $map_buffer         = '';
+        $method_buffer = '';
+        $task_buffer = '';
+        $map_buffer = '';
 
         //$this->testChangeset();
         $aChanges = $this->oSchema->parseChangesetDefinitionFile($file_changes);
@@ -1348,26 +1198,28 @@ class Openads_Schema_Manager
         $this->_buildBuffers($aChanges, 'destructive', $task_buffer, $method_buffer, $map_buffer);
         $this->_buildMap($aChanges['objectmap'], $map_buffer);
 
-        $buffer = file_get_contents(MAX_PATH."/www/devel/templates/class_migration.tpl");
-        $buffer = str_replace('/*version*/' , $aChanges['version'], $buffer);
-        $buffer = str_replace('/*methods*/' , $method_buffer, $buffer);
+        $buffer = file_get_contents(MAX_PATH . "/www/devel/templates/class_migration.tpl");
+        $buffer = str_replace('/*version*/', $aChanges['version'], $buffer);
+        $buffer = str_replace('/*methods*/', $method_buffer, $buffer);
         $buffer = str_replace('/*tasklist*/', $task_buffer, $buffer);
         $buffer = str_replace('/*objectmap*/', $map_buffer, $buffer);
 
-        $file = str_replace('changes_','migration_',$file_changes);
-        $file = str_replace('xml','php',$file);
+        $file = str_replace('changes_', 'migration_', $file_changes);
+        $file = str_replace('xml', 'php', $file);
         $fp = fopen($file, 'w');
-        if ($fp === false)
-        {
-            return PEAR::raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
-                'it was not possible to open the migration output file: '.$file);
+        if ($fp === false) {
+            return PEAR::raiseError(
+                MDB2_SCHEMA_ERROR_WRITER,
+                null,
+                null,
+                'it was not possible to open the migration output file: ' . $file
+            );
         }
 
         fwrite($fp, $buffer);
         fclose($fp);
 
-        if (file_exists($file))
-        {
+        if (file_exists($file)) {
             return $file;
         }
         return false;
@@ -1381,39 +1233,33 @@ class Openads_Schema_Manager
      * @param string $task_buffer
      * @param string $method_buffer
      */
-    function _buildBuffers($aChanges, $timing, &$task_buffer, &$method_buffer)
+    public function _buildBuffers($aChanges, $timing, &$task_buffer, &$method_buffer)
     {
-        foreach ($aChanges['hooks'][$timing]['tables'] AS $table => $aTable_hooks)
-        {
+        foreach ($aChanges['hooks'][$timing]['tables'] as $table => $aTable_hooks) {
             $params = "'{$table}'";
             if (!is_null($aTable_hooks['self'])) {
-                foreach ($aTable_hooks['self'] AS $parent => $method)
-                {
-                    $task_buffer.= $this->_buildTask($method, $timing);
-                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                foreach ($aTable_hooks['self'] as $parent => $method) {
+                    $task_buffer .= $this->_buildTask($method, $timing);
+                    $method_buffer .= $this->_buildMethod($method, $parent, $params);
                 }
             }
 
             if (!is_null($aTable_hooks['fields'])) {
-                foreach ($aTable_hooks['fields'] AS $field => $aField_hooks)
-                {
-                    foreach ($aField_hooks AS $parent => $method)
-                    {
+                foreach ($aTable_hooks['fields'] as $field => $aField_hooks) {
+                    foreach ($aField_hooks as $parent => $method) {
                         $params = "'{$table}', '{$field}'";
-                        $task_buffer.= $this->_buildTask($method, $timing);
-                        $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                        $task_buffer .= $this->_buildTask($method, $timing);
+                        $method_buffer .= $this->_buildMethod($method, $parent, $params);
                     }
                 }
             }
 
             if (!is_null($aTable_hooks['indexes'])) {
-                foreach ($aTable_hooks['indexes'] AS $index => $aIndex_hooks)
-                {
-                    foreach ($aIndex_hooks AS $parent => $method)
-                    {
+                foreach ($aTable_hooks['indexes'] as $index => $aIndex_hooks) {
+                    foreach ($aIndex_hooks as $parent => $method) {
                         $params = "'{$table}', '{$index}'";
-                        $task_buffer.= $this->_buildTask($method, $timing);
-                        $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                        $task_buffer .= $this->_buildTask($method, $timing);
+                        $method_buffer .= $this->_buildMethod($method, $parent, $params);
                     }
                 }
             }
@@ -1425,7 +1271,7 @@ class Openads_Schema_Manager
      * @param string $method
      * @return string
      */
-    function _buildTask($method, $timing)
+    public function _buildTask($method, $timing)
     {
         return "\n\t\t\$this->aTaskList_{$timing}[] = '{$method}';";
     }
@@ -1436,17 +1282,13 @@ class Openads_Schema_Manager
      * @param string $method
      * @return string
      */
-    function _buildMap($map_array, &$map_buffer)
+    public function _buildMap($map_array, &$map_buffer)
     {
-        foreach ($map_array AS $k => $map)
-        {
-            if ($map['toField'] && $map['fromField'])
-            {
-                $map_buffer.= "\n\t\t\$this->aObjectMap['{$map['toTable']}']['{$map['toField']}'] = array('fromTable'=>'{$map['fromTable']}', 'fromField'=>'{$map['fromField']}');";
-            }
-            else
-            {
-                $map_buffer.= "\n\t\t\$this->aObjectMap['{$map['toTable']}'] = array('fromTable'=>'{$map['fromTable']}');";
+        foreach ($map_array as $k => $map) {
+            if ($map['toField'] && $map['fromField']) {
+                $map_buffer .= "\n\t\t\$this->aObjectMap['{$map['toTable']}']['{$map['toField']}'] = array('fromTable'=>'{$map['fromTable']}', 'fromField'=>'{$map['fromField']}');";
+            } else {
+                $map_buffer .= "\n\t\t\$this->aObjectMap['{$map['toTable']}'] = array('fromTable'=>'{$map['fromTable']}');";
             }
         }
     }
@@ -1459,13 +1301,12 @@ class Openads_Schema_Manager
      * @param string $params
      * @return string
      */
-    function _buildMethod($method_name, $parent_name, $params)
+    public function _buildMethod($method_name, $parent_name, $params)
     {
-
         return   "\n\n\tfunction {$method_name}()"
-                ."\n\t{"
-                ."\n\t\treturn \$this->{$parent_name}({$params});"
-                ."\n\t}";
+                . "\n\t{"
+                . "\n\t\treturn \$this->{$parent_name}({$params});"
+                . "\n\t}";
     }
 
     /**
@@ -1478,23 +1319,22 @@ class Openads_Schema_Manager
      * @param string $output
      * @return unknown
      */
-    function testChangeset($output='')
+    public function testChangeset($output = '')
     {
-        if (file_exists($this->schema_trans) && file_exists($this->schema_final))
-        {
-            $aPrev_definition                = $this->oSchema->parseDatabaseDefinitionFile($this->schema_final);
-            $aCurr_definition                = $this->oSchema->parseDatabaseDefinitionFile($this->schema_trans);
-            $aChanges                        = $this->oSchema->compareDefinitions($aCurr_definition, $aPrev_definition);
-            $this->aDump_options['output']   = ($output ? $output : $this->changes_trans);
+        if (file_exists($this->schema_trans) && file_exists($this->schema_final)) {
+            $aPrev_definition = $this->oSchema->parseDatabaseDefinitionFile($this->schema_final);
+            $aCurr_definition = $this->oSchema->parseDatabaseDefinitionFile($this->schema_trans);
+            $aChanges = $this->oSchema->compareDefinitions($aCurr_definition, $aPrev_definition);
+            $this->aDump_options['output'] = ($output ? $output : $this->changes_trans);
             $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
-            $this->aDump_options['split']    = true;
-            $aChanges['version']             = $aCurr_definition['version'];
-            $aChanges['name']                = $aCurr_definition['name'];
-            $aChanges['comments']            = '';
-            $result                         = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
-            $aChangesX                       = $this->oSchema->parseChangesetDefinitionFile($this->changes_trans);
-            $aChanges1                       = $aChangesX['constructive'];
-            $aChanges2                       = $aChangesX['destructive'];
+            $this->aDump_options['split'] = true;
+            $aChanges['version'] = $aCurr_definition['version'];
+            $aChanges['name'] = $aCurr_definition['name'];
+            $aChanges['comments'] = '';
+            $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
+            $aChangesX = $this->oSchema->parseChangesetDefinitionFile($this->changes_trans);
+            $aChanges1 = $aChangesX['constructive'];
+            $aChanges2 = $aChangesX['destructive'];
 //            echo '<div><pre>';
 //            foreach ($aChangesX['test'] as $k=>$v)
 //            {
@@ -1510,12 +1350,9 @@ class Openads_Schema_Manager
             echo '<div><pre>';
             var_dump($aChanges1);
             echo '</pre></div>';
-            if (!Pear::iserror($result))
-            {
+            if (!Pear::iserror($result)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 $this->oLogger->logError($result->getUserInfo());
                 return false;
             }
@@ -1530,13 +1367,13 @@ class Openads_Schema_Manager
      * rebuild the db_DataObject classes
      *
      */
-    function _generateDataObjects($changes_file, $basename)
+    public function _generateDataObjects($changes_file, $basename)
     {
         global $schema, $pathdbo;
         $schema = $this->schema_final;
         $pathdbo = $this->path_dbo;
         $GLOBALS['_MAX']['CONF']['debug']['priority'] = 0;
-        include MAX_PATH.'/scripts/db_dataobject/rebuild.php';
+        include MAX_PATH . '/scripts/db_dataobject/rebuild.php';
 
         return empty($aDboErrors);
     }
@@ -1597,7 +1434,7 @@ class Openads_Schema_Manager
         return in_array(strtolower($database_name), array_map('strtolower', $result));
     }*/
 
-///////////////// work in progress - xml-rpc package management
+    ///////////////// work in progress - xml-rpc package management
     /**
      * register the version with the schema upms server
      * stamp the transitional files as final
@@ -1606,77 +1443,64 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function commitFinalXMLRPC($comments='', $version='', $name='')
+    public function commitFinalXMLRPC($comments = '', $version = '', $name = '')
     {
         $this->oLogger->log('Committing Final Schema');
-        if (empty($comments)||empty($version)||empty($name))
-        {
-            if (empty($name))
-            {
+        if (empty($comments) || empty($version) || empty($name)) {
+            if (empty($name)) {
                 $this->oLogger->logError('User name is empty');
             }
-            if (empty($version))
-            {
+            if (empty($version)) {
                 $this->oLogger->logError('Version is empty');
             }
-            if (empty($comments))
-            {
+            if (empty($comments)) {
                 $this->oLogger->logError('Comments is empty');
             }
             return false;
         }
-        $this->version =  ($version ? $version : $this->version);
-        if (!$this->_registerVersion($version, $name, $comments))
-        {
+        $this->version = ($version ? $version : $this->version);
+        if (!$this->_registerVersion($version, $name, $comments)) {
             $this->oLogger->logError('Failed to register schema version');
             return false;
         }
         $result = ($this->use_links ? file_exists($this->links_trans) : true);
-        if (!$result)
-        {
-            $this->oLogger->logError('Links file not found '.$this->links_trans);
+        if (!$result) {
+            $this->oLogger->logError('Links file not found ' . $this->links_trans);
             return false;
         }
-        if (!file_exists($this->schema_trans))
-        {
-            $this->oLogger->logError('Schema file not found '.$this->schema_trans);
+        if (!file_exists($this->schema_trans)) {
+            $this->oLogger->logError('Schema file not found ' . $this->schema_trans);
             return false;
         }
         $this->setWorkingFiles();
 
         $this->parseWorkingDefinitionFile();
 
-        $basename   = $this->_getBasename();
-        $this->aDB_definition['version'] =  $this->version;
-        $this->aDump_options['custom_tags']['status']='final';
-        $this->changes_final = $this->path_changes_final.'changes_'.$basename.'.xml';
-        if (!$this->createChangeset($this->changes_final, $comments, $version))
-        {
-            $this->oLogger->logError('Failed to create changeset '.$this->changes_final);
+        $basename = $this->_getBasename();
+        $this->aDB_definition['version'] = $this->version;
+        $this->aDump_options['custom_tags']['status'] = 'final';
+        $this->changes_final = $this->path_changes_final . 'changes_' . $basename . '.xml';
+        if (!$this->createChangeset($this->changes_final, $comments, $version)) {
+            $this->oLogger->logError('Failed to create changeset ' . $this->changes_final);
             return false;
         }
         $this->_generateDataObjects($this->changes_final, $basename);
-        if (!$this->writeWorkingDefinitionFile($this->schema_final))
-        {
-            $this->oLogger->logError('Failed to write file '.$this->schema_final);
+        if (!$this->writeWorkingDefinitionFile($this->schema_final)) {
+            $this->oLogger->logError('Failed to write file ' . $this->schema_final);
             return false;
         }
-        $schema = $this->path_changes_final.'schema_'.$basename.'.xml';
-        if (!$this->writeWorkingDefinitionFile($schema))
-        {
-            $this->oLogger->logError('Failed to write file '.$schema);
+        $schema = $this->path_changes_final . 'schema_' . $basename . '.xml';
+        if (!$this->writeWorkingDefinitionFile($schema)) {
+            $this->oLogger->logError('Failed to write file ' . $schema);
             return false;
         }
-        if ($this->use_links)
-        {
-            if (!file_exists($this->links_trans))
-            {
-                $this->oLogger->logError('Links file not found '.$this->links_trans);
+        if ($this->use_links) {
+            if (!file_exists($this->links_trans)) {
+                $this->oLogger->logError('Links file not found ' . $this->links_trans);
                 return false;
             }
-            if (!copy($this->links_trans, $this->links_final))
-            {
-                $this->oLogger->logError('Failed to write file '.$this->links_final);
+            if (!copy($this->links_trans, $this->links_final)) {
+                $this->oLogger->logError('Failed to write file ' . $this->links_final);
                 return false;
             }
         }
@@ -1688,31 +1512,25 @@ class Openads_Schema_Manager
      *
      * @return integer
      */
-    function _getNextVersionXMLRPC()
+    public function _getNextVersionXMLRPC()
     {
         $id = UPMS_getNextVersion($this->aXMLRPCServer);
-        if (!$id)
-        {
+        if (!$id) {
             return false;
         }
         return $id;
     }
 
-    function _registerVersion($id, $name, $comments='-')
+    public function _registerVersion($id, $name, $comments = '-')
     {
-        if ($this->aXMLRPCServer)
-        {
+        if ($this->aXMLRPCServer) {
             $aOld = UPMS_checkVersion($this->aXMLRPCServer, $id);
-            if (is_array($aOld) && array_key_exists($id, $aOld))
-            {
+            if (is_array($aOld) && array_key_exists($id, $aOld)) {
                 //$aErrors[] = 'Schema version '.$id.' was registered by '.$aOld[$id]['user'].' on '.$aOld[$id]['registered'];
                 return false;
-            }
-            else
-            {
+            } else {
                 $aNew = UPMS_registerVersion($this->aXMLRPCServer, $id, $name, $comments);
-                if (!is_array($aNew))
-                {
+                if (!is_array($aNew)) {
                     //$aErrors[] = $aNew;
                     return false;
                 }
@@ -1720,7 +1538,4 @@ class Openads_Schema_Manager
         }
         return true;
     }
-
 }
-
-?>

@@ -23,8 +23,8 @@ require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
  *
  * @static
  */
-class Language_Loader {
-
+class Language_Loader
+{
     /**
      * The method to load the selected language file.
      *
@@ -34,15 +34,16 @@ class Language_Loader {
      * @param string $section section of the system
      * @param string $lang  language symbol
      */
-    public static function load($section = 'default', $lang = null) {
-        if(!defined('phpAds_dbmsname')) {
-            define('phpAds_dbmsname','');
+    public static function load($section = 'default', $lang = null)
+    {
+        if (!defined('phpAds_dbmsname')) {
+            define('phpAds_dbmsname', '');
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (!empty($GLOBALS['_MAX']['PREF'])) {
             $aPref = $GLOBALS['_MAX']['PREF'];
         } else {
-            $aPref = array();
+            $aPref = [];
         }
         if (is_null($lang) && !empty($aPref['language'])) {
             $lang = $aPref['language'];
@@ -54,7 +55,7 @@ class Language_Loader {
         $phpAds_dbmsname = phpAds_dbmsname;
 
         // Always load the English language, in case of incomplete translations
-        if (file_exists (MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php')) {
+        if (file_exists(MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php')) {
             include MAX_PATH . '/lib/max/language/en/' . $section . '.lang.php';
         } else {
             return; // Wrong section
@@ -63,8 +64,7 @@ class Language_Loader {
         // the global preference, if possible
         // If language preference is set, do not load language from config file (common bug here is to check if prefereced language is 'en'!)
         if (!empty($lang)
-            && file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php'))
-        {
+            && file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php')) {
             // Now check if is need to load language (english is loaded)
             if ($lang != 'en') {
                 include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
@@ -79,14 +79,10 @@ class Language_Loader {
             }
 
             if (!empty($confMaxLanguage) && $confMaxLanguage != 'en'
-                && file_exists(MAX_PATH . '/lib/max/language/' . $confMaxLanguage . '/' . $section . '.lang.php'))
-            {
+                && file_exists(MAX_PATH . '/lib/max/language/' . $confMaxLanguage . '/' . $section . '.lang.php')) {
                 include MAX_PATH . '/lib/max/language/' . $confMaxLanguage .
                     '/' . $section . '.lang.php';
             }
         }
     }
-
 }
-
-?>

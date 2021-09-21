@@ -17,14 +17,14 @@ require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
  * and generating invocation codes for publishers
  *
  */
-class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
-
+class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
+{
     /**
      * Set default values for options used by this invocation type
      *
      * @var array Array of $key => $defaultValue
      */
-    var $defaultOptionValues = array('comments' => 0);
+    public $defaultOptionValues = ['comments' => 0];
 
     /**
      * Place invocation form - generate form with group of options for every plugin,
@@ -35,28 +35,28 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
      *
      * @return string  Generated invocation form
      */
-    function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
+    public function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
 
-        $globalVariables = array(
+        $globalVariables = [
             'affiliateid', 'codetype', 'size', 'text', 'dest'
-        );
+        ];
 
         $buffer = '';
 
         $this->zone_invocation = $zone_invocation;
 
-        foreach($globalVariables as $makeMeGlobal) {
+        foreach ($globalVariables as $makeMeGlobal) {
             global $$makeMeGlobal;
             // also make this variable a class attribute
             // so plugins could have an access to these values and modify them
-            $this->$makeMeGlobal =& $$makeMeGlobal;
+            $this->$makeMeGlobal = &$$makeMeGlobal;
         }
 
-        $invocationTypes =& OX_Component::getComponents('invocationTags');
-        foreach($invocationTypes as $pluginKey => $invocationType) {
+        $invocationTypes = &OX_Component::getComponents('invocationTags');
+        foreach ($invocationTypes as $pluginKey => $invocationType) {
             if (!empty($invocationType->publisherPlugin)) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;
                 $names[$pluginKey] = $invocationType->getName();
@@ -77,24 +77,24 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
                 $codetype = $defaultPublisherPlugin;
             }
 
-	        echo "<form name='generate' method='POST' onSubmit='return max_formValidate(this);'>\n";
+            echo "<form name='generate' method='POST' onSubmit='return max_formValidate(this);'>\n";
 
-	        // Show the publisher invocation selection drop down
+            // Show the publisher invocation selection drop down
             echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             echo "<input type='hidden' name='affiliateid' value='{$affiliateid}'>";
-            echo "<tr><td height='25' colspan='3'><b>". $GLOBALS['strChooseTypeOfInvocation'] ."</b></td></tr>";
+            echo "<tr><td height='25' colspan='3'><b>" . $GLOBALS['strChooseTypeOfInvocation'] . "</b></td></tr>";
             echo "<tr><td height='35'>";
-            echo "<select name='codetype' onChange=\"this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
+            echo "<select name='codetype' onChange=\"this.form.submit()\" accesskey=" . $GLOBALS['keyList'] . " tabindex='" . ($tabindex++) . "'>";
 
-            foreach($names as $pluginKey => $invocationTypeName) {
-                echo "<option value='".$pluginKey."'".($codetype == $pluginKey ? ' selected' : '').">".$invocationTypeName."</option>";
+            foreach ($names as $pluginKey => $invocationTypeName) {
+                echo "<option value='" . $pluginKey . "'" . ($codetype == $pluginKey ? ' selected' : '') . ">" . $invocationTypeName . "</option>";
             }
 
             echo "</select>";
-            echo "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif' border='0'>";
+            echo "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/" . $GLOBALS['phpAds_TextDirection'] . "/go_blue.gif' border='0'>";
             echo "</td></tr></table>";
 
-			echo "</form>";
+            echo "</form>";
 
             echo phpAds_ShowBreak($print = false);
             echo "<br />";
@@ -105,7 +105,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
         }
         if (!empty($codetype)) {
             $invocationTag = OX_Component::factoryByComponentIdentifier($codetype);
-            if($invocationTag === false) {
+            if ($invocationTag === false) {
                 OA::debug('Error while factory invocationTag plugin');
                 exit();
             }
@@ -124,12 +124,12 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             }
         }
 
-        echo "<form name='generate' action='".$previewURL."' method='get' target='_blank'>\n";
-		echo "<input type='hidden' name='codetype' value='" . $codetype . "' />";
+        echo "<form name='generate' action='" . $previewURL . "' method='get' target='_blank'>\n";
+        echo "<input type='hidden' name='codetype' value='" . $codetype . "' />";
 
         // Show parameters for the publisher invocation list
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-        echo "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
+        echo "<tr><td height='25' colspan='3'><img src='" . OX::assetPath() . "/images/icon-overview.gif' align='absmiddle'>&nbsp;<b>" . $GLOBALS['strParameters'] . "</b></td></tr>";
         echo "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
         echo "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
         echo "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
@@ -143,7 +143,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
         echo "<input type='hidden' name='affiliateid' value='{$affiliateid}' />";
 
-        echo "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
+        echo "<input type='submit' value='" . $GLOBALS['strGenerate'] . "' name='submitbutton' tabindex='" . ($tabindex++) . "'>";
         echo "</form>";
     }
 
@@ -152,10 +152,8 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
      *
      * @return array An array of options to show for all invocation plugins of this type
      */
-    function getDefaultOptionsList()
+    public function getDefaultOptionsList()
     {
-        return array('comments'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD);
+        return ['comments' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD];
     }
 }
-
-?>

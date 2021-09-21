@@ -20,11 +20,10 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Campaign.php';
  */
 class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
 {
-
     /**
      * The class constructor method.
      */
-    function  __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generate('MAX_Dal_Entities');
@@ -32,7 +31,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         Mock::generatePartial(
             'OX_Maintenance_Priority_Campaign',
             'MockPartialOX_Maintenance_Priority_Campaign',
-            array('_abort')
+            ['_abort']
         );
     }
 
@@ -40,7 +39,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
      * A method to be called before every test to store default
      * mocked data access layers in the service locator.
      */
-    function setUp()
+    public function setUp()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
@@ -54,7 +53,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
      * mocked data access layers from the service locator.
      *
      */
-    function tearDown()
+    public function tearDown()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->remove('MAX_Dal_Entities');
@@ -69,7 +68,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
      * Test 2: Test with the "old" values, and ensure they are correctly set.
      * Test 3: Test with the "new" values, and ensure they are correctly set.
      */
-    function testOX_Maintenance_Priority_Campaign()
+    public function testOX_Maintenance_Priority_Campaign()
     {
         // Test 1
         $aParams = 'foo';
@@ -78,37 +77,37 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
         $oCampaign->tally();
 
-        $aParams = array();
+        $aParams = [];
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
         (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
         $oCampaign->tally();
 
-        $aParams = array('campaign_id' => 'foo');
+        $aParams = ['campaign_id' => 'foo'];
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
         (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
         $oCampaign->tally();
 
-        $aParams = array('priority' => 5);
+        $aParams = ['priority' => 5];
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
         (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
         $oCampaign->tally();
 
         // Test 2
-        $aParams = array(
-            'campaignid'        => 1,
-            'activate_time'     => '2005-01-01',
-            'expire_time'       => '2005-01-31',
-            'views'             => 1000000,
-            'clicks'            => 100000,
-            'conversions'       => 1000,
+        $aParams = [
+            'campaignid' => 1,
+            'activate_time' => '2005-01-01',
+            'expire_time' => '2005-01-31',
+            'views' => 1000000,
+            'clicks' => 100000,
+            'conversions' => 1000,
             'target_impression' => 2,
-            'target_click'      => 3,
+            'target_click' => 3,
             'target_conversion' => 4,
-            'priority'          => 5
-        );
+            'priority' => 5
+        ];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertEqual($oCampaign->id, 1);
         $this->assertEqual($oCampaign->activateTime, '2005-01-01');
@@ -122,18 +121,18 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         $this->assertEqual($oCampaign->priority, 5);
 
         // Test 3
-        $aParams = array(
-            'campaignid'              => 1,
-            'activate_time'           => '2005-01-01',
-            'expire_time'             => '2005-01-31',
+        $aParams = [
+            'campaignid' => 1,
+            'activate_time' => '2005-01-01',
+            'expire_time' => '2005-01-31',
             'impression_target_total' => 1000000,
-            'click_target_total'      => 100000,
+            'click_target_total' => 100000,
             'conversion_target_total' => 1000,
             'impression_target_daily' => 2,
-            'click_target_daily'      => 3,
+            'click_target_daily' => 3,
             'conversion_target_daily' => 4,
-            'priority'                => 5
-        );
+            'priority' => 5
+        ];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertEqual($oCampaign->id, 1);
         $this->assertEqual($oCampaign->activateTime, '2005-01-01');
@@ -159,27 +158,27 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
      *         the correct entities are created for these ads in the
      *         aAds array.
      */
-    function testSetAdverts()
+    public function testSetAdverts()
     {
         $oError = new PEAR_Error();
-        $aAds = array(
-            1 => array('ad_id' => 1, 'type' => 'sql', 'weight' => 2, 'status' => OA_ENTITY_STATUS_RUNNING,),
-            2 => array('ad_id' => 2, 'type' => 'gif', 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING,),
-            3 => array('ad_id' => 3, 'type' => 'sql', 'weight' => 2, 'status' => OA_ENTITY_STATUS_RUNNING,),
-            5 => array('ad_id' => 5, 'type' => 'gif', 'weight' => 3, 'status' => OA_ENTITY_STATUS_AWAITING,),
-        );
+        $aAds = [
+            1 => ['ad_id' => 1, 'type' => 'sql', 'weight' => 2, 'status' => OA_ENTITY_STATUS_RUNNING, ],
+            2 => ['ad_id' => 2, 'type' => 'gif', 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING, ],
+            3 => ['ad_id' => 3, 'type' => 'sql', 'weight' => 2, 'status' => OA_ENTITY_STATUS_RUNNING, ],
+            5 => ['ad_id' => 5, 'type' => 'gif', 'weight' => 3, 'status' => OA_ENTITY_STATUS_AWAITING, ],
+        ];
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oMaxDalEntities =& $oServiceLocator->get('MAX_Dal_Entities');
+        $oMaxDalEntities = &$oServiceLocator->get('MAX_Dal_Entities');
         $oMaxDalEntities->setReturnValueAt(0, 'getAdsByCampaignId', $oError);
         $oMaxDalEntities->setReturnValueAt(1, 'getAdsByCampaignId', null);
         $oMaxDalEntities->setReturnValueAt(2, 'getAdsByCampaignId', $aAds);
-        $oMaxDalEntities->expectArgumentsAt(0, 'getAdsByCampaignId', array(1));
-        $oMaxDalEntities->expectArgumentsAt(1, 'getAdsByCampaignId', array(1));
-        $oMaxDalEntities->expectArgumentsAt(2, 'getAdsByCampaignId', array(1));
+        $oMaxDalEntities->expectArgumentsAt(0, 'getAdsByCampaignId', [1]);
+        $oMaxDalEntities->expectArgumentsAt(1, 'getAdsByCampaignId', [1]);
+        $oMaxDalEntities->expectArgumentsAt(2, 'getAdsByCampaignId', [1]);
         $oMaxDalEntities->expectCallCount('getAdsByCampaignId', 3);
 
         // Test 1
-        $aParams = array('campaignid' => 1);
+        $aParams = ['campaignid' => 1];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertTrue(is_array($oCampaign->aAds));
         $this->assertEqual(count($oCampaign->aAds), 0);
@@ -188,7 +187,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         $this->assertEqual(count($oCampaign->aAds), 0);
 
         // Test 2
-        $aParams = array('campaignid' => 1);
+        $aParams = ['campaignid' => 1];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertTrue(is_array($oCampaign->aAds));
         $this->assertEqual(count($oCampaign->aAds), 0);
@@ -219,29 +218,29 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
      * Test 2: Test with delivery to date in the database, and ensure the values
      *         are correctly stored.
      */
-    function testSetSummaryStatisticsToDate()
+    public function testSetSummaryStatisticsToDate()
     {
-        $aCampaignStats = array(
-            'advertiser_id'   => 1,
-            'campaign_id'     => 1,
-            'name'            => 'Campaign name',
-            'active'          => 't',
-            'num_children'    => 1,
-            'sum_requests'    => 100,
-            'sum_views'       => 99,
-            'sum_clicks'      => 5,
+        $aCampaignStats = [
+            'advertiser_id' => 1,
+            'campaign_id' => 1,
+            'name' => 'Campaign name',
+            'active' => 't',
+            'num_children' => 1,
+            'sum_requests' => 100,
+            'sum_views' => 99,
+            'sum_clicks' => 5,
             'sum_conversions' => 1,
-        );
+        ];
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getCampaignStats', null);
         $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getCampaignStats', $aCampaignStats);
-        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getCampaignStats', array(1, false));
-        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getCampaignStats', array(1, false));
+        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getCampaignStats', [1, false]);
+        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getCampaignStats', [1, false]);
         $oMaxDalMaintenancePriority->expectCallCount('getCampaignStats', 2);
 
         // Test 1
-        $aParams = array('campaignid' => 1);
+        $aParams = ['campaignid' => 1];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertNull($oCampaign->deliveredRequests);
         $this->assertNull($oCampaign->deliveredImpressions);
@@ -272,29 +271,29 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
      * Test 2: Test with delivery today in the database, and ensure the values
      *         are correctly stored.
      */
-    function testSetSummaryStatisticsToday()
+    public function testSetSummaryStatisticsToday()
     {
-        $aCampaignStats = array(
-            'advertiser_id'   => 1,
-            'campaign_id'     => 1,
-            'name'            => 'Campaign Name',
-            'active'          => 't',
-            'num_children'    => 1,
-            'sum_requests'    => 100,
-            'sum_views'       => 99,
-            'sum_clicks'      => 5,
+        $aCampaignStats = [
+            'advertiser_id' => 1,
+            'campaign_id' => 1,
+            'name' => 'Campaign Name',
+            'active' => 't',
+            'num_children' => 1,
+            'sum_requests' => 100,
+            'sum_views' => 99,
+            'sum_clicks' => 5,
             'sum_conversions' => 1,
-        );
+        ];
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getCampaignStats', null);
         $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getCampaignStats', $aCampaignStats);
-        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getCampaignStats', array(1, true, '2006-11-10'));
-        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getCampaignStats', array(1, true, '2006-11-10'));
+        $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getCampaignStats', [1, true, '2006-11-10']);
+        $oMaxDalMaintenancePriority->expectArgumentsAt(1, 'getCampaignStats', [1, true, '2006-11-10']);
         $oMaxDalMaintenancePriority->expectCallCount('getCampaignStats', 2);
 
         // Test 1
-        $aParams = array('campaignid' => 1);
+        $aParams = ['campaignid' => 1];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertNull($oCampaign->deliveredRequests);
         $this->assertNull($oCampaign->deliveredImpressions);
@@ -315,7 +314,4 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
 
         $oMaxDalMaintenancePriority->tally();
     }
-
 }
-
-?>

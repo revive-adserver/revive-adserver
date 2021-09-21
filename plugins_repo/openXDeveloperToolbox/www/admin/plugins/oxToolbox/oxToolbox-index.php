@@ -12,11 +12,9 @@
 
 require_once 'oxToolbox-common.php';
 
-phpAds_PageHeader("devtools-home",'','../../');
+phpAds_PageHeader("devtools-home", '', '../../');
 
-$oTpl = new OA_Plugin_Template('oxToolbox.html','oxToolbox');
+$oTpl = new OA_Plugin_Template('oxToolbox.html', 'oxToolbox');
 $oTpl->display();
 
 phpAds_PageFooter();
-
-?>

@@ -24,24 +24,24 @@ require_once(LIB_PATH . '/Translation.php');
  */
 class OA_Admin_Menu_Section
 {
-    const TYPE_ROOT = 0;
-    const TYPE_TAB_MAIN = 1;
-    const TYPE_LEFT_MAIN = 2;
-    const TYPE_LEFT_SUB = 3;
-    const TYPE_TAB_CONTENT = 4;
-    const TYPE_CONTENT = 5;
+    public const TYPE_ROOT = 0;
+    public const TYPE_TAB_MAIN = 1;
+    public const TYPE_LEFT_MAIN = 2;
+    public const TYPE_LEFT_SUB = 3;
+    public const TYPE_TAB_CONTENT = 4;
+    public const TYPE_CONTENT = 5;
 
-    var $id; //eg campaign-edit
-    var $nameKey; //Translation key without 'str'
-    var $link; //link to script with params
-    var $helpLink; //link to help page
-    var $rank; //float value used to resove conflicts between the sections, defaults to 1
-    var $exclusive; //bolean value stating whether section should be shown exclusively (no sibling sections) when it's active //TODO change to type
-    var $affixed; //bolean value stating whether section should be shown affixed to sibling sections only when it's active //TODO change to type
-    var $aSections; //list of subsections
-    var $oSectionChecker; //checker used to decide whether this section can be shown to the user
-    var $parentSection; //reference to parent section
-    var $aSectionsMap; //hash holding id => section
+    public $id; //eg campaign-edit
+    public $nameKey; //Translation key without 'str'
+    public $link; //link to script with params
+    public $helpLink; //link to help page
+    public $rank; //float value used to resove conflicts between the sections, defaults to 1
+    public $exclusive; //bolean value stating whether section should be shown exclusively (no sibling sections) when it's active //TODO change to type
+    public $affixed; //bolean value stating whether section should be shown affixed to sibling sections only when it's active //TODO change to type
+    public $aSections; //list of subsections
+    public $oSectionChecker; //checker used to decide whether this section can be shown to the user
+    public $parentSection; //reference to parent section
+    public $aSectionsMap; //hash holding id => section
 
     /**
      * When replacing some information for a section, it can happen that you also replace the "link"
@@ -53,7 +53,7 @@ class OA_Admin_Menu_Section
      * @see OA_Admin_UI::redirectSectionToCorrectUrlIfOldUrlDetected()
      * @var bool
      */
-    var $sectionHasBeenReplaced;
+    public $sectionHasBeenReplaced;
 
     /**
      * A string name that indicates relationship between sections on
@@ -61,14 +61,14 @@ class OA_Admin_Menu_Section
      * eg. be displayed with separator added after to separate from other sections
      * @var string
      */
-    var $groupName;
+    public $groupName;
 
     /**
      * Indicates section type. Whether it is eg. main tab or left menu or content tab
      *
      * @var int
      */
-    var $type = -1;
+    public $type = -1;
 
 
     /**
@@ -76,7 +76,7 @@ class OA_Admin_Menu_Section
      *
      * @var OX_Translation
      */
-    var $oTranslation;
+    public $oTranslation;
 
 
     /**
@@ -104,7 +104,7 @@ class OA_Admin_Menu_Section
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
      */
-    function __construct($id, $nameKey, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
+    public function __construct($id, $nameKey, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = [], $rank = 1, $affixed = false, $groupName = null)
     {
         $this->id = $id;
         $this->setNameKey($nameKey);
@@ -116,9 +116,9 @@ class OA_Admin_Menu_Section
         $this->setExclusive($exclusive);
         $this->rank = $rank;
         $this->affixed = $affixed;
-        $this->aSections = array();
-        $this->oSectionChecker = !empty($aAccountPermissions) ? $this->_createSecurityChecker($aAccountPermissions) : null;
-        $this->aSectionsMap = array();
+        $this->aSections = [];
+        $this->oSectionChecker = empty($aAccountPermissions) ? null : $this->_createSecurityChecker($aAccountPermissions);
+        $this->aSectionsMap = [];
         $this->groupName = $groupName;
         // Create instance of OX_Translation
         $this->oTranslation = new OX_Translation();
@@ -126,97 +126,95 @@ class OA_Admin_Menu_Section
     }
 
 
-	function getId()
-	{
+    public function getId()
+    {
         return $this->id;
-	}
+    }
 
 
-	function setExclusive($exclusive)
-	{
+    public function setExclusive($exclusive)
+    {
         $this->exclusive = $exclusive;
-	}
+    }
 
 
-	function setHelpLink($helpLink)
-	{
-	    $this->helpLink = $helpLink;
-	}
+    public function setHelpLink($helpLink)
+    {
+        $this->helpLink = $helpLink;
+    }
 
 
-	function setNameKey($nameKey)
-	{
-	    $this->nameKey = $nameKey;
-	}
+    public function setNameKey($nameKey)
+    {
+        $this->nameKey = $nameKey;
+    }
 
 
-	function setLink($link)
-	{
-	    $this->link = $link;
-	}
+    public function setLink($link)
+    {
+        $this->link = $link;
+    }
 
 
-	function setSectionHasBeenReplaced()
-	{
-	    $this->sectionHasBeenReplaced = true;
-	}
+    public function setSectionHasBeenReplaced()
+    {
+        $this->sectionHasBeenReplaced = true;
+    }
 
 
-	function hasSectionBeenReplaced()
-	{
-	    return $this->sectionHasBeenReplaced;
-	}
+    public function hasSectionBeenReplaced()
+    {
+        return $this->sectionHasBeenReplaced;
+    }
 
 
-	/**
-	 * Returns a translated name of this section
-	 *
-	 * @return unknown
-	 */
-	function getName()
-	{
-	   return $this->oTranslation->translate($this->nameKey);
-	}
+    /**
+     * Returns a translated name of this section
+     *
+     * @return unknown
+     */
+    public function getName()
+    {
+        return $this->oTranslation->translate($this->nameKey);
+    }
 
 
-	function getLink($aParams = array())
-	{
-	    return $this->setLinkParams($aParams);
-	}
+    public function getLink($aParams = [])
+    {
+        return $this->setLinkParams($aParams);
+    }
 
 
-	function setLinkParams($aParams)
-	{
-        if (strpos($this->link,'?'))
-        {
-            foreach ($aParams as $arg => $val)
-            {
-                $this->link = str_replace('{'.$arg.'}',$val,$this->link);
+    public function setLinkParams($aParams)
+    {
+        if (strpos($this->link, '?')) {
+            foreach ($aParams as $arg => $val) {
+                $this->link = str_replace('{' . $arg . '}', $val, $this->link);
             }
         }
         return $this->link;
-	}
+    }
 
 
-	function getHelpLink()
-	{
-	    return $this->helpLink;
-	}
+    public function getHelpLink()
+    {
+        return $this->helpLink;
+    }
 
 
-	function getRank()
-	{
-	    return $this->rank;
-	}
+    public function getRank()
+    {
+        return $this->rank;
+    }
 
 
-	function isExclusive()
-	{
-	    return $this->exclusive;
-	}
+    public function isExclusive()
+    {
+        return $this->exclusive;
+    }
 
 
-    function isAffixed()
+    public function isAffixed()
     {
         return $this->affixed;
     }
@@ -269,20 +267,18 @@ class OA_Admin_Menu_Section
      * @param string $sectionId
      * @return OA_Admin_Menu_Section
      */
-    function &get($sectionId, $checkAccess = true)
+    public function &get($sectionId, $checkAccess = true)
     {
         if (!isset($this->aSectionsMap[$sectionId])) {
-            $errMsg = "MenuSection::get() Cannot get section. No such section with id '".$sectionId."'";
+            $errMsg = "MenuSection::get() Cannot get section. No such section with id '" . $sectionId . "'";
             OA::debug($errMsg, PEAR_LOG_WARNING);
             return null;
         }
 
         $oChildSection = &$this->aSectionsMap[$sectionId];
 
-        if ($checkAccess) {
-            if (!$oChildSection->check()) {
-                $oChildSection =  null;
-            }
+        if ($checkAccess && !$oChildSection->check()) {
+            $oChildSection = null;
         }
 
         return $oChildSection;
@@ -294,92 +290,91 @@ class OA_Admin_Menu_Section
      * be filtered. If type is given only children of a given type are considered.
      * @param boolean $checkAccess indicates whether checks should permormed before letting user access sections
      */
-	function getSections($checkAccess = true, $type = null)
-	{
-	   $aSections = &$this->aSections;
-
-	   if ($checkAccess) {
-	       $aFilteredSections = array();
-	       foreach ($aSections as $oSection) {
-               if ($oSection->check()
-                && ($type == null || $type == $oSection->getType())) {
-                   $aFilteredSections[] = $oSection;
-               }
-	       }
-	       $aSections = $aFilteredSections;
-	   }
-
-	   return $aSections;
-	}
-
-
-	/**
-	 * Returns the parent section of this section
-	 *
-	 * @return OA_Admin_Menu_Section
-	 */
-	function &getParent()
-	{
-	   return $this->parentSection;
-	}
-
-
-	/**
-	 * Returns parent section of a given type. If current section is of the given
-	 * type it will be returned. If there is no parent of a given type null is returned.
-	 *
-	 * @param int $type OA_Admin_Menu_Section type contant
-	 * @return matching section of null in none matched
-	 */
-	function &getParentOrSelf($type)
-	{
-        if ($this->type == $type) {
-            return $this;
-        }
-        else {
-            return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
-        }
-	}
-
-
-	/**
-	 * Returns siblings of this section. If type is given, returns only siblings
-	 * with this type.
-	 *
-	 * @param int $type
-	 * @return array of OA_Admin_Menu_Section objects
-	 */
-	function getSiblings($type)
-	{
-	    if ($this->parentSection == null) {
-	        return array();
-	    }
-	    return $this->parentSection->getSections(true, $type);
-	}
-
-
-	function setParent(&$section)
-	{
-	   $this->parentSection = &$section;
-	}
-
-
-    function &getChecker()
+    public function getSections($checkAccess = true, $type = null)
     {
-      return $this->oSectionChecker;
+        $aSections = &$this->aSections;
+
+        if ($checkAccess) {
+            $aFilteredSections = [];
+            foreach ($aSections as $oSection) {
+                if ($oSection->check()
+                && ($type == null || $type == $oSection->getType())) {
+                    $aFilteredSections[] = $oSection;
+                }
+            }
+            $aSections = $aFilteredSections;
+        }
+
+        return $aSections;
     }
 
 
-    function setChecker(&$oChecker)
+    /**
+     * Returns the parent section of this section
+     *
+     * @return OA_Admin_Menu_Section
+     */
+    public function &getParent()
+    {
+        return $this->parentSection;
+    }
+
+
+    /**
+     * Returns parent section of a given type. If current section is of the given
+     * type it will be returned. If there is no parent of a given type null is returned.
+     *
+     * @param int $type OA_Admin_Menu_Section type contant
+     * @return matching section of null in none matched
+     */
+    public function &getParentOrSelf($type)
+    {
+        if ($this->type == $type) {
+            return $this;
+        } else {
+            return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
+        }
+    }
+
+
+    /**
+     * Returns siblings of this section. If type is given, returns only siblings
+     * with this type.
+     *
+     * @param int $type
+     * @return array of OA_Admin_Menu_Section objects
+     */
+    public function getSiblings($type)
+    {
+        if ($this->parentSection == null) {
+            return [];
+        }
+        return $this->parentSection->getSections(true, $type);
+    }
+
+
+    public function setParent(&$section)
+    {
+        $this->parentSection = &$section;
+    }
+
+
+    public function &getChecker()
+    {
+        return $this->oSectionChecker;
+    }
+
+
+    public function setChecker(&$oChecker)
     {
         $this->oSectionChecker = &$oChecker;
     }
 
 
-    function check()
+    public function check()
     {
         if (empty($this->oSectionChecker)) {
-             return true;
+            return true;
         }
 
         return $this->oSectionChecker->check($this);
@@ -392,11 +387,11 @@ class OA_Admin_Menu_Section
      * added (eg. this is attempt to add it for the second time error is returned.
      *
      */
-    function add(&$section)
+    public function add(&$section)
     {
         // Check if added section is unique in menu
         if (isset($this->aSectionsMap[$section->getId()])) {
-            $errMsg = "MenuSection::add() Cannot add section '".$section->getId()."': section with given id already exists";
+            $errMsg = "MenuSection::add() Cannot add section '" . $section->getId() . "': section with given id already exists";
             return MAX::raiseError($errMsg);
         }
 
@@ -415,17 +410,17 @@ class OA_Admin_Menu_Section
      * @param String $existingSectionId
      * @param OA_Admin_Menu_Section $newSection
      */
-    function insertBefore($existingSectionId, &$newSection)
+    public function insertBefore($existingSectionId, &$newSection)
     {
-    	// Check parent
+        // Check parent
         if (!isset($this->aSectionsMap[$existingSectionId])) {
-            $errMsg = "MenuSection::insertBefore() Cannot insert section '".$newSection->getId()."' before a non existent menu section with id '".$existingSectionId."'";
+            $errMsg = "MenuSection::insertBefore() Cannot insert section '" . $newSection->getId() . "' before a non existent menu section with id '" . $existingSectionId . "'";
             return MAX::raiseError($errMsg);
         }
 
         //check if added section is unique in menu
         if (isset($this->aSectionsMap[$newSection->getId()])) {
-            $errMsg = "MenuSection::insertBefore() Cannot insert section '".$newSection->getId()."': section with given id already exists";
+            $errMsg = "MenuSection::insertBefore() Cannot insert section '" . $newSection->getId() . "': section with given id already exists";
             return MAX::raiseError($errMsg);
         }
 
@@ -445,16 +440,16 @@ class OA_Admin_Menu_Section
      * @param String $existingSectionId
      * @param OA_Admin_Menu_Section $newSection
      */
-    function insertAfter($existingSectionId, &$newSection)
+    public function insertAfter($existingSectionId, &$newSection)
     {
         if (!isset($this->aSectionsMap[$existingSectionId])) {
-            $errMsg = "MenuSection::insertAfter() Cannot insert section '".$newSection->getId()."' after a non existent menu section with id '".$existingSectionId."'";
+            $errMsg = "MenuSection::insertAfter() Cannot insert section '" . $newSection->getId() . "' after a non existent menu section with id '" . $existingSectionId . "'";
             return MAX::raiseError($errMsg);
         }
 
         //check if added section is unique in menu
         if (isset($this->aSectionsMap[$newSection->getId()])) {
-            $errMsg = "MenuSection::insertAfter() Cannot insert section '".$newSection->getId()."': section with given id already exists";
+            $errMsg = "MenuSection::insertAfter() Cannot insert section '" . $newSection->getId() . "': section with given id already exists";
             return MAX::raiseError($errMsg);
         }
 
@@ -470,16 +465,16 @@ class OA_Admin_Menu_Section
     /**
      * Gets index of a section with a given id in the list of this sections.
      */
-    function _getSectionIndex($key, &$sections)
+    public function _getSectionIndex($key, &$sections)
     {
-      //TODO simple search for now replace with some hashing?
-      $arrLength = count($sections);
-      for ($i = 0; $i < $arrLength; $i++) {
-        if ($sections[$i]->getId() == $key) {
-          return $i;
+        //TODO simple search for now replace with some hashing?
+        $arrLength = count($sections);
+        for ($i = 0; $i < $arrLength; $i++) {
+            if ($sections[$i]->getId() == $key) {
+                return $i;
+            }
         }
-      }
-      return -1;
+        return -1;
     }
 
 
@@ -488,57 +483,52 @@ class OA_Admin_Menu_Section
      *
      * @param unknown_type $section
      */
-    function _addToHash(&$section)
+    public function _addToHash(&$section)
     {
-      //add new section to flat array
-      $this->aSectionsMap[$section->getId()] = &$section;
+        //add new section to flat array
+        $this->aSectionsMap[$section->getId()] = &$section;
     }
 
 
-    function _createSecurityChecker($aAccountPermissionPairs)
+    public function _createSecurityChecker($aAccountPermissionPairs)
     {
-    	$checkers = array();
+        $checkers = [];
 
 
-    	foreach ($aAccountPermissionPairs as $elem) {
-        //$elem can be
-        // 1) a single element then it should be an account eg OA_ADMIN_ACCOUNT
-        // 2) an 2 element array key => value
-        //    - KEY stores account(s) and can be:
-        //        * a single account element eg OA_ADMIN_ACCOUNT
-        //        * an array of accounts eg. array(OA_ADMIN_ACCOUNT, OA_MANAGER_ACCOUNT)
-        //    - VALUE stores permissions(s) and can be:
-        //        * a single permission element eg OA_OA_PERM_ZONE_INVOCATION
-        //        * an array of permissions eg. array(OA_PERM_ZONE_INVOCATION, OA_PERM_SUPER_ACCOUNT)
-        // If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions
+        foreach ($aAccountPermissionPairs as $elem) {
+            //$elem can be
+            // 1) a single element then it should be an account eg OA_ADMIN_ACCOUNT
+            // 2) an 2 element array key => value
+            //    - KEY stores account(s) and can be:
+            //        * a single account element eg OA_ADMIN_ACCOUNT
+            //        * an array of accounts eg. array(OA_ADMIN_ACCOUNT, OA_MANAGER_ACCOUNT)
+            //    - VALUE stores permissions(s) and can be:
+            //        * a single permission element eg OA_OA_PERM_ZONE_INVOCATION
+            //        * an array of permissions eg. array(OA_PERM_ZONE_INVOCATION, OA_PERM_SUPER_ACCOUNT)
+            // If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions
 
-    		if (is_array($elem)) { //(account,perm) pair
+            if (is_array($elem)) { //(account,perm) pair
 
-    		    foreach ($elem as $aPairAccounts => $aPairPermissions) { //a hack to get key=> val
-    		      break;
-    		    }
+                $aPairAccounts = array_make(key($elem));
+                $aPairPermissions = array_make(current($elem));
 
-    			$aPairAccounts = array_make($aPairAccounts);
-    			$aPairPermissions = array_make($aPairPermissions);
+                foreach ($aPairAccounts as $i => $aPairAccount) {
+                    $checkers[] = new OA_Admin_Menu_Compound_Checker(
+                        [
+                      new OA_Admin_SectionAccountChecker($aPairAccount),
+                      new OA_Admin_SectionPermissionChecker($aPairPermissions) //plese remember that this checker does OR check for permissions
+                    ],
+                        'AND'
+                    );
+                }
+            } else { //just account only, no associated permission, add to accounts array
+                $justAccounts[] = $elem;
+            }
+        }
 
-                for ($i = 0; $i < count($aPairAccounts); $i++) {
-    			  $checkers[] = new OA_Admin_Menu_Compound_Checker(
-    			    array(
-    			      new OA_Admin_SectionAccountChecker($aPairAccounts[$i]),
-    			      new OA_Admin_SectionPermissionChecker($aPairPermissions) //plese remember that this checker does OR check for permissions
-    			    ),
-    			    'AND'
-    			  );
-    			}
-    		}
-    		else { //just account only, no associated permission, add to accounts array
-    			$justAccounts[] = $elem;
-    		}
-    	}
-
-    	if (!empty($justAccounts)) {
+        if (!empty($justAccounts)) {
             $checkers[] = new OA_Admin_SectionAccountChecker($justAccounts); //add checker for accounts only
-    	}
+        }
 
         return new OA_Admin_Menu_Compound_Checker($checkers, 'OR');
     }
@@ -567,9 +557,7 @@ class OA_Admin_Menu_Section
     {
         if (is_array($var)) {
             return $var;
-        }
-        else {
-            return array($var);
+        } else {
+            return [$var];
         }
     }
-?>

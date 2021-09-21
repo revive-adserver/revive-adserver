@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
 // Get the affiliateid from the querystring if present
-MAX_commonRegisterGlobalsArray(array('id'));
+MAX_commonRegisterGlobalsArray(['id']);
 
 // Get JS
 $output = OA_SPCGetJavaScript($id);
@@ -28,7 +28,7 @@ $output = OA_SPCGetJavaScript($id);
 
 // Output JS
 MAX_commonSendContentTypeHeader("application/x-javascript");
-header("Expires: ".gmdate('r', time() + 86400));
+header("Expires: " . gmdate('r', time() + 86400));
 
 // Flush cookies
 MAX_cookieFlush();
@@ -47,9 +47,13 @@ function OA_SPCGetJavaScript($affiliateid)
     $magic_quotes_gpc = ini_get('magic_quotes_gpc');
 
     foreach ($_GET as $key => $value) {
-        if ($key == 'id') { continue; }
-        if ($magic_quotes_gpc) { $value = stripslashes($value); }
-        $additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
+        if ($key == 'id') {
+            continue;
+        }
+        if ($magic_quotes_gpc) {
+            $value = stripslashes($value);
+        }
+        $additionalParams .= htmlspecialchars('&' . urlencode($key) . '=' . urlencode($value), ENT_QUOTES);
     }
     $script = "
     if (typeof({$varprefix}zones) != 'undefined') {
@@ -61,10 +65,10 @@ function OA_SPCGetJavaScript($affiliateid)
     }
 
     if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
-    var {$varprefix}p=location.protocol=='https:'?'".
-        MAX_commonConstructSecureDeliveryUrl($aConf['file']['singlepagecall'], true).
-        "':'".
-        MAX_commonConstructDeliveryUrl($aConf['file']['singlepagecall'])."';
+    var {$varprefix}p=location.protocol=='https:'?'" .
+        MAX_commonConstructSecureDeliveryUrl($aConf['file']['singlepagecall'], true) .
+        "':'" .
+        MAX_commonConstructDeliveryUrl($aConf['file']['singlepagecall']) . "';
     var {$varprefix}r=Math.floor(Math.random()*99999999);
     {$varprefix}output = new Array();
 
@@ -100,10 +104,10 @@ function OA_SPCGetJavaScript($affiliateid)
             zoneid = zones[name];
         }
 
-        {$varprefix}p=location.protocol=='https:'?'".
-        MAX_commonConstructSecureDeliveryUrl($aConf['file']['popup'], true).
-        "':'".
-        MAX_commonConstructDeliveryUrl($aConf['file']['popup'])."';
+        {$varprefix}p=location.protocol=='https:'?'" .
+        MAX_commonConstructSecureDeliveryUrl($aConf['file']['popup'], true) .
+        "':'" .
+        MAX_commonConstructDeliveryUrl($aConf['file']['popup']) . "';
 
         var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
         {$varprefix}pop+=\"src='\"+{$varprefix}p+\"?zoneid=\"+zoneid;
@@ -122,5 +126,3 @@ function OA_SPCGetJavaScript($affiliateid)
 
     return $script;
 }
-
-?>

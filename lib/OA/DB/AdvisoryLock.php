@@ -20,17 +20,17 @@ require_once 'MDB2.php';
 /**
  * Generic lock type
  */
-define('OA_DB_ADVISORYLOCK_GENERIC',      '0');
+define('OA_DB_ADVISORYLOCK_GENERIC', '0');
 
 /**
  * Maintenance lock type
  */
-define('OA_DB_ADVISORYLOCK_MAINTENANCE',  '1');
+define('OA_DB_ADVISORYLOCK_MAINTENANCE', '1');
 
 /**
  * Distributed lock type
  */
-define('OA_DB_ADVISORYLOCK_DISTRIBUTED',  '2');
+define('OA_DB_ADVISORYLOCK_DISTRIBUTED', '2');
 
 
 /**
@@ -46,7 +46,7 @@ class OA_DB_AdvisoryLock
      *
      * @var OA_DB
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * The lock ID
@@ -54,7 +54,7 @@ class OA_DB_AdvisoryLock
      * @access protected
      * @var string
      */
-    var $_sId;
+    public $_sId;
 
     /**
      * The class constructor method.
@@ -94,13 +94,12 @@ class OA_DB_AdvisoryLock
                 }
             }
 
-            $aDsn  = MDB2::parseDSN($oDbh->getDSN());
+            $aDsn = MDB2::parseDSN($oDbh->getDSN());
             $sType = $aDsn['phptype'];
-
         }
 
-        include_once(MAX_PATH.'/lib/OA/DB/AdvisoryLock/'.$sType.'.php');
-        $sClass = "OA_DB_AdvisoryLock_".$sType;
+        include_once(MAX_PATH . '/lib/OA/DB/AdvisoryLock/' . $sType . '.php');
+        $sClass = "OA_DB_AdvisoryLock_" . $sType;
 
         /** @var OA_DB_AdvisoryLock $oLock */
         $oLock = new $sClass();
@@ -165,7 +164,8 @@ class OA_DB_AdvisoryLock
      *
      * @return boolean True if the current class will work
      */
-    public function _isLockingSupported() {
+    public function _isLockingSupported()
+    {
         return true;
     }
 
@@ -203,7 +203,7 @@ class OA_DB_AdvisoryLock
     public function _getId($sName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $sId = sha1($this->oDbh->getDsn().'/'.$aConf['table']['prefix']);
+        $sId = sha1($this->oDbh->getDsn() . '/' . $aConf['table']['prefix']);
 
         return "OA_{$sName}.{$sId}";
     }

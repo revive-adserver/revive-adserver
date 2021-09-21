@@ -14,12 +14,11 @@ require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 
 class Test_OA_Admin_Option extends UnitTestCase
 {
-
     /**
      * Test pearLogPriorityToConstrantName function
      *
      */
-    function test_pearLogPriorityToConstrantName()
+    public function test_pearLogPriorityToConstrantName()
     {
         $GLOBALS['_MAX']['CONF']['webpath']['adminAssetsVersion'] = '1';
 
@@ -28,5 +27,3 @@ class Test_OA_Admin_Option extends UnitTestCase
         $this->assertEqual('PEAR_LOG_INFO', $oOption->pearLogPriorityToConstrantName('PEAR_LOG_INFO'));
     }
 }
-
-?>

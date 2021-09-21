@@ -27,9 +27,12 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     public $status;                          // SMALLINT(1) => openads_smallint => 145
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns_trackers',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns_trackers', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'campaignid' => 0,
         'trackerid' => 0,
         'status' => 1,
@@ -38,17 +41,17 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-     function _getContextId()
+    public function _getContextId()
     {
         return $this->campaign_trackerid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Campaign Tracker';
     }
@@ -92,17 +95,13 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc'] = 'Campaign #'.$this->campaignid.' -> Tracker #'.$this->trackerid;
-        switch ($actionid)
-        {
+        $aAuditFields['key_desc'] = 'Campaign #' . $this->campaignid . ' -> Tracker #' . $this->trackerid;
+        switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['campaignid']   = $this->campaignid;
+                        $aAuditFields['campaignid'] = $this->campaignid;
                         break;
         }
     }
-
 }
-
-?>

@@ -112,7 +112,6 @@ $phpAds_cont_name['AQ'] = 'Antartica';
 $phpAds_continent['AQ'] = 'AQ';
 
 // Load localized strings
-if (file_exists(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-continent.lang.php'))
-	@include(MAX_PATH.'/lib/max/language/'.$pref['language'].'/res-continent.lang.php');
-
-?>
+if (file_exists(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-continent.lang.php')) {
+    @include(MAX_PATH . '/lib/max/language/' . $pref['language'] . '/res-continent.lang.php');
+}

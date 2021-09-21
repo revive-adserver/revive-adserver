@@ -16,18 +16,17 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Wizard.php';
  * @package OX_Admin_UI
  * @subpackage Install
  */
-class OX_Admin_UI_Install_Wizard
-    extends OX_Admin_UI_Wizard
+class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
 {
     public function __construct($oInstallStatus, $currentStepId = null)
     {
         $oStorage = OX_Admin_UI_Install_InstallUtils::getSessionStorage();
         $aSteps = $this->initSteps($oInstallStatus, $oStorage);
-        $aParams = array(
+        $aParams = [
             'steps' => $aSteps['steps'],
             'stepsMetadata' => $aSteps['meta'],
             'current' => $currentStepId,
-        );
+        ];
         parent::__construct('install', $aParams, $oStorage);
     }
 
@@ -42,41 +41,40 @@ class OX_Admin_UI_Install_Wizard
      */
     protected function initSteps($oStatus, $oStorage)
     {
-        $aMeta = array();
+        $aMeta = [];
 
         if ($oStatus->isRecovery()) {
-            $aSteps = array(
+            $aSteps = [
                 'recovery' => 'Recovery',
-                'finish'   => 'Finish'
-            );
+                'finish' => 'Finish'
+            ];
         }
         if ($oStatus->isInstall()) {
-            $aSteps = array(
-                'welcome'       => 'Welcome',
-                'database'      => 'Database',
+            $aSteps = [
+                'welcome' => 'Welcome',
+                'database' => 'Database',
                 'configuration' => 'Configuration',
-                'finish'        => 'Finish'
-            );
-            $aMeta = array(
-                'finish' => array('secured' => true)
-            );
-        }
-        else if ($oStatus->isUpgrade()) {
-            $aSteps = array(
-                'welcome'       => 'Welcome',
-                'login'         => 'Administrator Login',
-                'database'      => 'Database',
+                'finish' => 'Finish'
+            ];
+            $aMeta = [
+                'finish' => ['secured' => true]
+            ];
+        } elseif ($oStatus->isUpgrade()) {
+            $aSteps = [
+                'welcome' => 'Welcome',
+                'login' => 'Administrator Login',
+                'database' => 'Database',
                 'configuration' => 'Configuration',
-                'finish'        => 'Finish'
-            );
+                'finish' => 'Finish'
+            ];
 
-            $aMeta = array(
-                'welcome'       => array('secured' => false),
-                'login'         => array('secured' => false),
-                'database'      => array('secured' => true),
-                'configuration' => array('secured' => true),
-                'finish'        => array('secured' => true)
-            );
+            $aMeta = [
+                'welcome' => ['secured' => false],
+                'login' => ['secured' => false],
+                'database' => ['secured' => true],
+                'configuration' => ['secured' => true],
+                'finish' => ['secured' => true]
+            ];
 
 
             // Hide steps which are not required
@@ -88,14 +86,11 @@ class OX_Admin_UI_Install_Wizard
                 unset($aSteps['configuration']);
                 unset($aMeta['configuration']);
             }
-        }
-        else if ($oStatus->isUpToDate()) {
-            $aSteps = array(
+        } elseif ($oStatus->isUpToDate()) {
+            $aSteps = [
                 'uptodate' => 'Up To Date'
-            );
+            ];
         }
-        return array('steps' => $aSteps, 'meta' => $aMeta);
+        return ['steps' => $aSteps, 'meta' => $aMeta];
     }
 }
-
-?>

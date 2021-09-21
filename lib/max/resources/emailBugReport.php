@@ -32,4 +32,3 @@ $body = <<< EOF
         </tr>
 </table>
 EOF;
-?>

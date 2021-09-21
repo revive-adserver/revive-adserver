@@ -13,7 +13,7 @@
 /**
  * DB_DataObject for ox_banners_ox_adsense
  */
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
 {
@@ -27,7 +27,10 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
     public $gas_ad_subtype;                  // string(32)  not_null
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ox_banners_ox_adsense',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Ox_banners_ox_adsense', $k, $v);
+    }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -46,10 +49,9 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
     public function getOwningAccountIds($resetCache = false)
     {
         $accountType = OA_Permission::getAccountType(false);
-        switch ($accountType)
-        {
+        switch ($accountType) {
             case OA_ACCOUNT_ADMIN:
-                return parent::_getOwningAccountIdsByAccountId($accountId  = OA_Permission::getAccountId());
+                return parent::_getOwningAccountIdsByAccountId($accountId = OA_Permission::getAccountId());
             case OA_ACCOUNT_ADVERTISER:
                 $parentTable = 'clients';
                 $parentKeyName = 'clientid';
@@ -66,17 +68,17 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
         return $this->_getOwningAccountIds($parentTable, $parentKeyName);
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return false;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->bannerid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'openXHTML Adsense Banner';
     }
@@ -87,8 +89,8 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']   = $this->gas_publisher_id;
+        $aAuditFields['key_desc'] = $this->gas_publisher_id;
     }
 }

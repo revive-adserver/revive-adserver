@@ -24,7 +24,7 @@ interface OA_Admin_UI_Decorator
     
     /**
      * Renders deorator prepend text.
-     * 
+     *
      * @return text that should be prepended to element when rendered, empty string if none
      */
     public function prepend();
@@ -35,5 +35,3 @@ interface OA_Admin_UI_Decorator
      */
     public function append();
 }
-
-?>

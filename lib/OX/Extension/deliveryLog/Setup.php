@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
 /**
  * Global location for storing merged plugins files code
  */
-define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/' . OX_getHostName() . '_mergedDeliveryFunctions.php');
+define('OX_BUCKETS_COMPILED_FILE', MAX_PATH . '/var/cache/' . OX_getHostName() . '_mergedDeliveryFunctions.php');
 
 /**
  * Generates delivery log plugins cache and order the dependencies
@@ -30,28 +30,27 @@ define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/' . OX_getHostName() . '
  */
 class OX_Extension_DeliveryLog_Setup extends OX_Component
 {
+    public const DATA_EXTENSION = 'deliveryDataPrepare';
+    public const LOG_EXTENSION = 'deliveryLog';
 
-    const DATA_EXTENSION = 'deliveryDataPrepare';
-    const LOG_EXTENSION  = 'deliveryLog';
-
-    public $aDeliveryLogHooks = array(
+    public $aDeliveryLogHooks = [
         'preLog',
         'logRequest',
         'logImpression',
         'logClick',
         'logConversion',
         'logConversionVariable',
-    );
+    ];
 
     /**
      * Delivery logging related extension types
      *
      * @var array
      */
-    private $extensionTypes = array(
+    private $extensionTypes = [
         self::DATA_EXTENSION,
         self::LOG_EXTENSION
-    );
+    ];
 
     /**
      * Template for generating delivery cache
@@ -73,7 +72,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *
      * @var array
      */
-    private $aInstalledComponents = array();
+    private $aInstalledComponents = [];
 
     /**
      * Check the dependencies for active delivery log components and
@@ -84,7 +83,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param array $aAllComponentIdsByHooks  Array of all components identifiers
      * @return array  Array of components ids schedules in order of dependency
      */
-    function getDependencyOrderedPlugins($aComponentsToSchedule, $aAllComponentIdsByHooks)
+    public function getDependencyOrderedPlugins($aComponentsToSchedule, $aAllComponentIdsByHooks)
     {
         $aDeliveryComponentsHooks = $this->filterDeliveryHooks($aAllComponentIdsByHooks);
         $pluginsDependencies = $this->getComponentsDependencies($aDeliveryComponentsHooks);
@@ -94,7 +93,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
         }
         $source = new OA_Algorithm_Dependency_Source_HoA($pluginsDependencies);
         // should we update this value only if the result of sorting is positive?
-        $dep = new OA_Algorithm_Dependency_Ordered($source, array(), $ignoreOrphans = true);
+        $dep = new OA_Algorithm_Dependency_Ordered($source, [], $ignoreOrphans = true);
         return array_values($dep->schedule($aComponentsToSchedule));
     }
 
@@ -104,9 +103,9 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param array $aAllComponentsIds  Array of components per hooks keys
      * @return array  Filtered array of components per delivery hooks keys
      */
-    function filterDeliveryHooks($aAllComponentsIds)
+    public function filterDeliveryHooks($aAllComponentsIds)
     {
-        $aDeliveryHooksComponents = array();
+        $aDeliveryHooksComponents = [];
         foreach ($aAllComponentsIds as $hook => &$aComponents) {
             if (in_array($hook, $this->aDeliveryLogHooks)) {
                 $aDeliveryHooksComponents[$hook] = $aComponents;
@@ -127,16 +126,16 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *                  ),
      *                  ....;
      */
-    function getComponentsDependencies($aComponents)
+    public function getComponentsDependencies($aComponents)
     {
-        $dependencies = array();
-        static $aCacheComponents = array(); // static in-memory caching
+        $dependencies = [];
+        static $aCacheComponents = []; // static in-memory caching
         foreach ($aComponents as $hook => $hookComponents) {
             foreach ($hookComponents as $componentId) {
                 if (!isset($aCacheComponents[$componentId])) {
                     $component = $this->_factoryComponentById($componentId);
                     if (!$component) {
-                        $this->_logError('Error when creating component: '.$componentId);
+                        $this->_logError('Error when creating component: ' . $componentId);
                     } else {
                         $aCacheComponents[$componentId] = $component->getDependencies();
                     }
@@ -153,7 +152,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param string $componentId  Component Id, for example: ExtensionName:GroupName:ComponentName
      * @return OX_Component  Returns OX_Component or false on error
      */
-    function _factoryComponentById($componentId)
+    public function _factoryComponentById($componentId)
     {
         return OX_Component::factoryByComponentIdentifier($componentId);
     }
@@ -178,7 +177,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param array $aComponentsByHooks
      * @return boolean  True on success, false on error
      */
-    function regenerateDeliveryPluginsCodeCache($aComponentsByHooks)
+    public function regenerateDeliveryPluginsCodeCache($aComponentsByHooks)
     {
         // Only attempt to create the merged functions file if required
         if (empty($GLOBALS['_MAX']['CONF']['pluginSettings']['useMergedFunctions'])) {
@@ -189,8 +188,8 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
         if (!$mergedDelivery) {
             return false;
         }
-        if(!$this->saveMergedDelivery($mergedDelivery)) {
-            $this->_logError('Error when saving delivery cache, file: '.OX_BUCKETS_COMPILED_FILE);
+        if (!$this->saveMergedDelivery($mergedDelivery)) {
+            $this->_logError('Error when saving delivery cache, file: ' . OX_BUCKETS_COMPILED_FILE);
             return false;
         }
         return true;
@@ -202,9 +201,9 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param array $aComponentsByHooks
      * @return string  Merged delivery code or false on any error
      */
-    function generatePluginsCode($aComponentsByHooks)
+    public function generatePluginsCode($aComponentsByHooks)
     {
-        $componentsFiles = array();
+        $componentsFiles = [];
         $mergedDelivery = '';
         foreach ($aComponentsByHooks as $hookName => &$hookComponents) {
             foreach ($hookComponents as $componentId) {
@@ -213,12 +212,12 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
                 $componentFile = $this->getFilePathToPlugin($extension, $group, $componentName);
                 if (!$componentFile) {
                     $this->_logError('Error while generating delivery cache, file doesn\'t exist: '
-                        .$componentFile);
+                        . $componentFile);
                     return false;
                 }
                 $mungedComponent = $this->mungeFile($componentFile);
                 if (!$mungedComponent) {
-                    $this->_logError('Error while generating delivery cache, file: '.$componentFile);
+                    $this->_logError('Error while generating delivery cache, file: ' . $componentFile);
                     return false;
                 }
                 $mergedDelivery .= $mungedComponent;
@@ -233,7 +232,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param string $mergedDelivery
      * @return boolean  True on success, else false
      */
-    function saveMergedDelivery($mergedDelivery)
+    public function saveMergedDelivery($mergedDelivery)
     {
         return @file_put_contents(OX_BUCKETS_COMPILED_FILE, $mergedDelivery);
     }
@@ -244,7 +243,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param string $sourceCode
      * @return string
      */
-    function templateCode($sourceCode)
+    public function templateCode($sourceCode)
     {
         return str_replace('{TEMPLATE}', $sourceCode, $this->header);
     }
@@ -255,11 +254,11 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param string $file  Delivery file path
      * @return string  Generated source code
      */
-    function mungeFile($file)
+    public function mungeFile($file)
     {
         $oCodeMunger = $this->_getCodeMunger();
         $code = $oCodeMunger->flattenFile($file);
-        return preg_replace(array('/^<\?php/', '/\?>$/'), array('', ''), $code);
+        return preg_replace(['/^<\?php/', '/\?>$/'], ['', ''], $code);
     }
 
     /**
@@ -271,13 +270,11 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param array $aComponentGroups  Component groups - component groups to install
      * @return boolean  True on success, false otherwise
      */
-    function installComponents($extension, $aComponentGroups)
+    public function installComponents($extension, $aComponentGroups)
     {
-        foreach ($aComponentGroups as $group)
-        {
+        foreach ($aComponentGroups as $group) {
             $aComponents = $this->_getComponents($extension, $group);
-            foreach ($aComponents as &$oComponent)
-            {
+            foreach ($aComponents as &$oComponent) {
                 if (!$oComponent->onInstall()) {
                     $this->_logError('Error when installing component: ' . get_class($oComponent));
                     $this->recoverUninstallComponents();
@@ -293,16 +290,16 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * Recovery on failed installation. Calls onUninstall method
      * on every component from components groups.
      */
-    function recoverUninstallComponents()
+    public function recoverUninstallComponents()
     {
         foreach ($this->aInstalledComponents as $componentId) {
             $oComponent = $this->_factoryComponentById($componentId);
             if (!$oComponent) {
-                $this->_logError('Error when creating component: '.$componentId);
+                $this->_logError('Error when creating component: ' . $componentId);
                 continue;
             }
             if (!$oComponent->onUninstall()) {
-                $this->_logError('Error when uninstalling component: '.$componentId);
+                $this->_logError('Error when uninstalling component: ' . $componentId);
             }
         }
     }
@@ -313,7 +310,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *
      * @param Plugins_DeliveryLog $oComponent
      */
-    function markComponentAsInstalled(Plugins_DeliveryLog $oComponent)
+    public function markComponentAsInstalled(Plugins_DeliveryLog $oComponent)
     {
         $this->aInstalledComponents[] = $oComponent->getComponentIdentifier();
     }
@@ -324,7 +321,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *
      * @return OX_Util_CodeMunger
      */
-    function _getCodeMunger()
+    public function _getCodeMunger()
     {
         if (!$this->oCodeMunger) {
             $this->oCodeMunger = new OX_Util_CodeMunger();
@@ -341,11 +338,11 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param string $postfix
      * @return string   File name or false if such file do not exist
      */
-    function getFilePathToPlugin($extensionType, $group, $component, $postfix = '.delivery.php')
+    public function getFilePathToPlugin($extensionType, $group, $component, $postfix = '.delivery.php')
     {
         $oPluginMgr = $this->_getComponentGroupManager();
         $dirPath = MAX_PATH . $oPluginMgr->pathPlugins .
-            $extensionType . '/' . $group.'/';
+            $extensionType . '/' . $group . '/';
         $file = $dirPath . $component . $postfix;
         if (!file_exists($file)) {
             return false;
@@ -358,7 +355,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *
      * @return array  Array of components in chosen extension, group
      */
-    function _getComponents($extension, $group, $recursive = 1, $enabledOnly = false)
+    public function _getComponents($extension, $group, $recursive = 1, $enabledOnly = false)
     {
         return OX_Component::getComponents($extension, $group, $recursive, $enabledOnly);
     }
@@ -368,28 +365,25 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      *
      * @return OX_ManagerPlugin
      */
-    function _getComponentGroupManager()
+    public function _getComponentGroupManager()
     {
         return new OX_Plugin_ComponentGroupManager();
     }
 
-    function _logMessage($msg, $err=PEAR_LOG_INFO)
+    public function _logMessage($msg, $err = PEAR_LOG_INFO)
     {
         OA::debug($msg, $err);
     }
 
-    function _logWarning($msg)
+    public function _logWarning($msg)
     {
         $this->aWarnings[] = $msg;
         $this->_logMessage($msg, PEAR_LOG_WARNING);
     }
 
-    function _logError($msg)
+    public function _logError($msg)
     {
         $this->aErrors[] = $msg;
         $this->_logMessage($msg, PEAR_LOG_ERR);
     }
-
 }
-
-?>

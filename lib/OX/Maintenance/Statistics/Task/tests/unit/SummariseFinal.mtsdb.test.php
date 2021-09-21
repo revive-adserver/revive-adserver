@@ -24,11 +24,10 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,7 +35,7 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
     /**
      * Test the creation of the class.
      */
-    function testCreate()
+    public function testCreate()
     {
         $oSummariseFinal = new OX_Maintenance_Statistics_Task_SummariseFinal();
         $this->assertTrue(is_a($oSummariseFinal, 'OX_Maintenance_Statistics_Task_SummariseFinal'));
@@ -45,21 +44,21 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
     /**
      * A method to test the run() method.
      */
-    function testRun()
+    public function testRun()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
 
-        $aTypes = array(
-            'types' => array(
+        $aTypes = [
+            'types' => [
                 0 => 'request',
                 1 => 'impression',
                 2 => 'click'
-            ),
-            'connections' => array(
+            ],
+            'connections' => [
                 1 => MAX_CONNECTION_AD_IMPRESSION,
                 2 => MAX_CONNECTION_AD_CLICK
-            )
-        );
+            ]
+        ];
 
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
@@ -100,7 +99,7 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         $oDal->tally();
 
         // Prepare the dates
-        $olastDateFinal= new Date('2006-03-09 10:59:59');
+        $olastDateFinal = new Date('2006-03-09 10:59:59');
         $oStartDate = new Date();
         $oStartDate->copy($olastDateFinal);
         $oStartDate->addSeconds(1);
@@ -108,7 +107,7 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectOnce('saveSummary', array($oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly'));
+        $oDal->expectOnce('saveSummary', [$oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly']);
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
@@ -128,7 +127,7 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         $oStartDate->copy($olastDateIntermediate);
         $oStartDate->addSeconds(1);
         $oUpdateIntermediateToDate = new Date('2006-03-09 11:59:59');
-        $olastDateFinal= new Date('2006-03-09 10:59:59');
+        $olastDateFinal = new Date('2006-03-09 10:59:59');
         $oStartDate = new Date();
         $oStartDate->copy($olastDateFinal);
         $oStartDate->addSeconds(1);
@@ -136,7 +135,7 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         // Mock the DAL, and set expectations
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
-        $oDal->expectOnce('saveSummary', array($oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly'));
+        $oDal->expectOnce('saveSummary', [$oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly']);
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
@@ -152,5 +151,4 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
         $oSummariseFinal->run();
         $oDal->tally();
     }
-
 }

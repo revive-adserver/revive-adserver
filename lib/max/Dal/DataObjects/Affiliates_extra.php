@@ -40,7 +40,10 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     public $help_file;                       // VARCHAR(255) => openads_varchar => 2
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates_extra',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates_extra', $k, $v);
+    }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -51,21 +54,22 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->affiliateid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Affiliate Extra';
     }
@@ -108,11 +112,8 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']       = '';
+        $aAuditFields['key_desc'] = '';
     }
-
 }
-
-?>

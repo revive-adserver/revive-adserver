@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +32,10 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'affiliate';
+        $this->entity = 'affiliate';
         $this->breakdown = 'campaign-history';
 
         // This page uses the day span selector element
@@ -50,7 +49,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $publisherId = $this->_getId('publisher');
@@ -58,7 +57,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId));
+        $this->_checkAccess(['publisher' => $publisherId]);
 
         // Fetch campaigns
         $aPlacements = $this->getPublisherCampaigns($publisherId);
@@ -69,11 +68,11 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         }
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'campaignid'  => $placementId,
-            'zoneid'      => $zoneId
-        );
+            'campaignid' => $placementId,
+            'zoneid' => $zoneId
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -85,10 +84,10 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.3.1';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.3.1';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         }
 
         // Add breadcrumbs
@@ -97,7 +96,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
 
         // Add context
         $params = $this->aPageParams;
-        foreach ($aPlacements as $k => $v){
+        foreach ($aPlacements as $k => $v) {
             $params['campaignid'] = $k;
             phpAds_PageContext(
                 MAX_buildName($k, MAX_getPlacementName($v)),
@@ -110,19 +109,16 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'publisher_id' => $publisherId,
             'placement_id' => $placementId
-        );
+        ];
         $this->prepare($aParams, 'stats.php');
     }
-
 }
-
-?>

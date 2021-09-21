@@ -27,16 +27,16 @@ require_once MAX_PATH . '/etc/changes/postscript_openads_upgrade_2.5.67-beta-rc8
  */
 class Migration_postscript_2_5_67_RC8Test extends MigrationTest
 {
-    function testExecute()
+    public function testExecute()
     {
         if ($this->oDbh->dbsyntax == 'pgsql') {
             $prefix = $this->getPrefix();
-            $this->initDatabase(581, array('affiliates'));
+            $this->initDatabase(581, ['affiliates']);
 
-            $aAValues = array(
-                array('name' => 'x'),
-                array('name' => 'y')
-            );
+            $aAValues = [
+                ['name' => 'x'],
+                ['name' => 'y']
+            ];
             foreach ($aAValues as $aValues) {
                 $sql = OA_DB_Sql::sqlForInsert('affiliates', $aValues);
                 $this->oDbh->exec($sql);
@@ -48,25 +48,25 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
             $this->oDbh->exec("ALTER TABLE {$prefix}affiliates ALTER affiliateid SET DEFAULT nextval('{$prefix}foobar')");
 
             // Create a publisher using the nextID call to generate the ID beforehand (two will fail because IDs already exist)
-            $aAValues = array(
-                array(
-                    'affiliateid' => $this->oDbh->nextID($prefix.'affiliates_affiliateid'),
+            $aAValues = [
+                [
+                    'affiliateid' => $this->oDbh->nextID($prefix . 'affiliates_affiliateid'),
                     'name' => 'z1'
-                ),
-                array(
-                    'affiliateid' => $this->oDbh->nextID($prefix.'affiliates_affiliateid'),
+                ],
+                [
+                    'affiliateid' => $this->oDbh->nextID($prefix . 'affiliates_affiliateid'),
                     'name' => 'z2'
-                ),
-                array(
-                    'affiliateid' => $this->oDbh->nextID($prefix.'affiliates_affiliateid'),
+                ],
+                [
+                    'affiliateid' => $this->oDbh->nextID($prefix . 'affiliates_affiliateid'),
                     'name' => 'z3'
-                ),
-            );
-            $aExpect = array(
+                ],
+            ];
+            $aExpect = [
                 'PEAR_Error',
                 'PEAR_Error',
                 'int'
-            );
+            ];
             $this->oDbh->expectError(MDB2_ERROR_CONSTRAINT);
             foreach ($aAValues as $key => $aValues) {
                 $sql = OA_DB_Sql::sqlForInsert('affiliates', $aValues);
@@ -77,8 +77,8 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
 
             Mock::generatePartial(
                 'OA_UpgradeLogger',
-                $mockLogger = 'OA_UpgradeLogger'.rand(),
-                array('logOnly', 'logError', 'log')
+                $mockLogger = 'OA_UpgradeLogger' . rand(),
+                ['logOnly', 'logError', 'log']
             );
 
             $oLogger = new $mockLogger($this);
@@ -92,7 +92,7 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
             $mockUpgrade->oDBUpgrader->oTable = &$this->oaTable;
 
             $postscript = new OA_UpgradePostscript_2_5_67_RC8();
-            $postscript->execute(array(&$mockUpgrade));
+            $postscript->execute([&$mockUpgrade]);
 
             $value = $this->oDbh->queryOne("SELECT nextval('$sequenceName')");
 
@@ -100,4 +100,3 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
         }
     }
 }
-?>

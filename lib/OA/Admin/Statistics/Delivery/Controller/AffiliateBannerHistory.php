@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +32,10 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'affiliate';
+        $this->entity = 'affiliate';
         $this->breakdown = 'banner-history';
 
         // This page uses the day span selector element
@@ -50,15 +49,15 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $publisherId = $this->_getId('publisher');
-        $adId        = $this->_getId('ad', 0);
+        $adId = $this->_getId('ad', 0);
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId));
+        $this->_checkAccess(['publisher' => $publisherId]);
 
         // Fetch banners
         $aAds = $this->getPublisherBanners($publisherId);
@@ -69,11 +68,11 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
         }
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'campaignid'  => $aAds[$adId]['placement_id'],
-            'bannerid'    => $adId
-        );
+            'campaignid' => $aAds[$adId]['placement_id'],
+            'bannerid' => $adId
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -85,10 +84,10 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.3.2';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.3.2';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         }
 
         // Add breadcrumbs
@@ -97,7 +96,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
 
         // Add context
         $params = $this->aPageParams;
-        foreach ($aAds as $k => $v){
+        foreach ($aAds as $k => $v) {
             $params['campaignid'] = $v['placement_id'];
             $params['bannerid'] = $k;
             phpAds_PageContext(
@@ -111,18 +110,16 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'publisher_id' => $publisherId,
-            'ad_id'        => $adId
-        );
+            'ad_id' => $adId
+        ];
         $this->prepare($aParams, 'stats.php');
     }
 }
-
-?>

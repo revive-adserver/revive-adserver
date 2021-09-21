@@ -16,7 +16,6 @@ use RV\Extension\DeliveryLimitations\ClientDataWrapperInterface;
 use Sinergi\BrowserDetector\Browser;
 use Sinergi\BrowserDetector\Os;
 
-
 class SinergiWrapper implements ClientDataWrapperInterface
 {
     /**

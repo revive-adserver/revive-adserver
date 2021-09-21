@@ -23,11 +23,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generate('MAX_Dal_Entities');
@@ -40,7 +39,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      * A method to be called before every test to store default
      * mocked data access layers in the service locator.
      */
-    function setUp()
+    public function setUp()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         $oDBh = new MockMDB2_Driver_Common($this);
@@ -59,7 +58,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      * mocked data access layers from the service locator.
      *
      */
-    function tearDown()
+    public function tearDown()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->remove('MAX_Dal_Entities');
@@ -77,13 +76,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      *         correctly stored when zone impression forecast data is
      *         returned from the data access layer.
      */
-    function test_setZoneForecasts()
+    public function test_setZoneForecasts()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator = OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oDal->setReturnValueAt(0, 'getZonesForecastsForAllZones', array());
-        $oDal->setReturnValueAt(1, 'getZonesForecastsForAllZones', array(1 => 5, 2 => 7, 9 => 9));
+        $oDal->setReturnValueAt(0, 'getZonesForecastsForAllZones', []);
+        $oDal->setReturnValueAt(1, 'getZonesForecastsForAllZones', [1 => 5, 2 => 7, 9 => 9]);
         $oDal->expectCallCount('getZonesForecastsForAllZones', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
@@ -131,36 +130,38 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      * Test 1: Test with no campaigns returned from the DAL.
      * Test 2: Test with campaigns in the DAL.
      */
-    function test_getAllCampaigns()
+    public function test_getAllCampaigns()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator = OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oDal->setReturnValueAt(0, 'getCampaigns', array());
-        $oDal->setReturnValueAt(1, 'getCampaigns',
-            array(
-                new OX_Maintenance_Priority_Campaign(array(
-                    'campaignid'        => 1,
-                    'views'             => 1000,
-                    'clicks'            => 0,
-                    'conversions'       => 0,
-                    'expire_time'       => '2006-01-27',
+        $oDal->setReturnValueAt(0, 'getCampaigns', []);
+        $oDal->setReturnValueAt(
+            1,
+            'getCampaigns',
+            [
+                new OX_Maintenance_Priority_Campaign([
+                    'campaignid' => 1,
+                    'views' => 1000,
+                    'clicks' => 0,
+                    'conversions' => 0,
+                    'expire_time' => '2006-01-27',
                     'target_impression' => 0,
-                    'target_click'      => 0,
+                    'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority'          => 5
-                )),
-                new OX_Maintenance_Priority_Campaign(array(
-                    'campaignid'        => 2,
-                    'views'             => 0,
-                    'clicks'            => 0,
-                    'conversions'       => 0,
+                    'priority' => 5
+                ]),
+                new OX_Maintenance_Priority_Campaign([
+                    'campaignid' => 2,
+                    'views' => 0,
+                    'clicks' => 0,
+                    'conversions' => 0,
                     'target_impression' => 1000,
-                    'target_click'      => 0,
+                    'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority'          => 4
-                ))
-            )
+                    'priority' => 4
+                ])
+            ]
         );
         $oDal->expectCallCount('getCampaigns', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -207,13 +208,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      * Test 3: Test with an array of Adverts passed in, and required impressions set
      *         in the database.
      */
-    function test_setRequiredImpressions()
+    public function test_setRequiredImpressions()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator = OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oDal->setReturnValueAt(0, 'getRequiredAdImpressions', array());
-        $oDal->setReturnValueAt(1, 'getRequiredAdImpressions', array(1 => 1, 3 => 10));
+        $oDal->setReturnValueAt(0, 'getRequiredAdImpressions', []);
+        $oDal->setReturnValueAt(1, 'getRequiredAdImpressions', [1 => 1, 3 => 10]);
         $oDal->expectCallCount('getRequiredAdImpressions', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
@@ -221,35 +222,35 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $aAdverts = array();
+        $aAdverts = [];
         $oAllocateZoneImpressions->_setRequiredImpressions($aAdverts);
         $this->assertTrue(is_array($aAdverts));
         $this->assertTrue(empty($aAdverts));
 
         // Test 2
-        $aAdverts = array();
-        $aAdParams = array(
-            'ad_id'  => 1,
+        $aAdverts = [];
+        $aAdParams = [
+            'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'type'   => 'sql',
+            'type' => 'sql',
             'weight' => 1
-        );
+        ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
-        $aAdParams = array(
-            'ad_id'  => 2,
+        $aAdParams = [
+            'ad_id' => 2,
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'type'   => 'sql',
+            'type' => 'sql',
             'weight' => 1
-        );
+        ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
-        $aAdParams = array(
-            'ad_id'  => 3,
+        $aAdParams = [
+            'ad_id' => 3,
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'type'   => 'sql',
+            'type' => 'sql',
             'weight' => 1
-        );
+        ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
         $oAllocateZoneImpressions->_setRequiredImpressions($aAdverts);
@@ -296,76 +297,80 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      *         tests above, and ensure that the methods work when used
      *         together.
      */
-    function test_setCampaigns()
+    public function test_setCampaigns()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator = OA_ServiceLocator::instance();
         $oMaxDalMaintenancePriority = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getCampaigns',
-            array(
-                new OX_Maintenance_Priority_Campaign(array(
-                    'campaignid'        => 1,
-                    'views'             => 1000,
-                    'clicks'            => 0,
-                    'conversions'       => 0,
-                    'expire_time'       => '2006-01-27',
+        $oMaxDalMaintenancePriority->setReturnValueAt(
+            0,
+            'getCampaigns',
+            [
+                new OX_Maintenance_Priority_Campaign([
+                    'campaignid' => 1,
+                    'views' => 1000,
+                    'clicks' => 0,
+                    'conversions' => 0,
+                    'expire_time' => '2006-01-27',
                     'target_impression' => 0,
-                    'target_click'      => 0,
+                    'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority'          => 5
-                )),
-                new OX_Maintenance_Priority_Campaign(array(
-                    'campaignid'        => 2,
-                    'views'             => 0,
-                    'clicks'            => 0,
-                    'conversions'       => 0,
+                    'priority' => 5
+                ]),
+                new OX_Maintenance_Priority_Campaign([
+                    'campaignid' => 2,
+                    'views' => 0,
+                    'clicks' => 0,
+                    'conversions' => 0,
                     'target_impression' => 1000,
-                    'target_click'      => 0,
+                    'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority'          => 4
-                ))
-            )
+                    'priority' => 4
+                ])
+            ]
         );
         $oMaxDalMaintenancePriority->expectCallCount('getCampaigns', 1);
-        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getRequiredAdImpressions', array(1 => 1, 2 => 9));
-        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getRequiredAdImpressions', array(3 => 5, 4 => 0));
+        $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getRequiredAdImpressions', [1 => 1, 2 => 9]);
+        $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getRequiredAdImpressions', [3 => 5, 4 => 0]);
         $oMaxDalMaintenancePriority->expectCallCount('getRequiredAdImpressions', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
 
-        $oMaxDalEntities =& $oServiceLocator->get('MAX_Dal_Entities');
-        $oMaxDalEntities->setReturnValue('getAdsByCampaignId',
-            array(
-                array(
-                    'ad_id'  => 1,
-                    'type'   => 'web',
+        $oMaxDalEntities = &$oServiceLocator->get('MAX_Dal_Entities');
+        $oMaxDalEntities->setReturnValue(
+            'getAdsByCampaignId',
+            [
+                [
+                    'ad_id' => 1,
+                    'type' => 'web',
                     'weight' => 1,
                     'status' => OA_ENTITY_STATUS_RUNNING
-                ),
-                array(
-                    'ad_id'  => 2,
-                    'type'   => 'web',
+                ],
+                [
+                    'ad_id' => 2,
+                    'type' => 'web',
                     'weight' => 1,
                     'status' => OA_ENTITY_STATUS_RUNNING
-                )
-            ),
-            array(1)
+                ]
+            ],
+            [1]
         );
-        $oMaxDalEntities->setReturnValue('getAdsByCampaignId',
-            array(
-                array(
-                    'ad_id'  => 3,
-                    'type'   => 'web',
+        $oMaxDalEntities->setReturnValue(
+            'getAdsByCampaignId',
+            [
+                [
+                    'ad_id' => 3,
+                    'type' => 'web',
                     'weight' => 1,
                     'status' => OA_ENTITY_STATUS_RUNNING
-                ),
-                array(
-                    'ad_id'  => 4,
-                    'type'   => 'web',
+                ],
+                [
+                    'ad_id' => 4,
+                    'type' => 'web',
                     'weight' => 2,
                     'status' => OA_ENTITY_STATUS_AWAITING
-                )
-            ),
-            array(2)
+                ]
+            ],
+            [2]
         );
         $oMaxDalEntities->expectCallCount('getAdsByCampaignId', 2);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
@@ -431,23 +436,25 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
      * Test 3: Test with a Campaign and Advert objects, but no ad/zone associations.
      * Test 4: Test with a Campaign and Advert objects, and ad/zone associations.
      */
-    function test_setAdZoneAssociations()
+    public function test_setAdZoneAssociations()
     {
         // Prepare the DAL return values for the tests
         $oServiceLocator = OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        $oDal->setReturnValueAt(0, 'getAdZoneAssociationsByAds', array());
-        $oDal->setReturnValueAt(1, 'getAdZoneAssociationsByAds',
-            array(
-                1 => array(
-                         array('zone_id' => 5),
-                         array('zone_id' => 6),
-                         array('zone_id' => 7)
-                     ),
-                2 => array(
-                         array('zone_id' => 5)
-                     )
-            )
+        $oDal->setReturnValueAt(0, 'getAdZoneAssociationsByAds', []);
+        $oDal->setReturnValueAt(
+            1,
+            'getAdZoneAssociationsByAds',
+            [
+                1 => [
+                         ['zone_id' => 5],
+                         ['zone_id' => 6],
+                         ['zone_id' => 7]
+                     ],
+                2 => [
+                         ['zone_id' => 5]
+                     ]
+            ]
         );
         $oDal->expectCallCount('getAdZoneAssociationsByAds', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -462,17 +469,17 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
 
         // Test 2
         $oCampaign = new OX_Maintenance_Priority_Campaign(
-            array(
-                'campaignid'        => 1,
-                'views'             => 1000,
-                'clicks'            => 0,
-                'conversions'       => 0,
-                'expire_time'       => '2006-01-27 23:59:59',
+            [
+                'campaignid' => 1,
+                'views' => 1000,
+                'clicks' => 0,
+                'conversions' => 0,
+                'expire_time' => '2006-01-27 23:59:59',
                 'target_impression' => 0,
-                'target_click'      => 0,
+                'target_click' => 0,
                 'target_conversion' => 0,
-                'priority'          => 5
-            )
+                'priority' => 5
+            ]
         );
         $oAllocateZoneImpressions->aCampaigns[] = $oCampaign;
         $oAllocateZoneImpressions->_setAdZoneAssociations();
@@ -480,10 +487,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
 
         // Test 3
-        $aAdverts = array();
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $aAdverts = [];
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $aAdverts[] = $oAd;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $aAdverts[] = $oAd;
         $oAllocateZoneImpressions->aCampaigns[0]->aAds = $aAdverts;
         $oAllocateZoneImpressions->_setAdZoneAssociations();
@@ -525,7 +532,4 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]['zone_id']));
         $this->assertEqual($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]['zone_id'], 5);
     }
-
 }
-
-?>

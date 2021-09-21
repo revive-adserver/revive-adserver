@@ -19,23 +19,20 @@ require_once MAX_PATH . '/lib/OA/Permission/User.php';
  */
 class OA_Permission_SystemUser extends OA_Permission_User
 {
-
     /**
      * Class constructor
      *
      * @return OA_Permission_User
      */
-    function __construct($userName)
+    public function __construct($userName)
     {
         // Store user information as array
-        $this->aUser = array(
-            'user_id'  => 0,
+        $this->aUser = [
+            'user_id' => 0,
             'username' => $userName,
-        );
+        ];
 
         // Make sure we start with an empty account
         $this->_clearAccountData();
     }
 }
-
-?>

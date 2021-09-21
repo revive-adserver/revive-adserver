@@ -17,9 +17,9 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Zones extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
-    var $dalModelName = 'zones';
-    var $refreshUpdatedFieldIfExists = true;
+    public $onDeleteCascade = true;
+    public $dalModelName = 'zones';
+    public $refreshUpdatedFieldIfExists = true;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -58,9 +58,12 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $show_capped_no_cookie;           // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Zones',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Zones', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'zonename' => '',
         'description' => '',
         'delivery' => 0,
@@ -98,35 +101,35 @@ class DataObjects_Zones extends DB_DataObjectCommon
      * @return boolean
      * @see DB_DataObjectCommon::delete()
      */
-    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
+    public function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
-    	// Handle all "appended" zones
-    	$doZones = $this->factory('zones');
-    	$doZones->init();
-    	$doZones->appendtype = phpAds_ZoneAppendZone;
-    	$doZones->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
-    	$doZones->find();
+        // Handle all "appended" zones
+        $doZones = $this->factory('zones');
+        $doZones->init();
+        $doZones->appendtype = phpAds_ZoneAppendZone;
+        $doZones->whereAdd("append LIKE '%zone:" . $this->zoneid . "%'");
+        $doZones->find();
 
-    	while($doZones->fetch()) {
-			$doZoneUpdate = clone($doZones);
-			$doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
-			$doZoneUpdate->append = '';
-			$doZoneUpdate->update();
-    	}
+        while ($doZones->fetch()) {
+            $doZoneUpdate = clone($doZones);
+            $doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
+            $doZoneUpdate->append = '';
+            $doZoneUpdate->update();
+        }
 
-    	// Handle all "chained" zones
-    	$doZones = $this->factory('zones');
-    	$doZones->init();
-    	$doZones->chain = 'zone:'.$this->zoneid;
-    	$doZones->find();
+        // Handle all "chained" zones
+        $doZones = $this->factory('zones');
+        $doZones->init();
+        $doZones->chain = 'zone:' . $this->zoneid;
+        $doZones->find();
 
-    	while($doZones->fetch()) {
-			$doZoneUpdate = clone($doZones);
-			$doZoneUpdate->chain = '';
-			$doZoneUpdate->update();
-    	}
+        while ($doZones->fetch()) {
+            $doZoneUpdate = clone($doZones);
+            $doZoneUpdate->chain = '';
+            $doZoneUpdate->update();
+        }
 
-    	return parent::delete($useWhere, $cascadeDelete, $parentid);
+        return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
     /**
@@ -137,13 +140,13 @@ class DataObjects_Zones extends DB_DataObjectCommon
      * @return int  the new zoneid
      *
      */
-    function duplicate($newAffiliateId = null)
+    public function duplicate($newAffiliateId = null)
     {
         // Get unique name
         $this->zonename = $GLOBALS['strCopyOf'] . ' ' . $this->zonename;
 
         if (null !== $newAffiliateId) {
-        	$this->affiliateid = $newAffiliateId;
+            $this->affiliateid = $newAffiliateId;
         }
 
         $this->zoneid = null;
@@ -152,17 +155,17 @@ class DataObjects_Zones extends DB_DataObjectCommon
         return $newZoneid;
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return $this->zoneid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Zone';
     }
@@ -205,21 +208,16 @@ class DataObjects_Zones extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']   = $this->zonename;
-        switch ($actionid)
-        {
+        $aAuditFields['key_desc'] = $this->zonename;
+        switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        if (!$this->affiliateid)
-                        {
+                        if (!$this->affiliateid) {
                             $this->find(true);
                         }
-                        $aAuditFields['affiliateid']    = $this->affiliateid;
+                        $aAuditFields['affiliateid'] = $this->affiliateid;
                         break;
         }
     }
-
 }
-
-?>

@@ -32,14 +32,14 @@ $oOptions = new OA_Admin_Option('preferences');
 $prefSection = "banner";
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
-    $aElements   = array();
-    $aCheckboxes = array();
+    $aElements = [];
+    $aCheckboxes = [];
     // Default Banners
     $aElements[] = 'default_banner_image_url';
     $aElements[] = 'default_banner_destination_url';
@@ -53,9 +53,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strXPreferencesHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
 
@@ -80,55 +82,53 @@ phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strDefaultBanners,
-        'items' => array (
-            array (
-                'type'    => 'text',
-                'name'    => 'default_banner_image_url',
-                'text'    => $strDefaultBannerUrl,
-                'size'    => 35,
-                'check'   => 'url'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'default_banner_destination_url',
-                'text'    => $strDefaultBannerDestination,
-                'size'    => 35,
-                'check'   => 'url'
-            )
-        )
-    ),
-    array (
-        'text'  => $strWeightDefaults,
-        'items' => array (
-            array (
-                'type'  => 'text',
-                'name'  => 'default_banner_weight',
-                'text'  => $strDefaultBannerWeight,
-                'size'  => 12,
+$aSettings = [
+    [
+        'text' => $strDefaultBanners,
+        'items' => [
+            [
+                'type' => 'text',
+                'name' => 'default_banner_image_url',
+                'text' => $strDefaultBannerUrl,
+                'size' => 35,
+                'check' => 'url'
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'default_banner_destination_url',
+                'text' => $strDefaultBannerDestination,
+                'size' => 35,
+                'check' => 'url'
+            ]
+        ]
+    ],
+    [
+        'text' => $strWeightDefaults,
+        'items' => [
+            [
+                'type' => 'text',
+                'name' => 'default_banner_weight',
+                'text' => $strDefaultBannerWeight,
+                'size' => 12,
                 'check' => 'wholeNumber'
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'text',
-                'name'  => 'default_campaign_weight',
-                'text'  => $strDefaultCampaignWeight,
-                'size'  => 12,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'default_campaign_weight',
+                'text' => $strDefaultCampaignWeight,
+                'size' => 12,
                 'check' => 'wholeNumber'
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

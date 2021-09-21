@@ -24,13 +24,12 @@ Language_Loader::load();
  */
 class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Simple extends UnitTestCase
 {
-
     /**
      * Local copy of the database connection for use in the tests;
      *
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * Local copy of the OX_Dal_Maintenance_Statistics MSE DAL class for
@@ -38,12 +37,12 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Simple extends UnitTestC
      *
      * @var OX_Dal_Maintenance_Statistics
      */
-    var $oDal;
+    public $oDal;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -60,17 +59,17 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Simple extends UnitTestC
      * impressions and clicks, in the operation interval being
      * migrated.
      */
-    function testSimpleValidData()
+    public function testSimpleValidData()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         // Prepare an array of the required tables used in testing
-        $aTables = array(
-            $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request']    => $aConf['table']['prefix'] . 'data_bkt_r',
+        $aTables = [
+            $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'] => $aConf['table']['prefix'] . 'data_bkt_r',
             $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'] => $aConf['table']['prefix'] . 'data_bkt_m',
-            $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click']      => $aConf['table']['prefix'] . 'data_bkt_c'
-        );
+            $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'] => $aConf['table']['prefix'] . 'data_bkt_c'
+        ];
 
         // Install the openXDeliveryLog plugin, which will create the
         // data bucket tables required for testing
@@ -145,7 +144,7 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Simple extends UnitTestC
 
         // Run the migration of raw data DAL code for a given OI
         $oStart = new Date('2009-01-09 12:00:00');
-        $oEnd   = new Date('2009-01-09 12:59:59');
+        $oEnd = new Date('2009-01-09 12:59:59');
 
         $this->oDal->migrateRawRequests($oStart, $oEnd);
         $this->oDal->migrateRawImpressions($oStart, $oEnd);
@@ -186,7 +185,4 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Simple extends UnitTestC
         // Restore the test environment configuration
         TestEnv::restoreConfig();
     }
-
 }
-
-?>

@@ -21,18 +21,17 @@ require_once MAX_PATH . '/lib/OX/Dal/Maintenance/Statistics/Factory.php';
  */
 class Test_OX_Dal_Maintenance_Statistics_Factory extends UnitTestCase
 {
-
     /**
      * The database type in use.
      *
      * @var string
      */
-    var $dbType = '';
+    public $dbType = '';
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $oDbh = OA_DB::singleton();
@@ -42,13 +41,10 @@ class Test_OX_Dal_Maintenance_Statistics_Factory extends UnitTestCase
     /**
      * Test the creation.
      */
-    function testCreate()
+    public function testCreate()
     {
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $classname = $oFactory->deriveClassName();
         $this->assertEqual($classname, 'OX_Dal_Maintenance_Statistics_' . ucfirst(strtolower($this->dbType)));
     }
-
 }
-
-?>

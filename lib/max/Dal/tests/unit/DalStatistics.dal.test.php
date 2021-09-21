@@ -23,8 +23,8 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 {
-    var $doBanners = null;
-    var $doDSAH = null;
+    public $doBanners = null;
+    public $doDSAH = null;
 
     /**
      * The constructor method.
@@ -32,31 +32,29 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
-        $this->doBanners   = OA_Dal::factoryDO('banners');
+        $this->doBanners = OA_Dal::factoryDO('banners');
         $this->doDSAH = OA_Dal::factoryDO('data_summary_ad_hourly');
     }
 
-    function _insertBanner($aData)
+    public function _insertBanner($aData)
     {
         $this->doBanners->storagetype = 'sql';
-        foreach ($aData AS $key => $val)
-        {
+        foreach ($aData as $key => $val) {
             $this->doBanners->$key = $val;
         }
         return DataGenerator::generateOne($this->doBanners);
     }
 
-    function _insertDataSummaryAdHourly($aData)
+    public function _insertDataSummaryAdHourly($aData)
     {
         $aData['date_time'] = sprintf('%s %02d:00:00', $aData['day'], $aData['hour']);
         unset($aData['day']);
         unset($aData['hour']);
 
-        foreach ($aData AS $key => $val)
-        {
+        foreach ($aData as $key => $val) {
             $this->doDSAH->$key = $val;
         }
         return DataGenerator::generateOne($this->doDSAH);
@@ -73,9 +71,9 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
      * Test 4: Test with multi rows in the database, and ensure correct date is
      *         returned.
      */
-    function testGetPlacementFirstStatsDate()
+    public function testGetPlacementFirstStatsDate()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
@@ -98,19 +96,19 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         // Test 3
         $oNow = new Date();
 
-        $aData = array(
-            'campaignid'=>$placementId,
-            'active'=>'t',
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'campaignid' => $placementId,
+            'active' => 't',
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idBanner1 = $this->_insertBanner($aData);
-        $aData = array(
-            'day'=>'2006-10-30',
-            'hour'=>12,
-            'ad_id'=>$idBanner1,
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'day' => '2006-10-30',
+            'hour' => 12,
+            'ad_id' => $idBanner1,
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idDSAH1 = $this->_insertDataSummaryAdHourly($aData);
 
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
@@ -118,47 +116,47 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertEqual($oResult, $oExpectedDate);
 
         // Test 4
-        $aData = array(
-            'campaignid'=>$placementId,
-            'active'=>'t',
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'campaignid' => $placementId,
+            'active' => 't',
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idBanner2 = $this->_insertBanner($aData);
-        $aData = array(
-            'campaignid'=>999,
-            'active'=>'t',
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'campaignid' => 999,
+            'active' => 't',
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idBanner3 = $this->_insertBanner($aData);
-        $aData = array(
-            'day'=>'2006-10-29',
-            'hour'=>12,
-            'ad_id'=>$idBanner2,
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'day' => '2006-10-29',
+            'hour' => 12,
+            'ad_id' => $idBanner2,
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idDSAH1 = $this->_insertDataSummaryAdHourly($aData);
-        $aData = array(
-            'day'=>'2006-10-28',
-            'hour'=>12,
-            'ad_id'=>$idBanner2,
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'day' => '2006-10-28',
+            'hour' => 12,
+            'ad_id' => $idBanner2,
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idDSAH2 = $this->_insertDataSummaryAdHourly($aData);
-        $aData = array(
-            'day'=>'2006-10-27',
-            'hour'=>12,
-            'ad_id'=>$idBanner2,
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'day' => '2006-10-27',
+            'hour' => 12,
+            'ad_id' => $idBanner2,
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idDSAH3 = $this->_insertDataSummaryAdHourly($aData);
-        $aData = array(
-            'day'=>'2006-10-26',
-            'hour'=>12,
-            'ad_id'=>999,
-            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        $aData = [
+            'day' => '2006-10-26',
+            'hour' => 12,
+            'ad_id' => 999,
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+        ];
         $idDSAH4 = $this->_insertDataSummaryAdHourly($aData);
 
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
@@ -167,7 +165,4 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
         DataGenerator::cleanUp();
     }
-
 }
-
-?>

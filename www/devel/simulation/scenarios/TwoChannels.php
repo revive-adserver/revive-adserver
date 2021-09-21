@@ -23,24 +23,23 @@ class TwoChannels extends SimulationScenario
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         $this->init("TwoChannels");
         $this->setDateTime($GLOBALS['_MAX']['CONF']['sim']['starthour'], $GLOBALS['_MAX']['CONF']['sim']['startday']);
         $this->adSelectCallback = 'saveChannelInfo';
     }
 
-    function run()
+    public function run()
     {
         $this->newTables();
         $this->loadDataset('TwoChannels');
         $this->printPrecis();
-        for($i=1;$i<=$this->scenarioConfig['iterations'];$i++)
-        {
-            $this->printHeading('Started iteration: '. $i, 3);
+        for ($i = 1;$i <= $this->scenarioConfig['iterations'];$i++) {
+            $this->printHeading('Started iteration: ' . $i, 3);
             $this->makeRequests($i);
             $this->runPriority();
-            $this->printHeading('Ended iteration: '. $i, 3);
+            $this->printHeading('Ended iteration: ' . $i, 3);
         }
         //$this->runMaintenance();
         $this->printPostSummary();
@@ -48,11 +47,8 @@ class TwoChannels extends SimulationScenario
 //        var_dump($this->aVarDump);
     }
 
-    function saveChannelInfo()
+    public function saveChannelInfo()
     {
         $this->aVarDump[] = $GLOBALS['_MAX']['CHANNELS'];
     }
-
 }
-
-?>

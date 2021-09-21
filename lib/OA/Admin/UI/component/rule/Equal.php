@@ -15,8 +15,7 @@ require_once 'HTML/QuickForm/Rule.php';
 /**
  * A rule to check if the value from field a equals the value from field b
  */
-class OA_Admin_UI_Rule_Equal
-    extends HTML_QuickForm_Rule
+class OA_Admin_UI_Rule_Equal extends HTML_QuickForm_Rule
 {
     /**
      * Checks if an element is a number with value equal or greater than a given minimum value.
@@ -26,16 +25,14 @@ class OA_Admin_UI_Rule_Equal
      * @access    public
      * @return    boolean   true if a is equal to be
      */
-    function validate($a, $options = null)
+    public function validate($a, $options = null)
     {
         return $a == $options;
     }
 
 
-    function getValidationScript($options = null)
+    public function getValidationScript($options = null)
     {
-        return array('', ""); //return nothing, we use JQuery validate anyway
+        return ['', ""]; //return nothing, we use JQuery validate anyway
     }
-
 }
-?>

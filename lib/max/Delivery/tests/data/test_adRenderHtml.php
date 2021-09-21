@@ -15,26 +15,26 @@
  * @subpackage TestSuite Data
  */
 
-$zoneId		=	0;
-$source		=	'';
-$ct0		=	'';
-$withText	=	false;
-$logClick	=	true;
-$logView	=	true;
-$useAlt		=	false;
-$loc		=	0;
-$referer	= 	'http://some.referrer.com/';
+$zoneId = 0;
+$source = '';
+$ct0 = '';
+$withText = false;
+$logClick = true;
+$logView = true;
+$useAlt = false;
+$loc = 0;
+$referer = 'http://some.referrer.com/';
 
-$aBanner = array(
+$aBanner = [
         'ad_id' => 4,
         'placement_id' => 1,
         'active' => 't',
         'name' => 'Test HTML (1)',
         'type' => 'html',
-        'contenttype' =>'',
+        'contenttype' => '',
         'pluginversion' => 0,
-        'filename' =>'',
-        'imageurl' =>'',
+        'filename' => '',
+        'imageurl' => '',
         'width' => 468,
         'height' => 60,
         'weight' => 1,
@@ -57,6 +57,6 @@ $aBanner = array(
         'alt_contenttype' => '',
         'htmltemplate' => '<a href="https://www.example.com/">Foobar</a>',
         'htmlcache' => '<a href="{clickurl_html}https://www.example.com/">Foobar</a>'
-);
+];
 
 $expect = 'prepend<a href="{clickurl_html}https://www.example.com/">Foobar</a>append';

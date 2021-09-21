@@ -21,11 +21,10 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
  */
 class Test_OA_DB_Table_Statistics extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -36,7 +35,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
      * Requirements:
      * Test 1: Test that only one instance of the class is created.
      */
-    function testSingleton()
+    public function testSingleton()
     {
         // Mock the OA_DB class used in the constructor method
         Mock::generate('OA_DB');
@@ -47,14 +46,14 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table_Statistics',
             'PartialMockOA_DB_Table_Statistics',
-            array('_getDbConnection')
+            ['_getDbConnection']
         );
         $oTable = new PartialMockOA_DB_Table_Statistics($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
-        $oTable1 =& $oTable->singleton();
-        $oTable2 =& $oTable->singleton();
+        $oTable1 = &$oTable->singleton();
+        $oTable2 = &$oTable->singleton();
         $this->assertIdentical($oTable1, $oTable2);
 
         // Ensure the singleton is destroyed
@@ -67,18 +66,18 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
      * Requirements:
      * Test 1: Test that all MPE temporary tables can be created and dropped.
      */
-    function testAllMaintenanceStatisticsTables()
+    public function testAllMaintenanceStatisticsTables()
     {
-        $tmpTables = array(
+        $tmpTables = [
             'tmp_ad_impression',
             'tmp_ad_click',
             'tmp_tracker_impression_ad_impression_connection',
             'tmp_tracker_impression_ad_click_connection',
             'tmp_ad_connection'
-        );
+        ];
 
         // Test 1
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $oDbh = OA_DB::singleton();
         foreach ($tmpTables as $tableName) {
@@ -88,7 +87,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
             RV::enableErrorHandling();
             $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
-        $oTable =& OA_DB_Table_Statistics::singleton();
+        $oTable = &OA_DB_Table_Statistics::singleton();
         foreach ($tmpTables as $tableName) {
             $oTable->createTable($tableName);
         }
@@ -110,7 +109,4 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
         // Restore the testing environment
         TestEnv::restoreEnv();
     }
-
 }
-
-?>

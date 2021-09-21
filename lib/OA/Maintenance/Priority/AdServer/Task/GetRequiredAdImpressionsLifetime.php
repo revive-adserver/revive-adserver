@@ -44,13 +44,12 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  */
 class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime extends OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions
 {
-
     /**
      * The class constructor method.
      *
      * @return OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->type = 'campaign lifetime target(s) and end date are set';
@@ -69,7 +68,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
      * @access private
      * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects.
      */
-    function _getValidCampaigns()
+    public function _getValidCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Get current date
@@ -77,14 +76,14 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
         $oDate->toUTC();
         $dateYMD = $oDate->getDate(DATE_FORMAT_ISO);
         $oDbh = $this->oDal->_getDbConnection();
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'], true);
 
-        $aWheres = array(
-            array("$table.priority >= 1", 'AND'),
-            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
-            array("$table.expire_time >= '$dateYMD'", 'AND'),
-            array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
-        );
+        $aWheres = [
+            ["$table.priority >= 1", 'AND'],
+            ["$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+            ["$table.expire_time >= '$dateYMD'", 'AND'],
+            ["($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND']
+        ];
         return $this->_getAllCampaigns($aWheres);
     }
 
@@ -100,11 +99,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
      *
      * @param OX_Maintenance_Priority_Campaign $oCampaign
      */
-    function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'total', $ignorePast = false)
+    public function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'total', $ignorePast = false)
     {
         parent::getCampaignImpressionInventoryRequirement($oCampaign, 'total');
     }
-
 }
-
-?>

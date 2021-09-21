@@ -22,25 +22,25 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  */
 class Migration_tables_core_129Test extends MigrationTest
 {
-    function testMigrateData()
+    public function testMigrateData()
     {
-        $this->initDatabase(129, array('config', 'preference'));
+        $this->initDatabase(129, ['config', 'preference']);
 
         $this->setupPanConfig();
 
         $migration = new Migration_129();
-        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
+        $migration->init($this->oDbh, MAX_PATH . '/var/DB_Upgrade.test.log');
 
-        $aValues = array('warn_limit_days' => 1);
+        $aValues = ['warn_limit_days' => 1];
 
         $migration->migrateData();
-        $table = $this->oDbh->quoteIdentifier($this->getPrefix().'preference');
+        $table = $this->oDbh->quoteIdentifier($this->getPrefix() . 'preference');
         $rsPreference = DBC::NewRecordSet("SELECT * from {$table}");
 
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
         $aDataPreference = $rsPreference->toArray();
-        foreach($aValues as $column => $value) {
+        foreach ($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
 

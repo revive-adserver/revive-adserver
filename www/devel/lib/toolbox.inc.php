@@ -23,37 +23,28 @@ class OX_DevToolbox
      *
      * @return array of error messages
      */
-    function checkFilePermissions($aFiles)
+    public function checkFilePermissions($aFiles)
     {
-        $aErrors = array();
+        $aErrors = [];
 
-        foreach ($aFiles as $file)
-        {
-            if (empty($file))
-            {
+        foreach ($aFiles as $file) {
+            if (empty($file)) {
                 continue;
             }
-            if (!file_exists($file))
-            {
+            if (!file_exists($file)) {
                 $aErrors['errors'][] = sprintf("The file '%s' does not exist", $file);
-            }
-            elseif (!is_writable($file))
-            {
-                if (is_dir($file))
-                {
+            } elseif (!is_writable($file)) {
+                if (is_dir($file)) {
                     $aErrors['errors'][] = sprintf("The directory '%s' is not writable", $file);
-                    $aErrors['fixes'][]  = sprintf("chmod -R a+w %s", $file);
-                }
-                else
-                {
+                    $aErrors['fixes'][] = sprintf("chmod -R a+w %s", $file);
+                } else {
                     $aErrors['errors'][] = sprintf("The file '%s' is not writable", $file);
-                    $aErrors['fixes'][]  = sprintf("chmod a+w %s", $file);
+                    $aErrors['fixes'][] = sprintf("chmod a+w %s", $file);
                 }
             }
         }
 
-        if (count($aErrors))
-        {
+        if (count($aErrors)) {
             return $aErrors;
         }
         return true;
@@ -115,4 +106,3 @@ class OX_DevToolbox
         return in_array(strtolower($database_name), array_map('strtolower', $result));
     }*/
 }
-?>

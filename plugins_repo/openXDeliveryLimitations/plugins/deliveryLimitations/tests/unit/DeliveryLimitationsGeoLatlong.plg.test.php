@@ -24,11 +24,9 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Latlong extends UnitTestCase
 {
-    function testMAX_checkGeo_Latlong()
+    public function testMAX_checkGeo_Latlong()
     {
-         $this->assertTrue(MAX_checkGeo_Latlong(',10.0000,,10.0000', '==', array('latitude' => 5.000, 'longitude' => 5.0000)));
-         $this->assertFalse(MAX_checkGeo_Latlong(',10.0000,,10.0000', '!=', array('latitude' => 5.000, 'longitude' => 5.0000)));
+        $this->assertTrue(MAX_checkGeo_Latlong(',10.0000,,10.0000', '==', ['latitude' => 5.000, 'longitude' => 5.0000]));
+        $this->assertFalse(MAX_checkGeo_Latlong(',10.0000,,10.0000', '!=', ['latitude' => 5.000, 'longitude' => 5.0000]));
     }
 }
-
-?>

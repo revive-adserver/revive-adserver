@@ -10,29 +10,25 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 class Migration_121 extends Migration
 {
-    function __construct()
+    public function __construct()
     {
         //$this->__construct();
 
-		$this->aTaskList_constructive[] = 'beforeAlterField__acls__type';
-		$this->aTaskList_constructive[] = 'afterAlterField__acls__type';
-
-
+        $this->aTaskList_constructive[] = 'beforeAlterField__acls__type';
+        $this->aTaskList_constructive[] = 'afterAlterField__acls__type';
     }
 
-	function beforeAlterField__acls__type()
-	{
-		return $this->beforeAlterField('acls', 'type');
-	}
+    public function beforeAlterField__acls__type()
+    {
+        return $this->beforeAlterField('acls', 'type');
+    }
 
-	function afterAlterField__acls__type()
-	{
-	    return $this->afterAlterField('acls', 'type');
-	}
+    public function afterAlterField__acls__type()
+    {
+        return $this->afterAlterField('acls', 'type');
+    }
 }
-
-?>

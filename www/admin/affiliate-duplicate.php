@@ -39,15 +39,14 @@ $newName = $doAffiliates->name;
 
 // Queue confirmation message
 $translation = new OX_Translation();
-$translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenDuplicated'],
-    array(MAX::constructURL(MAX_URL_ADMIN, "affiliate-edit.php?affiliateid=$affiliateid"),
+$translated_message = $translation->translate(
+    $GLOBALS['strWebsiteHasBeenDuplicated'],
+    [MAX::constructURL(MAX_URL_ADMIN, "affiliate-edit.php?affiliateid=$affiliateid"),
         htmlspecialchars($oldName),
         MAX::constructURL(MAX_URL_ADMIN, "affiliate-edit.php?affiliateid=$new_affiliateId"),
-        htmlspecialchars($newName))
+        htmlspecialchars($newName)]
 );
 OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
 Header("Location: affiliate-edit.php?affiliateid=$new_affiliateId");
 exit;
-
-?>

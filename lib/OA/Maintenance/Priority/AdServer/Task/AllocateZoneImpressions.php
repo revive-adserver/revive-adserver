@@ -33,16 +33,16 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
  */
 class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
-    var $aAvailableForecastZoneImpressions;
-    var $aOverSubscribedZones;
-    var $aCampaigns;
-    var $aAdZoneAssociations;
-    var $aAdZoneImpressionAllocations;
+    public $aAvailableForecastZoneImpressions;
+    public $aOverSubscribedZones;
+    public $aCampaigns;
+    public $aAdZoneAssociations;
+    public $aAdZoneImpressionAllocations;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->table = $this->_getMaxTablePriorityObj();
@@ -52,7 +52,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      * The main method of the class, that is run by the controlling
      * task runner class.
      */
-    function run()
+    public function run()
     {
         OA::debug('Running Maintenance Priority Engine: Allocate Zone Impressions', PEAR_LOG_DEBUG);
         // Set the zone forecast information
@@ -79,14 +79,14 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      *
      * @access private
      */
-    function _setZoneForecasts()
+    public function _setZoneForecasts()
     {
         // Set the total number of initially avaiable (forecast) zone impressions,
         // from the previously calculated values now stored in the database
         $this->aAvailableForecastZoneImpressions = $this->oDal->getZonesForecastsForAllZones();
         // Save the data on the available impressions for use in dealing with
         // over-subscribed zones
-        $this->aOverSubscribedZones = array();
+        $this->aOverSubscribedZones = [];
         if (!empty($this->aAvailableForecastZoneImpressions)) {
             foreach ($this->aAvailableForecastZoneImpressions as $zoneId => $availableImpressions) {
                 // Is there a forecast?
@@ -98,11 +98,11 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                     // under-delivery
                     $this->aAvailableForecastZoneImpressions[$zoneId] = $this->oDal->getZoneForecastDefaultZoneImpressions();
                 }
-                $this->aOverSubscribedZones[$zoneId] = array(
-                                                           'zoneId'               => $zoneId,
+                $this->aOverSubscribedZones[$zoneId] = [
+                                                           'zoneId' => $zoneId,
                                                            'availableImpressions' => $availableImpressions,
-                                                           'desiredImpressions'   => 0
-                                                       );
+                                                           'desiredImpressions' => 0
+                                                       ];
             }
         }
     }
@@ -116,7 +116,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      *
      * @access private
      */
-    function _setCampaigns()
+    public function _setCampaigns()
     {
         // Get all campaigns in the system
         $this->aCampaigns = $this->_getAllCampaigns();
@@ -141,17 +141,17 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      * @access private
      * @return array An array of OX_Maintenance_Priority_Campaign objects.
      */
-    function _getAllCampaigns()
+    public function _getAllCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $oDbh = $this->oDal->_getDbConnection();
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'], true);
 
-        $aWheres = array(
-            array("$table.priority >= 1", 'AND'),
-            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
-        );
+        $aWheres = [
+            ["$table.priority >= 1", 'AND'],
+            ["$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+        ];
 
         return $this->oDal->getCampaigns($aWheres);
     }
@@ -164,11 +164,11 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      * @param array $aAds An array of {@link OA_Maintenance_Priority_Ad} objects,
      *                    passed by reference.
      */
-    function _setRequiredImpressions(&$aAds)
+    public function _setRequiredImpressions(&$aAds)
     {
-        $aAdvertIds = array();
+        $aAdvertIds = [];
         reset($aAds);
-        while (list($key, $oAd) = each($aAds)) {
+        foreach ($aAds as $key => $oAd) {
             $aAdvertIds[] = $oAd->id;
         }
         if (!empty($aAdvertIds)) {
@@ -176,7 +176,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
             $aRequiredImpressions = $this->oDal->getRequiredAdImpressions($aAdvertIds);
             // Set the required impressions into the array reference
             reset($aAds);
-            while (list($key, $oAd) = each($aAds)) {
+            foreach ($aAds as $key => $oAd) {
                 if (isset($aRequiredImpressions[$oAd->id])) {
                     $aAds[$key]->requiredImpressions = $aRequiredImpressions[$oAd->id];
                 } else {
@@ -192,15 +192,15 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      *
      * @access private
      */
-    function _setAdZoneAssociations()
+    public function _setAdZoneAssociations()
     {
-        $this->aAdZoneAssociations = array();
+        $this->aAdZoneAssociations = [];
         if (is_array($this->aCampaigns) && !empty($this->aCampaigns)) {
             foreach ($this->aCampaigns as $k => $oCampaign) {
                 if (is_array($oCampaign->aAds) && !empty($oCampaign->aAds)) {
-                    $aAdvertIds = array();
+                    $aAdvertIds = [];
                     reset($oCampaign->aAds);
-                    while (list($key, $oAd) = each($oCampaign->aAds)) {
+                    foreach ($oCampaign->aAds as $key => $oAd) {
                         $aAdvertIds[] = $oAd->id;
                     }
                     $aResult = $this->oDal->getAdZoneAssociationsByAds($aAdvertIds);
@@ -219,7 +219,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      * volumes. Results of allocation are stored in the$aAdZoneImpressionAllocations
      * array.
      */
-    function _allocateRequiredImpressions()
+    public function _allocateRequiredImpressions()
     {
         // If campaigns exist
         if (!empty($this->aCampaigns)) {
@@ -233,12 +233,12 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                         // so that direct selection of contract campaign creatives will be based on a
                         // system-wide weighting of the number of impressions each contract campaign
                         // creative requires
-                        $this->aAdZoneImpressionAllocations[] = array(
-                            'ad_id'                => $oAd->id,
-                            'zone_id'              => 0,
+                        $this->aAdZoneImpressionAllocations[] = [
+                            'ad_id' => $oAd->id,
+                            'zone_id' => 0,
                             'required_impressions' => $oAd->requiredImpressions,
-                            'campaign_priority'    => $oCampaign->priority
-                        );
+                            'campaign_priority' => $oCampaign->priority
+                        ];
                         // Set the creative/zone association information for the advertisement
                         if (!isset($this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id])) {
                             continue;
@@ -264,12 +264,12 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                                     $requiredImpressions = round($oAd->requiredImpressions *
                                         ($zone['availableImpressions'] / $totalAvaiableImpressions));
                                     // Record the ad's required impressions on the zone
-                                    $this->aAdZoneImpressionAllocations[] = array(
-                                        'ad_id'                => $oAd->id,
-                                        'zone_id'              => $zone['zone_id'],
+                                    $this->aAdZoneImpressionAllocations[] = [
+                                        'ad_id' => $oAd->id,
+                                        'zone_id' => $zone['zone_id'],
                                         'required_impressions' => $requiredImpressions,
-                                        'campaign_priority'    => $oCampaign->priority
-                                    );
+                                        'campaign_priority' => $oCampaign->priority
+                                    ];
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;
                                     if ($oCampaign->priority > 0) {
@@ -301,18 +301,18 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      *
      * @access private
      */
-    function _calculateOverSubscribedZoneInformation()
+    public function _calculateOverSubscribedZoneInformation()
     {
         if (is_array($this->aOverSubscribedZones) && !empty($this->aOverSubscribedZones)) {
             $globalMessage = '';
             foreach ($this->aOverSubscribedZones as $zoneId => $aZoneInfo) {
                 if (!$aZoneInfo['availableImpressions']) {
-                    $message  = "- Found that Zone ID $zoneId is inactive: Using default forecast";
+                    $message = "- Found that Zone ID $zoneId is inactive: Using default forecast";
                     OA::debug($message, PEAR_LOG_DEBUG);
                     $aZoneInfo['availableImpressions'] = $this->oDal->getZoneForecastDefaultZoneImpressions();
                 }
                 if ($aZoneInfo['desiredImpressions'] > $aZoneInfo['availableImpressions']) {
-                    $message  = "- Found that Zone ID $zoneId was over-subscribed: Want ";
+                    $message = "- Found that Zone ID $zoneId was over-subscribed: Want ";
                     $message .= "{$aZoneInfo['desiredImpressions']} in {$aZoneInfo['availableImpressions']}";
                     $globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);
@@ -345,7 +345,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                         if ($available_impressions < 0) {
                             $available_impressions = 0;
                         }
-                   }
+                    }
                 } else {
                     // Zone is not over-subscribed
                     $this->aOverSubscribedZones[$zoneId]['oversubscribed'] = false;
@@ -361,7 +361,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      * forecast. Results of allocation are stored in the $aAdZoneImpressionAllocations
      * array.
      */
-    function _allocateRequestedImpressions()
+    public function _allocateRequestedImpressions()
     {
         if (is_array($this->aAdZoneImpressionAllocations) && !empty($this->aAdZoneImpressionAllocations)) {
             // Iterate over all of the previous ad/zone required impression allocations
@@ -395,7 +395,4 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
             }
         }
     }
-
 }
-
-?>

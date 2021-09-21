@@ -13,10 +13,9 @@
 require_once 'HTML/QuickForm/Rule.php';
 
 /**
- * A rule to check a minimum value of a number represented by validated string 
+ * A rule to check a minimum value of a number represented by validated string
  */
-class OA_Admin_UI_Rule_Min
-    extends HTML_QuickForm_Rule
+class OA_Admin_UI_Rule_Min extends HTML_QuickForm_Rule
 {
     /**
      * Checks if an element is a number with value equal or greater than a given minimum value.
@@ -26,17 +25,15 @@ class OA_Admin_UI_Rule_Min
      * @access    public
      * @return    boolean   true if value is equal or greater than min
      */
-    function validate($value, $options = null)
+    public function validate($value, $options = null)
     {
-        $numVal = (float)$value;         
+        $numVal = (float)$value;
         return $numVal >= $options;
-    } 
+    }
 
 
-    function getValidationScript($options = null)
+    public function getValidationScript($options = null)
     {
-        return array('', ""); //return nothing, we use JQuery validate anyway
-    } 
-
-} 
-?>
+        return ['', ""]; //return nothing, we use JQuery validate anyway
+    }
+}

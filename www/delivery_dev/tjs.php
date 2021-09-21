@@ -22,17 +22,19 @@ require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit', 'append'));
-if (empty($trackerid)) $trackerid = 0;
+MAX_commonRegisterGlobalsArray(['trackerid', 'inherit', 'append']);
+if (empty($trackerid)) {
+    $trackerid = 0;
+}
 
-$conversionsid = NULL;
+$conversionsid = null;
 $variablesScript = '';
 
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 
 // Log the tracker impression
 $logVars = false;
-$aConversion = $aConversionInfo = array();
+$aConversion = $aConversionInfo = [];
 
 if (($conf['logging']['trackerImpressions'])) {
     // Only log and gather variable data if this conversion connects back
@@ -59,7 +61,7 @@ if ($logVars) {
     // also the code for appending any additional tracker code
     // IF there was a conversion
     echo "$variablesScript";
-} else if ($append == true) {
+} elseif ($append == true) {
     // As $logVars was empty, this could mean that there are
     // no variable values to track and there is no additional
     // appended code required; but it could also mean that
@@ -75,6 +77,4 @@ if ($logVars) {
 }
 
 // Post tracker render hook
-OX_Delivery_Common_hook('postTrackerRender', array(&$aConversion, &$aConversionInfo, &$trackerid, &$inherit));
-
-?>
+OX_Delivery_Common_hook('postTrackerRender', [&$aConversion, &$aConversionInfo, &$trackerid, &$inherit]);

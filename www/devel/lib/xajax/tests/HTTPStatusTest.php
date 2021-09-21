@@ -3,15 +3,15 @@ require_once("../xajax.inc.php");
 
 function returnStatus($number)
 {
-	if ($number == 500) {
-		header("HTTP/1.1 500 Internal Server Error");
-		echo "Testing a server error...";
-	}
-	if ($number == 404) {
-		header("HTTP/1.1 404 Not Found");
-		echo "Testing an unknown URL...";
-	}
-	exit;
+    if ($number == 500) {
+        header("HTTP/1.1 500 Internal Server Error");
+        echo "Testing a server error...";
+    }
+    if ($number == 404) {
+        header("HTTP/1.1 404 Not Found");
+        echo "Testing an unknown URL...";
+    }
+    exit;
 }
 $xajax = new xajax();
 //$xajax->debugOn();

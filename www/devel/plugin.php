@@ -16,12 +16,10 @@
 
 require_once './init.php';
 
-if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
-{
+if (array_key_exists('btn_create', $_POST) && array_key_exists('name', $_POST)) {
     global $pathPluginsTmp;
-    $pathPluginsTmp = MAX_PATH.'/var/tmp'.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
-    if (_fileMissing($pathPluginsTmp))
-    {
+    $pathPluginsTmp = MAX_PATH . '/var/tmp' . $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'];
+    if (_fileMissing($pathPluginsTmp)) {
         return false;
     }
     $aPluginValues = $_POST;
@@ -30,10 +28,8 @@ if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
     $aGroupValues = $aPluginValues['group'];
     unset($aPluginValues['group']);
 
-    if ($aGroupValues)
-    {
-        foreach ($aGroupValues as $name => $aVal)
-        {
+    if ($aGroupValues) {
+        foreach ($aGroupValues as $name => $aVal) {
             $aVals = $aPluginValues;
             $aVals['extension'] = $name;
             $aVals['component'] = $aVal['componentname'];
@@ -48,24 +44,21 @@ if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
 function putPlugin($aVals)
 {
     global $pathPluginsTmp;
-    $target = $pathPluginsTmp.$aVals['name'].'.xml';
+    $target = $pathPluginsTmp . $aVals['name'] . '.xml';
     $source = 'templates/plugins/plugin.xml';
 
     if (_fileExists($target) ||
         (!_putFile($source, $target, $aVals)) ||
-        _fileMissing($target))
-    {
+        _fileMissing($target)) {
         exit(1);
     }
-    $target = MAX_PATH.'/var'.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$aVals['name'].'.readme.txt';
-    if ($fp = fopen($target, 'w'))
-    {
+    $target = MAX_PATH . '/var' . $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . $aVals['name'] . '.readme.txt';
+    if ($fp = fopen($target, 'w')) {
         fclose($fp);
     }
     $data = file_get_contents($target);
-    foreach ($aVals['grouporder'] AS $i => $group)
-    {
-        $data = str_replace('{GROUP'.$i.'}', $group, $data);
+    foreach ($aVals['grouporder'] as $i => $group) {
+        $data = str_replace('{GROUP' . $i . '}', $group, $data);
     }
     $i = file_put_contents($target, $data);
 }
@@ -73,16 +66,15 @@ function putPlugin($aVals)
 function putGroup($aVals)
 {
     global $pathPluginsTmp;
-    $path = $pathPluginsTmp.$aVals['group'];
-    $source = 'templates/plugins/group'.ucfirst($aVals['extension']).'/group'.ucfirst($aVals['extension']).'.xml';
-    $target  = $path.'/'.$aVals['group'].'.xml';
+    $path = $pathPluginsTmp . $aVals['group'];
+    $source = 'templates/plugins/group' . ucfirst($aVals['extension']) . '/group' . ucfirst($aVals['extension']) . '.xml';
+    $target = $path . '/' . $aVals['group'] . '.xml';
 
-    if (_fileExists($path)  ||
+    if (_fileExists($path) ||
         _fileExists($target) ||
         (!_makeDir($path)) ||
         (!_putFile($source, $target, $aVals)) ||
-        _fileMissing($target))
-    {
+        _fileMissing($target)) {
         exit(1);
     }
 }
@@ -90,14 +82,12 @@ function putGroup($aVals)
 function _putFile($source, $target, $aVals)
 {
     $data = file_get_contents($source);
-    foreach ($aVals AS $k => $v)
-    {
-        $data = str_replace('{'.strtoupper($k).'}', $v, $data);
+    foreach ($aVals as $k => $v) {
+        $data = str_replace('{' . strtoupper($k) . '}', $v, $data);
     }
     $i = file_put_contents($target, $data);
-    if (!$i)
-    {
-        echo 'Error writing file '.$target;
+    if (!$i) {
+        echo 'Error writing file ' . $target;
         return false;
     }
     return true;
@@ -105,9 +95,8 @@ function _putFile($source, $target, $aVals)
 
 function _makeDir($path)
 {
-    if (!mkdir($path))
-    {
-        echo 'Failed to create path '.$path;
+    if (!mkdir($path)) {
+        echo 'Failed to create path ' . $path;
         return false;
     }
     return true;
@@ -115,9 +104,8 @@ function _makeDir($path)
 
 function _fileExists($file)
 {
-    if (file_exists($file))
-    {
-        echo 'File exists '.$file;
+    if (file_exists($file)) {
+        echo 'File exists ' . $file;
         return true;
     }
     return false;
@@ -125,15 +113,11 @@ function _fileExists($file)
 
 function _fileMissing($file)
 {
-    if (!file_exists($file))
-    {
-        echo 'File not found '.$file;
+    if (!file_exists($file)) {
+        echo 'File not found ' . $file;
         return true;
     }
     return false;
 }
 
 include 'templates/plugin.html';
-
-
-?>

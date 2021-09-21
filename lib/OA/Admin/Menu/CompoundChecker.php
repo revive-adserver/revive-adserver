@@ -17,19 +17,18 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
  * enclosed checkers. For OR mode, checking is stopped at first success so invocations should
  * not assume that every checker will be invoked.
  */
-class OA_Admin_Menu_Compound_Checker
-    implements OA_Admin_Menu_IChecker
+class OA_Admin_Menu_Compound_Checker implements OA_Admin_Menu_IChecker
 {
-    var $aCheckers;
-    var $mode;
+    public $aCheckers;
+    public $mode;
 
-    function __construct($aCheckers = array(), $mode = 'AND')
+    public function __construct($aCheckers = [], $mode = 'AND')
     {
         $this->aCheckers = $aCheckers;
         $this->mode = $mode;
     }
 
-    function check($oSection)
+    public function check($oSection)
     {
         $aCheckers = $this->_getCheckers();
 
@@ -38,8 +37,8 @@ class OA_Admin_Menu_Compound_Checker
         }
 
         $checkOK = false;
-        for ($i = 0; $i < count($aCheckers); $i++) {
-            $checkOK = $aCheckers[$i]->check($oSection);
+        foreach ($aCheckers as $i => $aChecker) {
+            $checkOK = $aChecker->check($oSection);
             if ($this->mode == 'AND' && !$checkOK) {
                 break;
             } elseif ($this->mode == 'OR' && $checkOK) {
@@ -50,10 +49,8 @@ class OA_Admin_Menu_Compound_Checker
         return $checkOK;
     }
 
-    function _getCheckers()
+    public function _getCheckers()
     {
         return $this->aCheckers;
     }
 }
-
-?>

@@ -47,5 +47,3 @@ $GLOBALS['strSyscheckSeeFullReport'] = "Показать детальную пр
 
 
 /** finish step * */
-
-

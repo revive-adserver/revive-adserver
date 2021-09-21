@@ -30,43 +30,45 @@ $oOptions = new OA_Admin_Option('settings');
 $prefSection = "maintenance";
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
+    $aElements = [];
     // Maintenance Settings
-    $aElements += array(
-        'maintenance_autoMaintenance' => array(
+    $aElements += [
+        'maintenance_autoMaintenance' => [
             'maintenance' => 'autoMaintenance',
-            'bool'        => true
-        ),
-        'maintenance_operationInterval' => array('maintenance' => 'operationInterval')
-    );
+            'bool' => true
+        ],
+        'maintenance_operationInterval' => ['maintenance' => 'operationInterval']
+    ];
     // Priority Settings
-    $aElements += array(
-        'priority_instantUpdate' => array(
+    $aElements += [
+        'priority_instantUpdate' => [
             'priority' => 'instantUpdate',
-            'bool'     => true
-        ),
-        'priority_intentionalOverdelivery' => array('priority' => 'intentionalOverdelivery')
-    );
+            'bool' => true
+        ],
+        'priority_intentionalOverdelivery' => ['priority' => 'intentionalOverdelivery']
+    ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
-            // Queue confirmation message
-            $setPref = $oOptions->getSettingsPreferences($prefSection);
-            $title = $setPref[$prefSection]['name'];
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-                array(htmlspecialchars($title)));
-            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-             // The settings configuration file was written correctly,
-            OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
+        // Queue confirmation message
+        $setPref = $oOptions->getSettingsPreferences($prefSection);
+        $title = $setPref[$prefSection]['name'];
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strXSettingsHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        // The settings configuration file was written correctly,
+        OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
     // Could not write the settings configuration file, store this
     // error message and continue
@@ -83,57 +85,55 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strMaintenanceSettings,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'maintenance_autoMaintenance',
-                'text'	  => $strEnableAutoMaintenance
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'select',
-                'name'    => 'maintenance_operationInterval',
-                'text'    => $strMaintenanceOI,
-                'size'    => 12,
-                'items'   =>  array(
+$aSettings = [
+    [
+        'text' => $strMaintenanceSettings,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'maintenance_autoMaintenance',
+                'text' => $strEnableAutoMaintenance
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'maintenance_operationInterval',
+                'text' => $strMaintenanceOI,
+                'size' => 12,
+                'items' => [
                     60 => 60,
                     30 => 30,
                     20 => 20,
                     15 => 15,
                     10 => 10,
                     5 => 5
-                )
-            )
-        )
-    ),
-    array (
-        'text'  => $strPrioritySettings,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'priority_instantUpdate',
-                'text'    => $strPriorityInstantUpdate
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'priority_intentionalOverdelivery',
-                'text'    => $strPriorityIntentionalOverdelivery,
-                'check'   => 'wholeNumber'
-            ),
-        )
-    )
-);
+                ]
+            ]
+        ]
+    ],
+    [
+        'text' => $strPrioritySettings,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'priority_instantUpdate',
+                'text' => $strPriorityInstantUpdate
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'priority_intentionalOverdelivery',
+                'text' => $strPriorityIntentionalOverdelivery,
+                'check' => 'wholeNumber'
+            ],
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

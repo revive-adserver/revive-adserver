@@ -25,11 +25,10 @@ Language_Loader::load();
  */
 class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -37,7 +36,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents ext
     /**
      * A method to test the _locateComponents() method.
      */
-    function test_locateComponents()
+    public function test_locateComponents()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -59,7 +58,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents ext
         $dia = $aConf['table']['prefix'] . 'data_intermediate_ad';
         $this->assertTrue(is_array($aComponents[$dia]));
         $this->assertEqual(count($aComponents[$dia]), 3);
-        $aComponentClasses = array();
+        $aComponentClasses = [];
         foreach ($aComponents[$dia] as $oComponent) {
             $aComponentClasses[] = get_class($oComponent);
         }
@@ -70,7 +69,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents ext
         $diac = $aConf['table']['prefix'] . 'data_intermediate_ad_connection';
         $this->assertTrue(is_array($aComponents[$diac]));
         $this->assertEqual(count($aComponents[$diac]), 1);
-        $aComponentClasses = array();
+        $aComponentClasses = [];
         foreach ($aComponents[$diac] as $oComponent) {
             $aComponentClasses[] = get_class($oComponent);
         }
@@ -79,74 +78,71 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents ext
         $diavv = $aConf['table']['prefix'] . 'data_intermediate_ad_variable_value';
         $this->assertTrue(is_array($aComponents[$diavv]));
         $this->assertEqual(count($aComponents[$diavv]), 1);
-        $aComponentClasses = array();
+        $aComponentClasses = [];
         foreach ($aComponents[$diavv] as $oComponent) {
             $aComponentClasses[] = get_class($oComponent);
         }
         $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogConversion_LogConversionVariable', $aComponentClasses));
 
-/*
-TODO: move this test from core code to the plugin.  only bundled plugins (or the test plugin) can be used in core tests
+        /*
+        TODO: move this test from core code to the plugin.  only bundled plugins (or the test plugin) can be used in core tests
 
-        // Setup the default OpenX country based impression and click delivery logging plugin for the next test
-        TestEnv::installPluginPackage('openXDeliveryLogCountry', false);
+                // Setup the default OpenX country based impression and click delivery logging plugin for the next test
+                TestEnv::installPluginPackage('openXDeliveryLogCountry', false);
 
-        // Test 3: Test with the default OpenX delivery logging plugin and the OpenX country based impression
-        //         and click delivery logging plugin installed
-        $aComponents = $oSummariseIntermediate->_locateComponents();
-        $this->assertTrue(is_array($aComponents));
-        $this->assertEqual(count($aComponents), 4);
-        $dia = $aConf['table']['prefix'] . 'data_intermediate_ad';
-        $this->assertTrue(is_array($aComponents[$dia]));
-        $this->assertEqual(count($aComponents[$dia]), 4);
-        $aComponentClasses = array();
-        foreach ($aComponents[$dia] as $oComponent) {
-            $aComponentClasses[] = get_class($oComponent);
-        }
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogRequest_LogRequest', $aComponentClasses));
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_LogImpression', $aComponentClasses));
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogClick_LogClick', $aComponentClasses));
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_logImpressionBackup', $aComponentClasses));
+                // Test 3: Test with the default OpenX delivery logging plugin and the OpenX country based impression
+                //         and click delivery logging plugin installed
+                $aComponents = $oSummariseIntermediate->_locateComponents();
+                $this->assertTrue(is_array($aComponents));
+                $this->assertEqual(count($aComponents), 4);
+                $dia = $aConf['table']['prefix'] . 'data_intermediate_ad';
+                $this->assertTrue(is_array($aComponents[$dia]));
+                $this->assertEqual(count($aComponents[$dia]), 4);
+                $aComponentClasses = array();
+                foreach ($aComponents[$dia] as $oComponent) {
+                    $aComponentClasses[] = get_class($oComponent);
+                }
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogRequest_LogRequest', $aComponentClasses));
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_LogImpression', $aComponentClasses));
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogClick_LogClick', $aComponentClasses));
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogImpression_logImpressionBackup', $aComponentClasses));
 
-        $diac = $aConf['table']['prefix'] . 'data_intermediate_ad_connection';
-        $this->assertTrue(is_array($aComponents[$diac]));
-        $this->assertEqual(count($aComponents[$diac]), 1);
-        $aComponentClasses = array();
-        foreach ($aComponents[$diac] as $oComponent) {
-            $aComponentClasses[] = get_class($oComponent);
-        }
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogConversion_LogConversion', $aComponentClasses));
+                $diac = $aConf['table']['prefix'] . 'data_intermediate_ad_connection';
+                $this->assertTrue(is_array($aComponents[$diac]));
+                $this->assertEqual(count($aComponents[$diac]), 1);
+                $aComponentClasses = array();
+                foreach ($aComponents[$diac] as $oComponent) {
+                    $aComponentClasses[] = get_class($oComponent);
+                }
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogConversion_LogConversion', $aComponentClasses));
 
-        $diavv = $aConf['table']['prefix'] . 'data_intermediate_ad_variable_value';
-        $this->assertTrue(is_array($aComponents[$diavv]));
-        $this->assertEqual(count($aComponents[$diavv]), 1);
-        $aComponentClasses = array();
-        foreach ($aComponents[$diavv] as $oComponent) {
-            $aComponentClasses[] = get_class($oComponent);
-        }
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogConversion_LogConversionVariable', $aComponentClasses));
+                $diavv = $aConf['table']['prefix'] . 'data_intermediate_ad_variable_value';
+                $this->assertTrue(is_array($aComponents[$diavv]));
+                $this->assertEqual(count($aComponents[$diavv]), 1);
+                $aComponentClasses = array();
+                foreach ($aComponents[$diavv] as $oComponent) {
+                    $aComponentClasses[] = get_class($oComponent);
+                }
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogConversion_LogConversionVariable', $aComponentClasses));
 
-        $sc = $aConf['table']['prefix'] . 'stats_country';
-        $this->assertTrue(is_array($aComponents[$sc]));
-        $this->assertEqual(count($aComponents[$sc]), 2);
-        $aComponentClasses = array();
-        foreach ($aComponents[$sc] as $oComponent) {
-            $aComponentClasses[] = get_class($oComponent);
-        }
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry', $aComponentClasses));
-        $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogCountry_LogClickCountry', $aComponentClasses));
+                $sc = $aConf['table']['prefix'] . 'stats_country';
+                $this->assertTrue(is_array($aComponents[$sc]));
+                $this->assertEqual(count($aComponents[$sc]), 2);
+                $aComponentClasses = array();
+                foreach ($aComponents[$sc] as $oComponent) {
+                    $aComponentClasses[] = get_class($oComponent);
+                }
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry', $aComponentClasses));
+                $this->assertTrue(in_array('Plugins_DeliveryLog_OxLogCountry_LogClickCountry', $aComponentClasses));
 
-        // Uninstall the installed plugins
-        TestEnv::uninstallPluginPackage('openXDeliveryLogCountry', false);
+                // Uninstall the installed plugins
+                TestEnv::uninstallPluginPackage('openXDeliveryLogCountry', false);
 
-*/
+        */
         // Uninstall the installed plugins
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);
 
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
-
 }
-
-?>

@@ -28,7 +28,7 @@ $oOptions = new OA_Admin_Option('settings');
 $prefSection = "tracking";
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
@@ -37,16 +37,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
+    $aElements = [];
     // Conversion Tracking Settings
-    $aElements += array(
-        'logging_trackerImpressions' => array(
+    $aElements += [
+        'logging_trackerImpressions' => [
             'logging' => 'trackerImpressions',
-            'bool'    => true
-        ),
-        'logging_defaultImpressionConnectionWindow' => array('logging' => 'defaultImpressionConnectionWindow'),
-        'logging_defaultClickConnectionWindow'      => array('logging' => 'defaultClickConnectionWindow'),
-    );
+            'bool' => true
+        ],
+        'logging_defaultImpressionConnectionWindow' => ['logging' => 'defaultImpressionConnectionWindow'],
+        'logging_defaultClickConnectionWindow' => ['logging' => 'defaultClickConnectionWindow'],
+    ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
@@ -92,7 +92,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                     }
                 }
             }
-        } else if (!$logging_trackerImpressions && $logging_trackerImpressionsCurrent) {
+        } elseif (!$logging_trackerImpressions && $logging_trackerImpressionsCurrent) {
             // Conversion tracking has been turned off, need to update
             // account preferences to not display any of the conversion
             // tracking columns in statistics screens
@@ -115,9 +115,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strXSettingsHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
@@ -136,51 +138,49 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strConversionTracking,
-        'items' => array (
-            array (
-                'type'    => 'hiddencheckbox',
-                'name'    => 'logging_adImpressions'
-            ),
-            array (
-                'type'    => 'hiddencheckbox',
-                'name'    => 'logging_adClicks'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_trackerImpressions',
-                'text'    => $strEnableConversionTracking
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_defaultImpressionConnectionWindow',
-                'text'    => $strDefaultImpConvWindow,
-                'size'    => 12,
+$aSettings = [
+    [
+        'text' => $strConversionTracking,
+        'items' => [
+            [
+                'type' => 'hiddencheckbox',
+                'name' => 'logging_adImpressions'
+            ],
+            [
+                'type' => 'hiddencheckbox',
+                'name' => 'logging_adClicks'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'logging_trackerImpressions',
+                'text' => $strEnableConversionTracking
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'logging_defaultImpressionConnectionWindow',
+                'text' => $strDefaultImpConvWindow,
+                'size' => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adImpressions==1',
-                'check'   => 'wholeNumber'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_defaultClickConnectionWindow',
-                'text'    => $strDefaultCliConvWindow,
-                'size'    => 12,
+                'check' => 'wholeNumber'
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'logging_defaultClickConnectionWindow',
+                'text' => $strDefaultCliConvWindow,
+                'size' => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adClicks==1',
-                'check'   => 'wholeNumber'
-            )
-        )
-    )
-);
+                'check' => 'wholeNumber'
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

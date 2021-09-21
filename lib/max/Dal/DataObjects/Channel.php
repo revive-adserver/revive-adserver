@@ -20,7 +20,7 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Channel extends DB_DataObjectCommon
 {
-    var $onDeleteCascade = true;
+    public $onDeleteCascade = true;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -38,9 +38,12 @@ class DataObjects_Channel extends DB_DataObjectCommon
     public $acls_updated;                    // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Channel',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Channel', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'agencyid' => 0,
         'affiliateid' => 0,
         'compiledlimitation' => '',
@@ -51,44 +54,43 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function delete($useWhere = false, $cascade = true, $parentid = null)
+    public function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-    	// Find acls which use this channels
-    	$dalAcls = OA_Dal::factoryDAL('acls');
-    	$rsChannel = $dalAcls->getAclsByDataValueType($this->channelid, 'Site:Channel');
-    	$rsChannel->reset();
-    	while ($rsChannel->next()) {
-    	    // Get the IDs of the banner that's using this channel
-    	    $bannerId = $rsChannel->get('bannerid');
+        // Find acls which use this channels
+        $dalAcls = OA_Dal::factoryDAL('acls');
+        $rsChannel = $dalAcls->getAclsByDataValueType($this->channelid, 'Site:Channel');
+        $rsChannel->reset();
+        while ($rsChannel->next()) {
+            // Get the IDs of the banner that's using this channel
+            $bannerId = $rsChannel->get('bannerid');
 
-    	    // Get the remaining channels the banner will use, if any
-    		$aChannelIds = explode(',', $rsChannel->get('data'));
-    		$aChannelIds = array_diff($aChannelIds, array($this->channelid));
+            // Get the remaining channels the banner will use, if any
+            $aChannelIds = explode(',', $rsChannel->get('data'));
+            $aChannelIds = array_diff($aChannelIds, [$this->channelid]);
 
-    		// Prepare to update the banner's limitations in the "acls" table
-    		$doAcls = DB_DataObject::factory('acls');
-    		$doAcls->init();
-    		$doAcls->bannerid = $bannerId;
-    		$doAcls->executionorder = $rsChannel->get('executionorder');
-    		if (!empty($aChannelIds)) {
-	    		$doAcls->data = implode(',', $aChannelIds);
-	    		$doAcls->update();
-    		} else {
-    			$doAcls->delete();
-    		}
+            // Prepare to update the banner's limitations in the "acls" table
+            $doAcls = DB_DataObject::factory('acls');
+            $doAcls->init();
+            $doAcls->bannerid = $bannerId;
+            $doAcls->executionorder = $rsChannel->get('executionorder');
+            if (!empty($aChannelIds)) {
+                $doAcls->data = implode(',', $aChannelIds);
+                $doAcls->update();
+            } else {
+                $doAcls->delete();
+            }
 
-    		// Re-compile the banner's limitations
-            $aAcls = array();
-    		$doAcls = DB_DataObject::factory('acls');
-    		$doAcls->init();
-    		$doAcls->bannerid = $bannerId;
-    		$doAcls->orderBy('executionorder');
+            // Re-compile the banner's limitations
+            $aAcls = [];
+            $doAcls = DB_DataObject::factory('acls');
+            $doAcls->init();
+            $doAcls->bannerid = $bannerId;
+            $doAcls->orderBy('executionorder');
             $doAcls->find();
             while ($doAcls->fetch()) {
                 $aData = $doAcls->toArray();
-                $deliveryLimitationPlugin = OX_Component::factoryByComponentIdentifier('deliveryLimitations:'.$aData['type']);
-                if ($deliveryLimitationPlugin)
-                {
+                $deliveryLimitationPlugin = OX_Component::factoryByComponentIdentifier('deliveryLimitations:' . $aData['type']);
+                if ($deliveryLimitationPlugin) {
                     $deliveryLimitationPlugin->init($aData);
                     if ($deliveryLimitationPlugin->isAllowed()) {
                         $aAcls[$aData['executionorder']] = $aData;
@@ -103,12 +105,12 @@ class DataObjects_Channel extends DB_DataObjectCommon
             $doBanners->acls_updated = OA::getNow();
             $doBanners->compiledlimitation = MAX_AclGetCompiled($aAcls);
             $doBanners->update();
-    	}
+        }
 
-    	return parent::delete($useWhere, $cascade, $parentid);
+        return parent::delete($useWhere, $cascade, $parentid);
     }
 
-    function duplicate($channelId)
+    public function duplicate($channelId)
     {
         //  Populate $this with channel data
         $this->get($channelId);
@@ -127,17 +129,17 @@ class DataObjects_Channel extends DB_DataObjectCommon
     }
 
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-     function _getContextId()
+    public function _getContextId()
     {
         return $this->channelid;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Channel';
     }
@@ -190,17 +192,13 @@ class DataObjects_Channel extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']   = $this->name;
-        switch ($actionid)
-        {
+        $aAuditFields['key_desc'] = $this->name;
+        switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
                         $aAuditFields['affiliateid'] = $this->affiliateid;
                         break;
         }
     }
-
 }
-
-?>

@@ -22,20 +22,20 @@ require_once 'XML/Parser.php';
  */
 class OA_UpgradePackageParser extends XML_Parser
 {
-    var $aPackage       = array('db_pkgs' => array(), 'product'=>'oa');
-    var $DBPkg_version  = '';
-    var $DBPkg_stamp    = '';
-    var $DBPkg_schema   = '';
-    var $DBPkg_prescript = '';
-    var $DBPkg_postscript = '';
-    var $aDBPkgs        = array('files'=>array());
-    var $aSchemas       = array();
-    var $aFiles         = array();
+    public $aPackage = ['db_pkgs' => [], 'product' => 'oa'];
+    public $DBPkg_version = '';
+    public $DBPkg_stamp = '';
+    public $DBPkg_schema = '';
+    public $DBPkg_prescript = '';
+    public $DBPkg_postscript = '';
+    public $aDBPkgs = ['files' => []];
+    public $aSchemas = [];
+    public $aFiles = [];
 
-    var $elements   = array();
-    var $element    = '';
-    var $count      = 0;
-    var $error;
+    public $elements = [];
+    public $element = '';
+    public $count = 0;
+    public $error;
 
 //    function __construct()
 //    {
@@ -44,13 +44,13 @@ class OA_UpgradePackageParser extends XML_Parser
 //        parent::XML_Parser('ISO-8859-1');
 //    }
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct('ISO-8859-1');
         //$this->__construct();
     }
 
-    function startHandler($xp, $element, $attribs)
+    public function startHandler($xp, $element, $attribs)
     {
         $this->elements[$this->count++] = strtolower($element);
         $this->element = implode('-', $this->elements);
@@ -62,8 +62,8 @@ class OA_UpgradePackageParser extends XML_Parser
             $this->DBPkg_schema = '';
             $this->DBPkg_prescript = '';
             $this->DBPkg_postscript = '';
-            $this->aDBPkgs = array();
-            $this->aDBPkgList = array();
+            $this->aDBPkgs = [];
+            $this->aDBPkgList = [];
 //            $this->aFiles = array();
 //            $this->aPackage = array();
 //            $this->aSchemas = array();
@@ -74,19 +74,19 @@ class OA_UpgradePackageParser extends XML_Parser
         }
     }
 
-    function endHandler($xp, $element)
+    public function endHandler($xp, $element)
     {
         switch ($this->element) {
 
         case 'upgrade-database-package':
-            $this->aPackage['db_pkgs'][] = array(
+            $this->aPackage['db_pkgs'][] = [
                                                  'version' => $this->DBPkg_version,
                                                  'stamp' => $this->DBPkg_stamp,
                                                  'schema' => $this->DBPkg_schema,
                                                  'prescript' => $this->DBPkg_prescript,
                                                  'postscript' => $this->DBPkg_postscript,
-                                                 'files'=>$this->aDBPkgs
-                                                 );
+                                                 'files' => $this->aDBPkgs
+                                                 ];
             break;
         case 'upgrade-database':
             $this->aPackage['db_pkg_list'][$this->DBPkg_schema] = $this->aSchemas;
@@ -96,39 +96,37 @@ class OA_UpgradePackageParser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseInstanceError($msg = null, $xmlecode = 0, $xp = null, $ecode = -1)
+    public function &raiseInstanceError($msg = null, $xmlecode = 0, $xp = null, $ecode = -1)
     {
         if (is_null($this->error)) {
             $error = '';
             if (is_resource($msg)) {
-                $error.= 'Parser error: '.xml_error_string(xml_get_error_code($msg));
+                $error .= 'Parser error: ' . xml_error_string(xml_get_error_code($msg));
                 $xp = $msg;
             } else {
-                $error.= 'Parser error: '.$msg;
+                $error .= 'Parser error: ' . $msg;
                 if (!is_resource($xp)) {
                     $xp = $this->parser;
                 }
             }
             if ($error_string = xml_error_string($xmlecode)) {
-                $error.= ' - '.$error_string;
+                $error .= ' - ' . $error_string;
             }
             if (is_resource($xp)) {
                 $byte = @xml_get_current_byte_index($xp);
                 $line = @xml_get_current_line_number($xp);
                 $column = @xml_get_current_column_number($xp);
-                $error.= " - Byte: $byte; Line: $line; Col: $column";
+                $error .= " - Byte: $byte; Line: $line; Col: $column";
             }
-            $error.= "\n";
+            $error .= "\n";
             $this->error = PEAR::raiseError($ecode, null, null, $error);
         }
         return $this->error;
     }
 
-    function cdataHandler($xp, $data)
+    public function cdataHandler($xp, $data)
     {
-
-        switch ($this->element)
-        {
+        switch ($this->element) {
             case 'upgrade-database-package':
                 $this->DBPkg_name = $data;
                 break;
@@ -143,8 +141,7 @@ class OA_UpgradePackageParser extends XML_Parser
                 break;
             case 'upgrade-database-package-version':
                 $this->DBPkg_version = $data;
-                if ($data)
-                {
+                if ($data) {
                     $this->aSchemas[] = $this->DBPkg_version;
                 }
                 break;
@@ -158,8 +155,7 @@ class OA_UpgradePackageParser extends XML_Parser
                 $this->aPackage['name'] = $data;
                 break;
             case 'upgrade-type':
-                if ($data=='plugin')
-                {
+                if ($data == 'plugin') {
                     $this->aPackage['product'] = $this->aPackage['name'];
                 }
                 break;
@@ -195,7 +191,4 @@ class OA_UpgradePackageParser extends XML_Parser
                 break;
         }
     }
-
 }
-
-?>

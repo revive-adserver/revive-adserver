@@ -21,11 +21,10 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
  */
 class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -38,9 +37,9 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
      * Test 2: Test a single day summarisation.
      * Test 3: Test multi-day summarisation.
      */
-    function testSaveSummary()
+    public function testSaveSummary()
     {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
 
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
@@ -48,24 +47,24 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
 
         // Test 1
         $start = new Date('2004-06-06 12:00:00');
-        $end   = new Date('2004-06-06 12:29:59');
-        $aActionTypes = array(
-            'types' => array(
+        $end = new Date('2004-06-06 12:29:59');
+        $aActionTypes = [
+            'types' => [
                 0 => 'request',
                 1 => 'impression',
                 2 => 'click'
-            ),
-            'connections' => array(
+            ],
+            'connections' => [
                 1 => MAX_CONNECTION_AD_IMPRESSION,
                 2 => MAX_CONNECTION_AD_CLICK
-            )
-        );
+            ]
+        ];
         $oDalMaintenanceStatistics->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true);
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
@@ -76,14 +75,14 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->_insertTestSaveSummaryZone();
         $query = "
             INSERT INTO
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad'], true) . "
                 (
                     date_time, operation_interval, operation_interval_id, interval_start, interval_end,
                     ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value, total_num_items
                 )
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
+        $aTypes = [
             'timestamp',
             'integer',
             'integer',
@@ -97,60 +96,60 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             'integer',
             'integer',
             'integer'
-        );
+        ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 3, 1, 2, 1, 1, 0, 0, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 3, 1, 1, 5, 0, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 4, 1, 1, 5, 0, 0
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 5, 1, 1, 5, 100, 1
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 6, 1, 1, 5, 100, 3
-        );
+        ];
         $rows = $st->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:00:00');
-        $end   = new Date('2004-06-06 18:29:59');
+        $end = new Date('2004-06-06 18:29:59');
         $oDalMaintenanceStatistics->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true);
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 8);
         $query = "
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
@@ -166,7 +165,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
@@ -182,7 +181,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -198,7 +197,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -214,7 +213,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 4
             ORDER BY
@@ -268,38 +267,38 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->_insertTestSaveSummaryPlacement();
         $this->_insertTestSaveSummaryAd();
         $this->_insertTestSaveSummaryZone();
-        $aData = array(
+        $aData = [
             '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-07 18:00:00', 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-07 18:00:00', 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             '2004-06-08 18:00:00', 30, 36, '2004-06-08 18:00:00', '2004-06-08 18:29:59', 2, 1, 1, 1, 1, 0, 0
-        );
+        ];
         $rows = $st->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:00:00');
-        $end   = new Date('2004-06-08 18:29:59');
+        $end = new Date('2004-06-08 18:29:59');
         $oDalMaintenanceStatistics->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true);
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
@@ -315,7 +314,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
@@ -331,7 +330,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             SELECT
                 *
             FROM
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'], true) . "
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -353,13 +352,13 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
      *
      * @access private
      */
-    function _insertTestSaveSummaryPlacement()
+    public function _insertTestSaveSummaryPlacement()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =&  OA_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['campaigns'], true) . "
                 (
                     campaignid,
                     revenue,
@@ -367,23 +366,23 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
                 )
             VALUES
                 (?, ?, ?)";
-        $aTypes = array(
+        $aTypes = [
             'integer',
             'integer',
             'integer'
-        );
+        ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
+        $aData = [
             1, 5000, MAX_FINANCE_CPM
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             2, 2, MAX_FINANCE_CPC
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             3, 4, MAX_FINANCE_CPA
-        );
+        ];
         $rows = $st->execute($aData);
     }
 
@@ -393,13 +392,13 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
      *
      * @access private
      */
-    function _insertTestSaveSummaryAd()
+    public function _insertTestSaveSummaryAd()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =&  OA_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['banners'], true) . "
                 (
                     bannerid,
                     campaignid,
@@ -412,7 +411,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
                 )
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
+        $aTypes = [
             'integer',
             'integer',
             'text',
@@ -421,23 +420,23 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             'text',
             'text',
             'text'
-        );
+        ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
+        $aData = [
             1, 1, '', '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             2, 2, '', '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             3, 3, '', '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             4, 3, '', '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
     }
 
@@ -447,13 +446,13 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
      *
      * @access private
      */
-    function _insertTestSaveSummaryZone()
+    public function _insertTestSaveSummaryZone()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =&  OA_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)."
+                " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['zones'], true) . "
                 (
                     zoneid,
                     category,
@@ -464,41 +463,38 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
                 )
             VALUES
                 (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
+        $aTypes = [
             'integer',
             'text',
             'text',
             'text',
             'text',
             'text'
-        );
+        ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
+        $aData = [
             1, '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             2, '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             3, '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             4, '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             5, '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
-        $aData = array(
+        $aData = [
             6, '', '', '', '', ''
-        );
+        ];
         $rows = $st->execute($aData);
     }
-
 }
-
-?>

@@ -23,16 +23,15 @@ require_once MAX_PATH . '/lib/OA.php';
  */
 class OA_Maintenance_Pruning extends MAX_Dal_Common
 {
-
     /**
      * The class constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function run()
+    public function run()
     {
         $this->_pruneDataSummaryAdZoneAssoc();
     }
@@ -44,19 +43,18 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      * Finally the table is queried for reserved diskspace and reports
      *
      */
-    function _pruneDataSummaryAdZoneAssoc()
+    public function _pruneDataSummaryAdZoneAssoc()
     {
         OA::debug('Begin pruning old records from data_summary_ad_zone_assoc', PEAR_LOG_INFO);
         $pruned = $this->_pruneDataSummaryAdZoneAssocOldData();
-        OA::debug('Finished pruning old records from data_summary_ad_zone_assoc: '.$pruned.' records deleted', PEAR_LOG_INFO);
+        OA::debug('Finished pruning old records from data_summary_ad_zone_assoc: ' . $pruned . ' records deleted', PEAR_LOG_INFO);
         OA::debug('Begin pruning records for expired inactive campaigns from data_summary_ad_zone_assoc', PEAR_LOG_INFO);
         $pruned = $this->_pruneDataSummaryAdZoneAssocInactiveExpired();
-        OA::debug('Finished pruning expired inactive campaigns from data_summary_ad_zone_assoc: '.$pruned.' records deleted', PEAR_LOG_INFO);
+        OA::debug('Finished pruning expired inactive campaigns from data_summary_ad_zone_assoc: ' . $pruned . ' records deleted', PEAR_LOG_INFO);
         OA::debug('Begin pruning records for completed inactive campaigns from data_summary_ad_zone_assoc', PEAR_LOG_INFO);
-        if ($GLOBALS['_MAX']['CONF']['maintenance']['pruneCompletedCampaignsSummaryData'])
-        {
+        if ($GLOBALS['_MAX']['CONF']['maintenance']['pruneCompletedCampaignsSummaryData']) {
             $pruned = $this->_pruneDataSummaryAdZoneAssocInactiveTargetReached(1000);
-            OA::debug('Finished pruning inactive completed campaigns from data_summary_ad_zone_assoc: '.$pruned.' records deleted', PEAR_LOG_INFO);
+            OA::debug('Finished pruning inactive completed campaigns from data_summary_ad_zone_assoc: ' . $pruned . ' records deleted', PEAR_LOG_INFO);
         }
 
         // log the table status/overhead
@@ -69,15 +67,14 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      *
      * @return integer : number of records deleted
      */
-    function _pruneDataSummaryAdZoneAssocOldData()
+    public function _pruneDataSummaryAdZoneAssocOldData()
     {
         $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
         $doDSAZA->whereAdd('zone_id=0', 'AND');
         $doDSAZA->whereAdd('created < DATE_ADD('
-                            .$this->oDbh->quote(OA::getNow()).', '
-                            .OA_Dal::quoteInterval(-MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT, 'SECOND')
-                            .')'
-                            ,'AND');
+                            . $this->oDbh->quote(OA::getNow()) . ', '
+                            . OA_Dal::quoteInterval(-MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT, 'SECOND')
+                            . ')', 'AND');
         return $doDSAZA->delete(true, false);
     }
 
@@ -88,42 +85,42 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      *
      * @return integer : number of records deleted
      */
-    function _pruneDataSummaryAdZoneAssocInactiveExpired()
+    public function _pruneDataSummaryAdZoneAssocInactiveExpired()
     {
-        $tblAssoc       = $this->_getTablename('data_summary_ad_zone_assoc');
-        $tblBanners     = $this->_getTablename('banners');
-        $tblCampaigns   = $this->_getTablename('campaigns');
+        $tblAssoc = $this->_getTablename('data_summary_ad_zone_assoc');
+        $tblBanners = $this->_getTablename('banners');
+        $tblCampaigns = $this->_getTablename('campaigns');
 
         $queryEnd = ''
-            .' LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid'
-            .' WHERE ( ( c.status <> '. OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 )) '
-            .' AND'
-            .'('
-            .'      ('
-            .'          (c.target_impression < 1)'
-            .'          AND'
-            .'          (c.target_click < 1)'
-            .'          AND'
-            .'          (c.target_conversion < 1)'
-            .'      )'
-            .'      AND'
-            .'      (c.expire_time < '.$this->oDbh->quote(OA::getNowUTC('Y-m-d H:i:s')).')'
-            .')'
+            . ' LEFT JOIN ' . $tblCampaigns . ' AS c ON b.campaignid = c.campaignid'
+            . ' WHERE ( ( c.status <> ' . OA_ENTITY_STATUS_RUNNING . ') AND (c.priority > 0 )) '
+            . ' AND'
+            . '('
+            . '      ('
+            . '          (c.target_impression < 1)'
+            . '          AND'
+            . '          (c.target_click < 1)'
+            . '          AND'
+            . '          (c.target_conversion < 1)'
+            . '      )'
+            . '      AND'
+            . '      (c.expire_time < ' . $this->oDbh->quote(OA::getNowUTC('Y-m-d H:i:s')) . ')'
+            . ')'
             ;
 
         if ($this->oDbh->dbsyntax == 'pgsql') {
-            $query = 'DELETE FROM '.$tblAssoc
-                    .' WHERE data_summary_ad_zone_assoc_id IN ('
-                    .'  SELECT dsaza.data_summary_ad_zone_assoc_id FROM'
-                    .'  '.$tblAssoc.' AS dsaza'
-                    .' LEFT JOIN '.$tblBanners.' AS b ON dsaza.ad_id = b.bannerid'
-                    .$queryEnd
-                    .')';
+            $query = 'DELETE FROM ' . $tblAssoc
+                    . ' WHERE data_summary_ad_zone_assoc_id IN ('
+                    . '  SELECT dsaza.data_summary_ad_zone_assoc_id FROM'
+                    . '  ' . $tblAssoc . ' AS dsaza'
+                    . ' LEFT JOIN ' . $tblBanners . ' AS b ON dsaza.ad_id = b.bannerid'
+                    . $queryEnd
+                    . ')';
         } else {
-            $query = 'DELETE FROM '.$tblAssoc
-                    .' USING '.$tblAssoc
-                    .' LEFT JOIN '.$tblBanners.' AS b ON '.$tblAssoc.'.ad_id = b.bannerid'
-                    .$queryEnd;
+            $query = 'DELETE FROM ' . $tblAssoc
+                    . ' USING ' . $tblAssoc
+                    . ' LEFT JOIN ' . $tblBanners . ' AS b ON ' . $tblAssoc . '.ad_id = b.bannerid'
+                    . $queryEnd;
         }
         return $this->oDbh->exec($query);
     }
@@ -136,49 +133,45 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      * @param integer : the max number of records to delete
      * @return integer : number of records deleted
      */
-    function _pruneDataSummaryAdZoneAssocInactiveTargetReached($numberToDelete=100)
+    public function _pruneDataSummaryAdZoneAssocInactiveTargetReached($numberToDelete = 100)
     {
-        $tblInter       = $this->_getTablename('data_intermediate_ad');
-        $tblAssoc       = $this->_getTablename('data_summary_ad_zone_assoc');
-        $tblBanners     = $this->_getTablename('banners');
-        $tblCampaigns   = $this->_getTablename('campaigns');
+        $tblInter = $this->_getTablename('data_intermediate_ad');
+        $tblAssoc = $this->_getTablename('data_summary_ad_zone_assoc');
+        $tblBanners = $this->_getTablename('banners');
+        $tblCampaigns = $this->_getTablename('campaigns');
 
         $query = 'SELECT
                      daz.data_summary_ad_zone_assoc_id,
                      IF( (SUM( dia.impressions ) >= c.views)
                      OR  (SUM( dia.clicks ) >= c.clicks)
                      OR  (SUM( dia.conversions ) >= c.conversions), 1, 0) AS target_reached
-                 FROM '.$tblAssoc.' daz
-                 LEFT JOIN '.$tblInter.' AS dia ON dia.ad_id = daz.ad_id
-                 LEFT JOIN '.$tblBanners.' AS b ON daz.ad_id = b.bannerid
-                 LEFT JOIN '.$tblCampaigns.' AS c ON b.campaignid = c.campaignid
-                 WHERE ( ( c.status <> '.OA_ENTITY_STATUS_RUNNING.') AND (c.priority > 0 ))
+                 FROM ' . $tblAssoc . ' daz
+                 LEFT JOIN ' . $tblInter . ' AS dia ON dia.ad_id = daz.ad_id
+                 LEFT JOIN ' . $tblBanners . ' AS b ON daz.ad_id = b.bannerid
+                 LEFT JOIN ' . $tblCampaigns . ' AS c ON b.campaignid = c.campaignid
+                 WHERE ( ( c.status <> ' . OA_ENTITY_STATUS_RUNNING . ') AND (c.priority > 0 ))
                  GROUP BY daz.data_summary_ad_zone_assoc_id, c.views, c.clicks, c.conversions
                  ORDER BY target_reached DESC';
 
         $aRows = $this->oDbh->queryAll($query);
 
-        $numberToDelete = min(count($aRows),$numberToDelete);
-        $aIds = array();
+        $numberToDelete = min(count($aRows), $numberToDelete);
+        $aIds = [];
         $result = 0;
-        foreach ($aRows as $k => $aRec)
-        {
-            if ( (count($aIds) == $numberToDelete) || ($aRec['target_reached'] == 0) )
-            {
+        foreach ($aRows as $k => $aRec) {
+            if ((count($aIds) == $numberToDelete) || ($aRec['target_reached'] == 0)) {
                 break;
             }
-            if ( $aRec['target_reached'] == 1)
-            {
+            if ($aRec['target_reached'] == 1) {
                 $aIds[] = $aRec['data_summary_ad_zone_assoc_id'];
             }
         }
-        if (!empty($aIds))
-        {
+        if (!empty($aIds)) {
             $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
-            $doDSAZA->whereAdd('data_summary_ad_zone_assoc_id IN ('.implode(',',$aIds).')');
+            $doDSAZA->whereAdd('data_summary_ad_zone_assoc_id IN (' . implode(',', $aIds) . ')');
             $result = $doDSAZA->delete(true, false);
         }
-       return $result;
+        return $result;
     }
 
     /**
@@ -186,24 +179,18 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      *
      * @param string $table : name of table without prefix
      */
-    function _logTableOverhead($table)
+    public function _logTableOverhead($table)
     {
         $table = $this->_getTablenameUnquoted($table);
         $aResult = $this->oDbh->manager->getTableStatus($table);
-        if (isset($aResult[0]['data_free']) && is_numeric($aResult[0]['data_free']))
-        {
+        if (isset($aResult[0]['data_free']) && is_numeric($aResult[0]['data_free'])) {
             $overhead = $aResult[0]['data_free'];
-            OA::debug('Table '.$table.' overhead (number of allocated but unused bytes) = '.$overhead);
-            if ($overhead > 0)
-            {
+            OA::debug('Table ' . $table . ' overhead (number of allocated but unused bytes) = ' . $overhead);
+            if ($overhead > 0) {
                 OA::debug('To reclaim diskspace, consider optimising this table');
             }
-        }
-        else
-        {
-            OA::debug('Table '.$table.' overhead (number of allocated but unused bytes) = unkown');
+        } else {
+            OA::debug('Table ' . $table . ' overhead (number of allocated but unused bytes) = unkown');
         }
     }
 }
-
-?>

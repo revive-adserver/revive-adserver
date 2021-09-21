@@ -21,11 +21,10 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Dal extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,7 +32,7 @@ class Test_OA_Dal extends UnitTestCase
     /**
      * A method to clean up DataGenerator created records at the end of each test.
      */
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -43,7 +42,7 @@ class Test_OA_Dal extends UnitTestCase
      *
      * @TODO Add PEAR_Error expectations to simpletest in order to catch them
      */
-    function testFactoryDO()
+    public function testFactoryDO()
     {
         // Test when object exists
         $doBanners = OA_Dal::factoryDO('banners');
@@ -51,13 +50,13 @@ class Test_OA_Dal extends UnitTestCase
 
         // Test when object doesn't exist
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $doBanners = OA_Dal::factoryDO('foo'.rand());
+        $doBanners = OA_Dal::factoryDO('foo' . rand());
         PEAR::staticPopErrorHandling();
 
         $this->assertFalse($doBanners);
     }
 
-    function testCheckIfDoExists()
+    public function testCheckIfDoExists()
     {
         // Test when object exists
         $this->assertTrue(OA_Dal::checkIfDoExists('banners'));
@@ -66,7 +65,7 @@ class Test_OA_Dal extends UnitTestCase
         $this->assertFalse(OA_Dal::checkIfDoExists('foo_1234'));
     }
 
-    function testStaticGetDO()
+    public function testStaticGetDO()
     {
         // create test record
         $doBanners = OA_Dal::factoryDO('banners');
@@ -88,7 +87,7 @@ class Test_OA_Dal extends UnitTestCase
      *
      * @TODO Add PEAR_Error expectations to simpletest in order to catch them
      */
-    function testFactoryDAL()
+    public function testFactoryDAL()
     {
         // Test when object exists
         $dalBanners = OA_Dal::factoryDAL('banners');
@@ -96,77 +95,74 @@ class Test_OA_Dal extends UnitTestCase
 
         // Test when object doesn't exist
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $dalBanners = OA_Dal::factoryDAL('foo'.rand());
+        $dalBanners = OA_Dal::factoryDAL('foo' . rand());
         PEAR::staticPopErrorHandling();
 
         $this->assertFalse($dalBanners);
     }
 
 
-    function testIsValidDate()
+    public function testIsValidDate()
     {
         $this->assertTrue(OA_Dal::isValidDate('2007-03-01'));
         $this->assertFalse(OA_Dal::isValidDate('0'));
         $this->assertFalse(OA_Dal::isValidDate(null));
     }
 
-    function testBachInsertLoadInfile()
+    public function testBachInsertLoadInfile()
     {
         $this->_testBatchInsert('batchInsert');
     }
 
-    function testBachInsertPlain()
+    public function testBachInsertPlain()
     {
         $this->_testBatchInsert('batchInsertPlain');
     }
 
-    function _testBatchInsert($method)
+    public function _testBatchInsert($method)
     {
-        $oTable =& OA_DB_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
 
-        $this->assertEqual(array(), $this->_getbatchInsertRecords());
-        $aData = array(
-            array(
+        $this->assertEqual([], $this->_getbatchInsertRecords());
+        $aData = [
+            [
                 'ad_id' => '23',
                 'required_impressions' => '140',
-            ),
-            array(
+            ],
+            [
                 'ad_id' => '29',
                 'required_impressions' => '120',
-            )
-        );
-        $result = OA_Dal::$method('tmp_ad_required_impression', array('ad_id', 'required_impressions'), $aData);
+            ]
+        ];
+        $result = OA_Dal::$method('tmp_ad_required_impression', ['ad_id', 'required_impressions'], $aData);
         $this->assertEqual($result, 2);
 
         $result = $this->_getbatchInsertRecords();
         $this->assertTrue(count($result) == 2);
         $this->assertEqual($result, $aData);
 
-        $oneMoreRow = array (
-            array(100,2)
-        );
-        $result = OA_Dal::$method('tmp_ad_required_impression', array('ad_id', 'required_impressions'), $oneMoreRow);
+        $oneMoreRow = [
+            [100, 2]
+        ];
+        $result = OA_Dal::$method('tmp_ad_required_impression', ['ad_id', 'required_impressions'], $oneMoreRow);
         $this->assertEqual($result, 1);
         $result = $this->_getbatchInsertRecords();
         $this->assertTrue(count($result) == 3);
-        $this->assertEqual($result, array_merge($aData, array (
-            array(
+        $this->assertEqual($result, array_merge($aData, [
+            [
                 'ad_id' => 100,
                 'required_impressions' => 2
-            ))));
+            ]]));
         TestEnv::dropTempTables();
     }
 
-    function _getbatchInsertRecords()
+    public function _getbatchInsertRecords()
     {
         $oDbh = OA_DB::singleton();
         $query = "SELECT *
-        		FROM ".$oDbh->quoteIdentifier('tmp_ad_required_impression',true)."
+        		FROM " . $oDbh->quoteIdentifier('tmp_ad_required_impression', true) . "
         		ORDER BY ad_id ASC";
         return $oDbh->query($query)->fetchAll();
     }
-
 }
-
-?>

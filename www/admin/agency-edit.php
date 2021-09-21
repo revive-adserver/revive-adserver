@@ -20,19 +20,19 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed (
-	 'errormessage'
-	,'agencyid'
-	,'name'
-	,'contact'
-	,'email'
-	,'submit'
-	,'logout_url'
+phpAds_registerGlobalUnslashed(
+    'errormessage',
+    'agencyid',
+    'name',
+    'contact',
+    'email',
+    'submit',
+    'logout_url'
 );
 
 // Security check
@@ -53,16 +53,15 @@ if ($agencyid != '') {
             $aAgency = $doAgency->toArray();
         }
     }
-}
-else {
+} else {
     // Do not set this information if the page
     // is the result of an error message
     if (!isset($agency)) {
-        $aAgency['name']         = $GLOBALS['strUntitled'];
-        $aAgency['contact']      = '';
-        $aAgency['email']        = '';
-        $aAgency['logout_url']   = '';
-        $aAgency['status']       = OA_ENTITY_STATUS_RUNNING;
+        $aAgency['name'] = $GLOBALS['strUntitled'];
+        $aAgency['contact'] = '';
+        $aAgency['email'] = '';
+        $aAgency['logout_url'] = '';
+        $aAgency['status'] = OA_ENTITY_STATUS_RUNNING;
     }
 }
 
@@ -76,8 +75,7 @@ $agencyForm = buildAgencyForm($aAgency);
 if ($agencyForm->validate()) {
     //process submitted values
     processForm($aAgency, $agencyForm);
-}
-else { //either validation failed or form was not submitted, display the form
+} else { //either validation failed or form was not submitted, display the form
     displayPage($aAgency, $agencyForm);
 }
 
@@ -143,12 +141,12 @@ function processForm($aAgency, $form)
         $agency = $doAgency->toArray();
     }
     // Name
-    $agency['name']           = $aFields['name'];
+    $agency['name'] = $aFields['name'];
     // Default fields
-    $agency['contact']        = $aFields['contact'];
-    $agency['email']          = $aFields['email'];
-    $agency['logout_url']     = $aFields['logout_url'];
-    $agency['status']         = $aFields['status'];
+    $agency['contact'] = $aFields['contact'];
+    $agency['email'] = $aFields['email'];
+    $agency['logout_url'] = $aFields['logout_url'];
+    $agency['status'] = $aFields['status'];
 
     // Permissions
     $doAgency = OA_Dal::factoryDO('agency');
@@ -172,11 +170,10 @@ function displayPage($aAgency, $form)
 {
     if ($aAgency['agencyid'] != '') {
         OA_Admin_Menu::setAgencyPageContext($aAgency['agencyid'], 'agency-edit.php');
-        MAX_displayInventoryBreadcrumbs(array(array("name" => $aAgency['name'])), "agency");
+        MAX_displayInventoryBreadcrumbs([["name" => $aAgency['name']]], "agency");
         phpAds_PageHeader();
-    }
-    else {
-        MAX_displayInventoryBreadcrumbs(array(array("name" => "")), "agency", true);
+    } else {
+        MAX_displayInventoryBreadcrumbs([["name" => ""]], "agency", true);
         phpAds_PageHeader("agency-edit_new");
     }
 
@@ -189,4 +186,3 @@ function displayPage($aAgency, $form)
     //footer
     phpAds_PageFooter();
 }
-?>

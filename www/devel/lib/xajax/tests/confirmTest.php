@@ -3,13 +3,13 @@ require_once("../xajax.inc.php");
 
 function confirmTest()
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAlert("Here is an alert.");
-	$objResponse->addConfirmCommands(2, "Are you sure you want to show two (2) more alerts?");
-	$objResponse->addAlert("This will only happen if the user presses OK.");
-	$objResponse->addAlert("This also will only happen if the user presses OK.");
-	$objResponse->addAlert("This will always happen.");
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert("Here is an alert.");
+    $objResponse->addConfirmCommands(2, "Are you sure you want to show two (2) more alerts?");
+    $objResponse->addAlert("This will only happen if the user presses OK.");
+    $objResponse->addAlert("This also will only happen if the user presses OK.");
+    $objResponse->addAlert("This will always happen.");
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

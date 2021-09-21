@@ -10,15 +10,14 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once 'BaseForm.php';
 
 /**
  * @package OX_Admin_UI
  * @subpackage Install
  */
-class OX_Admin_UI_Install_AdminLoginForm
-    extends OX_Admin_UI_Install_BaseForm
+class OX_Admin_UI_Install_AdminLoginForm extends OX_Admin_UI_Install_BaseForm
 {
     /**
      * Builds Ad Server login form for installer
@@ -41,9 +40,13 @@ class OX_Admin_UI_Install_AdminLoginForm
         //build form
         $this->addElement('header', 'h_account', '');
 
-        $this->addElement('text', 'username', $GLOBALS['strAdminUsername'], array('class' => 'medium'));
-        $this->addElement('password', 'password', $GLOBALS['strAdminPassword'],
-            array('class' => 'medium'));
+        $this->addElement('text', 'username', $GLOBALS['strAdminUsername'], ['class' => 'medium']);
+        $this->addElement(
+            'password',
+            'password',
+            $GLOBALS['strAdminPassword'],
+            ['class' => 'medium']
+        );
 
 
         //Form validation rules
@@ -51,5 +54,3 @@ class OX_Admin_UI_Install_AdminLoginForm
         $this->addRequiredRule('password', $GLOBALS['strAdminPassword']);
     }
 }
-
-?>

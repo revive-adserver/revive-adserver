@@ -31,13 +31,13 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @var OA_Dll_Campaign $_dllCampaign
      */
-    var $_dllCampaign;
+    public $_dllCampaign;
 
     /**
      *
      * The CampaignServiceImpl method is the constructor for the CampignServiceImpl class.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_dllCampaign = new OA_Dll_Campaign();
@@ -52,7 +52,7 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param boolean $result
      * @return boolean
      */
-    function _validateResult($result)
+    public function _validateResult($result)
     {
         if ($result) {
             return true;
@@ -75,17 +75,13 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function addCampaign($sessionId, &$oCampaign)
+    public function addCampaign($sessionId, &$oCampaign)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllCampaign->modify($oCampaign));
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -102,25 +98,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function modifyCampaign($sessionId, &$oCampaign)
+    public function modifyCampaign($sessionId, &$oCampaign)
     {
         if ($this->verifySession($sessionId)) {
-
             if (isset($oCampaign->campaignId)) {
-
                 return $this->_validateResult($this->_dllCampaign->modify($oCampaign));
-
             } else {
-
                 $this->raiseError("Field 'campaignId' in structure does not exists");
                 return false;
             }
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -135,14 +124,11 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function deleteCampaign($sessionId, $campaignId)
+    public function deleteCampaign($sessionId, $campaignId)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllCampaign->delete($campaignId));
-
         } else {
-
             return false;
         }
     }
@@ -161,15 +147,19 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignDailyStatistics(
-                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $campaignId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -188,15 +178,19 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getCampaignBannerStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getCampaignBannerStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignBannerStatistics(
-                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $campaignId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -215,15 +209,19 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getCampaignPublisherStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getCampaignPublisherStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignPublisherStatistics(
-                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $campaignId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -242,15 +240,19 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignZoneStatistics(
-                    $campaignId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $campaignId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -266,14 +268,13 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getCampaign($sessionId, $campaignId, &$oCampaign)
+    public function getCampaign($sessionId, $campaignId, &$oCampaign)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllCampaign->getCampaign($campaignId, $oCampaign));
+                $this->_dllCampaign->getCampaign($campaignId, $oCampaign)
+            );
         } else {
-
             return false;
         }
     }
@@ -290,20 +291,17 @@ class CampaignServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getCampaignListByAdvertiserId($sessionId, $advertiserId, &$aCampaignList)
+    public function getCampaignListByAdvertiserId($sessionId, $advertiserId, &$aCampaignList)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllCampaign->getCampaignListByAdvertiserId($advertiserId,
-                                                    $aCampaignList));
+                $this->_dllCampaign->getCampaignListByAdvertiserId(
+                    $advertiserId,
+                    $aCampaignList
+                )
+            );
         } else {
-
             return false;
         }
     }
-
 }
-
-
-?>

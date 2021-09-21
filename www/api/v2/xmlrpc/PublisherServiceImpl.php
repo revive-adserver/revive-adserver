@@ -31,13 +31,13 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @var OA_Dll_Publisher $_dllPublisher
      */
-    var $_dllPublisher;
+    public $_dllPublisher;
 
     /**
      *
      * The PublisherServiceImpl method is the constructor for the PublisherServiceImpl class.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_dllPublisher = new OA_Dll_Publisher();
@@ -53,7 +53,7 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function _validateResult($result)
+    public function _validateResult($result)
     {
         if ($result) {
             return true;
@@ -75,17 +75,13 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function addPublisher($sessionId, &$oPublisher)
+    public function addPublisher($sessionId, &$oPublisher)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllPublisher->modify($oPublisher));
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -102,24 +98,18 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function modifyPublisher($sessionId, &$oPublisher)
+    public function modifyPublisher($sessionId, &$oPublisher)
     {
         if ($this->verifySession($sessionId)) {
-
             if (isset($oPublisher->publisherId)) {
-
                 return $this->_validateResult($this->_dllPublisher->modify($oPublisher));
             } else {
-
                 $this->raiseError("Field 'publisherId' in structure does not exists");
                 return false;
             }
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -133,14 +123,11 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function deletePublisher($sessionId, $publisherId)
+    public function deletePublisher($sessionId, $publisherId)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllPublisher->delete($publisherId));
-
         } else {
-
             return false;
         }
     }
@@ -160,15 +147,19 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherDailyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$aData)
+    public function getPublisherDailyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherDailyStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $localTZ, $aData));
+                    $publisherId,
+                    $oStartDate,
+                    $oEndDate,
+                    $localTZ,
+                    $aData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -188,15 +179,19 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherHourlyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$aData)
+    public function getPublisherHourlyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$aData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherHourlyStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $localTZ, $aData));
+                    $publisherId,
+                    $oStartDate,
+                    $oEndDate,
+                    $localTZ,
+                    $aData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -216,15 +211,19 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherZoneStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherZoneStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherZoneStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $publisherId,
+                    $oStartDate,
+                    $oEndDate,
+                    $localTZ,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -244,15 +243,19 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherAdvertiserStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherAdvertiserStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherAdvertiserStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $publisherId,
+                    $oStartDate,
+                    $oEndDate,
+                    $localTZ,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -272,15 +275,19 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherCampaignStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherCampaignStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherCampaignStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $publisherId,
+                    $oStartDate,
+                    $oEndDate,
+                    $localTZ,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -300,15 +307,19 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherBannerStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherBannerStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherBannerStatistics(
-                    $publisherId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $publisherId,
+                    $oStartDate,
+                    $oEndDate,
+                    $localTZ,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -324,14 +335,13 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisher($sessionId, $publisherId, &$oPublisher)
+    public function getPublisher($sessionId, $publisherId, &$oPublisher)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllPublisher->getPublisher($publisherId, $oPublisher));
+                $this->_dllPublisher->getPublisher($publisherId, $oPublisher)
+            );
         } else {
-
             return false;
         }
     }
@@ -348,20 +358,17 @@ class PublisherServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getPublisherListByAgencyId($sessionId, $agencyId, &$aPublisherList)
+    public function getPublisherListByAgencyId($sessionId, $agencyId, &$aPublisherList)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllPublisher->getPublisherListByAgencyId($agencyId,
-                                                    $aPublisherList));
+                $this->_dllPublisher->getPublisherListByAgencyId(
+                    $agencyId,
+                    $aPublisherList
+                )
+            );
         } else {
-
             return false;
         }
     }
-
 }
-
-
-?>

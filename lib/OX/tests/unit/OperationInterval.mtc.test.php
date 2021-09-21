@@ -28,11 +28,10 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_OperationIntveral extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -41,18 +40,18 @@ class Test_OA_OperationIntveral extends UnitTestCase
      * A method to test the checkOperationIntervalValue() method.
      *
      */
-    function testCheckOperationIntervalValue()
+    public function testCheckOperationIntervalValue()
     {
         RV::disableErrorHandling();
         for ($i = -1; $i <= 61; $i++) {
             $result = OX_OperationInterval::checkOperationIntervalValue($i);
             if (
-                $i == 1  ||
-                $i == 2  ||
-                $i == 3  ||
-                $i == 4  ||
-                $i == 5  ||
-                $i == 6  ||
+                $i == 1 ||
+                $i == 2 ||
+                $i == 3 ||
+                $i == 4 ||
+                $i == 5 ||
+                $i == 6 ||
                 $i == 10 ||
                 $i == 12 ||
                 $i == 15 ||
@@ -73,7 +72,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the convertDateRangeToOperationIntervalID() method.
      */
-    function testConvertDateRangeToOperationIntervalID()
+    public function testConvertDateRangeToOperationIntervalID()
     {
         // Test the first operation interval ID range in the week the test was written,
         // using a default operation interval of 60 minutes
@@ -96,7 +95,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the convertDateToOperationIntervalID() method.
      */
-    function testConvertDateToOperationIntervalID()
+    public function testConvertDateToOperationIntervalID()
     {
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
@@ -113,7 +112,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the convertDateToOperationIntervalStartAndEndDates() method.
      */
-    function testConvertDateToOperationIntervalStartAndEndDates()
+    public function testConvertDateToOperationIntervalStartAndEndDates()
     {
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
@@ -127,7 +126,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
         $this->assertEqual($aDates['end'], new Date('2004-08-08 00:59:59'));
     }
 
-    function testAddOperationIntervalTimeSpan()
+    public function testAddOperationIntervalTimeSpan()
     {
         $date = new Date('2004-08-08 00:40:00');
         $nextDate = OX_OperationInterval::addOperationIntervalTimeSpan($date, 60);
@@ -140,7 +139,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the convertDateToPreviousOperationIntervalStartAndEndDates() method.
      */
-    function testConvertDateToPreviousOperationIntervalStartAndEndDates()
+    public function testConvertDateToPreviousOperationIntervalStartAndEndDates()
     {
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
@@ -157,7 +156,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the convertDateToNextOperationIntervalStartAndEndDates() method.
      */
-    function testConvertDateToNextOperationIntervalStartAndEndDates()
+    public function testConvertDateToNextOperationIntervalStartAndEndDates()
     {
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
@@ -174,10 +173,10 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the previousOperationIntervalID() method.
      */
-    function testPreviousOperationIntervalID()
+    public function testPreviousOperationIntervalID()
     {
         $operationIntervalID = 1;
-        $operationInterval   = 60;
+        $operationInterval = 60;
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 0);
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
@@ -186,15 +185,15 @@ class Test_OA_OperationIntveral extends UnitTestCase
         $this->assertEqual($operationIntervalID, 166);
 
         $operationIntervalID = 1;
-        $operationInterval   = 60;
-        $intervals           = 3;
+        $operationInterval = 60;
+        $intervals = 3;
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 166);
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 163);
 
         $operationIntervalID = 1;
-        $operationInterval   = 30;
+        $operationInterval = 30;
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 0);
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
@@ -203,8 +202,8 @@ class Test_OA_OperationIntveral extends UnitTestCase
         $this->assertEqual($operationIntervalID, 334);
 
         $operationIntervalID = 1;
-        $operationInterval   = 30;
-        $intervals           = 3;
+        $operationInterval = 30;
+        $intervals = 3;
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 334);
         $operationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
@@ -214,10 +213,10 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the nextOperationIntervalID() method.
      */
-    function testNextOperationIntervalID()
+    public function testNextOperationIntervalID()
     {
         $operationIntervalID = 166;
-        $operationInterval   = 60;
+        $operationInterval = 60;
         $operationIntervalID = OX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 167);
         $operationIntervalID = OX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
@@ -226,13 +225,13 @@ class Test_OA_OperationIntveral extends UnitTestCase
         $this->assertEqual($operationIntervalID, 1);
 
         $operationIntervalID = 166;
-        $operationInterval   = 60;
-        $intervals           = 3;
+        $operationInterval = 60;
+        $intervals = 3;
         $operationIntervalID = OX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 1);
 
         $operationIntervalID = 334;
-        $operationInterval   = 30;
+        $operationInterval = 30;
         $operationIntervalID = OX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 335);
         $operationIntervalID = OX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
@@ -241,8 +240,8 @@ class Test_OA_OperationIntveral extends UnitTestCase
         $this->assertEqual($operationIntervalID, 1);
 
         $operationIntervalID = 334;
-        $operationInterval   = 30;
-        $intervals           = 3;
+        $operationInterval = 30;
+        $intervals = 3;
         $operationIntervalID = OX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 1);
     }
@@ -250,38 +249,38 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the checkDatesInSameHour() method.
      */
-    function testCheckDatesInSameHour()
+    public function testCheckDatesInSameHour()
     {
         $start = new Date('2004-09-11 19:00:00');
-        $end   = new Date('2004-09-11 19:00:00');
+        $end = new Date('2004-09-11 19:00:00');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:59:59');
-        $end   = new Date('2004-09-11 19:59:59');
+        $end = new Date('2004-09-11 19:59:59');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:00:00');
-        $end   = new Date('2004-09-11 19:00:01');
+        $end = new Date('2004-09-11 19:00:01');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:00:00');
-        $end   = new Date('2004-09-11 19:59:59');
+        $end = new Date('2004-09-11 19:59:59');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:59:59');
-        $end   = new Date('2004-09-11 20:00:00');
+        $end = new Date('2004-09-11 20:00:00');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
         $start = new Date('2004-09-11 18:00:00');
-        $end   = new Date('2004-09-12 18:00:00');
+        $end = new Date('2004-09-12 18:00:00');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
         $start = new Date('2004-08-11 18:00:00');
-        $end   = new Date('2004-09-11 18:00:00');
+        $end = new Date('2004-09-11 18:00:00');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
         $start = new Date('2003-09-11 18:00:00');
-        $end   = new Date('2004-09-11 18:00:00');
+        $end = new Date('2004-09-11 18:00:00');
         $return = OX_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
     }
@@ -289,9 +288,9 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the checkIntervalDates() method.
      */
-    function testCheckIntervalDates()
+    public function testCheckIntervalDates()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         // Set the operation interval
         $conf['maintenance']['operationInterval'] = 30;
         // Test less than one operation interval
@@ -339,7 +338,8 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * A method to test the getOperationInterval() method.
      */
-    function testGetOperationInterval() {
+    public function testGetOperationInterval()
+    {
         $this->assertEqual(
             OX_OperationInterval::getOperationInterval(),
             $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval']
@@ -351,9 +351,8 @@ class Test_OA_OperationIntveral extends UnitTestCase
      *
      * @TODO Not implemented.
      */
-    function testSecondsPerOperationInterval()
+    public function testSecondsPerOperationInterval()
     {
-
     }
 
     /**
@@ -361,9 +360,8 @@ class Test_OA_OperationIntveral extends UnitTestCase
      *
      * @TODO Not implemented.
      */
-    function testOperationIntervalsPerDay()
+    public function testOperationIntervalsPerDay()
     {
-
     }
 
     /**
@@ -371,9 +369,8 @@ class Test_OA_OperationIntveral extends UnitTestCase
      *
      * @TODO Not implemented.
      */
-    function testOperationIntervalsPerWeek()
+    public function testOperationIntervalsPerWeek()
     {
-
     }
 
     /**
@@ -381,11 +378,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
      *
      * @TODO Not implemented.
      */
-    function testGetIntervalsRemaining()
+    public function testGetIntervalsRemaining()
     {
-
     }
-
 }
-
-?>

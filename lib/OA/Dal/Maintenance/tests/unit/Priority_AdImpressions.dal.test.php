@@ -24,7 +24,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -32,21 +32,21 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
     /**
      * A method to test the setRequiredAdImpressions method.
      */
-    function testSaveRequiredAdImpressions()
+    public function testSaveRequiredAdImpressions()
     {
         $oDal = new OA_Dal_Maintenance_Priority();
-        $oTable =& OA_DB_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'] = true;
-        $aData = array(
-            array(
-                'ad_id'                => 23,
+        $aData = [
+            [
+                'ad_id' => 23,
                 'required_impressions' => 140,
-            )
-        );
+            ]
+        ];
         $result = $oDal->saveRequiredAdImpressions($aData);
         $oDbh = OA_DB::singleton();
-        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('tmp_ad_required_impression',true);
+        $query = "SELECT * FROM " . $oDbh->quoteIdentifier('tmp_ad_required_impression', true);
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchAll();
         $this->assertTrue(is_array($aRow));
@@ -63,28 +63,28 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
     /**
      * A method to test the getRequiredAdImpressions method.
      */
-    function testGetRequiredAdImpressions()
+    public function testGetRequiredAdImpressions()
     {
         $oDal = new OA_Dal_Maintenance_Priority();
-        $oTable =& OA_DB_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression'] = true;
-        $aData = array(
-            array(
-                'ad_id'                => 23,
+        $aData = [
+            [
+                'ad_id' => 23,
                 'required_impressions' => 140,
-            ),
-            array(
-                'ad_id'                => 29,
+            ],
+            [
+                'ad_id' => 29,
                 'required_impressions' => 120,
-            )
-        );
+            ]
+        ];
         $result = $oDal->saveRequiredAdImpressions($aData);
-        $aAdvertID = array(
+        $aAdvertID = [
             1,
             2,
             29
-        );
+        ];
         $aData = $oDal->getRequiredAdImpressions($aAdvertID);
         $this->assertEqual(count($aData), 1);
         $this->assertTrue(array_key_exists(29, $aData));
@@ -97,30 +97,30 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
     /**
      * A method to test the saveAllocatedImpressions method.
      */
-    function testSaveAllocatedImpressions()
+    public function testSaveAllocatedImpressions()
     {
         $oDbh = OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
         // Create the required temporary table for the tests
-        $oTable =& OA_DB_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
         // Prepare the test data
-        $aData = array(
-            array(
-                'ad_id'       => 56,
-                'zone_id'     => 11,
+        $aData = [
+            [
+                'ad_id' => 56,
+                'zone_id' => 11,
                 'required_impressions' => 9997,
                 'requested_impressions' => 9000
-            ),
-            array(
-                'ad_id'       => 56,
-                'zone_id'     => 12,
+            ],
+            [
+                'ad_id' => 56,
+                'zone_id' => 12,
                 'required_impressions' => 24,
                 'requested_impressions' => 24
-            )
-        );
+            ]
+        ];
         $result = $oDal->saveAllocatedImpressions($aData);
-        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('tmp_ad_zone_impression',true)." ORDER BY ad_id, zone_id";
+        $query = "SELECT * FROM " . $oDbh->quoteIdentifier('tmp_ad_zone_impression', true) . " ORDER BY ad_id, zone_id";
         $rc = $oDbh->query($query);
         $result = $rc->fetchAll();
         $this->assertTrue(is_array($result));
@@ -146,5 +146,3 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
         TestEnv::dropTempTables();
     }
 }
-
-?>

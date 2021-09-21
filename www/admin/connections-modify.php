@@ -28,27 +28,27 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
-$clientId      = MAX_getValue('clientid');
-$campaignId    = MAX_getValue('campaignid');
-$bannerId      = MAX_getValue('bannerid');
-$affiliateId   = MAX_getValue('affiliteid');
-$zoneId        = MAX_getValue('zoneid');
+$clientId = MAX_getValue('clientid');
+$campaignId = MAX_getValue('campaignid');
+$bannerId = MAX_getValue('bannerid');
+$affiliateId = MAX_getValue('affiliteid');
+$zoneId = MAX_getValue('zoneid');
 $period_preset = MAX_getValue('period_preset');
-$period_start  = MAX_getValue('period_start');
-$period_end    = MAX_getValue('period_end');
-$day           = MAX_getValue('day');
-$howLong       = MAX_getValue('howLong');
-$hour          = MAX_getValue('hour');
-$returnurl     = MAX_getValue('returnurl');
-$statusIds     = MAX_getValue('statusIds');
-$pageID        = (int) MAX_getValue('pageID');
-$setPerPage    = (int) MAX_getValue('setPerPage', 15);
+$period_start = MAX_getValue('period_start');
+$period_end = MAX_getValue('period_end');
+$day = MAX_getValue('day');
+$howLong = MAX_getValue('howLong');
+$hour = MAX_getValue('hour');
+$returnurl = MAX_getValue('returnurl');
+$statusIds = MAX_getValue('statusIds');
+$pageID = (int) MAX_getValue('pageID');
+$setPerPage = (int) MAX_getValue('setPerPage', 15);
 
-$aParams = array();
+$aParams = [];
 
-$aParams['clientid']   = $clientId;
+$aParams['clientid'] = $clientId;
 $aParams['campaignid'] = $campaignId;
-$aParams['bannerid']   = $bannerId;
+$aParams['bannerid'] = $bannerId;
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -61,31 +61,31 @@ if (!empty($day)) {
     $period_preset = '';
     // Always refresh howLong and hour
     $howLong = MAX_getValue('howLong', 'd');
-    $hour    = MAX_getValue('hour');
+    $hour = MAX_getValue('hour');
 } else {
-    $period_preset  = MAX_getStoredValue('period_preset', 'today');
-    $period_start   = MAX_getStoredValue('period_start', date('Y-m-d'));
-    $period_end     = MAX_getStoredValue('period_end', date('Y-m-d'));
+    $period_preset = MAX_getStoredValue('period_preset', 'today');
+    $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
+    $period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
 }
 
-if(!empty($period_preset)) {
+if (!empty($period_preset)) {
     $aDates = MAX_getDatesByPeriod($period_preset, $period_start, $period_end);
 } else {
-    $aDates = array();
+    $aDates = [];
     $oDayDate = new Date();
     $oDayDate->setDate($day, DATE_FORMAT_TIMESTAMP);
-    if(!empty($hour)) {
+    if (!empty($hour)) {
         // If hour is set build day date including hour
-        $aDates['day_hour'] = $oDayDate->format('%Y-%m-%d').' '.$hour;
+        $aDates['day_hour'] = $oDayDate->format('%Y-%m-%d') . ' ' . $hour;
     } else {
         // Build month, day, day_begin and day_end dependends on $howLong
-        switch($howLong) {
+        switch ($howLong) {
             case 'm':
                 $aDates['month'] = $oDayDate->format('%Y-%m');
                 break;
             case 'w':
                 $aDates['day_begin'] = $oDayDate->format('%Y-%m-%d');
-                $oDayDate->addSeconds(60*60*24*7); // Add 7 days
+                $oDayDate->addSeconds(60 * 60 * 24 * 7); // Add 7 days
                 $aDates['day_end'] = $oDayDate->format('%Y-%m-%d');
                 break;
             case 'd':
@@ -105,16 +105,14 @@ $aParams['agency_id'] = OA_Permission::getAgencyId();
 
 // Get conversions - additional security check which allow to edit only those conversions visible to user
 $aConversions = Admin_DA::getConversions($aParams + $aDates);
-if (!empty($aConversions))
-{
+if (!empty($aConversions)) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $modified = false;
 
     // Modify conversions
-    foreach($statusIds as $conversionId => $statusId) {
-        if(isset($aConversions[$conversionId]) && $aConversions[$conversionId]['connection_status'] != $statusId) {
-
+    foreach ($statusIds as $conversionId => $statusId) {
+        if (isset($aConversions[$conversionId]) && $aConversions[$conversionId]['connection_status'] != $statusId) {
             $modified = true;
             // Edit conversion
             $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
@@ -122,17 +120,17 @@ if (!empty($aConversions))
             $doData_intermediate_ad_connection->connection_status = $statusId;
             $doData_intermediate_ad_connection->update();
 
-            if($aConversions[$conversionId]['connection_status'] == MAX_CONNECTION_STATUS_APPROVED || $statusId == MAX_CONNECTION_STATUS_APPROVED) {
+            if ($aConversions[$conversionId]['connection_status'] == MAX_CONNECTION_STATUS_APPROVED || $statusId == MAX_CONNECTION_STATUS_APPROVED) {
                 // Connection was changed to conversion (or conversion was changed to connection)
                 $aConVariables = Admin_DA::fromCache('getConnectionVariables', $conversionId);
                 // Sum up basket values
                 $basketValue = 0;
-                $numItems    = 0;
-                foreach($aConVariables as $conVariable) {
-                    if($conVariable['purpose'] == 'basket_value') {
+                $numItems = 0;
+                foreach ($aConVariables as $conVariable) {
+                    if ($conVariable['purpose'] == 'basket_value') {
                         $basketValue += $conVariable['value'];
                     } elseif ($conVariable['purpose'] == 'num_items') {
-                        $numItems    += $conVariable['value'];
+                        $numItems += $conVariable['value'];
                     }
                 }
 
@@ -152,14 +150,14 @@ if (!empty($aConversions))
 
                 $operation = null;
                 // If conversion was changed to connection
-                if($aConversions[$conversionId]['connection_status'] == MAX_CONNECTION_STATUS_APPROVED) {
+                if ($aConversions[$conversionId]['connection_status'] == MAX_CONNECTION_STATUS_APPROVED) {
                     // Substract conversion from "data_intermediate_ad" and from "data_summary_ad_hourly"
                     // and remove $connectionBasketValue from total_basket_value
                     $operation = '-';
                 }
 
                 // If connection was changed to conversion
-                if($statusId == MAX_CONNECTION_STATUS_APPROVED) {
+                if ($statusId == MAX_CONNECTION_STATUS_APPROVED) {
                     // Add new conversion to "data_intermediate_ad" and from "data_summary_ad_hourly"
                     // and add $connectionBasketValue to total_basket_value
                     $operation = '+';
@@ -171,7 +169,7 @@ if (!empty($aConversions))
 
                     // Run serviceLocator register functions
                     $plugins = &MAX_Plugin::getPlugins('Maintenance');
-                    foreach($plugins as $plugin) {
+                    foreach ($plugins as $plugin) {
                         if ($plugin->getHook() == MSE_PLUGIN_HOOK_AdServer_saveSummary) {
                             $plugin->serviceLocatorRegister();
 
@@ -183,7 +181,6 @@ if (!empty($aConversions))
                             }
                         }
                     }
-
                 } else {
                     $plugin = null;
                     $data_summary_table = 'data_summary_ad_hourly';
@@ -191,14 +188,29 @@ if (!empty($aConversions))
 
                 // Update "data_intermediate_ad" table
                 $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
-                $dalData_intermediate_ad->addConversion($operation,
-                    $basketValue, $numItems, $ad_id,
-                    $creative_id, $zone_id, $opDay, $opHour);
+                $dalData_intermediate_ad->addConversion(
+                    $operation,
+                    $basketValue,
+                    $numItems,
+                    $ad_id,
+                    $creative_id,
+                    $zone_id,
+                    $opDay,
+                    $opHour
+                );
 
                 // Update "$data_summary_table" table
-                $dalData_intermediate_ad->addConversion($operation,
-                    $basketValue, $numItems, $ad_id,
-                    $creative_id, $zone_id, $opDay, $opHour, $data_summary_table);
+                $dalData_intermediate_ad->addConversion(
+                    $operation,
+                    $basketValue,
+                    $numItems,
+                    $ad_id,
+                    $creative_id,
+                    $zone_id,
+                    $opDay,
+                    $opHour,
+                    $data_summary_table
+                );
 
                 // Update finance info
                 $oServiceLocator = OA_ServiceLocator::instance();
@@ -208,7 +220,7 @@ if (!empty($aConversions))
                     $oDal = $oFactory->factory();
                 }
                 $oStartDate = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
-                $oEndDate   = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
+                $oEndDate = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
                 $oDal->_saveSummaryUpdateWithFinanceInfo($oStartDate, $oEndDate, $data_summary_table);
 
                 if (!is_null($plugin)) {
@@ -217,14 +229,14 @@ if (!empty($aConversions))
             }
         }
     }
-    if($modified) {
+    if ($modified) {
         // Clear cache
         include_once 'Cache/Lite.php';
-        $options = array(
+        $options = [
                 'cacheDir' => MAX_CACHE,
-        );
+        ];
         $cache = new Cache_Lite($options);
-        $cache->clean(OX_getHostName().'stats');
+        $cache->clean(OX_getHostName() . 'stats');
     }
 }
 
@@ -249,6 +261,4 @@ if (!empty($setPerPage)) {
     $addUrl .= "&setPerPage={$setPerPage}";
 }
 
-Header ("Location: ".$returnurl."?".$addUrl);
-
-?>
+Header("Location: " . $returnurl . "?" . $addUrl);

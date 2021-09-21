@@ -16,18 +16,17 @@
  */
 class oxCacheFile_processSettings
 {
-
     /**
      * Method that is called on settings form submission
      * Error messages are appended to the 0 index of the array
      *
      * @return boolean
      */
-    function validate(&$aErrorMessage)
+    public function validate(&$aErrorMessage)
     {
         // Store current values from config
         // overwrite it by tested ones
-        $storeSettings = array();
+        $storeSettings = [];
         if (isset($GLOBALS['oxCacheFile_cachePath'])) {
             $storeSettings['cachePath'] = $GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'];
             $GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'] = $GLOBALS['oxCacheFile_cachePath'];
@@ -49,6 +48,3 @@ class oxCacheFile_processSettings
         return $result;
     }
 }
-
-
-?>

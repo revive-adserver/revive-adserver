@@ -30,67 +30,61 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $oOptions = new OA_Admin_Option('preferences');
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 $pattern = '/[^a-zA-Z0-9\._-]/';
-$plugin   = preg_replace($pattern, '', $_REQUEST['parent']);
-$group    = preg_replace($pattern, '', $_REQUEST['group']);
-$parent   = preg_replace($pattern, '', $_REQUEST['parent']);
+$plugin = preg_replace($pattern, '', $_REQUEST['parent']);
+$group = preg_replace($pattern, '', $_REQUEST['group']);
+$parent = preg_replace($pattern, '', $_REQUEST['parent']);
 
 if ($plugin) {
-    $backURL =  "plugin-index.php?action=info&package=$plugin";
-}
-else {
+    $backURL = "plugin-index.php?action=info&package=$plugin";
+} else {
     $backURL = "plugin-index.php?selection=plugins";
 }
 
 // get the settings for this plugin
-$oManager   = new OX_Plugin_ComponentGroupManager();
-$aConfig    = $oManager->_getComponentGroupConfiguration($group);
+$oManager = new OX_Plugin_ComponentGroupManager();
+$aConfig = $oManager->_getComponentGroupConfiguration($group);
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
-{
+if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
-    $aElements = array();
-    foreach ($aConfig['preferences'] as $k => $v)
-    {
-        $aElements[] = $group.'_'.$v['key'];
+    $aElements = [];
+    foreach ($aConfig['preferences'] as $k => $v) {
+        $aElements[] = $group . '_' . $v['key'];
         // Register the HTML element value
-        MAX_commonRegisterGlobalsArray(array($group.'_'.$v['key']));
+        MAX_commonRegisterGlobalsArray([$group . '_' . $v['key']]);
     }
-    $aCheckboxes = array();
+    $aCheckboxes = [];
 
     $valid = true;
-    $validationFile = MAX_PATH.$GLOBALS['_MAX']['CONF']['pluginPaths']['packages'].$group.'/processPreferences.php';
-    if (file_exists($validationFile))
-    {
-        $className = $group.'_processPreferences';
+    $validationFile = MAX_PATH . $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . $group . '/processPreferences.php';
+    if (file_exists($validationFile)) {
+        $className = $group . '_processPreferences';
         include($validationFile);
-        if (class_exists($className))
-        {
-            $oPlugin = new $className;
-            if (method_exists($oPlugin, 'validate'))
-            {
-                $aErrormessage = array();
+        if (class_exists($className)) {
+            $oPlugin = new $className();
+            if (method_exists($oPlugin, 'validate')) {
+                $aErrormessage = [];
                 $valid = $oPlugin->validate($aErrormessage);
             }
         }
     }
 
-    if ($valid)
-    {
+    if ($valid) {
         // Create a new preferences object, and save the preferences!
         $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
-        if ($result)
-        {
+        if ($result) {
             // Queue confirmation message
             $title = $group . ' ' . $GLOBALS['strPluginPreferences'];
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate(
+                $GLOBALS['strXPreferencesHaveBeenUpdated'],
+                [htmlspecialchars($title)]
+            );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
             // The settings configuration file was written correctly,
@@ -107,40 +101,39 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aPreferences[0]['text'] = $group.' '.$strPreferences;
+$aPreferences[0]['text'] = $group . ' ' . $strPreferences;
 $count = count($aConfig['preferences']);
 $i = 0;
-foreach ($aConfig['preferences'] as $k => $v)
-{
-    $aPreferences[0]['items'][] = array(
-                                         'type'    => $v['type'],
-                                         'name'    => $group.'_'.$v['name'],
-                                         'text'    => $v['label'],
-                                         'req'     => $v['required'],
-                                         'size'    => $v['size'],
-                                         'value'   => $v['value'],
+foreach ($aConfig['preferences'] as $k => $v) {
+    $aPreferences[0]['items'][] = [
+                                         'type' => $v['type'],
+                                         'name' => $group . '_' . $v['name'],
+                                         'text' => $v['label'],
+                                         'req' => $v['required'],
+                                         'size' => $v['size'],
+                                         'value' => $v['value'],
                                          'visible' => $v['visible'],
-                                         );
+                                         ];
     //add break after a field excluding last
     $i++;
     if ($i < $count) {
-        $aPreferences[0]['items'][] = array (
-                    'type'    => 'break'
-                );
+        $aPreferences[0]['items'][] = [
+                    'type' => 'break'
+                ];
     }
 }
 
 
-$aPreferences[0]['items'][] = array(
-                                     'type'    => 'hiddenfield',
-                                     'name'    => 'plugin',
-                                     'value'   => $plugin,
-                                     );
-$aPreferences[0]['items'][] = array(
-                                 'type'    => 'hiddenfield',
-                                 'name'    => 'group',
-                                 'value'   => $group,
-                                 );
+$aPreferences[0]['items'][] = [
+                                     'type' => 'hiddenfield',
+                                     'name' => 'plugin',
+                                     'value' => $plugin,
+                                     ];
+$aPreferences[0]['items'][] = [
+                                 'type' => 'hiddenfield',
+                                 'name' => 'group',
+                                 'value' => $group,
+                                 ];
 
 
 $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
@@ -164,6 +157,3 @@ $oTpl->display();
 $oOptions->show($aPreferences, $aErrormessage);
 
 phpAds_PageFooter();
-
-
-?>

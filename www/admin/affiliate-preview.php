@@ -48,5 +48,3 @@ $maxInvocation = new MAX_Admin_Invocation();
 
 $invocationTag = null;
 echo $maxInvocation->generateInvocationCode($invocationTag);
-
-?>

@@ -14,19 +14,19 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class MAX_Dal_Admin_Channel extends MAX_Dal_Common
 {
-    var $table = 'channel';
+    public $table = 'channel';
 
-    var $orderListName = array(
+    public $orderListName = [
         'name' => 'name',
-        'id'   => 'channelid'
-    );
+        'id' => 'channelid'
+    ];
 
-	function getChannelsAndAffiliates()
+    public function getChannelsAndAffiliates()
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        $tableCh = $oDbh->quoteIdentifier($prefix.'channel',true);
-        $tableAf = $oDbh->quoteIdentifier($prefix.'affiliates',true);
+        $tableCh = $oDbh->quoteIdentifier($prefix . 'channel', true);
+        $tableAf = $oDbh->quoteIdentifier($prefix . 'affiliates', true);
         $query = "
             SELECT
                 ch.channelid,
@@ -43,7 +43,4 @@ class MAX_Dal_Admin_Channel extends MAX_Dal_Common
 
         return DBC::NewRecordSet($query);
     }
-
 }
-
-?>

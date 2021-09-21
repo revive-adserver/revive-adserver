@@ -34,7 +34,7 @@ class OX_Maintenance_Statistics_MigrateBucketData
     public $oDbh;
     private $aPackages;
 
-    function __construct()
+    public function __construct()
     {
         // Get a connection to the datbase
         $this->oDbh = OA_DB::singleton();
@@ -61,12 +61,12 @@ class OX_Maintenance_Statistics_MigrateBucketData
         $aRunComponents = $this->prepareMaps($this->locateComponents());
 
         // TODO: make it work for a range of dates
-        $aDates = array(
+        $aDates = [
             'start' => $oStartDate,
             'end' => $oEndDate
-        );
+        ];
 
-       // Prepare the DAL object
+        // Prepare the DAL object
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();
 
@@ -92,12 +92,12 @@ class OX_Maintenance_Statistics_MigrateBucketData
      */
     private function locateComponents()
     {
-        $aSummariseComponents = array();
+        $aSummariseComponents = [];
         foreach ($this->aPackages as $aPluginInfo) {
             foreach ($aPluginInfo['contents'] as $aContents) {
                 if ($aContents['extends'] == 'deliveryLog') {
                     foreach ($aContents['components'] as $aComponent) {
-                        $oComponent =& OX_Component::factory('deliveryLog', $aContents['name'], $aComponent['name']);
+                        $oComponent = &OX_Component::factory('deliveryLog', $aContents['name'], $aComponent['name']);
                         if ($oComponent->enabled) {
                             $destinationTable = $oComponent->getStatisticsTableName();
                             $aSummariseComponents[$destinationTable][get_class($oComponent)] = $oComponent;
@@ -125,7 +125,7 @@ class OX_Maintenance_Statistics_MigrateBucketData
      */
     private function prepareMaps($aSummariseComponents)
     {
-        $aRunComponents = array();
+        $aRunComponents = [];
 
         foreach ($aSummariseComponents as $statisticsTable => $aComponents) {
             foreach ($aComponents as $oComponent) {
@@ -141,6 +141,4 @@ class OX_Maintenance_Statistics_MigrateBucketData
         }
         return $aRunComponents;
     }
-
-
 }

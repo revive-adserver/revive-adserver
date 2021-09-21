@@ -15,19 +15,19 @@
  * @subpackage TestSuite Data
  */
 
-$zoneId		=	0;
-$source		=	'';
-$ct0		=	'';
-$withText	=	false;
-$logClick	=	true;
-$logView	=	true;
-$useAlt		=	false;
-$loc		=	0;
-$referer	= 	'http://some.referrer.com/';
-$richMedia  =   false;
+$zoneId = 0;
+$source = '';
+$ct0 = '';
+$withText = false;
+$logClick = true;
+$logView = true;
+$useAlt = false;
+$loc = 0;
+$referer = 'http://some.referrer.com/';
+$richMedia = false;
 $conf = $GLOBALS['_MAX']['CONF'];
 
-$aBanner    =   array(
+$aBanner = [
     'ad_id' => 5,
     'placement_id' => 1,
     'active' => 't',
@@ -38,7 +38,7 @@ $aBanner    =   array(
     'filename' => '',
     'imageurl' => '',
     'htmltemplate' => '',
-    'htmlcache' =>  '',
+    'htmlcache' => '',
     'width' => 0,
     'height' => 0,
     'weight' => 1,
@@ -59,11 +59,9 @@ $aBanner    =   array(
     'alt_filename' => '',
     'alt_imageurl' => '',
     'alt_contenttype' => '',
-);
+];
 
 $expectNoBeacon =
 "<a href='{clickurl_html}' target='_blank'>m3 media services</a>";
 $expect = $expectNoBeacon .
 "<div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/{$GLOBALS['_MAX']['CONF']['file']['log']}?{$conf['var']['adId']}=5&amp;campaignid=1&amp;{$conf['var']['zoneId']}=0&amp;referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>";
-
-?>

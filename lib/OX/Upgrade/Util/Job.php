@@ -10,11 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OX/Admin/UI/SessionStorage.php';
-require_once MAX_PATH.'/lib/OX/Admin/UI/Install/InstallStatus.php';
-require_once MAX_PATH.'/lib/OX/Admin/UI/Install/InstallUtils.php';
-require_once MAX_PATH.'/lib/OX/Admin/UI/Install/Wizard.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/SessionStorage.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Install/InstallStatus.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Install/InstallUtils.php';
+require_once MAX_PATH . '/lib/OX/Admin/UI/Install/Wizard.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php';
 
 /**
  * class containing common codes for jobs tasks
@@ -24,7 +24,6 @@ require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php';
  */
 class OX_Upgrade_Util_Job
 {
-
     /**
      * @var OA_UpgradeLogger
      */
@@ -37,13 +36,13 @@ class OX_Upgrade_Util_Job
      */
     public static function saveJobResult($result)
     {
-        if (!empty($result['name'])&& !empty($result['type'])) {
+        if (!empty($result['name']) && !empty($result['type'])) {
             $oStorage = OX_Admin_UI_Install_InstallUtils::getSessionStorage();
             $aJobStatuses = $oStorage->get('aJobStatuses');
             if (!isset($aJobStatuses)) {
-                $aJobStatuses = array();
+                $aJobStatuses = [];
             }
-            $aJobStatuses[$result['type'].':'.$result['name']] = $result;
+            $aJobStatuses[$result['type'] . ':' . $result['name']] = $result;
             $oStorage->set('aJobStatuses', $aJobStatuses);
         }
     }
@@ -86,7 +85,6 @@ class OX_Upgrade_Util_Job
             self::$oLogger = new OA_UpgradeLogger();
         }
         $result['errors'][] = $message;
-        self::$oLogger->logError($result['name'].'('.$result['type'].'): '. $message);
+        self::$oLogger->logError($result['name'] . '(' . $result['type'] . '): ' . $message);
     }
-
 }

@@ -10,25 +10,24 @@
 +---------------------------------------------------------------------------+
 */
 
-class Test_OX_Admin_UI_Event_TestEventListener 
+class Test_OX_Admin_UI_Event_TestEventListener
 {
     public $aCallCount;
     
-    function __construct()
+    public function __construct()
     {
-        $this->aCallCount = array();
+        $this->aCallCount = [];
     }
     
     
-    function onUpdate(OX_Admin_UI_Event_EventContext $context)
+    public function onUpdate(OX_Admin_UI_Event_EventContext $context)
     {
         $eventName = $context->eventName;
         unset($context->eventName);
         
         if (isset($context->data["callcount"])) {
             $context->data["callcount"]++;
-        }
-        else {
+        } else {
             $context->data["callcount"] = 1;
         }
 
@@ -41,5 +40,3 @@ class Test_OX_Admin_UI_Event_TestEventListener
         $this->aCallCount[$eventName]['lastContext'] = $context;
     }
 }
-
-?>

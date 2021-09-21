@@ -31,31 +31,31 @@ class OA_Admin_PasswordRecovery
     /**
      *  @var OA_Dal_PasswordRecovery
      */
-    var $_dal;
+    public $_dal;
 
     /**
      * PHP4-style constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_useDefaultDal();
     }
 
-    function _useDefaultDal()
+    public function _useDefaultDal()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
-        $dal =& $oServiceLocator->get('OA_Dal_PasswordRecovery');
+        $dal = &$oServiceLocator->get('OA_Dal_PasswordRecovery');
         if (!$dal) {
             $dal = new OA_Dal_PasswordRecovery();
         }
-        $this->_dal =& $dal;
+        $this->_dal = &$dal;
     }
 
     /**
      * Display page header
      *
      */
-    function pageHeader()
+    public function pageHeader()
     {
         phpAds_PageHeader(phpAds_PasswordRecovery);
 
@@ -66,7 +66,7 @@ class OA_Admin_PasswordRecovery
      * Display page footer and make sure that the session gets destroyed
      *
      */
-    function pageFooter()
+    public function pageFooter()
     {
         // Remove session
         unset($GLOBALS['session']);
@@ -80,7 +80,7 @@ class OA_Admin_PasswordRecovery
      * This method, combined with handlePost allows semantic, REST-style
      * actions.
      */
-    function handleGet($vars)
+    public function handleGet($vars)
     {
         $this->pageHeader();
         if (empty($vars['id'])) {
@@ -99,7 +99,7 @@ class OA_Admin_PasswordRecovery
      * This method, combined with handleGet allows semantic, REST-style
      * actions.
      */
-    function handlePost($vars)
+    public function handlePost($vars)
     {
         OA_Permission::checkSessionToken();
 
@@ -113,17 +113,15 @@ class OA_Admin_PasswordRecovery
                 // Always pretend an email was sent, even if not to avoid information disclosure
                 $this->displayMessage($GLOBALS['strNotifyPageMessage']);
             }
-        } else {
-            if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
-                $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
-            } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-                $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
+        } elseif (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
+            $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
+        } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
+            $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
 
-                phpAds_SessionRegenerateId(true);
-                OX_Admin_Redirect::redirect();
-            } else {
-                $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
-            }
+            phpAds_SessionRegenerateId(true);
+            OX_Admin_Redirect::redirect();
+        } else {
+            $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
         }
         $this->pageFooter();
     }
@@ -133,7 +131,7 @@ class OA_Admin_PasswordRecovery
      *
      * @param string message to be displayed
      */
-    function displayMessage($message)
+    public function displayMessage($message)
     {
         phpAds_showBreak();
 
@@ -147,7 +145,7 @@ class OA_Admin_PasswordRecovery
      *
      * @param string error message text
      */
-    function displayRecoveryRequestForm($errormessage = '')
+    public function displayRecoveryRequestForm($errormessage = '')
     {
         if (!empty($errormessage)) {
             echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
@@ -156,13 +154,13 @@ class OA_Admin_PasswordRecovery
 
         echo "<form method='post' action='password-recovery.php'>\n";
 
-        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'/>\n";
+        echo "<input type='hidden' name='token' value='" . phpAds_SessionGetToken() . "'/>\n";
 
-        echo "<div class='install'>".$GLOBALS['strPwdRecEnterEmail']."</div>";
+        echo "<div class='install'>" . $GLOBALS['strPwdRecEnterEmail'] . "</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
-        echo "<tr height='24'><td>".$GLOBALS['strEMail'].":&nbsp;</td><td><input type='text' name='email' /></td></tr>";
-        echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$GLOBALS['strProceed']."' /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strEMail'] . ":&nbsp;</td><td><input type='text' name='email' /></td></tr>";
+        echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='" . $GLOBALS['strProceed'] . "' /></td></tr>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
 
@@ -174,7 +172,7 @@ class OA_Admin_PasswordRecovery
      *
      * @param string error message text
      */
-    function displayRecoveryResetForm($id, $errormessage = '')
+    public function displayRecoveryResetForm($id, $errormessage = '')
     {
         if (!empty($errormessage)) {
             echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
@@ -182,15 +180,15 @@ class OA_Admin_PasswordRecovery
         }
 
         echo "<form method='post' action='password-recovery.php'>\n";
-        echo "<input type='hidden' name='id' value=\"".htmlspecialchars($id)."\" />";
-        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'/>\n";
+        echo "<input type='hidden' name='id' value=\"" . htmlspecialchars($id) . "\" />";
+        echo "<input type='hidden' name='token' value='" . phpAds_SessionGetToken() . "'/>\n";
 
-        echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
+        echo "<div class='install'>" . $GLOBALS['strPwdRecEnterPassword'] . "</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
-        echo "<tr height='24'><td>".$GLOBALS['strPassword'].":&nbsp;</td><td><input type='password' name='newpassword' /></td></tr>";
-        echo "<tr height='24'><td>".$GLOBALS['strRepeatPassword'].":&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
-        echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='".$GLOBALS['strProceed']."' /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strRepeatPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
+        echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='" . $GLOBALS['strProceed'] . "' /></td></tr>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
 
@@ -201,7 +199,7 @@ class OA_Admin_PasswordRecovery
      * Check if the user is allowed to see the password recovery tools
      *
      */
-    function checkAccess()
+    public function checkAccess()
     {
         return !OA_Auth::isLoggedIn() && !OA_Auth::suppliedCredentials();
     }
@@ -214,7 +212,7 @@ class OA_Admin_PasswordRecovery
      * @param string email address
      * @return int Number of emails sent
      */
-    function sendRecoveryEmail($email)
+    public function sendRecoveryEmail($email)
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $sent = 0;
@@ -245,9 +243,9 @@ class OA_Admin_PasswordRecovery
             $emailBody = str_replace('{reset_link}', $recoveryUrl, $emailBody);
             if (!empty($aConf['email']['fromName']) && !empty($aConf['email']['fromAddress'])) {
                 $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromName']}\n{$aConf['email']['fromAddress']}";
-            } else if (!empty($aConf['email']['fromName'])) {
+            } elseif (!empty($aConf['email']['fromName'])) {
                 $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromName']}";
-            } else if (!empty($aConf['email']['fromAddress'])) {
+            } elseif (!empty($aConf['email']['fromAddress'])) {
                 $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromAddress']}";
             } else {
                 $adminSignature = "";
@@ -267,5 +265,3 @@ class OA_Admin_PasswordRecovery
         return $sent;
     }
 }
-
-?>

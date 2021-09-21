@@ -23,12 +23,12 @@ class OA_PermanentCache
     /**
      * @var Cache_Lite
      */
-    var $oCache;
+    public $oCache;
 
     /**
      * @var string
      */
-    var $cachePath;
+    public $cachePath;
 
     /**
      * Class constructor
@@ -37,19 +37,19 @@ class OA_PermanentCache
      *
      * @return OA_PermanentCache
      */
-    function __construct($cachePath = null)
+    public function __construct($cachePath = null)
     {
         $this->cachePath = is_null($cachePath) ? MAX_PATH . '/etc/permanentcache/' : $cachePath;
         if (substr($cachePath, -1) != '/') {
             $this->cachePath .= '/';
         }
-        $this->oCache = new Cache_Lite(array(
-            'cacheDir'                      => $this->cachePath,
-            'fileNameProtection'            => false,
-            'lifeTime'                      => null,
-            'readControlType'               => 'md5',
+        $this->oCache = new Cache_Lite([
+            'cacheDir' => $this->cachePath,
+            'fileNameProtection' => false,
+            'lifeTime' => null,
+            'readControlType' => 'md5',
             'dontCacheWhenTheResultIsFalse' => true
-        ));
+        ]);
     }
 
     /**
@@ -58,10 +58,10 @@ class OA_PermanentCache
      * @param string $cacheName The name of the original file we are retrieving
      * @return mixed The cache content or FALSE in case of cache miss
      */
-    function get($cacheName)
+    public function get($cacheName)
     {
         if (extension_loaded('zlib')) {
-            $id    = $this->_getId($cacheName);
+            $id = $this->_getId($cacheName);
             $group = $this->_getGroup($cacheName);
 
             if ($result = $this->oCache->get($id, $group, true)) {
@@ -80,10 +80,10 @@ class OA_PermanentCache
      * @param string $cacheName The name of the original file we are storing
      * @return bool True if the cache was correctly saved
      */
-    function save($data, $cacheName)
+    public function save($data, $cacheName)
     {
         if (is_writable($this->cachePath) && extension_loaded('zlib')) {
-            $id    = $this->_getId($cacheName);
+            $id = $this->_getId($cacheName);
             $group = $this->_getGroup($cacheName);
             return $this->oCache->save(gzcompress(serialize($data), 9), $id, $group);
         }
@@ -97,9 +97,9 @@ class OA_PermanentCache
      * @param string $cacheName The name of the original file
      * @return bool True if the cache was deleted
      */
-    function remove($cacheName)
+    public function remove($cacheName)
     {
-        $id    = $this->_getId($cacheName);
+        $id = $this->_getId($cacheName);
         $group = $this->_getGroup($cacheName);
         return $this->oCache->remove($id, $group);
     }
@@ -110,7 +110,7 @@ class OA_PermanentCache
      * @param string $cacheName The name of the original file
      * @return string The cache ID (the base file name without extension)
      */
-    function _getId($cacheName)
+    public function _getId($cacheName)
     {
         // Deal with class::method style cache names
         $cacheName = str_replace('::', '/', $cacheName);
@@ -119,7 +119,7 @@ class OA_PermanentCache
         $cacheName = preg_replace('/\.[^.]+?$/', '', $cacheName);
 
         $IdName = strtolower(basename($cacheName));
-        return preg_replace('/[^a-z0-9]/i', '-', $IdName).'.bin';
+        return preg_replace('/[^a-z0-9]/i', '-', $IdName) . '.bin';
     }
 
     /**
@@ -128,7 +128,7 @@ class OA_PermanentCache
      * @param string $cacheName The name of the original file
      * @return string The cache group (generated using the file path, or 'default')
      */
-    function _getGroup($cacheName)
+    public function _getGroup($cacheName)
     {
         // Deal with class::method style cache names
         $cacheName = str_replace('::', '/', $cacheName);
@@ -146,5 +146,3 @@ class OA_PermanentCache
         return 'default';
     }
 }
-
-?>

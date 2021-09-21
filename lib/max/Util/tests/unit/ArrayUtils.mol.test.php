@@ -14,9 +14,9 @@ require_once(MAX_PATH . '/lib/max/Util/ArrayUtils.php');
 
 class MAX_Util_ArrayUtilsTest extends UnitTestCase
 {
-    function testUnsetIfKeyNumeric()
+    public function testUnsetIfKeyNumeric()
     {
-        $aValuesExpected = array(1 => 'aaaa', 2 => 'bbbb', 3 => 'cccc', 'x' => 'zzzz');
+        $aValuesExpected = [1 => 'aaaa', 2 => 'bbbb', 3 => 'cccc', 'x' => 'zzzz'];
         $aValues = $aValuesExpected;
         
         ArrayUtils::unsetIfKeyNumeric($aValues, 'non-existent');
@@ -28,15 +28,14 @@ class MAX_Util_ArrayUtilsTest extends UnitTestCase
         ArrayUtils::unsetIfKeyNumeric($aValues, 'zzzz');
         $this->assertEqual($aValuesExpected, $aValues);
 
-        $aValuesExpected = array(1 => 'aaaa', 3 => 'cccc', 'x' => 'zzzz');
+        $aValuesExpected = [1 => 'aaaa', 3 => 'cccc', 'x' => 'zzzz'];
         ArrayUtils::unsetIfKeyNumeric($aValues, 'bbbb');
         $this->assertEqual($aValuesExpected, $aValues);
 
-        $aValuesExpected = array(1 => 'aaaa', 2 => 'bbbb','x' => 'zzzz');
-        $aValues = array(1 => 'aaaa', 2 => 'bbbb', 3 => null, 'x' => 'zzzz');
+        $aValuesExpected = [1 => 'aaaa', 2 => 'bbbb', 'x' => 'zzzz'];
+        $aValues = [1 => 'aaaa', 2 => 'bbbb', 3 => null, 'x' => 'zzzz'];
         
         ArrayUtils::unsetIfKeyNumeric($aValues, null);
         $this->assertEqual($aValuesExpected, $aValues);
     }
 }
-?>

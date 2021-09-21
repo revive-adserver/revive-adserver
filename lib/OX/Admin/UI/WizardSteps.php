@@ -28,7 +28,7 @@ class OX_UI_WizardSteps
         $aSteps = $aParams['steps'];
         $addStepNo = isset($aParams['addStepNumber']) ? $aParams['addStepNumber'] : true;
 
-        $aWizardSteps = array();
+        $aWizardSteps = [];
         $i = 0;
         $currentReached = false;
         if ($aSteps) {
@@ -37,16 +37,16 @@ class OX_UI_WizardSteps
                 $current = $stepId == $currentStepId;
 
                 if ($current && $i > 0) {
-                    $aWizardSteps[$i-1]['beforeCurrent'] = true;
+                    $aWizardSteps[$i - 1]['beforeCurrent'] = true;
                 }
 
-                $aStep = array(
+                $aStep = [
                     'id' => $stepId,
-                    'name' => $addStepNo ? ($i+1).'. '.$stepName : $stepName,
+                    'name' => $addStepNo ? ($i + 1) . '. ' . $stepName : $stepName,
                     'current' => $current,
                     'done' => !$currentReached,
                     'beforeCurrent' => false //this will be updated when current is reached
-                );
+                ];
 
                 $aWizardSteps[] = $aStep;
                 $i++;

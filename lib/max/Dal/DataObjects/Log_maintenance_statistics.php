@@ -31,9 +31,12 @@ class DataObjects_Log_maintenance_statistics extends DB_DataObjectCommon
     public $updated_to;                      // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Log_maintenance_statistics',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Log_maintenance_statistics', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'start_run' => '%NO_DATE_TIME%',
         'end_run' => '%NO_DATE_TIME%',
     ];
@@ -41,5 +44,3 @@ class DataObjects_Log_maintenance_statistics extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-
-?>

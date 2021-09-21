@@ -16,19 +16,19 @@
  * @subpackage Upgrade Package Management System
  */
 
-require_once ('XML/RPC.php' );
+require_once('XML/RPC.php');
 
-function UPMS_checkVersion($aServer, $id=0)
+function UPMS_checkVersion($aServer, $id = 0)
 {
     // Prepare variables
-    $aParams = array(
+    $aParams = [
         'changeset_id' => $id,
-    );
+    ];
 
     // Create the XML-RPC message
-    $message = new XML_RPC_Message('OXUPMS.checkID', array(
+    $message = new XML_RPC_Message('OXUPMS.checkID', [
         XML_RPC_encode($aParams)
-    ));
+    ]);
 
     // Create an XML-RPC client to talk to the XML-RPC server
     $client = new XML_RPC_Client($aServer['path'], $aServer['host'], $aServer['port']);
@@ -47,20 +47,20 @@ function UPMS_checkVersion($aServer, $id=0)
     return false;
 }
 
-function UPMS_registerVersion($aServer, $id=0, $name='unknown', $comments='')
+function UPMS_registerVersion($aServer, $id = 0, $name = 'unknown', $comments = '')
 {
 
     // Prepare variables
-    $aParams = array(
-        'user_name'         => $name,
-        'changeset_id'      => $id,
-        'comments'          => $comments,
-    );
+    $aParams = [
+        'user_name' => $name,
+        'changeset_id' => $id,
+        'comments' => $comments,
+    ];
 
     // Create the XML-RPC message
-    $message = new XML_RPC_Message('OXUPMS.registerID', array(
+    $message = new XML_RPC_Message('OXUPMS.registerID', [
         XML_RPC_encode($aParams)
-    ));
+    ]);
 
     // Create an XML-RPC client to talk to the XML-RPC server
     $client = new XML_RPC_Client($aServer['path'], $aServer['host'], $aServer['port']);
@@ -76,11 +76,11 @@ function UPMS_registerVersion($aServer, $id=0, $name='unknown', $comments='')
         return $response;
     }
 
-    return array(
-        'id'        => 'unregistered',
-        'user'      => 'unregistered',
-        'comments'  => 'unregistered',
-    );
+    return [
+        'id' => 'unregistered',
+        'user' => 'unregistered',
+        'comments' => 'unregistered',
+    ];
 }
 
 function UPMS_getNextVersion($aServer)
@@ -100,13 +100,8 @@ function UPMS_getNextVersion($aServer)
         $result = XML_RPC_decode($response->value());
 
         return $result;
-    }
-    else if ($response->faultCode() > 0)
-    {
+    } elseif ($response->faultCode() > 0) {
         $result = $response->faultString();
     }
     return $result;
 }
-
-
-?>

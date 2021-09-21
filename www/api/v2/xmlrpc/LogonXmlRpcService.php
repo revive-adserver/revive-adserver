@@ -39,7 +39,7 @@ class LogonXmlRpcService extends BaseLogonService
      * initialise the service.
      *
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -54,23 +54,23 @@ class LogonXmlRpcService extends BaseLogonService
      *
      * @return generated result (data or error)
      */
-    function logon(&$oParams)
+    public function logon(&$oParams)
     {
-        $sessionId          = null;
+        $sessionId = null;
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getScalarValues(array(&$userName, &$password),
-            array(true, true), $oParams, $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$userName, &$password],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
-        if($this->logonServiceImp->logon($userName, $password, $sessionId))
-        {
+        if ($this->logonServiceImp->logon($userName, $password, $sessionId)) {
             return XmlRpcUtils::stringTypeResponse($sessionId);
-        }
-        else
-        {
+        } else {
             return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
         }
     }
@@ -86,25 +86,19 @@ class LogonXmlRpcService extends BaseLogonService
      *
      * @return generated result (data or error)
      */
-    function logoff(&$oParams)
+    public function logoff(&$oParams)
     {
-        $sessionId          = null;
+        $sessionId = null;
         $oResponseWithError = null;
 
         if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, $oResponseWithError)) {
-
             return  $oResponseWithError;
         }
 
-        if($this->logonServiceImp->logoff($sessionId))
-        {
+        if ($this->logonServiceImp->logoff($sessionId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        }
-        else
-        {
+        } else {
             return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
         }
     }
 }
-
-?>

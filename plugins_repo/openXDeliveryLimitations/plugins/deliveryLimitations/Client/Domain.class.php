@@ -29,11 +29,9 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Client_Domain extends Plugins_DeliveryLimitations
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Client - Domain';
     }
 }
-
-?>

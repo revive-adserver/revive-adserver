@@ -23,7 +23,7 @@ class VariableServiceImpl extends BaseServiceImpl
     private $dllVariable;
 
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->dllVariable = new OA_Dll_Variable();
@@ -116,14 +116,11 @@ class VariableServiceImpl extends BaseServiceImpl
     public function getVariable($sessionId, $variableId, &$oVariableInfo)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->validateResult(
-                $this->dllVariable->getVariable($variableId, $oVariableInfo));
+                $this->dllVariable->getVariable($variableId, $oVariableInfo)
+            );
         } else {
-
             return false;
         }
     }
 }
-
-?>

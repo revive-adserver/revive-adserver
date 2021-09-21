@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
  */
 class MAX_Plugin_Translation
 {
-
     /**
      * Include plugin translation file. The method is trying to include
      * plugin translation file first for language saved in preferences and
@@ -35,7 +34,8 @@ class MAX_Plugin_Translation
      * @return boolean         True on success else false
      *
      */
-    public static function init($module, $package = null) {
+    public static function init($module, $package = null)
+    {
         if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
             // Already included
             return true;
@@ -71,9 +71,9 @@ class MAX_Plugin_Translation
     {
         // Required for lazy initialization
         if ($package === null && !isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module])) {
-            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = array();
-        } else if (!isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
-            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = array();
+            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = [];
+        } elseif (!isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
+            $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = [];
         }
 
         if ($path === null) {
@@ -155,5 +155,3 @@ class MAX_Plugin_Translation
         }
     }
 }
-
-?>

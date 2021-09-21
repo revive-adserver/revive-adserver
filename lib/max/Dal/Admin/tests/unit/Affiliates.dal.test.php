@@ -23,27 +23,27 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Affiliates.php';
  */
 class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 {
-    var $dalAffiliates;
+    public $dalAffiliates;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->dalAffiliates = OA_Dal::factoryDAL('affiliates');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testGetAffiliateByKeyword()
+    public function testGetAffiliateByKeyword()
     {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->name = 'foo';
@@ -53,7 +53,7 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->name = 'foobar';
         $doAffiliates->agencyid = 2;
-        $aAffiliateId12= DataGenerator::generateOne($doAffiliates);
+        $aAffiliateId12 = DataGenerator::generateOne($doAffiliates);
 
         // Search by name
         $expectedRows = 2;
@@ -77,7 +77,7 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $this->assertEqual($actualRows, $expectedRows);
     }
 
-    function testGetPublishersByTracker()
+    public function testGetPublishersByTracker()
     {
         $campaignId = 1;
 
@@ -111,6 +111,4 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $actualRows = $rsAffiliates->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);
     }
-
 }
-?>

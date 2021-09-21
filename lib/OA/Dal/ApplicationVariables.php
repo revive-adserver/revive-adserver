@@ -47,17 +47,13 @@ class OA_Dal_ApplicationVariables
     public static function set($name, $value)
     {
         // Load the cache
-        $aVars =& OA_Dal_ApplicationVariables::_getAll();
+        $aVars = &OA_Dal_ApplicationVariables::_getAll();
 
         $doAppVar = OA_Dal::factoryDO('application_variable');
-        $doAppVar->name  = $name;
+        $doAppVar->name = $name;
         $doAppVar->value = $value;
 
-        if (isset($aVars[$name])) {
-            $result = $doAppVar->update();
-        } else {
-            $result = $doAppVar->insert();
-        }
+        $result = isset($aVars[$name]) ? $doAppVar->update() : $doAppVar->insert();
 
         if (!$result) {
             return false;
@@ -85,7 +81,7 @@ class OA_Dal_ApplicationVariables
      */
     public static function delete($name)
     {
-        $aVars =& OA_Dal_ApplicationVariables::_getAll();
+        $aVars = &OA_Dal_ApplicationVariables::_getAll();
 
         $doAppVar = OA_Dal::factoryDO('application_variable');
         $doAppVar->name = $name;
@@ -122,8 +118,8 @@ class OA_Dal_ApplicationVariables
             $doAppVar = OA_Dal::factoryDO('application_variable');
             $doAppVar->orderBy('name');
 
-            $aVars = array();
-            foreach ($doAppVar->getAll(array(), true, false) as $key => $value) {
+            $aVars = [];
+            foreach ($doAppVar->getAll([], true, false) as $key => $value) {
                 $aVars[$key] = $value['value'];
             }
         }
@@ -141,5 +137,3 @@ class OA_Dal_ApplicationVariables
         return sha1(uniqid(rand(), true));
     }
 }
-
-?>

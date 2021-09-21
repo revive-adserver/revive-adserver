@@ -40,69 +40,69 @@ phpAds_MaintenanceSelection("encoding");
  *  'idfields' => array: fields identifying the primary (multi?) key used for the WHERE clause on update
  *  'joinon' string: Identifies which field in the table should be used to build the join up (to get the agency ID where applicable)
  */
-$aTableFields = array(
-    'acls' => array(
-        'fields' => array('data'),
-        'idfields' => array('bannerid', 'executionorder'),
-    ),
-    'acls_channel' => array(
-        'fields'    => array('data'),
-        'idfields'  => array('channelid', 'executionorder'),
-    ),
-    'affiliates' =>  array(
-        'fields' =>  array('name', 'mnemonic', 'comments', 'contact', 'email', 'website'),
-        'idfields'  => array('affiliateid'),
-    ),
-    'agency' => array(
-        'fields' => array('name', 'contact', 'email'),
-        'idfields'  => array('agencyid'),
-    ),
-    'application_variable' => array(
-        'fields' => array('name', 'value'),
-        'idfields'  => array('name'),
-    ),
-    'banners' => array(
-        'fields' => array('htmltemplate','htmlcache','target','url','alt','bannertext','description','append','comments','keyword','statustext'),
-        'idfields'  => array('bannerid'),
-    ),
-    'campaigns' => array(
-        'fields' => array('campaignname','comments'),
-        'idfields'  => array('campaignid'),
-    ),
-    'channel' => array(
-        'fields' => array('name','description','comments'),
-        'idfields'  => array('channelid'),
-    ),
-    'clients' => array(
-        'fields' => array('clientname','contact','email','comments'),
-        'idfields'  => array('clientid'),
-    ),
-    'tracker_append' => array(
-        'fields' => array('tagcode'),
-        'idfields'  => array('tracker_append_id'),
-    ),
-    'trackers' => array(
-        'fields' => array('trackername','description','appendcode'),
-        'idfields'  => array('trackerid'),
-    ),
-    'userlog' => array(
-        'fields' => array('details'),
-        'idfields'  => array('userlogid'),
-    ),
-    'users' => array(
-        'fields' => array('contact_name', 'email_address', 'comments'),
-        'idfields'  => array('user_id'),
-    ),
+$aTableFields = [
+    'acls' => [
+        'fields' => ['data'],
+        'idfields' => ['bannerid', 'executionorder'],
+    ],
+    'acls_channel' => [
+        'fields' => ['data'],
+        'idfields' => ['channelid', 'executionorder'],
+    ],
+    'affiliates' => [
+        'fields' => ['name', 'mnemonic', 'comments', 'contact', 'email', 'website'],
+        'idfields' => ['affiliateid'],
+    ],
+    'agency' => [
+        'fields' => ['name', 'contact', 'email'],
+        'idfields' => ['agencyid'],
+    ],
+    'application_variable' => [
+        'fields' => ['name', 'value'],
+        'idfields' => ['name'],
+    ],
+    'banners' => [
+        'fields' => ['htmltemplate', 'htmlcache', 'target', 'url', 'alt', 'bannertext', 'description', 'append', 'comments', 'keyword', 'statustext'],
+        'idfields' => ['bannerid'],
+    ],
+    'campaigns' => [
+        'fields' => ['campaignname', 'comments'],
+        'idfields' => ['campaignid'],
+    ],
+    'channel' => [
+        'fields' => ['name', 'description', 'comments'],
+        'idfields' => ['channelid'],
+    ],
+    'clients' => [
+        'fields' => ['clientname', 'contact', 'email', 'comments'],
+        'idfields' => ['clientid'],
+    ],
+    'tracker_append' => [
+        'fields' => ['tagcode'],
+        'idfields' => ['tracker_append_id'],
+    ],
+    'trackers' => [
+        'fields' => ['trackername', 'description', 'appendcode'],
+        'idfields' => ['trackerid'],
+    ],
+    'userlog' => [
+        'fields' => ['details'],
+        'idfields' => ['userlogid'],
+    ],
+    'users' => [
+        'fields' => ['contact_name', 'email_address', 'comments'],
+        'idfields' => ['user_id'],
+    ],
 
-    'variables' => array(
-        'fields' => array('name','description','variablecode'),
-        'idfields'  => array('variableid'),
-    ),
-    'zones' => array(
-        'fields' => array('zonename','description','prepend','append','comments','what'),
-        'idfields'  => array('zoneid'),
-    ),
-);
+    'variables' => [
+        'fields' => ['name', 'description', 'variablecode'],
+        'idfields' => ['variableid'],
+    ],
+    'zones' => [
+        'fields' => ['zonename', 'description', 'prepend', 'append', 'comments', 'what'],
+        'idfields' => ['zoneid'],
+    ],
+];
 
 if (!empty($_POST['encConfirm'])) {
     OA_Permission::checkSessionToken();
@@ -119,20 +119,21 @@ if (!empty($_POST['encConfirm'])) {
  */
 function _iterateTableFields($aTableFields, $execute = false)
 {
-    $aChanged = array();
-    $encTo =   (!empty($_POST['encTo']))   ? $_POST['encTo']   : 'UTF-8';
+    $aChanged = [];
+    $encTo = (!empty($_POST['encTo'])) ? $_POST['encTo'] : 'UTF-8';
     $encFrom = (!empty($_POST['encFrom'])) ? $_POST['encFrom'] : 'UTF-8';
 
-    foreach ($aTableFields as $table => $tableData)
-    {
+    foreach ($aTableFields as $table => $tableData) {
         $doTable = OA_Dal::factoryDO($table);
         $doTable->find();
         while ($doTable->fetch()) {
             $changed = false;
             foreach ($tableData['fields'] as $field) {
                 $converted = MAX_commonConvertEncoding($doTable->$field, $encTo, $encFrom);
-                if ($converted === $doTable->$field) { continue; }
-                $id = array();
+                if ($converted === $doTable->$field) {
+                    continue;
+                }
+                $id = [];
                 foreach ($tableData['idfields'] as $idField) {
                     $id[$idField] = $doTable->$idField;
                 }
@@ -140,14 +141,16 @@ function _iterateTableFields($aTableFields, $execute = false)
                     continue;
                 }
 
-                $aChanged[$table][$field][] = array('from' => $doTable->$field, 'to' => $converted, 'id' => $id);
+                $aChanged[$table][$field][] = ['from' => $doTable->$field, 'to' => $converted, 'id' => $id];
                 $doTable->$field = $converted;
                 $changed = true;
             }
-            if ($changed && $execute) { $doTable->update(); }
+            if ($changed && $execute) {
+                $doTable->update();
+            }
         }
     }
-   return $aChanged;
+    return $aChanged;
 }
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -163,7 +166,7 @@ $oOptions = new Plugins_InvocationTagsOptions();
 $aEncodings = $oOptions->_getAvailableCharsets();
 
 $selectedFrom = (!empty($_POST['encFrom'])) ? $_POST['encFrom'] : 'UTF-8';
-$selectedTo   = (!empty($_POST['encTo']))   ? $_POST['encTo']   : 'UTF-8';
+$selectedTo = (!empty($_POST['encTo'])) ? $_POST['encTo'] : 'UTF-8';
 
 echo $strEncodingConvertFrom . " <select name='encFrom'>\n";
 foreach ($aEncodings as $encCode => $encName) {
@@ -203,12 +206,10 @@ if (!empty($_POST['encTest'])) {
         }
     }
     echo "</table><br />";
-    echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."' />";
+    echo "<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "' />";
     echo "<input type='submit' name='encConfirm' value='{$GLOBALS['strConvert']}' /> <input type='button' name='encCancel' value='{$GLOBALS['strCancel']}' onclick='javascript:document.location = \"" . $_SERVER['SCRIPT_NAME'] . "\";' />";
 }
 
 phpAds_ShowBreak();
 
 phpAds_PageFooter();
-
-?>

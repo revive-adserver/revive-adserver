@@ -20,7 +20,7 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobal ('userid', 'returnurl');
+phpAds_registerGlobal('userid', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -36,15 +36,12 @@ OA_Permission::checkSessionToken();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (!empty($accountId) && !empty($userid))
-{
+if (!empty($accountId) && !empty($userid)) {
     OA_Admin_UI_UserAccess::unlinkUserFromAccount($userid, $accountId);
 }
 
 if (empty($returnurl)) {
-    $returnurl = 'agency-access.php?agencyid='.$agencyid;
+    $returnurl = 'agency-access.php?agencyid=' . $agencyid;
 }
 
-Header("Location: ".$returnurl);
-
-?>
+Header("Location: " . $returnurl);

@@ -38,9 +38,8 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 /*-------------------------------------------------------*/
 
 $platformHash = OA_Dal_ApplicationVariables::generatePlatformHash();
-if (OA_Dal_ApplicationVariables::set('platform_hash', $platformHash))
-{
-    echo $GLOBALS['strNewPlatformHash'] ." ". $platformHash;
+if (OA_Dal_ApplicationVariables::set('platform_hash', $platformHash)) {
+    echo $GLOBALS['strNewPlatformHash'] . " " . $platformHash;
     $oSync = new RV_Sync();
     RV::disableErrorHandling();
     $oSync->checkForUpdates();
@@ -55,6 +54,3 @@ if (OA_Dal_ApplicationVariables::set('platform_hash', $platformHash))
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
-
-
-?>

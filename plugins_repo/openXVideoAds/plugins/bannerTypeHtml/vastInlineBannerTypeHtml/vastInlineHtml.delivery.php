@@ -20,10 +20,10 @@
 
 
 
-MAX_commonRegisterGlobalsArray(array('format', 'clientdebug'));
+MAX_commonRegisterGlobalsArray(['format', 'clientdebug']);
 
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/commonDelivery.php';
-if(!is_callable('MAX_adSelect')) {
+if (!is_callable('MAX_adSelect')) {
     require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 }
 
@@ -60,7 +60,7 @@ function Plugin_BannerTypeHTML_vastBannerTypeHtml_vastHtml_Delivery_postAdRender
 }
 
 
-function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_adRender(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer)
+function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc, $referer)
 {
     return deliverVastAd('vastInline', $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
@@ -68,22 +68,22 @@ function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_
 // End of functions
 
 
-if ( !empty($format) && $format == 'vast'){
+if (!empty($format) && $format == 'vast') {
 
     // ----------------- MARK start of cut-and-paste from spc.php ---------------
     require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
     require_once MAX_PATH . '/lib/max/Delivery/flash.php';
     require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
     ###START_STRIP_DELIVERY
-    OX_Delivery_logMessage('starting delivery script '.__FILE__, 7);
+    OX_Delivery_logMessage('starting delivery script ' . __FILE__, 7);
     ###END_STRIP_DELIVERY
     MAX_commonSetNoCacheHeaders();
-    MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
+    MAX_commonRegisterGlobalsArray(['zones', 'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz']);
     $source = MAX_commonDeriveSource($source);
     $zones = explode('|', $zones);
     // ----------------- MARK end of cut-and-paste from spc.php ---------------
-    if ( $format == 'vast' ){
-        $spc_output  = getVastXMLHeader($charset);
+    if ($format == 'vast') {
+        $spc_output = getVastXMLHeader($charset);
     }
 
     // -------------- MARK start cut-and-paste from spc.php --------------------
@@ -92,42 +92,43 @@ if ( !empty($format) && $format == 'vast'){
         $spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
     }
     foreach ($zones as $thisZone) {
-        if (empty($thisZone)) continue;
+        if (empty($thisZone)) {
+            continue;
+        }
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if (!empty($nz)) {
-            @list($zonename,$thisZoneid) = explode('=', $thisZone);
+            @list($zonename, $thisZoneid) = explode('=', $thisZone);
             $varname = $zonename;
         } else {
             $thisZoneid = $varname = $thisZone;
         }
 
         ###START_STRIP_DELIVERY
-        appendClientMessage( "Processing zoneid:|$thisZoneid| zonename:|$varname|" );
+        appendClientMessage("Processing zoneid:|$thisZoneid| zonename:|$varname|");
         ###END_STRIP_DELIVERY
 
-        $what = 'zone:'.$thisZoneid;
+        $what = 'zone:' . $thisZoneid;
 
         ###START_STRIP_DELIVERY
-        OX_Delivery_logMessage('$what='.$what, 7);
-        OX_Delivery_logMessage('$context='.print_r($context,true), 7);
+        OX_Delivery_logMessage('$what=' . $what, 7);
+        OX_Delivery_logMessage('$context=' . print_r($context, true), 7);
         ###END_STRIP_DELIVERY
 
         // Get the banner
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
         ###START_STRIP_DELIVERY
-        OX_Delivery_logMessage('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']), 7);
+        OX_Delivery_logMessage('output bannerid=' . (empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']), 7);
         ###END_STRIP_DELIVERY
 
         // BM - output format is vast xml
-        if ( $format == 'vast' ){
-
-            if (  $output['html']  &&
+        if ($format == 'vast') {
+            if ($output['html'] &&
                  (
                      ($output['width'] != VAST_OVERLAY_DIMENSIONS) &&
                      ($output['width'] != VAST_INLINE_DIMENSIONS)
                  )
-               ){
+               ) {
                 $badZoneId = $output['aRow']['zoneid'];
                 $badBannerId = $output['bannerid'];
                 // Store the html2js'd output for this ad
@@ -138,20 +139,19 @@ if ( !empty($format) && $format == 'vast'){
             }
 
             // Help the player (requestor of VAST) to match the ads in the response with his request by using his id in the Ad xml node
-            $spc_output = str_replace( '{player_allocated_ad_id}', $varname, $spc_output );
-        }
-        else {
+            $spc_output = str_replace('{player_allocated_ad_id}', $varname, $spc_output);
+        } else {
             // Store the html2js'd output for this ad
             $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
         }
 
         // Block this banner for next invocation
         if (!empty($block) && !empty($output['bannerid'])) {
-            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+            $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
         }
         // Block this campaign for next invocation
         if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+            $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
         }
 
         // Pass the context array back to the next call, have to iterate over elements to prevent duplication
@@ -166,19 +166,16 @@ if ( !empty($format) && $format == 'vast'){
     MAX_cookieFlush();
     // -------------- MARK end cut-and-paste from spc.php --------------------
 
-    if ( $format == 'vast' ){
-        $spc_output .=  getVastXMLFooter();
+    if ($format == 'vast') {
+        $spc_output .= getVastXMLFooter();
         // Setup the banners for this page
         MAX_commonSendContentTypeHeader("application/xml", $charset);
-    }
-    else {
+    } else {
         // Setup the banners for this page
         MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
     }
     $spc_output .= getClientMessages();
     echo $spc_output;
+} else {
+    //echo "<!-- vast delivery include called -->";
 }
-else {
-   //echo "<!-- vast delivery include called -->";
-}
-

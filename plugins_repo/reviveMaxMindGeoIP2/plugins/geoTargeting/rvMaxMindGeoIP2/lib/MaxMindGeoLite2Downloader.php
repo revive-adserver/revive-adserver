@@ -7,15 +7,15 @@ use Psr\Http\Message\ResponseInterface;
 
 class MaxMindGeoLite2Downloader
 {
-    const RELATIVE_PATH = 'var/plugins/rvMaxMindGeoIP2/';
-    const FULL_PATH = MAX_PATH.'/'.self::RELATIVE_PATH;
+    public const RELATIVE_PATH = 'var/plugins/rvMaxMindGeoIP2/';
+    public const FULL_PATH = MAX_PATH . '/' . self::RELATIVE_PATH;
 
-    const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/app/geoip_download';
-    const GEOLITE2_SUFFIX_TAR_GZ = '.tar.gz';
-    const GEOLITE2_SUFFIX_MD5 = self::GEOLITE2_SUFFIX_TAR_GZ.'.md5';
-    const GEOLITE2_DBNAME = 'GeoLite2-City';
-    const GEOLITE2_CITY_TAR_GZ = self::GEOLITE2_DBNAME.'.tar.gz';
-    const GEOLITE2_CITY_MMDB = self::GEOLITE2_DBNAME.'.mmdb';
+    public const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/app/geoip_download';
+    public const GEOLITE2_SUFFIX_TAR_GZ = '.tar.gz';
+    public const GEOLITE2_SUFFIX_MD5 = self::GEOLITE2_SUFFIX_TAR_GZ . '.md5';
+    public const GEOLITE2_DBNAME = 'GeoLite2-City';
+    public const GEOLITE2_CITY_TAR_GZ = self::GEOLITE2_DBNAME . '.tar.gz';
+    public const GEOLITE2_CITY_MMDB = self::GEOLITE2_DBNAME . '.mmdb';
 
     /** @var Client  */
     private $client;
@@ -37,13 +37,13 @@ class MaxMindGeoLite2Downloader
             return;
         }
 
-        @unlink($this->tempName.self::GEOLITE2_SUFFIX_TAR_GZ);
+        @unlink($this->tempName . self::GEOLITE2_SUFFIX_TAR_GZ);
         @unlink($this->tempName);
     }
 
     public function updateGeoLiteDatabase(): bool
     {
-        $md5Path = self::FULL_PATH.self::GEOLITE2_DBNAME.self::GEOLITE2_SUFFIX_MD5;
+        $md5Path = self::FULL_PATH . self::GEOLITE2_DBNAME . self::GEOLITE2_SUFFIX_MD5;
 
         if (!$this->lock()) {
             return false;
@@ -58,7 +58,7 @@ class MaxMindGeoLite2Downloader
         }
 
         $this->tempName = tempnam(self::FULL_PATH, 'tmp');
-        $tarGzPath = $this->tempName.self::GEOLITE2_SUFFIX_TAR_GZ;
+        $tarGzPath = $this->tempName . self::GEOLITE2_SUFFIX_TAR_GZ;
 
         $this->downloadTo(self::GEOLITE2_SUFFIX_TAR_GZ, $tarGzPath);
 
@@ -73,7 +73,7 @@ class MaxMindGeoLite2Downloader
 
     private function lock(): bool
     {
-        $lockFileName = self::FULL_PATH.self::GEOLITE2_CITY_MMDB.'.lock';
+        $lockFileName = self::FULL_PATH . self::GEOLITE2_CITY_MMDB . '.lock';
 
         @mkdir(self::FULL_PATH);
         $this->lockFp = @fopen($lockFileName, 'w');
@@ -90,7 +90,7 @@ class MaxMindGeoLite2Downloader
         @flock($this->lockFp, LOCK_UN);
         @fclose($this->lockFp);
 
-        $lockFileName = self::FULL_PATH.self::GEOLITE2_CITY_MMDB.'.lock';
+        $lockFileName = self::FULL_PATH . self::GEOLITE2_CITY_MMDB . '.lock';
         @unlink($lockFileName);
     }
 
@@ -144,7 +144,7 @@ class MaxMindGeoLite2Downloader
 
         stream_copy_to_stream(
             fopen($pathName, 'rb'),
-            fopen(self::FULL_PATH.self::GEOLITE2_CITY_MMDB, 'w')
+            fopen(self::FULL_PATH . self::GEOLITE2_CITY_MMDB, 'w')
         );
 
         return true;

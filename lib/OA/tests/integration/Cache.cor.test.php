@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Cache.php';
+require_once MAX_PATH . '/lib/OA/Cache.php';
 
 /**
  * A class for testing the OX_ManagerPlugin class.
@@ -20,40 +20,40 @@ require_once MAX_PATH.'/lib/OA/Cache.php';
  */
 class Test_OA_Cache extends UnitTestCase
 {
-    var $aData;
+    public $aData;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setup()
+    public function setup()
     {
         $this->aData = $this->_createTestArray();
         $this->serverSave = $_SERVER['HTTP_HOST'];
         $_SERVER['HTTP_HOST'] = 'servername';
     }
 
-    function teardown()
+    public function teardown()
     {
         $this->aData = null;
         $_SERVER['HTTP_HOST'] = $this->serverSave;
     }
 
-    function test_Cache()
+    public function test_Cache()
     {
         // Default never expire
         $oCache = new OA_Cache('testId', 'testGroup');
 
-        $this->assertEqual($oCache->id,'testId');
-        $this->assertEqual($oCache->group,'servername_testGroup');
-        $this->assertEqual($oCache->oCache->_cacheDir,MAX_PATH . '/var/cache/');
-        $this->assertIsA($oCache->oCache,'Cache_Lite');
+        $this->assertEqual($oCache->id, 'testId');
+        $this->assertEqual($oCache->group, 'servername_testGroup');
+        $this->assertEqual($oCache->oCache->_cacheDir, MAX_PATH . '/var/cache/');
+        $this->assertIsA($oCache->oCache, 'Cache_Lite');
         $this->assertNull($oCache->oCache->_lifeTime);
-        $this->assertEqual($oCache->oCache->_readControlType,'md5');
+        $this->assertEqual($oCache->oCache->_readControlType, 'md5');
         //$this->assertTrue($oCache->oCache->_dontCacheWhenTheResultIsFalse);
         $this->assertTrue($oCache->oCache->_automaticSerialization);
 
@@ -75,73 +75,69 @@ class Test_OA_Cache extends UnitTestCase
 
         // Test lifeTime
         $oCache = new OA_Cache('testId', 'testGroup', 10);
-        $this->assertIsA($oCache->oCache,'Cache_Lite');
+        $this->assertIsA($oCache->oCache, 'Cache_Lite');
         $this->assertEqual($oCache->oCache->_lifeTime, 10);
-
     }
 
-    function _createTestArray()
+    public function _createTestArray()
     {
-        $aArray = array(
-                        'testString'=>'abcdefghijklmnopqrstuvwxyz01234567890',
-                        'testInteger'=>1234567890,
-                        'testFloat'=>1234567890.0987654321,
-                        'testBinary'=>decbin(1234567890),
-                        'testHex'=>dechex(1234567890),
-                        'testDateTime'=>getdate(),
-                        'testUTF8'=>utf8_encode('abcdefghijklmnopqrstuvwxyz01234567890'),
-                        );
-        $aResult[0]          = $aArray;
-        $aResult[0][0]       = $aArray;
-        $aResult[0][1]       = $aArray;
-        $aResult[0][1][0]    = $aArray;
+        $aArray = [
+                        'testString' => 'abcdefghijklmnopqrstuvwxyz01234567890',
+                        'testInteger' => 1234567890,
+                        'testFloat' => 1234567890.0987654321,
+                        'testBinary' => decbin(1234567890),
+                        'testHex' => dechex(1234567890),
+                        'testDateTime' => getdate(),
+                        'testUTF8' => utf8_encode('abcdefghijklmnopqrstuvwxyz01234567890'),
+                        ];
+        $aResult[0] = $aArray;
+        $aResult[0][0] = $aArray;
+        $aResult[0][1] = $aArray;
+        $aResult[0][1][0] = $aArray;
         return $aResult;
     }
 
-    function _assertTestArray($aResult)
+    public function _assertTestArray($aResult)
     {
         $elems = count($this->aData[0]);
 
-        $this->assertEqual(count($aResult),1);
-        $this->assertEqual(count($aResult[0]),9);
-        $this->assertEqual(count($aResult[0][0]),7);
-        $this->assertEqual(count($aResult[0][1]),8);
-        $this->assertEqual(count($aResult[0][1][0]),7);
+        $this->assertEqual(count($aResult), 1);
+        $this->assertEqual(count($aResult[0]), 9);
+        $this->assertEqual(count($aResult[0][0]), 7);
+        $this->assertEqual(count($aResult[0][1]), 8);
+        $this->assertEqual(count($aResult[0][1][0]), 7);
 
-        for ($i=0;$i<4;$i++)
-        {
-            switch ($i)
-            {
+        for ($i = 0;$i < 4;$i++) {
+            switch ($i) {
                 case 0:
                     $aExpect = $this->aData[0];
                     $aActual = $aResult[0];
-                    $msg     = 'IDX [0] : ';
+                    $msg = 'IDX [0] : ';
                     break;
                 case 1:
                     $aExpect = $this->aData[0][0];
                     $aActual = $aResult[0][0];
-                    $msg     = 'IDX [0][0] : ';
+                    $msg = 'IDX [0][0] : ';
                     break;
                 case 2:
                     $aExpect = $this->aData[0][1];
                     $aActual = $aResult[0][1];
-                    $msg     = 'IDX [0][1] : ';
+                    $msg = 'IDX [0][1] : ';
                     break;
                 case 3:
                     $aExpect = $this->aData[0][1][0];
                     $aActual = $aResult[0][1][0];
-                    $msg     = 'IDX [0][1][0] : ';
+                    $msg = 'IDX [0][1][0] : ';
                     break;
             }
 
-            foreach ($aExpect AS $key => $val)
-            {
-                $this->assertEqual($aActual[$key], $val, $msg.' Expectecd '.var_export($val, true).' got', var_export($aActual[$key], true).' key '.$key);
+            foreach ($aExpect as $key => $val) {
+                $this->assertEqual($aActual[$key], $val, $msg . ' Expectecd ' . var_export($val, true) . ' got', var_export($aActual[$key], true) . ' key ' . $key);
             }
         }
     }
 
-    function testLifeTime()
+    public function testLifeTime()
     {
         $oCache = new OA_Cache('test', 'oxpTestCache', 1);
         $oCache->setFileNameProtection(false);
@@ -172,7 +168,7 @@ class Test_OA_Cache extends UnitTestCase
         $this->assertEqual($result, $data);
     }
 
-    function testCacheDir()
+    public function testCacheDir()
     {
         $oCache = new OA_Cache('test', 'oxpTestCache');
         $oCache->clear();
@@ -194,5 +190,3 @@ class Test_OA_Cache extends UnitTestCase
         $_SERVER['HTTP_HOST'] = $serverName;
     }
 }
-
-?>

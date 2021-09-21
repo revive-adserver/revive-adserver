@@ -31,20 +31,18 @@ class OA_Central
      * @return string
      * @static
      */
-    static public function buildUrl($aConf, $pathVariable = 'path')
+    public static function buildUrl($aConf, $pathVariable = 'path')
     {
         $port = '';
         if (!empty($aConf['port'])) {
             if (($aConf['protocol'] == 'http' && $aConf['port'] != 80) ||
                 ($aConf['protocol'] == 'https' && $aConf['port'] != 443)) {
-                $port = ':'.$aConf['port'];
+                $port = ':' . $aConf['port'];
             }
-        } else {
-            if ($aConf['protocol'] == 'http' && !empty($aConf['httpPort']) && $aConf['httpPort'] != 80) {
-                $port = ':'.$aConf['httpPort'];
-            } elseif ($aConf['protocol'] == 'https' && !empty($aConf['httpsPort']) && $aConf['httpsPort'] != 443) {
-                $port = ':'.$aConf['httpsPort'];
-            }
+        } elseif ($aConf['protocol'] == 'http' && !empty($aConf['httpPort']) && $aConf['httpPort'] != 80) {
+            $port = ':' . $aConf['httpPort'];
+        } elseif ($aConf['protocol'] == 'https' && !empty($aConf['httpsPort']) && $aConf['httpsPort'] != 443) {
+            $port = ':' . $aConf['httpsPort'];
         }
 
         return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf[$pathVariable]}";
@@ -58,7 +56,7 @@ class OA_Central
      * @return OA_XML_RPC_Client
      * @static
      */
-    static public function getXmlRpcClient($aConf, $pathVariable = 'path')
+    public static function getXmlRpcClient($aConf, $pathVariable = 'path')
     {
         // Set default protocol and port
         if ($aConf['protocol'] == 'https') {

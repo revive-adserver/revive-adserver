@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's browser passes this limitation's test.
  */
-function MAX_checkClient_OsVersion($limitation, $op, $aParams = array())
+function MAX_checkClient_OsVersion($limitation, $op, $aParams = [])
 {
     static $res;
 
@@ -53,7 +53,7 @@ function MAX_checkClient_OsVersion($limitation, $op, $aParams = array())
 
     if ($aLimitation[0] == \Sinergi\BrowserDetector\Os::WINDOWS) {
         if (null === $res) {
-            require(__DIR__.'/OsVersion.res.inc.php');
+            require(__DIR__ . '/OsVersion.res.inc.php');
         }
 
         if (isset($res[$aLimitation[1]])) {

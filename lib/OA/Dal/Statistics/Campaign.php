@@ -44,16 +44,16 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    public function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $campaignId     = $this->oDbh->quote($campaignId, 'integer');
+        $campaignId = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.requests) AS requests,
                 SUM(s.impressions) AS impressions,
@@ -101,12 +101,12 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
      * </ul>
      *
      */
-    function getCampaignHourlyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    public function getCampaignHourlyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $campaignId     = $this->oDbh->quote($campaignId, 'integer');
+        $campaignId = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -166,14 +166,14 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    public function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $campaignId     = $this->oDbh->quote($campaignId, 'integer');
+        $campaignId = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns = $this->quoteTableName('campaigns');
-        $tableBanners   = $this->quoteTableName('banners');
-        $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -225,16 +225,16 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    public function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $campaignId      = $this->oDbh->quote($campaignId, 'integer');
-        $tableCampaigns  = $this->quoteTableName('campaigns');
-        $tableBanners    = $this->quoteTableName('banners');
-        $tableZones      = $this->quoteTableName('zones');
+        $campaignId = $this->oDbh->quote($campaignId, 'integer');
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableZones = $this->quoteTableName('zones');
         $tableAffiliates = $this->quoteTableName('affiliates');
-        $tableSummary    = $this->quoteTableName('data_summary_ad_hourly');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -293,16 +293,16 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    public function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
     {
-        $campaignId      = $this->oDbh->quote($campaignId, 'integer');
-        $tableCampaigns  = $this->quoteTableName('campaigns');
-        $tableBanners    = $this->quoteTableName('banners');
-        $tableZones      = $this->quoteTableName('zones');
+        $campaignId = $this->oDbh->quote($campaignId, 'integer');
+        $tableCampaigns = $this->quoteTableName('campaigns');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableZones = $this->quoteTableName('zones');
         $tableAffiliates = $this->quoteTableName('affiliates');
-        $tableSummary    = $this->quoteTableName('data_summary_ad_hourly');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
-		$query = "
+        $query = "
             SELECT
                 SUM(s.impressions) AS impressions,
                 SUM(s.clicks) AS clicks,
@@ -401,28 +401,28 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $rsResult = $this->oDbh->query($query);
         RV::enableErrorHandling();
 
-        $aResult = array();
+        $aResult = [];
         while (($row = $rsResult->fetchRow())) {
-            $aResult[$row['conversionid']] = array('campaignID' => $row['campaignid'],
-                                                   'trackerID' =>  $row['trackerid'],
+            $aResult[$row['conversionid']] = ['campaignID' => $row['campaignid'],
+                                                   'trackerID' => $row['trackerid'],
                                                    'bannerID' => $row['bannerid'],
                                                    'conversionTime' => $row['tracker_date_time'],
                                                    'conversionStatus' => $row['conversionstatus'],
                                                    'userIp' => $row['userip'],
                                                    'action' => $row['action'],
-                                                   'window' => strtotime($row['tracker_date_time']." ") - strtotime($row['connection_date_time']." "),
+                                                   'window' => strtotime($row['tracker_date_time'] . " ") - strtotime($row['connection_date_time'] . " "),
                                                    'variables' => null,
-                                                  );
-           if (!empty($row['variablename'])) {
-               $aVariables[$row['conversionid']][] = array('name' => $row['variablename'],
-                                                       'value' => $row['variablevalue']);
-           }
+                                                  ];
+            if (!empty($row['variablename'])) {
+                $aVariables[$row['conversionid']][] = ['name' => $row['variablename'],
+                                                       'value' => $row['variablevalue']];
+            }
         }
 
-        if (isset ($aVariables)) {
+        if (isset($aVariables)) {
             foreach ($aVariables as $conversionId => $aConversionVariables) {
                 foreach ($aConversionVariables as $key => $aVariable) {
-                  $aResult[$conversionId]['variables'][$aVariable['name']] = $aVariable['value'];
+                    $aResult[$conversionId]['variables'][$aVariable['name']] = $aVariable['value'];
                 }
             }
         }
@@ -434,5 +434,3 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         return $aResult;
     }
 }
-
-?>

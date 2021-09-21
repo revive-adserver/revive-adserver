@@ -72,15 +72,15 @@ class OA_Permission
      * Operation permissions.
      * Can be used when trying to access particular entity.
      */
-    const OPERATION_ADD = 1;
-    const OPERATION_EDIT = 2;
-    const OPERATION_VIEW = 4;
-    const OPERATION_DELETE = 8;
-    const OPERATION_DUPLICATE = 16;
-    const OPERATION_MOVE = 32;
-    const OPERATION_ADD_CHILD = 64;
-    const OPERATION_VIEW_CHILDREN = 128;
-    const OPERATION_ALL = 255;//1+2+4+8+16+  32+64+128
+    public const OPERATION_ADD = 1;
+    public const OPERATION_EDIT = 2;
+    public const OPERATION_VIEW = 4;
+    public const OPERATION_DELETE = 8;
+    public const OPERATION_DUPLICATE = 16;
+    public const OPERATION_MOVE = 32;
+    public const OPERATION_ADD_CHILD = 64;
+    public const OPERATION_VIEW_CHILDREN = 128;
+    public const OPERATION_ALL = 255;//1+2+4+8+16+  32+64+128
 
     /**
      * CVE-2013-5954
@@ -283,10 +283,10 @@ class OA_Permission
             $aAccountsByType = self::mergeAdminAccounts($aAccountsByType);
         }
 
-        uksort($aAccountsByType, array('OA_Permission', '_accountTypeSort'));
+        uksort($aAccountsByType, ['OA_Permission', '_accountTypeSort']);
 
         if (!$groupByType) {
-            $aAccounts = array();
+            $aAccounts = [];
             foreach ($aAccountsByType as $accountType => $aAccount) {
                 foreach ($aAccount as $id => $name) {
                     $aAccounts[$id] = $name;
@@ -334,7 +334,7 @@ class OA_Permission
         return $name;
     }
 
-    static function mergeAdminAccounts($aAccountsByType)
+    public static function mergeAdminAccounts($aAccountsByType)
     {
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
@@ -384,8 +384,8 @@ class OA_Permission
         OA_Admin_UI::removeOneMessage('switchAccount');
 
         // Queue confirmation message
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strYouAreNowWorkingAsX'], array(htmlspecialchars($oUser->aAccount['account_name'])));
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate($GLOBALS['strYouAreNowWorkingAsX'], [htmlspecialchars($oUser->aAccount['account_name'])]);
         OA_Admin_UI::queueMessage($translated_message, 'global', 'info', null, 'switchAccount');
     }
 
@@ -506,7 +506,7 @@ class OA_Permission
         if (self::isUserLinkedToAdmin($userId)) {
             return true;
         }
-        static $aCache = array();
+        static $aCache = [];
         if (empty($accountId)) {
             $accountId = self::getAccountId();
             $accountType = self::getAccountType();
@@ -588,22 +588,22 @@ class OA_Permission
      */
     public static function isPermissionRelatedToAccountType($accountType, $permissionId)
     {
-        static $aMap = array(
-            OA_PERM_BANNER_ACTIVATE => array(OA_ACCOUNT_ADVERTISER),
-            OA_PERM_BANNER_DEACTIVATE => array(OA_ACCOUNT_ADVERTISER),
-            OA_PERM_BANNER_ADD => array(OA_ACCOUNT_ADVERTISER),
-            OA_PERM_BANNER_EDIT => array(OA_ACCOUNT_ADVERTISER),
+        static $aMap = [
+            OA_PERM_BANNER_ACTIVATE => [OA_ACCOUNT_ADVERTISER],
+            OA_PERM_BANNER_DEACTIVATE => [OA_ACCOUNT_ADVERTISER],
+            OA_PERM_BANNER_ADD => [OA_ACCOUNT_ADVERTISER],
+            OA_PERM_BANNER_EDIT => [OA_ACCOUNT_ADVERTISER],
 
-            OA_PERM_ZONE_ADD => array(OA_ACCOUNT_TRAFFICKER),
-            OA_PERM_ZONE_DELETE => array(OA_ACCOUNT_TRAFFICKER),
-            OA_PERM_ZONE_EDIT => array(OA_ACCOUNT_TRAFFICKER),
-            OA_PERM_ZONE_INVOCATION => array(OA_ACCOUNT_TRAFFICKER),
-            OA_PERM_ZONE_LINK => array(OA_ACCOUNT_TRAFFICKER),
+            OA_PERM_ZONE_ADD => [OA_ACCOUNT_TRAFFICKER],
+            OA_PERM_ZONE_DELETE => [OA_ACCOUNT_TRAFFICKER],
+            OA_PERM_ZONE_EDIT => [OA_ACCOUNT_TRAFFICKER],
+            OA_PERM_ZONE_INVOCATION => [OA_ACCOUNT_TRAFFICKER],
+            OA_PERM_ZONE_LINK => [OA_ACCOUNT_TRAFFICKER],
 
-            OA_PERM_USER_LOG_ACCESS => array(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),
+            OA_PERM_USER_LOG_ACCESS => [OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
 
-            OA_PERM_SUPER_ACCOUNT => array(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER),
-        );
+            OA_PERM_SUPER_ACCOUNT => [OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
+        ];
 
         static $aCache;
 
@@ -623,7 +623,7 @@ class OA_Permission
 
     public static function getAccountUsersPermissions($userId, $accountId)
     {
-        $aPermissions = array();
+        $aPermissions = [];
         $doAccount_user_permission_assoc =
             OA_Dal::factoryDO('account_user_permission_assoc');
         $doAccount_user_permission_assoc->user_id = $userId;
@@ -671,9 +671,12 @@ class OA_Permission
      * @param boolean $allowNewEntity Allow creation of a new entity, defaults to false.
      * @param int $operationAccessType Indicate the operation we need access for
      */
-    public static function enforceAccessToObject($entityTable, $entityId = null,
-                                                 $allowNewEntity = false, $operationAccessType = self::OPERATION_ALL)
-    {
+    public static function enforceAccessToObject(
+        $entityTable,
+        $entityId = null,
+        $allowNewEntity = false,
+        $operationAccessType = self::OPERATION_ALL
+    ) {
         if (!$allowNewEntity) {
             self::enforceTrue(!empty($entityId));
         }
@@ -711,9 +714,13 @@ class OA_Permission
      *
      * @return boolean  True if has access
      */
-    public static function hasAccessToObject($entityTable, $entityId, $operationAccessType = self::OPERATION_ALL,
-                                             $accountId = null, $accountType = null)
-    {
+    public static function hasAccessToObject(
+        $entityTable,
+        $entityId,
+        $operationAccessType = self::OPERATION_ALL,
+        $accountId = null,
+        $accountType = null
+    ) {
         $hasAccess = self::_hasAccessToObject($entityTable, $entityId, $accountId, $accountType);
 
         /**
@@ -724,8 +731,13 @@ class OA_Permission
          * If core says object cannot be accessed, plugins cannot change it.
          */
         if ($hasAccess) { //call registered access listeners in plugins
-            $hasAccess = self::callAccessHook($entityTable, $entityId,
-                $operationAccessType, $accountId, $accountType);
+            $hasAccess = self::callAccessHook(
+                $entityTable,
+                $entityId,
+                $operationAccessType,
+                $accountId,
+                $accountType
+            );
         }
 
         return $hasAccess;
@@ -778,7 +790,7 @@ class OA_Permission
      *
      * @return string
      */
-    static function getAccountTable($type = null)
+    public static function getAccountTable($type = null)
     {
         if (!$type) {
             if (!($oUser = self::getCurrentUser())) {
@@ -786,12 +798,12 @@ class OA_Permission
             }
             $type = $oUser->aAccount['account_type'];
         }
-        $aTypes = array(
+        $aTypes = [
             OA_ACCOUNT_ADMIN => 'users',
             OA_ACCOUNT_ADVERTISER => 'clients',
             OA_ACCOUNT_TRAFFICKER => 'affiliates',
             OA_ACCOUNT_MANAGER => 'agency'
-        );
+        ];
 
         return isset($aTypes[$type]) ? $aTypes[$type] : false;
     }
@@ -811,9 +823,13 @@ class OA_Permission
         return 0;
     }
 
-    private static function callAccessHook($entityTable, $entityId, $operationAccessType = self::OPERATION_ALL,
-                                           $accountId = null, $accountType = null)
-    {
+    private static function callAccessHook(
+        $entityTable,
+        $entityId,
+        $operationAccessType = self::OPERATION_ALL,
+        $accountId = null,
+        $accountType = null
+    ) {
         static $componentCache;
 
         /*
@@ -828,7 +844,7 @@ class OA_Permission
          * active for such entity and if it's type is different from DEFAULT_SYSTEM it should
          * be protected.
          */
-        $hasAccess = NULL; //ignore by default
+        $hasAccess = null; //ignore by default
         $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('objectAccess');
         foreach ($aPlugins as $i => $id) {
             $obj = $componentCache[$id];
@@ -838,13 +854,18 @@ class OA_Permission
             }
 
             if ($obj) {
-                $pluginResult = $obj->hasAccessToObject($entityTable, $entityId,
-                    $operationAccessType, $accountId, $accountType);
+                $pluginResult = $obj->hasAccessToObject(
+                    $entityTable,
+                    $entityId,
+                    $operationAccessType,
+                    $accountId,
+                    $accountType
+                );
                 /*
                  * Ignore NULL responses from plugins and update has access only
                  * if plugin was interested in the entity
                  */
-                $hasAccess = $pluginResult === NULL ? $hasAccess : $pluginResult;
+                $hasAccess = $pluginResult === null ? $hasAccess : $pluginResult;
 
                 if ($hasAccess === false) { //break on first plugin denying access
                     break;
@@ -852,7 +873,7 @@ class OA_Permission
             }
         }
         //securing non-system entities if no plugin responsible found
-        if ($hasAccess === NULL && !empty($entityId)
+        if ($hasAccess === null && !empty($entityId)
             && ('clients' == $entityTable || 'campaigns' == $entityTable
                 || 'banners' == $entityTable)) {
             $do = OA_Dal::factoryDO($entityTable);
@@ -874,7 +895,7 @@ class OA_Permission
                     break;
                 }
 
-                case 'banners' :
+                case 'banners':
                 {
                     $hasAccess = $aEntity['ext_bannertype'] != DataObjects_Banners::BANNER_TYPE_MARKET;
                     break;
@@ -883,7 +904,7 @@ class OA_Permission
         }
 
 
-        return $hasAccess === NULL ? true : $hasAccess;
+        return $hasAccess === null ? true : $hasAccess;
     }
 
     /**
@@ -917,9 +938,11 @@ class OA_Permission
      * @param integer $entityId entity ID
      * @param int $operationAccessType Indicate the operation we need access for
      */
-    public static function attemptToSwitchForAccess($entityTable, $entityId,
-                                                    $operationAccessType = self::OPERATION_ALL)
-    {
+    public static function attemptToSwitchForAccess(
+        $entityTable,
+        $entityId,
+        $operationAccessType = self::OPERATION_ALL
+    ) {
         if (!($userId = self::getUserId())) {
             return false;
         }
@@ -929,8 +952,13 @@ class OA_Permission
 
             foreach ($aAccountIds as $accountType => $accountId) {
                 if (self::hasAccess($accountId)) {
-                    $hasAccess = self::callAccessHook($entityTable, $entityId,
-                        $operationAccessType, $accountId, $accountType);
+                    $hasAccess = self::callAccessHook(
+                        $entityTable,
+                        $entityId,
+                        $operationAccessType,
+                        $accountId,
+                        $accountType
+                    );
                     if ($hasAccess) {
                         self::switchAccount($accountId, $hasAccess = true);
                         return true;
@@ -940,8 +968,13 @@ class OA_Permission
 
             if (self::isUserLinkedToAdmin()) {
                 $accountId = $doEntity->getRootAccountId();
-                $hasAccess = self::callAccessHook($entityTable, $entityId,
-                    $operationAccessType, $accountId, null);
+                $hasAccess = self::callAccessHook(
+                    $entityTable,
+                    $entityId,
+                    $operationAccessType,
+                    $accountId,
+                    null
+                );
                 if ($hasAccess) {
                     self::switchAccount($accountId, $hasAccess = true);
                     return true;
@@ -1092,7 +1125,7 @@ class OA_Permission
      */
     public static function _accountTypeSort($a, $b)
     {
-        $aTypes = array(OA_ACCOUNT_ADMIN => 0, OA_ACCOUNT_MANAGER => 1, OA_ACCOUNT_ADVERTISER => 2, OA_ACCOUNT_TRAFFICKER => 3);
+        $aTypes = [OA_ACCOUNT_ADMIN => 0, OA_ACCOUNT_MANAGER => 1, OA_ACCOUNT_ADVERTISER => 2, OA_ACCOUNT_TRAFFICKER => 3];
         $a = isset($aTypes[$a]) ? $aTypes[$a] : 1000;
         $b = isset($aTypes[$b]) ? $aTypes[$b] : 1000;
 
@@ -1190,7 +1223,7 @@ class OA_Permission
      */
     public static function getUniqueUserNames($removeName = null)
     {
-        $uniqueUsers = array();
+        $uniqueUsers = [];
         $doUser = OA_Dal::factoryDO('users');
         if (PEAR::isError($doUser)) {
             return false;
@@ -1212,9 +1245,12 @@ class OA_Permission
      *
      * @return true on success else false
      */
-    static function storeUserAccountsPermissions($aPermissions, $accountId = null, $userId = null,
-                                                 $aAllowedPermissions = null)
-    {
+    public static function storeUserAccountsPermissions(
+        $aPermissions,
+        $accountId = null,
+        $userId = null,
+        $aAllowedPermissions = null
+    ) {
         if (empty($userId)) {
             $userId = self::getUserId();
         }
@@ -1264,7 +1300,6 @@ class OA_Permission
                 $doAccount_user_permission_assoc->user_id = $userId;
                 $doAccount_user_permission_assoc->delete();
             }
-
         } else {
             $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
             $doAccount_user_permission_assoc->account_id = $accountId;
@@ -1284,7 +1319,7 @@ class OA_Permission
      */
     public static function getOwnedAccounts($accountId)
     {
-        $aAccountIds = array();
+        $aAccountIds = [];
         $accoutType = self::getAccountTypeByAccountId($accountId);
         switch ($accoutType) {
             case OA_ACCOUNT_MANAGER:

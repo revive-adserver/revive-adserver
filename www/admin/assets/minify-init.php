@@ -1,6 +1,6 @@
 <?php
 
-$commonJs = array (            
+$commonJs = [
             'js/jquery-1.2.6-mod.js',
             'js/effects.core.js',
             'js/jquery.bgiframe.js',
@@ -16,10 +16,10 @@ $commonJs = array (
             'js/jscalendar/calendar-setup.js',
             'js/jquery.delegate-1.1.min.js',
             'js/jquery.tablesorter.js'
-            );
+            ];
 
 
-$oxpJs = array(            
+$oxpJs = [
             'js/js-gui.js',
             'js/boxrow.js',
             'js/ox.message.js',
@@ -36,13 +36,13 @@ $oxpJs = array(
             'js/ox.tablesorter.plugins.js',
             'js/formValidation.js',
             'js/ox.security.js'
-);
+];
 
-$commonCss = array (
-);
+$commonCss = [
+];
 
 
-$oxpCssLtr = array (
+$oxpCssLtr = [
             'css/jquery.jqmodal.css',
             'css/jquery.autocomplete.css',
             'css/oa.help.css',
@@ -52,9 +52,9 @@ $oxpCssLtr = array (
             'js/jscalendar/calendar-openads.css',
             'css/interface-ltr.css',
             'css/icons.css'
-);
+];
 
-$oxpCssRtl = array (
+$oxpCssRtl = [
             'css/jquery.jqmodal.css',
             'css/jquery.autocomplete.css',
             'css/oa.help.css',
@@ -65,23 +65,23 @@ $oxpCssRtl = array (
             'js/jscalendar/calendar-openads.css',
             'css/interface-rtl.css',
             'css/icons.css'
-);
+];
 
-$oxpCssInstallLtr = array_merge($oxpCssLtr, array('css/install.css'));
-$oxpCssInstallRtl = array_merge($oxpCssRtl, array('css/install.css'));
+$oxpCssInstallLtr = array_merge($oxpCssLtr, ['css/install.css']);
+$oxpCssInstallRtl = array_merge($oxpCssRtl, ['css/install.css']);
 
-$oxpJsInstall = array_merge($oxpJs, array('js/jquery.simplemodal.min.js', 'js/ox.install.js'));
+$oxpJsInstall = array_merge($oxpJs, ['js/jquery.simplemodal.min.js', 'js/ox.install.js']);
 
 
 //define groups used by minfier
-$MINIFY_JS_GROUPS = array (
+$MINIFY_JS_GROUPS = [
         'oxp-js' => array_merge($commonJs, $oxpJs),
         'oxp-js-install' => array_merge($commonJs, $oxpJs, $oxpJsInstall)
-);
+];
 
-$MINIFY_CSS_GROUPS = array (
+$MINIFY_CSS_GROUPS = [
         'oxp-css-ltr' => array_merge($commonCss, $oxpCssLtr),
         'oxp-css-rtl' => array_merge($commonCss, $oxpCssRtl),
         'oxp-css-install-ltr' => array_merge($commonCss, $oxpCssInstallLtr),
         'oxp-css-install-rtl' => array_merge($commonCss, $oxpCssInstallRtl)
-);
+];

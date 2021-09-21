@@ -17,7 +17,7 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use League\Flysystem\NotSupportedException;
 
-require_once MAX_PATH.'/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'DB/DataObject/Cast.php';
 
 class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
@@ -110,7 +110,7 @@ class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
 
         if ($doImages) {
             return [
-                'size'=>strlen($doImages->contents)
+                'size' => strlen($doImages->contents)
             ];
         }
 

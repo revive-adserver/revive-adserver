@@ -21,11 +21,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -35,7 +34,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCas
      *
      * Tests that the method in the class returns a PEAR::Error, as method is abstract.
      */
-    function testDeliveryBlocked()
+    public function testDeliveryBlocked()
     {
         $oCommon = new OA_Maintenance_Priority_DeliveryLimitation_Common([
             'logical' => null,
@@ -50,5 +49,3 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCas
         PEAR::popErrorHandling();
     }
 }
-
-?>

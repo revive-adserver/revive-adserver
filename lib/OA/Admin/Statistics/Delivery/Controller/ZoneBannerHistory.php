@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +32,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'zone';
+        $this->entity = 'zone';
         $this->breakdown = 'banner-history';
 
         // This page uses the day span selector element
@@ -50,16 +49,16 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $publisherId = $this->_getId('publisher');
-        $zoneId      = $this->_getId('zone');
-        $adId        = $this->_getId('ad', 0);
+        $zoneId = $this->_getId('zone');
+        $adId = $this->_getId('ad', 0);
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-        $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
+        $this->_checkAccess(['publisher' => $publisherId, 'zone' => $zoneId]);
 
         // Cross-entity security check
         if (!empty($zoneId)) {
@@ -70,12 +69,12 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         }
 
         // Add standard page parameters
-        $this->aPageParams = array(
+        $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'zoneid'      => $zoneId,
-            'campaignid'  => $aAds[$adId]['placement_id'],
-            'bannerid'    => $adId
-        );
+            'zoneid' => $zoneId,
+            'campaignid' => $aAds[$adId]['placement_id'],
+            'bannerid' => $adId
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -87,10 +86,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.2.2.2';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.2.2.2';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         }
 
         // Add breadcrumbs
@@ -99,7 +98,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
 
         // Add context
         $params = $this->aPageParams;
-        foreach ($aAds as $k => $v){
+        foreach ($aAds as $k => $v) {
             $params['campaignid'] = $v['placement_id'];
             $params['bannerid'] = $k;
             phpAds_PageContext(
@@ -113,23 +112,21 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
+                'affiliate-edit.php?affiliateid=' . $publisherId,
                 'iconAffiliate'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
-            'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
+            'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId,
             'iconZone'
         );
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'zone_id' => $zoneId,
-            'ad_id'   => $adId
-        );
+            'ad_id' => $adId
+        ];
         $this->prepare($aParams, 'stats.php');
     }
 }
-
-?>

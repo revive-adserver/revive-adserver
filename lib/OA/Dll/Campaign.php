@@ -38,22 +38,22 @@ class OA_Dll_Campaign extends OA_Dll
      *
      * @return boolean
      */
-    function _setCampaignDataFromArray(&$oCampaign, $campaignData)
+    public function _setCampaignDataFromArray(&$oCampaign, $campaignData)
     {
-        $campaignData['campaignId']         = $campaignData['campaignid'];
-        $campaignData['campaignName']       = $campaignData['campaignname'];
-        $campaignData['advertiserId']       = $campaignData['clientid'];
-        $campaignData['startDate']          = $campaignData['activate_time'];
-        $campaignData['endDate']            = $campaignData['expire_time'];
-        $campaignData['impressions']        = $campaignData['views'];
-        $campaignData['targetImpressions']  = $campaignData['target_impression'];
-        $campaignData['targetClicks']       = $campaignData['target_click'];
-        $campaignData['targetConversions']  = $campaignData['target_conversion'];
-        $campaignData['capping']            = $campaignData['capping'];
-        $campaignData['sessionCapping']     = $campaignData['session_capping'];
-        $campaignData['block']              = $campaignData['block'];
-        $campaignData['viewWindow']         = $campaignData['viewwindow'];
-        $campaignData['clickWindow']        = $campaignData['clickwindow'];
+        $campaignData['campaignId'] = $campaignData['campaignid'];
+        $campaignData['campaignName'] = $campaignData['campaignname'];
+        $campaignData['advertiserId'] = $campaignData['clientid'];
+        $campaignData['startDate'] = $campaignData['activate_time'];
+        $campaignData['endDate'] = $campaignData['expire_time'];
+        $campaignData['impressions'] = $campaignData['views'];
+        $campaignData['targetImpressions'] = $campaignData['target_impression'];
+        $campaignData['targetClicks'] = $campaignData['target_click'];
+        $campaignData['targetConversions'] = $campaignData['target_conversion'];
+        $campaignData['capping'] = $campaignData['capping'];
+        $campaignData['sessionCapping'] = $campaignData['session_capping'];
+        $campaignData['block'] = $campaignData['block'];
+        $campaignData['viewWindow'] = $campaignData['viewwindow'];
+        $campaignData['clickWindow'] = $campaignData['clickwindow'];
 
         // Don't send revenue & revenueType if the are null values in DB
         if (!is_numeric($campaignData['revenue'])) {
@@ -61,7 +61,7 @@ class OA_Dll_Campaign extends OA_Dll
             unset($oCampaign->revenue);
             unset($oCampaign->revenueType);
         } else {
-            $campaignData['revenueType']  = $campaignData['revenue_type'];
+            $campaignData['revenueType'] = $campaignData['revenue_type'];
         }
 
         $oCampaign->readDataFromArray($campaignData);
@@ -93,7 +93,7 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean
      *
      */
-    function _validate(&$oCampaign)
+    public function _validate(&$oCampaign)
     {
         if (isset($oCampaign->campaignId)) {
             // When modifying a campaign, check correct field types are used and the campaignID exists.
@@ -130,12 +130,12 @@ class OA_Dll_Campaign extends OA_Dll
             $this->raiseError('High or medium priority campaigns cannot have a weight' .
                               ' that is greater than zero.');
             return false;
-        } else if (!$this->_isHighPriority($oCampaign) && $this->_hasTargets($oCampaign)) {
+        } elseif (!$this->_isHighPriority($oCampaign) && $this->_hasTargets($oCampaign)) {
             $this->raiseError('Low or override priority campaigns cannot have targets.');
             return false;
         }
 
-        if (!$this->checkStructureNotRequiredStringField($oCampaign,  'campaignName', 255) ||
+        if (!$this->checkStructureNotRequiredStringField($oCampaign, 'campaignName', 255) ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'impressions') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clicks') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'priority') ||
@@ -143,12 +143,12 @@ class OA_Dll_Campaign extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetImpressions') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetClicks') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetConversions') ||
-            !$this->checkStructureNotRequiredDoubleField($oCampaign,  'revenue') ||
+            !$this->checkStructureNotRequiredDoubleField($oCampaign, 'revenue') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'capping') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block') ||
-            !$this->checkStructureNotRequiredStringField($oCampaign,  'comments') ||
+            !$this->checkStructureNotRequiredStringField($oCampaign, 'comments') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'viewWindow') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clickWindow')
             ) {
@@ -156,7 +156,6 @@ class OA_Dll_Campaign extends OA_Dll
         } else {
             return true;
         }
-
     }
 
     /**
@@ -171,11 +170,10 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean
      *
      */
-    function _validateForStatistics($campaignId, $oStartDate, $oEndDate)
+    public function _validateForStatistics($campaignId, $oStartDate, $oEndDate)
     {
         if (!$this->checkIdExistence('campaigns', $campaignId) ||
             !$this->checkDateOrder($oStartDate, $oEndDate)) {
-
             return false;
         } else {
             return true;
@@ -191,10 +189,13 @@ class OA_Dll_Campaign extends OA_Dll
      *
      * @return boolean  False if access is denied and true if allowed.
      */
-    function checkStatisticsPermissions($campaignId)
+    public function checkStatisticsPermissions($campaignId)
     {
-       if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm,
-            'campaigns', $campaignId)) {
+        if (!$this->checkPermissions(
+            $this->aAllowAdvertiserAndAbovePerm,
+            'campaigns',
+            $campaignId
+        )) {
             return false;
         } else {
             return true;
@@ -219,34 +220,36 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful
      *
      */
-    function modify(&$oCampaign)
+    public function modify(&$oCampaign)
     {
         if (!isset($oCampaign->campaignId)) {
             // Add
             $oCampaign->setDefaultForAdd();
             if (!$this->checkPermissions(
-                array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-                'clients', $oCampaign->advertiserId)) {
-
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'clients',
+                $oCampaign->advertiserId
+            )) {
                 return false;
             }
         } else {
             // Edit
             if (!$this->checkPermissions(
-                array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-                'campaigns', $oCampaign->campaignId)) {
-
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'campaigns',
+                $oCampaign->campaignId
+            )) {
                 return false;
             }
         }
 
-        $oStartDate    = $oCampaign->startDate;
-        $oEndDate      = $oCampaign->endDate;
-        $campaignData  =  (array) $oCampaign;
+        $oStartDate = $oCampaign->startDate;
+        $oEndDate = $oCampaign->endDate;
+        $campaignData = (array) $oCampaign;
 
-        $campaignData['campaignid']   = $oCampaign->campaignId;
+        $campaignData['campaignid'] = $oCampaign->campaignId;
         $campaignData['campaignname'] = $oCampaign->campaignName;
-        $campaignData['clientid']     = $oCampaign->advertiserId;
+        $campaignData['clientid'] = $oCampaign->advertiserId;
         $oNow = new Date();
         if (is_object($oStartDate)) {
             $oDate = new Date($oStartDate);
@@ -267,21 +270,21 @@ class OA_Dll_Campaign extends OA_Dll
             $campaignData['expire_time'] = $oDate->getDate(DATE_FORMAT_ISO);
         }
 
-        $campaignData['views']        = $oCampaign->impressions;
+        $campaignData['views'] = $oCampaign->impressions;
 
         $campaignData['target_impression'] = $oCampaign->targetImpressions;
-        $campaignData['target_click']      = $oCampaign->targetClicks;
+        $campaignData['target_click'] = $oCampaign->targetClicks;
         $campaignData['target_conversion'] = $oCampaign->targetConversions;
 
         $campaignData['revenue_type'] = $oCampaign->revenueType;
 
-        $campaignData['capping']            = $oCampaign->capping > 0
+        $campaignData['capping'] = $oCampaign->capping > 0
                                             ? $oCampaign->capping
                                             : 0;
-        $campaignData['session_capping']    = $oCampaign->sessionCapping > 0
+        $campaignData['session_capping'] = $oCampaign->sessionCapping > 0
                                             ? $oCampaign->sessionCapping
                                             : 0;
-        $campaignData['block']              = $oCampaign->block > 0
+        $campaignData['block'] = $oCampaign->block > 0
                                             ? $oCampaign->block
                                             : 0;
 
@@ -314,12 +317,13 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful
      *
      */
-    function delete($campaignId)
+    public function delete($campaignId)
     {
         if (!$this->checkPermissions(
-            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-            'campaigns', $campaignId)) {
-
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'campaigns',
+            $campaignId
+        )) {
             return false;
         }
 
@@ -349,7 +353,7 @@ class OA_Dll_Campaign extends OA_Dll
      *
      * @return boolean
      */
-    function getCampaign($campaignId, &$oCampaign)
+    public function getCampaign($campaignId, &$oCampaign)
     {
         if ($this->checkIdExistence('campaigns', $campaignId)) {
             if (!$this->checkPermissions(null, 'campaigns', $campaignId)) {
@@ -363,9 +367,7 @@ class OA_Dll_Campaign extends OA_Dll
 
             $this->_setCampaignDataFromArray($oCampaign, $campaignData);
             return true;
-
         } else {
-
             $this->raiseError('Unknown campaignId Error');
             return false;
         }
@@ -381,12 +383,12 @@ class OA_Dll_Campaign extends OA_Dll
      *
      * @return boolean
      */
-    function getCampaignListByAdvertiserId($advertiserId, &$aCampaignList)
+    public function getCampaignListByAdvertiserId($advertiserId, &$aCampaignList)
     {
-        $aCampaignList = array();
+        $aCampaignList = [];
 
         if (!$this->checkIdExistence('clients', $advertiserId)) {
-                return false;
+            return false;
         }
 
         if (!$this->checkPermissions(null, 'clients', $advertiserId, null, $operationAccessType = OA_Permission::OPERATION_VIEW)) {
@@ -429,16 +431,20 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
-            $dalCampaign = new OA_Dal_Statistics_Campaign;
-            $rsStatisticsData = $dalCampaign->getCampaignDailyStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalCampaign = new OA_Dal_Statistics_Campaign();
+            $rsStatisticsData = $dalCampaign->getCampaignDailyStatistics(
+                $campaignId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -467,16 +473,20 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignHourlyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getCampaignHourlyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
-            $dalCampaign = new OA_Dal_Statistics_Campaign;
-            $rsStatisticsData = $dalCampaign->getCampaignHourlyStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalCampaign = new OA_Dal_Statistics_Campaign();
+            $rsStatisticsData = $dalCampaign->getCampaignHourlyStatistics(
+                $campaignId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -510,16 +520,20 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
-            $dalCampaign = new OA_Dal_Statistics_Campaign;
-            $rsStatisticsData = $dalCampaign->getCampaignBannerStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalCampaign = new OA_Dal_Statistics_Campaign();
+            $rsStatisticsData = $dalCampaign->getCampaignBannerStatistics(
+                $campaignId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -549,24 +563,25 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
-            $dalCampaign = new OA_Dal_Statistics_Campaign;
-            $rsStatisticsData = $dalCampaign->getCampaignpublisherStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalCampaign = new OA_Dal_Statistics_Campaign();
+            $rsStatisticsData = $dalCampaign->getCampaignpublisherStatistics(
+                $campaignId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
             return false;
         }
-
-
-
     }
 
     /**
@@ -593,16 +608,20 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
-            $dalCampaign = new OA_Dal_Statistics_Campaign;
-            $rsStatisticsData = $dalCampaign->getCampaignZoneStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+            $dalCampaign = new OA_Dal_Statistics_Campaign();
+            $rsStatisticsData = $dalCampaign->getCampaignZoneStatistics(
+                $campaignId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -633,16 +652,24 @@ class OA_Dll_Campaign extends OA_Dll
      *
      */
     public function getCampaignConversionStatistics(
-        $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
-    {
+        $campaignId,
+        $oStartDate,
+        $oEndDate,
+        $localTZ,
+        &$rsStatisticsData
+    ) {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
-            $dalCampaign = new OA_Dal_Statistics_Campaign;
+            $dalCampaign = new OA_Dal_Statistics_Campaign();
             $rsStatisticsData = $dalCampaign->getCampaignConversionStatistics(
-                $campaignId, $oStartDate, $oEndDate, $localTZ);
+                $campaignId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -657,21 +684,21 @@ class OA_Dll_Campaign extends OA_Dll
      * @param OA_Dll_CampaignInfo $oCampaign
      * @return boolean true if campaign is a high priority campaign, false otherwise.
      */
-    function _isHighPriority(&$oCampaign) {
+    public function _isHighPriority(&$oCampaign)
+    {
         return isset($oCampaign->priority) &&
             ((1 <= $oCampaign->priority) && ($oCampaign->priority <= 10));
     }
 
-    function _hasWeight(&$oCampaign) {
+    public function _hasWeight(&$oCampaign)
+    {
         return isset($oCampaign->weight) && ($oCampaign->weight > 0);
     }
 
-    function _hasTargets(&$oCampaign) {
-        return ( (isset($oCampaign->targetImpressions) && $oCampaign->targetImpressions > 0) ||
+    public function _hasTargets(&$oCampaign)
+    {
+        return ((isset($oCampaign->targetImpressions) && $oCampaign->targetImpressions > 0) ||
             (isset($oCampaign->targetClicks) && $oCampaign->targetClicks > 0) ||
-            (isset($oCampaign->targetConversions) && $oCampaign->targetConversions > 0) );
+            (isset($oCampaign->targetConversions) && $oCampaign->targetConversions > 0));
     }
-
 }
-
-?>

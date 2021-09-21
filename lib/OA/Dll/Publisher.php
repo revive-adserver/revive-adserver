@@ -38,15 +38,15 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @return boolean
      */
-    function _setPublisherDataFromArray(&$oPublisher, $publisherData)
+    public function _setPublisherDataFromArray(&$oPublisher, $publisherData)
     {
-        $publisherData['publisherName']  = $publisherData['name'];
-        $publisherData['contactName']    = $publisherData['contact'];
-        $publisherData['emailAddress']   = $publisherData['email'];
-        $publisherData['website']        = $publisherData['website'];
-        $publisherData['agencyId']       = $publisherData['agencyid'];
-        $publisherData['publisherId']    = $publisherData['affiliateid'];
-        $publisherData['accountId']      = $publisherData['account_id'];
+        $publisherData['publisherName'] = $publisherData['name'];
+        $publisherData['contactName'] = $publisherData['contact'];
+        $publisherData['emailAddress'] = $publisherData['email'];
+        $publisherData['website'] = $publisherData['website'];
+        $publisherData['agencyId'] = $publisherData['agencyid'];
+        $publisherData['publisherId'] = $publisherData['affiliateid'];
+        $publisherData['accountId'] = $publisherData['account_id'];
 
         $oPublisher->readDataFromArray($publisherData);
         return  true;
@@ -64,7 +64,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean
      *
      */
-    function _validate(&$oPublisher)
+    public function _validate(&$oPublisher)
     {
         if (isset($oPublisher->publisherId)) {
             // When modifying a publisher, check correct field types are used and the publisherID exists.
@@ -81,7 +81,7 @@ class OA_Dll_Publisher extends OA_Dll
             }
         } else {
             // When adding a publisher, check that the required field 'advertiserName' is correct.
-            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255)){
+            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255)) {
                 return false;
             }
         }
@@ -89,10 +89,9 @@ class OA_Dll_Publisher extends OA_Dll
         if ((isset($oPublisher->emailAddress) &&
             !$this->checkEmail($oPublisher->emailAddress)) ||
             !$this->checkStructureNotRequiredIntegerField($oPublisher, 'agencyId') ||
-            !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName',255) ||
+            !$this->checkStructureNotRequiredStringField($oPublisher, 'contactName', 255) ||
             !$this->checkStructureNotRequiredStringField($oPublisher, 'website', 255) ||
             !$this->checkStructureNotRequiredStringField($oPublisher, 'emailAddress', 64)) {
-
             return false;
         }
 
@@ -122,11 +121,10 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean
      *
      */
-    function _validateForStatistics($publisherId, $oStartDate, $oEndDate)
+    public function _validateForStatistics($publisherId, $oStartDate, $oEndDate)
     {
         if (!$this->checkIdExistence('affiliates', $publisherId) ||
             !$this->checkDateOrder($oStartDate, $oEndDate)) {
-
             return false;
         } else {
             return true;
@@ -150,11 +148,13 @@ class OA_Dll_Publisher extends OA_Dll
      * @return success boolean True if the operation was successful
      *
      */
-    function modify(&$oPublisher)
+    public function modify(&$oPublisher)
     {
-        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
-             'affiliates', $oPublisher->publisherId))
-        {
+        if (!$this->checkPermissions(
+            $this->aAllowTraffickerAndAbovePerm,
+            'affiliates',
+            $oPublisher->publisherId
+        )) {
             return false;
         }
 
@@ -174,7 +174,7 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherPrevData = $doPrevPublisher->toArray();
         }
 
-        $publisherData =  (array) $oPublisher;
+        $publisherData = (array) $oPublisher;
 
         // Trim input variables
         foreach ($publisherData as $key => $value) {
@@ -187,9 +187,9 @@ class OA_Dll_Publisher extends OA_Dll
         }
 
         // Remap fields where the PublisherInfo object does not map directly to the DataObject.
-        $publisherData['name']      = $oPublisher->publisherName;
-        $publisherData['contact']   = $oPublisher->contactName;
-        $publisherData['email']     = $oPublisher->emailAddress;
+        $publisherData['name'] = $oPublisher->publisherName;
+        $publisherData['contact'] = $oPublisher->contactName;
+        $publisherData['email'] = $oPublisher->emailAddress;
 
         if ($this->_validate($oPublisher)) {
             $doPublisher = OA_Dal::factoryDO('affiliates');
@@ -223,11 +223,13 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean success - True if the operation was successful
      *
      */
-    function delete($publisherId)
+    public function delete($publisherId)
     {
-        if (!$this->checkPermissions(array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
-             'affiliates', $publisherId)) {
-
+        if (!$this->checkPermissions(
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'affiliates',
+            $publisherId
+        )) {
             return false;
         }
 
@@ -253,7 +255,7 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @return boolean
      */
-    function getPublisher($publisherId, &$oPublisher)
+    public function getPublisher($publisherId, &$oPublisher)
     {
         if ($this->checkIdExistence('affiliates', $publisherId)) {
             if (!$this->checkPermissions(null, 'affiliates', $publisherId)) {
@@ -268,9 +270,7 @@ class OA_Dll_Publisher extends OA_Dll
             $this->_setPublisherDataFromArray($oPublisher, $publisherData);
 
             return true;
-
         } else {
-
             $this->raiseError('Unknown publisherId Error');
             return false;
         }
@@ -286,12 +286,12 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @return boolean
      */
-    function getPublisherListByAgencyId($agencyId, &$aPublisherList)
+    public function getPublisherListByAgencyId($agencyId, &$aPublisherList)
     {
-        $aPublisherList = array();
+        $aPublisherList = [];
 
         if (!$this->checkIdExistence('agency', $agencyId)) {
-                return false;
+            return false;
         }
 
         if (!$this->checkPermissions(null, 'agency', $agencyId)) {
@@ -334,16 +334,20 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherDailyStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherDailyStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
-            $publisherDal = new OA_Dal_Statistics_Publisher;
-            $rsStatisticsData = $publisherDal->getPublisherDailyStatistics($publisherId,
-                $oStartDate, $oEndDate, $localTZ);
+            $publisherDal = new OA_Dal_Statistics_Publisher();
+            $rsStatisticsData = $publisherDal->getPublisherDailyStatistics(
+                $publisherId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -372,16 +376,20 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherHourlyStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherHourlyStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
-            $publisherDal = new OA_Dal_Statistics_Publisher;
-            $rsStatisticsData = $publisherDal->getPublisherHourlyStatistics($publisherId,
-                $oStartDate, $oEndDate, $localTZ);
+            $publisherDal = new OA_Dal_Statistics_Publisher();
+            $rsStatisticsData = $publisherDal->getPublisherHourlyStatistics(
+                $publisherId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -411,16 +419,20 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherZoneStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherZoneStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
-            $publisherDal = new OA_Dal_Statistics_Publisher;
-            $rsStatisticsData = $publisherDal->getPublisherZoneStatistics($publisherId,
-                $oStartDate, $oEndDate, $localTZ);
+            $publisherDal = new OA_Dal_Statistics_Publisher();
+            $rsStatisticsData = $publisherDal->getPublisherZoneStatistics(
+                $publisherId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -451,16 +463,20 @@ class OA_Dll_Publisher extends OA_Dll
      *
      */
 
-    function getPublisherAdvertiserStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherAdvertiserStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
-            $publisherDal = new OA_Dal_Statistics_Publisher;
-            $rsStatisticsData = $publisherDal->getPublisherAdvertiserStatistics($publisherId,
-                $oStartDate, $oEndDate, $localTZ);
+            $publisherDal = new OA_Dal_Statistics_Publisher();
+            $rsStatisticsData = $publisherDal->getPublisherAdvertiserStatistics(
+                $publisherId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -492,16 +508,20 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherCampaignStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherCampaignStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
-            $publisherDal = new OA_Dal_Statistics_Publisher;
-            $rsStatisticsData = $publisherDal->getPublisherCampaignStatistics($publisherId,
-                $oStartDate, $oEndDate, $localTZ);
+            $publisherDal = new OA_Dal_Statistics_Publisher();
+            $rsStatisticsData = $publisherDal->getPublisherCampaignStatistics(
+                $publisherId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
@@ -535,23 +555,24 @@ class OA_Dll_Publisher extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getPublisherBannerStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    public function getPublisherBannerStatistics($publisherId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'affiliates', $publisherId)) {
             return false;
         }
 
         if ($this->_validateForStatistics($publisherId, $oStartDate, $oEndDate)) {
-            $publisherDal = new OA_Dal_Statistics_Publisher;
-            $rsStatisticsData = $publisherDal->getPublisherBannerStatistics($publisherId,
-                $oStartDate, $oEndDate, $localTZ);
+            $publisherDal = new OA_Dal_Statistics_Publisher();
+            $rsStatisticsData = $publisherDal->getPublisherBannerStatistics(
+                $publisherId,
+                $oStartDate,
+                $oEndDate,
+                $localTZ
+            );
 
             return true;
         } else {
             return false;
         }
     }
-
 }
-
-?>

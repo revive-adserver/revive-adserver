@@ -19,7 +19,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
 // Register input variables
-phpAds_registerGlobal ('returnurl', 'agencyid', 'channelid', 'affiliateid');
+phpAds_registerGlobal('returnurl', 'agencyid', 'channelid', 'affiliateid');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -33,29 +33,26 @@ OA_Permission::checkSessionToken();
 
 if (!empty($channelid)) {
     $ids = explode(',', $channelid);
-    while (list(,$channelid) = each($ids)) {
-
+    foreach ($ids as $channelid) {
         // Security check
         OA_Permission::enforceAccessToObject('channel', $channelid);
-
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->channelid = $channelid;
         if ($doChannel->get($channelid)) {
-           $aChannel = $doChannel->toArray();
+            $aChannel = $doChannel->toArray();
         }
-
         $doChannel->delete();
     }
 
     // Queue confirmation message
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
 
     if (count($ids) == 1) {
-        $translated_message = $translation->translate ($GLOBALS['strChannelHasBeenDeleted'], array(
+        $translated_message = $translation->translate($GLOBALS['strChannelHasBeenDeleted'], [
             htmlspecialchars($aChannel['name'])
-        ));
+        ]);
     } else {
-        $translated_message = $translation->translate ($GLOBALS['strChannelsHaveBeenDeleted']);
+        $translated_message = $translation->translate($GLOBALS['strChannelsHaveBeenDeleted']);
     }
 
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
@@ -73,5 +70,3 @@ if (!empty($affiliateid)) {
     }
     header("Location: {$returnurl}");
 }
-
-?>

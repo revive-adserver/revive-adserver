@@ -1,11 +1,11 @@
 <?php
 require_once("../xajax.inc.php");
 
-function addEvent($sId,$sCode)
+function addEvent($sId, $sCode)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addEvent($sId, "onclick", $sCode);
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addEvent($sId, "onclick", $sCode);
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

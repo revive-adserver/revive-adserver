@@ -34,13 +34,13 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - Country / City';
     }
 
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         if (is_array($this->data)) {
@@ -53,7 +53,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return $this->hasCapability('city');
     }
@@ -63,10 +63,10 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
      *
      * @return void
      */
-    function displayData()
+    public function displayData()
     {
         $this->data = $this->_expandData($this->data);
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
 
         // The city plugin is slightly different since we need to allow for multiple city names in different countries
         echo "
@@ -75,11 +75,11 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
                     <th>" . $this->translate('Country') . "</th>
                     <td>
                         <select name='acl[{$this->executionorder}][data][]'>";
-                        foreach ($this->res as $countryCode => $countryName) {
-                            $selected = ($this->data[0] == $countryCode) ? 'selected="selected"' : '';
-                            echo "<option value='{$countryCode}' {$selected}>{$countryName}</option>";
-                        }
-                        echo "
+        foreach ($this->res as $countryCode => $countryName) {
+            $selected = ($this->data[0] == $countryCode) ? 'selected="selected"' : '';
+            echo "<option value='{$countryCode}' {$selected}>{$countryName}</option>";
+        }
+        echo "
                         </select>
                     &nbsp;<input type='image' name='action[none]' src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'></td>
                 </tr>";
@@ -88,7 +88,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
             // A country has been selected, show city list for this country...
             // Note: Since a disabled field does not pass it's value through, we need to pass the selected country in...
             echo "<tr><th>" . $this->translate('City(s)') . "</th><td>";
-            echo "<input type='text' name='acl[{$this->executionorder}][data][]' value='".htmlspecialchars($this->data[1], ENT_QUOTES)."' tabindex='".($tabindex++)."' />";
+            echo "<input type='text' name='acl[{$this->executionorder}][data][]' value='" . htmlspecialchars($this->data[1], ENT_QUOTES) . "' tabindex='" . ($tabindex++) . "' />";
             echo "</td></tr>";
         }
         echo "
@@ -108,7 +108,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
      * @param mixed $data An optional, expanded form delivery limitation.
      * @return string The delivery limitation in flattened format.
      */
-    function _flattenData($data = null)
+    public function _flattenData($data = null)
     {
         $data = parent::_flattenData($data);
         return MAX_limitationsGeoCitySerialize($data);
@@ -126,13 +126,13 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
      * @param string $data An optional, flat form delivery limitation data string.
      * @return mixed The delivery limitation data in expanded format.
      */
-    function _expandData($data = null)
+    public function _expandData($data = null)
     {
         $data = parent::_expandData($data);
         return MAX_limitationsGeoCityUnserialize($data);
     }
 
-    function compile()
+    public function compile()
     {
         return $this->compileData($this->_preCompile($this->data));
     }
@@ -147,7 +147,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
      *                either compiling the limitation into final form, or converting the limitation
      *                into SQL form.
      */
-    function _preCompile($sData)
+    public function _preCompile($sData)
     {
         $aData = MAX_limitationsGeoCityUnserialize($sData);
         $sCountry = MAX_limitationsGetCountry($aData);
@@ -172,10 +172,10 @@ function MAX_limitationsGeoCitySerialize($aCityLimitation)
 
 function MAX_limitationsGeoCityUnserialize($sCityLimitation)
 {
-    return array (
+    return [
                 substr($sCityLimitation, 0, strpos($sCityLimitation, '|')),
-                substr($sCityLimitation, strpos($sCityLimitation, '|')+1)
-            );
+                substr($sCityLimitation, strpos($sCityLimitation, '|') + 1)
+            ];
 }
 
 function MAX_limitationsGetSCities($aData)
@@ -187,5 +187,3 @@ function MAX_limitationsSetSCities(&$aData, $sCities)
 {
     $aData[1] = $sCities;
 }
-
-?>

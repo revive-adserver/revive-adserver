@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 
 /**
  * OpenX Upgrade Class
@@ -18,49 +18,45 @@ require_once MAX_PATH.'/lib/OA/DB.php';
  */
 class OA_phpAdsNew
 {
-    var $oDbh;
+    public $oDbh;
 
-    var $detected   = false;
-    var $aDsn       = [];
-    var $aConfig    = false;
+    public $detected = false;
+    public $aDsn = [];
+    public $aConfig = false;
     //var $aPanConfig = false;
-    var $pathCfg    = '/var/';
-    var $fileCfg    = 'config.inc.php';
-    var $prefix     = '';
-    var $engine     = '';
-    var $version    = '';
+    public $pathCfg = '/var/';
+    public $fileCfg = 'config.inc.php';
+    public $prefix = '';
+    public $engine = '';
+    public $version = '';
 
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function init()
+    public function init()
     {
-        $this->aConfig      = $this->_migratePANConfig($this->_getPANConfig());
-        if ($this->detected)
-        {
+        $this->aConfig = $this->_migratePANConfig($this->_getPANConfig());
+        if ($this->detected) {
             $GLOBALS['_MAX']['CONF']['database']['type'] = $this->aConfig['database']['type'];
             $this->aDsn['database'] = $this->aConfig['database'];
-            $this->aDsn['table']    = $this->aConfig['table'];
-            $this->prefix   = $this->aConfig['table']['prefix'];
-            $this->engine   = $this->aConfig['table']['type'];
+            $this->aDsn['table'] = $this->aConfig['table'];
+            $this->prefix = $this->aConfig['table']['prefix'];
+            $this->engine = $this->aConfig['table']['type'];
             $GLOBALS['_MAX']['CONF']['table']['prefix'] = $this->prefix;
             $GLOBALS['_MAX']['CONF']['table']['type'] = $this->engine;
-            $this->oDbh     = OA_DB::singleton(OA_DB::getDsn($this->aConfig));
+            $this->oDbh = OA_DB::singleton(OA_DB::getDsn($this->aConfig));
         }
     }
 
-    function getPANversion()
+    public function getPANversion()
     {
-        if ($this->detected)
-        {
+        if ($this->detected) {
             PEAR::pushErrorHandling(null);
             $query = "SELECT config_version FROM {$this->prefix}config";
             $result = $this->oDbh->queryOne($query);
             PEAR::popErrorHandling();
-            if (PEAR::isError($result))
-            {
+            if (PEAR::isError($result)) {
                 return false;
             }
             return $result;
@@ -68,23 +64,21 @@ class OA_phpAdsNew
         return false;
     }
 
-    function _getPANConfig()
+    public function _getPANConfig()
     {
-        if (file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg))
-        {
-            $config = file_get_contents(MAX_PATH.$this->pathCfg.$this->fileCfg);
+        if (file_exists(MAX_PATH . $this->pathCfg . $this->fileCfg)) {
+            $config = file_get_contents(MAX_PATH . $this->pathCfg . $this->fileCfg);
             $config = preg_replace('/set_magic_quotes_runtime\s*\(/', '//$1', $config);
 
             if (defined('phpAds_installed')) {
                 $config = preg_replace('/define\(\'phpAds_installed/', '//$1', $config);
             }
 
-            $tmpFile = tempnam(MAX_PATH.'/var', 'pan_');
+            $tmpFile = tempnam(MAX_PATH . '/var', 'pan_');
             file_put_contents($tmpFile, $config);
             include $tmpFile;
             unlink($tmpFile);
-            if (isset($phpAds_config) && is_array($phpAds_config))
-            {
+            if (isset($phpAds_config) && is_array($phpAds_config)) {
                 $this->detected = true;
                 return $phpAds_config;
             }
@@ -92,7 +86,7 @@ class OA_phpAdsNew
         return false;
     }
 
-    function _migratePANConfig($phpAds_config)
+    public function _migratePANConfig($phpAds_config)
     {
         if (is_array($phpAds_config)) {
             $aResult['ui']['enabled'] = $phpAds_config['ui_enabled'] ?? true;
@@ -138,7 +132,7 @@ class OA_phpAdsNew
                 $aResult['database']['protocol'] = 'unix';
                 $aResult['database']['socket'] = ($aResult['database']['host'] == 'localhost' ? '' : preg_replace('/^:/', '', $phpAds_config['dbhost']));
                 $aResult['database']['host'] = 'localhost';
-            } else if (isset($phpAds_config['dbport']) && !is_numeric($phpAds_config['dbport'])) {
+            } elseif (isset($phpAds_config['dbport']) && !is_numeric($phpAds_config['dbport'])) {
                 // must be max v0.1 (mysql only)
                 $aResult['database']['protocol'] = 'unix';
                 $aResult['database']['host'] = 'localhost';
@@ -155,16 +149,14 @@ class OA_phpAdsNew
         return [];
     }
 
-    function renamePANConfigFile($prefix='backup_')
+    public function renamePANConfigFile($prefix = 'backup_')
     {
-        if (file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg))
-        {
-            if (copy(MAX_PATH.$this->pathCfg.$this->fileCfg, MAX_PATH.$this->pathCfg.$prefix.$this->fileCfg))
-            {
-                unlink(MAX_PATH.$this->pathCfg.$this->fileCfg);
+        if (file_exists(MAX_PATH . $this->pathCfg . $this->fileCfg)) {
+            if (copy(MAX_PATH . $this->pathCfg . $this->fileCfg, MAX_PATH . $this->pathCfg . $prefix . $this->fileCfg)) {
+                unlink(MAX_PATH . $this->pathCfg . $this->fileCfg);
             }
         }
-        return (!file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg));
+        return (!file_exists(MAX_PATH . $this->pathCfg . $this->fileCfg));
     }
 
     /**
@@ -173,7 +165,7 @@ class OA_phpAdsNew
      * @param OA_Upgrade Parent Upgrader class
      * @return bool True on success
      */
-    function checkPANConfigIntegrity($oUpgrader)
+    public function checkPANConfigIntegrity($oUpgrader)
     {
         $phpAds_config = $this->_getPANConfig();
 
@@ -186,7 +178,6 @@ class OA_phpAdsNew
             // Test for errors in the PAN geotargeting configuration
             if ($phpAds_config['geotracking_type'] == 'geoip') {
                 if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
-
                     if (is_readable($phpAds_config['geotracking_location'])) {
                         $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
                     } else {
@@ -218,162 +209,146 @@ class OA_phpAdsNew
 
     public static function phpAds_geoip_getConf($db)
     {
-    	$ret = '';
+        $ret = '';
 
-    	if ($db && ($fp = @fopen($db, "rb")))
-    	{
-    		$info = OA_phpAdsNew::phpAds_geoip_get_info($fp);
+        if ($db && ($fp = @fopen($db, "rb"))) {
+            $info = OA_phpAdsNew::phpAds_geoip_get_info($fp);
 
-    		$info['plugin_conf']['databaseTimestamp'] = filemtime($db);
+            $info['plugin_conf']['databaseTimestamp'] = filemtime($db);
 
-    		$ret = serialize($info['plugin_conf']);
+            $ret = serialize($info['plugin_conf']);
 
-    		@fclose($fp);
-    	}
+            @fclose($fp);
+        }
 
-    	return $ret;
+        return $ret;
     }
 
     private static function phpAds_geoip_get_defaults()
     {
-    	return array(
-    		'COUNTRY_BEGIN'				=> 16776960,
-    		'STATE_BEGIN_REV0'			=> 16700000,
-    		'STATE_BEGIN_REV1'			=> 16000000,
-    		'GEOIP_STANDARD'			=> 0,
-    		'GEOIP_MEMORY_CACHE'		=> 1,
-    		'GEOIP_SHARED_MEMORY'		=> 2,
-    		'STRUCTURE_INFO_MAX_SIZE'	=> 20,
-    		'DATABASE_INFO_MAX_SIZE'	=> 100,
+        return [
+            'COUNTRY_BEGIN' => 16776960,
+            'STATE_BEGIN_REV0' => 16700000,
+            'STATE_BEGIN_REV1' => 16000000,
+            'GEOIP_STANDARD' => 0,
+            'GEOIP_MEMORY_CACHE' => 1,
+            'GEOIP_SHARED_MEMORY' => 2,
+            'STRUCTURE_INFO_MAX_SIZE' => 20,
+            'DATABASE_INFO_MAX_SIZE' => 100,
 
-    		'GEOIP_COUNTRY_EDITION'		=> 1,
-    		'GEOIP_PROXY_EDITION'		=> 8,
-    		'GEOIP_ASNUM_EDITION'		=> 9,
-    		'GEOIP_NETSPEED_EDITION'	=> 10,
-    		'GEOIP_REGION_EDITION_REV0'	=> 7,
-    		'GEOIP_REGION_EDITION_REV1'	=> 3,
-    		'GEOIP_CITY_EDITION_REV0'	=> 6,
-    		'GEOIP_CITY_EDITION_REV1'	=> 2,
-    		'GEOIP_ORG_EDITION'			=> 5,
-    		'GEOIP_ISP_EDITION'			=> 4,
+            'GEOIP_COUNTRY_EDITION' => 1,
+            'GEOIP_PROXY_EDITION' => 8,
+            'GEOIP_ASNUM_EDITION' => 9,
+            'GEOIP_NETSPEED_EDITION' => 10,
+            'GEOIP_REGION_EDITION_REV0' => 7,
+            'GEOIP_REGION_EDITION_REV1' => 3,
+            'GEOIP_CITY_EDITION_REV0' => 6,
+            'GEOIP_CITY_EDITION_REV1' => 2,
+            'GEOIP_ORG_EDITION' => 5,
+            'GEOIP_ISP_EDITION' => 4,
 
-    		'SEGMENT_RECORD_LENGTH'		=> 3,
-    		'STANDARD_RECORD_LENGTH'	=> 3,
-    		'ORG_RECORD_LENGTH'			=> 4,
-    		'MAX_RECORD_LENGTH'			=> 4,
-    		'MAX_ORG_RECORD_LENGTH'		=> 300,
-    		'FULL_RECORD_LENGTH'		=> 50,
+            'SEGMENT_RECORD_LENGTH' => 3,
+            'STANDARD_RECORD_LENGTH' => 3,
+            'ORG_RECORD_LENGTH' => 4,
+            'MAX_RECORD_LENGTH' => 4,
+            'MAX_ORG_RECORD_LENGTH' => 300,
+            'FULL_RECORD_LENGTH' => 50,
 
-    		'US_OFFSET'					=> 1,
-    		'CANADA_OFFSET'				=> 677,
-    		'WORLD_OFFSET'				=> 1353,
-    		'FIPS_RANGE'				=> 360,
+            'US_OFFSET' => 1,
+            'CANADA_OFFSET' => 677,
+            'WORLD_OFFSET' => 1353,
+            'FIPS_RANGE' => 360,
 
-    		'GEOIP_UNKNOWN_SPEED'		=> 0,
-    		'GEOIP_DIALUP_SPEED'		=> 1,
-    		'GEOIP_CABLEDSL_SPEED'		=> 2,
-    		'GEOIP_CORPORATE_SPEED'		=> 3
-    	);
+            'GEOIP_UNKNOWN_SPEED' => 0,
+            'GEOIP_DIALUP_SPEED' => 1,
+            'GEOIP_CABLEDSL_SPEED' => 2,
+            'GEOIP_CORPORATE_SPEED' => 3
+        ];
     }
 
     private static function phpAds_geoip_get_info($fp)
     {
-    	// Default variables
-    	extract(self::phpAds_geoip_get_defaults());
+        // Default variables
+        extract(self::phpAds_geoip_get_defaults());
 
-    	/* default to GeoIP Country Edition */
-    	$databaseType = $GEOIP_COUNTRY_EDITION;
-    	$record_length = $STANDARD_RECORD_LENGTH;
-    	fseek($fp, -3, SEEK_END);
+        /* default to GeoIP Country Edition */
+        $databaseType = $GEOIP_COUNTRY_EDITION;
+        $record_length = $STANDARD_RECORD_LENGTH;
+        fseek($fp, -3, SEEK_END);
 
-    	$buf = str_repeat('\0', $SEGMENT_RECORD_LENGTH);
+        $buf = str_repeat('\0', $SEGMENT_RECORD_LENGTH);
 
-    	for ($i = 0; $i < $STRUCTURE_INFO_MAX_SIZE; $i++)
-    	{
-    		$delim = fread($fp, 3);
+        for ($i = 0; $i < $STRUCTURE_INFO_MAX_SIZE; $i++) {
+            $delim = fread($fp, 3);
 
-    		if ($delim == "\xFF\xFF\xFF")
-    		{
+            if ($delim == "\xFF\xFF\xFF") {
+                $databaseType = ord(fread($fp, 1));
 
-    			$databaseType = ord(fread($fp, 1));
+                if ($databaseType >= 106) {
+                    /* backwards compatibility with databases from April 2003 and earlier */
+                    $databaseType -= 105;
+                }
 
-    			if ($databaseType >= 106)
-    			{
-    				/* backwards compatibility with databases from April 2003 and earlier */
-    				$databaseType -= 105;
-    			}
+                if ($databaseType == $GEOIP_REGION_EDITION_REV0) {
+                    /* Region Edition, pre June 2003 */
+                    $databaseSegments = $STATE_BEGIN_REV0;
+                } elseif ($databaseType == $GEOIP_REGION_EDITION_REV1) {
+                    /* Region Edition, post June 2003 */
+                    $databaseSegments = $STATE_BEGIN_REV1;
+                } elseif ($databaseType == $GEOIP_CITY_EDITION_REV0 ||
+                        $databaseType == $GEOIP_CITY_EDITION_REV1 ||
+                        $databaseType == $GEOIP_ORG_EDITION ||
+                        $databaseType == $GEOIP_ISP_EDITION ||
+                        $databaseType == $GEOIP_ASNUM_EDITION) {
+                    /* City/Org Editions have two segments, read offset of second segment */
+                    $databaseSegments = 0;
+                    $buf = fread($fp, $SEGMENT_RECORD_LENGTH);
+                    for ($j = 0; $j < $SEGMENT_RECORD_LENGTH; $j++) {
+                        $databaseSegments |= (ord($buf[$j]) << ($j << 3));
+                    }
+                    if ($databaseType == $GEOIP_ORG_EDITION ||
+                        $databaseType == $GEOIP_ISP_EDITION) {
+                        $record_length = $ORG_RECORD_LENGTH;
+                    }
+                }
+                break;
+            } else {
+                fseek($fp, -4, SEEK_CUR);
+            }
+        }
 
-    			if ($databaseType == $GEOIP_REGION_EDITION_REV0)
-    			{
-    				/* Region Edition, pre June 2003 */
-    				$databaseSegments = $STATE_BEGIN_REV0;
-    			}
-    			elseif ($databaseType == $GEOIP_REGION_EDITION_REV1)
-    			{
-    				/* Region Edition, post June 2003 */
-    				$databaseSegments = $STATE_BEGIN_REV1;
-    			}
-    			elseif ($databaseType == $GEOIP_CITY_EDITION_REV0 ||
-    					$databaseType == $GEOIP_CITY_EDITION_REV1 ||
-    					$databaseType == $GEOIP_ORG_EDITION ||
-    					$databaseType == $GEOIP_ISP_EDITION ||
-    					$databaseType == $GEOIP_ASNUM_EDITION)
-    			{
-    				/* City/Org Editions have two segments, read offset of second segment */
-    				$databaseSegments = 0;
-    				$buf = fread($fp, $SEGMENT_RECORD_LENGTH);
-    				for ($j = 0; $j < $SEGMENT_RECORD_LENGTH; $j++)
-    				{
-    					$databaseSegments |= (ord($buf[$j]) << ($j << 3));
-    				}
-    				if ($databaseType == $GEOIP_ORG_EDITION ||
-    					$databaseType == $GEOIP_ISP_EDITION)
-    				{
-    					$record_length = $ORG_RECORD_LENGTH;
-    				}
-    			}
-    			break;
-    		}
-    		else
-    		{
-    			fseek($fp, -4, SEEK_CUR);
-    		}
-    	}
+        if ($databaseType == $GEOIP_COUNTRY_EDITION ||
+            $databaseType == $GEOIP_PROXY_EDITION ||
+            $databaseType == $GEOIP_NETSPEED_EDITION) {
+            $databaseSegments = $COUNTRY_BEGIN;
+        }
 
-    	if ($databaseType == $GEOIP_COUNTRY_EDITION ||
-    		$databaseType == $GEOIP_PROXY_EDITION ||
-    		$databaseType == $GEOIP_NETSPEED_EDITION)
-    	{
-    		$databaseSegments = $COUNTRY_BEGIN;
-    	}
+        if (!isset($databaseSegments)) {
+            // There was an error: db not supported?
+            return false;
+        }
 
-    	if (!isset($databaseSegments))
-    	{
-    		// There was an error: db not supported?
-    		return false;
-    	}
-
-    	return array(
-    		'plugin_conf'	=> array(
-    			'databaseType' 		=> $databaseType,
-    			'databaseSegments'	=> $databaseSegments,
-    			'record_length'		=> $record_length
-    		),
-    		'capabilities'	=> array(
-    			'country'		=> in_array($databaseType, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'continent'		=> in_array($databaseType, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'region'		=> in_array($databaseType, array($GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'fips_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'city'			=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'postal_code'	=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'latitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'longitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'dma_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'area_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
-    			'org_isp'		=> in_array($databaseType, array($GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION)),
-    			'netspeed'		=> $databaseType == $GEOIP_NETSPEED_EDITION
-    		)
-    	);
+        return [
+            'plugin_conf' => [
+                'databaseType' => $databaseType,
+                'databaseSegments' => $databaseSegments,
+                'record_length' => $record_length
+            ],
+            'capabilities' => [
+                'country' => in_array($databaseType, [$GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'continent' => in_array($databaseType, [$GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'region' => in_array($databaseType, [$GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'fips_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'city' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'postal_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'latitude' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'longitude' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'dma_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'area_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
+                'org_isp' => in_array($databaseType, [$GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION]),
+                'netspeed' => $databaseType == $GEOIP_NETSPEED_EDITION
+            ]
+        ];
     }
 
     public static function phpPgAdsIndexToOpenads($index, $table, $prefix)
@@ -383,8 +358,6 @@ class OA_phpAdsNew
 
     public static function phpPgAdsPrefixedIndex($index, $prefix)
     {
-        return substr($prefix.$index, 0, 31);
+        return substr($prefix . $index, 0, 31);
     }
 }
-
-?>

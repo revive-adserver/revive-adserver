@@ -10,15 +10,14 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/Page.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Page.php';
 
 
 /**
  * Base page object for plugins. Provides plugin related helper methods.
  *
  */
-class OA_Admin_UI_PluginPage
-    extends OA_Admin_UI_Page
+class OA_Admin_UI_PluginPage extends OA_Admin_UI_Page
 {
     protected $pluginId;
 
@@ -36,10 +35,10 @@ class OA_Admin_UI_PluginPage
      */
     protected function createPageContext()
     {
-       $context = parent::createPageContext();
-       $context->pluginId = $this->getPluginId();
+        $context = parent::createPageContext();
+        $context->pluginId = $this->getPluginId();
 
-       return $context;
+        return $context;
     }
 
 
@@ -53,5 +52,3 @@ class OA_Admin_UI_PluginPage
         return $this->pluginId;
     }
 }
-
-?>

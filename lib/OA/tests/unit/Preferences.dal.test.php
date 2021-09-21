@@ -21,8 +21,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Preferences extends UnitTestCase
 {
-
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -32,7 +31,7 @@ class Test_OA_Preferences extends UnitTestCase
      * when the preferences should be loaded in a one-dimensional
      * array.
      */
-    function testLoadPreferencesOneDimensional()
+    public function testLoadPreferencesOneDimensional()
     {
         // Test 1: Test with no user logged in, and ensure that no
         //         preferences are loaded.
@@ -45,7 +44,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 2: Test with no user logged in, and ensure that no
         //         preferences are loaded, and that esisting preferences
         //         that may exist are removed.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
@@ -83,7 +82,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 3: Test with the admin account logged in, but no preferences in
         //         the system, and ensure that no preferences are loaded, and
         //         that esisting preferences that may exist are removed.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
@@ -96,7 +95,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 4: Test with the admin user logged in, and a preference in
         //         the system, but no preference values set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
@@ -110,7 +109,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 5: Test with the admin account logged in, a preference in the
         //         system, and a preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -127,7 +126,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 6: Test with the admin account logged in, two preferences in the
         //         system, and one preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -145,7 +144,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 7: Test with the admin account logged in, two preferences in the
         //         system, and two preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -190,7 +189,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 8: Test with the manager account logged in, two preferences in the
         //         system, and two preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -211,7 +210,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 9: Test with the manager account logged in, two preferences in the
         //         system, two preference value set for the admin account, with
         //         one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -242,7 +241,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 10: Test with the admin account logged in, two preferences in the
         //          system, two preference value set for the admin account, with
         //          one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -289,7 +288,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 11: Test with the advertiser account logged in, two preferences in the
         //          system, two preference value set for the admin account, with
         //          one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -316,7 +315,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 12: Test with the advertiser account logged in, three preferences in the
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -340,7 +339,7 @@ class Test_OA_Preferences extends UnitTestCase
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account, and another
         //          overwritten by the advertiser account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -374,7 +373,7 @@ class Test_OA_Preferences extends UnitTestCase
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account, and another
         //          overwritten by the advertiser account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -408,7 +407,7 @@ class Test_OA_Preferences extends UnitTestCase
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account, and another
         //          overwritten by the advertiser account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -431,7 +430,7 @@ class Test_OA_Preferences extends UnitTestCase
         $doUsers->language = '';
         $doUsers->update();
 
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -441,7 +440,7 @@ class Test_OA_Preferences extends UnitTestCase
         $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'en');
 
         // Test 16: Test that if we set a default in the conf array and have no user pref, this is returned:
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $GLOBALS['_MAX']['CONF']['max']['language'] = 'de';
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
@@ -452,7 +451,7 @@ class Test_OA_Preferences extends UnitTestCase
         $this->assertEqual($GLOBALS['_MAX']['PREF']['language'], 'de');
 
         // Test 17: Test that if we set a default in the conf array and have no user pref, this is returned:
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -465,7 +464,7 @@ class Test_OA_Preferences extends UnitTestCase
         $doUsers->language = 'pt_BR';
         $doUsers->update();
 
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -480,7 +479,7 @@ class Test_OA_Preferences extends UnitTestCase
      * when the preferences should be loaded in a two-dimensional
      * array.
      */
-    function testLoadPreferencesTwoDimensional()
+    public function testLoadPreferencesTwoDimensional()
     {
         // Test 1: Test with no user logged in, and ensure that no
         //         preferences are loaded.
@@ -493,7 +492,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 2: Test with no user logged in, and ensure that no
         //         preferences are loaded, and that esisting preferences
         //         that may exist are removed.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
@@ -531,7 +530,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 3: Test with the admin account logged in, but no preferences in
         //         the system, and ensure that no preferences are loaded, and
         //         that esisting preferences that may exist are removed.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
@@ -544,7 +543,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 4: Test with the admin user logged in, and a preference in
         //         the system, but no preference values set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
@@ -558,7 +557,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 5: Test with the admin account logged in, a preference in the
         //         system, and a preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -580,7 +579,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 6: Test with the admin account logged in, two preferences in the
         //         system, and one preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -608,7 +607,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 7: Test with the admin account logged in, two preferences in the
         //         system, and two preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -663,7 +662,7 @@ class Test_OA_Preferences extends UnitTestCase
 
         // Test 8: Test with the manager account logged in, two preferences in the
         //         system, and two preference value set for the admin account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -694,7 +693,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 9: Test with the manager account logged in, two preferences in the
         //         system, two preference value set for the admin account, with
         //         one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -735,7 +734,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 10: Test with the admin account logged in, two preferences in the
         //          system, two preference value set for the admin account, with
         //          one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -792,7 +791,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 11: Test with the advertiser account logged in, two preferences in the
         //          system, two preference value set for the admin account, with
         //          one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -829,7 +828,7 @@ class Test_OA_Preferences extends UnitTestCase
         // Test 12: Test with the advertiser account logged in, three preferences in the
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -868,7 +867,7 @@ class Test_OA_Preferences extends UnitTestCase
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account, and another
         //          overwritten by the advertiser account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -917,7 +916,7 @@ class Test_OA_Preferences extends UnitTestCase
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account, and another
         //          overwritten by the advertiser account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -966,7 +965,7 @@ class Test_OA_Preferences extends UnitTestCase
         //          system, three preference value set for the admin account, with
         //          one of them overwritten by the manager account, and another
         //          overwritten by the advertiser account.
-        $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
+        $GLOBALS['_MAX']['PREF'] = ['foo' => 'bar'];
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
@@ -995,9 +994,9 @@ class Test_OA_Preferences extends UnitTestCase
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_3']['value'], 'Admin Preference for Preference 3');
     }
 
-    function _createPreferences($aPrefs)
+    public function _createPreferences($aPrefs)
     {
-        foreach($aPrefs as $prefName => $prefId) {
+        foreach ($aPrefs as $prefName => $prefId) {
             $doPreferences = OA_Dal::factoryDO('preferences');
             $doPreferences->preference_id = $prefId;
             $doPreferences->preference_name = $prefName;
@@ -1006,28 +1005,28 @@ class Test_OA_Preferences extends UnitTestCase
         }
     }
 
-    function testCacheGetPreferenceIds()
+    public function testCacheGetPreferenceIds()
     {
-        $expectedPrefs = array(
+        $expectedPrefs = [
             'pref1' => 1,
             'pref2' => 2,
-        );
+        ];
         $this->_createPreferences($expectedPrefs);
 
-        $prefs = OA_Preferences::getPreferenceIds(array(''), 'ADMIN');
-        $this->assertEqual($prefs, array());
-        $prefs = OA_Preferences::getCachedPreferencesIds(array(''), 'ADMIN');
-        $this->assertEqual($prefs, array());
+        $prefs = OA_Preferences::getPreferenceIds([''], 'ADMIN');
+        $this->assertEqual($prefs, []);
+        $prefs = OA_Preferences::getCachedPreferencesIds([''], 'ADMIN');
+        $this->assertEqual($prefs, []);
 
-        $expectedPref1 = array('pref1' => 1);
-        $prefs = OA_Preferences::getPreferenceIds(array('pref1'), 'ADMIN');
+        $expectedPref1 = ['pref1' => 1];
+        $prefs = OA_Preferences::getPreferenceIds(['pref1'], 'ADMIN');
         $this->assertEqual($prefs, $expectedPref1);
-        $prefs = OA_Preferences::getCachedPreferencesIds(array('pref1'), 'ADMIN');
+        $prefs = OA_Preferences::getCachedPreferencesIds(['pref1'], 'ADMIN');
         $this->assertEqual($prefs, $expectedPref1);
 
-        $prefs = OA_Preferences::getPreferenceIds(array('pref1', 'pref2'), 'ADMIN');
+        $prefs = OA_Preferences::getPreferenceIds(['pref1', 'pref2'], 'ADMIN');
         $this->assertEqual($prefs, $expectedPrefs);
-        $prefs = OA_Preferences::getCachedPreferencesIds(array('pref1', 'pref2'), 'ADMIN');
+        $prefs = OA_Preferences::getCachedPreferencesIds(['pref1', 'pref2'], 'ADMIN');
         $this->assertEqual($prefs, $expectedPrefs);
         // change one of the cached preferences and check that getCachedPreferencesIds() still returns
         // old values
@@ -1035,25 +1034,25 @@ class Test_OA_Preferences extends UnitTestCase
         $doPreferences->preference_id = 1;
         $doPreferences->preference_name = 'test';
         $doPreferences->update();
-        $prefs = OA_Preferences::getCachedPreferencesIds(array('pref1', 'pref2'), 'ADMIN');
+        $prefs = OA_Preferences::getCachedPreferencesIds(['pref1', 'pref2'], 'ADMIN');
         $this->assertEqual($prefs, $expectedPrefs);
-        $prefs = OA_Preferences::getCachedPreferencesIds(array('test'), 'ADMIN');
-        $this->assertEqual($prefs, array('test' => 1));
+        $prefs = OA_Preferences::getCachedPreferencesIds(['test'], 'ADMIN');
+        $this->assertEqual($prefs, ['test' => 1]);
     }
 
-    function testCachePreferences()
+    public function testCachePreferences()
     {
-        $prefsNames = array('pref1', 'pref2');
+        $prefsNames = ['pref1', 'pref2'];
         $accountId = 1;
 
         $prefs = OA_Preferences::cachePreferences($accountId, $prefsNames);
-        $this->assertEqual($prefs, array());
+        $this->assertEqual($prefs, []);
 
         // cache preferences
-        $prefsValues = array(
+        $prefsValues = [
             'pref1' => 'val1',
             'pref2' => 'val2',
-        );
+        ];
         OA_Preferences::cachePreferences($accountId, $prefsValues, false);
 
         // check that preferences were cached
@@ -1062,10 +1061,10 @@ class Test_OA_Preferences extends UnitTestCase
 
         // check that different account is not cached
         $prefs = OA_Preferences::cachePreferences(2, $prefsNames);
-        $this->assertEqual($prefs, array());
+        $this->assertEqual($prefs, []);
     }
 
-    function _addPrefsToAccount($prefs, $accountId)
+    public function _addPrefsToAccount($prefs, $accountId)
     {
         foreach ($prefs as $prefId => $prefVal) {
             $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
@@ -1076,29 +1075,27 @@ class Test_OA_Preferences extends UnitTestCase
         }
     }
 
-    function testLoadPreferencesByNameAndAccount()
+    public function testLoadPreferencesByNameAndAccount()
     {
         // clean cache
-        OA_Preferences::cachePreferences(null, array(), null, true);
-        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId = 1, array('pref1'), 'ADMIN');
-        $this->assertEqual($prefs, array());
+        OA_Preferences::cachePreferences(null, [], null, true);
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId = 1, ['pref1'], 'ADMIN');
+        $this->assertEqual($prefs, []);
         // add prefs
-        $prefsNamesIds = array(
+        $prefsNamesIds = [
             'pref1' => 1,
             'pref2' => 2,
-        );
+        ];
         $this->_createPreferences($prefsNamesIds);
-        $this->_addPrefsToAccount(array(1 => 'pref1val'), $accountId);
-        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, array('pref1'), 'ADMIN');
-        $this->assertEqual($prefs, array('pref1' => 'pref1val'));
+        $this->_addPrefsToAccount([1 => 'pref1val'], $accountId);
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, ['pref1'], 'ADMIN');
+        $this->assertEqual($prefs, ['pref1' => 'pref1val']);
 
-        $this->_addPrefsToAccount(array(2 => 'pref2val'), $accountId);
-        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, array('pref1', 'pref2'), 'ADMIN');
-        $this->assertEqual($prefs, array('pref1' => 'pref1val', 'pref2' => 'pref2val'));
+        $this->_addPrefsToAccount([2 => 'pref2val'], $accountId);
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, ['pref1', 'pref2'], 'ADMIN');
+        $this->assertEqual($prefs, ['pref1' => 'pref1val', 'pref2' => 'pref2val']);
 
-        $prefs = OA_Preferences::loadPreferencesByNameAndAccount(2, array('pref1'), 'ADMIN');
-        $this->assertEqual($prefs, array());
+        $prefs = OA_Preferences::loadPreferencesByNameAndAccount(2, ['pref1'], 'ADMIN');
+        $this->assertEqual($prefs, []);
     }
 }
-
-?>

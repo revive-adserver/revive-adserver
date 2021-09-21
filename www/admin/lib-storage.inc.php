@@ -209,4 +209,3 @@ function phpAds_LocalUniqueName($buffer, $extension)
     $filename = md5($buffer) . $extension;
     return $filename;
 }
-

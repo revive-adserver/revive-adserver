@@ -20,16 +20,16 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
     /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
 
         $this->_removePluginUpdateServerSettings();
         $this->_updateDefaultManagerToAccount();
@@ -42,7 +42,7 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
      * Remove the entire "pluginUpdatesServer" setting section, as this was
      * deprecated in Revive Adserver 3.1.0
      */
-    function _removePluginUpdateServerSettings()
+    public function _removePluginUpdateServerSettings()
     {
         $this->logOnly("Attempting to remove the 'pluginUpdatesServer' settings from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
@@ -62,7 +62,7 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
      * exists for the user, as the term "Manager" was deprecated in Revive
      * Adserver 3.1.0
      */
-    function _updateDefaultManagerToAccount()
+    public function _updateDefaultManagerToAccount()
     {
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
@@ -95,7 +95,7 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
      * it still exists for the user, for improved understanding of the account
      * purpose
      */
-    function _updateAdministratorAccountToSystemAdministrator()
+    public function _updateAdministratorAccountToSystemAdministrator()
     {
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
@@ -112,17 +112,14 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
         }
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }
-
 }
-
-?>

@@ -38,6 +38,6 @@ $GLOBALS['strCollectedAllEvents'] = "Todos eventos";
 $GLOBALS['strClear'] = "Limpar";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Relatório para o site {id} enviado por e-mail";

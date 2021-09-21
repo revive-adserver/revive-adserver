@@ -10,32 +10,28 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQueryRuleAdaptor.php';
 
 
 /**
  * Wrapper rule for HTML_QuickForm "nonzero" rule.
  */
-class OA_Admin_UI_Rule_JQueryNonZeroRule
-    extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor   
+class OA_Admin_UI_Rule_JQueryNonZeroRule extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
 {
     /**
-     * Returns Jquery validation plugin min value rule set to  
-     * "min": 1 
+     * Returns Jquery validation plugin min value rule set to
+     * "min": 1
      * @param array $rule
      * @return string
      */
     public function getJQueryValidationRule($rule)
     {
-        return "\"min\": 1";    
+        return "\"min\": 1";
     }
     
     
     public function getJQueryValidationMessage($rule)
     {
-        return "\"min\": \"".$rule['message']."\"";
-    }    
-    
+        return "\"min\": \"" . $rule['message'] . "\"";
+    }
 }
-
-?>

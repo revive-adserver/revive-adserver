@@ -1,4 +1,3 @@
-
 ;
 ; Categories specified here will be shown on the main Reports screen.
 ; All others need to be accessed through the More Reports... link

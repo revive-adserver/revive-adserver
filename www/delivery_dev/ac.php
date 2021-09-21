@@ -21,15 +21,15 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 MAX_commonSendContentTypeHeader('text/html');
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('timeout'));
-$timeout  = !empty($timeout) ? $timeout : 0;
+MAX_commonRegisterGlobalsArray(['timeout']);
+$timeout = !empty($timeout) ? $timeout : 0;
 
 if ($zoneid > 0) {
     // Get the zone from cache
     $aZone = MAX_cacheGetZoneInfo($zoneid);
 } else {
     // Direct selection, or problem with admin DB
-    $aZone = array();
+    $aZone = [];
     $aZone['zoneid'] = $zoneid;
     $aZone['append'] = '';
     $aZone['prepend'] = '';
@@ -39,9 +39,9 @@ if ($zoneid > 0) {
 $aBanner = MAX_cacheGetAd($bannerid);
 
 $prepend = !empty($aZone['prepend']) ? $aZone['prepend'] : '';
-$html    = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
-$append  = !empty($aZone['append']) ? $aZone['append'] : '';
-$title   = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
+$html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
+$append = !empty($aZone['append']) ? $aZone['append'] : '';
+$title = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
 
 echo "
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
@@ -68,5 +68,3 @@ body {margin:0; height:100%; width:100%}
 {$prepend}{$html}{$append}
 </body>
 </html>";
-
-?>

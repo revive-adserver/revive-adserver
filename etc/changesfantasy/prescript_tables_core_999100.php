@@ -10,15 +10,15 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
+require_once MAX_PATH . '/etc/changesfantasy/script_tables_core_parent.php';
 
 class prescript_tables_core_999100 extends script_tables_core_parent
 {
-    function __construct()
+    public function __construct()
     {
     }
 
-    function execute_constructive($aParams)
+    public function execute_constructive($aParams)
     {
         $this->init($aParams);
         $this->_log('*********** constructive ****************');
@@ -26,38 +26,28 @@ class prescript_tables_core_999100 extends script_tables_core_parent
         return true;
     }
 
-    function _logExpected()
+    public function _logExpected()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
         $msg = $this->_testName('A');
-        if (in_array($prefix.'bender', $aExistingTables))
-        {
-            $this->_log($msg.' table '.$prefix.'bender already exists in database therefore changes_tables_core_999100 will not be able to create table '.$prefix.'bender');
-        }
-        else
-        {
-            $this->_log($msg.' create table '.$prefix.'bender defined as: [bender]');
+        if (in_array($prefix . 'bender', $aExistingTables)) {
+            $this->_log($msg . ' table ' . $prefix . 'bender already exists in database therefore changes_tables_core_999100 will not be able to create table ' . $prefix . 'bender');
+        } else {
+            $this->_log($msg . ' create table ' . $prefix . 'bender defined as: [bender]');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['bender'];
-            $this->_log(print_r($aDef,true));
-
+            $this->_log(print_r($aDef, true));
         }
         $msg = $this->_testName('B');
-        if (in_array($prefix.'astro', $aExistingTables))
-        {
-            $this->_log($msg.' table '.$prefix.'astro already exists in database therefore changes_tables_core_999100 will not be able to create table '.$prefix.'astro');
-        }
-        else
-        {
-            $this->_log($msg.' create table '.$prefix.'astro defined as: [astro]');
+        if (in_array($prefix . 'astro', $aExistingTables)) {
+            $this->_log($msg . ' table ' . $prefix . 'astro already exists in database therefore changes_tables_core_999100 will not be able to create table ' . $prefix . 'astro');
+        } else {
+            $this->_log($msg . ' create table ' . $prefix . 'astro defined as: [astro]');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro'];
-            $this->_log(print_r($aDef,true));
+            $this->_log(print_r($aDef, true));
 
             $msg = $this->_testName('C');
-            $this->_log($msg.' populate table '.$prefix.'astro with 10 records');
+            $this->_log($msg . ' populate table ' . $prefix . 'astro with 10 records');
         }
     }
-
 }
-
-?>

@@ -21,24 +21,24 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  */
 class migration_tables_core_124Test extends MigrationTest
 {
-    function testMigrateCampaignIds()
+    public function testMigrateCampaignIds()
     {
-        $this->initDatabase(123, array('banners'));
+        $this->initDatabase(123, ['banners']);
 
-        $sql = OA_DB_Sql::sqlForInsert('banners', array(
-            'bannerid'           => '1',
-            'clientid'           => '4',
-            'htmltemplate'       => '',
-            'htmlcache'          => '',
-            'bannertext'         => '',
+        $sql = OA_DB_Sql::sqlForInsert('banners', [
+            'bannerid' => '1',
+            'clientid' => '4',
+            'htmltemplate' => '',
+            'htmlcache' => '',
+            'bannertext' => '',
             'compiledlimitation' => '',
-            'append'             => ''
-        ));
+            'append' => ''
+        ]);
         $this->oDbh->exec($sql);
 
         $this->upgradeToVersion(124);
 
-        $table = $this->oDbh->quoteIdentifier($this->getPrefix().'banners',true);
+        $table = $this->oDbh->quoteIdentifier($this->getPrefix() . 'banners', true);
 
         $rsBanners = DBC::NewRecordSet("SELECT campaignid FROM {$table}");
         $this->assertTrue($rsBanners->find());

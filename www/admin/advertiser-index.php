@@ -89,8 +89,8 @@ $dalClients = OA_Dal::factoryDAL('clients');
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $dalBanners = OA_Dal::factoryDAL('banners');
 
-$campaigns = array();
-$banners = array();
+$campaigns = [];
+$banners = [];
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
@@ -119,10 +119,10 @@ if (!empty($clients)) {
     }
 }
 
-$aCount = array(
-    'advertisers'        => count($clients),
+$aCount = [
+    'advertisers' => count($clients),
     'advertisers_hidden' => 0
-);
+];
 
 
 if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners)) {
@@ -161,7 +161,7 @@ $itemsPerPage = 250;
 $oPager = OX_buildPager($clients, $itemsPerPage);
 $oTopPager = OX_buildPager($clients, $itemsPerPage, false);
 list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
-$clients =  array_slice($clients, $itemsFrom - 1, $itemsPerPage, true);
+$clients = array_slice($clients, $itemsFrom - 1, $itemsPerPage, true);
 
 $oTpl->assign('pager', $oPager);
 $oTpl->assign('topPager', $oTopPager);
@@ -197,7 +197,5 @@ phpAds_PageFooter();
 function buildHeaderModel()
 {
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-    return $builder->buildEntityHeader(array(), 'advertisers', 'list');
+    return $builder->buildEntityHeader([], 'advertisers', 'list');
 }
-
-?>

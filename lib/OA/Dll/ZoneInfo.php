@@ -25,56 +25,54 @@ require_once MAX_PATH . '/lib/OA/Info.php';
 
 class OA_Dll_ZoneInfo extends OA_Info
 {
-
-
     /**
      * This field provides the ID of the zone.
      *
      * @var integer $zoneId
      */
-    var $zoneId;
+    public $zoneId;
 
     /**
      * This field provides the ID of the publisher associated with the zone.
      *
      * @var integer $publisherId
      */
-    var $publisherId;
+    public $publisherId;
 
     /**
      * This field provides the name of the zone.
      *
      * @var string $zoneName
      */
-    var $zoneName;
+    public $zoneName;
 
     /**
      * This field provides the type of the zone (banner, interstitial, popup, text, email).
      *
      * @var integer $type
      */
-    var $type;
+    public $type;
 
     /**
      * This field provides the width of the zone.
      *
      * @var integer $width
      */
-    var $width;
+    public $width;
 
     /**
      * This field provides the height of the zone.
      *
      * @var integer $height
      */
-    var $height;
+    public $height;
 
     /**
      * Frequency capping: total views per user.
      *
      * @var integer $capping
      */
-    var $capping;
+    public $capping;
 
     /**
      * Frequency capping: total views per period.
@@ -82,42 +80,42 @@ class OA_Dll_ZoneInfo extends OA_Info
      *
      * @var integer $sessionCapping
      */
-    var $sessionCapping;
+    public $sessionCapping;
 
     /**
      * Frequency capping: reset period, in seconds.
      *
      * @var integer $block
      */
-    var $block;
+    public $block;
 
     /**
      * This field provides any additional comments to be stored.
      *
      * @var string $comments
      */
-    var $comments;
+    public $comments;
 
     /**
      * This field provides the appended code for this zone.
      *
      * @var string $append
      */
-    var $append;
+    public $append;
 
     /**
      * This field provides the prepended code of the zone.
      *
      * @var string $prepend
      */
-    var $prepend;
+    public $prepend;
 
     /**
      * This field provides the chained zone of the current zone.
      *
      * @var int $chainedZoneId
      */
-    var $chainedZoneId;
+    public $chainedZoneId;
 
     /**
      * This method sets all default values when adding a new zone.
@@ -125,7 +123,8 @@ class OA_Dll_ZoneInfo extends OA_Info
      * @access public
      *
      */
-    function setDefaultForAdd() {
+    public function setDefaultForAdd()
+    {
         if (is_null($this->type)) {
             $this->type = 0;
         }
@@ -162,9 +161,9 @@ class OA_Dll_ZoneInfo extends OA_Info
      *
      * @return array
      */
-    function getFieldsTypes()
+    public function getFieldsTypes()
     {
-        return array(
+        return [
                     'zoneId' => 'integer',
                     'publisherId' => 'integer',
                     'zoneName' => 'string',
@@ -178,8 +177,6 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'append' => 'string',
                     'prepend' => 'string',
                     'chainedZoneId' => 'integer',
-                );
+                ];
     }
 }
-
-?>

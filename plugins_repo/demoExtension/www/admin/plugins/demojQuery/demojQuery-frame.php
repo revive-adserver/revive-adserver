@@ -32,6 +32,3 @@ $oTpl->display();
 
 //now display the page content
 include "templates/content.html";
-
-
-?>

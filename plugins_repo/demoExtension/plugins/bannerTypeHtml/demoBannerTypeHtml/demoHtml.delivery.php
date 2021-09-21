@@ -25,5 +25,3 @@ function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery_postAdRender
 {
     return true;
 }
-
-?>

@@ -15,22 +15,22 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Regenerate.php';
 
 class Test_OA_Maintenenace_Regenerate extends UnitTestCase
-{     
-    function tearDown()
+{
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
     
-    function testClearIntermediateAndSummaryTables()
-    {   
+    public function testClearIntermediateAndSummaryTables()
+    {
         $oStartDate = new Date('2006-05-09 13:00:00');
-        $oEndDate   = new Date('2006-05-09 13:59:59');
+        $oEndDate = new Date('2006-05-09 13:59:59');
        
-        $aTestDates  = array( 1 => array ( 'start' => new Date('2006-05-09 13:10:00'), 'end' => new Date('2006-05-09 13:14:59')),
-                              2 => array ( 'start' => new Date('2006-05-09 12:00:00'), 'end' => new Date('2006-05-09 12:59:59')),
-                              3 => array ( 'start' => new Date('2006-05-09 13:55:00'), 'end' => new Date('2006-05-09 12:59:59')) );  
+        $aTestDates = [ 1 => [ 'start' => new Date('2006-05-09 13:10:00'), 'end' => new Date('2006-05-09 13:14:59')],
+                              2 => [ 'start' => new Date('2006-05-09 12:00:00'), 'end' => new Date('2006-05-09 12:59:59')],
+                              3 => [ 'start' => new Date('2006-05-09 13:55:00'), 'end' => new Date('2006-05-09 12:59:59')] ];
 
-        // Create some test data 
+        // Create some test data
         foreach ($aTestDates as $key => $aDates) {
             $doIntermediateAdConnection = OA_Dal::factoryDO('data_intermediate_ad_connection');
             $doIntermediateAdConnection->tracker_date_time = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
@@ -38,7 +38,7 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
             
             $doDataIntermediateAdVariableValue = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
             $doDataIntermediateAdVariableValue->data_intermediate_ad_connection_id = $aIntermediateAdConnectionId[$key];
-            $aDataIntermediateAdVariableValueId[$key] = DataGenerator::generateOne($doDataIntermediateAdVariableValue); 
+            $aDataIntermediateAdVariableValueId[$key] = DataGenerator::generateOne($doDataIntermediateAdVariableValue);
             
             $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
             $doDataIntermediateAd->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
@@ -55,10 +55,10 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
             $aDataSummaryAdZoneAssocId[$key] = DataGenerator::generateOne($doDataSummaryAdZoneAssoc);
         }
 
-        OA_Maintenance_Regenerate::clearIntermediateAndSummaryTables($oStartDate,$oEndDate);
+        OA_Maintenance_Regenerate::clearIntermediateAndSummaryTables($oStartDate, $oEndDate);
 
-        // Check if proper rows was deleted         
-        foreach ($aIntermediateAdConnectionId as $key=>$intermediateAdConnectionId) {
+        // Check if proper rows was deleted
+        foreach ($aIntermediateAdConnectionId as $key => $intermediateAdConnectionId) {
             $adoIntermediateAdConnection[$key] = OA_Dal::staticGetDO('data_intermediate_ad_connection', $aIntermediateAdConnectionId[$key]);
             $adoDataIntermediateAdVariableValue[$key] = OA_Dal::staticGetDO('data_intermediate_ad_variable_value', $aDataIntermediateAdVariableValueId[$key]);
             $adoDataIntermediateAd[$key] = OA_Dal::staticGetDO('data_intermediate_ad', $aDataIntermediateAdId[$key]);
@@ -83,6 +83,5 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
         $this->assertFalse($adoDataIntermediateAd[3]);
         $this->assertFalse($adoDataSummaryAdHourly[3]);
         $this->assertFalse($adoDataSummaryAdZoneAssoc[3]);
-    }    
+    }
 }
-?>

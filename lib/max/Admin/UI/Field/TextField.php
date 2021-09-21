@@ -18,14 +18,12 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 class Admin_UI_TextField extends Admin_UI_Field
 {
     /* @var string */
-    var $_size;
+    public $_size;
 
-    function display()
+    public function display()
     {
         $sizeParameter = is_numeric($this->_size) ? " size='{$this->_size}'" : '';
         echo "
-        <input type='text' name='{$this->_name}'{$sizeParameter} value='{$this->_value}' tabindex='".($this->_tabIndex++)."'>";
+        <input type='text' name='{$this->_name}'{$sizeParameter} value='{$this->_value}' tabindex='" . ($this->_tabIndex++) . "'>";
     }
 }
-
-?>

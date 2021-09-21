@@ -44,7 +44,6 @@ define('MAX_PLUGINS_PATH', '/plugins/');
  */
 class MAX_Plugin
 {
-
     /**
      * A factory method, for including and instantiating a plugin, given a
      * module/package (and optional plugin name).
@@ -66,34 +65,29 @@ class MAX_Plugin
         if ($name === null) {
             $name = $package;
         }
-        if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name))
-        {
+        if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name)) {
             return false;
         }
-        if (!MAX_Plugin::_includePluginFile($module, $package, $name))
-        {
+        if (!MAX_Plugin::_includePluginFile($module, $package, $name)) {
             return false;
         }
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
         $obj = new $className($module, $package, $name);
-        $obj->module  = $module;
+        $obj->module = $module;
         $obj->package = $package;
-        $obj->name    = $name;
+        $obj->name = $name;
         return $obj;
     }
 
     private static function _isEnabledPlugin($module, $package, $name)
     {
-        $aRefactoredModules = array('deliveryLimitations', 'bannerTypeHtml', 'bannerTypeText');
-        if (in_array($module, $aRefactoredModules))
-        {
+        $aRefactoredModules = ['deliveryLimitations', 'bannerTypeHtml', 'bannerTypeText'];
+        if (in_array($module, $aRefactoredModules)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
-            if (empty($aConf['pluginGroupComponents'][$package]))
-            {
+            if (empty($aConf['pluginGroupComponents'][$package])) {
                 return false;
             }
-            if (!$aConf['pluginGroupComponents'][$package])
-            {
+            if (!$aConf['pluginGroupComponents'][$package]) {
                 return false;
             }
         }
@@ -120,9 +114,9 @@ class MAX_Plugin
         if ($name === null) {
             $name = $package;
         }
-        $packagePath = empty($package) ? "" : $package."/";
+        $packagePath = empty($package) ? "" : $package . "/";
 
-        $fileName = MAX_PATH . MAX_PLUGINS_PATH . $module . "/". $packagePath . $name . MAX_PLUGINS_EXTENSION;
+        $fileName = MAX_PATH . MAX_PLUGINS_PATH . $module . "/" . $packagePath . $name . MAX_PLUGINS_EXTENSION;
         if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the file $fileName.");
             return false;
@@ -183,7 +177,7 @@ class MAX_Plugin
      */
     public static function getPlugins($module, $package = null, $onlyPluginNameAsIndex = true, $recursive = 1)
     {
-        $plugins = array();
+        $plugins = [];
         $pluginFiles = MAX_Plugin::_getPluginsFiles($module, $package, $recursive);
         foreach ($pluginFiles as $key => $pluginFile) {
             $pluginInfo = explode(':', $key);
@@ -191,7 +185,7 @@ class MAX_Plugin
                 $plugin = MAX_Plugin::factory($module, $pluginInfo[0], $pluginInfo[1]);
                 if ($plugin !== false) {
                     if ($onlyPluginNameAsIndex) {
-                        $plugins[$pluginInfo[1]] = $plugin ;
+                        $plugins[$pluginInfo[1]] = $plugin;
                     } else {
                         $plugins[$key] = $plugin;
                     }
@@ -258,21 +252,21 @@ class MAX_Plugin
         if (is_readable($directory)) {
             $fileMask = self::_getFileMask();
             $oFileScanner = new MAX_FileScanner();
-            $oFileScanner->addFileTypes(array('php','inc'));
+            $oFileScanner->addFileTypes(['php', 'inc']);
             $oFileScanner->setFileMask($fileMask);
             $oFileScanner->addDir($directory, $recursive);
             return $oFileScanner->getAllFiles();
         } else {
-            return array();
+            return [];
         }
     }
 
     private static function _getFileMask()
     {
-        return '#^.*'.
-            preg_quote(MAX_PLUGINS_PATH, '#').
-            '/?([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)'.
-            preg_quote(MAX_PLUGINS_EXTENSION, '#').
+        return '#^.*' .
+            preg_quote(MAX_PLUGINS_PATH, '#') .
+            '/?([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)' .
+            preg_quote(MAX_PLUGINS_EXTENSION, '#') .
             '$#';
     }
 
@@ -296,8 +290,7 @@ class MAX_Plugin
         if ($name === null) {
             $name = $package;
         }
-        if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name))
-        {
+        if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name)) {
             return false;
         }
         if (!MAX_Plugin::_includePluginFile($module, $package, $name)) {
@@ -308,16 +301,16 @@ class MAX_Plugin
         // PHP4/5 compatibility for get_class_methods.
         $aClassMethods = array_map('strtolower', (get_class_methods($className)));
         if (!$aClassMethods) {
-            $aClassMethods = array();
+            $aClassMethods = [];
         }
         if (!in_array(strtolower($staticMethod), $aClassMethods)) {
             MAX::raiseError("Method '$staticMethod()' not defined in class '$className'.", MAX_ERROR_INVALIDARGS);
             return false;
         }
         if (is_null($aParams)) {
-            return call_user_func(array($className, $staticMethod));
+            return call_user_func([$className, $staticMethod]);
         } else {
-            return call_user_func_array(array($className, $staticMethod), $aParams);
+            return call_user_func_array([$className, $staticMethod], $aParams);
         }
     }
 
@@ -342,19 +335,19 @@ class MAX_Plugin
                 return false;
             }
         }
-        $aReturn = array();
+        $aReturn = [];
         foreach ($aPlugins as $key => $oPlugin) {
             // Check that the method name can be called
-            if (!is_callable(array($oPlugin, $methodName))) {
+            if (!is_callable([$oPlugin, $methodName])) {
                 $message = "Method '$methodName()' not defined in class '" .
                             MAX_Plugin::_getPluginClassName($oPlugin->extension, $oPlugin->group, $oPlugin->name) . "'.";
                 MAX::raiseError($message, MAX_ERROR_INVALIDARGS);
                 return false;
             }
             if (is_null($aParams)) {
-                $aReturn[$key] = call_user_func(array($aPlugins[$key], $methodName));
+                $aReturn[$key] = call_user_func([$aPlugins[$key], $methodName]);
             } else {
-                $aReturn[$key] = call_user_func_array(array($aPlugins[$key], $methodName), $aParams);
+                $aReturn[$key] = call_user_func_array([$aPlugins[$key], $methodName], $aParams);
             }
         }
         return $aReturn;
@@ -481,18 +474,18 @@ class MAX_Plugin
             if (is_null($host)) {
                 $host = 'default';
             }
-            $startPath  = MAX_PATH . '/plugins/';
+            $startPath = MAX_PATH . '/plugins/';
         } else {
             if (is_null($host)) {
                 $host = OX_getHostName();
             }
-            $startPath  = MAX_PATH . $aConf['pluginPaths']['var'] . 'config/';
+            $startPath = MAX_PATH . $aConf['pluginPaths']['var'] . 'config/';
         }
-        $configName = $host.'.plugin.conf.php';
+        $configName = $host . '.plugin.conf.php';
         if ($package === null) {
             $configPath = $module . '/';
         } elseif ($name === null) {
-            $configPath = $module . '/' . $package.'/';
+            $configPath = $module . '/' . $package . '/';
         } else {
             $configPath = $module . '/' . $package . '/' . $name . '.';
         }
@@ -610,7 +603,7 @@ class MAX_Plugin
             if ($adminHost != $deliveryHost) {
                 // Create fake file for this host
                 $configFileName = MAX_Plugin::getConfigFileName($module, $package, $name, false, $adminHost);
-                $aConfig = array('realConfig' => $deliveryHost);
+                $aConfig = ['realConfig' => $deliveryHost];
                 $oConfig = new Config();
                 $oConfig->parseConfig($aConfig, 'phpArray');
                 if (!$oConfig->writeConfig($configFileName, 'inifile')) {
@@ -624,7 +617,7 @@ class MAX_Plugin
             if ($deliverySslHost != $deliveryHost) {
                 // Create fake file for this host
                 $configFileName = MAX_Plugin::getConfigFileName($module, $package, $name, false, $deliverySslHost);
-                $aConfig = array('realConfig' => $deliveryHost);
+                $aConfig = ['realConfig' => $deliveryHost];
                 $oConfig = new Config();
                 $oConfig->parseConfig($aConfig, 'phpArray');
                 if (!$oConfig->writeConfig($configFileName, 'inifile')) {
@@ -687,11 +680,11 @@ class MAX_Plugin
         if (is_null($cacheDir)) {
             $cacheDir = MAX_PATH . $aConf['pluginPaths']['var'] . 'cache/' . $module . '/' . $package . '/';
         }
-        $aOptions = array(
+        $aOptions = [
             'cacheDir' => $cacheDir,
             'lifeTime' => $cacheExpire,
             'automaticSerialization' => true
-        );
+        ];
         if (!is_dir($aOptions['cacheDir'])) {
             if (!MAX_Plugin::_mkDirRecursive($aOptions['cacheDir'], MAX_PLUGINS_VAR_WRITE_MODE)) {
                 MAX::raiseError('Folder: "' . $aOptions['cacheDir'] . '" is not writeable.', PEAR_LOG_ERR);
@@ -793,7 +786,4 @@ class MAX_Plugin
         $oCache = new Cache_Lite($aOptions);
         return $oCache->clean($name, $mode);
     }
-
 }
-
-?>

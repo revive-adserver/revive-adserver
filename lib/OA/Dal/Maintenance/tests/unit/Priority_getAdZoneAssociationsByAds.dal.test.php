@@ -25,7 +25,7 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -38,7 +38,7 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
      * Test 3: Test with one ad/zone link, and ensure the correct data is returned.
      * Test 4: Test with a more complex set of data.
      */
-    function testGetAdZoneAssociationsByAds()
+    public function testGetAdZoneAssociationsByAds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
@@ -50,7 +50,7 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         $this->assertEqual(count($result), 0);
 
         // Test 2
-        $aAdIds = array(1);
+        $aAdIds = [1];
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 0);
@@ -65,7 +65,7 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
 
-        $aAdIds = array(1);
+        $aAdIds = [1];
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
@@ -119,7 +119,7 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         $doAdZone->link_type = 1;
         $idAdZone = DataGenerator::generateOne($doAdZone);
 
-        $aAdIds = array(1, 2, 3);
+        $aAdIds = [1, 2, 3];
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 3);
@@ -155,7 +155,4 @@ class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTe
         $this->assertEqual($result[3][1]['zone_id'], $zoneId4);
         DataGenerator::cleanUp();
     }
-
 }
-
-?>

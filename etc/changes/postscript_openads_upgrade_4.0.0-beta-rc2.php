@@ -20,23 +20,22 @@ class RV_UpgradePostscript_4_0_0_beta_rc2
     /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
 
         $oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
 
-        $tblBanners = $aConf['prefix'].($aConf['banners'] ? $aConf['banners'] : 'banners');
+        $tblBanners = $aConf['prefix'] . ($aConf['banners'] ? $aConf['banners'] : 'banners');
         $qTblBanners = $oDbh->quoteIdentifier($tblBanners, true);
 
         $ret = $oDbh->query("UPDATE {$qTblBanners} SET adserver = '' WHERE adserver IN ('3rdPartyServers:ox3rdPartyServers:google', '3rdPartyServers:ox3rdPartyServers:ypn')");
 
-        if (PEAR::isError($ret))
-        {
+        if (PEAR::isError($ret)) {
             $this->logError($ret->getUserInfo());
             return false;
         }
@@ -45,15 +44,14 @@ class RV_UpgradePostscript_4_0_0_beta_rc2
         return true;
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }
-
 }

@@ -25,8 +25,9 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param int $bannerId Banner Id
      */
-    function invalidateBannerCache($bannerId) {
-        if(!is_numeric($bannerId)) {
+    public function invalidateBannerCache($bannerId)
+    {
+        if (!is_numeric($bannerId)) {
             return;
         }
         $this->invalidateGetAdCache($bannerId);
@@ -40,7 +41,7 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->find();
-        while($doAdZoneAssoc->fetch()) {
+        while ($doAdZoneAssoc->fetch()) {
             $this->invalidateZoneLinkedAdsCache($doAdZoneAssoc->zone_id);
         }
 
@@ -52,7 +53,8 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param string $filename Filename of cached image (creative)
      */
-    function invalidateImageCache($filename) {
+    public function invalidateImageCache($filename)
+    {
         $this->invalidateGetCreativeCache($filename);
     }
 
@@ -62,8 +64,9 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param int $zoneId Zone Id
      */
-    function invalidateZoneCache($zoneId) {
-        if(!is_numeric($zoneId)) {
+    public function invalidateZoneCache($zoneId)
+    {
+        if (!is_numeric($zoneId)) {
             return;
         }
         $this->invalidateGetZoneInfoCache($zoneId);
@@ -83,7 +86,8 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param int $affiliateId Affiliate Id (also know as Website Id or Publisher Id)
      */
-    function invalidateWebsiteCache($affiliateId) {
+    public function invalidateWebsiteCache($affiliateId)
+    {
         $this->invalidatePublisherZonesCache($affiliateId);
     }
 
@@ -94,8 +98,9 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param array $aZones a list of affected zones (linked and unlinked)
      */
-    function invalidateZonesLinkingCache($aZones) {
-        if(is_array($aZones)) {
+    public function invalidateZonesLinkingCache($aZones)
+    {
+        if (is_array($aZones)) {
             foreach ($aZones as $zoneId) {
                 $this->invalidateZoneLinkedAdsCache($zoneId);
             }
@@ -107,7 +112,8 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param int $trackerId Tracker Id
      */
-    function invalidateTrackerCache($trackerId) {
+    public function invalidateTrackerCache($trackerId)
+    {
         $this->invalidateGetTrackerCache($trackerId);
         $this->invalidateGetTrackerVariablesCache($trackerId);
     }
@@ -117,7 +123,8 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *
      * @param int $channelId Channel Id
      */
-    function invalidateChannelCache($channelId){
+    public function invalidateChannelCache($channelId)
+    {
         $this->invalidateGetChannelLimitationsCache($channelId);
     }
 
@@ -132,11 +139,10 @@ class OA_Cache_DeliveryCacheManager extends OA_Cache_DeliveryCacheCommon
      *      * setting '3rd Party Click Tracking Delimiter' on account-settings-banner-delivery.php (ctDelimiter)
      *      * manipuliation on $GLOBALS['_MAX']['CONF']['var'] array
      */
-    function invalidateSystemSettingsCache() {
+    public function invalidateSystemSettingsCache()
+    {
         $this->invalidateCheckIfMaintenanceShouldRunCache();
         $this->invalidateGetAccountTZsCache();
         $this->invalidateGetGoogleJavaScriptCache();
     }
 }
-
-?>

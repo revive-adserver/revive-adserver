@@ -17,19 +17,19 @@
 
 $conf = $GLOBALS['_MAX']['CONF'];
 
-$zoneId		=	0;
-$source		=	'';
-$ct0		=	'';
-$withText	=	false;
-$logClick	=	true;
-$logView	=	true;
-$useAlt		=	false;
-$richMedia  =   true;
-$loc		=	0;
-$referer	= 	'http://some.referrer.com/';
-$useAppend  =   true;
+$zoneId = 0;
+$source = '';
+$ct0 = '';
+$withText = false;
+$logClick = true;
+$logView = true;
+$useAlt = false;
+$richMedia = true;
+$loc = 0;
+$referer = 'http://some.referrer.com/';
+$useAppend = true;
 
-$aBanner = array (
+$aBanner = [
     'ad_id' => 7,
     'placement_id' => 2,
     'client_id' => 3,
@@ -62,7 +62,7 @@ $aBanner = array (
     'alt_filename' => '',
     'alt_imageurl' => '',
     'alt_contenttype' => ''
-);
+];
 
 $expect = "<a href='{clickurl_html}' target='{target}'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['images'] .
@@ -72,5 +72,3 @@ $expect = "<a href='{clickurl_html}' target='{target}'>" .
     "/lg.php?{$conf['var']['adId']}=7&amp;campaignid=2&amp;{$conf['var']['zoneId']}=0&amp;{$conf['var']['blockAd']}=60&amp;" .
     "referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' " .
     "style='width: 0px; height: 0px;' /></div>";
-
-?>

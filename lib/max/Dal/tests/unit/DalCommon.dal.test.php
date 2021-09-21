@@ -20,15 +20,11 @@
  */
 class Dal_TestOfMAX_Dal_Commonn extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
-
 }
-
-?>

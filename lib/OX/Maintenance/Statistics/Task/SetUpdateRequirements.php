@@ -32,7 +32,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
      * the required task of determining what operation intervals
      * and/or hours, if any, need to be updated during the MSE run.
      */
-    function run()
+    public function run()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = OA_ServiceLocator::instance();
@@ -49,7 +49,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
 
         // Don't update unless the time is right!
         $this->oController->updateIntermediate = false;
-        $this->oController->updateFinal        = false;
+        $this->oController->updateFinal = false;
 
         // Test to see if a date for when the statistics were last updated
         // has been set in the service locator (for re-generation of stats)
@@ -151,7 +151,8 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
             // Found a last update date
             $message = '- Maintenance statistics last updated final table statistics to ' .
                        $this->oController->oLastDateFinal->format('%Y-%m-%d %H:%M:%S') . ' ' .
-                       $this->oController->oLastDateFinal->tz->getShortName();;
+                       $this->oController->oLastDateFinal->tz->getShortName();
+            ;
             $this->oController->report .= $message . ".\n";
             OA::debug($message, PEAR_LOG_DEBUG);
             // Calculate the date after which the next hour-based update can happen
@@ -219,7 +220,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
      *              have been summarised, for the specified update type.
      *              Returns null if no run type for the MSE can be located.
      */
-    function _getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
+    public function _getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         // Prepare debugging message
         $message = '- Getting the details of when maintenance statistics last ran on the basis of ';
@@ -240,7 +241,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         // Set the required WHERE condition for the query
         if ($type == OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI) {
             $sWhereClause = "(adserver_run_type = " . OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI .
-                           " OR adserver_run_type = " . OX_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH. ')';
+                           " OR adserver_run_type = " . OX_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH . ')';
             $doLog_maintenance_statistics->whereAdd($sWhereClause);
         } elseif ($type == OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR) {
             $sWhereClause = "(adserver_run_type = " . OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR .
@@ -291,7 +292,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
      *              logged delivery data record. Returns null if no logged
      *              delivery data can be located.
      */
-    function _getEarliestLoggedDeliveryData($type)
+    public function _getEarliestLoggedDeliveryData($type)
     {
         // Obtain all components from the deliveryLog plugin group
         $aDeliveryLogComponents = OX_Component::getComponents('deliveryLog');
@@ -345,7 +346,4 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         // Return the date
         return $aDates['end'];
     }
-
 }
-
-?>

@@ -14,22 +14,19 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
 
 class OA_Admin_Statistics_Test extends OA_Admin_Statistics_Common
 {
+    public $aPlugins;
 
-    var $aPlugins;
-
-    function __construct($aParams)
+    public function __construct($aParams)
     {
-        $this->aPlugins = array();
+        $this->aPlugins = [];
         parent::__construct($aParams);
     }
 
-    function _loadPlugins()
+    public function _loadPlugins()
     {
     }
 
-    function _checkStatsAccuracy()
+    public function _checkStatsAccuracy()
     {
     }
-
 }
-?>

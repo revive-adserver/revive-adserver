@@ -26,26 +26,29 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
     public $value;                           // TEXT() => openads_text => 162
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_preference_assoc',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Account_preference_assoc', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'value' => '',
     ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return 0;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Account Preference Association';
     }
@@ -56,8 +59,8 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']     = 'Account #'.$this->account_id.' -> Preference #' . $this->preference_id;
+        $aAuditFields['key_desc'] = 'Account #' . $this->account_id . ' -> Preference #' . $this->preference_id;
     }
 }

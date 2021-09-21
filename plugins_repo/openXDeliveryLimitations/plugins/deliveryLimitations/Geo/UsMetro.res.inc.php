@@ -15,6 +15,6 @@
  * @subpackage DeliveryLimitations
  */
 
-require __DIR__.'/data/res-us-metro.inc.php';
+require __DIR__ . '/data/res-us-metro.inc.php';
 
 $res = $RV_Geo_US_Metro;

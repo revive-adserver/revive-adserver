@@ -10,15 +10,14 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 require_once 'BaseForm.php';
 
 /**
  * @package OX_Admin_UI
  * @subpackage Install
  */
-class OX_Admin_UI_Install_DbForm
-    extends OX_Admin_UI_Install_BaseForm
+class OX_Admin_UI_Install_DbForm extends OX_Admin_UI_Install_BaseForm
 {
     private $aDbTypes;
     private $aTableTypes;
@@ -47,8 +46,7 @@ class OX_Admin_UI_Install_DbForm
 
         if ($isUpgrade) {
             $this->buildUpgradeDbViewSection();
-        }
-        else {
+        } else {
             $this->buildMainDbSection();
             $this->buildAdditionalDbSection();
         }
@@ -60,20 +58,20 @@ class OX_Admin_UI_Install_DbForm
 
     protected function buildMainDbSection()
     {
-        $this->addElement('hidden', 'moreFieldsShown', 0, array('id' => 'moreFieldsShown'));
+        $this->addElement('hidden', 'moreFieldsShown', 0, ['id' => 'moreFieldsShown']);
 
         //build form
         $this->addElement('header', 'h_db_main', $GLOBALS['strDatabaseSettings']);
-        $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, array('class' => 'small', 'id' => 'dbType'));
-        $this->addElement('text', 'dbHost', $GLOBALS['strDbHost'], array('class' => 'medium', 'id' => 'dbHost'));
-        $this->addElement('text', 'dbName', $GLOBALS['strDbName'], array('class' => 'medium', 'id' => 'dbName', 'suffix' => ' '.$GLOBALS['strDbNameHint']));
-        $this->addElement('text', 'dbUser', $GLOBALS['strDbUser'], array('class' => 'medium', 'id' => 'dbUser'));
-        $this->addElement('password', 'dbPassword', $GLOBALS['strDbPassword'], array('class' => 'medium', 'id' => 'dbPassword'));
+        $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, ['class' => 'small', 'id' => 'dbType']);
+        $this->addElement('text', 'dbHost', $GLOBALS['strDbHost'], ['class' => 'medium', 'id' => 'dbHost']);
+        $this->addElement('text', 'dbName', $GLOBALS['strDbName'], ['class' => 'medium', 'id' => 'dbName', 'suffix' => ' ' . $GLOBALS['strDbNameHint']]);
+        $this->addElement('text', 'dbUser', $GLOBALS['strDbUser'], ['class' => 'medium', 'id' => 'dbUser']);
+        $this->addElement('password', 'dbPassword', $GLOBALS['strDbPassword'], ['class' => 'medium', 'id' => 'dbPassword']);
 
-        $this->addElement('static', 'moreFields', '<a href="#" id="showMoreFields">'.$GLOBALS['strDbSeeMoreFields'].'</a>');
+        $this->addElement('static', 'moreFields', '<a href="#" id="showMoreFields">' . $GLOBALS['strDbSeeMoreFields'] . '</a>');
 
         //Form validation rules
-        if(!isset($_POST['dbLocal']) || $_POST['dbLocal'] == 0) {
+        if (!isset($_POST['dbLocal']) || $_POST['dbLocal'] == 0) {
             $this->addRequiredRule('dbHost', $GLOBALS['strDbHost']); //hostname required if localsocet is not used
         }
         $this->addRequiredRule('dbName', $GLOBALS['strDbName']);
@@ -86,25 +84,25 @@ class OX_Admin_UI_Install_DbForm
         //build form
         $this->addElement('header', 'h_db_add', $GLOBALS['strAdvancedSettings']);
 
-        $this->addElement('advcheckbox', 'dbLocal', null,  $GLOBALS['strDbLocal'], array('id' => 'dbLocal'), array(0, 1));
+        $this->addElement('advcheckbox', 'dbLocal', null, $GLOBALS['strDbLocal'], ['id' => 'dbLocal'], [0, 1]);
 
-        $this->addElement('text', 'dbSocket', $GLOBALS['strDbSocket'], array('class' => 'small', 'id' => 'dbSocket'));
-        $this->addElement('text', 'dbPort', $GLOBALS['strDbPort'], array('class' => 'small', 'id' => 'dbPort'));
+        $this->addElement('text', 'dbSocket', $GLOBALS['strDbSocket'], ['class' => 'small', 'id' => 'dbSocket']);
+        $this->addElement('text', 'dbPort', $GLOBALS['strDbPort'], ['class' => 'small', 'id' => 'dbPort']);
 
         //db/table types
-        $this->addElement('select', 'dbTableType', $GLOBALS['strTablesType'], $this->aTableTypes, array('class' => 'small', 'id' => 'dbTableType'));
-        $this->addElement('text', 'dbTablePrefix', $GLOBALS['strTablesPrefix'], array('class' => 'small', 'id' => 'dbTablePrefix'));
+        $this->addElement('select', 'dbTableType', $GLOBALS['strTablesType'], $this->aTableTypes, ['class' => 'small', 'id' => 'dbTableType']);
+        $this->addElement('text', 'dbTablePrefix', $GLOBALS['strTablesPrefix'], ['class' => 'small', 'id' => 'dbTablePrefix']);
 
 
-        $this->addDecorator('h_db_add', 'tag', array('tag' => 'div',
-            'attributes' => array('id' => 'moreFields', 'class' => 'hide')));
+        $this->addDecorator('h_db_add', 'tag', ['tag' => 'div',
+            'attributes' => ['id' => 'moreFields', 'class' => 'hide']]);
 
         //validation rules
         if ($_POST['dbLocal'] == 1) {
             $this->addRequiredRule('dbSocket', $GLOBALS['strDbSocket']);
         }
         if ($_POST['dbLocal'] == 0) {
-            if ($_POST['dbType'] ==  'mysqli') {
+            if ($_POST['dbType'] == 'mysqli') {
                 $this->addRequiredRule('dbPort', $GLOBALS['strDbPort']);
             }
         }
@@ -115,16 +113,30 @@ class OX_Admin_UI_Install_DbForm
     {
         //build form
         $this->addElement('header', 'h_db_main_view', $GLOBALS['strDatabaseSettings']);
-        $this->addElement('static', 'detectedVersion', $GLOBALS['strDetectedVersion'], null,
-            array('class' => 'medium', 'id' => 'dbName'));
-        $this->addElement('static', 'dbName', $GLOBALS['strDbName'], null,
-            array('class' => 'medium', 'id' => 'dbName'));
-        $this->addElement('static', 'dbHost', $GLOBALS['strDbHost'], null,
-            array('class' => 'medium', 'id' => 'dbHost'));
+        $this->addElement(
+            'static',
+            'detectedVersion',
+            $GLOBALS['strDetectedVersion'],
+            null,
+            ['class' => 'medium', 'id' => 'dbName']
+        );
+        $this->addElement(
+            'static',
+            'dbName',
+            $GLOBALS['strDbName'],
+            null,
+            ['class' => 'medium', 'id' => 'dbName']
+        );
+        $this->addElement(
+            'static',
+            'dbHost',
+            $GLOBALS['strDbHost'],
+            null,
+            ['class' => 'medium', 'id' => 'dbHost']
+        );
 
-        $this->addDecorator('h_db_main_view', 'tag', array('tag' => 'div',
-            'attributes' => array('class' => 'formView')));
-
+        $this->addDecorator('h_db_main_view', 'tag', ['tag' => 'div',
+            'attributes' => ['class' => 'formView']]);
     }
 
 
@@ -132,11 +144,11 @@ class OX_Admin_UI_Install_DbForm
     {
         //we want a nice checkbox in warning message, still we want it be a field
         //here's a workaround...
-        $warningMessage = $this->oTranslation->translate('DbTimeZoneWarning', array('http://www.openx.org/en/docs/2.8/adminguide/Upgrade+Time+Zones'));
+        $warningMessage = $this->oTranslation->translate('DbTimeZoneWarning', ['http://www.openx.org/en/docs/2.8/adminguide/Upgrade+Time+Zones']);
         $prefix = '<div class="messagePlaceholder messagePlaceholderForm" >
             <div class="message localMessage">
                 <div class="panel warning">
-                <div class="icon"></div>'.$warningMessage.'<p>';
+                <div class="icon"></div>' . $warningMessage . '<p>';
         $suffix = '</p><div class="topleft"></div>
                 <div class="topright"></div>
                 <div class="bottomleft"></div>
@@ -145,8 +157,14 @@ class OX_Admin_UI_Install_DbForm
             </div>
             </div>';
 
-        $this->addElement('advcheckbox', 'noTzAlert', null,  $GLOBALS['strDbTimeZoneNoWarnings'],
-            array('prefix' => $prefix, 'suffix' => $suffix), array(0, 1));
+        $this->addElement(
+            'advcheckbox',
+            'noTzAlert',
+            null,
+            $GLOBALS['strDbTimeZoneNoWarnings'],
+            ['prefix' => $prefix, 'suffix' => $suffix],
+            [0, 1]
+        );
     }
 
 
@@ -170,7 +188,7 @@ class OX_Admin_UI_Install_DbForm
     public function populateDbConfig()
     {
         $aFields = $this->exportValues();
-        $aConfig = array();
+        $aConfig = [];
         $aDatabase['database']['type'] = $aFields['dbType'];
         $aDatabase['database']['localsocket'] = $aFields['dbLocal'];
         $aDatabase['database']['socket'] = $aFields['dbSocket'];
@@ -194,7 +212,7 @@ class OX_Admin_UI_Install_DbForm
      */
     public function populateForm($aDbConfig)
     {
-        $aFields = array();
+        $aFields = [];
         $aFields['dbName'] = $aDbConfig['database']['name'];
         $aFields['dbUser'] = $aDbConfig['database']['username'];
         $aFields['dbHost'] = $aDbConfig['database']['host'];
@@ -213,5 +231,3 @@ class OX_Admin_UI_Install_DbForm
         $this->setDefaults($aFields);
     }
 }
-
-?>

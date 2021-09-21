@@ -13,8 +13,8 @@
 namespace RV;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use RV\Config\ConfigCache;
 use RV\Config\AdminServiceConfigurator;
+use RV\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\Config\ContainerParametersResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -87,10 +87,10 @@ class Container implements PsrContainerInterface
     public function getConfigCache(ContainerBuilder $container, $hostname = "", $isDelivery = false)
     {
         $filename =
-            MAX_PATH.
-            '/var/cache/'.
-            ($hostname ?: OX_getHostName()).
-            ($isDelivery ? '_delivery' : '_admin').
+            MAX_PATH .
+            '/var/cache/' .
+            ($hostname ?: OX_getHostName()) .
+            ($isDelivery ? '_delivery' : '_admin') .
             '_container.php';
 
         return new ConfigCache($filename, $container);
@@ -112,7 +112,7 @@ class Container implements PsrContainerInterface
 
         $dumper = new PhpDumper($container);
         $configCache->write(
-            $dumper->dump(array('class' => 'ReviveAdserverCachedContainer')),
+            $dumper->dump(['class' => 'ReviveAdserverCachedContainer']),
             $container->getResources()
         );
 

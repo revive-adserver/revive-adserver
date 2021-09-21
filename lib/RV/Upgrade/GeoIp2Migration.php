@@ -6,14 +6,14 @@ use RV\Upgrade\Exception\DeliveryRuleDeletedException;
 
 class GeoIp2Migration
 {
-    const RULE_TYPES = [
+    public const RULE_TYPES = [
         'deliveryLimitations:Geo:Areacode',
         'deliveryLimitations:Geo:Region',
         'deliveryLimitations:Geo:Dma',
         'deliveryLimitations:Geo:Netspeed',
     ];
 
-    const FIPS_TO_SUB1 = [
+    public const FIPS_TO_SUB1 = [
         'AD' => ['02' => '02', '03' => '03', '04' => '04', '05' => '05', 6 => '06', '07' => '07', '08' => '08'],
         'AE' => [1 => 'AZ', '03' => 'DU', 3 => 'DU', '04' => 'FU', '07' => 'UQ'],
         'AF' => ['01' => 'BDS', '03' => 'BGL', '05' => 'BAM', '07' => 'FYB', '08' => 'GHA', '09' => 'GHO', 10 => 'HEL', 13 => 'KAB', 17 => 'LOG', 18 => 'NAN', 19 => 'NIM', 22 => 'PAR', 24 => 'KDZ', 26 => 'TAK', 27 => 'WAR', 28 => 'ZAB', 29 => 'PKA', 30 => 'BAL', 32 => 'SAM', 33 => 'SAR'],
@@ -189,7 +189,7 @@ class GeoIp2Migration
         'ZA' => ['01' => 'EC', '02' => 'NL', '04' => 'MP'],
     ];
 
-    const FIPS_TO_SUB2 = [
+    public const FIPS_TO_SUB2 = [
         'GB' => ['03' => 'WBK', '08' => 'CON', '09' => 'CMA', 'A1' => 'BDG', 'A2' => 'BNE', 'A3' => 'BNS', 'A4' => 'BAS', 'A5' => 'CBF', 'A6' => 'BEX', 'A7' => 'BIR', 'A8' => 'BBD', 'A9' => 'BPL', 'B1' => 'BOL', 'B2' => 'BMH', 'B3' => 'BRC', 'B4' => 'BRD', 'B5' => 'BEN', 'B6' => 'BNH', 'B7' => 'BST', 'B8' => 'BRY', 'B9' => 'BKM', 'C1' => 'BUR', 'C2' => 'CLD', 'C3' => 'CAM', 'C4' => 'CMD', 'C5' => 'CHW', 'C7' => 'COV', 'C8' => 'CRY', 'D1' => 'DAL', 'D2' => 'DER', 'D3' => 'DBY', 'D4' => 'DEV', 'D5' => 'DNC', 'D6' => 'DOR', 'D7' => 'DUD', 'D8' => 'DUR', 'D9' => 'EAL', 'E1' => 'ERY', 'E2' => 'ESX', 'E3' => 'ENF', 'E4' => 'ESS', 'E5' => 'GAT', 'E6' => 'GLS', 'E7' => 'GRE', 'E8' => 'HCK', 'E9' => 'HAL', 'F1' => 'HMF', 'F2' => 'HAM', 'F3' => 'HRY', 'F4' => 'HRW', 'F5' => 'HPL', 'F6' => 'HAV', 'F7' => 'HEF', 'F8' => 'HRT', 'F9' => 'HIL', 'G1' => 'HNS', 'G2' => 'IOW', 'G3' => 'ISL', 'G4' => 'KEC', 'G5' => 'KEN', 'G6' => 'KHL', 'G7' => 'KTT', 'G8' => 'KIR', 'G9' => 'KWL', 'H1' => 'LBH', 'H2' => 'LAN', 'H3' => 'LDS', 'H4' => 'LCE', 'H5' => 'LEC', 'H6' => 'LEW', 'H7' => 'LIN', 'H8' => 'LIV', 'H9' => 'LND', 'I1' => 'LUT', 'I2' => 'MAN', 'I3' => 'MDW', 'I4' => 'MRT', 'I5' => 'MDB', 'I6' => 'MIK', 'I7' => 'NET', 'I8' => 'NWM', 'I9' => 'NFK', 'J1' => 'NTH', 'J2' => 'NEL', 'J3' => 'NLN', 'J4' => 'NSM', 'J5' => 'NTY', 'J6' => 'NBL', 'J7' => 'NYK', 'J8' => 'NGM', 'J9' => 'NTT', 'K1' => 'OLD', 'K2' => 'OXF', 'K3' => 'PTE', 'K4' => 'PLY', 'K5' => 'POL', 'K6' => 'POR', 'K7' => 'RDG', 'K8' => 'RDB', 'K9' => 'RCC', 'L1' => 'RIC', 'L2' => 'RCH', 'L3' => 'ROT', 'L4' => 'RUT', 'L5' => 'SLF', 'L6' => 'SHR', 'L7' => 'SAW', 'L8' => 'SFT', 'L9' => 'SHF', 'M1' => 'SLG', 'M2' => 'SOL', 'M3' => 'SOM', 'M4' => 'STH', 'M5' => 'SOS', 'M6' => 'SGC', 'M7' => 'STY', 'M8' => 'SWK', 'M9' => 'STS', 'N1' => 'SHN', 'N2' => 'SKP', 'N3' => 'STT', 'N4' => 'STE', 'N5' => 'SFK', 'N6' => 'SND', 'N7' => 'SRY', 'N8' => 'STN', 'N9' => 'SWD', 'O1' => 'TAM', 'O2' => 'TFW', 'O3' => 'THR', 'O4' => 'TOB', 'O5' => 'TWH', 'O6' => 'TRF', 'O7' => 'WKF', 'O8' => 'WLL', 'O9' => 'WFT', 'P1' => 'WND', 'P2' => 'WRT', 'P3' => 'WAR', 'P4' => 'WBK', 'P5' => 'WSM', 'P6' => 'WSX', 'P7' => 'WGN', 'P8' => 'WIL', 'P9' => 'WNM', 'Q1' => 'WRL', 'Q2' => 'WOK', 'Q3' => 'WLV', 'Q4' => 'WOR', 'Q5' => 'YOR', 'Q6' => 'ANN', 'Q7' => 'AND', 'Q8' => 'ABC', 'Q9' => 'MEA', 'R1' => 'CCG', 'R2' => 'ABC', 'R3' => 'BFS', 'R4' => 'MEA', 'R5' => 'LBC', 'R6' => 'CCG', 'R7' => 'MUL', 'R8' => 'ABC', 'R9' => 'NMD', 'S1' => 'MUL', 'S2' => 'FMO', 'S3' => 'MEA', 'S4' => 'CCG', 'S5' => 'LBC', 'S6' => 'DRS', 'S7' => 'MUL', 'S8' => 'CCG', 'S9' => 'NMD', 'T1' => 'ANN', 'T2' => 'NMD', 'T3' => 'FMO', 'T4' => 'DRS', 'T5' => 'ABE', 'T6' => 'ABD', 'T7' => 'ANS', 'T8' => 'AGB', 'T9' => 'SCB', 'U1' => 'CLK', 'U2' => 'DGY', 'U3' => 'DND', 'U4' => 'EAY', 'U5' => 'EDU', 'U6' => 'ELN', 'U7' => 'ERW', 'U8' => 'EDH', 'U9' => 'FAL', 'V1' => 'FIF', 'V2' => 'GLG', 'V3' => 'HLD', 'V4' => 'IVC', 'V5' => 'MLN', 'V6' => 'MRY', 'V7' => 'NAY', 'V8' => 'NLK', 'V9' => 'ORK', 'W1' => 'PKN', 'W2' => 'RFW', 'W3' => 'ZET', 'W4' => 'SAY', 'W5' => 'SLK', 'W6' => 'STG', 'W7' => 'WDU', 'W8' => 'ELS', 'W9' => 'WLN', 'X1' => 'AGY', 'X2' => 'BGW', 'X3' => 'BGE', 'X4' => 'CAY', 'X5' => 'CRF', 'X6' => 'CGN', 'X7' => 'CMN', 'X8' => 'CWY', 'X9' => 'DEN', 'Y1' => 'FLN', 'Y2' => 'GWN', 'Y3' => 'MTY', 'Y4' => 'MON', 'Y5' => 'NTL', 'Y6' => 'NWP', 'Y7' => 'PEM', 'Y8' => 'POW', 'Y9' => 'RCT', 'Z1' => 'SWA', 'Z2' => 'TOF', 'Z3' => 'VGL', 'Z4' => 'WRX', 17 => 'LND', 28 => 'LIV', 37 => 'SHF', 43 => 'BIR', 45 => 'LDS', 87 => 'GLG', 90 => 'WRX'],
         'IE' => ['01' => 'CW', '02' => 'CN', '03' => 'CE', '04' => 'CO', '06' => 'DL', '07' => 'D', 10 => 'G', 11 => 'KY', 12 => 'KE', 13 => 'KK', 14 => 'LM', 15 => 'LS', 16 => 'LK', 18 => 'LD', 19 => 'LH', 20 => 'MO', 21 => 'MH', 22 => 'MN', 23 => 'OY', 24 => 'RN', 25 => 'SO', 26 => 'TA', 27 => 'WD', 29 => 'WH', 30 => 'WX', 31 => 'WW'],
         'MA' => ['01' => 'AGD', '02' => 'HOC', '03' => 'AZI', '04' => 'BES', '05' => 'BEM', '06' => 'BOM', '07' => 'CAS', '08' => 'CHE', '09' => 'JDI', 10 => 'KES', 11 => 'ERR', 12 => 'ESI', 13 => 'FES', 14 => 'FIG', 15 => 'KEN', 16 => 'KHE', 17 => 'KHN', 18 => 'KHO', 19 => 'MMD', 20 => 'MEK', 21 => 'NAD', 22 => 'OUA', 23 => 'OUJ', 24 => 'RAB', 25 => 'SAF', 26 => 'SET', 27 => 'TNG', 29 => 'TAT', 30 => 'TAZ', 32 => 'TIZ', 33 => 'GUE', 34 => 'IFR', 36 => 'TNT', 37 => 'TAO', 38 => 'SIK', 39 => 'TAR', 40 => 'TET', 41 => 'LAR'],
@@ -199,7 +199,7 @@ class GeoIp2Migration
         'MK' => ['01' => '02', '03' => '22', '07' => '14', '09' => '80', 'A2' => '74', 'A5' => '75', 'A7' => '62', 'B3' => '12', 'B5' => '62', 'B6' => '40', 'B7' => '16', 'B8' => '35', 'B9' => '19', 'C1' => '40', 'C2' => '32', 'C3' => '30', 'C4' => '27', 'C5' => '63', 'C6' => '33', 11 => '07', 12 => '08', 14 => '04', 15 => '80', 16 => '19', 19 => '81', 20 => '82', 22 => '23', 23 => '72', 24 => '25', 26 => '53', 27 => '19', 28 => '27', 30 => '40', 35 => '20', 36 => '34', 37 => '80', 38 => '35', 39 => '06', 40 => '37', 41 => '85', 43 => '40', 44 => '85', 45 => '47', 46 => '42', 47 => '41', 48 => '85', 49 => '36', 50 => '58', 53 => '45', 54 => '46', 55 => '73', 56 => '04', 58 => '72', 59 => '48', 60 => '49', 62 => '51', 64 => '50', 65 => '22', 66 => '18', 67 => '53', 70 => '54', 71 => '55', 75 => '47', 76 => '85', 77 => '40', 78 => '60', 79 => '59', 80 => '61', 81 => '64', 83 => '63', 84 => '64', 85 => '65', 86 => '66', 87 => '67', 88 => '50', 89 => '52', 90 => '85', 91 => '76', 92 => '70', 93 => '25', 94 => '19', 96 => '26', 97 => '71', 98 => '83'],
     ];
 
-    const FIPS_NEW_COUNTRY = [
+    public const FIPS_NEW_COUNTRY = [
         'LV' => [
             20 => ['LC', '059'],
         ],
@@ -246,7 +246,7 @@ class GeoIp2Migration
             $row['data'] = self::regionTranslate($country, $regions, self::FIPS_TO_SUB2);
         } else {
             $row['type'] = 'deliveryLimitations:Geo:Subdivision1';
-            $row['data'] =  self::regionTranslate($country, $regions, self::FIPS_TO_SUB1, self::FIPS_NEW_COUNTRY);
+            $row['data'] = self::regionTranslate($country, $regions, self::FIPS_TO_SUB1, self::FIPS_NEW_COUNTRY);
         }
 
         return $row;
@@ -290,10 +290,11 @@ class GeoIp2Migration
         return self::regionCompact(key($warn), current($warn));
     }
 
-    private static function regionCompact(string $country, array $regions) {
+    private static function regionCompact(string $country, array $regions)
+    {
         $regions = array_unique($regions, SORT_STRING);
         sort($regions, SORT_STRING);
 
-        return $country.'|'.join(',', $regions);
+        return $country . '|' . join(',', $regions);
     }
 }

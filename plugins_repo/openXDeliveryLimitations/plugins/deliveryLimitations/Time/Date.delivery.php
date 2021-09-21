@@ -23,7 +23,7 @@
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's date passes this limitation's test.
  */
-function MAX_checkTime_Date($limitation, $op, $aParams = array())
+function MAX_checkTime_Date($limitation, $op, $aParams = [])
 {
     // Get timezone, if any
     $offset = strpos($limitation, '@');
@@ -49,10 +49,8 @@ function MAX_checkTime_Date($limitation, $op, $aParams = array())
         case '!=': return ($date != $limitation); break;
         case '<=': return ($date <= $limitation); break;
         case '>=': return ($date >= $limitation); break;
-        case '<':  return ($date <  $limitation);  break;
-        case '>':  return ($date >  $limitation);  break;
+        case '<':  return ($date < $limitation);  break;
+        case '>':  return ($date > $limitation);  break;
     }
     return true;
 }
-
-?>

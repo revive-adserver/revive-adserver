@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Configuration.php');
 
 /**
  * A class for testing the OpenX Upgrade Configuration class.
@@ -23,20 +23,20 @@ class Test_OA_Upgrade_Config extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function test_constructor()
+    public function test_constructor()
     {
         $oUpConfig = new OA_Upgrade_Config();
-        $this->assertIsA($oUpConfig,'OA_Upgrade_Config','class mismatch: OA_Upgrade_Config');
-        $this->assertIsA($oUpConfig->aConfig,'array','class mismatch: array');
-        $this->assertIsA($oUpConfig->oSettings,'OA_Admin_Settings','class mismatch: OA_Admin_Settings');
+        $this->assertIsA($oUpConfig, 'OA_Upgrade_Config', 'class mismatch: OA_Upgrade_Config');
+        $this->assertIsA($oUpConfig->aConfig, 'array', 'class mismatch: array');
+        $this->assertIsA($oUpConfig->oSettings, 'OA_Admin_Settings', 'class mismatch: OA_Admin_Settings');
     }
 
-    function setUp()
+    public function setUp()
     {
         // Tests in this class need to use the "real" configuration
         // file writing method, not the one reserved for the test
@@ -45,29 +45,28 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->serverSave = $_SERVER['HTTP_HOST'];
     }
 
-    function tearDown()
+    public function tearDown()
     {
         // Resume normal service with regards to the configuration file writer...
         unset($GLOBALS['override_TEST_ENVIRONMENT_RUNNING']);
         $_SERVER['HTTP_HOST'] = $this->serverSave;
     }
 
-    function test_writeConfig()
+    public function test_writeConfig()
     {
         TestEnv::restoreConfig();
 
         // TEST 1
 
-        $hostAdmin      = 'admin.mydomain.net';
+        $hostAdmin = 'admin.mydomain.net';
         $_SERVER['HTTP_HOST'] = $hostDelivery = 'delivery.mydomain.net';
 
-        $fileDefault    = MAX_PATH . '/var/default.conf.php';
-        $fileFake       = MAX_PATH . '/var/'.$hostAdmin.'.conf.php';
-        $fileReal       = MAX_PATH . '/var/'.$hostDelivery.'.conf.php';
+        $fileDefault = MAX_PATH . '/var/default.conf.php';
+        $fileFake = MAX_PATH . '/var/' . $hostAdmin . '.conf.php';
+        $fileReal = MAX_PATH . '/var/' . $hostDelivery . '.conf.php';
 
-        if (file_exists($fileDefault))
-        {
-            @copy($fileDefault, $fileDefault.'.bak');
+        if (file_exists($fileDefault)) {
+            @copy($fileDefault, $fileDefault . '.bak');
             @unlink($fileDefault);
         }
 
@@ -77,8 +76,8 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $oConf = new OA_Upgrade_Config();
 
         // Build the local conf array manually.
-        $aConfig['webpath']['admin']       = $hostAdmin;
-        $aConfig['webpath']['delivery']    = $hostDelivery;
+        $aConfig['webpath']['admin'] = $hostAdmin;
+        $aConfig['webpath']['delivery'] = $hostDelivery;
         $aConfig['webpath']['deliverySSL'] = $hostDelivery;
 
         $oConf->setupConfigWebPath($aConfig['webpath']);
@@ -91,21 +90,20 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oConf->aConfig, $aRealConfig, 'Delivery config has incorrect values');
         $this->assertFalse(isset($aRealConfig['realConfig']));
         $this->assertTrue(isset($aRealConfig['openads']));
-        $this->assertEqual($aRealConfig['openads']['installed'],1);
-        $this->assertEqual($aRealConfig['webpath']['admin'],$hostAdmin);
-        $this->assertEqual($aRealConfig['webpath']['delivery'],$hostDelivery);
-        $this->assertEqual($aRealConfig['webpath']['deliverySSL'],$hostDelivery);
+        $this->assertEqual($aRealConfig['openads']['installed'], 1);
+        $this->assertEqual($aRealConfig['webpath']['admin'], $hostAdmin);
+        $this->assertEqual($aRealConfig['webpath']['delivery'], $hostDelivery);
+        $this->assertEqual($aRealConfig['webpath']['deliverySSL'], $hostDelivery);
 
         $aFakeConfig = @parse_ini_file($fileFake, true);
         $this->assertTrue(isset($aFakeConfig['realConfig']));
-        $this->assertTrue($aFakeConfig['realConfig'],$hostDelivery);
+        $this->assertTrue($aFakeConfig['realConfig'], $hostDelivery);
 
         // default.conf.php only gets created if no other foreign confs exist
-        if (file_exists($fileDefault))
-        {
+        if (file_exists($fileDefault)) {
             $aDefConfig = @parse_ini_file($fileDefault, true);
             $this->assertTrue(isset($aDefConfig['realConfig']));
-            $this->assertTrue($aDefConfig['realConfig'],$hostDelivery);
+            $this->assertTrue($aDefConfig['realConfig'], $hostDelivery);
             @unlink($fileDefault);
         }
         // Clean up
@@ -115,11 +113,11 @@ class Test_OA_Upgrade_Config extends UnitTestCase
 
         // TEST 2  : reverse the hosts
 
-        $hostAdmin      = 'admin.mydomain.net';
-        $hostDelivery   = 'delivery.mydomain.net';
+        $hostAdmin = 'admin.mydomain.net';
+        $hostDelivery = 'delivery.mydomain.net';
 
-        $fileReal       = MAX_PATH . '/var/'.$hostAdmin.'.conf.php';
-        $fileFake       = MAX_PATH . '/var/'.$hostDelivery.'.conf.php';
+        $fileReal = MAX_PATH . '/var/' . $hostAdmin . '.conf.php';
+        $fileFake = MAX_PATH . '/var/' . $hostDelivery . '.conf.php';
 
         @unlink($fileAdmin);
         @unlink($fileDelivery);
@@ -127,13 +125,13 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $oConf = new OA_Upgrade_Config();
 
         // Build the local conf array manually.
-        $aConfig['webpath']['admin']       = $hostDelivery;
-        $aConfig['webpath']['delivery']    = $hostAdmin;
+        $aConfig['webpath']['admin'] = $hostDelivery;
+        $aConfig['webpath']['delivery'] = $hostAdmin;
         $aConfig['webpath']['deliverySSL'] = $hostAdmin;
 
         $oConf->setupConfigWebPath($aConfig['webpath']);
 
-        $this->assertTrue($oConf->writeConfig(),  'Error writing config file');
+        $this->assertTrue($oConf->writeConfig(), 'Error writing config file');
         $this->assertTrue(file_exists($fileReal), 'Real config file does not exist');
         $this->assertTrue(file_exists($fileFake), 'Fake config file does not exist');
 
@@ -141,24 +139,23 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oConf->aConfig, $aRealConfig, 'Real config has incorrect values');
         $this->assertFalse(isset($aRealConfig['realConfig']));
         $this->assertTrue(isset($aRealConfig['openads']));
-        $this->assertEqual($aRealConfig['openads']['installed'],1);
-        $this->assertEqual($aRealConfig['webpath']['admin'],$hostDelivery);
-        $this->assertEqual($aRealConfig['webpath']['delivery'],$hostAdmin);
-        $this->assertEqual($aRealConfig['webpath']['deliverySSL'],$hostAdmin);
+        $this->assertEqual($aRealConfig['openads']['installed'], 1);
+        $this->assertEqual($aRealConfig['webpath']['admin'], $hostDelivery);
+        $this->assertEqual($aRealConfig['webpath']['delivery'], $hostAdmin);
+        $this->assertEqual($aRealConfig['webpath']['deliverySSL'], $hostAdmin);
 
         $aFakeConfig = @parse_ini_file($fileFake, true);
         $this->assertTrue(isset($aFakeConfig['realConfig']));
-        $this->assertTrue($aFakeConfig['realConfig'],$hostAdmin);
+        $this->assertTrue($aFakeConfig['realConfig'], $hostAdmin);
 
         // default.conf.php only gets created if no other foreign confs exist
-        if (file_exists($fileDefault))
-        {
+        if (file_exists($fileDefault)) {
             $aDefConfig = @parse_ini_file($fileDefault, true);
             $this->assertTrue(isset($aDefConfig['realConfig']));
-            $this->assertTrue($aDefConfig['realConfig'],$hostAdmin);
+            $this->assertTrue($aDefConfig['realConfig'], $hostAdmin);
             @unlink($fileDefault);
-            @copy($fileDefault.'.bak', $fileDefault);
-            @unlink($fileDefault.'.bak');
+            @copy($fileDefault . '.bak', $fileDefault);
+            @unlink($fileDefault . '.bak');
         }
         // Clean up
         @unlink($fileReal);
@@ -166,7 +163,7 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         TestEnv::restoreConfig();
     }
 
-    function test_setupConfigDatabase()
+    public function test_setupConfigDatabase()
     {
         $oUpConfig = new OA_Upgrade_Config();
 
@@ -182,45 +179,45 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $aConfig['port'] = '3306';
         $aConfig['protocol'] = 'tcp';
         $oUpConfig->setupConfigDatabase($aConfig);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , $aConfig['host']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , $aConfig['port']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type'], $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'], $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host'], $aConfig['host']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket'], $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port'], $aConfig['port']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'], $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'], $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name'], $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'], $aConfig['persistent']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '';
         $aConfig['port'] = '';
         $aConfig['protocol'] = 'unix';
         $oUpConfig->setupConfigDatabase($aConfig);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '3306');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type'], $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'], $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host'], 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket'], $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port'], '3306');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'], $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'], $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name'], $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'], $aConfig['persistent']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '/var/lib/mysql/mysql.sock';
         $aConfig['port'] = '';
         $aConfig['protocol'] = 'unix';
         $oUpConfig->setupConfigDatabase($aConfig);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '3306');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type'], $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'], $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host'], 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket'], $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port'], '3306');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'], $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'], $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name'], $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'], $aConfig['persistent']);
 
         $aConfig['type'] = 'pgsql';
 
@@ -229,48 +226,48 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $aConfig['port'] = '5432';
         $aConfig['protocol'] = 'tcp';
         $oUpConfig->setupConfigDatabase($aConfig);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , $aConfig['host']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , $aConfig['port']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type'], $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'], $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host'], $aConfig['host']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket'], $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port'], $aConfig['port']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'], $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'], $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name'], $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'], $aConfig['persistent']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '';
         $aConfig['port'] = '';
         $aConfig['protocol'] = 'unix';
         $oUpConfig->setupConfigDatabase($aConfig);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '5432');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type'], $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'], $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host'], 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket'], $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port'], '5432');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'], $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'], $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name'], $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'], $aConfig['persistent']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '/tmp/pgsql.sock';
         $aConfig['port'] = '';
         $aConfig['protocol'] = 'unix';
         $oUpConfig->setupConfigDatabase($aConfig);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type']     , $aConfig['type']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'] , $aConfig['protocol']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host']     , 'localhost');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket']   , $aConfig['socket']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port']     , '5432');
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'] , $aConfig['username']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['type'], $aConfig['type']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['protocol'], $aConfig['protocol']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['host'], 'localhost');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['socket'], $aConfig['socket']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['port'], '5432');
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['username'], $aConfig['username']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'], $aConfig['password']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['name'], $aConfig['name']);
+        $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'], $aConfig['persistent']);
     }
 
-    function test_getInitialConfig()
+    public function test_getInitialConfig()
     {
         $oUpConfig = new OA_Upgrade_Config();
         $oUpConfig->getInitialConfig();
@@ -279,7 +276,7 @@ class Test_OA_Upgrade_Config extends UnitTestCase
     /**
      * This function checks for any new items in the config dist file
      */
-    function test_checkForConfigAdditions()
+    public function test_checkForConfigAdditions()
     {
         $oUpConfig = new OA_Upgrade_Config();
         // First check that the working config file agrees with the dist config file
@@ -296,22 +293,21 @@ class Test_OA_Upgrade_Config extends UnitTestCase
 
         // Add a completely new empty sub-array
         $new = $oUpConfig->aConfig;
-        $new['newSubArray'] = array();
+        $new['newSubArray'] = [];
         $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New dist.conf.php items (empty section) not detected');
 
         // Add a new sub-array with a new item
         $new = $oUpConfig->aConfig;
-        $new['newSubArray'] = array('key' => 'value');
+        $new['newSubArray'] = ['key' => 'value'];
         $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New dist.conf.php items (new section with value) not detected');
 
         // Add a new item not in a sub-array (so top level)
         $new = $oUpConfig->aConfig;
         $new['key'] = 'value';
         $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New (top level) dist.conf.php items not detected');
-
     }
 
-    function test_generateDeliverySecret()
+    public function test_generateDeliverySecret()
     {
         $oUpConfig = new OA_Upgrade_Config();
         $oUpConfig->aConfig['delivery']['secret'] = null;
@@ -330,5 +326,4 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $oUpConfig->generateDeliverySecret();
         $this->assertEqual($secret, $oUpConfig->aConfig['delivery']['secret']);
     }
-
 }

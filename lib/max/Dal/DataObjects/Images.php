@@ -26,9 +26,12 @@ class DataObjects_Images extends DB_DataObjectCommon
     public $t_stamp;                         // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Images',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Images', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'filename' => '',
         'contents' => '',
     ];
@@ -47,7 +50,7 @@ class DataObjects_Images extends DB_DataObjectCommon
      * @access  public
      * @return  boolean on success
      */
-    function fetch()
+    public function fetch()
     {
         $oDbh = &$this->getDatabaseConnection();
         if (empty($oDbh)) {
@@ -86,11 +89,11 @@ class DataObjects_Images extends DB_DataObjectCommon
      * @return boolean
      * @access protected
      */
-    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
+    public function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
         // Contents cause problems in pgsql when retrieving current values for auditing
         $this->contents = null;
-        parent::delete($useWhere,$cascadeDelete,$parentid);
+        parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
     /**
@@ -98,25 +101,26 @@ class DataObjects_Images extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 
-    function getUniqueFileNameForDuplication()
+    public function getUniqueFileNameForDuplication()
     {
         $extension = substr($this->filename, strrpos($this->filename, ".") + 1);
-	    $base	   = substr($this->filename, 0, strrpos($this->filename, "."));
+        $base = substr($this->filename, 0, strrpos($this->filename, "."));
 
         if (preg_match("/^(.*)_([0-9]+)$/Di", $base, $matches)) {
-			$base = $matches[1];
-			$i = $matches[2];
+            $base = $matches[1];
+            $i = $matches[2];
         }
 
         $doCheck = $this->factory($this->_tableName);
         $names = $doCheck->getUniqueValuesFromColumn('filename');
         // Get unique name
         $i = 2;
-        while (in_array($base.'_'.$i . '.' .$extension, $names)) {
+        while (in_array($base . '_' . $i . '.' . $extension, $names)) {
             $i++;
         }
         return $base . '_' . $i . '.' . $extension;
@@ -127,22 +131,22 @@ class DataObjects_Images extends DB_DataObjectCommon
      * This method is called on insert() and update().
      *
      */
-    function _refreshUpdated()
+    public function _refreshUpdated()
     {
         $this->t_stamp = OA::getNowUTC();
     }
 
-    function _auditEnabled()
+    public function _auditEnabled()
     {
         return true;
     }
 
-    function _getContextId()
+    public function _getContextId()
     {
         return 0;
     }
 
-    function _getContext()
+    public function _getContext()
     {
         return 'Image';
     }
@@ -186,9 +190,9 @@ class DataObjects_Images extends DB_DataObjectCommon
         }
         // Alas, the image doesn't have an owning banner yet,
         // so return the special case of
-        $aAccountIds = array(
+        $aAccountIds = [
             OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
-        );
+        ];
         return $aAccountIds;
     }
 
@@ -198,31 +202,27 @@ class DataObjects_Images extends DB_DataObjectCommon
      * @param integer $actionid
      * @param array $aAuditFields
      */
-    function _buildAuditArray($actionid, &$aAuditFields)
+    public function _buildAuditArray($actionid, &$aAuditFields)
     {
         // Do not log binary data
         $aAuditFields['contents'] = $GLOBALS['strBinaryData'];
 
-        $aAuditFields['key_desc']   = $this->filename;
-        switch ($actionid)
-        {
+        $aAuditFields['key_desc'] = $this->filename;
+        switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['bannerid']   = $this->bannerid;
+                        $aAuditFields['bannerid'] = $this->bannerid;
                         break;
         }
     }
 
 
-    function _formatValue($field, $type = 0)
+    public function _formatValue($field, $type = 0)
     {
         $fieldVal = $this->$field;
         if (is_a($fieldVal, 'DB_DataObject_Cast') && $fieldVal->type == 'blob') {
             return 'binary data';
-        }
-        else {
+        } else {
             parent::_formatValue($field, $type);
         }
     }
 }
-
-?>

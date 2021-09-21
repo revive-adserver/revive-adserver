@@ -33,20 +33,19 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
  */
 class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
 {
-
     /**
      * The local implementation of the initInfo() method to set all of the
      * required values for this report.
      */
-    function initInfo()
+    public function initInfo()
     {
-        $this->_name         = $this->translate("Campaign Delivery Report");
-        $this->_description  = $this->translate("This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.");
-        $this->_category     = 'standard';
+        $this->_name = $this->translate("Campaign Delivery Report");
+        $this->_description = $this->translate("This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.");
+        $this->_category = 'standard';
         $this->_categoryName = $this->translate("Standard Reports");
-        $this->_author       = 'Scott Switzer';
-        $this->_export       = 'xls';
-        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+        $this->_author = 'Scott Switzer';
+        $this->_export = 'xls';
+        $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER];
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -57,27 +56,27 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * required information for laying out the plugin's report generation
      * screen/the variables required for generating the report.
      */
-    function getDefaults()
+    public function getDefaults()
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset    = isset($session['prefs']['GLOBALS']['report_period_preset'])    ? $session['prefs']['GLOBALS']['report_period_preset']    : 'last_month';
+        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
         $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
+        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
         // Prepare the array for displaying the generation page
-        $aImport = array(
-            'period' => array(
-                'title'            => $this->translate("Period"),
-                'type'             => 'date-month',
-                'default'          => $default_period_preset
-            ),
-            'scope'  => array(
-                'title'            => $this->translate("Limitations"),
-                'type'             => 'scope',
+        $aImport = [
+            'period' => [
+                'title' => $this->translate("Period"),
+                'type' => 'date-month',
+                'default' => $default_period_preset
+            ],
+            'scope' => [
+                'title' => $this->translate("Limitations"),
+                'type' => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
-                'scope_publisher'  => $default_scope_publisher
-            )
-        );
+                'scope_publisher' => $default_scope_publisher
+            ]
+        ];
         return $aImport;
     }
 
@@ -86,17 +85,17 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * values used for the report by the user to the user's session
      * preferences, so that they can be re-used in other reports.
      */
-    function saveDefaults()
+    public function saveDefaults()
     {
         global $session;
         if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
         if (isset($_REQUEST['scope_advertiser'])) {
             $session['prefs']['GLOBALS']['report_scope_advertiser'] = $_REQUEST['scope_advertiser'];
         }
         if (isset($_REQUEST['scope_publisher'])) {
-            $session['prefs']['GLOBALS']['report_scope_publisher']  = $_REQUEST['scope_publisher'];
+            $session['prefs']['GLOBALS']['report_scope_publisher'] = $_REQUEST['scope_publisher'];
         }
         phpAds_SessionDataStore();
     }
@@ -107,7 +106,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param OA_Admin_DaySpan       $oDaySpan The OA_Admin_DaySpan object for the report.
      * @param OA_Admin_Reports_Scope $oScope   ???
      */
-    function execute($oDaySpan = null, $oScope = null)
+    public function execute($oDaySpan = null, $oScope = null)
     {
         // Save the scope for use later
         $this->_oScope = $oScope;
@@ -130,9 +129,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function _getReportParametersForDisplay()
+    public function _getReportParametersForDisplay()
     {
-        $aParams = array();
+        $aParams = [];
         $aParams += $this->_getDisplayableParametersFromScope();
         $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
@@ -144,10 +143,10 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *
      * @access private
      */
-    function _addSummaryWorksheet()
+    public function _addSummaryWorksheet()
     {
         // Prepare the headers for the worksheet
-        $aHeaders = array();
+        $aHeaders = [];
         $key = $GLOBALS['strCampaignName'];
         $aHeaders[$key] = 'text';
         $key = $this->translate("Type");
@@ -189,13 +188,13 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @access private
      * @return array
      */
-    function _getDeliveryPerformanceData()
+    public function _getDeliveryPerformanceData()
     {
         // Get the report period raw performance data, using UTC time
         $oSpan = new OA_Admin_DaySpan();
         $oSpan->setSpanDays($this->_oDaySpan->oStartDate, $this->_oDaySpan->oEndDate);
         $oSpan->toUTC();
-        $aReportData    = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpan, true);
+        $aReportData = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpan, true);
         // Get the raw performance data for "yesterday", using UTC time
         $oSpanYesterday = new OA_Admin_DaySpan('yesterday');
         $oSpanYesterday->toUTC();
@@ -225,19 +224,19 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *                                         data to delivery that happened in the $oDaySpan range.
      * @return array
      */
-    function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false, $statsTable = false, $appendSqlWhere = false)
+    public function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false, $statsTable = false, $appendSqlWhere = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        if(empty($appendSqlWhere)) {
-            $appendSqlWhere = "AND c.type = ".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . " ";
+        if (empty($appendSqlWhere)) {
+            $appendSqlWhere = "AND c.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . " ";
         }
-        if($statsTable === false) {
-            $statsTable = $aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'];
+        if ($statsTable === false) {
+            $statsTable = $aConf['table']['prefix'] . $aConf['table']['data_summary_ad_hourly'];
         }
-        $advertiserId    = $oScope->getAdvertiserId();
-        $publisherId     = $oScope->getPublisherId();
-        $agencyId        = $oScope->getAgencyId();
+        $advertiserId = $oScope->getAdvertiserId();
+        $publisherId = $oScope->getPublisherId();
+        $agencyId = $oScope->getAgencyId();
         $query = "
             SELECT
                 c.campaignid AS campaign_id,
@@ -252,7 +251,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
                 {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-                ".$statsTable." AS stats";
+                " . $statsTable . " AS stats";
         if ($publisherId) {
             $query .= ",
                 {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z";
@@ -264,7 +263,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $query .= "
             WHERE
                 c.campaignid = b.campaignid
-				". $appendSqlWhere ."
+				" . $appendSqlWhere . "
 				AND
                 b.bannerid = stats.ad_id";
         if ($spanIsForPlacementDates) {
@@ -350,38 +349,37 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *               an hourly breakdown of "yesterday's" and "today's" impressions in hourly
      *               format in 'yesterdays_impressions_by_hour' and 'todays_impressions_by_hour'.
      */
-    function _mergeDeliveryPerformanceData($aReportData, $aYesterdayData, $oSpanYesterday, $aTodayData, $oSpanToday)
+    public function _mergeDeliveryPerformanceData($aReportData, $aYesterdayData, $oSpanYesterday, $aTodayData, $oSpanToday)
     {
-        $aData = array();
-        foreach ($aReportData as $aCampaignData)
-        {
+        $aData = [];
+        foreach ($aReportData as $aCampaignData) {
             $campaignId = $aCampaignData['campaign_id'];
             // Add yesterday's impressions to the campaign report period data
             $aCampaignDataYesterday = $this->_findMatchingCampaignData($campaignId, $aYesterdayData);
-            $yesterdaysImpressions  = $aCampaignDataYesterday['campaign_impressions'];
+            $yesterdaysImpressions = $aCampaignDataYesterday['campaign_impressions'];
             $aCampaignData['yesterdays_impressions'] = $yesterdaysImpressions;
             // Get and add yesterday's impressions by hour
             $yesterdayDateString = $oSpanYesterday->getStartDateString();
             $aYesterdaysImpressionsByHour = Admin_DA::getHourHistory(
-                array(
+                [
                     'placement_id' => $campaignId,
-                    'day_begin'    => $yesterdayDateString,
-                    'day_end'      => $yesterdayDateString
-                )
+                    'day_begin' => $yesterdayDateString,
+                    'day_end' => $yesterdayDateString
+                ]
             );
             $aCampaignData['yesterdays_impressions_by_hour'] = $aYesterdaysImpressionsByHour;
             // Add today's impressions to the campaign report period data
             $aCampaignDataToday = $this->_findMatchingCampaignData($campaignId, $aTodayData);
-            $todaysImpressions  = $aCampaignDataToday['campaign_impressions'];
+            $todaysImpressions = $aCampaignDataToday['campaign_impressions'];
             $aCampaignData['todays_impressions'] = $todaysImpressions;
             // Get and add today's impressions by hour
             $todayDateString = $oSpanToday->getStartDateString();
             $aTodaysImpressionsByHour = Admin_DA::getHourHistory(
-                array(
+                [
                     'placement_id' => $campaignId,
-                    'day_begin'    => $todayDateString,
-                    'day_end'      => $todayDateString
-                )
+                    'day_begin' => $todayDateString,
+                    'day_end' => $todayDateString
+                ]
             );
             $aCampaignData['todays_impressions_by_hour'] = $aTodaysImpressionsByHour;
             // Add the newly merged data for this campaign to the return array
@@ -402,14 +400,14 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *                     {@link Plugins_Reports_Standard_LiveCampaignDeliveryReport::_getDeliveryPerformanceDataRange()}.
      * @return array The matching campaign information array, if found; an empty array otherwise.
      */
-    function _findMatchingCampaignData($campaignId, $aData)
+    public function _findMatchingCampaignData($campaignId, $aData)
     {
         foreach ($aData as $aCampaignData) {
             if ($aCampaignData['campaign_id'] == $campaignId) {
                 return $aCampaignData;
             }
         }
-        return array();
+        return [];
     }
 
     /**
@@ -424,11 +422,11 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param array $aData
      * @return array
      */
-    function _prepareDeliveryPerformanceData($aData)
+    public function _prepareDeliveryPerformanceData($aData)
     {
-        $aDisplayData = array();
+        $aDisplayData = [];
         foreach ($aData as $aCampaignData) {
-            $aCampaignDisplayData = array();
+            $aCampaignDisplayData = [];
             $campaignId = $aCampaignData['campaign_id'];
             $aCampaignDisplayData[] = $aCampaignData['campaign_name'];
             $aCampaignDisplayData[] = $this->_calculateCampaignType($campaignId);
@@ -436,8 +434,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             $aCampaignDisplayData[] = $this->_decodePriority($aCampaignData['campaign_priority']);
             $aCampaignDisplayData[] = $this->_formatDateForDisplay($aCampaignData['campaign_start']);
             $aCampaignDisplayData[] = $this->_formatDateForDisplay($aCampaignData['campaign_end']);
-            if ($aCampaignData['campaign_booked_impressions'] == -1)
+            if ($aCampaignData['campaign_booked_impressions'] == -1) {
                 $aCampaignData['campaign_booked_impressions'] = '-';
+            }
             $aCampaignDisplayData[] = $aCampaignData['campaign_booked_impressions'];
             $aCampaignDisplayData[] = $aCampaignData['campaign_impressions'];
             if ($aCampaignData['campaign_priority'] > 0) {
@@ -470,7 +469,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param integer $campaignId The campaign ID.
      * @return string The translated label for the campaign type.
      */
-    function _calculateCampaignType($campaignId)
+    public function _calculateCampaignType($campaignId)
     {
         $dalCampaigns = OA_Dal::factoryDAL('campaigns');
         $isTargeted = $dalCampaigns->isTargeted($campaignId);
@@ -490,13 +489,12 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param string $isActive The selected "campaign_is_active" value.
      * @return string The appropriate return string for the value
      */
-    function _decodeStatusDescription($isActive)
+    public function _decodeStatusDescription($isActive)
     {
         if ($isActive == OA_ENTITY_STATUS_RUNNING) {
             $type = $this->translate("Running");
         } else {
             $type = $this->translate("Stopped");
-
         }
         return $type;
     }
@@ -509,11 +507,11 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param string $priorityCode The selected "campaign_priority" value.
      * @return string The appropriate return string for the value
      */
-    function _decodePriority($priorityCode)
+    public function _decodePriority($priorityCode)
     {
         if ($priorityCode == -1) {
             $type = $this->translate("Override");
-        } else if ($priorityCode == 0) {
+        } elseif ($priorityCode == 0) {
             $type = $this->translate("Remnant");
         } else {
             $type = $this->translate("Contract");
@@ -529,7 +527,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @return string The formatting date string for the report, or false if
      *                the date should not be shown.
      */
-    function _formatDateForDisplay($dateString)
+    public function _formatDateForDisplay($dateString)
     {
         if (empty($dateString)) {
             return false;
@@ -550,7 +548,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param array $aCampaignData An array of campaign data.
      * @return float The percentage (between 0.00 and 100.00) of the campaign delivered so far.
      */
-    function _calculateCompletionPercentage($aCampaignData)
+    public function _calculateCompletionPercentage($aCampaignData)
     {
         $delivered = $aCampaignData['campaign_impressions'];
         $target = $aCampaignData['campaign_booked_impressions'];
@@ -571,7 +569,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *               desired precentage of the campaign's delivered impressions. Positive for over-delivery,
      *               negative for under-delivery.
      */
-    function _calculateOverallMisdelivery($aCampaignData)
+    public function _calculateOverallMisdelivery($aCampaignData)
     {
         // Only calculate mis-delivery if start and end dates present
         if (empty($aCampaignData['campaign_start']) || empty($aCampaignData['campaign_end'])) {
@@ -585,7 +583,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         // Calulate the number of days over which the campaign has been running
         $oCampaignRunningDaySpan = new OA_Admin_DaySpan();
         $oBeginDate = new Date($aCampaignData['campaign_start']);
-        $oEndDate   = new Date($aCampaignData['stats_most_recent_day']);
+        $oEndDate = new Date($aCampaignData['stats_most_recent_day']);
         $oCampaignRunningDaySpan->setSpanDays($oBeginDate, $oEndDate);
         $runningDays = $oCampaignRunningDaySpan->getDaysInSpan() - 1;
 
@@ -625,7 +623,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *               campaign (based on "today's" data) and booked number of impressions the campaign
      *               has. Positive for over-delivery, negative for under-delivery.
      */
-    function _calculateTodaysMisdelivery($aCampaignData)
+    public function _calculateTodaysMisdelivery($aCampaignData)
     {
         // Only calculate mis-delivery if start and end dates present
         if (empty($aCampaignData['campaign_start']) || empty($aCampaignData['campaign_end'])) {
@@ -639,7 +637,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         // Calulate the number of days over which the campaign has been running
         $oCampaignRunningDaySpan = new OA_Admin_DaySpan();
         $oBeginDate = new Date($aCampaignData['campaign_start']);
-        $oEndDate   = new Date($aCampaignData['stats_most_recent_day']);
+        $oEndDate = new Date($aCampaignData['stats_most_recent_day']);
         $oCampaignRunningDaySpan->setSpanDays($oBeginDate, $oEndDate);
         $runningDays = $oCampaignRunningDaySpan->getDaysInSpan() - 1;
 
@@ -700,12 +698,12 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @return OA_Admin_DaySpan The date range of the campaign's activation date and
      *                          expiry date.
      */
-    function &_rangeFromCampaign($aCampaignData)
+    public function &_rangeFromCampaign($aCampaignData)
     {
         $oCampaignDaySpan = new OA_Admin_DaySpan();
         $oDate = new Date();
         $oBeginDate = new Date($aCampaignData['campaign_start']);
-        $oEndDate   = new Date($aCampaignData['campaign_end']);
+        $oEndDate = new Date($aCampaignData['campaign_end']);
         $oBeginDate->setTzByID('UTC');
         $oEndDate->setTzByID('UTC');
         $oBeginDate->convertTZ($oDate->tz);
@@ -728,7 +726,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *               desired precentage of the campaign's delivered impressions. Positive for over-delivery,
      *               negative for under-delivery.
      */
-    function _calculateOverallPercentDifference($campaignDays, $runningDays, $desiredImpressions, $actualImpressions)
+    public function _calculateOverallPercentDifference($campaignDays, $runningDays, $desiredImpressions, $actualImpressions)
     {
         // The expected campaign delivery percentage is the number of days the campaign has been
         // running divided by the total campaign lifetime, assuming even daily delivery
@@ -755,7 +753,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      *               campaign (based on "today's" data) and booked number of impressions the campaign
      *               has. Positive for over-delivery, negative for under-delivery.
      */
-    function _calculateTodaysPercentDifference($todaysImpressions, $yesterdaysImpressions, $yesterdaysImpressionsToSameHourAsNow, $remainingDays, $campaignImpressionsToLastNight, $desiredImpressions)
+    public function _calculateTodaysPercentDifference($todaysImpressions, $yesterdaysImpressions, $yesterdaysImpressionsToSameHourAsNow, $remainingDays, $campaignImpressionsToLastNight, $desiredImpressions)
     {
         // The number of impressions that are predicted to happen "today" is the number of impressions delivered so
         // far today, multiplied by the total number of impressions delivered yesterday divided by how many of those
@@ -769,7 +767,4 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $percentDiff = (($predictedTotalImpressions / $desiredImpressions) - 1) * 100;
         return $percentDiff;
     }
-
 }
-
-?>

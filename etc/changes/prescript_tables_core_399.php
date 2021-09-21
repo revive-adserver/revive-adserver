@@ -16,26 +16,23 @@ require_once(MAX_PATH . '/lib/OA/DB/Sql.php');
 
 class prescript_tables_core_399
 {
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute_constructive($aParams)
+    public function execute_constructive($aParams)
     {
         $oDBUpgrader = $aParams[0];
 
         $migration = new StatMigration();
-	    $migration->compactStats = true;
-	    $migration->init($oDBUpgrader->oSchema->db, $oDBUpgrader->logFile);
+        $migration->compactStats = true;
+        $migration->init($oDBUpgrader->oSchema->db, $oDBUpgrader->logFile);
 
-		return $migration->migrateData();
+        return $migration->migrateData();
     }
 
-    function execute_destructive($aParams)
+    public function execute_destructive($aParams)
     {
         return true;
     }
 }
-
-?>

@@ -26,5 +26,3 @@ $buffer = ob_get_clean();
 
 // Flush output buffer, stripping the
 echo preg_replace('/^#!.*\n/', '', $buffer);
-
-?>

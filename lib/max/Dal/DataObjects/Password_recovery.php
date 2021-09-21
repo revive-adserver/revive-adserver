@@ -27,9 +27,12 @@ class DataObjects_Password_recovery extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Password_recovery',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Password_recovery', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'user_type' => '',
         'recovery_id' => '',
         'updated' => '%DATE_TIME%',
@@ -43,9 +46,8 @@ class DataObjects_Password_recovery extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 }
-
-?>

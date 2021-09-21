@@ -10,15 +10,15 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/pear/HTML/QuickForm/Renderer/Array.php';
+require_once MAX_PATH . '/lib/pear/HTML/QuickForm/Renderer/Array.php';
 
 /**
  * A custom form renderer for OA form.
  *
  */
-class OA_Admin_UI_Component_ArrayRenderer
-    extends HTML_QuickForm_Renderer_Array
+class OA_Admin_UI_Component_ArrayRenderer extends HTML_QuickForm_Renderer_Array
 {
+    public $_values;
     private $_groupStack;
     /**
      * @var OA_Admin_UI_Component_Form
@@ -26,16 +26,16 @@ class OA_Admin_UI_Component_ArrayRenderer
     private $_form;
 
 
-    function __construct($collectHidden = false, $staticLabels = false)
+    public function __construct($collectHidden = false, $staticLabels = false)
     {
         parent::__construct($collectHidden, $staticLabels);
-        $this->_groupStack = array();
+        $this->_groupStack = [];
     }
 
     /**
      * @param OA_Admin_UI_Component_Form $form
      */
-    function startForm(&$form)
+    public function startForm(&$form)
     {
         parent::startForm($form);
         $this->_ary['id'] = $form->getId();
@@ -47,11 +47,11 @@ class OA_Admin_UI_Component_ArrayRenderer
     }
 
 
-    function startGroup(&$group, $required, $error)
+    public function startGroup(&$group, $required, $error)
     {
         //store the currentGroup array if we're going deeper into another group
         if ($this->_currentGroup != null) {
-            array_push($this->_groupStack, $this->_currentGroup);
+            $this->_groupStack[] = $this->_currentGroup;
         }
 
         $this->_currentGroup = $this->_elementToArray($group, $required, $error);
@@ -61,7 +61,7 @@ class OA_Admin_UI_Component_ArrayRenderer
     } // end func startGroup
 
 
-    function finishGroup(&$group)
+    public function finishGroup(&$group)
     {
         //save current group array
         $groupArr = $this->_currentGroup;
@@ -71,19 +71,18 @@ class OA_Admin_UI_Component_ArrayRenderer
 
         //now store this group in its parent
         $this->_storeArray($groupArr);
-
     } // end func finishGroup
 
 
 
-   /**
-    * Overrides method from parent. Allows group to be an element in other group.
-    * Stores an array representation of an element in the form array
-    *
-    * @param array  Array representation of an element
-    * @return void
-    */
-    function _storeArray($elAry)
+    /**
+     * Overrides method from parent. Allows group to be an element in other group.
+     * Stores an array representation of an element in the form array
+     *
+     * @param array  Array representation of an element
+     * @return void
+     */
+    public function _storeArray($elAry)
     {
         // where should we put this element...
         if (is_array($this->_currentGroup)) {
@@ -102,22 +101,22 @@ class OA_Admin_UI_Component_ArrayRenderer
      */
     public function renderHeader(&$header)
     {
-        $ret = array(
+        $ret = [
             'header' => $header->toHtml(),
-            'name'   => $header->getName(),
-            'type'   => $header->getType(),
-        );
+            'name' => $header->getName(),
+            'type' => $header->getType(),
+        ];
 
         //add header icon if any
-        $headerIcon =  $header->getAttribute("icon");
+        $headerIcon = $header->getAttribute("icon");
         if (!empty($headerIcon)) {
-             $ret['icon'] = $headerIcon;
+            $ret['icon'] = $headerIcon;
         }
 
         //get decorators
         $decoratorsArr = $this->decoratorsToArray($header->getName());
         if ($decoratorsArr) {
-            $ret['decorators']= $decoratorsArr;
+            $ret['decorators'] = $decoratorsArr;
         }
 
 
@@ -133,16 +132,16 @@ class OA_Admin_UI_Component_ArrayRenderer
      */
     public function renderHtml(&$html)
     {
-        $elAry = array(
-            'name'     => $html->getName(),
-            'type'     => $html->getType(),
-            'html'     => $html->toHtml()
-        );
+        $elAry = [
+            'name' => $html->getName(),
+            'type' => $html->getType(),
+            'html' => $html->toHtml()
+        ];
 
         //get decorators
         $decoratorsArr = $this->decoratorsToArray($html->getName());
         if ($decoratorsArr) {
-            $elAry['decorators']= $decoratorsArr;
+            $elAry['decorators'] = $decoratorsArr;
         }
 
         $this->_storeArray($elAry);
@@ -159,7 +158,7 @@ class OA_Admin_UI_Component_ArrayRenderer
      * @param  string                    Error associated with the element
      * @return array representing an element
      */
-    function _elementToArray(&$element, $required, $error)
+    public function _elementToArray(&$element, $required, $error)
     {
         $ret = parent::_elementToArray($element, $required, $error);
 
@@ -170,31 +169,31 @@ class OA_Admin_UI_Component_ArrayRenderer
         }
         $type = $ret['type'];
         //add options from select
-        if('select' == $type) {
-            $ret['selected'] = is_array($this->_values)? array_map('strval', $this->_values): array();
+        if ('select' == $type) {
+            $ret['selected'] = is_array($this->_values) ? array_map('strval', $this->_values) : [];
             foreach ($element->_options as $option) {
                 $options[$option['attr']['value']] = $option['text'];
             }
-            $ret['options'] =  $options;
+            $ret['options'] = $options;
         }
 
         //add vars to array for custom
-        if('custom' == $type || 'plugin-custom' == $type
+        if ('custom' == $type || 'plugin-custom' == $type
             || 'script' == $type || 'plugin-script' == $type) {
             $ret['vars'] = $element->getVars();
             $ret['templateId'] = $element->getTemplateId();
         }
-        if('custom' == $type || 'plugin-custom' == $type) {
+        if ('custom' == $type || 'plugin-custom' == $type) {
             $ret['break'] = $element->isVisible();
         }
-        if('plugin-custom' == $type || 'plugin-script' == $type) {
+        if ('plugin-custom' == $type || 'plugin-script' == $type) {
             $ret['plugin'] = $element->getPluginName();
         }
 
         //decorators
         $decoratorsArr = $this->decoratorsToArray($element->getName());
         if ($decoratorsArr) {
-            $ret['decorators']= $decoratorsArr;
+            $ret['decorators'] = $decoratorsArr;
         }
 
         //add suport for label-placement
@@ -230,7 +229,7 @@ class OA_Admin_UI_Component_ArrayRenderer
         }
         foreach ($elDecorators as $decorator) {
             $elPrepend .= $decorator->prepend();
-            $elAppend = $decorator->append().$elAppend;
+            $elAppend = $decorator->append() . $elAppend;
         }
 
         $result['prepend'] = $elPrepend;
@@ -240,4 +239,3 @@ class OA_Admin_UI_Component_ArrayRenderer
         return $result;
     }
 }
-?>

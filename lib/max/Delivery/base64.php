@@ -22,12 +22,13 @@
  *
  * @return string The URL-safe encoded string
  */
-function MAX_base64EncodeUrlSafe($string) {
+function MAX_base64EncodeUrlSafe($string)
+{
     // Encodes a string using the RFC3548 "Filename Safe Alphabet"
-    $search  = array('+', '/', '=');
-    $replace = array('-', '~', '');
+    $search = ['+', '/', '='];
+    $replace = ['-', '~', ''];
 
-    $string  = base64_encode($string);
+    $string = base64_encode($string);
     return str_replace($search, $replace, $string);
 }
 
@@ -38,13 +39,12 @@ function MAX_base64EncodeUrlSafe($string) {
  *
  * @return string The decoded string
  */
-function MAX_base64DecodeUrlSafe($string) {
+function MAX_base64DecodeUrlSafe($string)
+{
     // Decodes a string using the RFC3548 "Filename Safe Alphabet"
-    $search  = array('-', '~');
-    $replace = array('+', '/');
+    $search = ['-', '~'];
+    $replace = ['+', '/'];
 
     $string = str_replace($search, $replace, $string);
     return base64_decode($string);
 }
-
-?>

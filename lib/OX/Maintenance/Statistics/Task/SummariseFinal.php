@@ -30,13 +30,12 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
  */
 class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Statistics_Task
 {
-
     /**
      * The constructor method.
      *
      * @return OX_Maintenance_Statistics_Task_SummariseFinal
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -46,7 +45,7 @@ class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Stati
      * the required task of migrating data_intermediate_% table data
      * into the data_summary_% tables.
      */
-    function run()
+    public function run()
     {
         if ($this->oController->updateIntermediate || $this->oController->updateFinal) {
             $message = '- Saving request, impression, click and conversion data into the final tables.';
@@ -70,28 +69,26 @@ class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Stati
      * @param PEAR::Date $oStartDate The start date of the complete hour(s).
      * @param PEAR::Date $oEndDate The end date of the complete hour(s).
      */
-    function _saveSummary($oStartDate, $oEndDate)
+    public function _saveSummary($oStartDate, $oEndDate)
     {
         $message = '- Updating the data_summary_ad_hourly table for data after ' .
-                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName();;
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName();
+        ;
         $this->oController->report .= $message . ".\n";
         OA::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
-        $aTypes = array(
-            'types' => array(
+        $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $aTypes = [
+            'types' => [
                 0 => 'request',
                 1 => 'impression',
                 2 => 'click'
-            ),
-            'connections' => array(
+            ],
+            'connections' => [
                 1 => MAX_CONNECTION_AD_IMPRESSION,
                 2 => MAX_CONNECTION_AD_CLICK
-            )
-        );
+            ]
+        ];
         $oDal->saveSummary($oStartDate, $oEndDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
     }
-
 }
-
-?>

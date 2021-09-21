@@ -32,7 +32,7 @@ $prefSection = "name-language";
 
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
@@ -62,9 +62,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
-        }
-        else {
-        	//Add the new username to the session
+        } else {
+            //Add the new username to the session
             $oUser = &OA_Permission::getCurrentUser();
             $oUser->aUser['contact_name'] = $contact_name;
             $oUser->aUser['language'] = $language;
@@ -75,9 +74,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $setPref = $oOptions->getSettingsPreferences($prefSection);
             $title = $setPref[$prefSection]['name'];
 
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strUserPreferencesUpdated'],
-                array(htmlspecialchars($title)));
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate(
+                $GLOBALS['strUserPreferencesUpdated'],
+                [htmlspecialchars($title)]
+            );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
             // The "preferences" were written correctly saved to the database,
@@ -97,15 +98,13 @@ phpAds_PageHeader('account-user-index', $oHeaderModel);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "Preferences" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
-}
-else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    phpAds_ShowSections(["5.1", "5.2", "5.3", "5.5", "5.6", "5.4"]);
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Account Preferences", "User Log" and "Channel Management" sections of the "Preferences" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
-}
-else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER)) {
+    phpAds_ShowSections(["5.1", "5.2", "5.4", "5.7"]);
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER)) {
     // Show the "User Preferences" section of the "Preferences" sections
-    $sections = array("5.1", "5.2");
+    $sections = ["5.1", "5.2"];
     if (OA_Permission::hasPermission(OA_PERM_USER_LOG_ACCESS)) {
         $sections[] = "5.4";
     }
@@ -119,56 +118,54 @@ $aUser = $oUser->aUser;
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strUserDetails,
-        'items' => array (
-         array (
-                'type'     => 'plaintext',
-                'name'     => 'username',
-                'value'    => $aUser['username'],
-                'text'     => $strUsername,
-                'size'     => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'plaintext',
-                'name'    => 'email_address',
-                'value'   => $aUser['email_address'],
-                'text'    => $strEmailAddress,
-                'size'    => 35
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'contact_name',
-                'value'   => $aUser['contact_name'],
-                'text'    => $strFullName,
-                'size'    => 35
-            )
-        )
-    ),
-    array (
-        'text'  => $strLanguage,
-        'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'language',
-                'text'    => $strLanguage,
-                'items'   => RV_Admin_Languages::getAvailableLanguages(),
-                'value'   => $GLOBALS['_MAX']['PREF']['language']
-            )
-        )
-    )
-);
+$aSettings = [
+    [
+        'text' => $strUserDetails,
+        'items' => [
+         [
+                'type' => 'plaintext',
+                'name' => 'username',
+                'value' => $aUser['username'],
+                'text' => $strUsername,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'plaintext',
+                'name' => 'email_address',
+                'value' => $aUser['email_address'],
+                'text' => $strEmailAddress,
+                'size' => 35
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'contact_name',
+                'value' => $aUser['contact_name'],
+                'text' => $strFullName,
+                'size' => 35
+            ]
+        ]
+    ],
+    [
+        'text' => $strLanguage,
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'language',
+                'text' => $strLanguage,
+                'items' => RV_Admin_Languages::getAvailableLanguages(),
+                'value' => $GLOBALS['_MAX']['PREF']['language']
+            ]
+        ]
+    ]
+];
 
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

@@ -15,20 +15,20 @@
  */
 class OA_Admin_UI_CampaignZoneLink
 {
-    const WEBSITES_PER_PAGE = 10;
+    public const WEBSITES_PER_PAGE = 10;
 
 
     public static function createTemplateWithModel($panel, $single = true)
     {
-        $agencyId   = OA_Permission::getAgencyId();
-        $oDalZones  = OA_Dal::factoryDAL('zones');
+        $agencyId = OA_Permission::getAgencyId();
+        $oDalZones = OA_Dal::factoryDAL('zones');
         $infix = ($single ? '' : '-' . $panel);
         phpAds_registerGlobalUnslashed('action', 'campaignid', 'clientid', "text$infix", "page$infix");
 
-        $campaignId   = $GLOBALS['campaignid'];
-        $text         = $GLOBALS["text$infix"];
-        $linked       = ($panel == 'linked');
-        $showStats    = (empty($GLOBALS['_MAX']['CONF']['ui']['zoneLinkingStatistics'])) ? false : true;
+        $campaignId = $GLOBALS['campaignid'];
+        $text = $GLOBALS["text$infix"];
+        $linked = ($panel == 'linked');
+        $showStats = !empty($GLOBALS['_MAX']['CONF']['ui']['zoneLinkingStatistics']);
 
         $websites = $oDalZones->getWebsitesAndZonesList($agencyId, $campaignId, $linked, $text);
 
@@ -37,18 +37,18 @@ class OA_Admin_UI_CampaignZoneLink
             $matchingZones += count($aWebsite['zones']);
         }
 
-        $aZonesCounts = array (
+        $aZonesCounts = [
                 'all' => $oDalZones->countZones($agencyId, null, $campaignId, $linked),
                 'matching' => $matchingZones
-        );
+        ];
 
         $pagerFileName = 'campaign-zone-zones.php';
-        $pagerParams = array(
+        $pagerParams = [
             'clientid' => $GLOBALS['clientid'],
             'campaignid' => $GLOBALS['campaignid'],
             'status' => $panel,
             'text' => $text
-        );
+        ];
 
         $currentPage = null;
         if (!$single) {
@@ -56,12 +56,28 @@ class OA_Admin_UI_CampaignZoneLink
         }
 
         $oTpl = new OA_Admin_Template('campaign-zone-zones.html');
-        $oPager = OX_buildPager($websites, self::WEBSITES_PER_PAGE, true, 'websites',
-            2, $currentPage, $pagerFileName, $pagerParams);
-        $oTopPager = OX_buildPager($websites, self::WEBSITES_PER_PAGE, false, 'websites',
-            2, $currentPage, $pagerFileName, $pagerParams);
+        $oPager = OX_buildPager(
+            $websites,
+            self::WEBSITES_PER_PAGE,
+            true,
+            'websites',
+            2,
+            $currentPage,
+            $pagerFileName,
+            $pagerParams
+        );
+        $oTopPager = OX_buildPager(
+            $websites,
+            self::WEBSITES_PER_PAGE,
+            false,
+            'websites',
+            2,
+            $currentPage,
+            $pagerFileName,
+            $pagerParams
+        );
 
-        list ($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+        list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
         $websites = array_slice($websites, $itemsFrom - 1, self::WEBSITES_PER_PAGE, true);
 
         // Add statistics for the displayed zones if required

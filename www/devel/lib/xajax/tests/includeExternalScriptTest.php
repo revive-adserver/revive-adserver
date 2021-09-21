@@ -3,9 +3,9 @@ require_once("../xajax.inc.php");
 
 function includeScript($sFilename)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addIncludeScript($sFilename);
-	return $objResponse->getXML();
+    $objResponse = new xajaxResponse();
+    $objResponse->addIncludeScript($sFilename);
+    return $objResponse->getXML();
 }
 
 $xajax = new xajax();

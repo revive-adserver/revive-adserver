@@ -31,21 +31,21 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
  */
 class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase
 {
-    const URL_FLASH_HELP_HTML_SUPPORTED = 'http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextField.html#htmlText';
+    public const URL_FLASH_HELP_HTML_SUPPORTED = 'http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextField.html#htmlText';
 
-    function getBannerShortName()
+    public function getBannerShortName()
     {
         return 'Overlay Video Ad';
     }
 
-    function getZoneToLinkShortName()
+    public function getZoneToLinkShortName()
     {
         return $this->getBannerShortName();
     }
 
-    function getHelpAdTypeDescription()
+    public function getHelpAdTypeDescription()
     {
-        return 'An '.$this->getBannerShortName().' is an ad that runs on top of video content during video play. When clicked, an overlay can initiate a video or open a page in a new window.';
+        return 'An ' . $this->getBannerShortName() . ' is an ad that runs on top of video content during video play. When clicked, an overlay can initiate a video or open a page in a new window.';
     }
 
     /**
@@ -53,58 +53,73 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
      *
      * @return string A string describing the type of plugin.
      */
-    function getOptionDescription()
+    public function getOptionDescription()
     {
         return $this->translate($this->getBannerShortName());
     }
 
-    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
+    public function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
-        $this->processNewUploadedFile( $aFields, $aVariables );
+        $this->processNewUploadedFile($aFields, $aVariables);
         parent::preprocessForm($insert, $bannerid, $aFields, $aVariables);
     }
 
-    function addVastOverlayFormatsRadioButton($form, $bannerRow, &$overlayFormatValue, &$overlayFormatJs )
+    public function addVastOverlayFormatsRadioButton($form, $bannerRow, &$overlayFormatValue, &$overlayFormatJs)
     {
-        $overlayFormatToHandler = array(
+        $overlayFormatToHandler = [
             VAST_OVERLAY_FORMAT_IMAGE => 'phpAds_formOverlayIsImageMode();',
             VAST_OVERLAY_FORMAT_TEXT => 'phpAds_formOverlayIsTextMode();',
             VAST_OVERLAY_FORMAT_HTML => 'phpAds_formOverlayIsHtmlMode();',
-        );
+        ];
         $overlayFormatValue = VAST_OVERLAY_FORMAT_IMAGE;
         $overlayFormatOptionToRunOnPageLoad = $overlayFormatToHandler[$overlayFormatValue];
 
-        if ( empty( $bannerRow['vast_overlay_format'] ) ){
+        if (empty($bannerRow['vast_overlay_format'])) {
             // cover migration of old overlay banners
             $bannerRow['vast_overlay_format'] = $overlayFormatValue;
         }
 
-        if ( $bannerRow['vast_overlay_format'] ){
-            $overlayFormatValue  = $bannerRow['vast_overlay_format'];
+        if ($bannerRow['vast_overlay_format']) {
+            $overlayFormatValue = $bannerRow['vast_overlay_format'];
             $overlayFormatOptionToRunOnPageLoad = $overlayFormatToHandler[$overlayFormatValue];
         }
 
-        if ( getVideoOverlaySetting( 'isVastOverlayAsImageEnabled' ) ) {
-            $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
+        if (getVideoOverlaySetting('isVastOverlayAsImageEnabled')) {
+            $overlayFormats[] = $form->createElement(
+                'radio',
+                'vast_overlay_format',
+                '',
                 "Image Overlay",
-                VAST_OVERLAY_FORMAT_IMAGE, array('id' => 'vast-overlay-format-image',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ));
+                VAST_OVERLAY_FORMAT_IMAGE,
+                ['id' => 'vast-overlay-format-image',
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ]
+            );
         }
 
-        if ( getVideoOverlaySetting( 'isVastOverlayAsTextEnabled' ) ) {
-            $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
+        if (getVideoOverlaySetting('isVastOverlayAsTextEnabled')) {
+            $overlayFormats[] = $form->createElement(
+                'radio',
+                'vast_overlay_format',
+                '',
                 "Text Overlay",
-                VAST_OVERLAY_FORMAT_TEXT, array('id' => 'vast-overlay-format-text',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_TEXT] ));
+                VAST_OVERLAY_FORMAT_TEXT,
+                ['id' => 'vast-overlay-format-text',
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_TEXT] ]
+            );
         }
-        if ( getVideoOverlaySetting( 'isVastOverlayAsHtmlEnabled' ) ) {
-            $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
+        if (getVideoOverlaySetting('isVastOverlayAsHtmlEnabled')) {
+            $overlayFormats[] = $form->createElement(
+                'radio',
+                'vast_overlay_format',
+                '',
                 "Html Overlay",
-                VAST_OVERLAY_FORMAT_HTML, array('id' => 'vast-overlay-format-html',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_HTML] ));
+                VAST_OVERLAY_FORMAT_HTML,
+                ['id' => 'vast-overlay-format-html',
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_HTML] ]
+            );
         }
 
-        $form->setDefaults(array('vast_overlay_format' => $overlayFormatValue));
+        $form->setDefaults(['vast_overlay_format' => $overlayFormatValue]);
         $form->addGroup($overlayFormats, 'overlayFormat', 'Select the type of Overlay to create', "<br/>");
 
         $overlayFormatJs = <<<OVERLAY_FORMAT_JS
@@ -140,20 +155,19 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
 
             </script>
 OVERLAY_FORMAT_JS;
-
     }
 
-    function addVastOverlayActionRadioButton($form, $bannerRow, &$overlayClickModeValue, &$overlayOptionJs)
+    public function addVastOverlayActionRadioButton($form, $bannerRow, &$overlayClickModeValue, &$overlayOptionJs)
     {
-        $overlayActionToClickHandler = array(
+        $overlayActionToClickHandler = [
             VAST_OVERLAY_CLICK_TO_PAGE => 'phpAds_formClickToWebPageMode();',
             VAST_OVERLAY_CLICK_TO_VIDEO => 'phpAds_formClickToVideoMode();',
-        );
+        ];
 
         $overlayClickModeValue = VAST_OVERLAY_CLICK_TO_PAGE;
 
         $overlayClickModeValue = $form->getSubmitValue('vast_overlay_action');
-        if(empty($overlayClickModeValue)
+        if (empty($overlayClickModeValue)
             && !empty($bannerRow['vast_overlay_action'])) {
             $overlayClickModeValue = $bannerRow['vast_overlay_action'];
         }
@@ -162,10 +176,10 @@ OVERLAY_FORMAT_JS;
         // (For backward compatabilty / migration)
         // we now store the vast_overlay_action explicitely
         // and do not need to derive it from the parameters stored against the banner
-        if ( $bannerRow['url'] ){
+        if ($bannerRow['url']) {
             $bannerRow['vast_overlay_action'] = VAST_OVERLAY_CLICK_TO_PAGE;
         }
-        if ( empty( $bannerRow['vast_overlay_action'] ) ){
+        if (empty($bannerRow['vast_overlay_action'])) {
             // cover migration of old overlay banners
             $bannerRow['vast_overlay_action'] = $overlayClickModeValue;
         }
@@ -198,97 +212,121 @@ OVERLAY_OPTION_JS;
 
         $form->addElement('header', 'overlay_click_action_header', "Overlay click action");
 
-        $overlayClickActions[] = $form->createElement('radio', 'vast_overlay_action', '',
+        $overlayClickActions[] = $form->createElement(
+            'radio',
+            'vast_overlay_action',
+            '',
             "Open a page in a new window",
-            VAST_OVERLAY_CLICK_TO_PAGE, array('id' => 'overlay-action-open',
-                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_PAGE] ));
+            VAST_OVERLAY_CLICK_TO_PAGE,
+            ['id' => 'overlay-action-open',
+                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_PAGE] ]
+        );
 
-        $overlayClickActions[] = $form->createElement('radio', 'vast_overlay_action', '',
+        $overlayClickActions[] = $form->createElement(
+            'radio',
+            'vast_overlay_action',
+            '',
             "Play a video",
-            VAST_OVERLAY_CLICK_TO_VIDEO, array('id' => 'overlay-action-play',
-                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_VIDEO] ));
+            VAST_OVERLAY_CLICK_TO_VIDEO,
+            ['id' => 'overlay-action-play',
+                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_VIDEO] ]
+        );
 
-        $form->setDefaults(array('vast_overlay_action' => $overlayClickModeValue));
+        $form->setDefaults(['vast_overlay_action' => $overlayClickModeValue]);
         $form->addGroup($overlayClickActions, 'overlayClickAction', 'When the user clicks the overlay', "<br/>");
     }
 
-    function addVastOverlayAsHtml($form, $bannerRow)
+    public function addVastOverlayAsHtml($form, $bannerRow)
     {
         $form->addElement('header', 'overlay_html_header', "Overlay HTML");
-        $form->addDecorator ( 'overlay_html_header', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-format-html') ) );
+        $form->addDecorator('overlay_html_header', 'tag', [ 'tag' => 'div', 'attributes' => ['id' => 'div-overlay-format-html'] ]);
 
-        $supportedTags = array(
+        $supportedTags = [
             'br',
             'b',
             'font color="#hexadecimalColorOnly" face="" size=""',
             'i',
             'li',
             'u'
-        );
-        foreach($supportedTags as &$supportedTag) {
+        ];
+        foreach ($supportedTags as &$supportedTag) {
             $supportedTag = '&lt;' . $supportedTag . '&gt;';
         }
         $supportedTagString = implode(', ', $supportedTags);
-        $form->addElement('html', 'overlay_html_info1',
-        	'The following HTML tags are supported: <code>'.$supportedTagString.'</code>. If you need to display an image in your Overlay Ad, we recommend using the Image Overlay instead.
+        $form->addElement(
+            'html',
+            'overlay_html_info1',
+            'The following HTML tags are supported: <code>' . $supportedTagString . '</code>. If you need to display an image in your Overlay Ad, we recommend using the Image Overlay instead.
         	<br/>All links <code>&lt;a href=""&gt</code> will be ignored: the flash player will automatically add a click layer on top of the overlay, that will initiate a video or open a page in a new window.
-        	<br/>For more information about the supported HTML tags, read the <a href="'.self::URL_FLASH_HELP_HTML_SUPPORTED.'" target="_blank">Adobe ActionScript documentation</a>.
+        	<br/>For more information about the supported HTML tags, read the <a href="' . self::URL_FLASH_HELP_HTML_SUPPORTED . '" target="_blank">Adobe ActionScript documentation</a>.
 
-        	' );
-        $htmlG['textarea'] = $form->createElement('textarea', 'htmltemplate', null,
-            array( 'class' =>'code', 'cols'=>'45', 'rows'=>'10', 'wrap'=>'off', 'dir' => 'ltr', 'style'=>'width:550px;')
+        	'
         );
-        $form->addGroup($htmlG, 'overlay_html_group', null, array("<br>", ""), false);
+        $htmlG['textarea'] = $form->createElement(
+            'textarea',
+            'htmltemplate',
+            null,
+            [ 'class' => 'code', 'cols' => '45', 'rows' => '10', 'wrap' => 'off', 'dir' => 'ltr', 'style' => 'width:550px;']
+        );
+        $form->addGroup($htmlG, 'overlay_html_group', null, ["<br>", ""], false);
     }
 
-    function addVastOverlayAsText($form, $bannerRow)
+    public function addVastOverlayAsText($form, $bannerRow)
     {
         $form->addElement('header', 'overlay_text_header', "Overlay Text");
-        $form->addElement('html', 'overlay_text_info',
-        	'A text overlay contains a title, up to two lines of description and a call to action (e.g., display URL). ' );
-        $form->addDecorator( 'overlay_text_header', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-format-text') ) );
+        $form->addElement(
+            'html',
+            'overlay_text_info',
+            'A text overlay contains a title, up to two lines of description and a call to action (e.g., display URL). '
+        );
+        $form->addDecorator('overlay_text_header', 'tag', [ 'tag' => 'div', 'attributes' => ['id' => 'div-overlay-format-text'] ]);
         $form->addElement('text', 'vast_overlay_text_title', 'Title');
-        $form->addElement('textarea', 'vast_overlay_text_description', 'Description',
-            array( 'class' =>'large', 'cols'=>'45', 'rows'=>'2', 'wrap'=>'off', 'dir' => 'ltr', 'style' => 'height:50px' )
+        $form->addElement(
+            'textarea',
+            'vast_overlay_text_description',
+            'Description',
+            [ 'class' => 'large', 'cols' => '45', 'rows' => '2', 'wrap' => 'off', 'dir' => 'ltr', 'style' => 'height:50px' ]
         );
 
         $form->addElement('text', 'vast_overlay_text_call', 'Call to action');
     }
 
-    function addVastOverlayAsImage($form, $aBanner){
-
+    public function addVastOverlayAsImage($form, $aBanner)
+    {
         $form->addElement('header', 'overlay_image_header', "Overlay Image");
-        $form->addDecorator ( 'overlay_image_header', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-format-image') ) );
+        $form->addDecorator('overlay_image_header', 'tag', [ 'tag' => 'div', 'attributes' => ['id' => 'div-overlay-format-image'] ]);
         //$form->addElement('text', 'filename', 'filename');
         $this->addVastFileUploadGroup($form, $aBanner, VAST_OVERLAY_FORMAT_IMAGE . '_upload');
     }
 
-    function addVastFileUploadGroup($form, $aBanner, $fileFieldName)
+    public function addVastFileUploadGroup($form, $aBanner, $fileFieldName)
     {
         $imageName = null;
         $size = null;
         $filename = null;
-        if($fileFieldName == $aBanner['vast_overlay_format'] . '_upload') {
+        if ($fileFieldName == $aBanner['vast_overlay_format'] . '_upload') {
             $imageName = _getContentTypeIconImageName($aBanner['vast_creative_type']);
             $size = _getBannerSizeText($type, $aBanner['filename']);
             $filename = $aBanner['filename'];
         }
 
-        if(!empty($aBanner['vast_overlay_width'])
+        if (!empty($aBanner['vast_overlay_width'])
             && !empty($aBanner['vast_overlay_height'])) {
             $form->addElement('hidden', 'vast_overlay_width', $aBanner['vast_overlay_width']);
             $form->addElement('hidden', 'vast_overlay_height', $aBanner['vast_overlay_height']);
         }
-        addUploadGroup($form, $aBanner,
-            array(
+        addUploadGroup(
+            $form,
+            $aBanner,
+            [
                 'uploadName' => $fileFieldName,
                 'radioName' => 'replaceimage',
-                'imageName'  => $imageName,
-                'fileName'  => $filename,
-                'fileSize'  => $size,
-                'newLabel'  => $GLOBALS['strNewBannerFile'],
-                'updateLabel'  => $GLOBALS['strUploadOrKeep'],
-              )
+                'imageName' => $imageName,
+                'fileName' => $filename,
+                'fileSize' => $size,
+                'newLabel' => $GLOBALS['strNewBannerFile'],
+                'updateLabel' => $GLOBALS['strUploadOrKeep'],
+              ]
         );
     }
 
@@ -298,17 +336,17 @@ OVERLAY_OPTION_JS;
      * @param object form
      * @param array $bannerRow
      */
-    function buildForm(&$form, &$bannerRow)
+    public function buildForm(&$form, &$bannerRow)
     {
         parent::buildForm($form, $bannerRow);
 
-    	$selectableCompanions = $this->getPossibleCompanions($bannerRow);
+        $selectableCompanions = $this->getPossibleCompanions($bannerRow);
 
-    	$bannerRow = $this->getExtendedBannerInfo($bannerRow);
-    	$isNewBanner = false;
-    	if ( !isset( $bannerRow['banner_vast_element_id']) ){
-    	    $isNewBanner = true;
-    	}
+        $bannerRow = $this->getExtendedBannerInfo($bannerRow);
+        $isNewBanner = false;
+        if (!isset($bannerRow['banner_vast_element_id'])) {
+            $isNewBanner = true;
+        }
         //parent::buildForm($form, $bannerId);
         $header = $form->createElement('header', 'header_txt', "Create an Overlay Video Ad");
 
@@ -327,70 +365,69 @@ OVERLAY_OPTION_JS;
         $overlayFormatJs = null;
         $overlayOptionJs = null;
 
-        $this->addVastOverlayFormatsRadioButton($form, $bannerRow, $overlayFormatValue, $overlayFormatJs );
+        $this->addVastOverlayFormatsRadioButton($form, $bannerRow, $overlayFormatValue, $overlayFormatJs);
 
         $this->addVastOverlayAsImage($form, $bannerRow);
         $this->addVastOverlayAsText($form, $bannerRow);
         $this->addVastOverlayAsHtml($form, $bannerRow);
 
-        $this->addVastOverlayActionRadioButton( $form, $bannerRow, $overlayClickModeValue, $overlayOptionJs );
+        $this->addVastOverlayActionRadioButton($form, $bannerRow, $overlayClickModeValue, $overlayOptionJs);
 
         $form->addElement('header', 'video_status1', "When the user clicks the above overlay, the browser will open a page in a new window");
-        $form->addDecorator ( 'video_status1', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-open' ) ) );
-        $this->addFormRequiredElement($form, array('text', 'url', $this->getFieldLabel('url')), 'vast_overlay_action', VAST_OVERLAY_CLICK_TO_PAGE);
+        $form->addDecorator('video_status1', 'tag', [ 'tag' => 'div', 'attributes' => ['id' => 'div-overlay-action-open' ] ]);
+        $this->addFormRequiredElement($form, ['text', 'url', $this->getFieldLabel('url')], 'vast_overlay_action', VAST_OVERLAY_CLICK_TO_PAGE);
         // Need to just open page in a new window - OXPL-344
         //$form->addElement('text', 'target', $GLOBALS['strTarget']);
 
         $form->addElement('header', 'video_status2', "When the user clicks the above overlay, the following video ad will play");
-        $form->addDecorator ( 'video_status2', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-action-play') ) );
+        $form->addDecorator('video_status2', 'tag', [ 'tag' => 'div', 'attributes' => ['id' => 'div-overlay-action-play'] ]);
 
         $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
         $this->addThirdPartyImpressionTracking($form);
         $this->addVastCompanionsToForm($form, $selectableCompanions);
 
-        $form->addElement('html', 'jsForOverlayFormat', $overlayFormatJs );
-        $form->addElement('html', 'jsForOverlayAction', $overlayOptionJs );
+        $form->addElement('html', 'jsForOverlayFormat', $overlayFormatJs);
+        $form->addElement('html', 'jsForOverlayAction', $overlayOptionJs);
     }
 
-    function getFieldLabel($fieldName)
+    public function getFieldLabel($fieldName)
     {
-        $labels = array(
+        $labels = [
             'url' => $GLOBALS['strURL'],
 
-        );
-        if(isset($labels[$fieldName])) {
+        ];
+        if (isset($labels[$fieldName])) {
             return $labels[$fieldName];
         }
         return parent::getFieldLabel($fieldName);
     }
 
-    function processNewUploadedFile( &$aFields, &$aVariables )
+    public function processNewUploadedFile(&$aFields, &$aVariables)
     {
         $incomingFieldName = null;
         // Deal with any files that are uploaded -
         // cant use the default banners handler for this upload field because this field
         // is on all versions of the of the overlay form (ie. for text and html)
         // so "empty filename supplied error" appear when creating a text/html overlay
-        switch($aFields['vast_overlay_format']) {
+        switch ($aFields['vast_overlay_format']) {
             case VAST_OVERLAY_FORMAT_IMAGE:
                 $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
             break;
         }
-        if (empty($_FILES[$incomingFieldName]['name'])){
+        if (empty($_FILES[$incomingFieldName]['name'])) {
             return;
         }
-        $oFile = OA_Creative_File::factoryUploadedFile( $incomingFieldName );
+        $oFile = OA_Creative_File::factoryUploadedFile($incomingFieldName);
         checkForErrorFileUploaded($oFile);
         $oFile->store('web'); // store file on webserver
         $aFile = $oFile->getFileDetails();
 
         if (!empty($aFile)) {
             // using $aVariables here - as this is an attribute of the base class banner row
-            $aVariables['filename']                  = $aFile['filename'];
-            $aFields['vast_creative_type']           = $aFile['contenttype'];
-            $aFields['vast_overlay_width']           = $aFile['width'];
-            $aFields['vast_overlay_height']          = $aFile['height'];
+            $aVariables['filename'] = $aFile['filename'];
+            $aFields['vast_creative_type'] = $aFile['contenttype'];
+            $aFields['vast_overlay_width'] = $aFile['width'];
+            $aFields['vast_overlay_height'] = $aFile['height'];
         }
     }
-
 }

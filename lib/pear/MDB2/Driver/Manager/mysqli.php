@@ -507,6 +507,7 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
      * list all tables in the current database
      *
      * @param string database, the current is default
+     * @param OPENADS:: string prefix : allow a LIKE comparison search for table prefixes
      * @return mixed array of table names on success, a MDB2 error on failure
      * @access public
      */

@@ -19,5 +19,5 @@ $GLOBALS['strAdvertiser'] = "Nhà quảng cáo";
 $GLOBALS['strValue'] = "Giá trị";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }

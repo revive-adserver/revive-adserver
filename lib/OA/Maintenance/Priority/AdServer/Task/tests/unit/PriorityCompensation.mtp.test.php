@@ -20,26 +20,25 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityComp
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generate(
             'OA_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockOA_Dal_Maintenance_Priority'.rand()
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand()
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
-            array('_getDal', '_getOperationIntUtils','_getMaxEntityAdObject')
+            ['_getDal', '_getOperationIntUtils', '_getMaxEntityAdObject']
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_Ad',
             'PartialOA_Maintenance_Priority_Ad',
-            array()
+            []
         );
     }
 
@@ -50,7 +49,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * Test 1: Test with a selection of ads/zones, and ensure the correct objects
      *         are created.
      */
-    function test_buildClasses()
+    public function test_buildClasses()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
@@ -64,123 +63,121 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation->__construct();
 
         // Test 1
-        $returnGetAllZonesImpInv = array(
+        $returnGetAllZonesImpInv = [
             1 => 100,
             2 => 200,
             3 => 300,
             4 => 400,
             5 => 500
-        );
+        ];
         $oDal->setReturnReference('getZonesForecastsForAllZones', $returnGetAllZonesImpInv);
         $oDal->expectOnce('getZonesForecastsForAllZones');
-        $returnGetAllDeliveryLimitationChangedCreatives = array(
+        $returnGetAllDeliveryLimitationChangedCreatives = [
             1 => '0000-00-00 00:00:00',
             2 => '2006-04-27 12:00:05'
-        );
+        ];
         $oDal->setReturnReference('getAllDeliveryLimitationChangedCreatives', $returnGetAllDeliveryLimitationChangedCreatives);
         $oDal->expectOnce('getAllDeliveryLimitationChangedCreatives');
-        $returnGetAllZonesWithAllocInv = array(
-            array(
+        $returnGetAllZonesWithAllocInv = [
+            [
                 'zone_id' => 1,
                 'ad_id' => 1,
                 'required_impressions' => 1,
                 'requested_impressions' => 1
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 2,
                 'ad_id' => 1,
                 'required_impressions' => 2,
                 'requested_impressions' => 2
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 3,
                 'ad_id' => 1,
                 'required_impressions' => 3,
                 'requested_impressions' => 3
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 4,
                 'ad_id' => 1,
                 'required_impressions' => 4,
                 'requested_impressions' => 4
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 5,
                 'ad_id' => 1,
                 'required_impressions' => 5,
                 'requested_impressions' => 5
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 1,
                 'ad_id' => 2,
                 'required_impressions' => 21,
                 'requested_impressions' => 21
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 2,
                 'ad_id' => 2,
                 'required_impressions' => 22,
                 'requested_impressions' => 22
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 3,
                 'ad_id' => 2,
                 'required_impressions' => 23,
                 'requested_impressions' => 23
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 4,
                 'ad_id' => 2,
                 'required_impressions' => 24,
                 'requested_impressions' => 24
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 5,
                 'ad_id' => 2,
                 'required_impressions' => 25,
                 'requested_impressions' => 25
-            ),
-            array(
+            ],
+            [
                 'zone_id' => 3,
                 'ad_id' => 3,
                 'required_impressions' => 33,
                 'requested_impressions' => 33
-            )
-        );
+            ]
+        ];
         $oDal->setReturnReference('getAllZonesWithAllocInv', $returnGetAllZonesWithAllocInv);
         $oDal->expectOnce('getAllZonesWithAllocInv');
-        $returnGetPreviousAdDeliveryInfo = array(
-            1 => array(
-                1 => array(
+        $returnGetPreviousAdDeliveryInfo = [
+            1 => [
+                1 => [
                     'ad_id' => 1,
                     'zone_id' => 1,
                     'required_impressions' => 5,
                     'requested_impressions' => 5,
                     'priority_factor' => 0.5,
                     'past_zone_traffic_fraction' => 0.1,
-                    'impressions' => 10)
-                )
-            );
+                    'impressions' => 10]
+                ]
+            ];
         $oDal->setReturnReference('getPreviousAdDeliveryInfo', $returnGetPreviousAdDeliveryInfo);
         $oDal->expectOnce('getPreviousAdDeliveryInfo');
 
         $oPriorityCompensation->expectCallCount('_getMaxEntityAdObject', 11);
-        for ($i=0;$i<5;$i++)
-        {
+        for ($i = 0;$i < 5;$i++) {
             $oAdObject = new PartialOA_Maintenance_Priority_Ad($this);
-            $oAdObject->__construct(array('ad_id' => 1));
+            $oAdObject->__construct(['ad_id' => 1]);
             //$oAdObject->setReturnValue('isActiveHighPriority', true);
             $oPriorityCompensation->setReturnValueAt($i, '_getMaxEntityAdObject', $oAdObject);
         }
-        for ($i=5;$i<10;$i++)
-        {
+        for ($i = 5;$i < 10;$i++) {
             $oAdObject = new PartialOA_Maintenance_Priority_Ad($this);
-            $oAdObject->__construct(array('ad_id' => 2));
+            $oAdObject->__construct(['ad_id' => 2]);
             //$oAdObject->setReturnValue('isActiveHighPriority', true);
             $oPriorityCompensation->setReturnValueAt($i, '_getMaxEntityAdObject', $oAdObject);
         }
         $oAdObject = new PartialOA_Maintenance_Priority_Ad($this);
-        $oAdObject->__construct(array('ad_id' => 3));
+        $oAdObject->__construct(['ad_id' => 3]);
         //$oAdObject->setReturnValue('isActiveHighPriority', true);
         $oPriorityCompensation->setReturnValueAt(10, '_getMaxEntityAdObject', $oAdObject);
 
@@ -338,7 +335,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      *         all zero values returned for advertisements, 1 for blank.
      * Test 3: Test with a mix of values, and ensure they are correctly scaled.
      */
-    function testScalePriorities()
+    public function testScalePriorities()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
@@ -352,15 +349,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation->__construct();
 
         // Test 1
-        $aData = array(
-            'ads' => array(
-                0 => array('priority' => 0),
-                1 => array('priority' => 0),
-                2 => array('priority' => 0),
-                9 => array('priority' => 0)
-            ),
+        $aData = [
+            'ads' => [
+                0 => ['priority' => 0],
+                1 => ['priority' => 0],
+                2 => ['priority' => 0],
+                9 => ['priority' => 0]
+            ],
             'blank' => 0
-        );
+        ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0);
         $this->assertEqual($aData['ads'][1]['priority'], 0);
@@ -369,15 +366,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($aData['blank'], 0);
 
         // Test 2
-        $aData = array(
-            'ads' => array(
-                0 => array('priority' => 0),
-                1 => array('priority' => 0),
-                2 => array('priority' => 0),
-                9 => array('priority' => 0)
-            ),
+        $aData = [
+            'ads' => [
+                0 => ['priority' => 0],
+                1 => ['priority' => 0],
+                2 => ['priority' => 0],
+                9 => ['priority' => 0]
+            ],
             'blank' => 37
-        );
+        ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0);
         $this->assertEqual($aData['ads'][1]['priority'], 0);
@@ -386,30 +383,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($aData['blank'], 1);
 
         // Test 3
-        $aData = array(
-            'ads' => array(
-                0 => array('priority' => 10),
-                1 => array('priority' => 20),
-                2 => array('priority' => 30),
-                9 => array('priority' => 40)
-            ),
+        $aData = [
+            'ads' => [
+                0 => ['priority' => 10],
+                1 => ['priority' => 20],
+                2 => ['priority' => 30],
+                9 => ['priority' => 40]
+            ],
             'blank' => 0
-        );
+        ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0.1);
         $this->assertEqual($aData['ads'][1]['priority'], 0.2);
         $this->assertEqual($aData['ads'][2]['priority'], 0.3);
         $this->assertEqual($aData['ads'][9]['priority'], 0.4);
         $this->assertEqual($aData['blank'], 0);
-        $aData = array(
-            'ads' => array(
-                0 => array('priority' =>  5),
-                1 => array('priority' => 20),
-                2 => array('priority' => 30),
-                9 => array('priority' => 40)
-            ),
+        $aData = [
+            'ads' => [
+                0 => ['priority' => 5],
+                1 => ['priority' => 20],
+                2 => ['priority' => 30],
+                9 => ['priority' => 40]
+            ],
             'blank' => 5
-        );
+        ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0.05);
         $this->assertEqual($aData['ads'][1]['priority'], 0.2);
@@ -441,7 +438,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      *         required impressions, and ensure the returned priorities are correctly
      *         calculcated and scaled.
      */
-    function testInitialPriorities()
+    public function testInitialPriorities()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
@@ -455,35 +452,35 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation->__construct();
 
         // Test 1
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
         $result = $oPriorityCompensation->initialPriorities($oZone);
         $this->assertEqual(count($result['ads']), 0);
         $this->assertEqual($result['blank'], 1);
 
         // Test 2
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
         $result = $oPriorityCompensation->initialPriorities($oZone);
         $this->assertEqual(count($result['ads']), 0);
         $this->assertEqual($result['blank'], 1);
 
         // Test 3
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
@@ -524,21 +521,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 4
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
@@ -579,21 +576,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 5
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
@@ -634,21 +631,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 6
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
@@ -688,21 +685,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertNull($result['ads'][9]['past_zone_traffic_fraction']);
         $this->assertEqual($result['blank'], 0);
 
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 200;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
@@ -786,7 +783,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
      * Test 13: Test with a factor that would be limited, but with deliveryLimitationChanged
      *          set and ensure that the priority factor is reset
      */
-    function testCompensatedPriorities()
+    public function testCompensatedPriorities()
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
@@ -800,35 +797,35 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $oPriorityCompensation->__construct();
 
         // Test 1
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
         $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 0);
         $this->assertEqual($result['blank'], 1);
 
         // Test 2
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
         $result = $oPriorityCompensation->compensatedPriorities($oZone);
         $this->assertEqual(count($result['ads']), 0);
         $this->assertEqual($result['blank'], 1);
 
         // Test 3
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
@@ -869,21 +866,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 4
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oZone->addAdvert($oAd);
@@ -925,21 +922,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 5
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
@@ -980,21 +977,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 6
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
@@ -1034,21 +1031,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertNull($result['ads'][9]['past_zone_traffic_fraction']);
         $this->assertEqual($result['blank'], 0);
 
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 200;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oZone->addAdvert($oAd);
@@ -1089,27 +1086,27 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 0.5);
 
         // Test 7
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 0;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 0;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 0;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 0;
@@ -1152,27 +1149,27 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 8
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 0;
         $oAd->requestedImpressions = 0;
         $oAd->pastRequiredImpressions = 10;
@@ -1215,27 +1212,27 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 9
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 0;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastActualImpressions = 0;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oAd->pastRequiredImpressions = 10;
@@ -1278,30 +1275,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 1);
 
         // Test 10
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oAd->pastRequiredImpressions = 10;
@@ -1340,30 +1337,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertFalse($result['ads'][9]['priority_factor_limited']);
         $this->assertEqual($result['blank'], 0);
 
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 400;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oAd->pastRequiredImpressions = 10;
@@ -1403,30 +1400,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['blank'], 0.75);
 
         // Test 11
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 100;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oAd->pastRequiredImpressions = 20;
         $oAd->pastRequestedImpressions = 20;
         $oAd->pastActualImpressions = 10;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oAd->pastRequiredImpressions = 30;
         $oAd->pastRequestedImpressions = 30;
         $oAd->pastActualImpressions = 15;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oAd->pastRequiredImpressions = 40;
@@ -1469,30 +1466,30 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertEqual($result['ads'][9]['past_zone_traffic_fraction'], 0.2);
         $this->assertEqual($result['blank'], 0);
 
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = 400;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = 10;
         $oAd->requestedImpressions = 10;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 2]);
         $oAd->requiredImpressions = 20;
         $oAd->requestedImpressions = 20;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 3]);
         $oAd->requiredImpressions = 30;
         $oAd->requestedImpressions = 30;
         $oAd->pastRequiredImpressions = 10;
         $oAd->pastRequestedImpressions = 10;
         $oAd->pastActualImpressions = 5;
         $oZone->addAdvert($oAd);
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 9));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 9]);
         $oAd->requiredImpressions = 40;
         $oAd->requestedImpressions = 40;
         $oAd->pastRequiredImpressions = 10;
@@ -1533,9 +1530,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
 
         // Test 12
         $value = 1.2 * mt_getrandmax();
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = $value;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->requiredImpressions = $value;
         $oAd->requestedImpressions = $value;
         $oAd->pastRequiredImpressions = $value;
@@ -1558,9 +1555,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
 
         // Test 13
         $value = 1.2 * mt_getrandmax();
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->availableImpressions = $value;
-        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(['ad_id' => 1]);
         $oAd->deliveryLimitationChanged = true;
         $oAd->requiredImpressions = $value;
         $oAd->requestedImpressions = $value;
@@ -1582,7 +1579,4 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $this->assertNull($result['ads'][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result['blank'], 0);
     }
-
 }
-
-?>

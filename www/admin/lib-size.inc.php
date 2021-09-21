@@ -17,22 +17,20 @@ require_once MAX_PATH . '/lib/max/resources/res-iab.inc.php';
 /* Get the description for a specific size               */
 /*-------------------------------------------------------*/
 
-function phpAds_getBannerSize ($width, $height)
+function phpAds_getBannerSize($width, $height)
 {
-	global $phpAds_IAB, $strCustom;
+    global $phpAds_IAB, $strCustom;
 
-	$result = $strCustom." ($width x $height)";
+    $result = $strCustom . " ($width x $height)";
 
-	foreach (array_keys($phpAds_IAB) as $key)
-	{
-		if ($phpAds_IAB[$key]['width'] == $width &&
-			$phpAds_IAB[$key]['height'] == $height)
-		{
-			$result = $GLOBALS['strIab'][$key];
-		}
-	}
+    foreach (array_keys($phpAds_IAB) as $key) {
+        if ($phpAds_IAB[$key]['width'] == $width &&
+            $phpAds_IAB[$key]['height'] == $height) {
+            $result = $GLOBALS['strIab'][$key];
+        }
+    }
 
-	return ($result);
+    return ($result);
 }
 
 
@@ -41,22 +39,18 @@ function phpAds_getBannerSize ($width, $height)
 /* Find out if the selected size exists                  */
 /*-------------------------------------------------------*/
 
-function phpAds_sizeExists ($width, $height)
+function phpAds_sizeExists($width, $height)
 {
-	global $phpAds_IAB;
+    global $phpAds_IAB;
 
-	$result = false;
+    $result = false;
 
-	foreach (array_keys($phpAds_IAB) as $key)
-	{
-		if ($phpAds_IAB[$key]['width'] == $width &&
-			$phpAds_IAB[$key]['height'] == $height)
-		{
-			$result = true;
-		}
-	}
+    foreach (array_keys($phpAds_IAB) as $key) {
+        if ($phpAds_IAB[$key]['width'] == $width &&
+            $phpAds_IAB[$key]['height'] == $height) {
+            $result = true;
+        }
+    }
 
-	return ($result);
+    return ($result);
 }
-
-?>

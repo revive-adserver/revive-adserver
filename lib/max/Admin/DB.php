@@ -22,7 +22,7 @@ class Max_Admin_DB
      * @param string $type  the name of the MySQL storage engine type.
      * @return boolean  true if the server supports the table type.
      */
-    function tableTypeIsSupported($type)
+    public function tableTypeIsSupported($type)
     {
         // Assume MySQL always supports MyISAM table types
         if ($type == 'MYISAM') {
@@ -50,7 +50,7 @@ class Max_Admin_DB
      *
      * @return array  list of supported table types.
      */
-    function getTableTypes()
+    public function getTableTypes()
     {
         $types['MYISAM'] = 'MyISAM';
         $types['BDB'] = 'Berkeley DB';
@@ -65,7 +65,7 @@ class Max_Admin_DB
      *
      * @return array
      */
-    function getServerTypes()
+    public function getServerTypes()
     {
         // These values must be the same as used for the
         // data access layer file names!
@@ -81,7 +81,7 @@ class Max_Admin_DB
      * @param array $installvars
      * @return boolean
      */
-    function checkDatabaseExists($installvars)
+    public function checkDatabaseExists($installvars)
     {
         $oDbh = OA_DB::singleton();
         $oTable = OA_DB_Table_Core::singleton();
@@ -97,5 +97,3 @@ class Max_Admin_DB
         return $result;
     }
 }
-
-?>

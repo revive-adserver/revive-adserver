@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 /**
  * DB_DataObject for data_bkt_country_m
@@ -31,16 +31,17 @@ class DataObjects_Data_bkt_country_m extends DB_DataObjectCommon
     public $count;                           // INT(11) => openads_int => 129
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_country_m',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_country_m', $k, $v);
+    }
 
-    var $defaultValues = array(
+    public $defaultValues = [
                 'interval_start' => '%NO_DATE_TIME%',
                 'country' => '',
                 'count' => 0,
-                );
+                ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-
-?>

@@ -35,7 +35,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision2 extends Plugins_DeliveryLimit
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - Level 2 Subdivision';

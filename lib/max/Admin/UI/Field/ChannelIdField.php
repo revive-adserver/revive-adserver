@@ -14,29 +14,28 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 
 class Admin_UI_ChannelIdField extends Admin_UI_Field
 {
-
-    function display()
+    public function display()
     {
         echo "
-        <select name='{$this->_name}' tabindex='".($this->_tabIndex++)."'>";
+        <select name='{$this->_name}' tabindex='" . ($this->_tabIndex++) . "'>";
         $this->displayChannelsAsOptionList();
         echo "
         </select>";
     }
 
-    function getChannels()
+    public function getChannels()
     {
         global $list_filters;
 
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
-                $aParams = array('publisher_id' => $list_filters['publisher']);
+                $aParams = ['publisher_id' => $list_filters['publisher']];
                 // get channels owned by this publisher's agency
                 $aPublisher = Admin_DA::getPublisher($list_filters['publisher']);
                 $agencyId = $aPublisher['agency_id'];
                 if ($agencyId != 0) { // check that this publisher actually has an agency
-                    $aParams2 = array('agency_id' => $agencyId, 'publisher_id' => 0);
+                    $aParams2 = ['agency_id' => $agencyId, 'publisher_id' => 0];
                     $aAgencyChannels = Admin_DA::getChannels($aParams2);
                 }
             }
@@ -48,28 +47,28 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
                 }
             }
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $aParams = array('agency_id' => OA_Permission::getEntityId());
+            $aParams = ['agency_id' => OA_Permission::getEntityId()];
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
-                $aParams = array('agency_id' => OA_Permission::getEntityId(), 'publisher_id' => $list_filters['publisher']);
+                $aParams = ['agency_id' => OA_Permission::getEntityId(), 'publisher_id' => $list_filters['publisher']];
             }
             $aChannels = Admin_DA::getChannels($aParams);
             // add agency-owned channels
-            $aParams = array('agency_id' => OA_Permission::getEntityId(), 'publisher_id' => 0);
+            $aParams = ['agency_id' => OA_Permission::getEntityId(), 'publisher_id' => 0];
             $aAgencyChannels = Admin_DA::getChannels($aParams);
             foreach ($aAgencyChannels as $channelId => $aAgencyChannel) {
                 $aChannels[$channelId] = $aAgencyChannel;
             }
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            $aParams = array('publisher_id' => OA_Permission::getEntityId());
+            $aParams = ['publisher_id' => OA_Permission::getEntityId()];
             $aPublishers = Admin_DA::getPublishers($aParams);
-            $aParams = array('publisher_id' => implode(',',array_keys($aPublishers)));
+            $aParams = ['publisher_id' => implode(',', array_keys($aPublishers))];
             $aChannels = Admin_DA::getChannels($aParams);
             // get channels owned by this publisher's agency
             $aPublisher = Admin_DA::getPublisher(OA_Permission::getEntityId());
             $agencyId = $aPublisher['agency_id'];
             if ($agencyId != 0) { // check that this publisher actually has an agency
-                $aParams2 = array('agency_id' => $agencyId, 'publisher_id' => 0);
+                $aParams2 = ['agency_id' => $agencyId, 'publisher_id' => 0];
                 $aAgencyChannels = Admin_DA::getChannels($aParams2);
             }
             // add agency-owned channels
@@ -79,8 +78,8 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
                 }
             }
         } else {
-            $aPublishers = array();
-            $aChannels = array();
+            $aPublishers = [];
+            $aChannels = [];
         }
 
         // add admin-owned channels
@@ -88,21 +87,21 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
             OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
             OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             // add admin-owned channels
-            $aParams = array('agency_id' => 0, 'publisher_id' => 0);
+            $aParams = ['agency_id' => 0, 'publisher_id' => 0];
             $aAdminChannels = Admin_DA::getChannels($aParams);
             foreach ($aAdminChannels as $channelId => $aAdminChannel) {
                 $aChannels[$channelId] = $aAdminChannel;
             }
-         }
+        }
 
-        $aChannelArray = array();
+        $aChannelArray = [];
         foreach ($aChannels as $channelId => $aChannel) {
             $aChannelArray[$channelId] = phpAds_buildName($channelId, $aChannel['name']);
         }
         return $aChannelArray;
     }
 
-    function displayChannelsAsOptionList()
+    public function displayChannelsAsOptionList()
     {
         $aChannels = $this->getChannels();
         foreach ($aChannels as $channelId => $aChannel) {
@@ -111,5 +110,3 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
         }
     }
 }
-
-?>

@@ -26,12 +26,11 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 $aBanner = Admin_DA::getAd((int) $bannerid);
 $aBanner['bannerid'] = $aBanner['ad_id'];
 
-if (!empty($aBanner))
-{
-    $conf               = $GLOBALS['_MAX']['CONF'];
-    $bannerName         = strip_tags(phpAds_buildBannerName ($bannerid, $aBanner['name'], $aBanner['alt']));
-    $sizeDescription    = ($aBanner['type'] == 'txt') ? '&nbsp;' : "&nbsp;&nbsp;&nbsp;width: {$aBanner['width']}&nbsp;&nbsp;height: {$aBanner['height']}";
-    $bannerCode         = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+if (!empty($aBanner)) {
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $bannerName = strip_tags(phpAds_buildBannerName($bannerid, $aBanner['name'], $aBanner['alt']));
+    $sizeDescription = ($aBanner['type'] == 'txt') ? '&nbsp;' : "&nbsp;&nbsp;&nbsp;width: {$aBanner['width']}&nbsp;&nbsp;height: {$aBanner['height']}";
+    $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
     echo "
 <html>
 <head>

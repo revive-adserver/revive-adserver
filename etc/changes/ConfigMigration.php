@@ -10,9 +10,9 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/max/Plugin.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Configuration.php';
-require_once MAX_PATH.'/lib/max/FileScanner.php';
+require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
+require_once MAX_PATH . '/lib/max/FileScanner.php';
 
 /**
  * Indicates all modules
@@ -26,16 +26,15 @@ define('OA_PLUGINS_ALL_MODULES', 1);
  */
 class ConfigMigration
 {
-
-	/**
-	 * Following method merges geotargeting plugins config
-	 * into global config file. By doing that we are improving
-	 * delivery performance for scripts using geotargeting data
-	 * by more than 15%.
-	 *
-	 * @return boolean  True on success else false
-	 */
-    function mergeConfigWith($section, $mergeWithConf)
+    /**
+     * Following method merges geotargeting plugins config
+     * into global config file. By doing that we are improving
+     * delivery performance for scripts using geotargeting data
+     * by more than 15%.
+     *
+     * @return boolean  True on success else false
+     */
+    public function mergeConfigWith($section, $mergeWithConf)
     {
         $config = new OA_Admin_Settings();
         $config->bulkSettingChange($section, $mergeWithConf);
@@ -47,7 +46,7 @@ class ConfigMigration
      *
      * @return array  Specific plugin configuration
      */
-    function getGeotargetingConfig()
+    public function getGeotargetingConfig()
     {
         return $this->getPluginsConfigByType('geotargeting');
     }
@@ -59,17 +58,17 @@ class ConfigMigration
      * @param string $module
      * @return array|false
      */
-    function getPluginsConfigByType($module)
+    public function getPluginsConfigByType($module)
     {
-    	if(isset($GLOBALS['_MAX']['CONF'][$module])) {
-        	// Make sure config is always read from ini file
-        	unset($GLOBALS['_MAX']['CONF'][$module]);
+        if (isset($GLOBALS['_MAX']['CONF'][$module])) {
+            // Make sure config is always read from ini file
+            unset($GLOBALS['_MAX']['CONF'][$module]);
         }
 
-    	$conf = MAX_Plugin::getConfig($module);
+        $conf = MAX_Plugin::getConfig($module);
 
-    	if (false === $conf) {
-    	    return false;
+        if (false === $conf) {
+            return false;
         }
 
         $aConfig = MAX_Plugin::getConfig($module, $conf['type']);
@@ -87,12 +86,12 @@ class ConfigMigration
      * @param string $newAffix
      * @return boolean  True on success else false
      */
-    function renamePluginsConfigAffix($oldAffix, $newAffix)
+    public function renamePluginsConfigAffix($oldAffix, $newAffix)
     {
         $aFiles = $this->getPluginsConfigFiles(OA_PLUGINS_ALL_MODULES, $oldAffix);
         foreach ($aFiles as $oldFileName) {
-            $newFileName = str_replace('.conf.'.$oldAffix, '.conf.'.$newAffix, $oldFileName);
-            if(!rename($oldFileName, $newFileName)) {
+            $newFileName = str_replace('.conf.' . $oldAffix, '.conf.' . $newAffix, $oldFileName);
+            if (!rename($oldFileName, $newFileName)) {
                 return false;
             }
         }
@@ -105,13 +104,13 @@ class ConfigMigration
      * @param string $affix
      * @return array
      */
-    function getPluginsConfigFiles($module = OA_PLUGINS_ALL_MODULES, $affix = 'php')
+    public function getPluginsConfigFiles($module = OA_PLUGINS_ALL_MODULES, $affix = 'php')
     {
         $oFileScanner = new MAX_FileScanner();
-        $oFileScanner->addFileTypes(array($affix));
-        $readFromDir = MAX_PATH.'/var/plugins/config';
-        if($module != OA_PLUGINS_ALL_MODULES) {
-            $readFromDir .= '/'.$module;
+        $oFileScanner->addFileTypes([$affix]);
+        $readFromDir = MAX_PATH . '/var/plugins/config';
+        if ($module != OA_PLUGINS_ALL_MODULES) {
+            $readFromDir .= '/' . $module;
         }
         $oFileScanner->addDir($readFromDir, $recursive = true);
         return $oFileScanner->getAllFiles();
@@ -122,15 +121,12 @@ class ConfigMigration
      * after moving its configuration to main folder
      *
      */
-    function deleteGeotargetingConfigFiles()
+    public function deleteGeotargetingConfigFiles()
     {
-        $geotargetingDir = MAX_PATH.'/var/plugins/config/geotargeting';
-        if (System::rm(array('-rf', $geotargetingDir)) !== true) {
+        $geotargetingDir = MAX_PATH . '/var/plugins/config/geotargeting';
+        if (System::rm(['-rf', $geotargetingDir]) !== true) {
             return false;
         }
         return true;
     }
-
 }
-
-?>

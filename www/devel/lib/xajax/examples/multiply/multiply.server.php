@@ -1,4 +1,5 @@
 <?php
+
 // multiply.php, multiply.common.php, multiply.server.php
 // demonstrate a very basic xajax implementation
 // using xajax version 0.2
@@ -6,11 +7,10 @@
 
 function multiply($x, $y)
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addAssign("z", "value", $x*$y);
-	return $objResponse;
+    $objResponse = new xajaxResponse();
+    $objResponse->addAssign("z", "value", $x * $y);
+    return $objResponse;
 }
 
 require("multiply.common.php");
 $xajax->processRequests();
-?>

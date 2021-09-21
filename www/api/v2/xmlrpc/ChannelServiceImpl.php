@@ -31,13 +31,13 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @var OA_Dll_Channel $_dllChannel
      */
-    var $_dllChannel;
+    public $_dllChannel;
 
     /**
      *
      * The ChannelServiceImpl method is the constructor for the ChannelServiceImpl class.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_dllChannel = new OA_Dll_Channel();
@@ -52,7 +52,7 @@ class ChannelServiceImpl extends BaseServiceImpl
      * @param boolean $result
      * @return boolean
      */
-    function _validateResult($result)
+    public function _validateResult($result)
     {
         if ($result) {
             return true;
@@ -75,17 +75,13 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function addChannel($sessionId, &$oChannel)
+    public function addChannel($sessionId, &$oChannel)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllChannel->modify($oChannel));
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -102,25 +98,18 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function modifyChannel($sessionId, &$oChannel)
+    public function modifyChannel($sessionId, &$oChannel)
     {
         if ($this->verifySession($sessionId)) {
-
             if (isset($oChannel->channelId)) {
-
                 return $this->_validateResult($this->_dllChannel->modify($oChannel));
-
             } else {
-
                 $this->raiseError("Field 'channelId' in structure does not exists");
                 return false;
             }
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -134,14 +123,11 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function deleteChannel($sessionId, $channelId)
+    public function deleteChannel($sessionId, $channelId)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllChannel->delete($channelId));
-
         } else {
-
             return false;
         }
     }
@@ -157,14 +143,13 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getChannel($sessionId, $channelId, &$oChannel)
+    public function getChannel($sessionId, $channelId, &$oChannel)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllChannel->getChannel($channelId, $oChannel));
+                $this->_dllChannel->getChannel($channelId, $oChannel)
+            );
         } else {
-
             return false;
         }
     }
@@ -180,14 +165,13 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getChannelListByWebsiteId($sessionId, $websiteId, &$aChannelList)
+    public function getChannelListByWebsiteId($sessionId, $websiteId, &$aChannelList)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllChannel->getChannelList(null, $websiteId, $aChannelList));
+                $this->_dllChannel->getChannelList(null, $websiteId, $aChannelList)
+            );
         } else {
-
             return false;
         }
     }
@@ -203,14 +187,13 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getChannelListByAgencyId($sessionId, $agencyId, &$aChannelList)
+    public function getChannelListByAgencyId($sessionId, $agencyId, &$aChannelList)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllChannel->getChannelList($agencyId, null, $aChannelList));
+                $this->_dllChannel->getChannelList($agencyId, null, $aChannelList)
+            );
         } else {
-
             return false;
         }
     }
@@ -227,11 +210,13 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getChannelTargeting($sessionId, $channelId, &$aTargeting)
+    public function getChannelTargeting($sessionId, $channelId, &$aTargeting)
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllChannel->getChannelTargeting(
-                $channelId, $aTargeting));
+                $channelId,
+                $aTargeting
+            ));
         } else {
             return false;
         }
@@ -250,15 +235,15 @@ class ChannelServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function setChannelTargeting($sessionId, $channelId, &$aTargeting)
+    public function setChannelTargeting($sessionId, $channelId, &$aTargeting)
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllChannel->setChannelTargeting(
-                $channelId, $aTargeting));
+                $channelId,
+                $aTargeting
+            ));
         } else {
             return false;
         }
     }
 }
-
-

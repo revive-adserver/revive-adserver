@@ -26,7 +26,7 @@ $userAccess->init();
 function OA_headerUserNavigation()
 {
     phpAds_PageHeader("4.4.2");
-    phpAds_ShowSections(array("4.1", "4.3", "4.4", "4.4.2"));
+    phpAds_ShowSections(["4.1", "4.3", "4.4", "4.4.2"]);
 }
 $userAccess->setNavigationHeaderCallback('OA_headerUserNavigation');
 
@@ -36,5 +36,3 @@ $userAccess->setPagePrefix('admin');
 $userAccess->setBackUrl('admin-user-start.php');
 
 $userAccess->process();
-
-?>

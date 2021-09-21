@@ -25,5 +25,3 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // the "Preferences" page instead
     OX_Admin_Redirect::redirect('account-preferences-index.php');
 }
-
-?>

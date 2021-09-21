@@ -3,9 +3,9 @@ require_once("../xajax.inc.php");
 
 function redirect()
 {
-	$objResponse = new xajaxResponse();
-	$objResponse->addRedirect("http://www.xajaxproject.org");
-	return $objResponse;
+    $objResponse = new xajaxResponse();
+    $objResponse->addRedirect("http://www.xajaxproject.org");
+    return $objResponse;
 }
 $xajax = new xajax();
 //$xajax->debugOn();

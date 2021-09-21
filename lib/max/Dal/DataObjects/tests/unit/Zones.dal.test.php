@@ -24,12 +24,12 @@ Language_Loader::load();
  */
 class DataObjects_ZonesTest extends DalUnitTestCase
 {
-    function tearDown()
+    public function tearDown()
     {
-        DataGenerator::cleanUp(array('zones'));
+        DataGenerator::cleanUp(['zones']);
     }
 
-    function testDuplicate()
+    public function testDuplicate()
     {
         // Insert a zone with some default data.
         $doZones = OA_Dal::factoryDO('zones');
@@ -56,7 +56,7 @@ class DataObjects_ZonesTest extends DalUnitTestCase
         $this->assertEqualDataObjects($this->stripKeys($doZones), $this->stripKeys($doNewZone));
     }
 
-    function testDelete()
+    public function testDelete()
     {
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->append = '';
@@ -69,14 +69,14 @@ class DataObjects_ZonesTest extends DalUnitTestCase
         // add appending zones
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->appendtype = phpAds_ZoneAppendZone;
-        $doZones->append = 'zone:'.$zoneId;
+        $doZones->append = 'zone:' . $zoneId;
         $doZones->chain = '';
         $aZoneIdAppends = DataGenerator::generate($doZones, $numZonesAppened = 3);
 
         // add chained zones
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->append = '';
-        $doZones->chain = 'zone:'.$zoneId;
+        $doZones->chain = 'zone:' . $zoneId;
         $aZoneIdChained = DataGenerator::generate($doZones, $numZonesChained = 3);
 
         $doZones = OA_Dal::staticGetDO('zones', $zoneId);
@@ -98,4 +98,3 @@ class DataObjects_ZonesTest extends DalUnitTestCase
         $this->assertEqual($doZones->count(), $numAllZones);
     }
 }
-?>

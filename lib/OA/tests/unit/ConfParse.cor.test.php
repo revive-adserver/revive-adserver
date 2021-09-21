@@ -20,11 +20,10 @@ require_once MAX_PATH . '/init-delivery-parse.php';
  */
 class Test_OA_ConfParse extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -32,26 +31,26 @@ class Test_OA_ConfParse extends UnitTestCase
     /**
      * A method to test the getConfigVersion() method.
      */
-    function test_parseDeliveryIniFile()
+    public function test_parseDeliveryIniFile()
     {
         $host = OX_getHostName();
 
-        copy(MAX_PATH.'/lib/OA/tests/data/test.demo.conf.php',MAX_PATH.'/var/'.$host.'.test.demo.conf.php');
-        copy(MAX_PATH.'/lib/OA/tests/data/test.real.conf.php',MAX_PATH.'/var/test.real.conf.php');
+        copy(MAX_PATH . '/lib/OA/tests/data/test.demo.conf.php', MAX_PATH . '/var/' . $host . '.test.demo.conf.php');
+        copy(MAX_PATH . '/lib/OA/tests/data/test.real.conf.php', MAX_PATH . '/var/test.real.conf.php');
 
-        $result = parseDeliveryIniFile('','test.demo');
+        $result = parseDeliveryIniFile('', 'test.demo');
 
-        $this->assertIsA($result,'array');
+        $this->assertIsA($result, 'array');
         $this->assertTrue(isset($result['database']));
-        $this->assertEqual($result['database']['username'],'demo_user');
-        $this->assertEqual($result['database']['password'],'demo_pass');
-        $this->assertEqual($result['database']['name'],'demo_name');
+        $this->assertEqual($result['database']['username'], 'demo_user');
+        $this->assertEqual($result['database']['password'], 'demo_pass');
+        $this->assertEqual($result['database']['name'], 'demo_name');
         $this->assertTrue(isset($result['real']));
-        $this->assertEqual($result['real']['key1'],'val1');
-        $this->assertEqual($result['real']['key2'],'val2');
+        $this->assertEqual($result['real']['key1'], 'val1');
+        $this->assertEqual($result['real']['key2'], 'val2');
 
-        @unlink(MAX_PATH.'/var/'.$host.'.test.demo.conf.php');
-        @unlink(MAX_PATH.'/var/test.real.conf.php');
+        @unlink(MAX_PATH . '/var/' . $host . '.test.demo.conf.php');
+        @unlink(MAX_PATH . '/var/test.real.conf.php');
     }
 
     /**
@@ -63,34 +62,29 @@ class Test_OA_ConfParse extends UnitTestCase
      * note: parse_ini_file() will break array on double quote
      *
      */
-    function test_iniFile()
+    public function test_iniFile()
     {
         $min = 32;
         $max = 126;
-        for ($i=$min;$i<=$max;$i++)
-        {
+        for ($i = $min;$i <= $max;$i++) {
             if ($i == 34 || $i == 36) {
                 // '"' (any version) and '$' (5.3) break the test
                 continue;
             }
-            $aIni = array();
-            $aIni['test1'][$i] = 'test'.chr($i);
-            $aIni['test2'][$i] = chr($i).'test';
-            $aIni['test3'][$i] = 'te'.chr($i).'st';
-            $ini = MAX_PATH.'/var/test_'.$i.'.ini';
+            $aIni = [];
+            $aIni['test1'][$i] = 'test' . chr($i);
+            $aIni['test2'][$i] = chr($i) . 'test';
+            $aIni['test3'][$i] = 'te' . chr($i) . 'st';
+            $ini = MAX_PATH . '/var/test_' . $i . '.ini';
             $oConfig = new Config();
             $oConfig->parseConfig($aIni, 'phpArray');
             $this->assertTrue($oConfig->writeConfig($ini, 'IniCommented'));
 
             $aResult = @parse_ini_file($ini, true);
-            $this->assertEqual($aResult['test1'][$i], $aIni['test1'][$i], 'ERROR:'.$i);
-            $this->assertEqual($aResult['test2'][$i], $aIni['test2'][$i], 'ERROR:'.$i);
-            $this->assertEqual($aResult['test3'][$i], $aIni['test3'][$i], 'ERROR:'.$i);
+            $this->assertEqual($aResult['test1'][$i], $aIni['test1'][$i], 'ERROR:' . $i);
+            $this->assertEqual($aResult['test2'][$i], $aIni['test2'][$i], 'ERROR:' . $i);
+            $this->assertEqual($aResult['test3'][$i], $aIni['test3'][$i], 'ERROR:' . $i);
             @unlink($ini);
         }
     }
-
-
 }
-
-?>

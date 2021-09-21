@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Admin_DaySpan extends UnitTestCase
 {
-
     /**
      * A method to test the set/get methods:
      *  - setSpanDays()
@@ -30,12 +29,12 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
      *  - getStartDateString()
      *  - getEndDateString()
      */
-    function testSetAndGet()
+    public function testSetAndGet()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
         $oTestStartDate = new Date('1987-04-12 15:10:11');
-        $oTestEndDate   = new Date('2004-10-12 23:59:58');
+        $oTestEndDate = new Date('2004-10-12 23:59:58');
 
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
 
@@ -65,7 +64,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
     /**
      * A method to test the getBeginOfWeek() method.
      */
-    function testGetBeginOfWeek()
+    public function testGetBeginOfWeek()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -86,7 +85,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "today".
      */
-    function test_getSpanDatesToday()
+    public function test_getSpanDatesToday()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -94,20 +93,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('today');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-09');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-09');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-09');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('today');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-10');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-10');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-10');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "yesterday".
      */
-    function test_getSpanDatesYesterday()
+    public function test_getSpanDatesYesterday()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -115,20 +114,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('yesterday');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-08');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-08');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-08');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('yesterday');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-09');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-09');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-09');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "this_week".
      */
-    function test_getSpanDatesThisWeek()
+    public function test_getSpanDatesThisWeek()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -139,27 +138,27 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-06');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-09'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-09'); // Only shows to today, not real "end of week".
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-06');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-10'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-10'); // Only shows to today, not real "end of week".
 
         // Special test on a Sunday!
         $oDaySpan->oNowDate = new Date('2007-05-06');
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-06');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-06'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-06'); // Only shows to today, not real "end of week".
 
         // Special test on a Monday!
         $oDaySpan->oNowDate = new Date('2007-05-07');
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-06');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-07'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-07'); // Only shows to today, not real "end of week".
 
         // Test with start of week on Monday
         $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 1;
@@ -168,34 +167,34 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-07');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-09'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-09'); // Only shows to today, not real "end of week".
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-07');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-10'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-10'); // Only shows to today, not real "end of week".
 
         // Special test on a Sunday!
         $oDaySpan->oNowDate = new Date('2007-05-06');
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-30');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-06'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-06'); // Only shows to today, not real "end of week".
 
         // Special test on a Monday!
         $oDaySpan->oNowDate = new Date('2007-05-07');
 
         $aDates = $oDaySpan->_getSpanDates('this_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-07');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-07'); // Only shows to today, not real "end of week".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-07'); // Only shows to today, not real "end of week".
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "last_week".
      */
-    function test_getSpanDatesLastWeek()
+    public function test_getSpanDatesLastWeek()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -206,27 +205,27 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-29');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-05');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-05');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-29');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-05');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-05');
 
         // Special test on a Sunday!
         $oDaySpan->oNowDate = new Date('2007-05-06');
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-29');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-05');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-05');
 
         // Special test on a Monday!
         $oDaySpan->oNowDate = new Date('2007-05-07');
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-29');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-05');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-05');
 
         // Test with start of week on Monday
         $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 1;
@@ -235,34 +234,34 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-30');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-06');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-06');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-30');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-06');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-06');
 
         // Special test on a Sunday!
         $oDaySpan->oNowDate = new Date('2007-05-06');
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-23');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-04-29');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-04-29');
 
         // Special test on a Monday!
         $oDaySpan->oNowDate = new Date('2007-05-07');
 
         $aDates = $oDaySpan->_getSpanDates('last_week');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-30');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-06');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-06');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "last_7_days".
      */
-    function test_getSpanDatesLast7Days()
+    public function test_getSpanDatesLast7Days()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -270,20 +269,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('last_7_days');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-02');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-08');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-08');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('last_7_days');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-03');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-09');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-09');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "this_month".
      */
-    function test_getSpanDatesThisMonth()
+    public function test_getSpanDatesThisMonth()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -291,20 +290,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('this_month');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-09');  // Only shows to today, not real "end of month".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-09');  // Only shows to today, not real "end of month".
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('this_month');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-10');  // Only shows to today, not real "end of month".
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-10');  // Only shows to today, not real "end of month".
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "this_month_full".
      */
-    function test_getSpanDatesThisMonthFull()
+    public function test_getSpanDatesThisMonthFull()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -312,20 +311,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('this_month_full');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-31');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-31');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('this_month_full');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-31');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-31');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "this_month_remainder".
      */
-    function test_getSpanDatesThisMonthRemainder()
+    public function test_getSpanDatesThisMonthRemainder()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -333,20 +332,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('this_month_remainder');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-09'); // Only shows from today, not real "start of month".
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-31');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-31');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('this_month_remainder');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-05-10'); // Only shows from today, not real "start of month".
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-31');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-05-31');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "next_month".
      */
-    function test_getSpanDatesNextMonth()
+    public function test_getSpanDatesNextMonth()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -354,20 +353,20 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('next_month');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-06-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-06-30');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-06-30');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('next_month');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-06-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-06-30');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-06-30');
     }
 
     /**
      * A method to test the dates returned by the _getSpanDates()
      * method when used with the 'friendly' preset "last_month".
      */
-    function test_getSpanDatesLastMonth()
+    public function test_getSpanDatesLastMonth()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -375,19 +374,19 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $aDates = $oDaySpan->_getSpanDates('last_month');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-04-30');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-04-30');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $aDates = $oDaySpan->_getSpanDates('last_month');
         $this->assertEqual($aDates['start']->format('%Y-%m-%d'), '2007-04-01');
-        $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-04-30');
+        $this->assertEqual($aDates['end']->format('%Y-%m-%d'), '2007-04-30');
     }
 
     /**
      * A method to test the setSpanPresetValue() method.
      */
-    function testSetSpanPresetValue()
+    public function testSetSpanPresetValue()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -395,19 +394,19 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
 
         $oDaySpan->setSpanPresetValue('today');
         $this->assertEqual($oDaySpan->getStartDateString(), '2007-05-09');
-        $this->assertEqual($oDaySpan->getEndDateString(),   '2007-05-09');
+        $this->assertEqual($oDaySpan->getEndDateString(), '2007-05-09');
 
         $oDaySpan->oNowDate = new Date('2007-05-10');
 
         $oDaySpan->setSpanPresetValue('today');
         $this->assertEqual($oDaySpan->getStartDateString(), '2007-05-10');
-        $this->assertEqual($oDaySpan->getEndDateString(),   '2007-05-10');
+        $this->assertEqual($oDaySpan->getEndDateString(), '2007-05-10');
     }
 
     /**
      * A method to test the getPreset() method.
      */
-    function testGetPreset()
+    public function testGetPreset()
     {
         // Test with no dates set
         $oDaySpan = new OA_Admin_DaySpan();
@@ -426,7 +425,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         // Test with specific range
         $oDaySpan = new OA_Admin_DaySpan();
         $oTestStartDate = new Date('1987-04-12 15:10:11');
-        $oTestEndDate   = new Date('2004-10-12 23:59:59');
+        $oTestEndDate = new Date('2004-10-12 23:59:59');
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
         $result = $oDaySpan->getPreset();
         $this->assertEqual($result, 'specific');
@@ -435,7 +434,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
     /**
      * A method to test the the getDaysInSpan() method.
      */
-    function testGetDaysInSpan()
+    public function testGetDaysInSpan()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
@@ -444,12 +443,12 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $this->assertEqual($oDaySpan->getDaysInSpan(), 1);
 
         $oTestStartDate = new Date('1999-12-31 12:34:56');
-        $oTestEndDate   = new Date('2000-01-01 12:43:32');
+        $oTestEndDate = new Date('2000-01-01 12:43:32');
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
         $this->assertEqual($oDaySpan->getDaysInSpan(), 2);
 
         $oTestStartDate = new Date('1999-12-31 12:34:56');
-        $oTestEndDate   = new Date('2000-03-01 12:43:32');
+        $oTestEndDate = new Date('2000-03-01 12:43:32');
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
         $this->assertEqual($oDaySpan->getDaysInSpan(), 1 + 31 + 29 + 1); // 31st of Dec + All of Jan + All of Feb (leap year!) + 1st of Mar
     }
@@ -457,19 +456,19 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
     /**
      * A method to test the getDayArray() method.
      */
-    function testGetDayArray()
+    public function testGetDayArray()
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
-        $oTestStartDate  = new Date('2006-09-26');
-        $oTestEndDate    = new Date('2006-09-26');
-        $aExpectedResult = array('2006-09-26');
+        $oTestStartDate = new Date('2006-09-26');
+        $oTestEndDate = new Date('2006-09-26');
+        $aExpectedResult = ['2006-09-26'];
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
         $this->assertEqual($oDaySpan->getDayArray(), $aExpectedResult);
 
-        $oTestStartDate  = new Date('2006-09-26');
-        $oTestEndDate    = new Date('2006-10-03');
-        $aExpectedResult = array(
+        $oTestStartDate = new Date('2006-09-26');
+        $oTestEndDate = new Date('2006-10-03');
+        $aExpectedResult = [
             '2006-09-26',
             '2006-09-27',
             '2006-09-28',
@@ -478,11 +477,8 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
             '2006-10-01',
             '2006-10-02',
             '2006-10-03'
-        );
+        ];
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
         $this->assertEqual($oDaySpan->getDayArray(), $aExpectedResult);
     }
-
 }
-
-?>

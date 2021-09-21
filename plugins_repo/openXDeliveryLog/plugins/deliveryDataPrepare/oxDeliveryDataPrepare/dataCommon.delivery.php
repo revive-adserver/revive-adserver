@@ -29,7 +29,7 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zon
 {
     // Always update creative and zone IDs using the ones from the parameters
     $GLOBALS['_MAX']['deliveryData']['creative_id'] = (int)$adId;
-    $GLOBALS['_MAX']['deliveryData']['zone_id']     = (int)$zoneId;
+    $GLOBALS['_MAX']['deliveryData']['zone_id'] = (int)$zoneId;
 
     // Prevent the function from running twice
     if (!empty($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon'])) {
@@ -62,5 +62,3 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon_Delivery_lo
 {
     Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zoneId);
 }
-
-?>

@@ -35,19 +35,19 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 if ($agencyid != '') {
     addPageTools($agencyid);
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
-    	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-        MAX_displayInventoryBreadcrumbs(array(array("name" => $doAgency->name)), "agency");
-    	phpAds_PageHeader("4.1.3");
-    	phpAds_ShowSections(array("4.1.2", "4.1.3"));
+        OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
+        MAX_displayInventoryBreadcrumbs([["name" => $doAgency->name]], "agency");
+        phpAds_PageHeader("4.1.3");
+        phpAds_ShowSections(["4.1.2", "4.1.3"]);
     } else {
         phpAds_PageHeader('4.4');
-        phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
+        phpAds_ShowSections(["4.1", "4.2", "4.3", "4.4"]);
     }
 } else {
-	MAX_displayInventoryBreadcrumbs(array(array("name" => phpAds_getClientName($agencyid))), "agency");
-	phpAds_PageHeader("4.1.1");
-	phpAds_ShowSections(array("4.1.1"));
+    MAX_displayInventoryBreadcrumbs([["name" => phpAds_getClientName($agencyid)]], "agency");
+    phpAds_PageHeader("4.1.1");
+    phpAds_ShowSections(["4.1.1"]);
 }
 $tabindex = 1;
 
@@ -72,7 +72,7 @@ $oTpl->assign('editPage', 'agency-user.php');
 $oTpl->assign('unlinkPage', 'agency-user-unlink.php');
 
 $doUsers = OA_Dal::factoryDO('users');
-$oTpl->assign('users', array('aUsers' => $doUsers->getAccountUsersByEntity('agency', $agencyid)));
+$oTpl->assign('users', ['aUsers' => $doUsers->getAccountUsersByEntity('agency', $agencyid)]);
 $oTpl->display();
 
 /*-------------------------------------------------------*/
@@ -83,8 +83,5 @@ phpAds_PageFooter();
 
 function addPageTools($agencyId)
 {
-    addPageLinkTool($GLOBALS["strLinkUser_Key"], "agency-user-start.php?agencyid={$agencyId}", "iconAdvertiserAdd", $GLOBALS["strAddNew"] );
+    addPageLinkTool($GLOBALS["strLinkUser_Key"], "agency-user-start.php?agencyid={$agencyId}", "iconAdvertiserAdd", $GLOBALS["strAddNew"]);
 }
-
-
-?>

@@ -25,9 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's user agent passes this limitation's test.
  */
-function MAX_checkClient_Useragent($limitation, $op, $aParams = array())
+function MAX_checkClient_Useragent($limitation, $op, $aParams = [])
 {
     return MAX_limitationsMatchString('ua', $limitation, $op, $aParams);
 }
-
-?>

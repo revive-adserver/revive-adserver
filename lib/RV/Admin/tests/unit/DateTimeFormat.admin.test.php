@@ -20,8 +20,7 @@ require_once MAX_PATH . '/lib/RV/Admin/DateTimeFormat.php';
  */
 class Test_RV_Admin_DateTimeFormat extends UnitTestCase
 {
-
-    function testFormatUTCDateTime()
+    public function testFormatUTCDateTime()
     {
         // Create a UTC date/time string
         $sDateTime = '2017-09-06 00:00:00';
@@ -46,7 +45,7 @@ class Test_RV_Admin_DateTimeFormat extends UnitTestCase
         $this->assertEqual($sFormattedDateTime, $sExpectedDateTime);
     }
 
-    function testFormatUTCDate()
+    public function testFormatUTCDate()
     {
         // Create a UTC date/time string
         $sDateTime = '2017-09-06 00:00:00';
@@ -67,7 +66,7 @@ class Test_RV_Admin_DateTimeFormat extends UnitTestCase
         $this->assertEqual($sFormattedDate, $sExpectedDate);
     }
 
-    function testFormatUTCTime()
+    public function testFormatUTCTime()
     {
         // Create a UTC date/time string
         $sDateTime = '2017-09-06 00:00:00';
@@ -87,7 +86,4 @@ class Test_RV_Admin_DateTimeFormat extends UnitTestCase
         $sExpectedTime = '00::09::30';
         $this->assertEqual($sFormattedTime, $sExpectedTime);
     }
-
 }
-
-?>

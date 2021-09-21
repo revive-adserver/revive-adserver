@@ -15,8 +15,7 @@ require_once 'HTML/QuickForm/Rule.php';
 /**
  * Unique elements validation
  */
-class OA_Admin_UI_Rule_Unique 
-    extends HTML_QuickForm_Rule
+class OA_Admin_UI_Rule_Unique extends HTML_QuickForm_Rule
 {
     /**
      * Checks if an element value is unique
@@ -26,17 +25,15 @@ class OA_Admin_UI_Rule_Unique
      * @access    public
      * @return    boolean   true if value is not in the list of otherValues
      */
-    function validate($value, $options = null)
+    public function validate($value, $options = null)
     {
         return !in_array($value, $options ?? []);
-    } 
+    }
 
 
-    function getValidationScript($options = null)
+    public function getValidationScript($options = null)
     {
         //return array('', "{jsVar} == ''");
-        return array('', ""); //return nothing, we use JQuery validate anyway
-    } 
-
-} 
-?>
+        return ['', ""]; //return nothing, we use JQuery validate anyway
+    }
+}

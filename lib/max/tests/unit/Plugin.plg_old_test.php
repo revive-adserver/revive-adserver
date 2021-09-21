@@ -20,14 +20,14 @@ require_once LIB_PATH . '/Plugin/Component.php';
  * compare the errors doesn't work, due to the trackback data
  * stored in PEAR_Error objects.
  */
-class TestErrorHandler {
-
+class TestErrorHandler
+{
     /**
      * A class variable for storing PEAR errors.
      *
      * @var array
      */
-    var $aErrors;
+    public $aErrors;
 
     /**
      * A method to "handle" errors. It simply stores the errors
@@ -36,7 +36,7 @@ class TestErrorHandler {
      * @param PEAR_Error $oError A PEAR_Error object.
      * @return void
      */
-    function handleErrors($oError)
+    public function handleErrors($oError)
     {
         $this->aErrors[] = $oError;
     }
@@ -46,11 +46,10 @@ class TestErrorHandler {
      *
      * @return void
      */
-    function reset()
+    public function reset()
     {
-        $this->aErrors = array();
+        $this->aErrors = [];
     }
-
 }
 
 /**
@@ -59,32 +58,33 @@ class TestErrorHandler {
  * @package    OpenXPlugin
  * @subpackage TestSuite
  */
-class TestOfMAX_Plugin extends UnitTestCase {
-
+class TestOfMAX_Plugin extends UnitTestCase
+{
     /**
      * The constructor method.
      *
      * @return TestOfMAX_Plugin
      */
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /**
      * A method to test the factory() method.
      */
-    function testFactory()
+    public function testFactory()
     {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, [&$oTestErrorHandler, 'handleErrors']);
         // Test basic creation of a non-existant plugin fails
         $result = MAX_Plugin::factory('foo', 'bar');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file '.MAX_PATH.'/plugins/foo/bar/bar'.MAX_PLUGINS_EXTENSION.'.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.'
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -93,7 +93,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file '.MAX_PATH.'/plugins/foo/bar/baz'.MAX_PLUGINS_EXTENSION.'.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/baz' . MAX_PLUGINS_EXTENSION . '.'
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -112,18 +112,18 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the _includePluginFile() method.
      */
-    function test_includePluginFile()
+    public function test_includePluginFile()
     {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, [&$oTestErrorHandler, 'handleErrors']);
         // Test basic case where plugin file does not exist
         $result = MAX_Plugin::_includePluginFile('foo', 'bar');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file '.MAX_PATH.'/plugins/foo/bar/bar'.MAX_PLUGINS_EXTENSION.'.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.'
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -132,7 +132,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file '.MAX_PATH.'/plugins/foo/bar/baz'.MAX_PLUGINS_EXTENSION.'.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/baz' . MAX_PLUGINS_EXTENSION . '.'
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -154,7 +154,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the _getPluginClassName() method.
      */
-    function test_getPluginClassName()
+    public function test_getPluginClassName()
     {
         // Test basic case
         $result = MAX_Plugin::_getPluginClassName('foo', 'bar');
@@ -167,7 +167,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the getPlugins() method.
      */
-    function testGetPlugins()
+    public function testGetPlugins()
     {
         // Test on a non-existant plugin module
         $result = MAX_Plugin::getPlugins('foo');
@@ -219,7 +219,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the _getPluginsFiles() method.
      */
-    function test_getPluginsFiles()
+    public function test_getPluginsFiles()
     {
         // Test on a non-existant plugin module
         $result = MAX_Plugin::_getPluginsFiles('foo');
@@ -245,7 +245,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the _getPluginsFilesFromDirectory() method.
      */
-    function test_getPluginsFilesFromDirectory()
+    public function test_getPluginsFilesFromDirectory()
     {
         // Test on a non-existant directory
         $result = MAX_Plugin::_getPluginsFilesFromDirectory(MAX_PATH . '/thisDoesNotExist');
@@ -267,25 +267,25 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($result), 5);
         $this->assertEqual(
             $result['standard:advertisingAnalysisReport'],
-            MAX_PATH.'/plugins/reports/standard/advertisingAnalysisReport'.MAX_PLUGINS_EXTENSION
+            MAX_PATH . '/plugins/reports/standard/advertisingAnalysisReport' . MAX_PLUGINS_EXTENSION
         );
     }
 
     /**
      * A method to test the callStaticMethod() method.
      */
-    function testCallStaticMethod()
+    public function testCallStaticMethod()
     {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, [&$oTestErrorHandler, 'handleErrors']);
         // Test with a bad module/package
         $return = MAX_Plugin::callStaticMethod('foo', 'bar', null, 'foo');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file '.MAX_PATH.'/plugins/foo/bar/bar'.MAX_PLUGINS_EXTENSION.'.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.'
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -294,7 +294,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, [&$oTestErrorHandler, 'handleErrors']);
         // Test with a bad method
         $return = MAX_Plugin::callStaticMethod('reports', 'standard', 'advertisingAnalysisReport', 'foo');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
@@ -328,12 +328,12 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @TODO Deal with class name case changes.
      */
-    function testCallOnPlugins()
+    public function testCallOnPlugins()
     {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, [&$oTestErrorHandler, 'handleErrors']);
         // Test with a non-array parameter for the plugins
         $aPlugins = 'bar';
         $result = MAX_Plugin::callOnPlugins($aPlugins, 'foo');
@@ -345,7 +345,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
         // Test with an array of non-plugins
-        $aPlugins = array('bar');
+        $aPlugins = ['bar'];
         $result = MAX_Plugin::callOnPlugins($aPlugins, 'foo');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
@@ -379,7 +379,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
             }
         }
         // Test with a real method, with parameters
-        $result = MAX_Plugin::callOnPlugins($aPlugins, 'useReportWriter', array('foo'));
+        $result = MAX_Plugin::callOnPlugins($aPlugins, 'useReportWriter', ['foo']);
         foreach ($aPlugins as $key => $oPlugin) {
             $this->assertNull($result[$key]);
         }
@@ -390,9 +390,8 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @TODO To be written.
      */
-    function testFactoryPluginByModuleConfig()
+    public function testFactoryPluginByModuleConfig()
     {
-
     }
 
     /**
@@ -400,45 +399,44 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @TODO To be written.
      */
-    function testGetConfig()
+    public function testGetConfig()
     {
-
     }
 
     /**
      * A method to test the getConfigFileName() method.
      */
-    function testGetConfigFileName()
+    public function testGetConfigFileName()
     {
         // Test getting the default config file name by module
         $result = MAX_Plugin::getConfigFileName('foo', null, null, true, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/plugins/foo/fake.host.name.plugin.conf.php');
+        $this->assertEqual($result, MAX_PATH . '/plugins/foo/fake.host.name.plugin.conf.php');
         // Test getting the default config file name by module and package
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', null, true, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/plugins/foo/bar/fake.host.name.plugin.conf.php');
+        $this->assertEqual($result, MAX_PATH . '/plugins/foo/bar/fake.host.name.plugin.conf.php');
         // Test getting the default config file name by module, package and plugin
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', 'baz', true, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/plugins/foo/bar/baz.fake.host.name.plugin.conf.php');
+        $this->assertEqual($result, MAX_PATH . '/plugins/foo/bar/baz.fake.host.name.plugin.conf.php');
         // Test getting the real config file name by module
         $result = MAX_Plugin::getConfigFileName('foo', null, null, false, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/fake.host.name.plugin.conf.php');
+        $this->assertEqual($result, MAX_PATH . '/var/plugins/config/foo/fake.host.name.plugin.conf.php');
         // Test getting the real config file name by module and package
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', null, false, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/bar/fake.host.name.plugin.conf.php');
+        $this->assertEqual($result, MAX_PATH . '/var/plugins/config/foo/bar/fake.host.name.plugin.conf.php');
         // Test getting the real config file name by module, package and plugin
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', 'baz', false, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/bar/baz.fake.host.name.plugin.conf.php');
+        $this->assertEqual($result, MAX_PATH . '/var/plugins/config/foo/bar/baz.fake.host.name.plugin.conf.php');
     }
 
     /**
      * A method to test the getConfigByFileName() method.
      */
-    function deprecated_testGetConfigByFileName()
+    public function deprecated_testGetConfigByFileName()
     {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, [&$oTestErrorHandler, 'handleErrors']);
         // Test a config file that does not exist
         $result = MAX_Plugin::getConfigByFileName('foo');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
@@ -471,9 +469,8 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @TODO To be written.
      */
-    function testCopyDefaultConfig()
+    public function testCopyDefaultConfig()
     {
-
     }
 
     /**
@@ -481,15 +478,14 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @TODO To be written.
      */
-    function testWritePluginConfig()
+    public function testWritePluginConfig()
     {
-
     }
 
     /**
      * A method to test the _mkDirRecursive() method.
      */
-    function test_mkDirRecursive()
+    public function test_mkDirRecursive()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Try to create a folder
@@ -502,7 +498,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the prepareCacheOptions() method.
      */
-    function testPrepareCacheOptions()
+    public function testPrepareCacheOptions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Set the error handling class' handleErrors() method as
@@ -529,7 +525,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
     /**
      * A method to test the saving, reading and clearing of cache data.
      */
-    function testCacheMethods()
+    public function testCacheMethods()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -537,7 +533,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $result = MAX_Plugin::getCacheForPluginById('foo', 'Maintenance', 'Fake');
         $this->assertFalse($result);
         // Test a simple write and read
-        $aData = array('foo', 'bar');
+        $aData = ['foo', 'bar'];
         $result = MAX_Plugin::saveCacheForPlugin($aData, 'foo', 'Maintenance', 'Fake');
         $this->assertTrue($result);
         $result = MAX_Plugin::getCacheForPluginById('foo', 'Maintenance', 'Fake');
@@ -570,32 +566,30 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @param string $dirName The directory to delete.
      */
-    function _delDir($dirName) {
-       if (empty($dirName)) {
-           return true;
-       }
-       if (substr($dirName, 0, strlen(MAX_PATH)) != MAX_PATH) {
-           $dirName = MAX_PATH . $dirName;
-       }
-       if (file_exists($dirName)) {
-           $dir = dir($dirName);
-           while ($file = $dir->read()) {
-               if ($file != '.' && $file != '..') {
-                   if (is_dir($dirName.'/'.$file)) {
-                       $this->_delDir($dirName.'/'.$file);
-                   } else {
-                       @unlink($dirName.'/'.$file) or die('File '.$dirName.'/'.$file.' couldn\'t be deleted, check permissions.');
-                   }
-               }
-           }
-           $dir->close();
-           @rmdir($dirName) or die('Folder '.$dirName.' couldn\'t be deleted, check permissions.');
-       } else {
-           return false;
-       }
-       return true;
+    public function _delDir($dirName)
+    {
+        if (empty($dirName)) {
+            return true;
+        }
+        if (substr($dirName, 0, strlen(MAX_PATH)) != MAX_PATH) {
+            $dirName = MAX_PATH . $dirName;
+        }
+        if (file_exists($dirName)) {
+            $dir = dir($dirName);
+            while ($file = $dir->read()) {
+                if ($file != '.' && $file != '..') {
+                    if (is_dir($dirName . '/' . $file)) {
+                        $this->_delDir($dirName . '/' . $file);
+                    } else {
+                        @unlink($dirName . '/' . $file) or die('File ' . $dirName . '/' . $file . ' couldn\'t be deleted, check permissions.');
+                    }
+                }
+            }
+            $dir->close();
+            @rmdir($dirName) or die('Folder ' . $dirName . ' couldn\'t be deleted, check permissions.');
+        } else {
+            return false;
+        }
+        return true;
     }
-
 }
-
-?>

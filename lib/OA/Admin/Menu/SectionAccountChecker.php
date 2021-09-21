@@ -17,43 +17,41 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php');
  * - if the list of allowed accounts associated with the acceptor is empty, section gets accepted
  * - if the list is not empty current user must be of one of the account types required by this acceptor
  */
-class OA_Admin_SectionAccountChecker
-    implements OA_Admin_Menu_IChecker 
+class OA_Admin_SectionAccountChecker implements OA_Admin_Menu_IChecker
 {
-    var $aAccountTypes; //list of account types accepted by this acceptor
+    public $aAccountTypes; //list of account types accepted by this acceptor
 
-    function __construct($aAccountTypes = array())
+    public function __construct($aAccountTypes = [])
     {
         if (!is_array($aAccountTypes)) {
-            $aAccountTypes = array($aAccountTypes);
+            $aAccountTypes = [$aAccountTypes];
         }
         $this->aAccountTypes = $aAccountTypes;
     }
 
 
-    function check($oSection)
+    public function check($oSection)
     {
         $aAccounts = $this->_getAllowedAccountTypes();
 
-  	    //no required accounts to show it
-  	    if (empty($aAccounts)) {
-  		    return true;
-  	    }
+        //no required accounts to show it
+        if (empty($aAccounts)) {
+            return true;
+        }
         $isAllowedAccount = false;
-	  	for ($i = 0; $i < count($aAccounts); $i++) {
-	       $isAllowedAccount = OA_Permission::isAccount($aAccounts[$i]);
-	       if ($isAllowedAccount) {
-	           break;
-	       }
-	  	}
+        foreach ($aAccounts as $i => $aAccount) {
+            $isAllowedAccount = OA_Permission::isAccount($aAccount);
+            if ($isAllowedAccount) {
+                break;
+            }
+        }
 
         return $isAllowedAccount;
     }
 
 
-    function _getAllowedAccountTypes()
+    public function _getAllowedAccountTypes()
     {
         return $this->aAccountTypes;
     }
 }
-?>

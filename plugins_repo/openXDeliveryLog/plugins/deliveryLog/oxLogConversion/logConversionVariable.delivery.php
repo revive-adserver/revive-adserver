@@ -26,27 +26,29 @@ MAX_Dal_Delivery_Include();
  * @param string $serverRawIp The associated server identifier for these values.
  * @return bool True on success, false on failuer.
  */
-function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logConversionVariable($aVariables, $trackerId, $serverConvId, $serverRawIp, $okToLog=true)
+function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logConversionVariable($aVariables, $trackerId, $serverConvId, $serverRawIp, $okToLog = true)
 {
-    if (!$okToLog) { return false; }
-    // Initiate the connection to the database (before using mysql_real_escape_string) 
- 	OA_Dal_Delivery_connect('rawDatabase');
- 	
- 	$table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a_var';
+    if (!$okToLog) {
+        return false;
+    }
+    // Initiate the connection to the database (before using mysql_real_escape_string)
+    OA_Dal_Delivery_connect('rawDatabase');
+    
+    $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a_var';
 
     if (empty($GLOBALS['_MAX']['NOW'])) {
         $GLOBALS['_MAX']['NOW'] = time();
     }
     $time = $GLOBALS['_MAX']['NOW'];
 
-    $aRows = array();
+    $aRows = [];
     foreach ($aVariables as $aVariable) {
         $aRows[] = "(
-                        '".OX_escapeString($serverConvId)."',
-                        '".OX_escapeString($serverRawIp)."',
+                        '" . OX_escapeString($serverConvId) . "',
+                        '" . OX_escapeString($serverRawIp) . "',
                         '{$aVariable['variable_id']}',
-                        '".OX_escapeString($aVariable['value'])."',
-                        '".gmdate('Y-m-d H:i:s', $time)."'
+                        '" . OX_escapeString($aVariable['value']) . "',
+                        '" . gmdate('Y-m-d H:i:s', $time) . "'
                     )";
     }
     if (empty($aRows)) {
@@ -66,5 +68,3 @@ function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logCo
 
     return OA_Dal_Delivery_query($query, 'rawDatabase');
 }
-
-?>

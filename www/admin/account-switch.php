@@ -57,5 +57,3 @@ OA_Admin_UI_AccountSwitch::addToRecentlyUsedAccounts($account_id);
 // Re-direct...
 header('Location: ' . $return_url);
 exit;
-
-?>

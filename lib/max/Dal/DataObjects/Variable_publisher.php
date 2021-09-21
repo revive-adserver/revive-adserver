@@ -26,9 +26,12 @@ class DataObjects_Variable_publisher extends DB_DataObjectCommon
     public $visible;                         // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Variable_publisher',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Variable_publisher', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'visible' => 0,
     ];
 
@@ -40,9 +43,8 @@ class DataObjects_Variable_publisher extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 }
-
-?>

@@ -22,10 +22,9 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_DeliveryLimitations_ResourceData extends Plugins_DeliveryLimitations_ArrayData
 {
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         $this->setAValues(array_keys($this->res));
     }
 }
-?>

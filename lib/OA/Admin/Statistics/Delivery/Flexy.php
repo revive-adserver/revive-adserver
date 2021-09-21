@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  */
 class OA_Admin_Statistics_Delivery_Flexy extends OA_Admin_Statistics_Common
 {
-
     /**
      * A Flexy helper method to inspect an entity array and the
      * current $this->aColumnLinks array, and determine if an
@@ -36,14 +35,11 @@ class OA_Admin_Statistics_Delivery_Flexy extends OA_Admin_Statistics_Common
      * @return string The link associated with the entity/column,
      *                if applicable.
      */
-    function showColumnLink($aEntity, $column)
+    public function showColumnLink($aEntity, $column)
     {
         if (empty($this->aColumnLinks[$column]) || empty($aEntity['linkparams'])) {
             return '';
         }
         return $this->aColumnLinks[$column];
     }
-
 }
-
-?>

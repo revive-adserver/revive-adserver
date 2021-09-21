@@ -23,7 +23,7 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oNow = new Date('2008-04-01 12:30:00');
@@ -37,7 +37,7 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
      *
      * @return OA_Maintenance_Status
      */
-    function &getInstance()
+    public function &getInstance()
     {
         $oMaintStatus = new OA_Maintenance_Status();
         return $oMaintStatus;
@@ -50,7 +50,7 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
      * @param int $subtractSeconds
      * @return Date
      */
-    function &getDate($subtractSeconds = 0)
+    public function &getDate($subtractSeconds = 0)
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
         $oNow = new Date($oServiceLocator->get('now'));
@@ -66,7 +66,7 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
      * @param Date $oScheduledDate
      * @param Date $oDate
      */
-    function setVariables($oScheduledDate, $oDate)
+    public function setVariables($oScheduledDate, $oDate)
     {
         if (isset($oScheduledDate)) {
             OA_Dal_ApplicationVariables::set('maintenance_cron_timestamp', $oScheduledDate->getDate(DATE_FORMAT_UNIXTIME));
@@ -86,18 +86,24 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
      * @param bool $isScheduledMaintenanceRunning
      * @param bool $isAutoMaintenanceRunning
      */
-    function check($isScheduledMaintenanceRunning, $isAutoMaintenanceRunning)
+    public function check($isScheduledMaintenanceRunning, $isAutoMaintenanceRunning)
     {
         $aBt = debug_backtrace();
 
         $oMaintStatus = $this->getInstance();
-        $this->assertEqual($oMaintStatus->isScheduledMaintenanceRunning, (bool)$isScheduledMaintenanceRunning,
-            ($isScheduledMaintenanceRunning ? 'True' : 'False')." was expected for scheduled mainteanance on line {$aBt[0]['line']}");
-        $this->assertEqual($oMaintStatus->isAutoMaintenanceRunning, (bool)$isAutoMaintenanceRunning,
-            ($isAutoMaintenanceRunning ? 'True' : 'False')." was expected for automatic mainteanance on line {$aBt[0]['line']}");
+        $this->assertEqual(
+            $oMaintStatus->isScheduledMaintenanceRunning,
+            (bool)$isScheduledMaintenanceRunning,
+            ($isScheduledMaintenanceRunning ? 'True' : 'False') . " was expected for scheduled mainteanance on line {$aBt[0]['line']}"
+        );
+        $this->assertEqual(
+            $oMaintStatus->isAutoMaintenanceRunning,
+            (bool)$isAutoMaintenanceRunning,
+            ($isAutoMaintenanceRunning ? 'True' : 'False') . " was expected for automatic mainteanance on line {$aBt[0]['line']}"
+        );
     }
 
-    function testAutoEnabled()
+    public function testAutoEnabled()
     {
         $GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance'] = false;
         $oMaintStatus = $this->getInstance();
@@ -108,7 +114,7 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
         $this->assertTrue($oMaintStatus->isAutoMaintenanceEnabled);
     }
 
-    function testConstructor()
+    public function testConstructor()
     {
         $this->setVariables(null, null);
         $this->check(false, false);
@@ -170,5 +176,3 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
         $this->check(true, false);
     }
 }
-
-?>

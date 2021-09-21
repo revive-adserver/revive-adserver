@@ -17,7 +17,7 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Session extends DB_DataObjectCommon
 {
-    var $dalModelName = 'Session';
+    public $dalModelName = 'Session';
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -28,9 +28,12 @@ class DataObjects_Session extends DB_DataObjectCommon
     public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Session',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Session', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'sessionid' => '',
         'sessiondata' => '',
     ];
@@ -43,8 +46,9 @@ class DataObjects_Session extends DB_DataObjectCommon
      *
      * @return array
      */
-    function sequenceKey() {
-        return array(false, false, false);
+    public function sequenceKey()
+    {
+        return [false, false, false];
     }
 
 
@@ -53,10 +57,8 @@ class DataObjects_Session extends DB_DataObjectCommon
      * This method is called on insert() and update().
      *
      */
-    function _refreshUpdated()
+    public function _refreshUpdated()
     {
         $this->lastused = OA::getNowUTC();
     }
 }
-
-?>

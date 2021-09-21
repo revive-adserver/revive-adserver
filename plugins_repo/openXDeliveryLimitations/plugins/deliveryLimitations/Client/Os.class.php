@@ -31,13 +31,13 @@ use Sinergi\BrowserDetector\Os;
  */
 class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Client - Operating system (Deprecated)';
     }
 
-    function init($data)
+    public function init($data)
     {
         parent::init($data);
         $this->setAValues(array_keys($this->res));
@@ -48,20 +48,25 @@ class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_
      *
      * @return void
      */
-    function displayArrayData()
+    public function displayArrayData()
     {
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
 
-		echo "<table cellpadding='3' cellspacing='3'>";
-		foreach ($this->res as $key => $value) {
+        echo "<table cellpadding='3' cellspacing='3'>";
+        foreach ($this->res as $key => $value) {
             $value = htmlspecialchars($value, ENT_QUOTES);
-            if ($i % 4 == 0) echo "<tr>";
-			echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$key'".(in_array($key, $this->data) ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>".$value."</td>";
-			if (($i + 1) % 4 == 0) echo "</tr>";
-			$i++;
-		}
-		if (($i + 1) % 4 != 0) echo "</tr>";
-		echo "</table>";
+            if ($i % 4 == 0) {
+                echo "<tr>";
+            }
+            echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$key'" . (in_array($key, $this->data) ? ' checked="checked"' : '') . " tabindex='" . ($tabindex++) . "'>" . $value . "</td>";
+            if (($i + 1) % 4 == 0) {
+                echo "</tr>";
+            }
+            $i++;
+        }
+        if (($i + 1) % 4 != 0) {
+            echo "</tr>";
+        }
+        echo "</table>";
     }
-
 }

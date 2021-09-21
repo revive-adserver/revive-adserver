@@ -31,7 +31,7 @@ $GLOBALS['strAuditResultsNotFound'] = "Seçilen kriterlere uyan etkinlik bulunam
 $GLOBALS['strCollectedAllEvents'] = "Tüm etkinlikler";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "{id} kampanyası etkinleştirildi";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Veritabanını otomatik temizle";

@@ -30,7 +30,7 @@ class Plugins_DeliveryLimitations_Geo_ConnectionType extends Plugins_DeliveryLim
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - Connection Type';
@@ -41,7 +41,7 @@ class Plugins_DeliveryLimitations_Geo_ConnectionType extends Plugins_DeliveryLim
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return $this->hasCapability('connection_type');
     }
@@ -51,18 +51,21 @@ class Plugins_DeliveryLimitations_Geo_ConnectionType extends Plugins_DeliveryLim
      *
      * @return void
      */
-    function displayArrayData()
+    public function displayArrayData()
     {
-        $tabindex =& $GLOBALS['tabindex'];
+        $tabindex = &$GLOBALS['tabindex'];
         echo "<table width='300' cellpadding='0' cellspacing='0' border='0'>";
         $i = 0;
         foreach ($this->res as $value => $name) {
-            if ($i % 2 == 0) echo "<tr>";
-            echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$value'".(in_array($value, $this->data) ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;{$name}</td>";
-            if (($i + 1) % 2 == 0) echo "</tr>";
+            if ($i % 2 == 0) {
+                echo "<tr>";
+            }
+            echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$value'" . (in_array($value, $this->data) ? ' CHECKED' : '') . " tabindex='" . ($tabindex++) . "'>&nbsp;{$name}</td>";
+            if (($i + 1) % 2 == 0) {
+                echo "</tr>";
+            }
             $i++;
         }
-		echo "</table>";
+        echo "</table>";
     }
-
 }

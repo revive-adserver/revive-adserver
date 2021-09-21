@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
-
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
@@ -33,10 +32,10 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'advertiser';
+        $this->entity = 'advertiser';
         $this->breakdown = 'affiliate-history';
 
         // This page uses the day span selector element
@@ -50,15 +49,15 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
      *
      * @see OA_Admin_Statistics_Common::start()
      */
-    function start()
+    public function start()
     {
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
-        $publisherId  = $this->_getId('publisher');
+        $publisherId = $this->_getId('publisher');
 
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-        $this->_checkAccess(array('advertiser' => $advertiserId));
+        $this->_checkAccess(['advertiser' => $advertiserId]);
 
         // Cross-entity security check
         if (!empty($advertiserId)) {
@@ -69,10 +68,10 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         }
 
         // Add standard page parameters
-        $this->aPageParams = array(
-            'clientid'    => $advertiserId,
+        $this->aPageParams = [
+            'clientid' => $advertiserId,
             'affiliateid' => $publisherId
-        );
+        ];
 
         // Load the period preset and stats breakdown parameters
         $this->_loadPeriodPresetParam();
@@ -84,10 +83,10 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.1.3.1';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->pageId = '1.3.1';
-            $this->aPageSections = array($this->pageId);
+            $this->aPageSections = [$this->pageId];
         }
 
         // Add breadcrumbs
@@ -96,7 +95,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
 
         // Add context
         $params = $this->aPageParams;
-        foreach ($aPublishers as $k => $v){
+        foreach ($aPublishers as $k => $v) {
             $params['affiliateid'] = $k;
             phpAds_PageContext(
                 MAX_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
@@ -109,19 +108,16 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
-                'advertiser-edit.php?clientid='.$advertiserId,
+                'advertiser-edit.php?clientid=' . $advertiserId,
                 'iconAdvertiser'
             );
         }
 
         // Prepare the data for display by output() method
-        $aParams = array(
+        $aParams = [
             'advertiser_id' => $advertiserId,
-            'publisher_id'  => $publisherId
-        );
+            'publisher_id' => $publisherId
+        ];
         $this->prepare($aParams, 'stats.php');
     }
-
 }
-
-?>

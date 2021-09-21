@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's day passes this limitation's test.
  */
-function MAX_checkTime_Day($limitation, $op, $aParams = array())
+function MAX_checkTime_Day($limitation, $op, $aParams = [])
 {
     // Get timezone, if any
     $offset = strpos($limitation, '@');
@@ -35,9 +35,9 @@ function MAX_checkTime_Day($limitation, $op, $aParams = array())
     } else {
         $tz = false;
     }
-	if ($limitation == '') {
-		return true;
-	}
+    if ($limitation == '') {
+        return true;
+    }
     $timestamp = !empty($aParams['timestamp']) ? $aParams['timestamp'] : time();
     if ($tz && $tz != 'UTC') {
         OA_setTimeZone($tz);
@@ -46,7 +46,5 @@ function MAX_checkTime_Day($limitation, $op, $aParams = array())
     } else {
         $day = gmdate('w', $timestamp);
     }
-	return MAX_limitationsMatchArrayValue($day, $limitation, $op, $aParams);
+    return MAX_limitationsMatchArrayValue($day, $limitation, $op, $aParams);
 }
-
-?>

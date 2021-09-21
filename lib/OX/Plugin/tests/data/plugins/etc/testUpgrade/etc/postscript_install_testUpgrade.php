@@ -15,29 +15,25 @@ $className = 'OX_postscript_install_testPlugin';
 
 class OX_postscript_install_testPlugin
 {
-
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams=array())
+    public function execute($aParams = [])
     {
         return $this->defaultData();
     }
 
-    function defaultData()
+    public function defaultData()
     {
         $oManager = new OX_Plugin_ComponentGroupManager();
-        if (!array_key_exists('testPlugin', $GLOBALS['_MAX']['CONF']['pluginGroupComponents']))
-        {
+        if (!array_key_exists('testPlugin', $GLOBALS['_MAX']['CONF']['pluginGroupComponents'])) {
             $oManager->disableComponentGroup('testPlugin');
         }
         $this->oManager->enableComponentGroup('testPlugin');
 
         $oTestPluginTable = OA_Dal::factoryDO('testplugin_table');
-        if (!$oTestPluginTable)
-        {
+        if (!$oTestPluginTable) {
             OA::debug('Failed to instantiate DataObject for testplugin_table');
             return false;
         }
@@ -63,5 +59,4 @@ class OX_postscript_install_testPlugin
 
         return true;
     }
-
 }

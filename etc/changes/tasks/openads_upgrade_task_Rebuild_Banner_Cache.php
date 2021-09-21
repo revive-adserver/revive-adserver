@@ -14,10 +14,8 @@ require_once MAX_PATH . '/www/admin/lib-banner-cache.inc.php';
 //$oMessages initialized by runner OA_Upgrade::runPostUpgradeTask
 
 $oMessages->logInfo('Starting Banner Cache Recompilation');
-$upgradeTaskResult  = processBanners(true);
+$upgradeTaskResult = processBanners(true);
 if (PEAR::isError($upgradeTaskResult)) {
-    $oMessages->logError($upgradeTaskResult->getCode().': '.$upgradeTaskResult->getMessage());
+    $oMessages->logError($upgradeTaskResult->getCode() . ': ' . $upgradeTaskResult->getMessage());
 }
-$upgradeTaskError[] = ' Banner Cache Recompilation: '.($upgradeTaskResult ? 'Complete' : 'Failed');
-
-?>
+$upgradeTaskError[] = ' Banner Cache Recompilation: ' . ($upgradeTaskResult ? 'Complete' : 'Failed');

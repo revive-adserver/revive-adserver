@@ -23,17 +23,16 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
 // Register input variables
-phpAds_registerGlobal ('campaignid', 'clientid', 'newclientid', 'returnurl', 'duplicate');
+phpAds_registerGlobal('campaignid', 'clientid', 'newclientid', 'returnurl', 'duplicate');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
-if(!empty($duplicate)) {
-    OA_Permission::enforceAccessToObject('clients',   $clientid, false, OA_Permission::OPERATION_VIEW);
+if (!empty($duplicate)) {
+    OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
     OA_Permission::enforceAccessToObject('campaigns', $campaignid, false, OA_Permission::OPERATION_DUPLICATE);
-}
-else if (!empty($newclientid)) {
-    OA_Permission::enforceAccessToObject('clients',   $clientid, false, OA_Permission::OPERATION_VIEW);
+} elseif (!empty($newclientid)) {
+    OA_Permission::enforceAccessToObject('clients', $clientid, false, OA_Permission::OPERATION_VIEW);
     OA_Permission::enforceAccessToObject('campaigns', $campaignid, false, OA_Permission::OPERATION_MOVE);
     OA_Permission::enforceAccessToObject('clients', $newclientid, false, OA_Permission::OPERATION_EDIT);
 }
@@ -47,33 +46,31 @@ OA_Permission::checkSessionToken();
 
 if (!empty($campaignid)) {
     if (!empty($duplicate)) {
-    	// Duplicate the campaign
-    	$doCampaigns = OA_Dal::factoryDO('campaigns');
-    	$doCampaigns->get($campaignid);
+        // Duplicate the campaign
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->get($campaignid);
         $oldName = $doCampaigns->campaignname;
-    	$newCampaignId = $doCampaigns->duplicate();
+        $newCampaignId = $doCampaigns->duplicate();
 
         if ($newCampaignId) {
             // Queue confirmation message
             $newName = $doCampaigns->campaignname;
             $translation = new OX_Translation();
-            $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenDuplicated'],
-                array(MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"),
+            $translated_message = $translation->translate(
+                $GLOBALS['strCampaignHasBeenDuplicated'],
+                [MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"),
                     htmlspecialchars($oldName),
                     MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$newCampaignId"),
-                    htmlspecialchars($newName))
+                    htmlspecialchars($newName)]
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
-            Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$newCampaignId}");
+            Header("Location: {$returnurl}?clientid={$clientid}&campaignid={$newCampaignId}");
             exit;
-        }
-        else {
+        } else {
             phpAds_sqlDie();
         }
-
-    }
-    else if (!empty($newclientid)) {
+    } elseif (!empty($newclientid)) {
 
         /*-------------------------------------------------------*/
         /* Restore cache of $node_array, if it exists            */
@@ -130,15 +127,12 @@ if (!empty($campaignid)) {
             $advertiserName = $doClients->clientname;
         }
         $translation = new OX_Translation();
-        $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenMoved'],
-            array(htmlspecialchars($campaignName), htmlspecialchars($advertiserName))
+        $translated_message = $translation->translate(
+            $GLOBALS['strCampaignHasBeenMoved'],
+            [htmlspecialchars($campaignName), htmlspecialchars($advertiserName)]
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
-
     }
 }
 
-Header ("Location: ".$returnurl."?clientid=".(isset($newclientid) ? $newclientid : $clientid)."&campaignid=".$campaignid);
-
-?>
+Header("Location: " . $returnurl . "?clientid=" . (isset($newclientid) ? $newclientid : $clientid) . "&campaignid=" . $campaignid);

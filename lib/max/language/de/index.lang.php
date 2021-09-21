@@ -12,6 +12,6 @@
 
 // German
 // Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Revive Adserver Team";
-$translation_contact	= "noreply@revive-adserver.com";
+$translation_readable = "Deutsch";
+$translation_maintainer = "Revive Adserver Team";
+$translation_contact = "noreply@revive-adserver.com";

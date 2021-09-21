@@ -39,9 +39,12 @@ class DataObjects_Data_intermediate_ad extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad', $k, $v);
+    }
 
-    var $defaultValues = [
+    public $defaultValues = [
         'date_time' => '%NO_DATE_TIME%',
         'interval_start' => '%NO_DATE_TIME%',
         'interval_end' => '%NO_DATE_TIME%',
@@ -57,5 +60,3 @@ class DataObjects_Data_intermediate_ad extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-
-?>

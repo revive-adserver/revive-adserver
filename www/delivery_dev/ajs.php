@@ -22,21 +22,21 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(array('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
+MAX_commonRegisterGlobalsArray(['block', 'blockcampaign', 'exclude', 'mmm_fo', 'q']);
 
 if (isset($context) && !is_array($context)) {
     $context = MAX_commonUnpackContext($context);
 }
 if (!is_array($context)) {
-    $context = array();
+    $context = [];
 }
 
 if (isset($exclude) && $exclude != '' && $exclude != ',') {
     $exclude = explode(',', trim($exclude, ','));
     for ($i = 0; $i < count($exclude); $i++) {
         // Avoid adding empty entries and duplicates
-        if ($exclude[$i] != '' && array_search(array ("!=" => $exclude[$i]), $context) === false) {
-            $context[] = array ("!=" => $exclude[$i]);
+        if ($exclude[$i] != '' && array_search(["!=" => $exclude[$i]], $context) === false) {
+            $context[] = ["!=" => $exclude[$i]];
         }
     }
 }
@@ -46,21 +46,21 @@ $output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset
 
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
-    $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
-// Block this banner for next invocation
-if (!empty($block) && !empty($output['bannerid'])) {
-    $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+    $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
+    // Block this banner for next invocation
+    if (!empty($block) && !empty($output['bannerid'])) {
+        $output['context'][] = ['!=' => 'bannerid:' . $output['bannerid']];
+    }
+
+    // Block this campaign for next invocation
+    if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+        $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
+    }
 }
 
 // Block this campaign for next invocation
 if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-    $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
-}
-}
-
-// Block this campaign for next invocation
-if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-    $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+    $output['context'][] = ['!=' => 'campaignid:' . $output['campaignid']];
 }
 // Append any data to the context array
 if (!empty($output['context'])) {
@@ -72,30 +72,29 @@ if (!empty($output['context'])) {
 }
 
 // Append context, if any
-$output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
+$output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>" : '';
 
 MAX_cookieFlush();
 
 // Show the banner
 MAX_commonSendContentTypeHeader("text/javascript", $charset);
 
-echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));
+echo MAX_javascriptToHTML($output['html'], 'OX_' . substr(md5(uniqid('', 1)), 0, 8));
 
 // Backwards compatible block-banner JS variable (>2.4 tags do all this via document.context)
 if (!empty($block) && !empty($output['bannerid'])) {
     $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
-    echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:".$output['bannerid'].",';\n";
+    echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:" . $output['bannerid'] . ",';\n";
     // Provide backwards compatibility for the time-being
-    echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
-    echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n";
+    echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:" . $output['bannerid'] . ",';\n";
+    echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:" . $output['bannerid'] . ",';\n";
 }
 
 // Backwards compatible block-campaign JS variable (>2.4 tags do all this via document.context)
 if (!empty($blockcampaign) && !empty($output['campaignid'])) {
     $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
-    echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
+    echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:" . $output['campaignid'] . ",';\n";
     // Provide backwards compatibility for the time-being
-    echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
-    echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
+    echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:" . $output['campaignid'] . ",';\n";
+    echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:" . $output['campaignid'] . ",';\n";
 }
-?>

@@ -21,17 +21,17 @@ class OA_Cache
     /**
      * @var Cache_Lite
      */
-    var $oCache;
+    public $oCache;
 
     /**
      * @var string
      */
-    var $id;
+    public $id;
 
     /**
      * @var string
      */
-    var $group;
+    public $group;
 
     /**
      * Class constructor
@@ -42,22 +42,22 @@ class OA_Cache
      * @param string $cacheDir // can be used to read cache backups from different directory
      * @return OA_Cache
      */
-    function __construct($id, $group, $lifeTime = null, $cacheDir = null)
+    public function __construct($id, $group, $lifeTime = null, $cacheDir = null)
     {
         if (!isset($cacheDir)) {
             $cacheDir = MAX_PATH . '/var/cache/';
         }
 
-        $this->oCache = new Cache_Lite(array(
-            'cacheDir'                      => $cacheDir,
-            'lifeTime'                      => $lifeTime,
-            'readControlType'               => 'md5',
-            'automaticSerialization'        => true
+        $this->oCache = new Cache_Lite([
+            'cacheDir' => $cacheDir,
+            'lifeTime' => $lifeTime,
+            'readControlType' => 'md5',
+            'automaticSerialization' => true
             //'dontCacheWhenTheResultIsFalse' => true, - this property does not exist
-        ));
+        ]);
 
-        $this->id    = $id;
-        $this->group = OX_getHostName() . ((!empty($group)) ? '_' . $group : '');
+        $this->id = $id;
+        $this->group = OX_getHostName() . ((empty($group)) ? '' : '_' . $group);
     }
 
     /**
@@ -65,7 +65,7 @@ class OA_Cache
      *
      * @return mixed
      */
-    function load($doNotTestCacheValidity = true)
+    public function load($doNotTestCacheValidity = true)
     {
         return $this->oCache->get($this->id, $this->group, $doNotTestCacheValidity);
     }
@@ -76,21 +76,18 @@ class OA_Cache
      * @param mixed $cache
      * @return boolean
      */
-    function save($cache)
+    public function save($cache)
     {
         return $this->oCache->save($cache, $this->id, $this->group);
     }
 
-    function clear()
+    public function clear()
     {
         return $this->oCache->remove($this->id, $this->group);
     }
 
-    function setFileNameProtection($value=true)
+    public function setFileNameProtection($value = true)
     {
         $this->oCache->_fileNameProtection = $value;
     }
-
 }
-
-?>

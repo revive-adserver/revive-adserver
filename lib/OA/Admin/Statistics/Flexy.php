@@ -22,12 +22,24 @@ require_once 'HTML/Template/Flexy/Element.php';
  */
 class OA_Admin_Statistics_Flexy
 {
-
+    public $oDaySpanSelector;
+    /**
+     * @var mixed
+     */
+    public $tabindex;
+    public $pageName;
+    /**
+     * @var mixed
+     */
+    public $aPageParams;
+    public $listOrderField;
+    public $listOrderDirection;
+    public $pageURI;
     /**
      * A Flexy helper method to display the day span selector
      * element.
      */
-    function showDaySpanSelector()
+    public function showDaySpanSelector()
     {
         $this->oDaySpanSelector->_tabIndex = $this->tabindex;
 
@@ -49,7 +61,7 @@ class OA_Admin_Statistics_Flexy
 
         echo "
         <a href='#' onclick='return periodFormSubmit()'>
-        <img src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='".$this->tabindex++."' /></a>
+        <img src='" . OX::assetPath() . "/images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='" . $this->tabindex++ . "' /></a>
         </form>";
     }
 
@@ -60,7 +72,7 @@ class OA_Admin_Statistics_Flexy
      * @param string $k      The index name of the item to display.
      * @return mixed The item to display.
      */
-    function showValue($aArray, $k)
+    public function showValue($aArray, $k)
     {
         return $aArray[$k];
     }
@@ -70,7 +82,7 @@ class OA_Admin_Statistics_Flexy
      *
      * @param string $str The string to translate.
      */
-    function tr($str)
+    public function tr($str)
     {
         if (preg_match('/^(str|key)/', $str) && isset($GLOBALS[$str])) {
             $str = $GLOBALS[$str];
@@ -86,7 +98,7 @@ class OA_Admin_Statistics_Flexy
      * @param boolean $reverse   Should default sorting order be reversed?
      * @return string The partial URI.
      */
-    function listOrderHref($fieldname, $reverse = false)
+    public function listOrderHref($fieldname, $reverse = false)
     {
         if ($this->listOrderField == $fieldname) {
             $orderdirection = $this->listOrderDirection == 'up' ? 'down' : 'up';
@@ -104,7 +116,7 @@ class OA_Admin_Statistics_Flexy
      * @param string $fieldname The name of the field.
      * @return string The partial URI.
      */
-    function listOrderHrefRev($fieldname)
+    public function listOrderHrefRev($fieldname)
     {
         return $this->listOrderHref($fieldname, true);
     }
@@ -116,15 +128,12 @@ class OA_Admin_Statistics_Flexy
      * @param string $fieldname The name of the field.
      * @return string|false The image URI if the field is sorted, false otherwise.
      */
-    function listOrderImage($fieldname)
+    public function listOrderImage($fieldname)
     {
         if ($this->listOrderField == $fieldname) {
-            return OX::assetPath("images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif");
+            return OX::assetPath("images/caret-" . ($this->listOrderDirection == 'up' ? 'u' : 'ds') . ".gif");
         } else {
             return false;
         }
     }
-
 }
-
-?>

@@ -39,14 +39,13 @@ class OX_Admin_UI_Controller_BaseController
     protected $hasLayout;
     protected $hasViewScript;
 
-    protected $aErrors = array();
+    protected $aErrors = [];
 
 
     public function __construct()
     {
         $this->hasLayout = true;
         $this->hasViewScript = true;
-
     }
 
 
@@ -59,13 +58,13 @@ class OX_Admin_UI_Controller_BaseController
 
     protected function initModel()
     {
-        $this->aModel = array();
+        $this->aModel = [];
     }
 
 
     protected function getRegisteredActions()
     {
-        return array();
+        return [];
     }
 
 
@@ -89,7 +88,7 @@ class OX_Admin_UI_Controller_BaseController
             $action = $this->actionDefault;
         }
         if (in_array($action, $this->aActions)) {
-            $functionName = $action.'Action';
+            $functionName = $action . 'Action';
             $this->currentAction = $action;
             return $this->$functionName();
         }
@@ -123,7 +122,7 @@ class OX_Admin_UI_Controller_BaseController
         if ($pos = strpos($url, '?')) {
             $url = substr($url, 0, $pos);
         }
-        $url = $url.'?action='.$action;
+        $url = $url . '?action=' . $action;
         header('Location: ' . $url);
         exit;
     }
@@ -151,9 +150,9 @@ class OX_Admin_UI_Controller_BaseController
         $this->oView = $oView;
     }
 
-     /*
-      * Returns the name of the serviced action
-      */
+    /*
+     * Returns the name of the serviced action
+     */
     public function getAction()
     {
         return $this->currentAction;
@@ -250,8 +249,4 @@ class OX_Admin_UI_Controller_BaseController
         }
         $this->aErrors[] = $errorMsg;
     }
-
-
 }
-
-?>

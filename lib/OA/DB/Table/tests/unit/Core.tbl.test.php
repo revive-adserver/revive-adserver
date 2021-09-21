@@ -22,11 +22,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_DB_Table_Core extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -37,7 +36,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      * Requirements:
      * Test 1: Test that only one instance of the class is created.
      */
-    function testSingleton()
+    public function testSingleton()
     {
         // Mock the OA_DB class used in the constructor method
         Mock::generate('OA_DB');
@@ -48,14 +47,14 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table_Core',
             'PartialMockOA_DB_Table_Core',
-            array('_getDbConnection')
+            ['_getDbConnection']
         );
         $oTable = new PartialMockOA_DB_Table_Core($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
-        $oTable1 =& $oTable->singleton();
-        $oTable2 =& $oTable->singleton();
+        $oTable1 = &$oTable->singleton();
+        $oTable2 = &$oTable->singleton();
         $this->assertIdentical($oTable1, $oTable2);
 
         // Ensure the singleton is destroyed
@@ -80,44 +79,40 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      * an upgrade package (pre/postscript is required to do this)
      *
      */
-    function testConfvsSchemaTables()
+    public function testConfvsSchemaTables()
     {
         $oDbh = OA_DB::singleton();
-        $oTable =& OA_DB_Table_Core::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
 
         $aConfWork = $GLOBALS['_MAX']['CONF'];
-        $aConfDist = @parse_ini_file(MAX_PATH.'/etc/dist.conf.php',true);
+        $aConfDist = @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', true);
 
-        $aTablesWork    = $aConfWork['table'];
+        $aTablesWork = $aConfWork['table'];
         unset($aTablesWork['prefix']);
         unset($aTablesWork['type']);
-        $aTablesDist    = $aConfDist['table'];
+        $aTablesDist = $aConfDist['table'];
         unset($aTablesDist['prefix']);
         unset($aTablesDist['type']);
-        $aTablesSchema  = $oTable->aDefinition['tables'];
+        $aTablesSchema = $oTable->aDefinition['tables'];
 
         // Test 1
-        foreach ($aTablesSchema AS $tableName => $aTableDef)
-        {
-            $this->assertTrue(in_array($tableName, $aTablesDist),$tableName.' found in schema but not in dist.conf.php');
+        foreach ($aTablesSchema as $tableName => $aTableDef) {
+            $this->assertTrue(in_array($tableName, $aTablesDist), $tableName . ' found in schema but not in dist.conf.php');
         }
 
         // Test 2
-        foreach ($aTablesDist as $tableName => $alias)
-        {
-            $this->assertTrue(array_key_exists($tableName, $aTablesSchema),$tableName.' found in dist.conf but not in tables_core.xml');
+        foreach ($aTablesDist as $tableName => $alias) {
+            $this->assertTrue(array_key_exists($tableName, $aTablesSchema), $tableName . ' found in dist.conf but not in tables_core.xml');
         }
 
         // Test 3
-        foreach ($aTablesDist AS $tableName => $alias)
-        {
-            $this->assertTrue(in_array($tableName, $aTablesWork),$tableName.' found in dist.conf but not in working config');
+        foreach ($aTablesDist as $tableName => $alias) {
+            $this->assertTrue(in_array($tableName, $aTablesWork), $tableName . ' found in dist.conf but not in working config');
         }
 
         // Test 4
-        foreach ($aTablesWork AS $tableName => $alias)
-        {
-            $this->assertTrue(in_array($tableName, $aTablesDist),$tableName.' found in working config but not in dist.conf');
+        foreach ($aTablesWork as $tableName => $alias) {
+            $this->assertTrue(in_array($tableName, $aTablesDist), $tableName . ' found in working config but not in dist.conf');
         }
 
         $oTable->destroy();
@@ -129,13 +124,13 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      * Requirements:
      * Test 1: Test that all core tables can be created and dropped.
      */
-    function testAllCoreTables()
+    public function testAllCoreTables()
     {
         // Test 1
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $oDbh = OA_DB::singleton();
-        $oTable =& OA_DB_Table_Core::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
@@ -143,7 +138,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             $this->assertTrue(false);
         }
         $this->assertEqual(count($aExistingTables), 0);
-        $oTable =& OA_DB_Table_Core::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         foreach ($conf['table'] as $key => $tableName) {
@@ -151,7 +146,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
                 continue;
             }
             // Test that the tables exists
-            $this->assertTrue(in_array($tableName, $aExistingTables), 'does not exist: '.$tableName.' (found in conf file)');
+            $this->assertTrue(in_array($tableName, $aExistingTables), 'does not exist: ' . $tableName . ' (found in conf file)');
         }
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
@@ -164,7 +159,4 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         // Ensure the singleton is destroyed
         $oTable->destroy();
     }
-
 }
-
-?>

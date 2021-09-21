@@ -23,13 +23,12 @@ require_once LIB_PATH . '/OperationInterval.php';
  */
 class OA_Maintenance_Priority_DeliveryLimitation
 {
-
     /**
      * An array for storing all of the delivery limitations for the ad.
      *
      * @var array
      */
-    var $aRules           = array();
+    public $aRules = [];
 
     /**
      * An array for storing all of the delivery limitations for the ad
@@ -37,7 +36,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *
      * @var array
      */
-    var $aOperationGroups = array();
+    public $aOperationGroups = [];
 
     /**
      * An integer to store how many operation intervals in the remaining
@@ -46,7 +45,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *
      * @var integer
      */
-    var $blockedOperationIntervalCount;
+    public $blockedOperationIntervalCount;
 
     /**
      * An array to store an array of the start/end dates of any operation
@@ -56,7 +55,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *
      * @var array
      */
-    var $aBlockedOperationIntervalDates;
+    public $aBlockedOperationIntervalDates;
 
     /**
      * An integer to store how many operation intervals exist in the
@@ -65,7 +64,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *
      * @var integer
      */
-    var $remainingOperationIntervalCount;
+    public $remainingOperationIntervalCount;
 
     /**
      * Constructor method.
@@ -95,12 +94,12 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *                                    )
      * @return OA_Maintenance_Priority_DeliveryLimitation
      */
-    function __construct($aDeliveryLimitations)
+    public function __construct($aDeliveryLimitations)
     {
         // If there are delivery limitations...
         if (is_array($aDeliveryLimitations) && (!empty($aDeliveryLimitations))) {
             // Sort the array of limitations so that they are ordered by execution order
-            $aSort = array();
+            $aSort = [];
             foreach ($aDeliveryLimitations as $key => $aDeliveryLimitation) {
                 $aSort[$key] = $aDeliveryLimitation['executionorder'];
             }
@@ -132,10 +131,10 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * @access private
      * @return integer
      */
-	function _getOperationGroupCount()
-	{
-	    return count($this->aOperationGroups);
-	}
+    public function _getOperationGroupCount()
+    {
+        return count($this->aOperationGroups);
+    }
 
     /**
      * A method to check if the group of delivery limitations will block delivery
@@ -147,7 +146,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * @return bool True if delivery would be blocked by the group of delivery
      *              limitations, false otherwise (i.e. the ad CAN deliver).
      */
-    function deliveryBlocked($oDate)
+    public function deliveryBlocked($oDate)
     {
         // Are there any possible blocking operation groups?
         if ($this->_getOperationGroupCount() == 0) {
@@ -155,7 +154,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             // advertisement is not blocked by these limitations
             return false;
         }
-        $aFlags = array();
+        $aFlags = [];
         // For each "operation group"...
         foreach ($this->aOperationGroups as $groupKey => $aOperationGroup) {
             // For each limitation in the group...
@@ -184,7 +183,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * @return integer The number of operation intervals in which the advertisement
      *                 will be blocked from delivering in.
      */
-    function getBlockedOperationIntervalCount($oStartDate, $oEndDate)
+    public function getBlockedOperationIntervalCount($oStartDate, $oEndDate)
     {
         // Ensure the campaign end date is at the END of the day
         $oCampaignEndDate = new Date();
@@ -223,10 +222,10 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * @return integer The number of operation intervals in which the advertisement
      *                 will deliver.
      */
-    function getActiveAdOperationIntervals($campaignRemainingIntervals, $oDate, $oCampaignEndDate)
-	{
-	    $aConf = $GLOBALS['_MAX']['CONF'];
-	    $this->remainingOperationIntervalCount = $campaignRemainingIntervals;
+    public function getActiveAdOperationIntervals($campaignRemainingIntervals, $oDate, $oCampaignEndDate)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->remainingOperationIntervalCount = $campaignRemainingIntervals;
         // Are delivery limitations activated in the configuration? If not, return
         // the complete count of remaining campaign operation intervals
         if (!$aConf['delivery']['acls']) {
@@ -244,23 +243,23 @@ class OA_Maintenance_Priority_DeliveryLimitation
         $blockedIntervals = $this->getBlockedOperationIntervalCount($oDate, $oCampaignEndDate);
         $this->blockedOperationIntervalCount = $blockedIntervals;
         return ($campaignRemainingIntervals - $blockedIntervals);
-	}
+    }
 
-	/**
-	 * A method to obtain the sum of the zone forecast impression value, for all the zones
-	 * an advertisement is linked to, cloned out over the advertisement's entire remaining
-	 * lifetime in the campaign, with any blocked operation intervals removed.
-	 *
-	 * Requires that the getActiveAdOperationIntervals() method have previously been
-	 * called to function correctly.
-	 *
-	 * @param PEAR::Date $oNowDate The current date.
-	 * @param PEAR::Date $oEndDate The end date of the campaign. Note that if the end
-	 *                             date supplied is not at the end of a day, it will be
-	 *                             converted to be treated as such.
-	 * @param array $aCumulativeZoneForecast The cumulative forecast impressions, indexed
-	 *                                       by operation interval ID, of all the zones the
-	 *                                       advertisement is linked to.
+    /**
+     * A method to obtain the sum of the zone forecast impression value, for all the zones
+     * an advertisement is linked to, cloned out over the advertisement's entire remaining
+     * lifetime in the campaign, with any blocked operation intervals removed.
+     *
+     * Requires that the getActiveAdOperationIntervals() method have previously been
+     * called to function correctly.
+     *
+     * @param PEAR::Date $oNowDate The current date.
+     * @param PEAR::Date $oEndDate The end date of the campaign. Note that if the end
+     *                             date supplied is not at the end of a day, it will be
+     *                             converted to be treated as such.
+     * @param array $aCumulativeZoneForecast The cumulative forecast impressions, indexed
+     *                                       by operation interval ID, of all the zones the
+     *                                       advertisement is linked to.
      *                  array(
      *                      [operation_interval_id] => forecast_impressions,
      *                      [operation_interval_id] => forecast_impressions
@@ -271,7 +270,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * @return integer The ad's total remaining zone impression forecast for all zone for
      *                 the remaining life of the ad.
      */
-    function getAdLifetimeZoneImpressionsRemaining($oNowDate, $oEndDate, $aCumulativeZoneForecast)
+    public function getAdLifetimeZoneImpressionsRemaining($oNowDate, $oEndDate, $aCumulativeZoneForecast)
     {
         $totalAdLifetimeZoneImpressionsRemaining = 0;
 
@@ -316,7 +315,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
 
         // Step 2: Calculate how many times each day of the week occurs between the end of
         //         "today" (i.e. starting "tomorrow morning") and the last day the ad can run
-        $aDays = array();
+        $aDays = [];
         $oStartOfTomorrow = new Date($oEndOfToday);
         $oStartOfTomorrow->addSeconds(1);
         $oTempDate = new Date();
@@ -405,13 +404,13 @@ class OA_Maintenance_Priority_DeliveryLimitation
      * not block is that the overal limitations do NOT block, and so false
      * would be returned.
      */
-    function _deliveryBlocked($aFlags)
+    public function _deliveryBlocked($aFlags)
     {
         if (!is_array($aFlags) || empty($aFlags)) {
             // No parameters passed in, so assume that it does not block
             return false;
         }
-        $aOperationGroupResults = array();
+        $aOperationGroupResults = [];
         foreach ($aFlags as $groupKey => $aOperationGroup) {
             // The default value of an operation group is to NOT block,
             // as this is what other limitation types (or no blocking
@@ -438,7 +437,4 @@ class OA_Maintenance_Priority_DeliveryLimitation
         }
         return false;
     }
-
 }
-
-?>

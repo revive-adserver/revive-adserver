@@ -20,10 +20,10 @@ require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
-phpAds_registerGlobal (
-     'duplicate'
-    ,'moveto'
-    ,'returnurl'
+phpAds_registerGlobal(
+    'duplicate',
+    'moveto',
+    'returnurl'
 );
 
 
@@ -39,10 +39,8 @@ OA_Permission::checkSessionToken();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (!empty($trackerid))
-{
-    if (!empty($moveto))
-    {
+if (!empty($trackerid)) {
+    if (!empty($moveto)) {
         // Delete any campaign-tracker links
         $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaign_trackers->trackerid = $trackerid;
@@ -61,20 +59,18 @@ if (!empty($trackerid))
                 $advertiserName = $doClients->clientname;
             }
             $translation = new OX_Translation();
-            $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenMoved'],
-                array(htmlspecialchars($trackerName), htmlspecialchars($advertiserName))
+            $translated_message = $translation->translate(
+                $GLOBALS['strTrackerHasBeenMoved'],
+                [htmlspecialchars($trackerName), htmlspecialchars($advertiserName)]
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
 
-        Header ("Location: ".$returnurl."?clientid=".$moveto."&trackerid=".$trackerid);
+        Header("Location: " . $returnurl . "?clientid=" . $moveto . "&trackerid=" . $trackerid);
         exit;
-    }
-    elseif (isset($duplicate) && $duplicate == 'true')
-    {
+    } elseif (isset($duplicate) && $duplicate == 'true') {
         $doTrackers = OA_Dal::factoryDO('trackers');
-        if ($doTrackers->get($trackerid))
-        {
+        if ($doTrackers->get($trackerid)) {
             $oldName = $doTrackers->trackername;
             $new_trackerid = $doTrackers->duplicate();
 
@@ -84,21 +80,20 @@ if (!empty($trackerid))
 
             // Queue confirmation message
             $translation = new OX_Translation();
-            $translated_message = $translation->translate ( $GLOBALS['strTrackerHasBeenDuplicated'],
-                array(MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$trackerid"),
+            $translated_message = $translation->translate(
+                $GLOBALS['strTrackerHasBeenDuplicated'],
+                [MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$trackerid"),
                     htmlspecialchars($oldName),
                     MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$new_trackerid"),
-                    htmlspecialchars($newName))
+                    htmlspecialchars($newName)]
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
 
-            Header ("Location: ".$returnurl."?clientid=".$clientid."&trackerid=".$new_trackerid);
+            Header("Location: " . $returnurl . "?clientid=" . $clientid . "&trackerid=" . $new_trackerid);
             exit;
         }
     }
 }
 
-Header ("Location: ".$returnurl."?clientid=".$clientid."&trackerid=".$trackerid);
-
-?>
+Header("Location: " . $returnurl . "?clientid=" . $clientid . "&trackerid=" . $trackerid);

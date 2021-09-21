@@ -28,7 +28,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @return boolean True if the impression permitted according to the whitelist
  *                  or blacklist; false if the impression is not permitted.
  */
-function MAX_checkSite_Hostnamelist($limitation, $op, $aParams = array())
+function MAX_checkSite_Hostnamelist($limitation, $op, $aParams = [])
 {
     if ($limitation == '') {
         return true;
@@ -46,7 +46,4 @@ function MAX_checkSite_Hostnamelist($limitation, $op, $aParams = array())
         return true;
     }
     return false;
-
 }
-
-?>

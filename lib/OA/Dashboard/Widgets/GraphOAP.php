@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
  */
 class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
 {
-    function __construct($aParams)
+    public function __construct($aParams)
     {
         parent::__construct($aParams);
 
@@ -30,12 +30,12 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
         }
     }
 
-    function getCacheId()
+    public function getCacheId()
     {
-        return array_merge(parent::getCacheId(), array(OA_Permission::getAccountId()));
+        return array_merge(parent::getCacheId(), [OA_Permission::getAccountId()]);
     }
 
-    function getStats()
+    public function getStats()
     {
         // Set time zone to local
         OA_setTimeZoneLocal();
@@ -53,34 +53,34 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDsah->selectAdd();
         $doDsah->selectAdd("DATE_FORMAT(date_time, '%Y-%m-%d') AS day");
-        $doDsah->selectAdd('SUM('.$doDsah->tableName().'.impressions) AS total_impressions');
-        $doDsah->selectAdd('SUM('.$doDsah->tableName().'.clicks) AS total_clicks');
-        $doDsah->whereAdd("date_time >= '".$doDsah->escape($oStart->format('%Y-%m-%d %H:%M:%S'))."'");
-        $doDsah->whereAdd("date_time < '".$doDsah->escape($oEnd->format('%Y-%m-%d %H:%M:%S'))."'");
+        $doDsah->selectAdd('SUM(' . $doDsah->tableName() . '.impressions) AS total_impressions');
+        $doDsah->selectAdd('SUM(' . $doDsah->tableName() . '.clicks) AS total_clicks');
+        $doDsah->whereAdd("date_time >= '" . $doDsah->escape($oStart->format('%Y-%m-%d %H:%M:%S')) . "'");
+        $doDsah->whereAdd("date_time < '" . $doDsah->escape($oEnd->format('%Y-%m-%d %H:%M:%S')) . "'");
 
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $doBanners   = OA_Dal::factoryDO('banners');
+            $doBanners = OA_Dal::factoryDO('banners');
             $doCampaigns = OA_Dal::factoryDO('campaigns');
-            $doClients   = OA_Dal::factoryDO('clients');
+            $doClients = OA_Dal::factoryDO('clients');
 
             $doClients->agencyid = OA_Permission::getEntityId();
             $doCampaigns->joinAdd($doClients);
             $doBanners->joinAdd($doCampaigns);
 
-            $doBanners->selectAdd ();
+            $doBanners->selectAdd();
             $doBanners->selectAdd("bannerid");
             $doBanners->find();
 
-            $ad_ids = array();
+            $ad_ids = [];
             while ($doBanners->fetch()) {
                 $ad_ids[] = $doBanners->bannerid;
             }
 
-            if (empty ($ad_ids)) {
-                return array();
+            if (empty($ad_ids)) {
+                return [];
             }
 
-            $doDsah->whereAdd("ad_id IN (".implode (",", $ad_ids).")");
+            $doDsah->whereAdd("ad_id IN (" . implode(",", $ad_ids) . ")");
         }
 
         $doDsah->groupBy('day');
@@ -88,7 +88,7 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
 
         $doDsah->find();
 
-        $aStats = array();
+        $aStats = [];
         while ($doDsah->fetch()) {
             $row = $doDsah->toArray();
             $aStats[0][date('D', strtotime($row['day']))] = $row['total_impressions'];
@@ -98,5 +98,3 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
         return $aStats;
     }
 }
-
-?>

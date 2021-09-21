@@ -34,6 +34,6 @@ $GLOBALS['strCollectedAllEvents'] = "Alle hendelser";
 $GLOBALS['strClear'] = "Tøm";
 
 if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
+    $GLOBALS['strUserlog'] = [];
 }
 $GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampanje {id} deaktivert";

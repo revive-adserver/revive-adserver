@@ -29,14 +29,35 @@ $period_preset = 'specific';
 $session['prefs']['GLOBALS']['period_preset'] = 'specific';
 $period_preset = MAX_getStoredValue('period_preset', 'today');
 
-phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
-                      'clientid', 'campaignid', 'placement_id', 'ad_id',
-                      'bannerid', 'publisher_id', 'affiliateid', 'zone_id',
-                      'zoneid', 'start_date', 'end_date', 'sort', 'asc',
-                      'show', 'expand', 'day', 'plugin', 'peroid_preset',
-                      'tempPeriodPreset', 'GraphFile', 'graphFilter','graphFields',
-                      'listorder'
-                     );
+phpAds_registerGlobal(
+    'breakdown',
+    'entity',
+    'agency_id',
+    'advertiser_id',
+    'clientid',
+    'campaignid',
+    'placement_id',
+    'ad_id',
+    'bannerid',
+    'publisher_id',
+    'affiliateid',
+    'zone_id',
+    'zoneid',
+    'start_date',
+    'end_date',
+    'sort',
+    'asc',
+    'show',
+    'expand',
+    'day',
+    'plugin',
+    'peroid_preset',
+    'tempPeriodPreset',
+    'GraphFile',
+    'graphFilter',
+    'graphFields',
+    'listorder'
+);
 
 if (!isset($listorder)) {
     $prm['listorder'] = MAX_getStoredValue('listorder', null, 'stats.php');
@@ -60,7 +81,7 @@ if (is_numeric($publisher_id)) {
 }
 
 if (is_numeric($zone_id)) {
-      $zoneid = $zone_id;
+    $zoneid = $zone_id;
 }
 
 if (!isset($entity)) {
@@ -71,11 +92,11 @@ if (!isset($breakdown)) {
 }
 
 // Add all manipulated values to globals
-$_REQUEST['zoneid']      = $zoneid;
+$_REQUEST['zoneid'] = $zoneid;
 $_REQUEST['affiliateid'] = $affiliateid;
-$_REQUEST['bannerid']    = $bannerid;
-$_REQUEST['campaignid']  = $campaignid;
-$_REQUEST['clientid']    = $clientid;
+$_REQUEST['bannerid'] = $bannerid;
+$_REQUEST['campaignid'] = $campaignid;
+$_REQUEST['clientid'] = $clientid;
 
 // Overwirte file name to load right session data, see MAX_getStoredValue
 $pgName = 'stats.php';
@@ -92,13 +113,10 @@ $oStats->output(true);
 
 // Erase stats graph file
 if (isset($GraphFile) && $GraphFile != '') {
-    $dirObject = dir( $conf['store']['webDir'] . '/temp');
+    $dirObject = dir($conf['store']['webDir'] . '/temp');
     while (false !== ($entry = $dirObject->read())) {
         if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
             unlink($conf['store']['webDir'] . '/temp/' . $entry);
         }
     }
 }
-
-
-?>

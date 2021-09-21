@@ -19,14 +19,14 @@ require_once 'XML/RSS.php';
  */
 class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
 {
-    var $url;
-    var $title;
-    var $posts;
+    public $url;
+    public $title;
+    public $posts;
 
     /**
      * @var OA_Admin_Template
      */
-    var $oTpl;
+    public $oTpl;
 
     /**
      * The class constructor
@@ -37,15 +37,15 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      * @param int $posts
      * @return OA_Dashboard_Widget_Feed
      */
-    function __construct($aParams, $title, $url, $posts = 6, $siteTitle = null, $siteUrl = null)
+    public function __construct($aParams, $title, $url, $posts = 6, $siteTitle = null, $siteUrl = null)
     {
         parent::__construct($aParams);
 
         $this->title = $title;
-        $this->url   = $url;
+        $this->url = $url;
         $this->posts = $posts;
         $this->siteTitle = $siteTitle;
-        $this->siteUrl   = $siteUrl;
+        $this->siteUrl = $siteUrl;
 
         $this->oTpl = new OA_Admin_Template('dashboard/feed.html');
 
@@ -58,7 +58,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    function display()
+    public function display()
     {
         if (!$this->oTpl->is_cached()) {
             RV::disableErrorHandling();
@@ -78,7 +78,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
             foreach ($aPost as $key => $aValue) {
                 $aPost[$key]['origTitle'] = $aValue['title'];
                 if (strlen($aValue['title']) > 38) {
-                    $aPost[$key]['title'] = substr($aValue['title'], 0, 38) .'...';
+                    $aPost[$key]['title'] = substr($aValue['title'], 0, 38) . '...';
                 }
             }
             $this->oTpl->assign('title', $this->title);
@@ -90,4 +90,3 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
         $this->oTpl->display();
     }
 }
-?>

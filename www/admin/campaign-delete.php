@@ -22,7 +22,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Register input variables
-phpAds_registerGlobal ('returnurl');
+phpAds_registerGlobal('returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -38,29 +38,26 @@ OA_Permission::checkSessionToken();
 
 if (!empty($campaignid)) {
     $ids = explode(',', $campaignid);
-    while (list(,$campaignid) = each($ids)) {
-
+    foreach ($ids as $campaignid) {
         // Security check
         OA_Permission::enforceAccessToObject('campaigns', $campaignid);
-
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignid = $campaignid;
         if ($doCampaigns->get($campaignid)) {
             $aCampaign = $doCampaigns->toArray();
         }
-
         $doCampaigns->delete();
     }
 
     // Queue confirmation message
-    $translation = new OX_Translation ();
+    $translation = new OX_Translation();
 
     if (count($ids) == 1) {
-        $translated_message = $translation->translate ($GLOBALS['strCampaignHasBeenDeleted'], array(
+        $translated_message = $translation->translate($GLOBALS['strCampaignHasBeenDeleted'], [
             htmlspecialchars($aCampaign['campaignname'])
-        ));
+        ]);
     } else {
-        $translated_message = $translation->translate ($GLOBALS['strCampaignsHaveBeenDeleted']);
+        $translated_message = $translation->translate($GLOBALS['strCampaignsHaveBeenDeleted']);
     }
 
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
@@ -82,6 +79,4 @@ if (empty($returnurl)) {
     $returnurl = 'advertiser-campaigns.php';
 }
 
-header ("Location: ".$returnurl."?clientid=".$clientid);
-
-?>
+header("Location: " . $returnurl . "?clientid=" . $clientid);

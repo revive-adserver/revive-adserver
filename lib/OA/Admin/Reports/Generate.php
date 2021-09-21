@@ -25,13 +25,12 @@ require_once LIB_PATH . '/Admin/Redirect.php';
  */
 class OA_Admin_Reports_Generate
 {
-
     /**
      * The main method to generate a report from a report plugin.
      *
      * @param string $reportIdentifier The string identifying the report.
      */
-    function generate($reportIdentifier)
+    public function generate($reportIdentifier)
     {
         if (!(isset($reportIdentifier) && $reportIdentifier != '')) {
             // No report identified! Return to the main report page
@@ -53,11 +52,10 @@ class OA_Admin_Reports_Generate
      * @param string $reportIdentifier The string identifying the report.
      * @return Plugins_Reports The report plugin.
      */
-    function _newPluginByName($reportIdentifier)
+    public function _newPluginByName($reportIdentifier)
     {
         $pluginKey = explode(':', $reportIdentifier);
-        $oPlugin = OX_Component::factoryByComponentIdentifier($reportIdentifier);
-        return $oPlugin;
+        return OX_Component::factoryByComponentIdentifier($reportIdentifier);
     }
 
     /**
@@ -68,7 +66,7 @@ class OA_Admin_Reports_Generate
      *
      * @TODO Extend to allow use of other report writers, if required.
      */
-    function _runReport($oPlugin)
+    public function _runReport($oPlugin)
     {
         if (!$oPlugin->isAllowedToExecute()) {
             // User cannot execute this report
@@ -82,10 +80,10 @@ class OA_Admin_Reports_Generate
         $oPlugin->useReportWriter($oWriter);
         // Generate the report by calling the report plugin's
         // execute method with the required variables
-        $aCallback = array(&$oPlugin, 'execute');
+        $aCallback = $this->execute();
         $result = call_user_func_array($aCallback, $aVariables);
         if (!empty($result)) {
-        	OX_Admin_Redirect::redirect('report-generation.php?report='.$oPlugin->getComponentIdentifier().'&error='.$result);
+            OX_Admin_Redirect::redirect('report-generation.php?report=' . $oPlugin->getComponentIdentifier() . '&error=' . $result);
         }
     }
 
@@ -98,18 +96,15 @@ class OA_Admin_Reports_Generate
      *                       the report.
      * @return array An array of the required variables.
      */
-    function _getVariablesForReport($aImport)
+    public function _getVariablesForReport($aImport)
     {
-        $aVariables = array();
+        $aVariables = [];
         foreach (array_keys($aImport) as $key) {
-            $oField =& FieldFactory::newField($aImport[$key]['type']);
+            $oField = &FieldFactory::newField($aImport[$key]['type']);
             $oField->_name = $key;
             $oField->setValueFromArray($_GET);
             $aVariables[] = $oField->_value;
         }
         return $aVariables;
     }
-
 }
-
-?>

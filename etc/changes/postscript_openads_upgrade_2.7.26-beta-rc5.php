@@ -20,30 +20,29 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
     /**
      * @var OA_Upgrade
      */
-    var $oUpgrade;
+    public $oUpgrade;
 
     /**
      * @var MDB2_Driver_Common
      */
-    var $oDbh;
+    public $oDbh;
 
     /**
      * DB table prefix
      *
      * @var unknown_type
      */
-    var $prefix;
-    var $tblAccountPreferenceAssoc;
-    var $tblPreferences;
+    public $prefix;
+    public $tblAccountPreferenceAssoc;
+    public $tblPreferences;
 
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function execute($aParams)
+    public function execute($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
+        $this->oUpgrade = &$aParams[0];
 
         // Recompile the delivery limitations to update the compiled limitations as well
         $this->oUpgrade->addPostUpgradeTask('Recompile_Acls');
@@ -51,16 +50,15 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
-        $this->tblPreferences = $aConf['prefix'].($aConf['preferences'] ? $aConf['preferences'] : 'preferences');
-        $this->tblAccountPreferenceAssoc = $aConf['prefix'].($aConf['account_preference_assoc'] ? $aConf['account_preference_assoc'] : 'account_preference_assoc');
+        $this->tblPreferences = $aConf['prefix'] . ($aConf['preferences'] ? $aConf['preferences'] : 'preferences');
+        $this->tblAccountPreferenceAssoc = $aConf['prefix'] . ($aConf['account_preference_assoc'] ? $aConf['account_preference_assoc'] : 'account_preference_assoc');
 
         $query = "SELECT preference_id
-                  FROM ".$this->oDbh->quoteIdentifier($this->tblPreferences,true)."
+                  FROM " . $this->oDbh->quoteIdentifier($this->tblPreferences, true) . "
                   WHERE preference_name = 'auto_alter_html_banners_for_click_tracking'";
         $rs = $this->oDbh->query($query);
         //check for error
-        if (PEAR::isError($rs))
-        {
+        if (PEAR::isError($rs)) {
             $this->logError($rs->getUserInfo());
             return false;
         }
@@ -69,21 +67,19 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
         $preferenceId = $preferenceId['preference_id'];
 
         if (!empty($preferenceId)) {
-            $sql = "DELETE FROM ".$this->oDbh->quoteIdentifier($this->tblAccountPreferenceAssoc,true)." WHERE preference_id = $preferenceId";
+            $sql = "DELETE FROM " . $this->oDbh->quoteIdentifier($this->tblAccountPreferenceAssoc, true) . " WHERE preference_id = $preferenceId";
             $rs = $this->oDbh->exec($sql);
             //check for error
-            if (PEAR::isError($rs))
-            {
+            if (PEAR::isError($rs)) {
                 $this->logError($rs->getUserInfo());
                 return false;
             }
             $this->logOnly("Removed entries in account_preferences_assoc table related to auto_alter_html_banners_for_click_tracking");
 
-            $sql = "DELETE FROM ".$this->oDbh->quoteIdentifier($this->tblPreferences,true)." WHERE preference_id = $preferenceId";
+            $sql = "DELETE FROM " . $this->oDbh->quoteIdentifier($this->tblPreferences, true) . " WHERE preference_id = $preferenceId";
             $rs = $this->oDbh->exec($sql);
             //check for error
-            if (PEAR::isError($rs))
-            {
+            if (PEAR::isError($rs)) {
                 $this->logError($rs->getUserInfo());
                 return false;
             }
@@ -91,18 +87,16 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
         }
 
         return true;
-
     }
 
-    function logOnly($msg)
+    public function logOnly($msg)
     {
         $this->oUpgrade->oLogger->logOnly($msg);
     }
 
 
-    function logError($msg)
+    public function logError($msg)
     {
         $this->oUpgrade->oLogger->logError($msg);
     }
-
 }

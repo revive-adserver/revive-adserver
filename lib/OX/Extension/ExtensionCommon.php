@@ -20,53 +20,52 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  */
 class OX_Extension_Common
 {
-    function __construct()
+    public function __construct()
     {
-
     }
 
-    function runTasksAfterPluginInstall()
-    {
-        $this->cachePreferenceOptions();
-        $this->cacheComponentHooks();
-        return true;
-    }
-
-    function runTasksAfterPluginUninstall()
+    public function runTasksAfterPluginInstall()
     {
         $this->cachePreferenceOptions();
         $this->cacheComponentHooks();
         return true;
     }
 
-    function runTasksBeforePluginUninstall()
-    {
-        return true;
-    }
-
-    function runTasksBeforePluginInstall()
-    {
-        return true;
-    }
-
-    function runTasksBeforePluginEnable()
-    {
-        return true;
-    }
-
-    function runTasksAfterPluginEnable()
+    public function runTasksAfterPluginUninstall()
     {
         $this->cachePreferenceOptions();
         $this->cacheComponentHooks();
         return true;
     }
 
-    function runTasksBeforePluginDisable()
+    public function runTasksBeforePluginUninstall()
     {
         return true;
     }
 
-    function runTasksAfterPluginDisable()
+    public function runTasksBeforePluginInstall()
+    {
+        return true;
+    }
+
+    public function runTasksBeforePluginEnable()
+    {
+        return true;
+    }
+
+    public function runTasksAfterPluginEnable()
+    {
+        $this->cachePreferenceOptions();
+        $this->cacheComponentHooks();
+        return true;
+    }
+
+    public function runTasksBeforePluginDisable()
+    {
+        return true;
+    }
+
+    public function runTasksAfterPluginDisable()
     {
         $this->cachePreferenceOptions();
         $this->cacheComponentHooks();
@@ -79,7 +78,7 @@ class OX_Extension_Common
      *
      * @return boolean
      */
-    function cacheComponentHooks()
+    public function cacheComponentHooks()
     {
         $oPluginManager = new OX_PluginManager();
         $aHooks = $oPluginManager->getComponentHooks();
@@ -88,9 +87,9 @@ class OX_Extension_Common
         return $oCache->save($aHooks);
     }
 
-    function getCachedComponentHooks()
+    public function getCachedComponentHooks()
     {
-        require_once(MAX_PATH.'/lib/OA/Cache.php');
+        require_once(MAX_PATH . '/lib/OA/Cache.php');
         $oCache = new OA_Cache('Plugins', 'ComponentHooks');
         $oCache->setFileNameProtection(false);
         return $oCache->load(true);
@@ -101,25 +100,22 @@ class OX_Extension_Common
      *
      * @return boolean
      */
-   function cachePreferenceOptions()
+    public function cachePreferenceOptions()
     {
         $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
-        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());
-        $aOptions = array();
+        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : []);
+        $aOptions = [];
 
-        foreach ($aComponentGroups AS $name => $enabled)
-        {
-            if ($enabled || OA_Permission::getAccountType()==OA_ACCOUNT_ADMIN)
-            {
+        foreach ($aComponentGroups as $name => $enabled) {
+            if ($enabled || OA_Permission::getAccountType() == OA_ACCOUNT_ADMIN) {
                 $aConfig[$name] = $oComponentGroupManager->_getComponentGroupConfiguration($name);
-                if (!empty($aConfig[$name]['preferences']))
-                {
-                    $aOptions[$name] =  array(
+                if (!empty($aConfig[$name]['preferences'])) {
+                    $aOptions[$name] = [
                                                 'name' => $name,
                                                 'text' => ($aConfig[$name]['option'] ? $aConfig[$name]['option'] : $name),
-                                                'value' => 'account-preferences-plugin.php?group='.$name,
-                                                'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
-                                             );
+                                                'value' => 'account-preferences-plugin.php?group=' . $name,
+                                                'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                                             ];
                 }
             }
         }
@@ -128,61 +124,49 @@ class OX_Extension_Common
         return $oCache->save($aOptions);
     }
 
-    function getPluginsDiagnostics()
+    public function getPluginsDiagnostics()
     {
-        require_once LIB_PATH.'/Plugin/PluginManager.php';
+        require_once LIB_PATH . '/Plugin/PluginManager.php';
         $oPluginManager = new OX_PluginManager();
-        $aPlugins = ($GLOBALS['_MAX']['CONF']['plugins'] ? $GLOBALS['_MAX']['CONF']['plugins'] : array());
-        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : array());
+        $aPlugins = ($GLOBALS['_MAX']['CONF']['plugins'] ? $GLOBALS['_MAX']['CONF']['plugins'] : []);
+        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : []);
 
-        foreach ($aPlugins AS $name => $enabled)
-        {
+        foreach ($aPlugins as $name => $enabled) {
             $aPlugin = $oPluginManager->getPackageDiagnostics($name, true);
             $aResult['detail'][] = $aPlugin;
             $aGroups = $aPlugin['groups'];
             $aPlugin = $aPlugin['plugin'];
-            if ($aPlugin['error'])
-            {
-                foreach ($aPlugin['errors'] AS $i => $msg)
-                {
-                    $aResult['errors'][] = $name.': '.$msg;
+            if ($aPlugin['error']) {
+                foreach ($aPlugin['errors'] as $i => $msg) {
+                    $aResult['errors'][] = $name . ': ' . $msg;
                 }
             }
-            foreach ($aGroups as $i => &$aGroup)
-            {
-                if (array_key_exists($aGroup['name'],$aComponentGroups))
-                {
+            foreach ($aGroups as $i => &$aGroup) {
+                if (array_key_exists($aGroup['name'], $aComponentGroups)) {
                     unset($aComponentGroups[$aGroup['name']]);
                 }
-                if ($aGroup['error'])
-                {
-                    foreach ($aGroup['errors'] AS $i => $msg)
-                    {
-                        $aResult['errors'][] = $aGroup['name'].': '.$msg;
+                if ($aGroup['error']) {
+                    foreach ($aGroup['errors'] as $i => $msg) {
+                        $aResult['errors'][] = $aGroup['name'] . ': ' . $msg;
                     }
                     $aPlugin['error'] = true;
                 }
             }
-            $aResult['simple'][] = array('name'=>$aPlugin['name'], 'version'=>$aPlugin['version'], 'enabled'=>$enabled, 'error'=>$aPlugin['error']);
+            $aResult['simple'][] = ['name' => $aPlugin['name'], 'version' => $aPlugin['version'], 'enabled' => $enabled, 'error' => $aPlugin['error']];
         }
-        foreach ($aComponentGroups AS $name => $enabled)
-        {
-            $aResult['errors'][] = $name.': '.' is configured as installed but not found to exist';
+        foreach ($aComponentGroups as $name => $enabled) {
+            $aResult['errors'][] = $name . ': ' . ' is configured as installed but not found to exist';
         }
         return $aResult;
     }
 
-    function runTasksOnDemand($task='')
+    public function runTasksOnDemand($task = '')
     {
-        if ($task)
-        {
-           if (method_exists($this, $task));
-           {
+        if ($task) {
+            if (method_exists($this, $task));
+            {
                $this->$task();
            }
-
         }
     }
 }
-
-?>

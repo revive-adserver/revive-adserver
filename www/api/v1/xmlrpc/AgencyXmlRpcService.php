@@ -42,7 +42,7 @@ class AgencyXmlRpcService extends BaseAgencyService
      * initialise the service
      *
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -57,18 +57,26 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function addAgency($oParams)
+    public function addAgency($oParams)
     {
-        $sessionId          = null;
-        $oAgencyInfo        = new OA_Dll_AgencyInfo();
+        $sessionId = null;
+        $oAgencyInfo = new OA_Dll_AgencyInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1,
-                array('agencyName', 'contactName', 'emailAddress', 'username',
-                'password', 'userEmail', 'language'), $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oAgencyInfo,
+                $oParams,
+                1,
+                ['agencyName', 'contactName', 'emailAddress', 'username',
+                'password', 'userEmail', 'language'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -89,18 +97,26 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function modifyAgency($oParams)
+    public function modifyAgency($oParams)
     {
-        $sessionId          = null;
-        $oAgencyInfo        = new OA_Dll_AgencyInfo();
+        $sessionId = null;
+        $oAgencyInfo = new OA_Dll_AgencyInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1,
-                 array('agencyId', 'agencyName', 'contactName', 'emailAddress',
-                     'username', 'password'), $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oAgencyInfo,
+                $oParams,
+                1,
+                ['agencyId', 'agencyName', 'contactName', 'emailAddress',
+                     'username', 'password'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -121,22 +137,22 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function deleteAgency($oParams)
+    public function deleteAgency($oParams)
     {
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$agencyId),
-            array(true, true), $oParams, $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$agencyId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
         if ($this->_oAgencyServiceImp->deleteAgency($sessionId, $agencyId)) {
-
             return XmlRpcUtils::booleanTypeResponse(true);
-
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -151,28 +167,33 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function agencyDailyStatistics($oParams)
+    public function agencyDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oAgencyServiceImp->getAgencyDailyStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
+        if ($this->_oAgencyServiceImp->getAgencyDailyStatistics(
+            $sessionId,
+            $agencyId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -187,29 +208,34 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function agencyAdvertiserStatistics($oParams)
+    public function agencyAdvertiserStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oAgencyServiceImp->getAgencyAdvertiserStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+        if ($this->_oAgencyServiceImp->getAgencyAdvertiserStatistics(
+            $sessionId,
+            $agencyId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -224,20 +250,27 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function agencyCampaignStatistics($oParams)
+    public function agencyCampaignStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oAgencyServiceImp->getAgencyCampaignStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+        if ($this->_oAgencyServiceImp->getAgencyCampaignStatistics(
+            $sessionId,
+            $agencyId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
                                                                 'campaignId' => 'integer',
                                                                 'campaignName' => 'string',
@@ -245,10 +278,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -263,20 +294,27 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function agencyBannerStatistics($oParams)
+    public function agencyBannerStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oAgencyServiceImp->getAgencyBannerStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+        if ($this->_oAgencyServiceImp->getAgencyBannerStatistics(
+            $sessionId,
+            $agencyId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
                                                                 'campaignId' => 'integer',
                                                                 'campaignName' => 'string',
@@ -286,10 +324,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -304,29 +340,34 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function agencyPublisherStatistics($oParams)
+    public function agencyPublisherStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oAgencyServiceImp->getAgencyPublisherStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
+        if ($this->_oAgencyServiceImp->getAgencyPublisherStatistics(
+            $sessionId,
+            $agencyId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
                                                                 'publisherName' => 'string',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -341,20 +382,27 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function agencyZoneStatistics($oParams)
+    public function agencyZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oAgencyServiceImp->getAgencyZoneStatistics($sessionId,
-                $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
+        if ($this->_oAgencyServiceImp->getAgencyZoneStatistics(
+            $sessionId,
+            $agencyId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
                                                                 'publisherName' => 'string',
                                                                 'zoneId' => 'integer',
                                                                 'zoneName' => 'string',
@@ -362,10 +410,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -380,21 +426,26 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function getAgency($oParams) {
+    public function getAgency($oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId),
-                array(true, true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $oAgency = null;
-        if ($this->_oAgencyServiceImp->getAgency($sessionId,
-                $agencyId, $oAgency)) {
-
+        if ($this->_oAgencyServiceImp->getAgency(
+            $sessionId,
+            $agencyId,
+            $oAgency
+        )) {
             return XmlRpcUtils::getEntityResponse($oAgency);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
@@ -409,25 +460,25 @@ class AgencyXmlRpcService extends BaseAgencyService
      *
      * @return generated result (data or error)
      */
-    function getAgencyList($oParams) {
+    public function getAgencyList($oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId),
-                array(true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId],
+            [true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $aAgencyList = null;
         if ($this->_oAgencyServiceImp->getAgencyList($sessionId, $aAgencyList)) {
-
             return XmlRpcUtils::getArrayOfEntityResponse($aAgencyList);
         } else {
-
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
-
-
 }
 
 /**
@@ -437,109 +488,107 @@ class AgencyXmlRpcService extends BaseAgencyService
 $oAgencyXmlRpcService = new AgencyXmlRpcService();
 
 $server = new XML_RPC_Server(
-    array(
-        'addAgency' => array(
-            'function'  => array($oAgencyXmlRpcService, 'addAgency'),
-            'signature' => array(
-                array('int', 'string', 'struct')
-            ),
+    [
+        'addAgency' => [
+            'function' => [$oAgencyXmlRpcService, 'addAgency'],
+            'signature' => [
+                ['int', 'string', 'struct']
+            ],
             'docstring' => 'Add agency'
-        ),
+        ],
 
-        'modifyAgency' => array(
-            'function'  => array($oAgencyXmlRpcService, 'modifyAgency'),
-            'signature' => array(
-                array('int', 'string', 'struct')
-            ),
+        'modifyAgency' => [
+            'function' => [$oAgencyXmlRpcService, 'modifyAgency'],
+            'signature' => [
+                ['int', 'string', 'struct']
+            ],
             'docstring' => 'Modify agency information'
-        ),
+        ],
 
-        'deleteAgency' => array(
-            'function'  => array($oAgencyXmlRpcService, 'deleteAgency'),
-            'signature' => array(
-                array('int', 'string', 'int')
-            ),
+        'deleteAgency' => [
+            'function' => [$oAgencyXmlRpcService, 'deleteAgency'],
+            'signature' => [
+                ['int', 'string', 'int']
+            ],
             'docstring' => 'Delete agency'
-        ),
+        ],
 
-        'agencyDailyStatistics' => array(
-            'function'  => array($oAgencyXmlRpcService, 'agencyDailyStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'agencyDailyStatistics' => [
+            'function' => [$oAgencyXmlRpcService, 'agencyDailyStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Agency Daily Statistics'
-        ),
+        ],
 
-        'agencyAdvertiserStatistics' => array(
-            'function'  => array($oAgencyXmlRpcService, 'agencyAdvertiserStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'agencyAdvertiserStatistics' => [
+            'function' => [$oAgencyXmlRpcService, 'agencyAdvertiserStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Agency Advertiser Statistics'
-        ),
+        ],
 
-        'agencyCampaignStatistics' => array(
-            'function'  => array($oAgencyXmlRpcService, 'agencyCampaignStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'agencyCampaignStatistics' => [
+            'function' => [$oAgencyXmlRpcService, 'agencyCampaignStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Agency Campaign Statistics'
-        ),
+        ],
 
-        'agencyBannerStatistics' => array(
-            'function'  => array($oAgencyXmlRpcService, 'agencyBannerStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'agencyBannerStatistics' => [
+            'function' => [$oAgencyXmlRpcService, 'agencyBannerStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Agency Banner Statistics'
-        ),
+        ],
 
-        'agencyPublisherStatistics' => array(
-            'function'  => array($oAgencyXmlRpcService, 'agencyPublisherStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'agencyPublisherStatistics' => [
+            'function' => [$oAgencyXmlRpcService, 'agencyPublisherStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Agency Publisher Statistics'
-        ),
+        ],
 
-        'agencyZoneStatistics' => array(
-            'function'  => array($oAgencyXmlRpcService, 'agencyZoneStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'agencyZoneStatistics' => [
+            'function' => [$oAgencyXmlRpcService, 'agencyZoneStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Agency Zone Statistics'
-        ),
+        ],
 
-        'getAgency' => array(
-            'function'  => array($oAgencyXmlRpcService, 'getAgency'),
-            'signature' => array(
-                array('struct', 'string', 'int')
-            ),
+        'getAgency' => [
+            'function' => [$oAgencyXmlRpcService, 'getAgency'],
+            'signature' => [
+                ['struct', 'string', 'int']
+            ],
             'docstring' => 'Get Agency Information'
-        ),
+        ],
 
-        'getAgencyList' => array(
-            'function'  => array($oAgencyXmlRpcService, 'getAgencyList'),
-            'signature' => array(
-                array('array', 'string')
-            ),
+        'getAgencyList' => [
+            'function' => [$oAgencyXmlRpcService, 'getAgencyList'],
+            'signature' => [
+                ['array', 'string']
+            ],
             'docstring' => 'Get Agency List'
-        ),
+        ],
 
-    ),
+    ],
     1  // serviceNow
 );
-
-?>

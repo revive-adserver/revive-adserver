@@ -36,7 +36,7 @@
  */
 
 define('INTERVAL_START', $argv[2]);
-define('INTERVAL_END',   $argv[3]);
+define('INTERVAL_END', $argv[3]);
 
 /***************************************************************************/
 
@@ -90,7 +90,7 @@ if (!$result) {
     echo $haltMessage;
     exit;
 }
-$oEndDate   = new Date(INTERVAL_END);
+$oEndDate = new Date(INTERVAL_END);
 $result = OX_OperationInterval::checkDateIsEndDate($oEndDate);
 if (!$result) {
     $message = "\nThe end date passed into the " . basename(__FILE__) . " script is not a valid operation interval end date.\nPlease pass in the end date in '%Y-%M-%d %H:%m:%s' format.\n";
@@ -124,7 +124,7 @@ Do you want to proceed with the republishing? [y/N]: ";
 
 if (empty($argv[4]) || ($argv[4] != '-f')) {
     $response = trim(fgets(STDIN));
-    if (!($response == 'y' || $response == 'Y')) {
+    if ($response != 'y' && $response != 'Y') {
         echo $haltMessage;
         exit;
     }
@@ -134,10 +134,10 @@ if (empty($argv[4]) || ($argv[4] != '-f')) {
 /***************************************************************************/
 
 $oOIStart = new Date(INTERVAL_START);
-$oOIEnd   = OX_OperationInterval::addOperationIntervalTimeSpan($oOIStart);
+$oOIEnd = OX_OperationInterval::addOperationIntervalTimeSpan($oOIStart);
 $oOIEnd->subtractSeconds(1);
 
-$aRunDates = array();
+$aRunDates = [];
 while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     echo "Adding " . $oOIStart->format('%Y-%m-%d %H:%M:%S') . "' -> '" . $oOIEnd->format('%Y-%m-%d %H:%M:%S') . " to the list of run dates<br />\n";
     // Store the dates
@@ -145,20 +145,20 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     $oStoreStartDate->copy($oOIStart);
     $oStoreEndDate = new Date();
     $oStoreEndDate->copy($oOIEnd);
-    $aRunDates[] = array(
+    $aRunDates[] = [
         'start' => $oStoreStartDate,
-        'end'   => $oStoreEndDate
-    );
-    $oOIEnd   = OX_OperationInterval::addOperationIntervalTimeSpan($oOIEnd);
+        'end' => $oStoreEndDate
+    ];
+    $oOIEnd = OX_OperationInterval::addOperationIntervalTimeSpan($oOIEnd);
     $oOIStart = OX_OperationInterval::addOperationIntervalTimeSpan($oOIStart);
 }
 
 // The summariseFinal process requires complete hours (not OI's), so record these too
 $oOIStart = new Date(INTERVAL_START);
-$oOIEnd   = new Date(INTERVAL_START);
-$oOIEnd->addSeconds((60*60)-1);
+$oOIEnd = new Date(INTERVAL_START);
+$oOIEnd->addSeconds((60 * 60) - 1);
 
-$aRunHours = array();
+$aRunHours = [];
 while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     echo "Adding " . $oOIStart->format('%Y-%m-%d %H:%M:%S') . "' -> '" . $oOIEnd->format('%Y-%m-%d %H:%M:%S') . " to the list of run dates<br />\n";
     // Store the dates
@@ -166,12 +166,12 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     $oStoreStartDate->copy($oOIStart);
     $oStoreEndDate = new Date();
     $oStoreEndDate->copy($oOIEnd);
-    $aRunHours[] = array(
+    $aRunHours[] = [
         'start' => $oStoreStartDate,
-        'end'   => $oStoreEndDate
-    );
-    $oOIEnd->addSeconds(60*60);
-    $oOIStart->addSeconds(60*60);
+        'end' => $oStoreEndDate
+    ];
+    $oOIEnd->addSeconds(60 * 60);
+    $oOIStart->addSeconds(60 * 60);
 }
 
 // Create and register an instance of the OA_Dal_Maintenance_Statistics DAL class for the following tasks to use
@@ -197,7 +197,7 @@ $oMigratorFinal = new OX_Maintenance_Statistics_Task_SummariseFinal();
 
 foreach ($aRunHours as $aDates) {
     echo "Recomputing data_summary_ad_hourly totals from " . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . " -> " . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "<br />\n";
-    $query = "DELETE FROM ".$oDbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly',true)." WHERE date_time >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "' AND date_time <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'";
+    $query = "DELETE FROM " . $oDbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly', true) . " WHERE date_time >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "' AND date_time <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'";
     $oDbh->exec($query);
 
     $oMigratorFinal->_saveSummary($aDates['start'], $aDates['end']);

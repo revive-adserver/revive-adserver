@@ -26,7 +26,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once OX_PATH . '/lib/pear/DB/DataObject.php';
 
 // Register input variables
-phpAds_registerGlobal ('returnurl','agencyid');
+phpAds_registerGlobal('returnurl', 'agencyid');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -52,9 +52,7 @@ OA_Maintenance_Priority::scheduleRun();
 // phpAds_cacheDelete();
 
 if (!isset($returnurl) || $returnurl == '') {
-	$returnurl = 'advertiser-index.php';
+    $returnurl = 'advertiser-index.php';
 }
 
 OX_Admin_Redirect::redirect($returnurl);
-
-?>

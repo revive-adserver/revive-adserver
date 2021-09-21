@@ -20,10 +20,8 @@ class BaseTrackerService
 {
     protected $oTrackerServiceImpl;
 
-    function __construct()
+    public function __construct()
     {
         $this->oTrackerServiceImpl = new TrackerServiceImpl();
     }
 }
-
-?>

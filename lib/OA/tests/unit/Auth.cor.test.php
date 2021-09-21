@@ -21,8 +21,7 @@ require_once MAX_PATH . '/lib/OA/Auth.php';
  */
 class Test_OA_Auth extends UnitTestCase
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -31,7 +30,7 @@ class Test_OA_Auth extends UnitTestCase
      * Tests that default authentication plugin is correctly created
      *
      */
-    function testStaticGetAuthPlugin()
+    public function testStaticGetAuthPlugin()
     {
         $authInternal = OA_Auth::staticGetAuthPlugin('internal');
         $this->assertIsA($authInternal, 'Plugins_Authentication');
@@ -42,5 +41,3 @@ class Test_OA_Auth extends UnitTestCase
         $this->assertIsA($authInternal, 'Plugins_Authentication');
     }
 }
-
-?>

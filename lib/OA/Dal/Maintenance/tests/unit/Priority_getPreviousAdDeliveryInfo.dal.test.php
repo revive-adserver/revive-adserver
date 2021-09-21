@@ -24,20 +24,20 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
  */
 class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTestCase
 {
-    var $doInterAd = null;
-    var $doAdZone = null;
+    public $doInterAd = null;
+    public $doAdZone = null;
 
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->doInterAd = OA_Dal::factoryDO('data_intermediate_ad');
         $this->doAdZone = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
     }
 
-    function _insertDataIntermediateAd($aData)
+    public function _insertDataIntermediateAd($aData)
     {
         $this->doInterAd->operation_interval = $aData[0];
         $this->doInterAd->operation_interval_id = $aData[1];
@@ -54,7 +54,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         return DataGenerator::generateOne($this->doInterAd);
     }
 
-    function _insertDataSummaryAdZoneAssoc($aData)
+    public function _insertDataSummaryAdZoneAssoc($aData)
     {
         $this->doAdZone->operation_interval = $aData[0];
         $this->doAdZone->operation_interval_id = $aData[1];
@@ -69,18 +69,15 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->doAdZone->past_zone_traffic_fraction = $aData[10];
         $this->doAdZone->created = $aData[11];
         $this->doAdZone->created_by = $aData[12];
-        if (isset($aData[13]))
-        {
+        if (isset($aData[13])) {
             $this->doAdZone->expired = $aData[13];
-        }
-        else
-        {
+        } else {
             $this->doAdZone->expired = '';
         }
         return DataGenerator::generateOne($this->doAdZone);
     }
 
-    function _insertCampaignBanner()
+    public function _insertCampaignBanner()
     {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->priority = 1;
@@ -174,35 +171,35 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
      *           set of data, and ensure that these ad/zone pairs are also included
      *           in the results.
      */
-    function testGetPreviousAdDeliveryInfo()
+    public function testGetPreviousAdDeliveryInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
-        $aEmptyZoneAdArray = array();
+        $aEmptyZoneAdArray = [];
 
-        $aAdParams = array(
-            'ad_id'  => 1,
+        $aAdParams = [
+            'ad_id' => 1,
             'active' => 't',
-            'type'   => 'sql',
+            'type' => 'sql',
             'weight' => 1
-        );
+        ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 1));
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 1]);
         $oZone->addAdvert($oAd);
-        $aZoneAdArray = array($oZone->id => $oZone);
+        $aZoneAdArray = [$oZone->id => $oZone];
 
         // Test 1
         $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertFalse($result);
 
         // Test 2
         $oDate = new Date();
         $oServiceLocator->register('now', $oDate);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
         // Test 3
@@ -210,7 +207,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -222,12 +219,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -236,7 +233,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -248,9 +245,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -260,7 +257,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -271,7 +268,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -283,14 +280,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -298,7 +295,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -312,12 +309,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -326,7 +323,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -340,9 +337,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -352,7 +349,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertFalse(isset($result[1][1]['impressions']));
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -363,7 +360,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -377,11 +374,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -391,7 +388,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertFalse(isset($result[1][1]['impressions']));
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -399,7 +396,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -411,11 +408,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -429,12 +426,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -442,7 +439,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -454,12 +451,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -473,9 +470,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -485,7 +482,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertFalse(isset($result[1][1]['impressions']));
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -493,7 +490,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -505,14 +502,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -526,11 +523,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -540,7 +537,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertFalse(isset($result[1][1]['impressions']));
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -551,7 +548,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -563,11 +560,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -581,12 +578,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -597,7 +594,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -609,12 +606,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -628,9 +625,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -640,7 +637,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertFalse(isset($result[1][1]['impressions']));
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -651,7 +648,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -663,14 +660,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -684,11 +681,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -698,7 +695,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -707,7 +704,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -719,11 +716,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -737,9 +734,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -749,7 +746,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -758,7 +755,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -770,12 +767,12 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -789,9 +786,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -801,7 +798,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -810,7 +807,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -822,14 +819,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -843,9 +840,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -854,7 +851,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -864,7 +861,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -873,7 +870,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -885,9 +882,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -899,10 +896,10 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             2,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $bannerId2 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -914,9 +911,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             3,
             2,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -928,10 +925,10 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             4,
             2,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $bannerId3 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -943,14 +940,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             5,
             5,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -962,9 +959,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             100,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -976,9 +973,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             2,
             100,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -990,9 +987,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             3,
             200,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1004,9 +1001,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             4,
             200,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1018,9 +1015,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             5,
             500,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1032,14 +1029,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             5,
             500,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1053,9 +1050,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1069,9 +1066,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.995,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1086,9 +1083,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:30:00')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1103,9 +1100,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1120,9 +1117,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:30:00')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1137,7 +1134,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
@@ -1146,7 +1143,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1161,9 +1158,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:30:00')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1178,9 +1175,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 4);
         $this->assertEqual(count($result[1]), 2);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
@@ -1229,34 +1226,34 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $this->assertEqual($result[9][9]['past_zone_traffic_fraction'], 0.995);
         $this->assertFalse(isset($result[9][9]['impressions']));
 
-        $oDate =& $oServiceLocator->get('now');
+        $oDate = &$oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
         // Test 18a
-        $oZone = new OX_Maintenance_Priority_Zone(array('zoneid' => 4));
-        $aAdParams = array(
-            'ad_id'  => 10,
+        $oZone = new OX_Maintenance_Priority_Zone(['zoneid' => 4]);
+        $aAdParams = [
+            'ad_id' => 10,
             'active' => 't',
-            'type'   => 'sql',
+            'type' => 'sql',
             'weight' => 1
-        );
+        ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $oZone->addAdvert($oAd);
-        $aAdParams = array(
-            'ad_id'  => 11,
+        $aAdParams = [
+            'ad_id' => 11,
             'active' => 't',
-            'type'   => 'sql',
+            'type' => 'sql',
             'weight' => 1
-        );
+        ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $oZone->addAdvert($oAd);
-        $aZoneAdArray = array($oZone->id => $oZone);
+        $aZoneAdArray = [$oZone->id => $oZone];
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $bannerId1 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1268,9 +1265,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1282,10 +1279,10 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             2,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $bannerId2 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1297,9 +1294,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             3,
             2,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1311,10 +1308,10 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             4,
             2,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $bannerId3 = $this->_insertCampaignBanner();
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1326,14 +1323,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             5,
             5,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1345,9 +1342,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             1,
             100,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1359,9 +1356,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             2,
             100,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1373,9 +1370,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             3,
             200,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1387,9 +1384,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             4,
             200,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1401,9 +1398,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             5,
             500,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1415,9 +1412,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             5,
             500,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1429,7 +1426,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             4,
             1000,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
@@ -1440,7 +1437,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
             $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         }
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1452,14 +1449,14 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             4,
             2000,
             $oNow->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $idDia = $this->_insertDataIntermediateAd($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1473,9 +1470,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.99,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1489,9 +1486,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             0.995,
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             0
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1506,9 +1503,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1523,9 +1520,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1540,9 +1537,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:30:00')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1557,7 +1554,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
@@ -1566,7 +1563,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1581,9 +1578,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
             0,
             $aDates['end']->format('%Y-%m-%d %H:30:00')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1598,9 +1595,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1615,7 +1612,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
         $operationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = OX_OperationInterval::previousOperationIntervalID($operationIntervalID);
@@ -1628,7 +1625,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
         }
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $aData = array(
+        $aData = [
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
             $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
@@ -1643,9 +1640,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             $aDates['start']->format('%Y-%m-%d %H:30:00'),
             0,
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
-        );
+        ];
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 5);
         $this->assertEqual(count($result[1]), 2);
         $this->assertEqual($result[1][1]['ad_id'], $bannerId1);
@@ -1704,7 +1701,4 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
 
         TestEnv::restoreEnv();
     }
-
 }
-
-?>

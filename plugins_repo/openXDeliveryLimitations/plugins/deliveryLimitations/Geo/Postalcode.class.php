@@ -26,7 +26,7 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
 {
     use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->nameEnglish = 'Geo - US/Canada Postal Code';
@@ -37,10 +37,8 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
      *
      * @return boolean
      */
-    function isAllowed($page = false)
+    public function isAllowed($page = false)
     {
         return $this->hasCapability('postal_code');
     }
 }
-
-?>

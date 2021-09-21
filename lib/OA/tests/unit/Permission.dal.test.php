@@ -24,25 +24,24 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Permission extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function setUp()
+    public function setUp()
     {
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
 
-    function testSwitchToSystemProcessUser()
+    public function testSwitchToSystemProcessUser()
     {
         global $session;
 
@@ -78,7 +77,7 @@ class Test_OA_Permission extends UnitTestCase
         $this->assertEqual($oUser->aUser['username'], 'testuser');
     }
 
-    function testIsUsernameAllowed()
+    public function testIsUsernameAllowed()
     {
         // If the names are the same then true
         $this->assertTrue(OA_Permission::isUsernameAllowed('foo', 'foo'));
@@ -88,13 +87,13 @@ class Test_OA_Permission extends UnitTestCase
         $doClients->reportlastdate = '2007-04-02 12:00:00';
         $clientId = DataGenerator::generateOne($doClients);
 
-        $username = 'username1'.rand(1,1000);
-        $aUser = array(
+        $username = 'username1' . rand(1, 1000);
+        $aUser = [
             'contact_name' => 'contact',
             'email_address' => 'email@example.com',
             'username' => $username,
             'password' => 'password',
-        );
+        ];
 
         $doClient = OA_Dal::staticGetDO('clients', $clientId);
         $doClient->createUser($aUser);
@@ -105,26 +104,31 @@ class Test_OA_Permission extends UnitTestCase
     }
 
     // hasAccessToObject($objectTable, $objectId, $accountId = null)
-    function testHasAccessToObject()
+    public function testHasAccessToObject()
     {
-        $userTables = array(
-		    OA_ACCOUNT_ADVERTISER => 'clients',
-		    OA_ACCOUNT_TRAFFICKER => 'affiliates',
-		    OA_ACCOUNT_MANAGER    => 'agency',
-		);
+        $userTables = [
+            OA_ACCOUNT_ADVERTISER => 'clients',
+            OA_ACCOUNT_TRAFFICKER => 'affiliates',
+            OA_ACCOUNT_MANAGER => 'agency',
+        ];
 
         // Test if all users have access to new objects
         foreach ($userTables as $userType => $userTable) {
-            $this->assertTrue(OA_Permission::hasAccessToObject('banners', null, 
-                OA_Permission::OPERATION_ALL, rand(1,100), $userType));
+            $this->assertTrue(OA_Permission::hasAccessToObject(
+                'banners',
+                null,
+                OA_Permission::OPERATION_ALL,
+                rand(1, 100),
+                $userType
+            ));
         }
 
         // Create some record
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-05 16:18:00';
-        $aData = array(
-            'reportlastdate' => array('2007-04-05 16:18:00')
-        );
+        $aData = [
+            'reportlastdate' => ['2007-04-05 16:18:00']
+        ];
         $dg = new DataGenerator();
         $dg->setData('clients', $aData);
         $bannerId = $dg->generateOne($doBanners, true);
@@ -136,14 +140,29 @@ class Test_OA_Permission extends UnitTestCase
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
 
         // Test that admin doesn't have access anymore to all objects
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', 'booId', 
-            OA_Permission::OPERATION_ALL, 1, OA_ACCOUNT_ADMIN));
+        $this->assertFalse(OA_Permission::hasAccessToObject(
+            'banners',
+            'booId',
+            OA_Permission::OPERATION_ALL,
+            1,
+            OA_ACCOUNT_ADMIN
+        ));
 
         // Test accounts have access
-        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, 
-            OA_Permission::OPERATION_ALL, $doClient->account_id, OA_ACCOUNT_ADVERTISER));
-        $this->assertTrue(OA_Permission::hasAccessToObject('banners', $bannerId, 
-            OA_Permission::OPERATION_ALL, $doAgency->account_id, OA_ACCOUNT_MANAGER));
+        $this->assertTrue(OA_Permission::hasAccessToObject(
+            'banners',
+            $bannerId,
+            OA_Permission::OPERATION_ALL,
+            $doClient->account_id,
+            OA_ACCOUNT_ADVERTISER
+        ));
+        $this->assertTrue(OA_Permission::hasAccessToObject(
+            'banners',
+            $bannerId,
+            OA_Permission::OPERATION_ALL,
+            $doAgency->account_id,
+            OA_ACCOUNT_MANAGER
+        ));
 
         // Create users who don't have access
         $doClients = OA_Dal::factoryDO('clients');
@@ -154,12 +173,26 @@ class Test_OA_Permission extends UnitTestCase
         $doClientId2 = OA_Dal::staticGetDO('clients', $clientId2);
         $doAgency2 = OA_Dal::staticGetDO('agency', $agencyId2);
 
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, 
-            $fakeId = 123, OA_Permission::OPERATION_ALL, OA_ACCOUNT_TRAFFICKER));
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, 
-            $doClientId2->account_id, OA_Permission::OPERATION_ALL, OA_ACCOUNT_ADVERTISER));
-        $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, 
-            $doAgency2->account_id, OA_Permission::OPERATION_ALL, OA_ACCOUNT_MANAGER));
+        $this->assertFalse(OA_Permission::hasAccessToObject(
+            'banners',
+            $bannerId,
+            $fakeId = 123,
+            OA_Permission::OPERATION_ALL,
+            OA_ACCOUNT_TRAFFICKER
+        ));
+        $this->assertFalse(OA_Permission::hasAccessToObject(
+            'banners',
+            $bannerId,
+            $doClientId2->account_id,
+            OA_Permission::OPERATION_ALL,
+            OA_ACCOUNT_ADVERTISER
+        ));
+        $this->assertFalse(OA_Permission::hasAccessToObject(
+            'banners',
+            $bannerId,
+            $doAgency2->account_id,
+            OA_Permission::OPERATION_ALL,
+            OA_ACCOUNT_MANAGER
+        ));
     }
 }
-?>

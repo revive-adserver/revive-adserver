@@ -27,13 +27,12 @@ require_once OX_PATH . '/lib/pear/Date.php';
  */
 class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
 {
-
     /**
      * The constuctor method.
      *
      * @return OX_Dal_Maintenance_Statistics_Pgsql
      */
-    function __construct()
+    public function __construct()
     {
         $this->timestampCastString = '::timestamp';
         parent::__construct();
@@ -54,7 +53,7 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.
      * @param PEAR::Date $oEnd The end date of the operation interval to migrate.
      */
-    function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
+    public function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
     {
         $query = "
             SELECT bucket_update_{$bucketTable}
@@ -80,18 +79,18 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date/time of the operation interval.
      * @param PEAR::Date $oEnd   The end date/time of the operation interval.
      */
-    function deduplicateConversions($oStart, $oEnd)
+    public function deduplicateConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $diac  = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
-        $diavv = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
-        $var   = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true);
+        $diac = $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad_connection'], true);
+        $diavv = $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad_variable_value'], true);
+        $var = $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['variables'], true);
         $query = "
             UPDATE
                 {$diac}
             SET
-                connection_status = ". MAX_CONNECTION_STATUS_DUPLICATE .",
-                updated = '". OA::getNow() ."',
+                connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE . ",
+                updated = '" . OA::getNow() . "',
                 comments = 'Duplicate of conversion ID ' || diac2.data_intermediate_ad_connection_id
             FROM
                 {$diavv} AS diavv
@@ -151,18 +150,18 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
      * @param PEAR::Date $oStart The start date/time of the operation interval.
      * @param PEAR::Date $oEnd   The end date/time of the operation interval.
      */
-    function rejectEmptyVarConversions($oStart, $oEnd)
+    public function rejectEmptyVarConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $var   = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true);
-        $diac  = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
-        $diavv = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
+        $var = $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['variables'], true);
+        $diac = $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad_connection'], true);
+        $diavv = $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad_variable_value'], true);
         $query = "
             UPDATE
                 {$diac}
             SET
-                connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
-                updated = '". OA::getNow() ."',
+                connection_status = " . MAX_CONNECTION_STATUS_DISAPPROVED . ",
+                updated = '" . OA::getNow() . "',
                 comments = 'Rejected because ' || COALESCE(NULLIF(v.description, ''), v.name) || ' is empty'
             FROM
                 {$diac} AS diac2
@@ -201,7 +200,4 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
     }
-
 }
-
-?>

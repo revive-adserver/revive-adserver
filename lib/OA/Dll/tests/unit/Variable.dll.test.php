@@ -24,30 +24,31 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  */
 
 
-class OA_Dll_VariableTest extends DllUnitTestCase {
+class OA_Dll_VariableTest extends DllUnitTestCase
+{
     private $clientId;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Tracker',
             'PartialMockOA_Dll_Tracker',
-            array('checkPermissions')
+            ['checkPermissions']
         );
         Mock::generatePartial(
             'OA_Dll_Variable',
             'PartialMockOA_Dll_Variable',
-            array('checkPermissions')
+            ['checkPermissions']
         );
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->clientId = DataGenerator::generateOne('clients', true);
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -56,7 +57,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
     /**
      * A method to test Add, Modify and Delete.
      */
-    function testAddModifyDelete()
+    public function testAddModifyDelete()
     {
         $dllTrackerPartialMock = new PartialMockOA_Dll_Tracker($this);
         $dllVariablePartialMock = new PartialMockOA_Dll_Variable($this);
@@ -67,7 +68,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
 
         $oTrackerInfo = new OA_Dll_TrackerInfo();
         $oTrackerInfo->trackerName = 'test tracker name';
-        $oTrackerInfo->clientId       = $this->clientId;
+        $oTrackerInfo->clientId = $this->clientId;
         $dllTrackerPartialMock->modify($oTrackerInfo);
 
         $oVariableInfo = new OA_Dll_VariableInfo();
@@ -75,31 +76,41 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         $oVariableInfo->variableName = 'Test variable name';
 
         // Add
-        $this->assertTrue($dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->modify($oVariableInfo),
+            $dllVariablePartialMock->getLastError()
+        );
 
         // Modify
-        $this->assertTrue($dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->modify($oVariableInfo),
+            $dllVariablePartialMock->getLastError()
+        );
 
         // Delete
-        $this->assertTrue($dllVariablePartialMock->delete($oVariableInfo->variableId),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->delete($oVariableInfo->variableId),
+            $dllVariablePartialMock->getLastError()
+        );
 
         // Modify not existing id
-        $this->assertTrue((!$dllVariablePartialMock->modify($oVariableInfo) &&
+        $this->assertTrue(
+            (!$dllVariablePartialMock->modify($oVariableInfo) &&
             $dllVariablePartialMock->getLastError() == OA_Dll_Variable::ERROR_UNKNOWN_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID));
+            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID)
+        );
 
         // Delete not existing id
-        $this->assertTrue((!$dllVariablePartialMock->delete($oVariableInfo->variableId) &&
+        $this->assertTrue(
+            (!$dllVariablePartialMock->delete($oVariableInfo->variableId) &&
             $dllVariablePartialMock->getLastError() == OA_Dll_Variable::ERROR_UNKNOWN_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID));
+            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID)
+        );
 
         $dllVariablePartialMock->tally();
     }
 
-    function testGet()
+    public function testGet()
     {
         $dllTrackerPartialMock = new PartialMockOA_Dll_Tracker($this);
         $dllVariablePartialMock = new PartialMockOA_Dll_Variable($this);
@@ -111,35 +122,41 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         $oTrackerInfo->trackerName = 'test tracker name';
         $oTrackerInfo->clientId = $this->clientId;
 
-        $this->assertTrue($dllTrackerPartialMock->modify($oTrackerInfo),
-                          $dllTrackerPartialMock->getLastError());
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError()
+        );
 
         // Add
         $oVariableInfo = new OA_Dll_VariableInfo();
         $oVariableInfo->trackerId = $oTrackerInfo->trackerId;
-        $oVariableInfo->variableName  = 'test name 1';
+        $oVariableInfo->variableName = 'test name 1';
 
-        $this->assertTrue($dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->modify($oVariableInfo),
+            $dllVariablePartialMock->getLastError()
+        );
 
         $oVariableInfoGet = null;
 
         // Get
-        $this->assertTrue($dllVariablePartialMock->getVariable($oVariableInfo->variableId,
-            $oVariableInfoGet), $dllVariablePartialMock->getLastError());
+        $this->assertTrue($dllVariablePartialMock->getVariable(
+            $oVariableInfo->variableId,
+            $oVariableInfoGet
+        ), $dllVariablePartialMock->getLastError());
 
         // Check field value
         $this->assertFieldEqual($oVariableInfo, $oVariableInfoGet, 'variableName');
         $this->assertFieldEqual($oVariableInfo, $oVariableInfoGet, 'trackerId');
     }
 
-    function testHidden()
+    public function testHidden()
     {
         // Add websites
         $aWebsiteIds = DataGenerator::generate('affiliates', 2);
 
         // Add zones
-        $aZoneIds = array();
+        $aZoneIds = [];
 
         foreach ($aWebsiteIds as $websiteId) {
             $doZones = OA_Dal::factoryDO('zones');
@@ -178,11 +195,13 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         $oVariableInfo->trackerId = $trackerId;
         $oVariableInfo->variableName = 'Test hidden variable name';
         $oVariableInfo->hidden = true;
-        $oVariableInfo->hiddenWebsites = array($aWebsiteIds[1]);
+        $oVariableInfo->hiddenWebsites = [$aWebsiteIds[1]];
 
         // Add with hidden website
-        $this->assertTrue($dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->modify($oVariableInfo),
+            $dllVariablePartialMock->getLastError()
+        );
 
         // Check the value of variable_publisher
         $doVariablePublisher = OA_Dal::factoryDO('variable_publisher');
@@ -192,7 +211,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         $this->assertEqual($aWebsiteIds[0], $doVariablePublisher->publisher_id);
     }
 
-    function testUnique()
+    public function testUnique()
     {
         // Add a tracker
         $trackerId = DataGenerator::generateOne('trackers');
@@ -206,8 +225,10 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         $oVariableInfo->variableName = 'Test variable 1';
         $oVariableInfo->isUnique = true;
 
-        $this->assertTrue($dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->modify($oVariableInfo),
+            $dllVariablePartialMock->getLastError()
+        );
 
         // Add another unqique variable
         $oVariableInfo2 = new OA_Dll_VariableInfo();
@@ -215,8 +236,10 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         $oVariableInfo2->variableName = 'Test variable 2';
         $oVariableInfo2->isUnique = true;
 
-        $this->assertTrue($dllVariablePartialMock->modify($oVariableInfo2),
-            $dllVariablePartialMock->getLastError());
+        $this->assertTrue(
+            $dllVariablePartialMock->modify($oVariableInfo2),
+            $dllVariablePartialMock->getLastError()
+        );
 
         // Check the second var is unique
         $doVariable = OA_Dal::staticGetDO('variables', $oVariableInfo2->variableId);
@@ -225,9 +248,5 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         // Check the first var is not unique any more
         $doVariable = OA_Dal::staticGetDO('variables', $oVariableInfo->variableId);
         $this->assertEqual(0, $doVariable->is_unique);
-
     }
-
 }
-
-?>

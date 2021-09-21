@@ -37,27 +37,26 @@ require_once LIB_PATH . '/Plugin/Component.php';
  */
 class OX_Maintenance_Statistics
 {
-
     /**
      * Text report of the details logged by the run tasks.
      *
      * @var string
      */
-    var $report;
+    public $report;
 
     /**
      * The date/time that the intermediate tables were last updated.
      *
      * @var PEAR::Date
      */
-    var $oLastDateIntermediate;
+    public $oLastDateIntermediate;
 
     /**
      * Should the intermediate tables be updated?
      *
      * @var boolean
      */
-    var $updateIntermediate;
+    public $updateIntermediate;
 
     /**
      * Did the operation interval remain the same since the last run?
@@ -66,42 +65,42 @@ class OX_Maintenance_Statistics
      *
      * @var boolean
      */
-    var $sameOI = true;
+    public $sameOI = true;
 
     /**
      * The date/time to update the intermediate tables to, if appropriate.
      *
      * @var PEAR::Date
      */
-    var $oUpdateIntermediateToDate;
+    public $oUpdateIntermediateToDate;
 
     /**
      * The date/time that the final tables were last updated.
      *
      * @var PEAR::Date
      */
-    var $oLastDateFinal;
+    public $oLastDateFinal;
 
     /**
      * Should the final tables be updated?
      *
      * @var boolean
      */
-    var $updateFinal;
+    public $updateFinal;
 
     /**
      * The date/time to update the intermediate tables to, if appropriate.
      *
      * @var PEAR::Date
      */
-    var $oUpdateFinalToDate;
+    public $oUpdateFinalToDate;
 
     /**
      * An OA_Task_Runner instance to store the MSE tasks.
      *
      * @var OA_Task_Runner
      */
-    var $oTaskRunner;
+    public $oTaskRunner;
 
     /** @var array array of addMaintenanceStatisticsTask components. */
     private $aComponents;
@@ -111,7 +110,7 @@ class OX_Maintenance_Statistics
      *
      * @static
      */
-    function run()
+    public function run()
     {
         OA::switchLogIdent('maintenance');
 
@@ -225,7 +224,4 @@ class OX_Maintenance_Statistics
         OA::debug('Maintenance Statistics Engine Completed (Started at ' . $oDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oDate->tz->getShortName() . ')', PEAR_LOG_INFO);
         OA::switchLogIdent();
     }
-
 }
-
-?>

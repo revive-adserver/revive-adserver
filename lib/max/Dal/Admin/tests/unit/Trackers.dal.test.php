@@ -22,8 +22,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Trackers.php';
  */
 class MAX_Dal_Admin_TrackersTest extends DalUnitTestCase
 {
-
-    var $dalTrackers;
+    public $dalTrackers;
 
     public function setUp()
     {
@@ -128,5 +127,3 @@ class MAX_Dal_Admin_TrackersTest extends DalUnitTestCase
         $this->assertFalse($result);
     }
 }
-
-?>

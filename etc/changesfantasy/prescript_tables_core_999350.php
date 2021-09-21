@@ -10,15 +10,15 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
+require_once MAX_PATH . '/etc/changesfantasy/script_tables_core_parent.php';
 
 class prescript_tables_core_999350 extends script_tables_core_parent
 {
-    function __construct()
+    public function __construct()
     {
     }
 
-    function execute_destructive($aParams)
+    public function execute_destructive($aParams)
     {
         $this->init($aParams);
         $this->_log('*********** destructive ****************');
@@ -26,20 +26,15 @@ class prescript_tables_core_999350 extends script_tables_core_parent
         return true;
     }
 
-    function _logExpectedDestructive()
+    public function _logExpectedDestructive()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
         $msg = $this->_testName('A');
-        if (!in_array($prefix.'astro', $aExistingTables))
-        {
-            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999350 will not be able to remove the autoincrement field for table '.$prefix.'astro');
-        }
-        else
-        {
-            $this->_log($msg.' remove autoincrement field in table '.$prefix.'astro defined as: [auto_renamed_field]');
+        if (!in_array($prefix . 'astro', $aExistingTables)) {
+            $this->_log($msg . ' table ' . $prefix . 'astro does not exist in database therefore changes_tables_core_999350 will not be able to remove the autoincrement field for table ' . $prefix . 'astro');
+        } else {
+            $this->_log($msg . ' remove autoincrement field in table ' . $prefix . 'astro defined as: [auto_renamed_field]');
         }
     }
 }
-
-?>

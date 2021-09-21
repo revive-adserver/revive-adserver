@@ -50,7 +50,8 @@ class AdminServiceConfigurator
 
         $container
             ->register('filesystem', Filesystem::class)
-            ->addArgument(new Reference($container->getParameter('store.mode') ?
+            ->addArgument(new Reference(
+                $container->getParameter('store.mode') ?
                 'filesystem.adapter.ftp' : // store.mode 1: FTP
                 'filesystem.adapter.local' // store.mode 0: Local
             ));

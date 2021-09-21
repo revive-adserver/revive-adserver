@@ -11,6 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Cymraeg";
-$translation_maintainer	= "Revive Adserver Team";
-$translation_contact	= "noreply@revive-adserver.com";
+$translation_readable = "Cymraeg";
+$translation_maintainer = "Revive Adserver Team";
+$translation_contact = "noreply@revive-adserver.com";

@@ -43,7 +43,7 @@ class OX_Admin_UI_Install_InstallUtils
     {
         // These values must be the same as used for the
         // data access layer file names!
-        $aTypes = array ();
+        $aTypes = [];
         if (extension_loaded('mysqli')) {
             $aTypes['mysqli'] = 'MySQLi';
         }
@@ -64,7 +64,7 @@ class OX_Admin_UI_Install_InstallUtils
     {
         // These values must be the same as used for the
         // data access layer file names!
-        $aTypes = array ();
+        $aTypes = [];
         if (extension_loaded('mysqli')) {
             $aTypes['MYISAM'] = 'MyISAM';
             $aTypes['INNODB'] = 'InnoDB';
@@ -86,8 +86,7 @@ class OX_Admin_UI_Install_InstallUtils
     {
         if (!file_exists($folder)) {
             return false;
-        }
-        elseif (!is_writable($folder)) {
+        } elseif (!is_writable($folder)) {
             return false;
         }
         return true;
@@ -139,7 +138,7 @@ class OX_Admin_UI_Install_InstallUtils
             if (!$oPluginImporter->verifyAll($GLOBALS['_MAX']['CONF']['plugins'])) {
                 $verified = false;
                 // See if we can figure out the previous path
-                if (!empty($GLOBALS['_MAX']['CONF']['store']['webDir'])){
+                if (!empty($GLOBALS['_MAX']['CONF']['store']['webDir'])) {
                     $possPath = dirname(dirname($GLOBALS['_MAX']['CONF']['store']['webDir']));
                     $oPluginVerifier = new OX_UpgradePluginImport();
                     $oPluginVerifier->basePath = $possPath;
@@ -151,7 +150,7 @@ class OX_Admin_UI_Install_InstallUtils
             }
         }
 
-        return array('verified' => $verified, 'path' => $prevPath);
+        return ['verified' => $verified, 'path' => $prevPath];
     }
 
 
@@ -211,28 +210,24 @@ class OX_Admin_UI_Install_InstallUtils
      */
     public static function getMessagesWithType($aUpgraderMessages)
     {
-        $aErrors = array();
-        $aWarnings = array();
-        $aInfos = array();
+        $aErrors = [];
+        $aWarnings = [];
+        $aInfos = [];
 
-        $sErr  = '#! ';
+        $sErr = '#! ';
         $sWarn = '#> ';
-        foreach ($aUpgraderMessages AS $key => $message) {
-            if (substr($message, 0 , 3) == $sErr) {
+        foreach ($aUpgraderMessages as $key => $message) {
+            if (substr($message, 0, 3) == $sErr) {
                 $message = str_replace($sErr, '', $message);
                 $aErrors[$key] = $message;
-            }
-            else if (substr($message, 0, 3) == $sWarn) {
+            } elseif (substr($message, 0, 3) == $sWarn) {
                 $message = str_replace($sWarn, '', $message);
                 $aWarnings[$key] = $message;
-            }
-            else {
+            } else {
                 $aInfos[$key] = $message;
             }
         }
 
-        return array('error' => $aErrors, 'warning' => $aWarnings, 'info' => $aInfos);
+        return ['error' => $aErrors, 'warning' => $aWarnings, 'info' => $aInfos];
     }
 }
-
-?>

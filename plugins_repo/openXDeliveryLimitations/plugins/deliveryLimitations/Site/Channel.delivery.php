@@ -27,15 +27,15 @@ if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php'])) {
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's channel passes this limitation's test.
  */
-function MAX_checkSite_Channel($limitation, $op, $aParams = array())
+function MAX_checkSite_Channel($limitation, $op, $aParams = [])
 {
     if (empty($limitation)) {
         return true;
     }
     if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
-        $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = array();
+        $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = [];
     }
-    if (isset ($GLOBALS['_MAX']['channel_results'][$limitation][$op])) {
+    if (isset($GLOBALS['_MAX']['channel_results'][$limitation][$op])) {
         return $GLOBALS['_MAX']['channel_results'][$limitation][$op];
     }
 
@@ -44,7 +44,7 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Include required deliveryLimitation files...
-    if(strlen($aLimitations['acl_plugins'])) {
+    if (strlen($aLimitations['acl_plugins'])) {
         $acl_plugins = explode(',', $aLimitations['acl_plugins']);
         foreach ($acl_plugins as $acl_plugin) {
             list($extension, $package, $name) = explode(':', $acl_plugin);
@@ -57,14 +57,12 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
     }
     $result = true; // Set to true in case of error in eval
     if (!empty($aLimitations['compiledlimitation'])) {
-        @eval('$result = ('.$aLimitations['compiledlimitation'].');');
+        @eval('$result = (' . $aLimitations['compiledlimitation'] . ');');
     }
 
     // Store the channel result for later use.
-    $GLOBALS['_MAX']['channels'][$result][] = array('limitation' => $limitation, 'op' => $op);
+    $GLOBALS['_MAX']['channels'][$result][] = ['limitation' => $limitation, 'op' => $op];
     $GLOBALS['_MAX']['channel_results'][$limitation][$op] = $result;
 
     return $result;
 }
-
-?>

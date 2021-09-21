@@ -29,17 +29,14 @@ class BaseLogonService
      *
      * @var LogonServiceImpl $logonServiceImp
      */
-    var $logonServiceImp;
+    public $logonServiceImp;
 
     /**
      * This method initialises Service implementation object field.
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->logonServiceImp = new LogonServiceImpl();
     }
 }
-
-
-?>

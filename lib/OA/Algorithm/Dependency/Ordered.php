@@ -36,7 +36,7 @@ class OA_Algorithm_Dependency_Ordered extends OA_Algorithm_Dependency
      * @param array $items
      * @return array
      */
-    function schedule($items = array())
+    public function schedule($items = [])
     {
         if (!$items) {
             return false;
@@ -67,12 +67,10 @@ class OA_Algorithm_Dependency_Ordered extends OA_Algorithm_Dependency
                 $missing = array_intersect($itemsIds, $missing);
             }
 
-            if ($missing) {
-                if (!$errorMarker) {
-                    $errorMarker = $id;
-                    $rv[] = $id;
-                    continue;
-                }
+            if ($missing && !$errorMarker) {
+                $errorMarker = $id;
+                $rv[] = $id;
+                continue;
             }
             // All dependencies have been met. Add the item to the schedule
             // and to the selected index
@@ -82,7 +80,4 @@ class OA_Algorithm_Dependency_Ordered extends OA_Algorithm_Dependency
         }
         return $schedule;
     }
-
 }
-
-?>

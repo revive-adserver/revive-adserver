@@ -29,29 +29,29 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
     /**
      * @var int
      */
-    var $agencyId;
+    public $agencyId;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Tracker',
             'PartialMockOA_Dll_Tracker',
-            array('checkPermissions', 'updateVariableCode')
+            ['checkPermissions', 'updateVariableCode']
         );
         Mock::generatePartial(
             'OA_Dll_Advertiser',
             'PartialMockOA_Dll_Advertiser',
-            array('checkPermissions', 'getDefaultAgencyId')
+            ['checkPermissions', 'getDefaultAgencyId']
         );
     }
 
-    function setUp()
+    public function setUp()
     {
         $this->agencyId = DataGenerator::generateOne('agency');
     }
 
-    function tearDown()
+    public function tearDown()
     {
         DataGenerator::cleanUp();
     }
@@ -59,7 +59,7 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
     /**
      * A method to test Add, Modify and Delete.
      */
-    function testAddModifyDelete()
+    public function testAddModifyDelete()
     {
         $dllAdvertiserPartialMock = new PartialMockOA_Dll_Advertiser($this);
         $dllTrackerPartialMock = new PartialMockOA_Dll_Tracker($this);
@@ -72,7 +72,7 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
-        $oAdvertiserInfo->agencyId       = $this->agencyId;
+        $oAdvertiserInfo->agencyId = $this->agencyId;
 
         $dllAdvertiserPartialMock->modify($oAdvertiserInfo);
 
@@ -81,36 +81,47 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
         $oTrackerInfo->trackerName = 'Test tracker name';
 
         // Add
-        $this->assertTrue($dllTrackerPartialMock->modify($oTrackerInfo),
-                          $dllTrackerPartialMock->getLastError());
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError()
+        );
 
         // Modify (don't change the variableMethod)
         unset($oTrackerInfo->variableMethod);
-        $this->assertTrue($dllTrackerPartialMock->modify($oTrackerInfo),
-                          $dllTrackerPartialMock->getLastError());
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError()
+        );
 
         // Modify (change variableMethod)
         $oTrackerInfo->variableMethod = 'dom';
-        $this->assertTrue($dllTrackerPartialMock->modify($oTrackerInfo),
-                          $dllTrackerPartialMock->getLastError());
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError()
+        );
 
         // Delete
-        $this->assertTrue($dllTrackerPartialMock->delete($oTrackerInfo->trackerId),
-            $dllTrackerPartialMock->getLastError());
+        $this->assertTrue(
+            $dllTrackerPartialMock->delete($oTrackerInfo->trackerId),
+            $dllTrackerPartialMock->getLastError()
+        );
 
         // Modify not existing id
-        $this->assertTrue((!$dllTrackerPartialMock->modify($oTrackerInfo) &&
+        $this->assertTrue(
+            (!$dllTrackerPartialMock->modify($oTrackerInfo) &&
                           $dllTrackerPartialMock->getLastError() == OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID));
+            $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID)
+        );
 
         // Delete not existing id
-        $this->assertTrue((!$dllTrackerPartialMock->delete($oTrackerInfo->trackerId) &&
+        $this->assertTrue(
+            (!$dllTrackerPartialMock->delete($oTrackerInfo->trackerId) &&
                            $dllTrackerPartialMock->getLastError() == OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID));
-
+            $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID)
+        );
     }
 
-    function testLinkTrackerToCampaign()
+    public function testLinkTrackerToCampaign()
     {
         $dllTrackerPartialMock = new PartialMockOA_Dll_Tracker($this);
         $dllTrackerPartialMock->setReturnValue('checkPermissions', true);
@@ -137,12 +148,14 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
         $campaignId = DataGenerator::generateOne($doCampaigns, true);
 
         $this->assertFalse($dllTrackerPartialMock->linkTrackerToCampaign($trackerId, $campaignId));
-        $this->assertTrue(!$dllTrackerPartialMock->linkTrackerToCampaign($trackerId, $campaignId) &&
+        $this->assertTrue(
+            !$dllTrackerPartialMock->linkTrackerToCampaign($trackerId, $campaignId) &&
             $dllTrackerPartialMock->getLastError() == OA_Dll_Tracker::ERROR_CAMPAIGN_ADVERTISER_MISMATCH,
-            $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_CAMPAIGN_ADVERTISER_MISMATCH));
+            $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_CAMPAIGN_ADVERTISER_MISMATCH)
+        );
     }
 
-    function testGet()
+    public function testGet()
     {
         $dllAdvertiserPartialMock = new PartialMockOA_Dll_Advertiser($this);
         $dllTrackerPartialMock = new PartialMockOA_Dll_Tracker($this);
@@ -156,28 +169,31 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
         $oAdvertiserInfo->agencyId = $this->agencyId;
 
-        $this->assertTrue($dllAdvertiserPartialMock->modify($oAdvertiserInfo),
-                          $dllAdvertiserPartialMock->getLastError());
+        $this->assertTrue(
+            $dllAdvertiserPartialMock->modify($oAdvertiserInfo),
+            $dllAdvertiserPartialMock->getLastError()
+        );
 
         // Add
         $oTrackerInfo = new OA_Dll_TrackerInfo();
         $oTrackerInfo->clientId = $oAdvertiserInfo->advertiserId;
-        $oTrackerInfo->trackerName  = 'test name 1';
+        $oTrackerInfo->trackerName = 'test name 1';
 
-        $this->assertTrue($dllTrackerPartialMock->modify($oTrackerInfo),
-            $dllTrackerPartialMock->getLastError());
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError()
+        );
 
         $oTrackerInfoGet = null;
 
         // Get
-        $this->assertTrue($dllTrackerPartialMock->getTracker($oTrackerInfo->trackerId,
-            $oTrackerInfoGet), $dllTrackerPartialMock->getLastError());
+        $this->assertTrue($dllTrackerPartialMock->getTracker(
+            $oTrackerInfo->trackerId,
+            $oTrackerInfoGet
+        ), $dllTrackerPartialMock->getLastError());
 
         // Check field value
         $this->assertFieldEqual($oTrackerInfo, $oTrackerInfoGet, 'trackerName');
         $this->assertFieldEqual($oTrackerInfo, $oTrackerInfoGet, 'clientId');
     }
-
 }
-
-?>

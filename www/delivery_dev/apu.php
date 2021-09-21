@@ -21,7 +21,7 @@ MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(
-    array(
+    [
         'left',
         'top',
         'popunder',
@@ -33,21 +33,43 @@ MAX_commonRegisterGlobalsArray(
         'status',
         'resizable',
         'scrollbars'
-    )
+    ]
 );
 
 // Set defaults for script specific input variables
-if (!isset($left))       $left       = 0;
-if (!isset($top))        $top        = 0;
-if (!isset($popunder))   $popunder   = 0;
-if (!isset($timeout))    $timeout    = 0;
-if (!isset($delay))      $delay      = 0;
-if (!isset($toolbars))   $toolbars   = 0;
-if (!isset($location))	 $location   = 0;
-if (!isset($menubar))	 $menubar    = 0;
-if (!isset($status))	 $status     = 0;
-if (!isset($resizable))  $resizable  = 0;
-if (!isset($scrollbars)) $scrollbars = 0;
+if (!isset($left)) {
+    $left = 0;
+}
+if (!isset($top)) {
+    $top = 0;
+}
+if (!isset($popunder)) {
+    $popunder = 0;
+}
+if (!isset($timeout)) {
+    $timeout = 0;
+}
+if (!isset($delay)) {
+    $delay = 0;
+}
+if (!isset($toolbars)) {
+    $toolbars = 0;
+}
+if (!isset($location)) {
+    $location = 0;
+}
+if (!isset($menubar)) {
+    $menubar = 0;
+}
+if (!isset($status)) {
+    $status = 0;
+}
+if (!isset($resizable)) {
+    $resizable = 0;
+}
+if (!isset($scrollbars)) {
+    $scrollbars = 0;
+}
 
 // Get the banner
 $row = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
@@ -61,7 +83,7 @@ if (!$row['bannerid']) {
     exit;
 }
 
-$contenturl = MAX_commonGetDeliveryUrl($conf['file']['content']) . "?bannerid={$row['bannerid']}&zoneid={$row['zoneid']}&target={$target}&withtext={$withtext}&source=".urlencode($source)."&timeout={$timeout}&ct0={$ct0}";
+$contenturl = MAX_commonGetDeliveryUrl($conf['file']['content']) . "?bannerid={$row['bannerid']}&zoneid={$row['zoneid']}&target={$target}&withtext={$withtext}&source=" . urlencode($source) . "&timeout={$timeout}&ct0={$ct0}";
 
 /*-------------------------------------------------------*/
 /* Build the code needed to pop up a window              */
@@ -95,7 +117,7 @@ function MAX_{$row['bannerid']}_pop() {
   }
 
   // Open the window if needed
-  window.MAX_{$row['bannerid']}=window.open('', 'MAX_{$row['bannerid']}','height='+Y+',width='+X+',toolbar=".($toolbars == 1 ? 'yes' : 'no').",location=".($location == 1 ? 'yes' : 'no').",menubar=".($menubar == 1 ? 'yes' : 'no').",status=".($status == 1 ? 'yes' : 'no').",resizable=".($resizable == 1 ? 'yes' : 'no').",scrollbars=".($scrollbars == 1 ? 'yes' : 'no')."');
+  window.MAX_{$row['bannerid']}=window.open('', 'MAX_{$row['bannerid']}','height='+Y+',width='+X+',toolbar=" . ($toolbars == 1 ? 'yes' : 'no') . ",location=" . ($location == 1 ? 'yes' : 'no') . ",menubar=" . ($menubar == 1 ? 'yes' : 'no') . ",status=" . ($status == 1 ? 'yes' : 'no') . ",resizable=" . ($resizable == 1 ? 'yes' : 'no') . ",scrollbars=" . ($scrollbars == 1 ? 'yes' : 'no') . "');
 
   if (window.MAX_{$row['bannerid']}.document.title == '' || window.MAX_{$row['bannerid']}.location == 'about:blank' || window.MAX_{$row['bannerid']}.location == '') {
     var browser = navigator.userAgent.toLowerCase();
@@ -131,32 +153,32 @@ if (!empty($left) || !empty($top)) {
     if (!isset($top) || empty($top)) {
         $top = 0;
     }
- 	echo "
+    echo "
     if (window.moveTo) {";
 
-	if ($left == 'center') {
-		echo "
+    if ($left == 'center') {
+        echo "
       var posX = parseInt((screen.width/2)-(outerX/2));";
-	} elseif ($left >= 0) {
-		echo "
+    } elseif ($left >= 0) {
+        echo "
       var posX = $left;";
-	} elseif ($left < 0) {
-	    echo "
+    } elseif ($left < 0) {
+        echo "
       var posX = screen.width-outerX+$left;";
-	}
+    }
 
-	if ($top == 'center') {
-	    echo "
+    if ($top == 'center') {
+        echo "
       var posY = parseInt((screen.height/2)-(outerY/2));";
-	} elseif ($top  >= 0) {
+    } elseif ($top >= 0) {
         echo "
       var posY = $top;";
-	} elseif ($top  < 0) {
-		echo "
+    } elseif ($top < 0) {
+        echo "
       var posY = screen.height-outerY+$top;";
-	}
+    }
 
-	echo "
+    echo "
       MAX_{$row['bannerid']}.moveTo(posX, posY);
     }";
 }
@@ -167,7 +189,7 @@ echo "
 
 // Move main window to the foreground if we are dealing with a popunder
 if (isset($popunder) && $popunder == '1') {
-	echo "
+    echo "
     MAX_{$row['bannerid']}.blur();
     window.focus();";
 }
@@ -180,16 +202,14 @@ echo "
 }";
 
 if (!empty($delay) && $delay == 'exit') {
-	echo "
+    echo "
 if (window.captureEvents && Event.UNLOAD)
   window.captureEvents (Event.UNLOAD);
 window.onunload = MAX_{$row['bannerid']}_pop;";
 } elseif (isset($delay) && $delay > 0) {
-	echo "
-window.setTimeout(\"MAX_{$row['bannerid']}_pop();\", ".($delay * 1000).");";
+    echo "
+window.setTimeout(\"MAX_{$row['bannerid']}_pop();\", " . ($delay * 1000) . ");";
 } else {
-	echo "
+    echo "
 MAX_{$row['bannerid']}_pop();";
 }
-
-?>

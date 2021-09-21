@@ -16,13 +16,13 @@
  */
 
 if (!defined('SIM_PATH')) {
-    define('SIM_PATH', MAX_PATH.'/www/devel/simulation/');
+    define('SIM_PATH', MAX_PATH . '/www/devel/simulation/');
 }
-define('SIM_TMP', SIM_PATH.'/tmp');
-define('SIM_TEMPLATES', SIM_PATH.'/templates');
+define('SIM_TMP', SIM_PATH . '/tmp');
+define('SIM_TEMPLATES', SIM_PATH . '/templates');
 define('SCENARIOS', 'scenarios');
-define('SCENARIOS_DATASETS', SIM_PATH.SCENARIOS.'/datasets/');
-define('SCENARIOS_REQUESTSETS', SIM_PATH.SCENARIOS.'/requestsets/');
+define('SCENARIOS_DATASETS', SIM_PATH . SCENARIOS . '/datasets/');
+define('SCENARIOS_REQUESTSETS', SIM_PATH . SCENARIOS . '/requestsets/');
 
 error_reporting(E_ALL ^ E_NOTICE);
 define('TEST_ENVIRONMENT_RUNNING', true);
@@ -34,5 +34,3 @@ $conf['realConfig'] = OX_getHostName();
 
 global $is_simulation;
 $is_simulation = true;
-
-?>

@@ -24,17 +24,15 @@ class OA_Dashboard_Widget_Disabled extends OA_Dashboard_Widget
      * A method to launch and display the widget
      *
      */
-    function display()
+    public function display()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $oTpl = new OA_Admin_Template('dashboard/disabled.html');
 
         $oDashboard = new OA_Central_Dashboard();
-        $oTpl->assign('isAdmin',  OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
+        $oTpl->assign('isAdmin', OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
 
         $oTpl->display();
     }
 }
-
-?>

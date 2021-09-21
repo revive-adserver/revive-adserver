@@ -19,14 +19,13 @@ require_once $path . '/../../../../../init.php';
  */
 class Test_OA_Maintenance_PriorityFork
 {
-
-    function testForkRun()
+    public function testForkRun()
     {
         require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
         $pid = pcntl_fork();
         if ($pid == -1) {
             // something bad happened
-        } else if ($pid == 0) {
+        } elseif ($pid == 0) {
             $resultChild = OA_Maintenance_Priority::run();
         } else {
             $resultParent = OA_Maintenance_Priority::run();
@@ -37,5 +36,3 @@ class Test_OA_Maintenance_PriorityFork
 
 $test = new Test_OA_Maintenance_PriorityFork();
 $test->testForkRun();
-
-?>

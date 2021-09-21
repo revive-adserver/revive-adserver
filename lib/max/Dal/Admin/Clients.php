@@ -16,15 +16,15 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Clients.php';
 
 class MAX_Dal_Admin_Clients extends MAX_Dal_Common
 {
-    var $table = 'clients';
+    public $table = 'clients';
 
-    var $orderListName = array(
-        'name'    => 'clientname',
-        'id'      => 'clientid',
+    public $orderListName = [
+        'name' => 'clientname',
+        'id' => 'clientid',
         'updated' => 'updated',
-    );
+    ];
 
-	/**
+    /**
      * A method to retrieve all advertisers where the advertiser name
      * contains a given string. Also returns any advertiser where the
      * advertiser ID equals the given keyword, should the keyword be
@@ -34,12 +34,13 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @param $agencyId integer Limit results to advertisers owned by a given Agency ID
      * @return RecordSet
      */
-    function getClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = array())
+    public function getClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = [])
     {
         // always add default type
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT),
-            $aIncludeSystemTypes);
+            [DataObjects_Clients::ADVERTISER_TYPE_DEFAULT],
+            $aIncludeSystemTypes
+        );
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
         }
@@ -47,7 +48,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         $conf = $GLOBALS['_MAX']['CONF'];
         $whereClient = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
         $oDbh = OA_DB::singleton();
-        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix().'clients',true);
+        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix() . 'clients', true);
 
 
         $query = "
@@ -58,11 +59,11 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
                 {$tableC} AS c
             WHERE
                 (
-                    c.clientname LIKE ". DBC::makeLiteral('%'. $keyword. '%') . $whereClient ."
+                    c.clientname LIKE " . DBC::makeLiteral('%' . $keyword . '%') . $whereClient . "
                 )
-                AND c.type IN (". implode(',', $aIncludeSystemTypes) .")";
+                AND c.type IN (" . implode(',', $aIncludeSystemTypes) . ")";
         if ($agencyId !== null) {
-            $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
+            $query .= " AND c.agencyid=" . DBC::makeLiteral($agencyId);
         }
         return DBC::NewRecordSet($query);
     }
@@ -77,7 +78,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      *
      * @todo Consider deprecating this method in favour of an object approach.
      */
-    function getAdvertiserDetails($advertiserId)
+    public function getAdvertiserDetails($advertiserId)
     {
         $doClients = OA_Dal::staticGetDO('clients', $advertiserId);
         if ($doClients) {
@@ -101,20 +102,21 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      *
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisers($listorder, $orderdirection, $agencyId = null, $aIncludeSystemTypes = array())
+    public function getAllAdvertisers($listorder, $orderdirection, $agencyId = null, $aIncludeSystemTypes = [])
     {
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT),
-            $aIncludeSystemTypes);
+            [DataObjects_Clients::ADVERTISER_TYPE_DEFAULT],
+            $aIncludeSystemTypes
+        );
 
         $doClients = OA_Dal::factoryDO('clients');
         if (!empty($agencyId) && is_numeric($agencyId)) {
             $doClients->agencyid = $agencyId;
         }
         $doClients->whereInAdd('type', $aIncludeSystemTypes);
-        $doClients->orderBy('(type='.DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.') ASC');
+        $doClients->orderBy('(type=' . DataObjects_Clients::ADVERTISER_TYPE_DEFAULT . ') ASC');
         $doClients->addListOrderBy($listorder, $orderdirection);
-        return $doClients->getAll(array('clientname', 'type', 'updated'), $indexWitkPk = true, $flatten = false);
+        return $doClients->getAll(['clientname', 'type', 'updated'], $indexWitkPk = true, $flatten = false);
     }
 
     /**
@@ -127,11 +129,8 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @todo Update to MAX DB API
      * @todo Consider removing order options (or making them optional)
      */
-    function getAllAdvertisersForAgency($agency_id, $listorder = 'name', $orderdirection ='up', $aIncludeSystemTypes = array())
+    public function getAllAdvertisersForAgency($agency_id, $listorder = 'name', $orderdirection = 'up', $aIncludeSystemTypes = [])
     {
         return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id, $aIncludeSystemTypes);
     }
-
 }
-
-?>

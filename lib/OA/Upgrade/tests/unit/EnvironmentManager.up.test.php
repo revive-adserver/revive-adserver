@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
 
 /**
  * A class for testing the Openads_DB_Upgrade class.
@@ -20,7 +20,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
  */
 class Test_OA_Environment_Manager extends UnitTestCase
 {
-    function test_checkCriticalPHP()
+    public function test_checkCriticalPHP()
     {
 
         // Test 1: Test PHP versions
@@ -34,7 +34,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, [], ['version']);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -45,7 +45,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, [], ['version']);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -56,7 +56,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, [], ['version']);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -91,7 +91,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('memory_limit'));
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, [], ['memory_limit']);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -137,7 +137,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('file_uploads'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['file_uploads'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -161,7 +161,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('file_uploads'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['file_uploads'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -185,7 +185,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('zip'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['zip'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -209,7 +209,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('json'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['json'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -233,7 +233,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('pcre'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['pcre'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -257,7 +257,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('xml'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['xml'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -281,7 +281,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('zlib'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['zlib'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -306,7 +306,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('mysql'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['mysql'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -355,7 +355,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('timeout'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['timeout'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -379,7 +379,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('spl'), array());
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['spl'], []);
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
@@ -391,7 +391,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
-
     }
 
     /**
@@ -401,23 +400,23 @@ class Test_OA_Environment_Manager extends UnitTestCase
      * @access private
      * @return OA_Environment_Manager A valid OA_Environment_Manager instance for use in the test_checkCriticalPHP() method.
      */
-    function _getValidEnvironmentManagerObject()
+    public function _getValidEnvironmentManagerObject()
     {
         // Create a new OA_Environment_Manager instance
         $oEnvironmentManager = new OA_Environment_Manager();
         // Set a valid enfironment
-        $oEnvironmentManager->aInfo['PHP']['actual']['version']              = '7.2.5';
-        $oEnvironmentManager->aInfo['PHP']['actual']['memory_limit']         = '';
-        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads']         = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['pcre']                 = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['xml']                  = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['zlib']                 = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['mysqli']               = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql']                = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['spl']                  = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['json']                 = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['zip']                 = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['timeout']              = '0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '7.2.5';
+        $oEnvironmentManager->aInfo['PHP']['actual']['memory_limit'] = '';
+        $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['xml'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['zlib'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysqli'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['pgsql'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['spl'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['json'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
         // Return the valid OA_Environment_Manager instance
         return $oEnvironmentManager;
     }
@@ -432,7 +431,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
      * @param array $aWarnings An array of warnings that are expected to be set.
      * @return void
      */
-    function _testValidEnvironmentManagerObject($oEnvironmentManager, $aErrors = array(), $aWarnings = array())
+    public function _testValidEnvironmentManagerObject($oEnvironmentManager, $aErrors = [], $aWarnings = [])
     {
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['warning']['version']), in_array('version', $aWarnings));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']), in_array('memory_limit', $aErrors));
@@ -448,94 +447,92 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
     }
 
-    function test_buildFilePermArrayItem()
+    public function test_buildFilePermArrayItem()
     {
-        $oEnvMgr =  $this->_getEnvMgrObj();
-        $aResult = $oEnvMgr->buildFilePermArrayItem('test.file', $recurse=false, $result='OK', $error = false, $string='');
-        $this->assertIsA($aResult,'array');
-        $this->assertEqual(count($aResult),5);
-        $this->assertEqual($aResult['file'],'test.file');
-        $this->assertEqual($aResult['result'],'OK');
-        $this->assertEqual($aResult['string'],'');
+        $oEnvMgr = $this->_getEnvMgrObj();
+        $aResult = $oEnvMgr->buildFilePermArrayItem('test.file', $recurse = false, $result = 'OK', $error = false, $string = '');
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual(count($aResult), 5);
+        $this->assertEqual($aResult['file'], 'test.file');
+        $this->assertEqual($aResult['result'], 'OK');
+        $this->assertEqual($aResult['string'], '');
         $this->assertFalse($aResult['recurse']);
         $this->assertFalse($aResult['error']);
     }
 
-    function test_getFilePermissionErrors()
+    public function test_getFilePermissionErrors()
     {
-           Mock::generatePartial(
-                                'OA_Environment_Manager',
-                                $mockEnvMgr = 'OA_Environment_Manager'.rand(),
-                                array(
+        Mock::generatePartial(
+            'OA_Environment_Manager',
+            $mockEnvMgr = 'OA_Environment_Manager' . rand(),
+            [
                                       'checkFilePermission'
-                                     )
-                                );
+                                     ]
+        );
 
-        $oEnvMgr = new $mockEnvMgr;
-        $oEnvMgr->aInfo['PERMS']['expected'][] = $oEnvMgr->buildFilePermArrayItem(MAX_PATH.'/var', true);
-        $oEnvMgr->aInfo['PERMS']['expected'][] = $oEnvMgr->buildFilePermArrayItem(MAX_PATH.'/var/test.conf.php', false);
+        $oEnvMgr = new $mockEnvMgr();
+        $oEnvMgr->aInfo['PERMS']['expected'][] = $oEnvMgr->buildFilePermArrayItem(MAX_PATH . '/var', true);
+        $oEnvMgr->aInfo['PERMS']['expected'][] = $oEnvMgr->buildFilePermArrayItem(MAX_PATH . '/var/test.conf.php', false);
 
-        $oEnvMgr->setReturnValueAt(0,'checkFilePermission', true);
-        $oEnvMgr->setReturnValueAt(1,'checkFilePermission', true);
+        $oEnvMgr->setReturnValueAt(0, 'checkFilePermission', true);
+        $oEnvMgr->setReturnValueAt(1, 'checkFilePermission', true);
         $aErrors = $oEnvMgr->getFilePermissionErrors();
 
-        $this->assertIsA($aErrors,'array');
-        $this->assertEqual(count($aErrors),2);
+        $this->assertIsA($aErrors, 'array');
+        $this->assertEqual(count($aErrors), 2);
         $this->assertFalse($aErrors[0]['error']);
         $this->assertFalse($aErrors[1]['error']);
 
 
 
-        $oEnvMgr->setReturnValueAt(2,'checkFilePermission', true);
-        $oEnvMgr->setReturnValueAt(3,'checkFilePermission', false);
+        $oEnvMgr->setReturnValueAt(2, 'checkFilePermission', true);
+        $oEnvMgr->setReturnValueAt(3, 'checkFilePermission', false);
         $aErrors = $oEnvMgr->getFilePermissionErrors();
 
-        $this->assertIsA($aErrors,'array');
-        $this->assertEqual(count($aErrors),2);
+        $this->assertIsA($aErrors, 'array');
+        $this->assertEqual(count($aErrors), 2);
         $this->assertFalse($aErrors[0]['error']);
         $this->assertTrue($aErrors[1]['error']);
 
-        $oEnvMgr->expectCallCount('checkFilePermission',4);
+        $oEnvMgr->expectCallCount('checkFilePermission', 4);
 
         $oEnvMgr->tally();
     }
 
-    function test_checkCriticalFilePermissions()
+    public function test_checkCriticalFilePermissions()
     {
         $oEnvMgr = $this->_getEnvMgrObj();
 
-        $oEnvMgr->aInfo['PERMS']['actual'][0] = array(
-                                                    'file'      => 'var',
-                                                    'recurse'   => true,
-                                                    'result'    => 'OK',
-                                                    'error'     => false,
-                                                    'string'    => '',
-                                                  );
+        $oEnvMgr->aInfo['PERMS']['actual'][0] = [
+                                                    'file' => 'var',
+                                                    'recurse' => true,
+                                                    'result' => 'OK',
+                                                    'error' => false,
+                                                    'string' => '',
+                                                  ];
 
-        $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(),'');
+        $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(), '');
 
-        $oEnvMgr->aInfo['PERMS']['actual'][0] = array(
-                                                    'file'      => 'var',
-                                                    'recurse'   => true,
-                                                    'result'    => 'NOT writeable',
-                                                    'error'     => true,
-                                                    'string'    => 'strErrorFixPermissionsRCommand',
-                                                  );
+        $oEnvMgr->aInfo['PERMS']['actual'][0] = [
+                                                    'file' => 'var',
+                                                    'recurse' => true,
+                                                    'result' => 'NOT writeable',
+                                                    'error' => true,
+                                                    'string' => 'strErrorFixPermissionsRCommand',
+                                                  ];
 
-        $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(),'');
+        $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(), '');
     }
 
-    function test_checkCriticalFiles()
+    public function test_checkCriticalFiles()
     {
-        $oEnvMgr =  $this->_getEnvMgrObj();
-        $this->assertTrue($oEnvMgr->_checkCriticalFiles(),'');
+        $oEnvMgr = $this->_getEnvMgrObj();
+        $this->assertTrue($oEnvMgr->_checkCriticalFiles(), '');
     }
 
-    function _getEnvMgrObj()
+    public function _getEnvMgrObj()
     {
         $oEnvMgr = new OA_Environment_Manager();
         return $oEnvMgr;
     }
 }
-
-?>

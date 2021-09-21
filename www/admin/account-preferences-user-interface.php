@@ -37,14 +37,14 @@ $aStatisticsFieldsDelivery['affiliates'] = new OA_StatisticsFieldsDelivery_Affil
 $aStatisticsFieldsDelivery['default'] = new OA_StatisticsFieldsDelivery_Default();
 
 // Prepare an array for storing error messages
-$aErrormessage = array();
+$aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
-    $aElements   = array();
-    $aCheckboxes = array();
+    $aElements = [];
+    $aCheckboxes = [];
     // Inventory
     $aElements[] = 'ui_show_campaign_info';
     $aCheckboxes['ui_show_campaign_info'] = true;
@@ -75,12 +75,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Stats columns
     foreach ($aStatisticsFieldsDelivery as $obj) {
         $aVars = $obj->getVisibilitySettings();
-        $aSuffixes = array('_label', '_rank');
+        $aSuffixes = ['_label', '_rank'];
         foreach (array_keys($aVars) as $name) {
             $aElements[] = $name;
             $aCheckboxes[$name] = true;
             foreach ($aSuffixes as $suffix) {
-                $aElements[] = $name.$suffix;
+                $aElements[] = $name . $suffix;
             }
         }
     }
@@ -90,9 +90,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation ();
-        $translated_message = $translation->translate($GLOBALS['strXPreferencesHaveBeenUpdated'],
-            array(htmlspecialchars($title)));
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strXPreferencesHaveBeenUpdated'],
+            [htmlspecialchars($title)]
+        );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
     }
@@ -110,132 +112,130 @@ $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
 phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 // Prepare an array of columns to be used shortly
-$aStatistics = array();
+$aStatistics = [];
 foreach ($aStatisticsFieldsDelivery as $obj) {
     $aVars = $obj->getVisibilitySettings();
     foreach ($aVars as $name => $text) {
-        $aStatistics[] = array(
+        $aStatistics[] = [
             'text' => $text,
             'name' => $name
-        );
+        ];
     }
 }
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-        'text'  => $strInventory,
-        'items' => array (
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_campaign_info',
-                'text'  => $strShowCampaignInfo
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_banner_info',
-                'text'  => $strShowBannerInfo
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_campaign_preview',
-                'text'  => $strShowCampaignPreview
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_banner_html',
-                'text'  => $strShowBannerHTML
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_banner_preview',
-                'text'  => $strShowBannerPreview
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_html_wyswyg_enabled',
-                'text'  => $strUseWyswygHtmlEditorByDefault,
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_hide_inactive',
-                'text'  => $strHideInactive
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_matching_banners',
-                'text'  => $strGUIShowMatchingBanners
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_matching_banners_parents',
-                'text'  => $strGUIShowParentCampaigns
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'ui_show_entity_id',
-                'text'  => $strShowEntityId
-            )
-        )
-    ),
-    array (
-        'text'  => $strConfirmationUI,
-        'items' => array (
-             array (
-                'type'    => 'checkbox',
-                'name'    => 'ui_novice_user',
-                'text'    => $strNovice
-            ),
-        )
-    ),
-    array (
-        'text'  => $strStatisticsDefaults,
-        'items' => array (
-            array (
-                'type'  => 'select',
-                'name'  => 'ui_week_start_day',
-                'text'  => $strBeginOfWeek,
-                'items' => array($strDayFullNames[0], $strDayFullNames[1])
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'select',
-                'name'  => 'ui_percentage_decimals',
-                'text'  => $strPercentageDecimals,
-                'items' => array(0, 1, 2, 3)
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array(
-                'type'  => 'statscolumns',
-                'name'  => '',
-                'rows'  => $aStatistics
-            )
-        )
-    )
-);
+$aSettings = [
+    [
+        'text' => $strInventory,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_campaign_info',
+                'text' => $strShowCampaignInfo
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_banner_info',
+                'text' => $strShowBannerInfo
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_campaign_preview',
+                'text' => $strShowCampaignPreview
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_banner_html',
+                'text' => $strShowBannerHTML
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_banner_preview',
+                'text' => $strShowBannerPreview
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_html_wyswyg_enabled',
+                'text' => $strUseWyswygHtmlEditorByDefault,
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_hide_inactive',
+                'text' => $strHideInactive
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_matching_banners',
+                'text' => $strGUIShowMatchingBanners
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_matching_banners_parents',
+                'text' => $strGUIShowParentCampaigns
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_show_entity_id',
+                'text' => $strShowEntityId
+            ]
+        ]
+    ],
+    [
+        'text' => $strConfirmationUI,
+        'items' => [
+             [
+                'type' => 'checkbox',
+                'name' => 'ui_novice_user',
+                'text' => $strNovice
+            ],
+        ]
+    ],
+    [
+        'text' => $strStatisticsDefaults,
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'ui_week_start_day',
+                'text' => $strBeginOfWeek,
+                'items' => [$strDayFullNames[0], $strDayFullNames[1]]
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'ui_percentage_decimals',
+                'text' => $strPercentageDecimals,
+                'items' => [0, 1, 2, 3]
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'statscolumns',
+                'name' => '',
+                'rows' => $aStatistics
+            ]
+        ]
+    ]
+];
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
-?>

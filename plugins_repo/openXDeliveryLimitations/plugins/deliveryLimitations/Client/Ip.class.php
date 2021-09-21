@@ -30,16 +30,13 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Client_Ip extends Plugins_DeliveryLimitations
 {
-    function __construct()
+    public function __construct()
     {
-        $this->aOperations = array(
+        $this->aOperations = [
             '==' => $GLOBALS['strEqualTo'],
-            '!=' => $GLOBALS['strDifferentFrom']);
-        $this->aPatternOps = array('==' => 'LIKE', '!=' => 'NOT LIKE');
-        $this->aStandardOps = array('==' => '=', '!=' => '!=');
+            '!=' => $GLOBALS['strDifferentFrom']];
+        $this->aPatternOps = ['==' => 'LIKE', '!=' => 'NOT LIKE'];
+        $this->aStandardOps = ['==' => '=', '!=' => '!='];
         $this->nameEnglish = 'Client - IP address';
     }
-
 }
-
-?>

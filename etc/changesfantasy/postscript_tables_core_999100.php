@@ -10,15 +10,16 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
+require_once MAX_PATH . '/etc/changesfantasy/script_tables_core_parent.php';
 
 class postscript_tables_core_999100 extends script_tables_core_parent
 {
-    function __construct()
+    public $script;
+    public function __construct()
     {
     }
 
-    function execute_constructive($aParams)
+    public function execute_constructive($aParams)
     {
         $this->init($aParams);
         $this->_log('*********** constructive ****************');
@@ -27,48 +28,40 @@ class postscript_tables_core_999100 extends script_tables_core_parent
         return $result;
     }
 
-    function _logActual()
+    public function _logActual()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
         $msg = $this->_testName('A');
-        if (!in_array($prefix.'bender', $aExistingTables))
-        {
-            $this->_log($msg.' failed to create table '.$prefix.'bender');
-        }
-        else
-        {
-            $this->_log($msg.' created table '.$prefix.'bender defined as: [bender]');
+        if (!in_array($prefix . 'bender', $aExistingTables)) {
+            $this->_log($msg . ' failed to create table ' . $prefix . 'bender');
+        } else {
+            $this->_log($msg . ' created table ' . $prefix . 'bender defined as: [bender]');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('bender');
-            $this->_log(print_r($aDef['tables']['bender'],true));
+            $this->_log(print_r($aDef['tables']['bender'], true));
         }
         $msg = $this->_testName('B');
-        if (!in_array($prefix.'astro', $aExistingTables))
-        {
-            $this->_log($msg.' failed to create table '.$prefix.'astro defined as: [astro]');
-        }
-        else
-        {
-            $this->_log($msg.' created table '.$prefix.'astro defined as: [astro]');
+        if (!in_array($prefix . 'astro', $aExistingTables)) {
+            $this->_log($msg . ' failed to create table ' . $prefix . 'astro defined as: [astro]');
+        } else {
+            $this->_log($msg . ' created table ' . $prefix . 'astro defined as: [astro]');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
-            $this->_log(print_r($aDef['tables']['astro'],true));
+            $this->_log(print_r($aDef['tables']['astro'], true));
 
             $msg = $this->_testName('C');
-            $query = 'SELECT COUNT(*) FROM '.$prefix.'astro';
+            $query = 'SELECT COUNT(*) FROM ' . $prefix . 'astro';
             $result = $this->oDbh->queryOne($query);
-            if (PEAR::isError($result))
-            {
-                $this->_log($msg.' : failed to insert records in table [astro]');
+            if (PEAR::isError($result)) {
+                $this->_log($msg . ' : failed to insert records in table [astro]');
             }
-            $this->_log($msg.' inserted '.$result.' records in table [astro]');
+            $this->_log($msg . ' inserted ' . $result . ' records in table [astro]');
         }
     }
 
-    function insertData()
+    public function insertData()
     {
-        $table = $this->oDbh->quoteIdentifier($this->oDBUpgrade->prefix.'astro',true);
-        for ($i=1;$i<11;$i++)
-        {
+        $table = $this->oDbh->quoteIdentifier($this->oDBUpgrade->prefix . 'astro', true);
+        for ($i = 1;$i < 11;$i++) {
             $query = "INSERT INTO
                       {$table}
                       (
@@ -81,16 +74,12 @@ class postscript_tables_core_999100 extends script_tables_core_parent
                         'desc {$i}'
                       )";
             $result = $this->oDbh->exec($query);
-            if (PEAR::isError($result))
-            {
-                $this->_log($this->script.'::insertData failed: '.$result->getUserInfo());
+            if (PEAR::isError($result)) {
+                $this->_log($this->script . '::insertData failed: ' . $result->getUserInfo());
                 return false;
             }
         }
-        $this->_log($this->script.'::insertData complete');
+        $this->_log($this->script . '::insertData complete');
         return true;
     }
-
 }
-
-?>

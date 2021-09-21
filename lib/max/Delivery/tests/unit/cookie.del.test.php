@@ -20,11 +20,10 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
  */
 class Test_DeliveryCookie extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -35,7 +34,7 @@ class Test_DeliveryCookie extends UnitTestCase
      * This function does not output cookies, instead it sets a global cookie array or ads to it if it exists
      *
      */
-    function test_MAX_cookieAdd()
+    public function test_MAX_cookieAdd()
     {
         //Unset the cookie cache array
         unset($GLOBALS['_MAX']['COOKIE']['CACHE']);
@@ -61,9 +60,9 @@ class Test_DeliveryCookie extends UnitTestCase
      * create a new viewerId
      *
      */
-    function test_MAX_cookieGetUniqueViewerID()
+    public function test_MAX_cookieGetUniqueViewerID()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
         $privacyViewerId = '01000111010001000101000001010010';
 
         // Privacy mode ON
@@ -115,9 +114,9 @@ class Test_DeliveryCookie extends UnitTestCase
      * Test that the P3P headers are generated correctly
      *
      */
-    function test_MAX_cookieSendP3PHeaders()
+    public function test_MAX_cookieSendP3PHeaders()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test that nothing is set if the p3p policy setting is set to false
         $conf['p3p']['policies'] = false;
@@ -132,16 +131,15 @@ class Test_DeliveryCookie extends UnitTestCase
         MAX_cookieSendP3PHeaders();
         $this->assertIsA($GLOBALS['_HEADERS'], 'array');
         $this->assertEqual($GLOBALS['_HEADERS'][0], "P3P: " . $p3p);
-
     }
 
     /**
      * Test that the P3P string to be put into the P3P header is generated correctly
      *
      */
-    function test_generateP3PHeader()
+    public function test_generateP3PHeader()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Test that nothing is generated if $conf['p3p']['policies'] is false
         $conf['p3p']['policies'] = false;
@@ -152,7 +150,7 @@ class Test_DeliveryCookie extends UnitTestCase
         $conf['p3p']['policies'] = true;
         $conf['p3p']['compactPolicy'] = 'CUR ADM OUR NOR STA NID';
         $conf['p3p']['policyLocation'] = 'http://www.openx.org/policy.xml';
-        $this->assertEqual(_generateP3PHeader(), ' policyref="' . $conf['p3p']['policyLocation'] .'",  CP="' . $conf['p3p']['compactPolicy'] . '"');
+        $this->assertEqual(_generateP3PHeader(), ' policyref="' . $conf['p3p']['policyLocation'] . '",  CP="' . $conf['p3p']['compactPolicy'] . '"');
 
         // Test that the compact policy header is generated correctly with just a compact policy
         $conf['p3p']['policies'] = true;
@@ -178,8 +176,9 @@ class Test_DeliveryCookie extends UnitTestCase
      * To self with the additional querystring parameter "ct=1" (cookieTest = 1) to indicate that a
      *
      */
-    function test_MAX_cookieSetViewerIdAndRedirect() {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+    public function test_MAX_cookieSetViewerIdAndRedirect()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
         // Disable the p3p policies because those are tested elsewhere and we need the redirect header to be [0]
         $conf['p3p']['policies'] = false;
         // Generate a clean viewerId
@@ -200,18 +199,18 @@ class Test_DeliveryCookie extends UnitTestCase
         $this->assertEqual($_COOKIE[$conf['var']['viewerId']], $viewerId);
         // Ensure that the redirect header is set
         $this->assertIsA($GLOBALS['_HEADERS'][0], 'string');
-        $this->assertTrue(preg_match('#^Location: http:\/\/.*'.$conf['var']['cookieTest'].'=1.*$#', $GLOBALS['_HEADERS'][0]));
+        $this->assertTrue(preg_match('#^Location: http:\/\/.*' . $conf['var']['cookieTest'] . '=1.*$#', $GLOBALS['_HEADERS'][0]));
     }
 
-    function test_MAX_cookieFlush()
+    public function test_MAX_cookieFlush()
     {
-        $conf =& $GLOBALS['_MAX']['CONF'];
+        $conf = &$GLOBALS['_MAX']['CONF'];
 
         // The cookieFlush function requires variables which are initialised in common.php
         MAX_commonInitVariables();
 
         // Test that a very long cookie is truncated to below the 2048 character limit.
-        $_COOKIE[$conf['var']['blockAd']] = array();
+        $_COOKIE[$conf['var']['blockAd']] = [];
         for ($i = 0; $i < 1000; $i++) {
             $_COOKIE[$conf['var']['blockAd']][$i] = time();
         }
@@ -220,39 +219,31 @@ class Test_DeliveryCookie extends UnitTestCase
         $this->assertTrue(strlen($_COOKIE[$conf['var']['blockAd']]) < 2048);
     }
 
-    function test_getTimeThirtyDaysFromNow()
+    public function test_getTimeThirtyDaysFromNow()
     {
-
     }
 
-    function test_getTimeYearFromNow()
+    public function test_getTimeYearFromNow()
     {
-
     }
 
-    function test_getTimeYearAgo()
+    public function test_getTimeYearAgo()
     {
-
     }
 
-    function test_MAX_cookieUnpackCapping()
+    public function test_MAX_cookieUnpackCapping()
     {
-
     }
 
-    function test_isBlockCookie()
+    public function test_isBlockCookie()
     {
-
     }
 
-    function test_MAX_cookieGetCookielessViewerID()
+    public function test_MAX_cookieGetCookielessViewerID()
     {
-
     }
 
-    function test_MAX_Delivery_cookie_setCapping()
+    public function test_MAX_Delivery_cookie_setCapping()
     {
-
     }
 }
-?>

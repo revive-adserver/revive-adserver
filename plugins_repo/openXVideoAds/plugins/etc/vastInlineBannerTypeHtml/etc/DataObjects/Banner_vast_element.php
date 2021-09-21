@@ -2,7 +2,7 @@
 /**
  * Table Definition for banner_vast_element
  */
-require_once MAX_PATH.'/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 class DataObjects_Banner_vast_element extends DB_DataObjectCommon
 {
@@ -34,14 +34,16 @@ class DataObjects_Banner_vast_element extends DB_DataObjectCommon
     public $vast_thirdparty_impression;      // TEXT() => openads_text => 162
 
     /* Static get */
-    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banner_vast_element',$k,$v); }
+    public static function staticGet($k, $v = null)
+    {
+        return DB_DataObject::staticGetFromClassName('DataObjects_Banner_vast_element', $k, $v);
+    }
 
-    var $defaultValues = array(
+    public $defaultValues = [
                 'vast_element_type' => '',
                 'vast_thirdparty_impression' => '',
-                );
+                ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
-?>

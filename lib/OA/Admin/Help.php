@@ -13,8 +13,8 @@
 /**
  * Defines type of link building
  */
-define('OA_HELP_LINK_BUILD_USING_LINK',      1);
-define('OA_HELP_LINK_BUILD_USING_ID',        2);
+define('OA_HELP_LINK_BUILD_USING_LINK', 1);
+define('OA_HELP_LINK_BUILD_USING_ID', 2);
 $GLOBALS['OA_HELP_LINK_BUILD_TYPE'] = OA_HELP_LINK_BUILD_USING_LINK;
 
 /**
@@ -34,11 +34,7 @@ class OA_Admin_Help
      */
     public static function getHelpLink($menuSection)
     {
-        if ($menuSection != null) {
-            $relativeHelpPath = $menuSection->getHelpLink();
-        } else {
-            $relativeHelpPath = "";
-        }
+        $relativeHelpPath = $menuSection != null ? $menuSection->getHelpLink() : "";
 
         // The link is not relative, we directly link to it
         if (strpos($relativeHelpPath, '://') !== false) {
@@ -47,17 +43,11 @@ class OA_Admin_Help
 
         // Convert original help links to new Revive Adserver format
         if (strpos($relativeHelpPath, 'settings') !== false) {
-            if (strpos($relativeHelpPath, '/') !== 0) {
-                $relativeHelpPath = '/admin/' . $relativeHelpPath;
-            } else {
-                $relativeHelpPath = '/admin' . $relativeHelpPath;
-            }
+            $relativeHelpPath = strpos($relativeHelpPath, '/') !== 0 ? '/admin/' . $relativeHelpPath : '/admin' . $relativeHelpPath;
+        } elseif (strpos($relativeHelpPath, '/') !== 0) {
+            $relativeHelpPath = '/user/' . $relativeHelpPath;
         } else {
-            if (strpos($relativeHelpPath, '/') !== 0) {
-                $relativeHelpPath = '/user/' . $relativeHelpPath;
-            } else {
-                $relativeHelpPath = '/user' . $relativeHelpPath;
-            }
+            $relativeHelpPath = '/user' . $relativeHelpPath;
         }
 
         return self::buildHelpLink($relativeHelpPath);
@@ -82,10 +72,8 @@ class OA_Admin_Help
             if (strpos($relativeHelpPath, '/') !== 0) {
                 $prefix = "/";
             }
-            $sURL = PRODUCT_DOCSURL . $prefix .$relativeHelpPath;
+            $sURL = PRODUCT_DOCSURL . $prefix . $relativeHelpPath;
         }
         return $sURL;
     }
 }
-
-?>

@@ -55,5 +55,3 @@ class OA_Dal_Maintenance_UI
         OA_Dal_ApplicationVariables::set('maintenance_timestamp', time());
     }
 }
-
-?>

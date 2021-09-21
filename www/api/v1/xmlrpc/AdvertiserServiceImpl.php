@@ -31,14 +31,14 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @var OA_Dll_Advertiser $_dllAdvertiser
      */
-    var $_dllAdvertiser;
+    public $_dllAdvertiser;
 
     /**
      *
      * The AdvertiserServiceImpl method is the constructor for the
      * AdvertiserServiceImpl class.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_dllAdvertiser = new OA_Dll_Advertiser();
@@ -54,7 +54,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function _validateResult($result)
+    public function _validateResult($result)
     {
         if ($result) {
             return true;
@@ -77,17 +77,13 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function addAdvertiser($sessionId, &$oAdvertiser)
+    public function addAdvertiser($sessionId, &$oAdvertiser)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllAdvertiser->modify($oAdvertiser));
-
         } else {
-
             return false;
         }
-
     }
     /**
      * The modifyAdvertiser method checks if an advertiser ID exists and
@@ -103,25 +99,18 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function modifyAdvertiser($sessionId, &$oAdvertiser)
+    public function modifyAdvertiser($sessionId, &$oAdvertiser)
     {
         if ($this->verifySession($sessionId)) {
-
             if (isset($oAdvertiser->advertiserId)) {
-
                 return $this->_validateResult($this->_dllAdvertiser->modify($oAdvertiser));
-
             } else {
-
                 $this->raiseError("Field 'advertiserId' in structure does not exists");
                 return false;
             }
-
         } else {
-
             return false;
         }
-
     }
 
     /**
@@ -135,14 +124,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function deleteAdvertiser($sessionId, $advertiserId)
+    public function deleteAdvertiser($sessionId, $advertiserId)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult($this->_dllAdvertiser->delete($advertiserId));
-
         } else {
-
             return false;
         }
     }
@@ -161,15 +147,19 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiserDailyStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getAdvertiserDailyStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserDailyStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $advertiserId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -188,15 +178,19 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiserCampaignStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getAdvertiserCampaignStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserCampaignStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $advertiserId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -215,15 +209,19 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiserBannerStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getAdvertiserBannerStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserBannerStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $advertiserId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -242,15 +240,19 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiserPublisherStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getAdvertiserPublisherStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserPublisherStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $advertiserId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -269,15 +271,19 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiserZoneStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    public function getAdvertiserZoneStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserZoneStatistics(
-                    $advertiserId, $oStartDate, $oEndDate, false, $rsStatisticsData));
+                    $advertiserId,
+                    $oStartDate,
+                    $oEndDate,
+                    false,
+                    $rsStatisticsData
+                )
+            );
         } else {
-
             return false;
         }
     }
@@ -293,14 +299,13 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiser($sessionId, $advertiserId, &$oAdvertiser)
+    public function getAdvertiser($sessionId, $advertiserId, &$oAdvertiser)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser));
+                $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser)
+            );
         } else {
-
             return false;
         }
     }
@@ -317,20 +322,17 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      *
      * @return boolean
      */
-    function getAdvertiserListByAgencyId($sessionId, $agencyId, &$aAdvertiserList)
+    public function getAdvertiserListByAgencyId($sessionId, $agencyId, &$aAdvertiserList)
     {
         if ($this->verifySession($sessionId)) {
-
             return $this->_validateResult(
-                $this->_dllAdvertiser->getAdvertiserListByAgencyId($agencyId,
-                                                    $aAdvertiserList));
+                $this->_dllAdvertiser->getAdvertiserListByAgencyId(
+                    $agencyId,
+                    $aAdvertiserList
+                )
+            );
         } else {
-
             return false;
         }
     }
-
 }
-
-
-?>

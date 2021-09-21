@@ -43,7 +43,7 @@ class PublisherXmlRpcService extends BasePublisherService
      * to initialise the service.
      *
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -58,19 +58,26 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function addPublisher($oParams)
+    public function addPublisher($oParams)
     {
-        $sessionId          = null;
-        $oPublisherInfo     = new OA_Dll_PublisherInfo();
+        $sessionId = null;
+        $oPublisherInfo = new OA_Dll_PublisherInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams,
-                1, array('agencyId', 'publisherName', 'contactName',
-                        'emailAddress', 'website', 'username', 'password', 'comments'),
-                        $oResponseWithError)) {
-
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oPublisherInfo,
+                $oParams,
+                1,
+                ['agencyId', 'publisherName', 'contactName',
+                        'emailAddress', 'website', 'username', 'password', 'comments'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -91,20 +98,27 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function modifyPublisher($oParams)
+    public function modifyPublisher($oParams)
     {
-        $sessionId          = null;
-        $oPublisherInfo     = new OA_Dll_PublisherInfo();
+        $sessionId = null;
+        $oPublisherInfo = new OA_Dll_PublisherInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
-                $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams,
-                1, array('publisherId', 'agencyId', 'publisherName',
+        if (!XmlRpcUtils::getRequiredScalarValue(
+            $sessionId,
+            $oParams,
+            0,
+            $oResponseWithError
+        ) ||
+            !XmlRpcUtils::getStructureScalarFields(
+                $oPublisherInfo,
+                $oParams,
+                1,
+                ['publisherId', 'agencyId', 'publisherName',
                         'contactName', 'emailAddress', 'website',
-                        'username', 'password', 'comments'),
-                        $oResponseWithError)) {
-
+                        'username', 'password', 'comments'],
+                $oResponseWithError
+            )) {
             return $oResponseWithError;
         }
 
@@ -125,21 +139,21 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function deletePublisher($oParams)
+    public function deletePublisher($oParams)
     {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$publisherId),
-            array(true, true), $oParams, $oResponseWithError )) {
-
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$publisherId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
             return $oResponseWithError;
         }
 
         if ($this->_oPublisherServiceImp->deletePublisher($sessionId, $publisherId)) {
-
             return XmlRpcUtils::booleanTypeResponse(true);
-
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -154,28 +168,33 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function publisherDailyStatistics($oParams)
+    public function publisherDailyStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oPublisherServiceImp->getPublisherDailyStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
+        if ($this->_oPublisherServiceImp->getPublisherDailyStatistics(
+            $sessionId,
+            $publisherId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -190,29 +209,34 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function publisherZoneStatistics($oParams)
+    public function publisherZoneStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oPublisherServiceImp->getPublisherZoneStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('zoneId' => 'integer',
+        if ($this->_oPublisherServiceImp->getPublisherZoneStatistics(
+            $sessionId,
+            $publisherId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['zoneId' => 'integer',
                                                                 'zoneName' => 'string',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -227,29 +251,34 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function publisherAdvertiserStatistics($oParams)
+    public function publisherAdvertiserStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oPublisherServiceImp->getPublisherAdvertiserStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+        if ($this->_oPublisherServiceImp->getPublisherAdvertiserStatistics(
+            $sessionId,
+            $publisherId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
                                                                 'requests' => 'integer',
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -264,20 +293,27 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function publisherCampaignStatistics($oParams)
+    public function publisherCampaignStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oPublisherServiceImp->getPublisherCampaignStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+        if ($this->_oPublisherServiceImp->getPublisherCampaignStatistics(
+            $sessionId,
+            $publisherId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
                                                                 'campaignId' => 'integer',
                                                                 'campaignName' => 'string',
@@ -285,10 +321,8 @@ class PublisherXmlRpcService extends BasePublisherService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -303,20 +337,27 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function publisherBannerStatistics($oParams)
+    public function publisherBannerStatistics($oParams)
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId, &$oStartDate, &$oEndDate),
-                array(true, true, false, false), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate],
+            [true, true, false, false],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
-        if ($this->_oPublisherServiceImp->getPublisherBannerStatistics($sessionId,
-                $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
-
-            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+        if ($this->_oPublisherServiceImp->getPublisherBannerStatistics(
+            $sessionId,
+            $publisherId,
+            $oStartDate,
+            $oEndDate,
+            $rsStatisticsData
+        )) {
+            return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',
                                                                 'campaignId' => 'integer',
                                                                 'campaignName' => 'string',
@@ -326,10 +367,8 @@ class PublisherXmlRpcService extends BasePublisherService
                                                                 'impressions' => 'integer',
                                                                 'clicks' => 'integer',
                                                                 'revenue' => 'float',
-                                                                ), $rsStatisticsData);
-
+                                                                ], $rsStatisticsData);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -344,21 +383,26 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function getPublisher($oParams) {
+    public function getPublisher($oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$publisherId),
-                array(true, true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$publisherId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $oPublisher = null;
-        if ($this->_oPublisherServiceImp->getPublisher($sessionId,
-                $publisherId, $oPublisher)) {
-
+        if ($this->_oPublisherServiceImp->getPublisher(
+            $sessionId,
+            $publisherId,
+            $oPublisher
+        )) {
             return XmlRpcUtils::getEntityResponse($oPublisher);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
@@ -373,25 +417,29 @@ class PublisherXmlRpcService extends BasePublisherService
      *
      * @return generated result (data or error)
      */
-    function getPublisherListByAgencyId($oParams) {
+    public function getPublisherListByAgencyId($oParams)
+    {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$agencyId),
-                array(true, true), $oParams, $oResponseWithError)) {
-           return $oResponseWithError;
+            [&$sessionId, &$agencyId],
+            [true, true],
+            $oParams,
+            $oResponseWithError
+        )) {
+            return $oResponseWithError;
         }
 
         $aPublisherList = null;
-        if ($this->_oPublisherServiceImp->getPublisherListByAgencyId($sessionId,
-                                            $agencyId, $aPublisherList)) {
-
+        if ($this->_oPublisherServiceImp->getPublisherListByAgencyId(
+            $sessionId,
+            $agencyId,
+            $aPublisherList
+        )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aPublisherList);
         } else {
-
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
-
 }
 
 /**
@@ -401,100 +449,97 @@ class PublisherXmlRpcService extends BasePublisherService
 $oPublisherXmlRpcService = new PublisherXmlRpcService();
 
 $server = new XML_RPC_Server(
-    array(
-        'addPublisher' => array(
-            'function'  => array($oPublisherXmlRpcService, 'addPublisher'),
-            'signature' => array(
-                array('int', 'string', 'struct')
-            ),
+    [
+        'addPublisher' => [
+            'function' => [$oPublisherXmlRpcService, 'addPublisher'],
+            'signature' => [
+                ['int', 'string', 'struct']
+            ],
             'docstring' => 'Add publisher'
-        ),
+        ],
 
-        'modifyPublisher' => array(
-            'function'  => array($oPublisherXmlRpcService, 'modifyPublisher'),
-            'signature' => array(
-                array('int', 'string', 'struct')
-            ),
+        'modifyPublisher' => [
+            'function' => [$oPublisherXmlRpcService, 'modifyPublisher'],
+            'signature' => [
+                ['int', 'string', 'struct']
+            ],
             'docstring' => 'Modify publisher information'
-        ),
+        ],
 
-        'deletePublisher' => array(
-            'function'  => array($oPublisherXmlRpcService, 'deletePublisher'),
-            'signature' => array(
-                array('int', 'string', 'int')
-            ),
+        'deletePublisher' => [
+            'function' => [$oPublisherXmlRpcService, 'deletePublisher'],
+            'signature' => [
+                ['int', 'string', 'int']
+            ],
             'docstring' => 'Delete publisher'
-        ),
+        ],
 
-        'publisherDailyStatistics' => array(
-            'function'  => array($oPublisherXmlRpcService, 'publisherDailyStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'publisherDailyStatistics' => [
+            'function' => [$oPublisherXmlRpcService, 'publisherDailyStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Publisher Daily Statistics'
-        ),
+        ],
 
-        'publisherZoneStatistics' => array(
-            'function'  => array($oPublisherXmlRpcService, 'publisherZoneStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'publisherZoneStatistics' => [
+            'function' => [$oPublisherXmlRpcService, 'publisherZoneStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Publisher Zone Statistics'
-        ),
+        ],
 
-        'publisherAdvertiserStatistics' => array(
-            'function'  => array($oPublisherXmlRpcService, 'publisherAdvertiserStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'publisherAdvertiserStatistics' => [
+            'function' => [$oPublisherXmlRpcService, 'publisherAdvertiserStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Publisher Advertiser Statistics'
-        ),
+        ],
 
-        'publisherCampaignStatistics' => array(
-            'function'  => array($oPublisherXmlRpcService, 'publisherCampaignStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'publisherCampaignStatistics' => [
+            'function' => [$oPublisherXmlRpcService, 'publisherCampaignStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Publisher Campaign Statistics'
-        ),
+        ],
 
-        'publisherBannerStatistics' => array(
-            'function'  => array($oPublisherXmlRpcService, 'publisherBannerStatistics'),
-            'signature' => array(
-                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
-                array('array', 'string', 'int', 'dateTime.iso8601'),
-                array('array', 'string', 'int')
-            ),
+        'publisherBannerStatistics' => [
+            'function' => [$oPublisherXmlRpcService, 'publisherBannerStatistics'],
+            'signature' => [
+                ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
+                ['array', 'string', 'int', 'dateTime.iso8601'],
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Generate Publisher Banner Statistics'
-        ),
+        ],
 
-        'getPublisher' => array(
-            'function'  => array($oPublisherXmlRpcService, 'getPublisher'),
-            'signature' => array(
-                array('struct', 'string', 'int')
-            ),
+        'getPublisher' => [
+            'function' => [$oPublisherXmlRpcService, 'getPublisher'],
+            'signature' => [
+                ['struct', 'string', 'int']
+            ],
             'docstring' => 'Get Publisher Information'
-        ),
+        ],
 
-        'getPublisherListByAgencyId' => array(
-            'function'  => array($oPublisherXmlRpcService, 'getPublisherListByAgencyId'),
-            'signature' => array(
-                array('array', 'string', 'int')
-            ),
+        'getPublisherListByAgencyId' => [
+            'function' => [$oPublisherXmlRpcService, 'getPublisherListByAgencyId'],
+            'signature' => [
+                ['array', 'string', 'int']
+            ],
             'docstring' => 'Get Publishers List By Agency Id'
-        ),
+        ],
 
-    ),
+    ],
     1  // serviceNow
 );
-
-
-?>

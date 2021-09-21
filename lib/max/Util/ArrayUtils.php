@@ -32,5 +32,3 @@ class ArrayUtils
         }
     }
 }
-
-?>

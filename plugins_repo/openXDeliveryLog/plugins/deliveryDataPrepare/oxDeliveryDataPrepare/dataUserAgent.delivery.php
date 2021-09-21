@@ -22,14 +22,16 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
 {
     // prevent from running twice
     static $executed;
-    if ($executed) return;
+    if ($executed) {
+        return;
+    }
     $executed = true;
 
-    $userAgentInfo = array(
-        'os'        => $GLOBALS['_MAX']['CLIENT']['os'],
+    $userAgentInfo = [
+        'os' => $GLOBALS['_MAX']['CLIENT']['os'],
         'long_name' => $GLOBALS['_MAX']['CLIENT']['long_name'],
-        'browser'   => $GLOBALS['_MAX']['CLIENT']['browser'],
-    );
+        'browser' => $GLOBALS['_MAX']['CLIENT']['browser'],
+    ];
     $GLOBALS['_MAX']['deliveryData']['userAgentInfo'] = $userAgentInfo;
 }
 
@@ -47,5 +49,3 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent_Delivery
 {
     Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent();
 }
-
-?>

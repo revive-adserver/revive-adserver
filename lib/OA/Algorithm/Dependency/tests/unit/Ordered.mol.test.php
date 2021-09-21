@@ -21,70 +21,67 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
  */
 class Test_OA_Algorithm_Dependency_Ordered extends UnitTestCase
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function testDependcy()
+    public function testDependcy()
     {
-        $items = array(
+        $items = [
             'C', 'B', 'F',
-            'A' => array('B', 'C'),
-            'E' => array('B'),
-            'D' => array('A', 'E'),
-        );
+            'A' => ['B', 'C'],
+            'E' => ['B'],
+            'D' => ['A', 'E'],
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $dep = new OA_Algorithm_Dependency_Ordered($source);
 
         // test schedule
-        $ret = $dep->schedule(array('G'));
+        $ret = $dep->schedule(['G']);
         $this->assertFalse($ret);
 
-        $ret = $dep->schedule(array('B'));
-        $this->assertEqual(array_values($ret), array('B'));
+        $ret = $dep->schedule(['B']);
+        $this->assertEqual(array_values($ret), ['B']);
 
-        $ret = $dep->schedule(array('A'));
-        $this->assertEqual(array_values($ret), array('B', 'C', 'A'));
+        $ret = $dep->schedule(['A']);
+        $this->assertEqual(array_values($ret), ['B', 'C', 'A']);
 
-        $ret = $dep->schedule(array('D'));
-        $this->assertEqual(array_values($ret), array('B', 'C', 'E', 'A', 'D'));
+        $ret = $dep->schedule(['D']);
+        $this->assertEqual(array_values($ret), ['B', 'C', 'E', 'A', 'D']);
 
         // test schedule all
         $ret = $dep->scheduleAll();
-        $this->assertEqual(array_values($ret), array('B', 'C', 'E', 'F', 'A', 'D'));
+        $this->assertEqual(array_values($ret), ['B', 'C', 'E', 'F', 'A', 'D']);
     }
 
-    function getAlgorithmWithData($selected = array(), $ignoreOrphans = false)
+    public function getAlgorithmWithData($selected = [], $ignoreOrphans = false)
     {
-        $items = array(
+        $items = [
             'C', 'B', 'F',
-            'A' => array('B', 'C'),
-        );
+            'A' => ['B', 'C'],
+        ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         return new OA_Algorithm_Dependency_Ordered($source, $selected, $ignoreOrphans);
     }
 
-    function testUseOfIgnoreOrphans()
+    public function testUseOfIgnoreOrphans()
     {
         $dep = $this->getAlgorithmWithData();
 
-        $ret = $dep->schedule(array('A', 'G'));
+        $ret = $dep->schedule(['A', 'G']);
         $this->assertFalse($ret);
 
-        $dep = $this->getAlgorithmWithData(array(), $ignoreOrphans = true);
-        $ret = $dep->schedule(array('A', 'G'));
-        $this->assertEqual(array_values($ret), array('B', 'C', 'A'));
+        $dep = $this->getAlgorithmWithData([], $ignoreOrphans = true);
+        $ret = $dep->schedule(['A', 'G']);
+        $this->assertEqual(array_values($ret), ['B', 'C', 'A']);
     }
 
-    function testUseOfSelected()
+    public function testUseOfSelected()
     {
-        $dep = $this->getAlgorithmWithData(array('C'));
+        $dep = $this->getAlgorithmWithData(['C']);
 
-        $ret = $dep->schedule(array('A'));
-        $this->assertEqual(array_values($ret), array('B', 'A'));
+        $ret = $dep->schedule(['A']);
+        $this->assertEqual(array_values($ret), ['B', 'A']);
     }
 }
-
-?>

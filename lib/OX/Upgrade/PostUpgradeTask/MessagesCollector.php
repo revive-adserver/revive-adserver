@@ -42,8 +42,8 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
      */
     public function __construct(OA_UpgradeLogger &$oUpgradeLogger)
     {
-        $this->aMessages = array();
-        $this->aErrors   = array();
+        $this->aMessages = [];
+        $this->aErrors = [];
         $this->oUpgradeLogger = $oUpgradeLogger;
     }
 
@@ -101,6 +101,6 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
      */
     public function wasErrors()
     {
-        return count($this->aErrors)>0;
+        return count($this->aErrors) > 0;
     }
 }

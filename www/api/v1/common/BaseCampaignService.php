@@ -28,16 +28,14 @@ class BaseCampaignService
      *
      * @var CampaignServiceImpl $_oCampaignServiceImp
      */
-    var $_oCampaignServiceImp;
+    public $_oCampaignServiceImp;
 
     /**
      * This method initialises Service implementation object field.
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->_oCampaignServiceImp = new CampaignServiceImpl();
     }
 }
-
-?>

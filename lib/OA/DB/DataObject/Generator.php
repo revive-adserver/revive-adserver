@@ -11,7 +11,7 @@
 */
 
 require_once 'DB/DataObject/Generator.php';
-require_once MAX_PATH.'/lib/OA/DB/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 
 
 /**
@@ -21,12 +21,15 @@ require_once MAX_PATH.'/lib/OA/DB/Table/Core.php';
  */
 class OA_DB_DataObject_Generator extends DB_DataObject_Generator
 {
-
+    /**
+     * @var string|mixed
+     */
+    public $classname;
     /**
      * New() methods work-in-progress
      * refactoring to use mdb2 schema files
      */
-    function start($schema)
+    public function start($schema)
     {
         global $_DB_DATAOBJECT;
         $_DB_DATAOBJECT['CONFIG']['debug'] = $GLOBALS['_MAX']['CONF']['debug']['priority'];
@@ -39,8 +42,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
          * generate the db_schema.ini
          */
         $this->_newConfig = '';
-        foreach($this->tables as $this->table => $aDefinition)
-        {
+        foreach (array_keys($this->tables) as $this->table) {
             $this->_generateDefinitionsTable();
         }
         $this->_writeSchemaIni();
@@ -61,33 +63,27 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * and stores the db_dataobject datatype
      *
      */
-    function _createTableList($schema='')
+    public function _createTableList($schema = '')
     {
-        $options = &PEAR::getStaticProperty('DB_DataObject','options');
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 
         $oTable = new OA_DB_Table();
         $oTable->init($schema, false);
         $aDefinition = $oTable->aDefinition['tables'];
 
-        if (isset($options['generator_exclude_regex']))
-        {
-            foreach ($aDefinition AS $table => $aTable)
-            {
-                if (preg_match($options['generator_exclude_regex'],$table))
-                {
+        if (isset($options['generator_exclude_regex'])) {
+            foreach ($aDefinition as $table => $aTable) {
+                if (preg_match($options['generator_exclude_regex'], $table)) {
                     unset($oTable->aDefinition['tables'][$table]);
-                }
-                else
-                {
-                    foreach ($aTable['fields'] AS $field => $aField)
-                    {
-                        $openxType  = $aField['type'];
-                        $mdb2Type   = $oTable->oDbh->datatype->mapPrepareDatatype($openxType);
+                } else {
+                    foreach ($aTable['fields'] as $field => $aField) {
+                        $openxType = $aField['type'];
+                        $mdb2Type = $oTable->oDbh->datatype->mapPrepareDatatype($openxType);
                         $aField['type'] = $mdb2Type;
-                        $dboType    = $this->deriveDataType($aField, $oTable->oDbh->phptype);
+                        $dboType = $this->deriveDataType($aField, $oTable->oDbh->phptype);
 
-                        $oTable->aDefinition['tables'][$table]['fields'][$field]['oxtype']  = $openxType;
-                        $oTable->aDefinition['tables'][$table]['fields'][$field]['type']    = $mdb2Type;
+                        $oTable->aDefinition['tables'][$table]['fields'][$field]['oxtype'] = $openxType;
+                        $oTable->aDefinition['tables'][$table]['fields'][$field]['type'] = $mdb2Type;
                         $oTable->aDefinition['tables'][$table]['fields'][$field]['dbotype'] = $dboType;
                         //$this->debug("{$table}.{$field} type map :: {$openxType} => {$mdb2Type} => {$dboType} \n");
                     }
@@ -102,21 +98,21 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * dump the db_schema.ini contents to file
      *
      */
-    function _writeSchemaIni()
+    public function _writeSchemaIni()
     {
-        $options = &PEAR::getStaticProperty('DB_DataObject','options');
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 
-        $base =  @$options['schema_location'];
+        $base = @$options['schema_location'];
         $file = "{$base}/db_schema.ini";
 
         if (!file_exists(dirname($file))) {
             require_once 'System.php';
-            System::mkdir(array('-p','-m',0755,dirname($file)));
+            System::mkdir(['-p', '-m', 0755, dirname($file)]);
         }
         $this->debug("Writing ini as {$file}\n");
         touch($file);
-        $fh = fopen($file,'w');
-        fwrite($fh,$this->_newConfig);
+        $fh = fopen($file, 'w');
+        fwrite($fh, $this->_newConfig);
         fclose($fh);
     }
 
@@ -128,10 +124,9 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * @param string $dbtype
      * @return integer
      */
-    function deriveDataType(&$t, $dbtype)
+    public function deriveDataType(&$t, $dbtype)
     {
-        switch (strtoupper($t['type']))
-        {
+        switch (strtoupper($t['type'])) {
 
             case 'INT':
             case 'INT2':    // postgres
@@ -146,7 +141,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             case 'BIGINT':
                 $type = DB_DATAOBJECT_INT;
                 if ($t['length'] == 1) {
-                    $type +=  DB_DATAOBJECT_BOOL;
+                    $type += DB_DATAOBJECT_BOOL;
                 }
                 break;
 
@@ -174,7 +169,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                 $type = DB_DATAOBJECT_BOOL;
                 // postgres needs to quote '0'
                 if ($dbtype == 'pgsql') {
-                    $type +=  DB_DATAOBJECT_STR;
+                    $type += DB_DATAOBJECT_STR;
                 }
                 break;
 
@@ -236,17 +231,16 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                 $type = DB_DATAOBJECT_STR + DB_DATAOBJECT_BLOB;
                 break;
             default:
-                echo "*****************************************************************\n".
-                     "**               WARNING UNKNOWN TYPE                          **\n".
-                     "** Found column '{$t['name']}', of type  '{$t['type']}'            **\n".
-                     "** Please submit a bug, describe what type you expect this     **\n".
-                     "** column  to be                                               **\n".
+                echo "*****************************************************************\n" .
+                     "**               WARNING UNKNOWN TYPE                          **\n" .
+                     "** Found column '{$t['name']}', of type  '{$t['type']}'            **\n" .
+                     "** Please submit a bug, describe what type you expect this     **\n" .
+                     "** column  to be                                               **\n" .
                      "*****************************************************************\n";
                 $type = null;
                 break;
         }
-        if ($type && $t['notnull'])
-        {
+        if ($type && $t['notnull']) {
             $type += DB_DATAOBJECT_NOTNULL;
         }
         return $type;
@@ -256,7 +250,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * to use, you must set option: generate_links=true
      *
      */
-    function generateForeignKeys()
+    public function generateForeignKeys()
     {
         // the db_schema.link.ini file is managed manually
     }
@@ -265,10 +259,10 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * building the class files
      * for each of the tables output a file!
      */
-    function generateClasses()
+    public function generateClasses()
     {
         //echo "Generating Class files:        \n";
-        $options = &PEAR::getStaticProperty('DB_DataObject','options');
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 
 
         if ($extends = @$options['extends']) {
@@ -276,23 +270,22 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             $this->_extendsFile = $options['extends_location'];
         }
 
-        foreach($this->tables as $this->table => $aDef)
-        {
-            $this->table        = trim($this->table);
-            $this->classname    = $this->getClassNameFromTableName($this->table);
+        foreach (array_keys($this->tables) as $this->table) {
+            $this->table = trim($this->table);
+            $this->classname = $this->getClassNameFromTableName($this->table);
             $i = '';
-            $outfilename        = $this->getFileNameFromTableName($this->table);
+            $outfilename = $this->getFileNameFromTableName($this->table);
 
             $oldcontents = '';
             if (file_exists($outfilename)) {
                 // file_get_contents???
-                $oldcontents = implode('',file($outfilename));
+                $oldcontents = implode('', file($outfilename));
             }
-            $this->debug( "generating $this->classname");
+            $this->debug("generating $this->classname");
             $out = $this->_generateClassTable($oldcontents);
-            $this->debug( "writing $this->classname\n");
+            $this->debug("writing $this->classname\n");
             $fh = fopen($outfilename, "w");
-            fputs($fh,$out);
+            fwrite($fh, $out);
             fclose($fh);
         }
         //echo $out;
@@ -304,7 +297,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * @access  private
      * @return  none
      */
-    function _generateClassTable($input = '')
+    public function _generateClassTable($input = '')
     {
         $n = DIRECTORY_SEPARATOR == '\\' ? "\r\n" : "\n";
 
@@ -317,41 +310,42 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         // class
         $head .= "class {$this->classname} extends {$this->_extends} {$n}{";
 
-        $body =  "{$n}    ###START_AUTOCODE{$n}";
+        $body = "{$n}    ###START_AUTOCODE{$n}";
         $body .= "    /* the code below is auto generated do not remove the above tag */{$n}{$n}";
         // table
         $padding = (30 - strlen($this->table));
-        $padding  = ($padding < 2) ? 2 : $padding;
+        $padding = ($padding < 2) ? 2 : $padding;
 
-        $p =  str_repeat(' ',$padding) ;
+        $p = str_repeat(' ', $padding);
 
-        $options = &PEAR::getStaticProperty('DB_DataObject','options');
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
 
 
-        $var = !empty($options['generator_var_keyword']) ? $options['generator_var_keyword'] : 'public';
+        $var = empty($options['generator_var_keyword']) ? 'public' : $options['generator_var_keyword'];
 
 
         $body .= "    {$var} \$__table = '{$this->table}';  {$p}// table name{$n}";
 
         if (!empty($options['generator_novars'])) {
-            $var = '//'.$var;
+            $var = '//' . $var;
         }
 
         $defs = $this->_definitions[$this->table]['fields'];
 
         // show nice information!
-        $sets = array();
-        foreach($defs as $name => $t)
-        {
+        $sets = [];
+        foreach ($defs as $name => $t) {
             $t['name'] = $name;
             if (!strlen(trim($t['name']))) {
                 continue;
             }
             $padding = (30 - strlen($t['name']));
-            if ($padding < 2) $padding =2;
-            $p =  str_repeat(' ',$padding) ;
+            if ($padding < 2) {
+                $padding = 2;
+            }
+            $p = str_repeat(' ', $padding);
 
-            $fielddec ="    {$var} \${$t['name']};  {$p}// {$t['type']}({$t['length']}) => {$t['oxtype']} => {$t['dbotype']} {$n}";
+            $fielddec = "    {$var} \${$t['name']};  {$p}// {$t['type']}({$t['length']}) => {$t['oxtype']} => {$t['dbotype']} {$n}";
 
             $this->debug($fielddec);
             $body .= $fielddec;
@@ -375,7 +369,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         // stubs..
 
         if (!empty($options['generator_add_validate_stubs'])) {
-            foreach($defs as $t) {
+            foreach ($defs as $t) {
                 if (!strlen(trim($t->name))) {
                     continue;
                 }
@@ -394,10 +388,10 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         if (!$input) {
             return $full;
         }
-        if (!preg_match('/(\n|\r\n)\s*###START_AUTOCODE(\n|\r\n)/s',$input))  {
+        if (!preg_match('/(\n|\r\n)\s*###START_AUTOCODE(\n|\r\n)/s', $input)) {
             return $full;
         }
-        if (!preg_match('/(\n|\r\n)\s*###END_AUTOCODE(\n|\r\n)/s',$input)) {
+        if (!preg_match('/(\n|\r\n)\s*###END_AUTOCODE(\n|\r\n)/s', $input)) {
             return $full;
         }
 
@@ -406,7 +400,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             unless use set generator_class_rewrite to ANY or a name*/
 
         $class_rewrite = 'DB_DataObject';
-        $options = &PEAR::getStaticProperty('DB_DataObject','options');
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
         if (!($class_rewrite = @$options['generator_class_rewrite'])) {
             $class_rewrite = 'DB_DataObject';
         }
@@ -415,13 +409,16 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         }
 
         $input = preg_replace(
-            '/(\n|\r\n)class\s*[a-z0-9_]+\s*extends\s*' .$class_rewrite . '\s*\{(\n|\r\n)/si',
+            '/(\n|\r\n)class\s*[a-z0-9_]+\s*extends\s*' . $class_rewrite . '\s*\{(\n|\r\n)/si',
             "{$n}class {$this->classname} extends {$this->_extends} {$n}{{$n}",
-            $input);
+            $input
+        );
 
         $full = preg_replace(
             '/(\n|\r\n)\s*###START_AUTOCODE(\n|\r\n).*(\n|\r\n)\s*###END_AUTOCODE(\n|\r\n)/s',
-            $body, $input);
+            $body,
+            $input
+        );
 
         // Remove trailing whitespace
         return preg_replace('#[ \t]+$#m', '', $full);
@@ -432,63 +429,48 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      *
      * @return string
      */
-    function _generateDefinitionsTable()
+    public function _generateDefinitionsTable()
     {
-        $aTable             = $this->_definitions[$this->table];
-        $this->_newConfig  .= "\n[{$this->table}]\n";
-        $keys_out           =  "\n[{$this->table}__keys]\n";
-        $keys_out_primary   = '';
+        $aTable = $this->_definitions[$this->table];
+        $this->_newConfig .= "\n[{$this->table}]\n";
+        $keys_out = "\n[{$this->table}__keys]\n";
+        $keys_out_primary = '';
         $keys_out_secondary = '';
-        $aKeys_primary   = array();
-        $aKeys_secondary = array();
+        $aKeys_primary = [];
+        $aKeys_secondary = [];
 
-        foreach($aTable['fields'] as $field => $aField)
-        {
+        foreach ($aTable['fields'] as $field => $aField) {
             $this->_newConfig .= "{$field} = {$aField['dbotype']}\n";
-            if ($aField['autoincrement'])
-            {
+            if ($aField['autoincrement']) {
                 $aKeys_primary[$field] = 'N';
             }
         }
-        foreach($aTable['indexes'] as $index => $aIndex)
-        {
-            if (isset($aIndex['primary']) && ($aIndex['primary']) && (count($aIndex['fields'])==1))
-            {
-                foreach($aIndex['fields'] as $field => $aSort)
-                {
-                    if (!array_key_exists($field,$aKeys_primary))
-                    {
+        foreach ($aTable['indexes'] as $index => $aIndex) {
+            if (isset($aIndex['primary']) && ($aIndex['primary']) && (count($aIndex['fields']) == 1)) {
+                foreach ($aIndex['fields'] as $field => $aSort) {
+                    if (!array_key_exists($field, $aKeys_primary)) {
                         $aKeys_primary[$field] = 'N';
                     }
-                    if ( (array_key_exists($field,$aKeys_secondary)))
-                    {
+                    if ((array_key_exists($field, $aKeys_secondary))) {
                         unset($aKeys_secondary[$field]);
                     }
                 }
                 continue;
-            }
-            else if (isset($aIndex['unique']) && ($aIndex['unique']) && (count($aIndex['fields'])==1))
-            {
+            } elseif (isset($aIndex['unique']) && ($aIndex['unique']) && (count($aIndex['fields']) == 1)) {
                 $key_type = 'U';
-            }
-            else
-            {
+            } else {
                 $key_type = 'K';
             }
-            foreach($aIndex['fields'] as $field => $aSort)
-            {
-                if ( (!array_key_exists($field,$aKeys_primary)) && ((!array_key_exists($field,$aKeys_secondary))))
-                {
+            foreach ($aIndex['fields'] as $field => $aSort) {
+                if ((!array_key_exists($field, $aKeys_primary)) && ((!array_key_exists($field, $aKeys_secondary)))) {
                     $aKeys_secondary[$field] = $key_type;
                 }
             }
         }
-        foreach ($aKeys_primary AS $field => $key_type)
-        {
+        foreach ($aKeys_primary as $field => $key_type) {
             $keys_out_primary .= "{$field} = {$key_type}\n";
         }
-        foreach ($aKeys_secondary AS $field => $key_type)
-        {
+        foreach ($aKeys_secondary as $field => $key_type) {
             $keys_out_secondary .= "{$field} = {$key_type}\n";
         }
         $this->_newConfig .= $keys_out . (empty($keys_out_primary) ? $keys_out_secondary : $keys_out_primary);
@@ -498,67 +480,60 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
     }
 
 
-   /**
-    * Generate array of defaults values
-    *
-    * @param    string  table name.
-    * @return   string
-    */
-    function _generateDefaultsArray($table)
+    /**
+     * Generate array of defaults values
+     *
+     * @param    string  table name.
+     * @return   string
+     */
+    public function _generateDefaultsArray($table)
     {
         $aFields = $this->_definitions[$table]['fields'];
 
-        $aNulls = array(
+        $aNulls = [
                         'sso_user_id',
                         'date_last_login',
                         'email_updated',
                         'advertiser_account_id',
                         'website_account_id',
-                       );
+                       ];
 
-        $aDefaults = array();
+        $aDefaults = [];
 
-        foreach($aFields as $field => $aField) {
+        foreach ($aFields as $field => $aField) {
+            $type = $aField['dbotype'];
+            $value = $aField['default'];
 
-            $type   = $aField['dbotype'];
-            $value  = $aField['default'];
-
-            switch (true)
-            {
-                case (in_array($field,$aNulls)):
+            switch (true) {
+                case (in_array($field, $aNulls)):
                     $aDefaults[$field] = "OX_DATAOBJECT_NULL";
                     break;
-                case ((!$aField['notnull']) && ($value===null)):
+                case ((!$aField['notnull']) && ($value === null)):
                 case ($aField['autoincrement']):
                 case (is_null($type)):
                     break;
                 case ($type & DB_DATAOBJECT_BOOL):
-                    $aDefaults[$field] = (int)(boolean) $value;
+                    $aDefaults[$field] = (int)(bool) $value;
                     break;
 
                 // Check DATE/TIME type first instead of STR (many date/time fields has multiple types including DB_DATAOBJECT_STR)
                 case ($type & DB_DATAOBJECT_MYSQLTIMESTAMP): // not supported yet..
                 case ($type & DB_DATAOBJECT_DATE):
                 case ($type & DB_DATAOBJECT_TIME):
-                    if ($field == 'updated')
-                    {
+                    if ($field == 'updated') {
                         $aDefaults[$field] = "'%DATE_TIME%'";
-                    }
-                    elseif ($field == 'total_basket_value') //recognized as DB_DATAOBJECT_MYSQLTIMESTAMP & DB_DATAOBJECT_INT
-                    {
+                    } elseif ($field == 'total_basket_value') { //recognized as DB_DATAOBJECT_MYSQLTIMESTAMP & DB_DATAOBJECT_INT
                         $aDefaults[$field] = $value;
-                    }
-                    else
-                    {
+                    } else {
                         $aDefaults[$field] = "'%NO_DATE_TIME%'";
                     }
                     break;
 
                 case ($type & DB_DATAOBJECT_STR):
-                    $aDefaults[$field] =  "'" . addslashes($value) . "'";
+                    $aDefaults[$field] = "'" . addslashes($value) . "'";
                     break;
 
-                case (($type &  DB_DATAOBJECT_INT) && !($value === '')):
+                case (($type & DB_DATAOBJECT_INT) && $value !== ''):
                     $aDefaults[$field] = $value;
                     break;
 
@@ -569,18 +544,13 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             }
         }
         $result = '';
-        if (!empty($aDefaults))
-        {
-            $result = "\n".'    var $defaultValues = ['. "\n";
-                    foreach($aDefaults as $k=>$v)
-                    {
-                        $result .= '        \''.addslashes($k).'\' => ' . $v . ",\n";
-
-                    }
+        if (!empty($aDefaults)) {
+            $result = "\n" . '    var $defaultValues = [' . "\n";
+            foreach ($aDefaults as $k => $v) {
+                $result .= '        \'' . addslashes($k) . '\' => ' . $v . ",\n";
+            }
             $result .= "    ];\n";
         }
         return $result;
     }
-
 }
-?>

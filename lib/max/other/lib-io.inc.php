@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
+if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
     // Required by PHP5.1.2
     require_once MAX_PATH . '/lib/max/Delivery/common.php';
 }
@@ -37,8 +37,8 @@ function phpAds_registerGlobal()
 function phpAds_registerGlobalUnslashed()
 {
     $args = func_get_args();
-    $request = array();
-    while (list(,$key) = each($args)) {
+    $request = [];
+    foreach ($args as $key) {
         if (isset($_GET[$key])) {
             $value = $_GET[$key];
         }
@@ -49,8 +49,7 @@ function phpAds_registerGlobalUnslashed()
             if (ini_get('magic_quotes_gpc')) {
                 $value = MAX_commonUnslashArray($value);
             }
-        }
-        else {
+        } else {
             $value = null;
         }
         $GLOBALS[$key] = $request[$key] = $value;
@@ -58,5 +57,3 @@ function phpAds_registerGlobalUnslashed()
     }
     return $request;
 }
-
-?>

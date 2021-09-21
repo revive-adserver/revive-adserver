@@ -21,11 +21,10 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
  */
 class Test_OA_Task_Runner extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -33,7 +32,7 @@ class Test_OA_Task_Runner extends UnitTestCase
     /**
      * A method to test the class constructor.
      */
-    function testOA_Task_Runner()
+    public function testOA_Task_Runner()
     {
         $oTaskRunner = new OA_Task_Runner();
         $this->assertTrue(is_object($oTaskRunner));
@@ -43,18 +42,18 @@ class Test_OA_Task_Runner extends UnitTestCase
     /**
      * A method to test addition of tasks to the task runner.
      */
-    function testAddTask()
+    public function testAddTask()
     {
         // Generate a partial mock of the task class
-        Mock::generatePartial('OA_Task', 'MockTask0', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask0', ['run']);
         $oTask0 = new MockTask0($this);
-        Mock::generatePartial('OA_Task', 'MockTask1', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask1', ['run']);
         $oTask1 = new MockTask1($this);
-        Mock::generatePartial('OA_Task', 'MockTask2', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask2', ['run']);
         $oTask2 = new MockTask2($this);
-        Mock::generatePartial('OA_Task', 'MockTask3', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask3', ['run']);
         $oTask3 = new MockTask3($this);
-        Mock::generatePartial('OA_Task', 'MockTask4', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask4', ['run']);
         $oTask4 = new MockTask4($this);
 
         // Create a task runner, and test addition of classes
@@ -122,9 +121,5 @@ class Test_OA_Task_Runner extends UnitTestCase
 
         $return = $oTaskRunner->addTask($oTask4, 'InvalidClassName', OA_Task_Runner::TASK_ORDER_BEFORE);
         $this->assertFalse($return);
-
     }
-
 }
-
-?>
