@@ -47,11 +47,11 @@ msgstr "Is within"
 msgid "Is not within"
 msgstr "Is not within"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:89
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:90
 msgid "Latitude"
 msgstr "Latitude"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:95
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:96
 msgid "Longitude"
 msgstr "Longitude"
 
