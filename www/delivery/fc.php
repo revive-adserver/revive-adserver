@@ -24,7 +24,6 @@
  * file(s) in the "delivery_dev" folder; and regenerate the delivery files
  * using the script located in the "scripts/delivery" directory.
  */
-
 if (empty($_GET['script'])) {
 exit(1);
 }
