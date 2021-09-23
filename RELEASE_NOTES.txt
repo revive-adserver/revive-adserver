@@ -38,6 +38,8 @@ What's New in Revive Adserver 5.4.0
  * Fixed issue causing access denied on some statistics pages, e.g. campaign
    banners.
 
+ * Fixed PHP fatal errors in the XML-RPC API v2.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
