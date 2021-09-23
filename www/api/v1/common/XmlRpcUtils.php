@@ -635,8 +635,9 @@ class XmlRpcUtils
         for ($i = 0; $i < $count; $i++) {
             $oStructure = new $className();
             foreach ($aFieldNames as $fieldName) {
+                $oStructParam = $oArrayParam->arraymem($i);
                 if (!XmlRpcUtils::_getStructureScalarField($oStructure,
-                    $oArrayParam->arraymem($i), $fieldName,
+                    $oStructParam, $fieldName,
                     $oResponseWithError)) {
 
                     return false;
