@@ -80,8 +80,7 @@ class OA_Admin_Reports_Generate
         $oPlugin->useReportWriter($oWriter);
         // Generate the report by calling the report plugin's
         // execute method with the required variables
-        $aCallback = $this->execute();
-        $result = call_user_func_array($aCallback, $aVariables);
+        $result = $oPlugin->execute(...$aVariables);
         if (!empty($result)) {
             OX_Admin_Redirect::redirect('report-generation.php?report=' . $oPlugin->getComponentIdentifier() . '&error=' . $result);
         }
@@ -100,7 +99,7 @@ class OA_Admin_Reports_Generate
     {
         $aVariables = [];
         foreach (array_keys($aImport) as $key) {
-            $oField = &FieldFactory::newField($aImport[$key]['type']);
+            $oField = FieldFactory::newField($aImport[$key]['type']);
             $oField->_name = $key;
             $oField->setValueFromArray($_GET);
             $aVariables[] = $oField->_value;

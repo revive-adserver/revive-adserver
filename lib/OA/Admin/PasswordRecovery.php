@@ -231,7 +231,7 @@ class OA_Admin_PasswordRecovery
 
             // Generate the password reset URL for this user
             $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
-            $recoveryUrl = Max::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recoveryId}");
+            $recoveryUrl = MAX::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recoveryId}");
 
             // Load the appropriate language details for the email recipient
             Language_Loader::load('default', $u['language']);
