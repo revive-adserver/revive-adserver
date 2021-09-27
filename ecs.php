@@ -27,6 +27,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         glob(__DIR__ . '/*.php'),
     ));
 
+    $parameters->set(Option::SKIP, [
+        __DIR__ . '/lib/max/language',
+    ]);
+
     $containerConfigurator->import(SetList::PSR_12);
 
     $services = $containerConfigurator->services();
