@@ -149,7 +149,7 @@ class OA_Admin_Option
                     'value' => $this->_optionType . '-campaign-email-reports.php',
                     'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
                 ];
-            if ($aConf['logging']['trackerImpressions']) {
+            if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions']) {
                 $aSections['tracker'] =
                     [
                         'name' => $GLOBALS['strTrackerPreferences'],

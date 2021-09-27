@@ -40,6 +40,9 @@ What's New in Revive Adserver 5.4.0
 
  * Fixed PHP fatal errors in the XML-RPC API v2.
 
+ * Fixed an issue preventing tracker account preferences from being displayed
+   in the menus.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
