@@ -109,3 +109,4 @@ $GLOBALS['strUnableToCreateAdmin'] = "Wir können keinen Adminstrator-Account an
 $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} hat festgestellt, dass Ihre PHP Installation 'System/Localtime' als Zeitzone des
 Servers zurückliefert. Dies wurde durch eine gepatchte PHP hervorgerufen, die bei manchen Linux-Distributionen durchgeführt wird.
 Leider ist das keine gültige PHP-Zeitzone. Bitte ändern Sie ihre php.ini Datei und setzen den Wert für 'date.timezone' auf einen gültigen Wert für Ihren Server.";
+

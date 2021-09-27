@@ -51,11 +51,11 @@ msgstr ""
 msgid "Is not within"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:89
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:90
 msgid "Latitude"
 msgstr "Zeměpisná šířka"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:95
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:96
 msgid "Longitude"
 msgstr "Zeměpisná délka"
 

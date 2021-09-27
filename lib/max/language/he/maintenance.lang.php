@@ -81,3 +81,4 @@ $GLOBALS['strDeliveryLimitations'] = "כללי משלוח";
 //  Append codes
 
 $GLOBALS['strPlugins'] = "Plugins";
+

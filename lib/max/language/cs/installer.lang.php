@@ -70,3 +70,5 @@ $GLOBALS['strConfigureProgressMessage'] = "Konfigurace {$PRODUCT_NAME}...";
 
 
 /** finish step * */
+
+
