@@ -216,7 +216,7 @@ class OA_Admin_ExcelWriter
         }
 
         // Determine how many columns are actually used in this worksheet
-        $columnCount = $col > $columnCount ? $col - 1 : $columnCount;
+        $columnCount = $col - 1;
 
         // Set column widths
         $worksheet->setColumn(1, $columnCount, $colSize);

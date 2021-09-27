@@ -102,7 +102,7 @@ class OA
             return true;
         }
         // Grab DSN if we are logging to a database
-        $dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
+        $dsn = ($aConf['log']['type'] == 'sql') ? OA_DB::getDsn() : '';
         // Instantiate a logger object based on logging options
         $aLoggerConf = [
             $aConf['log']['paramsUsername'],
