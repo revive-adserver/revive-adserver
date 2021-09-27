@@ -29,7 +29,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
      * New() methods work-in-progress
      * refactoring to use mdb2 schema files
      */
-    public function start($schema)
+    public function start($schema = '')
     {
         global $_DB_DATAOBJECT;
         $_DB_DATAOBJECT['CONFIG']['debug'] = $GLOBALS['_MAX']['CONF']['debug']['priority'];

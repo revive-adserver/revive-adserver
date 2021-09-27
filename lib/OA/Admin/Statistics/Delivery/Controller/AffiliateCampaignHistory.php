@@ -71,7 +71,6 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         $this->aPageParams = [
             'affiliateid' => $publisherId,
             'campaignid' => $placementId,
-            'zoneid' => $zoneId
         ];
 
         // Load the period preset and stats breakdown parameters

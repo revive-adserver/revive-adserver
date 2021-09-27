@@ -71,7 +71,7 @@ class OA_DB
 
         // Check that the parameter is a string, not an array
         if (is_array($dsn)) {
-            return Max::raiseError('Bad argument: DSN should be a string', MAX_ERROR_INVALIDARGS);
+            return MAX::raiseError('Bad argument: DSN should be a string', MAX_ERROR_INVALIDARGS);
         }
 
         // A hack to allow for installation on pgsql
@@ -431,6 +431,7 @@ class OA_DB
                     return $result;
                 }
             }
+            $aBackupFunctions = $aCustomFunctions = [];
             include $functionsFile;
             OA_DB::disconnectAll();
             $oDbh = OA_DB::singleton();

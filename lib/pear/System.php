@@ -71,7 +71,7 @@ class System
     * @return   array   the given options and there values
     * @access private
     */
-    function _parseArgs($argv, $short_options, $long_options = null)
+    public static function _parseArgs($argv, $short_options, $long_options = null)
     {
         if (!is_array($argv) && $argv !== null) {
             $argv = preg_split('/\s+/', $argv, -1, PREG_SPLIT_NO_EMPTY);
@@ -87,7 +87,7 @@ class System
     * @return bool false
     * @access private
     */
-    function raiseError($error)
+    public static function raiseError($error)
     {
         if (PEAR::isError($error)) {
             $error = $error->getMessage();
@@ -223,7 +223,7 @@ class System
     * @return   bool    True for success
     * @access   public
     */
-    function mkDir($args)
+    public static function mkDir($args)
     {
         $opts = System::_parseArgs($args, 'pm:');
         if (PEAR::isError($opts)) {

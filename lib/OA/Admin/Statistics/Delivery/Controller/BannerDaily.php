@@ -83,7 +83,6 @@ class OA_Admin_Statistics_Delivery_Controller_BannerDaily extends OA_Admin_Stati
         $this->aPageParams = [
             'clientid' => $advertiserId,
             'campaignid' => $placementId,
-            'campaignid' => $placementId,
             'bannerid' => $adId,
         ];
 

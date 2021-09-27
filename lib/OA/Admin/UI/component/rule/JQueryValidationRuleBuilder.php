@@ -72,8 +72,8 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
     public function getJQueryValidationRulesScript($rules)
     {
         $registry = $this->getAdaptorRegistry();
-        $rulesText .= "rules: {\n";
-        $messagesText .= "messages: {\n";
+        $rulesText = "rules: {\n";
+        $messagesText = "messages: {\n";
         $rulesCount = count($rules);
         $i = 1;
         foreach ($rules as $elementName => $elementRules) {

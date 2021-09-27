@@ -222,6 +222,6 @@ $oTpl->assign('aZones', $aZones);
 
 $oUI = new OA_Admin_UI_Search();
 
-$oUI->showHeader($keyword);
+$oUI->showSearchHeader($keyword);
 $oTpl->display();
 $oUI->showFooter();

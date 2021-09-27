@@ -35,7 +35,7 @@ class OA_Admin_UI_Component_FormBreak extends HTML_QuickForm_static
      *
      * @param HTML_QuickForm_Renderer    renderer object
      */
-    public function accept(&$renderer)
+    public function accept(&$renderer, $required = false, $error = null)
     {
         $renderer->renderElement($this);
     }

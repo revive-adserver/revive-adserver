@@ -79,7 +79,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerZoneHistory extends OA_Admin
             'clientid' => $advertiserId,
             'campaignid' => $placementId,
             'bannerid' => $adId,
-            'affiliateid' => $publisherId,
+            'affiliateid' => (int) $aZones[$zoneId]['publisher_id'],
             'zoneid' => $zoneId
         ];
 

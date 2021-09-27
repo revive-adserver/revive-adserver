@@ -247,11 +247,8 @@ class DataGenerator
                 // Don't create accounts via DataGenerator. DataObjects already take care of it.
                 continue;
             }
-            if (isset($fieldValue) && !isset($GLOBALS['dataGeneratorDontOptimize'])) { //hack for quick test fix
-                $doAncestor->$foreignKey = $fieldValue;
-            } else {
-                $doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
-            }
+
+            $doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
         }
         DataGenerator::trackData($table);
         $id = $doAncestor->insert();
