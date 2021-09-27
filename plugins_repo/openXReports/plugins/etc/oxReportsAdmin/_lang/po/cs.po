@@ -14,20 +14,20 @@ msgstr ""
 "X-Crowdin-File: /openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 334\n"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:39
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:136
 msgid "Account Breakdown"
 msgstr "Rozdělení účtu"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:41
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
 msgid "Lists Impression/Click/Conversion totals for a given month."
 msgstr "Seznam zobrazení/kliknutí/konverze celkem za daný měsíc."
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:43
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:42
 msgid "Admin Reports"
 msgstr "Admin Reporty"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:128
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:127
 msgid "Manager"
 msgstr "Manažer"
 

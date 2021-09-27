@@ -14,160 +14,160 @@ msgstr ""
 "X-Crowdin-File: /openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 250\n"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:35
 msgid "iFrame Tag"
 msgstr "iFrame Menandai"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:36
 msgid "Asynchronous JS Tag"
 msgstr "Asinkron JS Menandai"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:42
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
 msgstr "Menandai Popup"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:41
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:47
 msgid "[Close]"
 msgstr "[Tutup]"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:50
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:57
 msgid "Alignment"
 msgstr "Penjajaran"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:52
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:63
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:59
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:84
 msgid "Left"
 msgstr "Kiri"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:53
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:64
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:85
 msgid "Center"
 msgstr "Tengah"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:54
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:65
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:61
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:86
 msgid "Right"
 msgstr "Kanan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:67
 msgid "Close text"
 msgstr "Tutup Teks"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:72
 msgid "Automatically collapse after"
 msgstr "Melipatkan secara otomatis setelah"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:70
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:98
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:77
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:119
 msgid "Banner padding"
 msgstr "Isi dari Banner"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:53
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:66
 msgid "Smooth movement"
 msgstr "Gerakan halus"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:61
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:97
 msgid "Speed"
 msgstr "Kecepatan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
 msgid "Hide the banner when the cursor is not moving"
 msgstr "Sembunyikan banner bila Cursor tidak bergerak"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:82
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:95
 msgid "Delay before banner is hidden"
 msgstr "Menunda sebelum banner disembunyikan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
 msgid "Transparancy of the hidden banner"
 msgstr "Tingkat transparansi dari banner yang tersembunyi"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:103
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:113
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:124
 msgid "Horizontal shift"
 msgstr "Penggeseran Horisontal"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:105
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:97
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:108
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:118
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:111
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:129
 msgid "Vertical shift"
 msgstr "Penggeseran Vertikal"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:67
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:79
 msgid "Direction"
 msgstr "Jurusan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:69
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:81
 msgid "Left to right"
 msgstr "Dari kiri ke kanan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:70
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:82
 msgid "Right to left"
 msgstr "Dari kanan ke kiri"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:75
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:87
 msgid "Looping"
 msgstr "Memutar"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:77
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:89
 msgid "Always active"
 msgstr "Selalu aktif"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:106
 msgid "Pause"
 msgstr "Istirahat"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:102
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:116
 msgid "Limited"
 msgstr "Terbatas"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:110
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:124
 msgid "Left margin"
 msgstr "Pinggiran kiri"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:115
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:129
 msgid "Right margin"
 msgstr "Pinggiran kanan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:120
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:134
 msgid "Transparent background"
 msgstr "Dasar transparan"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:115
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:144
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:136
 msgid "Background color"
 msgstr "Warna dasar"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:61
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:82
 msgid "Horizontal alignment"
 msgstr "Penjajaran Horisontal"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:71
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:92
 msgid "Vertical alignment"
 msgstr "Penjajaran Vertikal"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:73
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:94
 msgid "Top"
 msgstr "Atas"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:74
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:95
 msgid "Middle"
 msgstr "Tengah"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:75
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:96
 msgid "Bottom"
 msgstr "Bawah"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:102
 msgid "Show close button"
 msgstr "Tampilkan tombol Tutup"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:110
 msgid "Automatically close after"
 msgstr "Tutup secara otomatis setelah"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:128
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:149
 msgid "Border color"
 msgstr "Warna  batas"
 
@@ -175,15 +175,15 @@ msgstr "Warna  batas"
 msgid "No Cookie Image Tag"
 msgstr "Tidak ada menandai gambar cookie"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:36
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
 msgid "XML-RPC Tag"
 msgstr "XML-RPC Menandai"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:35
 msgid "Image Tag"
 msgstr "Menandai Gambar"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
 msgid "Local Mode Tag"
 msgstr "Menandai Mode Lokal"
 
@@ -201,15 +201,15 @@ msgstr "Pilihan - noscript"
 msgid "Option - SSL"
 msgstr "Pilihan - SSL"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
 msgid "Javascript Tag"
 msgstr "Menandai Javascript"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:44
 msgid "Interstitial or Floating DHTML Tag"
 msgstr "Menandai DHTML Interstisial atau Mengambang"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:235
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:239
 msgid "Style"
 msgstr "Gaya"
 

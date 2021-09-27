@@ -125,3 +125,4 @@ $GLOBALS['strAppendCodesValid'] = "Wszystkie skompilowane kody trackera są waż
 $GLOBALS['strRepairAppenedCodes'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić te, korzystając z przycisku poniżej, aby ponownie skompilować kody dodane dla każdego trackera w systemie";
 
 $GLOBALS['strPlugins'] = "Moduły dodatkowe";
+

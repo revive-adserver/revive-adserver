@@ -19,25 +19,25 @@ msgstr ""
 msgid "is any version of"
 msgstr "är någon version av"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:77
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:76
 msgid "Browser"
 msgstr "Webbläsare"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:89
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:91
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:83
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:85
 msgid "Version"
 msgstr "Version"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:136
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:141
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:126
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:132
 msgid "Version should be a number"
 msgstr "Versionen ska vara ett nummer"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:79
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:78
 msgid "Operating System"
 msgstr "Operativsystem"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:146
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:138
 msgid "Version is not valid"
 msgstr "Versionen är inte giltig"
 

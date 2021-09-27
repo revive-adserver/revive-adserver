@@ -59,3 +59,4 @@ $GLOBALS['strAndPlain'] = "和";
 //  Append codes
 
 $GLOBALS['strPlugins'] = "插件";
+

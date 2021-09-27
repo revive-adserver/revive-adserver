@@ -31,3 +31,5 @@ $GLOBALS['strConfigureUpgradeTitle'] = "Konfigurasjonsinnstillinger";
 
 
 /** finish step * */
+
+
