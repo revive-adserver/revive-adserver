@@ -22,13 +22,14 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 // Load the account's preferences, with additional information, into a specially named array
 $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
+$prefSection = "tracker";
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -54,11 +55,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
-// Display the settings page's header and sections
-phpAds_PageHeader("account-preferences-index");
-
 // Set the correct section of the preference pages and display the drop-down menu
-$oOptions->selection("tracker");
+$setPref = $oOptions->getSettingsPreferences($prefSection);
+$title = $setPref[$prefSection]['name'];
+
+// Display the settings page's header and sections
+$oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
+phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 // Get the details of possible tracker statuses
 $aStatuses = array();
