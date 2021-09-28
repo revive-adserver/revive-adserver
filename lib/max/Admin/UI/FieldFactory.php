@@ -52,7 +52,6 @@ class FieldFactory
             case 'edit':                 $oField = new Admin_UI_TextField(); break;
             case 'scope':                $oField = new Admin_UI_OrganisationSelectionField(); break;
             case 'sheet':                $oField = new Admin_UI_SheetSelectionField(); break;
-            case 'trackerid-dropdown':   $oField = new Admin_UI_TrackerField(); break;
             case 'zone-scope':           $oField = new Admin_UI_ZoneScopeField(); break;
             case 'zoneid-dropdown':      $oField = new Admin_UI_ZoneIdField(); break;
             default:                     MAX::raiseError("The report module discovered a field type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);

@@ -1,25 +1,32 @@
 parameters:
-	level: 0
-	paths:
-		- .
-	excludePaths:
-		analyseAndScan:
-			- www/devel
-			- www/delivery
-			- plugins
-			- plugins_dev
-			- */tests/*
-		analyse:
-			- etc
-			- lib/max/language
-			- lib/pear
-			- lib/pclzip
-			- lib/simpletest
-			- lib/smarty
-			- lib/vendor
-			- lib/Zend
-	bootstrapFiles:
-		- phpstan-bootstrap.php
-	ignoreErrors:
-		- '#undefined property#'
-		- '#should return#'
+    level: 0
+    paths:
+        - .
+    scanFiles:
+        - constants.php
+        - variables.php
+    excludePaths:
+        analyseAndScan:
+            - www/devel
+            - www/delivery
+            - plugins
+            - plugins_dev
+            - */tests/*
+            - var
+        analyse:
+            - etc
+            - lib/max/language
+            - lib/minify
+            - lib/pear
+            - lib/pclzip
+            - lib/simpletest
+            - lib/smarty
+            - lib/vendor
+            - lib/wact
+            - lib/xajax
+            - lib/Zend
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+    ignoreErrors:
+        - '#undefined property#'
+        - '#should return#'

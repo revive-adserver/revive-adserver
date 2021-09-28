@@ -87,13 +87,6 @@ class MAX_Admin_Invocation
             'withtext',
         ];
 
-        // Add any plugin-specific option values to the global array...
-        if (isset($invocationTag->defaultOptionValues)) {
-            foreach ($invocationTag->defaultOptionValues as $key => $default) {
-                $aVariables[] = $key;
-            }
-        }
-
         return $aVariables;
     }
 

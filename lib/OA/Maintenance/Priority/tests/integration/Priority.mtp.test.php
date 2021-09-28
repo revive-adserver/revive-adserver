@@ -425,7 +425,7 @@ class Test_Priority extends UnitTestCase
         $oLogCompletion->run();
 
         // Insert some stats for an ad zone combination
-        $doDIA = OA_DAL::factoryDO('data_intermediate_ad');
+        $doDIA = OA_Dal::factoryDO('data_intermediate_ad');
         $doDIA->ad_id = 3;
         $doDIA->creative_id = 0;
         $doDIA->zone_id = 3;

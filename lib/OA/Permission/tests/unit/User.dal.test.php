@@ -51,7 +51,7 @@ class Test_OA_Permission_User extends UnitTestCase
      */
     public function _prepareTestData()
     {
-        $doAgency = OA_DAL::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $this->agencyId = DataGenerator::generateOne($doAgency);
         $doAgency = OA_Dal::staticGetDO('agency', $this->agencyId);
         $this->accountId = $doAgency->account_id;

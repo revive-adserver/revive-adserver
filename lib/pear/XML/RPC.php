@@ -604,7 +604,7 @@ class XML_RPC_Base {
      *
      * @access public
      */
-    function isError($value)
+    public static function isError($value)
     {
         return is_a($value, 'PEAR_Error');
     }
@@ -842,7 +842,7 @@ class XML_RPC_Client extends XML_RPC_Base {
      *
      * @return void
      */
-    function setAutoBase64($in)
+    public static function setAutoBase64($in)
     {
         if ($in) {
             $GLOBALS['XML_RPC_auto_base64'] = true;

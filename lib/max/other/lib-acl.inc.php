@@ -466,7 +466,7 @@ function MAX_AclCopy($page, $from, $to)
 
             // Copy compiledlimitation
             $doBannersFrom = OA_Dal::staticGetDO('banners', $from);
-            $doBannersTo = OA_DAL::staticGetDO('banners', $to);
+            $doBannersTo = OA_Dal::staticGetDO('banners', $to);
             $doBannersTo->compiledlimitation = $doBannersFrom->compiledlimitation;
             $doBannersTo->acl_plugins = $doBannersFrom->acl_plugins;
             $doBannersTo->block = $doBannersFrom->block;

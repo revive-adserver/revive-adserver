@@ -83,24 +83,26 @@ class MAX_Plugin_Translation
                 $path = MAX_PATH . '/plugins/' . $module . '/' . $package . '/_lang/';
             }
         }
+
         // Load up the english translation if available
         if (is_readable($path . 'en.php')) {
+            $words = null;
             include $path . 'en.php';
             //  If current module is not the default openads module
-            if (isset($words)) {
+            if (null !== $words) {
                 if ($package === null) {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = $words;
                 } else {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] = $words;
                 }
             }
-            unset($words);
         }
 
         if (is_readable($path . $language . '.php')) {
+            $words = null;
             include $path . $language . '.php';
             //  If current module is not the default openads module
-            if (isset($words)) {
+            if (null !== $words) {
                 if ($package === null) {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = array_merge($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module], $words);
                 } else {

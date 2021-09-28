@@ -37,11 +37,13 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
      */
     public function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
+        global $tabindex;
+
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
 
         $globalVariables = [
-            'affiliateid', 'codetype', 'size', 'text', 'dest'
+            'affiliateid', 'codetype', 'size', 'text', 'dest',
         ];
 
         $buffer = '';
@@ -55,7 +57,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
             $this->$makeMeGlobal = &$$makeMeGlobal;
         }
 
-        $invocationTypes = &OX_Component::getComponents('invocationTags');
+        $invocationTypes = OX_Component::getComponents('invocationTags');
         foreach ($invocationTypes as $pluginKey => $invocationType) {
             if (!empty($invocationType->publisherPlugin)) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;
@@ -73,7 +75,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
             $codetype = $defaultPublisherPlugin;
         } elseif (count($available) > 1) {
             // Multiple publisher invocation plugins available
-            if (is_null($codetype)) {
+            if (!isset($codetype)) {
                 $codetype = $defaultPublisherPlugin;
             }
 

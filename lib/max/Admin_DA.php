@@ -1159,36 +1159,6 @@ class Admin_DA
         return Admin_DA::_addEntity('agency', $aParams);
     }
 
-    /**
-     * Method to return the total number of clicks and impressions
-     * received by an agencies ads for hours inclusive of a given date range.
-     *
-     * see {@link Admin_DA::getAdsStatsByDate()} for date information
-     *
-     * @param integer $id agency id
-     * @param object $oStart start of date range
-     * @param object $oEnd end of date range
-     * @return mixed array or PEAR::Error object
-     */
-    public static function getAgencyAdStats($id, $oStart, $oEnd)
-    {
-        // Validate args
-        if (!empty($id) && is_a($oStart, 'Date') && is_a($oEnd, 'Date')) {
-            if ($oEnd->after($oStart)) {
-                $aAds = &Admin_DA::getAdsByAgencyId($id);
-                if (PEAR::isError($aAds)) {
-                    return $aAds;
-                }
-                return Admin_DA::getAdsStatsByDate($aAds, $oStart, $oEnd);
-            } else {
-                return MAX::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ . '
-                end date is before or equal to start date.', MAX_ERROR_INVALIDARGS);
-            }
-        } else {
-            return MAX::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__, MAX_ERROR_INVALIDARGS);
-        }
-    }
-
 
     // +---------------------------------------+
     // | placements                            |

@@ -46,10 +46,7 @@ if (!empty($existingPearPath)) {
 }
 ini_set('include_path', $newPearPath);
 
-// set database type to mysql or mysqli if available
-$availableMysqlExtension = 'mysqli';
-
-$GLOBALS['_MAX']['CONF']['database']['type'] = $availableMysqlExtension;
+$GLOBALS['_MAX']['CONF']['database']['type'] = 'mysqli';
 
 setupConstants();
 setupConfigVariables();
@@ -66,10 +63,11 @@ require MAX_PATH . '/lib/OA/DB/Table.php';
 
 // Create a database mock so we will not have to connect to database itself
 require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
-require_once 'MDB2/Driver/' . $availableMysqlExtension . '.php';
-Mock::generatePartial('MDB2_Driver_' . $availableMysqlExtension, 'MDB2_Mock', []);
+require_once 'MDB2/Driver/mysqli.php';
+Mock::generatePartial('MDB2_Driver_mysqli', 'MDB2_Mock', []);
+// @phpstan-ignore-next-line
 $oDbh = new MDB2_Mock();
-(new ReflectionMethod('MDB2_Driver_' . $availableMysqlExtension, '__construct'))->invoke($oDbh);
+(new ReflectionMethod('MDB2_Driver_mysqli', '__construct'))->invoke($oDbh);
 
 // add datatype mapping
 $aDatatypeOptions = OA_DB::getDatatypeMapOptions();

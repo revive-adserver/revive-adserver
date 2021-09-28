@@ -353,6 +353,8 @@ function OA_Delivery_XmlRpc_SPC($params)
         return new XML_RPC_Response(0, $errorCode, $errorMsg);
     }
 
+    $what = $target = $source = $withtext = $block = $blockcampaign = null;
+
     // Set the XML values into their correct variables to make life easier
     $vars = [
         1 => 'what',
@@ -487,24 +489,8 @@ function OA_Delivery_XmlRpc_SPC($params)
             }
         }
     }
+
     return new XML_RPC_Response(XML_RPC_encode($spc_output));
-    // Now we have all the parameters we need to select the ad
-
-    // Call MAX_adSelect with supplied parameters
-    $output = call_user_func_array('MAX_adSelect', $view_params);
-
-    // Prepare output as PHP array
-    if (!is_array($output)) {
-        $output = [];
-    }
-
-    MAX_cookieFlush();
-
-    // Add cookie information
-    $output['cookies'] = $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'];
-
-    // Return response
-    return new XML_RPC_Response(XML_RPC_encode($output));
 }
 
 /**
@@ -631,7 +617,6 @@ function OA_Delivery_XmlRpc_View_Max($params)
 function OA_Delivery_XmlRpc_View_PAN($params)
 {
     // Extract the remote_info parameter
-    $remoteInfoXmlRpcValue = $params->getParam(0);
     $remote_info = XML_RPC_Decode($params->getParam(0));
 
     // Add empty cookies array
@@ -644,7 +629,7 @@ function OA_Delivery_XmlRpc_View_PAN($params)
     if ($params->getNumParams() > 6) {
         $contextXmlRpcValue = $params->getParam(6);
     } else {
-        $contextXmlRpcValue = new XML_RPC_Value([], $XML_RPC_Array);
+        $contextXmlRpcValue = new XML_RPC_Value([], $GLOBALS['XML_RPC_Array']);
     }
 
     // Recreate XML-RPC message

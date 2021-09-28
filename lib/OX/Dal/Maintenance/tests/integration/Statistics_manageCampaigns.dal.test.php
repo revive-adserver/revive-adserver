@@ -707,7 +707,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         ];
         $advertiserId = $this->_insertAdvertiser($aData);
 
-        $aAdvertiser = OA_DAL::staticGetDO('clients', $advertiserId)->toArray();
+        $aAdvertiser = OA_Dal::staticGetDO('clients', $advertiserId)->toArray();
 
         $aData = [
             'status' => OA_ENTITY_STATUS_RUNNING,

@@ -444,7 +444,7 @@ function MAX_displayPublisherZoneStats($aParams, $pageName, $anonymous, $aNodes,
 
             echo "
             </td>
-            <td colspan='4' align='$phpAds_TextAlignRight' nowrap><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=all' accesskey='$keyExpandAll'>{$GLOBALS['strExpandAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=none' accesskey='$keyCollapseAll'>{$GLOBALS['strCollapseAll']}</a>&nbsp;&nbsp;</td>
+            <td colspan='4' align='$phpAds_TextAlignRight' nowrap><img src='" . OX::assetPath() . "/images/triangle-d.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=all' accesskey='{$GLOBALS['keyExpandAll']}'>{$GLOBALS['strExpandAll']}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/$phpAds_TextDirection/triangle-l.gif' align='absmiddle' border='0'>&nbsp;<a href='$pageName?{$entity}expand=none' accesskey='{$GLOBALS['keyCollapseAll']}'>{$GLOBALS['strCollapseAll']}</a>&nbsp;&nbsp;</td>
         </tr>
         <tr height='25'>";
             if ($showPublisher == 't') {
@@ -756,29 +756,6 @@ function MAX_displayWebsiteBreadcrumbs($affiliateid)
     return $oHeaderModel;
 }
 
-
-
-
-function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities)
-{
-    global $phpAds_TextDirection;
-
-    $publisherId = $aEntities['affiliateid'];
-    $entityString = _getEntityString($aEntities);
-    $aOtherEntities = $aEntities;
-    unset($aOtherEntities['affiliateid']);
-    $otherEntityString = _getEntityString($aOtherEntities);
-
-    // Determine which tab is highlighted
-    switch ($pageName) {
-        case 'affiliate-channels.php': $tabValue = '4.2.4'; break;
-    }
-
-    // Sort the publishers by name...
-    require_once(MAX_PATH . '/lib/max/other/stats.php');
-    MAX_displayInventoryBreadcrumbs([["name" => $publisherName]], "website");
-    phpAds_PageHeader($tabValue, $extra = '');
-}
 
 
 function MAX_displayZoneEntitySelection($entity, $aOtherAdvertisers, $aOtherPlacements, $aOtherAds, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $title, $pageName, &$tabIndex)
@@ -1093,7 +1070,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
     if (!empty($directLinkedAds)) {
         echo "<br /><strong>{$GLOBALS['strBannerLinkedAds']}:</strong><br />";
         $aParams = ['ad_id' => implode(',', array_keys($directLinkedAds))];
-        MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex);
+        MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, false, $pageName, $tabIndex);
     }
 }
 

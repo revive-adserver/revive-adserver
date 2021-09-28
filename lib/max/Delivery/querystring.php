@@ -193,30 +193,3 @@ function MAX_querystringParseStr($qs, &$aArr, $delim = '&')
         }
     }
 }
-
-function MAX_querystringCheckDestinationSignature($adId, $zoneId, $dest): bool
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $ts = $_REQUEST[$conf['var']['timestamp']] ?? '';
-    $sig = $_REQUEST[$conf['var']['signature']] ?? '';
-
-    $validity = (int) ($conf['delivery']['clickUrlValidity'] ?? 0);
-
-    if (empty($dest) || !preg_match('^https?://', $dest)) {
-        return false;
-    }
-
-    // Does the signature match the destination?
-    if ($sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
-        // Otherwise, do we have a signed timestamp?
-        if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $ts)) {
-            // Missing or invalid timestamp
-            return false;
-        } elseif ($ts <= MAX_commonGetTimeNow() && $ts + $validity > MAX_commonGetTimeNow()) {
-            // Expired click url
-            return false;
-        }
-    }
-
-    return true;
-}

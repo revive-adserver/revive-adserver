@@ -543,18 +543,16 @@ function MAX_addslashes(&$item)
 /**
  * Recursively add slashes to the values in an array.
 *
- * @param array Input array.
- * @return array Output array with values slashed.
+ * @param array|string Input array.
+ * @return array|string Output array with values slashed.
  */
 function MAX_commonSlashArray($a)
 {
     if (is_array($a)) {
-        reset($a);
         foreach ($a as $k => $v) {
             $a[$k] = MAX_commonSlashArray($v);
         }
-        reset($a);
-        return ($a);
+        return $a;
     } else {
         return is_null($a) ? null : addslashes($a);
     }
@@ -564,17 +562,15 @@ function MAX_commonSlashArray($a)
 /**
  * Recursively removes slashes from the values in an array.
 *
- * @param array Input array.
- * @return array Output array with values unslashed.
+ * @param array|string Input array.
+ * @return array|string Output array with values unslashed.
  */
 function MAX_commonUnslashArray($a)
 {
     if (is_array($a)) {
-        reset($a);
         foreach ($a as $k => $v) {
             $a[$k] = MAX_commonUnslashArray($v);
         }
-        reset($a);
         return ($a);
     } else {
         return stripslashes($a);
@@ -585,28 +581,6 @@ function MAX_commonUnslashArray($a)
     // +---------------------------------------+
     // | array utilties                        |
     // +---------------------------------------+
-
-// this is never called
-function MAX_arrayMergeRecursive(&$a, &$b)
-{
-    $keys = array_keys($a);
-    foreach ($keys as $key) {
-        if (isset($b[$key])) {
-            if (is_array($a[$key]) && is_array($b[$key])) {
-                //????????? the 'merge' fn not only is not a PHP fn, it's not defined anywhere, go figure ...
-                merge($a[$key], $b[$key]);
-            } else {
-                $a[$key] = $b[$key];
-            }
-        }
-    }
-    $keys = array_keys($b);
-    foreach ($keys as $key) {
-        if (!isset($a[$key])) {
-            $a[$key] = $b[$key];
-        }
-    }
-}
 
 function MAX_getStoredArray($key, $default)
 {

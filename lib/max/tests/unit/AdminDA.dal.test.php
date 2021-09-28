@@ -768,7 +768,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertEqual($aZone1, $aZone2[$ret]);
 
         $zoneId = $this->newZone();
-        $doZones = OA_DAL::staticGetDO('zones', $zoneId);
+        $doZones = OA_Dal::staticGetDO('zones', $zoneId);
         $doZones->inventory_forecast_type = 5;
         $doZones->update();
         $aZone = Admin_DA::getZones(['zone_inventory_forecast_type' => 1]);

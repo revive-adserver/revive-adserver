@@ -153,7 +153,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
             $aPublishers = [];
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
                 $aParams = ['advertiser_id' => OA_Permission::getEntityId()];
-                $aTrackers = Admin_DA::getTrackers($aTrackers, 'advertiser_id');
+                $aTrackers = Admin_DA::getTrackers($aParams, 'advertiser_id');
                 if (!empty($aTrackers)) {
                     $aParams = ['advertiser_id' => OA_Permission::getEntityId(), 'placement_anonymous' => 'f'];
                     $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'zone_id');
@@ -225,7 +225,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         $name = $this->_name;
         $oScope = $this->_value;
 
-        $hasAnonymousCampaigns = $this->_hasAnonymousCampaigns($aParams);
+        $hasAnonymousCampaigns = $this->_hasAnonymousCampaigns();
         
         $aAdvertisers = $this->_getAdvertisers();
         
@@ -258,6 +258,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         $aPublishers = $this->_getPublishers();
         
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $publisherId = key($aPublishers);
             echo "
         <input type='hidden' name='{$name}_publisher' id='{$name}_publisher' value='$publisherId'>";
         } else {
