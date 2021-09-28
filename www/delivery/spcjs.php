@@ -842,12 +842,12 @@ return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTIO
 if (OA_Dal_Delivery_numRows($rPreferenceInfo) != 2) {
 return $aZoneInfo;
 }
+$default_banner_destination_url_id = $default_banner_image_url_id = 0;
+for ($i = 0; $i < 2; ++$i) {
 $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
 $variableName = $aPreferenceInfo['preference_name'] . '_id';
 $$variableName = $aPreferenceInfo['preference_id'];
-$aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
-$variableName = $aPreferenceInfo['preference_name'] . '_id';
-$$variableName = $aPreferenceInfo['preference_id'];
+}
 $query = "
         SELECT
             'default_banner_destination_url_trafficker' AS item,
