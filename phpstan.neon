@@ -6,15 +6,18 @@ parameters:
 		analyseAndScan:
 			- www/devel
 			- www/delivery
+			- plugins
+			- plugins_dev
 			- */tests/*
 		analyse:
-			- lib/vendor
+			- etc
+			- lib/max/language
 			- lib/pear
 			- lib/pclzip
 			- lib/simpletest
 			- lib/smarty
-			- lib/max/language
-			- etc
+			- lib/vendor
+			- lib/Zend
 	bootstrapFiles:
 		- phpstan-bootstrap.php
 	ignoreErrors:

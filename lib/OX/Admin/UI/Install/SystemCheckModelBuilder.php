@@ -403,14 +403,14 @@ class SystemCheckModel
 
     public function hasSectionError($sectionName)
     {
-        return isset($aSections[$sectionName])
-            && $aSections[$sectionName]['hasError'];
+        return isset($this->aSections[$sectionName])
+            && $this->aSections[$sectionName]['hasError'];
     }
 
 
     public function hasSectionWarning($sectionName)
     {
-        return isset($aSections[$sectionName])
-            && $aSections[$sectionName]['hasWarning'];
+        return isset($this->aSections[$sectionName])
+            && $this->aSections[$sectionName]['hasWarning'];
     }
 }

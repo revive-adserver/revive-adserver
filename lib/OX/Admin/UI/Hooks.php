@@ -87,7 +87,6 @@ class OX_Admin_UI_Hooks
         
         $oContext = new OX_Admin_UI_Event_EventContext([
             'pageId' => $menuSectionId,
-            'pageData' => $pageData,
         ]);
         
         self::getDispatcher()->triggerEvent('afterPageHeader', $oContext);

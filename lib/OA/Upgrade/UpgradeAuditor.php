@@ -34,39 +34,12 @@ require_once MAX_PATH . '/lib/OA/Upgrade/BaseUpgradeAuditor.php';
 
 class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
 {
-    public $oLogger;
-    public $oDbh;
     public $oDBAuditor;
 
     public $logTable = 'upgrade_action';
     public $action_table_xml_filename = '/etc/upgrade_action.xml';
 
-    public $prefix = '';
-
-    public $aParams = [];
-
     public $aEvents = [];
-
-    /**
-     * php5 class constructor
-     *
-     * simpletest throws a BadGroupTest error
-     * Redefining already defined constructor for class
-     * when both constructors are present
-     *
-     */
-//    function __construct()
-//    {
-//    }
-
-    /**
-     * php4 class constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function init($oDbh = '', $oLogger = '')
     {
@@ -101,38 +74,6 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     public function getUpgradeActionId()
     {
         return $this->oDBAuditor->auditId;
-    }
-
-    /**
-     * write a message to the logfile
-     *
-     * @param string $message
-     */
-    public function log($message)
-    {
-        if ($this->oLogger) {
-            $this->oLogger->log($message);
-        }
-    }
-
-    /**
-     * write an error to the log file
-     *
-     * @param string $message
-     */
-    public function logError($message)
-    {
-        if ($this->oLogger) {
-            $this->oLogger->logError($message);
-        }
-    }
-
-    public function isPearError($message)
-    {
-        if ($this->oLogger) {
-            return $this->oLogger->isPearError($message);
-        }
-        return false;
     }
 
     /**

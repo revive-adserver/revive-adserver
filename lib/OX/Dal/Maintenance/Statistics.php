@@ -1283,7 +1283,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
     public function manageCampaigns($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oEmail = &$oServiceLocator->get('OA_Email');
         if ($oEmail === false) {
             $oEmail = new OA_Email();
@@ -1387,7 +1387,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         OA::debug('- Requesting campaigns to test for activation/deactivation', PEAR_LOG_DEBUG);
         $rsResult = $this->oDbh->query($query);
         if (PEAR::isError($rsResult)) {
-            return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         OA::debug('- Found ' . $rsResult->numRows() . ' campaigns to test for activation/deactivation', PEAR_LOG_DEBUG);
         while ($aCampaign = $rsResult->fetchRow()) {
@@ -1463,7 +1463,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                             $result = $doCampaigns->update();
                             if ($result == false) {
-                                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                                MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
                             phpAds_userlogSetUser(phpAds_userMaintenance);
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
@@ -1493,7 +1493,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                         $result = $doCampaigns->update();
                         if ($result == false) {
-                            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
                         phpAds_userlogSetUser(phpAds_userMaintenance);
                         phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
@@ -1519,7 +1519,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     OA::debug("  - Getting the advertisements for campaign ID {$aCampaign['campaign_id']}", PEAR_LOG_DEBUG);
                     $rsResultAdvertisement = $this->oDbh->query($query);
                     if (PEAR::isError($rsResultAdvertisement)) {
-                        return MAX::raiseError($rsResultAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        MAX::raiseError($rsResultAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                     while ($advertisementRow = $rsResultAdvertisement->fetchRow()) {
                         $advertisements[$advertisementRow['advertisement_id']] = [
@@ -1600,7 +1600,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
                     $result = $doCampaigns->update();
                     if ($result == false) {
-                        return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                     phpAds_userlogSetUser(phpAds_userMaintenance);
                     phpAds_userlogAdd(phpAds_actionActiveCampaign, $aCampaign['campaign_id']);

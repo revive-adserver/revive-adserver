@@ -78,6 +78,8 @@ class OA_phpAdsNew
             file_put_contents($tmpFile, $config);
             include $tmpFile;
             unlink($tmpFile);
+
+            // @phpstan-ignore-next-line
             if (isset($phpAds_config) && is_array($phpAds_config)) {
                 $this->detected = true;
                 return $phpAds_config;

@@ -42,7 +42,7 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    public function display()
+    public function display($aParams)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (!$conf['audit']['enabled']) {
@@ -90,10 +90,10 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
             } else {
                 // Check if the account has any campaign in its realm
                 $doCampaigns = OA_Dal::factoryDO('campaigns');
-                if (!empty($aParam['account_id'])) {
+                if (!empty($aParams['account_id'])) {
                     $doClients = OA_Dal::factoryDO('clients');
                     $doAgency = OA_Dal::factoryDO('agency');
-                    $doAgency->account_id = $aParam['account_id'];
+                    $doAgency->account_id = $aParams['account_id'];
                     $doClients->joinAdd($doAgency);
                     $doCampaigns->joinAdd($doClients);
                 }

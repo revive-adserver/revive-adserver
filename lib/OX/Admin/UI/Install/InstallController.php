@@ -46,7 +46,6 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
      * @var OA_Upgrade
      */
     private $oUpgrader;
-    private $oTranslation;
 
     /**
      * @var OX_Admin_UI_Install_InstallStatus
@@ -89,7 +88,6 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
 
         // Setup oUpgrader
         $this->initUpgrader();
-        $this->oTranslation = new OX_Translation();
 
         // clear the $session variable to prevent users pretending to be logged in.
         global $session;

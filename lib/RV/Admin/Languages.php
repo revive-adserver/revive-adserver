@@ -50,10 +50,10 @@ class RV_Admin_Languages
         $languages = [];
 
         foreach (glob(MAX_PATH . '/lib/max/language/*/index.lang.php') as $file) {
-            unset($translation_readable);
+            $translation_readable = null;
             if (preg_match('#/([^/]+)/index\.lang\.php#', $file, $m)) {
                 include($file);
-                if (isset($translation_readable)) {
+                if (null !== $translation_readable) {
                     $languages[$m[1]] = $translation_readable;
                 }
             }

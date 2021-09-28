@@ -22,6 +22,15 @@ class OA_BaseUpgradeAuditor
 
     public $logTable = '';
 
+    /** @var MDB2_Driver_Common */
+    public $oDbh;
+
+    public $oLogger;
+
+    public $prefix = '';
+
+    public $aParams = [];
+
     public function __construct()
     {
     }
@@ -103,6 +112,11 @@ class OA_BaseUpgradeAuditor
         return true;
     }
 
+    public function getUpgradeActionId()
+    {
+        return null;
+    }
+
     /**
      * the action_table_name table must exist for all upgrade events
      * currently the schema is stored in a separate xml file which is not part of an upgrade pkg
@@ -139,5 +153,37 @@ class OA_BaseUpgradeAuditor
             $aParams[$k] = $this->oDbh->quote($v);
         }
         return $aParams;
+    }
+
+    /**
+     * write a message to the logfile
+     *
+     * @param string $message
+     */
+    public function log($message)
+    {
+        if ($this->oLogger) {
+            $this->oLogger->log($message);
+        }
+    }
+
+    /**
+     * write an error to the log file
+     *
+     * @param string $message
+     */
+    public function logError($message)
+    {
+        if ($this->oLogger) {
+            $this->oLogger->logError($message);
+        }
+    }
+
+    public function isPearError($message)
+    {
+        if ($this->oLogger) {
+            return $this->oLogger->isPearError($message);
+        }
+        return false;
     }
 }

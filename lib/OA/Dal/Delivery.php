@@ -204,14 +204,17 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
         // cannot get the default banner image and destination URLs
         return $aZoneInfo;
     }
+
+    // Init variables
+    $default_banner_destination_url_id =  $default_banner_image_url_id = 0;
+
     // Set the IDs of the two preferences for default banner image and
     // destination URLs
-    $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
-    $variableName = $aPreferenceInfo['preference_name'] . '_id';
-    $$variableName = $aPreferenceInfo['preference_id'];
-    $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
-    $variableName = $aPreferenceInfo['preference_name'] . '_id';
-    $$variableName = $aPreferenceInfo['preference_id'];
+    for ($i = 0; $i < 2; ++$i) {
+        $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
+        $variableName = $aPreferenceInfo['preference_name'] . '_id';
+        $$variableName = $aPreferenceInfo['preference_id'];
+    }
 
     // Search for possible default banner preference information for the zone
     $query = "

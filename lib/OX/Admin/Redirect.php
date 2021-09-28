@@ -63,18 +63,4 @@ class OX_Admin_Redirect
 
         exit;
     }
-
-    public function redirectIfNecessary($adminPage)
-    {
-        $oDesiredUrl = new MAX_Url();
-        $oCurrentUrl = new MAX_Url();
-
-        $full_desired_url_string = MAX::constructURL(MAX_URL_ADMIN, $adminPage);
-        $oDesiredUrl->useValuesFromString($full_desired_url_string);
-        $oCurrentUrl->useValuesFromServerVariableArray($_SERVER);
-        if ($oDesiredUrl->equals($oCurrentUrl)) {
-            return;
-        }
-        $this->redirect($adminPage);
-    }
 }

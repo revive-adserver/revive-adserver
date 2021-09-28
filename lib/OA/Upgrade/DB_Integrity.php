@@ -327,8 +327,8 @@ class OA_DB_Integrity
                 return false;
             }
         }
-        if ($$updateVersion) {
-            $this->oUpgrader->oVersioner->putSchemaVersion('tables_core', $this_ > version);
+        if ($updateVersion) {
+            $this->oUpgrader->oVersioner->putSchemaVersion('tables_core', $this->version);
         }
         return true;
     }

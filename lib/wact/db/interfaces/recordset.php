@@ -16,14 +16,14 @@
 * @see http://wact.sourceforge.net/index.php/RecordSet
 * @package WACT_DB
 */
-interface RecordSet extends iterator, record {
+abstract class RecordSet extends record implements iterator {
 
 	/**
 	* Assign a query for this object to process.
 	* @param string SQL statement
 	* @return void
 	*/
-	function query($Query_String);
+    abstract public function query($Query_String);
 
 	/**
 	* Assign a pager to this query for the purposes of breaking up the resulting
@@ -40,33 +40,33 @@ interface RecordSet extends iterator, record {
 	* it was implemented as a call back.
 	* @return void
 	*/
-	function paginate(Pager $pager);
+    abstract public function paginate(Pager $pager);
 
 	/**
 	* Move the current pointer to the first position in the cursor.
 	* @access public
 	* @return boolean TRUE if the query is valid.
 	*/
-	function reset();
+    abstract public function reset();
 
 	/**
 	* Iterator next method.  Load the data values from the next record
 	* in the query into the current data values.
 	* @return boolean TRUE if there are more results to fetch
 	*/
-	function next();
+    abstract public function next();
 
 	/**
 	* Returns the number of rows in a query
 	* @return int number of rows
 	*/
-	function getRowCount();
+    abstract public function getRowCount();
 
 	/**
 	* Returns the total number of rows that a query would return, ignoring paging
 	* restrictions.  Query re-writing based on _adodb_getcount.
 	* @return int number of rows
 	*/
-	function getTotalRowCount();
+    abstract public function getTotalRowCount();
 }
 ?>

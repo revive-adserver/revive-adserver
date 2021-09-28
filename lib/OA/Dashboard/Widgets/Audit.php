@@ -38,7 +38,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
         $this->oTrans = new OX_Translation();
     }
 
-    public function display()
+    public function display($aParams)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (!$conf['audit']['enabled']) {

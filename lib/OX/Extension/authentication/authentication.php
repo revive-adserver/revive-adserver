@@ -201,7 +201,7 @@ class Plugins_Authentication extends OX_Component
                     foreach ($vals['error'] as $key => $val) {
                         $errDetails .= '<li>' . htmlspecialchars($key) . ' &nbsp; => &nbsp; ' . htmlspecialchars($val) . '</li>';
                     }
-                    phpAds_Die(' Error: ' . $err, $errDetails);
+                    phpAds_Die('Error:', $errDetails);
                 }
             }
         }

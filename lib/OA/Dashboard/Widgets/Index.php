@@ -22,7 +22,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
      * A method to launch and display the widget
      *
      */
-    public function display()
+    public function display($aParams)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 

@@ -288,7 +288,7 @@ class OA_Upgrade_Config
         $this->oSettings->bulkSettingChange($section, $value);
     }
 
-    public function getValue($section, $name, $value)
+    public function getValue($section, $name)
     {
         return $this->oSettings->conf[$section][$name];
     }

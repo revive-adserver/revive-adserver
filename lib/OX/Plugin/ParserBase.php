@@ -207,10 +207,10 @@ class OX_ParserBase extends XML_Parser
                 @$this->aData['version'] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-engine':
-                @$this->aData['engine'][] .= $data;
+                @$this->aData['engine'] .= $data;
                 break;
             case 'plugin-install-syscheck-dbms-grant':
-                @$this->aData['grant'][] .= $data;
+                @$this->aData['grant'] .= $data;
                 break;
             case 'plugin-install-prescript':
                 @$this->aInstall['prescript'] .= $data;
@@ -267,7 +267,7 @@ class OX_ParserBase extends XML_Parser
             $options = 0;
             $userinfo = '';
 
-            $this->error = PEAR::raiseError($error, $code, $mode, $options, $userinfo);
+            $this->error = PEAR::raiseError($error, $xmlecode, $mode, $options, $userinfo);
             return $this->error;
         }
         return $this->error;

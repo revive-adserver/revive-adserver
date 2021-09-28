@@ -511,12 +511,13 @@ class OA_Permission
             $accountId = self::getAccountId();
             $accountType = self::getAccountType();
         } else {
+            /** @var DataObjects_Accounts $oAccounts */
             $oAccounts = OA_Dal::staticGetDO('accounts', $accountId);
             if ($oAccounts) {
-                $accountType = $oAccounts->accountType;
+                $accountType = $oAccounts->account_type;
             } else {
                 // Account does not exist
-                Max::raiseError('No such account ID: ' . $accountId);
+                MAX::raiseError('No such account ID: ' . $accountId);
                 return false;
             }
         }
@@ -526,8 +527,7 @@ class OA_Permission
         } else {
             $aCache[$userId][$accountId][$permissionId] = true;
         }
-        return isset($aCache[$userId][$accountId][$permissionId]) ?
-            $aCache[$userId][$accountId][$permissionId] : false;
+        return $aCache[$userId][$accountId][$permissionId] ?? false;
     }
 
     /**
@@ -607,12 +607,12 @@ class OA_Permission
 
         static $aCache;
 
-        $key = $accountType . ',' . $permission;
+        $key = $accountType . ',' . $permissionId;
 
         if (isset($aCache[$key])) {
             return $aCache[$key];
-        } elseif (isset($aMap[$permission])) {
-            $aCache[$key] = in_array($accountType, $aMap[$permission]);
+        } elseif (isset($aMap[$permissionId])) {
+            $aCache[$key] = in_array($accountType, $aMap[$permissionId]);
         } else {
             // Unexpected permission, we suppose it's related to all the account types
             $aCache[$key] = true;

@@ -14,7 +14,7 @@
 * @see http://wact.sourceforge.net/index.php/Record
 * @package WACT_DB
 */
-interface Record extends DataSpace {
+abstract class Record extends DataSpace {
 
 	/**
 	* INSERTs the values of this record into a single table
@@ -26,7 +26,7 @@ interface Record extends DataSpace {
 	* @param array associative (optional)  of field_name => value
 	* @return Boolean True on success.
 	*/
-	function insert($table, $fields, $extrafields = NULL);
+	abstract public function insert($table, $fields, $extrafields = NULL);
 
 	/**
 	* INSERT a record into a table with a primary key represented by a 
@@ -41,7 +41,7 @@ interface Record extends DataSpace {
 	* @return integer Primary key of the newly inserted record or FALSE if no
 	*   record was inserted.
 	*/
-	function insertId($table, $fields, $primary_key_field, $extrafields = NULL);
+    abstract public function insertId($table, $fields, $primary_key_field, $extrafields = NULL);
 	
 	/**
 	* Performs an UPDATE on a single table
@@ -51,13 +51,13 @@ interface Record extends DataSpace {
 	* @param array associative (optional)  of field_name => value
 	* @return boolean true on success, false on failure
 	*/
-	function update($table, $fields, $where = NULL, $extrafields = NULL);
+    abstract public function update($table, $fields, $where = NULL, $extrafields = NULL);
 
 	/**
 	* Gets the number of rows changed by an insert, delete or update query.
 	* @return int number of affected rows
 	*/
-	function getAffectedRowCount();
+    abstract public function getAffectedRowCount();
 
 }
 

@@ -132,7 +132,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 throw new Exception('Failed to read the uploaded file');
             }
             if (!$this->_matchPackageFilename($name, $aFile['name'])) {
-                throw new Exception('Package filename mismatch, the file must contain the package name ' . $aPackage['name']);
+                throw new Exception('Package filename mismatch, the file must contain the package name ' . $aFile['name']);
             }
             if (!$this->_parsePackage($name)) {
                 throw new Exception('Failed to parse the current package ' . $name);

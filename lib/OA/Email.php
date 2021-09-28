@@ -42,7 +42,7 @@ class OA_Email
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aAdvertiser['account_id'], true);
-        $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone'] ?? 'UTC');
+        $oTimezone = new Date_TimeZone($aAdvertiserPrefs['timezone'] ?? 'UTC');
 
         $this->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
 
@@ -582,7 +582,7 @@ class OA_Email
                                             phpAds_userlogSetUser(phpAds_userMaintenance);
                                             phpAds_userlogAdd(
                                                 phpAds_actionWarningMailed,
-                                                $aPlacement['campaignid'],
+                                                $aCampaign['campaignid'],
                                                 "{$aEmail['subject']}\n\n
                                                  {$aUser['contact_name']}({$aUser['email_address']})\n\n
                                                  {$aEmail['contents']}"
@@ -677,6 +677,8 @@ class OA_Email
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         Language_Loader::load('default', $aUser['language']);
 
         // Load the required strings
@@ -729,10 +731,10 @@ class OA_Email
             $greetingTo = $aAdvertiser['contact'];
         } elseif (!empty($aAdvertiser['clientname'])) {
             $greetingTo = $aAdvertiser['clientname'];
-        } elseif (!empty($conf['email']['fromName'])) {
-            $greetingTo = $conf['email']['fromName'];
-        } elseif (!empty($conf['email']['fromCompany'])) {
-            $greetingTo = $conf['email']['fromCompany'];
+        } elseif (!empty($aConf['email']['fromName'])) {
+            $greetingTo = $aConf['email']['fromName'];
+        } elseif (!empty($aConf['email']['fromCompany'])) {
+            $greetingTo = $aConf['email']['fromCompany'];
         } else {
             $greetingTo = $strSirMadam;
         }

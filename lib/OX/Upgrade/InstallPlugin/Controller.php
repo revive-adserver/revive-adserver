@@ -86,7 +86,9 @@ class OX_Upgrade_InstallPlugin_Controller
         }
 
         // Get the list of bundled plugins, retain order
+        $aDefaultPlugins = [];
         include MAX_PATH . '/etc/default_plugins.php';
+
         if ($aDefaultPlugins) {
             foreach ($aDefaultPlugins as $idx => $aPlugin) {
                 if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins'])) {

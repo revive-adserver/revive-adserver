@@ -123,7 +123,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     /**
      * A method to launch and display the widget
      */
-    public function display()
+    public function display($aParams)
     {
         if ($this->draw) {
             $useAntialias = is_callable('imageantialias');

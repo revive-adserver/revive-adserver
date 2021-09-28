@@ -197,7 +197,7 @@ class OA_Dll_Tracker extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'trackers',
-            $oTrackerInfo->trackerId
+            $trackerId
         )) {
             return false;
         }

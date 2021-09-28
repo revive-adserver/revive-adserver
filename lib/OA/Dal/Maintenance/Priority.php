@@ -1653,7 +1653,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             while (list($zoneId, $aAds) = each($aSetToZero)) {
                 reset($aAds);
                 while (list($adId, ) = each($aAds)) {
-                    OA::debug("    - Zeroing ad ID $adId, zone ID $zoneID pair priority.", PEAR_LOG_DEBUG);
+                    OA::debug("    - Zeroing ad ID $adId, zone ID $zoneId pair priority.", PEAR_LOG_DEBUG);
                     $table = $this->_getTablename('ad_zone_assoc');
                     $query = "
                         UPDATE
@@ -1668,7 +1668,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             link_type = " . ($zoneId != 0 ? MAX_AD_ZONE_LINK_NORMAL : MAX_AD_ZONE_LINK_DIRECT);
                     $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
-                        OA::debug("  - Error zeroing ad ID $adId, zone ID $zoneID pair priority.", PEAR_LOG_DEBUG);
+                        OA::debug("  - Error zeroing ad ID $adId, zone ID $zoneId pair priority.", PEAR_LOG_DEBUG);
                         return false;
                     }
                 }
@@ -2095,7 +2095,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $result = OA_Dal::batchInsert($tableNameUnquoted, $fields, $data);
         if (PEAR::isError($result)) {
-            Max::raiseError($result->getMessage(), PEAR_ERROR_DIE);
+            MAX::raiseError($result->getMessage(), PEAR_ERROR_DIE);
         }
         OA::debug('Inserted ' . $result . ' rows in the table ' . $tableNameUnquoted, PEAR_LOG_INFO);
     }

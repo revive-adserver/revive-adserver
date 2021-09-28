@@ -306,24 +306,6 @@ class OX_Maintenance
         $oDal->run();
     }
 
-    public function _startProcessDebugMessage($processName)
-    {
-        OA::debug('  Starting OpenX ' . $processName . ' process.', PEAR_LOG_DEBUG);
-    }
-
-    public function _stopProcessDebugMessage()
-    {
-        OA::debug('  Starting OpenX ' . $processName . ' process.', PEAR_LOG_DEBUG);
-    }
-
-    public function _debugIfError($processName, $error)
-    {
-        if (PEAR::isError($error)) {
-            OA::debug("OpenX $processName error (" . $error->getCode() . "): "
-                . $error->getMessage(), PEAR_LOG_INFO);
-        }
-    }
-
     /**
      * A private method to run the "midnight" general pruning tasks.
      *

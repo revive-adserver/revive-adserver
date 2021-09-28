@@ -448,7 +448,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             if ($zoneImpressions > 0) {
                 $fraction = $oAdvert->pastActualImpressions / $zoneImpressions;
             } else {
-                unset($fraction);
+                $fraction = null;
             }
             // Is this fraction much different to the fraction before that, given
             // that a past fraction exists, and the creative has had priority

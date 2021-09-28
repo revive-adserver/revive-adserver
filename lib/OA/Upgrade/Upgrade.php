@@ -1124,7 +1124,7 @@ class OA_Upgrade
         );
 
         if (!$this->oVersioner->putSchemaVersion('tables_core', $this->oTable->aDefinition['version'])) {
-            $this->_auditInstallationFailure('Installation failed to update the schema version to ' . $oTable->aDefinition['version']);
+            $this->_auditInstallationFailure('Installation failed to update the schema version to ' . $this->oTable->aDefinition['version']);
             $this->_dropDatabase();
             return false;
         }
@@ -1253,7 +1253,7 @@ class OA_Upgrade
             $this->oDbh = OA_DB::changeDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($this->oDbh)) {
                 $this->oLogger->logError($this->oDbh->getMessage());
-                $this->oLogger->logErrorUnlessEmpty($this->getUserInfo());
+                $this->oLogger->logErrorUnlessEmpty($this->oDbh->getUserInfo());
                 $this->oDbh = null;
                 return false;
             }

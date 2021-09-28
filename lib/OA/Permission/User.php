@@ -106,7 +106,7 @@ class OA_Permission_User
                     $this->aAccount['entity_id'] = $this->_getEntityId();
 
                     if (empty($this->aAccount['entity_id'])) {
-                        Max::raiseError("No entity associated with the account");
+                        MAX::raiseError("No entity associated with the account");
                     }
 
                     if ($this->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
@@ -116,11 +116,11 @@ class OA_Permission_User
                     }
 
                     if (empty($this->aAccount['agency_id'])) {
-                        Max::raiseError("No manager associated with the account");
+                        MAX::raiseError("No manager associated with the account");
                     }
                 }
             } else {
-                Max::raiseError("Could not find the specified account");
+                MAX::raiseError("Could not find the specified account");
             }
         }
     }

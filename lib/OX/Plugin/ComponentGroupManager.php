@@ -813,11 +813,8 @@ class OX_Plugin_ComponentGroupManager
             }
             $doPreferences->account_type = empty($aPreference['permission']) ? '' : $aPreference['permission'];
             $preferenceId = $doPreferences->insert();
-            if ((!$preferenceId) || PEAR::isError($preferenceId)) {
-                $this->_logError('Failed to write preference ' . $prefName . ' ' . $result->getUserInfo());
-                if (PEAR::isError($result)) {
-                    $this->_logError($result->getUserInfo());
-                }
+            if (false === $preferenceId) {
+                $this->_logError('Failed to write preference ' . $prefName);
                 return false;
             }
             $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
@@ -847,11 +844,8 @@ class OX_Plugin_ComponentGroupManager
                     $this->_logMessage('Failed to find preference ' . $aPreference['name']);
                 } else {
                     $result = $doPreferences->delete(false, true);
-                    if ((!$result) || PEAR::isError($result)) {
-                        $this->_logError('Failed to delete preference ' . $prefName . ' ' . $result->getUserInfo());
-                        if (PEAR::isError($result)) {
-                            $this->_logError($result->getUserInfo());
-                        }
+                    if (!$result) {
+                        $this->_logError('Failed to delete preference ' . $prefName);
                         return false;
                     }
                 }
@@ -1446,6 +1440,7 @@ class OX_Plugin_ComponentGroupManager
             return false;
         }
         $className = '';
+        $aParams = null;
         if (!@require_once $file) {
             $this->_logError('Failed to acquire file ' . $file);
             return false;
@@ -1465,15 +1460,15 @@ class OX_Plugin_ComponentGroupManager
             return false;
         }
         if (property_exists($oScript, 'oManager')) {
-            $oScript->oManager = &$this;
+            $oScript->oManager = $this;
         }
         if (!isset($aParams)) {
-            $ret = call_user_func([$oScript, 'execute']);
+            $ret = $oScript->execute();
         } else {
             if (!is_array($aParams)) {
                 $aParams = [$aParams];
             }
-            $ret = call_user_func_array([$oScript, 'execute'], $aParams);
+            $ret = $oScript->execute(...$aParams);
         }
         if (!$ret) {
             $this->_logError('Failed to execute ' . $className);

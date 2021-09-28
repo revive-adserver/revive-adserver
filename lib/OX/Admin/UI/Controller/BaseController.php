@@ -23,6 +23,8 @@ class OX_Admin_UI_Controller_BaseController
      */
     protected $request;
 
+    protected $oTranslation;
+
     /**
      * Registered actions. Only these actions may be executed from withing controller
      *
@@ -51,6 +53,8 @@ class OX_Admin_UI_Controller_BaseController
 
     protected function init()
     {
+        $this->oTranslation = new OX_Translation();
+
         $this->initModel();
         $this->aActions = $this->getRegisteredActions();
     }
@@ -243,9 +247,9 @@ class OX_Admin_UI_Controller_BaseController
     protected function addError($errorMsg)
     {
         if (PEAR::isError($errorMsg)) {
-            $errorMsg = $this->translate($this->msgErrorPrefix) . $errorMsg->getMessage();
+            $errorMsg = $errorMsg->getMessage();
         } else {
-            $errorMsg = $this->translate($errorMsg);
+            $errorMsg = $this->oTranslation->translate($errorMsg);
         }
         $this->aErrors[] = $errorMsg;
     }

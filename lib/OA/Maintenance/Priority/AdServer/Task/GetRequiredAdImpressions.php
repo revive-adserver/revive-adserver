@@ -164,7 +164,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      *                            the expected TOTAL lifetime or daily
      *                            impressions required.
      */
-    public function getCampaignImpressionInventoryRequirement($oCampaign, $type, $ignorePast = false)
+    public function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'daily', $ignorePast = false)
     {
         OA::debug('  - Getting impression inventory requirements for campaign ID: ' . $oCampaign->id, PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
