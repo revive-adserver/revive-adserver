@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/OrganisationSelectionField.php'
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/PublisherIdField.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/SheetSelectionField.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/TextField.php';
-require_once MAX_PATH . '/lib/max/Admin/UI/Field/TrackerField.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/ZoneIdField.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/ZoneScopeField.php';
 
