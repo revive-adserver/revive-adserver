@@ -4763,6 +4763,7 @@ $errorCode = $XML_RPC_erruser + 21;
 $errorMsg = 'Incorrect number of parameters';
 return new XML_RPC_Response(0, $errorCode, $errorMsg);
 }
+$what = $target = $source = $withtext = $block = $blockcampaign = null;
 $vars = [
 1 => 'what',
 2 => 'target',
@@ -4862,13 +4863,6 @@ $context[] = $contextArray;
 }
 }
 return new XML_RPC_Response(XML_RPC_encode($spc_output));
-$output = call_user_func_array('MAX_adSelect', $view_params);
-if (!is_array($output)) {
-$output = [];
-}
-MAX_cookieFlush();
-$output['cookies'] = $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'];
-return new XML_RPC_Response(XML_RPC_encode($output));
 }
 function OA_Delivery_XmlRpc_View_Max($params)
 {
@@ -4927,14 +4921,13 @@ $XML_RPC_Array
 }
 function OA_Delivery_XmlRpc_View_PAN($params)
 {
-$remoteInfoXmlRpcValue = $params->getParam(0);
 $remote_info = XML_RPC_Decode($params->getParam(0));
 $remote_info['cookies'] = [];
 $remoteInfoXmlRpcValue = XML_RPC_encode($remote_info);
 if ($params->getNumParams() > 6) {
 $contextXmlRpcValue = $params->getParam(6);
 } else {
-$contextXmlRpcValue = new XML_RPC_Value([], $XML_RPC_Array);
+$contextXmlRpcValue = new XML_RPC_Value([], $GLOBALS['XML_RPC_Array']);
 }
 $msg = new XML_RPC_Message('phpAds.view', [
 $remoteInfoXmlRpcValue,
