@@ -43,6 +43,9 @@ What's New in Revive Adserver 5.4.0
  * Fixed an issue preventing tracker account preferences from being displayed
    in the menus.
 
+ * Added missing from/to labels in the date selectors of the satistics
+   screens.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
