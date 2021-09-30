@@ -30,11 +30,8 @@ class OA_Dashboard_Widget extends OA_Central
 
     /**
      * The class constructor
-     *
-     * @param array $aParams The parameters array, usually $_REQUEST
-     * @return OA_Dashboard_Widget
      */
-    public function __construct($aParams)
+    public function __construct($aParams = [])
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -69,7 +66,7 @@ class OA_Dashboard_Widget extends OA_Central
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    public function display($aParams)
+    public function display($aParams = [])
     {
     }
 }

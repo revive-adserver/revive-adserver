@@ -135,7 +135,7 @@ function getWebsiteMap()
     if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $doAffiliates->agencyid = OA_Permission::getEntityId();
     }
-    $doAffiliates->addSessionListOrderBy($sortPageName);
+    $doAffiliates->addSessionListOrderBy('affiliate-channels.php');
     $doAffiliates->find();
 
     $aWebsiteMap = [];

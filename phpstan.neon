@@ -30,3 +30,4 @@ parameters:
     ignoreErrors:
         - '#undefined property#'
         - '#should return#'
+        - '#Function (buildHeaderModel|processForm) invoked#'

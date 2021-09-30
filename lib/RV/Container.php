@@ -56,6 +56,8 @@ class Container implements PsrContainerInterface
         }
 
         require_once $configCache->getPath();
+
+        // @phpstan-ignore-next-line
         $this->container = new \ReviveAdserverCachedContainer();
     }
 

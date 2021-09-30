@@ -191,7 +191,7 @@ function displayPage($affiliateid, $form, $oPublisherDll = null)
     }
 
     $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
-    $oTpl->assign('keyAddNew', $keyAddNew);
+    $oTpl->assign('keyAddNew', $GLOBALS['keyAddNew']);
 
     $oTpl->display();
 

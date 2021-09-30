@@ -26,7 +26,6 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
      * The class constructor
      *
      * @param array $aParams The parameters array, usually $_REQUEST
-     * @return OA_Dashboard_Widget_BlogFeed
      */
     public function __construct($aParams)
     {
@@ -38,7 +37,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
         $this->oTrans = new OX_Translation();
     }
 
-    public function display($aParams)
+    public function display($aParams = [])
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (!$conf['audit']['enabled']) {

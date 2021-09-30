@@ -22,7 +22,7 @@ class OA_Dashboard_Widget_Grid extends OA_Dashboard_Widget
      * A method to launch and display the widget
      *
      */
-    public function display($aParams)
+    public function display($aParams = [])
     {
         $oTpl = new OA_Admin_Template('dashboard/grid.html');
 

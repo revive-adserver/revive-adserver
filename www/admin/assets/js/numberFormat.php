@@ -37,7 +37,7 @@
 require_once '../../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/language/Default.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
@@ -45,10 +45,10 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
 $pref = OA_Preferences::loadAdminAccountPreferences(true);
 
 // Load the required language files
-Language_Default::load();
+Language_Loader::load();
 
 // Send content-type header
-header("Content-type: application/x-javascript");
+header("Content-type: application/javascript");
 
 // The largest possible integer in when using JavaScript's
 // default 4-octet storage for numbers

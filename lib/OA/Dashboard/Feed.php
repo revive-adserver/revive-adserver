@@ -58,7 +58,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    public function display($aParams)
+    public function display($aParams = [])
     {
         if (!$this->oTpl->is_cached()) {
             RV::disableErrorHandling();

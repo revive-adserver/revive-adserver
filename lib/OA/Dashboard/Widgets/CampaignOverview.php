@@ -29,7 +29,6 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      * The class constructor
      *
      * @param array $aParams The parameters array, usually $_REQUEST
-     * @return OA_Dashboard_Widget_Campaign_Overview
      */
     public function __construct($aParams)
     {
@@ -42,7 +41,7 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    public function display($aParams)
+    public function display($aParams = [])
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (!$conf['audit']['enabled']) {

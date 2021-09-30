@@ -286,9 +286,9 @@ function phpAds_sqlDie()
 
     $corrupt = false;
     $aConf = $GLOBALS['_MAX']['CONF'];
-    if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
-        $error = mysql_error();
-        $errornumber = mysql_errno();
+    if (strcasecmp($aConf['database']['type'], 'mysqli') === 0) {
+        $error = mysqli_error();
+        $errornumber = mysqli_errno();
         if ($errornumber == 1027 || $errornumber == 1039) {
             $corrupt = true;
         }
