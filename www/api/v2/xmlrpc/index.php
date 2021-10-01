@@ -19,7 +19,7 @@ require_once '../../../../init.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once 'XmlRpcFrontController.php';
 
-$fc = new XmlrpcFrontController();
+$fc = new XmlRpcFrontController();
 
 // OpenX Core Dispatch map
 $dispatches = array(

@@ -284,7 +284,7 @@ class XmlRpcUtils
                 if (isset($variable)) {
 
                     if (!is_string($variable)) {
-                        Max::raiseError('Date for statistics should be represented as string');
+                        MAX::raiseError('Date for statistics should be represented as string');
                         exit;
                     }
 
@@ -295,7 +295,7 @@ class XmlRpcUtils
 
                 return new XML_RPC_Value($dateVariable, $GLOBALS['XML_RPC_DateTime']);
         }
-        Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
+        MAX::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
         exit;
     }
 
@@ -328,7 +328,7 @@ class XmlRpcUtils
             case 'date':
 
                 if (!is_object($variable) || !is_a($variable, 'Date')) {
-                    Max::raiseError('Value should be PEAR::Date type');
+                    MAX::raiseError('Value should be PEAR::Date type');
                     exit;
                 }
 
@@ -341,7 +341,7 @@ class XmlRpcUtils
             case 'custom':
                 return $variable;
         }
-        Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
+        MAX::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
         exit;
     }
 
@@ -436,7 +436,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    public function getNonScalarValue(&$result, &$oParam, &$oResponseWithError)
+    public static function getNonScalarValue(&$result, &$oParam, &$oResponseWithError)
     {
         $result = XML_RPC_decode($oParam);
         return true;
@@ -452,7 +452,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    public function getNotRequiredNonScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
+    public static function getNotRequiredNonScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
     {
         $cParams = $oParams->getNumParams();
         if ($cParams > $idxParam) {
@@ -529,7 +529,7 @@ class XmlRpcUtils
         $idxStart = 0)
     {
         if (count($aReferencesOnVariables) != count($aRequired)) {
-            Max::raiseError('$aReferencesOnVariables & $aRequired arrays should have the same length');
+            MAX::raiseError('$aReferencesOnVariables & $aRequired arrays should have the same length');
             exit;
         }
 
