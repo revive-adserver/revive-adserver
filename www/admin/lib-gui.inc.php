@@ -286,12 +286,16 @@ function phpAds_sqlDie()
 
     $corrupt = false;
     $aConf = $GLOBALS['_MAX']['CONF'];
+
     if (strcasecmp($aConf['database']['type'], 'mysqli') === 0) {
-        $error = mysqli_error();
-        $errornumber = mysqli_errno();
+        $dbLink = $GLOBALS['_MAX']['database'] ?? OA_DB::singleton()->getConnection();
+        $error = mysqli_error($dbLink);
+        $errornumber = mysqli_errno($dbLink);
+
         if ($errornumber == 1027 || $errornumber == 1039) {
             $corrupt = true;
         }
+
         if ($errornumber == 1016 || $errornumber == 1030) {
             // Probably corrupted table, do additional check
             preg_match("/[0-9]+/Di", $error, $matches);
@@ -344,6 +348,7 @@ function phpAds_sqlDie()
             $message .= "</table>";
         }
     }
+
     phpAds_Die($title, $message);
 }
 

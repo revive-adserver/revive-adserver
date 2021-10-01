@@ -50,7 +50,8 @@ What's New in Revive Adserver 5.4.0
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * XML-RPC API v1 is deprecated and might be removed in a future version.
+   Please make sure v2 is used instead.
 
 
 System Requirements

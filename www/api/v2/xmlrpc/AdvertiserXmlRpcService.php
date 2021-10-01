@@ -140,6 +140,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     public function deleteAdvertiser(&$oParams)
     {
         $oResponseWithError = null;
+        $sessionId = $advertiserId = null;
         if (!XmlRpcUtils::getScalarValues(
             [&$sessionId, &$advertiserId],
             [true, true],

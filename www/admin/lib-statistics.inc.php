@@ -87,20 +87,6 @@ function phpAds_getCampaignName($campaignid, $check_blind = false)
 }
 
 /*-------------------------------------------------------*/
-/* Fetch the tracker name from the database              */
-/*-------------------------------------------------------*/
-
-function phpAds_getTrackerName($trackerid)
-{
-    if ($trackerid != '' && $trackerid != 0) {
-        $tracker_details = phpAds_getTrackerDetails($trackerid);
-        return (phpAds_BuildName($trackerid, $tracker_details['trackername']));
-    } else {
-        return ($strUntitled);
-    }
-}
-
-/*-------------------------------------------------------*/
 /* Fetch the ID of the parent of a campaign              */
 /*-------------------------------------------------------*/
 

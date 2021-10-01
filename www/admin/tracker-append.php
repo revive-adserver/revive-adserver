@@ -32,7 +32,7 @@ $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'
 phpAds_SessionDataStore();
 
 // Initialize trackerAppend class
-$trackerAppend = new Max_Admin_Inventory_TrackerAppend();
+$trackerAppend = new MAX_Admin_Inventory_TrackerAppend();
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */

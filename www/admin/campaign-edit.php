@@ -375,9 +375,9 @@ function buildCampaignForm($campaign)
 
 function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)
 {
-    $form->addElement('header', 'h_basic_info', $GLOBALS ['strBasicInformation']);
+    $form->addElement('header', 'h_basic_info', $GLOBALS['strBasicInformation']);
 
-    $form->addElement('text', 'campaignname', $GLOBALS ['strName']);
+    $form->addElement('text', 'campaignname', $GLOBALS['strName']);
 
     $priority_o [] = $form->createElement('radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strOverride'] . "</span>", OX_CAMPAIGN_TYPE_OVERRIDE, ['id' => 'priority-e' ]);
     $priority_o [] = $form->createElement('custom', ['excl-limit-both-set-note', 'campaign-date-limit-both-set-note' ], null, null, false);
@@ -392,14 +392,11 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remn
         $priority_r [] = $form->createElement('custom', ['ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ], null, null, false);
         $form->addDecorator('ecpm-limit-both-set-note', 'tag', ['attributes' => ['id' => 'ecpm-limit-date-both-set', 'class' => 'hide' ] ]);
         $priority_r [] = $form->createElement('custom', 'campaign-type-note', null, ['radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ]);
-    // $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
     } else {
         $priority_r [] = $form->createElement('radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, ['id' => 'priority-l' ]);
         $priority_r [] = $form->createElement('custom', ['low-limit-both-set-note', 'campaign-date-limit-both-set-note' ], null, null, false);
         $form->addDecorator('low-limit-both-set-note', 'tag', ['attributes' => ['id' => 'low-limit-date-both-set', 'class' => 'hide' ] ]);
         $priority_r [] = $form->createElement('custom', 'campaign-type-note', null, ['radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ]);
-        $form->addElement('hidden', 'campaignid', $aCampaign ['campaignid']);
-        // $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
     }
 
     if ($remnantEcpmEnabled) {

@@ -1,0 +1,297 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function buildHeaderModel invoked with 0 parameters, 2 required\\.$#"
+			count: 1
+			path: www/admin/advertiser-index.php
+
+		-
+			message: "#^Function buildHeaderModel invoked with 1 parameter, 2 required\\.$#"
+			count: 1
+			path: www/admin/campaign-banners.php
+
+		-
+			message: "#^Function processForm invoked with 1 parameter, 2 required\\.$#"
+			count: 1
+			path: www/admin/channel-edit.php
+
+		-
+			message: "#^Function displayPage invoked with 2 parameters, 8\\-9 required\\.$#"
+			count: 1
+			path: www/admin/tracker-edit.php
+
+		-
+			message: "#^Function processForm invoked with 1 parameter, 3\\-4 required\\.$#"
+			count: 1
+			path: www/admin/tracker-edit.php
+
+		-
+			message: "#^Function buildHeaderModel invoked with 0 parameters, 2 required\\.$#"
+			count: 1
+			path: www/admin/website-index.php
+
+		-
+			message: "#^Undefined variable\\: \\$advertiserId$#"
+			count: 14
+			path: www/api/v2/xmlrpc/AdvertiserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$agencyId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/AdvertiserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$localTZ$#"
+			count: 12
+			path: www/api/v2/xmlrpc/AdvertiserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oEndDate$#"
+			count: 12
+			path: www/api/v2/xmlrpc/AdvertiserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oStartDate$#"
+			count: 12
+			path: www/api/v2/xmlrpc/AdvertiserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 16
+			path: www/api/v2/xmlrpc/AdvertiserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$agencyId$#"
+			count: 18
+			path: www/api/v2/xmlrpc/AgencyXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$localTZ$#"
+			count: 14
+			path: www/api/v2/xmlrpc/AgencyXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oEndDate$#"
+			count: 14
+			path: www/api/v2/xmlrpc/AgencyXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oStartDate$#"
+			count: 14
+			path: www/api/v2/xmlrpc/AgencyXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 20
+			path: www/api/v2/xmlrpc/AgencyXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$bannerId$#"
+			count: 16
+			path: www/api/v2/xmlrpc/BannerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$campaignId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/BannerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$localTZ$#"
+			count: 8
+			path: www/api/v2/xmlrpc/BannerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oEndDate$#"
+			count: 8
+			path: www/api/v2/xmlrpc/BannerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oStartDate$#"
+			count: 8
+			path: www/api/v2/xmlrpc/BannerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 18
+			path: www/api/v2/xmlrpc/BannerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$advertiserId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/CampaignXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$campaignId$#"
+			count: 16
+			path: www/api/v2/xmlrpc/CampaignXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$localTZ$#"
+			count: 12
+			path: www/api/v2/xmlrpc/CampaignXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oEndDate$#"
+			count: 12
+			path: www/api/v2/xmlrpc/CampaignXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oStartDate$#"
+			count: 12
+			path: www/api/v2/xmlrpc/CampaignXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 18
+			path: www/api/v2/xmlrpc/CampaignXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$agencyId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/ChannelXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$channelId$#"
+			count: 8
+			path: www/api/v2/xmlrpc/ChannelXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 12
+			path: www/api/v2/xmlrpc/ChannelXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$websiteId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/ChannelXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$password$#"
+			count: 2
+			path: www/api/v2/xmlrpc/LogonXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$userName$#"
+			count: 2
+			path: www/api/v2/xmlrpc/LogonXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$agencyId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/PublisherXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$localTZ$#"
+			count: 12
+			path: www/api/v2/xmlrpc/PublisherXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oEndDate$#"
+			count: 12
+			path: www/api/v2/xmlrpc/PublisherXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oStartDate$#"
+			count: 12
+			path: www/api/v2/xmlrpc/PublisherXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$publisherId$#"
+			count: 16
+			path: www/api/v2/xmlrpc/PublisherXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 18
+			path: www/api/v2/xmlrpc/PublisherXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$campaignId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/TrackerXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$accountId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$email$#"
+			count: 2
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$newSsoUserId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oldSsoUserId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 12
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$ssoUserId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$userId$#"
+			count: 4
+			path: www/api/v2/xmlrpc/UserXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$aParams$#"
+			count: 2
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$bannerId$#"
+			count: 4
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$campaignId$#"
+			count: 4
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$codeType$#"
+			count: 2
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$localTZ$#"
+			count: 10
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oEndDate$#"
+			count: 10
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$oStartDate$#"
+			count: 10
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$publisherId$#"
+			count: 2
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$sessionId$#"
+			count: 26
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+
+		-
+			message: "#^Undefined variable\\: \\$zoneId$#"
+			count: 24
+			path: www/api/v2/xmlrpc/ZoneXmlRpcService.php
+

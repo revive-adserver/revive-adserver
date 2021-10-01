@@ -1,3 +1,5 @@
+includes:
+    - phpstan-baseline.neon
 parameters:
     level: 0
     paths:
@@ -7,12 +9,15 @@ parameters:
         - variables.php
     excludePaths:
         analyseAndScan:
-            - www/devel
-            - www/delivery
+            - lib/xmlrpc/php/openads-api-xmlrpc.inc.php
             - plugins
             - plugins_dev
             - */tests/*
             - var
+            - www/admin/plugins
+            - www/api/rest
+            - www/delivery
+            - www/devel
         analyse:
             - etc
             - lib/max/language
@@ -25,9 +30,9 @@ parameters:
             - lib/wact
             - lib/xajax
             - lib/Zend
+            - www/api/v1
     bootstrapFiles:
         - phpstan-bootstrap.php
     ignoreErrors:
         - '#undefined property#'
         - '#should return#'
-        - '#Function (buildHeaderModel|processForm) invoked#'

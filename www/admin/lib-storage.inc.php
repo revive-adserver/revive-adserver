@@ -79,7 +79,7 @@ function phpAds_ImageDuplicate($type, $name)
         return $name;
     }
 
-    $filesystem = new \League\Flysystem\Filesystem(new \RV\Bridge\Flysystem\SqlStoredBannerAdapter(false));
+    $filesystem = new \League\Flysystem\Filesystem(new \RV\Bridge\Flysystem\SqlStoredBannerAdapter());
 
     $destName = \RV\Bridge\Flysystem\SqlStoredBannerAdapter::getUniqueNameForDuplication($name);
 

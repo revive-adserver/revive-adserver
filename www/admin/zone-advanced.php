@@ -120,10 +120,7 @@ function buildZoneForm($aZone, $oComponent = null)
     $form->setDefaults($aZone);
     $form->setDefaults(['chaintype' => ($aZone['chain'] == '' ? 0 : 1)]);
 
-    //appendinterstitial i appendpopup
-    if ($appendid == $k) {
-        return $form;
-    }
+    return $form;
 }
 
 

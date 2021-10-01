@@ -137,7 +137,7 @@ class XmlRpcUtils
      * @param array $aRowData
      * @return XML_RPC_Value
      */
-    private function convertRowDataToStruct($aFieldTypes, $aRowData)
+    private static function convertRowDataToStruct($aFieldTypes, $aRowData)
     {
         $aResult = [];
         foreach ($aRowData as $databaseFieldName => $fieldValue) {
@@ -284,7 +284,7 @@ class XmlRpcUtils
                 $dateVariable = null;
                 if (isset($variable)) {
                     if (!is_string($variable)) {
-                        Max::raiseError('Date for statistics should be represented as string');
+                        MAX::raiseError('Date for statistics should be represented as string');
                         exit;
                     }
 
@@ -296,7 +296,7 @@ class XmlRpcUtils
 
                 return new XML_RPC_Value($dateVariable, $GLOBALS['XML_RPC_DateTime']);
         }
-        Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
+        MAX::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
         exit;
     }
 
@@ -326,7 +326,7 @@ class XmlRpcUtils
             case 'date':
 
                 if (!is_object($variable) || !is_a($variable, 'Date')) {
-                    Max::raiseError('Value should be PEAR::Date type');
+                    MAX::raiseError('Value should be PEAR::Date type');
                     exit;
                 }
 
@@ -336,7 +336,7 @@ class XmlRpcUtils
             case 'custom':
                 return $variable;
         }
-        Max::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
+        MAX::raiseError('Unsupported Xml Rpc type \'' . $type . '\'');
         exit;
     }
 
@@ -499,7 +499,7 @@ class XmlRpcUtils
         $idxStart = 0
     ) {
         if (count($aReferencesOnVariables) != count($aRequired)) {
-            Max::raiseError('$aReferencesOnVariables & $aRequired arrays should have the same length');
+            MAX::raiseError('$aReferencesOnVariables & $aRequired arrays should have the same length');
             exit;
         }
 

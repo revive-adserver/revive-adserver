@@ -36,7 +36,8 @@ phpAds_MaintenanceSelection("priority");
 
 function phpAds_showBanners()
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
+    $pref = $GLOBALS['_MAX']['PREF'];
+
     global $strUntitled, $strName, $strID, $strWeight;
     global $strProbability, $strPriority, $strRecalculatePriority;
     global $phpAds_TextDirection;

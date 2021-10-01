@@ -68,9 +68,14 @@ $output = $json->encode($result);
 header("Content-Type: text/javascript");
 echo $output;
 
-function getPlugin($pluginName)
+/**
+ * @return array|false
+ */
+function getPlugin(string $pluginName, bool $defaultOnly = false)
 {
+    $aDefaultPlugins = [];
     include MAX_PATH . '/etc/default_plugins.php';
+
     if ($aDefaultPlugins) {
         foreach ($aDefaultPlugins as $idx => $aPlugin) {
             if ($pluginName == $aPlugin['name']) {
@@ -78,6 +83,11 @@ function getPlugin($pluginName)
             }
         }
     }
+
+    if ($defaultOnly) {
+        return false;
+    }
+
     return ['path' => MAX_PATH . '/etc/plugins/', 'name' => $pluginName, 'ext' => 'zip', 'disabled' => true];
 }
 
@@ -167,23 +177,18 @@ function checkPlugin($pluginName)
             }
         }
     }
-    // Try to upgrade bundled plugins
-    include_once(MAX_PATH . '/etc/default_plugins.php');
-    if ($aDefaultPlugins) {
-        foreach ($aDefaultPlugins as $idx => $aPlugin) {
-            if ($aPlugin['name'] == $pluginName) {
-                $upgraded = false;
-                $oPluginManager = new OX_PluginManager();
-                $aFileName['name'] = $aPlugin['name'] . '.' . $aPlugin['ext'];
-                $aFileName['tmp_name'] = $aPlugin['path'] . $aPlugin['name'] . '.' . $aPlugin['ext'];
-                $aFileName['type'] = 'application/zip';
-                $upgraded = $oPluginManager->upgradePackage($aFileName, $pluginName);
-                if (!empty($oPluginManager->aErrors) && !empty($oPluginManager->previousVersionInstalled) &&
-                          $oPluginManager->previousVersionInstalled != OX_PLUGIN_SAME_VERSION_INSTALLED) {
-                    foreach ($oPluginManager->aErrors as $i => $msg) {
-                        OX_Upgrade_Util_Job::logError($aResult, $msg);
-                    }
-                }
+
+    $upgraded = false;
+    if ($aPlugin = getPlugin($pluginName, true)) {
+        $oPluginManager = new OX_PluginManager();
+        $aFileName['name'] = $aPlugin['name'] . '.' . $aPlugin['ext'];
+        $aFileName['tmp_name'] = $aPlugin['path'] . $aPlugin['name'] . '.' . $aPlugin['ext'];
+        $aFileName['type'] = 'application/zip';
+        $upgraded = $oPluginManager->upgradePackage($aFileName, $pluginName);
+        if (!empty($oPluginManager->aErrors) && !empty($oPluginManager->previousVersionInstalled) &&
+                  $oPluginManager->previousVersionInstalled != OX_PLUGIN_SAME_VERSION_INSTALLED) {
+            foreach ($oPluginManager->aErrors as $i => $msg) {
+                OX_Upgrade_Util_Job::logError($aResult, $msg);
             }
         }
     }
