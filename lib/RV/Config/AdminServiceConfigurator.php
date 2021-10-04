@@ -50,6 +50,7 @@ class AdminServiceConfigurator
 
         $container
             ->register('filesystem', Filesystem::class)
+            ->setPublic(true)
             ->addArgument(new Reference(
                 $container->getParameter('store.mode') ?
                 'filesystem.adapter.ftp' : // store.mode 1: FTP
@@ -59,6 +60,7 @@ class AdminServiceConfigurator
         $container
             ->addCompilerPass(new Html5ZipManagerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0)
             ->register('html5.zip.manager', Html5ZipManager::class)
+            ->setPublic(true)
             ->addArgument(new Reference('filesystem'));
 
         $container
