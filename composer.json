@@ -23,8 +23,8 @@
         }
     },
     "require": {
-        "symfony/config": "^3.4",
-        "symfony/dependency-injection": "^3.4",
+        "symfony/config": "^4.4",
+        "symfony/dependency-injection": "^4.4",
         "league/flysystem": "^1.0",
         "league/flysystem-ziparchive": "^1.0",
 
