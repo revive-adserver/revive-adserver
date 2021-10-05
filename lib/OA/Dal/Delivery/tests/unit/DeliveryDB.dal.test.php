@@ -69,6 +69,9 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
         if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli') {
             $this->assertTrue($GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof mysqli);
+        } elseif (PHP_VERSION_ID >= 80100) {
+            // PHP 8.1+
+            $this->assertTrue($GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof PgSql\Connection);
         } else {
             $type = get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']);
             $this->assertEqual($type, $this->oDbh->dbsyntax . ' link');

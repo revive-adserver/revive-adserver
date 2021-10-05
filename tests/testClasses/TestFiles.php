@@ -57,6 +57,7 @@ class TestFiles
         // Can we open a tests directory?
         $dh = @opendir($dir . '/' . constant($type . '_TEST_STORE'));
         if ($dh) {
+            $storeFolder = null;
             while (($file = readdir($dh)) !== false) {
                 // Does the filename match?
                 if (preg_match("/[^.]+\.$code\.test\.php/", $file)) {
@@ -66,7 +67,7 @@ class TestFiles
                 }
             }
             closedir($dh);
-            if ($aFiles[$storeFolder]) {
+            if (!empty($aFiles[$storeFolder])) {
                 asort($aFiles[$storeFolder]);
             }
         }
