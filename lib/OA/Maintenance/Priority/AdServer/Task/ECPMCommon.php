@@ -234,7 +234,6 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
     {
         $this->aAdsEcpmPowAlpha = [];
         $this->aZonesEcpmPowAlphaSums = [];
-        $this->aZonesGuaranteeImpressionsSums = [];
         $this->aZonesAvailableImpressions = [];
         $this->aCampaignsEcpms = [];
         $this->aCampaignsDeliveries = [];

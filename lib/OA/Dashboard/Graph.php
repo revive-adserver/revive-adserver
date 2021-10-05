@@ -31,7 +31,6 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * The class constructor
      *
      * @param array $aParams The parameters array, usually $_REQUEST
-     * @return OA_Dashboard_Widget_Feed
      */
     public function __construct($aParams)
     {
@@ -218,7 +217,6 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
             $this->oTpl->assign('content', $content);
         } else {
-            $this->oTpl->assign('title', $this->title);
             $this->oTpl->assign('imageSrc', "dashboard.php?widget={$this->widgetName}&draw=1&cb=" . $this->oTpl->cacheId);
         }
 

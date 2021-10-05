@@ -54,6 +54,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      */
     public $timestampCastString;
 
+    private $aMtRevenueCache = [];
+
     /**
      * A method to perform the migration of logged bucket-based aggregate statistics
      * data from the bucket table(s) into a final statistics table.

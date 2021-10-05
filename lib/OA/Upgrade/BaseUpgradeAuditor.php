@@ -135,8 +135,8 @@ class OA_BaseUpgradeAuditor
 
     public function _checkCreateAuditTable()
     {
-        $this->aDBTables = OA_DB_Table::listOATablesCaseSensitive();
-        if (!in_array($this->prefix . $this->logTable, $this->aDBTables)) {
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
+        if (!in_array($this->prefix . $this->logTable, $aDBTables)) {
             $this->log('creating ' . $this->logTable . ' audit table');
             if (!$this->_createAuditTable()) {
                 $this->logError('failed to create ' . $this->logTable . ' audit table');

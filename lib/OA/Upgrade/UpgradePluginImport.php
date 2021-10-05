@@ -25,6 +25,9 @@ class OX_UpgradePluginImport extends OX_PluginExport
     public $basePath; // The path to look for file in
     public $destPath = MAX_PATH; // The path to look to place files in
 
+    /** @var string */
+    private $logFile;
+
     /**
      * Initialise the plugin
      *
@@ -158,7 +161,6 @@ class OX_UpgradePluginImport extends OX_PluginExport
      */
     public function _log($message)
     {
-        $this->aMessages[] = $message;
         if (empty($this->logFile)) {
             $this->logFile = MAX_PATH . '/var/install.log';
         }

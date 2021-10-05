@@ -39,6 +39,8 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     public $aAdZoneAssociations;
     public $aAdZoneImpressionAllocations;
 
+    private $table;
+
     /**
      * The constructor method.
      */

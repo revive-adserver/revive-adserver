@@ -20,7 +20,11 @@ require_once MAX_PATH . '/lib/OX/Translation.php';
  */
 class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
 {
+    /** @var OX_Translation */
     public $oTrans;
+
+    /** @var OA_Admin_Template */
+    public $oTpl;
 
     /**
      * The class constructor

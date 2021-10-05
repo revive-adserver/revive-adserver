@@ -192,14 +192,6 @@ class OX_Admin_UI_Wizard
     }
 
 
-    public function getStepName($stepId = null)
-    {
-        $stepId = empty($stepId) ? $this->currentStepId : $stepId;
-
-        return $this->aStepNames[$stepId];
-    }
-
-
     public function getStepData($stepId = null)
     {
         $stepId = empty($stepId) ? $this->currentStepId : $stepId;

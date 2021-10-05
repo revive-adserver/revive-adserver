@@ -63,7 +63,6 @@ class OA_UpgradePackageParser extends XML_Parser
             $this->DBPkg_prescript = '';
             $this->DBPkg_postscript = '';
             $this->aDBPkgs = [];
-            $this->aDBPkgList = [];
 //            $this->aFiles = array();
 //            $this->aPackage = array();
 //            $this->aSchemas = array();
@@ -127,9 +126,6 @@ class OA_UpgradePackageParser extends XML_Parser
     public function cdataHandler($xp, $data)
     {
         switch ($this->element) {
-            case 'upgrade-database-package':
-                $this->DBPkg_name = $data;
-                break;
             case 'upgrade-database-package-file':
                 $this->aDBPkgs[] = $data;
                 break;

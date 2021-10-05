@@ -115,6 +115,9 @@ class OA_Upgrade
      */
     public $oConfiguration;
 
+    /** @var OA_DB_Table */
+    public $oTable;
+
     /** @var OA_DB_Integrity */
     public $oIntegrity;
 

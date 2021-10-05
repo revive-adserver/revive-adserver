@@ -20,6 +20,7 @@ parameters:
             - www/devel
         analyse:
             - etc
+            - lib/JSON
             - lib/max/language
             - lib/minify
             - lib/pear
@@ -34,5 +35,5 @@ parameters:
     bootstrapFiles:
         - phpstan-bootstrap.php
     ignoreErrors:
-        - '#undefined property#'
+#        - '#undefined property#'
         - '#should return#'
