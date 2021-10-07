@@ -4445,9 +4445,6 @@ $cookie[$key] = $value;
 }
 }
 }
-if(isset($row['aSearch']) && isset($row['aReplace'])) {
-$cookie[$conf['var']['dest']] = str_replace($row['aSearch'], $row['aReplace'], $row['url']);
-}
 if ($conf['logging']['adImpressions']) {
 MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
 }
