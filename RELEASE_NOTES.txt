@@ -46,6 +46,9 @@ What's New in Revive Adserver 5.3.1
  * Added missing from/to labels in the date selectors of the satistics
    screens.
 
+ * Fixed redirection upon click on legacy image tags leading to a white page
+   instead of the destination URL.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

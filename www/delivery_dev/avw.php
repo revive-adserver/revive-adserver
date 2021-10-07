@@ -56,10 +56,6 @@ if (!empty($row['html'])) {
             }
         }
     }
-    
-    if(isset($row['aSearch']) && isset($row['aReplace'])) {
-        $cookie[$conf['var']['dest']] = str_replace($row['aSearch'], $row['aReplace'], $row['url']);
-    }
 
     // The call to view_raw() above will have tried to log the impression via a beacon,
     // but this type of ad doesn't work with beacons, so the impression must
