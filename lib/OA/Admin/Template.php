@@ -161,20 +161,7 @@ class OA_Admin_Template extends Smarty
     }
 
     /**
-     * A method to set the cached version of the template to be used until
-     * a certain date/time
-     *
-     * @param Date $oDate
-     */
-    public function setCacheExpireAt($oDate)
-    {
-        $timeStamp = strftime($oDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->cache_lifetime = $timeStamp - time();
-        $this->caching = 2;
-    }
-
-    /**
-     * A method to set the cached vertsion of the template to expire after
+     * A method to set the cached version of the template to expire after
      * a time span
      *
      * @param Date_Span $oSpan
