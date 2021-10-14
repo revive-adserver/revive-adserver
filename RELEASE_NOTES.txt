@@ -49,6 +49,8 @@ What's New in Revive Adserver 5.3.1
  * Fixed redirection upon click on legacy image tags leading to a white page
    instead of the destination URL.
 
+ * Fixed PHP fatal error in admin-search.php on PHP 8.0.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
