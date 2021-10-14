@@ -291,7 +291,7 @@ class Log_file extends Log
 
         /* Build the string containing the complete log line. */
         $line = $this->_format($this->_lineFormat,
-                               strftime($this->_timeFormat),
+                               @strftime($this->_timeFormat),
                                $priority, $message) . $this->_eol;
 
         /* If locking is enabled, acquire an exclusive lock on the file. */
