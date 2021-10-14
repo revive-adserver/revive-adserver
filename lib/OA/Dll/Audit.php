@@ -260,7 +260,7 @@ class OA_Dll_Audit extends OA_Dll
                 $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
 
                 if (empty($aAudit['username'])) {
-                    $aAudit['username'] = 'Installer';
+                    $aAudit['username'] = $GLOBALS['strAuditSystem'];
                 }
                 $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
 

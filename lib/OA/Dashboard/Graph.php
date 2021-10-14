@@ -245,10 +245,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         // e.g. floor($value) could return 99 even if $value seems to be 100
         $value = round($value, 2);
 
-        $digits = 0;
-
         if (floor($value) != ceil($value)) {
-            if ($value >= 10) {
+            if ($value >= 100) {
+                $digits = 0;
+            } elseif ($value >= 10) {
                 $digits = 1;
             } else {
                 $digits = 2;

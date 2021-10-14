@@ -244,7 +244,7 @@ class OA_Admin_UI
         //top
         $this->_assignBranding($conf['ui']);
         $this->_assignSearch($ID);
-        $this->_assignUserAccountInfo($oCurrentSection ?? null);
+        $this->_assignUserAccountInfo($oCurrentSection);
 
         $this->oTpl->assign('headerModel', $oHeaderModel);
         $this->oTpl->assign('hideNavigator', $conf['ui']['hideNavigator']);

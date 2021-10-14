@@ -1092,6 +1092,7 @@ $GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";
+$GLOBALS['strAuditSystem'] = "System";
 $GLOBALS['strFor'] = "for";
 $GLOBALS['strHas'] = "has";
 $GLOBALS['strBinaryData'] = "Binary data";
