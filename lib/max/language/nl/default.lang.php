@@ -1081,6 +1081,7 @@ $GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "en extra items";
+$GLOBALS['strAuditSystem'] = "Systeem";
 $GLOBALS['strFor'] = "voor";
 $GLOBALS['strHas'] = "heeft";
 $GLOBALS['strBinaryData'] = "Binaire gegevens";
