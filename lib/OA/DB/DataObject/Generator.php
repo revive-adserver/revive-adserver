@@ -354,7 +354,10 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         // simple creation tools ! (static stuff!)
         $body .= "{$n}";
         $body .= "    /* Static get */{$n}";
-        $body .= "    public static function staticGet(\$k,\$v=NULL) { return DB_DataObject::staticGetFromClassName('{$this->classname}',\$k,\$v); }{$n}";
+        $body .= "    public static function staticGet(\$k, \$v = null){$n}";
+        $body .= "    {{$n}";
+        $body .= "        return DB_DataObject::staticGetFromClassName('{$this->classname}', \$k, \$v);{$n}";
+        $body .= "    }{$n}";
 
         // generate getter and setter methods
         $body .= $this->_generateGetters($input);
@@ -545,7 +548,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         }
         $result = '';
         if (!empty($aDefaults)) {
-            $result = "\n" . '    var $defaultValues = [' . "\n";
+            $result = "\n" . '    public $defaultValues = [' . "\n";
             foreach ($aDefaults as $k => $v) {
                 $result .= '        \'' . addslashes($k) . '\' => ' . $v . ",\n";
             }
