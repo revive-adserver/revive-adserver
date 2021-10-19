@@ -3718,6 +3718,7 @@ switch ($aBanner['contenttype']) {
 case 'gif':
 case 'jpeg':
 case 'png':
+case 'webp':
 $functionName = '_adRenderImage';
 break;
 case 'txt':
