@@ -780,6 +780,7 @@ function _getAdRenderFunction($aBanner, $richMedia = true)
             case 'gif':
             case 'jpeg':
             case 'png':
+            case 'webp':
                 $functionName = '_adRenderImage';
                 break;
             case 'txt':
