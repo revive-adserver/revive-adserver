@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>626</version>
+  <comments>no enums in the banner table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>626</version>
+      <change>
+        <table>
+          <name>banners</name>
+        <change>
+          <field>
+            <name>contenttype</name>
+            <length>8</length>
+          </field>
+          <field>
+            <name>storagetype</name>
+            <length>16</length>
+          </field>
+          <field>
+            <name>alt_contenttype</name>
+            <length>8</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>626</version>
+  </changeset>
+</destructive>
+</instructionset>

@@ -21,7 +21,7 @@ class DataObjects_Application_variable extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'application_variable';            // table name
-    public $name;                            // VARCHAR(255) => openads_varchar => 130
+    public $name;                            // VARCHAR(250) => openads_varchar => 130
     public $value;                           // TEXT() => openads_text => 162
 
     /* Static get */

@@ -28,7 +28,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
     public $__table = 'audit';                           // table name
     public $auditid;                         // MEDIUMINT(9) => openads_mediumint => 129
     public $actionid;                        // MEDIUMINT(9) => openads_mediumint => 129
-    public $context;                         // VARCHAR(255) => openads_varchar => 130
+    public $context;                         // VARCHAR(200) => openads_varchar => 130
     public $contextid;                       // MEDIUMINT(9) => openads_mediumint => 1
     public $parentid;                        // MEDIUMINT(9) => openads_mediumint => 1
     public $details;                         // TEXT() => openads_text => 162

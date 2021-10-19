@@ -36,9 +36,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $__table = 'banners';                         // table name
     public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129
     public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129
-    public $contenttype;                     // ENUM('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') => openads_enum => 130
+    public $contenttype;                     // VARCHAR(8) => openads_varchar => 130
     public $pluginversion;                   // MEDIUMINT(9) => openads_mediumint => 129
-    public $storagetype;                     // ENUM('sql','web','url','html','network','txt') => openads_enum => 130
+    public $storagetype;                     // VARCHAR(16) => openads_varchar => 130
     public $filename;                        // VARCHAR(255) => openads_varchar => 130
     public $imageurl;                        // VARCHAR(255) => openads_varchar => 130
     public $htmltemplate;                    // MEDIUMTEXT() => openads_mediumtext => 162
@@ -63,7 +63,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $bannertype;                      // TINYINT(4) => openads_tinyint => 129
     public $alt_filename;                    // VARCHAR(255) => openads_varchar => 130
     public $alt_imageurl;                    // VARCHAR(255) => openads_varchar => 130
-    public $alt_contenttype;                 // ENUM('gif','jpeg','png') => openads_enum => 130
+    public $alt_contenttype;                 // VARCHAR(8) => openads_varchar => 130
     public $comments;                        // TEXT() => openads_text => 34
     public $updated;                         // DATETIME() => openads_datetime => 142
     public $acls_updated;                    // DATETIME() => openads_datetime => 142
