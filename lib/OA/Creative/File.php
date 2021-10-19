@@ -59,14 +59,6 @@ class OA_Creative_File extends OA_Creative
      */
     public function readCreativeDetails($filePath, $aTypes = null)
     {
-        if (!isset($aTypes)) {
-            $aTypes = [
-                IMAGETYPE_GIF => 'gif',
-                IMAGETYPE_PNG => 'png',
-                IMAGETYPE_JPEG => 'jpeg',
-            ];
-        }
-
         if (!($aImage = @getimagesize($filePath))) {
             return new PEAR_Error("Unrecognized image file format");
         }
@@ -116,6 +108,7 @@ class OA_Creative_File extends OA_Creative
             case 'jpg':  $contentType = 'jpeg'; break;
             case 'png':  $contentType = 'png';  break;
             case 'gif':  $contentType = 'gif';  break;
+            case 'webp':  $contentType = 'webp';  break;
             case 'swf':  $contentType = $alt ? '' : 'swf';  break;
             case 'dcr':  $contentType = $alt ? '' : 'dcr';  break;
             case 'rpm':  $contentType = $alt ? '' : 'rpm';  break;
@@ -141,7 +134,7 @@ class OA_Creative_File extends OA_Creative
             $fileName = basename($filePath);
         }
 
-        $validImageExtensions = 'png|svg|gif|jpg|jpeg|jpe|tif|tiff|ppm|bmp|rle|dib|tga|pcz|wbmp|wbm';
+        $validImageExtensions = 'png|svg|gif|jpg|jpeg|jpe|tif|tiff|ppm|bmp|rle|dib|tga|pcz|wbmp|wbm|webp';
         if (preg_match('/\.(?:dcr|rpm|mov)$/i', $fileName)) {
             $type = 'RichMedia';
         } elseif (preg_match('/\.(' . $validImageExtensions . ')$/i', $fileName)) {

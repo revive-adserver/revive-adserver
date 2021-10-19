@@ -23,6 +23,7 @@ class Test_OA_Creative_File extends UnitTestCase
     public $imgGif;
     public $imgPng;
     public $imgJpeg;
+    private $imgWebp;
     public $tempFiles;
 
     public function __construct()
@@ -30,6 +31,7 @@ class Test_OA_Creative_File extends UnitTestCase
         $this->imgGif = "GIF89a\001\0\001\0\200\0\0\377\377\377\0\0\0!\371\004\0\0\0\0\0,\0\0\0\0\001\0\001\0\0\002\002D\001\0;";
         $this->imgPng = "\211PNG\r\n\032\n\0\0\0\rIHDR\0\0\0\001\0\0\0\001\\b\003\0\0\001_\314\004-\0\0\0\031tEXtSoftware\0Adobe ImageReadyq\311e<\0\0\0\006PLTE\377\377\377\0\0\0U\302\323~\0\0\0\001tRNS\0@\346\330f\0\0\0\nIDATx\332c`\0\0\0\002\0\001\345'\336\374\0\0\0\0IEND\256B`\202";
         $this->imgJpeg = "\xFF\xD8\xFF\xE0\x00\x10\x4A\x46\x49\x46\x00\x01\x02\x00\x00\x64\x00\x64\x00\x00\xFF\xEC\x00\x11\x44\x75\x63\x6B\x79\x00\x01\x00\x04\x00\x00\x00\x0A\x00\x00\xFF\xEE\x00\x0E\x41\x64\x6F\x62\x65\x00\x64\xC0\x00\x00\x00\x01\xFF\xDB\x00\x84\x00\x14\x10\x10\x19\x12\x19\x27\x17\x17\x27\x32\x26\x1F\x26\x32\x2E\x26\x26\x26\x26\x2E\x3E\x35\x35\x35\x35\x35\x3E\x44\x41\x41\x41\x41\x41\x41\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x01\x15\x19\x19\x20\x1C\x20\x26\x18\x18\x26\x36\x26\x20\x26\x36\x44\x36\x2B\x2B\x36\x44\x44\x44\x42\x35\x42\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\x44\xFF\xC0\x00\x11\x08\x00\x01\x00\x01\x03\x01\x22\x00\x02\x11\x01\x03\x11\x01\xFF\xC4\x00\x4B\x00\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xFF\xDA\x00\x0C\x03\x01\x00\x02\x11\x03\x11\x00\x3F\x00\xB3\x00\x1F\xFF\xD9";
+        $this->imgWebp = "RIFF\x1A\0\0\0WEBPVP8L\x0D\0\0\0\x2F\0\0\0\x10\x07\x10\x11\x11\x88\x88\xFE\x07\0";
 
         $this->tempFiles = [];
 
@@ -76,6 +78,16 @@ class Test_OA_Creative_File extends UnitTestCase
         $this->assertEqual($oCreative->width, 1);
         $this->assertEqual($oCreative->height, 1);
 
+        $fileName = $this->writeTempFile($this->imgWebp);
+
+        $oCreative = OA_Creative_File::factory($fileName, 'foo.webp');
+        $this->assertIsA($oCreative, 'OA_Creative_File');
+        $this->assertEqual($oCreative->fileName, 'foo.webp');
+        $this->assertEqual($oCreative->contentType, 'webp');
+        $this->assertEqual($oCreative->content, $this->imgWebp);
+        $this->assertEqual($oCreative->width, 1);
+        $this->assertEqual($oCreative->height, 1);
+
         $oCreative = OA_Creative_File::factory('non-existing');
         $this->assertIsA($oCreative, 'PEAR_Error');
     }
@@ -112,6 +124,10 @@ class Test_OA_Creative_File extends UnitTestCase
         $this->assertEqual(
             'jpeg',
             OA_Creative_File::staticGetContentTypeByExtension('file1.jpg')
+        );
+        $this->assertEqual(
+            'webp',
+            OA_Creative_File::staticGetContentTypeByExtension('file1.webp')
         );
         $this->assertEqual(
             'png',

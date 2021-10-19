@@ -29,7 +29,7 @@ What's New in Revive Adserver 5.4.0
  New Features
  ------------
 
- * None
+ * Added support for WEBP format in image and HTML5 banners. 
 
 
  Bug Fixes

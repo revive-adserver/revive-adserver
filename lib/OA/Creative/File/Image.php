@@ -24,6 +24,7 @@ class OA_Creative_File_Image extends OA_Creative_File
             IMAGETYPE_GIF => 'gif',
             IMAGETYPE_PNG => 'png',
             IMAGETYPE_JPEG => 'jpeg',
+            IMAGETYPE_WEBP => 'webp',
         ]);
     }
 }
