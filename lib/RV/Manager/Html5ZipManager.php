@@ -52,6 +52,7 @@ EOF;
         'mp4' => true,
         'mov' => true,
         'webm' => true,
+        'webp' => true,
         'mp3' => true,
         'ogg' => true,
         'woff' => true,
