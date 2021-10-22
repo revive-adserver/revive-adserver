@@ -81,7 +81,7 @@ phpAds_SessionDataStore();
         }
 
         // Unlink zones
-        if (count($aDeleteZones)) {
+        if (!empty($aDeleteZones)) {
             $unlinked = $dalZones->unlinkZonesFromBanner($aDeleteZones, $bannerId);
             if ($unlinked > 0) {
                 $prioritise = true;
@@ -91,7 +91,7 @@ phpAds_SessionDataStore();
         }
 
         // Link zones
-        if (count($aCurrentZones)) {
+        if (!empty($aCurrentZones)) {
             $linked = $dalZones->linkZonesToBanner(array_keys($aCurrentZones), $bannerId);
             if (PEAR::isError($linked)
                 || $linked == -1) {
