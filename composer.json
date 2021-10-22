@@ -32,7 +32,7 @@
         "jeremykendall/php-domain-parser": "~2.0",
 
         "figdice/asseteer": "dev-master",
-        "tinymce/tinymce": "^4.6",
+        "tinymce/tinymce": "^5.9",
         "wikimedia/composer-merge-plugin": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/polyfill-ctype": "^1.23"
