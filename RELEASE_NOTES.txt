@@ -51,6 +51,8 @@ What's New in Revive Adserver 5.4.0
 
  * Fixed PHP fatal error in admin-search.php on PHP 8.0.
 
+ * Fixed PHP fatal error in banner-zone.php on PHP 8.0.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
