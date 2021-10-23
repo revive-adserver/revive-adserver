@@ -985,6 +985,9 @@ class Admin_DA
                 // Ad seems OK to link, check if this is an email zone, and
                 // enforce only a single active linked ad at a time
                 $aZone = Admin_DA::getZone($aVariables['zone_id']);
+                if (null === $aZone) {
+                    return PEAR::raiseError('Zone not found', MAX_ERROR_INVALIDREQUEST);
+                }
                 if ($aZone['type'] == MAX_ZoneEmail) {
                     $aAd = Admin_DA::getAd($azParams['ad_id']);
                     $okToLink = Admin_DA::_checkEmailZoneAdAssoc($aZone['zone_id'], $aAd['placement_id']);
