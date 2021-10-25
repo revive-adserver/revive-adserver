@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.3.1
+Release Notes: Revive Adserver 5.3.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.3.1
+What's New in Revive Adserver 5.3.2
 -----------------------------------
 
- * Release date: October 26th, 2021
+ * Release date: t.b.d.
 
 
  Security Updates
@@ -35,23 +35,7 @@ What's New in Revive Adserver 5.3.1
  Bug Fixes
  ---------
 
- * Fixed issue causing access denied on some statistics pages, e.g. campaign
-   banners.
-
- * Fixed PHP fatal errors in the XML-RPC API v2.
-
- * Fixed an issue preventing tracker account preferences from being displayed
-   in the menus.
-
- * Added missing from/to labels in the date selectors of the satistics
-   screens.
-
- * Fixed redirection upon click on legacy image tags leading to a white page
-   instead of the destination URL.
-
- * Fixed PHP fatal error in admin-search.php on PHP 8.0.
-
- * Fixed PHP fatal error in banner-zone.php on PHP 8.0.
+ * None
 
 
  Non-Backwards Compatible Changes
