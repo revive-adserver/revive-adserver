@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.3.1
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: October 26th, 2021
 
 
  Security Updates
