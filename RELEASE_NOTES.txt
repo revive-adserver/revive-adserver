@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.3.2
  Bug Fixes
  ---------
 
- * None
+ * Fixed PHP8 compatibility of the GeoIP2 plugin affecting
+   instances upgraded from 5.0.3, 5.1.x or 5.2.x.
 
 
  Non-Backwards Compatible Changes
