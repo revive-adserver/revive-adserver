@@ -109,6 +109,9 @@ $GLOBALS['strDashboardSystemMessage'] = "Missatge del sistema";
 // Priority
 $GLOBALS['strPriority'] = "Prioritat";
 $GLOBALS['strPriorityLevel'] = "Nivell de prioritat";
+$GLOBALS['strOverrideAds'] = "Anuncis de campanyes de substitució";
+$GLOBALS['strHighAds'] = "Anuncis de campanyes de contracte";
+$GLOBALS['strLowAds'] = "Anuncis de campanyes romanents";
 $GLOBALS['strLimitations'] = "Regles d'entrega";
 $GLOBALS['strNoLimitations'] = "No hi ha regles d'entrega";
 $GLOBALS['strCapping'] = "Limitació";
@@ -173,6 +176,8 @@ $GLOBALS['strCTRShort'] = "CTR (% de clics)";
 $GLOBALS['strTotalClicks'] = "Clics totals";
 $GLOBALS['strTotalConversions'] = "Conversions totals";
 $GLOBALS['strDateTime'] = "Data i hora";
+$GLOBALS['strTrackerImageTag'] = "Etiqueta d'imatge";
+$GLOBALS['strTrackerJsTag'] = "Etiqueta de Javascript";
 $GLOBALS['strBanners'] = "Bàners";
 $GLOBALS['strCampaigns'] = "Campanyes";
 $GLOBALS['strCampaignID'] = "Identificador de campanya";
@@ -222,10 +227,18 @@ $GLOBALS['strDayShortCuts'][6] = 'Ds';
 
 $GLOBALS['strHour'] = "Hora";
 $GLOBALS['strSeconds'] = "segons";
+$GLOBALS['strMinutes'] = "minuts";
+$GLOBALS['strHours'] = "hores";
 
 // Advertiser
 $GLOBALS['strClient'] = "Anunciant";
+$GLOBALS['strClients'] = "Anunciants";
+$GLOBALS['strClientsAndCampaigns'] = "Anunciants i campanyes";
+$GLOBALS['strAddClient'] = "Afegir anunciant";
+$GLOBALS['strClientProperties'] = "Propietats de l'anunciant";
 $GLOBALS['strClientHistory'] = "Estadístiques de l'anunciant";
+$GLOBALS['strHideInactive'] = "Oculta els inactius";
+$GLOBALS['strInactiveAdvertisersHidden'] = "anunciant(s) inactiu(s) ocult(s)";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "Contacte";
@@ -235,15 +248,40 @@ $GLOBALS['strEMail'] = "Correu electrònic";
 // Campaign
 $GLOBALS['strCampaign'] = "Campanya";
 $GLOBALS['strCampaigns'] = "Campanyes";
+$GLOBALS['strCampaignProperties'] = "Propietats de la campanya";
+$GLOBALS['strCampaignOverview'] = "Visió general de la campanya";
 $GLOBALS['strCampaignHistory'] = "Estadístiques de la campanya";
+$GLOBALS['strNoCampaigns'] = "Actualment no hi ha cap campanya per a aquest anunciant.";
+$GLOBALS['strNoCampaignsAddAdvertiser'] = "Actualment no hi ha cap campanya, perquè no hi ha anunciants. Per crear una campanya <a href='advertiser-edit.php'>afegeix un nou anunciant</a> primer.";
+$GLOBALS['strConfirmDeleteCampaign'] = "Realment voleu esborrar aquesta campanya?";
+$GLOBALS['strConfirmDeleteCampaigns'] = "Realment voleu esborrar les campanyes seleccionades?";
+$GLOBALS['strShowParentAdvertisers'] = "Mostra els anunciants pare";
+$GLOBALS['strHideParentAdvertisers'] = "Oculta els anunciants pare";
+$GLOBALS['strHideInactiveCampaigns'] = "Oculta les campanyes inactives";
+$GLOBALS['strInactiveCampaignsHidden'] = "campanyes inactives ocultes";
+$GLOBALS['strPriorityInformation'] = "Prioritat en relació a altres campanyes";
 $GLOBALS['strHiddenCampaign'] = "Campanya";
+$GLOBALS['strHiddenAd'] = "Anunci";
 $GLOBALS['strHiddenAdvertiser'] = "Anunciant";
 $GLOBALS['strHiddenWebsite'] = "Pàgina web";
 $GLOBALS['strHiddenZone'] = "Zona";
+$GLOBALS['strCampaignDelivery'] = "Entrega de la campanya";
+$GLOBALS['strSelectUnselectAll'] = "Selecciona-ho tot / No seleccionis res";
+$GLOBALS['strCampaignsOfAdvertiser'] = "de"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
 
 // Campaign-zone linking page
+$GLOBALS['strCalculatedForAllCampaigns'] = "Calculat per totes les campanyes";
+$GLOBALS['strCalculatedForThisCampaign'] = "Calculat per aquesta campanya";
+$GLOBALS['strLinkingZonesProblem'] = "Ha ocorregut un problema vinculant les zones";
+$GLOBALS['strUnlinkingZonesProblem'] = "Ha ocorregut un problema desvinculant les zones";
+$GLOBALS['strZonesLinked'] = "zones vinculades";
+$GLOBALS['strZonesUnlinked'] = "zones desvinculades";
 $GLOBALS['strZonesSearch'] = "Cerca";
+$GLOBALS['strZonesSearchTitle'] = "Cerca zones i llocs web per nom";
 $GLOBALS['strNoWebsitesAndZones'] = "No hi ha llocs webs ni zones";
+$GLOBALS['strNoWebsitesAndZonesText'] = "amb \"%s\" al nom";
+$GLOBALS['strToLink'] = "per vincular";
+$GLOBALS['strToUnlink'] = "per desvincular";
 $GLOBALS['strLinked'] = "Enllaçats";
 $GLOBALS['strAvailable'] = "Disponible";
 $GLOBALS['strShowing'] = "Mostrant";
@@ -258,7 +296,16 @@ $GLOBALS['strSetSpecificDate'] = "Indica una data específica";
 $GLOBALS['strLow'] = "Baixa";
 $GLOBALS['strHigh'] = "Alta";
 $GLOBALS['strExpirationDate'] = "Data de fi";
+$GLOBALS['strExpirationDateComment'] = "La campanya acabarà al final d'aquest dia";
 $GLOBALS['strActivationDate'] = "Data d'inici";
+$GLOBALS['strActivationDateComment'] = "La campanya començarà al final d'aquest dia";
+$GLOBALS['strImpressionsRemaining'] = "Impressions restants";
+$GLOBALS['strClicksRemaining'] = "Clics restants";
+$GLOBALS['strConversionsRemaining'] = "Conversions restants";
+$GLOBALS['strImpressionsBooked'] = "Impressions contractades";
+$GLOBALS['strClicksBooked'] = "Clics contractats";
+$GLOBALS['strConversionsBooked'] = "Conversions contractades";
+$GLOBALS['strCampaignWeight'] = "Defineix el pes de la campanya";
 $GLOBALS['strTargetPerDay'] = "per dia.";
 $GLOBALS['strCampaignStatusPending'] = "Pendent";
 $GLOBALS['strCampaignStatusInactive'] = "Inactiva";
@@ -275,7 +322,12 @@ $GLOBALS['strCampaignStatusDeleted'] = "Eliminada";
 $GLOBALS['strCampaignType'] = "Tipus de campanya";
 $GLOBALS['strType'] = "Tipus";
 $GLOBALS['strContract'] = "Contracte";
+$GLOBALS['strOverride'] = "Substitució";
+$GLOBALS['strOverrideInfo'] = "Les campanyes de substitució són un tipus de campanya especial per substituir (és a dir, tenir prioritat sobre) les campanyes romanents i de contracte. Les campanyes de substitució s'utilitzen generalment amb regles específiques d'orientació i/o límit per garantir que els bàners de la campanya es mostrin sempre a determinades ubicacions, a determinats usuaris, i potser un cert nombre de vegades, com a part d'una promoció específica. (Aquesta campanya anteriorment es coneixia com a \"Contracte (exclusiu)\".)";
 $GLOBALS['strStandardContract'] = "Contracte";
+$GLOBALS['strStandardContractInfo'] = "Les campanyes de contracte són per lliurar sense problemes les impressions necessàries per assolir un requisit de rendiment en un temps especificat. És a dir, les campanyes de Contracte són per quan un anunciant ha pagat específicament per tenir un nombre determinat d'impressions, clics i/o conversions aconseguits entre dues dates o per dia.";
+$GLOBALS['strRemnant'] = "Romanent";
+$GLOBALS['strRemnantInfo'] = "El tipus de campanya predeterminat. Les campanyes romanents tenen moltes opcions de lliurament diferents i, idealment, sempre hauríeu de tenir almenys una campanya romanent vinculada a cada zona, per garantir que sempre hi ha alguna cosa per mostrar. Utilitzeu les campanyes romanents per mostrar bàners propis, bàners de xarxa publicitària o fins i tot publicitat directa que s'ha venut, però on no hi ha un requisit de rendiment crític per la campanya.";
 $GLOBALS['strLimit'] = "Límit";
 $GLOBALS['strCookies'] = "Galetes";
 
@@ -296,11 +348,20 @@ $GLOBALS['strBannerToCampaign'] = "a la campanya";
 $GLOBALS['strShowBanner'] = "Mostra el bàner";
 $GLOBALS['strBannerProperties'] = "Propietats del bàner";
 $GLOBALS['strBannerHistory'] = "Estadístiques del bàner";
+$GLOBALS['strHideInactiveBanners'] = "Oculta els bàners inactius";
 
 // Banner Preferences
+$GLOBALS['strDefaultBannerDestination'] = "URL de destí per defecte";
 
 // Banner (Properties)
+$GLOBALS['strURL'] = "URL de destí (inclòs http://)";
+$GLOBALS['strKeyword'] = "Paraules clau";
+$GLOBALS['strTextBelow'] = "Text sota la imatge";
+$GLOBALS['strWeight'] = "Pes";
 $GLOBALS['strAlt'] = "Text alternatiu";
+$GLOBALS['strCampaignsWeight'] = "Pes de la campanya";
+$GLOBALS['strBannerWeight'] = "Pes del bàner";
+$GLOBALS['strBannersWeight'] = "Pes del bàner";
 
 // Banner (advanced)
 
@@ -326,7 +387,12 @@ if (!isset($GLOBALS['strCappingZone'])) {
 
 // Website
 $GLOBALS['strAffiliate'] = "Pàgina web";
+$GLOBALS['strAffiliates'] = "Llocs web";
+$GLOBALS['strAffiliatesAndZones'] = "Llocs web i zones";
 $GLOBALS['strAffiliateHistory'] = "Estadístiques de la pàgina web";
+$GLOBALS['strConfirmDeleteAffiliates'] = "Realment voleu esborrar els llocs web seleccionats?";
+$GLOBALS['strShowParentAffiliates'] = "Oculta llocs webs pare";
+$GLOBALS['strHideParentAffiliates'] = "Oculta llocs webs pare";
 
 // Website (properties)
 $GLOBALS['strWebsite'] = "Pàgina web";
@@ -335,22 +401,31 @@ $GLOBALS['strWebsite'] = "Pàgina web";
 $GLOBALS['strCountry'] = "País";
 
 // Website (properties - other information)
+$GLOBALS['strWebsiteZones'] = "Zones del lloc web";
 
 // Zone
 $GLOBALS['strZone'] = "Zona";
 $GLOBALS['strZones'] = "Zones";
 $GLOBALS['strAddNewZone'] = "Afegeix nova zona";
 $GLOBALS['strAddNewZone_Key'] = "Afegeix <u>n</u>ova zona";
+$GLOBALS['strLinkedZones'] = "Zones vinculades";
+$GLOBALS['strAvailableZones'] = "Zones disponibles";
+$GLOBALS['strZoneProperties'] = "Propietats de la zona";
 $GLOBALS['strPopup'] = "Finestra emergent";
+$GLOBALS['strBannerLinkedAds'] = "Bàners vinculats a la zona";
 
 
 // Advanced zone settings
+$GLOBALS['strAdvanced'] = "Avançat";
 $GLOBALS['strZoneAppendHTMLCode'] = "Codi HTML";
 
 // Zone probability
 
 // Linked banners/campaigns/trackers
+$GLOBALS['strLinkedBanners'] = "Vincula bàners individuals";
+$GLOBALS['strLinkedCategories'] = "Vincula bàners per categoria";
 $GLOBALS['strRawQueryString'] = "Paraula clau";
+$GLOBALS['strIncludedBanners'] = "Bàners vinculats";
 $GLOBALS['strSelectAdvertiser'] = "Selecciona anunciant";
 $GLOBALS['strSelectPlacement'] = "Selecciona campanya";
 $GLOBALS['strSelectAd'] = "Selecciona bàner";
@@ -376,15 +451,19 @@ $GLOBALS['strBreakdownByWeek'] = "Setmana";
 $GLOBALS['strBreakdownByMonth'] = "Mes";
 $GLOBALS['strBreakdownByDow'] = "Dia de la setmana";
 $GLOBALS['strBreakdownByHour'] = "Hora";
+$GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xporta estadístiques a Excel";
 
 // Expiration
 
 // Reports
+$GLOBALS['strAdvancedReports'] = "Informes avançats";
 $GLOBALS['strStartDate'] = "Data d'inici";
 $GLOBALS['strEndDate'] = "Data de fi";
 $GLOBALS['strPeriod'] = "Període";
 
 // Admin_UI_Fields
+$GLOBALS['strAllPublishers'] = "Tots els llocs web";
+$GLOBALS['strAnonPublishers'] = "Llocs webs anònims";
 
 // Userlog
 $GLOBALS['strAction'] = "Acció";
@@ -396,8 +475,10 @@ $GLOBALS['strNoMatchesFound'] = "No hi ha coincidències";
 $GLOBALS['strErrorOccurred'] = "Hi ha hagut un error";
 
 //Validation
+$GLOBALS['strRequiredFieldLegend'] = "camp obligatori";
 
 // Email
+$GLOBALS['strWeightIsNull'] = "el seu pes està marcat a zero";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritat";
@@ -435,6 +516,7 @@ $GLOBALS['strChooseSection'] = 'Escull secció';
 // Product Updates
 
 // Agency
+$GLOBALS['strHideInactiveAgencies'] = "Oculta els comptes inactius";
 $GLOBALS['strAgencyStatusRunning'] = "Actiu";
 $GLOBALS['strAgencyStatusInactive'] = "Inactiva";
 $GLOBALS['strAgencyStatusPaused'] = "Suspès";
@@ -463,6 +545,7 @@ $GLOBALS['strHas'] = "té";
 
 
 
+$GLOBALS['strWebsitesHaveBeenDeleted'] = "Tots els llocs webs seleccionats han estat esborrats";
 
 
 
