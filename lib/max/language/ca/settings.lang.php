@@ -94,7 +94,11 @@ $GLOBALS['strPrivacySettings'] = "Configuració de privacitat";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventari";
+$GLOBALS['strHideInactive'] = "Oculta items inactius de totes les pàgines";
 $GLOBALS['strStatisticsDefaults'] = "Estadístiques";
+$GLOBALS['strWeightDefaults'] = "Pes per defecte";
+$GLOBALS['strDefaultBannerWeight'] = "Pes per defecte del bàner";
+$GLOBALS['strDefaultCampaignWeight'] = "Pes per defecte de la campanya";
 
 // Invocation Settings
 
