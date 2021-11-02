@@ -80,21 +80,12 @@ class Admin_UI_Field
 
     // e.g. multisort($a, "'name'", true, 0, "'id'", false, 2));
     // This works like MYSQL 'ORDER BY id DESC, name ASC'
-    public function multiSort($array)
+    public function multiSort($array, ...$other)
     {
-        for ($i = 1; $i < func_num_args(); $i += 3) {
-            $key = func_get_arg($i);
-            if (is_string($key)) {
-                $key = '"' . $key . '"';
-            }
-            $order = true;
-            if ($i + 1 < func_num_args()) {
-                $order = func_get_arg($i + 1);
-            }
-            $type = 0;
-            if ($i + 2 < func_num_args()) {
-                $type = func_get_arg($i + 2);
-            }
+        while (!empty($other)) {
+            $key = array_shift($other);
+            $order = array_shift($other) ?? true;
+            $type = array_shift($other) ?? 0;
 
             $mult = $order ? 1 : -1;
 
