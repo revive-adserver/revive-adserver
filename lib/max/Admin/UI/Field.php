@@ -84,13 +84,12 @@ class Admin_UI_Field
     {
         for($i = 1; $i < func_num_args(); $i += 3) {
             $key = func_get_arg($i);
-            if (is_string($key)) {
-                $key = '"'.$key.'"';
-            }
+
             $order = true;
             if($i + 1 < func_num_args()) {
                 $order = func_get_arg($i + 1);
             }
+
             $type = 0;
             if($i + 2 < func_num_args()) {
                 $type = func_get_arg($i + 2);
