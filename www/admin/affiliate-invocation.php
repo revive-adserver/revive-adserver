@@ -32,6 +32,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     OA_Permission::enforceAllowed(OA_PERM_ZONE_INVOCATION);
 }
 
+phpAds_registerGlobalUnslashed('codetype');
 
 /*-------------------------------------------------------*/
 /* Store preferences									 */

@@ -162,6 +162,43 @@ class MAX_Admin_Invocation
     }
 
     /**
+     * Generate bannercode (invocation code for banner)
+     *
+     * @param object $invocationTag    If null the invocation tag is factory by OX_Component class,
+     *                                 else this object is used
+     * @param array  $aParams          Input parameters, if null globals will be fetched
+     *
+     * @return string    Generated invocation code
+     */
+    public function generateWebsiteInvocationCode(&$invocationTag, $aParams = null)
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        // register all the variables
+        $this->assignVariables($aParams);
+
+        if ($invocationTag === null) {
+            $invocationTag = OX_Component::factoryByComponentIdentifier($this->codetype);
+        }
+
+        if ($invocationTag === false) {
+            OA::debug('Error while factory invocationTag plugin ' . $this->codetype);
+            exit();
+        }
+
+        if (!$invocationTag instanceof \RV\Extension\InvocationTags\WebsiteInvocationInterface) {
+            OA::debug("{$this->codetype} is not a WebsiteInvocationInterface");
+            exit();
+        }
+
+        // pass global variables as object attributes
+        $invocationTag->setInvocation($this);
+
+        // generate invocation code
+        return $invocationTag->generateWebsiteInvocationCode();
+    }
+
+    /**
      * Generate tracker code
      *
      * @return string  Generated tracker code
@@ -303,7 +340,7 @@ class MAX_Admin_Invocation
             $buffer .= "</select>";
             $buffer .= "&nbsp;<input type='image' src='" . OX::assetPath() . "/images/" . $phpAds_TextDirection . "/go_blue.gif' border='0'></td>";
         } else {
-            $invocationTags = &OX_Component::getComponents('invocationTags');
+            $invocationTags = OX_Component::getComponents('invocationTags');
             foreach ($invocationTags as $invocationCode => $invocationTag) {
                 if (isset($invocationTag->defaultZone) && $extra['delivery'] == $invocationTag->defaultZone) {
                     $this->codetype = $invocationCode;

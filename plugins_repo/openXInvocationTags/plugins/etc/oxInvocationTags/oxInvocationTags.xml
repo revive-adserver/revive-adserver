@@ -4,14 +4,14 @@
 <plugin>
     <name>oxInvocationTags</name>
     <displayName>Invocation Tags Plugin</displayName>
-    <creationDate>2021-07-28</creationDate>
+    <creationDate>2021-10-19</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides invocation tags for displaying banners on websites.</description>
-    <version>1.6.1</version>
-    <oxversion>5.3.0-beta-rc1</oxversion>
+    <version>1.7.0</version>
+    <oxversion>5.4.0-beta-rc1</oxversion>
     <extends>invocationTags</extends>
 
     <install>
@@ -24,7 +24,6 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">async.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">local.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">popup.class.php</file>
-            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">spc.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">xmlrpc.class.php</file>
 
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">invocation.inc.php</file>
@@ -47,7 +46,6 @@
            <component><name>async</name></component>
            <component><name>local</name></component>
            <component><name>popup</name></component>
-           <component><name>spc</name></component>
            <component><name>xmlrpc</name></component>
         </components>
 

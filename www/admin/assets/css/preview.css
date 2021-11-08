@@ -139,13 +139,6 @@ html {
 	margin: 0 0 1em;
 }
 
-.invocationCodes .generated {
-	padding: 24px 60px;
-	text-align: right;
-	color: #666;
-}
-
-
 .invocationCodes button#closeWindow {
 	width: 150px;
 	height: 32px;
@@ -206,7 +199,12 @@ html {
 	background: url(../images/icon-affiliate.gif) left center no-repeat;
 	padding: 0 0 0 20px;
 }
+
 .inlineZone {
 	background: url(../images/icon-zone.gif) left center no-repeat;
 	padding: 0 0 0 20px;
+}
+
+.inlineZone.textZone {
+	background-image: url(../images/icon-textzone.gif);
 }

@@ -31,6 +31,8 @@ What's New in Revive Adserver 5.4.0
 
  * Added support for WEBP format in image and HTML5 banners. 
 
+ * Website invocation code generation now uses async tags.
+
 
  Bug Fixes
  ---------
@@ -43,6 +45,9 @@ What's New in Revive Adserver 5.4.0
 
  * XML-RPC API v1 is deprecated and might be removed in a future version.
    Please make sure v2 is used instead.
+
+ * Legacy SPC invocation code has been deprecated: delivery will still
+   function as usual, but the tags cannot be generated anymore.
 
 
 System Requirements

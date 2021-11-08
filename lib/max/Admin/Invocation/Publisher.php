@@ -59,10 +59,10 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
 
         $invocationTypes = OX_Component::getComponents('invocationTags');
         foreach ($invocationTypes as $pluginKey => $invocationType) {
-            if (!empty($invocationType->publisherPlugin)) {
+            if ($invocationType instanceof \RV\Extension\InvocationTags\WebsiteInvocationInterface) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;
                 $names[$pluginKey] = $invocationType->getName();
-                if (!empty($invocationType->default)) {
+                if (!empty($invocationType->isWebsiteDefault())) {
                     $defaultPublisherPlugin = $pluginKey;
                 }
             }
@@ -114,20 +114,10 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
             $code = $this->generateInvocationCode($invocationTag);
         }
 
-        $previewURL = MAX::constructURL(MAX_URL_ADMIN, "affiliate-preview.php?affiliateid={$affiliateid}&codetype={$codetype}");
-        foreach ($invocationTag->defaultOptionValues as $feature => $value) {
-            if ($invocationTag->maxInvocation->$feature != $value) {
-                $previewURL .= "&{$feature}=" . rawurlencode($invocationTag->maxInvocation->$feature);
-            }
-        }
-        foreach ($this->defaultOptionValues as $feature => $value) {
-            if ($this->$feature != $value) {
-                $previewURL .= "&{$feature}=" . rawurlencode($this->$feature);
-            }
-        }
+        $previewURL = MAX::constructURL(MAX_URL_ADMIN, 'affiliate-preview.php');
 
         echo "<form name='generate' action='" . $previewURL . "' method='get' target='_blank'>\n";
-        echo "<input type='hidden' name='codetype' value='" . $codetype . "' />";
+        echo "<input type='hidden' name='codetype' value='" . htmlspecialchars($codetype, ENT_QUOTES) . "' />";
 
         // Show parameters for the publisher invocation list
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
