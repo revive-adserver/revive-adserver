@@ -11,6 +11,7 @@
  */
 
 // Main strings
+$GLOBALS['strChooseSection'] = "Escull secció";
 
 // Maintenance
 
@@ -22,6 +23,7 @@
 
 
 // Priority
+$GLOBALS['strRecalculatePriority'] = "Recalcular la prioritat";
 
 // Banner cache
 $GLOBALS['strBannerCacheRebuildButton'] = "Reconstrueix";
@@ -51,8 +53,11 @@ $GLOBALS['strDownloadGZip'] = "Descarrega (.tar.gz)";
 
 
 
+$GLOBALS['strAndPlain'] = "i";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Regles d'entrega";
+$GLOBALS['strErrorsFound'] = "Errors trobats";
 
 //  Append codes
 

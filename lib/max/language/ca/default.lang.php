@@ -133,6 +133,8 @@ $GLOBALS['strWorkingAs'] = "Treballant com";
 $GLOBALS['strWorkingAs_Key'] = "<u>T</u>reballant com";
 $GLOBALS['strWorkingAs'] = "Treballant com";
 $GLOBALS['strSwitchTo'] = "Canvia a";
+$GLOBALS['strWorkingFor'] = "%s per...";
+$GLOBALS['strNoAccountWithXInNameFound'] = "No s'han trobat comptes amb \"%s\" al nom";
 $GLOBALS['strRecentlyUsed'] = "Usats recentment";
 $GLOBALS['strLinkUser'] = "Afegeix usuari/a";
 $GLOBALS['strLinkUser_Key'] = "Afegeix <u>u</u>suari";
@@ -148,6 +150,7 @@ $GLOBALS['strUserNotLinkedWithAccount'] = "Aquest usuari no està vinculat al co
 $GLOBALS['strLinkUserHelpUser'] = "nom d'usuari";
 $GLOBALS['strLinkUserHelpEmail'] = "adreça de correu";
 $GLOBALS['strLastLoggedIn'] = "Darrer inici de sessió";
+$GLOBALS['strDateLinked'] = "Data vinculada";
 
 // Login & Permissions
 $GLOBALS['strUserAccess'] = "Accés d'usuari";
@@ -156,6 +159,10 @@ $GLOBALS['strUserProperties'] = "Propietats d'usuari";
 $GLOBALS['strPermissions'] = "Permisos";
 $GLOBALS['strAuthentification'] = "Autenticació";
 $GLOBALS['strWelcomeTo'] = "Us donem la benvinguda a";
+$GLOBALS['strEnterUsername'] = "Introduïu el vostre nom d'usuari i contrasenya per entrar";
+$GLOBALS['strEnterBoth'] = "Si us plau introdueixi el seu nom d'usuari i contrasenya";
+$GLOBALS['strEnableCookies'] = "Has d'activar les cookies abans de poder usar {$PRODUCT_NAME}";
+$GLOBALS['strSessionIDNotMatch'] = "Sessió expirada. Si us plau inicieu la sessió de nou.";
 $GLOBALS['strLogin'] = "Inicia sessió";
 $GLOBALS['strLogout'] = "Tanca sessió";
 $GLOBALS['strUsername'] = "Nom d'usuari";
@@ -164,6 +171,7 @@ $GLOBALS['strPasswordRepeat'] = "Repeteix la contrasenya";
 $GLOBALS['strAccessDenied'] = "Accés denegat";
 $GLOBALS['strUsernameOrPasswordWrong'] = "El nom d'usuari i/o la contrasenya no són correctes. Torneu-ho a provar";
 $GLOBALS['strPasswordWrong'] = "La contrasenya no és correcta";
+$GLOBALS['strNotSamePasswords'] = "No coincideixen les contrasenyes.";
 $GLOBALS['strRepeatPassword'] = "Repetiu la contrasenya";
 $GLOBALS['strDeadLink'] = "L'enllaç no és vàlid.";
 
@@ -237,8 +245,10 @@ $GLOBALS['strClientsAndCampaigns'] = "Anunciants i campanyes";
 $GLOBALS['strAddClient'] = "Afegir anunciant";
 $GLOBALS['strClientProperties'] = "Propietats de l'anunciant";
 $GLOBALS['strClientHistory'] = "Estadístiques de l'anunciant";
+$GLOBALS['strNoClients'] = "No hi ha anunciants definits. Per crear una campanya, primer <a href='advertiser-edit.php'>afegiu un anunciant nou</a>.";
 $GLOBALS['strHideInactive'] = "Oculta els inactius";
 $GLOBALS['strInactiveAdvertisersHidden'] = "anunciant(s) inactiu(s) ocult(s)";
+$GLOBALS['strAdvertiserCampaigns'] = "Campanyes de l'anunciant";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "Contacte";
@@ -248,6 +258,10 @@ $GLOBALS['strEMail'] = "Correu electrònic";
 // Campaign
 $GLOBALS['strCampaign'] = "Campanya";
 $GLOBALS['strCampaigns'] = "Campanyes";
+$GLOBALS['strAddCampaign'] = "Afegir una nova campanya";
+$GLOBALS['strAddCampaign_Key'] = "Afegir una <u>n</u>ova campanya";
+$GLOBALS['strCampaignForAdvertiser'] = "per anunciant";
+$GLOBALS['strLinkedCampaigns'] = "Campanyes vinculades";
 $GLOBALS['strCampaignProperties'] = "Propietats de la campanya";
 $GLOBALS['strCampaignOverview'] = "Visió general de la campanya";
 $GLOBALS['strCampaignHistory'] = "Estadístiques de la campanya";
@@ -328,15 +342,25 @@ $GLOBALS['strStandardContract'] = "Contracte";
 $GLOBALS['strStandardContractInfo'] = "Les campanyes de contracte són per lliurar sense problemes les impressions necessàries per assolir un requisit de rendiment en un temps especificat. És a dir, les campanyes de Contracte són per quan un anunciant ha pagat específicament per tenir un nombre determinat d'impressions, clics i/o conversions aconseguits entre dues dates o per dia.";
 $GLOBALS['strRemnant'] = "Romanent";
 $GLOBALS['strRemnantInfo'] = "El tipus de campanya predeterminat. Les campanyes romanents tenen moltes opcions de lliurament diferents i, idealment, sempre hauríeu de tenir almenys una campanya romanent vinculada a cada zona, per garantir que sempre hi ha alguna cosa per mostrar. Utilitzeu les campanyes romanents per mostrar bàners propis, bàners de xarxa publicitària o fins i tot publicitat directa que s'ha venut, però on no hi ha un requisit de rendiment crític per la campanya.";
+$GLOBALS['strSelectPricingModel'] = "-- seleccioneu model --";
 $GLOBALS['strLimit'] = "Límit";
+$GLOBALS['strWhyDisabled'] = "perquè està desactivat?";
+$GLOBALS['strBackToCampaigns'] = "Tornar a la llista de campanyes";
+$GLOBALS['strCampaignBanners'] = "Bàners de la campanya";
 $GLOBALS['strCookies'] = "Galetes";
 
 // Tracker
+$GLOBALS['strTrackerForAdvertiser'] = "per anunciant";
+$GLOBALS['strDefaultStatus'] = "Estat per defecte";
 $GLOBALS['strStatus'] = "Estat";
+$GLOBALS['strConversionWindow'] = "Finestra de conversió";
+$GLOBALS['strUniqueWindow'] = "Finestra única";
 $GLOBALS['strClick'] = "Clic";
 $GLOBALS['strView'] = "Vista";
+$GLOBALS['strArrival'] = "Arribada";
 $GLOBALS['strManual'] = "Manual";
 $GLOBALS['strImpression'] = "Impressió";
+$GLOBALS['strConversionType'] = "Tipus de conversió";
 $GLOBALS['strIPAddress'] = "Adreça IP";
 
 // Banners (General)
@@ -348,34 +372,74 @@ $GLOBALS['strBannerToCampaign'] = "a la campanya";
 $GLOBALS['strShowBanner'] = "Mostra el bàner";
 $GLOBALS['strBannerProperties'] = "Propietats del bàner";
 $GLOBALS['strBannerHistory'] = "Estadístiques del bàner";
+$GLOBALS['strNoBannersAddAdvertiser'] = "Actualment no hi ha bàners definits, perquè no hi ha anunciants. Per crear un bàner, primer <a href='advertiser-edit.php'>afegiu un anunciant nou</a>.";
+$GLOBALS['strShowParentCampaigns'] = "Mostra les campanyes pare";
+$GLOBALS['strHideParentCampaigns'] = "Oculta les campanyes pare";
 $GLOBALS['strHideInactiveBanners'] = "Oculta els bàners inactius";
+$GLOBALS['strInactiveBannersHidden'] = "bàners inactius ocults";
+$GLOBALS['strSubmitAnyway'] = "Envia igualment";
+$GLOBALS['strBannersOfCampaign'] = "de la"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
 
 // Banner Preferences
+$GLOBALS['strBannerPreferences'] = "Preferències de bàners";
+$GLOBALS['strCampaignPreferences'] = "Preferències de campanya";
+$GLOBALS['strDefaultBanners'] = "Bàners per defecte";
+$GLOBALS['strDefaultBannerUrl'] = "URL de defecte de l'imatge";
 $GLOBALS['strDefaultBannerDestination'] = "URL de destí per defecte";
+$GLOBALS['strAllowedBannerTypes'] = "Tipus de bàner permesos";
+$GLOBALS['strTypeUrlAllow'] = "Permet bàners externs";
+$GLOBALS['strTypeHtmlAllow'] = "Permet bàners d'HTML";
+$GLOBALS['strTypeTxtAllow'] = "Permet els anuncis de text";
 
 // Banner (Properties)
+$GLOBALS['strURLBanner'] = "Vincula un bàner extern";
+$GLOBALS['strHTMLBanner'] = "Crea un bàner d'HTML";
+$GLOBALS['strTextBanner'] = "Crea un bàner de text";
+$GLOBALS['strNewBannerURL'] = "URL d'imatge (inclòs http://)";
 $GLOBALS['strURL'] = "URL de destí (inclòs http://)";
 $GLOBALS['strKeyword'] = "Paraules clau";
 $GLOBALS['strTextBelow'] = "Text sota la imatge";
 $GLOBALS['strWeight'] = "Pes";
 $GLOBALS['strAlt'] = "Text alternatiu";
+$GLOBALS['strStatusText'] = "Text d'estat:";
 $GLOBALS['strCampaignsWeight'] = "Pes de la campanya";
 $GLOBALS['strBannerWeight'] = "Pes del bàner";
 $GLOBALS['strBannersWeight'] = "Pes del bàner";
+$GLOBALS['strAdserverTypeGeneric'] = "Bàner d'HTML genèric";
+$GLOBALS['strGenericOutputAdServer'] = "Genèric";
+$GLOBALS['strBackToBanners'] = "Torna a bàners";
 
 // Banner (advanced)
 
 // Display Delviery Rules
+$GLOBALS['strEqualTo'] = "és igual a";
+$GLOBALS['strDifferentFrom'] = "és diferent de";
+$GLOBALS['strLaterThan'] = "és més tard que";
+$GLOBALS['strLaterThanOrEqual'] = "és igual o més tard que";
+$GLOBALS['strEarlierThan'] = "és abans que";
+$GLOBALS['strEarlierThanOrEqual'] = "és abans o igual a";
+$GLOBALS['strContains'] = "conté";
+$GLOBALS['strLessThan'] = "és menor que";
+$GLOBALS['strGreaterOrEqualTo'] = "és major o igual a";
+$GLOBALS['strLessOrEqualTo'] = "és menor o igual a";
+$GLOBALS['strAND'] = "I";                          // logical operator
+$GLOBALS['strOR'] = "O";                         // logical operator
+$GLOBALS['strOnlyDisplayWhen'] = "Mostrar aquest bàner només quan:";
+$GLOBALS['strWeekDays'] = "Dies de la setmana";
+$GLOBALS['strTime'] = "Hora";
 $GLOBALS['strDomain'] = "Domini";
 $GLOBALS['strSource'] = "Font";
 $GLOBALS['strBrowser'] = "Navegador";
 $GLOBALS['strOS'] = "SO";
+$GLOBALS['strDeliveryLimitations'] = "Regles d'entrega";
 
 $GLOBALS['strDeliveryCappingTotal'] = "en total";
+$GLOBALS['strDeliveryCappingSession'] = "per sessió";
 
 if (!isset($GLOBALS['strCappingBanner'])) {
     $GLOBALS['strCappingBanner'] = [];
 }
+$GLOBALS['strCappingBanner']['limit'] = "Limita les vistes del bàner a:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
     $GLOBALS['strCappingCampaign'] = [];
@@ -389,15 +453,21 @@ if (!isset($GLOBALS['strCappingZone'])) {
 $GLOBALS['strAffiliate'] = "Pàgina web";
 $GLOBALS['strAffiliates'] = "Llocs web";
 $GLOBALS['strAffiliatesAndZones'] = "Llocs web i zones";
+$GLOBALS['strAddNewAffiliate'] = "Afegeix nou lloc web";
+$GLOBALS['strAffiliateProperties'] = "Propietats del lloc web";
 $GLOBALS['strAffiliateHistory'] = "Estadístiques de la pàgina web";
+$GLOBALS['strConfirmDeleteAffiliate'] = "Realment voleu esborrar aquest lloc web?";
 $GLOBALS['strConfirmDeleteAffiliates'] = "Realment voleu esborrar els llocs web seleccionats?";
 $GLOBALS['strShowParentAffiliates'] = "Oculta llocs webs pare";
 $GLOBALS['strHideParentAffiliates'] = "Oculta llocs webs pare";
 
 // Website (properties)
 $GLOBALS['strWebsite'] = "Pàgina web";
+$GLOBALS['strWebsiteURL'] = "URL del lloc web";
+$GLOBALS['strAllowAffiliateModifyZones'] = "Permet a l'usuari modificar les seves pròpies zones";
 
 // Website (properties - payment information)
+$GLOBALS['strPostcode'] = "Codi postal";
 $GLOBALS['strCountry'] = "País";
 
 // Website (properties - other information)
@@ -408,11 +478,16 @@ $GLOBALS['strZone'] = "Zona";
 $GLOBALS['strZones'] = "Zones";
 $GLOBALS['strAddNewZone'] = "Afegeix nova zona";
 $GLOBALS['strAddNewZone_Key'] = "Afegeix <u>n</u>ova zona";
+$GLOBALS['strZoneToWebsite'] = "al lloc web";
 $GLOBALS['strLinkedZones'] = "Zones vinculades";
 $GLOBALS['strAvailableZones'] = "Zones disponibles";
 $GLOBALS['strZoneProperties'] = "Propietats de la zona";
+$GLOBALS['strZoneHistory'] = "Història de la zona";
+$GLOBALS['strZoneType'] = "Tipus de zona";
 $GLOBALS['strPopup'] = "Finestra emergent";
+$GLOBALS['strTextAdZone'] = "Anunci de text";
 $GLOBALS['strBannerLinkedAds'] = "Bàners vinculats a la zona";
+$GLOBALS['strZonesOfWebsite'] = 'de la'; //this is added between page name and website name eg. 'Zones in www.example.com'
 
 
 // Advanced zone settings
@@ -460,15 +535,24 @@ $GLOBALS['strAdvancedReports'] = "Informes avançats";
 $GLOBALS['strStartDate'] = "Data d'inici";
 $GLOBALS['strEndDate'] = "Data de fi";
 $GLOBALS['strPeriod'] = "Període";
+$GLOBALS['strLimitations'] = "Regles d'entrega";
 
 // Admin_UI_Fields
+$GLOBALS['strAllAdvertisers'] = "Tots els anunciants";
 $GLOBALS['strAllPublishers'] = "Tots els llocs web";
 $GLOBALS['strAnonPublishers'] = "Llocs webs anònims";
+$GLOBALS['strAllAvailZones'] = "Totes les zones disponibles";
 
 // Userlog
 $GLOBALS['strAction'] = "Acció";
 
 // Code generation
+$GLOBALS['strGenerate'] = "Generar";
+$GLOBALS['strParameters'] = "Preferències d'etiqueta";
+$GLOBALS['strFrameSize'] = "Mida del marc";
+$GLOBALS['strBannercode'] = "Codi del bàner";
+$GLOBALS['strCharset'] = "Joc de caràcters";
+$GLOBALS['strAutoDetect'] = "Autodetectar";
 
 // Errors
 $GLOBALS['strNoMatchesFound'] = "No hi ha coincidències";
@@ -476,9 +560,13 @@ $GLOBALS['strErrorOccurred'] = "Hi ha hagut un error";
 
 //Validation
 $GLOBALS['strRequiredFieldLegend'] = "camp obligatori";
+$GLOBALS['strInvalidWebsiteURL'] = "URL del lloc web invàlida";
 
 // Email
+$GLOBALS['strSirMadam'] = "Sr/Sra";
+$GLOBALS['strMailHeader'] = "Benvolgut {contact},";
 $GLOBALS['strWeightIsNull'] = "el seu pes està marcat a zero";
+$GLOBALS['strYourCampaign'] = "La vostra campanya";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritat";
@@ -514,27 +602,50 @@ $GLOBALS['strPlugins'] = "Extensions";
 $GLOBALS['strChooseSection'] = 'Escull secció';
 
 // Product Updates
+$GLOBALS['strFromVersion'] = "De la versió";
+$GLOBALS['strToVersion'] = "a la versió";
 
 // Agency
+$GLOBALS['strAgency'] = "Compte";
+$GLOBALS['strAddAgency'] = "Afegeix un compte nou";
+$GLOBALS['strAddAgency_Key'] = "Afegeix un <u>n</u>ou compte";
+$GLOBALS['strTotalAgencies'] = "Comptes totals";
+$GLOBALS['strAgencyProperties'] = "Propietats del compte";
+$GLOBALS['strConfirmDeleteAgency'] = "Realment voleu esborrar aquest compte?";
 $GLOBALS['strHideInactiveAgencies'] = "Oculta els comptes inactius";
 $GLOBALS['strAgencyStatusRunning'] = "Actiu";
 $GLOBALS['strAgencyStatusInactive'] = "Inactiva";
 $GLOBALS['strAgencyStatusPaused'] = "Suspès";
 
 // Channels
+$GLOBALS['strChannelToWebsite'] = "al lloc web";
+$GLOBALS['strChannelLimitations'] = "Opcions d'entrega";
+$GLOBALS['strChannelsOfWebsite'] = 'de la'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "Descripció";
+$GLOBALS['strGeneric'] = "Genèric";
+$GLOBALS['strAddVariable'] = "Afegeix variable";
 
 // Password recovery
+$GLOBALS['strEmailRequired'] = "El correu electrònic és un camp obligatori";
+$GLOBALS['strPwdRecWrongId'] = "ID incorrecte";
+$GLOBALS['strPwdRecEnterEmail'] = "Introduïu la vostra adreça de correu electrònic.";
+$GLOBALS['strPwdRecEnterPassword'] = "Introduïu la nova contrasenya";
+$GLOBALS['strProceed'] = "Continuar >";
 
+$GLOBALS['strPwdRecEmailSincerely'] = "Atentament,";
 
 // Audit
+$GLOBALS['strAuditSystem'] = "Sistema";
+$GLOBALS['strFor'] = "per a";
 $GLOBALS['strHas'] = "té";
+$GLOBALS['strBinaryData'] = "Dades binàries";
 
 // Widget - Audit
 
 // Widget - Campaign
+$GLOBALS['strCampaignGoTo'] = "Vés a la pàgina de campanyes";
 
 
 

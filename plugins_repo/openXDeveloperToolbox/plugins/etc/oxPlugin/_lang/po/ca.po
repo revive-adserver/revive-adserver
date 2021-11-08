@@ -17,7 +17,7 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
 msgid "myPlugin"
-msgstr ""
+msgstr "elMeuConnector"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
 msgid "My New Plugin"
@@ -82,7 +82,7 @@ msgstr "Té esquema"
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:106
 #, php-format
 msgid "Extends %s"
-msgstr ""
+msgstr "Estén %s"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
 msgid "Submit"
