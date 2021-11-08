@@ -919,7 +919,7 @@ if (!OA_Dal_Delivery_isValidResult($rDefaultBannerInfo)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 if (OA_Dal_Delivery_numRows($rDefaultBannerInfo) == 0) {
-if ($aConf['defaultBanner']['imageUrl'] != '') {
+if (!empty($aConf['defaultBanner']['imageUrl'])) {
 $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
 }
 return $aZoneInfo;
@@ -3233,7 +3233,7 @@ MAX_commonRegisterGlobalsArray(['filename', 'contenttype']);
 if (!empty($filename)) {
 $aCreative = MAX_cacheGetCreative($filename);
 if (empty($aCreative) || !isset($aCreative['contents'])) {
-if ($conf['defaultBanner']['imageUrl'] != "") {
+if (!empty($conf['defaultBanner']['imageUrl'])) {
 MAX_redirect($conf['defaultBanner']['imageUrl']);
 } else {
 MAX_commonDisplay1x1();
@@ -3242,7 +3242,7 @@ MAX_commonDisplay1x1();
 MAX_imageServe($aCreative, $filename, $contenttype);
 }
 } else {
-if ($conf['defaultBanner']['imageUrl'] != "") {
+if (!empty($conf['defaultBanner']['imageUrl'])) {
 MAX_redirect($conf['defaultBanner']['imageUrl']);
 } else {
 MAX_commonDisplay1x1();

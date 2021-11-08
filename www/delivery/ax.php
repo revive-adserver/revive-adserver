@@ -919,7 +919,7 @@ if (!OA_Dal_Delivery_isValidResult($rDefaultBannerInfo)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 if (OA_Dal_Delivery_numRows($rDefaultBannerInfo) == 0) {
-if ($aConf['defaultBanner']['imageUrl'] != '') {
+if (!empty($aConf['defaultBanner']['imageUrl'])) {
 $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
 }
 return $aZoneInfo;
