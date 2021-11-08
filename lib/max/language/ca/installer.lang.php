@@ -20,7 +20,10 @@
 $GLOBALS['strError'] = "Error";
 $GLOBALS['strWarning'] = "Advertència";
 $GLOBALS['strOK'] = "D'acord";
+$GLOBALS['strSyscheckValue'] = "Valor actual";
 $GLOBALS['strSyscheckStatus'] = "Estat";
+$GLOBALS['strBrowserCookies'] = 'Cookies de navegador';
+$GLOBALS['strPHPConfiguration'] = 'Configuració PHP';
 $GLOBALS['strCheckError'] = 'error';
 $GLOBALS['strCheckErrors'] = 'errors';
 $GLOBALS['strCheckWarning'] = 'advertència';
@@ -42,6 +45,7 @@ $GLOBALS['strPreviousInstallTitle'] = "Instal·lació anterior";
 
 /** jobs step * */
 
+$GLOBALS['strPostInstallTaskRunning'] = "Tasca en execució";
 
 /** finish step * */
 

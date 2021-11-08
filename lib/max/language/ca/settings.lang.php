@@ -26,6 +26,8 @@ $GLOBALS['strTablesType'] = "Tipus de taula";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "El vostre intent d’actualització anterior ha detectat un error";
 
+$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} està al dia";
+$GLOBALS['strDirNotWriteableError'] = "El directori ha de tenir permisos d'escriptura";
 
 
 
@@ -80,6 +82,7 @@ $GLOBALS['strProductionSystem'] = "Sistema de producció";
 
 // Delivery Settings
 $GLOBALS['strImageStore'] = "Carpeta d'imatges";
+$GLOBALS['strTypeWebMode'] = "Mètode d'emmagatzematge";
 $GLOBALS['strTypeWebModeLocal'] = "Directori local";
 $GLOBALS['strTypeWebModeFtp'] = "Servidor FTP extern";
 $GLOBALS['strTypeWebDir'] = "Directori local";
@@ -96,6 +99,7 @@ $GLOBALS['strPrivacySettings'] = "Configuració de privacitat";
 $GLOBALS['strInventory'] = "Inventari";
 $GLOBALS['strHideInactive'] = "Oculta items inactius de totes les pàgines";
 $GLOBALS['strStatisticsDefaults'] = "Estadístiques";
+$GLOBALS['strBeginOfWeek'] = "Inici de setmana";
 $GLOBALS['strWeightDefaults'] = "Pes per defecte";
 $GLOBALS['strDefaultBannerWeight'] = "Pes per defecte del bàner";
 $GLOBALS['strDefaultCampaignWeight'] = "Pes per defecte de la campanya";
@@ -120,7 +124,9 @@ $GLOBALS['strGeneralSettings'] = "Configuració General";
 $GLOBALS['strAppName'] = "Nom de l'aplicació";
 $GLOBALS['strSSLSettings'] = "Configuració SSL";
 $GLOBALS['strDashboardSettings'] = "Configuració del panell";
+$GLOBALS['strGuiActiveTabColor'] = "Color de la pestanya activa";
 
 // Regenerate Platfor Hash script
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "Configuració del plugin";

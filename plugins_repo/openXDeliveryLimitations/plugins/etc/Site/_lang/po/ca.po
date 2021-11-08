@@ -16,7 +16,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
 msgid "Enter domains below to remove matching entries from the list"
-msgstr ""
+msgstr "Introdueix dominis per eliminar-los de la llista"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:79
 msgid "Remove Domains"

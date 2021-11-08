@@ -15,8 +15,11 @@ $GLOBALS['strCopyToClipboard'] = "Copia al porta-retalls";
 $GLOBALS['strCopy'] = "copia";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "px";
+$GLOBALS['strAbbrSeconds'] = "seg";
 
 // Common Invocation Parameters
+$GLOBALS['strInvocationWhat'] = "Selecció  de bàner";
 $GLOBALS['strInvocationCampaignID'] = "Campanya";
 $GLOBALS['strInvocationTarget'] = "Marc de destinació";
 $GLOBALS['strInvocationSource'] = "Font";
@@ -27,10 +30,15 @@ $GLOBALS['strInvocationBannerID'] = "ID del bàner";
 $GLOBALS['strInvocationComments'] = "Inclou els comentaris";
 
 // Iframe
+$GLOBALS['strIFrameRefreshAfter'] = "Refresca cada";
+$GLOBALS['strIframeMakeTransparent'] = "Fes l'iframe transparent";
 
 // PopUp
+$GLOBALS['strPopUpStylePopUp'] = "Finestra emergent";
 $GLOBALS['strPopUpImmediately'] = "Immediatament";
+$GLOBALS['strPopUpOnClose'] = "Quan es tanqui la pàgina";
 $GLOBALS['strPopUpAfterSec'] = "Després de";
+$GLOBALS['strAutoCloseAfter'] = "Tancar automàticament després de";
 $GLOBALS['strPopUpTop'] = "Posició inicial (dalt)";
 $GLOBALS['strPopUpLeft'] = "Posició inicial (esquerra)";
 $GLOBALS['strWindowOptions'] = "Opcions de finestra";
