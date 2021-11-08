@@ -66,7 +66,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'bool' => true
         ],
         'delivery_clickUrlValidity' => ['delivery' => 'clickUrlValidity'],
-        'defaultBanner_imageUrl' => ['defaultBanner' => 'imageUrl'],
         'defaultBanner_invalidZoneHtmlBanner' => ['defaultBanner' => 'invalidZoneHtmlBanner'],
         'defaultBanner_suspendedAccountHtmlBanner' => ['defaultBanner' => 'suspendedAccountHtmlBanner'],
         'defaultBanner_inactiveAccountHtmlBanner' => ['defaultBanner' => 'inactiveAccountHtmlBanner'],
@@ -260,15 +259,6 @@ $aSettings = [
                 'name' => 'delivery_clickUrlValidity',
                 'text' => $strDeliveryClickUrlValidity,
                 'check' => 'wholeNumber',
-            ],
-            [
-                'type' => 'break'
-            ],
-            [
-                'type' => 'text',
-                'name' => 'defaultBanner_imageUrl',
-                'text' => $strGlobalDefaultBannerUrl,
-                'check' => 'url'
             ],
             [
                 'type' => 'break'

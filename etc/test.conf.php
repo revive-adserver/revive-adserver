@@ -150,8 +150,6 @@ secret                              = secret
 clickUrlValidity                    = 0;    ; Click URL open redirect validity in seconds
 
 [defaultBanner]
-imageUrl                            =       ; If banner was deleted and ai.php script
-                                            ; is called use this imageUrl
 invalidZoneHtmlBanner               =       ; If zone does not exist, show this HTML snipper
 suspendedAccountHtmlBanner          =       ; If account is suspended, show this HTML snippet
 inactiveAccountHtmlBanner           =       ; If account is inactive, show this HTML snippet

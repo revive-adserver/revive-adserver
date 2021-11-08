@@ -192,7 +192,6 @@ $GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery rules during delivery";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery rules for direct selected ads";
 $GLOBALS['strDeliveryObfuscate'] = "Obfuscate delivery rule set when delivering ads";
 $GLOBALS['strDeliveryClickUrlValidity'] = "Validity of custom destination URL redirects in {clickurl} macros (seconds). Enter 0 to disallow redirects";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "Global default Banner Image URL";
 $GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Global default HTML Banner for non-existing zones";
 $GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "Global default HTML Banner for suspended accounts";
 $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Global default HTML Banner for inactive accounts";

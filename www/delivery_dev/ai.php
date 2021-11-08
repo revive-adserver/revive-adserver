@@ -26,7 +26,7 @@ if (!empty($filename)) {
     if (empty($aCreative) || !isset($aCreative['contents'])) {
         // Filename not found, show the admin user's default banner
         // (as the agency cannot be determined from a filename)
-        if ($conf['defaultBanner']['imageUrl'] != "") {
+        if (!empty($conf['defaultBanner']['imageUrl'])) {
             MAX_redirect($conf['defaultBanner']['imageUrl']);
         } else {
             MAX_commonDisplay1x1();
@@ -38,7 +38,7 @@ if (!empty($filename)) {
 } else {
     // Filename not specified, show the admin user's default banner
     // (as the agency cannot be determined from a filename)
-    if ($conf['defaultBanner']['imageUrl'] != "") {
+    if (!empty($conf['defaultBanner']['imageUrl'])) {
         MAX_redirect($conf['defaultBanner']['imageUrl']);
     } else {
         MAX_commonDisplay1x1();

@@ -49,6 +49,11 @@ What's New in Revive Adserver 5.4.0
  * Legacy SPC invocation code has been deprecated: delivery will still
    function as usual, but the tags cannot be generated anymore.
 
+ * Default banner image URL configuration has been deprecated, since it
+   interferes with blank impressions. It is still working if already set, but
+   it not displayed anymore in the settings UI and will be removed in a
+   future release.
+
 
 System Requirements
 -------------------
