@@ -190,7 +190,6 @@ $GLOBALS['strDeliveryAcls'] = "Evalueer uitleveringsregels van banners tijdens u
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evalueer uitleveringsregels voor banners voor direct geselecteerde banners";
 $GLOBALS['strDeliveryObfuscate'] = "Verberg verzameling uitleveringsregels bij het aflevering van banners";
 $GLOBALS['strDeliveryClickUrlValidity'] = "Geldigheid van aangepaste bestemming URL-doorverwijzingen in {clickurl} macro's (seconden). Voer 0 in om doorverwijzingen niet toe te staan";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "Algemene standaard banner afbeeldings-URL";
 $GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Algemene standaard HTML Banner voor niet-bestaande zones";
 $GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "Algemene standaard HTML Banner voor opgeschorte accounts";
 $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Globale standaard HTML Banner voor niet-actieve accounts";
