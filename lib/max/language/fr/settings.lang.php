@@ -161,7 +161,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Contrôleur frontal";
 $GLOBALS['strDeliveryCaching'] = "Paramètres du cache de distribution des bannières";
 $GLOBALS['strDeliveryCacheLimit'] = "Temps entre les mises à jour du cache des bannières (secondes)";
 $GLOBALS['strDeliveryCacheStore'] = "Type de stockage du cache de distribution des bannières";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "URL de l'image de la bannière par défaut générale";
 $GLOBALS['strP3PSettings'] = "Politique de vie privée P3P";
 $GLOBALS['strUseP3P'] = "Utiliser les politiques P3P";
 $GLOBALS['strP3PCompactPolicy'] = "Politique P3P réduite";

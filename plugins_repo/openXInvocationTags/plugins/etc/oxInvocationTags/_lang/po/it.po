@@ -18,7 +18,7 @@ msgstr ""
 msgid "iFrame Tag"
 msgstr "Tag iFrame"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:36
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:48
 msgid "Asynchronous JS Tag"
 msgstr ""
 
@@ -186,20 +186,6 @@ msgstr "Tag Immagine"
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
 msgid "Local Mode Tag"
 msgstr "Tag Modalità locale"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
-msgid "Publisher code - Single Page Call"
-msgstr "Codice editore - Single Page Call"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:401
-msgid "Option - noscript"
-msgstr "Opzione - noscript"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:416
-msgid "Option - SSL"
-msgstr "Opzione - SSL"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
 msgid "Javascript Tag"

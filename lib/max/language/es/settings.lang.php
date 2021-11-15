@@ -134,7 +134,6 @@ $GLOBALS['strTypeFTPErrorNoSupport'] = "Su instalación de PHP no soporta FTP.";
 $GLOBALS['strTypeFTPErrorUpload'] = "No se pudo subir el archivo al Servidor FTP, verífique que el directorio en el servidor tiene los permisos correctos";
 $GLOBALS['strTypeFTPErrorHost'] = "El FTP Host no es correcto";
 $GLOBALS['strDeliveryFilenames'] = "Nombres de Archivo de Entrega";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "URL de la imagen del banner global por defecto";
 $GLOBALS['strP3PSettings'] = "Políticas de Privacidad P3P";
 $GLOBALS['strUseP3P'] = "Usar Politicas P3P";
 $GLOBALS['strP3PCompactPolicy'] = "Politica Compacta P3P";
