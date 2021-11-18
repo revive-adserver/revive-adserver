@@ -311,9 +311,16 @@
 
                                     ins.parentNode.replaceChild(newIns, ins);
                                 }
+
+                                this.dispatchEvent('loaded', {
+                                    "id": id,
+                                    "data": d
+                                });
                             }
                         }
                     }
+
+                    this.dispatchEvent('completed', data);
                 },
 
                 /**

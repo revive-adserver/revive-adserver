@@ -33,6 +33,11 @@ What's New in Revive Adserver 5.4.0
 
  * Website invocation code generation now uses async tags.
 
+ * Asynchronous tag now sends a custom "revive-<ID>-loaded" JS event when
+   loading each banner and a "revive-<ID>-completed" event when all the
+   positions on the page have been filled. This allows interaction and
+   customisation, e.g. dynamically adding a class to all image banners.
+
 
  Bug Fixes
  ---------
