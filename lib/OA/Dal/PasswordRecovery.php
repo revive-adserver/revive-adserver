@@ -41,6 +41,23 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         return $users;
     }
 
+    public function searchNewUsersById(int $userId): array
+    {
+        /** @var DataObjects_Users|false $doUser */
+        $doUser = OA_Dal::staticGetDO('users', $userId);
+
+        if (!$doUser) {
+            return [];
+        }
+
+        if ('' !== $doUser->password) {
+            // Not a new user
+            return [];
+        }
+
+        return [$doUser->toArray()];
+    }
+
     /**
      * Generate and save a recovery ID for a user
      *

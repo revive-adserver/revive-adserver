@@ -282,20 +282,6 @@ class Plugins_Authentication extends OX_Component
                 'freezed' => !empty($userData['user_id'])
             ];
         $userDetailsFields[] = [
-                'name' => 'passwd',
-                'label' => $GLOBALS['strPassword'],
-                'type' => 'password',
-                'value' => '',
-                'hidden' => !empty($userData['user_id'])
-            ];
-        $userDetailsFields[] = [
-                'name' => 'passwd2',
-                'label' => $GLOBALS['strPasswordRepeat'],
-                'type' => 'password',
-                'value' => '',
-                'hidden' => !empty($userData['user_id'])
-            ];
-        $userDetailsFields[] = [
                 'name' => 'contact_name',
                 'label' => $GLOBALS['strContactName'],
                 'value' => $userData['contact_name'],
@@ -404,7 +390,7 @@ class Plugins_Authentication extends OX_Component
         } else {
             $doUsers->default_account_id = $accountId;
             $doUsers->username = $login;
-            $doUsers->password = md5($password);
+            $doUsers->password = null === $password ? '' : md5($password);
             return $doUsers->insert();
         }
     }
@@ -550,8 +536,6 @@ class Plugins_Authentication extends OX_Component
     {
         if (empty($data['userid'])) {
             $this->validateUsersLogin($data['login']);
-            $this->validateUsersPasswords($data['passwd'], $data['passwd2']);
-            $this->validateUsersPassword($data['passwd']);
         }
         $this->validateUsersEmail($data['email_address']);
 

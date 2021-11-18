@@ -159,12 +159,13 @@ $GLOBALS['strUsernameToLink'] = "Username of user to add";
 $GLOBALS['strNewUserWillBeCreated'] = "New user will be created";
 $GLOBALS['strToLinkProvideEmail'] = "To add user, provide user's email";
 $GLOBALS['strToLinkProvideUsername'] = "To add user, provide username";
-$GLOBALS['strUserLinkedToAccount'] = "User has been added to account";
+$GLOBALS['strUserLinkedToAccount'] = "User has been added to the account";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "User has been added to the account. They will receive an email to set up their password.";
 $GLOBALS['strUserAccountUpdated'] = "User account updated";
-$GLOBALS['strUserUnlinkedFromAccount'] = "User has been removed from account";
+$GLOBALS['strUserUnlinkedFromAccount'] = "User has been removed from the account";
 $GLOBALS['strUserWasDeleted'] = "User has been deleted";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Such user is not linked with account";
-$GLOBALS['strCantDeleteOneAdminUser'] = "You can't delete a user. At least one user needs to be linked with admin account.";
+$GLOBALS['strCantDeleteOneAdminUser'] = "You can't delete this user. At least one user needs to be linked with admin account.";
 $GLOBALS['strLinkUserHelp'] = "To add an <b>existing user</b>, type the %1\$s and click %2\$s <br />To add a <b>new user</b>, type the desired %1\$s and click %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "username";
 $GLOBALS['strLinkUserHelpEmail'] = "email address";
@@ -1089,6 +1090,23 @@ for your {application_name} system, and notify them of the situation.
 
 {admin_signature}";
 $GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
+
+$GLOBALS['strWelcomeEmailSubject'] = "Welcome to %s: set up your password";
+$GLOBALS['strWelcomeEmailBody'] = "Dear {name},
+
+A username has been created for you, enabling you to log in on {application_name}.
+
+Your username is '{username}'.
+
+For security reasons, the password for your username has not been defined yet.
+
+To enter your password, please click the following link:
+
+{reset_link}
+
+Please make sure to enter a safe and unique password.
+
+{admin_signature}";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";

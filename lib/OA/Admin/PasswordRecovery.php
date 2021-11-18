@@ -108,7 +108,7 @@ class OA_Admin_PasswordRecovery
             if (empty($vars['email'])) {
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
             } else {
-                $sent = $this->sendRecoveryEmail($vars['email']);
+                $this->sendRecoveryEmail($vars['email']);
 
                 // Always pretend an email was sent, even if not to avoid information disclosure
                 $this->displayMessage($GLOBALS['strNotifyPageMessage']);
@@ -207,28 +207,65 @@ class OA_Admin_PasswordRecovery
     /**
      * Send the password recovery email
      *
-     * @todo Set email language according to the account preferences
-     *
      * @param string email address
      * @return int Number of emails sent
      */
-    public function sendRecoveryEmail($email)
+    public function sendRecoveryEmail(string $emailAddress): int
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $sent = 0;
-
         // Find all users matching the specified email address -
         // the email address may be associated with multiple users
-        $aUsers = $this->_dal->searchMatchingUsers($email);
+        $aUsers = $this->_dal->searchMatchingUsers($emailAddress);
+
+        $sent = $this->sendEmailToUsers(
+            $aUsers,
+            'strPwdRecEmailPwdRecovery',
+            'strPwdRecEmailBody'
+        );
+
+        return $sent;
+    }
+
+    /**
+     * Send the welcome email, only if the user hasn't set their password yet.
+     */
+    public function sendWelcomeEmail(int $userId): int
+    {
+        $aUsers = $this->_dal->searchNewUsersById($userId);
+
+        $sent = $this->sendEmailToUsers(
+            $aUsers,
+            'strWelcomeEmailSubject',
+            'strWelcomeEmailBody'
+        );
+
+        return $sent;
+    }
+
+    /**
+     * Private method to send the actual email(s)
+     *
+     * @todo Set email language according to the account preferences
+     *
+     * @param array $aUsers
+     * @param string $subjectVar The name of the global variable for the subject translation
+     * @param string $bodyVar The name of the global variable for the body translation
+     *
+     * @return int The number of e-mails that were sent
+     */
+    private function sendEmailToUsers(array $aUsers, string $subjectVar, string $bodyVar): int
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        if (empty($aUsers)) {
+            return 0;
+        }
 
         $applicationName = $aConf['ui']['applicationName'] ?: PRODUCT_NAME;
 
         // Send a separate password reset link in an email for each
         // of the users found that match the email address
+        $sent = 0;
         foreach ($aUsers as $u) {
-            // Generate the password reset email subject
-            $emailSubject = sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $applicationName);
-
             // Generate the password reset URL for this user
             $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
             $recoveryUrl = MAX::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recoveryId}");
@@ -236,11 +273,15 @@ class OA_Admin_PasswordRecovery
             // Load the appropriate language details for the email recipient
             Language_Loader::load('default', $u['language']);
 
+            // Generate the password reset email subject
+            $emailSubject = sprintf($GLOBALS[$subjectVar], $applicationName);
+
             // Generate the body of the password reset email for this user
-            $emailBody = $GLOBALS['strPwdRecEmailBody'];
+            $emailBody = $GLOBALS[$bodyVar];
             $emailBody = str_replace('{name}', $u['contact_name'], $emailBody);
             $emailBody = str_replace('{username}', $u['username'], $emailBody);
             $emailBody = str_replace('{reset_link}', $recoveryUrl, $emailBody);
+
             if (!empty($aConf['email']['fromName']) && !empty($aConf['email']['fromAddress'])) {
                 $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromName']}\n{$aConf['email']['fromAddress']}";
             } elseif (!empty($aConf['email']['fromName'])) {
@@ -250,12 +291,13 @@ class OA_Admin_PasswordRecovery
             } else {
                 $adminSignature = "";
             }
+
             $emailBody = str_replace('{admin_signature}', $adminSignature, $emailBody);
             $emailBody = str_replace('{application_name}', $applicationName, $emailBody);
 
             // Send the password reset email
             $oEmail = new OA_Email();
-            $oEmail->sendMail($emailSubject, $emailBody, $email, $u['username']);
+            $oEmail->sendMail($emailSubject, $emailBody, $u['email_address'], $u['username']);
 
             // Iterate the number of emails sent
             $sent++;

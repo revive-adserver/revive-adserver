@@ -38,6 +38,9 @@ What's New in Revive Adserver 5.4.0
    positions on the page have been filled. This allows interaction and
    customisation, e.g. dynamically adding a class to all image banners.
 
+ * Added welcome email for new users to prompt them to set up their own
+   password.
+
 
  Bug Fixes
  ---------
@@ -58,6 +61,9 @@ What's New in Revive Adserver 5.4.0
    interferes with blank impressions. It is still working if already set, but
    it not displayed anymore in the settings UI and will be removed in a
    future release.
+
+ * It is no longer possible to set the password when creating new users, and
+   a welcome email will be sent to them.
 
 
 System Requirements

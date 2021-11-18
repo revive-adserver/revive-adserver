@@ -11,6 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/OA/Session.php';
+require_once MAX_PATH . '/lib/OA/Admin/PasswordRecovery.php';
 
 /**
  * Common UserAccess related UI methods
@@ -32,10 +33,16 @@ class OA_Admin_UI_UserAccess
     public $redirectUrl;
     public $backUrl;
 
+    /** @var OA_Admin_PasswordRecovery */
+    private $oPasswordRecovery;
+
     public function init()
     {
         $this->initRequest();
+
         $this->oPlugin = OA_Auth::staticGetAuthPlugin();
+        $this->oPasswordRecovery = new OA_Admin_PasswordRecovery();
+
         if (empty($this->userid)) {
             $this->userid = $this->oPlugin->getMatchingUserId(
                 $this->request['email_address'],
@@ -49,8 +56,6 @@ class OA_Admin_UI_UserAccess
         $this->request = phpAds_registerGlobalUnslashed(
             'userid',
             'login',
-            'passwd',
-            'passwd2',
             'link',
             'contact_name',
             'email_address',
@@ -101,19 +106,25 @@ class OA_Admin_UI_UserAccess
                 $this->userid = $this->oPlugin->saveUser(
                     $this->userid,
                     $this->request['login'],
-                    $this->request['passwd'],
+                    null,
                     $this->request['contact_name'],
                     $this->request['email_address'],
                     $this->request['language'],
                     $this->accountId
                 );
+
                 if ($this->userid) {
-                    OA_Admin_UI_UserAccess::linkUserToAccount(
+                    self::linkUserToAccount(
                         $this->userid,
                         $this->accountId,
                         $this->aPermissions,
                         $this->aAllowedPermissions
                     );
+
+                    if ($this->oPasswordRecovery->sendWelcomeEmail($this->userid) > 0) {
+                        OA_Session::setMessage($GLOBALS['strUserLinkedAndWelcomeSent']);
+                    }
+
                     OX_Admin_Redirect::redirect($this->getRedirectUrl());
                 } else {
                     $this->aErrors = $this->oPlugin->getSignupErrors();

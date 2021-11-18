@@ -152,8 +152,7 @@ class Test_OA_Email extends UnitTestCase
         $aUser = $doUser->toArray();
 
         // Link the user to the account
-        $oUserAccess = new OA_Admin_UI_UserAccess();
-        $oUserAccess->linkUserToAccount($userId, $advertiserId, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userId, $advertiserId, [], []);
 
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
@@ -529,8 +528,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertFalse($doUserLog->fetch());
 
         // Link the user
-        $oUserAccess = new OA_Admin_UI_UserAccess();
-        $oUserAccess->linkUserToAccount($userId, $advertiserId, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userId, $advertiserId, [], []);
 
         // With no stats, no email should be sent
         $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
@@ -603,8 +601,7 @@ class Test_OA_Email extends UnitTestCase
         $userId2 = DataGenerator::generateOne($doUser);
 
         // Link the user and ensure that 2 emails are sent
-        $oUserAccess = new OA_Admin_UI_UserAccess();
-        $oUserAccess->linkUserToAccount($userId2, $advertiserId, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userId2, $advertiserId, [], []);
 
         $result = $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStartDate, $oEndDate);
         $this->assertEqual($result, 3);
@@ -723,10 +720,8 @@ class Test_OA_Email extends UnitTestCase
         $doAgencyUser = OA_Dal::staticGetDO('users', $agencyUserId);
         $aAgencyUser = $doAgencyUser->toArray();
 
-        $oUserAccess = new OA_Admin_UI_UserAccess();
-
         // Agency user
-        $oUserAccess->linkUserToAccount($agencyUserId, $doAgency->account_id, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($agencyUserId, $doAgency->account_id, [], []);
 
         // Generate an advertiser owned by the agency with no email adddress,
         // but no placements, and ensure false is returned
@@ -749,7 +744,7 @@ class Test_OA_Email extends UnitTestCase
         $aAdvertiserUser = $doAdvertiserUser->toArray();
 
         // Link the advertiser user
-        $oUserAccess->linkUserToAccount($userId, $doClients->account_id, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userId, $doClients->account_id, [], []);
 
         // Create a campaign
         $doPlacements = OA_Dal::factoryDO('campaigns');
@@ -888,7 +883,7 @@ class Test_OA_Email extends UnitTestCase
         $aAdvertiserUser2 = $doAdvertiserUser2->toArray();
 
         // Link the advertiser user
-        $oUserAccess->linkUserToAccount($advertiserUserId2, $doClients->account_id, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($advertiserUserId2, $doClients->account_id, [], []);
 
         // If the advertiser preference is off, then the advertiser should not be sent emails
         // even if the admin/manager preference is on
@@ -1376,10 +1371,8 @@ class Test_OA_Email extends UnitTestCase
         $doAgencyUser = OA_Dal::staticGetDO('users', $agencyUserId);
         $aAgencyUser = $doAgencyUser->toArray();
 
-        $oUserAccess = new OA_Admin_UI_UserAccess();
-
         // Agency user
-        $oUserAccess->linkUserToAccount($agencyUserId, $doAgency->account_id, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($agencyUserId, $doAgency->account_id, [], []);
 
         // Generate an advertiser owned by the agency
         $doClients = OA_Dal::factoryDO('clients');
@@ -1401,7 +1394,7 @@ class Test_OA_Email extends UnitTestCase
         $aAdvertiserUser = $doAdvertiserUser->toArray();
 
         // Link the advertiser user
-        $oUserAccess->linkUserToAccount($userId, $doClients->account_id, [], []);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userId, $doClients->account_id, [], []);
 
         // Create a campaign
         $doPlacements = OA_Dal::factoryDO('campaigns');
