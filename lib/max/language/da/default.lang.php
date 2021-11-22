@@ -115,9 +115,7 @@ $GLOBALS['strLinkUser_Key'] = "Link <u>b</u>ruger";
 $GLOBALS['strNewUserWillBeCreated'] = "Ny bruger vil blive oprettet";
 $GLOBALS['strToLinkProvideEmail'] = "For at tilføje brugere, angiv brugerens email";
 $GLOBALS['strToLinkProvideUsername'] = "For at tilføje bruger, angiv brugernavn";
-$GLOBALS['strUserLinkedToAccount'] = "Bruger er blevet tilføjet til konto";
 $GLOBALS['strUserAccountUpdated'] = "Bruger konto opdateret";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Bruger er fjernet fra konto";
 $GLOBALS['strUserWasDeleted'] = "Bruger er blevet slettet";
 $GLOBALS['strLinkUserHelpUser'] = "Brugernavn";
 $GLOBALS['strLinkUserHelpEmail'] = "Email adresse";
@@ -709,6 +707,7 @@ $GLOBALS['strPwdRecWrongId'] = "Forkert ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Skriv din email adresse nedefor";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv dit nye password nedenfor";
 $GLOBALS['strProceed'] = "Fortsæt >";
+
 
 
 // Audit

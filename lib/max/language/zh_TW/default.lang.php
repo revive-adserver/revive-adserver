@@ -111,9 +111,7 @@ $GLOBALS['strUsernameToLink'] = "將被添加用戶的姓名";
 $GLOBALS['strNewUserWillBeCreated'] = "將創建新用戶";
 $GLOBALS['strToLinkProvideEmail'] = "如想新增用戶,請提供用戶電子郵件";
 $GLOBALS['strToLinkProvideUsername'] = "如想新增用戶,請提供用戶名稱";
-$GLOBALS['strUserLinkedToAccount'] = "用戶已經被添加到賬號內";
 $GLOBALS['strUserAccountUpdated'] = "用戶賬號已經更新";
-$GLOBALS['strUserUnlinkedFromAccount'] = "用戶已經從賬號內被刪除";
 $GLOBALS['strUserWasDeleted'] = "用戶已經被刪除";
 $GLOBALS['strLinkUserHelpUser'] = "用戶名";
 $GLOBALS['strLinkUserHelpEmail'] = "電子郵件地址";
@@ -670,6 +668,7 @@ $GLOBALS['strPwdRecWrongId'] = "錯誤ID";
 $GLOBALS['strPwdRecEnterEmail'] = "請填入你的郵件地址";
 $GLOBALS['strPwdRecEnterPassword'] = "請填入新密碼";
 $GLOBALS['strProceed'] = "繼續>";
+
 
 
 // Audit

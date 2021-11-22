@@ -172,12 +172,9 @@ $GLOBALS['strNewUserWillBeCreated'] = "
 $GLOBALS['strToLinkProvideEmail'] = "برای اضافه کردن کاربر، ارائه ایمیل کاربر";
 $GLOBALS['strToLinkProvideUsername'] = "
 برای اضافه کردن کاربر، ارائه نام کاربری";
-$GLOBALS['strUserLinkedToAccount'] = "کاربر به حساب اضافه شده است";
 $GLOBALS['strUserAccountUpdated'] = "حساب کاربر به روز شد";
-$GLOBALS['strUserUnlinkedFromAccount'] = "کاربر از حساب کاربری حذف شد";
 $GLOBALS['strUserWasDeleted'] = "کاربر حذف شد";
 $GLOBALS['strUserNotLinkedWithAccount'] = "چنین کاربر با حساب مرتبط نیست";
-$GLOBALS['strCantDeleteOneAdminUser'] = "شما نمی توانید یک کاربر را حذف کنید. حداقل یک کاربر بایست با حساب کاربری مدیر در ارتباط باشد";
 $GLOBALS['strLinkUserHelp'] = "برای اضاقه کردن <b>کاربر موجود</b>, بنویسدe %1\$s و کلیک کنید %2\$s <br />باز اضافه کردن <b>کاربر جدید</b>, نوع مورد نظر را تایپ کنید %1\$s و کلیک کنید %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "نام کاربری";
 $GLOBALS['strLinkUserHelpEmail'] = "آدرس ایمیل";
@@ -1040,6 +1037,7 @@ $GLOBALS['strPwdRecWrongId'] = "آی دی اشتباه";
 $GLOBALS['strPwdRecEnterEmail'] = "در زیر ایمیل خود را وارد کنید";
 $GLOBALS['strPwdRecEnterPassword'] = "در زیر پسورد جدید خود را وارد کنید";
 $GLOBALS['strProceed'] = "ادامه >";
+
 
 
 // Audit

@@ -147,12 +147,9 @@ $GLOBALS['strUsernameToLink'] = "Eklenecek kullanıcının kullanıcı adı";
 $GLOBALS['strNewUserWillBeCreated'] = "Yeni kullanıcı oluşturulacak";
 $GLOBALS['strToLinkProvideEmail'] = "Kullanıcı eklemek için, kullanıcının mailini sağlayın";
 $GLOBALS['strToLinkProvideUsername'] = "Kullanıcı eklemek için, kullanıcı adı sağlayın";
-$GLOBALS['strUserLinkedToAccount'] = "Kullanıcı hesaba eklendi";
 $GLOBALS['strUserAccountUpdated'] = "Kullanıcı hesabı güncellendi";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Kullanıcı hesaptan kaldırıldı";
 $GLOBALS['strUserWasDeleted'] = "Kullanıcı silindi";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Bu kullanıcının ilişkili bir hesabı bulunmuyor.";
-$GLOBALS['strCantDeleteOneAdminUser'] = "En az bir Yönetici hesabı olması gerektiğinden kullanıcıyı silemezsiniz.";
 $GLOBALS['strLinkUserHelpUser'] = "Kullanıcı Adı";
 $GLOBALS['strLinkUserHelpEmail'] = "email adresi";
 $GLOBALS['strLastLoggedIn'] = "Son oturum açma";
@@ -920,6 +917,7 @@ $GLOBALS['strEmailRequired'] = "Eposta alanı gereklidir";
 $GLOBALS['strPwdRecWrongId'] = "Yanlış ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Eposta adresinizi girin";
 $GLOBALS['strPwdRecEnterPassword'] = "Yeni şifrenizi girin";
+
 
 
 // Audit

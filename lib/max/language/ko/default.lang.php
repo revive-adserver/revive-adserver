@@ -544,6 +544,7 @@ $GLOBALS['strVariableDataType'] = "데이터 형식";
 // Password recovery
 
 
+
 // Audit
 
 // Widget - Audit

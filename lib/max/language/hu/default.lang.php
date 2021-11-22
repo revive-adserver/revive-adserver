@@ -690,6 +690,7 @@ $GLOBALS['strForgotPassword'] = "Elfelejtette a jelszavát?";
 $GLOBALS['strPwdRecWrongId'] = "Hibás ID";
 
 
+
 // Audit
 
 // Widget - Audit

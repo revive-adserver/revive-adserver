@@ -109,12 +109,9 @@ $GLOBALS['strUsernameToLink'] = "Nama laluan pengguna yang perlu di tambah";
 $GLOBALS['strNewUserWillBeCreated'] = "Pengguna baru akan di buat";
 $GLOBALS['strToLinkProvideEmail'] = "Untuk menambahkan pengguna, sila berikan e-mel pengguna";
 $GLOBALS['strToLinkProvideUsername'] = "Untuk menambahkan pengguna, sila berikan nama laluan";
-$GLOBALS['strUserLinkedToAccount'] = "Pengguna telah ditambahkan kepada akaun";
 $GLOBALS['strUserAccountUpdated'] = "Akaun pengguna telah dikemaskinikan";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Pengguna telah dikeluarkan daripada akaun";
 $GLOBALS['strUserWasDeleted'] = "Pengguna telah dipadamkan";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Pengguna tersebut tidak dihubungkan dengan akaun";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Anda tidak boleh memadamkan pengguna. Sekurang-kurangnya satu pengguna perlu boleh dipautkan dengan akaun pentadbir.";
 $GLOBALS['strLinkUserHelpUser'] = "nama pengguna";
 $GLOBALS['strLinkUserHelpEmail'] = "alamat e-mel";
 $GLOBALS['strLastLoggedIn'] = "Log in terahir";
@@ -270,6 +267,7 @@ $GLOBALS['strAgencyStatusInactive'] = "Aktif";
 // Tracker Variables
 
 // Password recovery
+
 
 
 // Audit

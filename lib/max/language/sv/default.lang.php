@@ -146,9 +146,7 @@ $GLOBALS['strUsernameToLink'] = "Användarnamnet för användaren att lägga til
 $GLOBALS['strNewUserWillBeCreated'] = "Ny användare kommer att skapas";
 $GLOBALS['strToLinkProvideEmail'] = "För att lägga till användare, ange användares e-post";
 $GLOBALS['strToLinkProvideUsername'] = "För att lägga till användare, ange användarnamn";
-$GLOBALS['strUserLinkedToAccount'] = "Användare har lagts till konto";
 $GLOBALS['strUserAccountUpdated'] = "Konto uppdaterat";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Användaren har tagits bort från konto";
 $GLOBALS['strUserWasDeleted'] = "Användaren har tagits bort";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Sådan användare är inte kopplad till konto";
 $GLOBALS['strLinkUserHelpUser'] = "Användarnamn";
@@ -809,6 +807,7 @@ $GLOBALS['strPwdRecWrongId'] = "Fel ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Skriv in din mailadress nedan";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv ditt nya lösenord nedan";
 $GLOBALS['strProceed'] = "Gå vidare >";
+
 
 
 // Audit

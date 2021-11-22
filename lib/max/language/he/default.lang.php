@@ -154,12 +154,9 @@ $GLOBALS['strUsernameToLink'] = "שם משתמש למשתמש החדש";
 $GLOBALS['strNewUserWillBeCreated'] = "משתמש חדש יווצר";
 $GLOBALS['strToLinkProvideEmail'] = "כדי להוסיף משתמש, הקש כתובת דוא''ל";
 $GLOBALS['strToLinkProvideUsername'] = "כדי להוסיף משתמש, אנא הקש שם משתמש";
-$GLOBALS['strUserLinkedToAccount'] = "המשתמש התווסף לחשבון.";
 $GLOBALS['strUserAccountUpdated'] = "חשבון משתמש עודכן.";
-$GLOBALS['strUserUnlinkedFromAccount'] = "המשתמש נותק מחשבון בזה.";
 $GLOBALS['strUserWasDeleted'] = "המשתמש נמחק.";
 $GLOBALS['strUserNotLinkedWithAccount'] = "משתמש זה לא מקושר לחשבון בזה.";
-$GLOBALS['strCantDeleteOneAdminUser'] = "אין באפשרותך למחוק משתמש. לפחות משתמש אחד צריך להיות מקושר עם חשבון מנהל.";
 $GLOBALS['strLinkUserHelp'] = "בכדי להוסיף <b>משתמש קיים</b>, הקלד את %1\$s ולחץ על %2\$s <br /> כדי להוסיף <b>משתמש חדש</b>, הקלד את %1\$s הרצוי ולחץ על %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "שם משתמש";
 $GLOBALS['strLinkUserHelpEmail'] = "דוא''ל";
@@ -1010,6 +1007,7 @@ $GLOBALS['strPwdRecWrongId'] = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";
+
 
 
 // Audit

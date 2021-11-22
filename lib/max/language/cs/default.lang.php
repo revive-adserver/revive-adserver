@@ -149,12 +149,9 @@ $GLOBALS['strUsernameToLink'] = "Přidat uživatelské jméno uživatele";
 $GLOBALS['strNewUserWillBeCreated'] = "Bude vytvořen nový uživatel";
 $GLOBALS['strToLinkProvideEmail'] = "Chcete-li přidat uživatele, zadejte jeho e-mail";
 $GLOBALS['strToLinkProvideUsername'] = "Chcete-li přidat uživatele, zadejte jeho uživatelské jméno";
-$GLOBALS['strUserLinkedToAccount'] = "Uživatel byl přidán k účtu";
 $GLOBALS['strUserAccountUpdated'] = "Uživatelský účet aktualizován";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Uživatel byl odebrán z účtu";
 $GLOBALS['strUserWasDeleted'] = "Uživatel byl odstraněn";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Takový uživatel není propojen s účtem";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Nelze odstranit uživatele. Alespoň jeden uživatel musí být propojeny s účtem správce.";
 $GLOBALS['strLinkUserHelp'] = "Chcete-li přidat <b>existující uživatele</b>, zadejte %1\$s a klepněte na tlačítko %2\$s < br / > přidat <b>nového uživatele</b>, zadejte požadovanou %1\$s a klepněte na %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Jméno";
 $GLOBALS['strLinkUserHelpEmail'] = "e-mailová adresa";
@@ -791,6 +788,7 @@ $GLOBALS['strNoVarsToTrack'] = "Žádné proměnné ke sledování.";
 // Password recovery
 $GLOBALS['strPwdRecEnterEmail'] = "Zadejte vaši e-mailovou adresu";
 $GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
+
 
 
 // Audit

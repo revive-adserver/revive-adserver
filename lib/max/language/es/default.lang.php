@@ -151,12 +151,9 @@ $GLOBALS['strUsernameToLink'] = "Nombre de usuario del usuario a agregar";
 $GLOBALS['strNewUserWillBeCreated'] = "Se creará un nuevo usuario";
 $GLOBALS['strToLinkProvideEmail'] = "Para agregar un usuario, indique el e-mail del usuario";
 $GLOBALS['strToLinkProvideUsername'] = "Para agregar un usuario, indique el nombre de usuario";
-$GLOBALS['strUserLinkedToAccount'] = "Usuario agregado a la cuenta";
 $GLOBALS['strUserAccountUpdated'] = "Cuenta de usuario actualizada";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Usuario eliminado de la cuenta";
 $GLOBALS['strUserWasDeleted'] = "Usuario ha sido borrado";
 $GLOBALS['strUserNotLinkedWithAccount'] = "El usuario no está asignado a la cuenta";
-$GLOBALS['strCantDeleteOneAdminUser'] = "No puede borrar el usuario. Almenos un usuario necesita estar asignado a la cuenta de admin.";
 $GLOBALS['strLinkUserHelp'] = "Para añadir un <b>usuario existente</b>, escriba el %1\$s y haga click %2\$s <br />Para añadir un <b>nuevo usuario</b>, escriba el %1\$s deseado y haga click %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Nombre de usuario";
 $GLOBALS['strLinkUserHelpEmail'] = "Dirección e-mail";
@@ -995,6 +992,7 @@ $GLOBALS['strPwdRecWrongId'] = "ID erróneo";
 $GLOBALS['strPwdRecEnterEmail'] = "Introduzca su dirección e-mail a continuación";
 $GLOBALS['strPwdRecEnterPassword'] = "Introduzca su nueva contraseña a continuación";
 $GLOBALS['strProceed'] = "Continuar >";
+
 
 
 // Audit
