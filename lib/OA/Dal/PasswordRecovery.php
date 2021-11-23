@@ -91,54 +91,53 @@ class OA_Dal_PasswordRecovery extends OA_Dal
     }
 
     /**
-     * Check if recovery ID is valid
-     *
-     * @param string recovery ID
-     * @return bool true if recovery ID is valid
+     * Get Users DO for recovery ID
      */
-    public function checkRecoveryId($recoveryId)
+    public function getUserFromRecoveryId(string $recoveryId): ?DataObjects_Users
     {
+        if (empty($recoveryId)) {
+            return null;
+        }
+
+        /** @var DataObjects_Users $doUsers */
+        $doUsers = OA_Dal::factoryDO('users');
+
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->recovery_id = $recoveryId;
 
-        $now = $doPwdRecovery->quote(OA::getNowUTC());
-        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
+        $doUsers->joinAdd($doPwdRecovery);
 
-        $doPwdRecovery->whereAdd("updated >= DATE_SUB({$now}, {$oneHourInterval})");
+        $oneHourBack = (new \DateTimeImmutable())->modify('-1 hour')->getTimestamp();
+        $oneWeekBack = (new \DateTimeImmutable())->modify('-1 week')->getTimestamp();
 
-        return (bool)$doPwdRecovery->count();
+        $doPwdRecovery->whereAdd("updated >= IF(password = '', $oneWeekBack, $oneHourBack)");
+
+        if (!$doUsers->find(true)) {
+            return null;
+        }
+
+        return $doUsers;
     }
 
     /**
      * Save the new password in the user properties
      *
+     * @param string user ID
      * @param string recovery ID
      * @param string new password
-     * @return bool Ttrue the new password was correctly saved
      */
-    public function saveNewPasswordAndLogin($recoveryId, $password)
+    public function saveNewPasswordAndLogin($userId, $recoveryId, $password)
     {
+        $doPlugin = OA_Auth::staticGetAuthPlugin();
+        $doPlugin->setNewPassword($userId, $password);
+
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->recovery_id = $recoveryId;
-        $doPwdRecoveryClone = clone($doPwdRecovery);
-        $doPwdRecovery->find();
+        $doPwdRecovery->delete();
 
-        if ($doPwdRecovery->fetch()) {
-            $userId = $doPwdRecovery->user_id;
-            
-            $doPlugin = &OA_Auth::staticGetAuthPlugin();
-            $doPlugin->setNewPassword($userId, $password);
-
-            $doPwdRecoveryClone->delete();
-
-            phpAds_SessionStart();
-            $doUser = OA_Dal::staticGetDO('users', $userId);
-            phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
-            phpAds_SessionDataStore();
-
-            return true;
-        }
-
-        return false;
+        phpAds_SessionStart();
+        $doUser = OA_Dal::staticGetDO('users', $userId);
+        phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
+        phpAds_SessionDataStore();
     }
 }

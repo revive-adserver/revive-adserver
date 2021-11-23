@@ -28,14 +28,9 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 
 class OA_Admin_PasswordRecovery
 {
-    /**
-     *  @var OA_Dal_PasswordRecovery
-     */
-    public $_dal;
+    /** @var OA_Dal_PasswordRecovery */
+    private $_dal;
 
-    /**
-     * PHP4-style constructor
-     */
     public function __construct()
     {
         $this->_useDefaultDal();
@@ -44,20 +39,19 @@ class OA_Admin_PasswordRecovery
     public function _useDefaultDal()
     {
         $oServiceLocator = OA_ServiceLocator::instance();
-        $dal = &$oServiceLocator->get('OA_Dal_PasswordRecovery');
-        if (!$dal) {
-            $dal = new OA_Dal_PasswordRecovery();
-        }
-        $this->_dal = &$dal;
+
+        $this->_dal = $oServiceLocator->get('OA_Dal_PasswordRecovery') ?: new OA_Dal_PasswordRecovery();
     }
 
     /**
      * Display page header
      *
      */
-    public function pageHeader()
+    public function pageHeader(bool $isWelcomePage = false)
     {
-        phpAds_PageHeader(phpAds_PasswordRecovery);
+        $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel(null, null, $isWelcomePage ? 'welcome' : 'recovery');
+
+        phpAds_PageHeader(phpAds_PasswordRecovery, $oHeaderModel);
 
         echo "<br><br>";
     }
@@ -82,14 +76,34 @@ class OA_Admin_PasswordRecovery
      */
     public function handleGet($vars)
     {
-        $this->pageHeader();
         if (empty($vars['id'])) {
+            $this->pageHeader();
             $this->displayRecoveryRequestForm();
-        } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-            $this->displayRecoveryResetForm($vars['id']);
-        } else {
-            OX_Admin_Redirect::redirect();
+            $this->pageFooter();
+
+            return;
         }
+
+        $doUser = $this->_dal->getUserFromRecoveryId($vars['id']);
+
+        if (null === $doUser) {
+            $this->pageHeader();
+            $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongExpired']);
+            $this->pageFooter();
+
+            return;
+        }
+
+        // Empty password hash means welcome page
+        $isWelcomePage = '' === $doUser->password;
+        $this->pageHeader($isWelcomePage);
+
+        if ($isWelcomePage) {
+            $this->displayMessage($GLOBALS['strWelcomePageText']);
+            echo "<br><br>";
+        }
+
+        $this->displayRecoveryResetForm($vars['id'], $doUser);
         $this->pageFooter();
     }
 
@@ -113,15 +127,17 @@ class OA_Admin_PasswordRecovery
                 // Always pretend an email was sent, even if not to avoid information disclosure
                 $this->displayMessage($GLOBALS['strNotifyPageMessage']);
             }
-        } elseif (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
-            $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
-        } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-            $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
+        } elseif ($doUser = $this->_dal->getUserFromRecoveryId($vars['id'])) {
+            if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
+                $this->displayRecoveryResetForm($vars['id'], $doUser, $GLOBALS['strNotSamePasswords']);
+            } else {
+                $this->_dal->saveNewPasswordAndLogin($doUser->user_id, $vars['id'], $vars['newpassword']);
 
-            phpAds_SessionRegenerateId(true);
-            OX_Admin_Redirect::redirect();
+                phpAds_SessionRegenerateId(true);
+                OX_Admin_Redirect::redirect();
+            }
         } else {
-            $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
+            $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongExpired']);
         }
         $this->pageFooter();
     }
@@ -148,7 +164,7 @@ class OA_Admin_PasswordRecovery
     public function displayRecoveryRequestForm($errormessage = '')
     {
         if (!empty($errormessage)) {
-            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
+            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>&nbsp;";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
         }
 
@@ -172,22 +188,24 @@ class OA_Admin_PasswordRecovery
      *
      * @param string error message text
      */
-    public function displayRecoveryResetForm($id, $errormessage = '')
+    public function displayRecoveryResetForm($id, DataObjects_Users $doUser, $errormessage = '')
     {
         if (!empty($errormessage)) {
-            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
+            echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>&nbsp;";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
         }
 
         echo "<form method='post' action='password-recovery.php'>\n";
-        echo "<input type='hidden' name='id' value=\"" . htmlspecialchars($id) . "\" />";
+        echo "<input type='hidden' name='id' value=\"" . htmlspecialchars($id) . "\" />\n";
         echo "<input type='hidden' name='token' value='" . phpAds_SessionGetToken() . "'/>\n";
+        echo "<input type='hidden' name='username' value=\"" . htmlspecialchars($doUser->username) . "\" />\n";
 
         echo "<div class='install'>" . $GLOBALS['strPwdRecEnterPassword'] . "</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' /></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strRepeatPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strUsername'] . ":&nbsp;</td><td><input type='text' name='username' value=\"" . htmlspecialchars($doUser->username) . "\" class='flat' disabled /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' class='flat'/></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strRepeatPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' class='flat' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='" . $GLOBALS['strProceed'] . "' /></td></tr>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";

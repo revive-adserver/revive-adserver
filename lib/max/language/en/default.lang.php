@@ -1060,8 +1060,10 @@ $GLOBALS['strVariableCode'] = "Javascript tracking code";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Forgot your password?";
 $GLOBALS['strPasswordRecovery'] = "Password reset";
+$GLOBALS['strWelcomePage'] = "Welcome new user!";
+$GLOBALS['strWelcomePageText'] = "<b>Welcome to {$PRODUCT_NAME}.</b><br>As a new user, start by setting your first password. Please make sure to select a safe and unique password.";
 $GLOBALS['strEmailRequired'] = "Email is a required field";
-$GLOBALS['strPwdRecWrongId'] = "Wrong ID";
+$GLOBALS['strPwdRecWrongExpired'] = "Wrong or expired password reset link, please request a new one";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";

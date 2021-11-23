@@ -155,7 +155,7 @@ class OA_Admin_UI
      * Show page header
      *
      * @param int $ID
-     * @param OA_Admin_UI_Model_PageHeaderModel $headerModel
+     * @param OA_Admin_UI_Model_PageHeaderModel|null $oHeaderModel
      * @param int $imgPath deprecated
      * @param bool $showSidebar Set to false if you do not wish to show the sidebar navigation
      * @param bool $showContentFrame Set to false if you do not wish to show the content frame
@@ -221,8 +221,10 @@ class OA_Admin_UI
                     'selected' => true
                 ];
             } elseif ($ID == phpAds_PasswordRecovery) {
+                $isWelcomePage = null !== $oHeaderModel && 'welcome' === $oHeaderModel->getPageType();
+
                 $aMainNav[] = [
-                    'title' => $GLOBALS['strPasswordRecovery'],
+                    'title' => $isWelcomePage ? $GLOBALS['strWelcomePage'] : $GLOBALS['strPasswordRecovery'],
                     'filename' => 'index.php',
                     'selected' => true
                 ];
