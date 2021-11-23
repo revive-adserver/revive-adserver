@@ -38,7 +38,7 @@ global $readPath, $writeFile;
 
     $aVersions = [];
 
-    foreach (glob($readPath.'/*_upgrade_*.xml') as $file) {
+    foreach (glob($readPath . '/*_upgrade_*.xml') as $file) {
         $file = basename($file);
 
         if (preg_match('/_upgrade_[\w\W]+\.xml$/', $file, $aMatches)) {

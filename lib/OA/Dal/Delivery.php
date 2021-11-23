@@ -206,7 +206,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     }
 
     // Init variables
-    $default_banner_destination_url_id =  $default_banner_image_url_id = 0;
+    $default_banner_destination_url_id = $default_banner_image_url_id = 0;
 
     // Set the IDs of the two preferences for default banner image and
     // destination URLs

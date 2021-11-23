@@ -92,7 +92,7 @@ switch ($action) {
         include MAX_PATH . '/scripts/upgrade/buildPackagesArray.php';
         $array = file_get_contents($writeFile);
         $aVersions = unserialize($array);
-        $info = '<pre>'.print_r($aVersions, true).'</pre>';
+        $info = '<pre>' . print_r($aVersions, true) . '</pre>';
         break;
     case 'generate_dataobjects':
         global $schema, $pathdbo;

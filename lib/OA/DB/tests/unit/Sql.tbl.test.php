@@ -27,5 +27,4 @@ class Test_OA_DB_Sql extends DbTestCase
         $table = $oDbh->quoteIdentifier($this->getPrefix() . 'zones', true);
         $this->assertEqual("INSERT INTO {$table} (zonetype,name) VALUES (1,'120x72')", $sql);
     }
-
 }
