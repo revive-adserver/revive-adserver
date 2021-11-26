@@ -153,7 +153,8 @@ $aSettings = [
             [
                 'type' => 'password',
                 'name' => 'pw',
-                'text' => $strChooseNewPassword
+                'text' => $strChooseNewPassword,
+                'strengthIndicator' => true,
             ],
             [
                 'type' => 'break'

@@ -833,6 +833,7 @@ class OA_Admin_Option
         $aItem['value'] = $value;
         $aItem['hidePassword'] = $hidePassword;
         $aItem['tabindex'] = $tabindex++;
+        $aItem['class'] = empty($aItem['strengthIndicator']) ? '' : 'zxcvbn-check';
         $this->aOption[] = ['password.html' => $aItem];
     }
 
