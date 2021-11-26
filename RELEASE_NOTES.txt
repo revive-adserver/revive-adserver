@@ -41,6 +41,9 @@ What's New in Revive Adserver 5.4.0
  * Added welcome email for new users to prompt them to set up their own
    password.
 
+ * Added password strength indicator during installation and password
+   set up / recovery.
+
 
  Bug Fixes
  ---------

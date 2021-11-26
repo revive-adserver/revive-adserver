@@ -2251,3 +2251,13 @@ p {
   font-weight:bold;
 }
 
+#zxcvbn-container {
+    margin-bottom: -2px;
+    width: 0;
+    height: 4px;
+    background-color: #dddddd;
+}
+#zxcvbn-display {
+    width: 0;
+    height: 4px;
+}

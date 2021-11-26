@@ -27,15 +27,14 @@
         "symfony/dependency-injection": "^4.4",
         "league/flysystem": "^1.0",
         "league/flysystem-ziparchive": "^1.0",
-
         "sinergi/browser-detector": "^6.0",
         "jeremykendall/php-domain-parser": "~2.0",
-
         "figdice/asseteer": "dev-master",
-        "tinymce/tinymce": "^5.9",
         "wikimedia/composer-merge-plugin": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
-        "symfony/polyfill-ctype": "^1.23"
+        "symfony/polyfill-ctype": "^1.23",
+        "bower-asset/zxcvbn": "^4.4",
+        "bower-asset/tinymce": "^5.9"
     },
     "require-dev": {
         "symfony/finder": "^3.4",
@@ -47,14 +46,23 @@
         {
             "type": "vcs",
             "url": "https://github.com/revive-adserver/asseteer"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "extra": {
         "post-install-asseteer": [
             {
-                "vendor": "tinymce",
-                "target": "www/admin/assets",
+                "vendor": "bower-asset/tinymce",
+                "target": "www/admin/assets/tinymce",
                 "filters": [ "(\\.min|index)\\.(js|css)$", "\\.(eot|ttf|svg|woff)" ]
+            },
+            {
+                "vendor": "bower-asset/zxcvbn/dist",
+                "target": "www/admin/assets/js",
+                "filters": [ "\\.js(.map)?$" ]
             }
         ],
         "merge-plugin": {

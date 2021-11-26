@@ -27,3 +27,4 @@ phpinfo.php
 /plugins_repo/release/*.zip
 /lib/vendor/
 /www/devel/schema.js
+/www/admin/assets/js/zxcvbn.js*

@@ -31,8 +31,10 @@
 {/if}
 {if $_e.type != 'section' && $_e.break}
     <tr>
-        <td><img src='{$assetPath|escape}/images/spacer.gif' height='1' width='30'></td>
-        <td colspan='1'><img src='{$assetPath|escape}/images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='{$assetPath|escape}/images/spacer.gif' height='1' width='100%'>
+        <td style="width: 30px; height: 1px;">&nbsp;</td>
+        <td style="width: 250px; height: 20px;"><div style="height:1px;background-color: #bbbbbb;">&nbsp;</div></td>
+        <td>&nbsp;</td>
+        <td style="width: 30px; height: 1px;">&nbsp;</td>
     </tr>
 {/if}
 {if $_e.type == 'text' || $_e.type == 'password' || !$_e.type}

@@ -61,10 +61,12 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
     {
         $this->addElement('hidden', 'moreFieldsShown', 0, ['id' => 'moreFieldsShown']);
 
+        $this->addElement('static', 'zxcvbn', '<script src="assets/js/zxcvbn.js"></script>');
+
         //build form
         $this->addElement('header', 'h_admin', $GLOBALS['strAdminAccount']);
         $this->addElement('text', 'adminName', $GLOBALS['strAdminUsername'], ['class' => 'medium']);
-        $this->addElement('password', 'adminPassword', $GLOBALS['strAdminPassword'], ['class' => 'medium']);
+        $this->addElement('password', 'adminPassword', $GLOBALS['strAdminPassword'], ['class' => 'medium zxcvbn-check']);
         $this->addElement('password', 'adminPassword2', $GLOBALS['strRepeatPassword'], ['class' => 'medium']);
         $this->addElement('text', 'adminEmail', $GLOBALS['strAdministratorEmail'], ['class' => 'medium']);
         $this->addElement('select', 'adminLanguage', $GLOBALS['strLanguage'], $this->aLanguages, ['class' => 'small']);

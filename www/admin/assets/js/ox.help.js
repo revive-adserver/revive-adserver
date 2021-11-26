@@ -127,9 +127,13 @@
 
 (function($) {
   $(document).ready(function(){
-    //init help, apply offset for thirdLevelContent to get abs positioning right
-    
-    $("[id^='help-']").help({
+      // if there's no match, exit to avoid triggering an error in jquery
+      if (!document.querySelectorAll("[id^='help-']").length) {
+        return;
+      }
+
+      //init help, apply offset for thirdLevelContent to get abs positioning right
+      $("[id^='help-']").help({
         'parentXOffset' : 200,
         'parentYOffset' : 200
         }

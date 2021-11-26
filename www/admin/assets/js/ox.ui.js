@@ -1050,3 +1050,32 @@ function formUnFormat(field)
   };
 })(jQuery);
 
+jQuery(document).ready(function () {
+    var $i = $("input.zxcvbn-check"),
+        $c = $("<div id='zxcvbn-container'><div id='zxcvbn-display'></div></div>");
+
+    if (!$i.length) {
+        return;
+    }
+
+    if (typeof zxcvbn !== 'function') {
+        console.error('Please load zxcvbn.js');
+
+        return;
+    }
+
+    $c.width($i.width() + 6);
+    $c.appendTo($i.parent());
+
+    $i.keyup(function () {
+        var
+            colours = ['#b51700', '#e85a04', '#e19604', '#247dbd', '#7fb364'],
+            passwd = $(this).val(),
+            result = zxcvbn(passwd);
+
+        $("#zxcvbn-display")
+            .css("width", passwd.length ? (20 * (1 + result.score)) + "%" : 0)
+            .css("background-color", colours[result.score])
+        ;
+    });
+});
