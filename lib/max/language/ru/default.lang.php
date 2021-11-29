@@ -145,12 +145,9 @@ $GLOBALS['strUsernameToLink'] = "Имя пользователя для ссыл
 $GLOBALS['strNewUserWillBeCreated'] = "Будет создан новый пользователь";
 $GLOBALS['strToLinkProvideEmail'] = "Для связи пользователя, задайте e-mail";
 $GLOBALS['strToLinkProvideUsername'] = "Для связи пользователя, задайте его имя";
-$GLOBALS['strUserLinkedToAccount'] = "Пользователь добавлен к учетной записи";
 $GLOBALS['strUserAccountUpdated'] = "Учетная запись обновлена";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Пользователь был удален из учетной записи";
 $GLOBALS['strUserWasDeleted'] = "Пользователь был удален";
 $GLOBALS['strUserNotLinkedWithAccount'] = "К учетной записи не привязан ни один пользователь";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Вы не можете удалить этого пользователя. Хотя бы один пользователь должен быть связан с учетной записью администратора.";
 $GLOBALS['strLinkUserHelp'] = "Для привязки <b>существующего пользователя</b>, напишите %1\$s и нажмите %2\$s <br />Для привязки <b>нового пользователя</b> напишите желаемое %1\$s и нажмите %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Имя пользователя";
 $GLOBALS['strLinkUserHelpEmail'] = "Адрес e-mail";
@@ -865,9 +862,9 @@ $GLOBALS['strVariableCode'] = "Код отслеживания JS";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Забыли пароль?";
 $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно для заполнения";
-$GLOBALS['strPwdRecWrongId'] = "Неправильный ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";
+
 
 
 // Audit

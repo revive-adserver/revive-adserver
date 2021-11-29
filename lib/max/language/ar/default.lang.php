@@ -131,12 +131,9 @@ $GLOBALS['strUsernameToLink'] = "اسم المستخدم للاضافة";
 $GLOBALS['strNewUserWillBeCreated'] = "سيتم خلق مستخدم جديد";
 $GLOBALS['strToLinkProvideEmail'] = "لإضافة مستخدم، زود البريد الإلكتروني للمستخدم";
 $GLOBALS['strToLinkProvideUsername'] = "لإضافة مستخدم، توفير اسم المستخدم";
-$GLOBALS['strUserLinkedToAccount'] = "قد تم إضافة المستخدم إلى الحساب";
 $GLOBALS['strUserAccountUpdated'] = "تم تحديث حساب المستخدم";
-$GLOBALS['strUserUnlinkedFromAccount'] = "لقد تمت إزالة المستخدم من الحساب";
 $GLOBALS['strUserWasDeleted'] = "تم حذف المستخدم";
 $GLOBALS['strUserNotLinkedWithAccount'] = "هذا المستخدم غير مرتبط بحساب";
-$GLOBALS['strCantDeleteOneAdminUser'] = "لا يمكنك حذف مستخدم. يحتاج أن يكون مستخدم واحد على الأقل مرتبط مع حساب المسؤول.";
 $GLOBALS['strLinkUserHelpUser'] = "اسم المستخدم";
 $GLOBALS['strLinkUserHelpEmail'] = "البريد الإلكتروني";
 $GLOBALS['strLastLoggedIn'] = "آخر تسجيل دخول";
@@ -652,6 +649,7 @@ $GLOBALS['strGeneric'] = "عام";
 $GLOBALS['strTrackerType'] = "اسم المتتبع";
 
 // Password recovery
+
 
 
 // Audit

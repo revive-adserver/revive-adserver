@@ -367,6 +367,7 @@ $GLOBALS['strVariableDescription'] = "Beskrivelse";
 // Password recovery
 
 
+
 // Audit
 $GLOBALS['strHas'] = "har";
 

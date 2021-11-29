@@ -146,9 +146,7 @@ $GLOBALS['strUsernameToLink'] = "Tên người dùng của người dùng để 
 $GLOBALS['strNewUserWillBeCreated'] = "Người dùng mới sẽ được tạo ra";
 $GLOBALS['strToLinkProvideEmail'] = "Để thêm người sử dụng, cung cấp thư điện tử của người dùng";
 $GLOBALS['strToLinkProvideUsername'] = "Để thêm người sử dụng, cung cấp tên người dùng";
-$GLOBALS['strUserLinkedToAccount'] = "Người dùng đã được thêm vào tài khoản";
 $GLOBALS['strUserAccountUpdated'] = "Trương mục người dùng Cập Nhật";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Người dùng đã được removed thành công";
 $GLOBALS['strUserWasDeleted'] = "Người dùng đã bị xóa";
 $GLOBALS['strLinkUserHelpEmail'] = "địa chỉ Email";
 $GLOBALS['strLastLoggedIn'] = "Lần đăng nhập cuối";
@@ -319,6 +317,7 @@ $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strVariableDescription'] = "Mô tả";
 
 // Password recovery
+
 
 
 // Audit

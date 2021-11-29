@@ -142,9 +142,7 @@ $GLOBALS['strUsernameToLink'] = "Nom de l'usuari a afegir";
 $GLOBALS['strNewUserWillBeCreated'] = "Es crearà un nou usuari/a";
 $GLOBALS['strToLinkProvideEmail'] = "Per afegir un usuari, indica el correu electrònic de l'usuari";
 $GLOBALS['strToLinkProvideUsername'] = "Per afegir un usuari, indica el nom d'usuari";
-$GLOBALS['strUserLinkedToAccount'] = "S'ha afegit l'usuari al compte";
 $GLOBALS['strUserAccountUpdated'] = "Compte d'usuari actualitzat";
-$GLOBALS['strUserUnlinkedFromAccount'] = "L'usuari s'ha esborrat del compte";
 $GLOBALS['strUserWasDeleted'] = "L'usuari s'ha suprimit";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Aquest usuari no està vinculat al compte";
 $GLOBALS['strLinkUserHelpUser'] = "nom d'usuari";
@@ -629,12 +627,12 @@ $GLOBALS['strAddVariable'] = "Afegeix variable";
 
 // Password recovery
 $GLOBALS['strEmailRequired'] = "El correu electrònic és un camp obligatori";
-$GLOBALS['strPwdRecWrongId'] = "ID incorrecte";
 $GLOBALS['strPwdRecEnterEmail'] = "Introduïu la vostra adreça de correu electrònic.";
 $GLOBALS['strPwdRecEnterPassword'] = "Introduïu la nova contrasenya";
 $GLOBALS['strProceed'] = "Continuar >";
 
 $GLOBALS['strPwdRecEmailSincerely'] = "Atentament,";
+
 
 // Audit
 $GLOBALS['strAuditSystem'] = "Sistema";

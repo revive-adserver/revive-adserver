@@ -159,12 +159,13 @@ $GLOBALS['strUsernameToLink'] = "Gebruikersnaam van toe te voegen gebruiker";
 $GLOBALS['strNewUserWillBeCreated'] = "Nieuwe gebruiker zal worden aangemaakt";
 $GLOBALS['strToLinkProvideEmail'] = "Om een gebruiker toe te voegen, voer het e-mail adres van de gebruiker in";
 $GLOBALS['strToLinkProvideUsername'] = "Om een gebruiker toe te voegen, voer de gebruikersnaam in";
-$GLOBALS['strUserLinkedToAccount'] = "Gebruiker is toegevoegd aan account";
+$GLOBALS['strUserLinkedToAccount'] = "Gebruiker is toegevoegd aan het account";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "Gebruiker is toegevoegd aan het account. Deze ontvangt een e-mail om het wachtwoord in te stellen.";
 $GLOBALS['strUserAccountUpdated'] = "Gebruikersaccount bijgewerkt";
 $GLOBALS['strUserUnlinkedFromAccount'] = "Gebruiker is verwijderd uit het account";
 $GLOBALS['strUserWasDeleted'] = "Gebruiker is verwijderd";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Deze gebruiker is niet verbonden met dit account";
-$GLOBALS['strCantDeleteOneAdminUser'] = "U kunt deze gebruiker niet verwijderen. Ten minste één gebruiker moet verbonden zijn met het system administrator account.";
+$GLOBALS['strCantDeleteOneAdminUser'] = "U kunt deze gebruiker niet verwijderen. Ten minste één gebruiker moet verbonden zijn met het administrator account.";
 $GLOBALS['strLinkUserHelp'] = "Om een <b>bestaande gebruiker</b> toe te voegen, type de %1\$s en klik %2\$s <br />Om een <b>nieuwe gebruiker</b> toe te voegen, type de gewenste %1\$s en klik %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "gebruikersnaam";
 $GLOBALS['strLinkUserHelpEmail'] = "E-mail adres";
@@ -1053,8 +1054,10 @@ $GLOBALS['strVariableCode'] = "JavaScript tracking-code";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Wachtwoord vergeten?";
 $GLOBALS['strPasswordRecovery'] = "Wachtwoord opnieuw instellen";
+$GLOBALS['strWelcomePage'] = "Welkom nieuwe gebruiker!";
+$GLOBALS['strWelcomePageText'] = "<b>Welkom bij {$PRODUCT_NAME}.</b><br>Als nieuwe gebruiker, begin met het instellen van uw eerste wachtwoord. Zorg ervoor dat u een veilig en uniek wachtwoord kiest.";
 $GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
-$GLOBALS['strPwdRecWrongId'] = "Verkeerde ID";
+$GLOBALS['strPwdRecWrongExpired'] = "Onjuiste of verlopen link om het wachtwoord te resetten, vraag een nieuwe aan";
 $GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
 $GLOBALS['strPwdRecEnterPassword'] = "Voer uw nieuwe wachtwoord hieronder in";
 $GLOBALS['strProceed'] = "Doorgaan >";
@@ -1078,6 +1081,23 @@ Als u deze password reset emails blijft ontvangen, dan kan dat er op duiden dat 
 
 {admin_signature}";
 $GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
+
+$GLOBALS['strWelcomeEmailSubject'] = "Welkom bij %s: stel uw wachtwoord in";
+$GLOBALS['strWelcomeEmailBody'] = "Beste {name},
+
+Er is een gebruikersnaam voor u gemaakt, waardoor u kunt inlogen op {application_name}.
+
+Uw gebruikersnaam is '{username}'.
+
+Om veiligheidsredenen is het wachtwoord voor je gebruikersnaam nog niet ingesteld.
+
+Om uw wachtwoord in te voeren, klikt u op de volgende link:
+
+{reset_link}
+
+Zorg ervoor dat u een veilig en uniek wachtwoord invult.
+
+{admin_signature}";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "en extra items";

@@ -132,12 +132,9 @@ $GLOBALS['strUsernameToLink'] = "追加するユーザの氏名";
 $GLOBALS['strNewUserWillBeCreated'] = "新しいユーザを作成します";
 $GLOBALS['strToLinkProvideEmail'] = "ユーザを追加するには、メールアドレスを入力してください。";
 $GLOBALS['strToLinkProvideUsername'] = "ユーザを追加するには、ユーザ名を入力してください";
-$GLOBALS['strUserLinkedToAccount'] = "ユーザがアカウントに追加されました。";
 $GLOBALS['strUserAccountUpdated'] = "更新したユーザアカウント";
-$GLOBALS['strUserUnlinkedFromAccount'] = "ユーザがアカウントから削除されました。";
 $GLOBALS['strUserWasDeleted'] = "ユーザが削除されました。";
 $GLOBALS['strUserNotLinkedWithAccount'] = "そのユーザはアカウントに関連づいていません";
-$GLOBALS['strCantDeleteOneAdminUser'] = "ユーザを削除できません。少なくとも一人が管理者である必要があります。";
 $GLOBALS['strLinkUserHelpUser'] = "ユーザ名";
 $GLOBALS['strLinkUserHelpEmail'] = "Eメールアドレス";
 $GLOBALS['strLastLoggedIn'] = "最終ログイン";
@@ -810,10 +807,10 @@ $GLOBALS['strVariableCode'] = "トラッカー用Javascriptコード";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "パスワードを忘れた？";
 $GLOBALS['strEmailRequired'] = "メールアドレスは必須です。";
-$GLOBALS['strPwdRecWrongId'] = "メールアドレスが間違っています。";
 $GLOBALS['strPwdRecEnterEmail'] = "メールアドレスを入力してください";
 $GLOBALS['strPwdRecEnterPassword'] = "新しいパスワードを入力してください";
 $GLOBALS['strProceed'] = "続ける &gt;";
+
 
 
 // Audit

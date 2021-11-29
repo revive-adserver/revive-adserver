@@ -687,7 +687,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Egyedi JS kód";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Elfelejtette a jelszavát?";
-$GLOBALS['strPwdRecWrongId'] = "Hibás ID";
+
 
 
 // Audit

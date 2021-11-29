@@ -149,12 +149,9 @@ $GLOBALS['strUsernameToLink'] = "Nome do usuário do usuário que será adiciona
 $GLOBALS['strNewUserWillBeCreated'] = "Novo usuário será criado";
 $GLOBALS['strToLinkProvideEmail'] = "Para adicionar um usuário, informe o e-mail do mesmo";
 $GLOBALS['strToLinkProvideUsername'] = "Para adicionar um usuário, informe o nome de usuário";
-$GLOBALS['strUserLinkedToAccount'] = "O usuário foi adicionado à conta";
 $GLOBALS['strUserAccountUpdated'] = "Conta de usuário atualizada";
-$GLOBALS['strUserUnlinkedFromAccount'] = "O usuário foi removido da conta";
 $GLOBALS['strUserWasDeleted'] = "O usuário foi removido";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Este usuário não esta vinculado a esta conta";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Você não pode remover um usuário. Pelo menos um usuário deve estar vinculado à conta de administração";
 $GLOBALS['strLinkUserHelpUser'] = "Nome de usuário";
 $GLOBALS['strLinkUserHelpEmail'] = "Endereço de e-mail";
 $GLOBALS['strLastLoggedIn'] = "Adicionar <u>u</u>suário";
@@ -852,10 +849,10 @@ $GLOBALS['strVariableCode'] = "Código de rastreamento em Javascript";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Esqueceu sua senha?";
 $GLOBALS['strEmailRequired'] = "E-mail é um campo obrigatório";
-$GLOBALS['strPwdRecWrongId'] = "ID incorreto";
 $GLOBALS['strPwdRecEnterEmail'] = "Digite seu e-mail abaixo";
 $GLOBALS['strPwdRecEnterPassword'] = "Digite sua nova senha abaixo";
 $GLOBALS['strProceed'] = "Prosseguir >";
+
 
 
 // Audit
