@@ -65,9 +65,9 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
 
         //build form
         $this->addElement('header', 'h_admin', $GLOBALS['strAdminAccount']);
-        $this->addElement('text', 'adminName', $GLOBALS['strAdminUsername'], ['class' => 'medium']);
-        $this->addElement('password', 'adminPassword', $GLOBALS['strAdminPassword'], ['class' => 'medium zxcvbn-check']);
-        $this->addElement('password', 'adminPassword2', $GLOBALS['strRepeatPassword'], ['class' => 'medium']);
+        $this->addElement('text', 'adminName', $GLOBALS['strAdminUsername'], ['class' => 'medium', 'autocomplete' => 'username']);
+        $this->addElement('password', 'adminPassword', $GLOBALS['strAdminPassword'], ['class' => 'medium zxcvbn-check', 'autocomplete' => 'new-password']);
+        $this->addElement('password', 'adminPassword2', $GLOBALS['strRepeatPassword'], ['class' => 'medium', 'autocomplete' => 'new-password']);
         $this->addElement('text', 'adminEmail', $GLOBALS['strAdministratorEmail'], ['class' => 'medium']);
         $this->addElement('select', 'adminLanguage', $GLOBALS['strLanguage'], $this->aLanguages, ['class' => 'small']);
         $this->addElement('select', 'prefsTimezone', $GLOBALS['strTimezone'], $this->aTimezones, ['class' => 'medium']);

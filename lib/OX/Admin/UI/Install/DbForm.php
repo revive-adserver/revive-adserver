@@ -65,8 +65,8 @@ class OX_Admin_UI_Install_DbForm extends OX_Admin_UI_Install_BaseForm
         $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, ['class' => 'small', 'id' => 'dbType']);
         $this->addElement('text', 'dbHost', $GLOBALS['strDbHost'], ['class' => 'medium', 'id' => 'dbHost']);
         $this->addElement('text', 'dbName', $GLOBALS['strDbName'], ['class' => 'medium', 'id' => 'dbName', 'suffix' => ' ' . $GLOBALS['strDbNameHint']]);
-        $this->addElement('text', 'dbUser', $GLOBALS['strDbUser'], ['class' => 'medium', 'id' => 'dbUser']);
-        $this->addElement('password', 'dbPassword', $GLOBALS['strDbPassword'], ['class' => 'medium', 'id' => 'dbPassword']);
+        $this->addElement('text', 'dbUser', $GLOBALS['strDbUser'], ['class' => 'medium', 'id' => 'dbUser', 'autocomplete' => 'off']);
+        $this->addElement('password', 'dbPassword', $GLOBALS['strDbPassword'], ['class' => 'medium', 'id' => 'dbPassword', 'autocomplete' => 'off']);
 
         $this->addElement('static', 'moreFields', '<a href="#" id="showMoreFields">' . $GLOBALS['strDbSeeMoreFields'] . '</a>');
 

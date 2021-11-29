@@ -115,7 +115,8 @@ $aSettings = [
                 'name' => 'username',
                 'value' => $aUser['username'],
                 'text' => $strUsername,
-                'size' => 35
+                'size' => 35,
+                'autocomplete' => 'username',
             ],
             [
                 'type' => 'break'
@@ -144,8 +145,8 @@ $aSettings = [
                 'type' => 'password',
                 'name' => 'pwold',
                 'text' => $strCurrentPassword,
-                'disabled' => ''
-
+                'disabled' => '',
+                'autocomplete' => 'current-password',
             ],
             [
                 'type' => 'break'
@@ -155,6 +156,7 @@ $aSettings = [
                 'name' => 'pw',
                 'text' => $strChooseNewPassword,
                 'strengthIndicator' => true,
+                'autocomplete' => 'new-password',
             ],
             [
                 'type' => 'break'
@@ -163,7 +165,8 @@ $aSettings = [
                 'type' => 'password',
                 'name' => 'pw2',
                 'text' => $strReenterNewPassword,
-                'check' => 'compare:pw'
+                'check' => 'compare:pw',
+                'autocomplete' => 'new-password',
             ]
         ]
     ]

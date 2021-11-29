@@ -200,14 +200,13 @@ class OA_Admin_PasswordRecovery
         echo "<form method='post' action='password-recovery.php'>\n";
         echo "<input type='hidden' name='id' value=\"" . htmlspecialchars($id) . "\" />\n";
         echo "<input type='hidden' name='token' value='" . phpAds_SessionGetToken() . "'/>\n";
-        echo "<input type='hidden' name='username' value=\"" . htmlspecialchars($doUser->username) . "\" />\n";
 
         echo "<div class='install'>" . $GLOBALS['strPwdRecEnterPassword'] . "</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strUsername'] . ":&nbsp;</td><td><input type='text' name='username' value=\"" . htmlspecialchars($doUser->username) . "\" class='flat' disabled /></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' class='flat zxcvbn-check'/></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strRepeatPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' class='flat' /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strUsername'] . ":&nbsp;</td><td><input type='text' name='username' autocomplete='username' value=\"" . htmlspecialchars($doUser->username) . "\" class='flat' disabled /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' autocomplete='new-password' class='flat zxcvbn-check'/></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strRepeatPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' autocomplete='new-password' class='flat' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='" . $GLOBALS['strProceed'] . "' /></td></tr>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
