@@ -122,12 +122,9 @@ $GLOBALS['strUsernameToLink'] = "Numele de utilizator de adăugat";
 $GLOBALS['strNewUserWillBeCreated'] = "Va fi creat un utilizator nou";
 $GLOBALS['strToLinkProvideEmail'] = "Pentru a adăuga utilizatorul, introdu adresa de e-mail a acestuia";
 $GLOBALS['strToLinkProvideUsername'] = "Pentru a adăuga utilizatorul, introdu numele de utilizator";
-$GLOBALS['strUserLinkedToAccount'] = "Utilizatorul a fost adăugat contului";
 $GLOBALS['strUserAccountUpdated'] = "Contul utilizatorului a fost actualizat";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Utilizatorul a fost şters din cont";
 $GLOBALS['strUserWasDeleted'] = "Utilizatorul a fost şters";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Acest utilizator nu este asociat cu contul";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Nu poţi şterge un utilizator. Cel puţin un utilizator trebuie să fie asociat cu contul de administrator.";
 $GLOBALS['strLinkUserHelpUser'] = "utilizator";
 $GLOBALS['strLinkUserHelpEmail'] = "adresa de email";
 $GLOBALS['strLastLoggedIn'] = "Ultima autentificare";
@@ -786,10 +783,10 @@ $GLOBALS['strVariableCode'] = "Cod Javascript de contorizare";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Ţi-ai uitat parola?";
 $GLOBALS['strEmailRequired'] = "Email este un câmp obligatoriu";
-$GLOBALS['strPwdRecWrongId'] = "ID greşit";
 $GLOBALS['strPwdRecEnterEmail'] = "Scrie adresa de email mai jos";
 $GLOBALS['strPwdRecEnterPassword'] = "Scrie noua parolă mai jos";
 $GLOBALS['strProceed'] = "Înaintează >";
+
 
 
 // Audit

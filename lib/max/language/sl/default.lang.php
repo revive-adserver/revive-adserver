@@ -130,12 +130,9 @@ $GLOBALS['strUsernameToLink'] = "Uporabniško ime uporabnika za dodajanje";
 $GLOBALS['strNewUserWillBeCreated'] = "Ustvarjen bo nov uporabnik";
 $GLOBALS['strToLinkProvideEmail'] = "Za dodajanje uporabnika vpišite njegov e-poštni naslov";
 $GLOBALS['strToLinkProvideUsername'] = "Za dodajanje uporabnika vpišite njegovo uporabniško ime";
-$GLOBALS['strUserLinkedToAccount'] = "Uporabnik je bil dodan računu";
 $GLOBALS['strUserAccountUpdated'] = "Račun uporabnika je bil posodobljen";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Uporabnik je bil odstranjen iz računa";
 $GLOBALS['strUserWasDeleted'] = "Uporabnik je bil izbrisan";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Naveden uporabnik ni povezan z računom";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Ne morete izbrisati uporabnika. Vsaj en uporabnik mora biti povezan z administratorskim računom.";
 $GLOBALS['strLinkUserHelpUser'] = "uporabniško ime";
 $GLOBALS['strLinkUserHelpEmail'] = "e-poštni naslov";
 $GLOBALS['strLastLoggedIn'] = "Zadnja prijava";
@@ -877,10 +874,10 @@ $GLOBALS['strVariableCode'] = "JavaScript sledilna koda";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Ste pozabili svoje geslo?";
 $GLOBALS['strEmailRequired'] = "Polje za vnos e-pošte je potrebno obvezno izpolniti";
-$GLOBALS['strPwdRecWrongId'] = "Napačen ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Spodaj vpišite naslov svoje elektronske pošte";
 $GLOBALS['strPwdRecEnterPassword'] = "Spodaj vpišite vaše novo geslo";
 $GLOBALS['strProceed'] = "Nadaljuj >";
+
 
 
 // Audit

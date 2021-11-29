@@ -147,12 +147,9 @@ $GLOBALS['strUsernameToLink'] = "Username pengguna untuk ditambahkan";
 $GLOBALS['strNewUserWillBeCreated'] = "Pengguna baru akan dibuat";
 $GLOBALS['strToLinkProvideEmail'] = "Untuk menambahkan pengguna, berikan email pengguna";
 $GLOBALS['strToLinkProvideUsername'] = "Untuk menambahkan pengguna, berikan username";
-$GLOBALS['strUserLinkedToAccount'] = "Pengguna telah ditambahkan ke akun";
 $GLOBALS['strUserAccountUpdated'] = "Akun pengguna diperbarui";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Pengguna telah dihapus dari akun";
 $GLOBALS['strUserWasDeleted'] = "Pengguna telah dihapus";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Pengguna tersebut tidak terkait dengan akun";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Anda tidak dapat menghapus pengguna. Setidaknya satu pengguna perlu dihubungkan dengan akun admin.";
 $GLOBALS['strLinkUserHelp'] = "Untuk menambahkan <b> pengguna yang ada </b>, ketik%1\$s dan klik%2\$s <br/> Untuk menambahkan<b>pengguna baru </b>, ketik%1\$s dan klik%2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Nama Pengguna";
 $GLOBALS['strLinkUserHelpEmail'] = "alamat email";
@@ -1041,10 +1038,10 @@ $GLOBALS['strVariableCode'] = "Kode pelacak berbasis Javascript";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Lupa kata sandi Anda?";
 $GLOBALS['strEmailRequired'] = "Pengisian alamat E-mail diwajibkan!";
-$GLOBALS['strPwdRecWrongId'] = "ID tidak dikenal";
 $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah ini";
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";
 $GLOBALS['strProceed'] = "Lanjut &gt;";
+
 
 
 // Audit

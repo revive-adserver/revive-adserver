@@ -139,11 +139,8 @@ $GLOBALS['strUsernameToLink'] = "用户名";
 $GLOBALS['strNewUserWillBeCreated'] = "正在添加新的用户";
 $GLOBALS['strToLinkProvideEmail'] = "请输入 Email";
 $GLOBALS['strToLinkProvideUsername'] = "请输入用户名";
-$GLOBALS['strUserLinkedToAccount'] = "用户已经成功添加到该用户组。";
 $GLOBALS['strUserAccountUpdated'] = "用户已经成功更新。";
-$GLOBALS['strUserUnlinkedFromAccount'] = "用户已经成功从该用户组删除。";
 $GLOBALS['strUserWasDeleted'] = "用户已经彻底删除。";
-$GLOBALS['strCantDeleteOneAdminUser'] = "无法删除用户。管理员账户至少需要关联一名用户。";
 $GLOBALS['strLinkUserHelpUser'] = "用户名";
 $GLOBALS['strLinkUserHelpEmail'] = "Email";
 $GLOBALS['strDateLinked'] = "添加日期";
@@ -798,10 +795,10 @@ $GLOBALS['strVariableCode'] = "Javascript 追踪代码";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "忘记密码";
 $GLOBALS['strEmailRequired'] = "请输入您的 Email";
-$GLOBALS['strPwdRecWrongId'] = "错误 ID";
 $GLOBALS['strPwdRecEnterEmail'] = "请输入您的 Email";
 $GLOBALS['strPwdRecEnterPassword'] = "请输入您的新密码";
 $GLOBALS['strProceed'] = "继续 >";
+
 
 
 // Audit

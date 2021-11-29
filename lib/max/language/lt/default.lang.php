@@ -113,7 +113,6 @@ $GLOBALS['strLinkUser_Key'] = "Susieti <u>v</u>artotojus";
 $GLOBALS['strNewUserWillBeCreated'] = "Naujas vartotojas sukurtas";
 $GLOBALS['strUserAccountUpdated'] = "Atnaujinta vartotojo sąskaita";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Toks vartotojas nesusietas su sąskaita";
-$GLOBALS['strCantDeleteOneAdminUser'] = "Jūs negalite ištrinti vartotojo. Bent vienas vartotojas turi būti susietas su administratoriaus sąskaita";
 $GLOBALS['strLinkUserHelpUser'] = "Vartotojo vardas";
 $GLOBALS['strLinkUserHelpEmail'] = "El. pašto adresas";
 
@@ -693,10 +692,10 @@ $GLOBALS['strVariableCode'] = "Javascript sekimo kodas";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Pamiršote savo slaptažodį?";
 $GLOBALS['strEmailRequired'] = "Privaloma užpildyti elektroninį lauką";
-$GLOBALS['strPwdRecWrongId'] = "Neteisingas ID ";
 $GLOBALS['strPwdRecEnterEmail'] = "Įveskite savo elektroninio pašto adresą žemiau";
 $GLOBALS['strPwdRecEnterPassword'] = "Įveskite savo slaptažodį žemiau";
 $GLOBALS['strProceed'] = "Tęskite >";
+
 
 
 // Audit

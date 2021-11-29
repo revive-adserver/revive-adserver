@@ -379,6 +379,7 @@ $GLOBALS['strTrackerType'] = "Názov trackeru";
 // Password recovery
 
 
+
 // Audit
 
 // Widget - Audit
