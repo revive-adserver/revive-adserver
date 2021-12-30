@@ -189,6 +189,20 @@
                             i = elements[idx],
                             seq;
 
+                        // Check if element is hidden
+                        let rect = i.getBoundingClientRect();
+                        if(rect.top == 0 && 
+                            rect.bottom == 0 && 
+                            rect.left == 0 && 
+                            rect.right == 0 && 
+                            rect.width == 0 && 
+                            rect.height == 0 && 
+                            rect.x == 0 && 
+                            rect.y == 0)
+                        {
+                            continue;
+                        }
+
                         if (i.hasAttribute(seqAttr)) {
                             seq = i.getAttribute(seqAttr);
                         } else {
@@ -381,6 +395,11 @@
 
             // Register the DOM event listeners or start if the DOM is already loaded
             rv.main();
+
+            // Reinitialize on resize
+            win.onresize = function () {
+                rv.main()
+            }
         }
     } catch (e) {
         if (console.log) {
