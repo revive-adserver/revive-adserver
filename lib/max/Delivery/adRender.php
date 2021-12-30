@@ -330,7 +330,7 @@ function _adRenderImage(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withTe
         $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
         $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
         $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
-        $imageTag = "$clickTag<img src='" . htmlspecialchars($imageUrl, ENT_QUOTES) . "' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus />$clickTagEnd";
+        $imageTag = "$clickTag<img src='" . htmlspecialchars($imageUrl, ENT_QUOTES) . "' width='$width' height='$height' alt='$alt' title='$alt' border='0' class='" . $conf['defaultBanner']['class'] . "' $imgStatus />$clickTagEnd";
     } else {
         $imageTag = '';
     }
