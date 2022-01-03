@@ -318,7 +318,8 @@ function _adRenderImage(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withTe
     // Create the anchor tag..
     if (!empty($aBanner['url'])) {  // There is a link
         $status = _adRenderBuildStatusCode($aBanner);
-        $clickTag = "<a href='{clickurl_html}' target='{target}'{$status}>";
+        $relAttribute = !empty($conf['defaultBanner']['relAttribute']) ? ' rel="' . $conf['defaultBanner']['relAttribute'] . '"' : '';
+        $clickTag = "<a href='{clickurl_html}' target='{target}'$relAttribute{$status}>";
         $clickTagEnd = '</a>';
     } else {
         $clickTag = '';
