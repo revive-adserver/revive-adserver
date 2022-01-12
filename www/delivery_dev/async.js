@@ -189,16 +189,18 @@
                             i = elements[idx],
                             seq;
 
+                        var rect = i.getBoundingClientRect();
+                        // Check if element outside the viewport
+                        if (rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
+                            continue;
+                        }
                         // Check if element is hidden
-                        let rect = i.getBoundingClientRect();
-                        if(rect.top == 0 && 
+                        if (rect.top == 0 && 
                             rect.bottom == 0 && 
                             rect.left == 0 && 
                             rect.right == 0 && 
                             rect.width == 0 && 
-                            rect.height == 0 && 
-                            rect.x == 0 && 
-                            rect.y == 0)
+                            rect.height == 0)
                         {
                             continue;
                         }
@@ -398,7 +400,14 @@
 
             // Reinitialize on resize
             win.onresize = function () {
-                rv.main()
+                setTimeout(function(){
+                    rv.main();
+                }, 200);
+            }
+            win.onscroll = function () {
+                setTimeout(function(){
+                    rv.main();
+                }, 100);
             }
         }
     } catch (e) {
