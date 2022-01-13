@@ -50,8 +50,8 @@ What's New in Revive Adserver 5.4.0
  Bug Fixes
  ---------
 
- * None
-
+ * Fixed incorrect condition evaluation while fixing bugs for PHP 8.0 compatibility
+    - it caused initial `to_be_delivered` flag as zero - disabled banner delivering
 
  Non-Backwards Compatible Changes
  --------------------------------
