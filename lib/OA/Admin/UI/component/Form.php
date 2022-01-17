@@ -110,13 +110,6 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/Unique.php'
         );
 
-        $this->registerRule(
-            'equal',
-            'rule',
-            'OA_Admin_UI_Rule_Equal',
-            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Equal.php'
-        );
-
         //register jquery rule adaptors
         $this->registerJQueryRuleAdaptor(
             'required',
@@ -180,9 +173,9 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
         );
 
         $this->registerJQueryRuleAdaptor(
-            "equal",
-            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormEqualRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryEqualRule'
+            "compare",
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormCompareRuleAdaptor.php',
+            'OA_Admin_UI_Rule_JQueryCompareRule'
         );
 
         //register element decorators
@@ -283,7 +276,7 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
      * Takes in the account current state of forceClientValidation setting
      * modifyig $validation parameter value if required
      *
-     * @param    string     $element       Form element name
+     * @param    string|array     $element       Form element name
      * @param    string     $message       Message to display for invalid data
      * @param    string     $type          Rule type, use getRegisteredRules() to get types
      * @param    string     $format        (optional)Required for extra rule data

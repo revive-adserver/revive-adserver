@@ -66,6 +66,10 @@ What's New in Revive Adserver 5.4.0
  * Fixed issue parsing and modifying "var clickTag = '';" in HTML5 banners
    when there is no whitespace around the equal sign.
 
+ * Fixed issue allowing the installation to proceed when entering two non
+   matching admin passwords, as long as the "Repeat password" field was
+   not empty.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

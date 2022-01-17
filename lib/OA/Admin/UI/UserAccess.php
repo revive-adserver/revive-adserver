@@ -121,7 +121,7 @@ class OA_Admin_UI_UserAccess
                         $this->aAllowedPermissions
                     );
 
-                    if ($this->oPasswordRecovery->sendWelcomeEmail($this->userid) > 0) {
+                    if ($this->oPasswordRecovery->sendWelcomeEmail([$this->userid]) > 0) {
                         OA_Session::setMessage($GLOBALS['strUserLinkedAndWelcomeSent']);
                     }
 

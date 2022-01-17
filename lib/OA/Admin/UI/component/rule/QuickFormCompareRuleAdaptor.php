@@ -14,18 +14,17 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/component/rule/BaseQuickFormRuleToJQue
 
 
 /**
- * Wrapper rule for OA_Admin_UI_Rule_Equal "equal" rule.
+ * Wrapper rule for "compare" rule.
  */
-class OA_Admin_UI_Rule_JQueryEqualRule extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
+class OA_Admin_UI_Rule_JQueryCompareRule extends OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor
 {
     /**
      * Returns Jquery validation plugin "equalTo" rule
-     * "equalTo": $rule['format']
      * @param array $rule
      * @return string
      */
     public function getJQueryValidationRule($rule)
     {
-        return "\"equalTo\": '#" . $rule['format'][0] . "'";
+        return "\"equalTo\": '#" . $rule['dependent'][0] . "'";
     }
 }

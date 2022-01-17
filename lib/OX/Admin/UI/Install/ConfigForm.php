@@ -80,9 +80,11 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
         $this->addRequiredRule('adminPassword', $GLOBALS['strAdminPassword']);
         $this->addRequiredRule('adminPassword2', $GLOBALS['strRepeatPassword']);
         $this->addRequiredRule('adminEmail', $GLOBALS['strAdministratorEmail']);
-        $this->addRule('adminEmail', $GLOBALS['strEmailField'], 'email');
         $this->addRequiredRule('adminLanguage', $GLOBALS['strLanguage']);
         $this->addRequiredRule('prefsTimezone', $GLOBALS['strTimezone']);
+
+        $this->addRule(['adminPassword', 'adminPassword2'], $GLOBALS['strNotSamePasswords'], 'compare');
+        $this->addRule('adminEmail', $GLOBALS['strEmailField'], 'email');
 
         if (!empty($aConf['security']['passwordMinLength'])) {
             $this->addRule('adminPassword', $GLOBALS['strPasswordTooShort'], 'minlength', $aConf['security']['passwordMinLength']);
