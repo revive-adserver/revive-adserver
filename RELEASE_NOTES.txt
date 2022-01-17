@@ -53,6 +53,10 @@ What's New in Revive Adserver 5.4.0
  * Fixed prioritization issue when setting the "to_be_delivered" flag
    introduced in 5.3.0.
 
+ * Fixed issue parsing and modifying "var clickTag = '';" in HTML5 banners
+   when there is no whitespace around the equal sign.
+
+
 
  Non-Backwards Compatible Changes
  --------------------------------

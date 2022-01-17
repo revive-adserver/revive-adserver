@@ -239,7 +239,7 @@ EOF;
         preg_match_all('#<script.*?>(.*?)</script>#is', $head, $m);
 
         foreach ($m[1] as $script) {
-            preg_match_all('#var\s+(clickTag)\s+=\s+((["\'])(.*?)\\3);#i', $head, $jsvar);
+            preg_match_all('#var\s+(clickTag)\s*=\s*((["\'])(.*?)\\3)\s*;#i', $head, $jsvar);
 
             $newscript = $script;
             foreach ($jsvar[1] as $k => $var) {
