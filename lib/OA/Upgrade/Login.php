@@ -17,6 +17,8 @@ require_once MAX_PATH . '/lib/OA/Auth.php';
  */
 class OA_Upgrade_Login
 {
+    public const SESSION_PASSWORD_HASH = 'password_hash';
+
     /**
      * Check administrator login during the upgrade steps
      *
@@ -50,12 +52,14 @@ class OA_Upgrade_Login
 
         $oPlugin = new Plugins_Authentication();
 
+        $passwordHashingRequired = !$openadsDetected || version_compare($oUpgrader->versionInitialApplication, '5.4.0-beta-rc4', '<');
+
         if ($oPlugin->suppliedCredentials()) {
             // The new Users, Account, Permissions & Preference feature was introduced in OpenX 2.5.46-dev
-            $newLogin = $openadsDetected && version_compare($oUpgrader->versionInitialApplication, '2.5.46-dev', '>=') == -1;
+            $newLogin = $openadsDetected && version_compare($oUpgrader->versionInitialApplication, '2.5.46-dev', '>=');
 
             if ($newLogin) {
-                self::_checkLoginNew();
+                self::_checkLoginNew($passwordHashingRequired);
             } else {
                 if ($openadsDetected || $maxDetected) {
                     self::_checkLoginOld('preference', true);
@@ -67,6 +71,10 @@ class OA_Upgrade_Login
                     return false;
                 }
             }
+        }
+
+        if ($passwordHashingRequired && empty($GLOBALS['session'][self::SESSION_PASSWORD_HASH])) {
+            return false;
         }
 
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
@@ -100,7 +108,7 @@ class OA_Upgrade_Login
         }
     }
 
-    private static function _checkLoginNew()
+    private static function _checkLoginNew(bool $useMd5)
     {
         $oPlugin = new Plugins_Authentication();
 
@@ -109,10 +117,18 @@ class OA_Upgrade_Login
         if (!PEAR::isError($aCredentials)) {
             phpAds_SessionRegenerateId();
 
-            $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password']);
+            $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password'], $useMd5);
 
             if ($doUser) {
-                phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
+                $aSession = OA_Auth::getSessionData($doUser);
+
+                if ($useMd5) {
+                    // Store password hash for later
+                    $oPlugin->changePassword($doUser, $aCredentials['password']);
+                    $aSession[self::SESSION_PASSWORD_HASH] = $doUser->password;
+                }
+
+                phpAds_SessionDataRegister($aSession);
             }
         }
 
@@ -145,13 +161,20 @@ class OA_Upgrade_Login
                 if (!PEAR::isError($aCredentials)) {
                     phpAds_SessionRegenerateId();
 
-                    if (strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
-                        $aPref['admin_pw'] == md5($aCredentials['password'])) {
+                    if (
+                        strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
+                        $aPref['admin_pw'] == md5($aCredentials['password'])
+                    ) {
                         $doUser = OA_Dal::factoryDO('users');
+                        $doUser->user_id = -1;
                         $doUser->username = $aPref['admin'];
 
                         $aSession = OA_Auth::getSessionData($doUser, true);
                         $aSession['user']->aAccount['account_type'] = OA_ACCOUNT_ADMIN;
+
+                        // Store password hash for later
+                        $oPlugin->changePassword($doUser, $aCredentials['password']);
+                        $aSession[self::SESSION_PASSWORD_HASH] = $doUser->password;
 
                         phpAds_SessionDataRegister($aSession);
                     }

@@ -41,21 +41,31 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         return $users;
     }
 
-    public function searchNewUsersById(int $userId): array
+    /**
+     * @param int[] $userId
+     */
+    public function searchUsersByIds(array $aUserIds, bool $newUser = false): array
     {
         /** @var DataObjects_Users|false $doUser */
-        $doUser = OA_Dal::staticGetDO('users', $userId);
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->whereInAdd('user_id', $aUserIds);
 
-        if (!$doUser) {
+        if (!$doUsers->find()) {
             return [];
         }
 
-        if ('' !== $doUser->password) {
-            // Not a new user
-            return [];
+        $aUsers = [];
+
+        while ($doUsers->fetch()) {
+            if ($newUser && '' !== $doUsers->password) {
+                // Not a new user
+                continue;
+            }
+
+            $aUsers[] = $doUsers->toArray();
         }
 
-        return [$doUser->toArray()];
+        return $aUsers;
     }
 
     /**
@@ -110,7 +120,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         $oneHourBack = (new \DateTimeImmutable())->modify('-1 hour')->getTimestamp();
         $oneWeekBack = (new \DateTimeImmutable())->modify('-1 week')->getTimestamp();
 
-        $doPwdRecovery->whereAdd("updated >= IF(password = '', $oneWeekBack, $oneHourBack)");
+        $doPwdRecovery->whereAdd("updated >= IF(LENGTH(password) <= 32, $oneWeekBack, $oneHourBack)");
 
         if (!$doUsers->find(true)) {
             return null;

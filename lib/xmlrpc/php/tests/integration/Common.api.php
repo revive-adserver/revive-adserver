@@ -77,7 +77,7 @@ abstract class Test_OA_Api_XmlRpc extends UnitTestCase
 
             $doUsers = OA_Dal::factoryDO('users');
             $doUsers->username = 'admin_'.md5(uniqid('', true));
-            $doUsers->password = md5('secret');
+            $doUsers->password = \RV\Manager\PasswordManager::getPasswordHash('secret');
             $doUsers->default_account_id = $createDefaultManager ? $managerAccountId : $adminAccountId;
             $userId = DataGenerator::generateOne($doUsers);
 

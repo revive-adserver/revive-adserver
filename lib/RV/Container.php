@@ -122,7 +122,7 @@ class Container implements PsrContainerInterface
     }
 
     /**
-     * Build a basinc container, loading parameters form the config file.
+     * Build a basic container, loading parameters form the config file.
      *
      * @param array $aConf
      *

@@ -23,7 +23,17 @@ What's New in Revive Adserver 5.4.0
  Security Updates
  ----------------
 
- * None
+ * Bcrypt is now used to store password hashes. After the upgrade all users
+   should be asked to set up a new password as the old md5 hashes are not
+   valid anymore. A new maintenance screen has been added to help
+   administrators to notify the users that need to reset their password via
+   e-mail.
+
+ * Minimum password length is now set to 12 characters. The default can
+   be changed in the configuration file.
+
+ * Added password strength indicator, based on MIT licensed Dropbox's zxcvbn
+   library.
 
 
  New Features
@@ -57,7 +67,6 @@ What's New in Revive Adserver 5.4.0
    when there is no whitespace around the equal sign.
 
 
-
  Non-Backwards Compatible Changes
  --------------------------------
 
@@ -69,7 +78,7 @@ What's New in Revive Adserver 5.4.0
 
  * Default banner image URL configuration has been deprecated, since it
    interferes with blank impressions. It is still working if already set, but
-   it not displayed anymore in the settings UI and will be removed in a
+   is not displayed anymore in the settings UI and will be removed in a
    future release.
 
  * It is no longer possible to set the password when creating new users, and

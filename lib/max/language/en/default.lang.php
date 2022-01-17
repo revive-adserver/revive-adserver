@@ -1072,6 +1072,7 @@ $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includ
                                          If you do not receive the e-mail, please check your spam folder.<br />
                                          <a href=\"index.php\">Return to the main login page.</a>";
 
+// Password recovery - Default
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Reset Your %s Password";
 $GLOBALS['strPwdRecEmailBody'] = "Dear {name},
 
@@ -1091,8 +1092,10 @@ to gain access to your username. In that case, please contact the support team o
 for your {application_name} system, and notify them of the situation.
 
 {admin_signature}";
+
 $GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
 
+// Password recovery - Welcome email
 $GLOBALS['strWelcomeEmailSubject'] = "Welcome to %s: set up your password";
 $GLOBALS['strWelcomeEmailBody'] = "Dear {name},
 
@@ -1107,6 +1110,32 @@ To enter your password, please click the following link:
 {reset_link}
 
 Please make sure to enter a safe and unique password.
+
+{admin_signature}";
+
+// Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "Please set a new password for your %s user";
+$GLOBALS['strPasswordUpdateEmailBody'] = "Dear {name},
+
+You are receiving this email because you have a username on {application_name}.
+
+Recently, {application_name} software was updated to a new version, which implements a modern and much
+safer method for verifying user passwords. This change help make {application_name} more secure
+for you and everyone else using it.
+
+In order to take full advantage of the improvement, all the current passwords have been invalidated.
+Therefore, we would like to invite you to set a new password now. While entering your new password, you
+will see a coloured bar indicating how strong the new password is. Please make sure to enter a safe and
+unique password.
+
+To set a new password for your username '{username}' now, please click on the following link:
+
+{reset_link}
+
+For increased security the link above will expire after some time. If the link is no longer valid, you
+will be asked to enter your e-mail address and initiate a regular password recovery process.
+
+Thanks for helping to make {application_name} safer for everyone!
 
 {admin_signature}";
 
@@ -1223,6 +1252,24 @@ $GLOBALS['strTZPreferencesWarning'] = "However, campaign activation and expiry w
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "No worksheet was selected for report";
 $GLOBALS['strReportErrorUnknownCode'] = "Unknown error code #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+$GLOBALS['strPasswordMinLength'] = 'Min. length %d characters';
+$GLOBALS['strPasswordTooShort'] = "Too short";
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+$GLOBALS['strPasswordScore'][0] = "Very poor";
+$GLOBALS['strPasswordScore'][1] = "Poor";
+$GLOBALS['strPasswordScore'][2] = "Fair";
+$GLOBALS['strPasswordScore'][3] = "Good";
+$GLOBALS['strPasswordScore'][4] = "Excellent";
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -26,6 +26,8 @@
  *                                           non-negative formatted float.
  *                       - compare:{String}: Ensure the element is identical to
  *                                           the form element {String}.
+ *                       - string+{Length}:  Ensure the element is a string, at
+ *                                           least {Length} characters.
  *                       The parameter can also be left null, in which case no
  *                       validation needs to be performed (i.e. all that is
  *                       required is that the element needs to be filled in, if
@@ -47,11 +49,16 @@ function max_formSetRequirements(obj, descr, req, check)
             return;
         }
     }
-    if (check.substr(0,8) == 'compare:') {
-        if (check.length == 8) {
-            return;
-        }
-    }
+	if (check.substr(0,8) == 'compare:') {
+		if (check.length == 8) {
+			return;
+		}
+	}
+	if (check.substr(0,7) == 'string:') {
+		if (check.length == 7) {
+			return;
+		}
+	}
     // Find the object to set properties on
 	obj = findObj(obj);
 	// Set properties
@@ -252,6 +259,15 @@ function max_formValidateElement(obj)
 					err = true;
 				}
 			}
+			// Check string length
+			if (obj.validateCheck.substr(0,7) == 'string+') {
+				var valString = val.toString();
+				var len = parseInt(obj.validateCheck.substr(7,obj.validateCheck.length - 7));
+
+				if (valString.length < len) {
+					err = true;
+				}
+			}
 			// Check that element is "unique"
 			if (obj.validateCheck == 'unique') {
 				needle = obj.value.toLowerCase();
@@ -272,9 +288,9 @@ function max_formValidateElement(obj)
 
 		// Change class
 		if (err) {
-			obj.className='error';
+			$(obj).addClass('error');
 		} else {
-			obj.className='flat';
+			$(obj).removeClass('error');
 		}
 		return err;
 	}

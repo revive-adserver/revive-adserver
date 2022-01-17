@@ -40,17 +40,6 @@
           });
         });
     {/literal}
-    {literal}
-		$websiteURL = $("#website");
-		$websiteName = $("#name");
-		$websiteName.focus(function () {
-			if ($.trim($websiteName.val()) == "") {
-			   val = $websiteURL.val();
-			   val = val.replace(/^http[s]?:\/\//, "");
-			   $websiteName.val(val);
-			}
-		});
-     {/literal}
     //-->
 </script>
 

@@ -89,7 +89,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['spl'] = true;
         $this->aInfo['PHP']['expected']['json'] = true;
         $this->aInfo['PHP']['expected']['zip'] = true;
-        $this->aInfo['PHP']['expected']['mbstring'] = false;
+        $this->aInfo['PHP']['expected']['mbstring.func_overload'] = false;
         $this->aInfo['PHP']['expected']['timeout'] = false;
         $this->aInfo['COOKIES']['expected']['enabled'] = true;
 

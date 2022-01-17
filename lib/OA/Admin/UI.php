@@ -261,6 +261,7 @@ class OA_Admin_UI
         //tools and shortcuts
         $this->oTpl->assign('aTools', $this->aTools);
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
+        $this->oTpl->assign('aShortcuts', $this->aShortcuts);
 
         //additional things
         $this->_assignJavascriptDefaults(); //JS validation messages and other defaults
@@ -577,6 +578,15 @@ class OA_Admin_UI
         $this->oTpl->assign('aOtherCssFiles', $this->otherCSSFiles);
         $this->oTpl->assign('aJsFiles', $this->getJavascriptFiles($jsGroup));
         $this->oTpl->assign('aOtherJSFiles', $this->otherJSFiles);
+
+        $passwordMinLength = $conf['security']['passwordMinLength'] ?? 0;
+
+        $this->oTpl->assign('jsonZxcvbn', json_encode([
+            'minLength' => $passwordMinLength,
+            'strPasswordMinLength' => sprintf($GLOBALS['strPasswordMinLength'], $passwordMinLength),
+            'strPasswordTooShort' => $GLOBALS['strPasswordTooShort'],
+            'strPasswordScore' => $GLOBALS['strPasswordScore'],
+        ]));
 
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }

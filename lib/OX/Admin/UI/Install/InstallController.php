@@ -837,6 +837,16 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
             OA_Permission::switchToSystemProcessUser(); //get back to normal user previously logged in
         }
 
+        //4) upgrade password hash, if necessary
+        if ($configStepSuccess && $isUpgrade && !empty($GLOBALS['session'][OA_Upgrade_Login::SESSION_PASSWORD_HASH])) {
+            $doUsers = OA_Dal::staticGetDO('users', OA_Permission::getUserId());
+
+            if ($doUsers) {
+                $doUsers->password = $GLOBALS['session'][OA_Upgrade_Login::SESSION_PASSWORD_HASH];
+                $doUsers->update();
+            }
+        }
+
         $configStepSuccess = $configStepSuccess && empty($errMessage);
 
         if ($errMessage) {

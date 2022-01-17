@@ -760,7 +760,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($doUser->contact_name, 'Administrator');
         $this->assertEqual($doUser->email_address, $aAdmin['email']);
         $this->assertEqual($doUser->username, $aAdmin['name']);
-        $this->assertEqual($doUser->password, md5($aAdmin['pword']));
+        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword($aAdmin['pword'], $doUser->password));
         $this->assertEqual($doUser->language, $aAdmin['language']);
 
         // agency was created

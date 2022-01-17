@@ -1432,6 +1432,7 @@ class OA_Upgrade
                 $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
                 $this->oLogger->log('Application version updated to ' . $version);
             }
+
             $this->oAuditor->updateAuditAction(
                 ['description' => 'UPGRADE_COMPLETE',
                                                      'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
@@ -1596,7 +1597,7 @@ class OA_Upgrade
             $doUser->contact_name = 'Administrator';
             $doUser->email_address = $aAdmin['email'];
             $doUser->username = $aAdmin['name'];
-            $doUser->password = md5($aAdmin['pword']);
+            $doUser->password = \RV\Manager\PasswordManager::getPasswordHash($aAdmin['pword']);
             $doUser->default_account_id = $agencyAccountId;
             $doUser->language = $aAdmin['language'];
             $userId = $doUser->insert();

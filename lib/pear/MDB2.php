@@ -2464,7 +2464,7 @@ class MDB2_Driver_Common extends PEAR
      * @param   resource result handle
      * @param   resource connection handle
      *
-     * @return  mixed   MDB2 Error Object or the number of rows affected
+     * @return  int|PEAR_Error   MDB2 Error Object or the number of rows affected
      *
      * @access  private
      */
@@ -2482,7 +2482,7 @@ class MDB2_Driver_Common extends PEAR
      *
      * @param   string  the SQL query
      *
-     * @return  mixed   affected rows on success, a MDB2 error on failure
+     * @return  int|PEAR_Error   affected rows on success, a MDB2 error on failure
      *
      * @access  public
      */
@@ -2519,7 +2519,7 @@ class MDB2_Driver_Common extends PEAR
      * @param   mixed   string which specifies which class to wrap results in
      * @param   object  a result handle on success, a MDB2 error on failure
      *
-     * @return mixed   an MDB2_Result, a MDB2 error on failure
+     * @return MDB2_Result_Common|PEAR_Error   an MDB2_Result, a MDB2 error on failure
      *
      * @access  public
      */
@@ -2558,7 +2558,7 @@ class MDB2_Driver_Common extends PEAR
      * @param   string  number of rows to select
      * @param   string  first row to select
      *
-     * @return mixed   an MDB2_Result, a MDB2 error on failure
+     * @return MDB2_Result_Common|PEAR_Error   an MDB2_Result, a MDB2 error on failure
      *
      * @access  protected
      */
@@ -3465,7 +3465,7 @@ class MDB2_Result_Common extends MDB2_Result
      * @param   int     how the array data should be indexed
      * @param   int     number of the row where the data can be found
      *
-     * @return  int     data array on success, a MDB2 error on failure
+     * @return  array|PEAR_Error     data array on success, a MDB2 error on failure
      *
      * @access  public
      */

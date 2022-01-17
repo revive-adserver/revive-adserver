@@ -2254,10 +2254,17 @@ p {
 #zxcvbn-container {
     margin-bottom: -2px;
     width: 0;
-    height: 4px;
-    background-color: #dddddd;
+    height: 19px;
+    background-color: #f6f6f6;
+    text-align: center;
+    padding: 0 0 4px;
 }
 #zxcvbn-display {
     width: 0;
-    height: 4px;
+    height: 6px;
+}
+#zxcvbn-text {
+    margin-top: 4px;
+    font-weight: bold;
+    display: inline-grid;
 }

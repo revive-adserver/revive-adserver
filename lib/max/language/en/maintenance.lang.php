@@ -151,3 +151,12 @@ $GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME
 $GLOBALS['strMenus'] = "Menus";
 $GLOBALS['strMenusPrecis'] = "Rebuild the menu cache";
 $GLOBALS['strMenusCachedOk'] = "Menu cache has been rebuilt";
+
+// Users
+$GLOBALS['strUserPasswords'] = "User passwords";
+$GLOBALS['strUserPasswordsExplaination'] = "Starting with version 5.4, {$PRODUCT_NAME} stores passwords in a safer format.
+Use this tool to check if any users still have passwords stored in the old format, and to send selected users an email enabling to enter a new password.
+The tool can also be used to remind new users that they should set their first password.";
+$GLOBALS['strCheckUserPasswords'] = "Check user passwords";
+$GLOBALS['strUserPasswordsEverythingOK'] = "No user requires a password reset, everything is OK.";
+$GLOBALS['strUserPasswordsEmailsSent'] = "The emails for the users you have selected have been sent.";

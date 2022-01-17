@@ -54,7 +54,7 @@ class Test_Authentication extends UnitTestCase
 
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->username = $username;
-        $doUsers->password = md5($password);
+        $doUsers->password = \RV\Manager\PasswordManager::getPasswordHash($password);
         DataGenerator::generateOne($doUsers);
 
         $_POST['username'] = $username;
@@ -93,7 +93,7 @@ class Test_Authentication extends UnitTestCase
         // Test with username and password set
         $oUserInfo->password = 'pwd';
         $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
-        $this->assertEqual($oUserInfo->password, md5('pwd'));
+        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pwd', $oUserInfo->password));
 
         // Test edit
         $oUserInfo = new OA_Dll_UserInfo();
@@ -102,9 +102,9 @@ class Test_Authentication extends UnitTestCase
         $this->assertNull($oUserInfo->password);
 
         // Test edit with new password
-        $oUserInfo->password = 'pwd';
+        $oUserInfo->password = 'pwd2';
         $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
-        $this->assertEqual($oUserInfo->password, md5('pwd'));
+        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pwd2', $oUserInfo->password));
 
         $dllUserMock->tally();
     }

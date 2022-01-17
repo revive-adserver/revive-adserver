@@ -59,6 +59,8 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
 
     protected function buildAdminSection()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         $this->addElement('hidden', 'moreFieldsShown', 0, ['id' => 'moreFieldsShown']);
 
         $this->addElement('static', 'zxcvbn', '<script src="assets/js/zxcvbn.js"></script>');
@@ -81,6 +83,10 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
         $this->addRule('adminEmail', $GLOBALS['strEmailField'], 'email');
         $this->addRequiredRule('adminLanguage', $GLOBALS['strLanguage']);
         $this->addRequiredRule('prefsTimezone', $GLOBALS['strTimezone']);
+
+        if (!empty($aConf['security']['passwordMinLength'])) {
+            $this->addRule('adminPassword', $GLOBALS['strPasswordTooShort'], 'minlength', $aConf['security']['passwordMinLength']);
+        }
     }
 
 

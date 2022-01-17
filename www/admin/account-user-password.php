@@ -19,8 +19,8 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/lib/OX/Extension/authentication/authentication.php';
 require_once MAX_PATH . '/www/admin/config.php';
-
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
@@ -42,7 +42,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     OA_Permission::checkSessionToken();
 
-    // Get the DB_DataObject for the current user
+    /** @var DataObjects_Users $doUsers */
     $doUsers = OA_Dal::factoryDO('users');
     $doUsers->get(OA_Permission::getUserId());
 
@@ -56,17 +56,18 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (!isset($pwold) || !$oPlugin->checkPassword(OA_Permission::getUsername(), $pwold)) {
         $aErrormessage[0][] = $GLOBALS['strPasswordWrong'];
     }
-    if (isset($pw) && strlen($pw) || isset($pw2) && strlen($pw2)) {
-        if (!strlen($pw) || strstr("\\", $pw)) {
-            $aErrormessage[0][] = $GLOBALS['strInvalidPassword'];
-        } elseif (strcmp($pw, $pw2)) {
-            $aErrormessage[0][] = $GLOBALS['strNotSamePasswords'];
-        } else {
-            $changePassword = true;
-        }
+
+    $auth = new Plugins_Authentication();
+    $auth->validateUsersPassword($pw ?? '', $pw2 ?? '');
+
+    if (empty($auth->aValidationErrors)) {
+        $changePassword = true;
+    } else {
+        $aErrormessage[0] = array_merge($aErrormessage[0] ?? [], $auth->aValidationErrors);
     }
+
     if (!count($aErrormessage) && $changePassword) {
-        $result = $oPlugin->changePassword($doUsers, $pw, $pwold);
+        $result = $oPlugin->changePassword($doUsers, $pw);
         if (PEAR::isError($result)) {
             $aErrormessage[0][] = $result->getMessage();
         }
@@ -74,7 +75,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (!count($aErrormessage)) {
         if ($doUsers->update() === false) {
             // Unable to update the preferences
-            $aErrormessage[0][] = $strUnableToWritePrefs;
+            $aErrormessage[0][] = $GLOBALS['strUnableToWritePrefs'];
         } else {
             // Regenerate session ID and clear all other sessions
             phpAds_SessionRegenerateId(true);
@@ -156,6 +157,7 @@ $aSettings = [
                 'name' => 'pw',
                 'text' => $strChooseNewPassword,
                 'strengthIndicator' => true,
+                'check' => 'string+'.($conf['security']['passwordMinLength'] ?? 0),
                 'autocomplete' => 'new-password',
             ],
             [

@@ -219,9 +219,10 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertEqual(1, $doUsers->count(), 'Should be one user found.');
         $this->assertEqual($oAgencyInfo->username, $doUsers->username, 'Username does not match.');
         $this->assertEqual($oAgencyInfo->userEmail, $doUsers->email_address, 'User email does not match.');
-        // Because the password gets unset.
-        $this->assertEqual(md5('pass'), $doUsers->password, 'Password does not match.');
         $this->assertEqual($oAgencyInfo->language, $doUsers->language, 'Language does not match.');
+
+        // Because the password gets unset.
+        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pass', $doUsers->password), 'Password does not match.');
 
         // Test a dodgy language
         $oBadLanguageInfo = clone $oAgencyInfo;

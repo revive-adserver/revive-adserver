@@ -63,6 +63,10 @@
 {$jsMPE}
 {$jsFlash}
 
+<script>
+    window.rvZxcvbn = {$jsonZxcvbn};
+</script>
+
 {foreach item=s from=$aSide}
 {if $s.top}
 <link rel="top" href="{$s.filename|escape}" title="{$s.title|escape}" />

@@ -95,11 +95,9 @@ class Plugins_Authentication extends OX_Component
     /**
      * A method to check a username and password
      *
-     * @param string $username
-     * @param string $password
      * @return mixed A DataObjects_Users instance, or false if no matching user was found
      */
-    public function checkPassword($username, $password)
+    public function checkPassword(string $username, string $password, bool $useMd5 = false)
     {
         // Introduce a random delay in case of failures, as recommended by:
         // https://www.owasp.org/index.php/Blocking_Brute_Force_Attacks
@@ -129,16 +127,25 @@ class Plugins_Authentication extends OX_Component
             usleep($waitMs * 4000);
         }
 
+        /** @var DataObjects_Users $doUser */
         $doUser = OA_Dal::factoryDO('users');
         $doUser->username = $username ?: '';
-        $doUser->password = md5($password) ?: '';
 
-        $doUser->find();
+        if ($doUser->find()) {
+            $doUser->fetch();
 
-        if ($doUser->fetch()) {
-            $oLock->release();
+            if (
+                ($useMd5 && $doUser->password === md5($password)) ||
+                \RV\Manager\PasswordManager::verifyPassword($password, $doUser->password)
+            ) {
+                if (!$useMd5 && \RV\Manager\PasswordManager::needsRehash($doUser)) {
+                    \RV\Manager\PasswordManager::updateHash($doUser, $password);
+                }
 
-            return $doUser;
+                $oLock->release();
+
+                return $doUser;
+            }
         }
 
         if ($lock) {
@@ -234,9 +241,10 @@ class Plugins_Authentication extends OX_Component
         }
 
         if (isset($oUserInfo->password)) {
-            // Save MD5 hash of the password
-            $oUserInfo->password = md5($oUserInfo->password);
+            // Save the hash of the password
+            $oUserInfo->password = self::getPasswordHash($oUserInfo->password);
         }
+
         return true;
     }
 
@@ -366,7 +374,7 @@ class Plugins_Authentication extends OX_Component
      *
      * @param DB_DataObject_Users $doUsers  Users dataobject with any preset variables
      * @param string $login  User name
-     * @param string $password  Password
+     * @param string|null $password  Password
      * @param string $contactName  Contact name
      * @param string $emailAddress  Email address
      * @param integer $accountId  a
@@ -390,7 +398,7 @@ class Plugins_Authentication extends OX_Component
         } else {
             $doUsers->default_account_id = $accountId;
             $doUsers->username = $login;
-            $doUsers->password = null === $password ? '' : md5($password);
+            $doUsers->password = null === $password ? '' : self::getPasswordHash($password);
             return $doUsers->insert();
         }
     }
@@ -450,9 +458,9 @@ class Plugins_Authentication extends OX_Component
      * @param string $oldPassword
      * @return mixed True on success, PEAR_Error otherwise
      */
-    public function changePassword(&$doUsers, $newPassword, $oldPassword)
+    public function changePassword($doUsers, $newPassword)
     {
-        $doUsers->password = md5($newPassword);
+        $doUsers->password = self::getPasswordHash($newPassword);
         return true;
     }
 
@@ -469,7 +477,7 @@ class Plugins_Authentication extends OX_Component
         if (!$doUsers) {
             return false;
         }
-        $doUsers->password = md5($newPassword);
+        $doUsers->password = self::getPasswordHash($newPassword);
         return $doUsers->update();
     }
 
@@ -504,24 +512,38 @@ class Plugins_Authentication extends OX_Component
     }
 
     /**
-     * Validates user password - required for linking new users
+     * Validates user password, also comparing
      *
      * @param string $password
-     * @return array  Array containing error strings or empty
-     *                array if no validation errors were found
      */
-    public function validateUsersPassword($password)
+    public function validateUsersPassword($password, $passwordConfirm)
     {
+        require_once 'HTML/QuickForm/Rule/Range.php';
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         if (!strlen($password) || strstr("\\", $password)) {
             $this->addValidationError($GLOBALS['strInvalidPassword']);
-        }
-    }
 
-    public function validateUsersPasswords($password1, $password2)
-    {
-        if ($password1 != $password2) {
-            $this->addValidationError($GLOBALS['strNotSamePasswords']);
+            return;
         }
+
+        if (!empty($aConf['security']['passwordMinLength'])) {
+            $qfRule = new HTML_QuickForm_Rule_Range();
+            $qfRule->setName('minlength');
+
+            if (!$qfRule->validate($password, $aConf['security']['passwordMinLength'])) {
+                $this->addValidationError($GLOBALS['strPasswordTooShort']);
+
+                return;
+            }
+        }
+
+        if ($password === $passwordConfirm) {
+            return;
+        }
+
+        $this->addValidationError($GLOBALS['strNotSamePasswords']);
     }
 
     /**
@@ -544,6 +566,11 @@ class Plugins_Authentication extends OX_Component
         }
 
         return $this->getValidationErrors();
+    }
+
+    private static function getPasswordHash(string $password): string
+    {
+        return \RV\Manager\PasswordManager::getPasswordHash($password);
     }
 }
 

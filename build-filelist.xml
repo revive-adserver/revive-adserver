@@ -34,7 +34,7 @@
     <exclude name="lib/ant/**"/>
     <exclude name="lib/simpletest/**"/>
     <exclude name="lib/vendor/figdice/**"/>
-    <exclude name="lib/vendor/tinymce/**"/>
+    <exclude name="lib/vendor/bower-asset/**"/>
     <include name="maintenance/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
@@ -98,7 +98,7 @@
     <include name="lib/ant/**"/>
     <include name="lib/simpletest/**"/>
     <include name="lib/vendor/figdice/**"/>
-    <include name="lib/vendor/tinymce/**"/>
+    <include name="lib/vendor/bower-asset/**"/>
     <exclude name="plugins/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/delivery/**"/>

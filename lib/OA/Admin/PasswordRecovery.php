@@ -128,13 +128,16 @@ class OA_Admin_PasswordRecovery
                 $this->displayMessage($GLOBALS['strNotifyPageMessage']);
             }
         } elseif ($doUser = $this->_dal->getUserFromRecoveryId($vars['id'])) {
-            if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
-                $this->displayRecoveryResetForm($vars['id'], $doUser, $GLOBALS['strNotSamePasswords']);
-            } else {
+            $auth = new Plugins_Authentication();
+            $auth->validateUsersPassword($vars['newpassword'] ?? '', $vars['newpassword2'] ?? '');
+
+            if (empty($auth->aValidationErrors)) {
                 $this->_dal->saveNewPasswordAndLogin($doUser->user_id, $vars['id'], $vars['newpassword']);
 
                 phpAds_SessionRegenerateId(true);
                 OX_Admin_Redirect::redirect();
+            } else {
+                $this->displayRecoveryResetForm($vars['id'], $doUser, current($auth->aValidationErrors));
             }
         } else {
             $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongExpired']);
@@ -190,6 +193,8 @@ class OA_Admin_PasswordRecovery
      */
     public function displayRecoveryResetForm($id, DataObjects_Users $doUser, $errormessage = '')
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         if (!empty($errormessage)) {
             echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>&nbsp;";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
@@ -197,21 +202,26 @@ class OA_Admin_PasswordRecovery
 
         echo "<script src='assets/js/zxcvbn.js'></script>";
 
-        echo "<form method='post' action='password-recovery.php'>\n";
+        echo "<form method='post' action='password-recovery.php' onsubmit='return max_formValidate(this)'>\n";
         echo "<input type='hidden' name='id' value=\"" . htmlspecialchars($id) . "\" />\n";
         echo "<input type='hidden' name='token' value='" . phpAds_SessionGetToken() . "'/>\n";
 
         echo "<div class='install'>" . $GLOBALS['strPwdRecEnterPassword'] . "</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strUsername'] . ":&nbsp;</td><td><input type='text' name='username' autocomplete='username' value=\"" . htmlspecialchars($doUser->username) . "\" class='flat' disabled /></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' autocomplete='new-password' class='flat zxcvbn-check'/></td></tr>";
-        echo "<tr height='24'><td>" . $GLOBALS['strRepeatPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' autocomplete='new-password' class='flat' /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strUsername'] . ":&nbsp;</td><td><input type='text' name='username' autocomplete='username' value=\"" . htmlspecialchars($doUser->username) . "\" class='medium flat' disabled /></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strChooseNewPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword' autocomplete='new-password' class='medium flat zxcvbn-check' onblur='max_formValidateElement(this)'/></td></tr>";
+        echo "<tr height='24'><td>" . $GLOBALS['strReenterNewPassword'] . ":&nbsp;</td><td><input type='password' name='newpassword2' autocomplete='new-password' class='medium flat' onblur='max_formValidateElement(this)' /></td></tr>";
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' value='" . $GLOBALS['strProceed'] . "' /></td></tr>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
         echo "</table>";
 
         echo "</form>\n";
+
+        echo "<script>\n";
+        echo "max_formSetRequirements('newpassword', '" . addcslashes($GLOBALS['strChooseNewPassword'], "\0..\37'\\") . "', true, 'string+" . ($aConf['security']['passwordMinLength'] ?? 0) . "');";
+        echo "max_formSetRequirements('newpassword2', '" . addcslashes($GLOBALS['strReenterNewPassword'], "\0..\37'\\") . "', true, 'compare:newpassword');";
+        echo "</script>\n";
     }
 
     /**
@@ -246,15 +256,35 @@ class OA_Admin_PasswordRecovery
 
     /**
      * Send the welcome email, only if the user hasn't set their password yet.
+     *
+     * @param int[] The userIDs
      */
-    public function sendWelcomeEmail(int $userId): int
+    public function sendWelcomeEmail(array $userIds): int
     {
-        $aUsers = $this->_dal->searchNewUsersById($userId);
+        $aUsers = $this->_dal->searchUsersByIds($userIds, true);
 
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strWelcomeEmailSubject',
             'strWelcomeEmailBody'
+        );
+
+        return $sent;
+    }
+
+    /**
+     * Send the password update email.
+     *
+     * @param int[] The userIDs
+     */
+    public function sendPasswordUpdateEmail(array $userIds): int
+    {
+        $aUsers = $this->_dal->searchUsersByIds($userIds);
+
+        $sent = $this->sendEmailToUsers(
+            $aUsers,
+            'strPasswordUpdateEmailSubject',
+            'strPasswordUpdateEmailBody'
         );
 
         return $sent;

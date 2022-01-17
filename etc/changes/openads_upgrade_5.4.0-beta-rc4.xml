@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/ox_upgrade_package.xsl"?>
+
+<upgrade>
+    <name>Revive Adserver</name>
+    <creationDate>2021-11-30</creationDate>
+    <author>Matteo Beccati</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Revive Adserver Upgrade 5.4.0-beta-rc4</description>
+    <versionFrom></versionFrom>
+    <versionTo>5.4.0-beta-rc4</versionTo>
+
+    <!-- Custom Install Scripts to execute -->
+    <postscript>postscript_openads_upgrade_5.4.0-beta-rc4.php</postscript>
+
+
+</upgrade>
