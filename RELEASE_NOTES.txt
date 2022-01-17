@@ -71,6 +71,9 @@ What's New in Revive Adserver 5.4.0
  * It is no longer possible to set the password when creating new users, and
    a welcome email will be sent to them.
 
+ * Removed unmaintained Java XML-RPC API client and its supporting
+   libraries.
+
 
 System Requirements
 -------------------
