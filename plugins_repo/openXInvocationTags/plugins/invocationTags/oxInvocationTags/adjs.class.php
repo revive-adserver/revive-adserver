@@ -101,7 +101,6 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
     public function generateInvocationCode()
     {
         $aComments = [
-            'SSL Delivery Comment' => '',
             'Comment' => $this->translate("
   * This noscript section of this tag only shows image banners. There
   * is no width or height in these banners, so if you want these tags to

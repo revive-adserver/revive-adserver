@@ -85,12 +85,9 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
     public function getOptionsList()
     {
         if (is_array($this->defaultOptions)) {
-            if (in_array('cacheBuster', $this->defaultOptions)) {
-                unset($this->defaultOptions['cacheBuster']);
-            }
-            if (in_array('comments', $this->defaultOptions)) {
-                unset($this->defaultOptions['comments']);
-            }
+            unset($this->defaultOptions['cacheBuster']);
+            unset($this->defaultOptions['comments']);
+            unset($this->defaultOptions['https']);
         }
         $options = [
             'block' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
@@ -110,8 +107,6 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
     public function generateInvocationCode()
     {
         $aComments = [
-            'SSL Backup Comment' => "",
-            'SSL Delivery Comment' => "",
             'Comment' => "",
         ];
         parent::prepareCommonInvocationData($aComments);
@@ -140,7 +135,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
         }, $mi->parameters);
 
         $buffer .= '<ins ' . join(' ', $mi->parameters) . '></ins>' . PHP_EOL;
-        if ($conf['webpath']['delivery'] == $conf['webpath']['deliverySSL']) {
+        if ($conf['webpath']['delivery'] === $conf['webpath']['deliverySSL']) {
             // Yes, we can use the short version!
             $buffer .= '<script async src="' . MAX_commonConstructPartialDeliveryUrl($conf['file']['asyncjs']) . '"></script>';
         } else {

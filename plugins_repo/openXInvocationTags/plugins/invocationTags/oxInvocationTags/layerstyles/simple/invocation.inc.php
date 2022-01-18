@@ -224,7 +224,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plu
             $mi->parameters[] = 'noborder=' . $noborder;
         }
 
-        $scriptUrl = "http:" . MAX_commonConstructPartialDeliveryUrl($conf['file']['layer']);
+        $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
         if (sizeof($mi->parameters) > 0) {
             $scriptUrl .= "?" . implode("&", $mi->parameters);
         }

@@ -168,7 +168,7 @@ class Plugins_InvocationTags extends OX_Component
      * Prepare data before generating the invocation code
      *
      * @param array $aComments Array of comments allowed keys: 'Cache Buster Comment', 'Third Party Comment',
-     *                                     'SSL Delivery Comment', 'SSL Backup Comment', 'Comment'
+     *                         'Comment'
      *
      */
     public function prepareCommonInvocationData($aComments)
@@ -242,7 +242,6 @@ class Plugins_InvocationTags extends OX_Component
         );
 
         if (!empty($mi->comments)) {
-            $oTrans = new OX_Translation();
             $comment = '';
             if (!empty($mi->cachebuster)) {
                 if (isset($aComments['Cache Buster Comment'])) {
@@ -252,17 +251,7 @@ class Plugins_InvocationTags extends OX_Component
                 }
                 $comment .= str_replace('{random}', $mi->macros['cachebuster'], $cbComment);
             }
-            //SSL Delivery Comment
-            if (isset($aComments['SSL Delivery Comment'])) {
-                $comment .= $aComments['SSL Delivery Comment'];
-            } else {
-                $comment .= $oTrans->translate('SSLDeliveryComment', [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]);
-            }
-            if (isset($aComments['SSL Backup Comment'])) {
-                $comment .= $aComments['SSL Backup Comment'];
-            } else {
-                $comment .= $oTrans->translate('SSLBackupComment', [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]);
-            }
+
             if (isset($aComments['Comment'])) {
                 $comment .= $aComments['Comment'];
             }
@@ -287,14 +276,14 @@ class Plugins_InvocationTags extends OX_Component
         if (!empty($mi->cachebuster) || !isset($mi->cachebuster)) {
             $hrefParams[] = "cb=" . $mi->macros['cachebuster'];
         }
-        $backup = "<a href='" . MAX_commonConstructDeliveryUrl($conf['file']['click']) . "?" . implode("&amp;", $hrefParams) . "'";
+        $backup = "<a href='" . MAX_commonConstructDeliveryUrl($conf['file']['click'], $mi->https) . "?" . implode("&amp;", $hrefParams) . "'";
 
         if (isset($mi->target) && $mi->target != '') {
             $backup .= " target='" . $mi->target . "'";
         } else {
             $backup .= " target='_blank'";
         }
-        $backup .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view']);
+        $backup .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view'], $mi->https);
         // Remove any paramaters that should not be passed into the IMG call
         unset($imgParams['target']);
 

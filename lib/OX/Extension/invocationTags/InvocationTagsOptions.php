@@ -45,6 +45,7 @@ class Plugins_InvocationTagsOptions
             'cachebuster' => 1,
             'comments' => 0,
             'charset' => '',
+            'https' => 1,
         ];
     }
 
@@ -632,6 +633,26 @@ class Plugins_InvocationTagsOptions
             $option .= "<option value='{$charsetCode}'" . ($maxInvocation->charset == $charsetCode ? ' selected="selected"' : '') . ">" . $charsetName . "</option>\n";
         }
         $option .= "</select>";
+        $option .= "</tr>";
+        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+        return $option;
+    }
+
+    /**
+     * Generate the HTML option for charset inclusion
+     *
+     * @return string    A string containing html for option
+     */
+    public function https()
+    {
+        $maxInvocation = $this->maxInvocation;
+        $https = $maxInvocation->https ?? $this->defaultValues['https'];
+
+        $option = '';
+        $option .= "<tr><td width='30'>&nbsp;</td>";
+        $option .= "<td width='200'>" . $GLOBALS['strGenerateHttpsTags'] . "</td>";
+        $option .= "<td width='370'><input type='radio' name='https' value='1'" . ($https == 1 ? " checked='checked'" : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strYes'] . "<br />";
+        $option .= "<input type='radio' name='https' value='0'" . ($https == 0 ? " checked='checked'" : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strNo'] . "</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;

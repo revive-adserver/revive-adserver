@@ -118,14 +118,8 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
   -- a cache-buster random number each time you deliver the tag through
   -- a 3rd party (non-Max) adserver.
   --"),
-            'Comment' => $this->translate("
-  -- This tag has been generated for use on a non-SSL page. If this tag
-  -- is to be placed on an SSL page, change all instances of
-  --   'http://%s/...'
-  -- to
-  --   'https://%s/...'
-  --", [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]),
-            ];
+        ];
+
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -170,7 +164,7 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
                 $mi->parameters['delay'] = "delay=exit";
             }
         }
-        $buffer .= "<script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['popup']);
+        $buffer .= "<script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['popup'], $mi->https);
         $buffer .= "?n=" . $mi->uniqueid;
         if (sizeof($mi->parameters) > 0) {
             $buffer .= "&" . implode("&", $mi->parameters);

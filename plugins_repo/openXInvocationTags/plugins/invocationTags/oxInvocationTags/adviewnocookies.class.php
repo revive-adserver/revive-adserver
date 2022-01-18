@@ -103,7 +103,6 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
     {
         $aComments = [
             'Third Party Comment' => '',
-            'SSL Delivery Comment' => '',
             'Comment' => '',
             ];
         parent::prepareCommonInvocationData($aComments);
@@ -116,7 +115,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
             $mi->parameters[] = "n=" . $mi->uniqueid;
         }
         $buffer .= "<a href='";
-        $buffer .= MAX_commonConstructDeliveryUrl($conf['file']['signedClick']);
+        $buffer .= MAX_commonConstructDeliveryUrl($conf['file']['signedClick'], $mi->https);
         $mi->clickParams = [];
 
         // Only need the banner id for direct selection not zone
@@ -138,7 +137,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         } else {
             $buffer .= " target='_blank'";
         }
-        $buffer .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view']);
+        $buffer .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view'], $mi->https);
         // Without cookies, passing in the click URL to view is not possible
         unset($mi->parameters['ct0']);
         if (sizeof($mi->parameters) > 0) {

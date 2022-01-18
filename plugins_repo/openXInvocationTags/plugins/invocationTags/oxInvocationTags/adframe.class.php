@@ -124,7 +124,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         if (empty($mi->frame_height)) {
             $mi->frame_height = $mi->height;
         }
-        $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='" . MAX_commonConstructDeliveryUrl($conf['file']['frame']);
+        $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='" . MAX_commonConstructDeliveryUrl($conf['file']['frame'], $mi->https);
         if (sizeof($mi->parameters) > 0) {
             $buffer .= "?" . implode("&amp;", $mi->parameters);
         }

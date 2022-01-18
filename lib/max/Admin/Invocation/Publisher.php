@@ -146,6 +146,9 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
      */
     public function getDefaultOptionsList()
     {
-        return ['comments' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD];
+        return [
+            'comments' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'https' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        ];
     }
 }

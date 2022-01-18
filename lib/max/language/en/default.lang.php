@@ -805,20 +805,7 @@ $GLOBALS['strAutoDetect'] = "Auto-detect";
 $GLOBALS['strCacheBusterComment'] = "  * Replace all instances of {random} with
   * a generated random number (or timestamp).
   *";
-$GLOBALS['strSSLBackupComment'] = "
-  * The backup image section of this tag has been generated for use on a
-  * non-SSL page. If this tag is to be placed on an SSL page, change the
-  *   'http://%s/...'
-  * to
-  *   'https://%s/...'
-  *";
-$GLOBALS['strSSLDeliveryComment'] = "
-  * This tag has been generated for use on a non-SSL page. If this tag
-  * is to be placed on an SSL page, change the
-  *   'http://%s/...'
-  * to
-  *   'https://%s/...'
-  *";
+$GLOBALS['strGenerateHttpsTags'] = "Generate tags using the HTTPS protocol";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Database connection error.";

@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/Delivery/log.php';
  * @param string $file Optional delivery file name.
  * @return string The delivery URL.
  */
-function MAX_commonGetDeliveryUrl($file = null)
+function MAX_commonGetDeliveryUrl($file = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     if ($GLOBALS['_MAX']['SSL_REQUEST']) {
@@ -54,12 +54,16 @@ function MAX_commonGetDeliveryUrl($file = null)
  * A function to generate the URL for delivery scripts.
  *
  * @param string $file The file name of the delivery script.
+ * @param bool $secure Use HTTPS
  * @return string The URL to the delivery script.
  */
-function MAX_commonConstructDeliveryUrl($file)
+function MAX_commonConstructDeliveryUrl($file, bool $secure = false)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    return 'http://' . $conf['webpath']['delivery'] . '/' . $file;
+    if ($secure) {
+        return MAX_commonConstructSecureDeliveryUrl($file);
+    }
+
+    return 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] . '/' . $file;
 }
 
 /**

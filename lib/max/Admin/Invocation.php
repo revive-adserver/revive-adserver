@@ -58,6 +58,7 @@ class MAX_Admin_Invocation
             'frame_height',
             'height',
             'hostlanguage',
+            'https',
             'ilayer',
             'layerstyle',
             'left',
@@ -495,6 +496,7 @@ class MAX_Admin_Invocation
             'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'cacheBuster' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'comments' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'https' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         ];
         return $options;
     }

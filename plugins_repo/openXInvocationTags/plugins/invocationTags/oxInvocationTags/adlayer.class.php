@@ -117,14 +117,6 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
   *"),
-            'SSL Delivery Comment' => $this->translate("
-  * This tag has been generated for use on a non-SSL page. If this tag
-  * is to be placed on an SSL page, change the
-  *   'http://%s/...'
-  * to
-  *   'https://%s/...'
-  *", [$conf['webpath']['delivery'], $conf['webpath']['deliverySSL']]),
-            'SSL Backup Comment' => '',
             ];
         if (isset($GLOBALS['layerstyle']) &&
             ($GLOBALS['layerstyle'] == 'geocities' || $GLOBALS['layerstyle'] == 'simple')) {
