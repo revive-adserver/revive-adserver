@@ -134,9 +134,9 @@ assetClientCacheExpire              = 3600  ; Used to create the browser caching
                                             ; of semi-static delivery files, e.g. asyncjs.php
 secret                              =
 clickUrlValidity                    = 0;    ; Click URL open redirect validity in seconds
+relAttribute                        = noopener nofollow
 
 [defaultBanner]
-relAttribute                        = noopener sponsored
 invalidZoneHtmlBanner               =       ; If zone does not exist, show this HTML snipper
 suspendedAccountHtmlBanner          =       ; If account is suspended, show this HTML snippet
 inactiveAccountHtmlBanner           =       ; If account is inactive, show this HTML snippet

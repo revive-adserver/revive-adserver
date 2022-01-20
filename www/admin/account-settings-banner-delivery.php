@@ -266,8 +266,8 @@ $aSettings = [
             ],
             [
                 'type'    => 'text',
-                'name'    => 'defaultBanner_relAttribute',
-                'text'    => $strGlobalDefaultBannerRelAttribute,
+                'name'    => 'delivery_relAttribute',
+                'text'    => $strDeliveryRelAttribute,
             ],
             [
                 'type'    => 'break'

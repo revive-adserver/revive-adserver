@@ -127,6 +127,7 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
         '{campaignid}' => $aBanner['placement_id'],
         '{advertiserid}' => $aBanner['client_id'],
         '{referer}' => $referer ?? '',
+        '{rel}' => _adRenderBuildRelAttribute($aBanner),
         '{logurl}' => '', // Placeholder
         '{logurl_enc}' => '', // Placeholder
         '{logurl_html}' => '', // Placeholder
@@ -318,8 +319,7 @@ function _adRenderImage(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withTe
     // Create the anchor tag..
     if (!empty($aBanner['url'])) {  // There is a link
         $status = _adRenderBuildStatusCode($aBanner);
-        $relAttribute = !empty($conf['defaultBanner']['relAttribute']) ? ' rel="' . $conf['defaultBanner']['relAttribute'] . '"' : '';
-        $clickTag = "<a href='{clickurl_html}' target='{target}'$relAttribute{$status}>";
+        $clickTag = "<a href='{clickurl_html}' target='{target}' rel='{rel}'{$status}>";
         $clickTagEnd = '</a>';
     } else {
         $clickTag = '';
@@ -769,6 +769,11 @@ function _adRenderBuildClickUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', 
 function _adRenderBuildStatusCode($aBanner)
 {
     return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+}
+
+function _adRenderBuildRelAttribute($aBanner)
+{
+    return htmlspecialchars($GLOBALS['_MAX']['CONF']['delivery']['relAttribute'] ?? '', ENT_QUOTES);
 }
 
 function _getAdRenderFunction($aBanner, $richMedia = true)

@@ -44,7 +44,7 @@ function Plugin_BannerTypeText_{GROUP}_{GROUP}Component_delivery(&$aBanner, $zon
     if (!empty($aBanner['url'])) {  // There is a link
         $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $clickTag = "<a href='{clickurl_html}' target='$target'$status>";
+        $clickTag = "<a href='{clickurl_html}' target='{$target}' rel='{rel}'{$status}>";
         $clickTagEnd = '</a>';
     } else {
         $clickTag = '';
