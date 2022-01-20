@@ -61,6 +61,11 @@ What's New in Revive Adserver 5.4.0
  * Tags are now generated using https by default, with the possibility
    to use plain http instead in the invocation code screens.
 
+ * Added banner delivery setting to configure the "rel" HTML attribute
+   for the click tracking links of image and text banners, defaulting
+   to "noopener nofollow". The setting is also exposed in the newly
+   added "{rel}" magic macro.
+
 
  Bug Fixes
  ---------

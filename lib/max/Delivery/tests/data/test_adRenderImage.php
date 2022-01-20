@@ -64,7 +64,7 @@ $aBanner = [
     'alt_contenttype' => ''
 ];
 
-$expect = "<a href='{clickurl_html}' target='{target}'>" .
+$expect = "<a href='{clickurl_html}' target='{target}' rel='{rel}'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['images'] .
     "/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0' /></a>" .
     "<div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>" .
