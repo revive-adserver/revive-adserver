@@ -56,6 +56,9 @@ What's New in Revive Adserver 5.4.0
 
  * Added autocomplete attributes for username and password fields.
 
+ * Tags are now generated using https by default, with the possibility
+   to use plain http instead in the invocation code screens.
+
 
  Bug Fixes
  ---------
