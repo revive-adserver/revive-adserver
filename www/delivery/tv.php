@@ -2412,7 +2412,7 @@ $aCaps['session_capping'][$index]
 );
 }
 
-function MAX_commonGetDeliveryUrl($file = null)
+function MAX_commonGetDeliveryUrl($file = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($GLOBALS['_MAX']['SSL_REQUEST']) {
@@ -2422,10 +2422,12 @@ $url = MAX_commonConstructDeliveryUrl($file);
 }
 return $url;
 }
-function MAX_commonConstructDeliveryUrl($file)
+function MAX_commonConstructDeliveryUrl($file, bool $secure = false)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-return 'http://' . $conf['webpath']['delivery'] . '/' . $file;
+if ($secure) {
+return MAX_commonConstructSecureDeliveryUrl($file);
+}
+return 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] . '/' . $file;
 }
 function MAX_commonConstructSecureDeliveryUrl($file)
 {
