@@ -3509,6 +3509,7 @@ $aMagicMacros = [
 '{campaignid}' => $aBanner['placement_id'],
 '{advertiserid}' => $aBanner['client_id'],
 '{referer}' => $referer ?? '',
+'{rel}' => _adRenderBuildRelAttribute($aBanner),
 '{logurl}' => '',  '{logurl_enc}' => '',  '{logurl_html}' => '',  '{clickurl}' => '',  '{clickurl_enc}' => '',  '{clickurl_html}' => '',  ];
 preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $aBanner['url'] . "\n" . $code, $aMatches);
 for ($i = 0; $i < count($aMatches[1]); $i++) {
@@ -3613,7 +3614,7 @@ return _adRenderBuildFileUrl($aBanner, $useAlt);
 $prepend = (!empty($aBanner['prepend']) && $useAppend) ? $aBanner['prepend'] : '';
 $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
 if (!empty($aBanner['url'])) {  $status = _adRenderBuildStatusCode($aBanner);
-$clickTag = "<a href='{clickurl_html}' target='{target}'{$status}>";
+$clickTag = "<a href='{clickurl_html}' target='{target}' rel='{rel}'{$status}>";
 $clickTagEnd = '</a>';
 } else {
 $clickTag = '';
@@ -3887,6 +3888,10 @@ return MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['pa
 function _adRenderBuildStatusCode($aBanner)
 {
 return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+}
+function _adRenderBuildRelAttribute($aBanner)
+{
+return htmlspecialchars($GLOBALS['_MAX']['CONF']['delivery']['relAttribute'] ?? '', ENT_QUOTES);
 }
 function _getAdRenderFunction($aBanner, $richMedia = true)
 {
