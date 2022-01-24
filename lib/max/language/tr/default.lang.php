@@ -917,7 +917,12 @@ $GLOBALS['strEmailRequired'] = "Eposta alanı gereklidir";
 $GLOBALS['strPwdRecEnterEmail'] = "Eposta adresinizi girin";
 $GLOBALS['strPwdRecEnterPassword'] = "Yeni şifrenizi girin";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strBinaryData'] = "İkili veri";
@@ -965,6 +970,17 @@ $GLOBALS['strTZPreferencesWarning'] = "Bununla birlikte, ne kampanya etkinleşti
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Rapor için seçilen çalışma kağıdı yok";
 $GLOBALS['strReportErrorUnknownCode'] = "Bilinmeyen hata kodu #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

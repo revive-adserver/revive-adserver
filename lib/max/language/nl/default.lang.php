@@ -801,20 +801,7 @@ $GLOBALS['strAutoDetect'] = "Automatisch detecteren";
 $GLOBALS['strCacheBusterComment'] = "  * Vervang alle gevallen van {random} door
   * een gegenereerd toevalsgetal (of timestamp).
   *";
-$GLOBALS['strSSLBackupComment'] = "
-  * Het backup image gedeelte van deze tag is gegenereerd voor gebruik op een
-  * pagina zonder SSL. Als deze tag moet worden geplaatst op een SSL pagina, verander dan
-  *   'http://%s/...'
-  * in
-  *   'https://%s/...'
-  *";
-$GLOBALS['strSSLDeliveryComment'] = "
-  * Deze tag is gegenereerd voor gebruik op een pagina zonder SSL. Als deze tag
-  * moet worden geplaatst op een SSL pagina, verander dan
-  *   'http://%s/...'
-  * in
-  *   'https://%s/...'
-  *";
+$GLOBALS['strGenerateHttpsTags'] = "Tags genereren met behulp van de HTTPS protocol";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Database verbindingsfout.";
@@ -1066,6 +1053,7 @@ $GLOBALS['strNotifyPageMessage'] = "Er is een e-mail naar u gestuurd, met daarin
                                          Als u de e-mail niet ontvangt, kijk dan alstublieft in uw spam-map.<br />
                                          <a href=\"index.php\">Terug naar de inlogpagina.</a>";
 
+// Password recovery - Default
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Uw wachtwoord voor %s opnieuw instellen";
 $GLOBALS['strPwdRecEmailBody'] = "Beste {name},
 
@@ -1080,8 +1068,10 @@ Als u dit verzoek om het wachtwoord opnieuw in te stellen per ongeluk heeft geda
 Als u deze password reset emails blijft ontvangen, dan kan dat er op duiden dat iemand probeert om toegang te krijgen tot uw gebruikersnaam. Neem in dat geval contact op met uw support afdeling of de systeembeheerder van uw {application_name} systeem, en informeer hen over deze situatie.
 
 {admin_signature}";
+
 $GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
 
+// Password recovery - Welcome email
 $GLOBALS['strWelcomeEmailSubject'] = "Welkom bij %s: stel uw wachtwoord in";
 $GLOBALS['strWelcomeEmailBody'] = "Beste {name},
 
@@ -1096,6 +1086,26 @@ Om uw wachtwoord in te voeren, klikt u op de volgende link:
 {reset_link}
 
 Zorg ervoor dat u een veilig en uniek wachtwoord invult.
+
+{admin_signature}";
+
+// Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "Stel alstublieft een nieuw wachtwoord in voor uw gebruikersnaam %s";
+$GLOBALS['strPasswordUpdateEmailBody'] = "Beste {name},
+
+U ontvangt deze email omdat u een gebruikersnaam heeft bij {application_name}.
+
+Onlangs is de {application_name} software bijgewerkt naar een nieuwe versie, die een moderne en veel veiligere method bevat voor het controleren van wachtwoorden. Deze verandering helpt om {application_name} veiliger te maken voor u en voor iedereen die het gebruikt.
+
+Om volledig gebruik te maken van deze verbetering, zijn alle huidige passwords ongeldig gemaakt. Daarom willen we u nu uitnodigen om een nieuw wachtwoord in te stellen. Tijdens het invoeren van uw nieuwe wachtwoord zult u een gekleurde balk zien die aangeeft hoe sterk uw nieuwe wachtwoord is. Zorg er alstublieft voor dat u een veilig en uniek wachtwoord invoert.
+
+Klik alstublieft op de volgende link, om het nieuwe wachtwoord voor uw gebruikersnaam '{username}' in te stellen:
+
+{reset_link}
+
+Voor extra veiligheid zal de bovenstaande link na enige tijd verlopen. Als de link niet meer geldig is, dan krijgt u de vraag om uw e-mail adres in te vullen, en een regulier wachtwoord-herstel proces op te starten.
+
+Bedankt voor uw hulp om {application_name} veiliger voor iedereen te maken!
 
 {admin_signature}";
 
@@ -1212,6 +1222,24 @@ $GLOBALS['strTZPreferencesWarning'] = "Echter, de begindatum en einddatum van de
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Voor dit rapport is geen werkblad geselecteerd";
 $GLOBALS['strReportErrorUnknownCode'] = "Onbekende foutcode #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+$GLOBALS['strPasswordMinLength'] = 'Min. lengte %d tekens';
+$GLOBALS['strPasswordTooShort'] = "Te kort";
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+$GLOBALS['strPasswordScore'][0] = "Heel slecht";
+$GLOBALS['strPasswordScore'][1] = "Slecht";
+$GLOBALS['strPasswordScore'][2] = "Redelijk";
+$GLOBALS['strPasswordScore'][3] = "Goed";
+$GLOBALS['strPasswordScore'][4] = "Uitstekend";
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -799,7 +799,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "请输入您的 Email";
 $GLOBALS['strPwdRecEnterPassword'] = "请输入您的新密码";
 $GLOBALS['strProceed'] = "继续 >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAuditTrailDisabled'] = "Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.";
@@ -882,6 +887,17 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b>已经成功更新。";
 
 // Report error messages
 $GLOBALS['strReportErrorUnknownCode'] = "未知的错误代码 #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

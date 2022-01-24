@@ -126,3 +126,5 @@ $GLOBALS['strRepairAppenedCodes'] = "Stwierdzono pewne nieprawidłowości powyż
 
 $GLOBALS['strPlugins'] = "Moduły dodatkowe";
 
+
+// Users

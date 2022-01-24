@@ -789,7 +789,12 @@ $GLOBALS['strNoVarsToTrack'] = "Žádné proměnné ke sledování.";
 $GLOBALS['strPwdRecEnterEmail'] = "Zadejte vaši e-mailovou adresu";
 $GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strFor'] = "pro";
@@ -814,6 +819,17 @@ $GLOBALS['strCampaignGoTo'] = "Přejděte na stránku kampaně";
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

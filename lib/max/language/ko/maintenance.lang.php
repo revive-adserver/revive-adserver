@@ -102,3 +102,5 @@ $GLOBALS['strPlugins'] = "플러그인";
 $GLOBALS['strMenus'] = "메뉴";
 $GLOBALS['strMenusPrecis'] = "메뉴 캐시를 다시 작성";
 $GLOBALS['strMenusCachedOk'] = "메뉴 캐시가 다시 작성됨";
+
+// Users

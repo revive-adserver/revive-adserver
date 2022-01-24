@@ -159,3 +159,5 @@ $GLOBALS['strPluginsPrecis'] = "Diagnosa dan perbaiki masalah dengan plugin {$PR
 $GLOBALS['strMenus'] = "Menu";
 $GLOBALS['strMenusPrecis'] = "Membangun kembali cache menu";
 $GLOBALS['strMenusCachedOk'] = "Menu cache telah dibangun kembali";
+
+// Users

@@ -631,8 +631,13 @@ $GLOBALS['strPwdRecEnterEmail'] = "Introduïu la vostra adreça de correu electr
 $GLOBALS['strPwdRecEnterPassword'] = "Introduïu la nova contrasenya";
 $GLOBALS['strProceed'] = "Continuar >";
 
+// Password recovery - Default
+
 $GLOBALS['strPwdRecEmailSincerely'] = "Atentament,";
 
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAuditSystem'] = "Sistema";
@@ -660,6 +665,17 @@ $GLOBALS['strWebsitesHaveBeenDeleted'] = "Tots els llocs webs seleccionats han e
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

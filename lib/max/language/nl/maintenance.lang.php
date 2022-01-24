@@ -158,3 +158,12 @@ $GLOBALS['strPluginsPrecis'] = "Diagnosticeren en herstellen van problemen met {
 $GLOBALS['strMenus'] = "Menu's";
 $GLOBALS['strMenusPrecis'] = "Wederopbouw van de menu-cache";
 $GLOBALS['strMenusCachedOk'] = "Menu cache is opnieuw opgebouwd";
+
+// Users
+$GLOBALS['strUserPasswords'] = "Gebruikerswachtwoorden";
+$GLOBALS['strUserPasswordsExplaination'] = "Vanaf versie 5.4 slaat {$PRODUCT_NAME} wachtwoorden in een veiliger formaat op.
+Gebruik deze tool om te controleren of er nog steeds wachtwoorden zijn opgeslagen in het oude formaat, en om geselecteerde gebruikers een e-mail te sturen waarmee zij een nieuw wachtwoord kunnen instellen.
+De tool kan ook gebruikt worden om nieuwe gebruikers eraan te herinneren dat ze hun eerste wachtwoord moeten instellen.";
+$GLOBALS['strCheckUserPasswords'] = "Controleer gebruikerswachtwoorden";
+$GLOBALS['strUserPasswordsEverythingOK'] = "Voor geen gebruiker is een wachtwoordreset vereist, alles is OK.";
+$GLOBALS['strUserPasswordsEmailsSent'] = "De e-mails voor de gebruikers die u heeft geselecteerd zijn verzonden.";

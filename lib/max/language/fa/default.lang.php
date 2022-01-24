@@ -1037,7 +1037,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "در زیر ایمیل خود را وارد �
 $GLOBALS['strPwdRecEnterPassword'] = "در زیر پسورد جدید خود را وارد کنید";
 $GLOBALS['strProceed'] = "ادامه >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "وآیتم های اضافه";
@@ -1137,6 +1142,17 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> hبروزرسانی شد";
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "هیچ کاربرگی برای گزارش انتخاب نشده است";
 $GLOBALS['strReportErrorUnknownCode'] = "ارور ناممشخص کد #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

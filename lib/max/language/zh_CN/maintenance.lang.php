@@ -60,3 +60,5 @@ $GLOBALS['strAndPlain'] = "和";
 
 $GLOBALS['strPlugins'] = "插件";
 
+
+// Users

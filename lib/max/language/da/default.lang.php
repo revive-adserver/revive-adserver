@@ -707,7 +707,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Skriv din email adresse nedefor";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv dit nye password nedenfor";
 $GLOBALS['strProceed'] = "Fortsæt >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strBinaryData'] = "Binær date";
@@ -733,6 +738,17 @@ $GLOBALS['strYouAreNowWorkingAsX'] = "Du arbejder nu som <b>%s</b>";
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

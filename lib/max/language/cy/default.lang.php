@@ -622,7 +622,12 @@ $GLOBALS['strTrackerType'] = "Enw Traciwr";
 
 // Password recovery
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 
@@ -645,6 +650,17 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Ysgogi Trywydd Archwilio er mwyn cychw
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

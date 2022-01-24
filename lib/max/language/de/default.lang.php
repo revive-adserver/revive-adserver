@@ -916,7 +916,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Geben Sie nachfolgend Ihre eMail Adresse ein"
 $GLOBALS['strPwdRecEnterPassword'] = "Geben Sie nachfolgend Ihr neues Passwort ein";
 $GLOBALS['strProceed'] = "Weiter >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "und weitere Einträge";
@@ -1012,6 +1017,17 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> wurde geändert";
 
 // Report error messages
 $GLOBALS['strReportErrorUnknownCode'] = "Unbekannter Fehler Nr. #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

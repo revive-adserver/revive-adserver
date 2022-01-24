@@ -543,7 +543,12 @@ $GLOBALS['strVariableDataType'] = "데이터 형식";
 
 // Password recovery
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 
@@ -568,6 +573,17 @@ $GLOBALS['strCampaignsHaveBeenDeleted'] = "선택 된 모든 캠페인이 삭제
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

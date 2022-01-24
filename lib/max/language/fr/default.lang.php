@@ -751,8 +751,6 @@ $GLOBALS['strBackToTheList'] = "Retourner à la liste des rapports";
 $GLOBALS['strCharset'] = "Jeu de caractères";
 $GLOBALS['strAutoDetect'] = "Détection automatique";
 $GLOBALS['strCacheBusterComment'] = "* Remplacez toutes les cas de {random} avec * un nombre généré aléatoirement (ou avec un horodatage). *";
-$GLOBALS['strSSLBackupComment'] = "
-* L'image de sauvegarde de cette balise a été générée pour être utilisée sur une page 	* non-SSL. Ci cette balise doit être placée sur une page SSL, changez le 	*   'http://%s/...' 	* par 	*   'https://%s/...' 	*";
 
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Aucun résultat correspondant trouvé";
@@ -953,7 +951,12 @@ $GLOBALS['strEmailRequired'] = "Le champ e-mail est requis";
 $GLOBALS['strPwdRecEnterEmail'] = "Entrez votre adresse e-mail ci-dessous";
 $GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-dessous";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "et les objets supplémentaires";
@@ -1049,6 +1052,17 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> a été mis à jour";
 
 // Report error messages
 $GLOBALS['strReportErrorUnknownCode'] = "Code erreur inconnu N°";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

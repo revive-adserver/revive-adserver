@@ -807,7 +807,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Skriv in din mailadress nedan";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv ditt nya lösenord nedan";
 $GLOBALS['strProceed'] = "Gå vidare >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strHas'] = "har";
@@ -844,6 +849,17 @@ $GLOBALS['strChannelsHaveBeenDeleted'] = "Alla valda leveransregeluppsättningar
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

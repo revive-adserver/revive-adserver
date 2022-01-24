@@ -811,7 +811,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "メールアドレスを入力してくださ
 $GLOBALS['strPwdRecEnterPassword'] = "新しいパスワードを入力してください";
 $GLOBALS['strProceed'] = "続ける &gt;";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "追加内容";
@@ -850,6 +855,17 @@ $GLOBALS['strUnsavedChanges'] = "変更が保存されていません。\"保存
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
