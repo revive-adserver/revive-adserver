@@ -131,3 +131,5 @@ $GLOBALS['strPluginsPrecis'] = "Diagnosticiraj in popravi težave z OpenX vtičn
 $GLOBALS['strMenus'] = "Meniji";
 $GLOBALS['strMenusPrecis'] = "Ponovno sestavi menijski pomnilnik";
 $GLOBALS['strMenusCachedOk'] = "Menijskih pomnilnik je bil ponovno sestavljen";
+
+// Users

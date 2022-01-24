@@ -366,7 +366,12 @@ $GLOBALS['strVariableDescription'] = "Beskrivelse";
 
 // Password recovery
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strHas'] = "har";
@@ -391,6 +396,17 @@ $GLOBALS['strCampaignSetUp'] = "Sett opp en kampanje i dag";
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

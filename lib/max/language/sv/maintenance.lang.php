@@ -69,3 +69,5 @@ $GLOBALS['strDeliveryLimitations'] = "Leveransregler";
 
 $GLOBALS['strPlugins'] = "Tillägg";
 
+
+// Users

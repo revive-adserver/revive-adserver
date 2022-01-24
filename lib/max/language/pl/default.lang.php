@@ -798,7 +798,12 @@ $GLOBALS['strEmailRequired'] = "Adres e-mail jest obligatoryjny";
 $GLOBALS['strPwdRecEnterEmail'] = "Wprowadź adres e-mail poniżej";
 $GLOBALS['strPwdRecEnterPassword'] = "Wprowadź nowe hasło poniżej";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "oraz dodatkowych pozycji";
@@ -839,6 +844,17 @@ $GLOBALS['strUnsavedChanges'] = "Nie zapisałeś zmian na tej stronie. Pamiętaj
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

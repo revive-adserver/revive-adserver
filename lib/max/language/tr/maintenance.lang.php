@@ -99,3 +99,5 @@ $GLOBALS['strRepairAppenedCodes'] = "Yukarıda bazı tutarsızlıklar bulundu, b
 $GLOBALS['strPlugins'] = "Eklentiler";
 
 $GLOBALS['strMenus'] = "Menüler";
+
+// Users

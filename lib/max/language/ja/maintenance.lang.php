@@ -121,3 +121,5 @@ $GLOBALS['strAppendCodesValid'] = "全ての追跡コードは正常です。";
 $GLOBALS['strRepairAppenedCodes'] = "何らかの問題が見つかりました。以下のボタンを使用して修正してください。これは全ての追跡コードの値を再集計します。";
 
 
+
+// Users

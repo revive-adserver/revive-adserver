@@ -130,3 +130,5 @@ $GLOBALS['strPluginsPrecis'] = "Diagnostique et répare les problèmes des plugi
 
 $GLOBALS['strMenusPrecis'] = "Reconstruire le cache du menu";
 $GLOBALS['strMenusCachedOk'] = "Le cache du menu a été reconstruit";
+
+// Users

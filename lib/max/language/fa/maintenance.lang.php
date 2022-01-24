@@ -174,3 +174,5 @@ $GLOBALS['strPluginsPrecis'] = "
 $GLOBALS['strMenus'] = "منوها";
 $GLOBALS['strMenusPrecis'] = "بازسازی کش منو";
 $GLOBALS['strMenusCachedOk'] = "کش منو بازسازی شده است";
+
+// Users

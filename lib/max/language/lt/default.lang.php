@@ -696,7 +696,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Įveskite savo elektroninio pašto adresą ž
 $GLOBALS['strPwdRecEnterPassword'] = "Įveskite savo slaptažodį žemiau";
 $GLOBALS['strProceed'] = "Tęskite >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "Pridėti papildomų punktų";
@@ -733,6 +738,17 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Aktyvuokite Audit Trail norėdami prad
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

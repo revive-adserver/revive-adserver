@@ -781,20 +781,6 @@ $GLOBALS['strAutoDetect'] = "Riconoscimento automatico";
 $GLOBALS['strCacheBusterComment'] = "  * Sostituire tutte le istanze di {random} con
   * un numero casuale generato (o timestamp).
   *";
-$GLOBALS['strSSLBackupComment'] = "
-  * La sezione immagine di backup di questo tag è stata generata per l'uso su una pagina
-  * non-SSL. Se questo tag deve essere posizionato su una pagina SSL, cambiare
-  * 'http://%s/. .'
-  * in
-  * 'https://%s/...'
-  *";
-$GLOBALS['strSSLDeliveryComment'] = "
-  * Questo tag è stato generato per l'uso su una pagina non-SSL. Se questo tag
-  * deve essere posizionato su una pagina SSL, cambia
-  * 'http://%s/. .'
-  * a
-  * '↓ ://%s/...'
-*";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Errore di connessione al database.";
@@ -1013,7 +999,12 @@ $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e oggetti aggiuntivi";
@@ -1107,6 +1098,17 @@ $GLOBALS['strTZPreferencesWarning'] = "Tuttavia, l'attivazione e la scadenza del
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Nessun foglio di lavoro è stato selezionato per la relazione";
 $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

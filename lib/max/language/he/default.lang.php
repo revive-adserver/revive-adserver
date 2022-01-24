@@ -776,20 +776,6 @@ $GLOBALS['strBackToTheList'] = "Go back to report list";
 $GLOBALS['strCharset'] = "Character set";
 $GLOBALS['strAutoDetect'] = "זיהוי אוטומטי";
 $GLOBALS['strCacheBusterComment'] = "  * להחליף את כל המופעים של {random} עם * מספר אקראי שנוצר (או חותמת זמן).   *";
-$GLOBALS['strSSLBackupComment'] = "
-  * The backup image section of this tag has been generated for use on a
-  * non-SSL page. If this tag is to be placed on an SSL page, change the
-  *   'http://%s/...'
-  * to
-  *   'https://%s/...'
-  *";
-$GLOBALS['strSSLDeliveryComment'] = "
-  * This tag has been generated for use on a non-SSL page. If this tag
-  * is to be placed on an SSL page, change the
-  *   'http://%s/...'
-  * to
-  *   'https://%s/...'
-  *";
 
 // Errors
 $GLOBALS['strNoMatchesFound'] = "לא נמצאו תוצאות";
@@ -1007,7 +993,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";
@@ -1101,6 +1092,17 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
 
 // Report error messages
 $GLOBALS['strReportErrorUnknownCode'] = "Unknown error code #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

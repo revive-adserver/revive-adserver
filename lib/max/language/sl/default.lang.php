@@ -878,7 +878,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Spodaj vpišite naslov svoje elektronske poš
 $GLOBALS['strPwdRecEnterPassword'] = "Spodaj vpišite vaše novo geslo";
 $GLOBALS['strProceed'] = "Nadaljuj >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "in dodatnih postavk";
@@ -973,6 +978,17 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> so posodobljene";
 
 // Report error messages
 $GLOBALS['strReportErrorUnknownCode'] = "Neznana koda napake #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

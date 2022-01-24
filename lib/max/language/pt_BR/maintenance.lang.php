@@ -119,3 +119,5 @@ $GLOBALS['strAppendCodesValid'] = "Todos códigos compilados para os rastreadore
 $GLOBALS['strRepairAppenedCodes'] = "Algumas inconsistências foram encontradas acima, você pode reparar estas utilizando botão abaixo, isso irá recompilar todos os códigos de todos rastreadores no sistema";
 
 
+
+// Users

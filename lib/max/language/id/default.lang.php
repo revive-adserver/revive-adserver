@@ -785,20 +785,6 @@ $GLOBALS['strAutoDetect'] = "Deteksi otomatis";
 $GLOBALS['strCacheBusterComment'] = "  * Ganti semua contoh {random} dengan
    * nomor acak yang dihasilkan (atau timestamp).
    *";
-$GLOBALS['strSSLBackupComment'] = "
-  * Bagian gambar cadangan dari tag ini telah dibuat untuk digunakan pada a
-  * halaman non-SSL Jika tag ini ditempatkan pada halaman SSL, ubahlah
-  *    'http: //%s/...'
-  * untuk
-  *    'https://%s/...'
-  *";
-$GLOBALS['strSSLDeliveryComment'] = "
-* Tag ini telah dibuat untuk digunakan pada halaman non-SSL. Jika tag ini
-   * harus ditempatkan pada halaman SSL, ubah
-   * 'http: //%s/...'
-   * untuk
-   * 'https: //%s/...'
-   *";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Kesalahan koneksi database.";
@@ -1042,7 +1028,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah i
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";
 $GLOBALS['strProceed'] = "Lanjut &gt;";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "dan item tambahan";
@@ -1152,6 +1143,17 @@ $GLOBALS['strTZPreferencesWarning'] = "Namun, aktivasi dan kadaluarsa kampanye t
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Tidak ada lembar kerja yang dipilih untuk dilaporkan";
 $GLOBALS['strReportErrorUnknownCode'] = "Kode kesalahan tidak diketahui #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -797,7 +797,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Digite seu e-mail abaixo";
 $GLOBALS['strPwdRecEnterPassword'] = "Digite sua nova senha abaixo";
 $GLOBALS['strProceed'] = "Prosseguir >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e itens adicionais";
@@ -839,6 +844,17 @@ $GLOBALS['strUnsavedChanges'] = "Você tem alterações não salvas nesta págin
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -688,7 +688,12 @@ $GLOBALS['strTrackerTypeCustom'] = "Egyedi JS kód";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Elfelejtette a jelszavát?";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 
@@ -714,6 +719,17 @@ $GLOBALS['strCampaignHasBeenUpdated'] = "A <a href='%s'>%s</a> kampány frissít
 $GLOBALS['strEmailChanged'] = "Az e-mail címed megváltozott";
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

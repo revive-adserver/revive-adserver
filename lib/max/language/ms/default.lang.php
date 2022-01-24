@@ -268,7 +268,12 @@ $GLOBALS['strAgencyStatusInactive'] = "Aktif";
 
 // Password recovery
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 
@@ -290,6 +295,17 @@ $GLOBALS['strAgencyStatusInactive'] = "Aktif";
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

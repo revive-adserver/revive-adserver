@@ -195,7 +195,7 @@ msgstr "Javascript"
 msgid "Interstitial or Floating DHTML Tag"
 msgstr "DHTML"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:239
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:231
 msgid "Style"
 msgstr ""
 

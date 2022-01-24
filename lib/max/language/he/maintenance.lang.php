@@ -82,3 +82,5 @@ $GLOBALS['strDeliveryLimitations'] = "כללי משלוח";
 
 $GLOBALS['strPlugins'] = "Plugins";
 
+
+// Users

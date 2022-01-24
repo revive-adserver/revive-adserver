@@ -127,3 +127,5 @@ $GLOBALS['strPluginsPrecis'] = "Probleme mit den OpenX-Plugins überprüfen und 
 $GLOBALS['strMenus'] = "Menüs";
 $GLOBALS['strMenusPrecis'] = "Den Menü-Cache wiederaufbauen";
 $GLOBALS['strMenusCachedOk'] = "Der Menü-Cache wurde wiederaufgebaut";
+
+// Users

@@ -992,7 +992,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Introduzca su dirección e-mail a continuaci�
 $GLOBALS['strPwdRecEnterPassword'] = "Introduzca su nueva contraseña a continuación";
 $GLOBALS['strProceed'] = "Continuar >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e ítems adicionales";
@@ -1091,6 +1096,17 @@ $GLOBALS['strTZPreferencesWarning'] = "Sin embargo, la activación y la caducida
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "No ha seleccionado hoja de trabajo para el informe";
 $GLOBALS['strReportErrorUnknownCode'] = "Código de error desconocido #";
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

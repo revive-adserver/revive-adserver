@@ -124,3 +124,5 @@ $GLOBALS['strAppendCodesValid'] = "Toate codurile alăturate ale contorului comp
 $GLOBALS['strRepairAppenedCodes'] = "Au fost găsite unele incompatibilităţi mai sus, le poţi repara folosind butonul de mai jos, acesta va recompila codurile alăturate pentru fiecare contor din sistem";
 
 
+
+// Users

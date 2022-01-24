@@ -787,7 +787,12 @@ $GLOBALS['strPwdRecEnterEmail'] = "Scrie adresa de email mai jos";
 $GLOBALS['strPwdRecEnterPassword'] = "Scrie noua parolă mai jos";
 $GLOBALS['strProceed'] = "Înaintează >";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "şi facilităţi suplimentare";
@@ -827,6 +832,17 @@ $GLOBALS['strUnsavedChanges'] = "Nu ai salvat schimbările din această pagină,
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

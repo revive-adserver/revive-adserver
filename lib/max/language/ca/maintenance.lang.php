@@ -64,3 +64,5 @@ $GLOBALS['strErrorsFound'] = "Errors trobats";
 $GLOBALS['strPlugins'] = "Extensions";
 
 $GLOBALS['strMenus'] = "Menús";
+
+// Users

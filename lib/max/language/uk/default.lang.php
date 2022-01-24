@@ -865,7 +865,12 @@ $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно дл�
 $GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";
 
+// Password recovery - Default
 
+
+// Password recovery - Welcome email
+
+// Password recovery - Hash update
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "добавить дополнительные элементы";
@@ -907,6 +912,17 @@ $GLOBALS['strUnsavedChanges'] = "У вас есть несохраненные �
 
 
 // Report error messages
+
+/* ------------------------------------------------------- */
+/* Password strength                                       */
+/* ------------------------------------------------------- */
+
+
+if (!isset($GLOBALS['strPasswordScore'])) {
+    $GLOBALS['strPasswordScore'] = [];
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
