@@ -1107,7 +1107,7 @@ $GLOBALS['strPasswordUpdateEmailBody'] = "Dear {name},
 You are receiving this email because you have a username on {application_name}.
 
 Recently, {application_name} software was updated to a new version, which implements a modern and much
-safer method for verifying user passwords. This change help make {application_name} more secure
+safer method for verifying user passwords. This change helps make {application_name} more secure
 for you and everyone else using it.
 
 In order to take full advantage of the improvement, all the current passwords have been invalidated.
