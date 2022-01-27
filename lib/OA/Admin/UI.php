@@ -359,6 +359,17 @@ class OA_Admin_UI
         return (count($parentSections) ? $parentSections[0]->link : '');
     }
 
+    public static function showUIDisabledScreen()
+    {
+        $ui = self::getInstance();
+        $ui->showHeader(phpAds_Error);
+
+        $oTpl = new OA_Admin_Template('ui-disabled.html');
+        $oTpl->display();
+
+        $ui->showFooter();
+    }
+
     public function _assignInstalling()
     {
         global $phpAds_installing, $installing;

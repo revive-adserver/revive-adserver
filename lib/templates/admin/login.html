@@ -10,7 +10,6 @@
 
 -->*}
 
-{if $uiEnabled}
 <br />
 <form class="login" name="login" method="post" action="{$formAction|escape}">
     <input type="hidden" name="oa_cookiecheck" value="{$sessionID|escape}" />
@@ -57,10 +56,6 @@
     login_focus();
 //-->
 </script>
-{else}
-{phpAds_ShowBreak}
-<br /><img src="{$assetPath|escape}/images/info.gif" align="absmiddle">&nbsp;{t str=NoAdminInterface}
-{/if}
 
 {*
   Do not remove. This is a marker that AJAX response parsers look for to

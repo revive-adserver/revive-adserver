@@ -68,7 +68,7 @@ class Installer
         }
         echo $actionContent;
         if ($oController->hasLayout()) {
-            phpAds_PageFooter($imgPath);
+            phpAds_PageFooter();
             // Do not remove. This is a marker that AJAX response parsers look for to
             // determine whether the response did not redirect to the installer.
             echo "<!-- install -->";

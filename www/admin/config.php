@@ -26,11 +26,8 @@ $oDbh = OA_DB::singleton();
 if (PEAR::isError($oDbh)) {
     // Check if UI is enabled
     if (!$GLOBALS['_MAX']['CONF']['ui']['enabled']) {
-        phpAds_PageHeader(OA_Auth::login($checkRedirectFunc));
-        phpAds_ShowBreak();
-        echo "<br /><img src='" . OX::assetPath() . "/images/info.gif' align='absmiddle'>&nbsp;";
-        echo $GLOBALS['strNoAdminInterface'];
-        phpAds_PageFooter();
+        OA_Admin_UI::showUIDisabledScreen();
+
         exit;
     }
 

@@ -216,6 +216,12 @@ class OA_Auth
      */
     public static function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
     {
+        if (empty($GLOBALS['_MAX']['CONF']['ui']['enabled'])) {
+            OA_Admin_UI::showUIDisabledScreen();
+
+            exit;
+        }
+
         $authLogin = OA_Auth::staticGetAuthPlugin();
         $authLogin->displayLogin($sMessage, $sessionID, $inLineLogin);
     }
