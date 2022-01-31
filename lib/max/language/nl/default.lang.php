@@ -1075,7 +1075,7 @@ $GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
 $GLOBALS['strWelcomeEmailSubject'] = "Welkom bij %s: stel uw wachtwoord in";
 $GLOBALS['strWelcomeEmailBody'] = "Beste {name},
 
-Er is een gebruikersnaam voor u gemaakt, waardoor u kunt inlogen op {application_name}.
+Er is een gebruikersnaam voor u gemaakt, waardoor u kunt inloggen op {application_name}.
 
 Uw gebruikersnaam is '{username}'.
 
