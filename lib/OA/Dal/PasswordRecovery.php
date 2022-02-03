@@ -117,10 +117,11 @@ class OA_Dal_PasswordRecovery extends OA_Dal
 
         $doUsers->joinAdd($doPwdRecovery);
 
-        $oneHourBack = (new \DateTimeImmutable())->modify('-1 hour')->getTimestamp();
-        $oneWeekBack = (new \DateTimeImmutable())->modify('-1 week')->getTimestamp();
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $fourHoursBack = $now->modify('-4 hours')->format('Y-m-d H:i:s');
+        $oneWeekBack = $now->modify('-1 week')->format('Y-m-d H:i:s');
 
-        $doPwdRecovery->whereAdd("updated >= IF(LENGTH(password) <= 32, $oneWeekBack, $oneHourBack)");
+        $doUsers->whereAdd("updated >= IF(LENGTH(password) <= 32, '{$oneWeekBack}', '{$fourHoursBack}')");
 
         if (!$doUsers->find(true)) {
             return null;
