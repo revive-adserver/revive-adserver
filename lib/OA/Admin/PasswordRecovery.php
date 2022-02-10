@@ -154,7 +154,8 @@ class OA_Admin_PasswordRecovery
     {
         phpAds_showBreak();
 
-        echo "<br /><span class='install'>{$message}</span><br /><br />";
+        echo "<br /><span class='install' >{$message}</span><br /><br />";
+        echo "<td width='40%'>&nbsp;</td><td><br />";
 
         phpAds_showBreak();
     }
@@ -219,9 +220,21 @@ class OA_Admin_PasswordRecovery
         echo "</form>\n";
 
         echo "<script>\n";
-        echo "max_formSetRequirements('newpassword', '" . addcslashes($GLOBALS['strChooseNewPassword'], "\0..\37'\\") . "', true, 'string+" . ($aConf['security']['passwordMinLength'] ?? 0) . "');";
+        echo "max_formSetRequirements('newpassword', '" . addcslashes($GLOBALS['strChooseNewPassword'], "\0..\37'\\") . "', true, 'string+" . ($aConf['security']['passwordMinLength'] ?? OA_Auth::DEFAULT_MIN_PASSWORD_LENGTH) . "');";
         echo "max_formSetRequirements('newpassword2', '" . addcslashes($GLOBALS['strReenterNewPassword'], "\0..\37'\\") . "', true, 'compare:newpassword');";
         echo "</script>\n";
+    }
+
+    public function displayResetRequiredUponLogin()
+    {
+        $this->pageHeader();
+
+        $this->displayMessage("
+        <h2>".htmlspecialchars($GLOBALS['strPasswordResetRequiredTitle'])."</h2><br>
+        <p>".str_replace("\n", '</p><p>', htmlspecialchars(trim($GLOBALS['strPasswordResetRequired'])))."</p>
+        ");
+
+        $this->pageFooter();
     }
 
     /**

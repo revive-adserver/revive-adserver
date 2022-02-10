@@ -69,4 +69,21 @@ class RV
         $allow = is_null($aAllow) ? '' : '|' . implode('|', $aAllow);
         return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+' . $allow . '))?).*$/i', '$1', $version);
     }
+
+    /**
+     * UTF-8 strlen, using the best available extension.
+     *
+     */
+    public static function strlen(string $value): int
+    {
+        if (function_exists('mb_strlen')) {
+            return mb_strlen($value, 'UTF-8');
+        }
+
+        if (function_exists('iconv_strlen')) {
+            return iconv_strlen($value, 'UTF-8');
+        }
+
+        return strlen($value);
+    }
 }

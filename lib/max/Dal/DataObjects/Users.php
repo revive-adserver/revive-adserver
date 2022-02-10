@@ -56,6 +56,12 @@ class DataObjects_Users extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    /** @var bool */
+    private $resetRequired = false;
+
+    /** @var bool */
+    private $unsafePassword = false;
+
     /**
      * Handle all necessary operations when a user is inserted
      *
@@ -357,5 +363,25 @@ class DataObjects_Users extends DB_DataObjectCommon
         if (isset($aAuditFields['password'])) {
             $aAuditFields['password'] = '******';
         }
+    }
+
+    public function isResetRequired(): bool
+    {
+        return $this->resetRequired;
+    }
+
+    public function setResetRequired(bool $resetRequired = true): void
+    {
+        $this->resetRequired = $resetRequired;
+    }
+
+    public function hasUnsafePassword(): bool
+    {
+        return $this->unsafePassword;
+    }
+
+    public function setUnsafePassword(bool $unsafePassword = true): void
+    {
+        $this->unsafePassword = $unsafePassword;
     }
 }

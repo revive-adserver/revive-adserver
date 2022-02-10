@@ -174,7 +174,7 @@ class OA_Permission
     /**
      * A method to retrieve the current user object from a session
      *
-     * @return OA_Permission_User on success or false otherwise
+     * @return OA_Permission_User|false
      */
     public static function getCurrentUser()
     {

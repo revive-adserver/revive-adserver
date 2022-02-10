@@ -58,6 +58,8 @@ class Plugins_Authentication extends OX_Component
         if (PEAR::isError($aCredentials)) {
             OA_Auth::displayError($aCredentials);
         }
+
+
         return $this->checkPassword(
             $aCredentials['username'],
             $aCredentials['password']
@@ -95,9 +97,9 @@ class Plugins_Authentication extends OX_Component
     /**
      * A method to check a username and password
      *
-     * @return mixed A DataObjects_Users instance, or false if no matching user was found
+     * @return DataObjects_Users|false A DataObjects_Users instance, or false if authentication was unsuccessful
      */
-    public function checkPassword(string $username, string $password, bool $useMd5 = false)
+    public function checkPassword(string $username, string $password, bool $allowMd5 = true)
     {
         // Introduce a random delay in case of failures, as recommended by:
         // https://www.owasp.org/index.php/Blocking_Brute_Force_Attacks
@@ -134,14 +136,7 @@ class Plugins_Authentication extends OX_Component
         if ($doUser->find()) {
             $doUser->fetch();
 
-            if (
-                ($useMd5 && $doUser->password === md5($password)) ||
-                \RV\Manager\PasswordManager::verifyPassword($password, $doUser->password)
-            ) {
-                if (!$useMd5 && \RV\Manager\PasswordManager::needsRehash($doUser)) {
-                    \RV\Manager\PasswordManager::updateHash($doUser, $password);
-                }
-
+            if ($this->performPasswordCheck($doUser, $password, $allowMd5)) {
                 $oLock->release();
 
                 return $doUser;
@@ -242,7 +237,7 @@ class Plugins_Authentication extends OX_Component
 
         if (isset($oUserInfo->password)) {
             // Save the hash of the password
-            $oUserInfo->password = self::getPasswordHash($oUserInfo->password);
+            $oUserInfo->password = $this->getPasswordHash($oUserInfo->password);
         }
 
         return true;
@@ -398,7 +393,7 @@ class Plugins_Authentication extends OX_Component
         } else {
             $doUsers->default_account_id = $accountId;
             $doUsers->username = $login;
-            $doUsers->password = null === $password ? '' : self::getPasswordHash($password);
+            $doUsers->password = null === $password ? '' : $this->getPasswordHash($password);
             return $doUsers->insert();
         }
     }
@@ -451,17 +446,11 @@ class Plugins_Authentication extends OX_Component
     }
 
     /**
-     * A method to change a user password
-     *
-     * @param DataObjects_Users $doUsers
-     * @param string $newPassword
-     * @param string $oldPassword
-     * @return mixed True on success, PEAR_Error otherwise
+     * A method to get a hash of a password.
      */
-    public function changePassword($doUsers, $newPassword)
+    public function getPasswordHash(string $password): string
     {
-        $doUsers->password = self::getPasswordHash($newPassword);
-        return true;
+        return \RV\Manager\PasswordManager::getPasswordHash($password);
     }
 
     /**
@@ -477,7 +466,7 @@ class Plugins_Authentication extends OX_Component
         if (!$doUsers) {
             return false;
         }
-        $doUsers->password = self::getPasswordHash($newPassword);
+        $doUsers->password = $this->getPasswordHash($newPassword);
         return $doUsers->update();
     }
 
@@ -518,21 +507,16 @@ class Plugins_Authentication extends OX_Component
      */
     public function validateUsersPassword($password, $passwordConfirm)
     {
-        require_once 'HTML/QuickForm/Rule/Range.php';
-
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        if (!strlen($password) || strstr("\\", $password)) {
+        if ('' === $password) {
             $this->addValidationError($GLOBALS['strInvalidPassword']);
 
             return;
         }
 
         if (!empty($aConf['security']['passwordMinLength'])) {
-            $qfRule = new HTML_QuickForm_Rule_Range();
-            $qfRule->setName('minlength');
-
-            if (!$qfRule->validate($password, $aConf['security']['passwordMinLength'])) {
+            if (!self::validatePassword($password)) {
                 $this->addValidationError($GLOBALS['strPasswordTooShort']);
 
                 return;
@@ -568,9 +552,32 @@ class Plugins_Authentication extends OX_Component
         return $this->getValidationErrors();
     }
 
-    private static function getPasswordHash(string $password): string
+    private function performPasswordCheck(DataObjects_Users $doUser, string $password, bool $allowMd5): bool
     {
-        return \RV\Manager\PasswordManager::getPasswordHash($password);
+        $doUser->setUnsafePassword(!self::validatePassword($password));
+
+        if ($allowMd5 && $doUser->password === md5($password)) {
+            $doUser->setResetRequired();
+
+            return true;
+        }
+
+        if (!\RV\Manager\PasswordManager::verifyPassword($password, $doUser->password)) {
+            return false;
+        }
+
+        if (\RV\Manager\PasswordManager::needsRehash($doUser)) {
+            \RV\Manager\PasswordManager::updateHash($doUser, $password);
+        }
+
+        return true;
+    }
+
+    private static function validatePassword(string $password): bool
+    {
+        $passwordMinLength = $GLOBALS['_MAX']['CONF']['security']['passwordMinLength'] ?? OA_Auth::DEFAULT_MIN_PASSWORD_LENGTH;
+
+        return RV::strlen($password) >= $passwordMinLength;
     }
 }
 

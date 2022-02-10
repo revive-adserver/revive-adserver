@@ -590,7 +590,7 @@ class OA_Admin_UI
         $this->oTpl->assign('aJsFiles', $this->getJavascriptFiles($jsGroup));
         $this->oTpl->assign('aOtherJSFiles', $this->otherJSFiles);
 
-        $passwordMinLength = $conf['security']['passwordMinLength'] ?? 0;
+        $passwordMinLength = $conf['security']['passwordMinLength'] ?? OA_Auth::DEFAULT_MIN_PASSWORD_LENGTH;
 
         $this->oTpl->assign('jsonZxcvbn', json_encode([
             'minLength' => $passwordMinLength,

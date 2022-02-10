@@ -1126,6 +1126,15 @@ Thanks for helping to make {application_name} safer for everyone!
 
 {admin_signature}";
 
+// Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "Important note about improved password security";
+$GLOBALS['strPasswordResetRequired'] = "
+Recently, the {$PRODUCT_NAME} software has been updated to a new version, which implements a more modern and much safer method of storing passwords. To be able to log in and continue using {$PRODUCT_NAME} you must set a new password first.
+Check your inbox for a password reset email!
+A password reset email has been sent to the email address associated with your username. Please open the email, and click the link in it. This will display a screen that enables you to enter your new password.
+It can take a few minutes before the email arrives. If you don't see the email in your inbox, make sure to also check your spam folder.";
+$GLOBALS['strPasswordUnsafeWarning'] = "Your password is not considered to be safe enough. Please <a href='%s'>change it</a> as soon as possible.";
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";
 $GLOBALS['strAuditSystem'] = "System";

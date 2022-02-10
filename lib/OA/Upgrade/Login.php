@@ -52,14 +52,14 @@ class OA_Upgrade_Login
 
         $oPlugin = new Plugins_Authentication();
 
-        $passwordHashingRequired = !$openadsDetected || version_compare($oUpgrader->versionInitialApplication, '5.4.0-beta-rc4', '<');
+        $hasMd5Password = !$openadsDetected || version_compare($oUpgrader->versionInitialApplication, '5.4.0-beta-rc4', '<');
 
         if ($oPlugin->suppliedCredentials()) {
             // The new Users, Account, Permissions & Preference feature was introduced in OpenX 2.5.46-dev
             $newLogin = $openadsDetected && version_compare($oUpgrader->versionInitialApplication, '2.5.46-dev', '>=');
 
             if ($newLogin) {
-                self::_checkLoginNew($passwordHashingRequired);
+                self::_checkLoginNew($hasMd5Password);
             } else {
                 if ($openadsDetected || $maxDetected) {
                     self::_checkLoginOld('preference', true);
@@ -73,7 +73,7 @@ class OA_Upgrade_Login
             }
         }
 
-        if ($passwordHashingRequired && empty($GLOBALS['session'][self::SESSION_PASSWORD_HASH])) {
+        if ($hasMd5Password && empty($GLOBALS['session'][self::SESSION_PASSWORD_HASH])) {
             return false;
         }
 
@@ -108,7 +108,7 @@ class OA_Upgrade_Login
         }
     }
 
-    private static function _checkLoginNew(bool $useMd5)
+    private static function _checkLoginNew(bool $allowMd5)
     {
         $oPlugin = new Plugins_Authentication();
 
@@ -117,15 +117,14 @@ class OA_Upgrade_Login
         if (!PEAR::isError($aCredentials)) {
             phpAds_SessionRegenerateId();
 
-            $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password'], $useMd5);
+            $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password'], $allowMd5);
 
             if ($doUser) {
                 $aSession = OA_Auth::getSessionData($doUser);
 
-                if ($useMd5) {
+                if ($doUser->isResetRequired()) {
                     // Store password hash for later
-                    $oPlugin->changePassword($doUser, $aCredentials['password']);
-                    $aSession[self::SESSION_PASSWORD_HASH] = $doUser->password;
+                    $aSession[self::SESSION_PASSWORD_HASH] = $oPlugin->getPasswordHash($aCredentials['password']);
                 }
 
                 phpAds_SessionDataRegister($aSession);
@@ -165,6 +164,7 @@ class OA_Upgrade_Login
                         strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
                         $aPref['admin_pw'] == md5($aCredentials['password'])
                     ) {
+                        /** @var DataObjects_Users $doUser */
                         $doUser = OA_Dal::factoryDO('users');
                         $doUser->user_id = -1;
                         $doUser->username = $aPref['admin'];
@@ -173,8 +173,7 @@ class OA_Upgrade_Login
                         $aSession['user']->aAccount['account_type'] = OA_ACCOUNT_ADMIN;
 
                         // Store password hash for later
-                        $oPlugin->changePassword($doUser, $aCredentials['password']);
-                        $aSession[self::SESSION_PASSWORD_HASH] = $doUser->password;
+                        $aSession[self::SESSION_PASSWORD_HASH] = $oPlugin->getPasswordHash($aCredentials['password']);
 
                         phpAds_SessionDataRegister($aSession);
                     }

@@ -106,7 +106,7 @@ if (!isset($zoneid)) {
 /**
  * Starts or continue existing session
  *
- * @param unknown_type $checkRedirectFunc
+ * @param callable $checkRedirectFunc
  */
 function OA_Start($checkRedirectFunc = null)
 {
@@ -121,6 +121,7 @@ function OA_Start($checkRedirectFunc = null)
     if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
         phpAds_SessionDataFetch();
     }
+
     if (!OA_Auth::isLoggedIn() || OA_Auth::suppliedCredentials()) {
         // Required files
         include_once MAX_PATH . '/lib/max/language/Loader.php';
@@ -135,7 +136,10 @@ function OA_Start($checkRedirectFunc = null)
                 $obj->afterLogin();
             }
         }
+
+        OA_Auth::checkAndQueueUnsafePasswordWarning();
     }
+
     // Overwrite certain preset preferences
     if (!empty($session['language']) && $session['language'] != $GLOBALS['pref']['language']) {
         $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];

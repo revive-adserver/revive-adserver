@@ -83,7 +83,7 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
         $this->addRequiredRule('adminLanguage', $GLOBALS['strLanguage']);
         $this->addRequiredRule('prefsTimezone', $GLOBALS['strTimezone']);
 
-        $this->addRule(['adminPassword', 'adminPassword2'], $GLOBALS['strNotSamePasswords'], 'compare');
+        $this->addRule(['adminPassword2', 'adminPassword'], $GLOBALS['strNotSamePasswords'], 'compare');
         $this->addRule('adminEmail', $GLOBALS['strEmailField'], 'email');
 
         if (!empty($aConf['security']['passwordMinLength'])) {

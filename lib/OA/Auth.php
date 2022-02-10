@@ -22,6 +22,8 @@ require_once LIB_PATH . '/Extension/authentication/authentication.php';
  */
 class OA_Auth
 {
+    public const DEFAULT_MIN_PASSWORD_LENGTH = 12;
+
     /**
      * Returns authentication plugin
      *
@@ -58,7 +60,7 @@ class OA_Auth
      *
      * @static
      *
-     * @param callback $redirectCallback
+     * @param callable $redirectCallback
      * @return mixed Array on success
      */
     public static function login($redirectCallback = null)
@@ -88,6 +90,12 @@ class OA_Auth
 
             // Regenerate session ID now
             phpAds_SessionRegenerateId();
+
+            if ($doUser->isResetRequired()) {
+                self::sendResetEmailAndDisplayMessage($doUser);
+
+                exit;
+            }
 
             return OA_Auth::getSessionData($doUser);
         }
@@ -120,6 +128,22 @@ class OA_Auth
     {
         $authPlugin = OA_Auth::staticGetAuthPlugin();
         return $authPlugin->suppliedCredentials();
+    }
+
+    public static function checkAndQueueUnsafePasswordWarning()
+    {
+        $oUser = OA_Permission::getCurrentUser();
+
+        if (false === $oUser || !$oUser->aUser['unsafe_password']) {
+            return;
+        }
+
+        OA_Admin_UI::queueMessage(
+            sprintf($GLOBALS['strPasswordUnsafeWarning'], MAX::constructURL(MAX_URL_ADMIN, 'account-user-password.php')),
+            'global',
+            'warning',
+            10000
+        );
     }
 
     /**
@@ -255,5 +279,16 @@ class OA_Auth
         }
 
         return $redirect;
+    }
+
+    private static function sendResetEmailAndDisplayMessage(DataObjects_Users $doUser): void
+    {
+        require_once MAX_PATH . '/lib/OA/Admin/PasswordRecovery.php';
+
+        $oPasswordRecovery = new OA_Admin_PasswordRecovery();
+
+        $oPasswordRecovery->sendPasswordUpdateEmail([$doUser->user_id]);
+
+        $oPasswordRecovery->displayResetRequiredUponLogin();
     }
 }

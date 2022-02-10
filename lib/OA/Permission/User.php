@@ -57,6 +57,8 @@ class OA_Permission_User
         } else {
             $this->aUser['is_admin'] = false;
         }
+
+        $this->aUser['unsafe_password'] = $doUsers->hasUnsafePassword();
     }
 
     public function __wakeup()

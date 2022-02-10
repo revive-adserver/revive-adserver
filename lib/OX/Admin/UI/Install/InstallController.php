@@ -530,8 +530,6 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         if ($oRequest->isPost()) {
             $this->resetInstaller();
 
-            global $installerIsUpgrade;
-            $installerIsUpgrade = $isUpgrade;
             // Execute any components which have registered at the afterLogin hook
             $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('afterLogin');
             foreach ($aPlugins as $i => $id) {
@@ -539,9 +537,13 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
                     $obj->afterLogin();
                 }
             }
+
+            OA_Auth::checkAndQueueUnsafePasswordWarning();
+
             require_once LIB_PATH . '/Admin/Redirect.php';
             OX_Admin_Redirect::redirect('advertiser-index.php');
         }
+
         $logPath = str_replace('/', DIRECTORY_SEPARATOR, $oUpgrader->getLogFileName());
         $this->setModelProperty('logPath', $logPath);
         $this->setModelProperty('oWizard', $oWizard);

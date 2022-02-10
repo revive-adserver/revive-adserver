@@ -46,13 +46,8 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
      */
     function validate($value, $options = null)
     {
-        if (function_exists('mb_strlen')) {
-            $length = mb_strlen($value, 'UTF-8');
-        } elseif (function_exists('iconv_strlen')) {
-            $length = iconv_strlen($value, 'UTF-8');
-        } else {
-            $length = strlen($value);
-        }
+        $length = RV::strlen($value);
+
         switch ($this->name) {
             case 'minlength': return ($length >= $options);
             case 'maxlength': return ($length <= $options);

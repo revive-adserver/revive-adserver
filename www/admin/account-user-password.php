@@ -42,13 +42,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     OA_Permission::checkSessionToken();
 
-    /** @var DataObjects_Users $doUsers */
-    $doUsers = OA_Dal::factoryDO('users');
-    $doUsers->get(OA_Permission::getUserId());
-
-    // Set defaults
-    $changePassword = false;
-
     // Get the current authentication plugin instance
     $oPlugin = OA_Auth::staticGetAuthPlugin();
 
@@ -60,20 +53,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $auth = new Plugins_Authentication();
     $auth->validateUsersPassword($pw ?? '', $pw2 ?? '');
 
-    if (empty($auth->aValidationErrors)) {
-        $changePassword = true;
-    } else {
+    if (!empty($auth->aValidationErrors)) {
         $aErrormessage[0] = array_merge($aErrormessage[0] ?? [], $auth->aValidationErrors);
     }
 
-    if (!count($aErrormessage) && $changePassword) {
-        $result = $oPlugin->changePassword($doUsers, $pw);
-        if (PEAR::isError($result)) {
-            $aErrormessage[0][] = $result->getMessage();
-        }
-    }
     if (!count($aErrormessage)) {
-        if ($doUsers->update() === false) {
+        if (!$oPlugin->setNewPassword(OA_Permission::getUserId(), $pw)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $GLOBALS['strUnableToWritePrefs'];
         } else {
@@ -157,7 +142,7 @@ $aSettings = [
                 'name' => 'pw',
                 'text' => $strChooseNewPassword,
                 'strengthIndicator' => true,
-                'check' => 'string+'.($conf['security']['passwordMinLength'] ?? 0),
+                'check' => 'string+'.($conf['security']['passwordMinLength'] ?? OA_Auth::DEFAULT_MIN_PASSWORD_LENGTH),
                 'autocomplete' => 'new-password',
             ],
             [
