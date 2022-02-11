@@ -23,11 +23,9 @@ What's New in Revive Adserver 5.4.0
  Security Updates
  ----------------
 
- * Bcrypt is now used to store password hashes. After the upgrade all users
-   should be asked to set up a new password as the old md5 hashes are not
-   valid anymore. A new maintenance screen has been added to help
-   administrators to notify the users that need to reset their password via
-   e-mail.
+ * Bcrypt is now used to store password hashes. The password of the admin user
+   executing the upgrade is automatically re-hashed. All other users users
+   will be sent an email and asked to reset their password upon login.
 
  * Minimum password length is now set to 12 characters. The default can
    be changed in the configuration file.
@@ -65,6 +63,10 @@ What's New in Revive Adserver 5.4.0
    for the click tracking links of image and text banners, defaulting
    to "noopener nofollow". The setting is also exposed in the newly
    added "{rel}" magic macro.
+
+ * Added new maintenance screen to resend invitation emails to new users
+   and password reset emails to users requiring the update to the new
+   bcrypt password hash system.
 
 
  Bug Fixes
