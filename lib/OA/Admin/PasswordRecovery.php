@@ -86,6 +86,9 @@ class OA_Admin_PasswordRecovery
 
         $doUser = $this->_dal->getUserFromRecoveryId($vars['id']);
 
+        // Load the appropriate language
+        Language_Loader::load('default', $doUser->language);
+
         if (null === $doUser) {
             $this->pageHeader();
             $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongExpired']);

@@ -85,6 +85,9 @@ What's New in Revive Adserver 5.4.0
  * Password recovery e-mails were sent using the user name rather than the
    contact name in the To: header.
 
+ * Password recovery landing screen is not longer english-only, but loads
+   the user language instead.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
