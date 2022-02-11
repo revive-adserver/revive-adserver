@@ -657,6 +657,8 @@ $GLOBALS['strTrackerType'] = "اسم المتتبع";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strBinaryData'] = "معلومات Binary";
 

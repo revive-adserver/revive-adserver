@@ -958,6 +958,8 @@ $GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-desso
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "et les objets supplémentaires";
 $GLOBALS['strFor'] = "pour";

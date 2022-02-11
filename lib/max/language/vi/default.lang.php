@@ -325,6 +325,8 @@ $GLOBALS['strVariableDescription'] = "Mô tả";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

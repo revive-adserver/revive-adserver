@@ -794,6 +794,8 @@ $GLOBALS['strProceed'] = "Înaintează >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "şi facilităţi suplimentare";
 $GLOBALS['strFor'] = "pentru";

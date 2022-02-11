@@ -149,6 +149,8 @@ if (!isset($GLOBALS['strCappingZone'])) {
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

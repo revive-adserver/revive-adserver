@@ -872,6 +872,8 @@ $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый паро�
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "добавить дополнительные элементы";
 $GLOBALS['strFor'] = "для";

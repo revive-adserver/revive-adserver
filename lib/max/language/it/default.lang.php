@@ -1006,6 +1006,8 @@ $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "e oggetti aggiuntivi";
 $GLOBALS['strFor'] = "per";

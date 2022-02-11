@@ -714,6 +714,8 @@ $GLOBALS['strProceed'] = "Fortsæt >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strBinaryData'] = "Binær date";
 

@@ -695,6 +695,8 @@ $GLOBALS['strForgotPassword'] = "Elfelejtette a jelszavát?";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

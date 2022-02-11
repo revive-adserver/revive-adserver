@@ -885,6 +885,8 @@ $GLOBALS['strProceed'] = "Nadaljuj >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "in dodatnih postavk";
 $GLOBALS['strFor'] = "za";
