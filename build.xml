@@ -144,10 +144,6 @@
     <delete dir="${release.dir}" failonerror="false"/>
   </target>
 
-  <target name="package-bzip2" depends="prepare-version-info">
-      <tar destfile="${dir.test.results}/${release}${origin}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
-  </target>
-
   <target name="package-gz" depends="prepare-version-info">
     <tar destfile="${dir.test.results}/${release}${origin}.tar.gz" includes="${release}/**" basedir="${dir.test.results}" compression="gzip" longfile="gnu"/>
   </target>
@@ -156,7 +152,7 @@
     <zip destfile="${dir.test.results}/${release}${origin}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip"/>
+  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-gz, package-zip"/>
 
   <target name="repackage" if="originid" depends="package-bzip2,package-gz,package-zip"/>
 
