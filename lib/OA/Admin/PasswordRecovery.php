@@ -359,7 +359,7 @@ class OA_Admin_PasswordRecovery
 
             // Send the password reset email
             $oEmail = new OA_Email();
-            $oEmail->sendMail($emailSubject, $emailBody, $u['email_address'], $u['username']);
+            $oEmail->sendMail($emailSubject, $emailBody, $u['email_address'], $u['contact_name']);
 
             // Iterate the number of emails sent
             $sent++;

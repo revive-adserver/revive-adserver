@@ -82,6 +82,9 @@ What's New in Revive Adserver 5.4.0
    matching admin passwords, as long as the "Repeat password" field was
    not empty.
 
+ * Password recovery e-mails were sent using the user name rather than the
+   contact name in the To: header.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
