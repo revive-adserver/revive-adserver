@@ -421,6 +421,8 @@ $GLOBALS['strTrackerType'] = "Име на тракер";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

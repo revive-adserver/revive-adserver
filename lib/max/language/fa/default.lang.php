@@ -1044,6 +1044,8 @@ $GLOBALS['strProceed'] = "ادامه >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "وآیتم های اضافه";
 $GLOBALS['strFor'] = "برای";

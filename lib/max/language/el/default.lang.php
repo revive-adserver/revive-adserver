@@ -405,6 +405,8 @@ $GLOBALS['strVariableDescription'] = "Περιγραφή";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

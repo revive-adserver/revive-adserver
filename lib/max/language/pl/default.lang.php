@@ -805,6 +805,8 @@ $GLOBALS['strPwdRecEnterPassword'] = "Wprowadź nowe hasło poniżej";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "oraz dodatkowych pozycji";
 $GLOBALS['strFor'] = "dla";

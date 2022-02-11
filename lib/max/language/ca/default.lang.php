@@ -639,6 +639,8 @@ $GLOBALS['strPwdRecEmailSincerely'] = "Atentament,";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAuditSystem'] = "Sistema";
 $GLOBALS['strFor'] = "per a";

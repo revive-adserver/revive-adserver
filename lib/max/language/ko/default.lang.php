@@ -550,6 +550,8 @@ $GLOBALS['strVariableDataType'] = "데이터 형식";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

@@ -675,6 +675,8 @@ $GLOBALS['strProceed'] = "繼續>";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strHas'] = "具備";
 

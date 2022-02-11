@@ -924,6 +924,8 @@ $GLOBALS['strPwdRecEnterPassword'] = "Yeni şifrenizi girin";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strBinaryData'] = "İkili veri";
 $GLOBALS['strAuditTrailDisabled'] = "Denetim İzi, sistem yöneticisi tarafından devre dışı bırakıldı. Başka olay kaydedilmez ve Denetim İzi listesinde gösterilir.";

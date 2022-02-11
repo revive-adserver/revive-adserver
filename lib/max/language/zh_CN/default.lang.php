@@ -806,6 +806,8 @@ $GLOBALS['strProceed'] = "继续 >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAuditTrailDisabled'] = "Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.";
 

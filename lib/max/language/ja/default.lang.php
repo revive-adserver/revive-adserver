@@ -818,6 +818,8 @@ $GLOBALS['strProceed'] = "続ける &gt;";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "追加内容";
 $GLOBALS['strHas'] = "\\=";

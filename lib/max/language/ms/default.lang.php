@@ -275,6 +275,8 @@ $GLOBALS['strAgencyStatusInactive'] = "Aktif";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

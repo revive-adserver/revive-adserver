@@ -629,6 +629,8 @@ $GLOBALS['strTrackerType'] = "Enw Traciwr";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 
 // Widget - Audit

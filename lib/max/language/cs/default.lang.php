@@ -796,6 +796,8 @@ $GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strFor'] = "pro";
 $GLOBALS['strHas'] = "má";

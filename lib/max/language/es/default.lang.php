@@ -999,6 +999,8 @@ $GLOBALS['strProceed'] = "Continuar >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "e ítems adicionales";
 $GLOBALS['strFor'] = "para";

@@ -1109,6 +1109,15 @@ Bedankt voor uw hulp om {application_name} veiliger voor iedereen te maken!
 
 {admin_signature}";
 
+// Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "Belangrijke opmerking over verbeterde wachtwoordbeveiliging";
+$GLOBALS['strPasswordResetRequired'] = "
+Onlangs is de {$PRODUCT_NAME} software bijgewerkt naar een nieuwe versie, die een modernere en veiligere methode voor het opslaan van wachtwoorden invoert. Om in te kunnen loggen en door te gaan met {$PRODUCT_NAME} moet u eerst een nieuw wachtwoord instellen.
+Kijk in uw inbox voor een wachtwoord reset e-mail!
+Een wachtwoord reset e-mail is verstuurd naar het e-mailadres dat gekoppeld is aan uw gebruikersnaam. Open de e-mail en klik op de link erin. Dit geeft een scherm weer dat u in staat stelt uw nieuwe wachtwoord in te voeren.
+Het kan enkele minuten duren voordat de e-mail binnenkomt. Als je de e-mail niet in uw inbox ziet, controleer dan ook uw spammap.";
+$GLOBALS['strPasswordUnsafeWarning'] = "Uw wachtwoord is niet veilig genoeg. <a href='%s'>Verander het alstublieft zo snel mogelijk</a>.";
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "en extra items";
 $GLOBALS['strAuditSystem'] = "Systeem";

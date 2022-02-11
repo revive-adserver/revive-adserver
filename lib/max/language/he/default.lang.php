@@ -1000,6 +1000,8 @@ $GLOBALS['strProceed'] = "Proceed >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";
 $GLOBALS['strFor'] = "for";

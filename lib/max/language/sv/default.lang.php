@@ -814,6 +814,8 @@ $GLOBALS['strProceed'] = "Gå vidare >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strHas'] = "har";
 $GLOBALS['strAuditTrailDisabled'] = "Revisionsspårning har inaktiverats av systemadministratören. Inga ytterligare händelser loggas och visas i listan över revisionsspår.";

@@ -703,6 +703,8 @@ $GLOBALS['strProceed'] = "Tęskite >";
 
 // Password recovery - Hash update
 
+// Password reset warning
+
 // Audit
 $GLOBALS['strAdditionalItems'] = "Pridėti papildomų punktų";
 $GLOBALS['strFor'] = "skirta";
