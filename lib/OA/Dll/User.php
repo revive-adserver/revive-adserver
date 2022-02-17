@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
 class OA_Dll_User extends OA_Dll
 {
     public const ERROR_USERNAME_NOT_UNIQUE = 'Username must be unique';
+    public const ERROR_PASSWORD_TOO_SHORT = 'Password too short';
     public const ERROR_DEFAULT_ACC_NOT_LINKED = 'The specified default account is not linked to the user';
     public const ERROR_COULD_NOT_LINK_USER_TO_DEFAULT_ACC = 'Could not link the user to the default account';
     public const ERROR_UNKNOWN_USER_ID = 'Unknown userId Error';
@@ -214,6 +215,14 @@ class OA_Dll_User extends OA_Dll
                     if (!OA_Permission::setAccountAccess($oUser->defaultAccountId, $oUser->userId)) {
                         $this->raiseError(self::ERROR_COULD_NOT_LINK_USER_TO_DEFAULT_ACC);
                         return false;
+                    }
+
+                    // Should we send a welcome email?
+                    if (null === $oUser->password) {
+                        require_once MAX_PATH . '/lib/OA/Admin/PasswordRecovery.php';
+
+                        $oPasswordRecovery = new OA_Admin_PasswordRecovery();
+                        $oPasswordRecovery->sendWelcomeEmail([$oUser->userId]);
                     }
                 }
             } else {

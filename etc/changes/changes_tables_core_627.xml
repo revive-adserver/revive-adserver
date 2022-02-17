@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>627</version>
+  <comments>username/password not null</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>627</version>
+      <change>
+        <table>
+          <name>users</name>
+        <change>
+          <field>
+            <name>username</name>
+            <notnull>1</notnull>
+            <default></default>
+          </field>
+          <field>
+            <name>password</name>
+            <notnull>1</notnull>
+            <default></default>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>627</version>
+  </changeset>
+</destructive>
+</instructionset>

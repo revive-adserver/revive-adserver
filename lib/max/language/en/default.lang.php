@@ -1110,7 +1110,7 @@ Recently, {application_name} software was updated to a new version, which implem
 safer method for verifying user passwords. This change helps make {application_name} more secure
 for you and everyone else using it.
 
-In order to take full advantage of the improvement, all the current passwords have been invalidated.
+In order to take full advantage of the improvement, your password has been invalidated.
 Therefore, we would like to invite you to set a new password now. While entering your new password, you
 will see a coloured bar indicating how strong the new password is. Please make sure to enter a safe and
 unique password.

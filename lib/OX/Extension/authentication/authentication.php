@@ -229,16 +229,23 @@ class Plugins_Authentication extends OX_Component
     public function dllValidation(&$oUser, &$oUserInfo)
     {
         if (!isset($oUserInfo->userId)) {
-            if (!$oUser->checkStructureRequiredStringField($oUserInfo, 'username', 64) ||
-                !$oUser->checkStructureRequiredStringField($oUserInfo, 'password', 32)) {
+            if (!$oUser->checkStructureRequiredStringField($oUserInfo, 'username', 64)) {
                 return false;
             }
         }
 
-        if (isset($oUserInfo->password)) {
-            // Save the hash of the password
-            $oUserInfo->password = $this->getPasswordHash($oUserInfo->password);
+        if (!isset($oUserInfo->password)) {
+            return true;
         }
+
+        if (!self::validatePassword($oUserInfo->password)) {
+            $oUser->raiseError(OA_Dll_User::ERROR_PASSWORD_TOO_SHORT);
+
+            return false;
+        }
+
+        // Save the hash of the password
+        $oUserInfo->password = $this->getPasswordHash($oUserInfo->password);
 
         return true;
     }

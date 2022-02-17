@@ -69,7 +69,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $dllUserPartialMock = new PartialMockOA_Dll_User($this);
 
         $dllUserPartialMock->setReturnValue('checkPermissions', true);
-        $dllUserPartialMock->expectCallCount('checkPermissions', 6);
+        $dllUserPartialMock->expectCallCount('checkPermissions', 7);
 
 
         $oUserInfo = new OA_DLL_UserInfo();
@@ -78,13 +78,11 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $oUserInfo->contactName = 'test User';
         $oUserInfo->emailAddress = 'test@example.com';
         $oUserInfo->username = 'foo-' . time();
-        $oUserInfo->password = 'fooPwd';
         $oUserInfo->defaultAccountId = $this->accountId;
 
         $oUserInfo2->contactName = 'test User 2';
         $oUserInfo2->emailAddress = 'test2@example.com';
         $oUserInfo2->username = $oUserInfo->username;
-        $oUserInfo2->password = 'fooPwd';
         $oUserInfo2->defaultAccountId = $this->accountId;
 
         // Add
@@ -106,6 +104,14 @@ class OA_Dll_UserTest extends DllUnitTestCase
             (!$dllUserPartialMock->modify($oUserInfo2) &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE),
             $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE)
+        );
+
+        // Modify with short password
+        $oUserInfo->password = 'foo';
+        $this->assertTrue(
+            (!$dllUserPartialMock->modify($oUserInfo) &&
+                $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_PASSWORD_TOO_SHORT),
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_PASSWORD_TOO_SHORT)
         );
 
         // Delete
@@ -158,14 +164,12 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $oUserInfo1->contactName = 'test name 1';
         $oUserInfo1->emailAddress = 'name@domain.com';
         $oUserInfo1->username = 'user1-' . time();
-        $oUserInfo1->password = 'pwd';
         $oUserInfo1->defaultAccountId = $oAgencyInfo->accountId;
 
         $oUserInfo2 = new OA_Dll_UserInfo();
         $oUserInfo2->contactName = 'test name 2';
         $oUserInfo2->emailAddress = 'name@domain.com';
         $oUserInfo2->username = 'user2' . time();
-        $oUserInfo2->password = 'pwd';
         $oUserInfo2->defaultAccountId = $oAgencyInfo->accountId;
 
         // Add

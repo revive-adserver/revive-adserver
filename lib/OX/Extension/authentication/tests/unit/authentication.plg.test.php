@@ -79,21 +79,26 @@ class Test_Authentication extends UnitTestCase
 
         $dllUserMock = new PartialMockOA_Dll_User();
         $dllUserMock->setReturnValue('raiseError', true);
-        $dllUserMock->expectCallCount('raiseError', 2);
+        $dllUserMock->expectCallCount('raiseError', 3);
 
         $oUserInfo = new OA_Dll_UserInfo();
 
         // Test with nothing set
         $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
-        // Test with username set
+        // Test with username set, no password: welcome email
         $oUserInfo->username = 'foobar';
+        $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
+        $this->assertNull($oUserInfo->password);
+
+        // Test with username and password too short
+        $oUserInfo->password = 'pwd';
         $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
 
         // Test with username and password set
-        $oUserInfo->password = 'pwd';
+        $oUserInfo->password = 'pwdpwdpwdpwd';
         $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
-        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pwd', $oUserInfo->password));
+        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pwdpwdpwdpwd', $oUserInfo->password));
 
         // Test edit
         $oUserInfo = new OA_Dll_UserInfo();
@@ -101,10 +106,14 @@ class Test_Authentication extends UnitTestCase
         $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
         $this->assertNull($oUserInfo->password);
 
-        // Test edit with new password
+        // Test edit with password too short
         $oUserInfo->password = 'pwd2';
+        $this->assertFalse($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
+
+        // Test edit with new password
+        $oUserInfo->password = 'pwd2pwd2pwd2';
         $this->assertTrue($this->oPlugin->dllValidation($dllUserMock, $oUserInfo));
-        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pwd2', $oUserInfo->password));
+        $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pwd2pwd2pwd2', $oUserInfo->password));
 
         $dllUserMock->tally();
     }
