@@ -498,18 +498,11 @@ class OA_Dll_User extends OA_Dll
             return false;
         }
 
-        $aAllowedPermissions = [];
-        $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = true;
-        $aAllowedPermissions[OA_PERM_BANNER_EDIT] = true;
-        $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = true;
-        $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = true;
-        $aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = true;
-
         return $this->linkUserToAccount(
             $userId,
             $advertiserAccountId,
             $aPermissions,
-            $aAllowedPermissions
+            OA_Permission::ADVERTISER_PERMISSIONS
         );
     }
 
@@ -534,20 +527,11 @@ class OA_Dll_User extends OA_Dll
             return false;
         }
 
-        $aAllowedPermissions = [];
-        $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = true;
-        $aAllowedPermissions[OA_PERM_ZONE_EDIT] = true;
-        $aAllowedPermissions[OA_PERM_ZONE_ADD] = true;
-        $aAllowedPermissions[OA_PERM_ZONE_DELETE] = true;
-        $aAllowedPermissions[OA_PERM_ZONE_LINK] = true;
-        $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = true;
-        $aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = true;
-
         return $this->linkUserToAccount(
             $userId,
             $traffickerAccountId,
             $aPermissions,
-            $aAllowedPermissions
+            OA_Permission::TRAFFICKER_PERMISSIONS
         );
     }
 
@@ -572,14 +556,11 @@ class OA_Dll_User extends OA_Dll
             return false;
         }
 
-        $aAllowedPermissions = [];
-        $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = true;
-
         return $this->linkUserToAccount(
             $userId,
             $managerAccountId,
             $aPermissions,
-            $aAllowedPermissions
+            OA_Permission::MANAGER_PERMISSIONS
         );
     }
 

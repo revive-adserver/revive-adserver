@@ -1089,6 +1089,21 @@ class OA_Api_Xmlrpc
         return (bool) $this->_sendWithSession('ox.updateUserEmailBySsoId', array((int)$ssoUserId, $email));
     }
 
+    function linkUserToAdvertiserAccount($userId, $accountId, array $aPermissions = [])
+    {
+        return (bool) $this->_sendWithSession('ox.linkUserToAdvertiserAccount', [(int)$userId, (int)$accountId, $aPermissions]);
+    }
+
+    function linkUserToTraffickerAccount($userId, $accountId, array $aPermissions = [])
+    {
+        return (bool) $this->_sendWithSession('ox.linkUserToTraffickerAccount', [(int)$userId, (int)$accountId, $aPermissions]);
+    }
+
+    function linkUserToManagerAccount($userId, $accountId, array $aPermissions = [])
+    {
+        return (bool) $this->_sendWithSession('ox.linkUserToManagerAccount', [(int)$userId, (int)$accountId, $aPermissions]);
+    }
+
     /**
      * This method deletes a user from the user object.
      *

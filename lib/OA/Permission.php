@@ -82,6 +82,29 @@ class OA_Permission
     public const OPERATION_VIEW_CHILDREN = 128;
     public const OPERATION_ALL = 255;//1+2+4+8+16+  32+64+128
 
+    public const MANAGER_PERMISSIONS = [
+        OA_PERM_SUPER_ACCOUNT => true,
+        OA_PERM_MANAGER_DELETE => true,
+    ];
+
+    public const ADVERTISER_PERMISSIONS = [
+        OA_PERM_SUPER_ACCOUNT => true,
+        OA_PERM_BANNER_EDIT => true,
+        OA_PERM_BANNER_DEACTIVATE => true,
+        OA_PERM_BANNER_ACTIVATE => true,
+        OA_PERM_USER_LOG_ACCESS => true,
+    ];
+
+    public const TRAFFICKER_PERMISSIONS = [
+        OA_PERM_SUPER_ACCOUNT => true,
+        OA_PERM_ZONE_EDIT => true,
+        OA_PERM_ZONE_ADD => true,
+        OA_PERM_ZONE_DELETE => true,
+        OA_PERM_ZONE_LINK => true,
+        OA_PERM_ZONE_INVOCATION => true,
+        OA_PERM_USER_LOG_ACCESS => true,
+    ];
+
     /**
      * CVE-2013-5954
      *

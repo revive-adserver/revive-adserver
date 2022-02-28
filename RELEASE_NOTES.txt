@@ -68,6 +68,9 @@ What's New in Revive Adserver 5.4.0
    and password reset emails to users requiring the update to the new
    bcrypt password hash system.
 
+ * Added missing linkUserToAdvertiserAccount, linkUserToTraffickerAccount and
+   linkUserToManagerAccount methods to the v2 XML-RPC Api client library.
+
 
  Bug Fixes
  ---------
