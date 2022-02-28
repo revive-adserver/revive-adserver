@@ -1097,7 +1097,7 @@ U ontvangt deze email omdat u een gebruikersnaam heeft bij {application_name}.
 
 Onlangs is de {application_name} software bijgewerkt naar een nieuwe versie, die een moderne en veel veiligere method bevat voor het controleren van wachtwoorden. Deze verandering helpt om {application_name} veiliger te maken voor u en voor iedereen die het gebruikt.
 
-Om volledig gebruik te maken van deze verbetering, zijn alle huidige passwords ongeldig gemaakt. Daarom willen we u nu uitnodigen om een nieuw wachtwoord in te stellen. Tijdens het invoeren van uw nieuwe wachtwoord zult u een gekleurde balk zien die aangeeft hoe sterk uw nieuwe wachtwoord is. Zorg er alstublieft voor dat u een veilig en uniek wachtwoord invoert.
+Om volledig gebruik te maken van deze verbetering, is uw wachtwoord ongeldig gemaakt. Daarom willen we u nu uitnodigen om een nieuw wachtwoord in te stellen. Tijdens het invoeren van uw nieuwe wachtwoord zult u een gekleurde balk zien die aangeeft hoe sterk uw nieuwe wachtwoord is. Zorg er alstublieft voor dat u een veilig en uniek wachtwoord invoert.
 
 Klik alstublieft op de volgende link, om het nieuwe wachtwoord voor uw gebruikersnaam '{username}' in te stellen:
 
