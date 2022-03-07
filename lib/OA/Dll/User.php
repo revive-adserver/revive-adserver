@@ -461,7 +461,7 @@ class OA_Dll_User extends OA_Dll
             return false;
         }
 
-        if (!empty($aPermissions)) {
+        if (null !== $aPermissions) {
             $result = OA_Permission::storeUserAccountsPermissions(
                 $aPermissions,
                 $accountId,
