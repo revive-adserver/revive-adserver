@@ -356,6 +356,7 @@ class Plugins_Authentication extends OX_Component
         $language,
         $accountId
     ) {
+        /** @var DataObjects_Users $doUsers */
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->loadByProperty('user_id', $userid);
 
@@ -374,7 +375,7 @@ class Plugins_Authentication extends OX_Component
      * Method used in user access pages. Either creates new user if
      * necessary or update existing one.
      *
-     * @param DB_DataObject_Users $doUsers  Users dataobject with any preset variables
+     * @param DataObjects_Users $doUsers  Users dataobject with any preset variables
      * @param string $login  User name
      * @param string|null $password  Password
      * @param string $contactName  Contact name
@@ -383,7 +384,7 @@ class Plugins_Authentication extends OX_Component
      * @return integer  User ID or false on error
      */
     public function saveUserDo(
-        &$doUsers,
+        $doUsers,
         $login,
         $password,
         $contactName,

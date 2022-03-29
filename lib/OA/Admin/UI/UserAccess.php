@@ -24,7 +24,10 @@ class OA_Admin_UI_UserAccess
     public $request = [];
     public $pagePrefix; // admin/agency/advertiser/affiliate
     public $aErrors = [];
+
+    /** @var Plugins_Authentication */
     public $oPlugin;
+
     public $callbackHeaderNavigation;
     public $callbackFooterNavigation;
     public $aAllowedPermissions = [];
@@ -102,7 +105,10 @@ class OA_Admin_UI_UserAccess
             } else {
                 $this->aErrors = $this->oPlugin->validateUsersData($this->request);
             }
+
             if (empty($this->aErrors)) {
+                $newUser = empty($this->userid);
+
                 $this->userid = $this->oPlugin->saveUser(
                     $this->userid,
                     $this->request['login'],
@@ -121,7 +127,7 @@ class OA_Admin_UI_UserAccess
                         $this->aAllowedPermissions
                     );
 
-                    if ($this->oPasswordRecovery->sendWelcomeEmail([$this->userid]) > 0) {
+                    if ($newUser && $this->oPasswordRecovery->sendWelcomeEmail([$this->userid]) > 0) {
                         OA_Session::setMessage($GLOBALS['strUserLinkedAndWelcomeSent']);
                     }
 
