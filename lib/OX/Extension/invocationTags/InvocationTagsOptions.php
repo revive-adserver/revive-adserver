@@ -660,7 +660,7 @@ class Plugins_InvocationTagsOptions
 
     public function _getAvailableCharsets()
     {
-        if (function_exists('iconv') || function_exists('mb_convert_encoding')) {
+        if (class_exists('UConverter') || function_exists('iconv') || function_exists('mb_convert_encoding')) {
             return [
                 'ISO-8859-6' => 'Arabic (ISO-8859-6)',
                 'Windows-1256' => 'Arabic (Windows-1256)',
@@ -693,7 +693,7 @@ class Plugins_InvocationTagsOptions
                 'ISO-8859-1' => 'Western European (ISO-8859-1)',
                 'Windows-1252' => 'Western European (Windows-1252)'
             ];
-        } elseif (function_exists('utf8_encode')) { // No? try utf8_encode/decode
+        } elseif (function_exists('utf8_encode')) { // No? Tough luck, that's what xml_encode/decode support
             return [
                 'UTF-8' => 'Unicode (UTF-8)',
                 'ISO-8859-1' => 'Western European (ISO-8859-1)',

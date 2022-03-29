@@ -27,8 +27,8 @@ $useEncoding = "UTF-8";
 $htmlEntities = false;
 $decodeUTF8 = false;
 
-session_start();
 session_name("xajaxCharEncodingTest");
+session_start();
 
 if (@$_GET['refresh'] == "yes") {
     session_destroy();

@@ -543,11 +543,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $campaign = Admin_DA::getPlacement($banner['placement_id']);
                 $campaignAnonymous = $campaign['anonymous'] == 't';
 
-                if ($banner['type'] == DataObjects_Banners::BANNER_TYPE_MARKET) {
-                    $marketBannerNameAndAdvertiserId = $this->getMarketBannerName($banner['name']);
-                    $banner['name'] = $marketBannerNameAndAdvertiserId['name'];
-                    $banner['marketAdvertiserId'] = $marketBannerNameAndAdvertiserId['marketAdvertiserId'];
-                }
                 $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
 
                 $banner['prefix'] = 'b';
@@ -574,70 +569,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         }
 
         return $aEntitiesData;
-    }
-
-    public function getMarketBannerName($bannerName)
-    {
-        $marketAdvertiserId = false;
-        // Market ads are written in the array as "campaignid-$NAME" which is a unique ID
-        // across this manager
-        $startRealBannerName = 1 + strpos($bannerName, '_');
-        if ($startRealBannerName !== false) {
-            $bannerName = substr($bannerName, $startRealBannerName);
-            // the banner $NAME can be
-            // - "$ADVERTISERID_$ADWIDTH x $ADHEIGHT"
-            // - or "$AD_WIDTH x $AD_HEIGHT"
-            $startBannerDimension = strpos($bannerName, '_');
-
-            $marketAdvertiserName = false;
-            if ($startBannerDimension === false) {
-                $bannerDimensions = $bannerName;
-            } else {
-                $bannerDimensions = substr($bannerName, $startBannerDimension + 1);
-                $marketAdvertiserId = substr($bannerName, 0, $startBannerDimension);
-
-                if (!empty($marketAdvertiserId)) {
-                    $marketAdvertiserName = $this->getMarketAdvertiserNameFromId($marketAdvertiserId);
-                }
-                if ($marketAdvertiserName) {
-                    $bannerName = $marketAdvertiserName . ' - ' . $bannerDimensions;
-                }
-            }
-            if ($marketAdvertiserName === false) {
-                $bannerDimensions = explode('x', $bannerDimensions);
-                $width = trim($bannerDimensions[0]);
-                $height = trim($bannerDimensions[1]);
-                $bannerName = phpAds_getBannerSize($width, $height);
-                $bannerName = $bannerName;
-            }
-        }
-        return [
-            'name' => $bannerName,
-            'marketAdvertiserId' => $marketAdvertiserId
-        ];
-    }
-    /**
-     * Loads the list of market advertisers once, and returns the name for the given market advertiser ID
-     * @param $marketAdvertiserId
-     * @return string or false
-     */
-    protected function getMarketAdvertiserNameFromId($marketAdvertiserId)
-    {
-        static $advertiserList = null;
-        if (is_null($advertiserList)) {
-            $oDbh = OA_DB::singleton();
-            $query = 'SELECT market_advertiser_id, name
-            			FROM ' . $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'ext_market_advertiser
-            			';
-            $rows = $oDbh->queryAll($query);
-            foreach ($rows as $row) {
-                $advertiserList[$row['market_advertiser_id']] = utf8_encode($row['name']);
-            }
-        }
-        if (isset($advertiserList[$marketAdvertiserId])) {
-            return $advertiserList[$marketAdvertiserId];
-        }
-        return false;
     }
 
     /**

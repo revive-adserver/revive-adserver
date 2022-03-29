@@ -149,13 +149,17 @@ class EncodingMigration extends Migration
     public function _setEncodingExtension()
     {
         $this->extension = false;
-        if (function_exists('mb_convert_encoding')) {
+
+        if (class_exists('UConverter')) {
+            $this->extension = 'intl';
+        } elseif (function_exists('mb_convert_encoding')) {
             $this->extension = 'mbstring';
         } elseif (function_exists('iconv')) {
             $this->extension = 'iconv';
         } elseif (function_exists('utf8_encode')) {
             $this->extension = 'xml';
         }
+
         return $this->extension;
     }
 

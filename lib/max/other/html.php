@@ -38,40 +38,17 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
     $icon = '';
     switch ($entity) {
         case 'advertiser':
-            $do = OA_Dal::factoryDO('Clients');
-            switch ($type) {
-                case DataObjects_Clients::ADVERTISER_TYPE_MARKET:
-                    $icon = 'images/icon-advertiser-openx.png';
-                break;
-                default:
-                    if ($active) {
-                        $icon = 'images/icon-advertiser.gif';
-                    } else {
-                        $icon = 'images/icon-advertiser-d.gif';
-                    }
-                break;
-            }
+            $icon = $active ? 'images/icon-advertiser.gif' : 'images/icon-advertiser-d.gif';
             break;
 
         case 'placement':
-            $do = OA_Dal::factoryDO('Campaigns');
-            switch ($type) {
-                case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN:
-                case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT:
-                case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN:
-                    $icon = 'images/icon-campaigns-openx.png';
-                break;
-
-                default:
-                    if ($active) {
-                        $icon = 'images/icon-campaign.gif';
-                    } else {
-                        $icon = 'images/icon-campaign-d.gif';
-                    }
-                break;
-                }
+            $icon = $active ? 'images/icon-campaign.gif' : 'images/icon-campaign-d.gif';
             break;
-        case 'publisher': $icon = 'images/icon-affiliate.gif'; break;
+
+        case 'publisher':
+            $icon = 'images/icon-affiliate.gif';
+            break;
+
         case 'ad':
             switch ($type) {
                 case 'html': $icon = $active ? 'images/icon-banner-html.gif' : 'images/icon-banner-html-d.gif'; break;
@@ -81,6 +58,7 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
                 default: $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
             }
             break;
+
         case 'zone':
             switch ($type) {
                 case MAX_ZoneMarketMigrated: $icon = 'images/icon-advertiser-openx.png'; break;
@@ -94,6 +72,7 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
             }
             break;
     }
+
     return substr($icon, 0, 4) == 'http' ? $icon : (OX::assetPath() . "/" . $icon);
 }
 

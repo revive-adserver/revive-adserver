@@ -1107,39 +1107,35 @@ class xajax
     /**
      * Decodes string data from UTF-8 to the current xajax encoding.
      *
-     * @param string data to convert
+     * @param string|mixed data to convert
      * @access private
      * @return string converted data
      */
     public function _decodeUTF8Data($sData)
     {
-        $sValue = $sData;
-        if ($this->bDecodeUTF8Input) {
-            $sFuncToUse = null;
-
-            if (function_exists('iconv')) {
-                $sFuncToUse = "iconv";
-            } elseif (function_exists('mb_convert_encoding')) {
-                $sFuncToUse = "mb_convert_encoding";
-            } elseif ($this->sEncoding == "ISO-8859-1") {
-                $sFuncToUse = "utf8_decode";
-            } else {
-                trigger_error("The incoming xajax data could not be converted from UTF-8", E_USER_NOTICE);
-            }
-
-            if ($sFuncToUse) {
-                if (is_string($sValue)) {
-                    if ($sFuncToUse == "iconv") {
-                        $sValue = iconv("UTF-8", $this->sEncoding . '//TRANSLIT', $sValue);
-                    } elseif ($sFuncToUse == "mb_convert_encoding") {
-                        $sValue = mb_convert_encoding($sValue, $this->sEncoding, "UTF-8");
-                    } else {
-                        $sValue = utf8_decode($sValue);
-                    }
-                }
-            }
+        if (!is_string($sData) || !$this->bDecodeUTF8Input) {
+            return $sData;
         }
-        return $sValue;
+
+        if (class_exists('UConverter')) {
+            return UConverter::transcode($sData, $this->sEncoding, "UTF-8");
+        }
+
+        if (function_exists('iconv')) {
+            return iconv("UTF-8", $this->sEncoding . '//TRANSLIT', $sData);
+        }
+
+        if (function_exists('mb_convert_encoding')) {
+            return mb_convert_encoding($sData, $this->sEncoding, "UTF-8");
+        }
+
+        if ($this->sEncoding == "ISO-8859-1" && function_exists('utf8_decode')) {
+            return @utf8_decode($sData);
+        }
+
+        trigger_error("The incoming xajax data could not be converted from UTF-8", E_USER_NOTICE);
+
+        return $sData;
     }
 }// end class xajax
 

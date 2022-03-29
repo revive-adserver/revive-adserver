@@ -61,7 +61,7 @@ class Migration
 //    {
 //    }
 
-    public function init(&$oDbh, $logfile = '')
+    public function init($oDbh, $logfile = '')
     {
         if ($oDbh) {
             $this->oDBH = $oDbh;

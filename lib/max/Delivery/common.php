@@ -133,11 +133,12 @@ function MAX_commonRemoveSpecialChars(&$var)
  *
  * The function will recursively walk arrays.
  *
- * @param mixed  $content The string to be converted, or an array
+ * @param string|array  $content The string to be converted, or an array
  * @param string $toEncoding The destination encoding
  * @param string $fromEncoding The source encoding (if known)
- * @param string $aExtensions An array of engines to be used, currently supported are iconv, mbstrng, xml.
- * @return string The converted string
+ * @param string $aExtensions An array of engines to be used, currently supported are intl, iconv, mbstrng, xml.
+ *
+ * @return string|array The converted string
  */
 function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8', $aExtensions = null)
 {
@@ -145,54 +146,85 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
     if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
         return $content;
     }
-    // Default extensions
-    if (!isset($aExtensions) || !is_array($aExtensions)) {
-        $aExtensions = ['iconv', 'mbstring', 'xml'];
-    }
+
+    // Default extensions, sorted by accuracy and speed.
+    $aExtensions = $aExtensions ?? ['intl', 'iconv', 'mbstring', 'xml'];
+
     // Walk arrays
     if (is_array($content)) {
         foreach ($content as $key => $value) {
             $content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
         }
-        return $content;
-    } else {
-        // Uppercase charsets
-        $toEncoding = strtoupper($toEncoding);
-        $fromEncoding = strtoupper($fromEncoding);
 
-        // Charset mapping
-        $aMap = [];
-        $aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8'; // Best match to convert hebrew w/ mbstring
-        $aMap['xml']['ISO-8859-15'] = 'ISO-8859-1'; // Best match
-        // Start conversion
-        $converted = false;
-        foreach ($aExtensions as $extension) {
-            $mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
-            $mappedToEncoding = isset($aMap[$extension][$toEncoding]) ? $aMap[$extension][$toEncoding] : $toEncoding;
-            switch ($extension) {
-                case 'iconv':
-                    if (function_exists('iconv')) {
-                        $converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
-                    }
-                    break;
-                case 'mbstring':
-                    if (function_exists('mb_convert_encoding')) {
-                        $converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
-                    }
-                    break;
-                case 'xml':
-                    if (function_exists('utf8_encode')) {
-                        // Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
-                        if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
-                            $converted = utf8_encode($content);
-                        } elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
-                            $converted = utf8_decode($content);
-                        }
-                    }
-                    break;
-            }
+        return $content;
+    }
+
+    // Uppercase charsets
+    $toEncoding = strtoupper($toEncoding);
+    $fromEncoding = strtoupper($fromEncoding);
+
+    // Charset mapping
+    $aMap = [
+        'intl' => [
+            // Use unambiguous aliases
+            'WINDOWS-1251' => 'CP1251',
+            'WINDOWS-1255' => 'CP1255',
+        ],
+        'mbstring' => [
+            'WINDOWS-1255' => 'ISO-8859-8', // Best match to convert hebrew w/ mbstring
+        ],
+        'xml' => [
+            'ISO-8859-15' => 'ISO-8859-1', // Best match
+        ],
+    ];
+
+    // Start conversion
+    $converted = false;
+    foreach ($aExtensions as $extension) {
+        if (false !== $converted) {
+            // Exit early if converted
+            break;
         }
-        return $converted ? $converted : $content;
+
+        $mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
+        $mappedToEncoding = isset($aMap[$extension][$toEncoding]) ? $aMap[$extension][$toEncoding] : $toEncoding;
+
+        switch ($extension) {
+            case 'iconv':
+                if (function_exists('iconv')) {
+                    $converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
+                }
+
+                break;
+
+            case 'intl':
+                if (class_exists('UConverter')) {
+                    $converted = Uconverter::transcode($content, $mappedToEncoding, $mappedFromEncoding);
+                }
+
+                break;
+
+            case 'mbstring':
+                if (function_exists('mb_convert_encoding')) {
+                    $converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
+                }
+
+                break;
+
+            case 'xml':
+                if (function_exists('utf8_encode')) {
+                    // Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
+                    if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
+                        $converted = @utf8_encode($content);
+                    } elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
+                        $converted = @utf8_decode($content);
+                    }
+                }
+
+                break;
+        }
+
+        return $converted ?: $content;
     }
 }
 

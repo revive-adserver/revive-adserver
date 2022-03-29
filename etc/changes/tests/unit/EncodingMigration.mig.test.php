@@ -74,7 +74,9 @@ class EncodingMigrationTest extends MigrationTest
     {
         $this->oEncodingMigration->setReturnValue('_setEncodingExtension', true);
         $this->oEncodingMigration->_setEncodingExtension();
-        if (function_exists('mb_convert_encoding')) {
+        if (class_exists('UConverter')) {
+            $this->extension = 'intl';
+        } elseif (function_exists('mb_convert_encoding')) {
             $this->extension = 'mbstring';
         } elseif (function_exists('iconv')) {
             $this->extension = 'iconv';
@@ -96,6 +98,23 @@ class EncodingMigrationTest extends MigrationTest
         if (extension_loaded('iconv')) {
             $this->oEncodingMigration->extension = 'iconv';
             $this->_testConvertStrings('iconv', [
+                'big5' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
+                'gb2312' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
+                'iso-8859-2' => "\x50\xC5\x99\x69\x68\x6C\x61\xC5\xA1\x6F\x76\x61\x63\xC3\xAD\x20\xC3\xBA\x64\x61\x6A\x65",
+                'iso-8859-15' => "\x50\x72\xC3\xA9\x66\xC3\xA9\x72\x65\x6E\x63\x65\x73\x20\xE2\x82\xAC",
+                'windows-1255' => "\xD7\xA7\xD7\x93\xD7\x99\xD7\x9E\xD7\x95\xD7\x99\xD7\x95\xD7\xAA",
+                'EUC-KR' => "\xEB\xB0\x94\xEB\xA1\x9C\xEA\xB0\x80\xEA\xB8\xB0",
+                'windows-1251' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
+                'koi8-r' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
+            ]);
+        }
+    }
+
+    public function testIntl()
+    {
+        if (class_exists('UConverter')) {
+            $this->oEncodingMigration->extension = 'intl';
+            $this->_testConvertStrings('intl', [
                 'big5' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
                 'gb2312' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
                 'iso-8859-2' => "\x50\xC5\x99\x69\x68\x6C\x61\xC5\xA1\x6F\x76\x61\x63\xC3\xAD\x20\xC3\xBA\x64\x61\x6A\x65",

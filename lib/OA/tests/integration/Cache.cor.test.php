@@ -88,7 +88,7 @@ class Test_OA_Cache extends UnitTestCase
                         'testBinary' => decbin(1234567890),
                         'testHex' => dechex(1234567890),
                         'testDateTime' => getdate(),
-                        'testUTF8' => utf8_encode('abcdefghijklmnopqrstuvwxyz01234567890'),
+                        'testUTF8' => 'àbcdèéfghìjklmnopqrstùvwxyz01234567890',
                         ];
         $aResult[0] = $aArray;
         $aResult[0][0] = $aArray;
