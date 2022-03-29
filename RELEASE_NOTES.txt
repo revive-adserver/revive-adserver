@@ -33,6 +33,7 @@ What's New in Revive Adserver 5.4.0-RC1
  * Added password strength indicator, based on MIT licensed Dropbox's zxcvbn
    library.
 
+ * For more info: https://www.revive-adserver.com/faq/passwords-in-v5-4-0/
 
  New Features
  ------------
