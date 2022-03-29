@@ -2465,26 +2465,41 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
 if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
 return $content;
 }
-if (!isset($aExtensions) || !is_array($aExtensions)) {
-$aExtensions = ['iconv', 'mbstring', 'xml'];
-}
+$aExtensions = $aExtensions ?? ['intl', 'iconv', 'mbstring', 'xml'];
 if (is_array($content)) {
 foreach ($content as $key => $value) {
 $content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
 }
 return $content;
-} else {
+}
 $toEncoding = strtoupper($toEncoding);
 $fromEncoding = strtoupper($fromEncoding);
-$aMap = [];
-$aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8';  $aMap['xml']['ISO-8859-15'] = 'ISO-8859-1';   $converted = false;
+$aMap = [
+'intl' => [
+'WINDOWS-1251' => 'CP1251',
+'WINDOWS-1255' => 'CP1255',
+],
+'mbstring' => [
+'WINDOWS-1255' => 'ISO-8859-8',  ],
+'xml' => [
+'ISO-8859-15' => 'ISO-8859-1',  ],
+];
+$converted = false;
 foreach ($aExtensions as $extension) {
+if (false !== $converted) {
+break;
+}
 $mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
 $mappedToEncoding = isset($aMap[$extension][$toEncoding]) ? $aMap[$extension][$toEncoding] : $toEncoding;
 switch ($extension) {
 case 'iconv':
 if (function_exists('iconv')) {
 $converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
+}
+break;
+case 'intl':
+if (class_exists('UConverter')) {
+$converted = Uconverter::transcode($content, $mappedToEncoding, $mappedFromEncoding);
 }
 break;
 case 'mbstring':
@@ -2495,15 +2510,14 @@ break;
 case 'xml':
 if (function_exists('utf8_encode')) {
 if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
-$converted = utf8_encode($content);
+$converted = @utf8_encode($content);
 } elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
-$converted = utf8_decode($content);
+$converted = @utf8_decode($content);
 }
 }
 break;
 }
-}
-return $converted ? $converted : $content;
+return $converted ?: $content;
 }
 }
 function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
