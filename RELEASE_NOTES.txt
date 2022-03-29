@@ -215,10 +215,6 @@ this before reporting any new bugs.
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP.
 
- * With v5.4.0 and higher, when a new user has been created but the new user has
-   not set their password yet, making changes to the user's permissions will
-   trigger the 'welcome new user' email with the password reset link again.
-
  * See https://www.revive-adserver.com/support/bugs/ for the latest bug reports.
 
 
