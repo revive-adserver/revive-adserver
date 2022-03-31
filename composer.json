@@ -14,6 +14,9 @@
         "vendor-dir": "lib/vendor",
         "platform": {
             "php": "7.2.5"
+        },
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "autoload": {
