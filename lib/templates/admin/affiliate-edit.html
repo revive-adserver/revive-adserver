@@ -31,7 +31,16 @@
 <script language="javascript">
 <!--{literal}
     $(document).ready(function() {
-        formStateStore($("#affiliateform").get(0));
+        $websiteURL = $("#website");
+        $websiteName = $("#name");
+        $websiteName.focus(function () {
+            if ($.trim($websiteName.val()) == "") {
+                val = $websiteURL.val();
+                val = val.replace(/^http[s]?:\/\//, "");
+                $websiteName.val(val);
+            }
+        });
+
         $("#affiliateform").submit(function() {
             if (max_formValidate(this)) {
               return true;
