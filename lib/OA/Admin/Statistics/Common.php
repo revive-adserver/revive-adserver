@@ -31,15 +31,12 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
 class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 {
     /**
-     * @var mixed[]|mixed
+     * @var string[]
      */
     public $coreParams;
     public $phpAds_TextDirection;
     public $tabindex;
-    /**
-     * @var mixed[]|mixed
-     */
-    public $aPageContext;
+
     /**
      * @var string
      */
@@ -401,7 +398,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if ($this->useDailyClass) {
             $this->oDaily = new OA_Admin_Statistics_Daily();
             $this->oDaily->parseDay($this->aDates);
-            $this->aPageContext = ['days', $this->aDates['day_begin']];
             $this->statsBreakdown = 'hour';
         }
 

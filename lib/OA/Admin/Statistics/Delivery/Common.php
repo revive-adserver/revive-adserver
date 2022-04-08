@@ -26,6 +26,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      * @var mixed
      */
     public $welcomeText;
+
     /**
      * An array of the preference names, indexed by column name, that correspond
      * with the user preferences to enable/disable delivery statistics columns.

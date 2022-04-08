@@ -23,16 +23,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
 class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Admin_Statistics_Delivery_CommonEntity
 {
     /**
-     * @var string[]|int[]
-     */
-    public $aPageContext;
-    public $aNodes;
-    /**
-     * @var mixed
-     */
-    public $coreParams;
-    public $hiddenEntitiesText;
-    /**
      * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
@@ -94,9 +84,6 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
 
         // Add breadcrumbs
         $this->_addBreadcrumbs('advertiser', $advertiserId);
-
-        // Add context
-        $this->aPageContext = ['advertisers', $advertiserId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {

@@ -46,6 +46,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     /** @var array */
     public $childrendata;
 
+    /** @var string */
+    public $hiddenEntitiesText;
+
     /** @var array */
     public $entityLinks = [
             'a' => 'stats.php?entity=advertiser&breakdown=history',
@@ -180,13 +183,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     /**
      * Return the appriopriate link for an entity -- helper function for Flexy
      */
-    public function entityLink($key, $type = null)
+    public function entityLink($key)
     {
-        return empty($this->entityLinks[$key])
-            || $type == DataObjects_Banners::BANNER_TYPE_MARKET
-            || $type == MAX_ZoneMarketMigrated
-                ? false
-                : $this->entityLinks[$key];
+        return $this->entityLinks[$key] ?? false;
     }
 
     /**

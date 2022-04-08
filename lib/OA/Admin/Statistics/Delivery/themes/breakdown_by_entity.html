@@ -63,9 +63,9 @@
                     <img src="{assetPath}/images/spacer.gif" width="16" height="16" align="absmiddle" />
                     {end:}
                     <img src="{e[icon]}" align="absmiddle" />&nbsp;
-                    {if:entityLink(e[prefix],e[type])}<a href="{entityLink(e[prefix])}&{e[linkparams]}">{else:}<span>{end:}
+                    {if:entityLink(e[prefix])}<a href="{entityLink(e[prefix])}&{e[linkparams]}">{else:}<span>{end:}
                     {if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}
-                    {if:entityLink(e[prefix],e[type])}</a>{else:}</span>{end:}
+                    {if:entityLink(e[prefix])}</a>{else:}</span>{end:}
                     {e[html-append]:h}
                 </td>
                 {foreach:aColumns,ck,cv}

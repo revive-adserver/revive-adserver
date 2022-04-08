@@ -23,10 +23,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
     /**
-     * @var string[]|int[]
-     */
-    public $aPageContext;
-    /**
      * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
@@ -88,9 +84,6 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
 
         // Add breadcrumbs
         $this->_addBreadcrumbs('campaign', $placementId);
-
-        // Add context
-        $this->aPageContext = ['campaigns', $placementId];
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {

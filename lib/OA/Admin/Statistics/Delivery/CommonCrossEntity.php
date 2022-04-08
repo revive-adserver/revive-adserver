@@ -25,6 +25,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
     public $listOrderDirection;
     public $aAnonAdvertisers;
     public $aAnonPlacements;
+    public $aNodes;
 
     /**
      * PHP5-style constructor

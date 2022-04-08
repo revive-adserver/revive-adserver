@@ -22,12 +22,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  */
 class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_Statistics_Delivery_CommonEntity
 {
-    public $aNodes;
-    /**
-     * @var mixed
-     */
-    public $coreParams;
-    public $hiddenEntitiesText;
     /**
      * The final "child" implementation of the PHP5-style constructor.
      *
