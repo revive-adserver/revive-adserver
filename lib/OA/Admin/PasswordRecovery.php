@@ -233,8 +233,8 @@ class OA_Admin_PasswordRecovery
         $this->pageHeader();
 
         $this->displayMessage("
-        <h2>".htmlspecialchars($GLOBALS['strPasswordResetRequiredTitle'])."</h2><br>
-        <p>".str_replace("\n", '</p><p>', htmlspecialchars(trim($GLOBALS['strPasswordResetRequired'])))."</p>
+        <h2>" . htmlspecialchars($GLOBALS['strPasswordResetRequiredTitle']) . "</h2><br>
+        <p>" . str_replace("\n", '</p><p>', htmlspecialchars(trim($GLOBALS['strPasswordResetRequired']))) . "</p>
         ");
 
         $this->pageFooter();

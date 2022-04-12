@@ -29,6 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         __DIR__ . '/lib/max/language',
+        __DIR__ . '/plugins_repo/openXDeveloperToolbox',
     ]);
 
     $containerConfigurator->import(SetList::PSR_12);

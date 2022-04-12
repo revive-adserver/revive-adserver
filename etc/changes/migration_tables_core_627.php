@@ -1,36 +1,36 @@
 <?php
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 class Migration_627 extends Migration
 {
-    function __construct()
+    public function __construct()
     {
-		$this->aTaskList_constructive[] = 'beforeAlterField__users__username';
-		$this->aTaskList_constructive[] = 'afterAlterField__users__username';
-		$this->aTaskList_constructive[] = 'beforeAlterField__users__password';
-		$this->aTaskList_constructive[] = 'afterAlterField__users__password';
+        $this->aTaskList_constructive[] = 'beforeAlterField__users__username';
+        $this->aTaskList_constructive[] = 'afterAlterField__users__username';
+        $this->aTaskList_constructive[] = 'beforeAlterField__users__password';
+        $this->aTaskList_constructive[] = 'afterAlterField__users__password';
     }
 
-	function beforeAlterField__users__username()
-	{
-		return $this->migrateNullUsername() && $this->beforeAlterField('users', 'username');
-	}
+    public function beforeAlterField__users__username()
+    {
+        return $this->migrateNullUsername() && $this->beforeAlterField('users', 'username');
+    }
 
-	function afterAlterField__users__username()
-	{
-		return $this->afterAlterField('users', 'username');
-	}
+    public function afterAlterField__users__username()
+    {
+        return $this->afterAlterField('users', 'username');
+    }
 
-	function beforeAlterField__users__password()
-	{
-		return $this->migrateNullPassword() && $this->beforeAlterField('users', 'password');
-	}
+    public function beforeAlterField__users__password()
+    {
+        return $this->migrateNullPassword() && $this->beforeAlterField('users', 'password');
+    }
 
-	function afterAlterField__users__password()
-	{
-		return $this->afterAlterField('users', 'password');
-	}
+    public function afterAlterField__users__password()
+    {
+        return $this->afterAlterField('users', 'password');
+    }
 
     private function migrateNullUsername()
     {

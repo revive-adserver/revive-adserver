@@ -31,14 +31,14 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 phpAds_PageHeader("maintenance-index");
 phpAds_MaintenanceSelection("user-passwords");
 
-(new class {
+(new class() {
     private $aUsers = ['old' => [], 'new' => []];
 
     public function __construct()
     {
         $oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $qTbl = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['users']);
+        $qTbl = $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['users']);
         $sql = "SELECT user_id, username, email_address, password = '' AS new_user FROM {$qTbl} WHERE LENGTH(password) IN (0, 32)";
 
         $res = $oDbh->query($sql);

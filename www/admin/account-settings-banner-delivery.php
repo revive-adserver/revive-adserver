@@ -265,12 +265,12 @@ $aSettings = [
                 'type' => 'break'
             ],
             [
-                'type'    => 'text',
-                'name'    => 'delivery_relAttribute',
-                'text'    => $strDeliveryRelAttribute,
+                'type' => 'text',
+                'name' => 'delivery_relAttribute',
+                'text' => $strDeliveryRelAttribute,
             ],
             [
-                'type'    => 'break'
+                'type' => 'break'
             ],
             [
                 'type' => 'textarea',

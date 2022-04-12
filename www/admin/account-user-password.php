@@ -142,7 +142,7 @@ $aSettings = [
                 'name' => 'pw',
                 'text' => $strChooseNewPassword,
                 'strengthIndicator' => true,
-                'check' => 'string+'.($conf['security']['passwordMinLength'] ?? OA_Auth::DEFAULT_MIN_PASSWORD_LENGTH),
+                'check' => 'string+' . ($conf['security']['passwordMinLength'] ?? OA_Auth::DEFAULT_MIN_PASSWORD_LENGTH),
                 'autocomplete' => 'new-password',
             ],
             [

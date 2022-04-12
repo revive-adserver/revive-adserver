@@ -64,7 +64,7 @@ function maintenance_goto_section()
             }
 
             echo "<option value='appendcodes'" . ($subSection == 'appendcodes' ? ' selected' : '') . ">" . $GLOBALS['strAppendCodes'] . "</option>";
-            echo "<option value='encoding'" . ($subSection == 'encoding' ? ' selected' : '') . ">".$GLOBALS['strEncoding']."</option>";
+            echo "<option value='encoding'" . ($subSection == 'encoding' ? ' selected' : '') . ">" . $GLOBALS['strEncoding'] . "</option>";
             echo "<option value='menus'" . ($subSection == 'menus' ? ' selected' : '') . ">" . $GLOBALS['strMenus'] . "</option>";
             echo "<option value='plugins'" . ($subSection == 'plugins' ? ' selected' : '') . ">" . $GLOBALS['strPlugins'] . "</option>";
             echo "<option value='security'" . ($subSection == 'security' ? ' selected' : '') . ">" . $GLOBALS['strSecurity'] . "</option>";
