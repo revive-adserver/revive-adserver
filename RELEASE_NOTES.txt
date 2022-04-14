@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.4.0
+Release Notes: Revive Adserver 5.4.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,107 +14,34 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.4.0
+What's New in Revive Adserver 5.4.1
 -----------------------------------
 
- * Release date: April 14th, 2022
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Bcrypt is now used to store password hashes. The password of the admin user
-   executing the upgrade is automatically re-hashed. All other users users
-   will be sent an email and asked to reset their password upon login.
+ * None
 
- * Minimum password length is now set to 12 characters. The default can
-   be changed in the configuration file.
-
- * Added password strength indicator, based on MIT licensed Dropbox's zxcvbn
-   library.
-
- * For more info: https://www.revive-adserver.com/faq/passwords-in-v5-4-0/
 
  New Features
  ------------
 
- * Added support for PHP 8.1.
-
- * Added support for WEBP format in image and HTML5 banners. 
-
- * Website invocation code generation now uses async tags.
-
- * Asynchronous tag now sends a custom "revive-<ID>-loaded" JS event when
-   loading each banner and a "revive-<ID>-completed" event when all the
-   positions on the page have been filled. This allows interaction and
-   customisation, e.g. dynamically adding a class to all image banners.
-
- * Added welcome email for new users to prompt them to set up their own
-   password.
-
- * Added password strength indicator during installation and password
-   set up / recovery.
-
- * Added autocomplete attributes for username and password fields.
-
- * Tags are now generated using https by default, with the possibility
-   to use plain http instead in the invocation code screens.
-
- * Added banner delivery setting to configure the "rel" HTML attribute
-   for the click tracking links of image and text banners, defaulting
-   to "noopener nofollow". The setting is also exposed in the newly
-   added "{rel}" magic macro.
-
- * Added new maintenance screen to resend invitation emails to new users
-   and password reset emails to users requiring the update to the new
-   bcrypt password hash system.
-
- * Added missing linkUserToAdvertiserAccount, linkUserToTraffickerAccount and
-   linkUserToManagerAccount methods to the v2 XML-RPC Api client library and
-   fixed bugs related to (re)setting permissions through them.
+ * None
 
 
  Bug Fixes
  ---------
 
- * Fixed prioritization issue when setting the "to_be_delivered" flag
-   introduced in 5.3.0.
-
- * Fixed issue parsing and modifying "var clickTag = '';" in HTML5 banners
-   when there is no whitespace around the equal sign.
-
- * Fixed issue allowing the installation to proceed when entering two non
-   matching admin passwords, as long as the "Repeat password" field was
-   not empty.
-
- * Password recovery e-mails were sent using the user name rather than the
-   contact name in the To: header.
-
- * Password recovery landing screen is not longer english-only, but loads
-   the user language instead.
+ * None
 
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * XML-RPC API v1 is deprecated and might be removed in a future version.
-   Please make sure v2 is used instead.
-
- * Legacy SPC invocation code has been deprecated: delivery will still
-   function as usual, but the tags cannot be generated anymore.
-
- * Default banner image URL configuration has been deprecated, since it
-   interferes with blank impressions. It is still working if already set, but
-   is not displayed anymore in the settings UI and will be removed in a
-   future release.
-
- * It is no longer possible to set the password when creating new users via
-   the admin interface: a welcome email will be sent instead for them to set
-   their new password. Users created via the API will receive the welcome
-   email when no password is set.
-
- * Removed unmaintained Java XML-RPC API client and its supporting
-   libraries.
+ * None
 
 
 System Requirements
