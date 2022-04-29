@@ -23,21 +23,15 @@ require_once 'Pager.php';
 class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Delivery_Common
 {
     /**
-     * @var mixed
-     */
-    public $listOrderField;
-    /**
-     * @var mixed|string
-     */
-    public $listOrderDirection;
-    /**
-     * @var mixed|array<string, mixed>|bool
+     * @var array
      */
     public $pagerLinks;
+
     /**
-     * @var mixed[]|string|null|bool
+     * @var string|false
      */
     public $pagerSelect;
+
     /**
      * The starting day of the page's report span.
      *
@@ -79,16 +73,12 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     public $statsBreakdown;
 
     /**
-     * Enter description here...
-     *
-     * @var unknown_type
+     * @var string
      */
     public $statsKey;
 
     /**
-     * Enter description here...
-     *
-     * @var unknown_type
+     * @var string
      */
     public $averageDesc;
 

@@ -22,19 +22,50 @@ require_once 'HTML/Template/Flexy/Element.php';
  */
 class OA_Admin_Statistics_Flexy
 {
-    public $oDaySpanSelector;
     /**
-     * @var mixed
+     * A local instance of the Admin_UI_DaySpanField object,
+     * if required.
+     *
+     * @var Admin_UI_DaySpanField
+     */
+    public $oDaySpanSelector;
+
+    /**
+     * @var int
      */
     public $tabindex;
-    public $pageName;
+
     /**
-     * @var mixed
+     * The name of the page displaying the statistics (eg. "stats.php").
+     *
+     * @var string
+     */
+    public $pageName;
+
+    /**
+     * An array of the $_GET page parameters.
+     *
+     * @var array
      */
     public $aPageParams;
-    public $listOrderField;
-    public $listOrderDirection;
+
+    /**
+     * The current page URI.
+     *
+     * @var string
+     */
     public $pageURI;
+
+    /**
+     * @var string
+     */
+    public $listOrderField;
+
+    /**
+     * @var string
+     */
+    public $listOrderDirection;
+
     /**
      * A Flexy helper method to display the day span selector
      * element.

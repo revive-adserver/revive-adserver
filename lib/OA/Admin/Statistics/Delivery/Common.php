@@ -31,7 +31,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      * An array of the preference names, indexed by column name, that correspond
      * with the user preferences to enable/disable delivery statistics columns.
      *
-     * @var unknown_type
+     * @var array
      */
     public $aPrefNames;
 

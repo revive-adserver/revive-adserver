@@ -21,11 +21,8 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  */
 class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
 {
-    public $listOrderField;
-    public $listOrderDirection;
     public $aAnonAdvertisers;
     public $aAnonPlacements;
-    public $aNodes;
 
     /**
      * PHP5-style constructor

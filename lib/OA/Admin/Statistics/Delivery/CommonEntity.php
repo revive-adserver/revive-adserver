@@ -21,28 +21,26 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
  */
 class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
 {
-    /**
-     * @var mixed
-     */
-    public $listOrderField;
-    /**
-     * @var mixed
-     */
-    public $listOrderDirection;
     public $aNodes;
+
     /** @var boolean */
     public $showHideInactive = false;
+
     /** @var int */
     public $startLevel;
+
     /** @var boolean */
     public $hideInactive;
+
     /** @var int */
     public $hiddenEntities = 0;
+
     /** @var array */
     public $showHideLevels;
 
     /** @var array */
     public $data;
+
     /** @var array */
     public $childrendata;
 

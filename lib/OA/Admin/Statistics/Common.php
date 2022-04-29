@@ -34,34 +34,36 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var string[]
      */
     public $coreParams;
+
+    /**
+     * @var string
+     */
     public $phpAds_TextDirection;
-    public $tabindex;
 
     /**
      * @var string
      */
     public $statsIcon;
-    public $welcomeText;
+
     /**
      * @var string
      */
     public $scriptOpen;
+
     /**
      * @var string
      */
     public $scriptClose;
+
     /**
      * @var int|bool
      */
     public $autoShowGraph;
-    public $strExportStatisticsToExcel;
-    public $oStartDate;
+
     /**
-     * The name of the page displaying the statistics (eg. "stats.php").
-     *
      * @var string
      */
-    public $pageName;
+    public $strExportStatisticsToExcel;
 
     /**
      * The ID "number" of the page (eg. "2.1.2").
@@ -107,13 +109,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var array
      */
     public $aPagePrefs;
-
-    /**
-     * An array of the $_GET page parameters.
-     *
-     * @var array
-     */
-    public $aPageParams;
 
     /**
      * An array of page breadcrumbs to display.
@@ -199,14 +194,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     public $showDaySpanSelector = false;
 
     /**
-     * A local instance of the Admin_UI_DaySpanField object,
-     * if required.
-     *
-     * @var Admin_UI_DaySpanField
-     */
-    public $oDaySpanSelector;
-
-    /**
      * An array of the start and end date values used when
      * the day span selector element is in use.
      *
@@ -245,13 +232,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var OA_Admin_Statistics_Daily
      */
     public $oDaily;
-
-    /**
-     * The current page URI.
-     *
-     * @var string
-     */
-    public $pageURI;
 
     /**
      * A path for static assets (images, CSS, JavaScripts).
@@ -1004,12 +984,16 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if (empty($link)) {
             return $this->aPageParams;
         }
+
+        parse_str($link, $aParsed);
+
         $aNewParams = [];
         foreach ($this->aPageParams as $key => $value) {
-            if (!empty($value) && (!strstr($link, $value) && $key != "entity" && $key != "day")) {
+            if (!empty($value) && !isset($aParsed[$key]) && $key != "entity" && $key != "day") {
                 $aNewParams[$key] = $value;
             }
         }
+
         return $aNewParams;
     }
 

@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.4.1
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue causing permission denied errors in some statistics screens,
+   e.g. banner / zone history.
 
 
  Non-Backwards Compatible Changes

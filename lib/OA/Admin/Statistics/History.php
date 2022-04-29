@@ -27,6 +27,7 @@ class OA_Admin_Statistics_History
      * @var array<string, mixed>
      */
     public $aDates;
+
     /**
      * A method that can be inherited and used by children classes to get the
      * required date span of a statistics page.
