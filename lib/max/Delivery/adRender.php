@@ -193,18 +193,18 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
         $dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $dest);
 
         switch ($aMatches[1][$i]) {
-            default:
-                $aMagicMacros[$aMatches[0][$i]] = $dest;
-                break;
-
             case '_enc':
-                $aMagicMacros[$aMatches[0][$i]] = urlencode($dest);
+                $dest = urlencode($dest);
                 break;
 
             case '_html':
-                $aMagicMacros[$aMatches[0][$i]] = htmlspecialchars($dest, ENT_QUOTES);
+                $dest = htmlspecialchars($dest, ENT_QUOTES);
                 break;
         }
+
+        // Full click urls needs to be replaced first, as the search pattern might contain macros which
+        // would otherwise be replaced already by the time the end of the array is reached.
+        $aMagicMacros = [$aMatches[0][$i] => $dest] + $aMagicMacros;
     }
 
     // And finally log and click URLs

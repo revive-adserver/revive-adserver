@@ -41,6 +41,9 @@ What's New in Revive Adserver 5.4.1
  * Restored Export Statistics to Excel functionality, mistakenly removed in
    version 5.4.0.
 
+ * Fixed incompatibility between the {clickurl} macro and other magic macros,
+   e.g. {random}, when used together in a destination URL.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
