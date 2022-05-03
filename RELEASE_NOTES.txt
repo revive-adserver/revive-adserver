@@ -38,6 +38,9 @@ What's New in Revive Adserver 5.4.1
  * Fixed issue causing permission denied errors in some statistics screens,
    e.g. banner / zone history.
 
+ * Restored Export Statistics to Excel functionality, mistakenly removed in
+   version 5.4.0.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

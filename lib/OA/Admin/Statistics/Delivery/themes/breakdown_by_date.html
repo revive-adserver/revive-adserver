@@ -22,12 +22,22 @@
 
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
+        {if:showExportToExcel}
+        <td style="padding-bottom:5px; white-space: nowrap;">
+            <br />
+            <a href="{pageURI}plugin=advertiser:statshistory" accesskey="e">
+                <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
+            </a>
+        </td>
+        <td width="90%">&nbsp;</td>
+        {else:}
         <td style="padding-bottom:5px; white-space: nowrap;">
             <br />
             <span style="color: #999999;">
-            <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
+                <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}</span>
         </td>
         <td width="90%">&nbsp;</td>
+        {end:}
 	</tr>
 	</table>
     </td>
