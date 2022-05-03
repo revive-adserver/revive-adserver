@@ -3386,16 +3386,14 @@ $dest = 'https:' . $dest;
 }
 $dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $dest);
 switch ($aMatches[1][$i]) {
-default:
-$aMagicMacros[$aMatches[0][$i]] = $dest;
-break;
 case '_enc':
-$aMagicMacros[$aMatches[0][$i]] = urlencode($dest);
+$dest = urlencode($dest);
 break;
 case '_html':
-$aMagicMacros[$aMatches[0][$i]] = htmlspecialchars($dest, ENT_QUOTES);
+$dest = htmlspecialchars($dest, ENT_QUOTES);
 break;
 }
+$aMagicMacros = [$aMatches[0][$i] => $dest] + $aMagicMacros;
 }
 $aBanner['logUrl'] = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 $aBanner['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
