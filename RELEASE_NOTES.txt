@@ -44,6 +44,9 @@ What's New in Revive Adserver 5.4.1
  * Fixed incompatibility between the {clickurl} macro and other magic macros,
    e.g. {random}, when used together in a destination URL.
 
+ * Fixed SQL errors on Postgres when displaying some cross entity history
+   stats screens, e.g. campaign / website.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

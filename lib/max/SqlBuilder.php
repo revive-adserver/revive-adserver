@@ -1556,6 +1556,6 @@ class SqlBuilder
 
         $sql = join($isPgsql ? '||' : ', ', $aData);
 
-        return $isPgsql ? $sql : "CONCAT({$sql})";
+        return $isPgsql ? "({$sql})" : "CONCAT({$sql})";
     }
 }
