@@ -926,17 +926,19 @@ class Admin_DA
                 $okToLink = false;
                 break;
             }
+
             // Do not allow link if either start or end date is within another linked campaign dates
             $otherCampaignStart = new Date($otherCampaignVariables['activate_time']);
             $otherCampaignStart->setTZbyID('UTC');
             $otherCampaignEnd = new Date($otherCampaignVariables['expire_time']);
             $otherCampaignEnd->setTZbyID('UTC');
 
-            if (($campaignStart->after($otherCampaignStart) && $campaignStart->before($otherCampaignEnd)) || ($campaignStart->equals($otherCampaignStart))) {
+            if ($campaignStart->equals($otherCampaignStart) || $campaignEnd->equals($otherCampaignEnd)) {
                 $okToLink = false;
                 break;
             }
-            if (($campaignEnd->after($otherCampaignStart) && $campaignEnd->before($otherCampaignEnd)) || ($campaignEnd->equals($otherCampaignEnd))) {
+
+            if ($campaignStart->before($otherCampaignEnd) && $campaignEnd->after($otherCampaignStart)) {
                 $okToLink = false;
                 break;
             }

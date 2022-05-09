@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.4.1
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: May 12th, 2022
 
 
  Security Updates
@@ -46,6 +46,9 @@ What's New in Revive Adserver 5.4.1
 
  * Fixed SQL errors on Postgres when displaying some cross entity history
    stats screens, e.g. campaign / website.
+
+ * Fixed an issue detecting campagin start/end date overlap when linking
+   banners to newsletter zones under some circumstances.
 
 
  Non-Backwards Compatible Changes
