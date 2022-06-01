@@ -206,6 +206,6 @@ function phpAds_ImageSize($type, $name)
  */
 function phpAds_LocalUniqueName($buffer, $extension)
 {
-    $filename = md5($buffer) . $extension;
+    $filename = md5($buffer . microtime(true)) . $extension;
     return $filename;
 }
