@@ -59,6 +59,7 @@ $GLOBALS['strAdminPassword'] = "Senha de administração";
 $GLOBALS['strInvalidUsername'] = "Nome de usuário inválido";
 $GLOBALS['strAdministratorEmail'] = "E-mail do administrador";
 $GLOBALS['strUserlogEmail'] = "Registrar todos e-mail enviados";
+$GLOBALS['strEnableDashboard'] = "Ativar painel";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Por favor habilite <a href='account-settings-update.php'>Verificar atualizações</a> se deseja usar o Painel de Controle.";
 $GLOBALS['strTimezone'] = "Fuso horário";
 $GLOBALS['strEnableAutoMaintenance'] = "Executar a manutenção automaticamente durante a entrega de anúncios se a manutenção não estiver agendada";
@@ -81,14 +82,19 @@ $GLOBALS['strCantConnectToDb'] = "Impossível conectar à base de dados";
 $GLOBALS['strCantConnectToDbDelivery'] = 'Impossível conectar ao Banco de dados para entrega';
 
 // Email Settings
+$GLOBALS['strEmailSettings'] = "Configurações de email";
 $GLOBALS['strEmailAddresses'] = "Endereço de remetente de E-mails";
 $GLOBALS['strEmailFromName'] = "Nome do remetente de E-mails";
 $GLOBALS['strEmailFromAddress'] = "Endereço do remetente do e-mail";
 $GLOBALS['strEmailFromCompany'] = "Nome da Companhia de E-mails";
 $GLOBALS['strQmailPatch'] = "patch para qmail";
+$GLOBALS['strEnableQmailPatch'] = "Ativar patch qmail";
+$GLOBALS['strEmailHeader'] = "Cabeçalho dos e-mails";
+$GLOBALS['strEmailLog'] = "Registro de e-mail";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Configurações de Auditoria de percurso";
+$GLOBALS['strEnableAudit'] = "Ativar trilha de auditoria";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "Configurações de log de debug";
@@ -98,6 +104,7 @@ $GLOBALS['strDebugLineNumbers'] = "Incluir número da linha no log de debug";
 $GLOBALS['strDebugType'] = "Tipo de log de debug";
 $GLOBALS['strDebugTypeFile'] = "Arquivo";
 $GLOBALS['strDebugTypeSql'] = "Base de dados SQL";
+$GLOBALS['strDebugTypeSyslog'] = "syslog (sistema de registro de eventos)";
 $GLOBALS['strDebugName'] = "Nome do log, Calendário, Tabela SQL,<br /> ou SysLog";
 $GLOBALS['strDebugPriority'] = "Nível de prioridade do debug";
 $GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Mais Informação";
