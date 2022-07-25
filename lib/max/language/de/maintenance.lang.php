@@ -56,6 +56,10 @@ $GLOBALS['strStorageExplaination'] = "	Bilddateien für lokale Banner werden in 
 	Das Speichern in einem lokalen Verzeichnis anstelle in der Datenbank vermindert die Ladezeit.";
 
 // Security
+$GLOBALS['strSecurity'] = "Sicherheit";
+$GLOBALS['strSecurityExplanation'] = "Einige Verzeichnisse im {$PRODUCT_NAME}-Paket sollten aus Sicherheitsgründen nicht direkt über den Webserver zugänglich sein. Über diese Verzeichnisse und Dateien sind möglicherweise sensible oder private Informationen frei zugänglich, was ein Sicherheitsrisiko darstellt. Ein schnelle Sicherheitsprüfung wurde durchgeführt und hat zu den untenstehenden Resultaten geführt.";
+$GLOBALS['strSecurityOK'] = "Ihr Browser konnte nicht auf die geschützten Dateien zugreifen. Das sind gute Neuigkeiten!";
+$GLOBALS['strSecurityKO'] = "Ihr Browser konnte auf Dateien zugreifen, die nicht zugänglich sein sollten, z.B.:";
 
 // Encoding
 $GLOBALS['strEncoding'] = "Kodierung";
@@ -109,6 +113,7 @@ $GLOBALS['strRunningOn'] = "laufend auf";
 $GLOBALS['strAndPlain'] = "und";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Auslieferungsregeln";
 $GLOBALS['strErrorsFound'] = "Fehler gefunden";
 $GLOBALS['strRepairCompiledLimitations'] = "Obige Inkonsistenzen wurden ermittelt. Sie können diese reparieren durch die Verwendung des unten stehenden Buttons. Hierbei wird das System die Auslieferungsbeschränkungen jedes Banners und jeder Gruppe im System neu übersetzen.<br />";
 $GLOBALS['strRecompile'] = "Neu übersetzen";
