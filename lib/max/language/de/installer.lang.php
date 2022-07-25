@@ -110,3 +110,6 @@ $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} hat festgestellt, dass Ihre PHP 
 Servers zurückliefert. Dies wurde durch eine gepatchte PHP hervorgerufen, die bei manchen Linux-Distributionen durchgeführt wird.
 Leider ist das keine gültige PHP-Zeitzone. Bitte ändern Sie ihre php.ini Datei und setzen den Wert für 'date.timezone' auf einen gültigen Wert für Ihren Server.";
 
+$GLOBALS['strInstallNonBlockingErrors'] = "Im Verlauf der Installation sind Fehler aufgetreten. Bitte prüfen Sie die
+<a class=\"show-errors\" href=\"#\">Fehlerliste</a> und das Protokoll unter \\'%s\\' für genauere Details.
+Sie können sich weiterhin in Ihrer {$PRODUCT_NAME} Instanz anmelden.";

@@ -31,6 +31,7 @@ $GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} ist aktuell";
 $GLOBALS['strOaUpToDate'] = "Ihre {$PRODUCT_NAME} Datenbank und Verzeichnisstruktur ist auf dem neusten Stand, für diese Daten ist kein Upgradevorgang nötig. Bitte klicken Sie auf Fortsetzen um zur Administrationsseite von {$PRODUCT_NAME} zu gelangen.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Warnung: Es fehlen die nötigen Rechte an der Datei UPGRADE um diese aus dem Openads-'var'-Verzeichnis zu entfernen. Bitte löschen Sie die Datei manuell.";
 $GLOBALS['strErrorWritePermissions'] = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.<br />Um diese Rechte auf einem Linux System zu gewähren, tippen Sie den/die folgenden Befehle auf einer Shell:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strNotWriteable'] = "NICHT schreibbar";
 $GLOBALS['strDirNotWriteableError'] = "Verzeichnis muss schreibbar sein";
 
@@ -53,6 +54,9 @@ $GLOBALS['strUpgrade'] = "Programmaktualisierung (Upgrade)";
 
 // Global
 $GLOBALS['strChooseSection'] = "Bereichsauswahl";
+$GLOBALS['strEditConfigNotPossible'] = "Es ist nicht möglich, die Einstellungen zu bearbeiten, da die Konfigurationsdatei aus Sicherheitsgründen schreibgeschützt ist.
+Wenn Sie Änderungen vornehmen möchten, müssen Sie den Schreibschutz der Konfigurationsdatei möglicherweise erst entfernen.";
+$GLOBALS['strEditConfigPossible'] = "Momentan ist es möglich Einstellungen zu ändern, da die Konfigurationsdatei nicht schreibgeschützt ist. Dies kann zu Sicherheitsproblemen führen. Wenn Sie Ihr System absichern möchten, müssen Sie die Konfigurationsdatei für diese Installation mit einem Schreibschutz versehen.";
 $GLOBALS['strUnableToWriteConfig'] = "Die Änderungen konnten nicht in die Konfigurationsdatei übernommen werden";
 $GLOBALS['strUnableToWritePrefs'] = "Die Voreinstellungen konnten nicht in die Datenbank geschrieben werden.";
 $GLOBALS['strImageDirLockedDetected'] = "Für das angegebene <b>Banner-Verzeichnis</b> hat der Server keine Schreibrechte.<br>Sie können den Vorgang erst fortsetzen wenn Sie die Verzeichnisrechte ändern oder das Verzeichnis anlegen.";
