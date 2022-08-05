@@ -617,6 +617,18 @@ function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string 
         $aParams[$conf['var']['lastClick']] = $logLastClick;
     }
 
+    // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
+    $componentParams = OX_Delivery_Common_hook('addUrlParams', [$aBanner]);
+    if (!empty($componentParams) && is_array($componentParams)) {
+        foreach ($componentParams as $params) {
+            if (!empty($params) && is_array($params)) {
+                foreach ($params as $key => $value) {
+                    $aParams[$key] = $value;
+                }
+            }
+        }
+    }
+
     $dest = _adRenderReplaceMagicMacros($aBanner, $customDestination ?? $aBanner['url'] ?? '');
 
     if ($dest) {
