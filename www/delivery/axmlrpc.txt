@@ -3810,6 +3810,16 @@ $aParams[$conf['var']['logClick']] = 'no';
 if (!empty($logLastClick)) {
 $aParams[$conf['var']['lastClick']] = $logLastClick;
 }
+$componentParams = OX_Delivery_Common_hook('addUrlParams', [$aBanner]);
+if (!empty($componentParams) && is_array($componentParams)) {
+foreach ($componentParams as $params) {
+if (!empty($params) && is_array($params)) {
+foreach ($params as $key => $value) {
+$aParams[$key] = $value;
+}
+}
+}
+}
 $dest = _adRenderReplaceMagicMacros($aBanner, $customDestination ?? $aBanner['url'] ?? '');
 if ($dest) {
 $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
