@@ -111,7 +111,7 @@ msgstr "Запуск сайта"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:495
 msgid "Running"
-msgstr "Запущен"
+msgstr "Запущено"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:497
 msgid "Stopped"
@@ -119,11 +119,11 @@ msgstr "Остановлен"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:513
 msgid "Override"
-msgstr "Отменить"
+msgstr "Перевизначити"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
 msgid "Remnant"
-msgstr "Остаток"
+msgstr "Залишок"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Contract"
@@ -212,5 +212,5 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
 msgid "IP Address"
-msgstr ""
+msgstr "IP-адреса"
 

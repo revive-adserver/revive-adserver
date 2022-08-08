@@ -11,19 +11,20 @@
  */
 
 // Other
-$GLOBALS['strCopyToClipboard'] = "Скопировать в буфер обмена";
-$GLOBALS['strCopy'] = "копировать";
+$GLOBALS['strCopyToClipboard'] = "Копіювати в буфер обміну";
+$GLOBALS['strCopy'] = "копіювати";
 $GLOBALS['strChooseTypeOfInvocation'] = "Виберіть тип банера.";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Виберіть тип банера.";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "пкс";
 $GLOBALS['strAbbrSeconds'] = "сек";
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat'] = "Выбор баннеров";
+$GLOBALS['strInvocationWhat'] = "Вибір банера";
 $GLOBALS['strInvocationCampaignID'] = "Кампанія";
 $GLOBALS['strInvocationTarget'] = "Фрейм назначения";
-$GLOBALS['strInvocationSource'] = "Источник";
+$GLOBALS['strInvocationSource'] = "Джерело";
 $GLOBALS['strInvocationWithText'] = "Показывать текст под баннером";
 $GLOBALS['strInvocationDontShowAgain'] = "Не показывать баннер вторично на той же странице";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Не показывать баннер из той же кампании снова на той же странице";

@@ -21,7 +21,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:76
 msgid "Browser"
-msgstr ""
+msgstr "Браузер"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:83
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:85

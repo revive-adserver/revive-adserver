@@ -17,11 +17,11 @@ msgstr ""
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:39
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:136
 msgid "Account Breakdown"
-msgstr ""
+msgstr "Aufschlüsselung für Benutzerkonto"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
 msgid "Lists Impression/Click/Conversion totals for a given month."
-msgstr ""
+msgstr "Listet Gesamtsummen für Impressions/Clicks/Conversions für einen bestimmten Monat auf."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:42
 msgid "Admin Reports"
@@ -29,5 +29,5 @@ msgstr "Berichte für Administratoren"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:127
 msgid "Manager"
-msgstr ""
+msgstr "Manager"
 

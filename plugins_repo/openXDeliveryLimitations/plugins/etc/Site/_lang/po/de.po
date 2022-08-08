@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Site/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 350\n"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
+msgid "Enter domains below to remove matching entries from the list"
+msgstr "Geben Sie Domains unten ein, um entsprechende Einträge aus der Liste zu entfernen"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:79
+msgid "Remove Domains"
+msgstr "Domänen entfernen"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:96
+msgid "WARNING"
+msgstr "WARNUNG"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
+msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "Die Auslieferungsregel \"Registrierbare Domänenliste\" kann nicht verwendet werden; sie erfordert die Installation der <i>intl</i> PHP-Erweiterung."
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
+msgid "Is all of"
+msgstr "Ist alles von"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:76
+msgid "Enter hostnames below to remove matching entries from the list"
+msgstr "Geben Sie unten Host-Namen ein, um entsprechende Einträge aus der Liste zu entfernen"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:79
+msgid "Remove Hostnames"
+msgstr "Host-Namen entfernen"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:97
+msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "Die Auslieferungsregel \"Host-Namen Liste\" kann nicht verwendet werden; sie erfordert die Installation der <i>intl</i> PHP-Erweiterung."
+

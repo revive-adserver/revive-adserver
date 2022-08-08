@@ -16,7 +16,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
-msgstr "Неизвестное"
+msgstr "Невідомо"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:20
 msgid "Dial-up"

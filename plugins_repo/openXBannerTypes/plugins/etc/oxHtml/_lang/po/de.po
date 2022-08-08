@@ -16,11 +16,11 @@ msgstr ""
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
 msgid "HTML5 Banner (ZIP package)"
-msgstr ""
+msgstr "HTML5-Banner (ZIP-Paket)"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
 msgid "Upload an HTML5 banner"
-msgstr ""
+msgstr "Ein HTML5-Banner hochladen"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
 msgid "Generic HTML Banner"
