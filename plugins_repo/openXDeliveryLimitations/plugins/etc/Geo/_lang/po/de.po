@@ -28,11 +28,11 @@ msgstr "Breitband"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:22
 msgid "Corporate"
-msgstr ""
+msgstr "Unternehmen"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
-msgstr ""
+msgstr "Mobilfunk"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
@@ -41,7 +41,7 @@ msgstr "Land"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
 msgid "Subdivision(s)"
-msgstr ""
+msgstr "Unterabteilung(en)"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"

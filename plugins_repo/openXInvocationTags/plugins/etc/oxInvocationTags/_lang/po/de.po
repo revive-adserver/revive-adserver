@@ -16,15 +16,15 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:35
 msgid "iFrame Tag"
-msgstr ""
+msgstr "iFrame Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:48
 msgid "Asynchronous JS Tag"
-msgstr ""
+msgstr "Asynchroner JS Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
-msgstr ""
+msgstr "Popup Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:47
 msgid "[Close]"
@@ -173,11 +173,11 @@ msgstr "Farbe des Randes"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
 msgid "No Cookie Image Tag"
-msgstr ""
+msgstr "Bild-Tag ohne Cookie"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
 msgid "XML-RPC Tag"
-msgstr ""
+msgstr "XML-RPC Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:35
 msgid "Image Tag"
@@ -185,7 +185,7 @@ msgstr "Bilder Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
 msgid "Local Mode Tag"
-msgstr ""
+msgstr "Tag für lokalen Modus"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
 msgid "Javascript Tag"
@@ -193,7 +193,7 @@ msgstr "JavaScript-Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:44
 msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
+msgstr "Interstitial oder Floating DHTML Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:231
 msgid "Style"
