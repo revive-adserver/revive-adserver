@@ -349,6 +349,14 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $this->sendMessage('test_adRenderBuildClickQueryString');
 
+        // Also test that plugin hook addUrlParams is called
+        $GLOBALS['_MAX']['CONF']['deliveryHooks']['addUrlParams'] = 'test:fake';
+
+        function Plugin_test_fake_Delivery_addUrlParams($aAd)
+        {
+            return ['add' => 'url'];
+        }
+
         $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode('foobar');
 
         $aBanner = [
@@ -367,7 +375,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $dest = urlencode('http://www.example.com/bar/');
 
         $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
-        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&add=url&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
 
         $aBanner = [
             'bannerid' => '123',
@@ -384,7 +392,9 @@ class Test_DeliveryAdRender extends UnitTestCase
         $dest = urlencode('http://www.example.com/bar/');
 
         $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
-        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&add=url&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+
+        unset($GLOBALS['_MAX']['CONF']['deliveryHooks']['addUrlParams']);
     }
 
     public function test_adRenderBuildClickQueryStringWithTimestamp()

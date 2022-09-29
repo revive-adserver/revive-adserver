@@ -35,7 +35,9 @@ What's New in Revive Adserver 5.4.2
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue preventing plugin hook "addUrlParams" from being called when
+   generating click URLs since the introduction of the signed clicks
+   functionality.
 
 
  Non-Backwards Compatible Changes
