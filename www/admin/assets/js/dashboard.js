@@ -9,7 +9,7 @@
     if (typeof $ != "undefined")
         var _$ = $;
     window.$ = jQuery;
-    var quickExpr = /^[^<]*(<(.|\s)+>)[^>]*$|^#(\w+)$/;
+    var quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/;
     jQuery.fn = jQuery.prototype = {
         init: function (a, c) {
             a = a || document;
