@@ -165,7 +165,7 @@ msgstr "Показать кнопку закрытия"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:110
 msgid "Automatically close after"
-msgstr "Автоматически закрыть через"
+msgstr "Автоматично закривати після"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:149
 msgid "Border color"
