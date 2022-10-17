@@ -23,34 +23,42 @@ $GLOBALS['strAbbrSeconds'] = "сек";
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Вибір банера";
 $GLOBALS['strInvocationCampaignID'] = "Кампанія";
-$GLOBALS['strInvocationTarget'] = "Фрейм назначения";
+$GLOBALS['strInvocationTarget'] = "Цільовий фрейм";
 $GLOBALS['strInvocationSource'] = "Джерело";
-$GLOBALS['strInvocationWithText'] = "Показывать текст под баннером";
-$GLOBALS['strInvocationDontShowAgain'] = "Не показывать баннер вторично на той же странице";
-$GLOBALS['strInvocationDontShowAgainCampaign'] = "Не показывать баннер из той же кампании снова на той же странице";
-$GLOBALS['strInvocationTemplate'] = "Сохранить баннер в переменной, так что его можно будет использовать в шаблоне";
-$GLOBALS['strInvocationBannerID'] = "ID баннера";
-$GLOBALS['strInvocationComments'] = "Включить комментарии";
+$GLOBALS['strInvocationWithText'] = "Показати текст під банером";
+$GLOBALS['strInvocationDontShowAgain'] = "Не показувати банер знову на тій же сторінці";
+$GLOBALS['strInvocationDontShowAgainCampaign'] = "Не показувати банер із тієї ж кампанії знову на тій самій сторінці";
+$GLOBALS['strInvocationTemplate'] = "Зберігайте банер у змінній, щоб його можна було використовувати в шаблоні";
+$GLOBALS['strInvocationBannerID'] = "Банер ID";
+$GLOBALS['strInvocationComments'] = "Додати коментарі";
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter'] = "Обновить через";
-$GLOBALS['strIframeMakeTransparent'] = "Сделать iframe прозрачным";
+$GLOBALS['strIFrameRefreshAfter'] = "Оновити через";
+$GLOBALS['strIframeMakeTransparent'] = "Зробіть iframe прозорим";
 
 // PopUp
-$GLOBALS['strPopUpStyle'] = "Тип Pop-up";
-$GLOBALS['strPopUpStylePopUp'] = "Выскакивает над";
-$GLOBALS['strPopUpStylePopUnder'] = "Выскакивает под";
-$GLOBALS['strPopUpImmediately'] = "Немедленно";
-$GLOBALS['strPopUpOnClose'] = "Когда страница закрывается";
-$GLOBALS['strPopUpAfterSec'] = "Через";
-$GLOBALS['strAutoCloseAfter'] = "Автоматически закрыть через";
-$GLOBALS['strPopUpTop'] = "Начальная позиция (верх)";
-$GLOBALS['strPopUpLeft'] = "Начальная позиция (левый край)";
+$GLOBALS['strPopUpStyle'] = "Тип спливаючого вікна";
+$GLOBALS['strPopUpStylePopUp'] = "Спливаюче вікно";
+$GLOBALS['strPopUpStylePopUnder'] = "Pop-under
+";
+$GLOBALS['strPopUpCreateInstance'] = "Екземпляр, коли створюється спливаюче вікно";
+$GLOBALS['strPopUpImmediately'] = "Негайно";
+$GLOBALS['strPopUpOnClose'] = "При закритті сторінки";
+$GLOBALS['strPopUpAfterSec'] = "Після";
+$GLOBALS['strAutoCloseAfter'] = "Автоматично закривати після";
+$GLOBALS['strPopUpTop'] = "Початкове положення (верх)";
+$GLOBALS['strPopUpLeft'] = "Початкове положення (ліворуч)";
+$GLOBALS['strWindowOptions'] = "Параметри вікна";
+$GLOBALS['strShowToolbars'] = "Панелі інструментів";
+$GLOBALS['strShowLocation'] = "Місцезнаходження";
+$GLOBALS['strShowMenubar'] = "Панель меню";
 $GLOBALS['strShowStatus'] = "Статус";
+$GLOBALS['strWindowResizable'] = "Змінний розмір";
+$GLOBALS['strShowScrollbars'] = "Смуги прокрутки";
 
 // Support for cachebusting code
-$GLOBALS['strCacheBuster'] = "Вставить код, запрещающий кэширование";
+$GLOBALS['strCacheBuster'] = "Вставити код очищення кешу";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Попередження";
-$GLOBALS['strImgWithAppendWarning'] = "Трекер имеет встроенный код, который должен располагаться внутри контейнера JavaScript";
+$GLOBALS['strImgWithAppendWarning'] = "Цей трекер має доданий код, доданий код працюватиме <strong>лише</strong> з тегами JavaScript";

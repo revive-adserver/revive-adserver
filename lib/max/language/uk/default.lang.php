@@ -578,177 +578,209 @@ $GLOBALS['strAffiliates'] = "Вебсайт";
 $GLOBALS['strAffiliatesAndZones'] = "Сайти та зони";
 $GLOBALS['strAddNewAffiliate'] = "Додати новий веб-сайт";
 $GLOBALS['strAffiliateProperties'] = "Властивості веб-сайту";
+$GLOBALS['strAffiliateHistory'] = "Статистика сайту";
 $GLOBALS['strNoAffiliates'] = "в даний час не визначено жодного клієнта. Для створення кампанії необхідно спочатку <а href='advertiser-edit.php'>додати клієнта</a>.";
 $GLOBALS['strConfirmDeleteAffiliate'] = "Ви дійсно хочете видалити цього клієнта?";
 $GLOBALS['strConfirmDeleteAffiliates'] = "Ви дійсно хочете видалити цього клієнта?";
 $GLOBALS['strInactiveAffiliatesHidden'] = "неактивні клієнти приховані";
-$GLOBALS['strShowParentAffiliates'] = "Показать связанные сайты";
-$GLOBALS['strHideParentAffiliates'] = "Скрыть связанные сайты";
+$GLOBALS['strShowParentAffiliates'] = "Показати батьківські сайти";
+$GLOBALS['strHideParentAffiliates'] = "Приховати батьківські сайти";
 
 // Website (properties)
 $GLOBALS['strWebsite'] = "Вебсайт";
-$GLOBALS['strWebsiteURL'] = "URL Веб-сайта";
+$GLOBALS['strWebsiteURL'] = "Аадреса сайту";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Дозволити модифікувати власні банери";
-$GLOBALS['strAllowAffiliateLinkBanners'] = "Разрешить связывать баннеры с его собственными зонами";
-$GLOBALS['strAllowAffiliateAddZone'] = "Разрешить определять новые зоны";
-$GLOBALS['strAllowAffiliateDeleteZone'] = "Разрешить удалять существующие зоны";
-$GLOBALS['strAllowAffiliateGenerateCode'] = "Разрешить генерировать код вызова";
+$GLOBALS['strAllowAffiliateLinkBanners'] = "Дозволити цьому користувачеві пов’язувати банери зі своїми зонами";
+$GLOBALS['strAllowAffiliateAddZone'] = "Дозволити цьому користувачеві визначати нові зони";
+$GLOBALS['strAllowAffiliateDeleteZone'] = "Дозволити цьому користувачеві видаляти існуючі зони";
+$GLOBALS['strAllowAffiliateGenerateCode'] = "Дозволити цьому користувачеві генерувати код виклику";
 
 // Website (properties - payment information)
-$GLOBALS['strPostcode'] = "Почтовый индекс";
+$GLOBALS['strPostcode'] = "Поштовий індекс";
 $GLOBALS['strCountry'] = "Країна";
 
 // Website (properties - other information)
-$GLOBALS['strWebsiteZones'] = "Сайты и зоны";
+$GLOBALS['strWebsiteZones'] = "Зони сайту";
 
 // Zone
 $GLOBALS['strZone'] = "Зона";
 $GLOBALS['strZones'] = "Ніхто";
-$GLOBALS['strAddNewZone'] = "Добавить новую зону";
+$GLOBALS['strAddNewZone'] = "Додати нову зону";
 $GLOBALS['strAddNewZone_Key'] = "Додати <u>н</u>овый банер";
-$GLOBALS['strZoneToWebsite'] = "Ни один веб-сайт";
-$GLOBALS['strLinkedZones'] = "Связанные зоны";
-$GLOBALS['strAvailableZones'] = "Доступные зоны";
-$GLOBALS['strLinkingNotSuccess'] = "Связывание не удалось, попробуйте еще раз";
+$GLOBALS['strZoneToWebsite'] = "на сайт";
+$GLOBALS['strLinkedZones'] = "Зв'язані зони";
+$GLOBALS['strAvailableZones'] = "Доступні зони";
+$GLOBALS['strLinkingNotSuccess'] = "Помилка зв’язування, спробуйте ще раз";
 $GLOBALS['strZoneProperties'] = "Параметри банера";
-$GLOBALS['strZoneHistory'] = "История зон";
-$GLOBALS['strNoZones'] = "Сейчас не определено ни одной зоны";
+$GLOBALS['strZoneHistory'] = "Історія зони";
+$GLOBALS['strNoZones'] = "Наразі для цього сайту не визначено зон.";
 $GLOBALS['strNoZonesAddWebsite'] = "в даний час не визначено жодного клієнта. Для створення кампанії необхідно спочатку <а href='advertiser-edit.php'>додати клієнта</a>.";
 $GLOBALS['strConfirmDeleteZone'] = "Ви дійсно хочете видалити цього клієнта?";
 $GLOBALS['strConfirmDeleteZones'] = "Ви дійсно хочете видалити цього клієнта?";
-$GLOBALS['strConfirmDeleteZoneLinkActive'] = "С выбранной зоной связаны платные кампании. Если вы удалите эту зону - платные кампании остановятся и вы не получите за них денег.";
-$GLOBALS['strZoneType'] = "Тип зоны";
-$GLOBALS['strBannerButtonRectangle'] = "Баннер, кнопка или область";
-$GLOBALS['strInterstitial'] = "Rich-Media и HTML баннеры";
-$GLOBALS['strPopup'] = "Pop-Up";
+$GLOBALS['strConfirmDeleteZoneLinkActive'] = "Є кампанії, пов’язані з цією зоною. Якщо ви видалите її, вони не працюватимуть, і вам не платитимуть за них.";
+$GLOBALS['strZoneType'] = "Тип зони";
+$GLOBALS['strBannerButtonRectangle'] = "Банер, кнопка або прямокутник";
+$GLOBALS['strInterstitial'] = "Проміжний або плаваючий DHTML";
+$GLOBALS['strPopup'] = "Popup";
 $GLOBALS['strTextAdZone'] = "Текстовий банер";
-$GLOBALS['strEmailAdZone'] = "Баннер в рассылке";
-$GLOBALS['strZoneVideoInstream'] = "Встроенная видео реклама";
-$GLOBALS['strZoneVideoOverlay'] = "Наложенная видео реклама";
-$GLOBALS['strShowMatchingBanners'] = "Показать подходящие баннеры";
-$GLOBALS['strHideMatchingBanners'] = "Скрыть подходящие баннеры";
-$GLOBALS['strBannerLinkedAds'] = "Связанные баннеры";
-$GLOBALS['strCampaignLinkedAds'] = "Связанные кампании";
+$GLOBALS['strEmailAdZone'] = "Зона електронної пошти/розсилки";
+$GLOBALS['strZoneVideoInstream'] = "Вбудована відеореклама";
+$GLOBALS['strZoneVideoOverlay'] = "Оверлейна відеореклама";
+$GLOBALS['strShowMatchingBanners'] = "Показати відповідні банери";
+$GLOBALS['strHideMatchingBanners'] = "Приховати відповідні банери";
+$GLOBALS['strBannerLinkedAds'] = "Банери, прив'язані до зони";
+$GLOBALS['strCampaignLinkedAds'] = "Кампанії, прив'язані до зони";
 $GLOBALS['strInactiveZonesHidden'] = "неактивні клієнти приховані";
-$GLOBALS['strWarnChangeZoneType'] = "При смене типа зоны на \"текст\" или \"е-мэйл\" все связи с баннерами и кампаниями будут потеряны                                                <ul>";
-$GLOBALS['strWarnChangeZoneSize'] = 'Изменение размеров зоны повлечет отключение текущих баннеров и подключение баннеров подходящего размера из связанных кампаний';
-$GLOBALS['strWarnChangeBannerSize'] = 'Изменение размеров баннера приведет к тому, что он будет перемещен в зоны, подходящие под новый размер.';
-$GLOBALS['strWarnBannerReadonly'] = 'Этот баннер доступен только для чтения, потому что расширение было выключено. Обратитесь к Вашему системному администратору для получения дополнительной информации.';
+$GLOBALS['strWarnChangeZoneType'] = "Зміна типу зони на текстове повідомлення чи електронну пошту призведе до роз’єднання всіх банерів/кампаній через обмеження цих типів зон
+                                                 <ul>
+                                                     <li>Текстові зони можна пов’язувати лише з текстовими оголошеннями</li>
+                                                     <li>Кампанії зон електронної пошти можуть мати лише один активний банер за один раз</li>
+                                                 </ul>";
+$GLOBALS['strWarnChangeZoneSize'] = 'Зміна розміру зони від’єднає всі банери, які не мають нового розміру, і додасть усі банери з пов’язаних кампаній, які мають новий розмір';
+$GLOBALS['strWarnChangeBannerSize'] = 'Зміна розміру банера призведе до від’єднання цього банера від усіх зон, розмір яких не новий, і якщо <strong>кампанія</strong> цього банера пов’язана із зоною нового розміру, цей банер буде автоматично пов’язано';
+$GLOBALS['strWarnBannerReadonly'] = 'Цей банер доступний лише для читання, оскільки розширення було вимкнено. Щоб отримати додаткову інформацію, зверніться до свого системного адміністратора.';
 $GLOBALS['strZonesOfWebsite'] = 'в'; //this is added between page name and website name eg. 'Zones in www.example.com'
-$GLOBALS['strBackToZones'] = "Вернуться к зонам";
+$GLOBALS['strBackToZones'] = "Назад до зон";
 
-$GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "Полный баннер IAB (468 x 60)";
+$GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "IAB Full Banner (468 x 60)";
+$GLOBALS['strIab']['IAB_Skyscraper(120x600)'] = "IAB Skyscraper (120 x 600)";
+$GLOBALS['strIab']['IAB_Leaderboard(728x90)'] = "IAB Leaderboard (728 x 90)";
+$GLOBALS['strIab']['IAB_Button1(120x90)'] = "IAB Button 1 (120 x 90)";
+$GLOBALS['strIab']['IAB_Button2(120x60)'] = "IAB Button 2 (120 x 60)
+";
+$GLOBALS['strIab']['IAB_HalfBanner(234x60)'] = "IAB Half Banner (234 x 60)";
+$GLOBALS['strIab']['IAB_MicroBar(88x31)'] = "IAB Micro Bar (88 x 31)";
+$GLOBALS['strIab']['IAB_SquareButton(125x125)'] = "IAB Square Button (125 x 125)";
+$GLOBALS['strIab']['IAB_Rectangle(180x150)*'] = "IAB Rectangle (180 x 150)";
+$GLOBALS['strIab']['IAB_SquarePop-up(250x250)'] = "IAB Square Pop-up (250 x 250)";
+$GLOBALS['strIab']['IAB_VerticalBanner(120x240)'] = "IAB Vertical Banner (120 x 240)";
+$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB Medium Rectangle (300 x 250)";
+$GLOBALS['strIab']['IAB_LargeRectangle(336x280)'] = "IAB Large Rectangle (336 x 280)";
+$GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = "IAB Vertical Rectangle (240 x 400)
+";
+$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB Wide Skyscraper (160 x 600)";
+$GLOBALS['strIab']['IAB_Pop-Under(720x300)'] = "IAB Pop-Under (720 x 300)
+";
 $GLOBALS['strIab']['IAB_3:1Rectangle(300x100)'] = "IAB 3:1 Прямокутник (300 x 100)";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced'] = "Розширені";
 $GLOBALS['strChainSettings'] = "Налаштування ланцюга";
-$GLOBALS['strZoneNoDelivery'] = "Если в этой зоне нет баннерных показов…";
-$GLOBALS['strZoneStopDelivery'] = "Остановить показы";
-$GLOBALS['strZoneOtherZone'] = "Показывать баннеры из указанной зоны";
-$GLOBALS['strZoneAppend'] = "Всегда добавлять следующий HTML-код к баннерам в этой зоне";
-$GLOBALS['strAppendSettings'] = "Настройки включений";
-$GLOBALS['strZonePrependHTML'] = "Всегда добавлять следующий HTML-код ДО текстового баннера в этой зоне";
-$GLOBALS['strZoneAppendNoBanner'] = "Добавлять HTML-код даже если нет баннерных показов";
-$GLOBALS['strZoneAppendHTMLCode'] = "HTML-код";
-$GLOBALS['strZoneAppendZoneSelection'] = "Pop-Up или \"плавающий\" баннер";
+$GLOBALS['strZoneNoDelivery'] = "Якщо банери з цієї зони <br />доставити не вдається, спробуйте...";
+$GLOBALS['strZoneStopDelivery'] = "Зупинити доставку та не показувати банер";
+$GLOBALS['strZoneOtherZone'] = "Натомість відображати вибрану зону";
+$GLOBALS['strZoneAppend'] = "Завжди додавайте наступний HTML-код до банерів, що відображаються цією зоною";
+$GLOBALS['strAppendSettings'] = "Налаштування влючення";
+$GLOBALS['strZonePrependHTML'] = "Завжди додавати наступний HTML-код до банерів, що відображаються цією зоною";
+$GLOBALS['strZoneAppendNoBanner'] = "Додати, навіть якщо банер не доставлено";
+$GLOBALS['strZoneAppendHTMLCode'] = "HTML код";
+$GLOBALS['strZoneAppendZoneSelection'] = "Спливаюче або інтерстиціальне";
 
 // Zone probability
-$GLOBALS['strZoneProbListChain'] = "Все баннеры, связанные с выбранной зоной, неактивны. Цепь вызова зон, которая будет использована:";
-$GLOBALS['strZoneProbNullPri'] = "Все баннеры, связанные с этой зоной, неактивны";
-$GLOBALS['strZoneProbListChainLoop'] = "Указанная цепочка генерирует замкнутый цикл. Доставка баннеров для этой зоны прекращена.";
+$GLOBALS['strZoneProbListChain'] = "Усі банери, пов'язані з вибраною зоною, наразі неактивні. <br />Це ланцюжок зон, який слідуватиме:";
+$GLOBALS['strZoneProbNullPri'] = "Немає активних банерів, прив'язаних до цієї зони.";
+$GLOBALS['strZoneProbListChainLoop'] = "Слідування ланцюжку зон призведе до кругової петлі. Доставка для цієї зони припинена.";
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strSelectZoneType'] = "Пожалуйста, выберите тип связи баннеров";
-$GLOBALS['strLinkedBanners'] = "Связь отдельных баннеров";
-$GLOBALS['strCampaignDefaults'] = "Связь баннеров по кампаниям";
-$GLOBALS['strLinkedCategories'] = "Связь баннеров по категориям";
-$GLOBALS['strWithXBanners'] = "%d баннер(ы)";
+$GLOBALS['strSelectZoneType'] = "Виберіть, будь ласка, що прив’язати до цієї зони";
+$GLOBALS['strLinkedBanners'] = "Зв'язати індивідуальні банери";
+$GLOBALS['strCampaignDefaults'] = "Зв'язати банери за батьківською кампанією";
+$GLOBALS['strLinkedCategories'] = "Зв'язати банери за категоріями";
+$GLOBALS['strWithXBanners'] = "%d банер(а)";
 $GLOBALS['strRawQueryString'] = "Ключове слово (латиницею і цифрами)";
-$GLOBALS['strIncludedBanners'] = "Связанные баннеры";
-$GLOBALS['strMatchingBanners'] = "{count} подходящих баннеров";
-$GLOBALS['strNoCampaignsToLink'] = "Нет кампаний для связи с данной зоной";
-$GLOBALS['strNoTrackersToLink'] = "Нет трекеров для связи с данной кампанией";
-$GLOBALS['strNoZonesToLinkToCampaign'] = "Нет зон для связи с данной кампанией";
-$GLOBALS['strSelectBannerToLink'] = "Выберите баннер для связи с этой зоной:";
-$GLOBALS['strSelectCampaignToLink'] = "Выберите кампанию для связи с этой зоной:";
-$GLOBALS['strSelectAdvertiser'] = "Выберите клиента";
-$GLOBALS['strSelectPlacement'] = "Выберите кампанию";
-$GLOBALS['strSelectAd'] = "Выберите баннер";
-$GLOBALS['strSelectPublisher'] = "Выбрать сайт";
-$GLOBALS['strSelectZone'] = "Выбрать зону";
+$GLOBALS['strIncludedBanners'] = "Зв'язані банери";
+$GLOBALS['strMatchingBanners'] = "{count} відповідних банерів";
+$GLOBALS['strNoCampaignsToLink'] = "Наразі немає доступних кампаній, які можна прив’язати до цієї зони";
+$GLOBALS['strNoTrackersToLink'] = "Наразі немає доступних трекерів, які можна зв’язати з цією кампанією";
+$GLOBALS['strNoZonesToLinkToCampaign'] = "Немає доступних зон, до яких можна прив’язати цю кампанію";
+$GLOBALS['strSelectBannerToLink'] = "Виберіть банер, який ви хочете прив’язати до цієї зони:";
+$GLOBALS['strSelectCampaignToLink'] = "Виберіть кампанію, яку ви хочете пов’язати з цією зоною:";
+$GLOBALS['strSelectAdvertiser'] = "Виберіть Рекламодавця";
+$GLOBALS['strSelectPlacement'] = "Виберіть Кампанію";
+$GLOBALS['strSelectAd'] = "Виберіть Банер";
+$GLOBALS['strSelectPublisher'] = "Виберіть Веб-сайт";
+$GLOBALS['strSelectZone'] = "Виберіть Зону";
 $GLOBALS['strStatusPending'] = "В очікуванні";
-$GLOBALS['strStatusApproved'] = "Одобрены";
-$GLOBALS['strStatusDisapproved'] = "Не одобрены";
+$GLOBALS['strStatusApproved'] = "Схвалено";
+$GLOBALS['strStatusDisapproved'] = "Відхилено";
 $GLOBALS['strStatusDuplicate'] = "Дублювати";
-$GLOBALS['strStatusOnHold'] = "Удерживаемые";
-$GLOBALS['strStatusIgnore'] = "Игнорируемые";
+$GLOBALS['strStatusOnHold'] = "На утриманні";
+$GLOBALS['strStatusIgnore'] = "Ігнорувати";
 $GLOBALS['strConnectionType'] = "Тип";
 $GLOBALS['strConnTypeSale'] = "Зберегти";
-$GLOBALS['strConnTypeLead'] = "Следование";
-$GLOBALS['strConnTypeSignUp'] = "Регистрация";
-$GLOBALS['strShortcutEditStatuses'] = "Редактировать статусы";
-$GLOBALS['strShortcutShowStatuses'] = "Показать статусы";
+$GLOBALS['strConnTypeLead'] = "Вести";
+$GLOBALS['strConnTypeSignUp'] = "Реєстрація";
+$GLOBALS['strShortcutEditStatuses'] = "Редагувати статуси";
+$GLOBALS['strShortcutShowStatuses'] = "Показати статуси";
 
 // Statistics
 $GLOBALS['strStats'] = "Статистика";
-$GLOBALS['strNoStats'] = "Сейчас не доступно никакой статистики";
-$GLOBALS['strNoStatsForPeriod'] = "Статистика за период с %s по %s недоступна";
-$GLOBALS['strTotalThisPeriod'] = "Всего за этот период";
-$GLOBALS['strPublisherDistribution'] = "Распределение по сайтам";
-$GLOBALS['strCampaignDistribution'] = "Распределение по кампаниям";
-$GLOBALS['strViewBreakdown'] = "Просмотры за";
+$GLOBALS['strNoStats'] = "На даний момент немає доступної статистики";
+$GLOBALS['strNoStatsForPeriod'] = "Наразі немає доступних статистичних даних для періоду від %s до %s";
+$GLOBALS['strGlobalHistory'] = "Глобальна статистика";
+$GLOBALS['strDailyHistory'] = "Щоденна статистика";
+$GLOBALS['strDailyStats'] = "Щоденна статистика";
+$GLOBALS['strWeeklyHistory'] = "Щотижнева статистика";
+$GLOBALS['strMonthlyHistory'] = "Щомісячна статистика";
+$GLOBALS['strTotalThisPeriod'] = "Підсумок цього періоду";
+$GLOBALS['strPublisherDistribution'] = "Розподіл по сайтам";
+$GLOBALS['strCampaignDistribution'] = "Розподіл по кампаніям";
+$GLOBALS['strViewBreakdown'] = "Перегляд по";
 $GLOBALS['strBreakdownByDay'] = "День";
 $GLOBALS['strBreakdownByWeek'] = "Тиждень";
 $GLOBALS['strBreakdownByMonth'] = "Місяць";
 $GLOBALS['strBreakdownByDow'] = "День тижня";
 $GLOBALS['strBreakdownByHour'] = "година";
-$GLOBALS['strItemsPerPage'] = "Элементов на странице";
-$GLOBALS['strShowGraphOfStatistics'] = "Показать <u>г</u>трафик";
-$GLOBALS['strExportStatisticsToExcel'] = "<u>Э</u>экспортировать статистику в Excel";
-$GLOBALS['strGDnotEnabled'] = "Для отображения графиков вам необходимо сконфигурировать PHP Для работы с библиотекой GD. Обратитесь за подробностями к руководству по PHP: <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a>";
+$GLOBALS['strItemsPerPage'] = "Елементів на сторінці";
+$GLOBALS['strDistributionHistoryCampaign'] = "Статистика розподіла (кампанія)";
+$GLOBALS['strDistributionHistoryBanner'] = "Статистика розподіла (банер)";
+$GLOBALS['strDistributionHistoryWebsite'] = "Статистика розподіла (веб-сайт)";
+$GLOBALS['strDistributionHistoryZone'] = "Статистика розподілу (зона)";
+$GLOBALS['strShowGraphOfStatistics'] = "Показати <u>Г</u>рафік Статистики";
+$GLOBALS['strExportStatisticsToExcel'] = "<u>Е</u>кспорт статистики до Excel";
+$GLOBALS['strGDnotEnabled'] = "Щоб відображати графіки, у PHP потрібно ввімкнути GD. <br />Див. <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> для отримання додаткової інформації, зокрема про те, щоб встановити GD на вашому сервері.";
 $GLOBALS['strStatsArea'] = "Область";
 
 // Expiration
-$GLOBALS['strNoExpiration'] = "Срок окончания не установлен";
-$GLOBALS['strEstimated'] = "Ожидаемое окончание";
-$GLOBALS['strNoExpirationEstimation'] = "Ограничения еще не достигнуты";
-$GLOBALS['strDaysAgo'] = "дней назад";
+$GLOBALS['strNoExpiration'] = "Термін дії не встановлено";
+$GLOBALS['strEstimated'] = "Приблизний термін дії";
+$GLOBALS['strNoExpirationEstimation'] = "Термін дії ще не визначений";
+$GLOBALS['strDaysAgo'] = "днів тому";
 $GLOBALS['strCampaignStop'] = "Історія кампаній";
 
 // Reports
-$GLOBALS['strAdvancedReports'] = "Расширенные отчеты";
-$GLOBALS['strStartDate'] = "Дата начала";
-$GLOBALS['strEndDate'] = "Дата окончания";
-$GLOBALS['strPeriod'] = "Период";
+$GLOBALS['strAdvancedReports'] = "Розширені звіти";
+$GLOBALS['strStartDate'] = "Дата початку";
+$GLOBALS['strEndDate'] = "Дата закінчення";
+$GLOBALS['strPeriod'] = "Період";
 $GLOBALS['strLimitations'] = "Правила доставки";
-$GLOBALS['strWorksheets'] = "Рабочие листы";
+$GLOBALS['strWorksheets'] = "Робочі аркуші";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Всього клієнтів";
-$GLOBALS['strAnonAdvertisers'] = "Анонимные рекламодатели";
-$GLOBALS['strAllPublishers'] = "Все сайты";
-$GLOBALS['strAnonPublishers'] = "Анонимные сайты";
-$GLOBALS['strAllAvailZones'] = "Все доступные зоны";
+$GLOBALS['strAnonAdvertisers'] = "Анонімні рекламодавці";
+$GLOBALS['strAllPublishers'] = "Всі сайти";
+$GLOBALS['strAnonPublishers'] = "Анонімні сайти";
+$GLOBALS['strAllAvailZones'] = "Всі доступні зони";
 
 // Userlog
-$GLOBALS['strUserLog'] = "Журнал действий пользователя";
-$GLOBALS['strUserLogDetails'] = "Подробности действий пользователя";
-$GLOBALS['strDeleteLog'] = "Удалить журнал";
+$GLOBALS['strUserLog'] = "Журнал користувача";
+$GLOBALS['strUserLogDetails'] = "Деталі журналу користувача";
+$GLOBALS['strDeleteLog'] = "Видалити журнал";
 $GLOBALS['strAction'] = "Дія";
-$GLOBALS['strNoActionsLogged'] = "Действий не зарегистрировано";
+$GLOBALS['strNoActionsLogged'] = "Жодні дії не зареєстровані";
 
 // Code generation
-$GLOBALS['strGenerateBannercode'] = "Сгенерировать баннерный код";
+$GLOBALS['strGenerateBannercode'] = "Сгенерувати банерний код";
 $GLOBALS['strChooseInvocationType'] = "Виберіть тип банера.";
-$GLOBALS['strGenerate'] = "Сгенерировать";
-$GLOBALS['strParameters'] = "Настройки метки";
-$GLOBALS['strFrameSize'] = "Размер фрейма";
-$GLOBALS['strBannercode'] = "Баннерный код";
-$GLOBALS['strTrackercode'] = "Код трекера";
-$GLOBALS['strBackToTheList'] = "Вернуться к списку отчетов";
-$GLOBALS['strCharset'] = "Кодировка";
-$GLOBALS['strAutoDetect'] = "Автоопределение";
+$GLOBALS['strGenerate'] = "Генерувати";
+$GLOBALS['strParameters'] = "Налаштування тегів";
+$GLOBALS['strFrameSize'] = "Розмір фрейма";
+$GLOBALS['strBannercode'] = "Код банера";
+$GLOBALS['strTrackercode'] = "Трекеркод";
+$GLOBALS['strBackToTheList'] = "Повернутися до списку звітів";
+$GLOBALS['strCharset'] = "Набір символів";
+$GLOBALS['strAutoDetect'] = "Автовизначення";
 
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Ничего не найдено";
@@ -796,19 +828,21 @@ $GLOBALS['strNoMoreImpressions'] = "все приобретенные показ
 $GLOBALS['strNoMoreClicks'] = "все приобретенные клики использованы";
 $GLOBALS['strNoMoreConversions'] = "все приобретенные действия использованы";
 $GLOBALS['strWeightIsNull'] = "был установлен нулевой вес";
-$GLOBALS['strTargetIsNull'] = "был установлен нулевой таргетинг";
-$GLOBALS['strNoViewLoggedInInterval'] = "За период данного отчета не было зарегистрировано показов";
-$GLOBALS['strNoClickLoggedInInterval'] = "За период данного отчета не было зарегистрировано кликов";
-$GLOBALS['strNoConversionLoggedInInterval'] = "За период данного отчета не было зарегистрировано действий";
-$GLOBALS['strMailReportPeriod'] = "Этот отчет включает в себя статистику с {startdate} по {enddate}.";
-$GLOBALS['strMailReportPeriodAll'] = "Этот отчет включает в себя всю статистику вплоть до {enddate}.";
-$GLOBALS['strNoStatsForCampaign'] = "Нет статистики для этой кампании";
-$GLOBALS['strImpendingCampaignExpiry'] = "Приближается окончание запланированной кампании";
-$GLOBALS['strYourCampaign'] = "Ваша кампания";
-$GLOBALS['strTheCampiaignBelongingTo'] = "Кампания, принадлежащая";
-$GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} указанному ниже, заканчивается {date}.";
-$GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} указанному ниже, осталось меньше {limit} показов";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "В результате чего кампания скоро будет автоматически отключена, и";
+$GLOBALS['strRevenueIsNull'] = "дохід встановлено на нуль";
+$GLOBALS['strTargetIsNull'] = "ліміт на день встановлено на нуль - вам потрібно або вказати дату завершення та ліміт, або встановити значення ліміту на день";
+$GLOBALS['strNoViewLoggedInInterval'] = "Протягом цього звіту не було зареєстровано показів";
+$GLOBALS['strNoClickLoggedInInterval'] = "Протягом цього звіту не було зареєстровано кліків";
+$GLOBALS['strNoConversionLoggedInInterval'] = "Протягом цього звіту не було зареєстровано конверсій";
+$GLOBALS['strMailReportPeriod'] = "Цей звіт містить статистику з {startdate} до {enddate}.";
+$GLOBALS['strMailReportPeriodAll'] = "Цей звіт містить усі статистичні дані до {enddate}.";
+$GLOBALS['strNoStatsForCampaign'] = "Немає доступної статистики для цієї кампанії";
+$GLOBALS['strImpendingCampaignExpiry'] = "Незабаром закінчиться термін дії кампанії";
+$GLOBALS['strYourCampaign'] = "Ваша кампанія";
+$GLOBALS['strTheCampiaignBelongingTo'] = "Кампанія, що належить";
+$GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname}, указанний нижче, має закінчитися {date}.";
+$GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname}, показаний нижче, має менше ніж {limit} показів.";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "У результаті кампанію незабаром буде автоматично вимкнено, а
+такі банери в кампанії також будуть вимкнені:";
 
 // Priority
 $GLOBALS['strPriority'] = "Пріоритет";
@@ -880,7 +914,7 @@ $GLOBALS['strClickSR_short'] = "Клик (SR)";
 $GLOBALS['strGlobalSettings'] = "Общие настройки";
 $GLOBALS['strGeneralSettings'] = "Общие установки";
 $GLOBALS['strMainSettings'] = "Главные настройки";
-$GLOBALS['strChooseSection'] = 'Выберите раздел';
+$GLOBALS['strChooseSection'] = 'Виберіть розділ';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Обновление ПО";
@@ -917,7 +951,7 @@ $GLOBALS['strSwitchAccount'] = "Переключиться в этот акка�
 $GLOBALS['strAgencyStatusInactive'] = "активний";
 
 // Channels
-$GLOBALS['strChannelToWebsite'] = "Ни один веб-сайт";
+$GLOBALS['strChannelToWebsite'] = "на сайт";
 $GLOBALS['strChannelLimitations'] = "Варіанти доставки";
 $GLOBALS['strChannelsOfWebsite'] = 'в'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
