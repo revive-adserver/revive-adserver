@@ -34,7 +34,7 @@ $GLOBALS['strStartOver'] = "Neustart";
 $GLOBALS['strShortcuts'] = "Schnellnavigation";
 $GLOBALS['strActions'] = "Aktionen";
 $GLOBALS['strAndXMore'] = "und %s mehr";
-$GLOBALS['strAdminstration'] = "Inventar-Seiten";
+$GLOBALS['strAdminstration'] = "Inventar";
 $GLOBALS['strMaintenance'] = "Wartung (Programm)";
 $GLOBALS['strProbability'] = "Wahrscheinlichkeit";
 $GLOBALS['strInvocationcode'] = "Bannercode";
@@ -45,10 +45,10 @@ $GLOBALS['strSearch'] = "<u>S</u>uchen";
 $GLOBALS['strDetails'] = "Details";
 $GLOBALS['strUpdateSettings'] = "Update Einstellungen";
 $GLOBALS['strCheckForUpdates'] = "Auf neue Programmversionen prüfen";
-$GLOBALS['strWhenCheckingForUpdates'] = "Bei der Prüfung auf Updates";
+$GLOBALS['strWhenCheckingForUpdates'] = "Bei der Suche nach neuen Versionen";
 $GLOBALS['strCompact'] = "Kompakt";
 $GLOBALS['strUser'] = "Benutzer";
-$GLOBALS['strDuplicate'] = "Kopieren";
+$GLOBALS['strDuplicate'] = "Duplizieren";
 $GLOBALS['strCopyOf'] = "Kopie von";
 $GLOBALS['strMoveTo'] = "Verschieben nach";
 $GLOBALS['strDelete'] = "Löschen";
@@ -709,7 +709,7 @@ $GLOBALS['strSelectZone'] = "Zone auswählen";
 $GLOBALS['strStatusPending'] = "wartet auf Überprüfung";
 $GLOBALS['strStatusApproved'] = "Freigegeben";
 $GLOBALS['strStatusDisapproved'] = "Abgelehnt";
-$GLOBALS['strStatusDuplicate'] = "Kopieren";
+$GLOBALS['strStatusDuplicate'] = "Duplizieren";
 $GLOBALS['strStatusOnHold'] = "in der Warteschleife";
 $GLOBALS['strStatusIgnore'] = "Ignorieren";
 $GLOBALS['strConnectionType'] = "Art";
@@ -1252,15 +1252,20 @@ $GLOBALS['strPasswordScore'][4] = "ausgezeichnet";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "h";
 $GLOBALS['keyUp'] = "b";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
+$GLOBALS['keyList'] = "l";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
+$GLOBALS['keySearch'] = "s";
 $GLOBALS['keyCollapseAll'] = "z";
 $GLOBALS['keyExpandAll'] = "a";
+$GLOBALS['keyAddNew'] = "n";
 $GLOBALS['keyNext'] = "w";
 $GLOBALS['keyPrevious'] = "z";
 $GLOBALS['keyLinkUser'] = "b";
+$GLOBALS['keyWorkingAs'] = "w";

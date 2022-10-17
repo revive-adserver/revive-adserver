@@ -215,7 +215,7 @@ $GLOBALS['strGeotargetingType'] = "Typ des Geotargeting Moduls";
 $GLOBALS['strGeoShowUnavailable'] = "Zeige Auslieferungsregeln für Geo-Targeting auch wenn GeoIP-Daten nicht verfügbar sind";
 
 // Interface Settings
-$GLOBALS['strInventory'] = "Inventar-Seiten";
+$GLOBALS['strInventory'] = "Inventar";
 $GLOBALS['strShowCampaignInfo'] = "Anzeigen zusätzlicher Informationen auf der Seite <i>Übersicht Kampagnen</i>";
 $GLOBALS['strShowBannerInfo'] = "Anzeigen zusätzlicher Bannerinformationen auf der Seite <i>Werbemittel</i> ";
 $GLOBALS['strShowCampaignPreview'] = "Vorschau aller Werbemittel auf der Seite  <i>Werbemittel</i>";
