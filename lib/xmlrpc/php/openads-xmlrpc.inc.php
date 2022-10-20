@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-if (!@include('XML/RPC.php')) {
+if (!@include_once('XML/RPC.php')) {
     die("Error: cannot load the PEAR XML_RPC class");
 }
 
