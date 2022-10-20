@@ -10,6 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
+set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__."/../../pear/");
 if (!@include_once('XML/RPC.php')) {
     die('Error: cannot load the PEAR XML_RPC class');
 }
