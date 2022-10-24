@@ -321,7 +321,7 @@ $GLOBALS['strHiddenAd'] = "Verborgene Werbung";
 $GLOBALS['strHiddenAdvertiser'] = "Werbetreibender";
 $GLOBALS['strHiddenTracker'] = "Verborgene Tracker";
 $GLOBALS['strHiddenWebsite'] = "Webseite";
-$GLOBALS['strHiddenZone'] = "Verborgene Zone";
+$GLOBALS['strHiddenZone'] = "Zone";
 $GLOBALS['strCampaignDelivery'] = "Kampagnen Auslieferung";
 $GLOBALS['strCompanionPositioning'] = "Tandem-Ads";
 $GLOBALS['strSelectUnselectAll'] = "Alle aus- und abwählen";
@@ -612,7 +612,7 @@ $GLOBALS['strCountry'] = "Land";
 $GLOBALS['strWebsiteZones'] = "Zonen der Webseite";
 
 // Zone
-$GLOBALS['strZone'] = "Verborgene Zone";
+$GLOBALS['strZone'] = "Zone";
 $GLOBALS['strZones'] = "Zonen";
 $GLOBALS['strAddNewZone'] = "Neue Zone hinzufügen";
 $GLOBALS['strAddNewZone_Key'] = "<u>N</u>eue Zone hinzufügen";
