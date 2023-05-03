@@ -1464,7 +1464,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             $doCampaigns->fetch();
                             $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                             $result = $doCampaigns->update();
-                            if ($result == false) {
+                            if (false === $result) {
                                 MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
                             phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -1494,7 +1494,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         $doCampaigns->fetch();
                         $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                         $result = $doCampaigns->update();
-                        if ($result == false) {
+                        if (false === $result) {
                             MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
                         phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -1601,7 +1601,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     $doCampaigns->fetch();
                     $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
                     $result = $doCampaigns->update();
-                    if ($result == false) {
+                    if (false === $result) {
                         MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                     phpAds_userlogSetUser(phpAds_userMaintenance);
