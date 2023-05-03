@@ -697,7 +697,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *                          which case the current object's whereAdd()
      *                          method call value will be used to idenfity
      *                          one or more rows which will *all* be updated.
-     * @return boolean True on update success, false otherwise.
+     * @return int|boolean int rows affected on success or false on failure.
      */
     public function update($dataObject = false)
     {
