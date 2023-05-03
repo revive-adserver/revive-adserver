@@ -1477,8 +1477,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             phpAds_userlogSetUser(phpAds_userMaintenance);
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
                         } else {
-                            // The campaign didn't have a diable reason,
-                            // it *might* possibly be diabled "soon"...
+                            // The campaign didn't have a disable reason,
+                            // it *might* possibly be disabled "soon"...
                             $canExpireSoon = true;
                         }
                     }
