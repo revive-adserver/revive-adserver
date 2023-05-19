@@ -79,9 +79,10 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
  * @param int    $withtext 1/0 should the "Text below banner" be appended to the banner HTML
  * @param int    $block 1/0 Should a banner only be shown once on the page?
  * @param int    $blockcampaign (0/1) Should only one banner per campaign be shown on the page
+ * @param string $charset The charset to use for the banner
  * @return array An array of the HTML to render the selected ads
  */
-function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0)
+function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0, $charset = '')
 {
     global $context;
     if (is_numeric($what)) {
