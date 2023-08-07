@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>apVideo</name>
+    <creationDate>2023-08-07</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Enhanced Video Ads Plugin</description>
+    <version>1.7.1</version>
+    <oxversion>5.1.0</oxversion>
+    <extends>bannerTypeHtml</extends>
+
+    <install>
+        <syscheck>
+            <depends>
+                <plugin version="1.8.5" enabled="1">vastInlineBannerTypeHtml</plugin>
+            </depends>
+        </syscheck>
+
+        <files>
+            <file path="{MODULEPATH}apVideo/lib/Dal/">Admin.php</file>
+            <file path="{MODULEPATH}apVideo/lib/Dal/">Delivery.php</file>
+            <file path="{MODULEPATH}apVideo/">vast2.delivery.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/apVideo/">Network.class.php</file>
+            <file path="{MODULEPATH}bannerTypeHtml/apVideo/">Network.delivery.php</file>
+        </files>
+
+        <schema>
+            <mdb2schema>tables_apVideo</mdb2schema>
+            <dboschema>db_schema</dboschema>
+            <dbolinks>db_schema.links</dbolinks>
+            <dataobject>Ext_ap_video.php</dataobject>
+        </schema>
+
+    </install>
+
+</plugin>

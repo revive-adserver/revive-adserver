@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>apVideo</name>
+	<type>plugin</type>
+    <creationDate>2014-06-22</creationDate>
+    <author>AdserverPlugins.com</author>
+    <authorEmail>info@adserverplugins.com</authorEmail>
+    <authorUrl>http://www.adserverplugins.com/</authorUrl>
+    <license><![CDATA[
+        <a href="http://www.adserverplugins.com/about/license">SLA</a>
+    ]]></license>
+    <description>Enhanced Video Plugin</description>
+    <versionFrom></versionFrom>
+    <versionTo>1.4.0-rc2</versionTo>
+    <oxversion>2.8.3</oxversion>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>004</version>
+            <schema>tables_apVideo</schema>
+            <file>schema_tables_apVideo_004.xml</file>
+            <file>changes_tables_apVideo_004.xml </file>
+            <file>migration_tables_apVideo_004.php</file>
+        </package>
+    </database>
+
+</upgrade>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>apVideoUI</name>
+    <creationDate>2023-08-07</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Enhanced Video Ads Plugin UI</description>
+    <version>1.7.1</version>
+    <oxversion>2.8.4</oxversion>
+    <extends>admin</extends>
+
+    <install>
+
+        <files>
+            <file path="{ADMINPATH}/">banner-alt-media.php</file>
+            <file path="{ADMINPATH}/">banner-trackers.php</file>
+            <file path="{ADMINPATH}/">zone-invocation.php</file>
+            <file path="{ADMINPATH}/navigation/">videoBannerChecker.php</file>
+            <file path="{ADMINPATH}/navigation/">videoZoneChecker.php</file>
+        </files>
+
+        <navigation>
+            <checkers>
+                <checker class="Plugins_admin_apVideoUI_videoBannerChecker" include="videoBannerChecker.php" />
+                <checker class="Plugins_admin_apVideoUI_videoTrackerChecker" include="videoBannerChecker.php" />
+                <checker class="Plugins_admin_apVideoUI_videoZoneChecker" include="videoZoneChecker.php" />
+            </checkers>
+
+            <manager>
+               <menu index="banner-alt-media" addto="campaign-banners" checker="Plugins_admin_apVideoUI_videoBannerChecker" link="plugins/apVideoUI/banner-alt-media.php?clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}">Alternate Media</menu>
+               <menu index="banner-trackers" addto="campaign-banners" checker="Plugins_admin_apVideoUI_videoTrackerChecker" link="plugins/apVideoUI/banner-trackers.php?clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}">Additional Trackers</menu>
+               <menu replace="zone-invocation" checker="Plugins_admin_apVideoUI_videoZoneChecker"></menu>
+            </manager>
+        </navigation>
+
+    </install>
+
+</plugin>

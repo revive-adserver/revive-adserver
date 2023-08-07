@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>tables_apVideo</name>
+  <version>003</version>
+  <comments>Alt media</comments>
+  <constructive>
+    <changeset>
+      <name>tables_apVideo</name>
+      <version>003</version>
+      <add>
+        <table>
+        <name>ext_ap_video</name>
+        <was>ext_ap_video</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>tables_apVideo</name>
+    <version>003</version>
+  </changeset>
+</destructive>
+</instructionset>

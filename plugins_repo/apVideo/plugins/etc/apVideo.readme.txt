@@ -1,0 +1,39 @@
+
+Change Log
+==========
+
+v1.7.1
+    * Fixed bug causing a permissions issue with the Zone invocation screens
+      for regular banners.
+
+v1.7.0
+    * Transferred intellectual propeerty to Revive SAS
+    * Removed dependency on apLoader and SourceGuardian
+    * Bumped requirements to Revive Adserver 5.1.0, which no longer uses an
+      obsolete video/x-mp4 MIME type.
+    * Removed obsolete custom VPAID functionality.
+    * Generate HTTPS tags.
+
+v1.6.1
+    * Compatibility with Revive Adserver 5.3.0+
+
+v1.6.0
+    * Added an experimental parameter to enable users to add a skip button to
+      the video playback after a specified number of seconds. Add
+      "&skipoffset=N" to the vast2 url, with N being the number of seconds for
+      the Skip button to appear once video ad playback has started. Many video
+      players will accept the skip offset, even when it is not an official
+      part of the VAST2 definition. Skip events will not be logged and not be
+      visible in the video ad statistics.
+
+v1.5.3
+    * Compatibility with Revive Adserver 5.2.0+
+
+v1.5.2
+    * Compatibility with Revive Adserver 5.1.0+
+
+v1.5.1
+    * Fixed PHP7 warnings.
+
+v1.5.0
+    * Added impression URLs and Network tracking events.
