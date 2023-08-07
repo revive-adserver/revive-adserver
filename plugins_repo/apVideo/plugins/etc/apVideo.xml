@@ -9,7 +9,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Enhanced Video Ads Plugin</description>
-    <version>1.7.1</version>
+    <version>1.7.2</version>
     <type>extension</type>
 
     <install>
