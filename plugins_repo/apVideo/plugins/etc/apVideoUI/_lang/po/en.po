@@ -22,6 +22,10 @@ msgstr "%s Video URL"
 msgid "Invalid URL"
 msgstr "Invalid URL"
 
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
+msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
+msgstr "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
+
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:75
 msgid "Additional trackers"
 msgstr "Additional trackers"
@@ -33,7 +37,3 @@ msgstr "Impression trackers (one URL per line)"
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:154
 msgid "Invalid URL: %s"
 msgstr "Invalid URL: %s"
-
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
-msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
-msgstr "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
