@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.4.2
+Release Notes: Revive Adserver 5.5.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.4.2
+What's New in Revive Adserver 5.5.0
 -----------------------------------
 
  * Release date: t.b.d.
@@ -29,7 +29,7 @@ What's New in Revive Adserver 5.4.2
  New Features
  ------------
 
- * None
+ * Bundled VAST2 Video Ads plugins.
 
 
  Bug Fixes
