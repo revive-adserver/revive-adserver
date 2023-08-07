@@ -50,6 +50,8 @@ $aBanner += [
     'bannerid' => $bannerid,
 ];
 
+$oTrans = new OX_Translation($conf['pluginPaths']['packages'] . '/apVideoUI/_lang');
+
 $form = buildBannerTrackersMediaForm($aBanner);
 
 if ($form->validate()) {
@@ -61,7 +63,7 @@ if ($form->validate()) {
 
 function buildBannerTrackersMediaForm($aBanner)
 {
-    global $aTypes;
+    global $aTypes, $oTrans;
 
     $form = new OA_Admin_UI_Component_Form("bannertrackers", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
@@ -70,9 +72,9 @@ function buildBannerTrackersMediaForm($aBanner)
     $form->addElement('hidden', 'campaignid', $aBanner['campaignid']);
     $form->addElement('hidden', 'bannerid', $aBanner['bannerid']);
 
-    $form->addElement('header', 'header_trackers', "Additional trackers");
+    $form->addElement('header', 'header_trackers', $oTrans->translate("Additional trackers"));
 
-    $el = $form->addElement('textarea', 'impression_trackers', "Impression trackers (one URL per line)");
+    $el = $form->addElement('textarea', 'impression_trackers', $oTrans->translate("Impression trackers (one URL per line)"));
 
     $form->addFormRule('checkUrls');
 
@@ -147,11 +149,15 @@ function splitUrls($text)
 
 function checkUrls($aFields)
 {
+    global $oTrans;
+
+    $errorMessage = $oTrans->translate('Invalid URL: %s');
+
     $aErrors = [];
 
     foreach (splitUrls($aFields['impression_trackers']) as $v) {
         if (!preg_match('#^https?://#', $v)) {
-            $aErrors['impression_trackers'] = 'Invalid URL: ' . htmlspecialchars($v);
+            $aErrors['impression_trackers'] = sprintf($errorMessage, htmlspecialchars($v));
             break;
         }
     }

@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/apVideo/plugins/etc/apVideo/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:24
+msgid "Inline Network Video Ad"
+msgstr "Inline Network Video Ad"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:29
+msgid "Inline Video Ad"
+msgstr "Inline Video Ad"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:34
+msgid "An Inline Network Video Ad will return a video ad from a 3rd party ad network."
+msgstr "An Inline Network Video Ad will return a video ad from a 3rd party ad network."
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:59
+msgid "Create an Inline Network Video Ad"
+msgstr "Create an Inline Network Video Ad"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:69
+msgid "Banner Details"
+msgstr "Banner Details"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:70
+msgid "Ad Network VAST URL"
+msgstr "Ad Network VAST URL"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:72
+msgid "URL is required"
+msgstr "URL is required"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:73
+msgid "URL is not valid"
+msgstr "URL is not valid"

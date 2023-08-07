@@ -35,6 +35,8 @@ foreach ($files as $file) {
 
     if ('plugins' === $path[2]) {
         $poFilePath = "plugins_repo/{$path[1]}/plugins/etc/{$path[4]}/_lang/po/en.po";
+    } elseif ('www' === $path[2] && 'admin' === $path[3] && 'plugins' === $path[4]) {
+        $poFilePath = "plugins_repo/{$path[1]}/plugins/etc/{$path[5]}/_lang/po/en.po";
     } else {
         die("Unsupported path: " . $file->getPathname() . "\n");
     }

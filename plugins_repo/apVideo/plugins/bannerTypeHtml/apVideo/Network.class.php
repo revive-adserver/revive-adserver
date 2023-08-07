@@ -21,17 +21,17 @@ class Plugins_BannerTypeHTML_apVideo_Network extends Plugins_BannerTypeHTML_vast
 {
     public function getBannerShortName()
     {
-        return 'Inline Network Video Ad';
+        return $this->translate('Inline Network Video Ad');
     }
 
     public function getZoneToLinkShortName()
     {
-        return 'Inline Video Ad';
+        return $this->translate('Inline Video Ad');
     }
 
     public function getHelpAdTypeDescription()
     {
-        return 'A ' . $this->getBannerShortName() . ' will return a video ad from a 3rd party ad network.';
+        return $this->translate('An Inline Network Video Ad will return a video ad from a 3rd party ad network.');
     }
 
     public function getOptionDescription()
@@ -56,7 +56,7 @@ class Plugins_BannerTypeHTML_apVideo_Network extends Plugins_BannerTypeHTML_vast
 
         $bannerRow = $this->getExtendedBannerInfo($bannerRow);
 
-        $header = $form->createElement('header', 'header_txt', "Create an Inline Network Video Ad");
+        $header = $form->createElement('header', 'header_txt', $this->translate("Create an Inline Network Video Ad"));
 
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
@@ -66,10 +66,10 @@ class Plugins_BannerTypeHTML_apVideo_Network extends Plugins_BannerTypeHTML_vast
 
         $this->addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_INLINE_DIMENSIONS);
 
-        $form->addElement('header', 'header_url', "Banner Details");
-        $form->addElement('text', 'bannertext', 'Ad Network VAST URL');
+        $form->addElement('header', 'header_url', $this->translate("Banner Details"));
+        $form->addElement('text', 'bannertext', $this->translate('Ad Network VAST URL'));
 
-        $form->addRule('bannertext', "URL is required", 'required');
-        $form->addRule('bannertext', "URL is not valid", 'regex', '#^https?://#');
+        $form->addRule('bannertext', $this->translate("URL is required"), 'required');
+        $form->addRule('bannertext', $this->translate("URL is not valid"), 'regex', '#^https?://#');
     }
 }

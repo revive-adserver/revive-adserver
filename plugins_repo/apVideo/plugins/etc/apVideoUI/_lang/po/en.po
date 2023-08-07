@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/apVideo/plugins/etc/apVideoUI/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:83
+msgid "Alternate Media"
+msgstr "Alternate Media"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:86
+msgid "%s Video URL"
+msgstr "%s Video URL"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:171
+msgid "Invalid URL"
+msgstr "Invalid URL"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:75
+msgid "Additional trackers"
+msgstr "Additional trackers"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:77
+msgid "Impression trackers (one URL per line)"
+msgstr "Impression trackers (one URL per line)"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:154
+msgid "Invalid URL: %s"
+msgstr "Invalid URL: %s"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
+msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
+msgstr "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"

@@ -58,6 +58,8 @@ $aBanner += [
 
 $aBanner[$aBanner['main_type']] = $aBanner['main_url'];
 
+$oTrans = new OX_Translation($conf['pluginPaths']['packages'] . '/apVideoUI/_lang');
+
 $form = buildBannerAltMediaForm($aBanner);
 
 if ($form->validate()) {
@@ -69,7 +71,7 @@ if ($form->validate()) {
 
 function buildBannerAltMediaForm($aBanner)
 {
-    global $aTypes;
+    global $aTypes, $oTrans;
 
     $form = new OA_Admin_UI_Component_Form("banneraltmedia", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
@@ -78,10 +80,10 @@ function buildBannerAltMediaForm($aBanner)
     $form->addElement('hidden', 'campaignid', $aBanner['campaignid']);
     $form->addElement('hidden', 'bannerid', $aBanner['bannerid']);
 
-    $form->addElement('header', 'header_altmedia', "Alternate Media");
+    $form->addElement('header', 'header_altmedia', $oTrans->translate("Alternate Media"));
 
     foreach ($aTypes as $k => $v) {
-        $el = $form->addElement('text', $k, "$v Video URL");
+        $el = $form->addElement('text', $k, sprintf($oTrans->translate("%s Video URL"), $v));
         if ($k == $aBanner['main_type']) {
             $el->freeze();
         }
@@ -164,13 +166,15 @@ function displayPage($aBanner, $form)
 
 function checkUrls($aFields)
 {
-    global $aTypes;
+    global $aTypes, $oTrans;
+
+    $errorMessage = $oTrans->translate('Invalid URL');
 
     $aErrors = [];
     foreach ($aTypes as $k => $v) {
         if ($k != $aBanner['main_type']) {
             if (!empty($aFields[$k]) && !preg_match('#^https?://#', $aFields[$k])) {
-                $aErrors[$k] = 'Invalid URL';
+                $aErrors[$k] = $errorMessage;
             }
         }
     }

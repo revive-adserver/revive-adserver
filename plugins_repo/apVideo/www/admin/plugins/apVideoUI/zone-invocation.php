@@ -50,12 +50,16 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 
 $url = MAX_commonConstructSecureDeliveryUrl($conf['file']['frontcontroller']) . '?script=apVideo:vast2&zoneid=' . $zoneid;
 
+$oTrans = new OX_Translation($conf['pluginPaths']['packages'] . '/apVideoUI/_lang');
+
+$message = $oTrans->translate('Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:');
+
 ?>
 <br />
 <br />
 <br />
 <br />
-<h4>Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:</h4>
+<h4><?php echo htmlspecialchars($message); ?></h4>
 <br />
 <br />
 <p>
