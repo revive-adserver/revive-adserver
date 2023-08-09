@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Dutch\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /apVideo/plugins/etc/apVideo/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 405\n"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:24
+msgid "Inline Network Video Ad"
+msgstr "Inline Netwerk Video-advertentie"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:29
+msgid "Inline Video Ad"
+msgstr "Inline Video-advertentie"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:34
+msgid "An Inline Network Video Ad will return a video ad from a 3rd party ad network."
+msgstr "Een Inline Netwerk Video-advertentie retourneert een video-advertentie uit een advertentienetwerk van een derde partij."
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:59
+msgid "Create an Inline Network Video Ad"
+msgstr "Maak een inline Netwerk video-advertentie"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:69
+msgid "Banner Details"
+msgstr "Banner Details"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:70
+msgid "Ad Network VAST URL"
+msgstr "Advertentie netwerk VAST URL"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:72
+msgid "URL is required"
+msgstr "URL is verplicht"
+
+#: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:73
+msgid "URL is not valid"
+msgstr "URL is niet geldig"
+
