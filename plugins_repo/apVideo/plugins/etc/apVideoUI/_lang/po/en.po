@@ -10,9 +10,18 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:31
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:83
 msgid "Alternate Media"
 msgstr "Alternate Media"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:50
+msgid "Additional Trackers"
+msgstr "Additional Trackers"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoZoneChecker.php:39
+msgid "VAST2 Invocation Code"
+msgstr "VAST2 Invocation Code"
 
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:86
 msgid "%s Video URL"
