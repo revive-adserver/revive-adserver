@@ -16,6 +16,7 @@ msgid "Alternate Media"
 msgstr "Alternate Media"
 
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:50
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:75
 msgid "Additional Trackers"
 msgstr "Additional Trackers"
 
@@ -34,10 +35,6 @@ msgstr "Invalid URL"
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
 msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
 msgstr "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
-
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:75
-msgid "Additional trackers"
-msgstr "Additional trackers"
 
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:77
 msgid "Impression trackers (one URL per line)"
