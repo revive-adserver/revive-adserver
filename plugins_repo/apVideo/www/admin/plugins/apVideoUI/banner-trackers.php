@@ -72,7 +72,7 @@ function buildBannerTrackersMediaForm($aBanner)
     $form->addElement('hidden', 'campaignid', $aBanner['campaignid']);
     $form->addElement('hidden', 'bannerid', $aBanner['bannerid']);
 
-    $form->addElement('header', 'header_trackers', $oTrans->translate("Additional trackers"));
+    $form->addElement('header', 'header_trackers', $oTrans->translate("Additional Trackers"));
 
     $el = $form->addElement('textarea', 'impression_trackers', $oTrans->translate("Impression trackers (one URL per line)"));
 
