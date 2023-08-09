@@ -10,31 +10,45 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Menu/IChecker.php';
+require_once __DIR__ . '/CachingChecker.php';
 require_once MAX_PATH . '/plugins/apVideo/lib/Dal/Admin.php';
 
 
-class Plugins_admin_apVideoUI_videoBannerChecker implements OA_Admin_Menu_IChecker
+class Plugins_admin_apVideoUI_videoBannerChecker extends Plugins_admin_apVideoUI_CachingChecker
 {
-    public function check($oSection)
+    protected function getCacheKey($oSection): string
     {
-        return AP_Video_Dal_Admin::isInlineVideoBanner($GLOBALS['bannerid']);
+        return $GLOBALS['bannerid'];
+    }
+
+    public function _check($oSection, $key): bool
+    {
+        if (!AP_Video_Dal_Admin::isInlineVideoBanner($key)) {
+            return false;
+        }
+
+        $oTrans = new OX_Translation($GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . '/apVideoUI/_lang');
+        $oSection->setNameKey($oTrans->translate('Alternate Media'));
+
+        return true;
     }
 }
 
-class Plugins_admin_apVideoUI_videoVpaidChecker extends Plugins_admin_apVideoUI_videoBannerChecker
+class Plugins_admin_apVideoUI_videoTrackerChecker extends Plugins_admin_apVideoUI_CachingChecker
 {
-    public function check($oSection)
+    protected function getCacheKey($oSection): string
     {
-        $url = $GLOBALS['_MAX']['CONF']['apVideo']['swfUrl'];
-        return !empty($url) && $url != 'http://' && parent::check($oSection);
+        return $GLOBALS['bannerid'];
     }
-}
 
-class Plugins_admin_apVideoUI_videoTrackerChecker implements OA_Admin_Menu_IChecker
-{
-    public function check($oSection)
+    public function _check($oSection, $key): bool
     {
-        return AP_Video_Dal_Admin::isAnyVideoBanner($GLOBALS['bannerid']);
+        if (!AP_Video_Dal_Admin::isAnyVideoBanner($key)) {
+            return false;
+        }
+        $oTrans = new OX_Translation($GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] . '/apVideoUI/_lang');
+        $oSection->setNameKey($oTrans->translate('Additional Trackers'));
+
+        return true;
     }
 }
