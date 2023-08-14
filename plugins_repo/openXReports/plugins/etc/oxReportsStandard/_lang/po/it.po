@@ -212,5 +212,5 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
 msgid "IP Address"
-msgstr ""
+msgstr "Indirizzo IP"
 
