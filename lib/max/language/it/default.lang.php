@@ -159,7 +159,10 @@ $GLOBALS['strUsernameToLink'] = "Nome dell’utente da aggiungere";
 $GLOBALS['strNewUserWillBeCreated'] = "Il nuovo utente verrà creato";
 $GLOBALS['strToLinkProvideEmail'] = "Per aggiungere l’utente si deve fornire la sua e-mail";
 $GLOBALS['strToLinkProvideUsername'] = "Per aggiungere l’utente si deve fornire il suo nome utente";
+$GLOBALS['strUserLinkedToAccount'] = "L'utente è stato aggiunto all'account";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "L'utente è stato aggiunto all'account. Riceverà un'email per impostare la propria password.";
 $GLOBALS['strUserAccountUpdated'] = "Account utente aggiornato";
+$GLOBALS['strUserUnlinkedFromAccount'] = "L'utente è stato rimosso dall'account";
 $GLOBALS['strUserWasDeleted'] = "L’utente è stato eliminato";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Tale utente non è collegato con l`account";
 $GLOBALS['strLinkUserHelp'] = "Per aggiungere un utente <b>esistente</b>, digita %1\$s e clicca %2\$s <br />Per aggiungere un <b>nuovo utente</b>, digita il %1\$s desiderato e clicca %2\$s";
@@ -449,6 +452,7 @@ $GLOBALS['strImpression'] = "Impressione";
 $GLOBALS['strConversionType'] = "Tipo di conversione";
 $GLOBALS['strLinkCampaignsByDefault'] = "Collega automaticamente le nuove campagne appena create";
 $GLOBALS['strBackToTrackers'] = "Torna ai tracker";
+$GLOBALS['strIPAddress'] = "Indirizzo IP";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Banner";
@@ -781,6 +785,7 @@ $GLOBALS['strAutoDetect'] = "Riconoscimento automatico";
 $GLOBALS['strCacheBusterComment'] = "  * Sostituire tutte le istanze di {random} con
   * un numero casuale generato (o timestamp).
   *";
+$GLOBALS['strGenerateHttpsTags'] = "Genera tag utilizzando il protocollo HTTPS";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Errore di connessione al database.";
@@ -811,6 +816,7 @@ $GLOBALS['strWarningInaccurateReadMore'] = "Leggi di più in proposito";
 $GLOBALS['strWarningInaccurateReport'] = "Alcune delle statistiche in questo report sono state loggate in un fuso orario non Universal Time, potrebbero non essere mostrate nel fuso orario corretto";
 
 //Validation
+$GLOBALS['strRequiredFieldLegend'] = "indica campo obbligatorio";
 $GLOBALS['strInvalidWebsiteURL'] = "URL del sito Web non valido";
 
 // Email
@@ -952,7 +958,9 @@ $GLOBALS['strConfirmDeleteAgency'] = "Vuoi davvero cancellare questo account?";
 $GLOBALS['strHideInactiveAgencies'] = "Nascondi gli account non attivi";
 $GLOBALS['strInactiveAgenciesHidden'] = "account non attivi, nascosti";
 $GLOBALS['strSwitchAccount'] = "Passa a questo account";
+$GLOBALS['strAgencyStatusRunning'] = "Attiva";
 $GLOBALS['strAgencyStatusInactive'] = "inattiva";
+$GLOBALS['strAgencyStatusPaused'] = "Sospesa";
 
 // Channels
 $GLOBALS['strChannel'] = "Set Regole Di Consegna";
@@ -995,12 +1003,16 @@ $GLOBALS['strVariableCode'] = "Codice tracciamento Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Hai dimenticato la password?";
+$GLOBALS['strWelcomePage'] = "Benvenuto nuovo utente!";
 $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
+$GLOBALS['strPwdRecWrongExpired'] = "Link di reimpostazione password errato o scaduto, si prega di richiederne uno nuovo";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
+$GLOBALS['strProceed'] = "Procedi >";
 
 // Password recovery - Default
 
+$GLOBALS['strPwdRecEmailSincerely'] = "Cordiali saluti,";
 
 // Password recovery - Welcome email
 
