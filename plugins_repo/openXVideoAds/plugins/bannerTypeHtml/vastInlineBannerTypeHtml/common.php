@@ -44,15 +44,20 @@ define('VAST_VIDEO_URL_PROGRESSIVE_FORMAT', 'progressive');
 define('VAST_OVERLAY_DEFAULT_WIDTH', 600);
 define('VAST_OVERLAY_DEFAULT_HEIGHT', 40);
 
-function getVastVideoTypes()
+function getVastVideoTypes(string $oldVideoType = ''): array
 {
-    static $videoEncodingTypes = [ 'video/x-mp4' => 'MP4',
-                                       'video/x-flv' => 'FLV',
-                                       'video/webm' => 'WEBM',
-   ];
-    return $videoEncodingTypes;
-}
+    $aTypes = [
+        'video/x-mp4' => 'MP4',
+        'video/x-flv' => 'FLV',
+        'video/webm' => 'WEBM',
+    ];
 
+    if ('video/x-flv' !== $oldVideoType) {
+        unset($aTypes['video/x-flv']);
+    }
+
+    return $aTypes;
+}
 
 function encodeUserSuppliedData($text)
 {

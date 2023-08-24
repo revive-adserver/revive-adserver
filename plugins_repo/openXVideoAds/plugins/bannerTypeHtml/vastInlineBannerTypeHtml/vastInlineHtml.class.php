@@ -82,22 +82,6 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         $this->addIntroductionInlineHelp($form);
         $this->addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_INLINE_DIMENSIONS);
 
-        $isVideoUploadSupported = false;
-        if ($isVideoUploadSupported) {
-            addUploadGroup(
-                $form,
-                $row,
-                [
-                    'uploadName' => 'uploadalt',
-                    'radioName' => 'replacealtimage',
-                    'imageName' => $altImageName,
-                    'fileSize' => $altSize,
-                    'fileName' => $row['alt_filename'],
-                    'newLabel' => "select incomming video file",
-                    'updateLabel' => "select replacement video file",
-                  ]
-            );
-        }
         $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
         $this->setElementIsRequired('vast_video_delivery', 'ext_bannertype', $this->getComponentIdentifier());
         $this->setElementIsRequired('vast_video_filename', 'ext_bannertype', $this->getComponentIdentifier());

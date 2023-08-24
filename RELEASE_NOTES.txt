@@ -43,7 +43,8 @@ What's New in Revive Adserver 5.5.0
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Removed support for creating new inline video ads using FLV type and/or
+   streaming format. Backwards compatibility for delivery is retained.
 
 
 System Requirements
