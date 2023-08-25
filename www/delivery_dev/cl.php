@@ -37,7 +37,7 @@ if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var'
 $adId = MAX_Delivery_log_getArrGetVariable('adId');
 $creativeId = MAX_Delivery_log_getArrGetVariable('creativeId');
 $zoneId = MAX_Delivery_log_getArrGetVariable('zoneId');
-$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick', $_COOKIE);
+$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick');
 $aBlockLoggingClick = $_COOKIE[$conf['var']['blockLoggingClick']] ?? [];
 
 if (!empty($conf['deliveryLog']['enabled'])) {

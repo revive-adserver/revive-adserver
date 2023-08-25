@@ -39,6 +39,9 @@ What's New in Revive Adserver 5.5.0
    generating click URLs since the introduction of the signed clicks
    functionality.
 
+ * Fixed issue preventing click-based conversion tracking from properly
+   working.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
