@@ -89,6 +89,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['spl'] = true;
         $this->aInfo['PHP']['expected']['json'] = true;
         $this->aInfo['PHP']['expected']['zip'] = true;
+        $this->aInfo['PHP']['expected']['tokenizer'] = true;
         $this->aInfo['PHP']['expected']['mbstring.func_overload'] = false;
         $this->aInfo['PHP']['expected']['timeout'] = false;
         $this->aInfo['COOKIES']['expected']['enabled'] = true;
@@ -151,6 +152,7 @@ class OA_Environment_Manager
         $aResult['spl'] = extension_loaded('spl');
         $aResult['json'] = extension_loaded('json');
         $aResult['zip'] = extension_loaded('zip');
+        $aResult['tokenizer'] = extension_loaded('tokenizer');
 
         // Check mbstring.func_overload
         $aResult['mbstring.func_overload'] = false;
@@ -380,6 +382,9 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['zip']) {
             $this->aInfo['PHP']['error']['zip'] = 'The zip extension must be loaded';
+        }
+        if (!$this->aInfo['PHP']['actual']['tokenizer']) {
+            $this->aInfo['PHP']['error']['tokenizer'] = 'The tokenizer extension must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';

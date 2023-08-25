@@ -42,8 +42,11 @@ What's New in Revive Adserver 5.5.0
  * Fixed issue preventing click-based conversion tracking from properly
    working.
 
- * Fixed issue preventing password recovery from wotking properly when using
+ * Fixed issue preventing password recovery from working properly when using
    a Postgres database.
+
+ * Added missing check for the tokenizer PHP extension during install and 
+   upgrade.
 
 
  Non-Backwards Compatible Changes

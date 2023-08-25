@@ -391,6 +391,30 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 13: Test the tokenizer extension
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid pcre extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['tokenizer'], []);
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid pcre extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
     }
 
     /**
@@ -416,6 +440,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager->aInfo['PHP']['actual']['spl'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['json'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
         // Return the valid OA_Environment_Manager instance
         return $oEnvironmentManager;
@@ -444,6 +469,9 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zlib']), in_array('zlib', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['mysqli']), in_array('mysqli', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['spl']), in_array('spl', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['json']), in_array('json', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zip']), in_array('zip', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['tokenizer']), in_array('tokenizer', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
     }
 
