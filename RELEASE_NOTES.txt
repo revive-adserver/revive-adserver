@@ -42,6 +42,9 @@ What's New in Revive Adserver 5.5.0
  * Fixed issue preventing click-based conversion tracking from properly
    working.
 
+ * Fixed issue preventing password recovery from wotking properly when using
+   a Postgres database.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

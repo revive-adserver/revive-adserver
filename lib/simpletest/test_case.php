@@ -297,7 +297,7 @@
          *    @return boolean                        True on pass
          *    @access public
          */
-        function assert(&$expectation, $compare, $message = '%s') {
+        function assert($expectation, $compare, $message = '%s') {
             if ($expectation->test($compare)) {
                 return $this->pass(sprintf(
                         $message,
@@ -312,7 +312,7 @@
         /**
          *	  @deprecated
          */
-        function assertExpectation(&$expectation, $compare, $message = '%s') {
+        function assertExpectation($expectation, $compare, $message = '%s') {
         	return $this->assert($expectation, $compare, $message);
         }
 
