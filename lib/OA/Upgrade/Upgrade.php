@@ -552,6 +552,10 @@ class OA_Upgrade
         return self::$canUpgradeOrInstall['result'];
     }
 
+    public static function clearCanUpgradeOrInstall()
+    {
+        self::$canUpgradeOrInstall = null;
+    }
 
     /**
      * look for existing installations (phpAdsNew, MMM, Openads)
@@ -2084,7 +2088,7 @@ class OA_Upgrade
     /**
      * retrieve the message errary
      *
-     * @return boolean
+     * @return string[]
      */
     public function getMessages()
     {
@@ -2095,7 +2099,7 @@ class OA_Upgrade
      * not used anymore i think
      * retrieve the error array
      *
-     * @return boolean
+     * @return string[]
      */
     public function getErrors()
     {

@@ -123,7 +123,7 @@
       * putenv("TZ=...") to set the timezone manually.
       *
       * @static
-      * @return array An array of two items:
+      * @return string An array of two items:
       *      'tz'         => The timezone string; and
       *      'calculated' => A boolean; true if the timezone
       *                      value needed to be calculated

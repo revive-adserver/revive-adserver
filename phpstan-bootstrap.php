@@ -1,6 +1,6 @@
 <?php
 
-set_include_path('.:' . __DIR__ . '/lib/pear');
+set_include_path(sprintf('.:%1$s/lib/pear:%1$s/lib', __DIR__));
 
 define('MAX_PATH', __DIR__);
 define('RV_PATH', __DIR__);

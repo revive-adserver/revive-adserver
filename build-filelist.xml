@@ -41,6 +41,7 @@
     <include name="scripts/rpm/**"/>
     <exclude name="scripts/rpm/*.spec*" />
     <exclude name="scripts/translations/**"/>
+    <include name="scripts/installer"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/cache"/>
@@ -100,6 +101,7 @@
     <include name="lib/vendor/figdice/**"/>
     <include name="lib/vendor/bower-asset/**"/>
     <exclude name="plugins/**"/>
+    <exclude name="scripts/installer"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/delivery/**"/>
     <include name="scripts/plugins/**"/>

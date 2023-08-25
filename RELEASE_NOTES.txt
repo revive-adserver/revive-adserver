@@ -31,6 +31,8 @@ What's New in Revive Adserver 5.5.0
 
  * Bundled VAST2 Video Ads plugins.
 
+ * Added command line install / upgrade scripts.
+
 
  Bug Fixes
  ---------

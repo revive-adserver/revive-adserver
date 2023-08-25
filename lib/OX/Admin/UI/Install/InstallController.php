@@ -73,11 +73,14 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
      */
     protected function init()
     {
+        $oRequest = $this->getRequest();
+        $action = $oRequest->getParam('action');
+
         // No upgrade file? No installer! Unless the user is in the last step
-        if (!file_exists(MAX_PATH . '/var/UPGRADE') && 'finish' != $_REQUEST['action']) {
-            header("Location: index.php");
-            exit();
+        if (!file_exists(MAX_PATH . '/var/UPGRADE') && 'finish' != $action) {
+            $this->abortInstall();
         }
+
         @set_time_limit(0);
 
         //  load translations for installer
@@ -98,9 +101,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         $this->initStepConfig();
 
         //check if recovery required
-        $oRequest = $this->getRequest();
-        if ($this->oInstallStatus->isRecovery()
-            && $oRequest->getParam('action') != 'recovery'
+        if ($this->oInstallStatus->isRecovery() && $action != 'recovery'
         ) {
             //if recovery required and not recovering already, force recovery to be started
             $oRequest->setParam('action', 'recovery');
@@ -878,5 +879,11 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
     protected function getInstallStatus()
     {
         return $this->oInstallStatus;
+    }
+
+    protected function abortInstall(): void
+    {
+        header("Location: index.php");
+        exit();
     }
 }

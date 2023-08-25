@@ -13,7 +13,7 @@
 require_once MAX_PATH . '/lib/OA/Dal/PasswordRecovery.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
-use \RV\Manager\PasswordManager;
+use RV\Manager\PasswordManager;
 
 /**
  * A class for testing the OA_Dal_ApplicationVariables class.

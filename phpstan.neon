@@ -32,6 +32,8 @@ parameters:
             - lib/xajax
             - lib/Zend
             - www/api/v1
+            - constants.php
+            - variables.php
     bootstrapFiles:
         - phpstan-bootstrap.php
     ignoreErrors:

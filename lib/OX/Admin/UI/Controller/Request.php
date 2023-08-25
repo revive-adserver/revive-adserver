@@ -38,7 +38,7 @@ class OX_Admin_UI_Controller_Request
     /**
      * REQUEST_URI
      *
-     * @var unknown_type
+     * @var string
      */
     protected $requestUri;
 

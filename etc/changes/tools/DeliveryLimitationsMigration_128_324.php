@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+
 class DeliveryLimitationsUpgrade
 {
     /**
@@ -616,42 +618,4 @@ function MAX_limitationsGetADowngradeForLanguage($op, $sData)
 {
     $sData = '(' . str_replace(',', ')|(', $sData) . ')';
     return MAX_limitationsGetADowngradeForArray($op, $sData);
-}
-
-// Helper functions copied from limitations.delivery.php
-
-/**
- * Returns true if $op is one of the positive operators: '==', '=~' or '=x',
- * false otherwise.
- *
- * @param string $op The operator to be checked.
- * @return boolean True if $op is '==', '=~' or '=x', false otherwise.
- */
-function MAX_limitationsIsOperatorPositive($op)
-{
-    return $op == '==' || $op == '=~' || $op == '=x' || $op == 'gt' || $op == 'lt';
-}
-
-/**
- * Returns true if $op is one of the simple operators: either '=x' or '!x',
- * false otherwise.
- *
- * @param string $op The operator to be checked.
- * @return boolean True if $op is either '=x' or '!x', false otherwise.
- */
-function MAX_limitationsIsOperatorRegexp($op)
-{
-    return $op == '=x' || $op == '!x';
-}
-
-/**
- * Returns true if $op is one of the contains operators: either '=~' or '!~',
- * false otherwise.
- *
- * @param string $op The operator to be checked.
- * @return boolean True if $op is either '=~' or '!~', false otherwise.
- */
-function MAX_limitationsIsOperatorContains($op)
-{
-    return $op == '=~' || $op == '!~';
 }
