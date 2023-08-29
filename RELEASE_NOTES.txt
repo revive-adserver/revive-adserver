@@ -50,6 +50,9 @@ What's New in Revive Adserver 5.5.0
  * Added missing check for the tokenizer PHP extension during install and 
    upgrade.
 
+ * Fixed zone delete action being always displayed regardless of the actual
+   permissions.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

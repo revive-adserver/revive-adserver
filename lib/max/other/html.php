@@ -1882,8 +1882,9 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
 
     //delete
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-       || OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)
-       || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
+       || (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE))
+       || (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && OA_Permission::hasPermission(OA_PERM_ZONE_DELETE))
+    ) {
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
         addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "zone-delete.php?token=" . urlencode($token) . "&affiliateid=$affiliateid&zoneid=$zoneid&returnurl=affiliate-zones.php"), "iconDelete", null, $deleteConfirm);
     }
