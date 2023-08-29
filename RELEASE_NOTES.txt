@@ -53,6 +53,9 @@ What's New in Revive Adserver 5.5.0
  * Fixed zone delete action being always displayed regardless of the actual
    permissions.
 
+ * Fixed the "Export Statistics to Excel" functionality so that the link is
+   only disabled when the selected range has no statistics at all.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

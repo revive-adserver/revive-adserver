@@ -51,11 +51,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     public $strExportStatisticsToExcel;
 
     /**
-     * @var bool
-     */
-    public $showExportToExcel;
-
-    /**
      * The ID "number" of the page (eg. "2.1.2").
      *
      * @var string
@@ -568,10 +563,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Show the page sections
         phpAds_ShowSections($this->aPageSections, $this->aPageParams, $openNewTable = false);
-
-        // Export to Excel functionality
-        $this->showExportToExcel = !$this->_isEmptyResultArray();
-        $this->strExportStatisticsToExcel = $GLOBALS['strExportStatisticsToExcel'];
 
         // Display page content
         $oOutput->compile($this->template);
