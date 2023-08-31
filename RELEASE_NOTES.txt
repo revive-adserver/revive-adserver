@@ -56,6 +56,10 @@ What's New in Revive Adserver 5.5.0
  * Fixed the "Export Statistics to Excel" functionality so that the link is
    only disabled when the selected range has no statistics at all.
 
+ * Fixed usage of specific charset with spc on local invocation.
+
+ * Fixed uncommon issue preventing maintenance from properly completing.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
