@@ -4504,7 +4504,7 @@ MAX_cookieFlush();
 $output['html'] .= ob_get_clean();
 return $output;
 }
-function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0)
+function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0, $charset = '')
 {
 global $context;
 if (is_numeric($what)) {
