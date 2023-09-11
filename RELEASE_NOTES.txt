@@ -78,7 +78,7 @@ contribution to this release:
  * @archiewestermann - #1420
  * @spantaleev - #1399
  * @pmacko - #1426
- * @camlafit - 1403
+ * @camlafit - #1403
 
 
 System Requirements
