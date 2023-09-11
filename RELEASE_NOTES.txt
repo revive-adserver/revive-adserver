@@ -20,22 +20,22 @@ What's New in Revive Adserver 5.5.0
  * Release date: t.b.d.
 
 
- Security Updates
- ----------------
+Security Updates
+----------------
 
  * None
 
 
- New Features
- ------------
+New Features
+------------
 
  * Bundled VAST2 Video Ads plugins.
 
  * Added command line install / upgrade scripts.
 
 
- Bug Fixes
- ---------
+Bug Fixes
+---------
 
  * Fixed issue preventing plugin hook "addUrlParams" from being called when
    generating click URLs since the introduction of the signed clicks
@@ -61,11 +61,24 @@ What's New in Revive Adserver 5.5.0
  * Fixed uncommon issue preventing maintenance from properly completing.
 
 
- Non-Backwards Compatible Changes
- --------------------------------
+Non-Backwards Compatible Changes
+--------------------------------
 
  * Removed support for creating new inline video ads using FLV type and/or
    streaming format. Backwards compatibility for delivery is retained.
+
+
+Conmmunity Contributions
+------------------------
+
+We would like to thank the following community members for their
+contribution to this release:
+
+ * @kavit-gangar - #1428
+ * @archiewestermann - #1420
+ * @spantaleev - #1399
+ * @pmacko - #1426
+ * @camlafit - 1403
 
 
 System Requirements
