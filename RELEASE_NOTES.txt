@@ -68,7 +68,7 @@ Non-Backwards Compatible Changes
    streaming format. Backwards compatibility for delivery is retained.
 
 
-Conmmunity Contributions
+Community Contributions
 ------------------------
 
 We would like to thank the following community members for their
