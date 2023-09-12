@@ -23,7 +23,7 @@ What's New in Revive Adserver 5.5.0
 Security Updates
 ----------------
 
- * None
+ * Fixed reflected XSS vulnerability (CVE-2023-38040).
 
 
 New Features

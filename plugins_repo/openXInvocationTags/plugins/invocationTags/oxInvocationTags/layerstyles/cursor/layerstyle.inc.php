@@ -43,34 +43,41 @@ function MAX_layerPutJs($output, $uniqid)
 {
     global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
 
+    $variables = ['stickyness', 'offsetx', 'offsety', 'hide',
+        'transparancy', 'delay', 'trail'];
+
     // Register input variables
-    MAX_commonRegisterGlobalsArray(['stickyness', 'offsetx', 'offsety', 'hide',
-                           'transparancy', 'delay', 'trail']);
+    MAX_commonRegisterGlobalsArray($variables);
 
-
-    if (!isset($trail) || $trail == '') {
+    if (!isset($trail) || $trail === '') {
         $trail = 0;
     }
-    if (!isset($stickyness) || $stickyness == '') {
+    if (!isset($stickyness) || $stickyness === '') {
         $stickyness = 5;
     }
 
-    if (!isset($offsetx) || $offsetx == '') {
+    if (!isset($offsetx) || $offsetx === '') {
         $offsetx = 10;
     }
-    if (!isset($offsety) || $offsety == '') {
+    if (!isset($offsety) || $offsety === '') {
         $offsety = 10;
     }
 
-    if (!isset($hide) || $hide == '') {
+    if (!isset($hide) || $hide === '') {
         $hide = 0;
     }
-    if (!isset($transparancy) || $transparancy == '') {
+    if (!isset($transparancy) || $transparancy === '') {
         $transparancy = 0;
     }
-    if (!isset($delay) || $delay == '') {
+    if (!isset($delay) || $delay === '') {
         $delay = 90;
-    } ?>
+    }
+
+    // Cast all to int
+    foreach ($variables as $v) {
+        $$v = (int) $$v;
+    }
+    ?>
 
 
 

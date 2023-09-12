@@ -49,6 +49,8 @@ function MAX_layerPutJs($output, $uniqid)
     // Register input variables
     MAX_commonRegisterGlobalsArray(['align', 'collapsetime', 'padding']);
 
+    $collapsetime = (int) ($collapsetime ?? 0);
+    $padding = (int) ($padding ?? 2);
 
     // Calculate layer size (inc. borders)
     $layer_width = $output['width'] + 4 + $padding * 2;
@@ -159,7 +161,7 @@ function MAX_geopop(what, ad)
 			o[_s][_v] = 'visible';
 <?php
 
-if (isset($collapsetime) && $collapsetime > 0) {
+if ($collapsetime > 0) {
     echo "\t\t\treturn window.setTimeout('MAX_geopop(\\'collapse\\', \\'" . $uniqid . "\\')', " . ($collapsetime * 1000) . ");";
 } ?>
 
@@ -187,17 +189,13 @@ MAX_timerid['<?php echo $uniqid; ?>'] = MAX_geopop('open', '<?php echo $uniqid; 
 function MAX_layerGetHtml($output, $uniqid)
 {
     global $target;
-    global $align, $collapsetime, $padding, $closetext;
-
-    $conf = $GLOBALS['_MAX']['CONF'];
+    global $padding, $closetext;
 
     // Register input variables
     MAX_commonRegisterGlobalsArray(['align', 'collapsetime', 'padding', 'closetext']);
 
-
-    if (!isset($padding)) {
-        $padding = '2';
-    }
+    $padding = (int) ($padding ?? 2);
+    $closetext = htmlspecialchars($closetext ?? '');
 
     // Calculate layer size (inc. borders)
     $layer_width = $output['width'] + 4 + $padding * 2;
@@ -242,7 +240,7 @@ function MAX_layerGetHtml($output, $uniqid)
 								</tr>
 							</table>
 						</td>
-					</tr>' . (strlen($closetext) ? '
+					</tr>' . ('' !== $closetext ? '
 					<tr>
 						<td align="center" bgcolor="#FFFFFF" style="font-family: Arial, helvetica, sans-serif; font-size: 9px; padding: 1px">' .
                             '<a href="#" onclick="MAX_geopop(\'collapse\', \'' . $uniqid . '\');return!1;" style="color:#0000ff">' . $closetext . '</a>' .
