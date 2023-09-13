@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.5.0
+Release Notes: Revive Adserver 5.5.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,58 +14,34 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.5.0
+What's New in Revive Adserver 5.5.1
 -----------------------------------
 
- * Release date: September 13th, 2023
+ * Release date: t.b.d.
 
 
 Security Updates
 ----------------
 
- * Fixed reflected XSS vulnerability (CVE-2023-38040).
+ * None
 
 
 New Features
 ------------
 
- * Bundled VAST2 Video Ads plugins.
-
- * Added command line install / upgrade scripts.
+ * None
 
 
 Bug Fixes
 ---------
 
- * Fixed issue preventing plugin hook "addUrlParams" from being called when
-   generating click URLs since the introduction of the signed clicks
-   functionality.
-
- * Fixed issue preventing click-based conversion tracking from properly
-   working.
-
- * Fixed issue preventing password recovery from working properly when using
-   a Postgres database.
-
- * Added missing check for the tokenizer PHP extension during install and 
-   upgrade.
-
- * Fixed zone delete action being always displayed regardless of the actual
-   permissions.
-
- * Fixed the "Export Statistics to Excel" functionality so that the link is
-   only disabled when the selected range has no statistics at all.
-
- * Fixed usage of specific charset with spc on local invocation.
-
- * Fixed uncommon issue preventing maintenance from properly completing.
+ * None
 
 
 Non-Backwards Compatible Changes
 --------------------------------
 
- * Removed support for creating new inline video ads using FLV type and/or
-   streaming format. Backwards compatibility for delivery is retained.
+ * None
 
 
 Community Contributions
