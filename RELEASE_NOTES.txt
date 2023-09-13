@@ -50,11 +50,7 @@ Community Contributions
 We would like to thank the following community members for their
 contribution to this release:
 
- * @kavit-gangar - #1428
- * @archiewestermann - #1420
- * @spantaleev - #1399
- * @pmacko - #1426
- * @camlafit - #1403
+ * None
 
 
 System Requirements
