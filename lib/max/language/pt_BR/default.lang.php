@@ -783,6 +783,7 @@ $GLOBALS['strClickSR_short'] = "Cliques SR";
 $GLOBALS['strGlobalSettings'] = "Configurações global";
 $GLOBALS['strGeneralSettings'] = "Configurações gerais";
 $GLOBALS['strMainSettings'] = "Principais configurações";
+$GLOBALS['strChooseSection'] = 'Escolha a seção';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Atualizações do produto";
