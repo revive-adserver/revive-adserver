@@ -35,7 +35,10 @@ New Features
 Bug Fixes
 ---------
 
- * None
+ * Fixed an issue preventing username and password from being always requested
+   during upgrades from 5.3.x and older versions. Running an upgrade with an
+   active logged-in session on the browser could result in the admin account
+   requiring a password reset at the next login.
 
 
 Non-Backwards Compatible Changes

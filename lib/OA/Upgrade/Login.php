@@ -73,6 +73,10 @@ class OA_Upgrade_Login
             }
         }
 
+        if ($hasMd5Password && empty($GLOBALS['session'][self::SESSION_PASSWORD_HASH])) {
+            return false;
+        }
+
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
     }
 
