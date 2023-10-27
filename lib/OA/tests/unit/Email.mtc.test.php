@@ -1605,4 +1605,17 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'), '2009-01-06 23:59:59');
         $this->assertEqual($oEndDate->tz, $oTimezone);
     }
+
+    public function testQuoteHeaderText(): void
+    {
+        $this->assertEqual(OA_Email::quoteHeaderText('foo'), 'foo');
+
+        $GLOBALS['phpAds_CharSet'] = null;
+
+        $this->assertEqual(OA_Email::quoteHeaderText('foò'), 'foò');
+
+        $GLOBALS['phpAds_CharSet'] = 'utf-8';
+
+        $this->assertEqual(OA_Email::quoteHeaderText('foò'), '=?utf-8?Q?fo=C3=B2?=');
+    }
 }

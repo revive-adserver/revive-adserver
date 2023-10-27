@@ -459,7 +459,7 @@ class OA_Email
             $this->aAdminCache = [$aAdminPrefs, $aAdminUsers];
         } else {
             // Retrieve admin cache
-            list($aAdminPrefs, $aAdminUsers) = $this->aAdminCache;
+            [$aAdminPrefs, $aAdminUsers] = $this->aAdminCache;
         }
 
         $aPreviousOIDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -507,7 +507,7 @@ class OA_Email
                 ];
             } else {
                 // Retrieve agency cache
-                list($aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails) = $this->aAgencyCache[$doClients->agencyid];
+                [$aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails] = $this->aAgencyCache[$doClients->agencyid];
             }
 
             // Add admin linked users and preferences
@@ -538,7 +538,7 @@ class OA_Email
             ];
         } else {
             // Retrieve client cache
-            list($aLinkedUsers, $aPrefs, $aAgencyFromDetails) = $this->aClientCache[$aCampaign['clientid']];
+            [$aLinkedUsers, $aPrefs, $aAgencyFromDetails] = $this->aClientCache[$aCampaign['clientid']];
         }
 
         $copiesSent = 0;
@@ -1221,15 +1221,15 @@ class OA_Email
             // PHP versions so we leave it out for now to be on the safe side.
             $toParam = $userEmail;
         } else {
-            $toParam = '"' . $userName . '" <' . $userEmail . '>';
+            $toParam = self::quoteHeaderText($userName) . ' <' . $userEmail . '>';
         }
+
         // Build additional email headers
         $headersParam = "MIME-Version: 1.0\r\n";
         if (isset($phpAds_CharSet)) {
             $headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
         }
-        $headersParam .= "Content-Transfer-Encoding: 8bit\r\n";
-        $headersParam .= 'From: "' . $fromDetails['name'] . '" <' . $fromDetails['emailAddress'] . '>' . "\r\n";
+        $headersParam .= 'From: ' . self::quoteHeaderText($fromDetails['name']) . ' <' . $fromDetails['emailAddress'] . '>' . "\r\n";
         // Use only \n as header separator when qmail is used
         if ($aConf['email']['qmailPatch']) {
             $headersParam = str_replace("\r", '', $headersParam);
@@ -1373,5 +1373,21 @@ class OA_Email
 
         $oStartDate = $oStartTz;
         $oEndDate = $oEndTz;
+    }
+
+    public static function quoteHeaderText(string $string): string
+    {
+        global $phpAds_CharSet;
+
+        if (!isset($phpAds_CharSet) || !preg_match('#[\x80-\xFF]#', $string)) {
+            // No charset or 7bit text
+            return $string;
+        }
+
+        return sprintf(
+            '=?%s?Q?%s?=',
+            $phpAds_CharSet,
+            quoted_printable_encode($string)
+        );
     }
 }

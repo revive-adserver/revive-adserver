@@ -40,6 +40,9 @@ Bug Fixes
    active logged-in session on the browser could result in the admin account
    requiring a password reset at the next login.
 
+ * Fixed an issue with non-ASCII (e.g. accented) characters not being properly
+   encoded when sending e-mails.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
