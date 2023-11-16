@@ -3821,7 +3821,7 @@ $row = _adSelectZone($zoneId, $context, $source, $richmedia);
 } else {
 if (strpos($what, '/') > 0) {
 if (strpos($what, '@') > 0) {
-list($what, $append) = explode('@', $what);
+[$what, $append] = explode('@', $what);
 } else {
 $append = '';
 }
@@ -3984,7 +3984,7 @@ while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
 $GLOBALS['_MAX']['followedChain'][] = $zoneId;
 $appendedThisZone = false;
 $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
-if (empty($aZoneInfo)) {
+if (empty($aZoneInfo) || !is_array($aZoneInfo)) {
 return false;
 }
 if (!empty($aZoneInfo['default'])) {
@@ -4000,7 +4000,7 @@ $zoneId = _getNextZone($zoneId, $aZoneInfo);
 continue;
 }
 $aZoneLinkedAdInfos = MAX_cacheGetZoneLinkedAdInfos($zoneId);
-if (is_array($aZoneInfo)) {
+if (is_array($aZoneLinkedAdInfos)) {
 if (isset($aZoneInfo['forceappend']) && $aZoneInfo['forceappend'] == 't') {
 $g_prepend .= $aZoneInfo['prepend'];
 $g_append = $aZoneInfo['append'] . $g_append;
@@ -4365,13 +4365,13 @@ if (is_array($context) && !empty($context)) {
 $cContext = count($context);
 for ($i = 0; $i < $cContext; $i++) {
 reset($context[$i]);
-list($key, $value) = each($context[$i]);
+[$key, $value] = each($context[$i]);
 $valueArray = explode(':', $value);
 if (count($valueArray) == 1) {
-list($value) = $valueArray;
+[$value] = $valueArray;
 $type = "";
 } else {
-list($type, $value) = $valueArray;
+[$type, $value] = $valueArray;
 }
 if (empty($value)) {
 continue;
