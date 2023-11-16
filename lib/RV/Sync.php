@@ -209,7 +209,7 @@ class RV_Sync
                 'php_extensions' => get_loaded_extensions(),
                 'php_register_globals' => (bool)ini_get('register_globals'),
                 'php_magic_quotes_gpc' => (bool)ini_get('magic_quotes_gpc'),
-                'php_safe_mode' => (bool)ini_get('safe_mode'),
+                'php_safe_mode' => false,
                 'php_open_basedir' => (bool)strlen(ini_get('open_basedir')),
                 'php_upload_tmp_readable' => (bool)is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR)
             ];

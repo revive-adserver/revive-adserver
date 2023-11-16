@@ -252,23 +252,17 @@ class Console_Getopt {
 
     /**
     * Safely read the $argv PHP array across different PHP configurations.
-    * Will take care on register_globals and register_argc_argv ini directives
     *
-    * @access public
-    * @return mixed the $argv PHP array or PEAR error if not registered
+    * @return array|PEAR_Error the $argv PHP array or PEAR error if not registered
     */
-    function readPHPArgv()
+    public static function readPHPArgv()
     {
         global $argv;
-        if (!is_array($argv)) {
-            if (!@is_array($_SERVER['argv'])) {
-                if (!@is_array($GLOBALS['HTTP_SERVER_VARS']['argv'])) {
-                    return PEAR::raiseError("Console_Getopt: Could not read cmd args (register_argc_argv=Off?)");
-                }
-                return $GLOBALS['HTTP_SERVER_VARS']['argv'];
-            }
-            return $_SERVER['argv'];
+
+        if (!isset($argv) || !is_array($argv)) {
+            return PEAR::raiseError("Console_Getopt: Could not read cmd args");
         }
+
         return $argv;
     }
 

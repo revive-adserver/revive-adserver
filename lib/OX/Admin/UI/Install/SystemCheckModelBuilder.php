@@ -126,13 +126,6 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'error' => $aEnvPhp['error']['memory_limit'] ?? false,
         ];
 
-        // Safe mode, magic quotes, register_argc_argv
-        $aSection['checks']['safe_mode'] = $this->buildCheckEntry('safe_mode', $aEnvPhp, 0, 'OFF', 'ON');
-        $aSection['checks']['register_argc_argv'] = $this->buildCheckEntry('register_argc_argv', $aEnvPhp, 0, 'OFF', 'ON');
-        if ($aEnvPhp['actual']['register_argc_argv'] == 0) {
-            $aSection['checks']['register_argc_argv']['warning'] = $GLOBALS['strWarningRegisterArgcArv'];
-        }
-
         // PHP configuration's file_uploads value
         $aSection['checks']['file_uploads'] = $this->buildCheckEntry('file_uploads', $aEnvPhp, 0, 'OFF', 'ON');
 

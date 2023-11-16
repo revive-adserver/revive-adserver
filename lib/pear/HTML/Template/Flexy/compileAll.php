@@ -23,11 +23,6 @@ if (!class_exists('HTML_Template_Flexy')) {
 }
 require_once 'PEAR.php';
 
-if (!ini_get('register_argc_argv')) {
-    PEAR::raiseError("\nERROR: You must turn register_argc_argv On in you php.ini file for this to work\neg.\n\nregister_argc_argv = On\n\n", null, PEAR_ERROR_DIE);
-    exit;
-}
-
 if (!@$_SERVER['argv'][1]) {
     PEAR::raiseError("\nERROR: compileAll.php usage:\n\nC:\php\pear\HTML\Template\Flexy\compileAll.php example.ini\n\n", null, PEAR_ERROR_DIE);
     exit;

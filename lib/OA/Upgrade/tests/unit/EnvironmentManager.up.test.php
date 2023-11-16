@@ -462,7 +462,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']), in_array('memory_limit', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['warning']['memory_limit']), in_array('memory_limit', $aWarnings));
 
-        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['safe_mode']), in_array('safe_mode', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['file_uploads']), in_array('file_uploads', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['pcre']), in_array('pcre', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['xml']), in_array('xml', $aErrors));

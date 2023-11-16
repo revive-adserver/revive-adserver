@@ -81,7 +81,6 @@ class OA_Environment_Manager
 
         $this->aInfo['PHP']['expected']['version'] = '7.2.5';
         $this->aInfo['PHP']['expected']['file_uploads'] = '1';
-        $this->aInfo['PHP']['expected']['register_argc_argv'] = '1';
         $this->aInfo['PHP']['expected']['pcre'] = true;
         $this->aInfo['PHP']['expected']['xml'] = true;
         $this->aInfo['PHP']['expected']['zlib'] = true;
@@ -140,9 +139,7 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        $aResult['safe_mode'] = ini_get('safe_mode');
         $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
-        $aResult['register_argc_argv'] = ini_get('register_argc_argv');
         $aResult['file_uploads'] = ini_get('file_uploads');
         $aResult['xml'] = extension_loaded('xml');
         $aResult['pcre'] = extension_loaded('pcre');
@@ -284,9 +281,6 @@ class OA_Environment_Manager
      *
      *  - The PHP configuration's memory_limit value
      *      Sets: $this->aInfo['PHP']['warning']['memory_limit']
-     *
-     *  - The PHP configuration's safe_mode value
-     *      Sets: $this->aInfo['PHP']['error']['safe_mode']
      *
      *  - The PHP configuration's file_uploads value
      *      Sets: $this->aInfo['PHP']['error']['file_uploads']

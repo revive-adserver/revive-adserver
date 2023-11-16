@@ -121,10 +121,8 @@ class OX_Maintenance_Statistics
         OA::debug('Running Maintenance Statistics Engine', PEAR_LOG_INFO);
 
         // Set longer time out, and ignore user abort
-        if (!ini_get('safe_mode')) {
-            @set_time_limit($aConf['maintenance']['timeLimitScripts']);
-            @ignore_user_abort(true);
-        }
+        @set_time_limit($aConf['maintenance']['timeLimitScripts']);
+        @ignore_user_abort(true);
 
         // Run the following code as the "Maintenance" user
         OA_Permission::switchToSystemProcessUser('Maintenance');

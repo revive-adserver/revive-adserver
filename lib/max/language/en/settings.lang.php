@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Continue »";
 $GLOBALS['strBtnRecover'] = "Recover »";
 $GLOBALS['strBtnAgree'] = "I Agree »";
 $GLOBALS['strBtnRetry'] = "Retry";
-$GLOBALS['strWarningRegisterArgcArv'] = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strTablesPrefix'] = "Table names prefix";
 $GLOBALS['strTablesType'] = "Table type";
 
