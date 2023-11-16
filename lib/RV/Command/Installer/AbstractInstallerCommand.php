@@ -181,14 +181,19 @@ abstract class AbstractInstallerCommand extends ReviveCommand
 
         $this->output->writeln("<info>Setting file permissions</info>");
 
-        $finder = (new Finder())
-            ->in(MAX_PATH . '/var')
-            ->in(MAX_PATH . '/plugins')
-            ->in(MAX_PATH . '/www/admin/plugins')
-            ->in(MAX_PATH . '/www/images');
+        $paths  = [
+            MAX_PATH . '/var',
+            MAX_PATH . '/plugins',
+            MAX_PATH . '/www/admin/plugins',
+            MAX_PATH . '/www/images',
+        ];
 
-        foreach ($finder->getIterator() as $file) {
-            chmod($file->getPathname(), $this->permissions);
+        foreach ($paths as $path) {
+            chmod($path, $this->permissions);
+
+            foreach ((new Finder())->in($path)->getIterator() as $file) {
+                chmod($file->getPathname(), $this->permissions);
+            }
         }
     }
 
