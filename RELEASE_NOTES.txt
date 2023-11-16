@@ -52,6 +52,9 @@ Bug Fixes
  * Removed references to safe_mode, which has been removed from PHP a long
    ago.
 
+ * Fix fatal TypeError being triggered during delivery under some
+   circumstances.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

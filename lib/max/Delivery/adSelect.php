@@ -180,7 +180,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 // Expand paths to regular statements
                 if (strpos($what, '/') > 0) {
                     if (strpos($what, '@') > 0) {
-                        list($what, $append) = explode('@', $what);
+                        [$what, $append] = explode('@', $what);
                     } else {
                         $append = '';
                     }
@@ -426,7 +426,7 @@ function _adSelectZone($zoneId, $context = [], $source = '', $richMedia = true)
         // first get zone info
         $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
 
-        if (empty($aZoneInfo)) {
+        if (empty($aZoneInfo) || !is_array($aZoneInfo)) {
             // something went wrong, sorry!
             return false;
         }
@@ -449,7 +449,7 @@ function _adSelectZone($zoneId, $context = [], $source = '', $richMedia = true)
         // Get all ads which are linked to the zone
         $aZoneLinkedAdInfos = MAX_cacheGetZoneLinkedAdInfos($zoneId);
 
-        if (is_array($aZoneInfo)) {
+        if (is_array($aZoneLinkedAdInfos)) {
             if (isset($aZoneInfo['forceappend']) && $aZoneInfo['forceappend'] == 't') {
                 $g_prepend .= $aZoneInfo['prepend'];
                 $g_append = $aZoneInfo['append'] . $g_append;
@@ -501,7 +501,7 @@ function _adSelectZone($zoneId, $context = [], $source = '', $richMedia = true)
 /**
  * This function selects an ad cyclying through override, contract, renmant, etc.
  *
- * @param string  $aAds         The array of ads to pick from
+ * @param array   $aAds         The array of ads to pick from
  * @param array   $context      The context of this ad selection
  *                              - used for companion positioning
  *                              - and excluding banner/campaigns from this ad-call
@@ -1044,15 +1044,15 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context, $compan
         $cContext = count($context);
         for ($i = 0; $i < $cContext; $i++) {
             reset($context[$i]);
-            list($key, $value) = each($context[$i]);
+            [$key, $value] = each($context[$i]);
 
             $valueArray = explode(':', $value);
 
             if (count($valueArray) == 1) {
-                list($value) = $valueArray;
+                [$value] = $valueArray;
                 $type = "";
             } else {
-                list($type, $value) = $valueArray;
+                [$type, $value] = $valueArray;
             }
 
             // Skip if value is empty
