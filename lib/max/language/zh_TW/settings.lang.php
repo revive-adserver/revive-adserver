@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "繼續》";
 $GLOBALS['strBtnRecover'] = "恢復》";
 $GLOBALS['strBtnAgree'] = "我同意》";
 $GLOBALS['strBtnRetry'] = "重試";
-$GLOBALS['strWarningRegisterArgcArv'] = "如許運行維護腳本，您需要開啟PHP配置變量中的register_argc_argv";
 $GLOBALS['strTablesPrefix'] = "名稱前綴";
 $GLOBALS['strTablesType'] = "表格類型";
 

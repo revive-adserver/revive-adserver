@@ -18,7 +18,6 @@ $GLOBALS['strAdvancedSettings'] = "Gelişmiş Ayarlar";
 $GLOBALS['strWarning'] = "Uyarı";
 $GLOBALS['strBtnContinue'] = "Devam »";
 $GLOBALS['strBtnRetry'] = "Yeniden Dene";
-$GLOBALS['strWarningRegisterArgcArv'] = "Bakım komut satırında çalışmak için PHP yapılandırma değişkeni register_argc_argv açık olmalıdır.";
 $GLOBALS['strTablesPrefix'] = "Tablo isim önadları";
 $GLOBALS['strTablesType'] = "Tablo tipleri";
 

@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Folytatás »";
 $GLOBALS['strBtnRecover'] = "Visszaállítás »";
 $GLOBALS['strBtnAgree'] = "Elfogadom »";
 $GLOBALS['strBtnRetry'] = "Újrapróbál";
-$GLOBALS['strWarningRegisterArgcArv'] = "A register_argc_argv PHP konfigurációs változót be kell kapcsolni hogy a parancssorból el lehessen végezni a karbantartást.";
 $GLOBALS['strTablesPrefix'] = "Táblanevek előtagja";
 $GLOBALS['strTablesType'] = "Tábla típusa";
 

@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Fortsetzen »";
 $GLOBALS['strBtnRecover'] = "Wiederherstellen »";
 $GLOBALS['strBtnAgree'] = "Ich stimme zu »";
 $GLOBALS['strBtnRetry'] = "Erneut versuchen";
-$GLOBALS['strWarningRegisterArgcArv'] = "Um das Maintenance-Wartungsscript von der Shell aufzurufen muß die PHP Konfigurationseinstellung 'register_argc_argv' auf 'On' gesetzt werden.";
 $GLOBALS['strTablesPrefix'] = "Präfix für Tabellennamen";
 $GLOBALS['strTablesType'] = "Tabellentype";
 

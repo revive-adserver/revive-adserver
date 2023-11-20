@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Lanjut &raquo;";
 $GLOBALS['strBtnRecover'] = "Bangkitkan kembali &raquo;";
 $GLOBALS['strBtnAgree'] = "Saya setuju &raquo;";
 $GLOBALS['strBtnRetry'] = "Coba kembali";
-$GLOBALS['strWarningRegisterArgcArv'] = "Variabel register_argc_argv dalam konfigurasi PHP harus berada dalam posisi ON untuk jalankan pemeliharaan dari Command Line.";
 $GLOBALS['strTablesPrefix'] = "Awalan nama tabel";
 $GLOBALS['strTablesType'] = "Jenis Tabel";
 
