@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b09d93e1b40d862889f721ec8e7d26e",
+    "content-hash": "d1e25eafa5400d6b00adf16b44890fc3",
     "packages": [
         {
             "name": "bower-asset/tinymce",
             "version": "5.10.5",
             "source": {
                 "type": "git",
-                "url": "git@github.com:tinymce/tinymce-dist.git",
+                "url": "https://github.com/tinymce/tinymce-dist.git",
                 "reference": "c91227ab933d664c3ce2ea4ec68257f2282437ed"
             },
             "dist": {
@@ -918,6 +918,7 @@
                 "issues": "https://github.com/sinergi/php-browser-detector/issues",
                 "source": "https://github.com/sinergi/php-browser-detector/tree/6.1.4"
             },
+            "abandoned": true,
             "time": "2021-09-23T13:51:44+00:00"
         },
         {
@@ -2527,10 +2528,12 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-json": "*"
+    },
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
