@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Continua »";
 $GLOBALS['strBtnRecover'] = "Recupera »";
 $GLOBALS['strBtnAgree'] = "Hi estic d'acord »";
 $GLOBALS['strBtnRetry'] = "Reintenta";
-$GLOBALS['strWarningRegisterArgcArv'] = "Cal activar la variable de configuració PHP register_argc_argv per executar el manteniment des de la línia d’ordres.";
 $GLOBALS['strTablesPrefix'] = "Prefix de les taules";
 $GLOBALS['strTablesType'] = "Tipus de taula";
 
