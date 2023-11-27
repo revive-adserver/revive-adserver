@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Continuă »";
 $GLOBALS['strBtnRecover'] = "Recuperează »";
 $GLOBALS['strBtnAgree'] = "Sunt de acord »";
 $GLOBALS['strBtnRetry'] = "Reîncearcă";
-$GLOBALS['strWarningRegisterArgcArv'] = "Variabila register_argc_argv din configuraţia PHP trebuie setată pe on pentru a executa mentenanţa din linia de comandă.";
 $GLOBALS['strTablesPrefix'] = "Prefix nume de tabele";
 $GLOBALS['strTablesType'] = "Tip tabelă";
 

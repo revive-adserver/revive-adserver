@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "متابعة >>";
 $GLOBALS['strBtnRecover'] = "إسترجاع >>";
 $GLOBALS['strBtnAgree'] = "موافق >>";
 $GLOBALS['strBtnRetry'] = "فصح جديد";
-$GLOBALS['strWarningRegisterArgcArv'] = "حتى تتم عملية الصيانة من خلال سطر الأوامر يجب أن يكون المتغير register_argc_argv مفعلاً في خيارات PHP.";
 $GLOBALS['strTablesPrefix'] = "السابقة لإسم الجداول";
 $GLOBALS['strTablesType'] = "نوع الجدول";
 

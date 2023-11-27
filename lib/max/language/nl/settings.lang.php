@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Ga verder »";
 $GLOBALS['strBtnRecover'] = "Herstellen »";
 $GLOBALS['strBtnAgree'] = "Ik ga akkoord »";
 $GLOBALS['strBtnRetry'] = "Probeer opnieuw";
-$GLOBALS['strWarningRegisterArgcArv'] = "De PHP configuratie variabele register_argc_argv moet worden ingeschakeld om onderhoud vanaf de opdrachtregel uit te kunnen voeren.";
 $GLOBALS['strTablesPrefix'] = "Tabelnaam voorvoegsel";
 $GLOBALS['strTablesType'] = "Tabeltype";
 

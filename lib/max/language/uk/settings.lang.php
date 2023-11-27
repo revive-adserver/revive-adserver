@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Продовжити »";
 $GLOBALS['strBtnRecover'] = "Відновити »";
 $GLOBALS['strBtnAgree'] = "Я згоден »";
 $GLOBALS['strBtnRetry'] = "Повторити";
-$GLOBALS['strWarningRegisterArgcArv'] = "Конфігураційну PHP-змінну register_argc_argv потрібно ввімкнути, щоб запускати обслуговування з командного рядка.";
 $GLOBALS['strTablesPrefix'] = "Префікс імен таблиць";
 $GLOBALS['strTablesType'] = "Тип таблиці";
 
