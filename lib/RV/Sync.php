@@ -194,6 +194,12 @@ class RV_Sync
             } else {
                 $dbms = 'UnknownSQL';
             }
+
+            $dbVersion = $this->oDbh->queryOne("SELECT VERSION()");
+            if (PEAR::isError($dbVersion)) {
+                $dbVersion = '';
+            }
+
             $aTechStack = [
                 'os_type' => php_uname('s'),
                 'os_version' => php_uname('r'),
@@ -202,7 +208,7 @@ class RV_Sync
                 'webserver_version' => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
                 'db_type' => $dbms,
-                'db_version' => $this->oDbh->queryOne("SELECT VERSION()"),
+                'db_version' => $dbVersion,
 
                 'php_version' => phpversion(),
                 'php_sapi' => ucfirst(php_sapi_name()),
