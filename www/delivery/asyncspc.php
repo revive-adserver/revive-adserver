@@ -3459,7 +3459,7 @@ $imgStatus = empty($clickTag) && !empty($status) ? $status : '';
 $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
 $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
 $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
-$imageTag = "$clickTag<img src='" . htmlspecialchars($imageUrl, ENT_QUOTES) . "' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus />$clickTagEnd";
+$imageTag = "$clickTag<img src='" . htmlspecialchars($imageUrl, ENT_QUOTES) . "' width='$width' height='$height' alt='$alt' title='$alt' loading='lazy' border='0'$imgStatus />$clickTagEnd";
 } else {
 $imageTag = '';
 }
