@@ -40,7 +40,8 @@
         "symfony/polyfill-ctype": "^1.23",
         "bower-asset/zxcvbn": "^4.4",
         "bower-asset/tinymce": "^5.9",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-zip": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.98",
