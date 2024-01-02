@@ -1,0 +1,86 @@
+name: Post-Commit
+
+on: push
+
+jobs:
+  post-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Gather commit messages
+        id: gather
+        run: |
+          {
+            echo 'MSG<<EOF'
+            echo
+            echo
+            echo '${{ toJson(github.event.commits) }}' | jq -r '.[].message' | sed s'/^/ * /g'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Regenerate delivery
+        uses: addnab/docker-run-action@v3
+        with:
+          image: mbeccati/revive-adserver-builder
+          options: -v ${{ github.workspace }}:/revive
+          run: |
+            cd /revive
+            ant generate-delivery
+            ant minify-delivery
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: www/delivery
+          message: 'Regenerated delivery scripts ${{ steps.gather.outputs.MSG }}'
+
+      - name: Regenerate XML Cache
+        uses: addnab/docker-run-action@v3
+        with:
+          image: mbeccati/revive-adserver-builder
+          options: -v ${{ github.workspace }}:/revive
+          run: |
+            cd /revive
+            ant generate-xml-cache
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: etc/xmlcache
+          message: 'Regenerated XML cache ${{ steps.gather.outputs.MSG }}'
+
+      - name: Update plugin translations
+        uses: addnab/docker-run-action@v3
+        with:
+          image: mbeccati/revive-adserver-builder
+          options: -v ${{ github.workspace }}:/revive
+          run: |
+            cd /revive
+            composer install --prefer-dist -o
+            php scripts/translations/update-plugins.php
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: plugins_repo
+          message: 'Updated plugin translations ${{ steps.gather.outputs.MSG }}'
+
+      - name: Update plugin packages
+        uses: addnab/docker-run-action@v3
+        with:
+          image: mbeccati/revive-adserver-builder
+          options: -v ${{ github.workspace }}:/revive
+          run: |
+            cd /revive
+            php scripts/upgrade/rebuildBundledPlugins.php
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "etc/plugins"
+          message: 'Regenerated plugins ${{ steps.gather.outputs.MSG }}'
+
+

@@ -1,4 +1,4 @@
-name: Upload translation sources to Crowdin
+name: "Crowdin: Upload translation sources"
 
 on:
   push:
