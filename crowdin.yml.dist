@@ -1,8 +1,7 @@
-"project_id": "78987"
+"project_id_env": "CROWDIN_PROJECT_ID"
+"api_token_env": "CROWDIN_PERSONAL_TOKEN"
 "base_path": "."
 "base_url": "https://api.crowdin.com"
-# You will need to add your own api token, e.g.
-# "api_token": "YOUR_TOKEN"
 
 files: [
   {
