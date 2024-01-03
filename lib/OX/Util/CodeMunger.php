@@ -259,14 +259,6 @@ class OX_Util_CodeMunger
                     continue;
                 }
 
-                // is last was a whitespace and we don't like whitespace ...
-                if ($was_nl && !$this->echoWhite) {
-                    if ($id !== T_WHITESPACE && $id !== T_COMMENT || $id !== T_DOC_COMMENT) {
-                        // clear the whitespace-flag
-                        $was_nl = false;
-                    }
-                }
-
                 if ($this->dumpToken) {
                     $ret .= "[$id:" . token_name($id) . ":" . $text . "]";
                 }
