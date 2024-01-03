@@ -10,20 +10,6 @@
 +---------------------------------------------------------------------------+
 */
 
-/*
- * T_ML_COMMENT does not exist in PHP 5.
- * The following three lines define it in order to
- * preserve backwards compatibility.
- *
- * The next two lines define the PHP 5 only T_DOC_COMMENT,
- * which we will mask as T_ML_COMMENT for PHP 4.
- */
-if (!defined('T_ML_COMMENT')) {
-    define('T_ML_COMMENT', T_COMMENT);
-} else {
-    define('T_DOC_COMMENT', T_ML_COMMENT);
-}
-
 define('STATE_STD', 1);     # normal, copy input to output
 define('STATE_REQUIRE', 2);     # require found, wait to complete filename
 define('STATE_REQUIRE_ONCE', 3);     # require_once found, wait ...
@@ -102,7 +88,7 @@ class OX_Util_CodeMunger
      *  @see https://developer.openx.org/wiki/OptimizationPractices#GenerateDeliveryAntTask
      *
      * @param string $filename The value passed to the include/require call
-     * @return The flattened file
+     * @return string|false The flattened file
      */
     public function flattenFile($filename)
     {
@@ -204,8 +190,6 @@ class OX_Util_CodeMunger
         // Track if we are in a STRIP_DELIVERY codeblock
         $strip_delivery = false;
 
-        // Track if we just output a newline
-        $was_nl = false;
         // The compiled script goes in here, return value
         $ret = '';
         // If we meet a require/require_once, we store the filename here for recursion
@@ -220,10 +204,6 @@ class OX_Util_CodeMunger
         // Iterate over the file tokens (note: grey magic ;)
         foreach ($tokens as $token) {
             if (is_string($token)) {
-                // next token is a none special, simple character
-                // we can clear newline-flag ...
-                $was_nl = false;
-
                 // if we currently strip off none delivery code, ignore
                 // this token, start with next
                 if ($strip_delivery) {
@@ -271,7 +251,7 @@ class OX_Util_CodeMunger
                 }
             } else {
                 // token array
-                list($id, $text) = $token;
+                [$id, $text] = $token;
 
                 // if we currently strip off none delivery code, we could leave
                 // this mode only in a comment ...
@@ -279,14 +259,10 @@ class OX_Util_CodeMunger
                     continue;
                 }
 
-                // is last was a newline and we don't like whitespace ...
+                // is last was a whitespace and we don't like whitespace ...
                 if ($was_nl && !$this->echoWhite) {
-                    // ... but this is one, cont. on next token
-                    if ($id === T_WHITESPACE) {
-                        continue;
-                    } elseif (!$this->echoComment && $this->isComment($id))
-                        ; // a comment should not trigger out newline-flag
-                    else {
+                    if ($id !== T_WHITESPACE && $id !== T_COMMENT || $id !== T_DOC_COMMENT) {
+                        // clear the whitespace-flag
                         $was_nl = false;
                     }
                 }
@@ -297,8 +273,7 @@ class OX_Util_CodeMunger
 
                 switch ($id) {
                     case T_COMMENT:
-                    case T_ML_COMMENT: // we've defined this
-                    case T_DOC_COMMENT: // and this
+                    case T_DOC_COMMENT:
                         // comments are only added on request
                         // check if we reach or leave a none-delivery-code secition
                         // and set flag ...
@@ -394,18 +369,31 @@ class OX_Util_CodeMunger
                         if ($state === STATE_STD) {
                             if ($this->echoWhite) {
                                 $ret .= $text;
-                            } elseif (strstr($text, "\n") !== false) {
-                                // a newline found, set our flag to avoid
-                                // multiple empty lines
-                                $was_nl = true;
-                                $ret .= "\n";
+                            } elseif (false !== strpos($text, "\n")) {
+                                switch (substr($ret, -1)) {
+                                    case "\n":
+                                        break;
+                                    case " ":
+                                        // replace whitespace with newline
+                                        $ret[strlen($ret) - 1] = "\n";
+                                        break;
+                                    default:
+                                        $ret .= "\n";
+                                }
                             } else {
-                                // reduce incoming spaces to a single one
-                                $ret .= ' ';
+                                switch (substr($ret, -1)) {
+                                    case "\n":
+                                    case " ":
+                                        // avoid duplicate whitespace
+                                        break;
+                                    default:
+                                        $ret .= " ";
+                                }
                             }
                         } else {
                             $orig .= $text;
                         }
+
                         break;
 
                     default:
@@ -431,6 +419,6 @@ class OX_Util_CodeMunger
      */
     private function isComment($id)
     {
-        return  ($id === T_COMMENT || $id === T_ML_COMMENT || $id === T_DOC_COMMENT);
+        return  ($id === T_COMMENT || $id === T_DOC_COMMENT);
     }
 }
