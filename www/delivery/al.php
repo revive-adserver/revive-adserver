@@ -97,12 +97,13 @@ return $realConfig;
 }
 }
 
-
 function OX_getMinimumRequiredMemory($limit = null)
 {
 if ($limit == 'maintenance') {
-return 134217728;  }
-return 134217728; }
+return 134217728;
+}
+return 134217728;
+}
 function OX_getMemoryLimitSizeInBytes()
 {
 $phpMemoryLimit = ini_get('memory_limit');
@@ -146,7 +147,6 @@ return true;
 }
 return !($setMemory > $phpMemoryLimitInBytes && @ini_set('memory_limit', $setMemory) === false);
 }
-
 
 if (!function_exists('each')) {
 function each(&$array)
@@ -267,7 +267,6 @@ function RV_getContainer()
 {
 return $GLOBALS['_MAX']['DI'];
 }
-
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 if (!defined('E_DEPRECATED')) {
 define('E_DEPRECATED', 0);
@@ -333,17 +332,20 @@ $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
 }
 $url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
 MAX_header("Location: {$url}");
- exit;
+exit;
 }
 function _getTimeThirtyDaysFromNow()
 {
-return MAX_commonGetTimeNow() + 2592000; }
+return MAX_commonGetTimeNow() + 2592000;
+}
 function _getTimeYearFromNow()
 {
-return MAX_commonGetTimeNow() + 31536000; }
+return MAX_commonGetTimeNow() + 31536000;
+}
 function _getTimeYearAgo()
 {
-return MAX_commonGetTimeNow() - 31536000; }
+return MAX_commonGetTimeNow() - 31536000;
+}
 function MAX_cookieUnpackCapping()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -393,10 +395,9 @@ $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 function MAX_cookieGetUniqueViewerId($create = true)
 {
 static $uniqueViewerId = null;
- if (null !== $uniqueViewerId) {
+if (null !== $uniqueViewerId) {
 return $uniqueViewerId;
 }
-
 $conf = $GLOBALS['_MAX']['CONF'];
 $privacyViewerId = empty($conf['privacy']['disableViewerId']) ? null : '01000111010001000101000001010010';
 if (isset($_COOKIE[$conf['var']['viewerId']])) {
@@ -461,7 +462,7 @@ MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(),
 }
 function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
 {
- if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
+if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
 if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = [];
 }
@@ -564,7 +565,6 @@ $p3p_header .= " CP=\"" . $conf['p3p']['compactPolicy'] . "\"";
 return $p3p_header;
 }
 
-
 $file = '/lib/max/Delivery/remotehost.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_remotehostSetInfo($run = false)
@@ -644,7 +644,6 @@ $_SERVER['REMOTE_HOST'] = $_SERVER['REMOTE_ADDR'];
 function MAX_remotehostSetGeoInfo()
 {
 if (!function_exists('parseDeliveryIniFile')) {
-
 }
 $aConf = $GLOBALS['_MAX']['CONF'];
 $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
@@ -695,7 +694,6 @@ return false;
 }
 return ($ip & $mask) == ($net & $mask) ? true : false;
 }
-
 
 $file = '/lib/max/Delivery/log.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
@@ -814,12 +812,14 @@ return [
 ];
 }
 switch ($aZoneInfo['account_status']) {
-case 4:  return [
+case 4:
+return [
 'default' => true,
 'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'] ?? '',
 'skip_log_blank' => true,
 ];
-case 1:  return [
+case 1:
+return [
 'default' => true,
 'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'] ?? '',
 'skip_log_blank' => true,
@@ -1117,11 +1117,35 @@ $aRows['zone_companion'] = false;
 $aRows['count_active'] = 0;
 $query =
 "SELECT "
-. "d.bannerid AS ad_id, "  . "d.campaignid AS placement_id, "  . "d.status AS status, "  . "d.width AS width, "
+. "d.bannerid AS ad_id, "
+. "d.campaignid AS placement_id, "
+. "d.status AS status, "
+. "d.width AS width, "
 . "d.ext_bannertype AS ext_bannertype, "
 . "d.height AS height, "
-. "d.storagetype AS type, "  . "d.contenttype AS contenttype, "  . "d.weight AS weight, "  . "d.adserver AS adserver, "  . "d.block AS block_ad, "  . "d.capping AS cap_ad, "  . "d.session_capping AS session_cap_ad, "  . "d.compiledlimitation AS compiledlimitation, "  . "d.acl_plugins AS acl_plugins, "  . "d.alt_filename AS alt_filename, "  . "az.priority AS priority, "  . "az.priority_factor AS priority_factor, "  . "az.to_be_delivered AS to_be_delivered, "  . "c.campaignid AS campaign_id, "  . "c.priority AS campaign_priority, "  . "c.weight AS campaign_weight, "  . "c.companion AS campaign_companion, "  . "c.block AS block_campaign, "  . "c.capping AS cap_campaign, "  . "c.session_capping AS session_cap_campaign, " . "c.show_capped_no_cookie AS show_capped_no_cookie, "
-. "c.clientid AS client_id, "  . "c.expire_time AS expire_time, "
+. "d.storagetype AS type, "
+. "d.contenttype AS contenttype, "
+. "d.weight AS weight, "
+. "d.adserver AS adserver, "
+. "d.block AS block_ad, "
+. "d.capping AS cap_ad, "
+. "d.session_capping AS session_cap_ad, "
+. "d.compiledlimitation AS compiledlimitation, "
+. "d.acl_plugins AS acl_plugins, "
+. "d.alt_filename AS alt_filename, "
+. "az.priority AS priority, "
+. "az.priority_factor AS priority_factor, "
+. "az.to_be_delivered AS to_be_delivered, "
+. "c.campaignid AS campaign_id, "
+. "c.priority AS campaign_priority, "
+. "c.weight AS campaign_weight, "
+. "c.companion AS campaign_companion, "
+. "c.block AS block_campaign, "
+. "c.capping AS cap_campaign, "
+. "c.session_capping AS session_cap_campaign, "
+. "c.show_capped_no_cookie AS show_capped_no_cookie, "
+. "c.clientid AS client_id, "
+. "c.expire_time AS expire_time, "
 . "c.revenue_type AS revenue_type, "
 . "c.ecpm_enabled AS ecpm_enabled, "
 . "c.ecpm AS ecpm, "
@@ -1158,7 +1182,8 @@ $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
 $aRows['count_active']++;
 }
 if ($aAd['campaign_companion'] == 1) {
-$aRows['zone_companion'][] = $aAd['placement_id'];  }
+$aRows['zone_companion'][] = $aAd['placement_id'];
+}
 }
 return $aRows;
 }
@@ -2015,7 +2040,6 @@ $totals[$campaign_priority] = $total_priority ? $priority / $total_priority : 0;
 }
 return $totals;
 }
-
 function MAX_Dal_Delivery_Include()
 {
 static $included;
@@ -2026,7 +2050,6 @@ $included = true;
 $conf = $GLOBALS['_MAX']['CONF'];
 require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 }
-
 
 function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $trackerJsCode = null)
 {
@@ -2181,7 +2204,6 @@ function _getTrackerTypes()
 {
 return [1 => 'sale', 2 => 'lead', 3 => 'signup'];
 }
-
 function MAX_Delivery_log_logAdRequest($adId, $zoneId, $aAd = [])
 {
 if (empty($GLOBALS['_MAX']['CONF']['logging']['adRequests'])) {
@@ -2411,7 +2433,6 @@ $aCaps['capping'][$index],
 $aCaps['session_capping'][$index]
 );
 }
-
 function MAX_commonGetDeliveryUrl($file = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -2480,9 +2501,11 @@ $aMap = [
 'WINDOWS-1255' => 'CP1255',
 ],
 'mbstring' => [
-'WINDOWS-1255' => 'ISO-8859-8',  ],
+'WINDOWS-1255' => 'ISO-8859-8',
+],
 'xml' => [
-'ISO-8859-15' => 'ISO-8859-1',  ],
+'ISO-8859-15' => 'ISO-8859-1',
+],
 ];
 $converted = false;
 foreach ($aExtensions as $extension) {
@@ -2728,7 +2751,7 @@ return substr(md5(uniqid(time(), true)), 0, $length);
 }
 function MAX_header($value)
 {
- header($value);
+header($value);
 }
 function MAX_redirect($url)
 {
@@ -2966,7 +2989,6 @@ error_log('[' . date('r') . "] {$conf['log']['ident']}-delivery-{$GLOBALS['_MAX'
 OX_Delivery_Common_hook('logMessage', [$message, $priority]);
 return true;
 }
-
 
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
@@ -3208,7 +3230,6 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
-
 OX_Delivery_logMessage('starting delivery script: ' . basename($_SERVER['REQUEST_URI']), 7);
 if (!empty($_REQUEST[$conf['var']['trace']])) {
 OX_Delivery_logMessage('trace enabled: ' . $_REQUEST[$conf['var']['trace']], 7);
@@ -3220,7 +3241,6 @@ MAX_cookieUnpackCapping();
 if (empty($GLOBALS['_OA']['invocationType']) || $GLOBALS['_OA']['invocationType'] != 'xmlrpc') {
 OX_Delivery_Common_hook('postInit');
 }
-
 
 
 function MAX_limitationsCheckAcl($row, $source = '')
@@ -3315,7 +3335,6 @@ function _areCookiesDisabled($filterActive = true)
 return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
 
-
 function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', string $target = '', string $ct0 = '', bool $withText = false, string $charset = '', bool $logClick = true, bool $logView = true, bool $richMedia = true, string $loc = '', string $referer = null, array &$context = [])
 {
 $aBanner['bannerContent'] = "";
@@ -3346,7 +3365,13 @@ $aMagicMacros = [
 '{advertiserid}' => $aBanner['client_id'],
 '{referer}' => $referer ?? '',
 '{rel}' => _adRenderBuildRelAttribute($aBanner),
-'{logurl}' => '',  '{logurl_enc}' => '',  '{logurl_html}' => '',  '{clickurl}' => '',  '{clickurl_enc}' => '',  '{clickurl_html}' => '',  ];
+'{logurl}' => '',
+'{logurl_enc}' => '',
+'{logurl_html}' => '',
+'{clickurl}' => '',
+'{clickurl_enc}' => '',
+'{clickurl_html}' => '',
+];
 preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $aBanner['url'] . "\n" . $code, $aMatches);
 for ($i = 0; $i < count($aMatches[1]); $i++) {
 if (isset($aMagicMacros[$aMatches[0][$i]])) {
@@ -3447,7 +3472,8 @@ return _adRenderBuildFileUrl($aBanner, $useAlt);
 }
 $prepend = (!empty($aBanner['prepend']) && $useAppend) ? $aBanner['prepend'] : '';
 $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
-if (!empty($aBanner['url'])) {  $status = _adRenderBuildStatusCode($aBanner);
+if (!empty($aBanner['url'])) {
+$status = _adRenderBuildStatusCode($aBanner);
 $clickTag = "<a href='{clickurl_html}' target='{target}' rel='{rel}'{$status}>";
 $clickTagEnd = '</a>';
 } else {
@@ -3758,7 +3784,8 @@ switch ($aBanner['type']) {
 case 'html':
 $functionName = '_adRenderHtml';
 break;
-case 'url':  $functionName = '_adRenderImage';
+case 'url':
+$functionName = '_adRenderImage';
 break;
 case 'txt':
 $functionName = '_adRenderText';
@@ -3772,8 +3799,6 @@ break;
 }
 return $functionName;
 }
-
-
 define("PRI_ECPM_FROM", 6);
 define("PRI_ECPM_TO", 9);
 $GLOBALS['OX_adSelect_SkipOtherPriorityLevels'] = -1;
@@ -3925,7 +3950,8 @@ $outputbuffer = $g_prepend . $row['default_banner_html'] . $g_append;
 $output = ['html' => $outputbuffer, 'bannerid' => ''];
 } else {
 if (empty($target)) {
-$target = '_blank';  }
+$target = '_blank';
+}
 $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
 $target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
@@ -3933,7 +3959,8 @@ $output = ['html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url'
 }
 } elseif (!empty($conf['defaultBanner']['imageUrl'])) {
 if (empty($target)) {
-$target = '_blank';  }
+$target = '_blank';
+}
 $outputbuffer = "{$g_prepend}<img src='{$conf['defaultBanner']['imageUrl']}' border='0' alt=''>{$g_append}";
 $output = ['html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $conf['defaultBanner']['imageUrl']];
 } else {
@@ -4068,8 +4095,11 @@ return false;
 function _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMedia, $companion = false)
 {
 $aCampaignTypes = [
-'xAds' => false,  'ads' => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-'lAds' => false,  'eAds' => [-2],  ];
+'xAds' => false,
+'ads' => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+'lAds' => false,
+'eAds' => [-2],
+];
 $GLOBALS['_MAX']['considered_ads'][] = &$aAds;
 foreach ($aCampaignTypes as $type => $aPriorities) {
 if ($aPriorities) {
@@ -4261,7 +4291,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $random_num =
 mt_rand(0, $GLOBALS['_MAX']['MAX_RAND'])
 / $GLOBALS['_MAX']['MAX_RAND'];
-  if ($random_num > $total_priority) {
+if ($random_num > $total_priority) {
 return;
 }
 $low = 0;
@@ -4271,7 +4301,7 @@ if (!empty($aLinkedAd['priority'])) {
 $low = $high;
 $high += $aLinkedAd['priority'];
 if ($high > $random_num && $low <= $random_num) {
- $ad = MAX_cacheGetAd($aLinkedAd['ad_id']);
+$ad = MAX_cacheGetAd($aLinkedAd['ad_id']);
 $ad['tracker_status'] = (!empty($aLinkedAd['tracker_status'])) ? $aLinkedAd['tracker_status'] : null;
 if ($ad['width'] == $ad['height'] && $ad['width'] == -1) {
 $ad['width'] = $aLinkedAd['width'];
@@ -4328,7 +4358,8 @@ if (!empty($aContext['campaign']['include']) && !isset($aContext['campaign']['in
 OX_Delivery_logMessage('List of included campaigns does not contain bannerid ' . $aAd['ad_id'], 7);
 return false;
 }
-if (  $richMedia == false &&
+if (
+$richMedia == false &&
 $aAd['alt_filename'] == '' &&
 !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
 !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
@@ -4456,7 +4487,6 @@ OX_Delivery_logMessage('passed _adSelectCheckCriteria: bannerid ' . $aAd['ad_id'
 return;
 }
 
-
 function MAX_flashGetFlashObjectExternal()
 {
 return '';
@@ -4465,7 +4495,6 @@ function MAX_flashGetFlashObjectInline()
 {
 return '';
 }
-
 
 function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
@@ -4501,7 +4530,6 @@ $string = str_replace("\x08", "\\b", $string);
 $string = str_replace("\x0C", "\\f", $string);
 return '"' . $string . '"';
 }
-
 MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(['layerstyle']);
 if (!isset($layerstyle) || empty($layerstyle)) {
