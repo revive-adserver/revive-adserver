@@ -218,7 +218,7 @@ function MAX_layerGetHtml($output, $uniqid)
     return '
 <div id="MAX_' . $uniqid . '" style="position:absolute; width:' . $layer_width . 'px; height:' . $layer_height . 'px; z-index:99; left: 0px; top: 0px; visibility: hidden">
 	<table cellspacing="0" cellpadding="0"' . ($noborder ? '' : ' style="border-style: solid; border-width: 1px; border-color: #' . $bordercolor . '"') . '>
-' . ($closebutton  ?
+' . ($closebutton ?
 '		<tr>
 			<td' . ($nobg ? '' : ' bgcolor="#' . $backcolor . '"') . ' align="right" style="padding: 2px"><a href="javascript:;" onClick="MAX_simplepop_' . $uniqid . '(\'close\'); return false;" style="color:#0000ff"><img src="' . $imagepath . 'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
 		</tr>

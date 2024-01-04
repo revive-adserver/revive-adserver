@@ -67,9 +67,7 @@ function MAX_layerPutJs($output, $uniqid)
     if ($limited && (0 === $lmargin || 0 === $rmargin)) {
         $limited = false;
         $lmargin = $rmargin = null;
-    }
-
-?>
+    } ?>
 
 function MAX_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
@@ -168,8 +166,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 	var mr = ww;
 	var ml = 0;
 <?php
-    }
-?>
+    } ?>
     if (mr > ml) {
 		var shift = <?php echo 3 * ($speed - 1) + 1; ?>;
 		var iw = mr - ml + w; var is = ml - w;

@@ -12,8 +12,8 @@
 
 // Protect this script to be used only from command-line
 if (php_sapi_name() != 'cli') {
-echo "Sorry, this script must be run from the command-line";
-exit;
+    echo "Sorry, this script must be run from the command-line";
+    exit;
 }
 
 error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
@@ -23,16 +23,18 @@ echo "=> STARTING TO UPDATE THE BUNDLED PLUGINS\n";
 define('MAX_PATH', realpath(__DIR__ . '/../..'));
 
 $aDefaultPlugins = [];
-require MAX_PATH.'/etc/default_plugins.php';
+require MAX_PATH . '/etc/default_plugins.php';
 
-$aDefaultPlugins = array_map(function ($v) { return $v['name']; }, $aDefaultPlugins);
+$aDefaultPlugins = array_map(function ($v) {
+    return $v['name'];
+}, $aDefaultPlugins);
 
-chdir(MAX_PATH.'/plugins_repo');
+chdir(MAX_PATH . '/plugins_repo');
 
 foreach ($aDefaultPlugins as $plugin) {
     echo "  => " . basename($plugin) . ": ";
 
-    if (false === exec('./zipkg.sh '.escapeshellarg($plugin).' >/dev/null', $output, $rc)) {
+    if (false === exec('./zipkg.sh ' . escapeshellarg($plugin) . ' >/dev/null', $output, $rc)) {
         exit($rc);
     }
 
@@ -59,8 +61,7 @@ function zipDiff($file1, $file2)
     $z0->open($file1);
     $z1->open($file2);
 
-    $f = function (ZipArchive $z0, ZipArchive $z1)
-    {
+    $f = function (ZipArchive $z0, ZipArchive $z1) {
         if ($z0->numFiles != $z1->numFiles) {
             return true;
         }
