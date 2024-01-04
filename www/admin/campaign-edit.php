@@ -266,10 +266,10 @@ if ($campaignForm->isSubmitted() && $campaignForm->validate()) {
     //process submitted values
     $errors = processCampaignForm($campaignForm);
     if (!empty($errors)) { //need to redisplay page with general errors
-        displayPage($campaign, $campaignForm, $statusForm, $errors);
+        displayCampaignEditPage($campaign, $campaignForm, $statusForm, $errors);
     }
 } else { //either validation failed or no form was not submitted, display the page
-    displayPage($campaign, $campaignForm, $statusForm);
+    displayCampaignEditPage($campaign, $campaignForm, $statusForm);
 }
 
 /*-------------------------------------------------------*/
@@ -918,7 +918,7 @@ function processStatusForm($form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = null)
+function displayCampaignEditPage($campaign, $campaignForm, $statusForm, $campaignErrors = null)
 {
     global $conf;
 

@@ -29,6 +29,8 @@ class OX_PluginExport
     public $aPlugin = [];
     public $aGroups = [];
     public $aErrors = [];
+    /** @var string */
+    private $basePath;
 
     public function __construct()
     {

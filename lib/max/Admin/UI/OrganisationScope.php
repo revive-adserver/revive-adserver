@@ -20,13 +20,13 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
  */
 class Admin_UI_OrganisationScope
 {
-    /* @var int */
+    /** @var int */
     public $_publisherId;
-    /* @var int */
+    /** @var int */
     public $_advertiserId;
-    /* @var int */
+    /** @var int */
     public $_agencyId;
-    /* @var boolean */
+    /** @var boolean */
     public $_anonymous;
 
     /**

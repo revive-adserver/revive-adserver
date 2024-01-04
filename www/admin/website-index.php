@@ -37,7 +37,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader(null, buildHeaderModel());
+phpAds_PageHeader(null, buildWebsiteIndexHeaderModel());
 
 
 /*-------------------------------------------------------*/
@@ -110,7 +110,7 @@ $oTpl->display();
 phpAds_PageFooter();
 
 
-function buildHeaderModel()
+function buildWebsiteIndexHeaderModel()
 {
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     return $builder->buildEntityHeader([], 'websites', 'list');

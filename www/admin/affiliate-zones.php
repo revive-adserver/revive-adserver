@@ -86,7 +86,7 @@ if (!isset($orderdirection)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$oHeaderModel = buildHeaderModel($affiliateid);
+$oHeaderModel = buildAffiliateZonesHeaderModel($affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader(null, $oHeaderModel);
 } else {
@@ -163,7 +163,7 @@ $oTpl->display();
 phpAds_PageFooter();
 
 
-function buildHeaderModel($websiteId)
+function buildAffiliateZonesHeaderModel($websiteId)
 {
     if ($websiteId) {
         $doAffiliates = OA_Dal::factoryDO('affiliates');

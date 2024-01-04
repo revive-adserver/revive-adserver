@@ -32,7 +32,7 @@ class XmlRpcUtils
      * @param object &$oInfoObject
      * @return XML_RPC_Value
      */
-    function getEntityWithNotNullFields(&$oInfoObject)
+    public static function getEntityWithNotNullFields(&$oInfoObject)
     {
         $aInfoData = $oInfoObject->toArray();
         $aReturnData = array();
@@ -54,7 +54,7 @@ class XmlRpcUtils
      * @param mixed $variable
      * @return XML_RPC_Value or false
      */
-    function _setRPCTypeForField($type, $variable)
+    public static function _setRPCTypeForField($type, $variable)
     {
         switch ($type) {
             case 'string':
@@ -86,7 +86,3 @@ class XmlRpcUtils
     }
 
 }
-
-
-
-?>

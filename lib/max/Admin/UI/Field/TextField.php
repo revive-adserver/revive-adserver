@@ -17,7 +17,7 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
  */
 class Admin_UI_TextField extends Admin_UI_Field
 {
-    /* @var string */
+    /** @var string */
     public $_size;
 
     public function display()

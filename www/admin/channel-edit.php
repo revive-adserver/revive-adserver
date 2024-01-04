@@ -68,9 +68,9 @@ $channelForm = buildChannelForm($channel);
 
 if ($channelForm->validate()) {
     //process submitted values
-    processForm($channelForm);
+    processChannelEditForm($channelForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($channel, $channelForm);
+    displayChannelEditPage($channel, $channelForm);
 }
 
 /*-------------------------------------------------------*/
@@ -108,7 +108,7 @@ function buildChannelForm($channel)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($form)
+function processChannelEditForm($form)
 {
     $aFields = $form->exportValues();
 
@@ -175,7 +175,7 @@ function processForm($form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($channel, $form)
+function displayChannelEditPage($channel, $form)
 {
     $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();

@@ -19,13 +19,13 @@ class DateRange
      *  @var Date */
     public $_now;
 
-    /* @var Date */
+    /** @var Date */
     public $_start;
 
-    /* @var Date */
+    /** @var Date */
     public $_end;
 
-    /* @var int */
+    /** @var int */
     public $_first_day_of_week;
 
     /**

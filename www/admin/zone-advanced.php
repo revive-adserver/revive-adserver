@@ -88,7 +88,7 @@ if ($zoneForm->validate()) {
     //process submitted values
     processForm($aZone, $zoneForm, $oComponent);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($aZone, $zoneForm);
+    displayZoneAdvancedPage($aZone, $zoneForm);
 }
 
 /*-------------------------------------------------------*/
@@ -315,7 +315,7 @@ function processForm($aZone, $form, $oComponent = null)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($aZone, $form)
+function displayZoneAdvancedPage($aZone, $form)
 {
     $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();

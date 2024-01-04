@@ -40,7 +40,7 @@ class Plugins_ReportsScope extends Plugins_Reports
     public function _getDisplayableParametersFromScope()
     {
         $aParams = [];
-        $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
+        $key = MAX_Plugin_Translation::translate('Advertiser', $this->extension);
         $advertiserId = $this->_oScope->getAdvertiserId();
         if (!empty($advertiserId)) {
             // Get the name of the advertiser
@@ -53,12 +53,12 @@ class Plugins_ReportsScope extends Plugins_Reports
             }
         } else {
             if ($this->_oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->extension);
             } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->extension);
             }
         }
-        $key = MAX_Plugin_Translation::translate('Website', $this->module);
+        $key = MAX_Plugin_Translation::translate('Website', $this->extension);
         $publisherId = $this->_oScope->getPublisherId();
         if (!empty($publisherId)) {
             $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -70,9 +70,9 @@ class Plugins_ReportsScope extends Plugins_Reports
             }
         } else {
             if ($this->_oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->extension);
             } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->extension);
             }
         }
         return $aParams;

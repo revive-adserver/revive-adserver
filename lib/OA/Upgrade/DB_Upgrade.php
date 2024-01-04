@@ -142,7 +142,7 @@ class OA_DB_Upgrade
      * @param boolean $switchTimingOnly : if we want to only reset this object, not re-parse the files
      * @return boolean
      */
-    public function init($timing = 'constructive', $schema, $versionTo, $switchTimingOnly = false)
+    public function init($timing, $schema, $versionTo, $switchTimingOnly = false)
     {
         if (!$this->oSchema) {
             $this->initMDB2Schema();
@@ -155,12 +155,11 @@ class OA_DB_Upgrade
         $this->versionTo = $versionTo;
         $this->schema = $schema;
         $this->_setTiming($timing);
-        $this->oAuditor->setKeyParams(
-            ['schema_name' => $this->schema,
-                                            'version' => $this->versionTo,
-                                            'timing' => $this->timingInt
-                                            ]
-        );
+        $this->oAuditor->setKeyParams([
+            'schema_name' => $this->schema,
+            'version' => $this->versionTo,
+            'timing' => $this->timingInt,
+        ]);
         $this->_logOnly('to version: ' . $this->versionTo);
         $this->_logOnly('timing: ' . $this->timingStr);
 

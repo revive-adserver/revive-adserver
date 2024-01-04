@@ -30,7 +30,7 @@ require_once OX_PATH . '/lib/pear/HTML/Template/Flexy.php';
  */
 class MAX_Admin_Inventory_TrackerAppend
 {
-    /* @var MAX_Dal_TrackerTags */
+    /** @var MAX_Dal_Inventory_Trackers */
     public $_dal;
 
     public $_cycle = 0;
@@ -40,6 +40,9 @@ class MAX_Admin_Inventory_TrackerAppend
     public $codes;
     public $showReminder;
     public $assetPath;
+
+    /** @var string */
+    private $csrf_token;
 
     /**
      * PHP5-style constructor

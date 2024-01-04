@@ -79,10 +79,10 @@ if ($websiteForm->validate()) {
     //process submitted values
     $oPublisherDll = processForm($affiliateid, $websiteForm);
     if ($oPublisherDll->_errorMessage || $oPublisherDll->_noticeMessage) {
-        displayPage($affiliateid, $websiteForm, $oPublisherDll);
+        displayAffiliateEditPage($affiliateid, $websiteForm, $oPublisherDll);
     }
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($affiliateid, $websiteForm);
+    displayAffiliateEditPage($affiliateid, $websiteForm);
 }
 
 
@@ -168,7 +168,7 @@ function buildWebsiteForm($affiliate)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($affiliateid, $form, $oPublisherDll = null)
+function displayAffiliateEditPage($affiliateid, $form, $oPublisherDll = null)
 {
     //header and breadcrumbs
     $oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);

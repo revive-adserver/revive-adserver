@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 
 class Admin_UI_DropdownField extends Admin_UI_Field
 {
-    /* @var array */
+    /** @var array */
     public $_fieldSelectionNames;
 
     /**
@@ -54,7 +54,6 @@ class Admin_UI_DropdownField extends Admin_UI_Field
     public function display()
     {
         $name = $this->_name;
-        $value = is_null($this->_value) && !is_null($this->_defaultValue) ? $this->_defaultValue : $this->_value;
         $fieldSelectionValue = $this->_value;
         $aFieldSelectionNames = $this->_fieldSelectionNames;
 

@@ -67,7 +67,7 @@ if (empty($clientid)) { //if it's empty
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$oHeaderModel = buildHeaderModel($clientid, $aAdvertisers);
+$oHeaderModel = buildAdvertiserCampaignsHeaderModel($clientid, $aAdvertisers);
 phpAds_PageHeader(null, $oHeaderModel);
 
 
@@ -238,7 +238,7 @@ phpAds_PageFooter();
 
 
 
-function buildHeaderModel($advertiserId, $aAllAdvertisers)
+function buildAdvertiserCampaignsHeaderModel($advertiserId, $aAllAdvertisers)
 {
     if ($advertiserId) {
         $advertiser = phpAds_getClientDetails($advertiserId);

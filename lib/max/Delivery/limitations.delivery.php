@@ -339,7 +339,7 @@ function MAX_limitationsIsOperatorPositive($op)
  * suitable for equality / inequality tests and the values are properly
  * translated strings which describe these operators to the user.
  *
- * @param DeliveryLimitationPlugin $oPlugin
+ * @param Plugins_DeliveryLimitations $oPlugin
  * @return array Array associating operators with their localized names.
  */
 function MAX_limitationsGetAOperationsEquality($oPlugin)
@@ -355,7 +355,7 @@ function MAX_limitationsGetAOperationsEquality($oPlugin)
  * suitable for numeric tests and the values are properly translated strings which
  * describe these operators to the user.
  *
- * @param DeliveryLimitationPlugin $oPlugin
+ * @param Plugins_DeliveryLimitations $oPlugin
  * @return array Array associating operators with their localized names.
  */
 function MAX_limitationsGetAOperationsForNumeric($oPlugin)
@@ -373,7 +373,7 @@ function MAX_limitationsGetAOperationsForNumeric($oPlugin)
  * suitable for strings and the values are properly translated strings which
  * describe these operators to the user.
  *
- * @param DeliveryLimitationPlugin $oPlugin
+ * @param Plugins_DeliveryLimitations $oPlugin
  * @return array Array associating operators with their localized names.
  */
 function MAX_limitationsGetAOperationsForString($oPlugin)
@@ -392,7 +392,7 @@ function MAX_limitationsGetAOperationsForString($oPlugin)
  * Returns true if $sString contains $sToken, false otherwise.
  *
  * @param string $sString String to be checked.
- * @param unknown_type $sToken String to be contained.
+ * @param string $sToken String to be contained.
  * @return boolean true if $sString contains $sToken, false otherwise.
  */
 function MAX_stringContains($sString, $sToken)

@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
 {
     /**
-     * PHP4-style constructor
-     *
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */

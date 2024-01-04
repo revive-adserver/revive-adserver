@@ -231,12 +231,12 @@ if ($valid) {
     //process submitted values
     processForm($bannerid, $form, $oComponent, $formDisabled);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
+    displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
 }
 
 
 
-function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled = false)
+function displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled = false)
 {
     // Initialise some parameters
     $pageName = basename($_SERVER['SCRIPT_NAME']);

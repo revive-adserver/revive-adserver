@@ -76,7 +76,7 @@ if ($agencyForm->validate()) {
     //process submitted values
     processForm($aAgency, $agencyForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($aAgency, $agencyForm);
+    displayAgencyEditPage($aAgency, $agencyForm);
 }
 
 /*-------------------------------------------------------*/
@@ -166,7 +166,7 @@ function processForm($aAgency, $form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($aAgency, $form)
+function displayAgencyEditPage($aAgency, $form)
 {
     if ($aAgency['agencyid'] != '') {
         OA_Admin_Menu::setAgencyPageContext($aAgency['agencyid'], 'agency-edit.php');

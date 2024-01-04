@@ -112,7 +112,7 @@ function OA_Dal_Delivery_fetchAssoc($resource)
  * @return int|false       The last insert ID (zero if last query didn't generate an ID)
  *                         or false on failure
  */
-function OA_Dal_Delivery_insertId($database = 'database', $table, $column)
+function OA_Dal_Delivery_insertId($database, $table, $column)
 {
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX'][$dbName]))) {

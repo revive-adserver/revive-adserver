@@ -361,6 +361,7 @@ function phpAds_Die($title = "Error", $message = "Unknown error")
     if (defined('OA_WEBSERVICES_API_XMLRPC')) {
         // It's an XML-RPC response
         if (class_exists('XmlRpcUtils')) {
+            // @phpstan-ignore-next-line
             $oResponse = XmlRpcUtils::generateError($message);
         } else {
             $oResponse = new XML_RPC_Response('', 99999, $message);

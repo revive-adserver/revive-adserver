@@ -108,7 +108,7 @@ $oTrans = new OX_Translation();
 $aOtherAdvertisers = Admin_DA::getAdvertisers(['agency_id' => $agencyId]);
 $aOtherCampaigns = Admin_DA::getPlacements(['advertiser_id' => $clientid]);
 
-$oHeaderModel = buildHeaderModel($aEntities);
+$oHeaderModel = buildCampaignBannersHeaderModel($aEntities);
 phpAds_PageHeader(null, $oHeaderModel);
 
 
@@ -251,7 +251,7 @@ $oTpl->display();
 
 phpAds_PageFooter();
 
-function buildHeaderModel($aEntities)
+function buildCampaignBannersHeaderModel($aEntities)
 {
     global $phpAds_TextDirection;
     $aConf = $GLOBALS['_MAX']['CONF'];

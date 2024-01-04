@@ -52,6 +52,8 @@ class OX_Plugin_ComponentGroupManager
 
     public $aWarnings;
     public $aErrors;
+    /** @var bool */
+    protected $configLocked;
 
     public function __construct()
     {

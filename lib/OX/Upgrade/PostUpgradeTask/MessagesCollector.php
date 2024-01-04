@@ -42,7 +42,6 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
      */
     public function __construct(OA_UpgradeLogger &$oUpgradeLogger)
     {
-        $this->aMessages = [];
         $this->aErrors = [];
         $this->oUpgradeLogger = $oUpgradeLogger;
     }

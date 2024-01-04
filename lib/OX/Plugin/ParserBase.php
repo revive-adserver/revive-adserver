@@ -41,7 +41,7 @@ class OX_ParserBase extends XML_Parser
     public $count = 0;
     public $error;
 
-    public function __construct()
+    public function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
     {
         // force ISO-8859-1 due to different defaults for PHP4 and PHP5
         // todo: this probably needs to be investigated some more andcleaned up
@@ -110,7 +110,6 @@ class OX_ParserBase extends XML_Parser
         $this->aInstall['files'] = $this->aFiles;
         $this->aPlugin['install'] = $this->aInstall;
         $this->aPlugin['uninstall'] = $this->aUninstall;
-        $this->aPlugin['upgrade'] = @$this->aUpgrade;
         $this->aPlugin['allfiles'] = $this->aAllFiles;
     }
 

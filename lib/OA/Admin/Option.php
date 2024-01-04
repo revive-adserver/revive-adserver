@@ -425,6 +425,9 @@ class OA_Admin_Option
                                     // so re-constitute into a comma separated list
                                     $value = implode(', ', $aConf[$aItem['name']]);
                                 }
+                            } else {
+                                $aSettingSection = null;
+                                $aSettingKey = null;
                             }
                             // toggle the checkbox if a local db socket is being used
                             if ($aSettingSection == 'database' && $aItem['name'] == 'database_localsocket') {
@@ -432,7 +435,7 @@ class OA_Admin_Option
                             }
                             // toggle the checkbox if checkForUpdates (sync section) is disabled
                             if ($aSettingSection == 'ui' && $aItem['name'] == 'ui_dashboardEnabled') {
-                                if (isset($aConf['sync']['checkForUpdates']) && $aConf['sync']['checkForUpdates'] == true) {
+                                if (isset($aConf['sync']['checkForUpdates']) && $aConf['sync']['checkForUpdates'] === true) {
                                     $value = $aConf[$aSettingSection][$aSettingKey];
                                 } else {
                                     $value = false;

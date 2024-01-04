@@ -37,17 +37,9 @@ class OA_UpgradePackageParser extends XML_Parser
     public $count = 0;
     public $error;
 
-//    function __construct()
-//    {
-//        // force ISO-8859-1 due to different defaults for PHP4 and PHP5
-//        // todo: this probably needs to be investigated some more andcleaned up
-//        parent::XML_Parser('ISO-8859-1');
-//    }
-
-    public function __construct()
+    public function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
     {
         parent::__construct('ISO-8859-1');
-        //$this->__construct();
     }
 
     public function startHandler($xp, $element, $attribs)
@@ -63,10 +55,6 @@ class OA_UpgradePackageParser extends XML_Parser
             $this->DBPkg_prescript = '';
             $this->DBPkg_postscript = '';
             $this->aDBPkgs = [];
-//            $this->aFiles = array();
-//            $this->aPackage = array();
-//            $this->aSchemas = array();
-//            $this->aFiles = array();
             break;
           default:
             break;

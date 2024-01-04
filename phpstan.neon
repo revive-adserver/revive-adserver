@@ -18,6 +18,7 @@ parameters:
             - www/api/rest
             - www/delivery
             - www/devel
+            - www/api
         analyse:
             - etc
             - lib/JSON

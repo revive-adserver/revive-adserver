@@ -76,8 +76,7 @@ class OX_Component
         if (!$aParts) {
             return false;
         }
-        $returned = call_user_func_array(['OX_Component', 'factory'], $aParts);
-        return $returned;
+        return OX_Component::factory(...$aParts);
     }
 
     public static function _isGroupInstalled($group)

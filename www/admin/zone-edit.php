@@ -110,7 +110,7 @@ if ($zoneForm->validate()) {
     }
 }
 //display the page - show any validation errors that may have occurred
-displayPage($zone, $zoneForm, $errors);
+displayZoneEditPage($zone, $zoneForm, $errors);
 
 
 /*-------------------------------------------------------*/
@@ -330,7 +330,6 @@ function buildZoneForm($zone, $oComponent = null)
  * Processes submit values of zone form
  *
  * @param OA_Admin_UI_Component_Form $form form to process
- * @return An array of Pear::Error objects if any
  */
 function processForm($form, $oComponent = null)
 {
@@ -355,7 +354,7 @@ function processForm($form, $oComponent = null)
                     $aFields['height'] = -1;
                 }
             } else {
-                list($aFields['width'], $aFields['height']) = explode('x', $aFields['size']);
+                [$aFields['width'], $aFields['height']] = explode('x', $aFields['size']);
             }
         break;
     }
@@ -364,162 +363,157 @@ function processForm($form, $oComponent = null)
         $aFields['oac_category_id'] = 'NULL';
     }
 
-    if (empty($errors)) {
+    // Edit
+    if (!empty($aFields['zoneid'])) {
+        // before we commit any changes to db, store whether the size has changed
+        $aZone = Admin_DA::getZone($aFields['zoneid']);
+        $size_changed = ($aFields['width'] != $aZone['width'] || $aFields['height'] != $aZone['height']) ? true : false;
+        $type_changed = ($aFields['delivery'] != $aZone['type']) ? true : false;
 
-        // Edit
-        if (!empty($aFields['zoneid'])) {
-            // before we commit any changes to db, store whether the size has changed
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->zonename = $aFields['zonename'];
+        $doZones->description = $aFields['description'];
+        $doZones->width = $aFields['width'];
+        $doZones->height = $aFields['height'];
+        $doZones->comments = $aFields['comments'];
+        $doZones->delivery = $aFields['delivery'];
+        if ($aFields['delivery'] != phpAds_ZoneText && $aFields['delivery'] != phpAds_ZoneBanner) {
+            $doZones->prepend = '';
+            $doZones->append = '';
+        }
+
+        $doZones->oac_category_id = $aFields['oac_category_id'];
+        $doZones->zoneid = $aFields['zoneid'];
+        $doZones->update();
+
+        // Reset append codes which called this zone
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->appendtype = phpAds_ZoneAppendZone;
+
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $doZones->addReferenceFilter('agency', OA_Permission::getEntityId());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $doZones->addReferenceFilter('affiliates', OA_Permission::getEntityId());
+        }
+        $doZones->find();
+
+        while ($doZones->fetch() && $row = $doZones->toArray()) {
+            $append = phpAds_ZoneParseAppendCode($row['append']);
+
+            if ($append[0]['zoneid'] == $aFields['zoneid']) {
+                $doZonesClone = clone($doZones);
+                $doZonesClone->appendtype = phpAds_ZoneAppendRaw;
+                $doZonesClone->append = '';
+                $doZonesClone->update();
+            }
+        }
+
+        if ($type_changed && $aFields['delivery'] == MAX_ZoneEmail) {
+            // Unlink all campaigns/banners linked to this zone
+            $aPlacementZones = Admin_DA::getPlacementZones(['zone_id' => $aFields['zoneid']], true, 'placement_id');
+            if (!empty($aPlacementZones)) {
+                foreach ($aPlacementZones as $placementId => $aPlacementZone) {
+                    Admin_DA::deletePlacementZones(['zone_id' => $aFields['zoneid'], 'placement_id' => $placementId]);
+                }
+            }
+            $aAdZones = Admin_DA::getAdZones(['zone_id' => $aFields['zoneid']], false, 'ad_id');
+            if (!empty($aAdZones)) {
+                foreach ($aAdZones as $adId => $aAdZone) {
+                    Admin_DA::deleteAdZones(['zone_id' => $aFields['zoneid'], 'ad_id' => $adId]);
+                }
+            }
+        } elseif ($size_changed) {
             $aZone = Admin_DA::getZone($aFields['zoneid']);
-            $size_changed = ($aFields['width'] != $aZone['width'] || $aFields['height'] != $aZone['height']) ? true : false;
-            $type_changed = ($aFields['delivery'] != $aZone['type']) ? true : false;
 
-            $doZones = OA_Dal::factoryDO('zones');
-            $doZones->zonename = $aFields['zonename'];
-            $doZones->description = $aFields['description'];
-            $doZones->width = $aFields['width'];
-            $doZones->height = $aFields['height'];
-            $doZones->comments = $aFields['comments'];
-            $doZones->delivery = $aFields['delivery'];
-            if ($aFields['delivery'] != phpAds_ZoneText && $aFields['delivery'] != phpAds_ZoneBanner) {
-                $doZones->prepend = '';
-                $doZones->append = '';
-            }
-
-            $doZones->oac_category_id = $aFields['oac_category_id'];
-            $doZones->zoneid = $aFields['zoneid'];
-            $doZones->update();
-
-            // Reset append codes which called this zone
-            $doZones = OA_Dal::factoryDO('zones');
-            $doZones->appendtype = phpAds_ZoneAppendZone;
-
-            if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                $doZones->addReferenceFilter('agency', OA_Permission::getEntityId());
-            } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-                $doZones->addReferenceFilter('affiliates', OA_Permission::getEntityId());
-            }
-            $doZones->find();
-
-            while ($doZones->fetch() && $row = $doZones->toArray()) {
-                $append = phpAds_ZoneParseAppendCode($row['append']);
-
-                if ($append[0]['zoneid'] == $aFields['zoneid']) {
-                    $doZonesClone = clone($doZones);
-                    $doZonesClone->appendtype = phpAds_ZoneAppendRaw;
-                    $doZonesClone->append = '';
-                    $doZonesClone->update();
-                }
-            }
-
-            if ($type_changed && $aFields['delivery'] == MAX_ZoneEmail) {
-                // Unlink all campaigns/banners linked to this zone
-                $aPlacementZones = Admin_DA::getPlacementZones(['zone_id' => $aFields['zoneid']], true, 'placement_id');
-                if (!empty($aPlacementZones)) {
-                    foreach ($aPlacementZones as $placementId => $aPlacementZone) {
-                        Admin_DA::deletePlacementZones(['zone_id' => $aFields['zoneid'], 'placement_id' => $placementId]);
-                    }
-                }
-                $aAdZones = Admin_DA::getAdZones(['zone_id' => $aFields['zoneid']], false, 'ad_id');
-                if (!empty($aAdZones)) {
-                    foreach ($aAdZones as $adId => $aAdZone) {
+            // Loop through all appended banners and make sure that they still fit...
+            $aAds = Admin_DA::getAdZones(['zone_id' => $aFields['zoneid']], false, 'ad_id');
+            if (!empty($aAds)) {
+                foreach ($aAds as $adId => $aAd) {
+                    $aAd = Admin_DA::getAd($adId);
+                    if ((($aZone['type'] == phpAds_ZoneText) && ($aAd['type'] != 'txt'))
+                    || (($aAd['width'] != $aZone['width']) && ($aZone['width'] != -1))
+                    || (($aAd['height'] != $aZone['height']) && ($aZone['height'] != -1))) {
                         Admin_DA::deleteAdZones(['zone_id' => $aFields['zoneid'], 'ad_id' => $adId]);
                     }
                 }
-            } elseif ($size_changed) {
-                $aZone = Admin_DA::getZone($aFields['zoneid']);
+            }
 
-                // Loop through all appended banners and make sure that they still fit...
-                $aAds = Admin_DA::getAdZones(['zone_id' => $aFields['zoneid']], false, 'ad_id');
-                if (!empty($aAds)) {
+            // Check if any campaigns linked to this zone have ads that now fit.
+            // If so, link them to the zone.
+            $aPlacementZones = Admin_DA::getPlacementZones(['zone_id' => $aFields['zoneid']], true);
+            if (!empty($aPlacementZones)) {
+                foreach ($aPlacementZones as $aPlacementZone) {
+                    // get ads in this campaign
+                    $aAds = Admin_DA::getAds(['placement_id' => $aPlacementZone['placement_id']], true);
                     foreach ($aAds as $adId => $aAd) {
-                        $aAd = Admin_DA::getAd($adId);
-                        if ((($aZone['type'] == phpAds_ZoneText) && ($aAd['type'] != 'txt'))
-                        || (($aAd['width'] != $aZone['width']) && ($aZone['width'] != -1))
-                        || (($aAd['height'] != $aZone['height']) && ($aZone['height'] != -1))) {
-                            Admin_DA::deleteAdZones(['zone_id' => $aFields['zoneid'], 'ad_id' => $adId]);
-                        }
-                    }
-                }
-
-                // Check if any campaigns linked to this zone have ads that now fit.
-                // If so, link them to the zone.
-                $aPlacementZones = Admin_DA::getPlacementZones(['zone_id' => $aFields['zoneid']], true);
-                if (!empty($aPlacementZones)) {
-                    foreach ($aPlacementZones as $aPlacementZone) {
-                        // get ads in this campaign
-                        $aAds = Admin_DA::getAds(['placement_id' => $aPlacementZone['placement_id']], true);
-                        foreach ($aAds as $adId => $aAd) {
-                            Admin_DA::addAdZone(['zone_id' => $aFields['zoneid'], 'ad_id' => $adId]);
-                        }
+                        Admin_DA::addAdZone(['zone_id' => $aFields['zoneid'], 'ad_id' => $adId]);
                     }
                 }
             }
-            if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
-                $oComponent->processZoneForm($aFields);
-            }
-
-            // Queue confirmation message
-            $translation = new OX_Translation();
-            $translated_message = $translation->translate(
-                $GLOBALS['strZoneHasBeenUpdated'],
-                [
-                MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=" . $aFields['affiliateid'] . "&zoneid=" . $aFields['zoneid']),
-                htmlspecialchars($aFields['zonename'])
-                ]
-            );
-            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
-            OX_Admin_Redirect::redirect("zone-edit.php?affiliateid=" . $aFields['affiliateid'] . "&zoneid=" . $aFields['zoneid']);
         }
-        // Add
-        else {
-            $doZones = OA_Dal::factoryDO('zones');
-            $doZones->affiliateid = $aFields['affiliateid'];
-            $doZones->zonename = $aFields['zonename'];
-            $doZones->zonetype = phpAds_ZoneCampaign;
-            $doZones->description = $aFields['description'];
-            $doZones->comments = $aFields['comments'];
-            $doZones->width = $aFields['width'];
-            $doZones->height = $aFields['height'];
-            $doZones->delivery = $aFields['delivery'];
-            $doZones->oac_category_id = $aFields['oac_category_id'];
-
-            // The following fields are NOT NULL but do not get values set in the form.
-            // Should these fields be changed to NULL in the schema or should they have a default value?
-            $doZones->category = '';
-            $doZones->ad_selection = '';
-            $doZones->chain = '';
-            $doZones->prepend = '';
-            $doZones->append = '';
-
-            $doZones->show_capped_no_cookie = 0;
-
-            $aFields['zoneid'] = $doZones->insert();
-
-            if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
-                $oComponent->processZoneForm($aFields);
-            }
-
-            // Queue confirmation message
-            $translation = new OX_Translation();
-            $translated_message = $translation->translate($GLOBALS['strZoneHasBeenAdded'], [
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
-                htmlspecialchars($aFields['zonename'])
-            ]);
-            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
-            OX_Admin_Redirect::redirect("affiliate-zones.php?affiliateid=" . $aFields['affiliateid']);
+        if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
+            $oComponent->processZoneForm($aFields);
         }
+
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate(
+            $GLOBALS['strZoneHasBeenUpdated'],
+            [
+            MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=" . $aFields['affiliateid'] . "&zoneid=" . $aFields['zoneid']),
+            htmlspecialchars($aFields['zonename'])
+            ]
+        );
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        OX_Admin_Redirect::redirect("zone-edit.php?affiliateid=" . $aFields['affiliateid'] . "&zoneid=" . $aFields['zoneid']);
     }
+    // Add
+    else {
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $aFields['affiliateid'];
+        $doZones->zonename = $aFields['zonename'];
+        $doZones->zonetype = phpAds_ZoneCampaign;
+        $doZones->description = $aFields['description'];
+        $doZones->comments = $aFields['comments'];
+        $doZones->width = $aFields['width'];
+        $doZones->height = $aFields['height'];
+        $doZones->delivery = $aFields['delivery'];
+        $doZones->oac_category_id = $aFields['oac_category_id'];
 
-    return $errors;
+        // The following fields are NOT NULL but do not get values set in the form.
+        // Should these fields be changed to NULL in the schema or should they have a default value?
+        $doZones->category = '';
+        $doZones->ad_selection = '';
+        $doZones->chain = '';
+        $doZones->prepend = '';
+        $doZones->append = '';
+
+        $doZones->show_capped_no_cookie = 0;
+
+        $aFields['zoneid'] = $doZones->insert();
+
+        if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
+            $oComponent->processZoneForm($aFields);
+        }
+
+        // Queue confirmation message
+        $translation = new OX_Translation();
+        $translated_message = $translation->translate($GLOBALS['strZoneHasBeenAdded'], [
+            MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
+            htmlspecialchars($aFields['zonename'])
+        ]);
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+        OX_Admin_Redirect::redirect("affiliate-zones.php?affiliateid=" . $aFields['affiliateid']);
+    }
 }
 
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($zone, $form, $zoneErrors = null)
+function displayZoneEditPage($zone, $form, $zoneErrors = null)
 {
     //header and breadcrumbs
     $pageName = basename($_SERVER['SCRIPT_NAME']);

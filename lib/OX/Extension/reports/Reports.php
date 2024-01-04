@@ -237,12 +237,12 @@ class Plugins_Reports extends OX_Component
     {
         $this->initInfo();
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
+        MAX_Plugin_Translation::init($this->extension, $this->group);
         $aPluginInfo = [
-            "plugin-name" => MAX_Plugin_Translation::translate($this->_name, $this->module, $this->package),
-            "plugin-description" => MAX_Plugin_Translation::translate($this->_description, $this->module, $this->package),
+            "plugin-name" => MAX_Plugin_Translation::translate($this->_name, $this->extension, $this->group),
+            "plugin-description" => MAX_Plugin_Translation::translate($this->_description, $this->extension, $this->group),
             'plugin-category' => $this->_category,
-            'plugin-category-name' => MAX_Plugin_Translation::translate($this->_categoryName, $this->module, $this->package),
+            'plugin-category-name' => MAX_Plugin_Translation::translate($this->_categoryName, $this->extension, $this->group),
             "plugin-author" => $this->_author,
             "plugin-export" => $this->_export,
             "plugin-authorize" => $this->_authorize,
@@ -304,7 +304,7 @@ class Plugins_Reports extends OX_Component
             $oEndDate = new Date();
             $oDaySpan->setSpanDays($oStartDate, $oEndDate);
             $this->_oDaySpan = &$oDaySpan;
-            $this->_startDateString = MAX_Plugin_Translation::translate('Beginning', $this->module, $this->package);
+            $this->_startDateString = MAX_Plugin_Translation::translate('Beginning', $this->extension, $this->group);
             $this->_endDateString = $oDaySpan->getEndDateString($date_format);
         }
 
@@ -333,7 +333,7 @@ class Plugins_Reports extends OX_Component
     public function _getReportFileName()
     {
         $reportFileName = '';
-        $reportFileName .= MAX_Plugin_Translation::translate(html_entity_decode($this->_name, null, 'UTF-8'), $this->module, $this->package);
+        $reportFileName .= MAX_Plugin_Translation::translate(html_entity_decode($this->_name, null, 'UTF-8'), $this->extension, $this->group);
         $reportFileName .= ' ';
         $reportFileName .= $GLOBALS['strFrom'];
         $reportFileName .= ' ';
@@ -392,9 +392,9 @@ class Plugins_Reports extends OX_Component
         $aParams = [];
         if (!is_null($this->_oDaySpan)) {
             global $date_format;
-            $aParams[MAX_Plugin_Translation::translate('Start Date', $this->module, $this->package)] =
+            $aParams[MAX_Plugin_Translation::translate('Start Date', $this->extension, $this->group)] =
                 $this->_oDaySpan->getStartDateString($date_format);
-            $aParams[MAX_Plugin_Translation::translate('End Date', $this->module, $this->package)] =
+            $aParams[MAX_Plugin_Translation::translate('End Date', $this->extension, $this->group)] =
                 $this->_oDaySpan->getEndDateString($date_format);
         }
         return $aParams;

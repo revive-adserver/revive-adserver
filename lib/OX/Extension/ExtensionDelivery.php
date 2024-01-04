@@ -92,7 +92,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
      * @param string $hookName  Hook name
      * @param array $aComponentIdentifiers  Array of components assigned to sorted hook
      * @param array $aHooks  Array with all hooks and all components in the system
-     * @return unknown
+     * @return array
      */
     public function orderDependencyComponents($hookName, $aComponentIdentifiers = [], $aHooks = [])
     {

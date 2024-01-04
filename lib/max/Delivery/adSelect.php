@@ -872,7 +872,6 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
     ###START_STRIP_DELIVERY
     // testing support
     if (function_exists('test_mt_rand')) {
-        // @phpstan-ignore-next-line
         $random_num = test_mt_rand(0, $GLOBALS['_MAX']['MAX_RAND'])
         / $GLOBALS['_MAX']['MAX_RAND'];
     }
@@ -894,7 +893,6 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                 ###START_STRIP_DELIVERY
                 // testing support
                 if (function_exists('test_MAX_cacheGetAd')) {
-                    // @phpstan-ignore-next-line
                     return test_MAX_cacheGetAd($aLinkedAd['ad_id']);
                 }
                 ###END_STRIP_DELIVERY

@@ -187,7 +187,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             if (!$this->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld)) {
                 if ($this->oUpgrader) {
                     $this->aErrors = $this->oUpgrader->getErrors();
-                    $this->aWarning = $this->oUpgrader->getMessages();
+                    $this->aWarnings = $this->oUpgrader->getMessages();
                 }
                 throw new Exception('One or more plugins cannot be upgraded');
             }
@@ -641,7 +641,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return true;
     }
 
-    public function _canUpgradeComponentGroups(&$aGroupsNew = null, &$aGroupsOld)
+    public function _canUpgradeComponentGroups(&$aGroupsNew, &$aGroupsOld)
     {
         $this->errcode = '';
         if ((!$aGroupsNew) || empty($aGroupsNew) || (!is_array($aGroupsNew))) {
@@ -670,7 +670,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aPlugins
      * @return boolean
      */
-    public function _upgradeComponentGroups(&$aGroupsNew = null, &$aGroupsOld)
+    public function _upgradeComponentGroups(&$aGroupsNew, &$aGroupsOld)
     {
         $this->errcode = '';
         foreach ($aGroupsNew as $idx => &$aGroup) {

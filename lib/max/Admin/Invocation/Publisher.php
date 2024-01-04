@@ -15,8 +15,8 @@ require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 /**
  * MAX_Admin_Invocation_Publisher class is a class for placingInvocationForm(s)
  * and generating invocation codes for publishers
- *
  */
+#[AllowDynamicProperties]
 class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
 {
     /**

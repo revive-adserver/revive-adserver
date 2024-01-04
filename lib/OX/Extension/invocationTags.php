@@ -18,7 +18,4 @@ require_once(LIB_PATH . '/Extension/ExtensionDelivery.php');
  */
 class OX_Extension_invocationTags extends OX_Extension_Delivery
 {
-    public function __construct()
-    {
-    }
 }

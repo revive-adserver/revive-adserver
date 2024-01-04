@@ -30,14 +30,16 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  */
 class Admin_UI_Field
 {
-    /* @var string */
+    /** @var string */
     public $_name;
-    /* @var string */
+    /** @var string */
     public $_value;
-    /* @var integer */
+    /** @var integer */
     public $_tabIndex;
-    /* @var integer */
+    /** @var integer */
     public $_filter;
+    /** @var array */
+    protected $coreParams;
 
     public function __construct()
     {

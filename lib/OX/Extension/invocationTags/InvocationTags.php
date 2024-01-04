@@ -36,6 +36,8 @@ class Plugins_InvocationTags extends OX_Component
      * pass the globals variables from
      * MAX_Admin_Invocation object in more object oriented way - as
      * object attributes
+     *
+     * @var MAX_Admin_Invocation
      */
     public $maxInvocation;
 
@@ -52,6 +54,12 @@ class Plugins_InvocationTags extends OX_Component
      * @var bool
      */
     public $displayTextAreaAndOptions = true;
+
+    /** @var array */
+    protected $options;
+
+    /** @var array */
+    protected $defaultOptions;
 
     /**
      * Return name of plugin
@@ -146,11 +154,13 @@ class Plugins_InvocationTags extends OX_Component
      * Inject invocation - required for generateInvocationCode()
      * and for custom options methods
      *
+     * @param MAX_Admin_Invocation $invocation
+     *
      * @see generateInvocationCode()
      */
-    public function setInvocation(&$invocation)
+    public function setInvocation($invocation)
     {
-        $this->maxInvocation = &$invocation;
+        $this->maxInvocation = $invocation;
     }
 
     /**
@@ -174,7 +184,7 @@ class Plugins_InvocationTags extends OX_Component
     public function prepareCommonInvocationData($aComments)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $mi = &$this->maxInvocation;
+        $mi = $this->maxInvocation;
 
         $mi->macros = [
             'cachebuster' => 'INSERT_RANDOM_NUMBER_HERE',
@@ -304,7 +314,7 @@ class Plugins_InvocationTags extends OX_Component
     /**
      * Generate all the options for plugin settings and return as HTML
      *
-     * @param object $maxInvocation    MAX_Admin_Invocation object
+     * @param MAX_Admin_Invocation $maxInvocation    MAX_Admin_Invocation object
      *
      * @return string
      */

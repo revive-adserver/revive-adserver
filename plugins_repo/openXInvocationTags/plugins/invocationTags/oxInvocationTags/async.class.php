@@ -162,9 +162,9 @@ EOF;
         return $buffer;
     }
 
-    public function setInvocation(&$invocation)
+    public function setInvocation($invocation)
     {
-        $this->maxInvocation = &$invocation;
+        $this->maxInvocation = $invocation;
         $this->maxInvocation->canDetectCharset = true;
     }
 

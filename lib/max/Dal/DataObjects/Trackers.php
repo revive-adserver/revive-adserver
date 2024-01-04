@@ -76,7 +76,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         $oldTrackerId = $this->trackerid;
 
         // Get unique name
-        $this->trackername = $this->name = $GLOBALS['strCopyOf'] . ' ' . $this->trackername;
+        $this->trackername = $GLOBALS['strCopyOf'] . ' ' . $this->trackername;
 
         $this->trackerid = null;
         $newTrackerid = $this->insert();

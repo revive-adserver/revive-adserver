@@ -726,7 +726,6 @@ abstract class Plugins_DeliveryLog extends OX_Component
      */
     public function _logError($msg)
     {
-        $this->aErrors[] = $msg;
         $this->_logMessage($msg, PEAR_LOG_ERR);
     }
 

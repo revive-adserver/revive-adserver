@@ -83,7 +83,7 @@ if ($advertiserForm->validate()) {
     //process submitted values
     processForm($aAdvertiser, $advertiserForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($aAdvertiser, $advertiserForm);
+    displayAdvertiserEditPage($aAdvertiser, $advertiserForm);
 }
 
 /*-------------------------------------------------------*/
@@ -219,7 +219,7 @@ function processForm($aAdvertiser, $form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($aAdvertiser, $form)
+function displayAdvertiserEditPage($aAdvertiser, $form)
 {
     //header and breadcrumbs
     $oHeaderModel = buildAdvertiserHeaderModel($aAdvertiser);

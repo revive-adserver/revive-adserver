@@ -207,7 +207,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
         $mergedDelivery = '';
         foreach ($aComponentsByHooks as $hookName => &$hookComponents) {
             foreach ($hookComponents as $componentId) {
-                list($extension, $group, $componentName)
+                [$extension, $group, $componentName]
                     = $this->getExtensionGroupComponentFromId($componentId);
                 $componentFile = $this->getFilePathToPlugin($extension, $group, $componentName);
                 if (!$componentFile) {
@@ -363,7 +363,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
     /**
      * Required for mocking OX_ManagerPlugin
      *
-     * @return OX_ManagerPlugin
+     * @return OX_Plugin_ComponentGroupManager
      */
     public function _getComponentGroupManager()
     {
@@ -375,15 +375,8 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
         OA::debug($msg, $err);
     }
 
-    public function _logWarning($msg)
-    {
-        $this->aWarnings[] = $msg;
-        $this->_logMessage($msg, PEAR_LOG_WARNING);
-    }
-
     public function _logError($msg)
     {
-        $this->aErrors[] = $msg;
         $this->_logMessage($msg, PEAR_LOG_ERR);
     }
 }

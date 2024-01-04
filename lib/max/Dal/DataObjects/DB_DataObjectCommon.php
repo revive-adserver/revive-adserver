@@ -260,8 +260,7 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
         // Does the table have an account_id field?
-        $aFields = $this->table();
-        if (isset($aFields['account_id']) && $this->account_id == $accountId) {
+        if (property_exists($this, 'account_id') && $this->account_id == $accountId) {
             return true;
         }
         $found = null;
@@ -918,8 +917,7 @@ class DB_DataObjectCommon extends DB_DataObject
     public function _refreshUpdated()
     {
         if ($this->refreshUpdatedFieldIfExists) {
-            $fields = $this->table();
-            if (array_key_exists('updated', $fields)) {
+            if (property_exists($this, 'updated')) {
                 $this->updated = gmdate(OA_DATETIME_FORMAT);
             }
         }
@@ -1194,6 +1192,11 @@ class DB_DataObjectCommon extends DB_DataObject
         $doAccount = $this->factory('accounts');
         $doAccount->account_type = $accountType;
         $doAccount->account_name = $accountName;
+
+        if (!property_exists($this, 'account_id')) {
+            throw new \RuntimeException("createAccount called without an account_id property");
+        }
+
         $this->account_id = $doAccount->insert();
         return $this->account_id;
     }
@@ -1243,6 +1246,10 @@ class DB_DataObjectCommon extends DB_DataObject
         $userId = $doUser->insert();
         if (!$userId) {
             return false;
+        }
+
+        if (!property_exists($this, 'account_id')) {
+            throw new \RuntimeException("createUser called without an account_id property");
         }
 
         $result = OA_Permission::setAccountAccess($this->account_id, $userId);

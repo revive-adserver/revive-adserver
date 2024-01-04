@@ -172,11 +172,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
         }
 
         // Set the filename
-        // We want to rename column 'storagetype' to 'type' so...
         if ($this->storagetype == 'web' || $this->storagetype == 'sql') {
             $this->filename = $this->_imageDuplicate($this->storagetype, $this->filename);
-        } elseif ($this->type == 'web' || $this->type == 'sql') {
-            $this->filename = $this->_imageDuplicate($this->type, $this->filename);
         }
 
         // Insert the new banner and get the ID

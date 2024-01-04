@@ -61,7 +61,7 @@ if (empty($affiliateid)) { //if it's empty
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$oHeaderModel = buildHeaderModel($affiliateid);
+$oHeaderModel = buildAffiliateChannelsHeaderModel($affiliateid);
 phpAds_PageHeader(null, $oHeaderModel);
 
 
@@ -101,7 +101,7 @@ $oTpl->display();
 phpAds_PageFooter();
 
 
-function buildHeaderModel($websiteId)
+function buildAffiliateChannelsHeaderModel($websiteId)
 {
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     if ($doAffiliates->get($websiteId)) {

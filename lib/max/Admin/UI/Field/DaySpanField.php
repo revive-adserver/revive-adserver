@@ -21,11 +21,11 @@ require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 
 class Admin_UI_DaySpanField extends Admin_UI_Field
 {
-    /* @var string */
+    /** @var string */
     public $_fieldSelectionValue;
-    /* @var array */
+    /** @var array */
     public $_fieldSelectionNames;
-    /* @var boolean */
+    /** @var boolean */
     public $_autoSubmit;
 
     /**

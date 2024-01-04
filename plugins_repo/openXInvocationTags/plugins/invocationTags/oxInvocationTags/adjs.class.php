@@ -166,9 +166,9 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         return $buffer;
     }
 
-    public function setInvocation(&$invocation)
+    public function setInvocation($invocation)
     {
-        $this->maxInvocation = &$invocation;
+        $this->maxInvocation = $invocation;
         $this->maxInvocation->canDetectCharset = true;
     }
 }

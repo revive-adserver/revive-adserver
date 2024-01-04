@@ -50,6 +50,11 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     public $aOperations;
 
+    /**
+     * @var string
+     */
+    public $displayName;
+
     public function __construct()
     {
         $this->aOperations = MAX_limitationsGetAOperationsForString($this);

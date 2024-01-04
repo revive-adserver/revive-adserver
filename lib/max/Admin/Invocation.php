@@ -29,7 +29,15 @@ Language_Loader::load('invocation');
  * MAX_Admin_Invocation class is a common class for placingInvocationForm(s)
  * and generating invocation codes
  *
+ * @property int $affiliateid
+ * @property string $codetype
+ * @property string $dest
+ * @property string $size
+ * @property string $text
+ * @property int $tabindex
+ * @property bool $zone_invocation
  */
+#[AllowDynamicProperties]
 class MAX_Admin_Invocation
 {
     public $defaultOptionValues = [
@@ -488,17 +496,16 @@ class MAX_Admin_Invocation
     /**
      * Present options common to all invocation methods
      *
-     * @return string HTML to display options
+     * @return array HTML to display options
      */
     public function getDefaultOptionsList()
     {
-        $options = [
+        return [
             'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'cacheBuster' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'comments' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'https' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         ];
-        return $options;
     }
 
     public function generateJavascriptTrackerCode($trackerId, $append = false)

@@ -33,5 +33,3 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/CampaignZoneLink.php';
 
 $oTpl = OA_Admin_UI_CampaignZoneLink::createTemplateWithModel($status);
 $oTpl->display();
-?>
-

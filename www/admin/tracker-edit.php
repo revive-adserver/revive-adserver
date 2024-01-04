@@ -89,9 +89,9 @@ $trackerForm = buildTrackerForm($tracker);
 
 if ($trackerForm->validate()) {
     //process submitted values
-    processForm($trackerForm);
+    processTrackerEditForm($trackerForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($tracker, $trackerForm);
+    displayTrackerEditPage($tracker, $trackerForm);
 }
 
 /*-------------------------------------------------------*/
@@ -156,7 +156,7 @@ function buildTrackerForm($tracker)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($form)
+function processTrackerEditForm($form)
 {
     $aFields = $form->exportValues();
     // If ID is not set, it should be a null-value for the auto_increment
@@ -204,7 +204,7 @@ function processForm($form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($tracker, $form)
+function displayTrackerEditPage($tracker, $form)
 {
     //header and breadcrumbs
     if ($tracker['trackerid'] != "") {

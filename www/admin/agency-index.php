@@ -32,7 +32,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-addPageTools();
+addAdminPageTools();
 phpAds_PageHeader("4.1");
 phpAds_ShowSections(["4.1", "4.3", "4.4"]);
 
@@ -279,7 +279,7 @@ phpAds_SessionDataStore();
 
 phpAds_PageFooter();
 
-function addPageTools()
+function addAdminPageTools()
 {
     addPageLinkTool($GLOBALS['strAddAgency_Key'], "agency-edit.php", "iconAdvertiserAdd", $GLOBALS["keyAddNew"]);
 }
