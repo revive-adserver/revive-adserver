@@ -7,12 +7,14 @@ on:
 jobs:
   upload-to-crowdin:
     runs-on: ubuntu-latest
+    if: github.repository == 'revive-adserver/revive-adserver'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Crowdin Action
+        if: env.CROWDIN_PROJECT_ID && env.CROWDIN_PERSONAL_TOKEN
         uses: revive-adserver/crowdin-github-action@master
         with:
           config: crowdin.yml.dist
