@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
 "Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
-"Language-Team: Russian, Ukraine\n"
+"Language-Team: Rսssian, Սkraine\n"
 "Language: ru_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,6 +13,10 @@ msgstr ""
 "X-Crowdin-Language: ru-UA\n"
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Site/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 350\n"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
+msgid "Is all of"
+msgstr "Это всё из"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
 msgid "Enter domains below to remove matching entries from the list"
@@ -30,10 +34,6 @@ msgstr ""
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
 msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
 msgstr ""
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
-msgid "Is all of"
-msgstr "Это всё из"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:76
 msgid "Enter hostnames below to remove matching entries from the list"

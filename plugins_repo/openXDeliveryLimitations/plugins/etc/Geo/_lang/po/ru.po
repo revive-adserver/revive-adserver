@@ -34,15 +34,6 @@ msgstr "Корпоративный"
 msgid "Cellular"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-msgid "Country"
-msgstr "Страна"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr ""
-
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
 msgstr "Находится в пределах"
@@ -58,6 +49,15 @@ msgstr "Широта"
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:96
 msgid "Longitude"
 msgstr "Долгота"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+msgid "Country"
+msgstr "Страна"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
+msgid "Subdivision(s)"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
