@@ -219,7 +219,7 @@ jobs:
   upload-to-crowdin:
     name: Upload translation sources
 
-    if: github.repository == 'revive-adserver/revive-adserver' && github.github.ref_name == 'master'
+    if: github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master'
 
     needs:
       - post-commit
