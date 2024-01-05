@@ -3,17 +3,18 @@ name: CI
 on:
   workflow_dispatch: ~
   pull_request: ~
-  push:
-      branches: [master]
+  push: ~
 
 jobs:
   dependency-validation:
-    name: Dependency Validation
+    name: Dependency validation
 
-    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     env:
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
+
+    runs-on: ubuntu-latest
 
     steps:
      - name: Checkout
@@ -33,8 +34,41 @@ jobs:
      - name: Ensure that dependencies can be installed
        run: composer install --no-ansi --dry-run
 
+  code-style-checker:
+    name: Code-style checker
+
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    needs:
+      - dependency-validation
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Run PHPStan
+        run: lib/vendor/bin/ecs --no-progress-bar --no-ansi --no-interaction
+
   type-checker:
-    name: Type Checker
+    name: Type checker
+
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     needs:
       - dependency-validation
@@ -62,89 +96,35 @@ jobs:
       - name: Run PHPStan
         run: lib/vendor/bin/phpstan --no-progress -n
 
-  run-tests:
-    name: Run tests
+  post-commit:
+    name: Post commit hooks
 
-    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
 
     needs:
-      - dependency-validation
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-#          - "7.2"
-#          - "7.3"
-#          - "7.4"
-#          - "8.0"
-#          - "8.1"
-#          - "8.2"
-          - "8.3"
-
-        db-type:
-          - mysqli
-          - pgsql
-
-        table-type:
-          - pgsql
-          - myisam
-#          - innodb
-
-        audit:
-          - no-audit
-#          - audit
-
-        exclude:
-          - db-type: pgsql
-            table-type: myisam
-          - db-type: pgsql
-            table-type: innodb
-          - db-type: mysqli
-            table-type: pgsql
-
-        include:
-          - db-user: postgres
-          - db-port: 5432
-          - db-type: mysqli
-            db-user: root
-            db-port: 3306
-
-    services:
-      postgres:
-        image: ${{ ( matrix.db-type == 'pgsql' ) && 'postgres:latest' || '' }}
-        env:
-          POSTGRES_PASSWORD: secret
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-      mysql:
-        image: ${{ ( matrix.db-type != 'pgsql' ) && 'mysql:5.7' || '' }}
-        env:
-          MYSQL_USER: user
-          MYSQL_PASSWORD: secret
-          MYSQL_DATABASE: test_revive
-          MYSQL_ROOT_PASSWORD: secret
-        options: >-
-          --health-cmd "mysqladmin ping" 
-          --health-interval 5s 
-          --health-timeout 2s
-          --health-retries 5
-        ports:
-          - 3306:3306
+      - type-checker
+      - code-style-checker
 
     env:
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
+    runs-on: ubuntu-latest
+
+    outputs:
+      sha: ${{ steps.add-delivery.outputs.commit_long_sha || steps.add-plugins.outputs.commit_long_sha || steps.add-trans.outputs.commit_long_sha || steps.add-xml.outputs.commit_long_sha }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          ini-values: ${{ env.PHP_INI_VALUES }}
+          tools: composer
 
       - name: Install Java
         uses: actions/setup-java@v4
@@ -162,46 +142,104 @@ jobs:
           sudo dpkg -i ant1.7-optional_1.7.1-7_all.deb
           rm *.deb
 
-      - name: Install PHP with extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
-          ini-values: ${{ env.PHP_INI_VALUES }}
-          tools: composer
+      - name: Gather commit messages
+        id: gather
+        run: |
+          {
+            echo 'MSG<<EOF'
+            echo
+            echo
+            echo '${{ toJson(github.event.commits) }}' | jq -r '.[].message' | sed s'/^/ * /g'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
 
-      - name: Generate configuration file
-        run: |
-          cat > devel.xml <<EOF
-          <tests>
-          <php>
-          <version name="php" executable="php"/>
-          </php>
-          <database>
-          <version name="${{ matrix.db-type }}" db.type="${{ matrix.db-type }}" db.host="127.0.0.1" db.port="${{ matrix.db-port }}" db.username="${{ matrix.db-user }}" db.password="secret" db.name="test_revive" db.table.type="${{ matrix.table-type }}"/>
-          </database>
-          <audit>
-          <settings enabled="${{ matrix.audit == 'audit' && '0' || '1' }}"/>
-          </audit>
-          </tests>
-          EOF
+      - name: Regenerate XML Cache
+        run: ant generate-xml-cache
 
-      - name: Run tests
-        run: ant test-all
-#
-#      - name: Publish report
-#        uses: mikepenz/action-junit-report@v3
-#        if: success() || failure() # always run even if the previous step fails
-#        with:
-#          report_paths: '**/build/test-reports/*.xml'
-
-      - name: Upload Test Report
-        uses: actions/upload-artifact@v3
-        if: always() # always run even if the previous step fails
+      - name: Add & Commit
+        id: add-xml
+        uses: EndBug/add-and-commit@v9
         with:
-          name: test-results
-          path: '**/build/test-*'
-          retention-days: 1
+          add: etc/xmlcache
+          message: 'Regenerated XML cache ${{ steps.gather.outputs.MSG }}'
+
+      - name: Update plugin translations
+        run: php scripts/translations/update-plugins.php
+
+      - name: Add & Commit
+        id: add-trans
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: plugins_repo
+          message: 'Updated plugin translations ${{ steps.gather.outputs.MSG }}'
+
+      - name: Update plugin packages
+        run: php scripts/upgrade/rebuildBundledPlugins.php
+
+      - name: Add & Commit
+        id: add-plugins
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: etc/plugins
+          message: 'Regenerated plugins ${{ steps.gather.outputs.MSG }}'
+
+      - name: Regenerate delivery
+        run: |
+          ant generate-delivery
+          ant minify-delivery
+
+      - name: Add & Commit
+        id: add-delivery
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: www/delivery
+          message: 'Regenerated delivery scripts ${{ steps.gather.outputs.MSG }}'
+
+      - name: Output SHA
+        run: |
+          echo "sha=${{ steps.add-delivery.outputs.commit_long_sha || steps.add-plugins.outputs.commit_long_sha || steps.add-trans.outputs.commit_long_sha || steps.add-xml.outputs.commit_long_sha || github.sha }}" >> $GITHUB_OUTPUT
+
+  trigger-tests:
+    name: Trigger tests
+
+    needs:
+      - type-checker
+      - code-style-checker
+      - post-commit
+
+    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.post-commit.result != 'failure' }}
+
+    uses: ./.github/workflows/test.yml
+    with:
+      sha: ${{ needs.post-commit.outputs.sha }}
+
+  upload-to-crowdin:
+    name: Upload translation sources
+
+    if: github.repository == 'revive-adserver/revive-adserver' && github.github.ref_name == 'master'
+
+    needs:
+      - post-commit
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload translation sources to Crowdin
+        if: env.CROWDIN_PROJECT_ID && env.CROWDIN_PERSONAL_TOKEN
+        uses: revive-adserver/crowdin-github-action@master
+        with:
+          config: crowdin.yml.dist
+          upload_sources: true
+          upload_translations: false
+          download_translations: false
+          create_pull_request: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}

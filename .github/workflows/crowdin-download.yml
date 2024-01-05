@@ -1,4 +1,4 @@
-name: Download translations from Crowdin
+name: Crowdin
 
 on:
   workflow_dispatch: ~
@@ -7,14 +7,17 @@ on:
 
 jobs:
   synchronize-with-crowdin:
-    runs-on: ubuntu-latest
+    name: Download translations from Crowdin
+
     if: github.repository == 'revive-adserver/revive-adserver'
+
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Crowdin Action
+      - name: Download from Crowdin
         if: env.CROWDIN_PROJECT_ID && env.CROWDIN_PERSONAL_TOKEN
         uses: revive-adserver/crowdin-github-action@master
         with:
