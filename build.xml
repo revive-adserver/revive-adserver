@@ -7,19 +7,25 @@
   <property file="etc/version.properties"/>
 
   <!-- YUI compressor -->
-  <path id="task.classpath">
+  <path id="yui.classpath">
     <pathelement location="${basedir}/lib/ant/yuicompressor-2.4.8.jar" />
     <pathelement location="${basedir}/lib/ant/yui-compressor-ant-task-0.5.jar" />
+    <pathelement location="${basedir}/lib/ant/ant-revive.jar" />
   </path>
   <taskdef name="yui-compressor" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
-    <classpath refid="task.classpath" />
+    <classpath refid="yui.classpath" />
+  </taskdef>
+
+  <!-- Package Integrity Plugin -->
+  <path id="revive.classpath">
+    <pathelement location="${basedir}/lib/ant/ant-revive.jar" />
+  </path>
+  <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask">
+    <classpath refid="revive.classpath" />
   </taskdef>
 
   <!-- Import the include/exclude filelist -->
   <import file="build-filelist.xml"/>
-
-  <!-- Package Integrity Plugin -->
-  <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
 
   <macrodef name="rv-version" description="Sets a value of the VERSION constant in the constants.php file.">
     <attribute name="versionstring" description="A version to be set."/>
