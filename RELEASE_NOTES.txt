@@ -43,7 +43,7 @@ Bug Fixes
  * Fixed an issue with non-ASCII (e.g. accented) characters not being properly
    encoded when sending e-mails.
 
- * Fixed issue with the CLI installer not setting permissions properly.
+ * Fixed an issue with the CLI installer not setting permissions properly.
 
  * Removed legacy checks for register_argc_argv being enabled. In fact it is
    recommended to keep it disabled ony SAPI, other than "cli", for security
