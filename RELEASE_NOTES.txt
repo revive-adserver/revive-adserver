@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.5.1
+Release Notes: Revive Adserver 5.6.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.5.1
+What's New in Revive Adserver 5.6.0
 -----------------------------------
 
  * Release date: t.b.d.
@@ -35,31 +35,7 @@ New Features
 Bug Fixes
 ---------
 
- * Fixed an issue preventing username and password from being always requested
-   during upgrades from 5.3.x and older versions. Running an upgrade with an
-   active logged-in session on the browser could result in the admin account
-   requiring a password reset at the next login.
-
- * Fixed an issue with non-ASCII (e.g. accented) characters not being properly
-   encoded when sending e-mails.
-
- * Fixed issue with the CLI installer not setting permissions properly.
-
- * Removed legacy checks for register_argc_argv being enabled. In fact it is
-   recommended to keep it disabled ony SAPI, other than "cli", for security
-   reasons.
-
- * Removed references to safe_mode, which has been removed from PHP a long
-   ago.
-
- * Fix fatal TypeError being triggered during delivery under some
-   circumstances.
-
- * Fix potential out of memory error during maintenance in case of database
-   issues.
-
- * Added proper escaping when displaying custom application name and UI
-   colour settings.
+ * None
 
 
 Non-Backwards Compatible Changes
