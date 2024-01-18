@@ -21,8 +21,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           name: test-results
-#          workflow: ${{ github.event.workflow.id }}
-#          run_id: ${{ github.event.workflow_run.id }}
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
           if_no_artifact_found: warn
 
       - name: Publish Test Report
