@@ -35,7 +35,7 @@ New Features
 Bug Fixes
 ---------
 
- * None
+ * Fixed Geo/Organisation delivery limitation not working as expected.
 
 
 Non-Backwards Compatible Changes
