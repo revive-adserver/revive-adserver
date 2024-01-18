@@ -35,6 +35,8 @@ New Features
 Bug Fixes
 ---------
 
+ * Fixed Geo/Organisation delivery limitation not working as expected.
+
  * Fix issue with password recovery process showing an empty recovery screen
    at the end of a successful process, under some circumstances.
 

@@ -27,5 +27,5 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 function MAX_checkGeo_Organisation($limitation, $op, $aParams = [])
 {
-    return MAX_limitationsMatchStringClientGeo('organisation', $limitation, $op, $aParams);
+    return MAX_limitationsMatchStringClientGeo('organization', $limitation, $op, $aParams);
 }
