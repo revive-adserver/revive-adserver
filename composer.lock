@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "595f0b9ad6c91255bc7bd988c35b7895",
+    "content-hash": "438e13a527b0f026b8f1b82366e609ac",
     "packages": [
         {
             "name": "bower-asset/tinymce",
@@ -2373,16 +2373,16 @@
     "packages-dev": [
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.59",
+            "version": "1.10.62",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e607609388d3a6d418a50a49f7940e8086798281"
+                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e607609388d3a6d418a50a49f7940e8086798281",
-                "reference": "e607609388d3a6d418a50a49f7940e8086798281",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cd5c8a1660ed3540b211407c77abf4af193a6af9",
+                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9",
                 "shasum": ""
             },
             "require": {
@@ -2431,7 +2431,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-20T13:59:13+00:00"
+            "time": "2024-03-13T12:27:20+00:00"
         },
         {
             "name": "rector/rector",
@@ -2491,34 +2491,30 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "9.4.70",
+            "version": "12.1.14",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "9276b0c7a1a5671fc4a067656ab40d0aea42aaca"
+                "url": "https://github.com/easy-coding-standard/easy-coding-standard.git",
+                "reference": "e3c4a241ee36704f7cf920d5931f39693e64afd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/9276b0c7a1a5671fc4a067656ab40d0aea42aaca",
-                "reference": "9276b0c7a1a5671fc4a067656ab40d0aea42aaca",
+                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/e3c4a241ee36704f7cf920d5931f39693e64afd5",
+                "reference": "e3c4a241ee36704f7cf920d5931f39693e64afd5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "conflict": {
-                "friendsofphp/php-cs-fixer": "<3.0",
-                "squizlabs/php_codesniffer": "<3.6"
+                "friendsofphp/php-cs-fixer": "<3.46",
+                "phpcsstandards/php_codesniffer": "<3.8",
+                "symplify/coding-standard": "<12.1"
             },
             "bin": [
                 "bin/ecs"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "9.5-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -2528,9 +2524,16 @@
             "license": [
                 "MIT"
             ],
-            "description": "Prefixed scoped version of ECS package",
+            "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer",
+            "keywords": [
+                "Code style",
+                "automation",
+                "fixer",
+                "static analysis"
+            ],
             "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/9.4.70"
+                "issues": "https://github.com/easy-coding-standard/easy-coding-standard/issues",
+                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/12.1.14"
             },
             "funding": [
                 {
@@ -2542,7 +2545,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-02T16:09:04+00:00"
+            "time": "2024-02-23T13:10:40+00:00"
         }
     ],
     "aliases": [],
