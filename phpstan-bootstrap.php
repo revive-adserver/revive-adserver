@@ -6,3 +6,5 @@ define('MAX_PATH', __DIR__);
 define('RV_PATH', __DIR__);
 define('OX_PATH', __DIR__);
 define('LIB_PATH', __DIR__ . '/lib/OX');
+
+require_once __DIR__ . '/tests/testClasses/ReviveAdserverCachedContainer.php';
