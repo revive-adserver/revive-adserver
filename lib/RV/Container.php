@@ -57,7 +57,6 @@ class Container implements PsrContainerInterface
 
         require_once $configCache->getPath();
 
-        // @phpstan-ignore-next-line
         $this->container = new \ReviveAdserverCachedContainer();
     }
 
@@ -72,7 +71,7 @@ class Container implements PsrContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function has($id)
+    public function has($id): bool
     {
         return $this->container->has($id);
     }
@@ -83,10 +82,8 @@ class Container implements PsrContainerInterface
      * @param ContainerBuilder $container
      * @param string           $hostname
      * @param bool             $isDelivery
-     *
-     * @return ConfigCache
      */
-    public function getConfigCache(ContainerBuilder $container, $hostname = "", $isDelivery = false)
+    public function getConfigCache(ContainerBuilder $container, $hostname = "", $isDelivery = false): ConfigCache
     {
         $filename =
             MAX_PATH .
@@ -105,10 +102,8 @@ class Container implements PsrContainerInterface
      * @param ConfigCache      $configCache
      *
      * @throws IOException
-     *
-     * @return ContainerInterface
      */
-    public function rebuildCachedContainer(ContainerBuilder $container, ConfigCache $configCache)
+    public function rebuildCachedContainer(ContainerBuilder $container, ConfigCache $configCache): ContainerInterface
     {
         $container->compile();
 

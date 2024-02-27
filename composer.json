@@ -13,7 +13,7 @@
     "config": {
         "vendor-dir": "lib/vendor",
         "platform": {
-            "php": "7.2.5"
+            "php": "8.1.0"
         },
         "allow-plugins": {
             "wikimedia/composer-merge-plugin": true
@@ -26,10 +26,11 @@
         }
     },
     "require": {
-        "symfony/config": "^5.4",
-        "symfony/console": "^5.4",
-        "symfony/dependency-injection": "^5.4",
-        "symfony/finder": "^5.4",
+        "symfony/config": "^6.4",
+        "symfony/console": "^6.4",
+        "symfony/dependency-injection": "^6.4",
+        "symfony/finder": "^6.4",
+        "symfony/http-foundation": "^6.4",
         "league/flysystem": "^1.0",
         "league/flysystem-ziparchive": "^1.0",
         "sinergi/browser-detector": "^6.0",

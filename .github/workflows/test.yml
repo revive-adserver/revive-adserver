@@ -20,10 +20,6 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - "7.2"
-          - "7.3"
-          - "7.4"
-          - "8.0"
           - "8.1"
           - "8.2"
           - "8.3"
@@ -48,14 +44,6 @@ jobs:
             table-type: innodb
           - db-type: mysqli
             table-type: pgsql
-          - audit: audit
-            php-version: "7.2"
-          - audit: audit
-            php-version: "7.3"
-          - audit: audit
-            php-version: "7.4"
-          - audit: audit
-            php-version: "8.0"
           - audit: audit
             php-version: "8.1"
           - audit: audit
