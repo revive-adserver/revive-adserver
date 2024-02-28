@@ -298,11 +298,11 @@ return MAX_cookieClientCookieSet($name, $value, $expire, $path, $domain);
 }
 function MAX_cookieUnset($name)
 {
-return MAX_cookieClientCookieUnset($name);
+MAX_cookieClientCookieUnset($name);
 }
 function MAX_cookieFlush()
 {
-return MAX_cookieClientCookieFlush();
+MAX_cookieClientCookieFlush();
 }
 function MAX_cookieLoad()
 {
@@ -460,7 +460,7 @@ if ($block > 0 || $setBlock) {
 MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
 }
 }
-function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
+function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = true, $sameSite = 'none')
 {
 if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
 if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
@@ -469,18 +469,19 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = [];
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
 } else {
 $secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
-if (PHP_VERSION_ID < 70300) {
-@setcookie($name, $value, $expires, $path . '; samesite=' . $sameSite, $domain, $secure, $httpOnly);
-} else {
-@setcookie($name, $value, [
-'expires' => $expires,
-'path' => $path,
-'domain' => $domain,
-'secure' => $secure,
-'httponly' => $httpOnly,
-'samesite' => $sameSite,
-]);
-}
+$cookie = new \Symfony\Component\HttpFoundation\Cookie(
+$name,
+$value,
+$expires,
+$path,
+$domain,
+$secure,
+$httpOnly,
+false,
+$sameSite,
+$secure
+);
+MAX_header("Set-Cookie: " . (string)$cookie);
 }
 }
 function MAX_cookieClientCookieUnset($name)
