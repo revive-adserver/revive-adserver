@@ -36,11 +36,11 @@ if (!is_callable('MAX_cookieSet')) {
         }
         function MAX_cookieUnset($name)
         {
-            return MAX_cookieClientCookieUnset($name);
+            MAX_cookieClientCookieUnset($name);
         }
         function MAX_cookieFlush()
         {
-            return MAX_cookieClientCookieFlush();
+            MAX_cookieClientCookieFlush();
         }
         function MAX_cookieLoad()
         {
@@ -323,7 +323,7 @@ function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessi
  *
  * @return null
  */
-function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
+function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = true, $sameSite = 'none')
 {
     ###START_STRIP_DELIVERY
     if (empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
@@ -336,18 +336,20 @@ function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain
         } else {
             $secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 
-            if (PHP_VERSION_ID < 70300) {
-                @setcookie($name, $value, $expires, $path . '; samesite=' . $sameSite, $domain, $secure, $httpOnly);
-            } else {
-                @setcookie($name, $value, [
-                    'expires' => $expires,
-                    'path' => $path,
-                    'domain' => $domain,
-                    'secure' => $secure,
-                    'httponly' => $httpOnly,
-                    'samesite' => $sameSite,
-                ]);
-            }
+            $cookie = new \Symfony\Component\HttpFoundation\Cookie(
+                $name,
+                $value,
+                $expires,
+                $path,
+                $domain,
+                $secure,
+                $httpOnly,
+                false,
+                $sameSite,
+                $secure // Partitioned cookies must be secure
+            );
+
+            MAX_header("Set-Cookie: " . (string)$cookie);
         }
         ###START_STRIP_DELIVERY
     } else {
