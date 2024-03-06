@@ -85,7 +85,8 @@ EOF;
             [$a_file, $a_line] = explode(':', $a);
             [$b_file, $b_line] = explode(':', $b);
             return $a_file !== $b_file ? $a_file <=> $b_file : $a_line <=> $b_line;
-        }); return $references;
+        });
+        return $references;
     }, $msgs);
 
     // Sort messages by first reference
