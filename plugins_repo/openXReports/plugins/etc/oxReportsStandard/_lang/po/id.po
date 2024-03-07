@@ -14,6 +14,53 @@ msgstr ""
 "X-Crowdin-File: /openXReports/plugins/etc/oxReportsStandard/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 336\n"
 
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:69
+msgid "Advertising Analysis Report"
+msgstr "Laporan Analisis Periklanan"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
+msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
+msgstr "Laporan ini menunjukkan perincian iklan untuk pengiklan atau situs web tertentu, siang hari, kampanye, dan zona."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
+msgid "Standard Reports"
+msgstr "Laporan Standar"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:95
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:259
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:135
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:302
+msgid "Daily Breakdown"
+msgstr "Rincian harian"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:309
+msgid "Campaign Breakdown"
+msgstr "Perincian Kampanye"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:98
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:361
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:137
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:378
+msgid "Zone Breakdown"
+msgstr "Kerusakan zona"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:96
+msgid "Campaign Analysis Report"
+msgstr "Laporan Analisis Kampanye"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:97
+msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
+msgstr "Laporan ini menunjukkan rincian periklanan untuk kampanye tertentu, hari demi hari, banner, dan zona."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:136
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
+msgid "Ad Breakdown"
+msgstr "Perincian Iklan"
+
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
 msgid "Conversion Tracking Report"
 msgstr "Laporan Pelacakan Konversi"
@@ -21,13 +68,6 @@ msgstr "Laporan Pelacakan Konversi"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
 msgid "A detailed breakdown of all conversion activity by advertiser or website."
 msgstr "Perincian rinci semua aktivitas konversi oleh pengiklan atau situs web."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
-msgid "Standard Reports"
-msgstr "Laporan Standar"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
@@ -106,33 +146,6 @@ msgstr "Menghubungkan Nilai Tanggal / Waktu"
 msgid "IP Address"
 msgstr "Alamat IP"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:96
-msgid "Campaign Analysis Report"
-msgstr "Laporan Analisis Kampanye"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:97
-msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
-msgstr "Laporan ini menunjukkan rincian periklanan untuk kampanye tertentu, hari demi hari, banner, dan zona."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:135
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:302
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:95
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:259
-msgid "Daily Breakdown"
-msgstr "Rincian harian"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:136
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
-msgid "Ad Breakdown"
-msgstr "Perincian Iklan"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:137
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:378
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:98
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:361
-msgid "Zone Breakdown"
-msgstr "Kerusakan zona"
-
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
 msgstr "Laporan Pengiriman Kampanye"
@@ -200,17 +213,4 @@ msgstr "Sisa"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Contract"
 msgstr "Alamat"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:69
-msgid "Advertising Analysis Report"
-msgstr "Laporan Analisis Periklanan"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
-msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
-msgstr "Laporan ini menunjukkan perincian iklan untuk pengiklan atau situs web tertentu, siang hari, kampanye, dan zona."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:309
-msgid "Campaign Breakdown"
-msgstr "Perincian Kampanye"
 
