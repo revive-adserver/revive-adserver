@@ -27,18 +27,10 @@ msgstr "%s Video-URL"
 msgid "Invalid URL"
 msgstr "Ungültige URL"
 
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoZoneChecker.php:39
-msgid "VAST2 Invocation Code"
-msgstr "VAST2 Anruf-Code"
-
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:50
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:75
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:50
 msgid "Additional Trackers"
 msgstr "Zusätzliche Tracker"
-
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
-msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
-msgstr "Unten finden Sie das Tas, das in Video-Playern und anderen Systemen verwendet werden kann, die VAST 2.0 konform sind:"
 
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:77
 msgid "Impression trackers (one URL per line)"
@@ -47,4 +39,12 @@ msgstr "Impressions-Tracker (eine URL pro Zeile)"
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:154
 msgid "Invalid URL: %s"
 msgstr "Ungültige URL: %1$s"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoZoneChecker.php:39
+msgid "VAST2 Invocation Code"
+msgstr "VAST2 Anruf-Code"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
+msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
+msgstr "Unten finden Sie das Tas, das in Video-Playern und anderen Systemen verwendet werden kann, die VAST 2.0 konform sind:"
 

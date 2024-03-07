@@ -14,6 +14,53 @@ msgstr ""
 "X-Crowdin-File: /openXReports/plugins/etc/oxReportsStandard/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 336\n"
 
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:69
+msgid "Advertising Analysis Report"
+msgstr "Rapporten för analys av reklam"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
+msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
+msgstr "Den här rapporten visar en uppdelning av reklam för en viss annonsör eller hemsida, genom dag, kampanj och zon."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
+msgid "Standard Reports"
+msgstr "Standardrapporter"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:95
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:259
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:135
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:302
+msgid "Daily Breakdown"
+msgstr "Dagliga uppdelning"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:309
+msgid "Campaign Breakdown"
+msgstr "Kampanjuppdelning"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:98
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:361
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:137
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:378
+msgid "Zone Breakdown"
+msgstr "Zonuppdelning"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:96
+msgid "Campaign Analysis Report"
+msgstr "Rapporten för analys av kampanj"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:97
+msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
+msgstr "Den här rapporten visar en uppdelning av reklam för en viss kampanj, av dag, banner och zon."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:136
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
+msgid "Ad Breakdown"
+msgstr "Annonsuppdelning"
+
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
 msgid "Conversion Tracking Report"
 msgstr "Konverteringsspårningsrapport"
@@ -21,13 +68,6 @@ msgstr "Konverteringsspårningsrapport"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
 msgid "A detailed breakdown of all conversion activity by advertiser or website."
 msgstr "En detaljerad uppdelning av alla omvandlingsaktivitet av annonsör eller webbplats."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
-msgid "Standard Reports"
-msgstr "Standardrapporter"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
@@ -106,33 +146,6 @@ msgstr "Anslutningsvärde datum / tid"
 msgid "IP Address"
 msgstr "IP Adress"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:96
-msgid "Campaign Analysis Report"
-msgstr "Rapporten för analys av kampanj"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:97
-msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
-msgstr "Den här rapporten visar en uppdelning av reklam för en viss kampanj, av dag, banner och zon."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:135
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:302
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:95
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:259
-msgid "Daily Breakdown"
-msgstr "Dagliga uppdelning"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:136
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
-msgid "Ad Breakdown"
-msgstr "Annonsuppdelning"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:137
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:378
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:98
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:361
-msgid "Zone Breakdown"
-msgstr "Zonuppdelning"
-
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
 msgstr "Kampanjleveransrapport"
@@ -200,17 +213,4 @@ msgstr "Kvarleva"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Contract"
 msgstr "Kontakt"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:69
-msgid "Advertising Analysis Report"
-msgstr "Rapporten för analys av reklam"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
-msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
-msgstr "Den här rapporten visar en uppdelning av reklam för en viss annonsör eller hemsida, genom dag, kampanj och zon."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:309
-msgid "Campaign Breakdown"
-msgstr "Kampanjuppdelning"
 
