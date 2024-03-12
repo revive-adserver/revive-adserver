@@ -233,6 +233,11 @@ class MaxMindGeoIP2
         return self::DEFAULT_MMDB !== self::getMmdbPaths();
     }
 
+    public static function getAccountId(): string
+    {
+        return $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['account_id'] ?? '';
+    }
+
     public static function getLicenseKey(): string
     {
         return $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['license_key'] ?? '';

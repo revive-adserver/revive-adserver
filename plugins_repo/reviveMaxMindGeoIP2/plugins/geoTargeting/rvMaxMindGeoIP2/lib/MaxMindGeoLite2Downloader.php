@@ -10,7 +10,7 @@ class MaxMindGeoLite2Downloader
     public const RELATIVE_PATH = 'var/plugins/rvMaxMindGeoIP2/';
     public const FULL_PATH = MAX_PATH . '/' . self::RELATIVE_PATH;
 
-    public const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/app/geoip_download';
+    public const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/geoip/databases/%s/download';
     public const GEOLITE2_SUFFIX_TAR_GZ = '.tar.gz';
     public const GEOLITE2_SUFFIX_MD5 = self::GEOLITE2_SUFFIX_TAR_GZ . '.md5';
     public const GEOLITE2_DBNAME = 'GeoLite2-City';
@@ -113,15 +113,20 @@ class MaxMindGeoLite2Downloader
         $options = array_merge(
             [
                 'query' => [
-                    'edition_id' => self::GEOLITE2_DBNAME,
                     'suffix' => ltrim($suffix, '.'),
-                    'license_key' => MaxMindGeoIP2::getLicenseKey(),
+                ],
+                'auth' => [
+                    MaxMindGeoIP2::getAccountId(),
+                    MaxMindGeoIP2::getLicenseKey(),
                 ],
             ],
             $options
         );
 
-        return $this->client->get(self::GEOLITE2_DOWNLOAD_URI, $options);
+        return $this->client->get(
+            sprintf(self::GEOLITE2_DOWNLOAD_URI, self::GEOLITE2_DBNAME),
+            $options
+        );
     }
 
     private function decompress(string $tarGzPath): bool
