@@ -1572,47 +1572,23 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
 class Mock_OX_Plugin_ComponentGroupManager extends OX_Plugin_ComponentGroupManager
 {
-    public function task1()
-    {
-    }
-    public function task2()
-    {
-    }
-    public function untask1()
-    {
-    }
-    public function untask2()
-    {
-    }
+    public function task1() {}
+    public function task2() {}
+    public function untask1() {}
+    public function untask2() {}
 }
 
 class Mock_stdClass
 {
     public $error;
 
-    public function setInputFile()
-    {
-    }
-    public function parse()
-    {
-    }
+    public function setInputFile() {}
+    public function parse() {}
 
-    public function getApplicationVersion()
-    {
-    }
-    public function getSchemaVersion()
-    {
-    }
-    public function putApplicationVersion()
-    {
-    }
-    public function putSchemaVersion()
-    {
-    }
-    public function removeVersion()
-    {
-    }
-    public function removeVariable()
-    {
-    }
+    public function getApplicationVersion() {}
+    public function getSchemaVersion() {}
+    public function putApplicationVersion() {}
+    public function putSchemaVersion() {}
+    public function removeVersion() {}
+    public function removeVariable() {}
 }

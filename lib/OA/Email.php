@@ -116,7 +116,7 @@ class OA_Email
 
         // Load the required strings
         global $strMailHeader, $strSirMadam, $strMailBannerStats, $strMailReportPeriodAll,
-               $strMailReportPeriod, $date_format, $strMailSubject;
+        $strMailReportPeriod, $date_format, $strMailSubject;
 
         // Prepare the result array
         $aResult = [
@@ -214,7 +214,7 @@ class OA_Email
         // Load the impression, click and conversion delivery strings, and
         // prepare formatting strings
         global $strImpressions, $strClicks, $strConversions, $strTotal,
-               $strTotalThisPeriod;
+        $strTotalThisPeriod;
         $strTotalImpressions = $strImpressions . ' (' . $strTotal . ')';
         $strTotalClicks = $strClicks . ' (' . $strTotal . ')';
         $strTotalConversions = $strConversions . ' (' . $strTotal . ')';
@@ -355,7 +355,7 @@ class OA_Email
         // Obtain the impressions, clicks and conversions string, and prepare
         // these strings for use, including formatting strings
         global $strNoViewLoggedInInterval, $strNoClickLoggedInInterval, $strNoConversionLoggedInInterval,
-               $strTotalThisPeriod;
+        $strTotalThisPeriod;
 
         if ($type == 'impressions') {
             $nothingLogged = $strNoViewLoggedInInterval;
@@ -683,8 +683,8 @@ class OA_Email
 
         // Load the required strings
         global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,
-               $strSirMadam, $strTheCampiaignBelongingTo, $strYourCampaign, $strImpendingCampaignExpiryBody,
-               $strMailFooter, $strImpendingCampaignExpiry;
+        $strSirMadam, $strTheCampiaignBelongingTo, $strYourCampaign, $strImpendingCampaignExpiryBody,
+        $strMailFooter, $strImpendingCampaignExpiry;
 
         // Prepare the expiration email body
         if ($reason == 'date') {
@@ -895,10 +895,10 @@ class OA_Email
 
         // Load the required strings
         global $strMailHeader, $strSirMadam,
-               $strMailBannerActivatedSubject, $strMailBannerDeactivatedSubject,
-               $strMailBannerActivated, $strMailBannerDeactivated,
-               $strNoMoreImpressions, $strNoMoreClicks, $strNoMoreConversions,
-               $strAfterExpire;
+        $strMailBannerActivatedSubject, $strMailBannerDeactivatedSubject,
+        $strMailBannerActivated, $strMailBannerDeactivated,
+        $strNoMoreImpressions, $strNoMoreClicks, $strNoMoreConversions,
+        $strAfterExpire;
 
         // Fetch the campaign
         $aCampaign = $this->_loadCampaign($campaignId);

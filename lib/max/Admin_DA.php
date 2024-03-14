@@ -216,30 +216,29 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams);
         $aLeftJoinedTables = [];
         switch ($entity) {
+            case 'agency': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
+                $aGroupBy = array_keys($aColumns);
+                $aColumns['COUNT(a.clientid)'] = 'num_children';
+                break;
 
-        case 'agency': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
-            $aGroupBy = array_keys($aColumns);
-            $aColumns['COUNT(a.clientid)'] = 'num_children';
-            break;
+            case 'advertiser': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
+                $aGroupBy = array_keys($aColumns);
+                $aColumns['COUNT(m.campaignid)'] = 'num_children';
+                break;
 
-        case 'advertiser': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
-            $aGroupBy = array_keys($aColumns);
-            $aColumns['COUNT(m.campaignid)'] = 'num_children';
-            break;
+            case 'placement': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
+                $aGroupBy = array_keys($aColumns);
+                $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
+                $aColumns['COUNT(d.bannerid)'] = 'num_children';
+                break;
 
-        case 'placement': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
-            $aGroupBy = array_keys($aColumns);
-            $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
-            $aColumns['COUNT(d.bannerid)'] = 'num_children';
-            break;
+            case 'publisher': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
+                $aGroupBy = array_keys($aColumns);
+                $aColumns['COUNT(z.zoneid)'] = 'num_children';
+                break;
 
-        case 'publisher': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
-            $aGroupBy = array_keys($aColumns);
-            $aColumns['COUNT(z.zoneid)'] = 'num_children';
-            break;
-
-        default:
-            $aGroupBy = null;
+            default:
+                $aGroupBy = null;
         }
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
@@ -349,15 +348,14 @@ class Admin_DA
 
         //  manually determine timeout required to instantiate cache object
         switch ($numArgs) {
-
-        case 3:
-            $timeout = $aArgs[2];
-            break;
-        case 5:
-            $timeout = $aArgs[4];
-            break;
-        default:
-            $timeout = null;
+            case 3:
+                $timeout = $aArgs[2];
+                break;
+            case 5:
+                $timeout = $aArgs[4];
+                break;
+            default:
+                $timeout = null;
         }
 
         $method = $aArgs[0];
@@ -376,34 +374,33 @@ class Admin_DA
         $cache = new Cache_Lite_Function($options);
 
         switch ($numArgs) {
+            case 2:
+            case 3:
+                $id = $aArgs[1];
+                $timeout = @$aArgs[2]; // timeout may not be supplied
 
-        case 2:
-        case 3:
-            $id = $aArgs[1];
-            $timeout = @$aArgs[2]; // timeout may not be supplied
-
-            // catch stats case
-            if (is_array($aArgs[1])) {
-                $aParams = $aArgs[1];
-                $allFields = isset($aArgs[2]) ? $aArgs[2] : false;
-                $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields);
-            } else {
-                $ret = $cache->call("Admin_DA::" . $method, $id);
-            }
-            break;
+                // catch stats case
+                if (is_array($aArgs[1])) {
+                    $aParams = $aArgs[1];
+                    $allFields = isset($aArgs[2]) ? $aArgs[2] : false;
+                    $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields);
+                } else {
+                    $ret = $cache->call("Admin_DA::" . $method, $id);
+                }
+                break;
 
             case 4:
             case 5:
-            $aParams = $aArgs[1];
-            $allFields = $aArgs[2];
-            $key = @$aArgs[3];
-            $timeout = @$aArgs[4];
+                $aParams = $aArgs[1];
+                $allFields = $aArgs[2];
+                $key = @$aArgs[3];
+                $timeout = @$aArgs[4];
 
-            $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields, $key);
-            break;
+                $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields, $key);
+                break;
 
-        default:
-            return PEAR::raiseError('incorrect args passed');
+            default:
+                return PEAR::raiseError('incorrect args passed');
         }
         return $ret;
     }
@@ -659,7 +656,7 @@ class Admin_DA
         if (empty($connectionId)) {
             return false;
         } else {
-            $connectionId = (int)$connectionId;
+            $connectionId = (int) $connectionId;
         }
 
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
@@ -955,13 +952,13 @@ class Admin_DA
     {
         $aAllowedBannerType = [];
         switch ($aZone['type']) {
-        case MAX_ZoneEmail:
-            $aAllowedBannerType = ['sql', 'web', 'url'];
-            $aAllowedContentType = ['gif', 'jpeg', 'png'];
-            break;
-        case phpAds_ZoneText:
-            $aAllowedBannerType = ['txt'];
-            break;
+            case MAX_ZoneEmail:
+                $aAllowedBannerType = ['sql', 'web', 'url'];
+                $aAllowedContentType = ['gif', 'jpeg', 'png'];
+                break;
+            case phpAds_ZoneText:
+                $aAllowedBannerType = ['txt'];
+                break;
         }
         //  return false if banner is not allowed to be linked to selected zone type
         if ((($aZone['type'] != MAX_ZoneEmail) && !in_array($bannerType, $aAllowedBannerType)) ||

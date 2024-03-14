@@ -18,13 +18,13 @@ class MAX_Util_ArrayUtilsTest extends UnitTestCase
     {
         $aValuesExpected = [1 => 'aaaa', 2 => 'bbbb', 3 => 'cccc', 'x' => 'zzzz'];
         $aValues = $aValuesExpected;
-        
+
         ArrayUtils::unsetIfKeyNumeric($aValues, 'non-existent');
         $this->assertEqual($aValuesExpected, $aValues);
 
         ArrayUtils::unsetIfKeyNumeric($aValues, null);
         $this->assertEqual($aValuesExpected, $aValues);
-        
+
         ArrayUtils::unsetIfKeyNumeric($aValues, 'zzzz');
         $this->assertEqual($aValuesExpected, $aValues);
 
@@ -34,7 +34,7 @@ class MAX_Util_ArrayUtilsTest extends UnitTestCase
 
         $aValuesExpected = [1 => 'aaaa', 2 => 'bbbb', 'x' => 'zzzz'];
         $aValues = [1 => 'aaaa', 2 => 'bbbb', 3 => null, 'x' => 'zzzz'];
-        
+
         ArrayUtils::unsetIfKeyNumeric($aValues, null);
         $this->assertEqual($aValuesExpected, $aValues);
     }

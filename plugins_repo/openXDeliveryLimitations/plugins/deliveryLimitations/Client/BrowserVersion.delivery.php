@@ -54,5 +54,5 @@ function MAX_checkClient_BrowserVersion($limitation, $op, $aParams = [])
         $aLimitation[1] = 0;
     }
 
-    return MAX_limitationMatchNumeric('browserVersion', (float)$aLimitation[1], $op, $aParams);
+    return MAX_limitationMatchNumeric('browserVersion', (float) $aLimitation[1], $op, $aParams);
 }

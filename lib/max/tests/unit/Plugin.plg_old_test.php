@@ -390,18 +390,14 @@ class TestOfMAX_Plugin extends UnitTestCase
      *
      * @TODO To be written.
      */
-    public function testFactoryPluginByModuleConfig()
-    {
-    }
+    public function testFactoryPluginByModuleConfig() {}
 
     /**
      * A method to test the getConfig() method.
      *
      * @TODO To be written.
      */
-    public function testGetConfig()
-    {
-    }
+    public function testGetConfig() {}
 
     /**
      * A method to test the getConfigFileName() method.
@@ -469,18 +465,14 @@ class TestOfMAX_Plugin extends UnitTestCase
      *
      * @TODO To be written.
      */
-    public function testCopyDefaultConfig()
-    {
-    }
+    public function testCopyDefaultConfig() {}
 
     /**
      * A method to test the writePluginConfig() method.
      *
      * @TODO To be written.
      */
-    public function testWritePluginConfig()
-    {
-    }
+    public function testWritePluginConfig() {}
 
     /**
      * A method to test the _mkDirRecursive() method.

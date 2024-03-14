@@ -179,25 +179,25 @@ class OX_Plugin_ComponentGroupManager
         $aGroup['status'] = $this->oUpgrader->existing_installation_status;
         switch ($aGroup['status']) {
             case OA_STATUS_PLUGIN_CAN_UPGRADE:
-                    $this->_logMessage('Plugin can be upgraded ' . $aGroup['name']);
-                    $result = true;
-                    break;
+                $this->_logMessage('Plugin can be upgraded ' . $aGroup['name']);
+                $result = true;
+                break;
             case OA_STATUS_PLUGIN_NOT_INSTALLED:
-                    $this->_logError('Plugin is not yet installed ' . $aGroup['name']);
-                    $result = true;
-                    break;
+                $this->_logError('Plugin is not yet installed ' . $aGroup['name']);
+                $result = true;
+                break;
             case OA_STATUS_PLUGIN_CURRENT_VERSION:
-                    $this->_logMessage('Plugin is up to date ' . $aGroup['name']);
-                    $result = true;
-                    break;
+                $this->_logMessage('Plugin is up to date ' . $aGroup['name']);
+                $result = true;
+                break;
             case OA_STATUS_PLUGIN_VERSION_FAILED:
-                    $this->_logError('Bad version, cannot upgrade ' . $aGroup['name']);
-                    $result = false;
-                    break;
+                $this->_logError('Bad version, cannot upgrade ' . $aGroup['name']);
+                $result = false;
+                break;
             case OA_STATUS_PLUGIN_DBINTEG_FAILED:
-                    $this->_logError('Plugin failed schema integrity check ' . $aGroup['name']);
-                    $result = false;
-                    break;
+                $this->_logError('Plugin failed schema integrity check ' . $aGroup['name']);
+                $result = false;
+                break;
         }
         return $result;
     }
@@ -1367,7 +1367,7 @@ class OX_Plugin_ComponentGroupManager
                 if ((!is_a($aObjects[$name]['dbo'], 'DataObjects_' . ucfirst($table)))
                      ||
                      (!is_a($aObjects[$name]['dbo'], 'DB_DataObjectCommon'))
-                   ) {
+                ) {
                     $aResult[$table]['dataobject'] = 'ERROR: dataobject problems found, details in debug.log ';
                     if (!is_a($aObjects[$name]['dbo'], 'DataObjects_' . ucfirst($table))) {
                         $this->_logError('Dataobject classname mismatch ' . get_class($aObjects[$name]['dbo']) . ' should be DataObjects_' . ucfirst($table), PEAR_LOG_ERR);
@@ -2017,7 +2017,7 @@ class OX_Plugin_ComponentGroupManager
         require_once LIB_PATH . '/Plugin/Component.php';
         $aComponents = OX_Component::getComponents($extends, $group, false, true, false);
         foreach ($aComponents as &$obj) {
-            $aResult[] = (array)$obj;
+            $aResult[] = (array) $obj;
         }
         return $aResult;
         //$aGroupInfo['pluginGroupComponents'] = OX_Component::_getComponentFiles($aGroupInfo['extends'], $plugin);

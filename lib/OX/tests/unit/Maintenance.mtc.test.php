@@ -171,7 +171,7 @@ class Test_OA_Maintenance extends UnitTestCase
         $iLastRun = strtotime('2002-01-01');
         OA_Dal_ApplicationVariables::set('maintenance_timestamp', $iLastRun);
 
-        $oDate = new Date((int)$iLastRun);
+        $oDate = new Date((int) $iLastRun);
         $this->assertTrue($oDate->equals($oMaintenance->getLastRun()));
 
         OA_Dal_ApplicationVariables::delete('maintenance_timestamp');

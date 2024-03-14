@@ -370,10 +370,14 @@ if (!empty($aConversions)) {
             </tr>";
 
             switch ($conversion['connection_action']) {
-                case MAX_CONNECTION_AD_CLICK:   $action = 'Click'; break;
-                case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival'; break;
-                case MAX_CONNECTION_MANUAL:     $action = 'Manual'; break;
-                default:                        $action = 'View'; break;
+                case MAX_CONNECTION_AD_CLICK:   $action = 'Click';
+                    break;
+                case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival';
+                    break;
+                case MAX_CONNECTION_MANUAL:     $action = 'Manual';
+                    break;
+                default:                        $action = 'View';
+                    break;
             }
 
             $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];

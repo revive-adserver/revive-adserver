@@ -14,9 +14,7 @@ class OX_Extension
 {
     public $aExtensions = [];
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * acquire the extensions event handling class if exists

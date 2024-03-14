@@ -10,11 +10,11 @@ class OX_Vast_Url
      */
     public static function getCurrentUrl()
     {
-        return	self::getCurrentHost()
+        return self::getCurrentHost()
                 . self::getCurrentScriptName()
                 . self::getCurrentQueryString();
     }
-    
+
     /**
      * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
      * will return "http://example.org/dir1/dir2/index.php"
@@ -22,10 +22,10 @@ class OX_Vast_Url
      */
     public static function getCurrentUrlWithoutQueryString()
     {
-        return	self::getCurrentHost()
+        return self::getCurrentHost()
                 . self::getCurrentScriptName();
     }
-    
+
     /**
      * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
      * will return "http://example.org/dir1/dir2/"
@@ -46,7 +46,7 @@ class OX_Vast_Url
     public static function getCurrentScriptPath()
     {
         $queryString = self::getCurrentScriptName();
-        
+
         //add a fake letter case /test/test2/ returns /test which is not expected
         $urlDir = dirname($queryString . 'x');
         $urlDir = str_replace('\\', '/', $urlDir);
@@ -56,7 +56,7 @@ class OX_Vast_Url
         }
         return $urlDir;
     }
-    
+
     /**
      * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
      * will return "/dir1/dir2/index.php"
@@ -74,7 +74,7 @@ class OX_Vast_Url
                 $url = $_SERVER['REQUEST_URI'];
             }
         }
-        
+
         if (empty($url)) {
             $url = $_SERVER['SCRIPT_NAME'];
         }
@@ -90,14 +90,14 @@ class OX_Vast_Url
     {
         if (isset($_SERVER['HTTPS'])
             && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)
-            ) {
+        ) {
             $url = 'https';
         } else {
             $url = 'http';
         }
-        
+
         $url .= '://';
-        
+
         if (isset($_SERVER['HTTP_HOST'])) {
             $url .= $_SERVER['HTTP_HOST'];
         } else {
@@ -105,7 +105,7 @@ class OX_Vast_Url
         }
         return $url;
     }
-        
+
     /**
      * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
      * will return "?param1=value1&param2=value2"
@@ -120,7 +120,7 @@ class OX_Vast_Url
         }
         return $url;
     }
-    
+
     /**
      * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
      * will return
@@ -136,7 +136,7 @@ class OX_Vast_Url
         parse_str($queryString, $urlValues);
         return $urlValues;
     }
-    
+
     /**
      * Given an array of name-values, it will return the current query string
      * with the new requested parameter key-values;
@@ -157,7 +157,7 @@ class OX_Vast_Url
         }
         return '';
     }
-    
+
     /**
      * Given an array of parameters name->value, returns the query string.
      * Also works with array values using the php array syntax for GET parameters.
@@ -182,7 +182,7 @@ class OX_Vast_Url
         $query = substr($query, 0, -1);
         return $query;
     }
-    
+
     /**
      * Redirects the user to the Referer if found.
      * If the user doesn't have a referer set, it redirects to the current URL without query string.
@@ -197,7 +197,7 @@ class OX_Vast_Url
         }
         self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
     }
-    
+
     /**
      * Redirects the user to the specified URL
      *
@@ -209,7 +209,7 @@ class OX_Vast_Url
         header("Location: $url");
         exit;
     }
-    
+
     /**
      * Returns the HTTP_REFERER header, false if not found.
      *

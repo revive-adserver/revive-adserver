@@ -60,7 +60,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
              'bool' => 'true',
          ]
     ];
-    
+
     // Block Inactive Banner Settings
     $aElements += [
          'logging_blockInactiveBanners' => [
@@ -68,7 +68,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
              'bool' => 'true',
          ]
      ];
-    
+
     // Block Banner Logging Window Settings
     $aElements += [
          'logging_blockAdClicksWindow' => [

@@ -29,5 +29,3 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Distributed.php';
 require_once OX_PATH . '/lib/OX.php';
 
 OX_Maintenance_Distributed::run();
-
-?>

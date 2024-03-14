@@ -56,8 +56,8 @@ function maintenance_goto_section()
                 echo "<option value='storage'" . ($subSection == 'storage' ? ' selected' : '') . ">" . $GLOBALS['strStorage'] . "</option>";
             }
 
-//            if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
-//                echo "<option value='cache'".($subSection == 'zones' ? ' selected' : '').">".$GLOBALS['strCache']."</option>";
+            //            if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
+            //                echo "<option value='cache'".($subSection == 'zones' ? ' selected' : '').">".$GLOBALS['strCache']."</option>";
 
             if ($conf['delivery']['acls']) {
                 echo "<option value='acls'" . ($subSection == 'acls' ? ' selected' : '') . ">" . $GLOBALS['strDeliveryLimitations'] . "</option>";

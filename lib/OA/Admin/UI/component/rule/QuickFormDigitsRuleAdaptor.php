@@ -28,7 +28,7 @@ class OA_Admin_UI_Rule_JQueryDigitsRule extends OA_Admin_UI_Rule_BaseQuickFormRu
     {
         return "\"digits\": true";
     }
-    
+
     public function getJQueryValidationMessage($rule)
     {
         return "\"digits\": \"" . $rule['message'] . "\"";

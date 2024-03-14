@@ -676,23 +676,23 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aGroupsNew as $idx => &$aGroup) {
             switch ($aGroup['status']) {
                 case OA_STATUS_PLUGIN_CAN_UPGRADE:
-                        $result = $this->upgradeComponentGroup($aGroup);
-                        switch ($result) {
-                            case UPGRADE_ACTION_UPGRADE_SUCCEEDED:
-                                    $this->_logMessage('Upgrade succeeded ' . $aGroup['name']);
-                                    $this->_cacheDependencies();
-                                    break;
-                            case UPGRADE_ACTION_UPGRADE_FAILED:
-                                    $this->_logError('Failed to upgrade ' . $aGroup['name']);
-                                    return false;
-                        }
-                        break;
-                case OA_STATUS_PLUGIN_NOT_INSTALLED:
-                        $aGroupList = [0 => $aGroup];
-                        if (!$this->_installComponentGroups($aGroupList)) {
+                    $result = $this->upgradeComponentGroup($aGroup);
+                    switch ($result) {
+                        case UPGRADE_ACTION_UPGRADE_SUCCEEDED:
+                            $this->_logMessage('Upgrade succeeded ' . $aGroup['name']);
+                            $this->_cacheDependencies();
+                            break;
+                        case UPGRADE_ACTION_UPGRADE_FAILED:
+                            $this->_logError('Failed to upgrade ' . $aGroup['name']);
                             return false;
-                        }
-                        break;
+                    }
+                    break;
+                case OA_STATUS_PLUGIN_NOT_INSTALLED:
+                    $aGroupList = [0 => $aGroup];
+                    if (!$this->_installComponentGroups($aGroupList)) {
+                        return false;
+                    }
+                    break;
             }
         }
         if (!empty($aGroupsOld)) {
@@ -835,7 +835,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         if ((!isset($this->aParse['package']['install']['contents'])) ||
                 empty($this->aParse['package']['install']['contents']) ||
                 (!is_array($this->aParse['package']['install']['contents']))
-           ) {
+        ) {
             $this->aParse['package'] = [];
             $this->_logError('Found no contents in package definition for ' . $name);
             return false;
@@ -1092,9 +1092,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 }
 
                 return true;
-            /*case 'xml':
-                $pkgFile = $aPath['filename'];
-                break;*/
+                /*case 'xml':
+                    $pkgFile = $aPath['filename'];
+                    break;*/
             default:
                 return false;
         }

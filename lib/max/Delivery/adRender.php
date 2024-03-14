@@ -89,7 +89,7 @@
  *
  * @return string   The HTML to display this ad
  */
-function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', string $target = '', string $ct0 = '', bool $withText = false, string $charset = '', bool $logClick = true, bool $logView = true, bool $richMedia = true, string $loc = '', string $referer = null, array &$context = [])
+function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', string $target = '', string $ct0 = '', bool $withText = false, string $charset = '', bool $logClick = true, bool $logView = true, bool $richMedia = true, string $loc = '', ?string $referer = null, array &$context = [])
 {
     $aBanner['bannerContent'] = "";
 
@@ -578,7 +578,7 @@ function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $r
  *
  * @return string
  */
-function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
+function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, ?string $customDestination = null): string
 {
     // HACK - sometimes $aBanner has the banner ID as bannerid, and others it is ad_id.  This needs
     //  to be sorted in all parts of the application to reference ad_id rather than bannerid.
@@ -666,7 +666,7 @@ function _adRenderReplaceMagicMacros(array $aBanner, string $input): string
     );
 }
 
-function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', string $ct0 = null, bool $logClick = true, string $customDestination = null): string
+function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', ?string $ct0 = null, bool $logClick = true, ?string $customDestination = null): string
 {
     $clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']) . '?' .
         _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDestination);
@@ -802,7 +802,7 @@ function _getAdRenderFunction($aBanner, $richMedia = true)
                 $functionName = '_adRenderImage';
                 break;
             case 'txt':
-                    $functionName = '_adRenderText';
+                $functionName = '_adRenderText';
                 break;
             default:
                 switch ($aBanner['type']) {

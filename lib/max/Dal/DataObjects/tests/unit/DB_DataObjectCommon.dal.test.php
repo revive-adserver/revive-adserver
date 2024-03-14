@@ -101,13 +101,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaignsFilter->clientid = $clientId;
 
         // test filtering and test that rows are not indexed by primary key
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll();
         $this->assertEqual(count($aCheck), count($aCampaignId));
         $this->assertEqual(array_keys($aCheck), [0, 1]);
 
         // test indexing with primary keys
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll([], $indexWithPrimaryKey = true);
         $aTest = array_keys($aCheck);
         sort($aTest);
@@ -117,13 +117,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         }
 
         // test flattening if only one field
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll(['campaignname'], $indexWithPrimaryKey = false, $flatten = true);
         foreach ($aCheck as $check) {
             $this->assertEqual($check, $campaignName);
         }
         // test that we don't have to use array if only one field is set
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck2 = $doCampaigns->getAll('campaignname', $indexWithPrimaryKey = false, $flatten = true);
         $this->assertEqual($aCheck, $aCheck2);
 
@@ -534,11 +534,11 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aResult['col1'], 111);
         $this->assertEqual($aResult['col2'], 'abc');
 
-        $oDoNew = clone($oDoOld);
+        $oDoNew = clone ($oDoOld);
         $oDoNew->col1 = 222;
         $oDoNew->col2 = 'def';
 
-        $oDo = clone($oDoOld);
+        $oDo = clone ($oDoOld);
         $oDo->setReturnValue('_cloneObjectFromDatabase', $oDoNew);
         $oDo->_tableName = 'table1';
 
@@ -551,7 +551,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aResult['col2']['is'], 'def');
 
         // prepare *delete* audit values
-        $oDo = clone($oDoNew);
+        $oDo = clone ($oDoNew);
         $oDo->_tableName = 'table1';
         $aResult = $oDo->_prepAuditArray(3, null);
         $this->assertIsA($aResult, 'array');

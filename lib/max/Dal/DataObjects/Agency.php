@@ -189,7 +189,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
     public function agencyExists($agencyName)
     {
         $this->name = $agencyName;
-        return (bool)$this->count();
+        return (bool) $this->count();
     }
 
     public function belongsToAccount($accountId = null)

@@ -15,9 +15,7 @@ $className = 'postscript_install_testPlugin';
 
 class postscript_install_testPlugin
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams = [])
     {

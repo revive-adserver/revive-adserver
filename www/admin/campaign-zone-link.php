@@ -75,10 +75,10 @@ if ($GLOBALS['allSelected'] == 'true') {
 
 switch ($action) {
     case "link":
-            $result = $oDalZones->linkZonesToCampaign($aZonesIds, $campaignId);
+        $result = $oDalZones->linkZonesToCampaign($aZonesIds, $campaignId);
         break;
     case "unlink":
-            $result = $oDalZones->unlinkZonesFromCampaign($aZonesIds, $campaignId);
+        $result = $oDalZones->unlinkZonesFromCampaign($aZonesIds, $campaignId);
         break;
 };
 
@@ -94,18 +94,18 @@ $oTpl->display();
 echo "<!--result-info-start-->";
 switch ($action) {
     case "link":
-            if ($result == -1) {
-                echo $GLOBALS['strLinkingZonesProblem'];
-            } else {
-                echo $result . " " . $GLOBALS['strZonesLinked'];
-            }
+        if ($result == -1) {
+            echo $GLOBALS['strLinkingZonesProblem'];
+        } else {
+            echo $result . " " . $GLOBALS['strZonesLinked'];
+        }
         break;
     case "unlink":
-            if ($result == -1) {
-                echo $GLOBALS['strUnlinkingZonesProblem'];
-            } else {
-                echo $result . " " . $GLOBALS['strZonesUnlinked'];
-            }
+        if ($result == -1) {
+            echo $GLOBALS['strUnlinkingZonesProblem'];
+        } else {
+            echo $result . " " . $GLOBALS['strZonesUnlinked'];
+        }
         break;
 };
 echo "<!--result-info-end-->";

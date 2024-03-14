@@ -5,7 +5,8 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
 
 return ECSConfig::configure()
-    ->withPaths(array_merge([
+    ->withPaths(array_merge(
+        [
             __DIR__ . '/etc',
             __DIR__ . '/lib/max',
             __DIR__ . '/lib/OA',

@@ -240,8 +240,8 @@ class OA_Admin_Template extends Smarty
     public static function _function_showStatusText($aParams, &$smarty)
     {
         global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
-               $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected,
-               $strCampaignStatusPending;
+        $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected,
+        $strCampaignStatusPending;
 
         if (isset($aParams['status'])) {
             switch ($aParams['status']) {

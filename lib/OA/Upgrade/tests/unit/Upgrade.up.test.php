@@ -102,16 +102,16 @@ class Test_OA_Upgrade extends UnitTestCase
         return $aVersions;
     }
 
-//    function _readUpgradePackagesArray()
-//    {
-//        global $readPath, $writeFile;
-//
-//        $this->assertTrue(file_exists($writeFile),'array file not found');
-//        $array = file_get_contents($writeFile);
-//        $aVersions = unserialize($array);
-//        $this->assertIsA($aVersions,'array','aVersions is not an array');
-//        return $aVersions;
-//    }
+    //    function _readUpgradePackagesArray()
+    //    {
+    //        global $readPath, $writeFile;
+    //
+    //        $this->assertTrue(file_exists($writeFile),'array file not found');
+    //        $array = file_get_contents($writeFile);
+    //        $aVersions = unserialize($array);
+    //        $this->assertIsA($aVersions,'array','aVersions is not an array');
+    //        return $aVersions;
+    //    }
 
     public function test_writeUpgradePackagesArray()
     {
@@ -706,17 +706,11 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oVersioner->tally();
     }
 
-    public function test_upgradeExecute()
-    {
-    }
+    public function test_upgradeExecute() {}
 
-    public function test_upgrade()
-    {
-    }
+    public function test_upgrade() {}
 
-    public function test_recoverUpgrade()
-    {
-    }
+    public function test_recoverUpgrade() {}
 
     public function testPutAdmin()
     {

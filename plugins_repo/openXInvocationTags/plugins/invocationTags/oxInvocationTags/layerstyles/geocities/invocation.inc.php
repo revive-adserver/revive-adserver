@@ -94,7 +94,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
 
         $mi->parameters[] = 'layerstyle=geocities';
         $mi->parameters[] = 'align=' . (isset($align) ? $align : 'right');
-        $mi->parameters[] = 'padding=' . (isset($padding) ? (int)$padding : '2');
+        $mi->parameters[] = 'padding=' . (isset($padding) ? (int) $padding : '2');
 
         if (isset($closetext)) {
             $mi->parameters[] = 'closetext=' . urlencode($closetext);

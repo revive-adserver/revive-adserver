@@ -49,7 +49,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements, $aCheckboxes);
     if ($result) {
-
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
         $title = $setPref[$prefSection]['name'];

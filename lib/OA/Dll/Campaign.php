@@ -78,7 +78,7 @@ class OA_Dll_Campaign extends OA_Dll
             $oCampaign->endDate->convertTZ($oTz);
         }
 
-        return  true;
+        return true;
     }
 
     /**
@@ -151,7 +151,7 @@ class OA_Dll_Campaign extends OA_Dll
             !$this->checkStructureNotRequiredStringField($oCampaign, 'comments') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'viewWindow') ||
             !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clickWindow')
-            ) {
+        ) {
             return false;
         } else {
             return true;

@@ -256,7 +256,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             'clickwindow' => $row['clickwindow'],
             'aRow' => $row,
             'context' => _adSelectBuildContext($row, $context),
-            'iframeFriendly' => (bool)$row['iframe_friendly'],
+            'iframeFriendly' => (bool) $row['iframe_friendly'],
         ];
         // Init block/capping fields to avoid notices below
         $row += [
@@ -718,7 +718,6 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
             }
         }
     } elseif (isset($cp)) {
-
         // How much of the priority space have we already covered?
         $used_priority = 0;
         for ($i = 10; $i > $cp; $i--) {
@@ -753,7 +752,7 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
             // we scale up the priority factor as we want to ensure that companion ads are
             // displayed together, potentially ignoring their banner weights (refs OX-4853)
             || $companion
-            ) {
+        ) {
             $scaling_denom = $total_priority_orig;
 
             // In this case, the space has been oversold, so eCPM optimization
@@ -763,7 +762,6 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
             if ($cp >= PRI_ECPM_FROM &&
                 $cp <= PRI_ECPM_TO &&
                 !empty($conf['delivery']['ecpmSelectionRate'])) {
-
                 // we should still allow there to be some portion of control
                 // responses in order to avoid starving out any ad
                 $selection_rate = floatval($conf['delivery']['ecpmSelectionRate']);
@@ -785,7 +783,6 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                     $ad_count = count($aAds);
                     $i = 0;
                     while ($i < $ad_count) {
-
                         // find the range of consecutive ads with equal eCPMs
                         $l = $i;
                         while ($l < $ad_count - 1 &&
@@ -996,7 +993,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         $aAd['alt_filename'] == '' &&
         !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
         !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
-       ) {
+    ) {
         OX_Delivery_logMessage('No alt image specified for richmedia bannerid ' . $aAd['ad_id'], 7);
         return false;
     }
@@ -1061,16 +1058,20 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context, $compan
             switch ($type) {
                 case 'campaignid':
                     switch ($key) {
-                        case '!=': $aContext['campaign']['exclude'][$value] = true; break;
-                        case '==': $aContext['campaign']['include'][$value] = true; break;
+                        case '!=': $aContext['campaign']['exclude'][$value] = true;
+                            break;
+                        case '==': $aContext['campaign']['include'][$value] = true;
+                            break;
                     }
-                break;
+                    break;
                 case 'clientid':
                     switch ($key) {
-                        case '!=': $aContext['client']['exclude'][$value] = true; break;
-                        case '==': $aContext['client']['include'][$value] = true; break;
+                        case '!=': $aContext['client']['exclude'][$value] = true;
+                            break;
+                        case '==': $aContext['client']['include'][$value] = true;
+                            break;
                     }
-                break;
+                    break;
                 case 'companionid':
                     switch ($key) {
                         case '!=':
@@ -1084,13 +1085,15 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context, $compan
                             if ($companion) {
                                 $aContext['campaign']['include'][$value] = true;
                             }
-                       break;
+                            break;
                     }
-                break;
+                    break;
                 default:
                     switch ($key) {
-                        case '!=': $aContext['banner']['exclude'][$value] = true; break;
-                        case '==': $aContext['banner']['include'][$value] = true; break;
+                        case '!=': $aContext['banner']['exclude'][$value] = true;
+                            break;
+                        case '==': $aContext['banner']['include'][$value] = true;
+                            break;
                     }
             }
         }

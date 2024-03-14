@@ -17,9 +17,7 @@ class OA_UpgradePostscript_2_3_31
 {
     public $oUpgrade;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {

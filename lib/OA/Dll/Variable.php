@@ -170,7 +170,6 @@ class OA_Dll_Variable extends OA_Dll
             // Hide this variable to certain websites
             // Confusingly, we do this by making it visible to the other websites.
             if (!empty($oVariableInfo->hiddenWebsites)) {
-
                 // If hidden to websites, the hidden flag must be set.
                 $oVariableInfo->hidden = true;
 

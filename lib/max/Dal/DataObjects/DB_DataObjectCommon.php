@@ -627,7 +627,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->_addPrefixToTableName();
 
         // clone this object and retrieve current values for auditing
-        $doAffected = clone($this);
+        $doAffected = clone ($this);
         if (!$useWhere) {
             // Clear any additional WHEREs if it's not used in delete statement
             $doAffected->whereAdd();
@@ -1352,7 +1352,6 @@ class DB_DataObjectCommon extends DB_DataObject
         // Is this a call to get the owning account IDs directly from
         // this DB_DataObject, or do we need to look at a parent?
         if (is_null($parentTable) && is_null($parentKeyName)) {
-
             // Get the directly owning account ID from this DB_DataObject
 
             // If the owning account IDs have already been calculated,
@@ -1401,7 +1400,6 @@ class DB_DataObjectCommon extends DB_DataObject
             // Return the result
             return $aCache[$tableName][$this->$primaryKeyName];
         } else {
-
             // Get the directly owning account ID from a parent table
 
             // If the owning account IDs have already been calculated,
@@ -1686,8 +1684,8 @@ class DB_DataObjectCommon extends DB_DataObject
                 return (int) $this->$field;
             case 145:
                 return $this->_boolToStr($this->$field);
-//  text / blob fields
-// override these in children?
+                //  text / blob fields
+                // override these in children?
             case 194:
             case 66:
                 //return 'data too large to audit';
@@ -1712,7 +1710,7 @@ class DB_DataObjectCommon extends DB_DataObject
             return $val ? 'true' : 'false';
         }
 
-        $val = (string)$val;
+        $val = (string) $val;
 
         if (is_numeric($val)) {
             switch ($val) {

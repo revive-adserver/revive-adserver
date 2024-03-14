@@ -43,9 +43,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      *
      * DO NOT DELETE OTHERWISE THE PLUGIN UPGRADE WILL FAIL!
      */
-    final public function Plugins_DeliveryLimitations_ArrayData()
-    {
-    }
+    final public function Plugins_DeliveryLimitations_ArrayData() {}
 
     public function displayArrayData()
     {
@@ -155,18 +153,18 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
     */
     public function checkInputData($data)
     {
-//        $result = parent::checkInputData($data);
-//        if ($result === true) { //if parent check was OK
-//            if (is_array($data['data'])) {
-//                foreach ($data['data'] as $dataEntry) {
-//                    if (trim($dataEntry) == '') {
-//                        return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return $result;
+        //        $result = parent::checkInputData($data);
+        //        if ($result === true) { //if parent check was OK
+        //            if (is_array($data['data'])) {
+        //                foreach ($data['data'] as $dataEntry) {
+        //                    if (trim($dataEntry) == '') {
+        //                        return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //
+        //        return $result;
 
         return true;
     }

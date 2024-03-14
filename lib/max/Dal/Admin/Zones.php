@@ -345,7 +345,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 if (!isset($aZoneCampaignStatistics[$zoneId]['CTR']) &&
                     !isset($aZoneCampaignStatistics[$zoneId]['CR']) &&
                     !isset($aZoneCampaignStatistics[$zoneId]['eCPM'])
-                   ) {
+                ) {
                     $aZoneWithMissingStatsIds[] = $zoneId;
                 }
             }
@@ -642,11 +642,11 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
 
         if (!empty($bannerId)) {
             $doBanners = OA_Dal::factoryDO('banners');
-            $doBanners->bannerid = (int)$bannerId;
+            $doBanners->bannerid = (int) $bannerId;
             $doCampaigns->joinAdd($doBanners);
         }
         if (!empty($campaignId)) {
-            $doCampaigns->campaignid = (int)$campaignId;
+            $doCampaigns->campaignid = (int) $campaignId;
         }
         $doClients->joinAdd($doCampaigns);
         $doAgency->joinAdd($doClients);
@@ -733,7 +733,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 $doAdZoneAssocEmpty = OA_Dal::factoryDO('ad_zone_assoc');
                 foreach ($aBannersIds as $bannerId) {
                     foreach ($aZonesIds as $zonesId) {
-                        $doAdZoneAssoc = clone($doAdZoneAssocEmpty);  // Every delete have to be done on separate object
+                        $doAdZoneAssoc = clone ($doAdZoneAssocEmpty);  // Every delete have to be done on separate object
                         $doAdZoneAssoc->zone_id = $zonesId;
                         $doAdZoneAssoc->ad_id = $bannerId;
                         $doAdZoneAssoc->delete();
@@ -742,7 +742,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             }
             $doPlacementZoneAssocEmpty = OA_Dal::factoryDO('placement_zone_assoc');
             foreach ($aZonesIds as $zonesId) {
-                $doPlacementZoneAssoc = clone($doPlacementZoneAssocEmpty);  // Every delete have to be done on separate object
+                $doPlacementZoneAssoc = clone ($doPlacementZoneAssocEmpty);  // Every delete have to be done on separate object
                 $doPlacementZoneAssoc->zone_id = $zonesId;
                 $doPlacementZoneAssoc->placement_id = $campaignId;
                 $doPlacementZoneAssoc->delete();
@@ -791,7 +791,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             //
             $doAdZoneAssocEmpty = OA_Dal::factoryDO('ad_zone_assoc');
             foreach ($aZonesIds as $zonesId) {
-                $doAdZoneAssoc = clone($doAdZoneAssocEmpty);  // Every delete have to be done on separate object
+                $doAdZoneAssoc = clone ($doAdZoneAssocEmpty);  // Every delete have to be done on separate object
                 $doAdZoneAssoc->zone_id = $zonesId;
                 $doAdZoneAssoc->ad_id = $bannerId;
                 $doAdZoneAssoc->delete();

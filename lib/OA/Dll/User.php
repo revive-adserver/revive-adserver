@@ -57,7 +57,7 @@ class OA_Dll_User extends OA_Dll
         $userData['defaultAccountId'] = $userData['default_account_id'];
 
         $oUser->readDataFromArray($userData);
-        return  true;
+        return true;
     }
 
     /**

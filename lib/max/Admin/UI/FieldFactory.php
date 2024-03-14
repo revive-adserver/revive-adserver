@@ -38,21 +38,33 @@ class FieldFactory
     public static function newField($fieldType)
     {
         switch ($fieldType) {
-            case 'advertiser':           $oField = new Admin_UI_AdvertiserIdField(); break;
+            case 'advertiser':           $oField = new Admin_UI_AdvertiserIdField();
+                break;
             case 'affiliateid-dropdown':
-            case 'publisherid-dropdown': $oField = new Admin_UI_PublisherIdField(); break;
-            case 'campaignid-dropdown':  $oField = new Admin_UI_CampaignSelectionField(); break;
-            case 'clientid-dropdown':    $oField = new Admin_UI_AdvertiserIdField(); break;
-            case 'channelid-dropdown':   $oField = new Admin_UI_ChannelIdField(); break;
+            case 'publisherid-dropdown': $oField = new Admin_UI_PublisherIdField();
+                break;
+            case 'campaignid-dropdown':  $oField = new Admin_UI_CampaignSelectionField();
+                break;
+            case 'clientid-dropdown':    $oField = new Admin_UI_AdvertiserIdField();
+                break;
+            case 'channelid-dropdown':   $oField = new Admin_UI_ChannelIdField();
+                break;
             case 'date-month':
             case 'day-span':
-            case 'day-span-selector':    $oField = new Admin_UI_DaySpanField(); break;
-            case 'dropdown':             $oField = new Admin_UI_DropdownField(); break;
-            case 'edit':                 $oField = new Admin_UI_TextField(); break;
-            case 'scope':                $oField = new Admin_UI_OrganisationSelectionField(); break;
-            case 'sheet':                $oField = new Admin_UI_SheetSelectionField(); break;
-            case 'zone-scope':           $oField = new Admin_UI_ZoneScopeField(); break;
-            case 'zoneid-dropdown':      $oField = new Admin_UI_ZoneIdField(); break;
+            case 'day-span-selector':    $oField = new Admin_UI_DaySpanField();
+                break;
+            case 'dropdown':             $oField = new Admin_UI_DropdownField();
+                break;
+            case 'edit':                 $oField = new Admin_UI_TextField();
+                break;
+            case 'scope':                $oField = new Admin_UI_OrganisationSelectionField();
+                break;
+            case 'sheet':                $oField = new Admin_UI_SheetSelectionField();
+                break;
+            case 'zone-scope':           $oField = new Admin_UI_ZoneScopeField();
+                break;
+            case 'zoneid-dropdown':      $oField = new Admin_UI_ZoneIdField();
+                break;
             default:                     MAX::raiseError("The report module discovered a field type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
         }
         return $oField;

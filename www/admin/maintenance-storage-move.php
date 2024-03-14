@@ -43,7 +43,7 @@ while ($doBanners->fetch()) {
     if ($doBanners->filename != false) {
         phpAds_ImageDelete('sql', $filename);
 
-        $doBannersClone = clone($doBanners);
+        $doBannersClone = clone ($doBanners);
 
         $doBannersClone->imageurl = '';
         $doBannersClone->storagetype = 'web';

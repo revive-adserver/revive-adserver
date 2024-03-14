@@ -43,8 +43,8 @@ if (!empty($bannerid) && isset($aVastEventStrToIdMap[$event])) {
 
     $GLOBALS['_MAX']['deliveryData'] = [
         'interval_start' => gmdate('Y-m-d H:i:s', $time - $time % ($oi * 60)),
-        'creative_id' => (int)$bannerid,
-        'zone_id' => (int)$zoneid,
+        'creative_id' => (int) $bannerid,
+        'zone_id' => (int) $zoneid,
         'vast_event_id' => $aVastEventStrToIdMap[$event],
     ];
 

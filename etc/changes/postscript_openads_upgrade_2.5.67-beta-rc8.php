@@ -26,9 +26,7 @@ class OA_UpgradePostscript_2_5_67_RC8
      */
     public $oDbh;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {

@@ -204,5 +204,3 @@ foreach ($aRunHours as $aDates) {
 }
 
 echo "\n\nThe " . basename(__FILE__) . " script has completed running!\n\n";
-
-?>

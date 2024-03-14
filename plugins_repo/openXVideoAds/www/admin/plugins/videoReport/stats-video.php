@@ -36,7 +36,7 @@ $entityToRequiredAccess = [
     'zone' => 'zones',
 ];
 OA_Permission::enforceAccessToObject($entityToRequiredAccess[$entity], $entityId);
-$entityId = (int)$entityId;
+$entityId = (int) $entityId;
 $startDate = urlencode($startDate);
 $endDate = urlencode($endDate);
 

@@ -590,6 +590,4 @@ class Plugins_Authentication extends OX_Component
 }
 
 
-class Plugins_Authentication_Exception extends Exception
-{
-}
+class Plugins_Authentication_Exception extends Exception {}

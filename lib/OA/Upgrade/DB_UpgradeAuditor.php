@@ -66,9 +66,9 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
      * when both constructors are present
      *
      */
-//    function __construct()
-//    {
-//    }
+    //    function __construct()
+    //    {
+    //    }
 
     /**
      * php4 class constructor

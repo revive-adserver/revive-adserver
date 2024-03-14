@@ -91,12 +91,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         /*-------------------------------------------------------------*/
 
         foreach ($aMSERunTimes as $key => $oRunDate) {
-
             // Register the "current" date/time that the MSE is running at
             $oServiceLocator->register('now', $oRunDate);
 
             foreach ($aOperationIntervals as $operationInterval) {
-
                 // Set the correct operation interval
                 $aConf['maintenance']['operationInterval'] = $operationInterval;
 
@@ -152,12 +150,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         $oEarliestLoggedDataDateHour = new Date('2008-08-12 12:59:59');
 
         foreach ($aMSERunTimes as $key => $oRunDate) {
-
             // Register the "current" date/time that the MSE is running at
             $oServiceLocator->register('now', $oRunDate);
 
             foreach ($aOperationIntervals as $operationInterval) {
-
                 // Set the correct operation interval
                 $aConf['maintenance']['operationInterval'] = $operationInterval;
 
@@ -189,12 +185,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Test the results of the task run
                 if ($key == 0) {
-
                     // There is no data logged before "now"; therefore, no udpates will be run
                     $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                 } elseif ($key == 1) {
-
                     // There is logged data before "now", but a complete operation interval
                     // will only have been passed at this stage IF the operation interval is
                     // 30 minutes; in that case, the MSE will update the intermedaite tables;
@@ -207,7 +201,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                     }
                 } elseif ($key == 2) {
-
                     // There is logged data before "now", and a complete operation interval
                     // will have been passed at this stage, and the update boundary is on the
                     // hour, so the MSE will update the intermedaite and final tables
@@ -237,12 +230,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         $oEarliestLoggedDataDateHour = new Date('2008-08-12 12:59:59');
 
         foreach ($aMSERunTimes as $key => $oRunDate) {
-
             // Register the "current" date/time that the MSE is running at
             $oServiceLocator->register('now', $oRunDate);
 
             foreach ($aOperationIntervals as $operationInterval) {
-
                 // Set the correct operation interval
                 $aConf['maintenance']['operationInterval'] = $operationInterval;
 
@@ -271,12 +262,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Test the results of the task run
                 if ($key == 0) {
-
                     // There is no data logged before "now"; therefore, no udpates will be run
                     $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                 } elseif ($key == 1) {
-
                     // There is logged data before "now", but a complete operation interval
                     // will only have been passed at this stage IF the operation interval is
                     // 30 minutes; in that case, the MSE will update the intermedaite tables;
@@ -289,7 +278,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                     }
                 } elseif ($key == 2) {
-
                     // There is logged data before "now", and a complete operation interval
                     // will have been passed at this stage, and the update boundary is on the
                     // hour, so the MSE will update the intermedaite and final tables
@@ -317,12 +305,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         $oLastMSERunHour = new Date('2008-08-12 12:59:59');
 
         foreach ($aMSERunTimes as $key => $oRunDate) {
-
             // Register the "current" date/time that the MSE is running at
             $oServiceLocator->register('now', $oRunDate);
 
             foreach ($aOperationIntervals as $operationInterval) {
-
                 // Set the correct operation interval
                 $aConf['maintenance']['operationInterval'] = $operationInterval;
 
@@ -348,12 +334,10 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Test the results of the task run
                 if ($key == 0) {
-
                     // There is no data logged before "now"; therefore, no udpates will be run
                     $this->assertFalse($oSetUpdateRequirements->oController->updateIntermediate);
                     $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                 } elseif ($key == 1) {
-
                     // There is logged data before "now", but a complete operation interval
                     // will only have been passed at this stage IF the operation interval is
                     // 30 minutes; in that case, the MSE will update the intermedaite tables;
@@ -366,7 +350,6 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
                         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
                     }
                 } elseif ($key == 2) {
-
                     // There is logged data before "now", and a complete operation interval
                     // will have been passed at this stage, and the update boundary is on the
                     // hour, so the MSE will update the intermedaite and final tables

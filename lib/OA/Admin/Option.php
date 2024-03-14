@@ -71,38 +71,38 @@ class OA_Admin_Option
     public function _writeJavascriptFunctions()
     {
         echo "<script language='JavaScript'>\n<!--\n\n";
-        echo"function options_goto_section()\n";
-        echo"{\n";
-        echo"    s = document.settings_selection.section.selectedIndex;\n";
-        echo"    s = document.settings_selection.section.options[s].value;\n\n";
+        echo "function options_goto_section()\n";
+        echo "{\n";
+        echo "    s = document.settings_selection.section.selectedIndex;\n";
+        echo "    s = document.settings_selection.section.options[s].value;\n\n";
 
         //echo"    document.location = '".$this->_optionType."-' + s + '.php';\n";
-        echo"    document.location = s;\n";
-        echo"}\n\n";
+        echo "    document.location = s;\n";
+        echo "}\n\n";
 
-        echo"function phpAds_UsertypeChange(o)\n";
-        echo"{\n";
-        echo"    var v = 0;\n";
-        echo"    var base_name = o.name.replace(/_\d+$/, '');\n";
-        echo"    var l;\n\n";
+        echo "function phpAds_UsertypeChange(o)\n";
+        echo "{\n";
+        echo "    var v = 0;\n";
+        echo "    var base_name = o.name.replace(/_\d+$/, '');\n";
+        echo "    var l;\n\n";
 
-        echo"    for (var i = 1; i <= 8; i <<= 1) {\n";
+        echo "    for (var i = 1; i <= 8; i <<= 1) {\n";
 
-        echo"        if (o = findObj(base_name + '_' + i)) {\n";
-        echo"            v += o.checked ? i : 0\n\n";
+        echo "        if (o = findObj(base_name + '_' + i)) {\n";
+        echo "            v += o.checked ? i : 0\n\n";
 
-        echo"            if (l = findObj(base_name + '_label[' + i +']')) {\n";
-        echo"                l.disabled = !o.checked;\n";
-        echo"            }\n";
-        echo"            if (l = findObj(base_name + '_rank[' + i +']')) {\n";
-        echo"                l.disabled = !o.checked;\n";
-        echo"            }\n";
-        echo"        }\n";
-        echo"    }\n\n";
+        echo "            if (l = findObj(base_name + '_label[' + i +']')) {\n";
+        echo "                l.disabled = !o.checked;\n";
+        echo "            }\n";
+        echo "            if (l = findObj(base_name + '_rank[' + i +']')) {\n";
+        echo "                l.disabled = !o.checked;\n";
+        echo "            }\n";
+        echo "        }\n";
+        echo "    }\n\n";
 
-        echo"    if (o = findObj(base_name))\n";
-        echo"        o.value = v;\n";
-        echo"}\n\n";
+        echo "    if (o = findObj(base_name))\n";
+        echo "        o.value = v;\n";
+        echo "}\n\n";
 
         echo "// -->\n</script>";
     }
@@ -676,9 +676,12 @@ class OA_Admin_Option
                     $type = $this->_showGetType($aData, $regs[2]);
                     $javascript .= $regs[1] . "document." . $formName . "." . $regs[2] . ".";
                     switch ($type) {
-                        case 'checkbox':    $javascript .= 'checked'; break;
-                        case 'select':      $javascript .= 'selectedIndex'; break;
-                        default:            $javascript .= 'value'; break;
+                        case 'checkbox':    $javascript .= 'checked';
+                            break;
+                        case 'select':      $javascript .= 'selectedIndex';
+                            break;
+                        default:            $javascript .= 'value';
+                            break;
                     }
                     $javascript .= " " . $regs[3] . " " . $regs[4] . $regs[5];
                     $javascript .= " && " . $regs[1] . "document." . $formName . "." . $regs[2] . ".disabled " . $regs[3] . " false";
@@ -750,7 +753,7 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
 
         // Make sure that 'f' for enums is also considered
-        $value = !empty($value) && (bool)strcasecmp($value, 'f');
+        $value = !empty($value) && (bool) strcasecmp($value, 'f');
         $aItem['value'] = $value;
 
         $this->aOption[] = ['checkbox.html' => $aItem];
@@ -763,7 +766,7 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
 
         // Make sure that 'f' for enums is also considered
-        $value = !empty($value) && (bool)strcasecmp($value, 'f');
+        $value = !empty($value) && (bool) strcasecmp($value, 'f');
         $aItem['value'] = $value;
 
         $this->aOption[] = ['hiddencheckbox.html' => $aItem];
@@ -969,7 +972,7 @@ class OA_Admin_Option
 
     public function _bytes_to_display($val)
     {
-        $val = (float)$val;
+        $val = (float) $val;
         if ($val < 1024) {
             return number_format($val, 0) . "b";
         } elseif ($val < 1048576) {

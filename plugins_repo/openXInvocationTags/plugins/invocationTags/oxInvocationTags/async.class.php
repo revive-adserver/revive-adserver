@@ -273,9 +273,12 @@ EOF;
                 case 'target':
                     $optionName = $GLOBALS['strInvocationTarget'];
                     switch ($mi->$feature) {
-                        case '_blank':  $optionValue = 'New window'; break;
-                        case '_top':    $optionValue = 'Same window'; break;
-                        default:        $optionValue = $GLOBALS['strDefault']; break;
+                        case '_blank':  $optionValue = 'New window';
+                            break;
+                        case '_top':    $optionValue = 'Same window';
+                            break;
+                        default:        $optionValue = $GLOBALS['strDefault'];
+                            break;
                     }
                     break;
                 case 'source':

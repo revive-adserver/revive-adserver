@@ -94,7 +94,7 @@ class Migration_609 extends Migration
         }
 
         // Get admin account ID
-        $adminAccountId = (int)$oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
+        $adminAccountId = (int) $oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
         if (PEAR::isError($adminAccountId)) {
             return $this->_logErrorAndReturnFalse("No admin account ID");
         }

@@ -19,20 +19,16 @@ require_once MAX_PATH . '/tests/testClasses/OATestData.php';
  */
 class OA_Test_Data_MDB2Schema extends OA_Test_Data
 {
-
-    var $directory;
-    var $datafile;
-    var $oSchema;
-    var $oTable;
+    public $directory;
+    public $datafile;
+    public $oSchema;
+    public $oTable;
 
 
     /**
      * The constructor method.
      */
-    function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     /**
      * verify the input file
@@ -42,42 +38,36 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      * @param string $directory
      * @return boolean
      */
-    function init($datafile='fjsdj', $directory='/tests/datasets/mdb2schema/')
+    public function init($datafile = 'fjsdj', $directory = '/tests/datasets/mdb2schema/')
     {
-        if (!parent::init())
-        {
+        if (!parent::init()) {
             return false;
         }
-        if (!$directory)
-        {
+        if (!$directory) {
             $directory = '/tests/datasets/mdb2schema/';
         }
         $this->directory = $directory;
-        if (substr_count($this->directory, MAX_PATH)<1)
-        {
-            $this->directory = MAX_PATH.$this->directory;
+        if (substr_count($this->directory, MAX_PATH) < 1) {
+            $this->directory = MAX_PATH . $this->directory;
         }
         $this->datafile = $datafile;
-        if (!file_exists($this->directory.$this->datafile))
-        {
+        if (!file_exists($this->directory . $this->datafile)) {
             return false;
         }
         $this->oSchema = MDB2_Schema::factory($this->oDbh);
-        if (PEAR::isError($this->oSchema))
-        {
+        if (PEAR::isError($this->oSchema)) {
             return false;
         }
         $this->oTable = new OA_DB_Table();
-        if (PEAR::isError($this->oTable))
-        {
+        if (PEAR::isError($this->oTable)) {
             return false;
         }
         return true;
     }
 
-    function _initSchemaVersion($version)
+    public function _initSchemaVersion($version)
     {
-        return $this->oTable->init(MAX_PATH.'/etc/changes/schema_tables_core_'.$version.'.xml');
+        return $this->oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_' . $version . '.xml');
     }
 
     /**
@@ -89,15 +79,13 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      * @access private
      * @return array
      */
-    function _getContentDefinition()
+    public function _getContentDefinition()
     {
-        $aContent = $this->oSchema->parseDatabaseContentFile($this->directory.$this->datafile, array(), false, false, $this->oTable->aDefinition);
-        if (PEAR::isError($aContent))
-        {
+        $aContent = $this->oSchema->parseDatabaseContentFile($this->directory . $this->datafile, [], false, false, $this->oTable->aDefinition);
+        if (PEAR::isError($aContent)) {
             return false;
         }
-        if (!$this->_initSchemaVersion($aContent['version']))
-        {
+        if (!$this->_initSchemaVersion($aContent['version'])) {
             return false;
         }
         return $aContent;
@@ -108,24 +96,21 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      *
      * @return boolean
      */
-    function generateTestData()
+    public function generateTestData()
     {
         $aContent = $this->_getContentDefinition();
-        if (!$aContent)
-        {
+        if (!$aContent) {
             return false;
         }
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        foreach ($aContent['tables'] as $table_name => $aTable)
-        {
-            $this->aIds[$table_name] = array();
-            if (empty($aTable['initialization']))
-            {
+        foreach ($aContent['tables'] as $table_name => $aTable) {
+            $this->aIds[$table_name] = [];
+            if (empty($aTable['initialization'])) {
                 continue;
             }
             $this->_fixTestData($aTable);
             $aTable['fields'] = $this->oTable->aDefinition['tables'][$table_name]['fields'];
-            $aTableResult = $this->oSchema->initializeTable($prefix.$table_name, $aTable,true);
+            $aTableResult = $this->oSchema->initializeTable($prefix . $table_name, $aTable, true);
             $this->_fixSequences($prefix, $table_name, $aTable);
             $this->aIds[$table_name] = $aTableResult['aIds'];
         }
@@ -137,7 +122,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      *
      * @param array $aTable
      */
-    function _fixTestData(&$aTable)
+    public function _fixTestData(&$aTable)
     {
         if ($this->oDbh->dbsyntax == 'pgsql') {
             // Remove those ugly 0000-00-00
@@ -156,14 +141,14 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
      *
      * @param array $aTable
      */
-    function _fixSequences($prefix, $table_name, &$aTable)
+    public function _fixSequences($prefix, $table_name, &$aTable)
     {
         if ($this->oDbh->dbsyntax == 'pgsql') {
             $oTable = new OA_DB_Table();
 
             foreach ($aTable['fields'] as $fieldName => $fieldProperties) {
                 if (!empty($fieldProperties['autoincrement'])) {
-                    $tblName = $this->oDbh->quoteIdentifier($prefix.$table_name, true);
+                    $tblName = $this->oDbh->quoteIdentifier($prefix . $table_name, true);
                     $seqName = "{$prefix}{$table_name}_{$fieldName}_seq";
                     $maxValue = $this->oDbh->queryOne("SELECT MAX({$fieldName}) FROM {$tblName}");
                     $oTable->resetSequence($seqName, $maxValue + 1);
@@ -172,5 +157,3 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
         }
     }
 }
-
-?>

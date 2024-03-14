@@ -106,7 +106,7 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
             . '      AND'
             . '      (c.expire_time < ' . $this->oDbh->quote(OA::getNowUTC('Y-m-d H:i:s')) . ')'
             . ')'
-            ;
+        ;
 
         if ($this->oDbh->dbsyntax == 'pgsql') {
             $query = 'DELETE FROM ' . $tblAssoc

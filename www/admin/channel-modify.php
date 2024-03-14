@@ -38,7 +38,6 @@ if (empty($returnurl)) {
 // Security check
 if (isset($channelid) && $channelid != '') {
     if (isset($duplicate) && $duplicate == 'true') {
-
         //get channel old channel name
         $doChannel = OA_Dal::factoryDO('channel');
         if ($doChannel->get($channelid)) {

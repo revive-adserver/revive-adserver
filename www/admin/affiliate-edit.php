@@ -125,45 +125,44 @@ function buildWebsiteForm($affiliate)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
- function processForm($affiliateid, $form)
- {
-     $aFields = $form->exportValues();
-     $newWebsite = empty($aFields['affiliateid']);
+function processForm($affiliateid, $form)
+{
+    $aFields = $form->exportValues();
+    $newWebsite = empty($aFields['affiliateid']);
 
-     // Setup a new publisher object and set the fields passed in from the form:
-     $oPublisher = new OA_Dll_PublisherInfo();
-     $oPublisher->agencyId = $aFields['agencyid'];
-     $oPublisher->contactName = $aFields['contact'];
-     $oPublisher->emailAddress = $aFields['email'];
-     $oPublisher->publisherId = $aFields['affiliateid'];
-     $oPublisher->publisherName = $aFields['name'];
-     $oPublisher->website = $aFields['website'];
+    // Setup a new publisher object and set the fields passed in from the form:
+    $oPublisher = new OA_Dll_PublisherInfo();
+    $oPublisher->agencyId = $aFields['agencyid'];
+    $oPublisher->contactName = $aFields['contact'];
+    $oPublisher->emailAddress = $aFields['email'];
+    $oPublisher->publisherId = $aFields['affiliateid'];
+    $oPublisher->publisherName = $aFields['name'];
+    $oPublisher->website = $aFields['website'];
 
-     $oPublisherDll = new OA_Dll_Publisher();
-     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
-
+    $oPublisherDll = new OA_Dll_Publisher();
+    if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
         // Queue confirmation message
-         $translation = new OX_Translation();
-         if ($newWebsite) {
-             $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenAdded'], [
-                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
-                htmlspecialchars($oPublisher->publisherName),
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $oPublisher->publisherId),
+        $translation = new OX_Translation();
+        if ($newWebsite) {
+            $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenAdded'], [
+               MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
+               htmlspecialchars($oPublisher->publisherName),
+               MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $oPublisher->publisherId),
             ]);
-             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-             $redirectURL = "website-index.php";
-         } else {
-             $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenUpdated'], [
-                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
-                htmlspecialchars($oPublisher->publisherName),
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            $redirectURL = "website-index.php";
+        } else {
+            $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenUpdated'], [
+               MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
+               htmlspecialchars($oPublisher->publisherName),
             ]);
-             $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
-         }
-         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-         OX_Admin_Redirect::redirect($redirectURL);
-     }
-     return $oPublisherDll;
- }
+            $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
+        }
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OX_Admin_Redirect::redirect($redirectURL);
+    }
+    return $oPublisherDll;
+}
 
 /*-------------------------------------------------------*/
 /* Display page                                          */

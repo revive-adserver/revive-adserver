@@ -465,14 +465,14 @@ class Test_OA_DB_Table extends UnitTestCase
     public function test_resetAllSequences()
     {
         $oDbh = OA_DB::singleton();
-//        if ($oDbh->dbsyntax == 'pgsql')
-//        {
-//            $sequence = 'test_table1_test_id1_seq';
-//        }
-//        else if ($oDbh->dbsyntax == 'mysql')
-//        {
-//            $sequence = 'test_table1';
-//        }
+        //        if ($oDbh->dbsyntax == 'pgsql')
+        //        {
+        //            $sequence = 'test_table1_test_id1_seq';
+        //        }
+        //        else if ($oDbh->dbsyntax == 'mysql')
+        //        {
+        //            $sequence = 'test_table1';
+        //        }
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $oTable = new OA_DB_Table();

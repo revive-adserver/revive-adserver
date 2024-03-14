@@ -359,7 +359,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -413,7 +413,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -467,7 +467,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -522,7 +522,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -593,7 +593,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -637,7 +637,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -688,7 +688,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -766,7 +766,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -842,7 +842,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
@@ -943,7 +943,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     {
         // Add test campaigns
         $numCampaign1 = 3;
-        
+
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_REMNANT;
         $doCampaigns->revenue = 0;
@@ -982,7 +982,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-        
+
         DataGenerator::setData('clients', $aData);
         $aCampaigns1 = DataGenerator::generate('campaigns', $numCampaigns1, true);
         $agencyId1 = DataGenerator::getReferenceId('agency');

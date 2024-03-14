@@ -125,16 +125,16 @@ if (!empty($trackerid)) {
                 if (!empty($_POST['uniquewindow' . $f])) {
                     $uniqueWindow = $_POST['uniquewindow' . $f];
                     if ($uniqueWindow['second'] != '-') {
-                        $uniqueWindowSeconds += (int)$uniqueWindow['second'];
+                        $uniqueWindowSeconds += (int) $uniqueWindow['second'];
                     }
                     if ($uniqueWindow['minute'] != '-') {
-                        $uniqueWindowSeconds += (int)$uniqueWindow['minute'] * 60;
+                        $uniqueWindowSeconds += (int) $uniqueWindow['minute'] * 60;
                     }
                     if ($uniqueWindow['hour'] != '-') {
-                        $uniqueWindowSeconds += (int)$uniqueWindow['hour'] * 60 * 60;
+                        $uniqueWindowSeconds += (int) $uniqueWindow['hour'] * 60 * 60;
                     }
                     if ($uniqueWindow['day'] != '-') {
-                        $uniqueWindowSeconds += (int)$uniqueWindow['day'] * 60 * 60 * 24;
+                        $uniqueWindowSeconds += (int) $uniqueWindow['day'] * 60 * 60 * 24;
                     }
                 }
                 $variables[$f]['unique_window'] = $uniqueWindowSeconds;
@@ -144,20 +144,20 @@ if (!empty($trackerid)) {
                 $variables[$f]['publisher_hidden'] = [];
 
                 switch ($_POST['visibility' . $f]) {
-                case 'all':
-                    $variables[$f]['hidden'] = 't';
-                    break;
-                case 'none':
-                    $variables[$f]['hidden'] = 'f';
-                    break;
-                default:
-                    $variables[$f]['hidden'] = $_POST['p_default' . $f] ? 'f' : 't';
-                    if ($_POST['p_default' . $f]) {
-                        $variables[$f]['publisher_hidden'] = isset($_POST['p_hide' . $f]) && is_array($_POST['p_hide' . $f]) ? $_POST['p_hide' . $f] : [];
-                    } else {
-                        $variables[$f]['publisher_visible'] = isset($_POST['p_show' . $f]) && is_array($_POST['p_show' . $f]) ? $_POST['p_show' . $f] : [];
-                    }
-            }
+                    case 'all':
+                        $variables[$f]['hidden'] = 't';
+                        break;
+                    case 'none':
+                        $variables[$f]['hidden'] = 'f';
+                        break;
+                    default:
+                        $variables[$f]['hidden'] = $_POST['p_default' . $f] ? 'f' : 't';
+                        if ($_POST['p_default' . $f]) {
+                            $variables[$f]['publisher_hidden'] = isset($_POST['p_hide' . $f]) && is_array($_POST['p_hide' . $f]) ? $_POST['p_hide' . $f] : [];
+                        } else {
+                            $variables[$f]['publisher_visible'] = isset($_POST['p_show' . $f]) && is_array($_POST['p_show' . $f]) ? $_POST['p_show' . $f] : [];
+                        }
+                }
             }
         }
     }
@@ -210,13 +210,17 @@ if (!empty($trackerid)) {
 
             switch ($variablemethod) {
                 case 'js':
-                    $v['variablecode'] = "var {$v['name']} = \\'%%" . strtoupper($v['name']) . "_VALUE%%\\'"; break;
+                    $v['variablecode'] = "var {$v['name']} = \\'%%" . strtoupper($v['name']) . "_VALUE%%\\'";
+                    break;
                 case 'dom':
-                    $v['variablecode'] = ''; break;
+                    $v['variablecode'] = '';
+                    break;
                 case 'custom':
-                    $v['variablecode'] = "var {$v['name']} = \\'" . $v['variablecode'] . "\\'"; break;
+                    $v['variablecode'] = "var {$v['name']} = \\'" . $v['variablecode'] . "\\'";
+                    break;
                 default:
-                    $v['variablecode'] = "var {$v['name']} = escape(\\'%%" . strtoupper($v['name']) . "_VALUE%%\\')"; break;
+                    $v['variablecode'] = "var {$v['name']} = escape(\\'%%" . strtoupper($v['name']) . "_VALUE%%\\')";
+                    break;
             }
 
             // Always delete variable_publisher entries
@@ -478,7 +482,7 @@ if (isset($trackerid) && $trackerid != '') {
                 echo "<td><table cellpadding='0' cellspacing='0'><tr valign='top'><td>variable&nbsp;=&nbsp;</td><td><textarea name='variablecode" . $k . "' rows='3' cols='40'>" . htmlspecialchars(stripslashes($v['variablecode'])) . "</textarea></td></tr></table></td>\n";
                 echo "</tr>\n";
                 echo "</table>\n";
-                echo"</td>\n";
+                echo "</td>\n";
                 echo "<td align='right'><input type='image' name='action[del][" . $k . "]' src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'>&nbsp;&nbsp;</td>";
                 echo "</tr>";
                 echo "<tr bgcolor='#F6F6F6'>\n";
@@ -714,14 +718,14 @@ phpAds_SessionDataStore();
     }
 
     <?php if (isset($onLoadUniqueJs)) {
-    echo $onLoadUniqueJs;
-} ?>
+        echo $onLoadUniqueJs;
+    } ?>
 
 //-->
 </script>
 
 <?php
 
-phpAds_PageFooter();
+    phpAds_PageFooter();
 
 ?>

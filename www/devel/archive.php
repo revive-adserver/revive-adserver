@@ -137,8 +137,8 @@ if (array_key_exists('select_changesets', $_POST)) {
         $changesFile = MAX_PATH . '/var/changes_tables_core.xml';
     } else {
         //$schemaFile = MAX_CHG.str_replace('changes_', 'schema_', $changesFile);
-//        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
-//        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
+        //        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
+        //        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
     }
 
     require_once 'oaSchema.php';
@@ -175,6 +175,6 @@ if ($file && file_exists($file)) {
         echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
     }
 
-//    header('Location: schema.php');
-//    exit;
+    //    header('Location: schema.php');
+    //    exit;
 }

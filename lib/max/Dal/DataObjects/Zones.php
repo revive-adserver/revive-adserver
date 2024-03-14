@@ -111,7 +111,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
         $doZones->find();
 
         while ($doZones->fetch()) {
-            $doZoneUpdate = clone($doZones);
+            $doZoneUpdate = clone ($doZones);
             $doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
             $doZoneUpdate->append = '';
             $doZoneUpdate->update();
@@ -124,7 +124,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
         $doZones->find();
 
         while ($doZones->fetch()) {
-            $doZoneUpdate = clone($doZones);
+            $doZoneUpdate = clone ($doZones);
             $doZoneUpdate->chain = '';
             $doZoneUpdate->update();
         }
@@ -213,11 +213,11 @@ class DataObjects_Zones extends DB_DataObjectCommon
         $aAuditFields['key_desc'] = $this->zonename;
         switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        if (!$this->affiliateid) {
-                            $this->find(true);
-                        }
-                        $aAuditFields['affiliateid'] = $this->affiliateid;
-                        break;
+                if (!$this->affiliateid) {
+                    $this->find(true);
+                }
+                $aAuditFields['affiliateid'] = $this->affiliateid;
+                break;
         }
     }
 }

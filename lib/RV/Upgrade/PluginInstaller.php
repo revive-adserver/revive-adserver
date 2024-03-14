@@ -16,7 +16,7 @@ class PluginInstaller
 
     private $aDefaultPlugins;
 
-    public function __construct(array $aDefaultPlugins = null)
+    public function __construct(?array $aDefaultPlugins = null)
     {
         if (null === $aDefaultPlugins) {
             $aDefaultPlugins = [];

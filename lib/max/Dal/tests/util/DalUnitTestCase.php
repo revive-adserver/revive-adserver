@@ -35,23 +35,19 @@ class DalUnitTestCase extends UnitTestCase
         $this->tearDownFixture();
         return $ret;
     }
-    
+
     /**
      * setUpFixture() method is executed once before running all the tests
      *
      */
-    public function setUpFixture()
-    {
-    }
-    
+    public function setUpFixture() {}
+
     /**
      * tearDownFixture() method is executed once after running all the tests
      *
      */
-    public function tearDownFixture()
-    {
-    }
-    
+    public function tearDownFixture() {}
+
     /**
      * Should we compare DataObjects with or without "updated" fields? Default true means
      * it should be compared without "updated"

@@ -71,7 +71,6 @@ if (!empty($campaignid)) {
             phpAds_sqlDie();
         }
     } elseif (!empty($newclientid)) {
-
         /*-------------------------------------------------------*/
         /* Restore cache of $node_array, if it exists            */
         /*-------------------------------------------------------*/

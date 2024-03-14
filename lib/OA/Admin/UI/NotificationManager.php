@@ -13,7 +13,7 @@
 class OA_Admin_UI_NotificationManager
 {
     private $TYPES = ['info' => 1, 'confirm' => 2, 'warning' => 3, 'error' => 4];
-    
+
     public function __construct()
     {
         global $session;
@@ -21,7 +21,7 @@ class OA_Admin_UI_NotificationManager
             $session['notificationQueue'] = [];
         }
     }
-    
+
     /**
      * Returns all notifications queued in this seesion.
      *
@@ -29,11 +29,11 @@ class OA_Admin_UI_NotificationManager
     public function getNotifications()
     {
         global $session;
-        
+
         return $session['notificationQueue'];
     }
-    
-    
+
+
     /**
      * Schedules a notification to be shown on next showHeader call.
      * Notification is shown on left side, under menu items.
@@ -59,7 +59,7 @@ class OA_Admin_UI_NotificationManager
         } else {
             $session['notificationId']++;
         }
-        
+
         if (!isset($this->TYPES[$type])) {
             $type = 'info';
         }
@@ -73,7 +73,7 @@ class OA_Admin_UI_NotificationManager
 
         // Force session storage
         phpAds_SessionDataStore();
-        
+
         return $session['notificationId'];
     }
 
@@ -115,12 +115,12 @@ class OA_Admin_UI_NotificationManager
 
         return $removedCount;
     }
-    
-    
+
+
     public function clearNotifications()
     {
         global $session;
-        
+
         $session['notificationQueue'] = [];
         phpAds_SessionDataStore();
     }

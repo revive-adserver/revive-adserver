@@ -115,8 +115,8 @@ class DataObjects_Acls extends DB_DataObjectCommon
         $aAuditFields['key_desc'] = $this->type;
         switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['bannerid'] = $this->bannerid;
-                        break;
+                $aAuditFields['bannerid'] = $this->bannerid;
+                break;
         }
     }
 }

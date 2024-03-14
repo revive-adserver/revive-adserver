@@ -39,15 +39,15 @@
 class OX_Admin_UI_Event_EventDispatcher
 {
     private static $instance;
-    
+
     private $aListeners;
-    
+
     public function __construct()
     {
         $this->aListeners = [];
     }
 
-    
+
     /**
      * Returns the instance of the event dispatcher.
      *
@@ -62,8 +62,8 @@ class OX_Admin_UI_Event_EventDispatcher
 
         return self::$instance;
     }
-    
-    
+
+
     /**
      * Registers a given listener for a event with a given name. Subseqent attempts
      * to register the same listener fo the same event do not add this listener
@@ -80,20 +80,20 @@ class OX_Admin_UI_Event_EventDispatcher
         if (!isset($this->aListeners[$eventName])) {
             $this->aListeners[$eventName] = [];
         }
-        
+
         $key = $this->getKey($callback);
-        
+
         //register only if was not registered already
         if (isset($this->aListeners[$eventName][$key])) {
             return false;
         }
-        
+
         $this->aListeners[$eventName][$key] = $callback;
         return true;
     }
-    
-    
-    
+
+
+
     /**
      * Returns registered listeners for a given eventName. If no listeners were
      * registered returns an empty array;
@@ -108,8 +108,8 @@ class OX_Admin_UI_Event_EventDispatcher
         }
         return array_values($this->aListeners[$eventName]);
     }
-    
-    
+
+
     /**
      * Notifies registered listeners (@see OX_Admin_UI_Event_IEventListener)
      * about event occurence. Listeners are invoked in the order they were registered.
@@ -121,20 +121,20 @@ class OX_Admin_UI_Event_EventDispatcher
     public function triggerEvent($eventName, OX_Admin_UI_Event_EventContext $context)
     {
         $aCallbacks = $this->getRegisteredListeners($eventName);
-        
+
         //enhance context with event name
         $context->eventName = $eventName;
-        
+
         $result = [];
         //invoke event on listener and collect results
         foreach ($aCallbacks as $callback) {
             $result[] = call_user_func($callback, $context);
         }
-        
+
         return $result;
     }
-    
-    
+
+
     /**
      * An utility to get key that can be used for a callback
      *
@@ -158,8 +158,8 @@ class OX_Admin_UI_Event_EventDispatcher
 
         return null;
     }
-    
-    
+
+
     /**
      * Allow calls on non existent methods which will be forwarded to
      * triggerEvent method with proper event name and parameters.
@@ -180,18 +180,18 @@ class OX_Admin_UI_Event_EventDispatcher
     public function __call($methodName, $parameters)
     {
         $pos = strpos($methodName, "on");
-        
+
         if ($pos === false) {
             throw new Exception("Tried to call unsupported method: " . $methodName .
                 " Proxied calls allow only onX methods for event notifications");
         }
-        
+
         if (count($parameters) != 1 || !($parameters[0] instanceof OX_Admin_UI_Event_EventContext)) {
             throw new Exception("Tried to call an event method " . $methodName . " 
                 with bad parameters: " . $parameters . " Expected 1 parameter of OX_Admin_UI_Event_EventContext type");
         }
         $result = $this->triggerEvent($methodName, $parameters[0]);
-        
+
         return $result;
     }
 }

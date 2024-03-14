@@ -50,7 +50,7 @@ class OA_UpgradePostscript_2_8_2_rc8
         }
 
         // Get admin account ID
-        $adminAccountId = (int)$this->oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
+        $adminAccountId = (int) $this->oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
         if (PEAR::isError($adminAccountId)) {
             $this->logError("No admin account ID");
             return false;

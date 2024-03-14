@@ -14,27 +14,53 @@ require_once(MAX_PATH . '/lib/pear/Config.php');
 
 class MDB2ConfigWriter
 {
-    function configureTest($type, $host, $port, $username, $password, $name, $tableType)
+    public function configureTest($type, $host, $port, $username, $password, $name, $tableType)
     {
         $fTestConfigSource = MAX_PATH . '/tests/mdb2/mdb2_test_setup.php';
         $fTestConfigDestination = MAX_PATH . '/lib/pear/MDB2/tests/test_setup.php';
 
-        if ($this->configureTestFile($fTestConfigSource, $fTestConfigDestination,
-            $type, $host, $port, $username, $password, $name, $tableType) == false) {
+        if ($this->configureTestFile(
+            $fTestConfigSource,
+            $fTestConfigDestination,
+            $type,
+            $host,
+            $port,
+            $username,
+            $password,
+            $name,
+            $tableType
+        ) == false) {
             return false;
         }
 
         $fTestConfigSource = MAX_PATH . '/tests/mdb2/mdb2schema_test_setup.php';
         $fTestConfigDestination = MAX_PATH . '/lib/pear/MDB2_Schema/tests/test_setup.php';
 
-        return $this->configureTestFile($fTestConfigSource, $fTestConfigDestination,
-            $type, $host, $port, $username, $password, $name, $tableType);
+        return $this->configureTestFile(
+            $fTestConfigSource,
+            $fTestConfigDestination,
+            $type,
+            $host,
+            $port,
+            $username,
+            $password,
+            $name,
+            $tableType
+        );
     }
 
 
-    function configureTestFile($fTestConfigSource, $fTestConfigDestination,
-        $type, $host, $port, $username, $password, $name, $tableType)
-    {
+    public function configureTestFile(
+        $fTestConfigSource,
+        $fTestConfigDestination,
+        $type,
+        $host,
+        $port,
+        $username,
+        $password,
+        $name,
+        $tableType
+    ) {
         $sConfig = file_get_contents($fTestConfigSource);
         $sConfig = str_replace('%db.type%', $type, $sConfig);
         $sConfig = str_replace('%db.username%', $username, $sConfig);
@@ -44,8 +70,8 @@ class MDB2ConfigWriter
 
         $sOptions = '';
         if ('mysql' == $type || 'mysqli' == $type) {
-           $useTransactions = 'INNODB' == $tableType ? 'true' : 'false';
-           $sOptions = "'options' => array(" . "'use_transactions' => $useTransactions" . ")";
+            $useTransactions = 'INNODB' == $tableType ? 'true' : 'false';
+            $sOptions = "'options' => array(" . "'use_transactions' => $useTransactions" . ")";
         }
         $sConfig = str_replace('%options%', $sOptions, $sConfig);
 
@@ -59,5 +85,3 @@ class MDB2ConfigWriter
         return fclose($file);
     }
 }
-
-?>

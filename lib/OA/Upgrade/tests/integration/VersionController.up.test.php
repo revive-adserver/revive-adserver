@@ -29,9 +29,7 @@ class Test_VersionController extends UnitTestCase
         parent::__construct();
     }
 
-    public function test_constructor()
-    {
-    }
+    public function test_constructor() {}
 
     public function test_getSchemaVersion()
     {

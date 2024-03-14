@@ -191,7 +191,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plu
         $mi->parameters[] = 'layerstyle=simple';
         $mi->parameters[] = 'align=' . (isset($align) ? $align : 'right');
         $mi->parameters[] = 'valign=' . (isset($valign) ? $valign : 'top');
-        $mi->parameters[] = 'padding=' . (isset($padding) ? (int)$padding : '2');
+        $mi->parameters[] = 'padding=' . (isset($padding) ? (int) $padding : '2');
 
         if (!empty($mi->charset)) {
             $mi->parameters[] = 'charset=' . urlencode($mi->charset);

@@ -154,7 +154,7 @@ class OA_Environment_Manager
         // Check mbstring.func_overload
         $aResult['mbstring.func_overload'] = false;
         if (extension_loaded('mbstring')) {
-            $aResult['mbstring.func_overload'] = (bool)ini_get('mbstring.func_overload');
+            $aResult['mbstring.func_overload'] = (bool) ini_get('mbstring.func_overload');
         }
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts

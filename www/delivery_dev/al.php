@@ -29,7 +29,7 @@ if (!isset($layerstyle) || empty($layerstyle)) {
 
 $plugin = MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php';
 
-if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include($plugin)) {
+if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include ($plugin)) {
     // Don't generate output when plugin layerstyleisn't available,just send javascript comment on fail
     MAX_sendStatusCode(404);
     echo '// Cannot load required layerstyle file. Check if openXInvocationTags plugin is installed';

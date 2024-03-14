@@ -123,7 +123,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     public function deleteUserSessions($userId)
     {
-        $userId = (int)$userId;
+        $userId = (int) $userId;
 
         $qTbl = $this->oDbh->quoteIdentifier($this->getTablePrefix() . 'session', true);
 

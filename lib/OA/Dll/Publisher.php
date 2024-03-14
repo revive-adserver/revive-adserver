@@ -49,7 +49,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['accountId'] = $publisherData['account_id'];
 
         $oPublisher->readDataFromArray($publisherData);
-        return  true;
+        return true;
     }
 
     /**
@@ -201,7 +201,7 @@ class OA_Dll_Publisher extends OA_Dll
                 if ($oPublisher->publisherId) {
                     // Set the account ID
                     $doPublisher = OA_Dal::staticGetDO('affiliates', $oPublisher->publisherId);
-                    $oPublisher->accountId = (int)$doPublisher->account_id;
+                    $oPublisher->accountId = (int) $doPublisher->account_id;
                 }
             } else {
                 $doPublisher->get($publisherData['publisherId']);

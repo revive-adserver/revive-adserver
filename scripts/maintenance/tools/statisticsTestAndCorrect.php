@@ -208,5 +208,3 @@ $oTestAndCorrect->issueTwo($oStartDate, $oEndDate);
 /***************************************************************************/
 
 echo "\n\nThe statisticsTestAndCorrect.php script has completed running!\n\n";
-
-?>

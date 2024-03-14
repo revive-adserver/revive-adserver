@@ -34,7 +34,7 @@ function processBanners($commit = false)
         }
         $GLOBALS['_MAX']['bannerrebuild']['errors'] = false;
         if ($commit) {
-            $doBannersClone = clone($doBanners);
+            $doBannersClone = clone ($doBanners);
             $doBannersClone->update();
             $newCache = $doBannersClone->htmlcache;
             unset($doBannersClone);

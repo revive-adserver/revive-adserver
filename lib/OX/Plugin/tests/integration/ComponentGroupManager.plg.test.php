@@ -326,9 +326,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
      * @todo write test
      *
      */
-    public function test_getDataObjectSchema()
-    {
-    }
+    public function test_getDataObjectSchema() {}
 
     public function test_putDataObjects()
     {

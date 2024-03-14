@@ -18,9 +18,7 @@ require_once(LIB_PATH . '/Extension/deliveryLog/Setup.php');
  */
 class OX_Extension_Delivery extends OX_Extension_Common
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function runTasksAfterPluginInstall()
     {

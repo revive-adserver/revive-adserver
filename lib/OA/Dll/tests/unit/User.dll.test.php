@@ -53,7 +53,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
     {
         $agencyId = DataGenerator::generateOne('agency');
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
-        $this->accountId = (int)$doAgency->account_id;
+        $this->accountId = (int) $doAgency->account_id;
     }
 
     public function tearDown()

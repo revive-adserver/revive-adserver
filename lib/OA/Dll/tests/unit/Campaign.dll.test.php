@@ -295,11 +295,11 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         if (is_array($rsCampaignStatistics)) {
             $this->assertEqual(count($rsCampaignStatistics), 0, 'No records should be returned');
 
-        // Handle MDB2 result sets
+            // Handle MDB2 result sets
         } elseif ($rsCampaignStatistics instanceof MDB2_Result_Common) {
             $this->assertEqual($rsCampaignStatistics->numRows(), 0, 'No records should be returned');
 
-        // Handle DBC (deprecated) result sets
+            // Handle DBC (deprecated) result sets
         } else {
             $this->assertEqual($rsCampaignStatistics->getRowCount(), 0, 'No records should be returned');
         }

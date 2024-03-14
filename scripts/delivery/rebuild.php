@@ -52,7 +52,7 @@ $blacklist = [
 function get_microtime()
 {
     list($usec, $sec) = explode(" ", microtime());
-    return ((float)$usec + (float)$sec);
+    return ((float) $usec + (float) $sec);
 }
 
 // Source folder for the file to be processed

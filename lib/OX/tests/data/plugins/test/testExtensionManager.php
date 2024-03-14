@@ -14,9 +14,7 @@ require_once(LIB_PATH . '/Extension/ExtensionCommon.php');
 
 class OX_Extension_test extends OX_Extension_Common
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function runTasksTestEvent()
     {

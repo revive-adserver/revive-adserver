@@ -26,9 +26,7 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
     /**
      * Constructor method
      */
-    public function __construct($extension, $group, $component)
-    {
-    }
+    public function __construct($extension, $group, $component) {}
 
     /**
      * Return information about cache store

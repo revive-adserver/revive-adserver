@@ -36,9 +36,7 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
     public $tblAccountPreferenceAssoc;
     public $tblPreferences;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {

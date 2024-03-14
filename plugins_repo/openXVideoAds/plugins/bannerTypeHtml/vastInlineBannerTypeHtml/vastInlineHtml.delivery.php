@@ -69,7 +69,6 @@ function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_
 
 
 if (!empty($format) && $format == 'vast') {
-
     // ----------------- MARK start of cut-and-paste from spc.php ---------------
     require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
     require_once MAX_PATH . '/lib/max/Delivery/flash.php';
@@ -128,7 +127,7 @@ if (!empty($format) && $format == 'vast') {
                      ($output['width'] != VAST_OVERLAY_DIMENSIONS) &&
                      ($output['width'] != VAST_INLINE_DIMENSIONS)
                  )
-               ) {
+            ) {
                 $badZoneId = $output['aRow']['zoneid'];
                 $badBannerId = $output['bannerid'];
                 // Store the html2js'd output for this ad

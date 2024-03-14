@@ -79,7 +79,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
         // We changed contract
         if ((bool) $_POST['contract_ecpm_enabled'] != (bool) $pref['contract_ecpm_enabled']) {
-
             // Reload the prefs we just changed into the global variable because
             // we use it when setting ecpm_enabled in the DO.
             OA_Preferences::loadPreferences();

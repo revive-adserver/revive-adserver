@@ -53,5 +53,3 @@ $oDate = new Date($argv[2]);
 
 $oRollupStats = new OA_Maintenance_RollupStats();
 $oRollupStats->run($oDate);
-
-?>

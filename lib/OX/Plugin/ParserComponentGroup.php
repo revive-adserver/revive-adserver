@@ -118,7 +118,6 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin-install-components-component':
                 $this->aComponents[$this->aData['name']] = $this->aData;
                 break;
-
         }
 
         parent::endHandler($xp, $element);

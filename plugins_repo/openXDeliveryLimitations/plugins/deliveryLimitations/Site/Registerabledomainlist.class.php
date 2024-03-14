@@ -66,8 +66,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
         // is only included once in the HTML, no matter times the plugin is
         // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
-        echo
-            "<div style=\"float: left;\">" .
+        echo "<div style=\"float: left;\">" .
                 "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
                   htmlspecialchars(isset($this->data) ? $this->data : "") .
                 "</textarea>" .
@@ -89,8 +88,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      */
     public function _displayIntlMissingWarning()
     {
-        echo
-            "<div class='errormessage' style='width: 50%;'>" .
+        echo "<div class='errormessage' style='width: 50%;'>" .
                 "<img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>" .
                 "<span class='tab-r'>" .
                     $this->translate('WARNING') . ": " .
@@ -151,7 +149,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     {
         return $this->_sanitiseData($this->data);
     }
-    
+
     /**
      * A local private method to sanitise the registerable domain data.
      *

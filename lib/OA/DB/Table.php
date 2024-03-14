@@ -494,7 +494,7 @@ class OA_DB_Table
         RV::disableErrorHandling();
 
         if ($aConf['database']['type'] == 'pgsql') {
-            $value = $value < 1 ? 1 : (int)$value;
+            $value = $value < 1 ? 1 : (int) $value;
 
             $sequence = $this->oDbh->quoteIdentifier($sequence, true);
             $result = $this->oDbh->exec("SELECT setval('$sequence', {$value}, false)");

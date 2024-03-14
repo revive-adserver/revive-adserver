@@ -77,7 +77,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
 
                 if (!$query) {
                     $query = $sInsert . $sRow;
-                // Leave 4 bytes headroom for max_allowed_packet
+                    // Leave 4 bytes headroom for max_allowed_packet
                 } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
                     $query .= ',' . $sRow;
                 } else {

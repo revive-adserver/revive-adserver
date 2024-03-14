@@ -157,15 +157,15 @@ function prepareOverlayParams(&$aOutputParams, $aBanner)
             $aOutputParams['overlayTextCall'] = $aBanner['vast_overlay_text_call'];
             $aOutputParams['overlayHeight'] = VAST_OVERLAY_DEFAULT_HEIGHT;
             $aOutputParams['overlayWidth'] = VAST_OVERLAY_DEFAULT_WIDTH;
-        break;
+            break;
 
         case VAST_OVERLAY_FORMAT_HTML:
             $aOutputParams['overlayHeight'] = VAST_OVERLAY_DEFAULT_HEIGHT;
             $aOutputParams['overlayWidth'] = VAST_OVERLAY_DEFAULT_WIDTH;
-        break;
+            break;
     }
-//    var_dump($aBanner);
-//    var_dump($aOutputParams);exit;
+    //    var_dump($aBanner);
+    //    var_dump($aOutputParams);exit;
 }
 
 function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $loc, $referer)
@@ -247,7 +247,6 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
  */
 function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', $logClick = true)
 {
-
     // We dont pass $aBanner by reference - so the changes to this $aBanner are lost - which is a good thing
     // we need the url attribute of aBanner to contain the url we want created
     $clickUrl = '';
@@ -368,7 +367,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
                 $code = "<![CDATA[" . $aOut['overlayMarkupTemplate'] . "]]>";
                 $resourceType = 'HTML';
                 $elementName = 'Code';
-            break;
+                break;
 
             case VAST_OVERLAY_FORMAT_IMAGE:
                 $creativeType = strtoupper($aOut['overlayContentType']);
@@ -387,7 +386,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
                 $code = getImageUrlFromFilename($aOut['overlayFilename']);
                 $resourceType = 'static';
                 $elementName = 'URL';
-            break;
+                break;
 
             case VAST_OVERLAY_FORMAT_TEXT:
                 $resourceType = 'TEXT';
@@ -398,7 +397,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
                		]]>
                ";
                 $elementName = 'Code';
-            break;
+                break;
         }
 
         if (!empty($aOut['clickUrl'])) {
@@ -498,13 +497,13 @@ function renderOverlayInAdminTool($aOut, $aBanner)
     switch ($aOut['overlayFormat']) {
         case VAST_OVERLAY_FORMAT_HTML:
             $htmlOverlay = $borderStart . $aOut['overlayMarkupTemplate'] . $borderEnd;
-        break;
+            break;
 
         case VAST_OVERLAY_FORMAT_IMAGE:
             $title = "Image Overlay Preview";
             $imagePath = getImageUrlFromFilename($aOut['overlayFilename']);
             $htmlOverlay = "<img border='0' src='$imagePath' />";
-        break;
+            break;
 
         case VAST_OVERLAY_FORMAT_TEXT:
             $title = "Text Overlay Preview";
@@ -518,7 +517,7 @@ function renderOverlayInAdminTool($aOut, $aBanner)
                     <div style='font-family:arial;font-size:15pt;font-weight:bold;color:orange;'>$overlayCall</div>
                 $borderEnd
             ";
-        break;
+            break;
     }
 
 
@@ -527,7 +526,7 @@ function renderOverlayInAdminTool($aOut, $aBanner)
     switch ($aOut['overlayFormat']) {
         case VAST_OVERLAY_FORMAT_IMAGE:
             $htmlOverlayPrepend .= " This overlay has the following dimensions: width = " . $aOut['overlayWidth'] . ", height = " . $aOut['overlayHeight'] . ".";
-        break;
+            break;
     }
     if ($aOut['overlayDestinationUrl']) {
         $htmlOverlayPrepend .= ' In the video player, this overlay will be clickable.';
@@ -554,7 +553,7 @@ if (!(function_exists('bcmod'))) {
     {
         $mod = $x % $y;
 
-        return (int)$mod;
+        return (int) $mod;
     }
 }// end of if bcmath php extension not installed
 

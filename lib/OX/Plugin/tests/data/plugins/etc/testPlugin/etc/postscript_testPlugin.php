@@ -15,9 +15,7 @@ $className = 'OX_postscript_testPlugin';
 
 class OX_postscript_testPlugin
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams = [])
     {

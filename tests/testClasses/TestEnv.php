@@ -36,7 +36,7 @@ class TestEnv
      *
      * @param bool $ignore_errors True if setup errors should be ignored.
      */
-    static function setupDB($ignore_errors = false)
+    public static function setupDB($ignore_errors = false)
     {
         $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
@@ -45,7 +45,9 @@ class TestEnv
             if (PEAR::isError($result) && !$ignore_errors) {
                 PEAR::raiseError(
                     "TestEnv unable to create the {$aConf['database']['name']} test database."
-                    . $result->getUserInfo(), PEAR_LOG_ERR);
+                    . $result->getUserInfo(),
+                    PEAR_LOG_ERR
+                );
                 die(1);
             }
             $result = OA_DB::createFunctions();
@@ -60,7 +62,7 @@ class TestEnv
     /**
      * A method for setting up the core OpenX tables in the test database.
      */
-    static function setupCoreTables()
+    public static function setupCoreTables()
     {
         OA_DB_Table_Core::destroy();
         $oTable = OA_DB_Table_Core::singleton();
@@ -70,33 +72,33 @@ class TestEnv
     /**
      * A method for setting up the default data set for testing.
      */
-    static function setupDefaultData()
+    public static function setupDefaultData()
     {
         DefaultData::insertDefaultData();
     }
 
-    static function getPluginPackageManager($mock)
+    public static function getPluginPackageManager($mock)
     {
-        if ($mock)
-        {
-            Mock::generatePartial(  'OX_PluginManager',
-                                    $mockPkgMgrClass = 'MOX_PluginManager'.rand(),
-                                    array(
-                                            '_auditInit',
-                                            '_auditSetKeys',
-                                            '_auditStart',
-                                            '_auditUpdate',
-                                            '_auditSetID',
-                                            '_checkDatabaseEnvironment',
-                                            '_registerSchema',
-                                            '_registerPreferences',
-                                            '_registerPluginVersion',
-                                            '_unregisterSchema',
-                                            '_unregisterPreferences',
-                                            '_unregisterPluginVersion',
-                                            '_runExtensionTasks',
-                                         )
-                                 );
+        if ($mock) {
+            Mock::generatePartial(
+                'OX_PluginManager',
+                $mockPkgMgrClass = 'MOX_PluginManager' . rand(),
+                [
+                        '_auditInit',
+                        '_auditSetKeys',
+                        '_auditStart',
+                        '_auditUpdate',
+                        '_auditSetID',
+                        '_checkDatabaseEnvironment',
+                        '_registerSchema',
+                        '_registerPreferences',
+                        '_registerPluginVersion',
+                        '_unregisterSchema',
+                        '_unregisterPreferences',
+                        '_unregisterPluginVersion',
+                        '_runExtensionTasks',
+                     ]
+            );
             $oPkgMgr = new $mockPkgMgrClass();
             // install tasks
             $oPkgMgr->setReturnValue('_auditInit', true);
@@ -120,49 +122,41 @@ class TestEnv
             //$oPkgMgr->setReturnValue('_unregisterSettings', true);
             $oPkgMgr->setReturnValue('_unregisterSchema', true);
             //$oPkgMgr->setReturnValue('_removeFiles', true);
-        }
-        else
-        {
+        } else {
             $oPkgMgr = new OX_PluginManager();
         }
         $oPkgMgr->init();
         return $oPkgMgr;
     }
 
-    static function installPluginPackage($pkgName, $noDb = true)
+    public static function installPluginPackage($pkgName, $noDb = true)
     {
         $_POST['token'] = phpAds_SessionGetToken();
 
         $result = false;
-        $aFile['name']      = $pkgName.'.zip';
-        $aFile['tmp_name']  = MAX_PATH.'/var/'.$aFile['name'];
+        $aFile['name']      = $pkgName . '.zip';
+        $aFile['tmp_name']  = MAX_PATH . '/var/' . $aFile['name'];
 
-        $aPaths = explode('|',$GLOBALS['_MAX']['CONF']['pluginPaths']['repo']);
-        foreach ($aPaths as $i => $path)
-        {
-            if (file_exists($path.$aFile['name']))
-            {
-                $file = $path.$aFile['name'];
+        $aPaths = explode('|', $GLOBALS['_MAX']['CONF']['pluginPaths']['repo']);
+        foreach ($aPaths as $i => $path) {
+            if (file_exists($path . $aFile['name'])) {
+                $file = $path . $aFile['name'];
                 break;
             }
         }
-        if (!$file)
-        {
-            PEAR::raiseError('TestEnv unable to find plugin '.$aFile['name'], PEAR_LOG_ERR);
+        if (!$file) {
+            PEAR::raiseError('TestEnv unable to find plugin ' . $aFile['name'], PEAR_LOG_ERR);
             die(1);
         }
 
         file_put_contents($aFile['tmp_name'], file_get_contents($file));
-        if (file_exists($aFile['tmp_name']))
-        {
+        if (file_exists($aFile['tmp_name'])) {
             $oPkgMgr = TestEnv::getPluginPackageManager($noDb);
             $result = $oPkgMgr->installPackage($aFile);
-            if (!$result)
-            {
-                $errormsg = 'TestEnv unable to install plugin from '.$aFile['name'];
-                foreach ($oPkgMgr->aErrors AS $i => $msg)
-                {
-                    $errormsg.= '</br>'.$msg;
+            if (!$result) {
+                $errormsg = 'TestEnv unable to install plugin from ' . $aFile['name'];
+                foreach ($oPkgMgr->aErrors as $i => $msg) {
+                    $errormsg .= '</br>' . $msg;
                 }
                 PEAR::raiseError($errormsg, PEAR_LOG_ERR);
                 die(1);
@@ -173,7 +167,7 @@ class TestEnv
         return $result;
     }
 
-    static function uninstallPluginPackage($pkgName, $noDb= true)
+    public static function uninstallPluginPackage($pkgName, $noDb = true)
     {
         $_POST['token'] = phpAds_SessionGetToken();
 
@@ -197,12 +191,12 @@ class TestEnv
      * they will be rebuilt on next log in
      *
      */
-    static function clearMenuCache()
+    public static function clearMenuCache()
     {
-        @unlink(MAX_PATH.'/var/cache/cache_ADMIN_Menu');
-        @unlink(MAX_PATH.'/var/cache/cache_MANAGER_Menu');
-        @unlink(MAX_PATH.'/var/cache/cache_ADVERTISER_Menu');
-        @unlink(MAX_PATH.'/var/cache/cache_TRAFFICKER_Menu');
+        @unlink(MAX_PATH . '/var/cache/cache_ADMIN_Menu');
+        @unlink(MAX_PATH . '/var/cache/cache_MANAGER_Menu');
+        @unlink(MAX_PATH . '/var/cache/cache_ADVERTISER_Menu');
+        @unlink(MAX_PATH . '/var/cache/cache_TRAFFICKER_Menu');
     }
 
     /**
@@ -213,37 +207,34 @@ class TestEnv
      * @param string $type : type identifier : 'dataobjects' or 'mdb2schema'
      * @return array $aIds : array of inserted entity ids
      */
-    static function loadData($source, $type='dataobjects')
+    public static function loadData($source, $type = 'dataobjects')
     {
-        $file = MAX_PATH . '/tests/datasets/'.$type.'/test_'.$source.'.php';
-        if (file_exists($file))
-        {
-            $classname = 'OA_Test_Data_'.str_replace('.','_',$source);
+        $file = MAX_PATH . '/tests/datasets/' . $type . '/test_' . $source . '.php';
+        if (file_exists($file)) {
+            $classname = 'OA_Test_Data_' . str_replace('.', '_', $source);
             require_once($file);
-            if (class_exists($classname))
-            {
-                $obj = new $classname;
-                if (!$obj->generateTestData())
-                {
-                    MAX::raiseError('loadData error: generating Test Data '.$classname);
+            if (class_exists($classname)) {
+                $obj = new $classname();
+                if (!$obj->generateTestData()) {
+                    MAX::raiseError('loadData error: generating Test Data ' . $classname);
                 }
                 return $obj->aIds;
             }
-            MAX::raiseError('loadData error: unable to find classname '.$classname);
+            MAX::raiseError('loadData error: unable to find classname ' . $classname);
         }
-        MAX::raiseError('loadData error: unable to find data source file '.$file);
+        MAX::raiseError('loadData error: unable to find data source file ' . $file);
         return false;
     }
 
     /**
      * A method for tearing down (dropping) the test database.
      */
-    static function teardownDB()
+    public static function teardownDB()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $result = OA_DB::dropDatabase($aConf['database']['name']);
         unset($GLOBALS['_OA']['CONNECTIONS']);
-        $GLOBALS['_MDB2_databases'] = array();
+        $GLOBALS['_MDB2_databases'] = [];
     }
 
     /**
@@ -253,7 +244,7 @@ class TestEnv
      *
      * @todo Remove the audit hack
      */
-    static function restoreConfig()
+    public static function restoreConfig()
     {
         // Destroy cached table classes
         OA_DB_Table_Core::destroy();
@@ -266,8 +257,8 @@ class TestEnv
             OA::debug("Could not restore config file from backup: {$backupConfigFilename}");
         }
         $newConf = TestEnv::parseConfigFile();
-        foreach($newConf as $configGroup => $configGroupSettings) {
-            foreach($configGroupSettings as $confName => $confValue) {
+        foreach ($newConf as $configGroup => $configGroupSettings) {
+            foreach ($configGroupSettings as $confName => $confValue) {
                 $GLOBALS['_MAX']['CONF'][$configGroup][$confName] = $confValue;
             }
         }
@@ -282,7 +273,7 @@ class TestEnv
      *
      * @return array Return parsed config ini file
      */
-    static function parseConfigFile()
+    public static function parseConfigFile()
     {
         $configFile = TestEnv::getConfigFilename();
         if (file_exists($configFile)) {
@@ -290,13 +281,13 @@ class TestEnv
         }
     }
 
-    static function getConfigFilename()
+    public static function getConfigFilename()
     {
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
             // This could be used to have different tests for different configurations
             $host = OX_getHostName();
-            $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.php';
+            $testFilePath = MAX_PATH . '/var/' . $host . '.test.conf.php';
             if (file_exists($testFilePath)) {
                 return $testFilePath;
             }
@@ -306,7 +297,6 @@ class TestEnv
         if (file_exists($testFilePath)) {
             return $testFilePath;
         }
-
     }
 
     /**
@@ -317,7 +307,7 @@ class TestEnv
      * causing any transaction to be committed. In this case, this
      * method is needed to re-set the testing database.
      */
-    static function restoreEnv($dropTmpTables='false')
+    public static function restoreEnv($dropTmpTables = 'false')
     {
         $oDbh = OA_DB::singleton();
         // Rollback any transactions that have not been closed
@@ -325,8 +315,7 @@ class TestEnv
         while ($oDbh->inTransaction(true) || $oDbh->inTransaction()) {
             TestEnv::rollbackTransaction();
         }
-        if ($dropTmpTables)
-        {
+        if ($dropTmpTables) {
             TestEnv::dropTempTables();
         }
         // Truncate all known core tables
@@ -341,22 +330,20 @@ class TestEnv
         TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
     }
 
-    static function dropTempTables()
+    public static function dropTempTables()
     {
         $oDbh = OA_DB::singleton();
         // Truncate & drop all existing temporary tables
         $oTable = OA_DB_Table_Priority::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
-            if ($oTable->existsTemporaryTable($tableName))
-            {
+            if ($oTable->existsTemporaryTable($tableName)) {
                 $oTable->truncateTable($tableName);
                 $oTable->dropTable($tableName);
             }
         }
         $oTable = &OA_DB_Table_Statistics::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
-            if ($oTable->existsTemporaryTable($tableName))
-            {
+            if ($oTable->existsTemporaryTable($tableName)) {
                 $oTable->truncateTable($tableName);
                 $oTable->dropTable($tableName);
             }
@@ -368,18 +355,14 @@ class TestEnv
      *
      * DEPRECATED! DO NOT USE.
      */
-    static function startTransaction()
-    {
-    }
+    public static function startTransaction() {}
 
     /**
      * A method for ending a transaction when testing database code.
      *
      * DEPRECATED! DO NOT USE.
      */
-    static function rollbackTransaction()
-    {
-    }
+    public static function rollbackTransaction() {}
 
     /**
      * Empties all tables and resets all sequences.
@@ -387,44 +370,37 @@ class TestEnv
      * insert data into the tables after they have been truncated but before the sequence is reset.
      *
      */
-    static function truncateAllTables()
+    public static function truncateAllTables()
     {
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();
         $oTable->resetAllSequences();
-
     }
 
-    static function backupPluginSchemaFiles()
+    public static function backupPluginSchemaFiles()
     {
         $schemaFilename = MAX_PATH . '/var/plugins/DataObjects/db_schema.ini';
         $linksFilename  = MAX_PATH . '/var/plugins/DataObjects/db_schema.links.ini';
 
-        $backupSchemaFilename = $schemaFilename.'.bak';
-        $backupLinksFilename  = $linksFilename.'.bak';
+        $backupSchemaFilename = $schemaFilename . '.bak';
+        $backupLinksFilename  = $linksFilename . '.bak';
 
-        if (file_exists($backupSchemaFilename))
-        {
+        if (file_exists($backupSchemaFilename)) {
             @unlink($backupSchemaFilename);
         }
-        if (file_exists($backupLinksFilename))
-        {
+        if (file_exists($backupLinksFilename)) {
             @unlink($backupLinksFilename);
         }
-        if (file_exists($schemaFilename))
-        {
+        if (file_exists($schemaFilename)) {
             @copy($schemaFilename, $backupSchemaFilename);
-            if (!($fp = fopen($schemaFilename, 'w')))
-            {
+            if (!($fp = fopen($schemaFilename, 'w'))) {
                 return false;
             }
             fclose($fp);
         }
-        if (file_exists($linksFilename))
-        {
+        if (file_exists($linksFilename)) {
             @copy($linksFilename, $backupLinksFilename);
-            if (!($fp = fopen($linksFilename, 'w')))
-            {
+            if (!($fp = fopen($linksFilename, 'w'))) {
                 return false;
             }
             fclose($fp);
@@ -432,20 +408,18 @@ class TestEnv
         return true;
     }
 
-    static function restorePluginSchemaFiles()
+    public static function restorePluginSchemaFiles()
     {
         $schemaFilename = MAX_PATH . '/var/plugins/DataObjects/db_schema.ini';
         $linksFilename  = MAX_PATH . '/var/plugins/DataObjects/db_schema.links.ini';
 
-        $backupSchemaFilename = $schemaFilename.'.bak';
-        $backupLinksFilename  = $linksFilename.'.bak';
+        $backupSchemaFilename = $schemaFilename . '.bak';
+        $backupLinksFilename  = $linksFilename . '.bak';
 
-        if (file_exists($backupSchemaFilename))
-        {
+        if (file_exists($backupSchemaFilename)) {
             @copy($backupSchemaFilename, $schemaFilename);
         }
-        if (file_exists($backupLinksFilename))
-        {
+        if (file_exists($backupLinksFilename)) {
             @copy($backupLinksFilename, $linksFilename);
         }
         return true;
@@ -455,9 +429,9 @@ class TestEnv
      * to the config file are able to roll-back their changes by calling restoreConfig
      *
      */
-    static function backupConfig()
+    public static function backupConfig()
     {
-        $backupConfigFilename =& $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
+        $backupConfigFilename = & $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
         if (empty($backupConfigFilename)) {
             $backupConfigFilename = MAX_PATH . '/var/' . uniqid('backup') . '.conf.php';
         }
@@ -470,7 +444,7 @@ class TestEnv
         return false;
     }
 
-    static function removeBackupConfig()
+    public static function removeBackupConfig()
     {
         $backupConfigFilename = $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
         if (!empty($backupConfigFilename) && file_exists($backupConfigFilename)) {
@@ -495,21 +469,19 @@ class TestEnv
      * @todo Document $mode option, or remove it
      * @todo Consider raising an error instead of returning false.
      */
-    static function getDataSQL($source, $mode)
+    public static function getDataSQL($source, $mode)
     {
-	// XML files are loaded from a cache, if available
-	if (@include(MAX_PATH . "/tests/data/testData_{$source}.php")) {
-		return isset($aDataset) && is_array($aDataset) ? $aDataset : false;
-	}
+        // XML files are loaded from a cache, if available
+        if (@include (MAX_PATH . "/tests/data/testData_{$source}.php")) {
+            return isset($aDataset) && is_array($aDataset) ? $aDataset : false;
+        }
 
         require_once MAX_PATH . '/tests/testClasses/MAX_TestData_XML_Parser.php';
         $xml = new MAX_TestData_XML_Parser($mode);
         $xml->setInput($source);
-        if (is_resource($xml->fp))
-        {
+        if (is_resource($xml->fp)) {
             $res = $xml->parse();
-            if ($res)
-            {
+            if ($res) {
                 return $xml->aDataset;
             }
         }
@@ -526,20 +498,17 @@ class TestEnv
      * @param string $mode 'insert / update / delete'
      * @return void
      */
-    static function convertDataSQLtoDBO($source, $mode)
+    public static function convertDataSQLtoDBO($source, $mode)
     {
         $aDataset   = TestEnv::getDataSQL($source, $mode);
         $pattern    = "INSERT INTO (?P<table>[\w\W]+) \((?P<columns>[\w\W\s]+)\) VALUES \((?P<values>[\W\w\S]+)\);";
-        foreach ($aDataset as $k => $v)
-        {
-            switch ($mode)
-            {
+        foreach ($aDataset as $k => $v) {
+            switch ($mode) {
                 case 'insert':
-                    if (preg_match("/{$pattern}/U",$v, $aMatches))
-                    {
-                        $aColumns   = explode(',',$aMatches['columns']);
-                        $aValues    = explode(",",$aMatches['values']);
-                        $aTables[$aMatches['table']][]  = array('columns' => $aColumns, 'values' => $aValues);
+                    if (preg_match("/{$pattern}/U", $v, $aMatches)) {
+                        $aColumns   = explode(',', $aMatches['columns']);
+                        $aValues    = explode(",", $aMatches['values']);
+                        $aTables[$aMatches['table']][]  = ['columns' => $aColumns, 'values' => $aValues];
                     }
                     break;
             }
@@ -548,24 +517,20 @@ class TestEnv
         fwrite($fh, "<?php\n\n");
         $stat1  = '$a%s[\'%s\'] = %s;';
         $stat2  = "\$id%s%s = \$this->_insert%s(\$a%s);";
-        foreach ($aTables AS $tableRaw => $array)
-        {
+        foreach ($aTables as $tableRaw => $array) {
             $i = 0;
-            $tableBits  = explode('_',$tableRaw);
+            $tableBits  = explode('_', $tableRaw);
             $tableCamel = '';
-            foreach ($tableBits as $val)
-            {
-                $tableCamel.= ucfirst($val);
+            foreach ($tableBits as $val) {
+                $tableCamel .= ucfirst($val);
             }
-            foreach ($array AS $k => $v)
-            {
+            foreach ($array as $k => $v) {
                 $i++;
-                foreach ($v['columns'] AS $k => $column)
-                {
-                    $line = sprintf($stat1, $tableCamel, $column, $v['values'][$k])."\n";
+                foreach ($v['columns'] as $k => $column) {
+                    $line = sprintf($stat1, $tableCamel, $column, $v['values'][$k]) . "\n";
                     fwrite($fh, $line);
                 }
-                $line = sprintf($stat2, $tableCamel, $i, $tableCamel, $tableCamel)."\n\n";
+                $line = sprintf($stat2, $tableCamel, $i, $tableCamel, $tableCamel) . "\n\n";
                 fwrite($fh, $line);
             }
         }
@@ -587,27 +552,22 @@ class TestEnv
      * @param string $mode Either 'insert' or 'text'
      * @return void
      */
-    static function loadDataSQL($source, $mode)
+    public static function loadDataSQL($source, $mode)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aDataset = TestEnv::getDataSQL($source, $mode);
-        if ($aDataset)
-        {
-            foreach ($aDataset as $k => $v)
-            {
-                switch ($mode)
-                {
+        if ($aDataset) {
+            foreach ($aDataset as $k => $v) {
+                switch ($mode) {
                     case 'insert':
                         $oDbh = OA_DB::singleton();
                         $query = '';
-                        if (preg_match('/INSERT INTO (?P<table>[\w\W]+) (?P<query>\([\w\W\s]+\);)/U',$v, $aMatches))
-                        {
-                            $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aMatches['table'],true);
-                            $query = 'INSERT INTO '.$table.' '.$aMatches['query'];
+                        if (preg_match('/INSERT INTO (?P<table>[\w\W]+) (?P<query>\([\w\W\s]+\);)/U', $v, $aMatches)) {
+                            $table = $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aMatches['table'], true);
+                            $query = 'INSERT INTO ' . $table . ' ' . $aMatches['query'];
                         }
                         $res = $oDbh->query($query);
-                        if (!$res || PEAR::isError($res))
-                        {
+                        if (!$res || PEAR::isError($res)) {
                             MAX::raiseError($res);
                             return;
                         }
@@ -620,11 +580,11 @@ class TestEnv
             }
             return;
         }
-        MAX::raiseError('loadDataSQL error: unable to open '.$source);
+        MAX::raiseError('loadDataSQL error: unable to open ' . $source);
         return;
     }
 
-    static function recreateDatabase(string $charset)
+    public static function recreateDatabase(string $charset)
     {
         TestEnv::teardownDB();
 
@@ -637,7 +597,7 @@ class TestEnv
     }
 
 
-    static function recreateDatabaseAsLatin1OnMysql()
+    public static function recreateDatabaseAsLatin1OnMysql()
     {
         if ('pgsql' === $GLOBALS['_MAX']['CONF']['database']['type']) {
             return;
@@ -646,5 +606,3 @@ class TestEnv
         self::recreateDatabase('latin1');
     }
 }
-
-?>

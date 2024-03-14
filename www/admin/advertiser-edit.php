@@ -165,7 +165,7 @@ function processForm($aAdvertiser, $form)
     // Reports
     $aAdvertiser['report'] = $aFields['report'] == 't' ? 't' : 'f';
     $aAdvertiser['reportdeactivate'] = $aFields['reportdeactivate'] == 't' ? 't' : 'f';
-    $aAdvertiser['reportinterval'] = (int)$aFields['reportinterval'];
+    $aAdvertiser['reportinterval'] = (int) $aFields['reportinterval'];
     if ($aAdvertiser['reportinterval'] == 0) {
         $aAdvertiser['reportinterval'] = 1;
     }

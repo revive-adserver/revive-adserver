@@ -113,7 +113,7 @@ function generateXmlCache($xmlFiles, $callback = 'parseDatabaseDefinitionFile')
 
 function eol_flush()
 {
-    echo(PHP_SAPI != 'cli' ? '<br />' : '') . "\n";
+    echo (PHP_SAPI != 'cli' ? '<br />' : '') . "\n";
     flush();
 }
 

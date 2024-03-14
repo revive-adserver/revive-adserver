@@ -103,14 +103,14 @@ class DataGenerator
         if ($generateParents) {
             DataGenerator::generateParents($do);
         }
-        $doOriginal = clone($do);
+        $doOriginal = clone ($do);
         DataGenerator::setDefaultValues($do);
         DataGenerator::trackData($do->getTableWithoutPrefix());
 
         $ids = [];
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $id = $do->insert();
-            $do = clone($doOriginal);
+            $do = clone ($doOriginal);
             DataGenerator::setDefaultValues($do, $i + 1);
             $ids[] = $id;
         }

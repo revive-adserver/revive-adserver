@@ -42,7 +42,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
             $aIncludeSystemTypes
         );
         foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);
         }
 
         $conf = $GLOBALS['_MAX']['CONF'];

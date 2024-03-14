@@ -23,7 +23,7 @@ function myPreFunction($funcName, $args)
 class myPreObject
 {
     public $message = "This is from the pre-function object method";
-    
+
     public function preMethod($funcName, $args)
     {
         $objResponse = new xajaxResponse();

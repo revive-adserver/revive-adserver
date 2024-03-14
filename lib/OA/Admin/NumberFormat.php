@@ -63,21 +63,21 @@ class OA_Admin_NumberFormat
         //based on locale determine if single coma is decimal or thousends separator
         // eg 10,000 is 10000 or 10
         switch ($separator) {
-                case ".":
-                    if (isset($result_dot_decSep)) {
-                        return $result_dot_decSep;
-                    } elseif (isset($result_coma_decSep)) {
-                        return $result_coma_decSep;
-                    }
-                    break;
-                case ",":
-                    if (isset($result_coma_decSep)) {
-                        return $result_coma_decSep;
-                    } elseif (isset($result_dot_decSep)) {
-                        return $result_dot_decSep;
-                    }
-                    break;
-            }
+            case ".":
+                if (isset($result_dot_decSep)) {
+                    return $result_dot_decSep;
+                } elseif (isset($result_coma_decSep)) {
+                    return $result_coma_decSep;
+                }
+                break;
+            case ",":
+                if (isset($result_coma_decSep)) {
+                    return $result_coma_decSep;
+                } elseif (isset($result_dot_decSep)) {
+                    return $result_dot_decSep;
+                }
+                break;
+        }
         return false;
     }
 

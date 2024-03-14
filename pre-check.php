@@ -185,7 +185,6 @@ function OX_checkSystemInstalled()
  */
 function RV_checkSystemInitialRequirements(&$aErrors)
 {
-
     // Variables for tracking if the test has passed or not,
     // and if not, what value to return
     $isSystemOK = true;

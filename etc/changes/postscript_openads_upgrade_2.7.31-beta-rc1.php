@@ -28,7 +28,7 @@ class OA_UpgradePostscript_2_7_31_beta_rc1
         $this->oUpgrade->oConfiguration->aConfig['pluginPaths']['plugins'] = '/plugins/';
         $this->oUpgrade->oConfiguration->aConfig['pluginPaths']['packages'] = '/plugins/etc/';
         unset($this->oUpgrade->oConfiguration->aConfig['pluginPaths']['extensions']);
-        
+
         // Also change the check for updates server which may have been previously set to localhost
         $this->oUpgrade->oConfiguration->aConfig['pluginUpdatesServer'] = [
             'protocol' => 'http',

@@ -46,7 +46,7 @@ class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
         /** @var \DataObjects_Images $doImages */
         $doImages = \OA_Dal::staticGetDO('images', $path);
 
-        return (bool)$doImages;
+        return (bool) $doImages;
     }
 
     /**

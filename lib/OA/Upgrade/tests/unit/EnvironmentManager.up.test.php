@@ -22,7 +22,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
 {
     public function test_checkCriticalPHP()
     {
-
         // Test 1: Test PHP versions
 
         // Prepare a new OA_Environment_Manager class

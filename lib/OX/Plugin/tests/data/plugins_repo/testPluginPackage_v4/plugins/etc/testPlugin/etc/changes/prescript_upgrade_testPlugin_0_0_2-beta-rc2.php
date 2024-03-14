@@ -15,9 +15,7 @@ $className = 'prescript_upgrade_testPlugin_0_0_2_beta_rc2';
 
 class prescript_upgrade_testPlugin_0_0_2_beta_rc2
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams = [])
     {

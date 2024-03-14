@@ -499,7 +499,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
                                  (stripos($aWebsitesAndZones[$websiteKey]['name'], $searchString) !== false) ||
                               (stripos($aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'], $searchString) !== false)
                              )
-                         ) {
+                    ) {
                         $aExpected[] = [
                                         'zoneid' => $aZonesIds[$websiteKey][$zoneKey],
                                         'zonename' => $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'],

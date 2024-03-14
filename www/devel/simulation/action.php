@@ -32,19 +32,28 @@ function getUpgradeStatus($dbname)
     $oUpgrader->detectMAX();
     switch ($oUpgrader->existing_installation_status) {
         case OA_STATUS_MAX_VERSION_FAILED: break;
-        case OA_STATUS_CAN_UPGRADE: $aMessages[] = 'Database ' . $dbname . ' should be upgraded';return $aMessages;
-        case OA_STATUS_MAX_CONFINTEG_FAILED: $aMessages[] = 'Database ' . $dbname . ' failed schema integrity check failed';return $aMessages;
+        case OA_STATUS_CAN_UPGRADE: $aMessages[] = 'Database ' . $dbname . ' should be upgraded';
+            return $aMessages;
+        case OA_STATUS_MAX_CONFINTEG_FAILED: $aMessages[] = 'Database ' . $dbname . ' failed schema integrity check failed';
+            return $aMessages;
     }
     $GLOBALS['_MAX']['CONF']['max']['installed'] = 0;
     $oUpgrader->detectOpenads();
     switch ($oUpgrader->existing_installation_status) {
-        case OA_STATUS_CURRENT_VERSION: $aMessages[] = 'Database ' . $dbname . ' has current schema version';break;
-        case OA_STATUS_OAD_VERSION_FAILED: $aMessages[] = 'Could not retrieve schema version from database ' . $dbname;break;
-        case OA_STATUS_CAN_UPGRADE: $aMessages[] = 'Database ' . $dbname . ' should be upgraded';break;
-        case OA_STATUS_OAD_CONFINTEG_FAILED: $aMessages[] = 'Database ' . $dbname . ' failed schema integrity check failed';break;
-        case OA_STATUS_OAD_DBCONNECT_FAILED: $aMessages[] = 'Failed to connect to ' . $dbname;break;
-        case OA_STATUS_OAD_NOT_INSTALLED: $aMessages[] = 'Application is not installed';break;
-        default: $aMessages[] = 'Failed to retrieve installation status';break;
+        case OA_STATUS_CURRENT_VERSION: $aMessages[] = 'Database ' . $dbname . ' has current schema version';
+            break;
+        case OA_STATUS_OAD_VERSION_FAILED: $aMessages[] = 'Could not retrieve schema version from database ' . $dbname;
+            break;
+        case OA_STATUS_CAN_UPGRADE: $aMessages[] = 'Database ' . $dbname . ' should be upgraded';
+            break;
+        case OA_STATUS_OAD_CONFINTEG_FAILED: $aMessages[] = 'Database ' . $dbname . ' failed schema integrity check failed';
+            break;
+        case OA_STATUS_OAD_DBCONNECT_FAILED: $aMessages[] = 'Failed to connect to ' . $dbname;
+            break;
+        case OA_STATUS_OAD_NOT_INSTALLED: $aMessages[] = 'Application is not installed';
+            break;
+        default: $aMessages[] = 'Failed to retrieve installation status';
+            break;
     }
     return $aMessages;
 }
@@ -106,7 +115,7 @@ if (array_key_exists('btn_data_integ', $_REQUEST)) {
     $aVariables['exclude'] = $_POST['exclude'];
     $aVariables['output'] = SCENARIOS_DATASETS . $aDatasetFile['name'] . '.xml';
     $aResults = $oIntegrity->dumpData($aVariables);
-//    $aResults = $oIntegrity->dumpData($aDatabase['versionSchema'],$aDatabase['versionApp'], $_POST['exclude'],SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml');
+    //    $aResults = $oIntegrity->dumpData($aDatabase['versionSchema'],$aDatabase['versionApp'], $_POST['exclude'],SCENARIOS_DATASETS.$aDatasetFile['name'].'.xml');
     if (PEAR::isError($aResults)) {
         $aMessages[] = $aResults->getUserInfo();
     }

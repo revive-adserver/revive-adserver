@@ -582,16 +582,14 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
                 $this->forward('restart');
                 return;
             } else {  //report errors
-                $aMessages = OX_Admin_UI_Install_InstallUtils
-                    ::getMessagesWithType($oUpgrader->getMessages());
+                $aMessages = OX_Admin_UI_Install_InstallUtils::getMessagesWithType($oUpgrader->getMessages());
                 $this->setModelProperty('aMessages', $aMessages);
             }
         }
 
         //check if we were forwarded to recovery, maybe we already have
         //some messages or the recovery itself failed
-        $aMessages = OX_Admin_UI_Install_InstallUtils
-            ::getMessagesWithType($oUpgrader->getMessages());
+        $aMessages = OX_Admin_UI_Install_InstallUtils::getMessagesWithType($oUpgrader->getMessages());
         $this->setModelProperty('aMessages', $aMessages);
     }
 

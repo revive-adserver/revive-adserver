@@ -508,7 +508,6 @@ class OA_Admin_Menu_Section
             // If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions
 
             if (is_array($elem)) { //(account,perm) pair
-
                 $aPairAccounts = array_make(key($elem));
                 $aPairPermissions = array_make(current($elem));
 
@@ -534,30 +533,30 @@ class OA_Admin_Menu_Section
     }
 }
 
-    /**
-     * TODO refactor as util
-     *
-     * @param unknown_type $array
-     * @param unknown_type $index
-     * @param unknown_type $insert_array
-     * @param unknown_type $elem
-     */
-    function array_insert(&$array, $index, &$elem)
-    {
-        $aLeft = array_splice($array, 0, $index);
-        $aLeft[] = $elem;
-        $array = array_merge($aLeft, $array);
-    }
+/**
+ * TODO refactor as util
+ *
+ * @param unknown_type $array
+ * @param unknown_type $index
+ * @param unknown_type $insert_array
+ * @param unknown_type $elem
+ */
+function array_insert(&$array, $index, &$elem)
+{
+    $aLeft = array_splice($array, 0, $index);
+    $aLeft[] = $elem;
+    $array = array_merge($aLeft, $array);
+}
 
 
-    /**
-     * TODO refactor as util
-     */
-    function array_make($var)
-    {
-        if (is_array($var)) {
-            return $var;
-        } else {
-            return [$var];
-        }
+/**
+ * TODO refactor as util
+ */
+function array_make($var)
+{
+    if (is_array($var)) {
+        return $var;
+    } else {
+        return [$var];
     }
+}

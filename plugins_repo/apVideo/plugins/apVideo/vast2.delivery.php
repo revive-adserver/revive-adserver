@@ -14,7 +14,7 @@ require_once MAX_PATH . '/plugins/apVideo/lib/Dal/Delivery.php';
 
 $_REQUEST['format'] = $_GET['format'] = 'vast';
 $_REQUEST['nz'] = $_GET['nz'] = 1;
-$_REQUEST['zones'] = $_GET['zones'] = 'pre-roll=' . (int)$zoneid;
+$_REQUEST['zones'] = $_GET['zones'] = 'pre-roll=' . (int) $zoneid;
 
 $skipOffset = (int) ($_GET['skipoffset'] ?? 0);
 
@@ -33,7 +33,7 @@ $old = preg_replace('#^.*<VideoAdServingTemplate.*?>#s', <<<EOF
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <VAST version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd">
 EOF
-, $old);
+    , $old);
 $old = str_replace('</VideoAdServingTemplate>', '</VAST>', $old);
 
 // Deal with multiple impression URL tags
@@ -153,7 +153,7 @@ foreach (['Companion', 'NonLinear'] as $tag) {
             $el->removeAttributeNode($creativeType);
         }
 
-        $content = clone($el->firstChild);
+        $content = clone ($el->firstChild);
 
         switch ($resourceType) {
             case 'static':

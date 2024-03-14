@@ -21,13 +21,13 @@ class OX_Admin_UI_ViewHooks
     private $pageId;
     private $pageData;
 
-    
+
     public function __construct($pageId, $pageData = null)
     {
         $this->pageId = $pageId;
         $this->pageData = $pageData;
     }
-    
+
 
     /**
      * Register supported hooks on the view template.
@@ -47,11 +47,11 @@ class OX_Admin_UI_ViewHooks
     {
         $oHooks = new self($pageId, $pageData);
         $oHooks->register($oTpl);
-        
+
         return $oHooks;
     }
-    
-    
+
+
     /**
      * Register supported hooks on the view template.
      * In order to invoke listeners reacting on that hooks template must invoke
@@ -68,14 +68,14 @@ class OX_Admin_UI_ViewHooks
         $oTpl->register_function('view_before_content', [$this, 'beforeContent']);
         $oTpl->register_function('view_after_content', [$this, 'afterContent']);
     }
-    
-    
+
+
     public function beforeContent($aParams, &$oTpl)
     {
         return OX_Admin_UI_Hooks::beforePageContent($this->pageId, $this->pageData, $oTpl);
     }
-    
-    
+
+
     public function afterContent($aParams, &$oTpl)
     {
         return OX_Admin_UI_Hooks::afterPageContent($this->pageId, $this->pageData, $oTpl);

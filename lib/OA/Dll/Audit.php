@@ -102,7 +102,6 @@ class OA_Dll_Audit extends OA_Dll
 
         // Are there any parameters?
         if (!empty($aParam) && is_array($aParam)) {
-
             // Check for, and apply, as required, any filters to ensure
             // that the results displayed are those that the current
             // account has access to
@@ -303,15 +302,15 @@ class OA_Dll_Audit extends OA_Dll
     public function getActionName($actionId)
     {
         switch ($actionId) {
-        case OA_AUDIT_ACTION_INSERT:
-             $action = $GLOBALS['strInserted'];
-            break;
-        case OA_AUDIT_ACTION_UPDATE:
-            $action = $GLOBALS['strUpdated'];
-            break;
-        case OA_AUDIT_ACTION_DELETE:
-            $action = $GLOBALS['strDeleted'];
-            break;
+            case OA_AUDIT_ACTION_INSERT:
+                $action = $GLOBALS['strInserted'];
+                break;
+            case OA_AUDIT_ACTION_UPDATE:
+                $action = $GLOBALS['strUpdated'];
+                break;
+            case OA_AUDIT_ACTION_DELETE:
+                $action = $GLOBALS['strDeleted'];
+                break;
         }
 
         return $action;
@@ -327,19 +326,19 @@ class OA_Dll_Audit extends OA_Dll
     public function getParentContextData(&$aContext)
     {
         switch ($aContext['context']) {
-        case 'banners':
-            $aContext['parentcontext'] = $GLOBALS['strCampaign'];
-            $aContext['parentcontextid'] = $aContext['details']['campaignid'] ?? null;
-            return true;
-        case 'campaigns':
-            $aContext['parentcontext'] = $GLOBALS['strClient'];
-            $aContext['parentcontextid'] = $aContext['details']['clientid'] ?? null;
-            return true;
-        case 'channel':
-        case 'zones':
-            $aContext['parentcontext'] = $GLOBALS['strAffiliate'];
-            $aContext['parentcontextid'] = $aContext['details']['affiliateid'] ?? null;
-            return true;
+            case 'banners':
+                $aContext['parentcontext'] = $GLOBALS['strCampaign'];
+                $aContext['parentcontextid'] = $aContext['details']['campaignid'] ?? null;
+                return true;
+            case 'campaigns':
+                $aContext['parentcontext'] = $GLOBALS['strClient'];
+                $aContext['parentcontextid'] = $aContext['details']['clientid'] ?? null;
+                return true;
+            case 'channel':
+            case 'zones':
+                $aContext['parentcontext'] = $GLOBALS['strAffiliate'];
+                $aContext['parentcontextid'] = $aContext['details']['affiliateid'] ?? null;
+                return true;
         }
         return false;
     }
@@ -414,31 +413,31 @@ class OA_Dll_Audit extends OA_Dll
     public function _removeParentContextId(&$aAudit)
     {
         switch ($aAudit['context']) {
-        case 'ad_zone_assoc':
-        case 'acls':
-        case 'images':
-            if (isset($aAudit['details']['bannerid']) && !is_array($aAudit['details']['bannerid'])) {
-                unset($aAudit['details']['bannerid']);
-            }
-            return true;
-        case 'banners':
-        case 'campaigns_trackers':
-            if (isset($aAudit['details']['campaignid']) && !is_array($aAudit['details']['campaignid'])) {
-                unset($aAudit['details']['campaignid']);
-            }
-            return true;
-        case 'campaigns':
-        case 'trackers':
-            if (isset($aAudit['details']['clientid']) && !is_array($aAudit['details']['clientid'])) {
-                unset($aAudit['details']['clientid']);
-            }
-            return true;
-        case 'channel':
-        case 'zones':
-            if (isset($aAudit['details']['affiliateid']) && !is_array($aAudit['details']['affiliateid'])) {
-                unset($aAudit['details']['affiliateid']);
-            }
-            return true;
+            case 'ad_zone_assoc':
+            case 'acls':
+            case 'images':
+                if (isset($aAudit['details']['bannerid']) && !is_array($aAudit['details']['bannerid'])) {
+                    unset($aAudit['details']['bannerid']);
+                }
+                return true;
+            case 'banners':
+            case 'campaigns_trackers':
+                if (isset($aAudit['details']['campaignid']) && !is_array($aAudit['details']['campaignid'])) {
+                    unset($aAudit['details']['campaignid']);
+                }
+                return true;
+            case 'campaigns':
+            case 'trackers':
+                if (isset($aAudit['details']['clientid']) && !is_array($aAudit['details']['clientid'])) {
+                    unset($aAudit['details']['clientid']);
+                }
+                return true;
+            case 'channel':
+            case 'zones':
+                if (isset($aAudit['details']['affiliateid']) && !is_array($aAudit['details']['affiliateid'])) {
+                    unset($aAudit['details']['affiliateid']);
+                }
+                return true;
         }
         return false;
     }

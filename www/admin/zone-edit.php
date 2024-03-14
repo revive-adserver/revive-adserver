@@ -214,11 +214,10 @@ function buildZoneForm($zone, $oComponent = null)
             $sizeDisabled = true;
             $zone['width'] = '*';
             $zone['height'] = '*';
-        break;
+            break;
         default:
             $sizeDisabled = false;
-        break;
-
+            break;
     }
 
     $aDefaultSize['radio'] = $form->createElement(
@@ -356,7 +355,7 @@ function processForm($form, $oComponent = null)
             } else {
                 [$aFields['width'], $aFields['height']] = explode('x', $aFields['size']);
             }
-        break;
+            break;
     }
 
     if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
@@ -401,7 +400,7 @@ function processForm($form, $oComponent = null)
             $append = phpAds_ZoneParseAppendCode($row['append']);
 
             if ($append[0]['zoneid'] == $aFields['zoneid']) {
-                $doZonesClone = clone($doZones);
+                $doZonesClone = clone ($doZones);
                 $doZonesClone->appendtype = phpAds_ZoneAppendRaw;
                 $doZonesClone->append = '';
                 $doZonesClone->update();

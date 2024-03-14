@@ -1615,7 +1615,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Does the database in use support transactions?
         if ((strcasecmp($aConf['database']['type'], 'mysql') === 0 || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
                 && strcasecmp($aConf['table']['type'], 'myisam') === 0
-            ) {
+        ) {
             // Oh noz! No transaction support? How tragic!
             OA::debug('  - Saving calculated priorities WITHOUT transaction support', PEAR_LOG_DEBUG);
             // Obtain the list of all existing normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL)
@@ -1685,7 +1685,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 UPDATE
                                 {$table}
                                 SET
-                                    priority = " . (float)$aAdZonePriority['priority'] . ",
+                                    priority = " . (float) $aAdZonePriority['priority'] . ",
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
                                     to_be_delivered = " . (empty($aAdZonePriority['to_be_delivered']) ? 0 : 1) . "
                                 WHERE
@@ -1744,7 +1744,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 UPDATE
                                 {$table}
                                 SET
-                                    priority = " . (float)$aAdZonePriority['priority'] . ",
+                                    priority = " . (float) $aAdZonePriority['priority'] . ",
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
                                     to_be_delivered = " . (empty($aAdZonePriority['to_be_delivered']) ? 0 : 1) . "
                                 WHERE

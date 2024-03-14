@@ -51,5 +51,3 @@ $oMaint->run();
 
 // Update scheduled maintenance last run record
 $oMaint->updateLastRun(true);
-
-?>

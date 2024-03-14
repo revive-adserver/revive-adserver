@@ -10,6 +10,4 @@
 +---------------------------------------------------------------------------+
 */
 
-function phpAds_buildPageHeader($page, $user, $template = '')
-{
-}
+function phpAds_buildPageHeader($page, $user, $template = '') {}

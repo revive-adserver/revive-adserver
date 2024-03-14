@@ -13,18 +13,18 @@
 class Test_OX_Admin_UI_Event_TestEventListener
 {
     public $aCallCount;
-    
+
     public function __construct()
     {
         $this->aCallCount = [];
     }
-    
-    
+
+
     public function onUpdate(OX_Admin_UI_Event_EventContext $context)
     {
         $eventName = $context->eventName;
         unset($context->eventName);
-        
+
         if (isset($context->data["callcount"])) {
             $context->data["callcount"]++;
         } else {

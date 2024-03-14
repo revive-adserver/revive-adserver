@@ -106,7 +106,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     public function userExists($username)
     {
         $this->username = strtolower($username);
-        return (bool)$this->count();
+        return (bool) $this->count();
     }
 
     /**

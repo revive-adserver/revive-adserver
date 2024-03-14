@@ -181,7 +181,7 @@ class InstallCommand extends AbstractInstallerCommand
                 ],
             ];
         }
-        
+
         return [
             'admin' => [
                 'username' => new ConfSetting(true, 'adminName'),

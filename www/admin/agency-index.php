@@ -185,9 +185,12 @@ if (!isset($aManagers) || !is_array($aManagers) || count($aManagers) == 0) {
         echo "\t\t\t\t\t<td height='25'>";
 
         switch ($agency['status']) {
-            case OA_ENTITY_STATUS_RUNNING: echo $GLOBALS['strAgencyStatusRunning']; break;
-            case OA_ENTITY_STATUS_PAUSED: echo $GLOBALS['strAgencyStatusPaused']; break;
-            case OA_ENTITY_STATUS_INACTIVE: echo $GLOBALS['strAgencyStatusInactive']; break;
+            case OA_ENTITY_STATUS_RUNNING: echo $GLOBALS['strAgencyStatusRunning'];
+                break;
+            case OA_ENTITY_STATUS_PAUSED: echo $GLOBALS['strAgencyStatusPaused'];
+                break;
+            case OA_ENTITY_STATUS_INACTIVE: echo $GLOBALS['strAgencyStatusInactive'];
+                break;
         }
 
         echo "</td>\n";

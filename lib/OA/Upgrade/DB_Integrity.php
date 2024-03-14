@@ -28,9 +28,7 @@ class OA_DB_Integrity
     public $version;
     //var $OK = true;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function init($version, $dbname = '', $createdb = true)
     {
@@ -296,10 +294,10 @@ class OA_DB_Integrity
             $this->aTasksConstructiveAll = $this->pruneTasklist('constructive');
         }
         if ($execute) {
-//            if (!$this->oDBUpgrader->_backup())
-//            {
-//                return false;
-//            }
+            //            if (!$this->oDBUpgrader->_backup())
+            //            {
+            //                return false;
+            //            }
             $this->mockMigration();
             $this->oDBUpgrader->aTaskList = $this->aTasksConstructiveAll;
             if (!$this->oDBUpgrader->_executeTasks()) {
@@ -317,10 +315,10 @@ class OA_DB_Integrity
             $this->aTasksDestructiveAll = $this->pruneTasklist('destructive');
         }
         if ($execute) {
-//            if (!$this->oDBUpgrader->_backup())
-//            {
-//                return false;
-//            }
+            //            if (!$this->oDBUpgrader->_backup())
+            //            {
+            //                return false;
+            //            }
             $this->mockMigration();
             $this->oDBUpgrader->aTaskList = $this->aTasksDestructiveAll;
             if (!$this->oDBUpgrader->_executeTasks()) {

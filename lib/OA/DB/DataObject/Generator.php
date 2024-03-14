@@ -127,7 +127,6 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
     public function deriveDataType(&$t, $dbtype)
     {
         switch (strtoupper($t['type'])) {
-
             case 'INT':
             case 'INT2':    // postgres
             case 'INT4':    // postgres
@@ -516,10 +515,10 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                 case (is_null($type)):
                     break;
                 case ($type & DB_DATAOBJECT_BOOL):
-                    $aDefaults[$field] = (int)(bool) $value;
+                    $aDefaults[$field] = (int) (bool) $value;
                     break;
 
-                // Check DATE/TIME type first instead of STR (many date/time fields has multiple types including DB_DATAOBJECT_STR)
+                    // Check DATE/TIME type first instead of STR (many date/time fields has multiple types including DB_DATAOBJECT_STR)
                 case ($type & DB_DATAOBJECT_MYSQLTIMESTAMP): // not supported yet..
                 case ($type & DB_DATAOBJECT_DATE):
                 case ($type & DB_DATAOBJECT_TIME):
@@ -543,7 +542,6 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                 default:
                     //$aDefaults[$field] = $value;
                     break;
-
             }
         }
         $result = '';

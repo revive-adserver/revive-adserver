@@ -32,9 +32,7 @@ class Test_OA_Permission extends UnitTestCase
         parent::__construct();
     }
 
-    public function setUp()
-    {
-    }
+    public function setUp() {}
 
     public function tearDown()
     {

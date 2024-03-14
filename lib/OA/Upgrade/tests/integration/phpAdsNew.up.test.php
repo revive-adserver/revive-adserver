@@ -60,8 +60,8 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $this->assertFalse($aResult['logging']['proxyLookup'], 'proxyLookup incorrect');
         $this->assertTrue($aResult['logging']['adImpressions'], 'adImpressions incorrect');
         $this->assertTrue($aResult['logging']['adClicks'], 'adClicks incorrect');
-//        $this->assertFalse($aResult[''][''] = $phpAds_config['log_beacon'],' incorrect');;
-//        $this->assertFalse($aResult[''][''] = $phpAds_config['ignore_hosts'],' incorrect');;
+        //        $this->assertFalse($aResult[''][''] = $phpAds_config['log_beacon'],' incorrect');;
+        //        $this->assertFalse($aResult[''][''] = $phpAds_config['ignore_hosts'],' incorrect');;
         $this->assertEqual($aResult['logging']['blockAdImpressions'], 0, 'blockAdImpressions incorrect');
         $this->assertEqual($aResult['logging']['blockAdClicks'], 0, 'blockAdClicks incorrect');
         $this->assertTrue($aResult['p3p']['policies'], 'policies incorrect');

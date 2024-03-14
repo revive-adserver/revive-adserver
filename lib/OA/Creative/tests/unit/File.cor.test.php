@@ -115,9 +115,7 @@ class Test_OA_Creative_File extends UnitTestCase
      * @todo: find a way to unit/integration test HTTP uploads
      *
      */
-    public function testFactoryUploadedFile()
-    {
-    }
+    public function testFactoryUploadedFile() {}
 
     public function testStaticGetContentTypeByExtension()
     {

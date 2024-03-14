@@ -54,7 +54,7 @@ foreach ($zones as $thisZone) {
 
     // Clear deiveryData between iterations
     unset($GLOBALS['_MAX']['deliveryData']);
-    
+
     $what = "zone:" . $thisZoneid;
 
     // Get the banner

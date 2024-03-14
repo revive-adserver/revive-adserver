@@ -17,9 +17,7 @@ require_once(LIB_PATH . '/Extension/ExtensionCommon.php');
  */
 class OX_Extension_admin extends OX_Extension_Common
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function runTasksOnDemand($task = '')
     {
@@ -32,7 +30,7 @@ class OX_Extension_admin extends OX_Extension_Common
         require_once MAX_PATH . '/lib/OA/Admin/Menu/config.php';
         require_once(LIB_PATH . '/Plugin/PluginManager.php');
 
-        return  $this->_cacheMergedMenu(OA_ACCOUNT_ADMIN) &&
+        return $this->_cacheMergedMenu(OA_ACCOUNT_ADMIN) &&
                 $this->_cacheMergedMenu(OA_ACCOUNT_MANAGER) &&
                 $this->_cacheMergedMenu(OA_ACCOUNT_ADVERTISER) &&
                 $this->_cacheMergedMenu(OA_ACCOUNT_TRAFFICKER);

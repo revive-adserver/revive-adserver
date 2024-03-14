@@ -146,7 +146,7 @@ function datatype_openads_char_callback($db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'CHAR';
-        }
+    }
 }
 
 /**
@@ -283,7 +283,7 @@ function datatype_openads_date_callback($db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'DATE';
-        }
+    }
 }
 
 /**
@@ -345,7 +345,7 @@ function datatype_openads_datetime_callback($db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'DATETIME';
-        }
+    }
 }
 
 /**
@@ -992,7 +992,7 @@ function datatype_openads_timestamp_callback($db, $method, $aParameters)
         case 'mappreparedatatype':
             // Return the MySQL nativetype declaration for this custom datatype
             return 'TIMESTAMP';
-        }
+    }
 }
 
 /**

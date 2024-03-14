@@ -93,12 +93,12 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
         $oMaintStatus = $this->getInstance();
         $this->assertEqual(
             $oMaintStatus->isScheduledMaintenanceRunning,
-            (bool)$isScheduledMaintenanceRunning,
+            (bool) $isScheduledMaintenanceRunning,
             ($isScheduledMaintenanceRunning ? 'True' : 'False') . " was expected for scheduled mainteanance on line {$aBt[0]['line']}"
         );
         $this->assertEqual(
             $oMaintStatus->isAutoMaintenanceRunning,
-            (bool)$isAutoMaintenanceRunning,
+            (bool) $isAutoMaintenanceRunning,
             ($isAutoMaintenanceRunning ? 'True' : 'False') . " was expected for automatic mainteanance on line {$aBt[0]['line']}"
         );
     }

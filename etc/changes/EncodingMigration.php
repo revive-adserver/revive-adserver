@@ -132,9 +132,7 @@ class EncodingMigration extends Migration
         ],
     ];
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function _getEncodingForLanguage($language)
     {
@@ -179,11 +177,11 @@ class EncodingMigration extends Migration
             switch ($upgradingFrom) {
                 case '2.0.11-pr1':
                     $this->aEncodingMap['chinese_gb2312'] = 'gb2312';
-                break;
+                    break;
                 case 'v0.1.29-rc':
                     $this->aEncodingMap['chinese_gb2312'] = 'gb2312';
                     $this->aEncodingMap['portuguese'] = 'UTF-8';
-                break;
+                    break;
             }
         }
 
@@ -250,34 +248,34 @@ class EncodingMigration extends Migration
                     $where .= '    LEFT JOIN ' . $tblCampaigns . " AS c ON c.campaignid=b.campaignid\n";
                     $where .= '    LEFT JOIN ' . $tblClients . " AS cl ON c.clientid=cl.clientid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=cl.agencyid\n";
-                break;
+                    break;
                 case 'campaignid':
                     $where .= '    LEFT JOIN ' . $tblCampaigns . " AS c ON c.campaignid={$quotedTablename}.campaignid\n";
                     $where .= '    LEFT JOIN ' . $tblClients . " AS cl ON c.clientid=cl.clientid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=cl.agencyid\n";
-                break;
+                    break;
                 case 'clientid':
                     $where .= '    LEFT JOIN ' . $tblClients . " AS cl ON cl.clientid={$quotedTablename}.clientid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=cl.agencyid\n";
-                break;
+                    break;
                 case 'trackerid':
                     $where .= '    LEFT JOIN ' . $tblTrackers . " AS tr ON tr.trackerid={$quotedTablename}.trackerid\n";
                     $where .= '    LEFT JOIN ' . $tblClients . " AS cl ON tr.clientid=cl.clientid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=cl.agencyid\n";
-                break;
+                    break;
                 case 'tracker_id':
                     $where .= '    LEFT JOIN ' . $tblTrackers . " AS tr ON tr.trackerid={$quotedTablename}.tracker_id\n";
                     $where .= '    LEFT JOIN ' . $tblClients . " AS cl ON tr.clientid=cl.clientid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=cl.agencyid\n";
-                break;
+                    break;
                 case 'affiliateid':
                     $where .= '    LEFT JOIN ' . $tblAffiliates . " AS af ON af.affiliateid={$quotedTablename}.affiliateid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=af.agencyid\n";
-                break;
+                    break;
                 case 'channelid':
                     $where .= '    LEFT JOIN ' . $tblChannel . " AS ch ON ch.channelid={$quotedTablename}.channelid\n";
                     $where .= '    LEFT JOIN ' . $tblAgency . " AS ag ON ag.agencyid=ch.agencyid\n";
-                break;
+                    break;
             }
 
 

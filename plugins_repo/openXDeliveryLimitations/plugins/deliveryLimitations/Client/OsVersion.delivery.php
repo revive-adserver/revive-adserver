@@ -67,5 +67,5 @@ function MAX_checkClient_OsVersion($limitation, $op, $aParams = [])
         }
     }
 
-    return MAX_limitationMatchNumeric('osVersion', (float)$aLimitation[1], $op, $aParams);
+    return MAX_limitationMatchNumeric('osVersion', (float) $aLimitation[1], $op, $aParams);
 }

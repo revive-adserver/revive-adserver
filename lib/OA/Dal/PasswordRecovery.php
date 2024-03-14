@@ -77,7 +77,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
     public function generateRecoveryId($userId)
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
-        
+
         // Make sure that recoveryId is unique in password_recovery table
         do {
             $recoveryId = strtoupper(bin2hex(random_bytes(12)));

@@ -92,7 +92,7 @@ class LogonXmlRpcService extends BaseLogonService
         $oResponseWithError = null;
 
         if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, $oResponseWithError)) {
-            return  $oResponseWithError;
+            return $oResponseWithError;
         }
 
         if ($this->logonServiceImp->logoff($sessionId)) {

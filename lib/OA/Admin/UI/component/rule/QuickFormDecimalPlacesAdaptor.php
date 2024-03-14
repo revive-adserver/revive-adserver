@@ -29,7 +29,7 @@ class OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor extends OA_Admin_UI_Rule_Ba
         }";
     }
     //this.optional(element) ||
-    
+
     /**
      * Returns custom Jquery validation "regex" rule
      * "regex": /regex/

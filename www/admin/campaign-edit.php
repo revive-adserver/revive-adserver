@@ -189,7 +189,7 @@ if ($campaignid != "") {
     $campaign["impressions"] = -1;
     $campaign["clicks"] = -1;
     $campaign["conversions"] = -1;
-    $campaign["status"] = ( int ) $status;
+    $campaign["status"] = (int) $status;
     $campaign["expire_time"] = '';
     $campaign["activate_time"] = '';
     $campaign["priority"] = 0;
@@ -284,10 +284,10 @@ function buildCampaignForm($campaign)
     $form->addElement('hidden', 'campaignid', $campaign['campaignid']);
     $form->addElement('hidden', 'clientid', $campaign['clientid']);
     $form->addElement('hidden', 'expire_time', $campaign['expire_time']);
-    $form->addElement('hidden', 'target_old', isset($campaign['target_value']) ? ( int ) $campaign['target_value'] : 0);
+    $form->addElement('hidden', 'target_old', isset($campaign['target_value']) ? (int) $campaign['target_value'] : 0);
     $form->addElement('hidden', 'target_type_old', isset($campaign['target_type']) ? $campaign['target_type'] : '');
-    $form->addElement('hidden', 'weight_old', isset($campaign['weight']) ? ( int ) $campaign['weight'] : 0);
-    $form->addElement('hidden', 'status_old', isset($campaign['status']) ? ( int ) $campaign['status'] : 1);
+    $form->addElement('hidden', 'weight_old', isset($campaign['weight']) ? (int) $campaign['weight'] : 0);
+    $form->addElement('hidden', 'status_old', isset($campaign['status']) ? (int) $campaign['status'] : 1);
     $form->addElement('hidden', 'previousweight', isset($campaign["weight"]) ? $campaign["weight"] : '');
     $form->addElement('hidden', 'previoustarget', isset($campaign["target"]) ? $campaign["target"] : '');
     $form->addElement('hidden', 'previousactive', isset($campaign["active"]) ? $campaign["active"] : '');

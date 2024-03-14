@@ -16,9 +16,7 @@ class OA_UpgradePrescript
 {
     public $oUpgrade;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {

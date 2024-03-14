@@ -94,7 +94,7 @@ class OA_Maintenance_Priority_Ad
                 $valid = false;
             }
             if (isset($aParams['ad_id']) && is_numeric($aParams['ad_id'])) {
-                $aParams['ad_id'] = (int)$aParams['ad_id'];
+                $aParams['ad_id'] = (int) $aParams['ad_id'];
             } else {
                 $valid = false;
             }
@@ -107,7 +107,7 @@ class OA_Maintenance_Priority_Ad
                     }
                 }
                 if (is_numeric($aParams['weight'])) {
-                    $aParams['weight'] = (int)$aParams['weight'];
+                    $aParams['weight'] = (int) $aParams['weight'];
                 } else {
                     $valid = false;
                 }

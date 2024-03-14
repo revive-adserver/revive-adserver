@@ -195,7 +195,7 @@ class OA_Permission_User
         $doAUA = OA_Dal::factoryDO('account_user_assoc');
         $doAUA->account_id = OA_Dal_ApplicationVariables::get('admin_account_id');
         $doUsers->joinAdd($doAUA);
-        return (bool)$doUsers->count();
+        return (bool) $doUsers->count();
     }
 
     /**

@@ -70,7 +70,7 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
         $doAcls->orderBy('executionorder');
         if ($doAcls->find()) {
             while ($doAcls->fetch()) {
-                $aAcls[] = clone($doAcls);
+                $aAcls[] = clone ($doAcls);
             }
         }
 
@@ -79,7 +79,7 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
         $doNewAcls->orderBy('executionorder');
         if ($doNewAcls->find()) {
             while ($doNewAcls->fetch()) {
-                $aNewAcls[] = clone($doNewAcls);
+                $aNewAcls[] = clone ($doNewAcls);
             }
         }
 

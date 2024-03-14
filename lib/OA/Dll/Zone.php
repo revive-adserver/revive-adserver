@@ -49,11 +49,11 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['block'] = $zoneData['block'];
 
         if (preg_match('/^zone:(\d+)$/D', $zoneData['chain'], $m)) {
-            $zoneData['chainedZoneId'] = (int)$m[1];
+            $zoneData['chainedZoneId'] = (int) $m[1];
         }
 
         $oZone->readDataFromArray($zoneData);
-        return  true;
+        return true;
     }
 
     /**

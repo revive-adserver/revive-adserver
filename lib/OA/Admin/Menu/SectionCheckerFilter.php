@@ -16,9 +16,7 @@
  */
 class OA_Admin_SectionCheckerFilter
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
 
     public function accept($oSection)

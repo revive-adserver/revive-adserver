@@ -569,7 +569,6 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
     }
     if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0
         && $aFields['replacealtimage'] == 't') {
-
         //TODO: Check image only? - Wasn't enforced before
         $oFile = OA_Creative_File::factoryUploadedFile('uploadalt');
         checkForErrorFileUploaded($oFile);
@@ -676,12 +675,18 @@ function _getContentTypeIconImageName($contentType)
     }
 
     switch ($contentType) {
-        case 'jpeg': $imageName = 'icon-filetype-jpg.gif'; break;
-        case 'gif':  $imageName = 'icon-filetype-gif.gif'; break;
-        case 'png':  $imageName = 'icon-filetype-png.gif'; break;
-        case 'rpm':  $imageName = 'icon-filetype-rpm.gif'; break;
-        case 'mov':  $imageName = 'icon-filetype-mov.gif'; break;
-        default:     $imageName = 'icon-banner-stored.gif'; break;
+        case 'jpeg': $imageName = 'icon-filetype-jpg.gif';
+            break;
+        case 'gif':  $imageName = 'icon-filetype-gif.gif';
+            break;
+        case 'png':  $imageName = 'icon-filetype-png.gif';
+            break;
+        case 'rpm':  $imageName = 'icon-filetype-rpm.gif';
+            break;
+        case 'mov':  $imageName = 'icon-filetype-mov.gif';
+            break;
+        default:     $imageName = 'icon-banner-stored.gif';
+            break;
     }
 
     return $imageName;

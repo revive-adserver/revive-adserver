@@ -89,7 +89,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         $doCampaign_trackers->trackerid = $oldTrackerId;
         $doCampaign_trackers->find();
         while ($doCampaign_trackers->fetch()) {
-            $doCampaign_trackersClone = clone($doCampaign_trackers);
+            $doCampaign_trackersClone = clone ($doCampaign_trackers);
             $doCampaign_trackersClone->campaign_trackerid = null;
             $doCampaign_trackersClone->trackerid = $newTrackerid;
             $doCampaign_trackersClone->insert();
@@ -100,7 +100,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         $doVariables->trackerid = $oldTrackerId;
         $doVariables->find();
         while ($doVariables->fetch()) {
-            $doVariablesClone = clone($doVariables);
+            $doVariablesClone = clone ($doVariables);
             $doVariablesClone->vriableid = null;
             $doVariablesClone->trackerid = $newTrackerid;
             $doVariablesClone->insert();
@@ -167,8 +167,8 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         $aAuditFields['key_desc'] = $this->trackername;
         switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['clientid'] = $this->clientid;
-                        break;
+                $aAuditFields['clientid'] = $this->clientid;
+                break;
         }
     }
 }

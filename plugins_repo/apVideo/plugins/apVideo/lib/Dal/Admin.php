@@ -31,7 +31,7 @@ class AP_Video_Dal_Admin
         $doBanners->width = $doBanners->height = -3;
         $doBanners->ext_bannertype = 'bannerTypeHtml:vastInlineBannerTypeHtml:vastInlineHtml';
 
-        self::$aInlineVideoBanners[$adId] = (bool)$doBanners->find();
+        self::$aInlineVideoBanners[$adId] = (bool) $doBanners->find();
         return self::$aInlineVideoBanners[$adId];
     }
 
@@ -49,7 +49,7 @@ class AP_Video_Dal_Admin
         $doBanners->bannerid = $adId;
         $doBanners->whereAdd("width IN (-3, -2)");
 
-        self::$aAnyVideoBanners[$adId] = (bool)$doBanners->find();
+        self::$aAnyVideoBanners[$adId] = (bool) $doBanners->find();
         return self::$aAnyVideoBanners[$adId];
     }
 
@@ -67,7 +67,7 @@ class AP_Video_Dal_Admin
         $doZones->zoneid = $zoneId;
         $doZones->whereAdd("(width BETWEEN -3 AND -2 AND width = height)");
 
-        self::$aVideoZones[$zoneId] = (bool)$doZones->find();
+        self::$aVideoZones[$zoneId] = (bool) $doZones->find();
         return self::$aVideoZones[$zoneId];
     }
 }

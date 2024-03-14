@@ -22,11 +22,7 @@ class OA_Admin_Statistics_Test extends OA_Admin_Statistics_Common
         parent::__construct($aParams);
     }
 
-    public function _loadPlugins()
-    {
-    }
+    public function _loadPlugins() {}
 
-    public function _checkStatsAccuracy()
-    {
-    }
+    public function _checkStatsAccuracy() {}
 }

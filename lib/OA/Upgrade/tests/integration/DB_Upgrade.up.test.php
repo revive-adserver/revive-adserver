@@ -379,9 +379,7 @@ class Test_DB_Upgrade extends UnitTestCase
         TestEnv::restoreEnv();
     }
 
-    public function test_restoreFromBackup()
-    {
-    }
+    public function test_restoreFromBackup() {}
 
     /**
      * backing up up tables that are affected by an upgrade
@@ -406,8 +404,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists($aResult[0]['tablename_backup'], $oDB_Upgrade->aDBTables), 'backup table not created');
         $this->assertTrue($this->_tableExists($aResult[1]['tablename_backup'], $oDB_Upgrade->aDBTables), 'backup table not created');
-//        TestEnv::restoreConfig();
-//        TestEnv::restoreEnv();
+        //        TestEnv::restoreConfig();
+        //        TestEnv::restoreEnv();
     }
 
 
@@ -476,10 +474,10 @@ class Test_DB_Upgrade extends UnitTestCase
                 $this->assertTrue(array_key_exists($field, $aTbl_def_rest['indexes'][$index]['fields']), 'index field missing from restored table');
             }
         }
-//        TestEnv::restoreConfig();
-//        TestEnv::restoreEnv();
-//        leaving the tables in to roll them back in the next test
-//        so don't slip another test in between these
+        //        TestEnv::restoreConfig();
+        //        TestEnv::restoreEnv();
+        //        leaving the tables in to roll them back in the next test
+        //        so don't slip another test in between these
     }
 
     /**
@@ -1607,75 +1605,39 @@ class Test_DB_Upgrade extends UnitTestCase
 
 class DB_Upgrade_Test_Migration extends Migration
 {
-    public function beforeAddTable__table_new()
-    {
-    }
+    public function beforeAddTable__table_new() {}
 
-    public function afterAddTable__table_new()
-    {
-    }
+    public function afterAddTable__table_new() {}
 
-    public function beforeRemoveTable__table2()
-    {
-    }
+    public function beforeRemoveTable__table2() {}
 
-    public function afterRemoveTable__table2()
-    {
-    }
+    public function afterRemoveTable__table2() {}
 
-    public function beforeRenameTable__table1_rename()
-    {
-    }
+    public function beforeRenameTable__table1_rename() {}
 
-    public function afterRenameTable__table1_rename()
-    {
-    }
+    public function afterRenameTable__table1_rename() {}
 
-    public function beforeAddField__table1__c_date_field_new()
-    {
-    }
+    public function beforeAddField__table1__c_date_field_new() {}
 
-    public function afterAddField__table1__c_date_field_new()
-    {
-    }
+    public function afterAddField__table1__c_date_field_new() {}
 
-    public function beforeAlterField__table1__a_text_field()
-    {
-    }
+    public function beforeAlterField__table1__a_text_field() {}
 
-    public function afterAlterField__table1__a_text_field()
-    {
-    }
+    public function afterAlterField__table1__a_text_field() {}
 
-    public function beforeAlterField__table1__b_id_field()
-    {
-    }
+    public function beforeAlterField__table1__b_id_field() {}
 
-    public function afterAlterField__table1__b_id_field()
-    {
-    }
+    public function afterAlterField__table1__b_id_field() {}
 
-    public function beforeRenameField__table1__b_id_field_renamed()
-    {
-    }
+    public function beforeRenameField__table1__b_id_field_renamed() {}
 
-    public function afterRenameField__table1__b_id_field_renamed()
-    {
-    }
+    public function afterRenameField__table1__b_id_field_renamed() {}
 
-    public function beforeAddField__table2__b_id_field_pk()
-    {
-    }
+    public function beforeAddField__table2__b_id_field_pk() {}
 
-    public function afterAddField__table2__b_id_field_pk()
-    {
-    }
+    public function afterAddField__table2__b_id_field_pk() {}
 
-    public function beforeRemoveField__table1__a_text_field()
-    {
-    }
+    public function beforeRemoveField__table1__a_text_field() {}
 
-    public function afterRemoveField__table1__a_text_field()
-    {
-    }
+    public function afterRemoveField__table1__a_text_field() {}
 }

@@ -98,15 +98,15 @@ if (!empty($action)) {
             $oTpl->assign('aPlugins', $aPlugins);
             $oTpl->assign('aErrors', $aErrors);
             break;
-        /*case 'dep':
-            require_once LIB_PATH . '/Plugin/PluginManager.php';
-            $oPluginManager = new OX_PluginManager();
-            $oPluginManager->_cacheDependencies();
-            if (empty($oPluginManager->aErrors))
-            {
-                $oPluginManager->aMessages[] = 'No dependency problems detected';
-            }
-            break;*/
+            /*case 'dep':
+                require_once LIB_PATH . '/Plugin/PluginManager.php';
+                $oPluginManager = new OX_PluginManager();
+                $oPluginManager->_cacheDependencies();
+                if (empty($oPluginManager->aErrors))
+                {
+                    $oPluginManager->aMessages[] = 'No dependency problems detected';
+                }
+                break;*/
         default:
     }
 }

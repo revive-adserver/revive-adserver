@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Event/EventContext.php';
 class OX_Admin_UI_Hooks
 {
     private static $initialized = false;
-    
+
     /*
      * UI hook. Invoked before OA_Admin_UI::showHeader() starts processing.
      * Note:
@@ -47,17 +47,17 @@ class OX_Admin_UI_Hooks
     public static function beforePageHeader($menuSectionId, $pageData, $oHeaderModel = null)
     {
         self::init();
-        
+
         $oContext = new OX_Admin_UI_Event_EventContext([
             'pageId' => $menuSectionId,
             'pageData' => $pageData,
             'headerModel' => $oHeaderModel,
         ]);
-        
+
         self::getDispatcher()->triggerEvent('beforePageHeader', $oContext);
     }
-    
-    
+
+
     /**
      * Registers callback to be invoked when 'beforePageHeader' event occurs.
      *
@@ -72,8 +72,8 @@ class OX_Admin_UI_Hooks
     {
         self::getDispatcher()->register('beforePageHeader', $callback);
     }
-    
-    
+
+
     /*
      * UI hook. Invoked right after OA_Admin_UI::showHeader() ends processing.
      * Any data displayed here will precede page content (including content rendered
@@ -84,14 +84,14 @@ class OX_Admin_UI_Hooks
     public static function afterPageHeader($menuSectionId)
     {
         self::init();
-        
+
         $oContext = new OX_Admin_UI_Event_EventContext([
             'pageId' => $menuSectionId,
         ]);
-        
+
         self::getDispatcher()->triggerEvent('afterPageHeader', $oContext);
     }
-    
+
 
     /**
      * Registers callback to be invoked when 'afterPageHeader' event occurs.
@@ -107,8 +107,8 @@ class OX_Admin_UI_Hooks
     {
         self::getDispatcher()->register('afterPageHeader', $callback);
     }
-    
-    
+
+
     /**
      * Template hook. Should be invoked only from smarty template at the top of the top-most page
      * content template, before page content.
@@ -129,7 +129,7 @@ class OX_Admin_UI_Hooks
             'pageData' => $pageData,
             'oTpl' => $oTpl
         ]);
-        
+
         $aStrings = self::getDispatcher()->triggerEvent('beforePageContent', $oContext);
         if (!empty($aStrings)) {
             $result = join('\n', $aStrings);
@@ -138,7 +138,7 @@ class OX_Admin_UI_Hooks
         return $result;
     }
 
-    
+
     /**
      * Registers callback to be invoked when 'beforePageContent' event occurs.
      *
@@ -154,8 +154,8 @@ class OX_Admin_UI_Hooks
     {
         self::getDispatcher()->register('beforePageContent', $callback);
     }
-    
-    
+
+
     /**
      * Template hook. Should be invoked only from smarty template at the top of the top-most page
      * content template, before page content.
@@ -175,7 +175,7 @@ class OX_Admin_UI_Hooks
             'pageData' => $pageData,
             'oTpl' => $oTpl
         ]);
-        
+
         $aStrings = self::getDispatcher()->triggerEvent('afterPageContent', $oContext);
         if (!empty($aStrings)) {
             $result = join('\n', $aStrings);
@@ -183,8 +183,8 @@ class OX_Admin_UI_Hooks
 
         return $result;
     }
-    
-    
+
+
     /**
      * Registers callback to be invoked when 'beforePageContent' event occurs.
      *
@@ -201,7 +201,7 @@ class OX_Admin_UI_Hooks
         self::getDispatcher()->register('afterPageContent', $callback);
     }
 
-    
+
     /**
      * Retrieves an instance of event dispatcher
      *
@@ -210,19 +210,19 @@ class OX_Admin_UI_Hooks
     private static function getDispatcher()
     {
         $oDispatcher = OX_Admin_UI_Event_EventDispatcher::getInstance();
-        
-        
+
+
         return $oDispatcher;
     }
-    
-    
+
+
     //hack function
     private static function init()
     {
         if (self::$initialized) {
             return;
         }
-        
+
         //register UI listeners from plugins
         $aPlugins = OX_Component::getListOfRegisteredComponentsForHook('registerUiListeners');
         foreach ($aPlugins as $i => $id) {
@@ -232,7 +232,7 @@ class OX_Admin_UI_Hooks
                 }
             }
         }
-                
+
         self::$initialized = true;
     }
 }

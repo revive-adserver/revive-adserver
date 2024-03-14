@@ -993,7 +993,7 @@ class OA_Upgrade
             $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
 
             if (version_compare($this->versionInitialApplication, '2.3.38-beta', '<') == -1) {
-//                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                //                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                 if ($this->versionInitialSchema['tables_core'] == '129') {
                     $this->versionInitialSchema['tables_core'] = '12934';
                     if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core'])) {
@@ -1013,7 +1013,7 @@ class OA_Upgrade
             if ($valid) {
                 $this->aPackageList = $this->getUpgradePackageList($this->versionInitialApplication, $this->_readUpgradePackagesArray());
                 if (!$skipIntegrityCheck && count($this->aPackageList) > 0) {
-//                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                    //                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                     if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core'])) {
                         $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
                         return false;
@@ -1782,7 +1782,7 @@ class OA_Upgrade
             return true;
         } elseif (file_exists($this->upgradePath . $file)) {
             $this->oLogger->log('loading script ' . $file);
-            if (!@include($this->upgradePath . $file)) {
+            if (!@include ($this->upgradePath . $file)) {
                 $this->oLogger->logError('cannot include script ' . $file);
                 return false;
             }

@@ -48,36 +48,35 @@ class OA_UpgradePackageParser extends XML_Parser
         $this->element = implode('-', $this->elements);
 
         switch ($this->element) {
-        case 'upgrade-database-package':
-            $this->DBPkg_version = '';
-            $this->DBPkg_stamp = '';
-            $this->DBPkg_schema = '';
-            $this->DBPkg_prescript = '';
-            $this->DBPkg_postscript = '';
-            $this->aDBPkgs = [];
-            break;
-          default:
-            break;
+            case 'upgrade-database-package':
+                $this->DBPkg_version = '';
+                $this->DBPkg_stamp = '';
+                $this->DBPkg_schema = '';
+                $this->DBPkg_prescript = '';
+                $this->DBPkg_postscript = '';
+                $this->aDBPkgs = [];
+                break;
+            default:
+                break;
         }
     }
 
     public function endHandler($xp, $element)
     {
         switch ($this->element) {
-
-        case 'upgrade-database-package':
-            $this->aPackage['db_pkgs'][] = [
-                                                 'version' => $this->DBPkg_version,
-                                                 'stamp' => $this->DBPkg_stamp,
-                                                 'schema' => $this->DBPkg_schema,
-                                                 'prescript' => $this->DBPkg_prescript,
-                                                 'postscript' => $this->DBPkg_postscript,
-                                                 'files' => $this->aDBPkgs
-                                                 ];
-            break;
-        case 'upgrade-database':
-            $this->aPackage['db_pkg_list'][$this->DBPkg_schema] = $this->aSchemas;
-            break;
+            case 'upgrade-database-package':
+                $this->aPackage['db_pkgs'][] = [
+                                                     'version' => $this->DBPkg_version,
+                                                     'stamp' => $this->DBPkg_stamp,
+                                                     'schema' => $this->DBPkg_schema,
+                                                     'prescript' => $this->DBPkg_prescript,
+                                                     'postscript' => $this->DBPkg_postscript,
+                                                     'files' => $this->aDBPkgs
+                                                     ];
+                break;
+            case 'upgrade-database':
+                $this->aPackage['db_pkg_list'][$this->DBPkg_schema] = $this->aSchemas;
+                break;
         }
         unset($this->elements[--$this->count]);
         $this->element = implode('-', $this->elements);

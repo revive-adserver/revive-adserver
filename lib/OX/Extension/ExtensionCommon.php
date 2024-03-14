@@ -20,9 +20,7 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  */
 class OX_Extension_Common
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function runTasksAfterPluginInstall()
     {
@@ -165,8 +163,8 @@ class OX_Extension_Common
         if ($task) {
             if (method_exists($this, $task));
             {
-               $this->$task();
-           }
+                $this->$task();
+            }
         }
     }
 }

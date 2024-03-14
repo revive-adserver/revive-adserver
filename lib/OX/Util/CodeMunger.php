@@ -411,6 +411,6 @@ class OX_Util_CodeMunger
      */
     private function isComment($id)
     {
-        return  ($id === T_COMMENT || $id === T_DOC_COMMENT);
+        return ($id === T_COMMENT || $id === T_DOC_COMMENT);
     }
 }

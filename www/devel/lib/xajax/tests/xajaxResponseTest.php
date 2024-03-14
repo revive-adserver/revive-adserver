@@ -6,12 +6,12 @@ function showOutput()
     $testResponse = new xajaxResponse();
     $testResponse->addAlert("Hello");
     //	$testResponseOutput = htmlspecialchars($testResponse->getXML());
-    
+
     $testResponse2 = new xajaxResponse();
     $testResponse2->loadXML($testResponse->getXML());
     $testResponse2->addReplace("this", "is", "a", "replacement");
     $testResponseOutput = htmlspecialchars($testResponse2->getXML());
-    
+
     $objResponse = new xajaxResponse();
     $objResponse->addAssign("submittedDiv", "innerHTML", $testResponseOutput);
     return $objResponse;

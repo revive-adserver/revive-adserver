@@ -412,7 +412,7 @@ OVERLAY_OPTION_JS;
         switch ($aFields['vast_overlay_format']) {
             case VAST_OVERLAY_FORMAT_IMAGE:
                 $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
-            break;
+                break;
         }
         if (empty($_FILES[$incomingFieldName]['name'])) {
             return;

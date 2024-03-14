@@ -697,7 +697,7 @@ class OA_Preferences
      * @return bool
      * @throws Exception on errors
      */
-    public static function putDefaultPreferences(int $adminAccountId, array $aPreferences = null)
+    public static function putDefaultPreferences(int $adminAccountId, ?array $aPreferences = null)
     {
         // Preferences handling
         $oPreferences = new OA_Preferences();

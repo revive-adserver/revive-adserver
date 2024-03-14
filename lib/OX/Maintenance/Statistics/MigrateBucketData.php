@@ -52,11 +52,11 @@ class OX_Maintenance_Statistics_MigrateBucketData
      */
     public function summarise($oStartDate, $oEndDate)
     {
-//        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogCountry', 'logImpressionCountry');
-//        $statisticsTableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] .
-//            $oComponent->getStatisticsName();
-//        $aMigrationMaps = array(
-//            $oComponent->getStatisticsMigration());
+        //        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogCountry', 'logImpressionCountry');
+        //        $statisticsTableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] .
+        //            $oComponent->getStatisticsName();
+        //        $aMigrationMaps = array(
+        //            $oComponent->getStatisticsMigration());
 
         $aRunComponents = $this->prepareMaps($this->locateComponents());
 

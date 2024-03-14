@@ -450,11 +450,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         // Check if stats are accourate (when upgraded from a non-TZ enabled version)
         $this->_checkStatsAccuracy();
-        
-        $this->_showShortcuts();
-        
-        if ($this->outputType == 'deliveryEntity' && $this instanceof OA_Admin_Statistics_Delivery_CommonEntity) {
 
+        $this->_showShortcuts();
+
+        if ($this->outputType == 'deliveryEntity' && $this instanceof OA_Admin_Statistics_Delivery_CommonEntity) {
             // Display the entity delivery stats
             $this->template = 'breakdown_by_entity.html';
             $this->flattenEntities();
@@ -761,81 +760,80 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     public function _addBreadcrumbs($type, $entityId, $level = 0)
     {
         switch ($type) {
+            case 'advertiser':
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                    $advertisers = Admin_DA::getAdvertisers(['advertiser_id' => $entityId], false);
+                    if (count($advertisers) == 1) {
+                        $advertiser = current($advertisers);
+                        $this->_addBreadcrumb(
+                            MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
+                            MAX_getEntityIcon('advertiser'),
+                            $type
+                        );
+                    }
+                }
+                break;
 
-        case 'advertiser':
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                $advertisers = Admin_DA::getAdvertisers(['advertiser_id' => $entityId], false);
-                if (count($advertisers) == 1) {
-                    $advertiser = current($advertisers);
+            case 'campaign':
+                $campaigns = Admin_DA::getPlacements(['placement_id' => $entityId], false);
+                if (count($campaigns) == 1) {
+                    $campaign = current($campaigns);
+                    $this->_addBreadcrumbs('advertiser', $campaign['advertiser_id'], $level + 1);
+
+                    // mask campaign name if anonymous campaign
+                    $campaign['name'] = MAX_getPlacementName($campaign);
                     $this->_addBreadcrumb(
-                        MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
-                        MAX_getEntityIcon('advertiser'),
+                        MAX_buildName($campaign['placement_id'], $campaign['name']),
+                        MAX_getEntityIcon('placement'),
                         $type
                     );
                 }
-            }
-            break;
+                break;
 
-        case 'campaign':
-            $campaigns = Admin_DA::getPlacements(['placement_id' => $entityId], false);
-            if (count($campaigns) == 1) {
-                $campaign = current($campaigns);
-                $this->_addBreadcrumbs('advertiser', $campaign['advertiser_id'], $level + 1);
+            case 'banner':
+                $banners = Admin_DA::getAds(['ad_id' => $entityId], false);
+                if (count($banners) == 1) {
+                    $banner = current($banners);
+                    $this->_addBreadcrumbs('campaign', $banner['placement_id'], $level + 1);
 
-                // mask campaign name if anonymous campaign
-                $campaign['name'] = MAX_getPlacementName($campaign);
-                $this->_addBreadcrumb(
-                    MAX_buildName($campaign['placement_id'], $campaign['name']),
-                    MAX_getEntityIcon('placement'),
-                    $type
-                );
-            }
-            break;
-
-        case 'banner':
-            $banners = Admin_DA::getAds(['ad_id' => $entityId], false);
-            if (count($banners) == 1) {
-                $banner = current($banners);
-                $this->_addBreadcrumbs('campaign', $banner['placement_id'], $level + 1);
-
-                // mask banner name if anonymous campaign
-                $campaign = Admin_DA::getPlacement($banner['placement_id']);
-                $campaignAnonymous = $campaign['anonymous'] == 't';
-                $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
-                $this->_addBreadcrumb(
-                    MAX_buildName($banner['ad_id'], $banner['name']),
-                    MAX_getEntityIcon('ad'),
-                    $type
-                );
-            }
-            break;
-
-        case 'publisher':
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                $publishers = Admin_DA::getPublishers(['publisher_id' => $entityId], false);
-                if (count($publishers) == 1) {
-                    $publisher = current($publishers);
+                    // mask banner name if anonymous campaign
+                    $campaign = Admin_DA::getPlacement($banner['placement_id']);
+                    $campaignAnonymous = $campaign['anonymous'] == 't';
+                    $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
                     $this->_addBreadcrumb(
-                        MAX_buildName($publisher['publisher_id'], $publisher['name']),
-                        MAX_getEntityIcon('publisher'),
-                        'website'
+                        MAX_buildName($banner['ad_id'], $banner['name']),
+                        MAX_getEntityIcon('ad'),
+                        $type
                     );
                 }
-            }
-            break;
+                break;
 
-        case 'zone':
-            $zones = Admin_DA::getZones(['zone_id' => $entityId], false);
-            if (count($zones) == 1) {
-                $zone = current($zones);
-                $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
-                $this->_addBreadcrumb(
-                    MAX_buildName($zone['zone_id'], $zone['name']),
-                    MAX_getEntityIcon('zone'),
-                    $type
-                );
-            }
-            break;
+            case 'publisher':
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                    $publishers = Admin_DA::getPublishers(['publisher_id' => $entityId], false);
+                    if (count($publishers) == 1) {
+                        $publisher = current($publishers);
+                        $this->_addBreadcrumb(
+                            MAX_buildName($publisher['publisher_id'], $publisher['name']),
+                            MAX_getEntityIcon('publisher'),
+                            'website'
+                        );
+                    }
+                }
+                break;
+
+            case 'zone':
+                $zones = Admin_DA::getZones(['zone_id' => $entityId], false);
+                if (count($zones) == 1) {
+                    $zone = current($zones);
+                    $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
+                    $this->_addBreadcrumb(
+                        MAX_buildName($zone['zone_id'], $zone['name']),
+                        MAX_getEntityIcon('zone'),
+                        $type
+                    );
+                }
+                break;
         }
     }
 

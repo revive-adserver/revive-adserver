@@ -13,11 +13,11 @@
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
-    // +---------------------------------------+
-    // | generic permission checks             |
-    // |                                       |
-    // | filtering by user type                |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | generic permission checks             |
+// |                                       |
+// | filtering by user type                |
+// +---------------------------------------+
 
 
 function MAX_checkGenericId($id)
@@ -30,7 +30,6 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
     $allowed = false;
     if (MAX_checkGenericId($advertiserId) && MAX_checkGenericId($placementId) && MAX_checkGenericId($adId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-
             //  determine if there are 1 or more ads
             $allowed = (count(
                 Admin_DA::getAds(
@@ -41,7 +40,6 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
                 )
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-
             //  determine if there are 1 or more ads
             $allowed = (count(
                 Admin_DA::getAds(
@@ -578,9 +576,9 @@ function MAX_commonUnslashArray($a)
 }
 
 
-    // +---------------------------------------+
-    // | array utilties                        |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | array utilties                        |
+// +---------------------------------------+
 
 function MAX_getStoredArray($key, $default)
 {
@@ -597,9 +595,9 @@ function MAX_getStoredArray($key, $default)
     return $value;
 }
 
-    // +---------------------------------------+
-    // | tree node state handling              |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | tree node state handling              |
+// +---------------------------------------+
 function MAX_adjustNodes(&$aNodes, $expand, $collapse)
 {
     if (!empty($expand)) {
@@ -641,9 +639,9 @@ function MAX_isExpanded($id, $expand, &$aNodes, $prefix)
     return $isExpanded;
 }
 
-    // +---------------------------------------+
-    // | adjustments                           |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | adjustments                           |
+// +---------------------------------------+
 function MAX_addDefaultPlacementZones($adId, $placementId)
 {
     $aAdZones = Admin_DA::getAdZones(['ad_id' => $adId], true, 'zone_id');
@@ -739,9 +737,9 @@ function MAX_getLinkedAdParams($zoneId)
     return $aParams;
 }
 
-    // +---------------------------------------+
-    // | file handling                         |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | file handling                         |
+// +---------------------------------------+
 /* REDUNDANT
 function MAX_removeFile($adId)
 {

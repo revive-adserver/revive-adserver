@@ -225,12 +225,12 @@ class OA_DB
                 foreach ($aDatatypes as $key => $value) {
                     $aOptions['datatype_map'] =
                         array_merge(
-                            (array)$aOptions['datatype_map'],
+                            (array) $aOptions['datatype_map'],
                             [$key => $value]
                         );
                     $aOptions['datatype_map_callback'] =
                         array_merge(
-                            (array)$aOptions['datatype_map_callback'],
+                            (array) $aOptions['datatype_map_callback'],
                             [$key => 'datatype_' . $key . '_callback']
                         );
                 }
@@ -240,7 +240,7 @@ class OA_DB
                 foreach ($aNativetypes as $value) {
                     $aOptions['nativetype_map_callback'] =
                         array_merge(
-                            (array)$aOptions['nativetype_map_callback'],
+                            (array) $aOptions['nativetype_map_callback'],
                             [$value => 'nativetype_' . $value . '_callback']
                         );
                 }

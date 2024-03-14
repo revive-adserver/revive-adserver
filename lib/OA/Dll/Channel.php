@@ -50,7 +50,7 @@ class OA_Dll_Channel extends OA_Dll
         $channelData['comments'] = $channelData['comments'];
 
         $oChannel->readDataFromArray($channelData);
-        return  true;
+        return true;
     }
 
     /**
@@ -67,7 +67,6 @@ class OA_Dll_Channel extends OA_Dll
     public function _validate(&$oChannel)
     {
         if (isset($oChannel->channelId)) {
-
             // If modifying, check the channelId is valid.
             if (!$this->checkStructureRequiredIntegerField($oChannel, 'channelId') ||
                 !$this->checkIdExistence('channel', $oChannel->channelId)) {
@@ -377,7 +376,6 @@ class OA_Dll_Channel extends OA_Dll
             }
 
             foreach ($aTargeting as $executionOrder => $oTargeting) {
-
                 // Prepend "deliveryLimitations:" to any component-identifiers
                 // (for 2.6 backwards compatibility)
                 if (substr($oTargeting->type, 0, 20) != 'deliveryLimitations:') {

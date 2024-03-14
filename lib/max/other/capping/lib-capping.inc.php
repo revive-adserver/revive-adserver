@@ -27,20 +27,19 @@ phpAds_registerGlobal('cap', 'session_capping', 'time');
  */
 function _initCappingVariables(&$time, &$cap, &$session_capping)
 {
-
     //global $time, $block, $cap, $session_capping;
 
     // Initialize $block variable with time
     if (isset($time)) {
         $block = 0;
         if ($time['second'] != '-') {
-            $block += (int)$time['second'];
+            $block += (int) $time['second'];
         }
         if ($time['minute'] != '-') {
-            $block += (int)$time['minute'] * 60;
+            $block += (int) $time['minute'] * 60;
         }
         if ($time['hour'] != '-') {
-            $block += (int)$time['hour'] * 3600;
+            $block += (int) $time['hour'] * 3600;
         }
     } else {
         $block = 0;
@@ -48,13 +47,13 @@ function _initCappingVariables(&$time, &$cap, &$session_capping)
 
     // Initialize capping variables
     if (isset($cap) && $cap != '-') {
-        $cap = (int)$cap;
+        $cap = (int) $cap;
     } else {
         $cap = 0;
     }
 
     if (isset($session_capping) && $session_capping != '-') {
-        $session_capping = (int)$session_capping;
+        $session_capping = (int) $session_capping;
     } else {
         $session_capping = 0;
     }

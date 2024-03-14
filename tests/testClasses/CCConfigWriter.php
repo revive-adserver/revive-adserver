@@ -21,7 +21,7 @@ define('CONFIG_PATH', MAX_PATH . '/var/test.conf.php');
  */
 class CCConfigWriter
 {
-    function configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled, $loadBalancingEnabled, $loadBalancingName)
+    public function configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled, $loadBalancingEnabled, $loadBalancingName)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
@@ -61,12 +61,12 @@ class CCConfigWriter
     }
 
 
-    function configureTestFromArray($aConfigurationEntries, $configFilename)
+    public function configureTestFromArray($aConfigurationEntries, $configFilename)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
 
-        foreach($aConfigurationEntries as $configurationEntry) {
+        foreach ($aConfigurationEntries as $configurationEntry) {
             $aConfigurationEntry = explode("=", $configurationEntry);
             list($configurationKey, $configurationValue) = $aConfigurationEntry;
             list($sectionName, $variableName) = explode('.', $configurationKey);
@@ -77,5 +77,3 @@ class CCConfigWriter
         $config->writeConfig($configFilename, 'inifile');
     }
 }
-
-?>

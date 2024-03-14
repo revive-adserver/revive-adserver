@@ -51,24 +51,37 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
 
         case 'ad':
             switch ($type) {
-                case 'html': $icon = $active ? 'images/icon-banner-html.gif' : 'images/icon-banner-html-d.gif'; break;
-                case 'txt': $icon = $active ? 'images/icon-banner-text.gif' : 'images/icon-banner-text-d.gif'; break;
-                case 'url': $icon = $active ? 'images/icon-banner-url.gif' : 'images/icon-banner-url-d.gif'; break;
-                case 'web': $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
-                default: $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
+                case 'html': $icon = $active ? 'images/icon-banner-html.gif' : 'images/icon-banner-html-d.gif';
+                    break;
+                case 'txt': $icon = $active ? 'images/icon-banner-text.gif' : 'images/icon-banner-text-d.gif';
+                    break;
+                case 'url': $icon = $active ? 'images/icon-banner-url.gif' : 'images/icon-banner-url-d.gif';
+                    break;
+                case 'web': $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif';
+                    break;
+                default: $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif';
+                    break;
             }
             break;
 
         case 'zone':
             switch ($type) {
-                case MAX_ZoneMarketMigrated: $icon = 'images/icon-advertiser-openx.png'; break;
-                case phpAds_ZoneBanner: $icon = 'images/icon-zone.gif'; break;
-                case phpAds_ZoneInterstitial: $icon = 'images/icon-interstitial.gif'; break;
-                case phpAds_ZonePopup: $icon = 'images/icon-popup.gif'; break;
-                case phpAds_ZoneText: $icon = 'images/icon-textzone.gif'; break;
-                case MAX_ZoneEmail: $icon = 'images/icon-zone-email.gif'; break;
-                case MAX_ZoneClick: $icon = 'images/icon-zone-click.gif'; break;
-                default: $icon = 'images/icon-zone.gif'; break;
+                case MAX_ZoneMarketMigrated: $icon = 'images/icon-advertiser-openx.png';
+                    break;
+                case phpAds_ZoneBanner: $icon = 'images/icon-zone.gif';
+                    break;
+                case phpAds_ZoneInterstitial: $icon = 'images/icon-interstitial.gif';
+                    break;
+                case phpAds_ZonePopup: $icon = 'images/icon-popup.gif';
+                    break;
+                case phpAds_ZoneText: $icon = 'images/icon-textzone.gif';
+                    break;
+                case MAX_ZoneEmail: $icon = 'images/icon-zone-email.gif';
+                    break;
+                case MAX_ZoneClick: $icon = 'images/icon-zone-click.gif';
+                    break;
+                default: $icon = 'images/icon-zone.gif';
+                    break;
             }
             break;
     }
@@ -601,31 +614,31 @@ function MAX_buildBreadcrumbInfo($entityClass)
 {
     switch ($entityClass) {
         case 'advertiser':
-           return ["label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv"];
+            return ["label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv"];
 
         case 'campaign':
-           return ["label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "newTarget" => $GLOBALS['strCampaignForAdvertiser'], "class" => "camp"];
+            return ["label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "newTarget" => $GLOBALS['strCampaignForAdvertiser'], "class" => "camp"];
 
         case 'tracker':
-           return ["label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "newTarget" => $GLOBALS['strTrackerForAdvertiser'], "class" => "track"];
+            return ["label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "newTarget" => $GLOBALS['strTrackerForAdvertiser'], "class" => "track"];
 
         case 'banner':
-           return ["label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "newTarget" => $GLOBALS['strBannerToCampaign'], "class" => "ban"];
+            return ["label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "newTarget" => $GLOBALS['strBannerToCampaign'], "class" => "ban"];
 
         case 'website':
-           return ["label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs"];
+            return ["label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs"];
 
         case 'zone':
             return ["label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "newTarget" => $GLOBALS['strZoneToWebsite'], "class" => "zone"];
 
         case 'channel':
-           return ["label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "newTarget" => $GLOBALS['strChannelToWebsite'], "class" => "chan"];
+            return ["label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "newTarget" => $GLOBALS['strChannelToWebsite'], "class" => "chan"];
 
         case 'agency':
-           return ["label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen"];
+            return ["label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen"];
 
         case 'day':
-           return ["label" => $GLOBALS['strDay'], "newLabel" => '', "class" => "day"];
+            return ["label" => $GLOBALS['strDay'], "newLabel" => '', "class" => "day"];
     }
 
     return null;
@@ -782,9 +795,12 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     // Show an empty value in the dropdown if none is selected
     if (empty($entityId)) {
         switch ($entity) {
-            case 'advertiser': $description = "-- {$GLOBALS['strSelectAdvertiser']} --"; break;
-            case 'placement': $description = "-- {$GLOBALS['strSelectPlacement']} --"; break;
-            case 'ad': $description = "-- {$GLOBALS['strSelectAd']} --"; break;
+            case 'advertiser': $description = "-- {$GLOBALS['strSelectAdvertiser']} --";
+                break;
+            case 'placement': $description = "-- {$GLOBALS['strSelectPlacement']} --";
+                break;
+            case 'ad': $description = "-- {$GLOBALS['strSelectAd']} --";
+                break;
             default: $description = '';
         }
         echo "
@@ -1099,7 +1115,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 function MAX_displayAcls($acls, $aParams)
 {
     global $session;
-    
+
     $tabindex = &$GLOBALS['tabindex'];
     $page = basename($_SERVER['SCRIPT_NAME']);
     $conf = $GLOBALS['_MAX']['CONF'];
@@ -1525,7 +1541,8 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
                     $tabValue = 'zone-edit';
                 }
                 break;
-            default: $tabSections = basename($pageName); break;
+            default: $tabSections = basename($pageName);
+                break;
         }
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $tabSections = [];
@@ -1547,9 +1564,12 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
                 }
                 break;
             }
-            case 'zone-include.php': $tabValue = '2.1.2'; break;
-            case 'zone-probability.php': $tabValue = '2.1.3'; break;
-            case 'zone-invocation.php': $tabValue = '2.1.4'; break;
+            case 'zone-include.php': $tabValue = '2.1.2';
+                break;
+            case 'zone-probability.php': $tabValue = '2.1.3';
+                break;
+            case 'zone-invocation.php': $tabValue = '2.1.4';
+                break;
         }
     }
     // Sort the zones by name...
@@ -1597,14 +1617,18 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     if ($channelType == 'publisher') {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit-affiliate' : 'channel-edit-affiliate_new'; break;
-            case 'channel-acl.php': $tabValue = 'channel-affiliate-acl'; break;
+            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit-affiliate' : 'channel-edit-affiliate_new';
+                break;
+            case 'channel-acl.php': $tabValue = 'channel-affiliate-acl';
+                break;
         }
     } else {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit' : 'channel-edit_new'; break;
-            case 'channel-acl.php': $tabValue = 'channel-acl'; break;
+            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit' : 'channel-edit_new';
+                break;
+            case 'channel-acl.php': $tabValue = 'channel-acl';
+                break;
         }
     }
 
@@ -1825,7 +1849,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
 function addWebsitePageTools($websiteId)
 {
     $token = phpAds_SessionGetToken();
-    
+
     if (!empty($websiteId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) {
         addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "affiliate-duplicate.php?token=" . urlencode($token) . "&affiliateid=$websiteId"), "iconWebsiteDuplicate");
     }

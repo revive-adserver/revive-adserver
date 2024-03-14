@@ -52,7 +52,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
     if (
         isset($GLOBALS['phpAds_context']) && is_array($GLOBALS['phpAds_context']) &&
         isset($output['context']) && is_array($output['context'])
-       ) {
+    ) {
         // Check if the new context item is already in the global array, and add it if not
         foreach ($GLOBALS['phpAds_context'] as $idx => $item) {
             foreach ($output['context'] as $newidx => $newItem) {

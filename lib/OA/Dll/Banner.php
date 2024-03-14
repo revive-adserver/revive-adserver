@@ -62,7 +62,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['sessionCapping'] = $bannerData['session_capping'];
 
         $oBanner->readDataFromArray($bannerData);
-        return  true;
+        return true;
     }
 
     public function _validateImage($aImage, &$oImage)
@@ -175,7 +175,7 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'block') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'comments') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'alt')
-            ) {
+        ) {
             return false;
         }
 
@@ -465,7 +465,6 @@ class OA_Dll_Banner extends OA_Dll
             }
 
             foreach ($aTargeting as $executionOrder => $oTargeting) {
-
                 // Prepend "deliveryLimitations:" to any component-identifiers
                 // (for 2.6 backwards compatibility)
                 if (substr($oTargeting->type, 0, 20) != 'deliveryLimitations:') {

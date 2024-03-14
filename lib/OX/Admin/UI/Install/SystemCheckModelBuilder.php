@@ -238,9 +238,9 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
 
         $aSection['header'] .= " - " . join(', ', $aStatus);
 
-//        echo "<pre>";
-//        var_dump($aSection);
-//        echo "</pre>";
+        //        echo "<pre>";
+        //        var_dump($aSection);
+        //        echo "</pre>";
 
         return $aSection;
     }

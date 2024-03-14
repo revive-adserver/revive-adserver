@@ -25,9 +25,7 @@ abstract class Plugins_MaintenanceStatisticsTask extends OX_Component
     /**
      * Constructor method
      */
-    public function __construct($extension, $group, $component)
-    {
-    }
+    public function __construct($extension, $group, $component) {}
 
     /**
      * Method returns OX_Maintenance_Statistics_Task

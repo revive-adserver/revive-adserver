@@ -141,7 +141,7 @@ if (count($aMessages) > 0) {
         <script type="text/javascript">
         <?php
         include MAX_PATH . '/var/templates_compiled/oxajax.js';
-        ?>
+?>
         </script>
 
 		<table width='100%' border='0' cellspacing='0' cellpadding='0'>
@@ -175,28 +175,28 @@ if (count($aMessages) > 0) {
                     <td colspan='7' bgcolor='#888888'><img src='<?php echo OX::assetPath() ?>/images/break.gif' height='1' width='100%'></td>
                 </tr>
                 <?php
-                $i = 0;
-                asort($aAudit);
-                foreach ($aAudit as $k => $v) {
-                    if (($v['backups'] || !empty($v['logfile']) || !empty($v['confbackup'])) && $v['logfile'] != 'cleaned by user' && $v['logfile'] != 'file not found' && $v['confbackup'] != 'cleaned by user' && $v['confbackup'] != 'file not found') {
-                        $v['backupsExist'] = true;
-                    } ?>
+        $i = 0;
+asort($aAudit);
+foreach ($aAudit as $k => $v) {
+    if (($v['backups'] || !empty($v['logfile']) || !empty($v['confbackup'])) && $v['logfile'] != 'cleaned by user' && $v['logfile'] != 'file not found' && $v['confbackup'] != 'cleaned by user' && $v['confbackup'] != 'file not found') {
+        $v['backupsExist'] = true;
+    } ?>
                     <form name="frmOpenads" action="updates-history.php" method="POST">
                     <tr height='25' <?php echo($i % 2 == 0 ? "bgcolor='#F6F6F6'" : ""); ?>>
                         <?php
-                            if ($v['backups']) {
-                                ?>
+            if ($v['backups']) {
+                ?>
                         <td height='25' width='25'>
                             &nbsp;<a href="#" onclick="return false;" title="<?php echo $strToggleDataBackupDetails ?>"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo OX::assetPath() ?>/images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="<?php echo $GLOBALS['strClickViewBackupDetails'] ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="<?php echo OX::assetPath() ?>/images/triangle-d.gif" style="display:none" alt="<?php echo $GLOBALS['strClickHideBackupDetails'] ?>" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                         </td>
                         <td height='25'>
                             <b>&nbsp;<a href="#" title="<?php echo $strShowBackupDetails ?>" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a><a href="#" title="<?php echo $GLOBALS['strHideBackupDetails'] ?>" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a></b>
                         <?php
-                            } else {
-                                ?>
+            } else {
+                ?>
                             <td colspan="2"><b style="color: #003399;">&nbsp;<?php echo $v['upgrade_name']; ?></a></b></td>
                         <?php
-                            } ?>
+            } ?>
                         </td>
                         <td height='25'>
                             <?php echo ($v['version_from']) ? $v['version_from'] : '<b>---</b>'; ?>
@@ -205,7 +205,7 @@ if (count($aMessages) > 0) {
                             <?php echo ($v['version_to']) ? $v['version_to'] : '<b>---</b>'; ?>
                         </td>
                         <td height='25'>
-                            <span style="text-transform:lowercase;"><?php  echo ($v['upgrade_name'] == 'version stamp') ? $strUpdatedDbVersionStamp : $aProductStatus[$v['description']]; ?></span>
+                            <span style="text-transform:lowercase;"><?php echo ($v['upgrade_name'] == 'version stamp') ? $strUpdatedDbVersionStamp : $aProductStatus[$v['description']]; ?></span>
                         </td>
                         <td><b style="color: #003399;">&nbsp;<?php echo $v['updated']; ?></a></b></td>
                         <td height='25' align='right'>
@@ -222,20 +222,20 @@ if (count($aMessages) > 0) {
                             </td>
                             <td width="100" style="border-bottom: 1px solid #ccc;">
                             <?php echo ($v['backups']) ? "<b>" : "";
-                    echo ($v['backupsExist']) ? $v['backups'] + !empty($v['logfile']) + !empty($v['confbackup']) : 0;
-                    echo ($v['backups']) ? "</b>" : ""; ?>
+    echo ($v['backupsExist']) ? $v['backups'] + !empty($v['logfile']) + !empty($v['confbackup']) : 0;
+    echo ($v['backups']) ? "</b>" : ""; ?>
                             </td>
                             <td align="right" style="border-bottom: 1px solid #ccc;">
                             <?php
-                            if ($v['backupsExist']) {
-                                ?>
+            if ($v['backupsExist']) {
+                ?>
                                 <img src='<?php echo OX::assetPath() ?>/images/icon-recycle.gif' border='0' align='absmiddle' alt='<?php echo $strDelete ?>'><input type="submit" name="btn_clean_audit" onClick="return confirm('<?php echo $strBackupDeleteConfirm ?>')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="<?php echo $strDeleteArtifacts ?>">
                             <?php
-                            } else {
-                                ?>
+            } else {
+                ?>
                                 &nbsp;
                             <?php
-                            } ?>
+            } ?>
                             </td>
                         </tr>
                         <?php
@@ -252,8 +252,8 @@ if (count($aMessages) > 0) {
                         </tr>
                         <?php
                         }
-                    if ($v['logfile']) {
-                        ?>
+    if ($v['logfile']) {
+        ?>
                         <tr height='20'>
                             <td><?php echo $strLogFiles ?>:</td>
                             <td colspan="2">
@@ -261,16 +261,16 @@ if (count($aMessages) > 0) {
                             </td>
                         </tr>
                         <?php
-                    }
-                    if ($v['confbackup']) {
-                        ?>
+    }
+    if ($v['confbackup']) {
+        ?>
                         <tr height='20'>
                             <td><?php echo $strConfigBackups ?>:</td>
                             <td colspan="2">
                             <?php echo $v['confbackup']; ?>
                             </td>
                         <?php
-                    } ?>
+    } ?>
                         </tr>
                         <tr>
                             <td colspan='3'>
@@ -285,9 +285,9 @@ if (count($aMessages) > 0) {
               </form>
                 <tr height='1'><td colspan='7' bgcolor='#888888'><img src='<?php echo OX::assetPath() ?>/images/break.gif' height='1' width='100%'></td></tr>
                 <?php
-                    $i++;
-                }
-                ?>
+    $i++;
+}
+?>
                 <tr height='25'>
                     <td colspan='7' height='25' align='right'>
                     </td>

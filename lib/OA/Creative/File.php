@@ -104,15 +104,24 @@ class OA_Creative_File extends OA_Creative
 
         $ext = substr($fileName, strrpos($fileName, '.') + 1);
         switch (strtolower($ext)) {
-            case 'jpeg': $contentType = 'jpeg'; break;
-            case 'jpg':  $contentType = 'jpeg'; break;
-            case 'png':  $contentType = 'png';  break;
-            case 'gif':  $contentType = 'gif';  break;
-            case 'webp':  $contentType = 'webp';  break;
-            case 'swf':  $contentType = $alt ? '' : 'swf';  break;
-            case 'dcr':  $contentType = $alt ? '' : 'dcr';  break;
-            case 'rpm':  $contentType = $alt ? '' : 'rpm';  break;
-            case 'mov':  $contentType = $alt ? '' : 'mov';  break;
+            case 'jpeg': $contentType = 'jpeg';
+                break;
+            case 'jpg':  $contentType = 'jpeg';
+                break;
+            case 'png':  $contentType = 'png';
+                break;
+            case 'gif':  $contentType = 'gif';
+                break;
+            case 'webp':  $contentType = 'webp';
+                break;
+            case 'swf':  $contentType = $alt ? '' : 'swf';
+                break;
+            case 'dcr':  $contentType = $alt ? '' : 'dcr';
+                break;
+            case 'rpm':  $contentType = $alt ? '' : 'rpm';
+                break;
+            case 'mov':  $contentType = $alt ? '' : 'mov';
+                break;
         }
         return $contentType;
     }

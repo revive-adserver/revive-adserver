@@ -30,9 +30,7 @@ class OA_phpAdsNew
     public $engine = '';
     public $version = '';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function init()
     {

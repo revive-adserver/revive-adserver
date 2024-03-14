@@ -36,9 +36,7 @@ define("phpAds_Error", -1);
 define("phpAds_PasswordRecovery", -2);
 
 
-function phpAds_PageContext($name, $link, $selected)
-{
-}
+function phpAds_PageContext($name, $link, $selected) {}
 
 /*-------------------------------------------------------*/
 /* Add shortcuts to left menubar                         */
@@ -328,7 +326,6 @@ function phpAds_sqlDie()
         $title = $GLOBALS['strErrorDBPlain'];
         $message = sprintf($GLOBALS['strErrorDBNoDataPlain'], PRODUCT_NAME);
         if ((OA_Auth::isLoggedIn() && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) || defined('phpAds_installing')) {
-
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();

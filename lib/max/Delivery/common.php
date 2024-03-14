@@ -377,7 +377,7 @@ function MAX_commonDecrypt($string)
         }
         return ($convert);
     } else {
-        return($string);
+        return ($string);
     }
 }
 
@@ -546,7 +546,7 @@ function MAX_header($value)
     if (empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
         ###END_STRIP_DELIVERY
         header($value);
-    ###START_STRIP_DELIVERY
+        ###START_STRIP_DELIVERY
     } else {
         if (empty($GLOBALS['_HEADERS']) || !is_array($GLOBALS['_HEADERS'])) {
             $GLOBALS['_HEADERS'] = [];
@@ -656,15 +656,21 @@ function MAX_commonPackContext($context = [])
         list($key, $value) = each($value);
         list($item, $id) = explode(':', $value);
         switch ($item) {
-            case 'campaignid':  $value = 'c:' . $id; break;
-            case 'clientid':    $value = 'a:' . $id; break;
-            case 'bannerid':    $value = 'b:' . $id; break;
-            case 'companionid': $value = 'p:' . $id; break;
+            case 'campaignid':  $value = 'c:' . $id;
+                break;
+            case 'clientid':    $value = 'a:' . $id;
+                break;
+            case 'bannerid':    $value = 'b:' . $id;
+                break;
+            case 'companionid': $value = 'p:' . $id;
+                break;
         }
         // Set value as key to avoid duplicates
         switch ($key) {
-            case '!=': $exclude[$value] = true; break;
-            case '==': $include[$value] = true; break;
+            case '!=': $exclude[$value] = true;
+                break;
+            case '==': $include[$value] = true;
+                break;
         }
     }
     $exclude = array_keys($exclude);
@@ -699,10 +705,14 @@ function _convertContextArray($key, $array)
         }
         list($item, $id) = explode(':', $value);
         switch ($item) {
-            case 'c': $unpacked[] = [$key => 'campaignid:' . $id]; break;
-            case 'a': $unpacked[] = [$key => 'clientid:' . $id]; break;
-            case 'b': $unpacked[] = [$key => 'bannerid:' . $id]; break;
-            case 'p': $unpacked[] = [$key => 'companionid:' . $id]; break;
+            case 'c': $unpacked[] = [$key => 'campaignid:' . $id];
+                break;
+            case 'a': $unpacked[] = [$key => 'clientid:' . $id];
+                break;
+            case 'b': $unpacked[] = [$key => 'bannerid:' . $id];
+                break;
+            case 'p': $unpacked[] = [$key => 'companionid:' . $id];
+                break;
         }
     }
     return $unpacked;

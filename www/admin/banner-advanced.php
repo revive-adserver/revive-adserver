@@ -89,37 +89,37 @@ if ($doBanners->find(true)) {
 
 $tabindex = 1;
 
-    echo "<form name='appendform' method='post' action='banner-advanced.php' onSubmit='return phpAds_formSubmit() && max_formValidate(this);'>";
-    echo "<input type='hidden' name='clientid' value='" . (isset($clientid) && $clientid != '' ? $clientid : '') . "'>";
-    echo "<input type='hidden' name='campaignid' value='" . (isset($campaignid) && $campaignid != '' ? $campaignid : '') . "'>";
-    echo "<input type='hidden' name='bannerid' value='" . (isset($bannerid) && $bannerid != '' ? $bannerid : '') . "'>";
-    echo "<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>";
+echo "<form name='appendform' method='post' action='banner-advanced.php' onSubmit='return phpAds_formSubmit() && max_formValidate(this);'>";
+echo "<input type='hidden' name='clientid' value='" . (isset($clientid) && $clientid != '' ? $clientid : '') . "'>";
+echo "<input type='hidden' name='campaignid' value='" . (isset($campaignid) && $campaignid != '' ? $campaignid : '') . "'>";
+echo "<input type='hidden' name='bannerid' value='" . (isset($bannerid) && $bannerid != '' ? $bannerid : '') . "'>";
+echo "<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>";
 
-    echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-    echo "<tr><td height='25' colspan='3'><b>" . $strAppendSettings . "</b></td></tr>";
-    echo "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
-    echo "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
-    echo "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-    echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+echo "<tr><td height='25' colspan='3'><b>" . $strAppendSettings . "</b></td></tr>";
+echo "<tr height='1'><td width='30'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='30'></td>";
+echo "<td width='200'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='200'></td>";
+echo "<td width='100%'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-    echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>" . $strBannerPrependHTML . "</td><td>";
-    echo "<textarea class='code' name='prepend' rows='6' cols='55' style='width: 100%;' tabindex='" . ($tabindex++) . "'>" . htmlspecialchars($banner['prepend']) . "</textarea>";
-    echo "</td></tr>";
+echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>" . $strBannerPrependHTML . "</td><td>";
+echo "<textarea class='code' name='prepend' rows='6' cols='55' style='width: 100%;' tabindex='" . ($tabindex++) . "'>" . htmlspecialchars($banner['prepend']) . "</textarea>";
+echo "</td></tr>";
 
-    echo "<tr><td><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
+echo "<tr><td><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>";
+echo "<td colspan='2'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
 
-    echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>" . $strBannerAppendHTML . "</td><td>";
-    echo "<textarea class='code' name='append' rows='6' cols='55' style='width: 100%;' tabindex='" . ($tabindex++) . "'>" . htmlspecialchars($banner['append']) . "</textarea>";
-    echo "</td></tr>";
+echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>" . $strBannerAppendHTML . "</td><td>";
+echo "<textarea class='code' name='append' rows='6' cols='55' style='width: 100%;' tabindex='" . ($tabindex++) . "'>" . htmlspecialchars($banner['append']) . "</textarea>";
+echo "</td></tr>";
 
-    // Footer
-    echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
-    echo "</table><br />";
+// Footer
+echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
+echo "</table><br />";
 
-    echo "<br /><input type='submit' name='submitbutton' value='" . $strSaveChanges . "' tabindex='" . ($tabindex++) . "'>";
-    echo "</form>";
+echo "<br /><input type='submit' name='submitbutton' value='" . $strSaveChanges . "' tabindex='" . ($tabindex++) . "'>";
+echo "</form>";
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

@@ -65,9 +65,7 @@ class Plugins_DeliveryLimitations extends OX_Component
      *
      * DO NOT DELETE OTHERWISE THE PLUGIN UPGRADE WILL FAIL!
      */
-    final public function Plugins_DeliveryLimitations()
-    {
-    }
+    final public function Plugins_DeliveryLimitations() {}
 
     /**
      * Initialise this plugin
@@ -135,9 +133,9 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     public function checkInputData($data)
     {
-//        if (!($data['data'] && !is_array($data['data']) && trim($data['data'] != ''))) {
-//            return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
-//        }
+        //        if (!($data['data'] && !is_array($data['data']) && trim($data['data'] != ''))) {
+        //            return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
+        //        }
         return true;
     }
 

@@ -45,12 +45,18 @@ function MAX_checkTime_Date($limitation, $op, $aParams = [])
         $date = gmdate('Ymd', $timestamp);
     }
     switch ($op) {
-        case '==': return ($date == $limitation); break;
-        case '!=': return ($date != $limitation); break;
-        case '<=': return ($date <= $limitation); break;
-        case '>=': return ($date >= $limitation); break;
-        case '<':  return ($date < $limitation);  break;
-        case '>':  return ($date > $limitation);  break;
+        case '==': return ($date == $limitation);
+            break;
+        case '!=': return ($date != $limitation);
+            break;
+        case '<=': return ($date <= $limitation);
+            break;
+        case '>=': return ($date >= $limitation);
+            break;
+        case '<':  return ($date < $limitation);
+            break;
+        case '>':  return ($date > $limitation);
+            break;
     }
     return true;
 }

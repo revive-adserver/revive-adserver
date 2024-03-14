@@ -51,9 +51,7 @@ class SimulationScenario
     /**
      * The constructor method.
      */
-    public function SimulationScenario()
-    {
-    }
+    public function SimulationScenario() {}
 
     /**
      * initialisation
@@ -369,7 +367,7 @@ class SimulationScenario
         }
 
         if (preg_match('/zone(?:id)?:(\d+)/', $what, $m)) {
-            $zoneId = (int)$m[1];
+            $zoneId = (int) $m[1];
         } else {
             $zoneId = 0;
         }
@@ -552,8 +550,8 @@ class SimulationScenario
      */
     public function printPrecis()
     {
-//        global $is_simulation;
-//        $this->printMessage('is_simulation:'.$is_simulation);
+        //        global $is_simulation;
+        //        $this->printMessage('is_simulation:'.$is_simulation);
         $this->printMessage($this->scenarioConfig['precis']);
         $this->printWorkingData();
         $this->printPriorities();
@@ -598,7 +596,7 @@ class SimulationScenario
     public function printPostSummary()
     {
         $this->printHeading('Simulation complete, printing summary...', 3);
-//        $this->printSummaryData();
+        //        $this->printSummaryData();
         $this->printHeading('Total Requests: ' . $this->totalRequests, 4);
         $this->printHeading('Total Delivery: ' . $this->totalDelivery, 4);
         $this->printHeading('Total Percentage: ' . (round(($this->totalDelivery / $this->totalRequests) * 100, 2)), 4);

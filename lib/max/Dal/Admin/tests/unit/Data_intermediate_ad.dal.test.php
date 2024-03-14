@@ -71,7 +71,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
     public function testGetDeliveredEcpmCampainImpressionsByAgency()
     {
         $this->aIds2 = TestEnv::loadData('data_intermediate_ad_002');
-        
+
         $impressions = 123;
         $agencyId = $this->aIds2['agency'][0];
         $campaignId = $this->aIds2['campaigns'][0];

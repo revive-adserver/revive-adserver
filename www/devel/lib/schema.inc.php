@@ -747,18 +747,18 @@ class Openads_Schema_Manager
         $this->parseWorkingDefinitionFile();
         $idx_old = $this->aDB_definition['tables'][$table_name]['indexes'][$index_name];
         $aIdx_new = $this->_sortIndexFields($aIndex_definition);
-//        foreach ($aIndex_definition['fields'] as $field => $aDef)
-//        {
-//            $aIdx_sort[$aDef['order']] = $field;
-//        }
-//        ksort($aIdx_sort);
-//        reset($aIdx_sort);
-//        foreach ($aIdx_sort as $k => $field)
-//        {
-//            $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
-//            $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
-//        }
-//        reset($aIdx_new['fields']);
+        //        foreach ($aIndex_definition['fields'] as $field => $aDef)
+        //        {
+        //            $aIdx_sort[$aDef['order']] = $field;
+        //        }
+        //        ksort($aIdx_sort);
+        //        reset($aIdx_sort);
+        //        foreach ($aIdx_sort as $k => $field)
+        //        {
+        //            $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
+        //            $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
+        //        }
+        //        reset($aIdx_new['fields']);
         if (isset($aIndex_definition['unique'])) {
             $aIdx_new['unique'] = $aIndex_definition['unique'];
         }
@@ -1303,7 +1303,7 @@ class Openads_Schema_Manager
      */
     public function _buildMethod($method_name, $parent_name, $params)
     {
-        return   "\n\n\tfunction {$method_name}()"
+        return "\n\n\tfunction {$method_name}()"
                 . "\n\t{"
                 . "\n\t\treturn \$this->{$parent_name}({$params});"
                 . "\n\t}";
@@ -1335,14 +1335,14 @@ class Openads_Schema_Manager
             $aChangesX = $this->oSchema->parseChangesetDefinitionFile($this->changes_trans);
             $aChanges1 = $aChangesX['constructive'];
             $aChanges2 = $aChangesX['destructive'];
-//            echo '<div><pre>';
-//            foreach ($aChangesX['test'] as $k=>$v)
-//            {
-//                echo "case '{$v}': ";
-//            	echo "\n\tbreak;\n";
-//            }
-//            //var_dump($aChangesX['test']);
-//            echo '</pre></div>';
+            //            echo '<div><pre>';
+            //            foreach ($aChangesX['test'] as $k=>$v)
+            //            {
+            //                echo "case '{$v}': ";
+            //            	echo "\n\tbreak;\n";
+            //            }
+            //            //var_dump($aChangesX['test']);
+            //            echo '</pre></div>';
 
             echo '<div><pre>';
             var_dump($aChanges);

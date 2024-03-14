@@ -59,7 +59,7 @@ class OA_Dll_Agency extends OA_Dll
         unset($agencyData['password']);
 
         $oAgency->readDataFromArray($agencyData);
-        return  true;
+        return true;
     }
 
     /**
@@ -206,11 +206,11 @@ class OA_Dll_Agency extends OA_Dll
                 if ($oAgency->agencyId) {
                     // Set the account ID
                     $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
-                    $oAgency->accountId = (int)$doAgency->account_id;
+                    $oAgency->accountId = (int) $doAgency->account_id;
 
                     if (!isset($oAgency->status)) {
                         // Updatre status if it was empty
-                        $oAgency->status = (int)$doAgency->status;
+                        $oAgency->status = (int) $doAgency->status;
                     }
                 }
 

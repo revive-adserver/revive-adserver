@@ -353,21 +353,13 @@ class OA_StatisticsFieldsDelivery
         return false;
     }
 
-    public function addQueryParams(&$aParams)
-    {
-    }
+    public function addQueryParams(&$aParams) {}
 
-    public function mergeData(&$aRows, $method, $aParams)
-    {
-    }
+    public function mergeData(&$aRows, $method, $aParams) {}
 
-    public function mergeAds(&$ads)
-    {
-    }
+    public function mergeAds(&$ads) {}
 
-    public function mergeZones(&$zones)
-    {
-    }
+    public function mergeZones(&$zones) {}
 
     /**
      * Add the fields which require calculations

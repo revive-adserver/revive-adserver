@@ -141,7 +141,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
                 $aAccountsIds = $doUsers->getLinkedAccountsIds();
                 sort($aAccountsIds);
                 reset($aAccountsIds);
-                $doUserUpdate = clone($doUsers);
+                $doUserUpdate = clone ($doUsers);
                 $doUserUpdate->default_account_id = current($aAccountsIds);
                 $doUserUpdate->update();
             }

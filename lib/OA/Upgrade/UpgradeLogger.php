@@ -35,9 +35,9 @@ class OA_UpgradeLogger
      * when both constructors are present
      *
      */
-//    function __construct()
-//    {
-//    }
+    //    function __construct()
+    //    {
+    //    }
 
     /**
      * php4 class constructor

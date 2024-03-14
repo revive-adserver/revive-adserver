@@ -251,11 +251,11 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 
         //  analyze now takes place in the pgsql mdb2 manager driver
-//        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
-//            // We need to ANALYZE the table if we want a meaningful result
-//            $table = $oAuditor->oDbh->quoteIdentifier($aConf['table']['prefix'].'database_action',true);
-//            $oAuditor->oDbh->exec("ANALYZE {$table}");
-//        }
+        //        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
+        //            // We need to ANALYZE the table if we want a meaningful result
+        //            $table = $oAuditor->oDbh->quoteIdentifier($aConf['table']['prefix'].'database_action',true);
+        //            $oAuditor->oDbh->exec("ANALYZE {$table}");
+        //        }
 
         $aResult = $oAuditor->getTableStatus('database_action');
         $this->assertIsa($aResult, 'array', 'not an array');

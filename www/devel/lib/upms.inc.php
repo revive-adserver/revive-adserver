@@ -49,7 +49,6 @@ function UPMS_checkVersion($aServer, $id = 0)
 
 function UPMS_registerVersion($aServer, $id = 0, $name = 'unknown', $comments = '')
 {
-
     // Prepare variables
     $aParams = [
         'user_name' => $name,

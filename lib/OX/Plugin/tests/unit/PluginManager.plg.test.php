@@ -98,9 +98,7 @@ class Test_OX_PluginManager extends UnitTestCase
      * @todo write test for test_installPackageCodeOnly
      *
      */
-    public function test_installPackageCodeOnly()
-    {
-    }
+    public function test_installPackageCodeOnly() {}
 
     public function test_unpack()
     {

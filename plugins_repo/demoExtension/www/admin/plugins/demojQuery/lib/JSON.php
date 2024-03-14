@@ -256,10 +256,10 @@ class Services_JSON
                 $ascii = '';
                 $strlen_var = strlen($var);
 
-               /*
-                * Iterate over every character in the string,
-                * escaping with a slash or encoding to UTF-8 where necessary
-                */
+                /*
+                 * Iterate over every character in the string,
+                 * escaping with a slash or encoding to UTF-8 where necessary
+                 */
                 for ($c = 0; $c < $strlen_var; ++$c) {
                     $ord_var_c = ord($var[$c]);
 
@@ -368,23 +368,23 @@ class Services_JSON
                 return '"' . $ascii . '"';
 
             case 'array':
-               /*
-                * As per JSON spec if any array key is not an integer
-                * we must treat the the whole array as an object. We
-                * also try to catch a sparsely populated associative
-                * array with numeric keys here because some JS engines
-                * will create an array with empty indexes up to
-                * max_index which can cause memory issues and because
-                * the keys, which may be relevant, will be remapped
-                * otherwise.
-                *
-                * As per the ECMA and JSON specification an object may
-                * have any string as a property. Unfortunately due to
-                * a hole in the ECMA specification if the key is a
-                * ECMA reserved word or starts with a digit the
-                * parameter is only accessible using ECMAScript's
-                * bracket notation.
-                */
+                /*
+                 * As per JSON spec if any array key is not an integer
+                 * we must treat the the whole array as an object. We
+                 * also try to catch a sparsely populated associative
+                 * array with numeric keys here because some JS engines
+                 * will create an array with empty indexes up to
+                 * max_index which can cause memory issues and because
+                 * the keys, which may be relevant, will be remapped
+                 * otherwise.
+                 *
+                 * As per the ECMA and JSON specification an object may
+                 * have any string as a property. Unfortunately due to
+                 * a hole in the ECMA specification if the key is a
+                 * ECMA reserved word or starts with a digit the
+                 * parameter is only accessible using ECMAScript's
+                 * bracket notation.
+                 */
 
                 // treat as a JSON object
                 if (is_array($var) && count($var) && (array_keys($var) !== range(0, sizeof($var) - 1))) {
@@ -522,9 +522,9 @@ class Services_JSON
                     // return (float)$str;
 
                     // Return float or int, as appropriate
-                    return ((float)$str == (int)$str)
-                        ? (int)$str
-                        : (float)$str;
+                    return ((float) $str == (int) $str)
+                        ? (int) $str
+                        : (float) $str;
                 } elseif (preg_match('/^("|\').*(\1)$/s', $str, $m) && $m[1] == $m[2]) {
                     // STRINGS RETURNED IN UTF-8 FORMAT
                     $delim = substr($str, 0, 1);
@@ -614,7 +614,6 @@ class Services_JSON
                                 $utf8 .= substr($chrs, $c, 6);
                                 $c += 5;
                                 break;
-
                         }
                     }
 
@@ -674,7 +673,7 @@ class Services_JSON
                                 // element in an associative array,
                                 // for now
                                 $parts = [];
-                                
+
                                 if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
                                     // "name":value pair
                                     $key = $this->decode($parts[1]);
@@ -700,7 +699,7 @@ class Services_JSON
                         } elseif ((($chrs[$c] == '"') || ($chrs[$c] == "'")) && ($top['what'] != SERVICES_JSON_IN_STR)) {
                             // found a quote, and we are not inside a string
                             array_push($stk, ['what' => SERVICES_JSON_IN_STR, 'where' => $c, 'delim' => $chrs[$c]]);
-                        //print("Found start of string at {$c}\n");
+                            //print("Found start of string at {$c}\n");
                         } elseif (($chrs[$c] == $top['delim']) &&
                                  ($top['what'] == SERVICES_JSON_IN_STR) &&
                                  ((strlen(substr($chrs, 0, $c)) - strlen(rtrim(substr($chrs, 0, $c), '\\'))) % 2 != 1)) {
@@ -708,31 +707,31 @@ class Services_JSON
                             // we know that it's not escaped becase there is _not_ an
                             // odd number of backslashes at the end of the string so far
                             array_pop($stk);
-                        //print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
+                            //print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
                         } elseif (($chrs[$c] == '[') &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-bracket, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_ARR, 'where' => $c, 'delim' => false]);
-                        //print("Found start of array at {$c}\n");
+                            //print("Found start of array at {$c}\n");
                         } elseif (($chrs[$c] == ']') && ($top['what'] == SERVICES_JSON_IN_ARR)) {
                             // found a right-bracket, and we're in an array
                             array_pop($stk);
-                        //print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                            //print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         } elseif (($chrs[$c] == '{') &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-brace, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_OBJ, 'where' => $c, 'delim' => false]);
-                        //print("Found start of object at {$c}\n");
+                            //print("Found start of object at {$c}\n");
                         } elseif (($chrs[$c] == '}') && ($top['what'] == SERVICES_JSON_IN_OBJ)) {
                             // found a right-brace, and we're in an object
                             array_pop($stk);
-                        //print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                            //print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         } elseif (($substr_chrs_c_2 == '/*') &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a comment start, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_CMT, 'where' => $c, 'delim' => false]);
                             $c++;
-                        //print("Found start of comment at {$c}\n");
+                            //print("Found start of comment at {$c}\n");
                         } elseif (($substr_chrs_c_2 == '*/') && ($top['what'] == SERVICES_JSON_IN_CMT)) {
                             // found a comment end, and we're in one now
                             array_pop($stk);
@@ -785,7 +784,6 @@ if (class_exists('PEAR_Error')) {
         }
     }
 } else {
-
     /**
      * @todo Ultimately, this class shall be descended from PEAR_Error
      */
@@ -797,7 +795,6 @@ if (class_exists('PEAR_Error')) {
             $mode = null,
             $options = null,
             $userinfo = null
-        ) {
-        }
+        ) {}
     }
 }

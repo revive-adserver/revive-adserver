@@ -66,7 +66,6 @@ if (!empty($action)) {
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
         if (MAX_AclSave($acl, $aEntities)) {
-
             // Queue confirmation message
             $doChannel = OA_Dal::factoryDO('channel');
             $doChannel->get($channelid);

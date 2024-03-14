@@ -271,9 +271,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testDatatypeToNativetypeMappings_openads_date()
-    {
-    }
+    public function testDatatypeToNativetypeMappings_openads_date() {}
 
     /**
      * A method to test that the MDB2 datatype to database nativetype
@@ -281,9 +279,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testDatatypeToNativetypeMappings_openads_datetime()
-    {
-    }
+    public function testDatatypeToNativetypeMappings_openads_datetime() {}
 
     /**
      * A method to test that the MDB2 datatype to database nativetype
@@ -646,9 +642,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testDatatypeToNativetypeMappings_openads_mediumtext()
-    {
-    }
+    public function testDatatypeToNativetypeMappings_openads_mediumtext() {}
 
     /**
      * A method to test that the MDB2 datatype to database nativetype
@@ -869,9 +863,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testDatatypeToNativetypeMappings_openads_timestamp()
-    {
-    }
+    public function testDatatypeToNativetypeMappings_openads_timestamp() {}
 
     /**
      * A method to test that the MDB2 datatype to database nativetype
@@ -1125,9 +1117,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testNativetypeToDatatypeMappings_date()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_date() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype
@@ -1135,9 +1125,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testNativetypeToDatatypeMappings_datetime()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_datetime() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype
@@ -1255,9 +1243,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      * A method to test that the database nativetype to MDB2 datatype
      * mappings work as expected for the "mediumint" nativetype.
      */
-    public function testNativetypeToDatatypeMappings_mediumint()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_mediumint() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype
@@ -1265,17 +1251,13 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testNativetypeToDatatypeMappings_mediumtext()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_mediumtext() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype
      * mappings work as expected for the "set" nativetype.
      */
-    public function testNativetypeToDatatypeMappings_set()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_set() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype
@@ -1339,17 +1321,13 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
      *
      * @TODO Implement
      */
-    public function testNativetypeToDatatypeMappings_timestamp()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_timestamp() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype
      * mappings work as expected for the "tinyint" nativetype.
      */
-    public function testNativetypeToDatatypeMappings_tinyint()
-    {
-    }
+    public function testNativetypeToDatatypeMappings_tinyint() {}
 
     /**
      * A method to test that the database nativetype to MDB2 datatype

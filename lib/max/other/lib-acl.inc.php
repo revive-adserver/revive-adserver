@@ -635,7 +635,7 @@ function OA_aclRecompile($aAcls, $aParams, $page)
     $aParams['compiledlimitation'] = MAX_AclGetCompiled($aAcls);
     $aParams['acl_plugins'] = MAX_AclGetPlugins($aAcls);
 
-    return (bool)$stmt->execute($aParams);
+    return (bool) $stmt->execute($aParams);
 }
 
 /**

@@ -66,7 +66,5 @@ class OA_Dashboard_Widget extends OA_Central
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    public function display($aParams = [])
-    {
-    }
+    public function display($aParams = []) {}
 }

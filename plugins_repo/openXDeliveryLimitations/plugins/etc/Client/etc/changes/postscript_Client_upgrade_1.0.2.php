@@ -20,9 +20,7 @@ $className = 'Client_UpgradePostscript_1_0_2';
  */
 class Client_UpgradePostscript_1_0_2
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {

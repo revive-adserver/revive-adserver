@@ -571,7 +571,7 @@ class OA_DB_Upgrade
                         }
                         $aDef = $this->_getDefinitionFromDatabase($table);
                         $aBakDef = $aDef['tables'][$table];
-//                      keeping the restore array alive is no longer necessary after refactored recovery
+                        //                      keeping the restore array alive is no longer necessary after refactored recovery
                         //	                    $this->aRestoreTables[$table] = array(
                         //	                                                          'bak'=>$table_bak,
                         //	                                                          'def'=>$aBakDef
@@ -798,29 +798,29 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-//        if (!empty($this->aSQLStatements['table_move']))
-//        {
-//            $oTable = new OA_DB_Table();
-//            $oTable->init(MAX_PATH.'/etc/tables_core.xml');
-//            $oTable->aDefinition = array('tables' => array($table => $aDef_bak));
-//            $result = $oTable->createTable($table);
-//            if (!$result)
-//            {
-//                $this->_logError('creating empty table during rollback');
-//                $this->_halt();
-//                return false;
-//            }
-//            $statement = $this->aSQLStatements['table_move'];
-//            $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
-//            $result = $this->oSchema->db->exec($query);
-//            if ($this->_isPearError($result, 'error populating table during rollback'))
-//            {
-//                $this->_halt();
-//                return false;
-//            }
-//        }
-//        else
-//        {
+        //        if (!empty($this->aSQLStatements['table_move']))
+        //        {
+        //            $oTable = new OA_DB_Table();
+        //            $oTable->init(MAX_PATH.'/etc/tables_core.xml');
+        //            $oTable->aDefinition = array('tables' => array($table => $aDef_bak));
+        //            $result = $oTable->createTable($table);
+        //            if (!$result)
+        //            {
+        //                $this->_logError('creating empty table during rollback');
+        //                $this->_halt();
+        //                return false;
+        //            }
+        //            $statement = $this->aSQLStatements['table_move'];
+        //            $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
+        //            $result = $this->oSchema->db->exec($query);
+        //            if ($this->_isPearError($result, 'error populating table during rollback'))
+        //            {
+        //                $this->_halt();
+        //                return false;
+        //            }
+        //        }
+        //        else
+        //        {
         $statement = $this->aSQLStatements['table_copy'];
         $query = sprintf($statement, $this->prefix . $table, $this->prefix . $table_bak);
         $result = $this->oSchema->db->exec($query);
@@ -832,7 +832,7 @@ class OA_DB_Upgrade
             $this->_halt();
             return false;
         }
-//        }
+        //        }
 
         // compare the original and the restored definitions
         $aRestoredDef = $this->_getDefinitionFromDatabase($table);
@@ -1427,8 +1427,8 @@ class OA_DB_Upgrade
                                 foreach ($aField_tasks as $task => &$method) {
                                     if ($task != 'rename') {
                                         $this->aTaskList['fields'][$task][] = $this->_compileTaskField($task, $table, $field, $field);
-//                                        $this->_logOnly(print_r($this->oSchema->db->reverse->getTableFieldDefinition($this->prefix.$table, $field), true));
-//                                        $this->_logOnly(print_r($this->aTaskList['fields'][$task][count($this->aTaskList['fields'][$task]) - 1], true));
+                                        //                                        $this->_logOnly(print_r($this->oSchema->db->reverse->getTableFieldDefinition($this->prefix.$table, $field), true));
+                                        //                                        $this->_logOnly(print_r($this->aTaskList['fields'][$task][count($this->aTaskList['fields'][$task]) - 1], true));
                                     }
                                 }
                             }
@@ -1717,7 +1717,7 @@ class OA_DB_Upgrade
                                                ]
                                  ];
                 break;
-                case'remove':
+            case 'remove':
                 $result = [
                                     'table' => $table,
                                     'name' => $index_name,
@@ -1916,8 +1916,8 @@ class OA_DB_Upgrade
                 $this->aSQLStatements['table_rename'] = 'ALTER TABLE "%s" RENAME TO "%s"';
                 break;
             default:
-            '';
-            break;
+                '';
+                break;
         }
     }
 

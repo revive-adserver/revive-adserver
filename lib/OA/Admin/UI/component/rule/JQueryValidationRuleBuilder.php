@@ -17,18 +17,18 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
      */
     public $quickFormRuleNameToAdaptorMap;
     private $oAdaptorRegistry;
-    
+
     public function __construct()
     {
         $this->oAdaptorRegistry = OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry::singleton();
     }
-    
+
     protected function getAdaptorRegistry()
     {
         return $this->oAdaptorRegistry;
     }
-    
-    
+
+
     /**
      * Return a JS rule definition applicable for JQuery validation plugin
      * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
@@ -102,19 +102,19 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
         }
         $rulesText .= "},\n"; //close rules array
         $messagesText .= "}\n"; //close messages array
-        
+
         return $rulesText . "\n" . $messagesText;
     }
-    
-    
+
+
     protected function filterNonSupported($aRule)
     {
         $registry = $this->getAdaptorRegistry();
         $ruleAdaptor = $registry->getJQueryRuleAdaptor($aRule['type']);
         return !empty($ruleAdaptor);
     }
-    
-    
+
+
     /**
      * Return a JS JQuery validator custom validation method installation script
      * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
@@ -161,15 +161,15 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
                     }
                 }
             }
-;
+            ;
             $methodsText .= "\n";
         }
-        
+
         return $methodsText;
     }
-    
-    
-    
+
+
+
     /**
      * Return Jquery validation plugin compliant rule definition for a given quickform rule
      *
@@ -183,8 +183,8 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
 
         return $adaptor->getJQueryValidationRule($rule);
     }
-    
-    
+
+
     private function getJQueryValidationMessage($rule)
     {
         $type = $rule['type'];

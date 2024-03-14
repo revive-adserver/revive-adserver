@@ -42,7 +42,7 @@ function MAX_limitationsCheckAcl($row, $source = '')
                 $pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
                 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
                     // If any of the delivery files doesn't exists don't check the delivery limitations
-                    if (include($pluginName)) {
+                    if (include ($pluginName)) {
                         $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
                     } else {
                         return true;

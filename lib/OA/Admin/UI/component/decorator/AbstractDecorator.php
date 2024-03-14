@@ -20,13 +20,13 @@ class OA_Admin_UI_AbstractDecorator implements OA_Admin_UI_Decorator
      * @var string
      */
     private $_renderMode;
-    
-    
+
+
     public function __construct($aParameters)
     {
         $this->_renderMode = $aParameters['mode'] ? $aParameters['mode'] : 'wrap';
     }
-    
+
     /**
      *
      * @return text that should be prepended to element when rendered, empty string if none
@@ -37,8 +37,8 @@ class OA_Admin_UI_AbstractDecorator implements OA_Admin_UI_Decorator
     {
         return '';
     }
-    
-    
+
+
     /**
      *
      * @return text that should be appended to element when rendered, empty string if none
@@ -49,8 +49,8 @@ class OA_Admin_UI_AbstractDecorator implements OA_Admin_UI_Decorator
     {
         return '';
     }
-    
-    
+
+
     /**
      * Returns this decorator render mode. Either: append, prepend or wrap.
      *
@@ -60,8 +60,8 @@ class OA_Admin_UI_AbstractDecorator implements OA_Admin_UI_Decorator
     {
         return $this->_renderMode;
     }
-    
-    
+
+
     /**
      * Renders decorator's content -  prepends / appends / wraps content depending
      * on the getRenderMode value

@@ -97,7 +97,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
         ];
 
         // Limit by advertiser
-        $advertiserId = (int)MAX_getValue('clientid', '');
+        $advertiserId = (int) MAX_getValue('clientid', '');
         if (!empty($advertiserId)) {
             $aParams['advertiser_id'] = $advertiserId;
         }

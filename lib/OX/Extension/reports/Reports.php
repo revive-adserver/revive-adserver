@@ -150,9 +150,7 @@ class Plugins_Reports extends OX_Component
      *
      * @abstract
      */
-    public function initInfo()
-    {
-    }
+    public function initInfo() {}
 
     /**
      * An abstract method that MUST be implemented in every plugin, which must
@@ -161,9 +159,7 @@ class Plugins_Reports extends OX_Component
      *
      * @abstract
      */
-    public function getDefaults()
-    {
-    }
+    public function getDefaults() {}
 
     /**
      * An abstract method that MUST be implemented in every plugin, to save
@@ -172,9 +168,7 @@ class Plugins_Reports extends OX_Component
      *
      * @abstract
      */
-    public function saveDefaults()
-    {
-    }
+    public function saveDefaults() {}
 
     /**
      * An abstract method that MUST be implemented in every plugin, to execute
@@ -183,9 +177,7 @@ class Plugins_Reports extends OX_Component
      * @abstract
      * @return void|int - Return error code on errors
      */
-    public function execute()
-    {
-    }
+    public function execute() {}
 
     /**
      * Return error message for given error code
@@ -196,10 +188,10 @@ class Plugins_Reports extends OX_Component
     public function getErrorMessage($errorCode)
     {
         switch ($errorCode) {
-           case PLUGINS_REPORTS_MISSING_SHEETS_ERROR:
-               return $GLOBALS['strReportErrorMissingSheets'];
-           default:
-               return $GLOBALS['strReportErrorUnknownCode'] . htmlspecialchars($errorCode);
+            case PLUGINS_REPORTS_MISSING_SHEETS_ERROR:
+                return $GLOBALS['strReportErrorMissingSheets'];
+            default:
+                return $GLOBALS['strReportErrorUnknownCode'] . htmlspecialchars($errorCode);
         }
     }
 
@@ -212,9 +204,7 @@ class Plugins_Reports extends OX_Component
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    public function _getReportParametersForDisplay()
-    {
-    }
+    public function _getReportParametersForDisplay() {}
 
     /**
      * A public method to return the required information about the report plugin.

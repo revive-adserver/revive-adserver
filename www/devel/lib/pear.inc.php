@@ -43,7 +43,7 @@ function handle_error($error_obj)
     global $logger, $dsn, $mdb;
     global $error_message;
     $error_message = $error_obj->getUserInfo();
-//    $logger->debug($error_obj->toString());
+    //    $logger->debug($error_obj->toString());
     $logger->debug('MESSAGE: ' . $error_obj->getMessage());
     $logger->debug('INFO: ' . $error_obj->getUserinfo());
     $logger->debug('CODE: ' . $error_obj->getCode());

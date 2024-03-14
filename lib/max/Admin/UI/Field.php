@@ -64,12 +64,18 @@ class Admin_UI_Field
     public function setFilter($filter)
     {
         switch ($filter) {
-            case 'tracker-present': $this->_filter = FILTER_TRACKER_PRESENT; break;
-            case 'zone-inventory-domain-page-indexed': $this->_filter = FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED; break;
-            case 'zone-inventory-country-indexed': $this->_filter = FILTER_ZONE_INVENTORY_COUNTRY_INDEXED; break;
-            case 'zone-inventory-source-indexed': $this->_filter = FILTER_ZONE_INVENTORY_SOURCE_INDEXED; break;
-            case 'zone-inventory-channel-indexed': $this->_filter = FILTER_ZONE_INVENTORY_CHANNEL_INDEXED; break;
-            default: $this->_filter = FILTER_NONE; break;
+            case 'tracker-present': $this->_filter = FILTER_TRACKER_PRESENT;
+                break;
+            case 'zone-inventory-domain-page-indexed': $this->_filter = FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED;
+                break;
+            case 'zone-inventory-country-indexed': $this->_filter = FILTER_ZONE_INVENTORY_COUNTRY_INDEXED;
+                break;
+            case 'zone-inventory-source-indexed': $this->_filter = FILTER_ZONE_INVENTORY_SOURCE_INDEXED;
+                break;
+            case 'zone-inventory-channel-indexed': $this->_filter = FILTER_ZONE_INVENTORY_CHANNEL_INDEXED;
+                break;
+            default: $this->_filter = FILTER_NONE;
+                break;
         }
     }
     public function setValueFromArray($aFieldValues)

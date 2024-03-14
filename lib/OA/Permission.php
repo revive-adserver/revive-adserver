@@ -705,7 +705,7 @@ class OA_Permission
         }
         // Verify that the ID is numeric
         self::enforceTrue(preg_match('/^\d*$/D', $entityId));
-        $entityId = (int)$entityId;
+        $entityId = (int) $entityId;
         $hasAccess = self::hasAccessToObject($entityTable, $entityId, $operationAccessType);
 
         if (!$hasAccess) {
@@ -795,7 +795,7 @@ class OA_Permission
                 return ($entityId == self::getEntityId());
             } else {
                 $do->account_id = self::getAccountId();
-                return (bool)$do->count();
+                return (bool) $do->count();
             }
         }
         if ($accountId === null) {
@@ -840,7 +840,7 @@ class OA_Permission
     public static function getEntityId()
     {
         if ($oUser = self::getCurrentUser()) {
-            return (int)$oUser->aAccount['entity_id'];
+            return (int) $oUser->aAccount['entity_id'];
         }
 
         return 0;
@@ -907,22 +907,22 @@ class OA_Permission
 
             switch ($entityTable) {
                 case 'clients':
-                {
-                    $hasAccess = $aEntity['type'] == DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
-                    break;
-                }
+                    {
+                        $hasAccess = $aEntity['type'] == DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
+                        break;
+                    }
 
                 case 'campaigns':
-                {
-                    $hasAccess = $aEntity['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
-                    break;
-                }
+                    {
+                        $hasAccess = $aEntity['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
+                        break;
+                    }
 
                 case 'banners':
-                {
-                    $hasAccess = $aEntity['ext_bannertype'] != DataObjects_Banners::BANNER_TYPE_MARKET;
-                    break;
-                }
+                    {
+                        $hasAccess = $aEntity['ext_bannertype'] != DataObjects_Banners::BANNER_TYPE_MARKET;
+                        break;
+                    }
             }
         }
 
@@ -1128,7 +1128,7 @@ class OA_Permission
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->account_id = $accountId;
         $doAccount_user_Assoc->user_id = $userId;
-        $isExists = (bool)$doAccount_user_Assoc->count();
+        $isExists = (bool) $doAccount_user_Assoc->count();
         if ($isExists && !$setAccess) {
             return $doAccount_user_Assoc->delete();
         }
@@ -1177,7 +1177,7 @@ class OA_Permission
     public static function getAgencyId()
     {
         if ($oUser = self::getCurrentUser()) {
-            return (int)$oUser->aAccount['agency_id'];
+            return (int) $oUser->aAccount['agency_id'];
         }
         return 0;
     }

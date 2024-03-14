@@ -13,7 +13,7 @@
 class OA_Admin_UI_Decorator_Registry
 {
     private $decoratorNameToDecoratorMap;
-    
+
     /**
      * Returns a singleton of OA_Admin_UI_Decorator_Registry
      *
@@ -28,13 +28,13 @@ class OA_Admin_UI_Decorator_Registry
         return $instance;
     }
 
-    
+
     public function __construct()
     {
         $this->decoratorNameToDecoratorMap = [];
     }
-    
-    
+
+
     /**
      * Registers OA_Admin_UI_Decorator for a decorator
      *
@@ -44,22 +44,22 @@ class OA_Admin_UI_Decorator_Registry
     public function registerJQueryRuleAdaptor($decoratorName, $path, $className)
     {
         $decoratorName = strtolower($decoratorName);
-        
+
         if (empty($decoratorName) || empty($path) || empty($className)) {
             $errMsg = "DecoratorRegistry::add() Cannot register decorator $decoratorName from class $className included from $path";
             return MAX::raiseError($errMsg);
         }
-        
+
         if (isset($GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName])) {
             return false;
         }
-        
+
         $GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName] = [$path, $className];
 
         return true;
     }
-    
-    
+
+
     /**
      * Returns an instance of OA_Admin_UI_Decorator registered under given name
      *
@@ -78,10 +78,10 @@ class OA_Admin_UI_Decorator_Registry
 
         return new $class($aParameters);
 
-//        if (!isset($this->decoratorNameToDecoratorMap[$decoratorName])) {
-//            include_once($path);
-//            $this->decoratorNameToDecoratorMap[$decoratorName] = new $class($aParameters);
-//        }
-//        return $this->decoratorNameToDecoratorMap[$decoratorName];
+        //        if (!isset($this->decoratorNameToDecoratorMap[$decoratorName])) {
+        //            include_once($path);
+        //            $this->decoratorNameToDecoratorMap[$decoratorName] = new $class($aParameters);
+        //        }
+        //        return $this->decoratorNameToDecoratorMap[$decoratorName];
     }
 }

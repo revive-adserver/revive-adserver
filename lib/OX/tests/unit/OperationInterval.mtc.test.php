@@ -351,34 +351,26 @@ class Test_OA_OperationIntveral extends UnitTestCase
      *
      * @TODO Not implemented.
      */
-    public function testSecondsPerOperationInterval()
-    {
-    }
+    public function testSecondsPerOperationInterval() {}
 
     /**
      * A method to test the operationIntervalsPerDay() method.
      *
      * @TODO Not implemented.
      */
-    public function testOperationIntervalsPerDay()
-    {
-    }
+    public function testOperationIntervalsPerDay() {}
 
     /**
      * A method to test the operationIntervalsPerWeek() method.
      *
      * @TODO Not implemented.
      */
-    public function testOperationIntervalsPerWeek()
-    {
-    }
+    public function testOperationIntervalsPerWeek() {}
 
     /**
      * A method to test the getIntervalsRemaining() method.
      *
      * @TODO Not implemented.
      */
-    public function testGetIntervalsRemaining()
-    {
-    }
+    public function testGetIntervalsRemaining() {}
 }

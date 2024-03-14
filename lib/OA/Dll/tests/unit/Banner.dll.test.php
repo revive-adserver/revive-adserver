@@ -187,7 +187,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
         // Modify to different gif
         $oBannerInfo2 = new OA_Dll_BannerInfo();
-        $oBannerInfo2->bannerId = (int)$doBanners->bannerid;
+        $oBannerInfo2->bannerId = (int) $doBanners->bannerid;
         $oBannerInfo2->aImage = [
             'filename' => 'foo.gif',
             'content' => $this->binaryGif

@@ -38,223 +38,222 @@ class SqlBuilder
     {
         $aColumns = [];
         switch ($entity) {
-
-        case 'ad':
-            $aColumns += ['d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.status' => 'status', 'd.description' => 'name', 'd.storagetype' => 'type', 'd.ext_bannertype' => 'ext_bannertype'];
-            if ($allFields) {
-                $aColumns += ['d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.statustext' => 'statustext', 'd.bannertext' => 'bannertext', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.prepend' => 'prepend', 'd.append' => 'append', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments', 'd.parameters' => 'parameters', 'd.transparent' => 'transparent'];
-            }
-            break;
-
-        case 'advertiser':
-            $aColumns += ['a.clientid' => 'advertiser_id', 'a.agencyid' => 'agency_id', 'a.clientname' => 'name', 'a.type' => 'type'];
-            if ($allFields) {
-                $aColumns += ['a.contact' => 'contact', 'a.email' => 'email', 'a.report' => 'report', 'a.reportinterval' => 'report_interval', 'a.reportlastdate' => 'report_last_date', 'a.reportdeactivate' => 'report_deactivate'];
-            }
-            break;
-
-        case 'ad_category_assoc':
-            $aColumns += ['ac.ad_category_assoc_id' => 'ad_category_assoc_id', 'ac.ad_id' => 'ad_id', 'ac.category_id' => 'category_id'];
-            break;
-
-        case 'ad_zone_assoc':
-            $aColumns += ['az.ad_zone_assoc_id' => 'ad_zone_assoc_id', 'az.ad_id' => 'ad_id', 'az.zone_id' => 'zone_id', 'az.priority' => 'priority'];
-            break;
-
-        case 'agency':
-            $aColumns += ['g.agencyid' => 'agency_id', 'g.name' => 'name', 'g.status' => 'status'];
-            if ($allFields) {
-                $aColumns += [
-                'g.contact' => 'contact',
-                'g.email' => 'email',
-                'g.logout_url' => 'logout_url'
-                ];
-            }
-            break;
-
-        case 'campaign':
-            $aColumns += ['cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.anonymous' => 'anonymous', 'cam.type' => 'type'];
-            if ($allFields) {
-                $aColumns += ['cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.views' => 'views', 'cam.clicks' => 'clicks', 'cam.conversions' => 'conversions', 'cam.priority' => 'priority', 'cam.weight' => 'weight', 'cam.target_impression' => 'target_impression', 'cam.target_click' => 'target_click', 'cam.target_conversion' => 'target_conversion', 'cam.anonymous' => 'anonymous', 'cam.companion' => 'companion', 'cam.comments' => 'comments', 'cam.revenue' => 'revenue', 'cam.revenue_type' => 'revenue_type', 'cam.updated' => 'updated', 'cam.block' => 'block', 'cam.capping' => 'capping', 'cam.session_capping' => 'session_capping', 'cam.activate_time' => 'activate_time', 'cam.expire_time' => 'expire_time', 'cam.show_capped_no_cookie' => 'show_capped_no_cookie'];
-            }
-            break;
-            
-        case 'category':
-            $aColumns += ['cat.category_id' => 'category_id', 'cat.name' => 'name'];
-            break;
-
-        case 'channel':
-            $aColumns += ['ch.channelid' => 'channel_id', 'ch.agencyid' => 'agency_id', 'ch.affiliateid' => 'publisher_id', 'ch.name' => 'name'];
-            if ($allFields) {
-                $aColumns += ['ch.description' => 'description', 'ch.compiledlimitation' => 'compiledlimitation', 'ch.active' => 'active', 'ch.comments' => 'comments'];
-            }
-            break;
-
-        case 'channel_limitation':
-            $aColumns += ['chl.logical' => 'logical', 'chl.type' => 'type', 'chl.comparison' => 'comparison', 'chl.data' => 'data', 'chl.executionorder' => 'executionorder'];
-            break;
-        
-        case 'image':
-            $aColumns += ['i.filename' => 'file_name'];
-            if ($allFields) {
-                $aColumns += ['i.t_stamp' => 't_stamp', 'i.contents' => 'contents'];
-            }
-            break;
-
-        case 'limitation':
-            $aColumns += ['l.bannerid' => 'ad_id', 'l.logical' => 'logical', 'l.type' => 'type', 'l.comparison' => 'comparison', 'l.data' => 'data', 'l.executionorder' => 'executionorder'];
-            break;
-
-        case 'placement':
-            $aColumns += ['m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.status' => 'status', 'm.anonymous' => 'anonymous', 'm.priority' => 'priority',  'm.type' => 'mtype'];
-            if ($allFields) {
-                $aColumns += ['m.views' => 'views', 'm.clicks' => 'clicks', 'm.conversions' => 'conversions', 'm.activate_time' => 'activate_time', 'm.expire_time' => 'expire_time', 'm.weight' => 'weight', 'm.target_impression' => 'target_impression', 'm.target_click' => 'target_click', 'm.target_conversion' => 'target_conversion', 'm.anonymous' => 'anonymous'];
-            }
-            break;
-
-        case 'placement_tracker':
-            $aColumns += ['mt.campaign_trackerid' => 'placement_tracker_id', 'mt.campaignid' => 'placement_id', 'mt.trackerid' => 'tracker_id'];
-            if ($allFields) {
-                $aColumns += ['mt.status' => 'status', 'mt.viewwindow' => 'view_window', 'mt.clickwindow' => 'click_window'];
-            }
-            break;
-
-        case 'publisher':
-            $aColumns += ['p.affiliateid' => 'publisher_id', 'p.agencyid' => 'agency_id', 'p.name' => 'name'];
-            if ($allFields) {
-                $aColumns += ['p.mnemonic' => 'mnemonic', 'p.contact' => 'contact', 'p.email' => 'email', 'p.website' => 'website'];
-            }
-            break;
-
-        case 'stats':
-            $aColumns += ["DATE_FORMAT(date_time, '%Y-%m-%d')" => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions'];
-            break;
-
-        case 'stats_by_entity':
-            if (isset($aParams['include']) && is_array($aParams['include'])) {
-                if (array_search('advertiser_id', $aParams['include']) !== false) {
-                    $aColumns += ['m.clientid' => 'advertiser_id'];
+            case 'ad':
+                $aColumns += ['d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.status' => 'status', 'd.description' => 'name', 'd.storagetype' => 'type', 'd.ext_bannertype' => 'ext_bannertype'];
+                if ($allFields) {
+                    $aColumns += ['d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.statustext' => 'statustext', 'd.bannertext' => 'bannertext', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.prepend' => 'prepend', 'd.append' => 'append', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments', 'd.parameters' => 'parameters', 'd.transparent' => 'transparent'];
                 }
-                if (array_search('placement_id', $aParams['include']) !== false) {
-                    $aColumns += ['d.campaignid' => 'placement_id'];
+                break;
+
+            case 'advertiser':
+                $aColumns += ['a.clientid' => 'advertiser_id', 'a.agencyid' => 'agency_id', 'a.clientname' => 'name', 'a.type' => 'type'];
+                if ($allFields) {
+                    $aColumns += ['a.contact' => 'contact', 'a.email' => 'email', 'a.report' => 'report', 'a.reportinterval' => 'report_interval', 'a.reportlastdate' => 'report_last_date', 'a.reportdeactivate' => 'report_deactivate'];
                 }
-                if (array_search('publisher_id', $aParams['include']) !== false) {
-                    $aColumns += ['z.affiliateid' => 'publisher_id'];
+                break;
+
+            case 'ad_category_assoc':
+                $aColumns += ['ac.ad_category_assoc_id' => 'ad_category_assoc_id', 'ac.ad_id' => 'ad_id', 'ac.category_id' => 'category_id'];
+                break;
+
+            case 'ad_zone_assoc':
+                $aColumns += ['az.ad_zone_assoc_id' => 'ad_zone_assoc_id', 'az.ad_id' => 'ad_id', 'az.zone_id' => 'zone_id', 'az.priority' => 'priority'];
+                break;
+
+            case 'agency':
+                $aColumns += ['g.agencyid' => 'agency_id', 'g.name' => 'name', 'g.status' => 'status'];
+                if ($allFields) {
+                    $aColumns += [
+                    'g.contact' => 'contact',
+                    'g.email' => 'email',
+                    'g.logout_url' => 'logout_url'
+                    ];
                 }
-            }
+                break;
 
-            $compositeKey = self::sqlKeyConcat(["s.ad_id", "s.zone_id"]);
+            case 'campaign':
+                $aColumns += ['cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.anonymous' => 'anonymous', 'cam.type' => 'type'];
+                if ($allFields) {
+                    $aColumns += ['cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.views' => 'views', 'cam.clicks' => 'clicks', 'cam.conversions' => 'conversions', 'cam.priority' => 'priority', 'cam.weight' => 'weight', 'cam.target_impression' => 'target_impression', 'cam.target_click' => 'target_click', 'cam.target_conversion' => 'target_conversion', 'cam.anonymous' => 'anonymous', 'cam.companion' => 'companion', 'cam.comments' => 'comments', 'cam.revenue' => 'revenue', 'cam.revenue_type' => 'revenue_type', 'cam.updated' => 'updated', 'cam.block' => 'block', 'cam.capping' => 'capping', 'cam.session_capping' => 'session_capping', 'cam.activate_time' => 'activate_time', 'cam.expire_time' => 'expire_time', 'cam.show_capped_no_cookie' => 'show_capped_no_cookie'];
+                }
+                break;
 
-            $aColumns += [
-                $compositeKey => 'pkey',
-                's.ad_id' => 'ad_id',
-                's.zone_id' => 'zone_id'
-            ] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            case 'category':
+                $aColumns += ['cat.category_id' => 'category_id', 'cat.name' => 'name'];
+                break;
 
-            if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
-                $aColumns += $aParams['add_columns'];
-            }
+            case 'channel':
+                $aColumns += ['ch.channelid' => 'channel_id', 'ch.agencyid' => 'agency_id', 'ch.affiliateid' => 'publisher_id', 'ch.name' => 'name'];
+                if ($allFields) {
+                    $aColumns += ['ch.description' => 'description', 'ch.compiledlimitation' => 'compiledlimitation', 'ch.active' => 'active', 'ch.comments' => 'comments'];
+                }
+                break;
 
-            // Remove unused columns to avoid implicit group by
-            if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
-                if (array_search('ad_id', $aParams['exclude']) !== false) {
-                    unset($aColumns[$compositeKey]);
-                    unset($aColumns['s.ad_id']);
-                    if (array_search('zone_id', $aParams['exclude']) !== false) {
-                        unset($aColumns['s.zone_id']);
-                        if (count($aParams['include'])) {
-                            $tr = [
-                                'placement_id' => 'd.campaignid',
-                                'advertiser_id' => 'm.clientid',
-                                'publisher_id' => 'z.affiliateid'
-                            ];
-                            $aColumns[strtr(self::sqlKeyConcat($aParams['include']), $tr)] = 'pkey';
-                        } else {
-                            $aColumns["(0)"] = 'pkey';
-                        }
-                    } else {
-                        $aColumns["(s.zone_id)"] = 'pkey';
+            case 'channel_limitation':
+                $aColumns += ['chl.logical' => 'logical', 'chl.type' => 'type', 'chl.comparison' => 'comparison', 'chl.data' => 'data', 'chl.executionorder' => 'executionorder'];
+                break;
+
+            case 'image':
+                $aColumns += ['i.filename' => 'file_name'];
+                if ($allFields) {
+                    $aColumns += ['i.t_stamp' => 't_stamp', 'i.contents' => 'contents'];
+                }
+                break;
+
+            case 'limitation':
+                $aColumns += ['l.bannerid' => 'ad_id', 'l.logical' => 'logical', 'l.type' => 'type', 'l.comparison' => 'comparison', 'l.data' => 'data', 'l.executionorder' => 'executionorder'];
+                break;
+
+            case 'placement':
+                $aColumns += ['m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.status' => 'status', 'm.anonymous' => 'anonymous', 'm.priority' => 'priority',  'm.type' => 'mtype'];
+                if ($allFields) {
+                    $aColumns += ['m.views' => 'views', 'm.clicks' => 'clicks', 'm.conversions' => 'conversions', 'm.activate_time' => 'activate_time', 'm.expire_time' => 'expire_time', 'm.weight' => 'weight', 'm.target_impression' => 'target_impression', 'm.target_click' => 'target_click', 'm.target_conversion' => 'target_conversion', 'm.anonymous' => 'anonymous'];
+                }
+                break;
+
+            case 'placement_tracker':
+                $aColumns += ['mt.campaign_trackerid' => 'placement_tracker_id', 'mt.campaignid' => 'placement_id', 'mt.trackerid' => 'tracker_id'];
+                if ($allFields) {
+                    $aColumns += ['mt.status' => 'status', 'mt.viewwindow' => 'view_window', 'mt.clickwindow' => 'click_window'];
+                }
+                break;
+
+            case 'publisher':
+                $aColumns += ['p.affiliateid' => 'publisher_id', 'p.agencyid' => 'agency_id', 'p.name' => 'name'];
+                if ($allFields) {
+                    $aColumns += ['p.mnemonic' => 'mnemonic', 'p.contact' => 'contact', 'p.email' => 'email', 'p.website' => 'website'];
+                }
+                break;
+
+            case 'stats':
+                $aColumns += ["DATE_FORMAT(date_time, '%Y-%m-%d')" => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions'];
+                break;
+
+            case 'stats_by_entity':
+                if (isset($aParams['include']) && is_array($aParams['include'])) {
+                    if (array_search('advertiser_id', $aParams['include']) !== false) {
+                        $aColumns += ['m.clientid' => 'advertiser_id'];
                     }
-                } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
-                    unset($aColumns[$compositeKey]);
-                    unset($aColumns['s.zone_id']);
-                    $aColumns["(s.ad_id)"] = 'pkey';
+                    if (array_search('placement_id', $aParams['include']) !== false) {
+                        $aColumns += ['d.campaignid' => 'placement_id'];
+                    }
+                    if (array_search('publisher_id', $aParams['include']) !== false) {
+                        $aColumns += ['z.affiliateid' => 'publisher_id'];
+                    }
                 }
-            }
-            break;
 
-        case 'history_span':
-            if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
-                $aColumns += $aParams['custom_columns'];
-            } else {
-                $aColumns += ['MIN(s.date_time)' => 'start_date'];
-            }
-            break;
+                $compositeKey = self::sqlKeyConcat(["s.ad_id", "s.zone_id"]);
 
-        case 'targeting_span':
-            if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
-                $aColumns += $aParams['custom_columns'];
-            } else {
-                $aColumns += ['MIN(s.interval_start)' => 'start_date'];
-            }
-            break;
+                $aColumns += [
+                    $compositeKey => 'pkey',
+                    's.ad_id' => 'ad_id',
+                    's.zone_id' => 'zone_id'
+                ] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
 
-        case 'history_day_hour':
-            $aColumns += ['s.date_time' => 'date_time'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-            break;
+                if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
+                    $aColumns += $aParams['add_columns'];
+                }
 
-        case 'history_day':
-            $aColumns += ["DATE_FORMAT(s.date_time, , '%Y-%m-%d')" => 'day', "DATE_FORMAT(s.date_time, '{$GLOBALS['date_format']}')" => 'date_f'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-            break;
+                // Remove unused columns to avoid implicit group by
+                if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
+                    if (array_search('ad_id', $aParams['exclude']) !== false) {
+                        unset($aColumns[$compositeKey]);
+                        unset($aColumns['s.ad_id']);
+                        if (array_search('zone_id', $aParams['exclude']) !== false) {
+                            unset($aColumns['s.zone_id']);
+                            if (count($aParams['include'])) {
+                                $tr = [
+                                    'placement_id' => 'd.campaignid',
+                                    'advertiser_id' => 'm.clientid',
+                                    'publisher_id' => 'z.affiliateid'
+                                ];
+                                $aColumns[strtr(self::sqlKeyConcat($aParams['include']), $tr)] = 'pkey';
+                            } else {
+                                $aColumns["(0)"] = 'pkey';
+                            }
+                        } else {
+                            $aColumns["(s.zone_id)"] = 'pkey';
+                        }
+                    } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
+                        unset($aColumns[$compositeKey]);
+                        unset($aColumns['s.zone_id']);
+                        $aColumns["(s.ad_id)"] = 'pkey';
+                    }
+                }
+                break;
 
-        case 'history_month':
-            $aColumns += ["DATE_FORMAT(s.date_time, '%Y-%m')" => 'month', "DATE_FORMAT(s.date_time, '{$GLOBALS['month_format']}')" => 'date_f'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-            break;
+            case 'history_span':
+                if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
+                    $aColumns += $aParams['custom_columns'];
+                } else {
+                    $aColumns += ['MIN(s.date_time)' => 'start_date'];
+                }
+                break;
 
-        case 'history_dow':
-            $aColumns += ["(DAYOFWEEK(s.date_time) - 1)" => 'dow'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-            break;
+            case 'targeting_span':
+                if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
+                    $aColumns += $aParams['custom_columns'];
+                } else {
+                    $aColumns += ['MIN(s.interval_start)' => 'start_date'];
+                }
+                break;
 
-        case 'history_hour':
-            $aColumns += ["HOUR(s.date_time)" => 'hour'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-            break;
+            case 'history_day_hour':
+                $aColumns += ['s.date_time' => 'date_time'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+                break;
 
-        case 'stats_common':
-            if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
-                $aColumns += $aParams['custom_columns'];
-            } else {
-                $aColumns += ['SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions'];
-            }
+            case 'history_day':
+                $aColumns += ["DATE_FORMAT(s.date_time, , '%Y-%m-%d')" => 'day', "DATE_FORMAT(s.date_time, '{$GLOBALS['date_format']}')" => 'date_f'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+                break;
 
-            if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
-                $aColumns += $aParams['add_columns'];
-            }
-            break;
+            case 'history_month':
+                $aColumns += ["DATE_FORMAT(s.date_time, '%Y-%m')" => 'month', "DATE_FORMAT(s.date_time, '{$GLOBALS['month_format']}')" => 'date_f'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+                break;
 
-        case 'tracker':
-            $aColumns += ['t.clientid' => 'advertiser_id', 't.trackerid' => 'tracker_id', 't.trackername' => 'name'];
-            if ($allFields) {
-                $aColumns += ['t.description' => 'description', 't.viewwindow' => 'viewwindow', 't.clickwindow' => 'clickwindow', 't.blockwindow' => 'blockwindow', 't.variablemethod' => 'variablemethod', 't.appendcode' => 'appendcode'];
-            }
-            break;
+            case 'history_dow':
+                $aColumns += ["(DAYOFWEEK(s.date_time) - 1)" => 'dow'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+                break;
 
-        case 'variable':
-            $aColumns += ['v.variableid' => 'variable_id', 'v.trackerid' => 'tracker_id', 'v.name' => 'name', 'v.datatype' => 'type'];
-            if ($allFields) {
-                $aColumns += ['v.description' => 'description', 'v.variablecode' => 'variablecode'];
-            }
-            break;
+            case 'history_hour':
+                $aColumns += ["HOUR(s.date_time)" => 'hour'] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+                break;
 
-        case 'zone':
-            $aColumns += ['z.zoneid' => 'zone_id', 'z.affiliateid' => 'publisher_id', 'z.zonename' => 'name', 'z.delivery' => 'type'];
-            if ($allFields) {
-                $aColumns += ['z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.rate' => 'rate', 'z.pricing' => 'pricing', 'z.show_capped_no_cookie' => 'show_capped_no_cookie'];
-            }
-            break;
+            case 'stats_common':
+                if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
+                    $aColumns += $aParams['custom_columns'];
+                } else {
+                    $aColumns += ['SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions'];
+                }
 
-        case 'placement_zone_assoc':
-            $aColumns += ['pz.placement_zone_assoc_id' => 'placement_zone_assoc_id', 'pz.placement_id' => 'placement_id', 'pz.zone_id' => 'zone_id'];
-            break;
+                if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
+                    $aColumns += $aParams['add_columns'];
+                }
+                break;
+
+            case 'tracker':
+                $aColumns += ['t.clientid' => 'advertiser_id', 't.trackerid' => 'tracker_id', 't.trackername' => 'name'];
+                if ($allFields) {
+                    $aColumns += ['t.description' => 'description', 't.viewwindow' => 'viewwindow', 't.clickwindow' => 'clickwindow', 't.blockwindow' => 'blockwindow', 't.variablemethod' => 'variablemethod', 't.appendcode' => 'appendcode'];
+                }
+                break;
+
+            case 'variable':
+                $aColumns += ['v.variableid' => 'variable_id', 'v.trackerid' => 'tracker_id', 'v.name' => 'name', 'v.datatype' => 'type'];
+                if ($allFields) {
+                    $aColumns += ['v.description' => 'description', 'v.variablecode' => 'variablecode'];
+                }
+                break;
+
+            case 'zone':
+                $aColumns += ['z.zoneid' => 'zone_id', 'z.affiliateid' => 'publisher_id', 'z.zonename' => 'name', 'z.delivery' => 'type'];
+                if ($allFields) {
+                    $aColumns += ['z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.rate' => 'rate', 'z.pricing' => 'pricing', 'z.show_capped_no_cookie' => 'show_capped_no_cookie'];
+                }
+                break;
+
+            case 'placement_zone_assoc':
+                $aColumns += ['pz.placement_zone_assoc_id' => 'placement_zone_assoc_id', 'pz.placement_id' => 'placement_id', 'pz.zone_id' => 'zone_id'];
+                break;
         }
 
         $matchingEntitiesToFix = 'history_';
@@ -279,13 +278,18 @@ class SqlBuilder
     {
         $aColumns = ['SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions'];
         switch ($entity) {
-
-        case 'ad':         $aColumns += ['d.bannerid' => 'ad_id']; break;
-        case 'advertiser': $aColumns += ['a.clientid' => 'advertiser_id']; break;
-        case 'agency':     $aColumns += ['g.agencyid' => 'agency_id']; break;
-        case 'placement':  $aColumns += ['m.campaignid' => 'placement_id']; break;
-        case 'publisher':  $aColumns += ['p.affiliateid' => 'publisher_id']; break;
-        case 'zone':       $aColumns += ['z.zoneid' => 'zone_id']; break;
+            case 'ad':         $aColumns += ['d.bannerid' => 'ad_id'];
+                break;
+            case 'advertiser': $aColumns += ['a.clientid' => 'advertiser_id'];
+                break;
+            case 'agency':     $aColumns += ['g.agencyid' => 'agency_id'];
+                break;
+            case 'placement':  $aColumns += ['m.campaignid' => 'placement_id'];
+                break;
+            case 'publisher':  $aColumns += ['p.affiliateid' => 'publisher_id'];
+                break;
+            case 'zone':       $aColumns += ['z.zoneid' => 'zone_id'];
+                break;
         }
 
         return $aColumns;
@@ -305,379 +309,378 @@ class SqlBuilder
 
         $aTables = [];
         switch ($entity) {
-
-        case 'ad':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_anonymous'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if ($includeStats) {
-                if (!empty($aParams['publisher_id'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+            case 'ad':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
                 }
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
-            }
-            break;
-
-        case 'advertiser':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
-            if (!empty($aParams['placement_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_anonymous'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['ad_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_width'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_height'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['campaign_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if ($includeStats) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            break;
-
-        case 'ad_category_assoc':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['ad_category_assoc'] => 'ac'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] = 'a'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['placement_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_anonymous'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (isset($aParams['ad_width'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_height'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            break;
-
-        case 'ad_zone_assoc':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['ad_zone_assoc'] => 'az'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z', $conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
-            }
-            if (!empty($aParams['publisher_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['placement_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_anonymous'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['zone_inventory_forecast_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if (isset($aParams['ad_width'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_height'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            break;
-
-        case 'agency':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['agency'] => 'g'];
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
-            }
-            if (!empty($aParams['placement_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_anonymous'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['ad_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_width'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_height'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['publisher_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
-            }
-            if (!empty($aParams['zone_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if (!empty($aParams['zone_inventory_forecast_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if ($includeStats) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            break;
-
-        case 'campaign':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'cam'];
-
-            // no break
-        case 'category':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['category'] => 'cat'];
-            break;
-
-        case 'channel':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['channel'] => 'ch'];
-            break;
-
-        case 'channel_limitation':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['acls_channel'] => 'chl'];
-            break;
-
-        case 'image':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['images'] => 'i'];
-            break;
-
-        case 'limitation':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['acls'] => 'l'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] = 'a'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            break;
-
-        case 'placement':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
-            }
-            if (!empty($aParams['ad_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_width'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (isset($aParams['ad_height'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['ad_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if ($includeStats) {
-                if (!empty($aParams['publisher_id'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
                 }
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            break;
+                if (!empty($aParams['placement_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_anonymous'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if ($includeStats) {
+                    if (!empty($aParams['publisher_id'])) {
+                        $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                    }
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
+                }
+                break;
 
-        case 'placement_tracker':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns_trackers'] => 'mt'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
-            }
-            break;
+            case 'advertiser':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_anonymous'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['ad_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_width'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_height'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['campaign_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if ($includeStats) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                break;
 
-        case 'placement_zone_assoc':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['placement_zone_assoc'] => 'pz'];
-            if (!empty($aParams['ad_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
-            }
-            if (!empty($aParams['placement_active'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['placement_anonymous'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-            }
-            if (!empty($aParams['publisher_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if (!empty($aParams['zone_inventory_forecast_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            break;
-
-        case 'publisher':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
-            if (!empty($aParams['zone_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if (!empty($aParams['zone_inventory_forecast_type'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            }
-            if ($includeStats) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+            case 'ad_category_assoc':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['ad_category_assoc'] => 'ac'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] = 'a'];
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
                 if (!empty($aParams['placement_id'])) {
                     $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
                 }
-            }
-            break;
-
-        case 'history_span':
-        case 'history_day_hour':
-        case 'history_day':
-        case 'history_month':
-        case 'history_dow':
-        case 'history_hour':
-        case 'stats':
-            if (isset($aParams['custom_table'])) {
-                $aTables += [$conf['table']['prefix'] . $aParams['custom_table'] => 's'];
-            } else {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
-            }
-
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [
-                    $conf['table']['prefix'] . $conf['table']['clients'] => 'a',
-                    $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
-                    $conf['table']['prefix'] . $conf['table']['banners'] => 'd',
-                    $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p',
-                    $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
-                ];
-            }
-
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [
-                    $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
-                    $conf['table']['prefix'] . $conf['table']['banners'] => 'd'
-                ];
-            }
-            if (!empty($aParams['placement_id'])) {
-                $aTables += [
-                    $conf['table']['prefix'] . $conf['table']['banners'] => 'd'
-                ];
-            }
-            if (!empty($aParams['publisher_id'])) {
-                $aTables += [
-                    $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
-                ];
-            }
-            break;
-
-        case 'stats_by_entity':
-
-            if (isset($aParams['include']) && is_array($aParams['include'])) {
-                // Fake needed parameters
-                if (array_search('advertiser_id', $aParams['include']) !== false) {
-                    $aParams['advertiser_id'] = 1;
+                if (!empty($aParams['placement_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
                 }
-                if (array_search('placement_id', $aParams['include']) !== false) {
-                    $aParams['placement_id'] = 1;
+                if (!empty($aParams['placement_anonymous'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
                 }
-                if (array_search('publisher_id', $aParams['include']) !== false) {
-                    $aParams['publisher_id'] = 1;
+                if (isset($aParams['ad_width'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
                 }
-            }
-            $aTables += SqlBuilder::_getTables('stats', $aParams);
-            break;
+                if (isset($aParams['ad_height'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                break;
 
-        case 'tracker':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
-            }
-            if (!empty($aParams['ad_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['campaigns_trackers'] => 'mt'];
-            }
-            if (!empty($aParams['placement_id'])) {
+            case 'ad_zone_assoc':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['ad_zone_assoc'] => 'az'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z', $conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['placement_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_anonymous'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['zone_inventory_forecast_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if (isset($aParams['ad_width'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_height'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                break;
+
+            case 'agency':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['agency'] => 'g'];
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
+                }
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_anonymous'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['ad_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_width'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_height'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
+                }
+                if (!empty($aParams['zone_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if (!empty($aParams['zone_inventory_forecast_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if ($includeStats) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                break;
+
+            case 'campaign':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'cam'];
+
+                // no break
+            case 'category':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['category'] => 'cat'];
+                break;
+
+            case 'channel':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['channel'] => 'ch'];
+                break;
+
+            case 'channel_limitation':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['acls_channel'] => 'chl'];
+                break;
+
+            case 'image':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['images'] => 'i'];
+                break;
+
+            case 'limitation':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['acls'] => 'l'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] = 'a'];
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                break;
+
+            case 'placement':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
+                }
+                if (!empty($aParams['ad_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_width'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (isset($aParams['ad_height'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if (!empty($aParams['ad_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                if ($includeStats) {
+                    if (!empty($aParams['publisher_id'])) {
+                        $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                    }
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                }
+                break;
+
+            case 'placement_tracker':
                 $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns_trackers'] => 'mt'];
-            }
-            break;
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
+                }
+                break;
 
-        case 'variable':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['variables'] => 'v'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
-            }
-            break;
-
-        case 'zone':
-            $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
-            if (!empty($aParams['agency_id'])) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
-            }
-            if ($includeStats) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
-            }
-            if ($includeStats) {
-                $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
-                if (!empty($aParams['placement_id'])) {
+            case 'placement_zone_assoc':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['placement_zone_assoc'] => 'pz'];
+                if (!empty($aParams['ad_id'])) {
                     $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
                 }
-            }
-            break;
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
+                }
+                if (!empty($aParams['placement_active'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['placement_anonymous'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if (!empty($aParams['zone_inventory_forecast_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                break;
+
+            case 'publisher':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
+                if (!empty($aParams['zone_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if (!empty($aParams['zone_inventory_forecast_type'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                }
+                if ($includeStats) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                    if (!empty($aParams['placement_id'])) {
+                        $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                    }
+                }
+                break;
+
+            case 'history_span':
+            case 'history_day_hour':
+            case 'history_day':
+            case 'history_month':
+            case 'history_dow':
+            case 'history_hour':
+            case 'stats':
+                if (isset($aParams['custom_table'])) {
+                    $aTables += [$conf['table']['prefix'] . $aParams['custom_table'] => 's'];
+                } else {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
+                }
+
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [
+                        $conf['table']['prefix'] . $conf['table']['clients'] => 'a',
+                        $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
+                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd',
+                        $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p',
+                        $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
+                    ];
+                }
+
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [
+                        $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
+                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd'
+                    ];
+                }
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += [
+                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd'
+                    ];
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    $aTables += [
+                        $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
+                    ];
+                }
+                break;
+
+            case 'stats_by_entity':
+
+                if (isset($aParams['include']) && is_array($aParams['include'])) {
+                    // Fake needed parameters
+                    if (array_search('advertiser_id', $aParams['include']) !== false) {
+                        $aParams['advertiser_id'] = 1;
+                    }
+                    if (array_search('placement_id', $aParams['include']) !== false) {
+                        $aParams['placement_id'] = 1;
+                    }
+                    if (array_search('publisher_id', $aParams['include']) !== false) {
+                        $aParams['publisher_id'] = 1;
+                    }
+                }
+                $aTables += SqlBuilder::_getTables('stats', $aParams);
+                break;
+
+            case 'tracker':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a'];
+                }
+                if (!empty($aParams['ad_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['campaigns_trackers'] => 'mt'];
+                }
+                if (!empty($aParams['placement_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns_trackers'] => 'mt'];
+                }
+                break;
+
+            case 'variable':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['variables'] => 'v'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['clients'] => 'a', $conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['trackers'] => 't'];
+                }
+                break;
+
+            case 'zone':
+                $aTables += [$conf['table']['prefix'] . $conf['table']['zones'] => 'z'];
+                if (!empty($aParams['agency_id'])) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['affiliates'] => 'p'];
+                }
+                if ($includeStats) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
+                }
+                if ($includeStats) {
+                    $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
+                    if (!empty($aParams['placement_id'])) {
+                        $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
+                    }
+                }
+                break;
         }
         return $aTables;
     }
@@ -757,324 +760,323 @@ class SqlBuilder
         }
 
         switch ($entity) {
+            case 'ad':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+                }
+                break;
 
-        case 'ad':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
-            }
-            break;
+            case 'advertiser':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'a.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+                }
+                break;
 
-        case 'advertiser':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'a.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
-            }
-            break;
+            case 'ad_category_assoc':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'ac.ad_id', $aParams['ad_id']);
+                }
+                if (!empty($aParams['ad_category_assoc_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_category_assoc_id', 'ac.ad_category_assoc_id', $aParams['ad_category_assoc_id']);
+                }
+                break;
 
-        case 'ad_category_assoc':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'ac.ad_id', $aParams['ad_id']);
-            }
-            if (!empty($aParams['ad_category_assoc_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_category_assoc_id', 'ac.ad_category_assoc_id', $aParams['ad_category_assoc_id']);
-            }
-            break;
+            case 'ad_zone_assoc':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['zone_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'az.zone_id', $aParams['zone_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'az.ad_id', $aParams['ad_id']);
+                }
+                if (!empty($aParams['ad_zone_assoc_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_zone_assoc_id', 'az.ad_zone_assoc_id', $aParams['ad_zone_assoc_id']);
+                }
+                break;
 
-        case 'ad_zone_assoc':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['zone_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'az.zone_id', $aParams['zone_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'az.ad_id', $aParams['ad_id']);
-            }
-            if (!empty($aParams['ad_zone_assoc_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_zone_assoc_id', 'az.ad_zone_assoc_id', $aParams['ad_zone_assoc_id']);
-            }
-            break;
+            case 'agency':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'g.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'a.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'p.affiliateid', $aParams['publisher_id']);
+                }
+                if (!empty($aParams['zone_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
+                }
+                break;
 
-        case 'agency':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'g.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'a.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
-            }
-            if (!empty($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'p.affiliateid', $aParams['publisher_id']);
-            }
-            if (!empty($aParams['zone_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
-            }
-            break;
+            case 'campaign':
+                if (!empty($aParams['client_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'client_id', 'cam.clientid', $aParams['client_id']);
+                }
+                break;
 
-        case 'campaign':
-            if (!empty($aParams['client_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'client_id', 'cam.clientid', $aParams['client_id']);
-            }
-            break;
+            case 'category':
+                if (!empty($aParams['name'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'name', 'cat.name', $aParams['name']);
+                }
+                break;
 
-        case 'category':
-            if (!empty($aParams['name'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'name', 'cat.name', $aParams['name']);
-            }
-            break;
+            case 'channel':
+                if (isset($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', $aParams['publisher_id']);
+                } elseif (isset($aParams['channel_type']) && $aParams['channel_type'] == 'publisher') {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0, MAX_LIMITATION_NOT_EQUAL);
+                }
+                if (!empty($aParams['channel_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'channel_id', 'ch.channelid', $aParams['channel_id']);
+                }
+                if (isset($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'agencyid', $aParams['agency_id']);
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0);
+                }
+                break;
 
-        case 'channel':
-            if (isset($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', $aParams['publisher_id']);
-            } elseif (isset($aParams['channel_type']) && $aParams['channel_type'] == 'publisher') {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0, MAX_LIMITATION_NOT_EQUAL);
-            }
-            if (!empty($aParams['channel_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'channel_id', 'ch.channelid', $aParams['channel_id']);
-            }
-            if (isset($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'agencyid', $aParams['agency_id']);
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0);
-            }
-            break;
+            case 'channel_limitation':
+                if (!empty($aParams['channel_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'channel_id', 'chl.channelid', $aParams['channel_id']);
+                }
+                break;
 
-        case 'channel_limitation':
-            if (!empty($aParams['channel_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'channel_id', 'chl.channelid', $aParams['channel_id']);
-            }
-            break;
+            case 'image':
+                if (!empty($aParams['file_name'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'file_name', 'i.filename', $aParams['file_name']);
+                }
+                break;
 
-        case 'image':
-            if (!empty($aParams['file_name'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'file_name', 'i.filename', $aParams['file_name']);
-            }
-            break;
+            case 'limitation':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'l.bannerid', $aParams['ad_id']);
+                }
+                break;
 
-        case 'limitation':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'l.bannerid', $aParams['ad_id']);
-            }
-            break;
+            case 'placement':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+                }
+                break;
 
-        case 'placement':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'm.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
-            }
-            break;
+            case 'placement_tracker':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 't.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['tracker_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'tracker_id', 'mt.trackerid', $aParams['tracker_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'mt.campaignid', $aParams['placement_id']);
+                }
+                break;
 
-        case 'placement_tracker':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 't.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['tracker_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'tracker_id', 'mt.trackerid', $aParams['tracker_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'mt.campaignid', $aParams['placement_id']);
-            }
-            break;
+            case 'placement_zone_assoc':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['zone_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'pz.zone_id', $aParams['zone_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'pz.placement_id', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+                }
+                if (!empty($aParams['placement_zone_assoc_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_zone_assoc_id', 'pz.placement_zone_assoc_id', $aParams['placement_zone_assoc_id']);
+                }
+                break;
 
-        case 'placement_zone_assoc':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['zone_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'pz.zone_id', $aParams['zone_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'pz.placement_id', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
-            }
-            if (!empty($aParams['placement_zone_assoc_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_zone_assoc_id', 'pz.placement_zone_assoc_id', $aParams['placement_zone_assoc_id']);
-            }
-            break;
+            case 'publisher':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'p.affiliateid', $aParams['publisher_id']);
+                }
+                if (!empty($aParams['zone_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
+                }
+                break;
 
-        case 'publisher':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'p.affiliateid', $aParams['publisher_id']);
-            }
-            if (!empty($aParams['zone_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
-            }
-            break;
+            case 'history_span':
+            case 'history_day_hour':
+            case 'history_day':
+            case 'history_month':
+            case 'history_dow':
+            case 'history_hour':
+            case 'stats':
+                if (!empty($aParams['agency_id'])) {
+                    $aLimitations[] = "(a.agencyid = {$aParams['agency_id']} OR p.agencyid = {$aParams['agency_id']})";
+                }
 
-        case 'history_span':
-        case 'history_day_hour':
-        case 'history_day':
-        case 'history_month':
-        case 'history_dow':
-        case 'history_hour':
-        case 'stats':
-            if (!empty($aParams['agency_id'])) {
-                $aLimitations[] = "(a.agencyid = {$aParams['agency_id']} OR p.agencyid = {$aParams['agency_id']})";
-            }
+                if (!empty($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
+                }
+                if (isset($aParams['zone_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
+                }
+                if (isset($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
+                }
 
-            if (!empty($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-            }
-            if (isset($aParams['zone_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-            }
-            if (isset($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
-            }
+                if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
+                    $dateTimeCol = "s.tracker_date_time";
+                } else {
+                    $dateTimeCol = "s.date_time";
+                }
+                if (!empty($aParams['day_begin'])) {
+                    $aLimitations[] = "{$dateTimeCol}>='" . SqlBuilder::_dayToDateTime($aParams['day_begin'], true) . "'";
+                }
+                if (!empty($aParams['day_end'])) {
+                    $aLimitations[] = "{$dateTimeCol}<='" . SqlBuilder::_dayToDateTime($aParams['day_end'], false) . "'";
+                }
 
-            if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
-                $dateTimeCol = "s.tracker_date_time";
-            } else {
-                $dateTimeCol = "s.date_time";
-            }
-            if (!empty($aParams['day_begin'])) {
-                $aLimitations[] = "{$dateTimeCol}>='" . SqlBuilder::_dayToDateTime($aParams['day_begin'], true) . "'";
-            }
-            if (!empty($aParams['day_end'])) {
-                $aLimitations[] = "{$dateTimeCol}<='" . SqlBuilder::_dayToDateTime($aParams['day_end'], false) . "'";
-            }
+                break;
 
-            break;
+            case 'stats_by_entity':
+                $aLimitations += SqlBuilder::_getLimitations('stats', $aParams);
+                if (isset($aParams['zone_id']) && $aParams['zone_id'] == 0) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', 0);
+                }
+                break;
 
-        case 'stats_by_entity':
-            $aLimitations += SqlBuilder::_getLimitations('stats', $aParams);
-            if (isset($aParams['zone_id']) && $aParams['zone_id'] == 0) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', 0);
-            }
-            break;
+            case 'tracker':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 't.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['tracker_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'tracker_id', 't.trackerid', $aParams['tracker_id']);
+                }
+                if (!empty($aParams['placement_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'mt.campaignid', $aParams['placement_id']);
+                }
+                if (!empty($aParams['ad_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
+                }
+                break;
 
-        case 'tracker':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 't.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['tracker_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'tracker_id', 't.trackerid', $aParams['tracker_id']);
-            }
-            if (!empty($aParams['placement_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'mt.campaignid', $aParams['placement_id']);
-            }
-            if (!empty($aParams['ad_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
-            }
-            break;
+            case 'variable':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['advertiser_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 't.clientid', $aParams['advertiser_id']);
+                }
+                if (!empty($aParams['tracker_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'tracker_id', 'v.trackerid', $aParams['tracker_id']);
+                }
+                if (!empty($aParams['variable_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'variable_id', 'v.variableid', $aParams['variable_id']);
+                }
+                break;
 
-        case 'variable':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['advertiser_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 't.clientid', $aParams['advertiser_id']);
-            }
-            if (!empty($aParams['tracker_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'tracker_id', 'v.trackerid', $aParams['tracker_id']);
-            }
-            if (!empty($aParams['variable_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'variable_id', 'v.variableid', $aParams['variable_id']);
-            }
-            break;
-
-        case 'zone':
-            if (!empty($aParams['agency_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
-            }
-            if (!empty($aParams['publisher_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
-            }
-            if (isset($aParams['zone_id'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
-            }
-            if (isset($aParams['zone_type'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_type', 'z.delivery', $aParams['zone_type']);
-            }
-            if (isset($aParams['zone_width'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_width', 'z.width', $aParams['zone_width']);
-            }
-            if (isset($aParams['zone_height'])) {
-                SqlBuilder::_addLimitation($aLimitations, 'zone_height', 'z.height', $aParams['zone_height']);
-            }
-            break;
+            case 'zone':
+                if (!empty($aParams['agency_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
+                }
+                if (!empty($aParams['publisher_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
+                }
+                if (isset($aParams['zone_id'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
+                }
+                if (isset($aParams['zone_type'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_type', 'z.delivery', $aParams['zone_type']);
+                }
+                if (isset($aParams['zone_width'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_width', 'z.width', $aParams['zone_width']);
+                }
+                if (isset($aParams['zone_height'])) {
+                    SqlBuilder::_addLimitation($aLimitations, 'zone_height', 'z.height', $aParams['zone_height']);
+                }
+                break;
         }
         return $aLimitations;
     }
@@ -1117,15 +1119,15 @@ class SqlBuilder
             $aLimitations[] = "$columnName IN ($value)";
         } else {
             switch ($comparison_type) {
-            case MAX_LIMITATION_NOT_EQUAL:
-                $aLimitations[] = "$columnName != $value";
-                break;
-            case MAX_LIMITATION_BITWISE:
-                $aLimitations[] = "($columnName & $value > 0)";
-                break;
-            default:
-                $aLimitations[] = "$columnName = $value";
-                break;
+                case MAX_LIMITATION_NOT_EQUAL:
+                    $aLimitations[] = "$columnName != $value";
+                    break;
+                case MAX_LIMITATION_BITWISE:
+                    $aLimitations[] = "($columnName & $value > 0)";
+                    break;
+                default:
+                    $aLimitations[] = "$columnName = $value";
+                    break;
             }
         }
     }
@@ -1266,11 +1268,16 @@ class SqlBuilder
     {
         $aGroupColumns = [];
         switch ($entity) {
-            case 'history_day_hour': $aGroupColumns[] = 'date_time'; break;
-            case 'history_day':      $aGroupColumns[] = 'day'; break;
-            case 'history_month':    $aGroupColumns[] = 'month'; break;
-            case 'history_dow':      $aGroupColumns[] = 'dow'; break;
-            case 'history_hour':     $aGroupColumns[] = 'hour'; break;
+            case 'history_day_hour': $aGroupColumns[] = 'date_time';
+                break;
+            case 'history_day':      $aGroupColumns[] = 'day';
+                break;
+            case 'history_month':    $aGroupColumns[] = 'month';
+                break;
+            case 'history_dow':      $aGroupColumns[] = 'dow';
+                break;
+            case 'history_hour':     $aGroupColumns[] = 'hour';
+                break;
 
             case 'stats_by_entity':
                 $aGroupColumns = ['ad_id', 'zone_id'];
@@ -1297,35 +1304,34 @@ class SqlBuilder
         $conf = $GLOBALS['_MAX']['CONF'];
         $aLeftJoinedTables = [];
         switch ($entity) {
-
-        case 'stats_by_entity':
-            if (isset($aParams['exclude']) && !empty($aParams['agency_id'])) {
-                if (array_search('ad_id', $aParams['exclude']) !== false) {
-                    // include blanks and deleted entities in the stats
-                    $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
-                    $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
-                    $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
+            case 'stats_by_entity':
+                if (isset($aParams['exclude']) && !empty($aParams['agency_id'])) {
+                    if (array_search('ad_id', $aParams['exclude']) !== false) {
+                        // include blanks and deleted entities in the stats
+                        $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
+                        $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
+                        $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
+                    }
+                    if (array_search('zone_id', $aParams['exclude']) !== false) {
+                        // include direct selection and deleted entities in the stats
+                        $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
+                        $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['affiliates']] = 'p';
+                    }
                 }
-                if (array_search('zone_id', $aParams['exclude']) !== false) {
-                    // include direct selection and deleted entities in the stats
-                    $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
-                    $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['affiliates']] = 'p';
-                }
-            }
-            break;
-        case 'history_span':
-        case 'history_day_hour':
-        case 'history_day':
-        case 'history_month':
-        case 'history_dow':
-        case 'history_hour':
-            // include blanks, direct selection and deleted entities in history stats
-            $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
-            $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
-            $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
-            $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
-            $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['affiliates']] = 'p';
-            break;
+                break;
+            case 'history_span':
+            case 'history_day_hour':
+            case 'history_day':
+            case 'history_month':
+            case 'history_dow':
+            case 'history_hour':
+                // include blanks, direct selection and deleted entities in history stats
+                $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
+                $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
+                $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
+                $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
+                $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['affiliates']] = 'p';
+                break;
         }
 
         return count($aLeftJoinedTables) ? $aLeftJoinedTables : null;
@@ -1483,7 +1489,7 @@ class SqlBuilder
 
         $query = $columns . $tables . $where . $group;
         // var_dump($query);
-        return  SqlBuilder::_query($query, $primaryKey);
+        return SqlBuilder::_query($query, $primaryKey);
     }
 
     /**

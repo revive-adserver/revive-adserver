@@ -161,9 +161,7 @@ EOF
         return true;
     }
 
-    public function buildHtmlTemplate($aFields)
-    {
-    }
+    public function buildHtmlTemplate($aFields) {}
 
     /**
      * Modify the generated banner cache.

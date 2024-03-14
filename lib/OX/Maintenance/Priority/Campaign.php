@@ -219,18 +219,18 @@ class OX_Maintenance_Priority_Campaign
         }
 
         // Store the required supplied values
-        $this->id = (int)($aParams['placement_id'] ?? 0);
+        $this->id = (int) ($aParams['placement_id'] ?? 0);
 
         // Store the optional required values
         $this->activateTime = isset($aParams['activate_time']) ? $aParams['activate_time'] : null;
         $this->expireTime = isset($aParams['expire_time']) ? $aParams['expire_time'] : null;
-        $this->impressionTargetTotal = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
-        $this->clickTargetTotal = isset($aParams['click_target_total']) ? (int)$aParams['click_target_total'] : 0;
-        $this->conversionTargetTotal = isset($aParams['conversion_target_total']) ? (int)$aParams['conversion_target_total'] : 0;
-        $this->impressionTargetDaily = isset($aParams['impression_target_daily']) ? (int)$aParams['impression_target_daily'] : 0;
-        $this->clickTargetDaily = isset($aParams['click_target_daily']) ? (int)$aParams['click_target_daily'] : 0;
-        $this->conversionTargetDaily = isset($aParams['conversion_target_daily']) ? (int)$aParams['conversion_target_daily'] : 0;
-        $this->priority = isset($aParams['priority']) ? (int)$aParams['priority'] : 0;
+        $this->impressionTargetTotal = isset($aParams['impression_target_total']) ? (int) $aParams['impression_target_total'] : 0;
+        $this->clickTargetTotal = isset($aParams['click_target_total']) ? (int) $aParams['click_target_total'] : 0;
+        $this->conversionTargetTotal = isset($aParams['conversion_target_total']) ? (int) $aParams['conversion_target_total'] : 0;
+        $this->impressionTargetDaily = isset($aParams['impression_target_daily']) ? (int) $aParams['impression_target_daily'] : 0;
+        $this->clickTargetDaily = isset($aParams['click_target_daily']) ? (int) $aParams['click_target_daily'] : 0;
+        $this->conversionTargetDaily = isset($aParams['conversion_target_daily']) ? (int) $aParams['conversion_target_daily'] : 0;
+        $this->priority = isset($aParams['priority']) ? (int) $aParams['priority'] : 0;
 
         // Set the object's data access layer objects
         $this->oMaxDalEntities = $this->_getMAX_Dal_Entities();
@@ -294,10 +294,10 @@ class OX_Maintenance_Priority_Campaign
     public function setSummaryStatisticsToDate()
     {
         $aStats = $this->oMaxDalMaintenancePriority->getCampaignStats($this->id, false);
-        $this->deliveredRequests = (int)($aStats['sum_requests'] ?? 0);
-        $this->deliveredImpressions = (int)($aStats['sum_views'] ?? 0);
-        $this->deliveredClicks = (int)($aStats['sum_clicks'] ?? 0);
-        $this->deliveredConversions = (int)($aStats['sum_conversions'] ?? 0);
+        $this->deliveredRequests = (int) ($aStats['sum_requests'] ?? 0);
+        $this->deliveredImpressions = (int) ($aStats['sum_views'] ?? 0);
+        $this->deliveredClicks = (int) ($aStats['sum_clicks'] ?? 0);
+        $this->deliveredConversions = (int) ($aStats['sum_conversions'] ?? 0);
     }
 
     /**
@@ -310,10 +310,10 @@ class OX_Maintenance_Priority_Campaign
     public function setSummaryStatisticsToday($today)
     {
         $aStats = $this->oMaxDalMaintenancePriority->getCampaignStats($this->id, true, $today);
-        $this->deliveredRequests = (int)($aStats['sum_requests'] ?? 0);
-        $this->deliveredImpressions = (int)($aStats['sum_views'] ?? 0);
-        $this->deliveredClicks = (int)($aStats['sum_clicks'] ?? 0);
-        $this->deliveredConversions = (int)($aStats['sum_conversions'] ?? 0);
+        $this->deliveredRequests = (int) ($aStats['sum_requests'] ?? 0);
+        $this->deliveredImpressions = (int) ($aStats['sum_views'] ?? 0);
+        $this->deliveredClicks = (int) ($aStats['sum_clicks'] ?? 0);
+        $this->deliveredConversions = (int) ($aStats['sum_conversions'] ?? 0);
     }
 
     /**

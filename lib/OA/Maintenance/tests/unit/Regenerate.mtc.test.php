@@ -20,12 +20,12 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
     {
         DataGenerator::cleanUp();
     }
-    
+
     public function testClearIntermediateAndSummaryTables()
     {
         $oStartDate = new Date('2006-05-09 13:00:00');
         $oEndDate = new Date('2006-05-09 13:59:59');
-       
+
         $aTestDates = [ 1 => [ 'start' => new Date('2006-05-09 13:10:00'), 'end' => new Date('2006-05-09 13:14:59')],
                               2 => [ 'start' => new Date('2006-05-09 12:00:00'), 'end' => new Date('2006-05-09 12:59:59')],
                               3 => [ 'start' => new Date('2006-05-09 13:55:00'), 'end' => new Date('2006-05-09 12:59:59')] ];
@@ -35,20 +35,20 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
             $doIntermediateAdConnection = OA_Dal::factoryDO('data_intermediate_ad_connection');
             $doIntermediateAdConnection->tracker_date_time = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
             $aIntermediateAdConnectionId[$key] = DataGenerator::generateOne($doIntermediateAdConnection);
-            
+
             $doDataIntermediateAdVariableValue = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
             $doDataIntermediateAdVariableValue->data_intermediate_ad_connection_id = $aIntermediateAdConnectionId[$key];
             $aDataIntermediateAdVariableValueId[$key] = DataGenerator::generateOne($doDataIntermediateAdVariableValue);
-            
+
             $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
             $doDataIntermediateAd->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
             $doDataIntermediateAd->interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
             $aDataIntermediateAdId[$key] = DataGenerator::generateOne($doDataIntermediateAd);
-            
+
             $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
             $doDataSummaryAdHourly->date_time = $aDates['start']->format('%Y-%m-%d %H:00:00');
             $aDataSummaryAdHourlyId[$key] = DataGenerator::generateOne($doDataSummaryAdHourly);
-            
+
             $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
             $doDataSummaryAdZoneAssoc->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
             $doDataSummaryAdZoneAssoc->interval_end = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
@@ -65,19 +65,19 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
             $adoDataSummaryAdHourly[$key] = OA_Dal::staticGetDO('data_summary_ad_hourly', $aDataSummaryAdHourlyId[$key]);
             $adoDataSummaryAdZoneAssoc[$key] = OA_Dal::staticGetDO('data_summary_ad_zone_assoc', $aDataSummaryAdZoneAssocId[$key]);
         }
-        
+
         $this->assertFalse($adoIntermediateAdConnection[1]);
         $this->assertFalse($adoDataIntermediateAdVariableValue[1]);
         $this->assertFalse($adoDataIntermediateAd[1]);
         $this->assertFalse($adoDataSummaryAdHourly[1]);
         $this->assertFalse($adoDataSummaryAdZoneAssoc[1]);
-        
+
         $this->assertNotNull($adoIntermediateAdConnection[2]);
         $this->assertNotNull($adoDataIntermediateAdVariableValue[2]);
         $this->assertNotNull($adoDataIntermediateAd[2]);
         $this->assertNotNull($adoDataSummaryAdHourly[2]);
         $this->assertNotNull($adoDataSummaryAdZoneAssoc[2]);
-        
+
         $this->assertFalse($adoIntermediateAdConnection[3]);
         $this->assertFalse($adoDataIntermediateAdVariableValue[3]);
         $this->assertFalse($adoDataIntermediateAd[3]);

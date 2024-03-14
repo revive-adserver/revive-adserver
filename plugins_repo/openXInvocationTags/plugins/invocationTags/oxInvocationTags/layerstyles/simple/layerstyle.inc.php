@@ -114,18 +114,24 @@ function MAX_adlayers_place_<?php echo $uniqid; ?>()
     echo "\t\t c[_s].left = parseInt(sl+";
 
     switch ($align) {
-        case 'left': 		echo abs($shifth); break;
-        case 'center':		echo '(iw - ' . $layer_width . ') / 2 +' . $shifth; break;
-        default: 			echo 'iw - ' . ($layer_width + abs($shifth)); break;
+        case 'left': 		echo abs($shifth);
+            break;
+        case 'center':		echo '(iw - ' . $layer_width . ') / 2 +' . $shifth;
+            break;
+        default: 			echo 'iw - ' . ($layer_width + abs($shifth));
+            break;
     }
 
     echo ") + (window.opera?'':'px');" .
         "\n\t\t c[_s].top = parseInt(st+";
 
     switch ($valign) {
-        case 'middle': 		echo '(ih - ' . $layer_height . ') / 2 +' . $shiftv; break;
-        case 'bottom':		echo 'ih - ' . ($layer_height + abs($shiftv)); break;
-        default: 			echo abs($shiftv); break;
+        case 'middle': 		echo '(ih - ' . $layer_height . ') / 2 +' . $shiftv;
+            break;
+        case 'bottom':		echo 'ih - ' . ($layer_height + abs($shiftv));
+            break;
+        default: 			echo abs($shiftv);
+            break;
     }
     echo ") + (window.opera?'':'px');\n"; ?>
 

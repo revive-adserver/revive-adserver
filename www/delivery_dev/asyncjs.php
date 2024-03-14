@@ -30,7 +30,7 @@ header("ETag: {$etag}");
 
 // The browser is allowed to cache this
 if (!empty($conf['delivery']['assetClientCacheExpire'])) {
-    $expire = (int)$conf['delivery']['assetClientCacheExpire'];
+    $expire = (int) $conf['delivery']['assetClientCacheExpire'];
 
     header("Expire: " . gmdate('D, d M Y H:i:s \G\M\T', MAX_commonGetTimeNow() + $expire));
     header("Cache-Control: private, max-age={$expire}");

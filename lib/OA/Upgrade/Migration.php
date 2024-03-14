@@ -57,9 +57,9 @@ class Migration
         //$this->__construct();
     }
 
-//    function __construct()
-//    {
-//    }
+    //    function __construct()
+    //    {
+    //    }
 
     public function init($oDbh, $logfile = '')
     {
@@ -224,37 +224,37 @@ class Migration
      * @param string $toColumn
      * @return boolean
      */
-//    function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
-//    {
-//        $prefix = $this->getPrefix();
-//        $statement  = $this->aSQLStatements['table_select'];
-//        $query      = sprintf($statement, $fromColumn, $prefix.$fromTable);
-//        //$query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
-//        $this->_log('select query prepared: '.$query);
-//        $aData  = $this->oDBH->queryCol($query);
-//
-//        $statement  = $this->aSQLStatements['table_insert'];
-//        $query      = sprintf($statement, $prefix.$fromTable, $toColumn, '(:data)');
-//        //$query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
-//        $stmt   = $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
-//        if (PEAR::isError($stmt))
-//        {
-//            $this->_logError('error preparing statement: '.$stmt->getUserInfo());
-//            return false;
-//        }
-//        $this->_log('statement prepared '.$query);
-//        foreach ($aData AS $k=>$v)
-//        {
-//            $result = $stmt->execute(array('data' => $v));
-//            if (PEAR::isError($result)) {
-//                $this->_logError('error executing statement: '.$stmt->getUserInfo());
-//                return false;
-//            }
-//            $this->affectedRows++;
-//        }
-//        $stmt->free();
-//        return true;
-//    }
+    //    function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
+    //    {
+    //        $prefix = $this->getPrefix();
+    //        $statement  = $this->aSQLStatements['table_select'];
+    //        $query      = sprintf($statement, $fromColumn, $prefix.$fromTable);
+    //        //$query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
+    //        $this->_log('select query prepared: '.$query);
+    //        $aData  = $this->oDBH->queryCol($query);
+    //
+    //        $statement  = $this->aSQLStatements['table_insert'];
+    //        $query      = sprintf($statement, $prefix.$fromTable, $toColumn, '(:data)');
+    //        //$query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
+    //        $stmt   = $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
+    //        if (PEAR::isError($stmt))
+    //        {
+    //            $this->_logError('error preparing statement: '.$stmt->getUserInfo());
+    //            return false;
+    //        }
+    //        $this->_log('statement prepared '.$query);
+    //        foreach ($aData AS $k=>$v)
+    //        {
+    //            $result = $stmt->execute(array('data' => $v));
+    //            if (PEAR::isError($result)) {
+    //                $this->_logError('error executing statement: '.$stmt->getUserInfo());
+    //                return false;
+    //            }
+    //            $this->affectedRows++;
+    //        }
+    //        $stmt->free();
+    //        return true;
+    //    }
 
     /**
      * @param string $fromTable

@@ -26,14 +26,14 @@ abstract class DbTestCase extends UnitTestCase
      *
      * @var OA_DB_Table
      */
-    var $oaTable;
+    public $oaTable;
 
     /**
      * Initializes the $oaTable with the default db schema
      * ('/etc/tables_core.xml').
      * @see #initOaTable()
      */
-    function setUp()
+    public function setUp()
     {
         $this->initOaTable('/etc/tables_core.xml');
     }
@@ -41,7 +41,7 @@ abstract class DbTestCase extends UnitTestCase
     /**
      * Truncates all the tables in the database.
      */
-    function tearDown()
+    public function tearDown()
     {
         $this->oaTable->truncateAllTables();
     }
@@ -53,12 +53,11 @@ abstract class DbTestCase extends UnitTestCase
      *
      * @param unknown_type $schemaPath
      */
-    function initOaTable($schemaPath)
+    public function initOaTable($schemaPath)
     {
         $this->oaTable = new OA_DB_Table();
         $result = $this->oaTable->init(MAX_PATH . $schemaPath);
-        if (PEAR::isError($result))
-        {
+        if (PEAR::isError($result)) {
             return false;
         }
         return true;
@@ -69,18 +68,15 @@ abstract class DbTestCase extends UnitTestCase
      *
      * @param array $aTables Names of the tables to be created.
      */
-    function initTables($aTables)
+    public function initTables($aTables)
     {
-        foreach ($aTables as $table)
-        {
+        foreach ($aTables as $table) {
             $result = $this->oaTable->createTable($table);
-            if (PEAR::isError($result))
-            {
+            if (PEAR::isError($result)) {
                 return false;
             }
             $result = $this->oaTable->truncateTable($table);
-            if (PEAR::isError($result))
-            {
+            if (PEAR::isError($result)) {
                 return false;
             }
         }
@@ -88,9 +84,8 @@ abstract class DbTestCase extends UnitTestCase
     }
 
 
-    function getPrefix()
+    public function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 }
-?>

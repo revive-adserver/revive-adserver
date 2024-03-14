@@ -83,7 +83,7 @@ class Admin_DaTest extends DalUnitTestCase
                 && isset($stats[1]['sum_views'])
                 && isset($stats[1]['sum_clicks'])
                 && isset($stats[1]['sum_conversions'])
-                );
+        );
     }
 
 
@@ -170,11 +170,9 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue($ret > 0);
     }
 
-    public function test_select()
-    {
-    }
+    public function test_select() {}
 
-//    $aActiveAdvertisers = Admin_DA::_getEntities('advertiser', $aParams
+    //    $aActiveAdvertisers = Admin_DA::_getEntities('advertiser', $aParams
 
 
     // +---------------------------------------+

@@ -15,9 +15,7 @@ require_once MAX_PATH . '/etc/changesfantasy/script_tables_core_parent.php';
 class postscript_tables_core_999100 extends script_tables_core_parent
 {
     public $script;
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute_constructive($aParams)
     {

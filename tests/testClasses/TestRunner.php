@@ -36,28 +36,28 @@ class TestRunner
      *
      * One of 'auto', 'xml', 'text', or 'html'
      */
-    var $output_format_name = 'auto';
+    public $output_format_name = 'auto';
 
     /**
      * @var string The type of tests being run.
      *
      * One of 'unit', 'integration', or maybe others.
      */
-    var $test_type_name = 'unit';
+    public $test_type_name = 'unit';
 
     /**
      * @var string The level at which testing should be directed.
      *
      * One of 'all', 'layer', 'folder' or 'file'.
      */
-    var $test_level_name = 'sdh';
+    public $test_level_name = 'sdh';
 
     /**
      * @var string A folder (relative to the OpenX root) containing tests to run.
      *
      * It should not include a leading '/'.
      */
-    var $test_folder_name = '';
+    public $test_folder_name = '';
 
     /**
      * @var string A base filename containing tests to run.
@@ -65,22 +65,22 @@ class TestRunner
      * Stored as a full filename without path, such as
      * "example.dal.test.php"
      */
-    var $test_file_name;
+    public $test_file_name;
 
     /**
      * @var string The host which should be used for tests
      */
-    var $host;
+    public $host;
 
     /** @var int The number of times any run has failed.
      * @todo Consider querying report object instead of storing failures.
      */
-    var $_failed_runs = 0;
+    public $_failed_runs = 0;
 
     /**
      * Constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->findDefaults();
         TestEnv::backupConfig();
@@ -89,7 +89,7 @@ class TestRunner
     /**
      * A method to run all the tests in the OpenX project.
      */
-    function runAll()
+    public function runAll()
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         foreach ($GLOBALS['_MAX']['TEST'][$type . '_layers'] as $layer => $data) {
@@ -103,7 +103,7 @@ class TestRunner
      *
      * @param string $layer The layer group to run.
      */
-    function runLayer($layer)
+    public function runLayer($layer)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         // Set up the environment for the test
@@ -133,7 +133,7 @@ class TestRunner
      * @param string $layer  The layer group to run.
      * @param string $folder The folder group to run.
      */
-    function runFolder($layer, $folder)
+    public function runFolder($layer, $folder)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         // Set up the environment for the test
@@ -162,7 +162,7 @@ class TestRunner
      * @param string $folder The folder group to run, not including "tests/unit"
      * @param string $file   The file to run, including ".test.php"
      */
-    function runFile($layer, $folder, $file)
+    public function runFile($layer, $folder, $file)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         // Set up the environment for the test
@@ -193,16 +193,16 @@ class TestRunner
      * @param string $file   The file to run, including ".test.php". Optional.
      * @return string The display string for the test.
      */
-    function _testName($layer, $folder = null, $file = null)
+    public function _testName($layer, $folder = null, $file = null)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $name = strtoupper($type) . ': ';
         $name .= $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
         if (is_null($folder) && is_null($file)) {
             $name .= ' Tests';
-        } else if (!is_null($folder) && is_null($file)) {
+        } elseif (!is_null($folder) && is_null($file)) {
             $name .= ': Tests in ' . $folder;
-        } else if (!is_null($folder) && !is_null($file)) {
+        } elseif (!is_null($folder) && !is_null($file)) {
             $name .= ': ' . $folder . '/' . $file;
         }
         return $name;
@@ -216,7 +216,7 @@ class TestRunner
      * @param string $layer  The name of a layer group to run.
      * @return string The secondary display string for the test.
      */
-    function _secondaryTestName($layer)
+    public function _secondaryTestName($layer)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $runType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
@@ -284,7 +284,7 @@ class TestRunner
      *
      * @param string $layer The layer the test/s is/are in.
      */
-    function teardownEnv($layer)
+    public function teardownEnv($layer)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $envType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
@@ -306,12 +306,12 @@ class TestRunner
      * @todo Deprecate the $_GET compatibility, moving $_GET parameter handling
      * to a subclass.
      */
-    function findDefaults()
+    public function findDefaults()
     {
         $con = new Console_Getopt();
         $args = $con->readPHPArgv();
         array_shift($args);
-        $options = $con->getopt2($args, array(), array('format=', 'type=', 'level=', 'layer=', 'folder=', 'file=', 'dir=', 'host='));
+        $options = $con->getopt2($args, [], ['format=', 'type=', 'level=', 'layer=', 'folder=', 'file=', 'dir=', 'host=']);
         if (PEAR::isError($options)) {
             PEAR::raiseError($args);
             die(254);
@@ -320,8 +320,7 @@ class TestRunner
             $name_with_dashes = $option[0];
             $name = str_replace('--', '', $name_with_dashes);
             $value = $option[1];
-            switch ($name)
-            {
+            switch ($name) {
                 case 'format':
                     $this->output_format_name = $value;
                     break;
@@ -352,7 +351,7 @@ class TestRunner
     /**
      * @return SimpleReporter
      */
-    function createReporter()
+    public function createReporter()
     {
         $format = $this->output_format_name;
         switch ($format) {
@@ -369,7 +368,7 @@ class TestRunner
     /**
      * @return SimpleReporter
      */
-    function _createDefaultReporter()
+    public function _createDefaultReporter()
     {
         if (SimpleReporter::inCli()) {
             $reporter = new TextReporter();
@@ -388,7 +387,7 @@ class TestRunner
      * @todo Stop creating an individual reporter for each run, in case a client
      * calls this method multiple times.
      */
-    function runCase($test_case)
+    public function runCase($test_case)
     {
         $reporter = $this->createReporter();
         $test_case->run($reporter);
@@ -401,12 +400,12 @@ class TestRunner
     /**
      * @return bool True if this runner has seen any test failing.
      */
-    function hasFailures()
+    public function hasFailures()
     {
         return $this->_failed_runs > 0;
     }
 
-    function exitWithCode()
+    public function exitWithCode()
     {
         TestEnv::removeBackupConfig();
 
@@ -420,33 +419,21 @@ class TestRunner
 
 function array_diff_assoc_recursive($array1, $array2)
 {
-    foreach($array1 as $key => $value)
-    {
-        if(is_array($value))
-        {
-              if(!isset($array2[$key]))
-              {
-                  $difference[$key] = $value;
-              }
-              elseif(!is_array($array2[$key]))
-              {
-                  $difference[$key] = $value;
-              }
-              else
-              {
-                  $new_diff = array_diff_assoc_recursive($value, $array2[$key]);
-                  if($new_diff != FALSE)
-                  {
-                        $difference[$key] = $new_diff;
-                  }
-              }
-          }
-          elseif(!isset($array2[$key]) || $array2[$key] != $value)
-          {
-              $difference[$key] = $value;
-          }
+    foreach ($array1 as $key => $value) {
+        if (is_array($value)) {
+            if (!isset($array2[$key])) {
+                $difference[$key] = $value;
+            } elseif (!is_array($array2[$key])) {
+                $difference[$key] = $value;
+            } else {
+                $new_diff = array_diff_assoc_recursive($value, $array2[$key]);
+                if ($new_diff != false) {
+                    $difference[$key] = $new_diff;
+                }
+            }
+        } elseif (!isset($array2[$key]) || $array2[$key] != $value) {
+            $difference[$key] = $value;
+        }
     }
     return !isset($difference) ? 0 : $difference;
 }
-
-?>

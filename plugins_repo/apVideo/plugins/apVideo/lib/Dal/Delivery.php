@@ -22,7 +22,7 @@ class AP_Video_Dal_Delivery
 {
     public static function getAdDetails($adId)
     {
-        $adId = (int)$adId;
+        $adId = (int) $adId;
         $aResult = [
             'alt_media' => [],
             'impression_trackers' => [],

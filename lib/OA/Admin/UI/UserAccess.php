@@ -69,7 +69,7 @@ class OA_Admin_UI_UserAccess
         );
         // Sanitize userid
         if (!empty($this->request['userid'])) {
-            $this->request['userid'] = (int)$this->request['userid'];
+            $this->request['userid'] = (int) $this->request['userid'];
         }
         $this->userid = $this->request['userid'];
         if (isset($this->request['permissions'])) {

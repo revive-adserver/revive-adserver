@@ -30,7 +30,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
     public function _getLock($iWaitTime)
     {
         $aParams = unserialize($this->_sId);
-        $iWaitTime = (int)$iWaitTime;
+        $iWaitTime = (int) $iWaitTime;
 
         // Acquire lock
         $bAcquired = $this->oDbh->extended->getOne(
@@ -85,7 +85,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         $sVersion = $this->oDbh->extended->getOne("SELECT VERSION()");
         $sVersion = preg_replace('/^.*?(\d+\.\d+(\.\d+)?).*$/', '$1', $sVersion);
 
-        return (bool)version_compare($sVersion, '8.2', '>=');
+        return (bool) version_compare($sVersion, '8.2', '>=');
     }
 
     /**

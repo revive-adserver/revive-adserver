@@ -162,9 +162,8 @@ google_color_text = "333333";
 
     public function selectAllAdsenseBanners()
     {
-
-/*SELECT b.bannerid, b.subtype, b.description, b.width, b.height, g.gas_publisher_id, g.gas_ad_type, g.gas_ad_subtype, b.htmltemplate
-FROM ox_banners b
-LEFT JOIN ox_banners_ox_adsense g ON  g.bannerid = b.bannerid*/
+        /*SELECT b.bannerid, b.subtype, b.description, b.width, b.height, g.gas_publisher_id, g.gas_ad_type, g.gas_ad_subtype, b.htmltemplate
+        FROM ox_banners b
+        LEFT JOIN ox_banners_ox_adsense g ON  g.bannerid = b.bannerid*/
     }
 }

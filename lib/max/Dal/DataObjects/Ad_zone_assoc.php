@@ -128,8 +128,8 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
         $aAuditFields['key_desc'] = 'Ad #' . $this->ad_id . ' -> Zone #' . $this->zone_id;
         switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['bannerid'] = $this->ad_id;
-                        break;
+                $aAuditFields['bannerid'] = $this->ad_id;
+                break;
         }
     }
 }

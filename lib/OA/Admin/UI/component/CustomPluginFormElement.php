@@ -23,8 +23,8 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
     private $pluginName;
     private $templateId;
     private $visible;
-    
-    
+
+
     /**
      * Class constructor
      *
@@ -40,7 +40,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
             $name = $elementName;
             $templateId = $elementName;
         }
-        
+
         parent::__construct($name, $elementLabel);
         $this->_type = 'plugin-custom';
         $this->pluginName = $pluginName;
@@ -48,8 +48,8 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
         $this->vars = $vars;
         $this->visible = true;
     }
-    
-    
+
+
     /**
      * Returns custom variables and values assigned to this element.
      * This items are used during rendering phase of custom element
@@ -59,8 +59,8 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
     {
         return $this->templateId;
     }
-    
-    
+
+
     /**
      * Returns custom variables and values assigned to this element.
      * This items are used during rendering phase of custom element
@@ -70,7 +70,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
     {
         return $this->vars;
     }
-    
+
 
     /**
      * Returns a plugin name
@@ -80,7 +80,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
     {
         return $this->pluginName;
     }
-    
+
 
     /**
      * Returns if this element is visible and thus should generate a break
@@ -89,8 +89,8 @@ class OA_Admin_UI_Component_CustomPluginFormElement extends HTML_QuickForm_stati
     {
         return $this->visible;
     }
-    
-   
+
+
     /**
      * Accepts a renderer
      *

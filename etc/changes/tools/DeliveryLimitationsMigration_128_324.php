@@ -86,13 +86,9 @@ class DeliveryLimitationsUpgradeArray extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Client_Browser extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Client_Browser extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Client_Domain extends DeliveryLimitationsUpgrade
-{
-}
+class Upgrade_DeliveryLimitations_Client_Domain extends DeliveryLimitationsUpgrade {}
 
 class Upgrade_DeliveryLimitations_Client_Ip extends DeliveryLimitationsUpgrade
 {
@@ -156,9 +152,7 @@ class Upgrade_DeliveryLimitations_Client_Language extends DeliveryLimitationsUpg
     }
 }
 
-class Upgrade_DeliveryLimitations_Client_Os extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Client_Os extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Client_Useragent extends DeliveryLimitationsUpgrade
 {
@@ -212,21 +206,13 @@ class Upgrade_DeliveryLimitations_Geo_City extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Geo_Continent extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Continent extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Geo_Country extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Country extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Geo_Dma extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Dma extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Geo_Latlong extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Latlong extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Geo_Netspeed extends DeliveryLimitationsUpgrade
 {
@@ -289,9 +275,7 @@ class Upgrade_DeliveryLimitations_Geo_Region extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Site_Channel extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Site_Channel extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Site_Pageurl extends DeliveryLimitationsUpgrade
 {
@@ -317,9 +301,7 @@ class Upgrade_DeliveryLimitations_Site_Source extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Site_Variable extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Site_Variable extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
 {
@@ -352,13 +334,9 @@ class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Time_Day extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Time_Day extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeArray {}
 
 // UPGRADE/DOWNGRADE helper functions
 
@@ -381,7 +359,7 @@ function MAX_limitationsGetAUpgradeForString($op, $sData)
         || preg_match('#^\\*[^\\*]+$#', $sData)
         || preg_match('#^[^\\*]+\\*$#', $sData)
         || preg_match('#[^\\*]+\\*[^\\**]+#', $sData)
-        ) {
+    ) {
         $sData = str_replace('(', '\\(', $sData);
         $sData = str_replace(')', '\\)', $sData);
         $sData = str_replace('.', '\\.', $sData);

@@ -118,13 +118,13 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         $aParams['publisher_id'] = $publisherId;
 
         // Limit by advertiser
-        $advertiserId = (int)MAX_getValue('clientid', '');
+        $advertiserId = (int) MAX_getValue('clientid', '');
         if (!empty($advertiserId)) {
             $aParams['advertiser_id'] = $advertiserId;
         }
 
         // Limit by advertiser
-        $advertiserId = (int)MAX_getValue('clientid', '');
+        $advertiserId = (int) MAX_getValue('clientid', '');
         if (!empty($advertiserId)) {
             $aParams['advertiser_id'] = $advertiserId;
         }

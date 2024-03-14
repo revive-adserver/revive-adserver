@@ -41,11 +41,11 @@ function insert_OA_Admin_UI_CustomFooter()
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
-    
+
     if (!empty($aConf['ui']['footerFilePath'])) {
         ob_start();
         include($aConf['ui']['footerFilePath']);
-        
+
         return ob_get_clean();
     }
 

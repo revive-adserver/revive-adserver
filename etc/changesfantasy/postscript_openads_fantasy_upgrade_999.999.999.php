@@ -16,17 +16,15 @@ class OA_UpgradePostscript
 {
     public $oUpgrade;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];
-//        if (PEAR::isError(true))
-//        {
-//            return false;
-//        }
+        //        if (PEAR::isError(true))
+        //        {
+        //            return false;
+        //        }
         return true;
     }
 }

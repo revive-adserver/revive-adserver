@@ -39,7 +39,7 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         //		require_once MAX_PATH . '/lib/max/Delivery/common.php';
         // note: following code to extract test data from db
-//      require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+        //      require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
         //	    $return = _adRenderImage($aBanner, $zoneId, $source, $target, $ct0, $withText, $logClick, $logView, $richMedia, $loc, $referer, $context);
         //		$this->assertEqual($return, $result);
 

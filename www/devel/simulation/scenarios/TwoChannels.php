@@ -44,7 +44,7 @@ class TwoChannels extends SimulationScenario
         //$this->runMaintenance();
         $this->printPostSummary();
         $this->printSummaryData();
-//        var_dump($this->aVarDump);
+        //        var_dump($this->aVarDump);
     }
 
     public function saveChannelInfo()

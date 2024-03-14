@@ -263,8 +263,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     public function getDaysLeftString($campaignId)
     {
         global $date_format, $strNoExpiration, $strDaysLeft, $strEstimated,
-               $strExpirationDate, $strNoExpirationEstimation, $strDaysAgo,
-               $strCampaignStop;
+        $strExpirationDate, $strNoExpirationEstimation, $strDaysAgo,
+        $strCampaignStop;
 
         $prefix = $this->getTablePrefix();
 
@@ -387,11 +387,11 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         if ($existExpirationDate) {
             // has the expiration date been reached?
-            if ((int)$aCampaignData['days_left'] < 0) {
+            if ((int) $aCampaignData['days_left'] < 0) {
                 $aReturn['campaignExpiration'] = $strCampaignStop . ": " .
                                                  $aCampaignData['expire_f'];
                 $aReturn['campaignExpiration'] = $aReturn['campaignExpiration'] .
-                                                 " (" . abs((int)round($aCampaignData['days_left'])) .
+                                                 " (" . abs((int) round($aCampaignData['days_left'])) .
                                                  " $strDaysAgo)";
             } else {
                 $aReturn['campaignExpiration'] = $strExpirationDate . ": " .
@@ -418,7 +418,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                     $compareDate = Date::compare($aExpiration['date'], $campaignExpirationDate);
                     // the estimated expiration date is previous or equal to the
                     // campaign expiration date and hasn't the expiration date been reached?
-                    if (($compareDate <= 0) && ((int)$aCampaignData['days_left'] >= 0)) {
+                    if (($compareDate <= 0) && ((int) $aCampaignData['days_left'] >= 0)) {
                         $showEtimatedDate = true;
                     }
                 }
@@ -517,7 +517,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aIncludeSystemTypes
         );
         foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);
         }
 
         $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=" . DBC::makeLiteral($keyword) : '';
@@ -783,7 +783,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aIncludeSystemTypes
         );
         foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);
         }
         return $aIncludeSystemTypes;
     }

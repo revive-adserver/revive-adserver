@@ -58,7 +58,7 @@ function OA_Dal_Delivery_getAccountTZs()
     $res = OA_Dal_Delivery_query($query);
 
     if (OA_Dal_Delivery_isValidResult($res) && OA_Dal_Delivery_numRows($res)) {
-        $adminAccountId = (int)OA_Dal_Delivery_result($res, 0, 0);
+        $adminAccountId = (int) OA_Dal_Delivery_result($res, 0, 0);
     } else {
         $adminAccountId = false;
     }
@@ -84,7 +84,7 @@ function OA_Dal_Delivery_getAccountTZs()
     ];
     if (OA_Dal_Delivery_isValidResult($res)) {
         while ($row = OA_Dal_Delivery_fetchAssoc($res)) {
-            $accountId = (int)$row['account_id'];
+            $accountId = (int) $row['account_id'];
             if ($accountId === $adminAccountId) {
                 $aResult['default'] = $row['timezone'];
             } else {
@@ -111,7 +111,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    $zoneid = (int) $zoneid;
 
     // Get the zone information
     $query = "
@@ -330,9 +330,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     }
 
     // Last try, see if there is a system-wide default banner defined
-//    if (empty($aZoneInfo['default_banner_image_url']) && !empty($aConf['defaultBanner']['imageUrl'])) {
-//        $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
-//    }
+    //    if (empty($aZoneInfo['default_banner_image_url']) && !empty($aConf['defaultBanner']['imageUrl'])) {
+    //        $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
+    //    }
 
     // Done, at last!
     return $aZoneInfo;
@@ -350,7 +350,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $publisherid = (int)$publisherid;
+    $publisherid = (int) $publisherid;
 
     $rZones = OA_Dal_Delivery_query("
     SELECT
@@ -395,7 +395,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    $zoneid = (int) $zoneid;
 
     $aRows = OA_Dal_Delivery_getZoneInfo($zoneid);
 
@@ -494,7 +494,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
             c.status <= 0
     ";
 
-//    $query = OA_Dal_Delivery_buildQuery('', '', '');
+    //    $query = OA_Dal_Delivery_buildQuery('', '', '');
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!OA_Dal_Delivery_isValidResult($rAds)) {
@@ -571,7 +571,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    $zoneid = (int) $zoneid;
 
     $aRows['xAds'] = [];
     $aRows['ads'] = [];
@@ -679,7 +679,7 @@ function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart =
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $campaignid = (int)$campaignid;
+    $campaignid = (int) $campaignid;
 
     $precondition = $campaignid > 0 ? " AND d.campaignid = '" . $campaignid . "' " : '';
 
@@ -748,7 +748,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $campaignid = (int)$campaignid;
+    $campaignid = (int) $campaignid;
 
     $precondition = $campaignid > 0 ? " AND d.campaignid = '" . $campaignid . "' " : '';
 
@@ -842,7 +842,7 @@ function OA_Dal_Delivery_getAd($ad_id)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $ad_id = (int)$ad_id;
+    $ad_id = (int) $ad_id;
 
     $query = "
         SELECT
@@ -924,7 +924,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $channelid = (int)$channelid;
+    $channelid = (int) $channelid;
 
     $rLimitation = OA_Dal_Delivery_query("
     SELECT
@@ -978,7 +978,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    $trackerid = (int) $trackerid;
 
     $rTracker = OA_Dal_Delivery_query("
         SELECT
@@ -1008,7 +1008,7 @@ function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    $trackerid = (int) $trackerid;
 
     $rCreatives = OA_Dal_Delivery_query("
         SELECT
@@ -1051,7 +1051,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    $trackerid = (int) $trackerid;
 
     $rVariables = OA_Dal_Delivery_query("
         SELECT
@@ -1217,8 +1217,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             if ($part_array[$k] != '' && $part_array[$k] != ' ') {
                 // Banner dimensions, updated to support 2.3-only size keyword
                 if (preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m)) {
-                    $width = (int)$m[1];
-                    $height = (int)$m[2];
+                    $width = (int) $m[1];
+                    $height = (int) $m[2];
 
                     if ($operator == 'OR') {
                         $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
@@ -1233,9 +1233,9 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Banner Width
                 elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1275,9 +1275,9 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Banner Height
                 elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1317,7 +1317,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Banner ID, updated to support 2.3-only adid or ad_id
                 elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $bannerid = (int)$m[1];
+                    $bannerid = (int) $m[1];
 
                     if ($bannerid) {
                         if ($operator == 'OR') {
@@ -1334,7 +1334,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Campaign ID
                 elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $campaignid = (int)$m[1];
+                    $campaignid = (int) $m[1];
 
                     if ($campaignid) {
                         if ($operator == 'OR') {
@@ -1515,8 +1515,8 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             if ($part_array[$k] != '' && $part_array[$k] != ' ') {
                 // Banner dimensions, updated to support 2.3-only size keyword
                 if (preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m)) {
-                    $width = (int)$m[1];
-                    $height = (int)$m[2];
+                    $width = (int) $m[1];
+                    $height = (int) $m[2];
 
                     if ($operator == 'OR') {
                         $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
@@ -1531,9 +1531,9 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Banner Width
                 elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1573,9 +1573,9 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Banner Height
                 elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1615,7 +1615,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Banner ID, updated to support 2.3-only adid or ad_id
                 elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $bannerid = (int)$m[1];
+                    $bannerid = (int) $m[1];
 
                     if ($bannerid) {
                         if ($operator == 'OR') {
@@ -1632,7 +1632,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Campaign ID
                 elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $campaignid = (int)$m[1];
+                    $campaignid = (int) $m[1];
 
                     if ($campaignid) {
                         if ($operator == 'OR') {
@@ -1812,7 +1812,7 @@ function _getTotalPrioritiesByCP($aAdsByCP, $includeBlank = true)
         foreach ($aAds as $key => $aAd) {
             // MPE assigne a certain amount of priority to this banner,
             // remove it from the blank priority
-            $blank_priority -= (float)$aAd['priority'];
+            $blank_priority -= (float) $aAd['priority'];
             $priority = $aAd['to_be_delivered'] ? $aAd['priority'] * $aAd['priority_factor'] : 0.00001;
             // Add the calculated priority number to the total for this
             // campaign priority level.

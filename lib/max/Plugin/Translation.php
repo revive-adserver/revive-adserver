@@ -130,12 +130,12 @@ class MAX_Plugin_Translation
         // First try and get a translation from the specific group...
         if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group][$key])) {
             return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$group][$key];
-        // If there is no specific translation fall back to the extension...
-        // Check it is not an array in case the key is the same as the group name.
+            // If there is no specific translation fall back to the extension...
+            // Check it is not an array in case the key is the same as the group name.
         } elseif (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$key])
             && !is_array($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$key])) {
             return $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$extension][$key];
-        // If all else fails, give up and return the un-translated string
+            // If all else fails, give up and return the un-translated string
         } else {
             return $key;
         }

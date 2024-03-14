@@ -84,18 +84,17 @@ function phpAds_userlogSetUser($usertype)
 
 function phpAds_UserlogSelection($subSection, $mainSection = 'userlog')
 {
-    global
-         $phpAds_TextDirection
-        ,$strBanners
-        ,$strCache
-        ,$strChooseSection
-        ,$strPriority
-        ,$strSourceEdit
-        ,$strStats
-        ,$strStorage
-        ,$strMaintenance
-        ,$strCheckForUpdates
-        ,$strViewPastUpdates
+    global $phpAds_TextDirection
+    ,$strBanners
+    ,$strCache
+    ,$strChooseSection
+    ,$strPriority
+    ,$strSourceEdit
+    ,$strStats
+    ,$strStorage
+    ,$strMaintenance
+    ,$strCheckForUpdates
+    ,$strViewPastUpdates
     ;
 
     require_once MAX_PATH . '/lib/max/language/Loader.php';

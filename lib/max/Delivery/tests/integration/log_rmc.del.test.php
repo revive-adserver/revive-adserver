@@ -56,7 +56,6 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
         ];
 
         foreach ($aTables as $function => $table) {
-
             // Test to ensure that the openXDeliveryLog plugin's data bucket
             // table does not exist
             $oTable = new OA_DB_Table();
@@ -73,7 +72,6 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
         TestEnv::installPluginPackage('openXDeliveryLog', false);
 
         foreach ($aTables as $function => $table) {
-
             // Test to ensure that the openXDeliveryLog plugin's data bucket
             // table now does exist
             $tableExists = $oTable->extistsTable($aConf['table']['prefix'] . $table);

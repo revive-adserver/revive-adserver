@@ -62,7 +62,6 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($this->oController && $this->oController->updateIntermediate) {
-
             // Locate all plugin components which may require bucket data to be
             // migrated from bucket tables to statistics tables
             $aSummariseComponents = $this->_locateComponents();
@@ -429,7 +428,6 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         $doApplication_variable->value = '1';
         $doApplication_variable->find();
         if ($doApplication_variable->getRowCount() > 0) {
-
             // The "mse_process_raw" application variable flag has been set
             $message = "- The " . PRODUCT_NAME . " maintenance process has detected that it is running immediately after";
             OA::debug($message, PEAR_LOG_INFO);

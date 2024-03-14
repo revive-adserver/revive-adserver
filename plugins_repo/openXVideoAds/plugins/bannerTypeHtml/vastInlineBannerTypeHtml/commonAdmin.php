@@ -145,7 +145,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
             $doBanners->banner_id = $bannerid;
             return $doBanners->insert();
         } else {
-            $doBanners->whereAdd('banner_vast_element_id=' . (int)$rowId, 'AND');
+            $doBanners->whereAdd('banner_vast_element_id=' . (int) $rowId, 'AND');
             return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
     }
@@ -178,7 +178,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $query = "SELECT d.* FROM " . $tblB . " b"
             . " LEFT JOIN " . $tblD . " d ON b.bannerid = d.banner_id"
             . " WHERE b.ext_bannertype = '" . $this->getComponentIdentifier() . "'"
-            . " AND b.bannerid = " . (int)$bannerId;
+            . " AND b.bannerid = " . (int) $bannerId;
         $joinedResult = $oDbh->queryAll($query, null, MDB2_FETCHMODE_ASSOC, false, false, true);
         return $joinedResult;
     }

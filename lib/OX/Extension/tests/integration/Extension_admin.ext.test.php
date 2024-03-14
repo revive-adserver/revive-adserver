@@ -15,9 +15,7 @@ require_once(LIB_PATH . '/Extension/admin.php');
 
 class Test_OX_Extension_admin extends UnitTestCase
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function test_cacheMergedMenu()
     {

@@ -31,9 +31,7 @@ class OA_BaseUpgradeAuditor
 
     public $aParams = [];
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function init($oDbh = '', $oLogger = '')
     {

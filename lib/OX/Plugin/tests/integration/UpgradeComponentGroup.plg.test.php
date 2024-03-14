@@ -38,13 +38,9 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
         $this->aUpload['tmp_name'] = MAX_PATH . $this->testpathData . $this->aUpload['name'];
     }
 
-    public function setUp()
-    {
-    }
+    public function setUp() {}
 
-    public function tearDown()
-    {
-    }
+    public function tearDown() {}
 
     public function test_canUpgrade()
     {

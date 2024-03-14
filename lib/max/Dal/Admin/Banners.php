@@ -104,7 +104,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             //remove market banners
             $query .= " WHERE (ext_bannertype <> " . DBC::makeLiteral(DataObjects_Banners::BANNER_TYPE_MARKET) . " OR ext_bannertype IS NULL)";
         }
-        
+
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
         return $this->oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
@@ -154,8 +154,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         $aBanners = $this->_rekeyBannersArray($aBanners);
         return $aBanners;
     }
-    
-    
+
+
     /**
      * @param int $campaignid
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
@@ -183,7 +183,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             $row_banners['type'] = $row_banners['storagetype'];
             $aBanners[$row_banners['bannerid']] = $row_banners;
         }
-        
+
         return $aBanners;
     }
 

@@ -456,8 +456,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         $aAuditFields['key_desc'] = $this->campaignname;
         switch ($actionid) {
             case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['clientid'] = $this->clientid;
-                        break;
+                $aAuditFields['clientid'] = $this->clientid;
+                break;
         }
     }
 

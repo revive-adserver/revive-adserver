@@ -84,7 +84,6 @@ abstract class Test_OA_BaseUpgradeAuditor extends UnitTestCase
 
     public function test_updateAuditAction()
     {
-
         // to be written!
     }
 

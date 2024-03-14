@@ -16,7 +16,7 @@ $oTpl = new OA_Plugin_Template('testPlugin.html', 'testPlugin');
 
 if (isset($_REQUEST['action']) &&
      isset($GLOBALS['_MAX']['CONF']['testPlugin'][$_REQUEST['action']])
-    ) {
+) {
     $otestPluginTable = OA_Dal::factoryDO('testplugin_table');
     $otestPluginTable->testplugin_id = $GLOBALS['_MAX']['CONF']['testPlugin'][$_REQUEST['action']];
     $otestPluginTable->find(true);

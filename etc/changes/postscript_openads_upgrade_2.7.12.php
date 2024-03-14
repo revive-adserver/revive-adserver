@@ -38,9 +38,7 @@ class OA_UpgradePostscript_2_7_12_dev
     public $prefix;
     public $tblCampaigns;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function execute($aParams)
     {

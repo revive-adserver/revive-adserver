@@ -24,7 +24,7 @@ class OA_Admin_UI_Component_CustomFormElement extends HTML_QuickForm_static
     private $vars;
     private $visible;
     private $templateId;
-    
+
     /**
      * Class constructor
      *
@@ -40,7 +40,7 @@ class OA_Admin_UI_Component_CustomFormElement extends HTML_QuickForm_static
             $name = $elementName;
             $templateId = $elementName;
         }
-        
+
         parent::__construct($name, $elementLabel);
         $this->_type = 'custom';
         $this->templateId = $templateId;
@@ -58,8 +58,8 @@ class OA_Admin_UI_Component_CustomFormElement extends HTML_QuickForm_static
     {
         return $this->vars;
     }
-    
-    
+
+
     /**
      * Returns custom variables and values assigned to this element.
      * This items are used during rendering phase of custom element
@@ -69,8 +69,8 @@ class OA_Admin_UI_Component_CustomFormElement extends HTML_QuickForm_static
     {
         return $this->templateId;
     }
-    
-    
+
+
     /**
      * Returns if this element is visible and thus should generate a break
      */
@@ -78,9 +78,9 @@ class OA_Admin_UI_Component_CustomFormElement extends HTML_QuickForm_static
     {
         return $this->visible;
     }
-    
-    
-    
+
+
+
     /**
      * Accepts a renderer
      *

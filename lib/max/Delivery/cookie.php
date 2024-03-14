@@ -410,15 +410,18 @@ function MAX_cookieClientCookieFlush()
         switch ($cookieName) {
             case $conf['var']['blockAd']:
             case $conf['var']['blockCampaign']:
-            case $conf['var']['blockZone']: $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['blockZone']: $expire = _getTimeThirtyDaysFromNow();
+                break;
             case $conf['var']['lastClick']:
             case $conf['var']['lastView']:
             case $conf['var']['capAd']:
             case $conf['var']['capCampaign']:
-            case $conf['var']['capZone']: $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['capZone']: $expire = _getTimeYearFromNow();
+                break;
             case $conf['var']['sessionCapCampaign']:
             case $conf['var']['sessionCapAd']:
-            case $conf['var']['sessionCapZone']: $expire = 0; break;
+            case $conf['var']['sessionCapZone']: $expire = 0;
+                break;
         }
         if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
             $data = [];

@@ -163,7 +163,7 @@ class OX_Maintenance
     {
         $iLastRun = OA_Dal_ApplicationVariables::get('maintenance_timestamp');
         if ($iLastRun) {
-            return new Date((int)$iLastRun);
+            return new Date((int) $iLastRun);
         }
 
         return null;
@@ -178,7 +178,7 @@ class OX_Maintenance
     {
         $iLastRun = OA_Dal_ApplicationVariables::get('maintenance_cron_timestamp');
         if ($iLastRun) {
-            return new Date((int)$iLastRun);
+            return new Date((int) $iLastRun);
         }
 
         return null;
@@ -191,7 +191,7 @@ class OX_Maintenance
      *
      * @return boolean
      */
-    public function isMidnightMaintenance(Date $oLastRun = null)
+    public function isMidnightMaintenance(?Date $oLastRun = null)
     {
         global $serverTimezone;
 

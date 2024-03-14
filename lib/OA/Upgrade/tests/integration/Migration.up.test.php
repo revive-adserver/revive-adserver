@@ -83,29 +83,29 @@ class Test_Migration extends UnitTestCase
         $this->_dropTestTables();
     }
 
-//    function test_insertColumnData()
-//    {
-//        $this->_createTestTables();
-//        $this->_insertTestData(array(1=>'first text field'));
-//        $oMigration = new Migration();
-//        $oMigration->init($this->oDbh);
-//        $oMigration->insertColumnData('table1', 'b_id_field', 'table2', 'b_id_field2');
-//        $this->assertEqual($oMigration->affectedRows, 1, 'wrong number of rows inserted');
-//        $this->_dropTestTables();
-//    }
-//
-//    function test_copyTableData()
-//    {
-//        $this->_createTestTables();
-//        $this->_insertTestData(array(1=>'1st text field'));
-//        $this->_insertTestData(array(2=>'2nd text field'));
-//        $this->_insertTestData(array(3=>'3rd text field'));
-//        $oMigration = new Migration();
-//        $oMigration->init($this->oDbh);
-//        $oMigration->copyTableData('table1', 'table2');
-//        $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
-//        $this->_dropTestTables();
-//    }
+    //    function test_insertColumnData()
+    //    {
+    //        $this->_createTestTables();
+    //        $this->_insertTestData(array(1=>'first text field'));
+    //        $oMigration = new Migration();
+    //        $oMigration->init($this->oDbh);
+    //        $oMigration->insertColumnData('table1', 'b_id_field', 'table2', 'b_id_field2');
+    //        $this->assertEqual($oMigration->affectedRows, 1, 'wrong number of rows inserted');
+    //        $this->_dropTestTables();
+    //    }
+    //
+    //    function test_copyTableData()
+    //    {
+    //        $this->_createTestTables();
+    //        $this->_insertTestData(array(1=>'1st text field'));
+    //        $this->_insertTestData(array(2=>'2nd text field'));
+    //        $this->_insertTestData(array(3=>'3rd text field'));
+    //        $oMigration = new Migration();
+    //        $oMigration->init($this->oDbh);
+    //        $oMigration->copyTableData('table1', 'table2');
+    //        $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
+    //        $this->_dropTestTables();
+    //    }
 
     /**
      * internal function to set up some test tables

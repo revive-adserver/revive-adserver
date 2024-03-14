@@ -124,9 +124,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * @access private
      * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects.
      */
-    public function _getValidCampaigns()
-    {
-    }
+    public function _getValidCampaigns() {}
 
     /**
      * A private method that can be used by implementations of _getValidCampaigns()
@@ -272,7 +270,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             } else {
                 $inventoryPerImpression = $defaultRatio;
             }
-            $requiredImpressions = (int)($inventory - $inventoryToDate) / $inventoryPerImpression;
+            $requiredImpressions = (int) ($inventory - $inventoryToDate) / $inventoryPerImpression;
         }
         return ceil($requiredImpressions);
     }
@@ -329,12 +327,12 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             OA::debug("    - Campaign has $adsCount ads.", PEAR_LOG_DEBUG);
             // Get date object to represent campaign expiration date
             if (
-                   ($oCampaign->impressionTargetDaily > 0)
-                   ||
-                   ($oCampaign->clickTargetDaily > 0)
-                   ||
-                   ($oCampaign->conversionTargetDaily > 0)
-               ) {
+                ($oCampaign->impressionTargetDaily > 0)
+                ||
+                ($oCampaign->clickTargetDaily > 0)
+                ||
+                ($oCampaign->conversionTargetDaily > 0)
+            ) {
                 // The campaign has a daily target to meet, so treat the
                 // campaign as if it expires at the end of "today", regardless
                 // of the existance of any activation or expiration dates that
@@ -352,16 +350,16 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                     }
                 }
             } elseif (
-                   !empty($oCampaign->expireTime)
-                   &&
-                   (
-                       ($oCampaign->impressionTargetTotal > 0)
-                       ||
-                       ($oCampaign->clickTargetTotal > 0)
-                       ||
-                       ($oCampaign->conversionTargetTotal > 0)
-                   )
-               ) {
+                !empty($oCampaign->expireTime)
+                &&
+                (
+                    ($oCampaign->impressionTargetTotal > 0)
+                    ||
+                    ($oCampaign->clickTargetTotal > 0)
+                    ||
+                    ($oCampaign->conversionTargetTotal > 0)
+                )
+            ) {
                 // The campaign has an expiration date, and has some kind of
                 // (total) inventory requirement, so treat the campaign as if
                 // it expires at the expiration date/time
@@ -601,7 +599,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                     !empty($this->aZoneForecasts[$aZone['zone_id']])) {
                     foreach ($this->aZoneForecasts[$aZone['zone_id']] as $aValues) {
                         $aResults[$aValues['operation_interval_id']] +=
-                            (int)$aValues['forecast_impressions'];
+                            (int) $aValues['forecast_impressions'];
                     }
                 }
             }

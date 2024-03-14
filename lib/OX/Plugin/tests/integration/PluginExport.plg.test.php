@@ -288,7 +288,7 @@ class Test_OX_PluginExport extends UnitTestCase
                          ($aItemOld['stored_filename'] == $aItemNew['stored_filename']) &&
                          ($aItemOld['size'] == $aItemNew['size']) &&
                          ($aItemOld['crc'] == $aItemNew['crc'])
-                       ) {
+                    ) {
                         unset($aContentsOld[$i]);
                         unset($aContentsNew[$n]);
                         break;

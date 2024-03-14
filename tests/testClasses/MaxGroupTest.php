@@ -19,20 +19,19 @@ class MaxGroupTest extends GroupTest
      *
      * @param string $label
      */
-    function __construct($label)
+    public function __construct($label)
     {
         parent::__construct($label);
     }
 
-    function _addFilesInFolders($test_folders)
+    public function _addFilesInFolders($test_folders)
     {
-        foreach($test_folders as $test_folder => $test_files) {
-            foreach($test_files as $test_file) {
-                $test_path_components = array(MAX_PATH, $test_folder, 'tests', 'unit', $test_file);
+        foreach ($test_folders as $test_folder => $test_files) {
+            foreach ($test_files as $test_file) {
+                $test_path_components = [MAX_PATH, $test_folder, 'tests', 'unit', $test_file];
                 $full_test_filename = join($test_path_components, '/');
                 $this->addTestFile($full_test_filename);
             }
         }
     }
 }
-?>

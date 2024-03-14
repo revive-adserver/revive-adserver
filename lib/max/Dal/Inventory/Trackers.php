@@ -63,7 +63,7 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             if (!strlen($tagcode)) {
                 continue;
             }
-            $doTA = clone($doTrackerAppend);
+            $doTA = clone ($doTrackerAppend);
             $doTA->tagcode = $tagcode;
             $doTA->paused = $paused;
             $doTA->autotrack = $autotrack;

@@ -213,11 +213,11 @@ class RV_Sync
                 'php_version' => phpversion(),
                 'php_sapi' => ucfirst(php_sapi_name()),
                 'php_extensions' => get_loaded_extensions(),
-                'php_register_globals' => (bool)ini_get('register_globals'),
-                'php_magic_quotes_gpc' => (bool)ini_get('magic_quotes_gpc'),
+                'php_register_globals' => (bool) ini_get('register_globals'),
+                'php_magic_quotes_gpc' => (bool) ini_get('magic_quotes_gpc'),
                 'php_safe_mode' => false,
-                'php_open_basedir' => (bool)strlen(ini_get('open_basedir')),
-                'php_upload_tmp_readable' => (bool)is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR)
+                'php_open_basedir' => (bool) strlen(ini_get('open_basedir')),
+                'php_upload_tmp_readable' => (bool) is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR)
             ];
         }
         $params[] = XML_RPC_Encode($aTechStack);
