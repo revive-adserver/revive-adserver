@@ -22,10 +22,8 @@ OA_Permission::checkSessionToken('mpe_token');
 
 
 // Set longer time out, and ignore user abort
-if (!ini_get('safe_mode')) {
-    @set_time_limit($conf['maintenance']['timeLimitScripts']);
-    @ignore_user_abort(true);
-}
+@set_time_limit($conf['maintenance']['timeLimitScripts']);
+@ignore_user_abort(true);
 
 // No output required
 ob_start();

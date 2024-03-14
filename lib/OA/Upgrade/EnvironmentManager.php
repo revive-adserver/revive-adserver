@@ -89,7 +89,6 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['json'] = true;
         $this->aInfo['PHP']['expected']['zip'] = true;
         $this->aInfo['PHP']['expected']['tokenizer'] = true;
-        $this->aInfo['PHP']['expected']['mbstring.func_overload'] = false;
         $this->aInfo['PHP']['expected']['timeout'] = false;
         $this->aInfo['COOKIES']['expected']['enabled'] = true;
 
@@ -150,12 +149,6 @@ class OA_Environment_Manager
         $aResult['json'] = extension_loaded('json');
         $aResult['zip'] = extension_loaded('zip');
         $aResult['tokenizer'] = extension_loaded('tokenizer');
-
-        // Check mbstring.func_overload
-        $aResult['mbstring.func_overload'] = false;
-        if (extension_loaded('mbstring')) {
-            $aResult['mbstring.func_overload'] = (bool) ini_get('mbstring.func_overload');
-        }
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts
         // if user has disabled the set_time_limit function
@@ -382,11 +375,6 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';
-        }
-
-        // Test that mbstring function overloading is disabled
-        if (!empty($this->aInfo['PHP']['actual']['mbstring.func_overload'])) {
-            $this->aInfo['PHP']['error']['mbstring.func_overload'] = 'mbstring function overloading must be disabled';
         }
 
         // Test that at least one of the required database extensions are loaded

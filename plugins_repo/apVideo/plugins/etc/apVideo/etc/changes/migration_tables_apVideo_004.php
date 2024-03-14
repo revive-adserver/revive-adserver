@@ -4,10 +4,8 @@ require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
 
 class Migration_004 extends Migration
 {
-    public function Migration_004()
+    public function __construct()
     {
-        //$this->__construct();
-
         $this->aTaskList_constructive[] = 'beforeAddField__ext_ap_video_vpaid__pn_pos';
         $this->aTaskList_constructive[] = 'afterAddField__ext_ap_video_vpaid__pn_pos';
         $this->aTaskList_constructive[] = 'beforeAddField__ext_ap_video_vpaid__pn_url';

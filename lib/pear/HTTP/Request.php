@@ -75,17 +75,7 @@ define('HTTP_REQUEST_HTTP_VER_1_0', '1.0', true);
 define('HTTP_REQUEST_HTTP_VER_1_1', '1.1', true);
 /**#@-*/
 
-if (extension_loaded('mbstring') && (2 & ini_get('mbstring.func_overload'))) {
-   /**
-    * Whether string functions are overloaded by their mbstring equivalents
-    */
-    define('HTTP_REQUEST_MBSTRING', true);
-} else {
-   /**
-    * @ignore
-    */
-    define('HTTP_REQUEST_MBSTRING', false);
-}
+define('HTTP_REQUEST_MBSTRING', false);
 
 /**
  * Class for performing HTTP requests

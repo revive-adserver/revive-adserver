@@ -137,9 +137,6 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection['checks']['zip'] = $this->buildExtensionCheckEntry('zip', $aEnvPhp);
         $aSection['checks']['zlib'] = $this->buildExtensionCheckEntry('zlib', $aEnvPhp);
 
-        // Disabled mbstring function overloading
-        $aSection['checks']['mbstring.func_overload'] = $this->buildCheckEntry('mbstring.func_overload', $aEnvPhp, true, 'NOT OK', 'OK');
-
         // At least one of the required database extensions are loaded
         $aSection['checks']['mysqli'] = $this->buildExtensionCheckEntry('mysqli', $aEnvPhp);
         $aSection['checks']['pgsql'] = $this->buildExtensionCheckEntry('pgsql', $aEnvPhp);

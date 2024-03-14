@@ -153,7 +153,7 @@ switch (OA_Permission::getAccountType()) {
         $query = $oDbh->quote('%' . $q . '%');
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->whereAdd('(username LIKE ' . $query . ' OR email_address LIKE ' . $query . ')');
-        $doUsers->whereAdd('user_id IN (' . implode($aUserIds, ',') . ')');
+        $doUsers->whereAdd('user_id IN (' . implode(',', $aUserIds) . ')');
         $doUsers->limit($limit);
         $doUsers->find();
         while ($doUsers->fetch()) {

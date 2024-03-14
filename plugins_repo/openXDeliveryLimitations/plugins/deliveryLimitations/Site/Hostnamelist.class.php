@@ -187,6 +187,6 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
             $aSanitisedData = array_unique($aSanitisedData);
             sort($aSanitisedData);
         }
-        return implode($aSanitisedData, "\n");
+        return implode("\n", $aSanitisedData);
     }
 }

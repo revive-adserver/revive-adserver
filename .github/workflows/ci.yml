@@ -12,7 +12,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     env:
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
 
@@ -43,7 +43,7 @@ jobs:
       - dependency-validation
 
     env:
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
 
@@ -62,7 +62,7 @@ jobs:
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
 
-      - name: Run PHPStan
+      - name: Run ECS
         run: lib/vendor/bin/ecs --no-progress-bar --no-ansi --no-interaction
 
   type-checker:
@@ -74,7 +74,7 @@ jobs:
       - dependency-validation
 
     env:
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
 
@@ -96,6 +96,37 @@ jobs:
       - name: Run PHPStan
         run: lib/vendor/bin/phpstan --no-progress -n
 
+  compatibility-checker:
+    name: Compatibility checker
+
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    needs:
+      - dependency-validation
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Run phpcs
+        run: lib/vendor/bin/phpcs -qs
+
   post-commit:
     name: Post commit hooks
 
@@ -104,9 +135,10 @@ jobs:
     needs:
       - type-checker
       - code-style-checker
+      - compatibility-checker
 
     env:
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, tokenizer, xml, zip
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
     runs-on: ubuntu-latest
@@ -208,9 +240,10 @@ jobs:
     needs:
       - type-checker
       - code-style-checker
+      - compatibility-checker
       - post-commit
 
-    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.post-commit.result != 'failure' }}
+    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.post-commit.result != 'failure' }}
 
     uses: ./.github/workflows/test.yml
     with:
@@ -222,6 +255,9 @@ jobs:
     if: github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master'
 
     needs:
+      - type-checker
+      - code-style-checker
+      - compatibility-checker
       - post-commit
 
     runs-on: ubuntu-latest

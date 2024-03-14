@@ -125,7 +125,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
             $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
             array_push($aCompiledData, $registerableDomain);
         }
-        return implode($aCompiledData, "|");
+        return implode('|', $aCompiledData);
     }
 
     /**
@@ -190,6 +190,6 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
             $aSanitisedData = array_unique($aSanitisedData);
             sort($aSanitisedData);
         }
-        return implode($aSanitisedData, "\n");
+        return implode("\n", $aSanitisedData);
     }
 }
