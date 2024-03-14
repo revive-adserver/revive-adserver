@@ -37,7 +37,7 @@
         "jeremykendall/php-domain-parser": "~2.0",
         "figdice/asseteer": "dev-master",
         "wikimedia/composer-merge-plugin": "^2.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.8",
         "symfony/polyfill-ctype": "^1.23",
         "bower-asset/zxcvbn": "^4.4",
         "bower-asset/tinymce": "^5.9",
