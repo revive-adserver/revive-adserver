@@ -2576,10 +2576,6 @@ return is_null($a) ? null : addslashes($a);
 }
 function MAX_commonRegisterGlobalsArray($args = [])
 {
-static $magic_quotes_gpc;
-if (!isset($magic_quotes_gpc)) {
-$magic_quotes_gpc = ini_get('magic_quotes_gpc');
-}
 $found = false;
 foreach ($args as $key) {
 if (isset($_GET[$key])) {
@@ -2591,12 +2587,10 @@ $value = $_POST[$key];
 $found = true;
 }
 if ($found) {
-if (!$magic_quotes_gpc) {
 if (!is_array($value)) {
 $value = addslashes($value);
 } else {
 $value = MAX_commonAddslashesRecursive($value);
-}
 }
 $GLOBALS[$key] = $value;
 $found = false;

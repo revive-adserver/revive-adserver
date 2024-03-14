@@ -2576,10 +2576,6 @@ return is_null($a) ? null : addslashes($a);
 }
 function MAX_commonRegisterGlobalsArray($args = [])
 {
-static $magic_quotes_gpc;
-if (!isset($magic_quotes_gpc)) {
-$magic_quotes_gpc = ini_get('magic_quotes_gpc');
-}
 $found = false;
 foreach ($args as $key) {
 if (isset($_GET[$key])) {
@@ -2591,12 +2587,10 @@ $value = $_POST[$key];
 $found = true;
 }
 if ($found) {
-if (!$magic_quotes_gpc) {
 if (!is_array($value)) {
 $value = addslashes($value);
 } else {
 $value = MAX_commonAddslashesRecursive($value);
-}
 }
 $GLOBALS[$key] = $value;
 $found = false;
@@ -3313,13 +3307,9 @@ foreach ($aZones as $zoneid => $aZone) {
 $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
 }
 $additionalParams = '';
-$magic_quotes_gpc = ini_get('magic_quotes_gpc');
 foreach ($_GET as $key => $value) {
 if ($key == 'id') {
 continue;
-}
-if ($magic_quotes_gpc) {
-$value = stripslashes($value);
 }
 $additionalParams .= htmlspecialchars('&' . urlencode($key) . '=' . urlencode($value), ENT_QUOTES);
 }
