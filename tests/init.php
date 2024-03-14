@@ -26,14 +26,6 @@ require_once '../variables.php';
 setupConstants();
 setupConfigVariables();
 
-if (!empty($GLOBALS['_MAX']['CONF'])) {
-    // Override config defaults
-    $GLOBALS['_MAX']['CONF']['store']['webDir'] = MAX_PATH.'/var';
-
-    // Set up DI container
-    $GLOBALS['_MAX']['DI'] = new \RV\Container($GLOBALS['_MAX']['CONF'], false, 'test');
-}
-
 /**
  * The environment initialisation function for the OpenX testing environment.
  */
@@ -41,6 +33,15 @@ function init()
 {
     // Disable notices, but enable warnings
     error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+
+    if (!empty($GLOBALS['_MAX']['CONF'])) {
+        // Override config defaults
+        $GLOBALS['_MAX']['CONF']['store']['webDir'] = MAX_PATH.'/var';
+
+        // Set up DI container
+        $GLOBALS['_MAX']['DI'] = new \RV\Container($GLOBALS['_MAX']['CONF'], false, 'test');
+    }
+
     // Always include the configuration file
     include_once MAX_PATH . '/tests/config.php';
 
