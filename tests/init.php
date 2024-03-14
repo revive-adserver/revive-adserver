@@ -15,6 +15,9 @@
  * @subpackage TestSuite
  */
 
+// Disable notices, but enable warnings
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+
 // PSR Autoloader
 require_once __DIR__.'/../lib/vendor/autoload.php';
 
@@ -31,9 +34,6 @@ setupConfigVariables();
  */
 function init()
 {
-    // Disable notices, but enable warnings
-    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
-
     if (!empty($GLOBALS['_MAX']['CONF'])) {
         // Override config defaults
         $GLOBALS['_MAX']['CONF']['store']['webDir'] = MAX_PATH.'/var';
