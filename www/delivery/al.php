@@ -184,7 +184,7 @@ $GLOBALS['_MAX']['SSL_REQUEST'] = true;
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 list($micro_seconds, $seconds) = explode(" ", microtime());
-$GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float)$micro_seconds + (float)$seconds));
+$GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float) $micro_seconds + (float) $seconds));
 if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
 $GLOBALS['serverTimezone'] = date_default_timezone_get();
 OA_setTimeZoneUTC();
@@ -519,15 +519,18 @@ continue;
 switch ($cookieName) {
 case $conf['var']['blockAd']:
 case $conf['var']['blockCampaign']:
-case $conf['var']['blockZone']: $expire = _getTimeThirtyDaysFromNow(); break;
+case $conf['var']['blockZone']: $expire = _getTimeThirtyDaysFromNow();
+break;
 case $conf['var']['lastClick']:
 case $conf['var']['lastView']:
 case $conf['var']['capAd']:
 case $conf['var']['capCampaign']:
-case $conf['var']['capZone']: $expire = _getTimeYearFromNow(); break;
+case $conf['var']['capZone']: $expire = _getTimeYearFromNow();
+break;
 case $conf['var']['sessionCapCampaign']:
 case $conf['var']['sessionCapAd']:
-case $conf['var']['sessionCapZone']: $expire = 0; break;
+case $conf['var']['sessionCapZone']: $expire = 0;
+break;
 }
 if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
 $data = [];
@@ -724,7 +727,7 @@ $query = "
     ";
 $res = OA_Dal_Delivery_query($query);
 if (OA_Dal_Delivery_isValidResult($res) && OA_Dal_Delivery_numRows($res)) {
-$adminAccountId = (int)OA_Dal_Delivery_result($res, 0, 0);
+$adminAccountId = (int) OA_Dal_Delivery_result($res, 0, 0);
 } else {
 $adminAccountId = false;
 }
@@ -747,7 +750,7 @@ $aResult = [
 ];
 if (OA_Dal_Delivery_isValidResult($res)) {
 while ($row = OA_Dal_Delivery_fetchAssoc($res)) {
-$accountId = (int)$row['account_id'];
+$accountId = (int) $row['account_id'];
 if ($accountId === $adminAccountId) {
 $aResult['default'] = $row['timezone'];
 } else {
@@ -763,7 +766,7 @@ return $aResult;
 function OA_Dal_Delivery_getZoneInfo($zoneid)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
-$zoneid = (int)$zoneid;
+$zoneid = (int) $zoneid;
 $query = "
         SELECT
             z.zoneid AS zone_id,
@@ -951,7 +954,7 @@ return $aZoneInfo;
 function OA_Dal_Delivery_getPublisherZones($publisherid)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$publisherid = (int)$publisherid;
+$publisherid = (int) $publisherid;
 $rZones = OA_Dal_Delivery_query("
     SELECT
         z.zoneid AS zone_id,
@@ -974,7 +977,7 @@ return ($aZones);
 function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$zoneid = (int)$zoneid;
+$zoneid = (int) $zoneid;
 $aRows = OA_Dal_Delivery_getZoneInfo($zoneid);
 $aRows['xAds'] = [];
 $aRows['ads'] = [];
@@ -1108,7 +1111,7 @@ return $aRows;
 function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$zoneid = (int)$zoneid;
+$zoneid = (int) $zoneid;
 $aRows['xAds'] = [];
 $aRows['ads'] = [];
 $aRows['lAds'] = [];
@@ -1190,7 +1193,7 @@ return $aRows;
 function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart = true)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$campaignid = (int)$campaignid;
+$campaignid = (int) $campaignid;
 $precondition = $campaignid > 0 ? " AND d.campaignid = '" . $campaignid . "' " : '';
 $aRows['xAds'] = [];
 $aRows['ads'] = [];
@@ -1232,7 +1235,7 @@ return $aRows;
 function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = true)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$campaignid = (int)$campaignid;
+$campaignid = (int) $campaignid;
 $precondition = $campaignid > 0 ? " AND d.campaignid = '" . $campaignid . "' " : '';
 $aRows['xAds'] = [];
 $aRows['ads'] = [];
@@ -1293,7 +1296,7 @@ return $aRows;
 function OA_Dal_Delivery_getAd($ad_id)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$ad_id = (int)$ad_id;
+$ad_id = (int) $ad_id;
 $query = "
         SELECT
         d.bannerid AS ad_id,
@@ -1364,7 +1367,7 @@ return (OA_Dal_Delivery_fetchAssoc($rAd));
 function OA_Dal_Delivery_getChannelLimitations($channelid)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$channelid = (int)$channelid;
+$channelid = (int) $channelid;
 $rLimitation = OA_Dal_Delivery_query("
     SELECT
             acl_plugins,compiledlimitation
@@ -1401,7 +1404,7 @@ return ($aResult);
 function OA_Dal_Delivery_getTracker($trackerid)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$trackerid = (int)$trackerid;
+$trackerid = (int) $trackerid;
 $rTracker = OA_Dal_Delivery_query("
         SELECT
             t.clientid AS advertiser_id,
@@ -1427,7 +1430,7 @@ return (OA_Dal_Delivery_fetchAssoc($rTracker));
 function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
-$trackerid = (int)$trackerid;
+$trackerid = (int) $trackerid;
 $rCreatives = OA_Dal_Delivery_query("
         SELECT
             b.bannerid AS ad_id,
@@ -1460,7 +1463,7 @@ return $output;
 function OA_Dal_Delivery_getTrackerVariables($trackerid)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$trackerid = (int)$trackerid;
+$trackerid = (int) $trackerid;
 $rVariables = OA_Dal_Delivery_query("
         SELECT
             v.variableid AS variable_id,
@@ -1596,8 +1599,8 @@ $operator = 'OR';
 }
 if ($part_array[$k] != '' && $part_array[$k] != ' ') {
 if (preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m)) {
-$width = (int)$m[1];
-$height = (int)$m[2];
+$width = (int) $m[1];
+$height = (int) $m[2];
 if ($operator == 'OR') {
 $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
 } elseif ($operator == 'AND') {
@@ -1608,9 +1611,9 @@ $conditions .= "AND (d.width <> {$width} OR d.height <> {$height}) ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-$min = (int)$m[1];
+$min = (int) $m[1];
 $range = !empty($m[2]);
-$max = (int)$m[3];
+$max = (int) $m[3];
 if (!$range && $min) {
 if ($operator == 'OR') {
 $conditions .= "OR d.width = {$min} ";
@@ -1642,9 +1645,9 @@ $conditions .= "AND (d.width < {$min} OR d.width > {$max}) ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-$min = (int)$m[1];
+$min = (int) $m[1];
 $range = !empty($m[2]);
-$max = (int)$m[3];
+$max = (int) $m[3];
 if (!$range && $min) {
 if ($operator == 'OR') {
 $conditions .= "OR d.height = {$min} ";
@@ -1676,7 +1679,7 @@ $conditions .= "AND (d.height < {$min} OR d.height > {$max}) ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m)) {
-$bannerid = (int)$m[1];
+$bannerid = (int) $m[1];
 if ($bannerid) {
 if ($operator == 'OR') {
 $conditions .= "OR d.bannerid = {$bannerid} ";
@@ -1689,7 +1692,7 @@ $conditions .= "AND d.bannerid <> {$bannerid} ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m)) {
-$campaignid = (int)$m[1];
+$campaignid = (int) $m[1];
 if ($campaignid) {
 if ($operator == 'OR') {
 $conditions .= "OR d.campaignid = {$campaignid} ";
@@ -1824,8 +1827,8 @@ $operator = 'OR';
 }
 if ($part_array[$k] != '' && $part_array[$k] != ' ') {
 if (preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m)) {
-$width = (int)$m[1];
-$height = (int)$m[2];
+$width = (int) $m[1];
+$height = (int) $m[2];
 if ($operator == 'OR') {
 $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
 } elseif ($operator == 'AND') {
@@ -1836,9 +1839,9 @@ $conditions .= "AND (d.width <> {$width} OR d.height <> {$height}) ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-$min = (int)$m[1];
+$min = (int) $m[1];
 $range = !empty($m[2]);
-$max = (int)$m[3];
+$max = (int) $m[3];
 if (!$range && $min) {
 if ($operator == 'OR') {
 $conditions .= "OR d.width = {$min} ";
@@ -1870,9 +1873,9 @@ $conditions .= "AND (d.width < {$min} OR d.width > {$max}) ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-$min = (int)$m[1];
+$min = (int) $m[1];
 $range = !empty($m[2]);
-$max = (int)$m[3];
+$max = (int) $m[3];
 if (!$range && $min) {
 if ($operator == 'OR') {
 $conditions .= "OR d.height = {$min} ";
@@ -1904,7 +1907,7 @@ $conditions .= "AND (d.height < {$min} OR d.height > {$max}) ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m)) {
-$bannerid = (int)$m[1];
+$bannerid = (int) $m[1];
 if ($bannerid) {
 if ($operator == 'OR') {
 $conditions .= "OR d.bannerid = {$bannerid} ";
@@ -1917,7 +1920,7 @@ $conditions .= "AND d.bannerid <> {$bannerid} ";
 $onlykeywords = false;
 }
 elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m)) {
-$campaignid = (int)$m[1];
+$campaignid = (int) $m[1];
 if ($campaignid) {
 if ($operator == 'OR') {
 $conditions .= "OR d.campaignid = {$campaignid} ";
@@ -2024,7 +2027,7 @@ $blank_priority = 1;
 foreach ($aAdsByCP as $campaign_priority => $aAds) {
 $total_priority_cp[$campaign_priority] = 0;
 foreach ($aAds as $key => $aAd) {
-$blank_priority -= (float)$aAd['priority'];
+$blank_priority -= (float) $aAd['priority'];
 $priority = $aAd['to_be_delivered'] ? $aAd['priority'] * $aAd['priority_factor'] : 0.00001;
 $total_priority_cp[$campaign_priority] += $priority;
 }
@@ -2348,7 +2351,7 @@ $okToLog = false;
 }
 return $okToLog;
 }
-function MAX_Delivery_log_getArrGetVariable(string $name, array $array = null)
+function MAX_Delivery_log_getArrGetVariable(string $name, ?array $array = null)
 {
 if (null === $array) {
 $array = $_GET;
@@ -2637,7 +2640,7 @@ $convert .= $dec;
 }
 return ($convert);
 } else {
-return($string);
+return ($string);
 }
 }
 function MAX_commonInitVariables()
@@ -2831,14 +2834,20 @@ reset($value);
 list($key, $value) = each($value);
 list($item, $id) = explode(':', $value);
 switch ($item) {
-case 'campaignid': $value = 'c:' . $id; break;
-case 'clientid': $value = 'a:' . $id; break;
-case 'bannerid': $value = 'b:' . $id; break;
-case 'companionid': $value = 'p:' . $id; break;
+case 'campaignid': $value = 'c:' . $id;
+break;
+case 'clientid': $value = 'a:' . $id;
+break;
+case 'bannerid': $value = 'b:' . $id;
+break;
+case 'companionid': $value = 'p:' . $id;
+break;
 }
 switch ($key) {
-case '!=': $exclude[$value] = true; break;
-case '==': $include[$value] = true; break;
+case '!=': $exclude[$value] = true;
+break;
+case '==': $include[$value] = true;
+break;
 }
 }
 $exclude = array_keys($exclude);
@@ -2867,10 +2876,14 @@ continue;
 }
 list($item, $id) = explode(':', $value);
 switch ($item) {
-case 'c': $unpacked[] = [$key => 'campaignid:' . $id]; break;
-case 'a': $unpacked[] = [$key => 'clientid:' . $id]; break;
-case 'b': $unpacked[] = [$key => 'bannerid:' . $id]; break;
-case 'p': $unpacked[] = [$key => 'companionid:' . $id]; break;
+case 'c': $unpacked[] = [$key => 'campaignid:' . $id];
+break;
+case 'a': $unpacked[] = [$key => 'clientid:' . $id];
+break;
+case 'b': $unpacked[] = [$key => 'bannerid:' . $id];
+break;
+case 'p': $unpacked[] = [$key => 'companionid:' . $id];
+break;
 }
 }
 return $unpacked;
@@ -3257,7 +3270,7 @@ foreach ($acl_plugins as $acl_plugin) {
 list($extension, $package, $name) = explode(':', $acl_plugin);
 $pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
-if (include($pluginName)) {
+if (include ($pluginName)) {
 $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
 } else {
 return true;
@@ -3335,7 +3348,7 @@ function _areCookiesDisabled($filterActive = true)
 return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
 
-function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', string $target = '', string $ct0 = '', bool $withText = false, string $charset = '', bool $logClick = true, bool $logView = true, bool $richMedia = true, string $loc = '', string $referer = null, array &$context = [])
+function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', string $target = '', string $ct0 = '', bool $withText = false, string $charset = '', bool $logClick = true, bool $logView = true, bool $richMedia = true, string $loc = '', ?string $referer = null, array &$context = [])
 {
 $aBanner['bannerContent'] = "";
 if (empty($target)) {
@@ -3629,7 +3642,7 @@ $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 }
 return MAX_adRenderImageBeacon($logUrl);
 }
-function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
+function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, ?string $customDestination = null): string
 {
 if (isset($aBanner['ad_id']) && empty($aBanner['bannerid'])) {
 $aBanner['bannerid'] = $aBanner['ad_id'];
@@ -3698,7 +3711,7 @@ array_values($aBanner['aMagicMacros']),
 $input
 );
 }
-function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', string $ct0 = null, bool $logClick = true, string $customDestination = null): string
+function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', ?string $ct0 = null, bool $logClick = true, ?string $customDestination = null): string
 {
 $clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']) . '?' .
 _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDestination);
@@ -3909,7 +3922,7 @@ $output = [
 'clickwindow' => $row['clickwindow'],
 'aRow' => $row,
 'context' => _adSelectBuildContext($row, $context),
-'iframeFriendly' => (bool)$row['iframe_friendly'],
+'iframeFriendly' => (bool) $row['iframe_friendly'],
 ];
 $row += [
 'block_ad' => 0,
@@ -4410,14 +4423,18 @@ continue;
 switch ($type) {
 case 'campaignid':
 switch ($key) {
-case '!=': $aContext['campaign']['exclude'][$value] = true; break;
-case '==': $aContext['campaign']['include'][$value] = true; break;
+case '!=': $aContext['campaign']['exclude'][$value] = true;
+break;
+case '==': $aContext['campaign']['include'][$value] = true;
+break;
 }
 break;
 case 'clientid':
 switch ($key) {
-case '!=': $aContext['client']['exclude'][$value] = true; break;
-case '==': $aContext['client']['include'][$value] = true; break;
+case '!=': $aContext['client']['exclude'][$value] = true;
+break;
+case '==': $aContext['client']['include'][$value] = true;
+break;
 }
 break;
 case 'companionid':
@@ -4434,8 +4451,10 @@ break;
 break;
 default:
 switch ($key) {
-case '!=': $aContext['banner']['exclude'][$value] = true; break;
-case '==': $aContext['banner']['include'][$value] = true; break;
+case '!=': $aContext['banner']['exclude'][$value] = true;
+break;
+case '==': $aContext['banner']['include'][$value] = true;
+break;
 }
 }
 }
@@ -4536,7 +4555,7 @@ if (!isset($layerstyle) || empty($layerstyle)) {
 $layerstyle = 'geocities';
 }
 $plugin = MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php';
-if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include($plugin)) {
+if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include ($plugin)) {
 MAX_sendStatusCode(404);
 echo '// Cannot load required layerstyle file. Check if openXInvocationTags plugin is installed';
 exit;
