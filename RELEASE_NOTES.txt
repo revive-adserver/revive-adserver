@@ -41,7 +41,7 @@ Bug Fixes
 Non-Backwards Compatible Changes
 --------------------------------
 
- * None
+ * Revive Adserver now requires at least PHP 8.1
 
 
 Community Contributions
