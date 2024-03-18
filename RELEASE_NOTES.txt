@@ -38,6 +38,9 @@ Bug Fixes
  * Fix issue with password recovery process showing an empty recovery screen
    at the end of a successful process, under some circumstances.
 
+ * Fix issue with midnight maintenance potentially becoming very slow during
+   pruning of the data_summary_ad_zone_assoc table on big instances.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
