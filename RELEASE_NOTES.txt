@@ -35,6 +35,9 @@ New Features
 Bug Fixes
 ---------
 
+ * HEAD requests to delivery scripts were previously executed and counted
+   as proper requests, even though the ad payload would have been discarded.
+
  * Fixed Geo/Organisation delivery limitation not working as expected.
 
  * Fix issue with password recovery process showing an empty recovery screen

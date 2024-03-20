@@ -23,17 +23,17 @@
  *   existing files
  */
 
+// No need to serve HEAD requests
+if (isset($_SERVER['REQUEST_METHOD']) && 'HEAD' === $_SERVER['REQUEST_METHOD']) {
+    exit();
+}
+
 require_once 'init-delivery-parse.php';
 require_once 'memory.php';
 require_once 'variables.php';
 
 // Increase the PHP memory_limit value to the minimum required value, if necessery
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
-
-// PHP 5.3 compatibility
-if (!defined('E_DEPRECATED')) {
-    define('E_DEPRECATED', 0);
-}
 
 setupServerVariables();
 setupDeliveryConfigVariables();
