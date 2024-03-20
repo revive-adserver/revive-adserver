@@ -137,10 +137,10 @@ jobs:
         run: ant test-all
 
       - name: Upload test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always() # always run even if the previous step fails
         with:
-          name: test-results
+          name: test-results-${{ matrix.php-version }}-${{ matrix.db-type }}-${{ matrix.table-type }}-${{ matrix.audit }}
           path: '**/build/test-*'
           retention-days: 1
 
@@ -155,14 +155,23 @@ jobs:
     if: always()
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sha }}
+
       - name: Download Test Report
         uses: dawidd6/action-download-artifact@v3
         with:
-          name: test-results
+          run_id: ${{ github.run_id }}
+          name: test-results-.*
+          name_is_regexp: true
           if_no_artifact_found: warn
 
       - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
+        uses: dorny/test-reporter@v1
         with:
-          commit: ${{ inputs.sha }}
-          report_paths: '**/build/test-reports/*.xml'
+          name: Test suite results
+          path: '**/build/test-reports/*.xml'
+          reporter: java-junit
+          only-summary: true
