@@ -120,8 +120,12 @@ class OA_Admin_PasswordRecovery
     {
         OA_Permission::checkSessionToken();
 
+        // Use output buffering as we could end up redirecting
+        ob_start();
         $this->pageHeader();
+
         if (empty($vars['id'])) {
+
             if (empty($vars['email'])) {
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
             } else {
@@ -145,6 +149,8 @@ class OA_Admin_PasswordRecovery
         } else {
             $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongExpired']);
         }
+
+        ob_end_flush();
         $this->pageFooter();
     }
 
