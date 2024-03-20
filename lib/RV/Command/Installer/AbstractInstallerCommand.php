@@ -181,7 +181,7 @@ abstract class AbstractInstallerCommand extends ReviveCommand
 
         $this->output->writeln("<info>Setting file permissions</info>");
 
-        $paths  = [
+        $paths = [
             MAX_PATH . '/var',
             MAX_PATH . '/plugins',
             MAX_PATH . '/www/admin/plugins',
