@@ -125,7 +125,6 @@ class OA_Admin_PasswordRecovery
         $this->pageHeader();
 
         if (empty($vars['id'])) {
-
             if (empty($vars['email'])) {
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
             } else {
