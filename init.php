@@ -17,7 +17,6 @@
  */
 
 require_once 'pre-check.php';
-require_once 'init-parse.php';
 require_once 'variables.php';
 require_once 'constants.php';
 

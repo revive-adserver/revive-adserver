@@ -43,6 +43,8 @@ Bug Fixes
  * Fix issue with midnight maintenance potentially becoming very slow during
    pruning of the data_summary_ad_zone_assoc table on big instances.
 
+ * Fix unexpected 500 errors when using an invalid configuration file.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
