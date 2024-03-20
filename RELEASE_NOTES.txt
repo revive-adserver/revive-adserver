@@ -35,7 +35,8 @@ New Features
 Bug Fixes
 ---------
 
- * None
+ * Fix issue with password recovery process showing an empty recovery screen
+   at the end of a successful process, under some circumstances.
 
 
 Non-Backwards Compatible Changes
