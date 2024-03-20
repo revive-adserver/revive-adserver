@@ -1,0 +1,213 @@
+name: CI
+
+on:
+  workflow_dispatch: ~
+  pull_request: ~
+  push: ~
+
+jobs:
+  dependency-validation:
+    name: Dependency validation
+
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v4
+
+     - name: Install PHP
+       uses: shivammathur/setup-php@v2
+       with:
+         php-version: 8.3
+         extensions: ${{ env.PHP_EXTENSIONS }}
+         coverage: none
+         tools: composer
+
+     - name: Ensure that composer.json is valid
+       run: composer validate --no-ansi --strict composer.json
+
+     - name: Ensure that dependencies can be installed
+       run: composer install --no-ansi --dry-run
+
+  code-style-checker:
+    name: Code-style checker
+
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    needs:
+      - dependency-validation
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Run ECS
+        run: lib/vendor/bin/ecs --no-progress-bar --no-ansi --no-interaction
+
+  post-commit:
+    name: Post commit hooks
+
+    if: github.event_name != 'pull_request'
+
+    needs:
+      - code-style-checker
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+      PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      sha: ${{ steps.add-delivery.outputs.commit_long_sha || steps.add-plugins.outputs.commit_long_sha || steps.add-trans.outputs.commit_long_sha || steps.add-xml.outputs.commit_long_sha }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          ini-values: ${{ env.PHP_INI_VALUES }}
+          tools: composer
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Install ant 1.7
+        run: |
+          curl -s -O http://archive.debian.org/debian-archive/debian/pool/main/a/ant1.7/ant1.7_1.7.1-7_all.deb
+          curl -s -O http://archive.debian.org/debian-archive/debian/pool/main/a/ant1.7/ant1.7-optional_1.7.1-7_all.deb
+          sudo apt-get -y -qq remove ant
+          sudo apt-get -y -qq install libxerces2-java
+          sudo dpkg -i ant1.7_1.7.1-7_all.deb
+          sudo dpkg -i ant1.7-optional_1.7.1-7_all.deb
+          rm *.deb
+
+      - name: Gather commit messages
+        id: gather
+        run: |
+          {
+            echo 'MSG<<EOF'
+            echo
+            echo
+            echo '${{ toJson(github.event.commits) }}' | jq -r '.[].message' | sed s'/^/ * /g'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Regenerate XML Cache
+        run: ant generate-xml-cache
+
+      - name: Add & Commit
+        id: add-xml
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: etc/xmlcache
+          message: 'Regenerated XML cache ${{ steps.gather.outputs.MSG }}'
+
+      - name: Update plugin translations
+        run: php scripts/translations/update-plugins.php
+
+      - name: Add & Commit
+        id: add-trans
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: plugins_repo
+          message: 'Updated plugin translations ${{ steps.gather.outputs.MSG }}'
+
+      - name: Update plugin packages
+        run: php scripts/upgrade/rebuildBundledPlugins.php
+
+      - name: Add & Commit
+        id: add-plugins
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: etc/plugins
+          message: 'Regenerated plugins ${{ steps.gather.outputs.MSG }}'
+
+      - name: Regenerate delivery
+        run: |
+          ant generate-delivery
+          ant minify-delivery
+
+      - name: Add & Commit
+        id: add-delivery
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: www/delivery
+          message: 'Regenerated delivery scripts ${{ steps.gather.outputs.MSG }}'
+
+      - name: Output SHA
+        run: |
+          echo "sha=${{ steps.add-delivery.outputs.commit_long_sha || steps.add-plugins.outputs.commit_long_sha || steps.add-trans.outputs.commit_long_sha || steps.add-xml.outputs.commit_long_sha || github.sha }}" >> $GITHUB_OUTPUT
+
+  trigger-tests:
+    name: Trigger tests
+
+    needs:
+      - code-style-checker
+      - post-commit
+
+    if: ${{ always() && needs.code-style-checker.result == 'success' && needs.post-commit.result != 'failure' }}
+
+    uses: ./.github/workflows/test.yml
+    with:
+      sha: ${{ needs.post-commit.outputs.sha }}
+
+  upload-to-crowdin:
+    name: Upload translation sources
+
+    if: github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master'
+
+    needs:
+      - code-style-checker
+      - post-commit
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload translation sources to Crowdin
+        if: env.CROWDIN_PROJECT_ID && env.CROWDIN_PERSONAL_TOKEN
+        uses: revive-adserver/crowdin-github-action@master
+        with:
+          config: crowdin.yml.dist
+          upload_sources: true
+          upload_translations: false
+          download_translations: false
+          create_pull_request: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}

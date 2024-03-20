@@ -2,7 +2,7 @@
     "name": "revive-adserver/revive-adserver",
     "description": "The world's most popular free, open source ad serving system",
     "type": "project",
-    "license": "GNU GPLv2",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "The Revive Adserver Team",
