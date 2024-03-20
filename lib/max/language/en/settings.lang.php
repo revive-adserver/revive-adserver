@@ -301,6 +301,7 @@ $GLOBALS['strGuiActiveTabColor'] = "Color of the active tab";
 $GLOBALS['strGuiHeaderTextColor'] = "Color of the text in the header";
 $GLOBALS['strGuiSupportLink'] = "Custom URL for 'Support' link in header";
 $GLOBALS['strGzipContentCompression'] = "Use GZIP Content Compression";
+$GLOBALS['strGuiBadLoginLogPath'] = "Log file for bad logins";
 
 // Regenerate Platfor Hash script
 $GLOBALS['strPlatformHashRegenerate'] = "Platform Hash Regenerate";
