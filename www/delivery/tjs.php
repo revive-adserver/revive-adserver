@@ -24,6 +24,10 @@
  * file(s) in the "delivery_dev" folder; and regenerate the delivery files
  * using the script located in the "scripts/delivery" directory.
  */
+if (isset($_SERVER['REQUEST_METHOD']) && 'HEAD' === $_SERVER['REQUEST_METHOD']) {
+exit();
+}
+
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
 $fixMysqli = function ($conf) {
@@ -268,9 +272,6 @@ function RV_getContainer()
 return $GLOBALS['_MAX']['DI'];
 }
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
-if (!defined('E_DEPRECATED')) {
-define('E_DEPRECATED', 0);
-}
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
