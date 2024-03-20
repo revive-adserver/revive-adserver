@@ -72,7 +72,7 @@
          *    @return SimpleDumper    Current value dumper.
          *    @access protected
          */
-        function &_getDumper() {
+        function _getDumper() {
             return $this->_dumper;
         }
 
@@ -86,7 +86,7 @@
          *    @access public
          *    @static
          */
-        function isExpectation($expectation) {
+        public static function isExpectation($expectation) {
             return is_object($expectation) &&
                     SimpleTestCompatibility::isA($expectation, 'SimpleExpectation');
         }
@@ -117,7 +117,7 @@
          *    @access public
          */
         function testMessage($compare) {
-            $dumper = &$this->_getDumper();
+            $dumper = $this->_getDumper();
             return 'Anything always matches [' . $dumper->describeValue($compare) . ']';
         }
     }

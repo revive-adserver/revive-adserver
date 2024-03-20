@@ -37,6 +37,14 @@ Bug Fixes
 
  * Fixed Geo/Organisation delivery limitation not working as expected.
 
+ * Fix issue with password recovery process showing an empty recovery screen
+   at the end of a successful process, under some circumstances.
+
+ * Fix issue with midnight maintenance potentially becoming very slow during
+   pruning of the data_summary_ad_zone_assoc table on big instances.
+
+ * Fix unexpected 500 errors when using an invalid configuration file.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
