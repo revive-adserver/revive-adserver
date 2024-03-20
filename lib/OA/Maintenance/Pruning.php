@@ -92,7 +92,6 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
         $tblCampaigns = $this->_getTablename('campaigns');
 
         $queryEnd = ''
-            . ' LEFT JOIN ' . $tblCampaigns . ' AS c ON b.campaignid = c.campaignid'
             . ' WHERE ( ( c.status <> ' . OA_ENTITY_STATUS_RUNNING . ') AND (c.priority > 0 )) '
             . ' AND'
             . '('
@@ -110,16 +109,17 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
 
         if ($this->oDbh->dbsyntax == 'pgsql') {
             $query = 'DELETE FROM ' . $tblAssoc
-                    . ' WHERE data_summary_ad_zone_assoc_id IN ('
-                    . '  SELECT dsaza.data_summary_ad_zone_assoc_id FROM'
-                    . '  ' . $tblAssoc . ' AS dsaza'
-                    . ' LEFT JOIN ' . $tblBanners . ' AS b ON dsaza.ad_id = b.bannerid'
+                    . ' WHERE ad_id IN ('
+                    . '  SELECT b.bannerid FROM'
+                    . '  ' . $tblBanners . ' AS b'
+                    . '  JOIN ' . $tblCampaigns . ' AS c ON b.campaignid = c.campaignid'
                     . $queryEnd
                     . ')';
         } else {
             $query = 'DELETE FROM ' . $tblAssoc
                     . ' USING ' . $tblAssoc
-                    . ' LEFT JOIN ' . $tblBanners . ' AS b ON ' . $tblAssoc . '.ad_id = b.bannerid'
+                    . ' JOIN ' . $tblBanners . ' AS b ON ' . $tblAssoc . '.ad_id = b.bannerid'
+                    . ' JOIN ' . $tblCampaigns . ' AS c USE INDEX () ON b.campaignid = c.campaignid'
                     . $queryEnd;
         }
         return $this->oDbh->exec($query);
