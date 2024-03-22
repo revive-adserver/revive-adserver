@@ -45,6 +45,11 @@ Bug Fixes
 
  * Fix unexpected 500 errors when using an invalid configuration file.
 
+ * Fixed issue with zone chaining being presented as a viable option for
+   Email/Newsletter zones while it cannot actually work due to the
+   limitations of such zone type (the click URL is hardcoded to the original
+   zone ID).
+
 
 Non-Backwards Compatible Changes
 --------------------------------

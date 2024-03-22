@@ -388,6 +388,11 @@ function _adSelectDirect($what, $campaignid = '', $context = [], $source = '', $
  */
 function _getNextZone($zoneId, $arrZone)
 {
+    // No chaining for newsletter zones (constant MAX_ZoneEmail is not defined during delivery)
+    if (4 == $arrZone['type']) {
+        return $zoneId;
+    }
+
     if (!empty($arrZone['chain']) && (substr($arrZone['chain'], 0, 5) == 'zone:')) {
         return intval(substr($arrZone['chain'], 5));
     } else {
