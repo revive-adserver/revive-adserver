@@ -43,7 +43,8 @@ if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid,
 /*-------------------------------------------------------*/
 //get advertisers and set the current one
 $aAdvertisers = getAdvertiserMap();
-if (empty($clientid)) { //if it's empty
+if (empty($clientid)) {
+    //if it's empty
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid']) {
         //try previous one from session
         $sessionClientId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
@@ -53,13 +54,11 @@ if (empty($clientid)) { //if it's empty
     }
     if (empty($clientid)) { //was empty, is still empty - just pick one, no need for redirect
         $ids = array_keys($aAdvertisers);
-        $clientid = !empty($ids) ? $ids[0] : -1; //if no advertisers set to non-existent id
+        $clientid = empty($ids) ? -1 : $ids[0]; //if no advertisers set to non-existent id
     }
-} else {
-    if (!isset($aAdvertisers[$clientid])) {
-        $page = basename($_SERVER['SCRIPT_NAME']);
-        OX_Admin_Redirect::redirect($page);
-    }
+} elseif (!isset($aAdvertisers[$clientid])) {
+    $page = basename($_SERVER['SCRIPT_NAME']);
+    OX_Admin_Redirect::redirect($page);
 }
 
 
@@ -156,7 +155,7 @@ $aCount = [
 ];
 
 $dalBanners = OA_Dal::factoryDAL('banners');
-if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
+if (isset($aCampaigns) && is_array($aCampaigns) && $aCampaigns !== []) {
     reset($aCampaigns);
     foreach ($aCampaigns as $campaignId => $campaign) {
         $aCount['campaigns']++;

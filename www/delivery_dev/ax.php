@@ -101,7 +101,7 @@ if ($useMultipleZones) {
         $outputXml .= "</ad>\n";
     }
     $outputXml .= "</ads>";
-} elseif (count($aBanners) > 0) {
+} elseif ($aBanners !== []) {
     $outputXml .= "<ad version=\"1.0\">\n";
     buildXmlTree($aBanners[0], $outputXml);
     $outputXml .= "</ad>\n";

@@ -12,7 +12,7 @@
 
 function phpAds_sortArray(&$array, $column = 0, $ascending = true)
 {
-    for ($i = 0; $i < sizeof($array); $i++) {
+    for ($i = 0; $i < count($array); $i++) {
         if (isset($array[$i]['children']) && is_array($array[$i]['children'])) {
             phpAds_sortArray($array[$i]['children'], $column, $ascending);
         }

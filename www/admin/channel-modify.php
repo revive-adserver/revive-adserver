@@ -53,13 +53,13 @@ if (isset($channelid) && $channelid != 0) {
         }
         // Queue confirmation message
         $translation = new OX_Translation();
-        $oldChannelParams = (!$affiliateid)
-            ? "channelid=$channelid"
-            : "affiliateid=$affiliateid&channelid=$channelid";
+        $oldChannelParams = ($affiliateid)
+            ? "affiliateid=$affiliateid&channelid=$channelid"
+            : "channelid=$channelid";
 
-        $newChannelParams = (!$affiliateid)
-            ? "?channelid=$newChannelId"
-            : "?affiliateid=$affiliateid&channelid=$newChannelId";
+        $newChannelParams = ($affiliateid)
+            ? "?affiliateid=$affiliateid&channelid=$newChannelId"
+            : "?channelid=$newChannelId";
 
         $translated_message = $translation->translate(
             $GLOBALS['strChannelHasBeenDuplicated'],

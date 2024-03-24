@@ -60,7 +60,9 @@ class Admin_UI_AdvertiserIdField extends Admin_UI_Field
                 " FROM " . $conf['table']['prefix'] . $conf['table']['clients'] .
                 " WHERE clientid=" . OA_Permission::getEntityId();
         }
-        $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
+        if ($orderBy) {
+            $query .= " ORDER BY $orderBy ASC";
+        }
 
         $oDbh = OA_DB::singleton();
         $oRes = $oDbh->query($query);

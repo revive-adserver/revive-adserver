@@ -110,11 +110,9 @@ class OA_Dll_Banner extends OA_Dll
                 !$this->checkIdExistence('banners', $oBanner->bannerId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oBanner, 'campaignId')) {
             // When adding a banner, check that the required field 'campaignId' is correct.
-            if (!$this->checkStructureRequiredIntegerField($oBanner, 'campaignId')) {
-                return false;
-            }
+            return false;
         }
 
         if (isset($oBanner->campaignId) &&
@@ -136,7 +134,7 @@ class OA_Dll_Banner extends OA_Dll
         if (!isset($oBanner->bannerId)) {
             if (!isset($oBanner->storageType) || empty($aAllowedBanners[$oBanner->storageType])) {
                 $storageTypes = array_keys($aAllowedBanners);
-                $this->raiseError('Field \'storageType\' must be one of the enum: ' . join(', ', $storageTypes));
+                $this->raiseError('Field \'storageType\' must be one of the enum: ' . implode(', ', $storageTypes));
                 return false;
             }
             $contentType = '';
@@ -158,8 +156,7 @@ class OA_Dll_Banner extends OA_Dll
                 return false;
             }
         }
-
-        if (!$this->checkStructureNotRequiredStringField($oBanner, 'bannerName', 255) ||
+        return !(!$this->checkStructureNotRequiredStringField($oBanner, 'bannerName', 255) ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'imageURL', 255) ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'htmlTemplate') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'width') ||
@@ -174,12 +171,7 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'block') ||
             !$this->checkStructureNotRequiredStringField($oBanner, 'comments') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'alt')
-        ) {
-            return false;
-        }
-
-        return true;
+            !$this->checkStructureNotRequiredStringField($oBanner, 'alt'));
     }
 
     /**
@@ -196,12 +188,7 @@ class OA_Dll_Banner extends OA_Dll
      */
     public function _validateForStatistics($bannerId, $oStartDate, $oEndDate)
     {
-        if (!$this->checkIdExistence('banners', $bannerId) ||
-            !$this->checkDateOrder($oStartDate, $oEndDate)) {
-            return false;
-        }
-
-        return true;
+        return $this->checkIdExistence('banners', $bannerId) && $this->checkDateOrder($oStartDate, $oEndDate);
     }
 
     /**
@@ -257,16 +244,14 @@ class OA_Dll_Banner extends OA_Dll
             )) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkPermissions(
+            $this->aAllowAdvertiserAndAbovePerm,
+            'banners',
+            $oBanner->bannerId,
+            OA_PERM_BANNER_EDIT
+        )) {
             // Edit
-            if (!$this->checkPermissions(
-                $this->aAllowAdvertiserAndAbovePerm,
-                'banners',
-                $oBanner->bannerId,
-                OA_PERM_BANNER_EDIT
-            )) {
-                return false;
-            }
+            return false;
         }
 
         $bannerData = (array) $oBanner;
@@ -280,15 +265,9 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
         $bannerData['alt'] = $oBanner->alt;
 
-        $bannerData['capping'] = $oBanner->capping > 0
-                                        ? $oBanner->capping
-                                        : 0;
-        $bannerData['session_capping'] = $oBanner->sessionCapping > 0
-                                        ? $oBanner->sessionCapping
-                                        : 0;
-        $bannerData['block'] = $oBanner->block > 0
-                                        ? $oBanner->block
-                                        : 0;
+        $bannerData['capping'] = max($oBanner->capping, 0);
+        $bannerData['session_capping'] = max($oBanner->sessionCapping, 0);
+        $bannerData['block'] = max($oBanner->block, 0);
 
         if ($this->_validate($oBanner)) {
             $bannerData['storagetype'] = $oBanner->storageType;

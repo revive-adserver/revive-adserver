@@ -189,7 +189,7 @@ function OA_Delivery_Cache_getName($functionName)
     $args = func_get_args();
     $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
 
-    return join('^', $args) . '@' . $GLOBALS['OA_Delivery_Cache']['host'];
+    return implode('^', $args) . '@' . $GLOBALS['OA_Delivery_Cache']['host'];
 }
 
 /**
@@ -464,7 +464,7 @@ function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
     // Default delay is 5 minutes
     $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-    $delay = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
+    $delay = (int) (($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 
     $now = MAX_commonGetTimeNow();
     $today = strtotime(date('Y-m-d'), $now);

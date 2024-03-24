@@ -51,17 +51,15 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId = 0, $source = '', $ct0 =
         } else {
             throw new Exception("Uncatered for vast plugintype|$pluginType|");
         }
+    } elseif ($pluginType == 'vastInline') {
+        $player .= renderPlayerInPage($aOutputParams);
+        $player .= renderCompanionInAdminTool($aOutputParams);
+    } elseif ($pluginType == 'vastOverlay') {
+        $player .= renderOverlayInAdminTool($aOutputParams, $aBanner);
+        $player .= renderCompanionInAdminTool($aOutputParams);
+        $player .= renderPlayerInPage($aOutputParams);
     } else {
-        if ($pluginType == 'vastInline') {
-            $player .= renderPlayerInPage($aOutputParams);
-            $player .= renderCompanionInAdminTool($aOutputParams);
-        } elseif ($pluginType == 'vastOverlay') {
-            $player .= renderOverlayInAdminTool($aOutputParams, $aBanner);
-            $player .= renderCompanionInAdminTool($aOutputParams);
-            $player .= renderPlayerInPage($aOutputParams);
-        } else {
-            throw new Exception("Uncatered for vast plugintype|$pluginType|");
-        }
+        throw new Exception("Uncatered for vast plugintype|$pluginType|");
     }
     return $player;
 }
@@ -98,12 +96,10 @@ function getVideoPlayerUrl($parameterId)
     if (isset($conf['vastServeVideoPlayer'][$parameterId])) {
         $configFileLocation = $conf['vastServeVideoPlayer'][$parameterId];
         $fullFileLocationUrl .= $configFileLocation;
+    } elseif (!isset($aDefaultPlayerFiles[$parameterId])) {
+        throw new Exception("Uncatered for setting type in getVideoPlayerUrl() |$parameterId| in <pre>" . print_r($aDefaultPlayerFiles, true) . '</pre>');
     } else {
-        if (!isset($aDefaultPlayerFiles[$parameterId])) {
-            throw new Exception("Uncatered for setting type in getVideoPlayerUrl() |$parameterId| in <pre>" . print_r($aDefaultPlayerFiles, true) . '</pre>');
-        } else {
-            $fullFileLocationUrl .= $aDefaultPlayerFiles[$parameterId];
-        }
+        $fullFileLocationUrl .= $aDefaultPlayerFiles[$parameterId];
     }
     return $fullFileLocationUrl;
 }
@@ -523,10 +519,8 @@ function renderOverlayInAdminTool($aOut, $aBanner)
 
     $htmlOverlayPrepend = 'The overlay will appear on top of video content during video play.';
 
-    switch ($aOut['overlayFormat']) {
-        case VAST_OVERLAY_FORMAT_IMAGE:
-            $htmlOverlayPrepend .= " This overlay has the following dimensions: width = " . $aOut['overlayWidth'] . ", height = " . $aOut['overlayHeight'] . ".";
-            break;
+    if ($aOut['overlayFormat'] === VAST_OVERLAY_FORMAT_IMAGE) {
+        $htmlOverlayPrepend .= " This overlay has the following dimensions: width = " . $aOut['overlayWidth'] . ", height = " . $aOut['overlayHeight'] . ".";
     }
     if ($aOut['overlayDestinationUrl']) {
         $htmlOverlayPrepend .= ' In the video player, this overlay will be clickable.';
@@ -559,9 +553,9 @@ if (!(function_exists('bcmod'))) {
 
 function secondsToVASTDuration($seconds)
 {
-    $hours = intval(intval($seconds) / 3600);
-    $minutes = bcmod((intval($seconds) / 60), 60);
-    $seconds = bcmod(intval($seconds), 60);
+    $hours = (int) ((int) $seconds / 3600);
+    $minutes = bcmod(((int) $seconds / 60), 60);
+    $seconds = bcmod((int) $seconds, 60);
     $ret = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
     return $ret;
 }

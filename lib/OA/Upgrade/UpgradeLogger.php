@@ -146,7 +146,7 @@ class OA_UpgradeLogger
                 return;
             }
             if (count($this->logBuffer)) {
-                $message = join("\n", $this->logBuffer);
+                $message = implode("\n", $this->logBuffer);
                 $this->logBuffer = [];
             }
             fwrite($log, "{$message}\n");

@@ -98,14 +98,7 @@ class OA_Dll_Channel extends OA_Dll
                 return false;
             }
         }
-
-
-        if (!$this->checkStructureNotRequiredStringField($oChannel, 'description', 255) ||
-            !$this->checkStructureNotRequiredStringField($oChannel, 'comments')) {
-            return false;
-        }
-
-        return true;
+        return $this->checkStructureNotRequiredStringField($oChannel, 'description', 255) && $this->checkStructureNotRequiredStringField($oChannel, 'comments');
     }
 
     /**
@@ -131,7 +124,6 @@ class OA_Dll_Channel extends OA_Dll
         if (!isset($oChannel->channelId)) {
             // Add
             $oChannel->setDefaultForAdd();
-
             // Check permission for the website.
             if (isset($oChannel->websiteId) && $oChannel->websiteId != 0) {
                 if (!$this->checkPermissions(
@@ -142,14 +134,12 @@ class OA_Dll_Channel extends OA_Dll
                     return false;
                 }
             }
-        } else {
-            if (!$this->checkPermissions(
-                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
-                'channel',
-                $oChannel->channelId
-            )) {
-                return false;
-            }
+        } elseif (!$this->checkPermissions(
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'channel',
+            $oChannel->channelId
+        )) {
+            return false;
         }
 
         // Prepare the dataobject array.

@@ -248,7 +248,7 @@ class OA_Upgrade
      */
     public function isRecoveryRequired()
     {
-        return (is_array($this->seekRecoveryFile()) ? true : false);
+        return (is_array($this->seekRecoveryFile()));
     }
 
     /**
@@ -488,17 +488,15 @@ class OA_Upgrade
             default:
                 if ($noText) {
                     return $this->versionInitialApplication;
-                } else {
+                } elseif (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
                     // The product was re-branded OpenX at 2.4.4, and Revive
                     // Adserver at 3.0.0, so deal with the product names in this
                     // text description accordingly
-                    if (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
-                        return 'Openads ' . $this->versionInitialApplication;
-                    } elseif (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
-                        return 'OpenX ' . $this->versionInitialApplication;
-                    } else {
-                        return 'Revive Adserver ' . $this->versionInitialApplication;
-                    }
+                    return 'Openads ' . $this->versionInitialApplication;
+                } elseif (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
+                    return 'OpenX ' . $this->versionInitialApplication;
+                } else {
+                    return 'Revive Adserver ' . $this->versionInitialApplication;
                 }
         }
     }
@@ -1476,10 +1474,7 @@ class OA_Upgrade
         if (!$this->oConfiguration->mergeConfig()) {
             return false;
         }
-        if (!$this->oConfiguration->writeConfig()) {
-            return false;
-        }
-        return true;
+        return $this->oConfiguration->writeConfig();
     }
 
     /**

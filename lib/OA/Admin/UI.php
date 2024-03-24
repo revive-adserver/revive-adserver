@@ -51,22 +51,22 @@ class OA_Admin_UI
     public $aLinkParams;
     /** holds the id of the page being currently displayed **/
     public $currentSectionId;
-    public $aTools;
-    public $aShortcuts;
+    public $aTools = [];
+    public $aShortcuts = [];
 
     /**
      * An array containing a list of CSS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
-    public $otherCSSFiles;
+    public $otherCSSFiles = [];
 
     /**
      * An array containing a list of JS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
-    public $otherJSFiles;
+    public $otherJSFiles = [];
 
     /**
      * Class constructor, private to force getInstance usage
@@ -77,11 +77,7 @@ class OA_Admin_UI
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
         $this->notificationManager = new OA_Admin_UI_NotificationManager();
-        $this->otherCSSFiles = [];
-        $this->otherJSFiles = [];
         $this->setLinkParams();
-        $this->aTools = [];
-        $this->aShortcuts = [];
     }
 
 

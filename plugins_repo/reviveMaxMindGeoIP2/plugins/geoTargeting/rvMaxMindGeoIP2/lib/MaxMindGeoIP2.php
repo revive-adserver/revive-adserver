@@ -172,7 +172,7 @@ class MaxMindGeoIP2
                 $ret['subdivision_2'] = $res['subdivisions'][1]['iso_code'];
             }
 
-            foreach (self::TRAITS as $trait => $dummy) {
+            foreach (array_keys(self::TRAITS) as $trait) {
                 if (isset($res[$trait])) {
                     $ret[$trait] = $res[$trait];
                 } elseif (isset($res['traits'][$trait])) {
@@ -198,7 +198,7 @@ class MaxMindGeoIP2
     {
         $aGeoInfo = self::getCookieArray();
 
-        return join('|', array_merge($aGeoInfo, $data));
+        return implode('|', array_merge($aGeoInfo, $data));
     }
 
     public static function unpackCookie($string = '')

@@ -279,7 +279,7 @@ class OX_Maintenance_Priority_Campaign
     public function setAdverts()
     {
         $aAds = $this->oMaxDalEntities->getAdsByCampaignId($this->id);
-        if (is_array($aAds) && (count($aAds) > 0)) {
+        if (is_array($aAds) && ($aAds !== [])) {
             reset($aAds);
             foreach ($aAds as $adId => $aAdDetails) {
                 $this->aAds[$adId] = new OA_Maintenance_Priority_Ad($aAdDetails);

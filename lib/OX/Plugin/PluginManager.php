@@ -76,7 +76,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     public function isEnabled($name)
     {
-        return ($GLOBALS['_MAX']['CONF']['plugins'][$name] ? true : false);
+        return ((bool) $GLOBALS['_MAX']['CONF']['plugins'][$name]);
     }
 
     /**
@@ -162,7 +162,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 throw new Exception('Upgrade package ' . $aPackageNew['name'] . '" has the same version stamp as that of the package you have installed');
             }
 
-            $enabled = (!empty($GLOBALS['_MAX']['CONF']['plugins'][$name])) ? true : false;
+            $enabled = !empty($GLOBALS['_MAX']['CONF']['plugins'][$name]);
             $this->disablePackage($name, true);
             if (!$this->unpackPlugin($aFile, true)) {
                 throw new Exception();
@@ -1278,7 +1278,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         // are any declared files missing from the zip?
         $aDiffsExpected = array_diff($aFilesExpected, $aFilesStored);
-        if (count($aDiffsExpected)) {
+        if ($aDiffsExpected !== []) {
             $this->_logError(count($aDiffsExpected) . ' expected files not found');
             foreach ($aDiffsExpected as &$file) {
                 $this->_logError($file);
@@ -1289,13 +1289,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         // are there any files in the zip that are not declared in the definitions?
         // but please ignore lang files
         $aDiffStored = array_filter(array_diff($aFilesStored, $aFilesExpected), function ($file) {
-            if (preg_match('#^/plugins/etc/[^/]+/_lang/(?:po/)?[a-z][a-z](?:_[A-Z][A-Z])?\.(?:mo|pot?)$#D', $file)) {
-                return false;
-            }
-
-            return true;
+            return !preg_match('#^/plugins/etc/[^/]+/_lang/(?:po/)?[a-z][a-z](?:_[A-Z][A-Z])?\.(?:mo|pot?)$#D', $file);
         });
-        if (count($aDiffStored) > 0) {
+        if ($aDiffStored !== []) {
             $this->_logError(count($aDiffStored) . ' unexpected files found');
             foreach ($aDiffStored as &$file) {
                 $this->_logError($file);

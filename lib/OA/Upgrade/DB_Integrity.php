@@ -205,7 +205,7 @@ class OA_DB_Integrity
                                 $aResult[] = $rows['error'];
                             } else {
                                 $msg = $rows['count'] . ' / ' . $count . ' rows inserted into table ' . $aVariables['prefix'] . $table_name;
-                                if ($rows['count'] <> $count) {
+                                if ($rows['count'] != $count) {
                                     $msg = 'ERROR! ' . $msg;
                                 }
                                 $aResult[] = $msg;

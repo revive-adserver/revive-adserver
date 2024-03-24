@@ -93,7 +93,7 @@ class OA_phpAdsNew
             $aResult['logging']['proxyLookup'] = $phpAds_config['proxy_lookup'] ?? false;
             $aResult['logging']['adImpressions'] = $phpAds_config['log_adviews'] ?? true;
             $aResult['logging']['adClicks'] = $phpAds_config['log_adclicks'] ?? true;
-            $aResult['logging']['ignoreHosts'] = join(',', $phpAds_config['ignore_hosts'] ?? []);
+            $aResult['logging']['ignoreHosts'] = implode(',', $phpAds_config['ignore_hosts'] ?? []);
             $aResult['logging']['blockAdImpressions'] = $phpAds_config['block_adviews'] ?? false;
             $aResult['logging']['blockAdClicks'] = $phpAds_config['block_adclicks'] ?? false;
             $aResult['p3p']['policies'] = $phpAds_config['p3p_policies'] ?? '';

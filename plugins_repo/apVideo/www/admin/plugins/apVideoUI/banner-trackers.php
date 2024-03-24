@@ -36,7 +36,7 @@ phpAds_SessionDataStore();
 $doApVideo = OA_Dal::staticGetDO('ext_ap_video', $bannerid);
 if (!empty($doApVideo->impression_trackers)) {
     $aBanner = [
-        'impression_trackers' => join("\n", json_decode($doApVideo->impression_trackers, true))
+        'impression_trackers' => implode("\n", json_decode($doApVideo->impression_trackers, true))
     ];
 }
 
@@ -162,7 +162,7 @@ function checkUrls($aFields)
         }
     }
 
-    if (count($aErrors)) {
+    if ($aErrors !== []) {
         return $aErrors;
     }
 

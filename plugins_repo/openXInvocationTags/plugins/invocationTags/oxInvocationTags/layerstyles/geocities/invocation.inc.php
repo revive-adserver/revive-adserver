@@ -108,7 +108,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
         }
 
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&", $mi->parameters);
         }
         $buffer = "<script type='text/javascript'><!--//<![CDATA[

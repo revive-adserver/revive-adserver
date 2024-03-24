@@ -334,10 +334,7 @@ class OX_OperationInterval
         $oDateCopy->copy($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDateCopy, $operationInterval);
         // Do the start dates match?
-        if ($oDate->equals($aDates['start'])) {
-            return true;
-        }
-        return false;
+        return $oDate->equals($aDates['start']);
     }
 
     /**
@@ -364,10 +361,7 @@ class OX_OperationInterval
         $oDateCopy->copy($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDateCopy, $operationInterval);
         // Do the start dates match?
-        if ($oDate->equals($aDates['end'])) {
-            return true;
-        }
-        return false;
+        return $oDate->equals($aDates['end']);
     }
 
     /**
@@ -389,10 +383,7 @@ class OX_OperationInterval
         if ($start->getDay() != $end->getDay()) {
             return false;
         }
-        if ($start->getHour() != $end->getHour()) {
-            return false;
-        }
-        return true;
+        return $start->getHour() == $end->getHour();
     }
 
     /**

@@ -78,8 +78,8 @@ function getDBAuditTable($aAudit)
         $schemas .= sprintf($td, $aRec['backup_rows']);
         //$schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
         $schemas .= "</tr>";
-        $totalSize = $totalSize + $aRec['backup_size'];
-        $totalRows = $totalRows + $aRec['backup_rows'];
+        $totalSize += $aRec['backup_size'];
+        $totalRows += $aRec['backup_rows'];
     }
 
     $schemas .= "<tr>";

@@ -50,12 +50,10 @@ abstract class Plugins_ReportsScope extends Plugins_Reports
                 $aAdvertiser = $doClients->toArray();
                 $aParams[$key] = $aAdvertiser['clientname'];
             }
+        } elseif ($this->_oScope->getAnonymous()) {
+            $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->extension);
         } else {
-            if ($this->_oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->extension);
-            } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->extension);
-            }
+            $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->extension);
         }
         $key = MAX_Plugin_Translation::translate('Website', $this->extension);
         $publisherId = $this->_oScope->getPublisherId();
@@ -67,12 +65,10 @@ abstract class Plugins_ReportsScope extends Plugins_Reports
                 $aPublisher = $doAffiliates->toArray();
                 $aParams[$key] = $aPublisher['name'];
             }
+        } elseif ($this->_oScope->getAnonymous()) {
+            $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->extension);
         } else {
-            if ($this->_oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->extension);
-            } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->extension);
-            }
+            $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->extension);
         }
         return $aParams;
     }

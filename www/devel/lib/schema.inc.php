@@ -93,7 +93,7 @@ class Openads_Schema_Manager
         }
         $lastPath = substr($path_schema, strlen($path_schema) - 4, 4);
         if ($lastPath != 'etc/' && $lastPath != 'etc\\') {
-            $path_schema = $path_schema . 'etc/';
+            $path_schema .= 'etc/';
         }
 
         $this->path_schema_final = MAX_PATH . $path_schema;
@@ -705,7 +705,7 @@ class Openads_Schema_Manager
         $aNewIndex['fields'] = [];
         $aNewIndex['primary'] = $primary;
         $aNewIndex['unique'] = $unique;
-        foreach ($aIndex_fields as $fld_name => $null) {
+        foreach (array_keys($aIndex_fields) as $fld_name) {
             if ($primary || $unique) {
                 if (!$aTable['fields'][$fld_name]['notnull']) {
                     $this->oLogger->logError('Primary key fields must be not null');

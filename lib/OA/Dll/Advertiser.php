@@ -70,7 +70,6 @@ class OA_Dll_Advertiser extends OA_Dll
             if (!$this->checkStructureRequiredIntegerField($oAdvertiser, 'advertiserId')) {
                 return false;
             }
-
             $doAdvertiser = OA_Dal::factoryDO('clients');
             $doAdvertiser->get($oAdvertiser->advertiserId);
             $advertiserOld = $doAdvertiser->toArray();
@@ -78,11 +77,9 @@ class OA_Dll_Advertiser extends OA_Dll
                 !$this->checkIdExistence('clients', $oAdvertiser->advertiserId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredStringField($oAdvertiser, 'advertiserName', 255)) {
             // When adding an advertiser, check that the required field 'advertiserName' is correct.
-            if (!$this->checkStructureRequiredStringField($oAdvertiser, 'advertiserName', 255)) {
-                return false;
-            }
+            return false;
         }
 
         if (isset($oAdvertiser->emailAddress) &&
@@ -100,11 +97,7 @@ class OA_Dll_Advertiser extends OA_Dll
             return false;
         }
         // Check that an agencyID exists and that the user has permissions.
-        if (!$this->checkAgencyPermissions($oAdvertiser->agencyId)) {
-            return false;
-        }
-
-        return true;
+        return (bool) $this->checkAgencyPermissions($oAdvertiser->agencyId);
     }
 
     /**
@@ -121,12 +114,7 @@ class OA_Dll_Advertiser extends OA_Dll
      */
     public function _validateForStatistics($advertiserId, $oStartDate, $oEndDate)
     {
-        if (!$this->checkIdExistence('clients', $advertiserId) ||
-            !$this->checkDateOrder($oStartDate, $oEndDate)) {
-            return false;
-        }
-
-        return true;
+        return $this->checkIdExistence('clients', $advertiserId) && $this->checkDateOrder($oStartDate, $oEndDate);
     }
 
     /**

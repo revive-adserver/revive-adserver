@@ -362,7 +362,7 @@ function MAX_commonDecrypt($string)
     $convert = '';
     if (isset($string) && substr($string, 1, 4) == 'obfs' && $conf['delivery']['obfuscate']) {
         $strLen = strlen($string);
-        for ($i = 6; $i < $strLen - 1; $i = $i + 3) {
+        for ($i = 6; $i < $strLen - 1; $i += 3) {
             $dec = substr($string, $i, 3);
             $dec = 324 - $dec;
             $dec = chr($dec);
@@ -448,10 +448,8 @@ function MAX_commonInitVariables()
     // Set real referer - Only valid if passed in
     if (!empty($referer)) {
         $_SERVER['HTTP_REFERER'] = stripslashes($referer);
-    } else {
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            unset($_SERVER['HTTP_REFERER']);
-        }
+    } elseif (isset($_SERVER['HTTP_REFERER'])) {
+        unset($_SERVER['HTTP_REFERER']);
     }
 
     $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = [
@@ -737,17 +735,15 @@ function OX_Delivery_Common_hook($hookName, $aParams = [], $functionName = '')
         if (function_exists($functionName)) {
             $return = call_user_func_array($functionName, $aParams);
         }
-    } else {
+    } elseif (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
         // When no $functionName is passed in, we execute all components which are registered for this hook
-        if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
-            $return = [];
-            $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
-            foreach ($hooks as $identifier) {
-                $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
-                if (function_exists($functionName)) {
-                    OX_Delivery_logMessage('calling on ' . $functionName, 7);
-                    $return[$identifier] = call_user_func_array($functionName, $aParams);
-                }
+        $return = [];
+        $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
+        foreach ($hooks as $identifier) {
+            $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
+            if (function_exists($functionName)) {
+                OX_Delivery_logMessage('calling on ' . $functionName, 7);
+                $return[$identifier] = call_user_func_array($functionName, $aParams);
             }
         }
     }
@@ -775,7 +771,7 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
     }
 
     $aInfo = explode(':', $identifier);
-    $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
+    $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (empty($hook) ? '' : '_' . $hook);
 
     if (!function_exists($functionName)) {
         // Function doesn't exist, include the generic merged delivery file
@@ -804,7 +800,7 @@ function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $da
         throw new InvalidArgumentException('Empty delivery secret');
     }
 
-    $secret = join("\t", [
+    $secret = implode("\t", [
         base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
         $adId,
         $zoneId
@@ -838,13 +834,8 @@ function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $
         // Missing or invalid timestamp
         return false;
     }
-
-    if ($ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow()) {
-        // Valid click url
-        return true;
-    }
-
-    return false;
+    // Valid click url
+    return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
 }
 
 /**

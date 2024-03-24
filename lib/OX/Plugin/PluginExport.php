@@ -30,12 +30,7 @@ class OX_PluginExport
     public $aGroups = [];
     public $aErrors = [];
     /** @var string */
-    private $basePath;
-
-    public function __construct()
-    {
-        $this->basePath = MAX_PATH;
-    }
+    private $basePath = MAX_PATH;
 
     public function init($name)
     {
@@ -273,10 +268,7 @@ class OX_PluginExport
      */
     public function _makeDirectory($dir)
     {
-        if (@mkdir($dir, 0775, true)) {
-            return true;
-        }
-        return false;
+        return @mkdir($dir, 0775, true);
     }
 
     /*

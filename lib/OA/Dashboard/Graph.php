@@ -234,7 +234,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $aUnits = ['B' => 1000000000, 'M' => 1000000, 'k' => 1000];
         foreach ($aUnits as $k => $v) {
             if ($value >= $v) {
-                $value = $value / $v;
+                $value /= $v;
                 $unit = $oTrans->translate($k);
             }
         }

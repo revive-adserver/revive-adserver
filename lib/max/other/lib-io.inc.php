@@ -21,9 +21,8 @@ if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
  * Note: This is now a wrapper to the delivery engine's equivalent function
  *
  */
-function phpAds_registerGlobal()
+function phpAds_registerGlobal(...$args)
 {
-    $args = func_get_args();
     MAX_commonRegisterGlobalsArray($args);
 }
 
@@ -34,9 +33,8 @@ function phpAds_registerGlobal()
  * $_POST values take precedence over $_GET values
  *
  */
-function phpAds_registerGlobalUnslashed()
+function phpAds_registerGlobalUnslashed(...$args)
 {
-    $args = func_get_args();
     $request = [];
     foreach ($args as $key) {
         $GLOBALS[$key] = $request[$key] = $_GET[$key] ?? $_POST[$key] ?? null;

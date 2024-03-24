@@ -64,15 +64,15 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysqli implements OX_E
 
         if ($count) {
             $aRow = $oMainDbh->queryRow("SHOW VARIABLES LIKE 'max_allowed_packet'");
-            $packetSize = !empty($aRow['value']) ? $aRow['value'] : 0;
+            $packetSize = empty($aRow['value']) ? 0 : $aRow['value'];
 
             $i = 0;
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
-                $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
+                $sRow = '(' . implode(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
 
                 if (!$i) {
-                    $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";
+                    $sInsert = "INSERT INTO {$sTableName} (" . implode(',', array_keys($aRow)) . ") VALUES ";
                     $query = '';
                     $aExecQueries = [];
                 }
@@ -92,7 +92,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysqli implements OX_E
                     $query = '';
                 }
 
-                if (count($aExecQueries)) {
+                if ($aExecQueries !== []) {
                     // Try to disable the binlog for the inserts so we don't
                     // replicate back out over our logged data.
                     PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);

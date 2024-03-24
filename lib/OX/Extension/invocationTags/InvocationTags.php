@@ -270,14 +270,14 @@ abstract class Plugins_InvocationTags extends OX_Component
         // Remove any paramaters that should not be passed into the IMG call
         unset($imgParams['target']);
 
-        if (sizeof($imgParams) > 0) {
+        if ($imgParams !== []) {
             $backup .= "?" . implode("&amp;", $imgParams);
         }
         $backup .= "' border='0' alt='' /></a>";
         $mi->backupImage = $backup;
 
         // Make sure that the parameters being added are accepted by this plugin, else remove them
-        foreach ($mi->parameters as $key => $value) {
+        foreach (array_keys($mi->parameters) as $key) {
             if (!in_array($key, array_keys($this->options))) {
                 unset($mi->parameters[$key]);
             }
@@ -312,12 +312,10 @@ abstract class Plugins_InvocationTags extends OX_Component
                 } else {
                     $htmlOptions .= $invocationOptions->$optionToShow();
                 }
+            } elseif (!method_exists($this, $optionToShow)) {
+                MAX::raiseError("Method '$optionToShow' doesn't exists");
             } else {
-                if (!method_exists($this, $optionToShow)) {
-                    MAX::raiseError("Method '$optionToShow' doesn't exists");
-                } else {
-                    $htmlOptions .= $this->$optionToShow();
-                }
+                $htmlOptions .= $this->$optionToShow();
             }
         }
 

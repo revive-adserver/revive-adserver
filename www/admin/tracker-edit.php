@@ -239,11 +239,11 @@ function displayTrackerEditPage($tracker, $form)
 function splitSecondsIntoCalendarItems($seconds)
 {
     $result['day'] = floor($seconds / (60 * 60 * 24));
-    $seconds = $seconds % (60 * 60 * 24);
+    $seconds %= 60 * 60 * 24;
     $result['hour'] = floor($seconds / (60 * 60));
-    $seconds = $seconds % (60 * 60);
+    $seconds %= 60 * 60;
     $result['minute'] = floor($seconds / (60));
-    $seconds = $seconds % (60);
+    $seconds %= 60;
     $result['second'] = $seconds;
 
     return $result;

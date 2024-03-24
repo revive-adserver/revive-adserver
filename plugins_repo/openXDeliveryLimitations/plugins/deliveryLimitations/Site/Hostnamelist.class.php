@@ -176,11 +176,11 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
                 $url = strtolower($url);
                 $hostname = @parse_url($url, PHP_URL_HOST);
                 if (is_string($hostname) && strlen($hostname)) {
-                    array_push($aSanitisedData, $hostname);
+                    $aSanitisedData[] = $hostname;
                 } else {
                     $hostname = @parse_url('http://' . $url, PHP_URL_HOST);
                     if (is_string($hostname) && strlen($hostname)) {
-                        array_push($aSanitisedData, $hostname);
+                        $aSanitisedData[] = $hostname;
                     }
                 }
             }

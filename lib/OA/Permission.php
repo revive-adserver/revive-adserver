@@ -226,10 +226,7 @@ class OA_Permission
      */
     public static function isManualAccountSwitch()
     {
-        if (isset($GLOBALS['_OX']['accountSwtich'])) {
-            return true;
-        }
-        return false;
+        return isset($GLOBALS['_OX']['accountSwtich']);
     }
 
     public static function attemptToSwitchToAccount($accountType)
@@ -315,7 +312,7 @@ class OA_Permission
         }
 
         if ($sort) {
-            foreach ($aAccountsByType as $accountType => $aAccount) {
+            foreach (array_keys($aAccountsByType) as $accountType) {
                 natcasesort($aAccountsByType[$accountType]);
             }
         }
@@ -1219,10 +1216,7 @@ class OA_Permission
     public static function userNameExists($userName)
     {
         $doUser = OA_Dal::factoryDO('users');
-        if (!PEAR::isError($doUser) && $doUser->userExists($userName)) {
-            return true;
-        }
-        return false;
+        return !PEAR::isError($doUser) && $doUser->userExists($userName);
     }
 
     /**
@@ -1308,7 +1302,7 @@ class OA_Permission
     public static function deleteExistingPermissions($accountId, $userId, $allowedPermissions)
     {
         if (is_array($allowedPermissions)) {
-            foreach ($allowedPermissions as $permissionId => $perm) {
+            foreach (array_keys($allowedPermissions) as $permissionId) {
                 $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
                 $doAccount_user_permission_assoc->permission_id = $permissionId;
                 $doAccount_user_permission_assoc->account_id = $accountId;

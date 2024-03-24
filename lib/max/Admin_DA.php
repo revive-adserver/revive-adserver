@@ -162,7 +162,7 @@ class Admin_DA
 
         if (!empty($aRows[$id])) {
             $aRow = $aRows[$id];
-        } elseif (!($aRows === false)) {
+        } elseif ($aRows !== false) {
             $aRow = false;
         } else {
             $aRow = [];
@@ -331,7 +331,7 @@ class Admin_DA
         }
     }
 
-    public static function fromCache()
+    public static function fromCache(...$aArgs)
     {
         //  parse variable args
         //  method, id, timeout
@@ -340,7 +340,6 @@ class Admin_DA
         if ($numArgs < 2 || $numArgs > 5) {
             return PEAR::raiseError('incorrect args passed');
         }
-        $aArgs = func_get_args();
 
         //  initialise cache object
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -468,9 +467,9 @@ class Admin_DA
         $aAdvertisersStats = Admin_DA::_getEntitiesStats('advertiser', $aParams);
         $aActiveParams = ['placement_active' => 't', 'ad_active' => 't'];
         $aActiveAdvertisers = Admin_DA::_getEntities('advertiser', $aParams + $aActiveParams);
-        foreach ($aAdvertisers as $advertiserId => $aAdvertiser) {
+        foreach (array_keys($aAdvertisers) as $advertiserId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aAdvertisers[$advertiserId][$item] = !empty($aAdvertisersStats[$advertiserId][$item]) ? $aAdvertisersStats[$advertiserId][$item] : 0;
+                $aAdvertisers[$advertiserId][$item] = empty($aAdvertisersStats[$advertiserId][$item]) ? 0 : $aAdvertisersStats[$advertiserId][$item];
             }
             $aAdvertisers[$advertiserId]['active'] = isset($aActiveAdvertisers[$advertiserId]);
         }
@@ -697,11 +696,11 @@ class Admin_DA
     {
         $aPlacements = Admin_DA::_getEntitiesChildren('placement', $aParams);
         $aPlacementsStats = Admin_DA::_getEntitiesStats('placement', $aParams);
-        foreach ($aPlacements as $placementId => $aPlacement) {
+        foreach (array_keys($aPlacements) as $placementId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aPlacements[$placementId][$item] = (!empty($aPlacementsStats[$placementId][$item]))
-                    ? $aPlacementsStats[$placementId][$item]
-                    : 0;
+                $aPlacements[$placementId][$item] = (empty($aPlacementsStats[$placementId][$item]))
+                    ? 0
+                    : $aPlacementsStats[$placementId][$item];
             }
         }
         return $aPlacements;
@@ -711,9 +710,9 @@ class Admin_DA
     {
         $aPublishers = Admin_DA::_getEntitiesChildren('publisher', $aParams);
         $aPublishersStats = Admin_DA::_getEntitiesStats('publisher', $aParams);
-        foreach ($aPublishers as $publisherId => $aPublisher) {
+        foreach (array_keys($aPublishers) as $publisherId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aPublishers[$publisherId][$item] = !empty($aPublishersStats[$publisherId][$item]) ? $aPublishersStats[$publisherId][$item] : 0;
+                $aPublishers[$publisherId][$item] = empty($aPublishersStats[$publisherId][$item]) ? 0 : $aPublishersStats[$publisherId][$item];
             }
         }
         return $aPublishers;
@@ -723,9 +722,9 @@ class Admin_DA
     {
         $aZones = Admin_DA::_getEntitiesChildren('zone', $aParams);
         $aZonesStats = Admin_DA::_getEntitiesStats('zone', $aParams);
-        foreach ($aZones as $zoneId => $aZone) {
+        foreach (array_keys($aZones) as $zoneId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aZones[$zoneId][$item] = !empty($aZonesStats[$zoneId][$item]) ? $aZonesStats[$zoneId][$item] : 0;
+                $aZones[$zoneId][$item] = empty($aZonesStats[$zoneId][$item]) ? 0 : $aZonesStats[$zoneId][$item];
             }
         }
         return $aZones;
@@ -735,9 +734,9 @@ class Admin_DA
     {
         $aAds = Admin_DA::_getEntities('ad', $aParams);
         $aAdsStats = Admin_DA::_getEntitiesStats('ad', $aParams);
-        foreach ($aAds as $adId => $aAd) {
+        foreach (array_keys($aAds) as $adId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aAds[$adId][$item] = !empty($aAdsStats[$adId][$item]) ? $aAdsStats[$adId][$item] : 0;
+                $aAds[$adId][$item] = empty($aAdsStats[$adId][$item]) ? 0 : $aAdsStats[$adId][$item];
             }
         }
         return $aAds;
@@ -860,13 +859,11 @@ class Admin_DA
         $canAddAdZone = Admin_DA::_isValidAdZoneAssoc($aVariables);
         if (PEAR::isError($canAddAdZone)) {
             $result = $canAddAdZone;
-        } else {
+        } elseif ($aVariables['zone_id'] === 0) {
             // Add the banner
-            if ($aVariables['zone_id'] === 0) {
-                $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1', 'link_type' => MAX_AD_ZONE_LINK_DIRECT]);
-            } else {
-                $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1']);
-            }
+            $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1', 'link_type' => MAX_AD_ZONE_LINK_DIRECT]);
+        } else {
+            $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1']);
         }
         PEAR::popErrorHandling();
         return $result;

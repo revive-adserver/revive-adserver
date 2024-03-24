@@ -91,7 +91,7 @@ class OA_Maintenance_Priority_Ad
         if (!is_array($aParams)) {
             $valid = false;
         } else {
-            if (!(count($aParams) == 1 || count($aParams) == 4)) {
+            if (count($aParams) != 1 && count($aParams) != 4) {
                 $valid = false;
             }
             if (isset($aParams['ad_id']) && is_numeric($aParams['ad_id'])) {

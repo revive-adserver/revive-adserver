@@ -246,7 +246,7 @@ function MAX_getPlacementName($aPlacement, $length = null)
         $name = '';
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -268,7 +268,7 @@ function MAX_getAdName($description, $alt = null, $length = null, $anonymous = f
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -287,7 +287,7 @@ function MAX_getZoneName($zoneName, $length = null, $anonymous = false, $id = nu
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -306,7 +306,7 @@ function MAX_getPublisherName($publisherName, $length = null, $anonymous = false
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -325,7 +325,7 @@ function MAX_getTrackerName($trackerName, $length = null, $anonymous = false, $i
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -344,7 +344,7 @@ function MAX_getAdvertiserName($advertiserName, $length = null, $anonymous = fal
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -666,11 +666,9 @@ function MAX_adjustAdZones($adId)
         foreach ($aZones as $zoneId => $aZone) {
             if (!MAX_checkAdZoneValid($aZone, $aAd)) {
                 Admin_DA::deleteAdZones(['zone_id' => $zoneId, 'ad_id' => $adId]);
-            } else {
+            } elseif (isset($aPlacementZones[$zoneId])) {
                 // if ad's campaign is linked to this zone, link ad to zone
-                if (isset($aPlacementZones[$zoneId])) {
-                    Admin_DA::addAdZone(['zone_id' => $zoneId, 'ad_id' => $adId]);
-                }
+                Admin_DA::addAdZone(['zone_id' => $zoneId, 'ad_id' => $adId]);
             }
         }
     }

@@ -78,7 +78,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
         OA::debug('- Where ' . $this->type, PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aAllCampaigns = $this->_getValidCampaigns();
-        if (is_array($aAllCampaigns) && (count($aAllCampaigns) > 0)) {
+        if (is_array($aAllCampaigns) && ($aAllCampaigns !== [])) {
             foreach ($aAllCampaigns as $k => $oCampaign) {
                 // Store the Tz for the current campaign
                 $this->currentTz = $this->oDal->getTimezoneForCampaign($oCampaign->id);
@@ -229,7 +229,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             $scale = 1 + ($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] / 100);
             // Final check
             if ($scale > 1) {
-                $requiredImpressions = $requiredImpressions * $scale;
+                $requiredImpressions *= $scale;
             }
         }
 

@@ -55,7 +55,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $doUsers->language = $language;
     }
 
-    if (!count($aErrormessage)) {
+    if ($aErrormessage === []) {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;

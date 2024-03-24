@@ -57,7 +57,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $aErrormessage[0] = array_merge($aErrormessage[0] ?? [], $auth->aValidationErrors);
     }
 
-    if (!count($aErrormessage)) {
+    if ($aErrormessage === []) {
         if (!$oPlugin->setNewPassword(OA_Permission::getUserId(), $pw)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $GLOBALS['strUnableToWritePrefs'];

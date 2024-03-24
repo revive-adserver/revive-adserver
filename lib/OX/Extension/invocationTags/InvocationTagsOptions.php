@@ -20,33 +20,32 @@ class Plugins_InvocationTagsOptions
 {
     public $maxInvocation;
 
-    public $defaultValues = [];
+    public $defaultValues = [
+        'target' => '',
+        'source' => '',
+        'withtext' => 0,
+        'refresh' => '',
+        'transparent' => 0,
+        'ilayer' => 0,
+        'block' => 0,
+        'blockcampaign' => 0,
+        'raw' => 0,
+        'popunder' => 1,
+        'delay' => '-',
+        'absolute' => ['top' => '-', 'left' => '-'],
+        'timeout' => '-',
+        'windowoptions' => ['toolbars' => 0, 'location' => 0, 'menubar' => 0, 'status' => 0, 'resizable' => 0, 'scrollbars' => 0],
+        'xmlrpcproto' => 0,
+        'xmlrpctimeout' => '',
+        'hostlanguage' => '',
+        'cachebuster' => 1,
+        'comments' => 0,
+        'charset' => '',
+        'https' => 1,
+    ];
     public function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $this->defaultValues = [
-            'target' => '',
-            'source' => '',
-            'withtext' => 0,
-            'refresh' => '',
-            'transparent' => 0,
-            'ilayer' => 0,
-            'block' => 0,
-            'blockcampaign' => 0,
-            'raw' => 0,
-            'popunder' => 1,
-            'delay' => '-',
-            'absolute' => ['top' => '-', 'left' => '-'],
-            'timeout' => '-',
-            'windowoptions' => ['toolbars' => 0, 'location' => 0, 'menubar' => 0, 'status' => 0, 'resizable' => 0, 'scrollbars' => 0],
-            'xmlrpcproto' => 0,
-            'xmlrpctimeout' => '',
-            'hostlanguage' => '',
-            'cachebuster' => 1,
-            'comments' => 0,
-            'charset' => '',
-            'https' => 1,
-        ];
     }
 
     /**
@@ -179,7 +178,7 @@ class Plugins_InvocationTagsOptions
     {
         $maxInvocation = &$this->maxInvocation;
 
-        $target = (!empty($maxInvocation->target)) ? $maxInvocation->target : $this->defaultValues['target'];
+        $target = (empty($maxInvocation->target)) ? $this->defaultValues['target'] : $maxInvocation->target;
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>
             <td width='200'>" . $GLOBALS['strInvocationTarget'] . "</td><td width='370'>

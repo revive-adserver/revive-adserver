@@ -711,7 +711,7 @@ function OX_AclCheckInputsFields($aAcls, $page)
             }
         }
     }
-    if (count($aErrors) > 0) {
+    if ($aErrors !== []) {
         return $aErrors;
     }
     return true;

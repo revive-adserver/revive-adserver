@@ -72,7 +72,7 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
                 krsort($aCampaign);
                 $aCampaign = array_slice($aCampaign, 0, $aCache['maxItems']);
             }
-            if (count($aCampaign)) {
+            if ($aCampaign !== []) {
                 $aActionMap = [
                     'added' => $GLOBALS['strCampaignStatusAdded'],
                     'started' => $GLOBALS['strCampaignStatusStarted'],

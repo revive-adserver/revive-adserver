@@ -402,14 +402,8 @@ OVERLAY_OPTION_JS;
     public function processNewUploadedFile(&$aFields, &$aVariables)
     {
         $incomingFieldName = null;
-        // Deal with any files that are uploaded -
-        // cant use the default banners handler for this upload field because this field
-        // is on all versions of the of the overlay form (ie. for text and html)
-        // so "empty filename supplied error" appear when creating a text/html overlay
-        switch ($aFields['vast_overlay_format']) {
-            case VAST_OVERLAY_FORMAT_IMAGE:
-                $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
-                break;
+        if ($aFields['vast_overlay_format'] === VAST_OVERLAY_FORMAT_IMAGE) {
+            $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
         }
         if (empty($_FILES[$incomingFieldName]['name'])) {
             return;

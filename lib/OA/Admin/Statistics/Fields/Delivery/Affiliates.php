@@ -176,10 +176,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
      */
     public function getHistorySpanParams()
     {
-        $aParams = [];
-        $aParams['custom_table'] = 'data_intermediate_ad_connection';
-        $aParams['custom_columns'] = ["DATE_FORMAT(MIN(tracker_date_time), '%Y-%m-%d')" => 'start_date'];
-        return $aParams;
+        return ['custom_table' => 'data_intermediate_ad_connection', 'custom_columns' => ["DATE_FORMAT(MIN(tracker_date_time), '%Y-%m-%d')" => 'start_date']];
     }
 
     public function addQueryParams(&$aParams)

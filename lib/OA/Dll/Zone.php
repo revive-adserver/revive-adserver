@@ -113,11 +113,9 @@ class OA_Dll_Zone extends OA_Dll
                 !$this->checkIdExistence('zones', $oZone->zoneId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oZone, 'publisherId')) {
             // When adding a zone, check that the required field 'publisherId' is correct.
-            if (!$this->checkStructureRequiredIntegerField($oZone, 'publisherId')) {
-                return false;
-            }
+            return false;
         }
 
         if (isset($oZone->publisherId) &&
@@ -209,16 +207,14 @@ class OA_Dll_Zone extends OA_Dll
             )) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkPermissions(
+            $this->aAllowTraffickerAndAbovePerm,
+            'zones',
+            $oZone->zoneId,
+            OA_PERM_ZONE_EDIT
+        )) {
             // Edit
-            if (!$this->checkPermissions(
-                $this->aAllowTraffickerAndAbovePerm,
-                'zones',
-                $oZone->zoneId,
-                OA_PERM_ZONE_EDIT
-            )) {
-                return false;
-            }
+            return false;
         }
 
         if (!empty($oZone->chainedZoneId)) {
@@ -240,9 +236,9 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['delivery'] = $oZone->type;
         $zoneData['width'] = $oZone->width;
         $zoneData['height'] = $oZone->height;
-        $zoneData['capping'] = $oZone->capping > 0 ? $oZone->capping : 0;
-        $zoneData['session_capping'] = $oZone->sessionCapping > 0 ? $oZone->sessionCapping : 0;
-        $zoneData['block'] = $oZone->block > 0 ? $oZone->block : 0;
+        $zoneData['capping'] = max($oZone->capping, 0);
+        $zoneData['session_capping'] = max($oZone->sessionCapping, 0);
+        $zoneData['block'] = max($oZone->block, 0);
         $zoneData['chain'] = empty($oZone->chainedZoneId) ? null : 'zone:' . $oZone->chainedZoneId;
 
         if ($this->_validate($oZone)) {
@@ -732,7 +728,7 @@ class OA_Dll_Zone extends OA_Dll
             }
             $aAllowedTags = $this->getAllowedTags();
             if (!in_array($codeType, $aAllowedTags)) {
-                $this->raiseError('Field \'codeType\' must be one of the enum: ' . join(', ', $aAllowedTags));
+                $this->raiseError('Field \'codeType\' must be one of the enum: ' . implode(', ', $aAllowedTags));
                 return false;
             }
             if (!empty($codeType)) {

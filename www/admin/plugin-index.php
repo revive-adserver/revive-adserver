@@ -154,7 +154,7 @@ if (OA_Admin_Settings::isConfigWritable()) {
         OA_Permission::checkSessionToken();
 
         $oPluginManager->uninstallPackage($plugin);
-        if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings())) {
+        if (!$oPluginManager->countErrors() && !$oPluginManager->countWarnings()) {
             OX_Admin_Redirect::redirect('plugin-index.php');
         }
     } elseif ('enable' == $action) {
@@ -163,7 +163,7 @@ if (OA_Admin_Settings::isConfigWritable()) {
         if ($plugin) {
             $oPluginManager->enablePackage($plugin);
         }
-        if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings())) {
+        if (!$oPluginManager->countErrors() && !$oPluginManager->countWarnings()) {
             OX_Admin_Redirect::redirect('plugin-index.php');
         }
     } elseif ('disable' == $action) {
@@ -174,7 +174,7 @@ if (OA_Admin_Settings::isConfigWritable()) {
         } elseif ($group) {
             $oComponentGroupManager->disableComponentGroup($group);
         }
-        if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings())) {
+        if (!$oPluginManager->countErrors() && !$oPluginManager->countWarnings()) {
             require_once LIB_PATH . '/Admin/Redirect.php';
             OX_Admin_Redirect::redirect('plugin-index.php');
         }

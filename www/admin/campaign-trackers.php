@@ -83,7 +83,7 @@ if (!empty($campaignid)) {
         $doCampaigns_trackers->campaignid = $campaignid;
         $doCampaigns_trackers->delete();
         if (isset($trackerids) && is_array($trackerids)) {
-            for ($i = 0; $i < sizeof($trackerids); $i++) {
+            for ($i = 0; $i < count($trackerids); $i++) {
                 $aFields = ['campaignid', 'trackerid', 'status'];
                 $values = [$campaignid, $trackerids[$i], $statusids[$i]];
 

@@ -79,7 +79,7 @@ if (empty($aColumnNamesFound)) {
     $listorder = 'updated';
 }
 $orderdirection = htmlspecialchars(MAX_getStoredValue('orderdirection', 'up'));
-if (!($orderdirection == 'up' || $orderdirection == 'down')) {
+if ($orderdirection != 'up' && $orderdirection != 'down') {
     if (stristr($orderdirection, 'down')) {
         $orderdirection = 'down';
     } else {

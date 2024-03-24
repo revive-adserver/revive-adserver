@@ -46,22 +46,16 @@ class OA_Dll_Tracker extends OA_Dll
                 !$this->checkStructureNotRequiredStringField($oTrackerInfo, 'trackerName', 255)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oTrackerInfo, 'clientId') ||
+            !$this->checkStructureRequiredStringField($oTrackerInfo, 'trackerName', 255)) {
             // Adding a tracker.
-            if (!$this->checkStructureRequiredIntegerField($oTrackerInfo, 'clientId') ||
-                !$this->checkStructureRequiredStringField($oTrackerInfo, 'trackerName', 255)) {
-                return false;
-            }
+            return false;
         }
-
-        if (!$this->checkStructureNotRequiredStringField($oTrackerInfo, 'description', 255) ||
+        return !(!$this->checkStructureNotRequiredStringField($oTrackerInfo, 'description', 255) ||
             !$this->checkStructureNotRequiredIntegerField($oTrackerInfo, 'status') ||
             !$this->checkStructureNotRequiredIntegerField($oTrackerInfo, 'type') ||
             !$this->checkStructureNotRequiredBooleanField($oTrackerInfo, 'linkCampaigns') ||
-            !$this->checkStructureNotRequiredStringField($oTrackerInfo, 'variableMethod')) {
-            return false;
-        }
-        return true;
+            !$this->checkStructureNotRequiredStringField($oTrackerInfo, 'variableMethod'));
     }
 
     /**

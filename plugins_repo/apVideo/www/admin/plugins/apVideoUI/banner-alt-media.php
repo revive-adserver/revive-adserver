@@ -178,7 +178,7 @@ function checkUrls($aFields)
             }
         }
     }
-    if (count($aErrors)) {
+    if ($aErrors !== []) {
         return $aErrors;
     }
     return true;

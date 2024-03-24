@@ -40,10 +40,8 @@ class OX_ParserPlugin extends OX_ParserBase
 
     public function endHandler($xp, $element)
     {
-        switch ($this->element) {
-            case 'plugin':
-                $this->aInstall['contents'] = $this->aContents;
-                break;
+        if ($this->element === 'plugin') {
+            $this->aInstall['contents'] = $this->aContents;
         }
 
         parent::endHandler($xp, $element);

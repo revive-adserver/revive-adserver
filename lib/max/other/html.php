@@ -822,7 +822,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>";
     $i = 0;
     $inactive = 0;
-    $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams) : [];
+    $aPlacements = empty($aParams) ? [] : Admin_DA::getPlacements($aParams);
     foreach ($aPlacements as $placementId => $aPlacement) {
         $aAds = Admin_DA::getAds($aParams + ['placement_id' => $placementId], true);
         $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
@@ -855,7 +855,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
                     $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                     $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                     $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
-                    $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
+                    $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (empty($aAd['bannertext']) ? 64 : 90);
                     echo "
 <tr height='1'>
 <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
@@ -917,7 +917,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
 
     $i = 0;
     $inactive = 0;
-    $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams) : [];
+    $aPlacements = (empty($aParams)) ? [] : Admin_DA::getPlacements($aParams);
     foreach ($aPlacements as $placementId => $aPlacement) {
         $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
         if (!$hideInactive || $placementActive) {
@@ -976,7 +976,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                         $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                         $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                         $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
-                        $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
+                        $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (empty($aAd['bannertext']) ? 64 : 90);
                         echo "
     <tr height='1'>
         <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
@@ -1217,7 +1217,7 @@ function MAX_displayChannels($channels, $aParams)
                     $ownerNameStr = '';
                 }
             }
-            $ownerStr = !empty($ownerTypeStr) ? '&nbsp&nbsp<i>' . $ownerTypeStr . '</i>' . htmlspecialchars($ownerNameStr) : '';
+            $ownerStr = empty($ownerTypeStr) ? '' : '&nbsp&nbsp<i>' . $ownerTypeStr . '</i>' . htmlspecialchars($ownerNameStr);
 
             echo "<a href='channel-edit.php?{$entityString}channelid={$channel['channel_id']}'>" . htmlspecialchars($channel['name'] . $ownerStr) . "</a>";
             echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -1330,11 +1330,11 @@ function _isZoneActive($aZone)
 function _secondsToWindowArray($seconds)
 {
     $return['days'] = floor($seconds / (60 * 60 * 24));
-    $seconds = $seconds % (60 * 60 * 24);
+    $seconds %= 60 * 60 * 24;
     $return['hours'] = floor($seconds / (60 * 60));
-    $seconds = $seconds % (60 * 60);
+    $seconds %= 60 * 60;
     $return['minutes'] = floor($seconds / (60));
-    $seconds = $seconds % (60);
+    $seconds %= 60;
     $return['seconds'] = $seconds;
     return $return;
 }
@@ -1574,7 +1574,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     if ($channelType == 'publisher') {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit-affiliate' : 'channel-edit-affiliate_new';
+            case 'channel-edit.php': $tabValue = (empty($channelId)) ? 'channel-edit-affiliate_new' : 'channel-edit-affiliate';
                 break;
             case 'channel-acl.php': $tabValue = 'channel-affiliate-acl';
                 break;
@@ -1582,7 +1582,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     } else {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit' : 'channel-edit_new';
+            case 'channel-edit.php': $tabValue = (empty($channelId)) ? 'channel-edit_new' : 'channel-edit';
                 break;
             case 'channel-acl.php': $tabValue = 'channel-acl';
                 break;
@@ -1595,7 +1595,6 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     $publisherEditUrl = "affiliate-edit.php?affiliateid=$websiteId";
     if (!empty($channelId)) {
         addChannelPageTools($agencyId, $websiteId, $channelId, $channelType);
-
         // Determine which tab is highlighted
         $publisher = Admin_DA::getPublisher($websiteId);
         $publisherName = $publisher['name'];
@@ -1612,18 +1611,16 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
                 ["name" => $channelName]], "channel", "edit-new");
             phpAds_PageHeader($tabValue, $oHeaderModel);
         }
+    } elseif (!empty($channelId)) {
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+        $oHeaderModel = $builder->buildEntityHeader([
+            ["name" => $channelName]], "global-channel", "edit");
+        phpAds_PageHeader($tabValue, $oHeaderModel);
     } else {
-        if (!empty($channelId)) {
-            $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-            $oHeaderModel = $builder->buildEntityHeader([
-                ["name" => $channelName]], "global-channel", "edit");
-            phpAds_PageHeader($tabValue, $oHeaderModel);
-        } else {
-            $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-            $oHeaderModel = $builder->buildEntityHeader([
-                        ["name" => ""]], "global-channel", "edit-new");
-            phpAds_PageHeader($tabValue, $oHeaderModel);
-        }
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+        $oHeaderModel = $builder->buildEntityHeader([
+                    ["name" => ""]], "global-channel", "edit-new");
+        phpAds_PageHeader($tabValue, $oHeaderModel);
     }
 }
 

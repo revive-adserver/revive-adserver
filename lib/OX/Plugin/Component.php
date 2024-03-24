@@ -86,7 +86,7 @@ abstract class OX_Component
 
     public static function _isGroupEnabled($group)
     {
-        return (self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group] ? true : false);
+        return (self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group]);
     }
 
     /**

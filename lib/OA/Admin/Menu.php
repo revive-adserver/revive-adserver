@@ -21,9 +21,9 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/Section.php');
  */
 class OA_Admin_Menu
 {
-    public $ROOT_SECTION_ID;
+    public $ROOT_SECTION_ID = 'root';
     public $rootSection;
-    public $aAllSections;
+    public $aAllSections = [];
     public $aLinkParams;
 
     /**
@@ -35,9 +35,7 @@ class OA_Admin_Menu
 
     public function __construct()
     {
-        $this->ROOT_SECTION_ID = 'root';
         $this->rootSection = new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');
-        $this->aAllSections = [];
     }
 
     /**

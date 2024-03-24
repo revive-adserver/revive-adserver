@@ -136,7 +136,7 @@ function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
     if (!empty($componentParams) && is_array($componentParams)) {
         foreach ($componentParams as $params) {
             if (!empty($params) && is_array($params)) {
-                foreach ($params as $key => $value) {
+                foreach (array_keys($params) as $key) {
                     $aValidVariables[] = $key;
                 }
             }

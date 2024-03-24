@@ -38,17 +38,10 @@ class OX_Admin_UI_Controller_BaseController
     protected $oView;
     protected $aModel;
 
-    protected $hasLayout;
-    protected $hasViewScript;
+    protected $hasLayout = true;
+    protected $hasViewScript = true;
 
     protected $aErrors = [];
-
-
-    public function __construct()
-    {
-        $this->hasLayout = true;
-        $this->hasViewScript = true;
-    }
 
 
     protected function init()

@@ -60,16 +60,14 @@ class OA_Upgrade_Login
 
             if ($newLogin) {
                 self::_checkLoginNew($hasMd5Password);
+            } elseif ($openadsDetected || $maxDetected) {
+                self::_checkLoginOld('preference', true);
+            } elseif ($max01Detected) {
+                self::_checkLoginOld('config', true);
+            } elseif ($panDetected) {
+                self::_checkLoginOld('config', false);
             } else {
-                if ($openadsDetected || $maxDetected) {
-                    self::_checkLoginOld('preference', true);
-                } elseif ($max01Detected) {
-                    self::_checkLoginOld('config', true);
-                } elseif ($panDetected) {
-                    self::_checkLoginOld('config', false);
-                } else {
-                    return false;
-                }
+                return false;
             }
         }
 

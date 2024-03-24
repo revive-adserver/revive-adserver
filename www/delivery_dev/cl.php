@@ -68,10 +68,10 @@ if (empty($adId) && !empty($zoneId)) {
 
 // Log the click
 for ($i = 0; $i < count($adId); $i++) {
-    $adId[$i] = intval($adId[$i]);
-    $zoneId[$i] = intval($zoneId[$i]);
+    $adId[$i] = (int) $adId[$i];
+    $zoneId[$i] = (int) $zoneId[$i];
     if (isset($creativeId[$i])) {
-        $creativeId[$i] = intval($creativeId[$i]);
+        $creativeId[$i] = (int) $creativeId[$i];
     } else {
         $creativeId[$i] = 0;
     }

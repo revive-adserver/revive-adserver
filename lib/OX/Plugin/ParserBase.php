@@ -225,7 +225,7 @@ class OX_ParserBase extends XML_Parser
                 break;
             case 'plugin-version':
                 // Fix potential issues with lowercase RC's
-                @$this->aPlugin['version'] = preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
+                @$this->aPlugin['version'] = preg_replace('/rc(\d+)$/', 'RC$1', $data);
                 break;
             case 'plugin-name':
             case 'plugin-displayname':

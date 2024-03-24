@@ -163,7 +163,7 @@ function MAX_remotehostSetGeoInfo()
         require_once MAX_PATH . '/init-delivery-parse.php';
     }
     $aConf = $GLOBALS['_MAX']['CONF'];
-    $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
+    $type = (empty($aConf['geotargeting']['type'])) ? null : $aConf['geotargeting']['type'];
     if (!is_null($type) && $type != 'none') {
         $aComponent = explode(':', $aConf['geotargeting']['type']);
         if (!empty($aComponent[1]) && (!empty($aConf['pluginGroupComponents'][$aComponent[1]]))) {
@@ -209,7 +209,7 @@ function MAX_remotehostMatchSubnet($ip, $net, $mask)
 {
     $net = ip2long($net);
 
-    if (!is_integer($ip)) {
+    if (!is_int($ip)) {
         $ip = ip2long($ip);
     }
 
@@ -217,7 +217,7 @@ function MAX_remotehostMatchSubnet($ip, $net, $mask)
         return false;
     }
 
-    if (is_integer($mask)) {
+    if (is_int($mask)) {
         // Netmask notation x.x.x.x/y used
 
         if ($mask > 32 || $mask <= 0) {
@@ -231,5 +231,5 @@ function MAX_remotehostMatchSubnet($ip, $net, $mask)
         return false;
     }
 
-    return ($ip & $mask) == ($net & $mask) ? true : false;
+    return ($ip & $mask) == ($net & $mask);
 }

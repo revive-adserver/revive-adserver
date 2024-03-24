@@ -132,7 +132,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
         // Remap as tag attributes with data-revive prefix
         $mi->parameters = array_map(fn($v) => preg_replace('#^(.*)=(.*)$#', 'data-' . $conf['var']['product'] . '-$1="$2"', $v), $mi->parameters);
 
-        $buffer .= '<ins ' . join(' ', $mi->parameters) . '></ins>' . PHP_EOL;
+        $buffer .= '<ins ' . implode(' ', $mi->parameters) . '></ins>' . PHP_EOL;
         if ($conf['webpath']['delivery'] === $conf['webpath']['deliverySSL']) {
             // Yes, we can use the short version!
             $buffer .= '<script async src="' . MAX_commonConstructPartialDeliveryUrl($conf['file']['asyncjs']) . '"></script>';
@@ -196,7 +196,7 @@ EOF;
         }
 
 
-        $channel = (!empty($mi->source)) ? $mi->source : $affiliate['mnemonic'] . "/test/preview";
+        $channel = (empty($mi->source)) ? $affiliate['mnemonic'] . "/test/preview" : $mi->source;
 
         $script = "<?xml version='1.0' encoding='UTF-8' ?><!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
@@ -258,15 +258,15 @@ EOF;
         ";
 
         reset($this->defaultOptionValues);
-        foreach ($this->defaultOptionValues as $feature => $default) {
+        foreach (array_keys($this->defaultOptionValues) as $feature) {
             switch ($feature) {
                 case 'block':
                     $optionName = $GLOBALS['strInvocationDontShowAgain'];
-                    $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                    $optionValue = (int) $mi->$feature ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
                     break;
                 case 'blockcampaign':
                     $optionName = $GLOBALS['strInvocationDontShowAgainCampaign'];
-                    $optionValue = intval($mi->$feature) ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
+                    $optionValue = (int) $mi->$feature ? $GLOBALS['strYes'] : $GLOBALS['strNo'];
                     break;
                 case 'target':
                     $optionName = $GLOBALS['strInvocationTarget'];

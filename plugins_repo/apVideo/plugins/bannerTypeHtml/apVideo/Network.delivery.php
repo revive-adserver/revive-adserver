@@ -47,7 +47,7 @@ function Plugin_bannerTypeHtml_apVideo_Network_Delivery_adRender(&$aBanner, $zon
             $trackingUrl .= "&source=" . urlencode($source);
         }
 
-        $trackingEvents = join("", array_map(fn($event) => "<Tracking event=\"{$event}\"><![CDATA[$trackingUrl&event=" . strtolower($event) . "]]></Tracking>", [
+        $trackingEvents = implode("", array_map(fn($event) => "<Tracking event=\"{$event}\"><![CDATA[$trackingUrl&event=" . strtolower($event) . "]]></Tracking>", [
                 'start',
                 'midpoint',
                 'firstQuartile',
@@ -74,7 +74,7 @@ function Plugin_bannerTypeHtml_apVideo_Network_Delivery_adRender(&$aBanner, $zon
             }
         }
 
-        $impressions = join("", $aImpressions);
+        $impressions = implode("", $aImpressions);
 
         return <<<EOF
 <Ad id="pre-roll">

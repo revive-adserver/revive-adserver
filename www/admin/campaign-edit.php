@@ -365,7 +365,7 @@ function buildCampaignForm($campaign)
         'end' => $endDateStr,
         'priority' => ($campaign['priority'] > '0' && $campaign['campaignid'] != '') ? 2 : $campaign['priority'],
         'high_priority_value' => $campaign['priority'] > '0' ? $campaign['priority'] : 5,
-        'target_value' => !empty($campaign['target_value']) ? $campaign['target_value'] : '-',
+        'target_value' => empty($campaign['target_value']) ? '-' : $campaign['target_value'],
         'weight' => $campaign["weight"] ?? $pref ['default_campaign_weight'],
         'revenue_type' => $campaign["revenue_type"] ?? MAX_FINANCE_CPM
     ]);
@@ -773,11 +773,9 @@ function processCampaignForm($form)
                 }
             }
             $aFields['weight'] = 0;
-        } else {
+        } elseif (!isset($aFields['weight']) || $aFields['weight'] == '-' || $aFields['weight'] == '') {
             // Set weight
-            if (!isset($aFields['weight']) || $aFields['weight'] == '-' || $aFields['weight'] == '') {
-                $aFields['weight'] = 0;
-            }
+            $aFields['weight'] = 0;
         }
 
         if ($aFields['anonymous'] != 't') {

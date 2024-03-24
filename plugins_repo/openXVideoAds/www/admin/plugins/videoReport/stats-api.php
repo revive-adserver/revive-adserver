@@ -4,6 +4,11 @@ require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common
 
 class OX_Video_Report
 {
+    public $statsTable;
+    public $campaignTable;
+    public $bannerTable;
+    public $zoneTable;
+    public $websiteTable;
     public static $graphMetricsToPlot = [1, 3, 2, 4, 5];
 
     public static $vastEventIdToEventName = [

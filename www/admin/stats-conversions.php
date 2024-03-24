@@ -108,12 +108,10 @@ MAX_adjustNodes($aNodes, $expand, $collapse);
 if (!OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // editing statuses is allowed only for admin and agency
     $editStatuses = false;
+} elseif ($editStatuses) {
+    addPageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&' . $addUrl, 'iconZoom');
 } else {
-    if ($editStatuses) {
-        addPageShortcut($strShortcutShowStatuses, 'stats.php?entity=conversions&editStatuses=0&' . $addUrl, 'iconZoom');
-    } else {
-        addPageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&' . $addUrl, 'iconEdit');
-    }
+    addPageShortcut($strShortcutEditStatuses, 'stats.php?entity=conversions&editStatuses=1&' . $addUrl, 'iconEdit');
 }
 
 // @todo: hack - get edit status working when expading/collapsing
@@ -382,11 +380,11 @@ if (!empty($aConversions)) {
 
             $secondsLeft = $eventDateStamp - strtotime($conversion['connection_date_time']);
 
-            $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
+            $days = (int) ($secondsLeft / 86400);  // 86400 seconds in a day
             $partDay = $secondsLeft - ($days * 86400);
-            $hours = intval($partDay / 3600);  // 3600 seconds in an hour
+            $hours = (int) ($partDay / 3600);  // 3600 seconds in an hour
             $partHour = $partDay - ($hours * 3600);
-            $minutes = intval($partHour / 60);  // 60 seconds in a minute
+            $minutes = (int) ($partHour / 60);  // 60 seconds in a minute
             $seconds = $partHour - ($minutes * 60);
 
             $windowDelay = $days . "d " . $hours . "h " . $minutes . "m " . $seconds . "s";

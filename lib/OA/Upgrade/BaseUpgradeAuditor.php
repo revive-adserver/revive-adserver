@@ -91,11 +91,7 @@ class OA_BaseUpgradeAuditor
         $table = $this->getLogTableName();
         $query = "UPDATE {$table} SET {$values} WHERE upgrade_action_id={$id}";
         $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}")) {
-            return false;
-        }
-        return true;
+        return !$this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}");
     }
 
     public function setKeyParams($aParams = '')

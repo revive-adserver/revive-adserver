@@ -43,7 +43,7 @@ class OA_Admin_Help
 
         // Convert original help links to new Revive Adserver format
         if (str_contains($relativeHelpPath, 'settings')) {
-            $relativeHelpPath = !str_starts_with($relativeHelpPath, '/') ? '/admin/' . $relativeHelpPath : '/admin' . $relativeHelpPath;
+            $relativeHelpPath = str_starts_with($relativeHelpPath, '/') ? '/admin' . $relativeHelpPath : '/admin/' . $relativeHelpPath;
         } elseif (!str_starts_with($relativeHelpPath, '/')) {
             $relativeHelpPath = '/user/' . $relativeHelpPath;
         } else {

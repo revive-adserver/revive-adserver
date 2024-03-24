@@ -121,7 +121,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         $this->aCampaigns = $this->_getAllCampaigns();
         // Set the information required for each campaign
         if (is_array($this->aCampaigns) && !empty($this->aCampaigns)) {
-            foreach ($this->aCampaigns as $campaignKey => $oCampaign) {
+            foreach (array_keys($this->aCampaigns) as $campaignKey) {
                 // Set the advertisements in the campaign
                 $this->aCampaigns[$campaignKey]->setAdverts();
                 // Populate the ads with data from the
@@ -203,7 +203,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                         $aAdvertIds[] = $oAd->id;
                     }
                     $aResult = $this->oDal->getAdZoneAssociationsByAds($aAdvertIds);
-                    if (is_array($aResult) && (count($aResult) > 0)) {
+                    if (is_array($aResult) && ($aResult !== [])) {
                         $this->aAdZoneAssociations[$oCampaign->id] = $aResult;
                     }
                 }

@@ -903,7 +903,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     if (!empty($aPastDeliveryResult)) {
                         foreach ($aPastDeliveryResult as $a => $aAd) {
                             $remove = true;
-                            foreach ($aAd as $z => $aZone) {
+                            foreach (array_keys($aAd) as $z) {
                                 if (!$aPastDeliveryResult[$a][$z]['pastPriorityFound']) {
                                     if ($foundAll) {
                                         // Need to go back in time to look for more past priority info
@@ -936,7 +936,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Merge the past priority and delivery values into the final results array
             if (!empty($aPastDeliveryResult)) {
                 foreach ($aPastDeliveryResult as $a => $aAd) {
-                    foreach ($aAd as $z => $aZone) {
+                    foreach (array_keys($aAd) as $z) {
                         $aFinalResult[$a][$z] = [
                             'ad_id' => $a,
                             'zone_id' => $z,
@@ -1105,7 +1105,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             foreach ($aNotInLastOIPastDeliveryResult as $adKey => $aData) {
                 // Store the creative ID as being one that needs to deliver
                 $aAds[$adKey] = $adKey;
-                foreach ($aData as $zoneKey => $value) {
+                foreach (array_keys($aData) as $zoneKey) {
                     // Store the zone ID as one that has a creative that needs to deliver in it
                     $aZones[$zoneKey] = $zoneKey;
                     // Store the creative ID by zone ID
@@ -1189,7 +1189,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         if (!empty($aNotInLastOIPastDeliveryResult)) {
                             foreach ($aNotInLastOIPastDeliveryResult as $a => $aAd) {
                                 $remove = true;
-                                foreach ($aAd as $z => $aZone) {
+                                foreach (array_keys($aAd) as $z) {
                                     if (!$aNotInLastOIPastDeliveryResult[$a][$z]['pastPriorityFound']) {
                                         if ($foundAll) {
                                             // Need to go back in time to look for more past priority info
@@ -1416,8 +1416,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // ad/zone combinations that require it
             if (!empty($aPastPriorityResult)) {
                 foreach ($aPastPriorityResult as $a => $aAd) {
-                    if (is_array($aAd) && (count($aAd) > 0)) {
-                        foreach ($aAd as $z => $aZone) {
+                    if (is_array($aAd) && ($aAd !== [])) {
+                        foreach (array_keys($aAd) as $z) {
                             if (!empty($aPastPriorityResult[$a][$z]['average']) && empty($aPastPriorityResult[$a][$z]['pastPriorityFound'])) {
                                 $aPastPriorityResult[$a][$z]['required_impressions'] /= SECONDS_PER_HOUR;
                                 $aPastPriorityResult[$a][$z]['requested_impressions'] /= SECONDS_PER_HOUR;
@@ -1667,10 +1667,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
             // Update the required normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities
             OA::debug('    - Updating required existing ad/zone pair priorities', PEAR_LOG_DEBUG);
-            if (is_array($aData) && (count($aData) > 0)) {
+            if (is_array($aData) && ($aData !== [])) {
                 reset($aData);
                 foreach ($aData as $aZoneData) {
-                    if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
+                    if (is_array($aZoneData['ads']) && ($aZoneData['ads'] !== [])) {
                         foreach ($aZoneData['ads'] as $aAdZonePriority) {
                             $table = $this->_getTablename('ad_zone_assoc');
                             $query = "
@@ -1726,10 +1726,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
             // Update the required normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities
             OA::debug('    - Updating required existing ad/zone pair priorities', PEAR_LOG_DEBUG);
-            if (is_array($aData) && (count($aData) > 0)) {
+            if (is_array($aData) && ($aData !== [])) {
                 reset($aData);
                 foreach ($aData as $aZoneData) {
-                    if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
+                    if (is_array($aZoneData['ads']) && ($aZoneData['ads'] !== [])) {
                         foreach ($aZoneData['ads'] as $aAdZonePriority) {
                             $table = $this->_getTablename('ad_zone_assoc');
                             $query = "
@@ -1795,10 +1795,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aAdZonePriority['zone_id'],
                             $aAdZonePriority['required_impressions'],
                             $aAdZonePriority['requested_impressions'],
-                            !empty($aAdZonePriority['to_be_delivered']) ? 1 : 0,
+                            empty($aAdZonePriority['to_be_delivered']) ? 0 : 1,
                             $aAdZonePriority['priority'],
                             $aAdZonePriority['priority_factor'],
-                            !empty($aAdZonePriority['priority_factor_limited']) ? 1 : 0,
+                            empty($aAdZonePriority['priority_factor_limited']) ? 0 : 1,
                             $aAdZonePriority['past_zone_traffic_fraction'] ?? null,
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
                             0
@@ -1893,7 +1893,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function saveRequiredAdImpressions($aData)
     {
-        if (is_array($aData) && (count($aData) > 0)) {
+        if (is_array($aData) && ($aData !== [])) {
             $tableNameUnquoted = 'tmp_ad_required_impression';
             $data = [];
             foreach ($aData as $aValues) {
@@ -2059,7 +2059,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $query = "TRUNCATE TABLE {$tableTmp}";
         $this->oDbh->exec($query);
 
-        if (is_array($aData) && (count($aData) > 0)) {
+        if (is_array($aData) && ($aData !== [])) {
             $data = [];
             foreach ($aData as $aValues) {
                 $data[] = [

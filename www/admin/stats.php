@@ -99,7 +99,7 @@ phpAds_registerGlobal(
 $day = htmlspecialchars($day);
 $listorder = htmlspecialchars($listorder);
 $orderdirection = htmlspecialchars($orderdirection);
-if (!($orderdirection == 'up' || $orderdirection == 'down')) {
+if ($orderdirection != 'up' && $orderdirection != 'down') {
     if (stristr($orderdirection, 'down')) {
         $orderdirection = 'down';
     } else {

@@ -115,6 +115,7 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  */
 class Services_JSON
 {
+    public $use;
     /**
      * constructs a new JSON instance
      *
@@ -359,7 +360,7 @@ class Services_JSON
                  */
 
                 // treat as a JSON object
-                if (is_array($var) && count($var) && (array_keys($var) !== range(0, sizeof($var) - 1))) {
+                if (is_array($var) && count($var) && (array_keys($var) !== range(0, count($var) - 1))) {
                     $properties = array_map(
                         $this->name_value(...),
                         array_keys($var),
@@ -372,7 +373,7 @@ class Services_JSON
                         }
                     }
 
-                    return '{' . join(',', $properties) . '}';
+                    return '{' . implode(',', $properties) . '}';
                 }
 
                 // treat it like a regular array
@@ -384,7 +385,7 @@ class Services_JSON
                     }
                 }
 
-                return '[' . join(',', $elements) . ']';
+                return '[' . implode(',', $elements) . ']';
 
             case 'object':
                 $vars = get_object_vars($var);
@@ -401,7 +402,7 @@ class Services_JSON
                     }
                 }
 
-                return '{' . join(',', $properties) . '}';
+                return '{' . implode(',', $properties) . '}';
 
             default:
                 return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
@@ -427,7 +428,7 @@ class Services_JSON
             return $encoded_value;
         }
 
-        return $this->encode(strval($name)) . ':' . $encoded_value;
+        return $this->encode((string) $name) . ':' . $encoded_value;
     }
 
     /**
@@ -596,19 +597,17 @@ class Services_JSON
                     if ($str[0] == '[') {
                         $stk = [SERVICES_JSON_IN_ARR];
                         $arr = [];
+                    } elseif ($this->use & SERVICES_JSON_LOOSE_TYPE) {
+                        $stk = [SERVICES_JSON_IN_OBJ];
+                        $obj = [];
                     } else {
-                        if ($this->use & SERVICES_JSON_LOOSE_TYPE) {
-                            $stk = [SERVICES_JSON_IN_OBJ];
-                            $obj = [];
-                        } else {
-                            $stk = [SERVICES_JSON_IN_OBJ];
-                            $obj = new stdClass();
-                        }
+                        $stk = [SERVICES_JSON_IN_OBJ];
+                        $obj = new stdClass();
                     }
 
-                    array_push($stk, ['what' => SERVICES_JSON_SLICE,
+                    $stk[] = ['what' => SERVICES_JSON_SLICE,
                                            'where' => 0,
-                                           'delim' => false]);
+                                           'delim' => false];
 
                     $chrs = substr($str, 1, -1);
                     $chrs = $this->reduce_string($chrs);
@@ -633,12 +632,12 @@ class Services_JSON
                             // found a comma that is not inside a string, array, etc.,
                             // OR we've reached the end of the character list
                             $slice = substr($chrs, $top['where'], ($c - $top['where']));
-                            array_push($stk, ['what' => SERVICES_JSON_SLICE, 'where' => ($c + 1), 'delim' => false]);
+                            $stk[] = ['what' => SERVICES_JSON_SLICE, 'where' => ($c + 1), 'delim' => false];
                             //print("Found split at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
 
                             if (reset($stk) == SERVICES_JSON_IN_ARR) {
                                 // we are in an array, so just push an element onto the stack
-                                array_push($arr, $this->decode($slice));
+                                $arr[] = $this->decode($slice);
                             } elseif (reset($stk) == SERVICES_JSON_IN_OBJ) {
                                 // we are in an object, so figure
                                 // out the property name and set an
@@ -670,7 +669,7 @@ class Services_JSON
                             }
                         } elseif ((($chrs[$c] == '"') || ($chrs[$c] == "'")) && ($top['what'] != SERVICES_JSON_IN_STR)) {
                             // found a quote, and we are not inside a string
-                            array_push($stk, ['what' => SERVICES_JSON_IN_STR, 'where' => $c, 'delim' => $chrs[$c]]);
+                            $stk[] = ['what' => SERVICES_JSON_IN_STR, 'where' => $c, 'delim' => $chrs[$c]];
                             //print("Found start of string at {$c}\n");
                         } elseif (($chrs[$c] == $top['delim']) &&
                                  ($top['what'] == SERVICES_JSON_IN_STR) &&
@@ -683,7 +682,7 @@ class Services_JSON
                         } elseif (($chrs[$c] == '[') &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-bracket, and we are in an array, object, or slice
-                            array_push($stk, ['what' => SERVICES_JSON_IN_ARR, 'where' => $c, 'delim' => false]);
+                            $stk[] = ['what' => SERVICES_JSON_IN_ARR, 'where' => $c, 'delim' => false];
                             //print("Found start of array at {$c}\n");
                         } elseif (($chrs[$c] == ']') && ($top['what'] == SERVICES_JSON_IN_ARR)) {
                             // found a right-bracket, and we're in an array
@@ -692,7 +691,7 @@ class Services_JSON
                         } elseif (($chrs[$c] == '{') &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-brace, and we are in an array, object, or slice
-                            array_push($stk, ['what' => SERVICES_JSON_IN_OBJ, 'where' => $c, 'delim' => false]);
+                            $stk[] = ['what' => SERVICES_JSON_IN_OBJ, 'where' => $c, 'delim' => false];
                             //print("Found start of object at {$c}\n");
                         } elseif (($chrs[$c] == '}') && ($top['what'] == SERVICES_JSON_IN_OBJ)) {
                             // found a right-brace, and we're in an object
@@ -701,7 +700,7 @@ class Services_JSON
                         } elseif (($substr_chrs_c_2 == '/*') &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a comment start, and we are in an array, object, or slice
-                            array_push($stk, ['what' => SERVICES_JSON_IN_CMT, 'where' => $c, 'delim' => false]);
+                            $stk[] = ['what' => SERVICES_JSON_IN_CMT, 'where' => $c, 'delim' => false];
                             $c++;
                             //print("Found start of comment at {$c}\n");
                         } elseif (($substr_chrs_c_2 == '*/') && ($top['what'] == SERVICES_JSON_IN_CMT)) {

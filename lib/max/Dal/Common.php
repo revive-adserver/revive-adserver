@@ -227,14 +227,14 @@ class MAX_Dal_Common
         if (!empty($aParams['orderBys'])) {
             [$field, $direction] = $aParams['orderBys'][0];
             if (!is_bool($direction)) {
-                $direction = ($direction == 'DESC') ? true : false;
+                $direction = $direction == 'DESC';
             }
             $this->queryBuilder->setOrder($field, $direction);
             if (count($aParams['orderBys']) > 1) {
                 for ($counter = 1; $counter < count($aParams['orderBys']); $counter++) {
                     [$field, $direction] = $aParams['orderBys'][$counter];
                     if (!is_bool($direction)) {
-                        $direction = ($direction == 'DESC') ? true : false;
+                        $direction = $direction == 'DESC';
                     }
                     $this->queryBuilder->addOrder($field, $direction);
                 }
@@ -264,7 +264,7 @@ class MAX_Dal_Common
         if (is_array($nameColumn)) {
             $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
         } else {
-            $sqlTableOrder = !empty($nameColumn) ? " ORDER BY $nameColumn $direction" : '';
+            $sqlTableOrder = empty($nameColumn) ? '' : " ORDER BY $nameColumn $direction";
         }
         return $sqlTableOrder;
     }

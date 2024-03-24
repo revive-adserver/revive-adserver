@@ -81,17 +81,14 @@ class OA_Dll_Agency extends OA_Dll
             $doAgency = OA_Dal::factoryDO('agency');
             $doAgency->get($oAgency->agencyId);
             $agencyOld = $doAgency->toArray();
-
             if (!$this->checkStructureRequiredIntegerField($oAgency, 'agencyId') ||
                 !$this->checkStructureNotRequiredStringField($oAgency, 'agencyName', 255) ||
                 !$this->checkIdExistence('agency', $oAgency->agencyId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
             // When adding an agency, check that the required field 'agencyName' is correct.
-            if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
-                return false;
-            }
+            return false;
         }
 
         if ((isset($oAgency->emailAddress) &&

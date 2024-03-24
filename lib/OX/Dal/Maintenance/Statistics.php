@@ -142,7 +142,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         // Ensure that the groupSource, groupDestination, sumSource,
         // sumDestination and sumDefault arrays are all sorted by key
-        foreach ($aMigrationMaps as $key => $aMigrationDetails) {
+        foreach (array_keys($aMigrationMaps) as $key) {
             ksort($aMigrationMaps[$key]['groupSource']);
             ksort($aMigrationMaps[$key]['groupDestination']);
             ksort($aMigrationMaps[$key]['sumSource']);

@@ -720,37 +720,32 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
             $installStatus = $oUpgrader->existing_installation_status;
             define('DISABLE_ALL_EMAILS', 1);
             OA_Permission::switchToSystemProcessUser('Installer');
-
             if ($installStatus == OA_STATUS_NOT_INSTALLED) {
                 if ($oUpgrader->install($aDbConfig)) {
                     $message = $GLOBALS['strDBInstallSuccess'];
                     $upgraderSuccess = true;
                 }
-            } else {
-                if ($oUpgrader->upgrade($oUpgrader->package_file)) {
-                    // Timezone support - hack
-                    if ($oUpgrader->versionInitialSchema['tables_core'] < 538
-                        && empty($aDbConfig['noTzAlert'])
-                    ) {
-                        OA_Dal_ApplicationVariables::set('utc_update', OA::getNowUTC());
-                    }
-
-                    // Clear the menu cache to built a new one with the new settings
-                    OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
-                    OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
-                    OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADVERTISER);
-                    OA_Admin_Menu::_clearCache(OA_ACCOUNT_TRAFFICKER);
-                    OA_Admin_Menu::singleton();
-
-                    $message = $GLOBALS['strDBUpgradeSuccess'];
-                    $upgraderSuccess = true;
+            } elseif ($oUpgrader->upgrade($oUpgrader->package_file)) {
+                // Timezone support - hack
+                if ($oUpgrader->versionInitialSchema['tables_core'] < 538
+                    && empty($aDbConfig['noTzAlert'])
+                ) {
+                    OA_Dal_ApplicationVariables::set('utc_update', OA::getNowUTC());
                 }
+                // Clear the menu cache to built a new one with the new settings
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADMIN);
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_MANAGER);
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_ADVERTISER);
+                OA_Admin_Menu::_clearCache(OA_ACCOUNT_TRAFFICKER);
+                OA_Admin_Menu::singleton();
+                $message = $GLOBALS['strDBUpgradeSuccess'];
+                $upgraderSuccess = true;
             }
-            OA_Permission::switchToSystemProcessUser(); //get back to normal user previously logged in
-        } else {
-            if ($oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION) {
-                $upgraderSuccess = true; //rare but can occur if DB has been installed and user revisits the screen
-            }
+            OA_Permission::switchToSystemProcessUser();
+            //get back to normal user previously logged in
+        } elseif ($oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION) {
+            $upgraderSuccess = true;
+            //rare but can occur if DB has been installed and user revisits the screen
         }
 
         $dbSuccess = $upgraderSuccess && !$oUpgrader->oLogger->errorExists;
@@ -812,12 +807,10 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
                     $errMessage = $GLOBALS['strImageDirLockedDetected'];
                     $configStepSuccess = false;
                 }
+            } elseif ($isUpgrade) {
+                $errMessage = $GLOBALS['strUnableUpdateConfFile'];
             } else {
-                if ($isUpgrade) {
-                    $errMessage = $GLOBALS['strUnableUpdateConfFile'];
-                } else {
-                    $errMessage = $GLOBALS['strUnableCreateConfFile'];
-                }
+                $errMessage = $GLOBALS['strUnableCreateConfFile'];
             }
         }
 

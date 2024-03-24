@@ -31,9 +31,9 @@
 function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-    $code = !empty($aBanner['htmlcache']) ? $aBanner['htmlcache'] : '';
+    $prepend = empty($aBanner['prepend']) ? '' : $aBanner['prepend'];
+    $append = empty($aBanner['append']) ? '' : $aBanner['append'];
+    $code = empty($aBanner['htmlcache']) ? '' : $aBanner['htmlcache'];
     $aBanner['bannerContent'] = $aBanner['htmltemplate'];
 
     // Get the image beacon...

@@ -321,7 +321,7 @@ class MAX_Admin_Invocation
             }
 
             if (!isset($this->codetype) || $allowed[$this->codetype] == false) {
-                foreach ($allowed as $codetype => $isAllowed) {
+                foreach (array_keys($allowed) as $codetype) {
                     $this->codetype = $codetype;
                     break;
                 }

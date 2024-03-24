@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
  */
 abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 {
+    public $welcomeText;
     /**
      * @var string[]
      */

@@ -662,10 +662,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             return false;
         }
         $aZonesCount = $doZones->toArray();
-        if ($aZonesCount['zones'] != count($aZonesIds)) {
-            return false;
-        }
-        return true;
+        return $aZonesCount['zones'] == count($aZonesIds);
     }
 
     /**
@@ -828,10 +825,6 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         $doPlacementZone->joinAdd($doCampaign);
 
         $result += $doPlacementZone->count();
-
-        if ($result > 0) {
-            return true;
-        }
-        return false;
+        return $result > 0;
     }
 }

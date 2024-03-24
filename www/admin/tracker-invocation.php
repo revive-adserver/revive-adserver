@@ -81,22 +81,20 @@ if ($trackerid != "") {
         $aOtherAdvertisers[] = $row;
     }
     MAX_displayNavigationTracker($clientid, $trackerid, $aOtherAdvertisers);
+} elseif (isset($move) && $move == 't') {
+    // Convert client to tracker
+    // TODO: is this still used? if not, we may want to remove it
+    phpAds_PageHeader("4.1.4.4");
+    echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;" . phpAds_getClientName($clientid);
+    echo "&nbsp;<img src='" . OX::assetPath() . "/images/" . $phpAds_TextDirection . "/caret-rs.gif'>&nbsp;";
+    echo "<img src='" . OX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>" . $strUntitled . "</b><br /><br /><br />";
+    phpAds_ShowSections(["4.1.4.4"]);
 } else {
-    if (isset($move) && $move == 't') {
-        // Convert client to tracker
-        // TODO: is this still used? if not, we may want to remove it
-        phpAds_PageHeader("4.1.4.4");
-        echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;" . phpAds_getClientName($clientid);
-        echo "&nbsp;<img src='" . OX::assetPath() . "/images/" . $phpAds_TextDirection . "/caret-rs.gif'>&nbsp;";
-        echo "<img src='" . OX::assetPath() . "/images/icon-tracker.gif' align='absmiddle'>&nbsp;<b>" . $strUntitled . "</b><br /><br /><br />";
-        phpAds_ShowSections(["4.1.4.4"]);
-    } else {
-        // New tracker
-        // TODO: is this still used? if not, we may want to remove it
-        phpAds_PageHeader("4.1.4.1");
-        MAX_displayTrackerBreadcrumbs(null, $clientid);
-        phpAds_ShowSections(["4.1.4.1"]);
-    }
+    // New tracker
+    // TODO: is this still used? if not, we may want to remove it
+    phpAds_PageHeader("4.1.4.1");
+    MAX_displayTrackerBreadcrumbs(null, $clientid);
+    phpAds_ShowSections(["4.1.4.1"]);
 }
 
 if ($trackerid != "" || (isset($move) && $move == 't')) {

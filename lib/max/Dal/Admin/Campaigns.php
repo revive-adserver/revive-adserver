@@ -113,11 +113,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $doBanners->campaignid = $campaignId;
         $doBanners->whereAdd("compiledlimitation NOT IN ('', 'true')");
         $doBanners->find();
-        if ($doBanners->getRowCount() > 0) {
-            // There are banners in the campaign with delivery limitations
-            return true;
-        }
-        return false;
+        // There are banners in the campaign with delivery limitations
+        return $doBanners->getRowCount() > 0;
     }
 
     /**
@@ -730,7 +727,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     public function getLinkedEmailZoneIds($campaignId)
     {
         // Test input
-        if (!is_integer($campaignId) || $campaignId <= 0) {
+        if (!is_int($campaignId) || $campaignId <= 0) {
             // Not a valid campaign ID, return no found zones
             $aResult = [];
             return $aResult;

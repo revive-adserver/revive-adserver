@@ -500,10 +500,7 @@ function _safe_preg_match($limitation, $value)
             return true;
         }
         $secondLimitation = substr($limitation, $limitationSplitPoint + 1);
-        if (_safe_preg_match($secondLimitation, $value)) {
-            return true;
-        }
-        return false;
+        return (bool) _safe_preg_match($secondLimitation, $value);
     }
 }
 

@@ -313,7 +313,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $body .= "    /* the code below is auto generated do not remove the above tag */{$n}{$n}";
         // table
         $padding = (30 - strlen($this->table));
-        $padding = ($padding < 2) ? 2 : $padding;
+        $padding = max(2, $padding);
 
         $p = str_repeat(' ', $padding);
 

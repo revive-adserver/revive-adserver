@@ -206,7 +206,7 @@ class Plugins_Authentication extends OX_Component
 
         $oTpl = new OA_Admin_Template('login.html');
 
-        $appName = !empty($aConf['ui']['applicationName']) ? $aConf['ui']['applicationName'] : PRODUCT_NAME;
+        $appName = empty($aConf['ui']['applicationName']) ? PRODUCT_NAME : $aConf['ui']['applicationName'];
 
         $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
         $oTpl->assign('sessionID', $sessionID);
@@ -308,7 +308,7 @@ class Plugins_Authentication extends OX_Component
                 'name' => 'language',
                 'label' => $GLOBALS['strLanguage'],
                 'options' => $aLanguages,
-                'value' => (!empty($userData['language'])) ? $userData['language'] : $GLOBALS['_MAX']['PREF']['language'],
+                'value' => (empty($userData['language'])) ? $GLOBALS['_MAX']['PREF']['language'] : $userData['language'],
                 'disabled' => $userExists
             ];
 

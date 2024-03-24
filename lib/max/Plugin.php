@@ -179,7 +179,7 @@ class MAX_Plugin
     {
         $plugins = [];
         $pluginFiles = MAX_Plugin::_getPluginsFiles($module, $package, $recursive);
-        foreach ($pluginFiles as $key => $pluginFile) {
+        foreach (array_keys($pluginFiles) as $key) {
             $pluginInfo = explode(':', $key);
             if (count($pluginInfo) > 1) {
                 $plugin = MAX_Plugin::factory($module, $pluginInfo[0], $pluginInfo[1]);

@@ -33,7 +33,7 @@ abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_D
      *
      * @var array
      */
-    public $aPrefNames;
+    public $aPrefNames = [];
 
     /**
      * A PHP5-style constructor that can be used to perform common
@@ -50,7 +50,6 @@ abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_D
     {
         // Set the template directory for delivery statistcs
         $this->templateDir = MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/themes/';
-        $this->aPrefNames = [];
         parent::__construct($aParams);
         // Delivery statistics columns can be enabled/disabled and re-ordered
         // via user preferences - set the preference column, and sort accordingly

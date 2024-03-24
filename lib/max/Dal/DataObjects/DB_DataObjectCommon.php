@@ -35,6 +35,11 @@ define('OX_DATAOBJECT_NULL', 'NULL');
  */
 class DB_DataObjectCommon extends DB_DataObject
 {
+    public $account_id;
+    /**
+     * @var string
+     */
+    public $updated;
     /**
      * If its true the delete() method will try to delete also all
      * records which has reference to this record
@@ -172,7 +177,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $rows = [];
         while ($this->fetch()) {
             $row = [];
-            foreach ($fields as $field => $fieldType) {
+            foreach (array_keys($fields) as $field) {
                 if (!isset($this->$field)) {
                     continue;
                 }
@@ -877,14 +882,12 @@ class DB_DataObjectCommon extends DB_DataObject
                 if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
                     $this->debug("Loaded ini file: $ini", "databaseStructure", 1);
                 }
-            } else {
-                if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
-                    if (!file_exists($ini)) {
-                        $this->debug("Missing ini file: $ini", "databaseStructure", 1);
-                    }
-                    if ((!is_file($ini)) || (!is_readable($ini))) {
-                        $this->debug("ini file is not readable: $ini", "databaseStructure", 1);
-                    }
+            } elseif (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
+                if (!file_exists($ini)) {
+                    $this->debug("Missing ini file: $ini", "databaseStructure", 1);
+                }
+                if ((!is_file($ini)) || (!is_readable($ini))) {
+                    $this->debug("ini file is not readable: $ini", "databaseStructure", 1);
                 }
             }
         }
@@ -1000,7 +1003,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     public function _query($string)
     {
-        $production = empty($GLOBALS['_MAX']['CONF']['debug']['production']) ? false : true;
+        $production = !empty($GLOBALS['_MAX']['CONF']['debug']['production']);
         if ($production) {
             // supress any PEAR errors if in production
             PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
@@ -1108,25 +1111,23 @@ class DB_DataObjectCommon extends DB_DataObject
                     // if the same table just add a reference
                     $this->$key = $tableId;
                     $found = true;
-                } else {
+                } elseif (isset($this->_aReferences[$table])) {
                     // recursive step
-                    if (isset($this->_aReferences[$table])) {
-                        // check if DataObject is already created
-                        // it allows to add few filters to one DataObject
-                        $doReference = &$this->_aReferences[$table];
-                        $doReference->$link = $this->$key;
+                    // check if DataObject is already created
+                    // it allows to add few filters to one DataObject
+                    $doReference = &$this->_aReferences[$table];
+                    $doReference->$link = $this->$key;
+                    $found = true;
+                } else {
+                    $doReference = static::factory($table);
+                    $this->_aReferences[$table] = &$doReference;
+                    if (PEAR::isError($doReference)) {
+                        return false;
+                    }
+                    $doReference->$link = $this->$key;
+                    if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
+                        $this->joinAdd($doReference);
                         $found = true;
-                    } else {
-                        $doReference = static::factory($table);
-                        $this->_aReferences[$table] = &$doReference;
-                        if (PEAR::isError($doReference)) {
-                            return false;
-                        }
-                        $doReference->$link = $this->$key;
-                        if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
-                            $this->joinAdd($doReference);
-                            $found = true;
-                        }
                     }
                 }
             }
@@ -1143,7 +1144,7 @@ class DB_DataObjectCommon extends DB_DataObject
     public function getFirstPrimaryKey()
     {
         $keys = $this->keys();
-        return !empty($keys) ? $keys[0] : null;
+        return empty($keys) ? null : $keys[0];
     }
 
     /**
@@ -1650,7 +1651,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
                 foreach ($aFields as $name => $type) {
                     // don't bother auditing timestamp changes?
-                    if ($name <> 'updated') {
+                    if ($name != 'updated') {
                         $valNew = $dataobjectNew->_formatValue($name, $type);
                         $valOld = null !== $dataobjectOld ? $dataobjectOld->_formatValue($name, $type) : '';
                         if ($valNew !== $valOld) {

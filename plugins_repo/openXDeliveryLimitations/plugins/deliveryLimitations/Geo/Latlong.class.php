@@ -86,15 +86,15 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
         $tabindex = &$GLOBALS['tabindex'];
         echo "<table width='275' cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr>";
-        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[0])) ? htmlspecialchars($this->data[0], ENT_QUOTES) : '0.0000') . "' tabindex='" . ($tabindex++) . "'></td>";
+        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((empty($this->data[0])) ? '0.0000' : htmlspecialchars($this->data[0], ENT_QUOTES)) . "' tabindex='" . ($tabindex++) . "'></td>";
         echo "    <th align='center'>&nbsp;&gt;&nbsp;" . $this->translate('Latitude') . "&nbsp;&lt;&nbsp;</th>";
-        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[1])) ? htmlspecialchars($this->data[1], ENT_QUOTES) : '0.0000') . "' tabindex='" . ($tabindex++) . "'></td>";
+        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((empty($this->data[1])) ? '0.0000' : htmlspecialchars($this->data[1], ENT_QUOTES)) . "' tabindex='" . ($tabindex++) . "'></td>";
         echo "</tr>";
 
         echo "<tr>";
-        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[2])) ? htmlspecialchars($this->data[2], ENT_QUOTES) : '0.0000') . "' tabindex='" . ($tabindex++) . "'></td>";
+        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((empty($this->data[2])) ? '0.0000' : htmlspecialchars($this->data[2], ENT_QUOTES)) . "' tabindex='" . ($tabindex++) . "'></td>";
         echo "    <th align='center'>&nbsp;&gt;&nbsp;" . $this->translate('Longitude') . "&nbsp;&lt;&nbsp;</th>";
-        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((!empty($this->data[3])) ? htmlspecialchars($this->data[3], ENT_QUOTES) : '0.0000') . "' tabindex='" . ($tabindex++) . "'></td>";
+        echo "    <td align='center'><input type='text' size='10' name='acl[{$this->executionorder}][data][]' value='" . ((empty($this->data[3])) ? '0.0000' : htmlspecialchars($this->data[3], ENT_QUOTES)) . "' tabindex='" . ($tabindex++) . "'></td>";
         echo "</tr>";
         echo "</table>";
     }

@@ -162,7 +162,7 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
                 case 'numeric':
                     // Strip useless chars, such as currency
                     $value = preg_replace('/[^0-9.]/', '', $value);
-                    $value = floatval($value);
+                    $value = (float) $value;
                     break;
                 case 'date':
                     if (!empty($value)) {
@@ -319,10 +319,8 @@ function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
     }
     if (empty($aArray[$index])) {
         $aArray[$index] = 0;
-    } else {
-        if (!is_integer($aArray[$index])) {
-            $aArray[$index] = intval($aArray[$index]);
-        }
+    } elseif (!is_int($aArray[$index])) {
+        $aArray[$index] = (int) $aArray[$index];
     }
 }
 

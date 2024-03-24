@@ -515,41 +515,39 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                 $message = '      - WARNING! Creative has a null past zone priority factor!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
-            } else {
-                if ($oAdvert->pastAdZonePriorityFactor != 0) {
-                    $newFactor = $oAdvert->pastAdZonePriorityFactor * BASE_FACTOR;
-                    if ($newFactor < MAX_RAND) {
-                        // Update the creative/zone priority factor
-                        $message = '      - Using new priority factor of ';
-                        $message .= sprintf('%.5f.', $newFactor);
-                        $this->globalMessage .= $message . "\n";
-                        OA::debug($message, PEAR_LOG_DEBUG);
-                        return [$newFactor, false, 0, 1];
-                    } else {
-                        // Use the past creative/zone priority factor
-                        $newFactor = $oAdvert->pastAdZonePriorityFactor;
-                        $message = '      - Re-using priority factor of ';
-                        $message .= sprintf('%.5f.', $newFactor);
-                        $this->globalMessage .= $message . "\n";
-                        OA::debug($message, PEAR_LOG_DEBUG);
-                        if ($newFactor > MAX_RAND) {
-                            $newFactor = MAX_RAND / 2;
-                            $message = '      - OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2: ' .
-                                       sprintf('%.5f.', $newFactor);
-                            $this->globalMessage .= $message . "\n";
-                            OA::debug($message, PEAR_LOG_DEBUG);
-                        }
-                        return [$newFactor, true, 0, 1];
-                    }
-                } else {
-                    // Use a new base factor
-                    $newFactor = BASE_FACTOR;
-                    $message = '      - Found a zero priority factor, so using base factor of ';
+            } elseif ($oAdvert->pastAdZonePriorityFactor != 0) {
+                $newFactor = $oAdvert->pastAdZonePriorityFactor * BASE_FACTOR;
+                if ($newFactor < MAX_RAND) {
+                    // Update the creative/zone priority factor
+                    $message = '      - Using new priority factor of ';
                     $message .= sprintf('%.5f.', $newFactor);
                     $this->globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);
                     return [$newFactor, false, 0, 1];
+                } else {
+                    // Use the past creative/zone priority factor
+                    $newFactor = $oAdvert->pastAdZonePriorityFactor;
+                    $message = '      - Re-using priority factor of ';
+                    $message .= sprintf('%.5f.', $newFactor);
+                    $this->globalMessage .= $message . "\n";
+                    OA::debug($message, PEAR_LOG_DEBUG);
+                    if ($newFactor > MAX_RAND) {
+                        $newFactor = MAX_RAND / 2;
+                        $message = '      - OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2: ' .
+                                   sprintf('%.5f.', $newFactor);
+                        $this->globalMessage .= $message . "\n";
+                        OA::debug($message, PEAR_LOG_DEBUG);
+                    }
+                    return [$newFactor, true, 0, 1];
                 }
+            } else {
+                // Use a new base factor
+                $newFactor = BASE_FACTOR;
+                $message = '      - Found a zero priority factor, so using base factor of ';
+                $message .= sprintf('%.5f.', $newFactor);
+                $this->globalMessage .= $message . "\n";
+                OA::debug($message, PEAR_LOG_DEBUG);
+                return [$newFactor, false, 0, 1];
             }
         }
         // No past information, so use a factor of 1
@@ -648,15 +646,13 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             } else {
                 return [$oldFactor, false];
             }
-        } else {
+        } elseif ($useNew) {
             // The new factor is correcting the opposite direction
             // to the base factor, so use the new factor if
             // requested, but the new base factor if not
-            if ($useNew) {
-                return [$newFactor, $limited];
-            } else {
-                return [$baseFactor, false];
-            }
+            return [$newFactor, $limited];
+        } else {
+            return [$baseFactor, false];
         }
     }
 }

@@ -123,7 +123,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
             }
             $registerableDomain .= '\z';
             $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
-            array_push($aCompiledData, $registerableDomain);
+            $aCompiledData[] = $registerableDomain;
         }
         return implode('|', $aCompiledData);
     }
@@ -183,7 +183,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
                 if ($oHost !== false) {
                     $registerableDomain = $oHost->registerableDomain;
                     if (is_string($registerableDomain) && strlen($registerableDomain)) {
-                        array_push($aSanitisedData, $registerableDomain);
+                        $aSanitisedData[] = $registerableDomain;
                     }
                 }
             }

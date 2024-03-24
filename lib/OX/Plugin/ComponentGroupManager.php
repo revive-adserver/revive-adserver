@@ -50,15 +50,13 @@ class OX_Plugin_ComponentGroupManager
 
     public $aMenuObjects;
 
-    public $aWarnings;
-    public $aErrors;
+    public $aWarnings = [];
+    public $aErrors = [];
     /** @var bool */
     protected $configLocked;
 
     public function __construct()
     {
-        $this->aErrors = [];
-        $this->aWarnings = [];
         $this->init();
     }
 
@@ -164,7 +162,7 @@ class OX_Plugin_ComponentGroupManager
      */
     public function isEnabled($name)
     {
-        return ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$name] ? true : false);
+        return ((bool) $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$name]);
     }
 
     public function &_getOX_Plugin_UpgradeComponentGroup(&$aGroup, $oSender)
@@ -1511,7 +1509,7 @@ class OX_Plugin_ComponentGroupManager
                 $aParse = $this->parseXML($file);
                 foreach ($aParse['install']['syscheck']['depends'] as &$aDepends) {
                     $aResult[$aDepends['name']]['isDependedOnBy'][] = $name;
-                    $installed = (isset($aConf[$aDepends['name']]) ? true : false);
+                    $installed = (isset($aConf[$aDepends['name']]));
                     if (!$installed) {
                         $aResult[$name]['dependsOn'][$aDepends['name']] = OX_PLUGIN_DEPENDENCY_NOTFOUND;
                         $msg = 'PLUGIN DEPENDENCY PROBLEM: ' . $name . ' depends on ' . $aDepends['name'] . ' but ' . $aDepends['name'] . ' is not installed!';
@@ -1922,8 +1920,8 @@ class OX_Plugin_ComponentGroupManager
         }
         $aParse = $this->parseXML($file, 'OX_ParserComponentGroup');
         $aConf = &$GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-        $aGroup['installed'] = (isset($aConf[$name]) ? true : false);
-        $aGroup['enabled'] = ($aGroup['installed'] && $aConf[$name] ? true : false);
+        $aGroup['installed'] = (isset($aConf[$name]));
+        $aGroup['enabled'] = ($aGroup['installed'] && $aConf[$name]);
         $aGroup['settings'] = false;
         $aGroup['preferences'] = false;
         foreach ($aParse as $k => &$v) {

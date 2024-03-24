@@ -202,7 +202,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
             $mi->parameters[] = 'rmargin=' . $rmargin;
         }
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer = "<script type='text/javascript'><!--//<![CDATA[

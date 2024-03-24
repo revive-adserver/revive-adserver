@@ -42,7 +42,8 @@ if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $aff
 
 //get websites and set the current one
 $aWebsites = getWebsiteMap();
-if (empty($affiliateid)) { //if it's empty
+if (empty($affiliateid)) {
+    //if it's empty
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid']) {
         //try previous one from session
         $sessionWebsiteId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'];
@@ -52,13 +53,12 @@ if (empty($affiliateid)) { //if it's empty
     }
     if (empty($affiliateid)) { //was empty, is still empty - just pick one, no need for redirect
         $ids = array_keys($aWebsites);
-        $affiliateid = !empty($ids) ? $ids[0] : -1; //if no websites set to non-existent id
+        $affiliateid = empty($ids) ? -1 : $ids[0]; //if no websites set to non-existent id
     }
-} else {
-    if (!isset($aWebsites[$affiliateid])) { //bad id, redirect
-        $page = basename($_SERVER['SCRIPT_NAME']);
-        OX_Admin_Redirect::redirect($page);
-    }
+} elseif (!isset($aWebsites[$affiliateid])) {
+    //bad id, redirect
+    $page = basename($_SERVER['SCRIPT_NAME']);
+    OX_Admin_Redirect::redirect($page);
 }
 
 

@@ -61,9 +61,9 @@ if (is_array($aErrs = OX_DevToolbox::checkFilePermissions([PATH_DEV, PATH_VAR, M
     setcookie('schemaFile', '');
     setcookie('schemaPath', '');
     $errorMessage =
-        join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
+        implode("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
         'To fix, please execute the following commands:' . "<br /><br >\n" .
-        join("<br />\n", $aErrs['fixes']);
+        implode("<br />\n", $aErrs['fixes']);
     die($errorMessage);
 }
 

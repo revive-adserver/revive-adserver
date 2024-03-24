@@ -371,7 +371,7 @@ class OA_Dll_Audit extends OA_Dll
             $aChildren[] = $aAudit;
         }
 
-        return (!empty($aChildren)) ? $aChildren : false;
+        return (empty($aChildren)) ? false : $aChildren;
     }
 
     /**
@@ -395,7 +395,7 @@ class OA_Dll_Audit extends OA_Dll
         $oAudit->context = $context;
         $numRows = $oAudit->find();
 
-        return ($numRows > 0) ? true : false;
+        return $numRows > 0;
     }
 
     /**

@@ -233,7 +233,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             $aStatus[] = " $okCount OK";
         }
 
-        $aSection['header'] .= " - " . join(', ', $aStatus);
+        $aSection['header'] .= " - " . implode(', ', $aStatus);
 
         //        echo "<pre>";
         //        var_dump($aSection);

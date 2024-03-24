@@ -18,7 +18,7 @@ class Plugins_admin_apVideoUI_videoZoneChecker extends Plugins_admin_apVideoUI_C
 {
     protected function getCacheKey($oSection): string
     {
-        return join(',', [
+        return implode(',', [
             (int) ($GLOBALS['affiliateid'] ?? 0),
             (int) ($GLOBALS['zoneid'] ?? 0),
         ]);

@@ -180,7 +180,7 @@ class DataObjects_Images extends DB_DataObjectCommon
         // Find the banner that contains this image, if possible
         $doBanners = $this->getBanner();
 
-        if (null !== $doBanners) {
+        if ($doBanners instanceof \DataObjects_Banners) {
             // Return the owning account IDs of the image's owning banner
             return $doBanners->getOwningAccountIds();
         }
@@ -205,13 +205,10 @@ class DataObjects_Images extends DB_DataObjectCommon
         $aAuditFields['contents'] = $GLOBALS['strBinaryData'];
 
         $aAuditFields['key_desc'] = $this->filename;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                if ($doBanner = $this->getBanner()) {
-                    $aAuditFields['bannerid'] = $doBanner->bannerid;
-                }
-
-                break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            if ($doBanner = $this->getBanner()) {
+                $aAuditFields['bannerid'] = $doBanner->bannerid;
+            }
         }
     }
 

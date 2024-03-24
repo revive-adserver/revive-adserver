@@ -42,7 +42,7 @@ function MAX_checkClient_Ip($limitation, $op, $aParams = [])
     if (!strpos($limitation, '/')) {
         $net = explode('.', $limitation);
 
-        for ($i = 0;$i < sizeof($net);$i++) {
+        for ($i = 0;$i < count($net);$i++) {
             if ($net[$i] == '*') {
                 $net[$i] = 0;
                 $mask[$i] = 0;

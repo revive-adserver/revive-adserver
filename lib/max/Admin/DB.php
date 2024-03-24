@@ -25,24 +25,7 @@ class Max_Admin_DB
     public function tableTypeIsSupported($type)
     {
         // Assume MySQL always supports MyISAM table types
-        if ($type == 'MYISAM') {
-            return true;
-        } else {
-            $oDbh = OA_DB::singleton();
-            $rc = $oDbh->query('SHOW VARIABLES');
-            while ($row = $rc->fetchRow(DB_FETCHMODE_ORDERED)) {
-                if ($type == 'BDB' && $row[0] == 'have_bdb' && $row[1] == 'YES') {
-                    return true;
-                }
-                if ($type == 'GEMINI' && $row[0] == 'have_gemini' && $row[1] == 'YES') {
-                    return true;
-                }
-                if ($type == 'INNODB' && $row[0] == 'have_innodb' && $row[1] == 'YES') {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return $type == 'MYISAM';
     }
 
     /**

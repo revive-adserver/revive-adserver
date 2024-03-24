@@ -886,10 +886,7 @@ class OA_DB_Upgrade
         $this->_logOnly('dropping your backup: ' . $table);
 
         $result = $this->oSchema->db->manager->dropTable($table);
-        if ($this->_isPearError($result, 'error dropping ' . $table)) {
-            return false;
-        }
-        return true;
+        return !$this->_isPearError($result, 'error dropping ' . $table);
     }
 
     /**
@@ -1155,18 +1152,16 @@ class OA_DB_Upgrade
                 if (!$this->_executeMigrationMethodTable($table, 'beforeRemoveTable')) {
                     $this->_halt();
                     return false;
-                } else {
-                    if ($this->oTable->dropTable($this->prefix . $table)) {
-                        if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable')) {
-                            $this->_halt();
-                            return false;
-                        } else {
-                            $this->_logOnly('successfully removed table ' . $this->prefix . $table);
-                        }
-                    } else {
+                } elseif ($this->oTable->dropTable($this->prefix . $table)) {
+                    if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable')) {
                         $this->_halt();
                         return false;
+                    } else {
+                        $this->_logOnly('successfully removed table ' . $this->prefix . $table);
                     }
+                } else {
+                    $this->_halt();
+                    return false;
                 }
             }
         }
@@ -1221,18 +1216,16 @@ class OA_DB_Upgrade
                         // Ensure that the index is dropped even if it is not prefixed
                         $result = $this->oSchema->db->manager->dropConstraint($table, $indexOrig, true);
                     }
-                } else {
-                    if (in_array($index, $aDBIndexes)) {
-                        $result = $this->oSchema->db->manager->dropIndex($table, $index);
-                    } elseif (in_array($index, $aDBConstraints)) {
-                        $result = $this->oSchema->db->manager->dropConstraint($table, $index, false);
-                    } elseif (in_array($indexOrig, $aDBIndexes)) {
-                        // Ensure that the index is dropped even if it is not prefixed
-                        $result = $this->oSchema->db->manager->dropIndex($table, $indexOrig);
-                    } elseif (in_array($indexOrig, $aDBConstraints)) {
-                        // Ensure that the index is dropped even if it is not prefixed
-                        $result = $this->oSchema->db->manager->dropConstraint($table, $indexOrig, false);
-                    }
+                } elseif (in_array($index, $aDBIndexes)) {
+                    $result = $this->oSchema->db->manager->dropIndex($table, $index);
+                } elseif (in_array($index, $aDBConstraints)) {
+                    $result = $this->oSchema->db->manager->dropConstraint($table, $index, false);
+                } elseif (in_array($indexOrig, $aDBIndexes)) {
+                    // Ensure that the index is dropped even if it is not prefixed
+                    $result = $this->oSchema->db->manager->dropIndex($table, $indexOrig);
+                } elseif (in_array($indexOrig, $aDBConstraints)) {
+                    // Ensure that the index is dropped even if it is not prefixed
+                    $result = $this->oSchema->db->manager->dropConstraint($table, $indexOrig, false);
                 }
                 if ($this->_isPearError($result, 'error dropping index ' . $index)) {
                     $this->_halt();
@@ -1709,7 +1702,7 @@ class OA_DB_Upgrade
             'remove' => [
                                 'table' => $table,
                                 'name' => $index_name,
-                                'primary' => (strpos($index_name, '_pkey') > 0 ? true : false)  //$aTableDef['indexes'][$index_name]['primary']
+                                'primary' => (strpos($index_name, '_pkey') > 0)  //$aTableDef['indexes'][$index_name]['primary']
                               ],
             default => new \RuntimeException(),
         };
@@ -2039,7 +2032,7 @@ class OA_DB_Upgrade
         } else {
             $log = fopen($this->logFile, 'a');
             if (count($this->logBuffer)) {
-                $message = join("\n", $this->logBuffer);
+                $message = implode("\n", $this->logBuffer);
                 $this->logBuffer = [];
             }
             fwrite($log, "{$message}\n");
@@ -2091,10 +2084,7 @@ class OA_DB_Upgrade
             $this->_logError('error dropping ' . $this->prefix . $table);
             return false;
         }
-        if ($this->_isPearError($result, 'error dropping ' . $this->prefix . $table)) {
-            return false;
-        }
-        return true;
+        return !$this->_isPearError($result, 'error dropping ' . $this->prefix . $table);
     }
 
     /**

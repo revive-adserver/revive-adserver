@@ -12,7 +12,7 @@
 
 class OA_Admin_UI_Decorator_Registry
 {
-    private $decoratorNameToDecoratorMap;
+    private $decoratorNameToDecoratorMap = [];
 
     /**
      * Returns a singleton of OA_Admin_UI_Decorator_Registry
@@ -26,12 +26,6 @@ class OA_Admin_UI_Decorator_Registry
             $instance = new OA_Admin_UI_Decorator_Registry();
         }
         return $instance;
-    }
-
-
-    public function __construct()
-    {
-        $this->decoratorNameToDecoratorMap = [];
     }
 
 

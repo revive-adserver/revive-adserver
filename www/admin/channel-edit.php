@@ -43,13 +43,10 @@ $doChannel = OA_Dal::factoryDO('channel');
 if (!empty($channelid)) {
     $doChannel->get($channelid);
     $channel = $doChannel->toArray();
-} else {
+} elseif (!empty($affiliateid)) {
     //for new channels set affiliate id (if any)
-    if (!empty($affiliateid)) {
-        OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-
-        $channel['affiliateid'] = $affiliateid;
-    }
+    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+    $channel['affiliateid'] = $affiliateid;
 }
 
 if (!empty($affiliateid)) {

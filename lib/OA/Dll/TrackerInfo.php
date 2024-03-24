@@ -108,7 +108,7 @@ class OA_Dll_TrackerInfo extends OA_Info
         $aTrackerData['clientId'] = $aTrackerData['clientid'];
 
         // Convert to boolean
-        $aTrackerData['linkCampaigns'] = ($aTrackerData['linkcampaigns'] == 1 ? true : false);
+        $aTrackerData['linkCampaigns'] = ($aTrackerData['linkcampaigns'] == 1);
         $aTrackerData['variableMethod'] = $aTrackerData['variablemethod'];
 
         $this->readDataFromArray($aTrackerData);

@@ -75,10 +75,10 @@ function _getTimeFromSec($secDuration)
 {
     $time = [];
     $time['hour'] = ($secDuration - ($secDuration % 3600)) / 3600;
-    $secDuration = $secDuration % 3600;
+    $secDuration %= 3600;
 
     $time['minute'] = ($secDuration - ($secDuration % 60)) / 60;
-    $secDuration = $secDuration % 60;
+    $secDuration %= 60;
 
     $time['second'] = $secDuration;
     return $time;

@@ -40,12 +40,7 @@ class OX_Admin_UI_Event_EventDispatcher
 {
     private static $instance;
 
-    private $aListeners;
-
-    public function __construct()
-    {
-        $this->aListeners = [];
-    }
+    private $aListeners = [];
 
 
     /**

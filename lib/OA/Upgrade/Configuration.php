@@ -59,10 +59,7 @@ class OA_Upgrade_Config
     {
         $host = OX_getHostName();
         $this->configPath = MAX_PATH . '/var/';
-        if (file_exists($this->configPath . $host . '.conf.ini')) {
-            return true;
-        }
-        return false;
+        return file_exists($this->configPath . $host . '.conf.ini');
     }
 
     public function replaceMaxConfigFileWithOpenadsConfigFile()
@@ -139,10 +136,7 @@ class OA_Upgrade_Config
     public function backupConfig()
     {
         $this->getConfigFileName();
-        if (!$this->oSettings->backupConfig($this->configPath . $this->configFile)) {
-            return false;
-        }
-        return true;
+        return (bool) $this->oSettings->backupConfig($this->configPath . $this->configFile);
     }
     /**
      * Writes out the config file
@@ -329,7 +323,7 @@ class OA_Upgrade_Config
         foreach ($aConfDist as $key => &$value) {
             if (array_key_exists($key, $this->aConfig)) {
                 if (is_array($aConfDist[$key])) {
-                    foreach ($aConfDist[$key] as $subKey => &$subValue) {
+                    foreach (array_keys($aConfDist[$key]) as &$subKey) {
                         if (!array_key_exists($subKey, $this->aConfig[$key])) {
                             return true;
                         }

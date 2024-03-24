@@ -106,7 +106,7 @@ switch (OA_Permission::getAccountType()) {
             $aInfo = $doClients->toArray();
             $aAdvertiserAccountIds[] = $aInfo['account_id'];
         }
-        if (count($aAdvertiserAccountIds) > 0) {
+        if ($aAdvertiserAccountIds !== []) {
             // Obtain the information of users linked to the located account(s)
             $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
             foreach ($aAdvertiserAccountIds as $accountId) {
@@ -130,7 +130,7 @@ switch (OA_Permission::getAccountType()) {
             $aInfo = $doAffiliates->toArray();
             $aTraffickerAccountIds[] = $aInfo['account_id'];
         }
-        if (count($aTraffickerAccountIds) > 0) {
+        if ($aTraffickerAccountIds !== []) {
             // Obtain the information of users linked to the located account(s)
             $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
             foreach ($aTraffickerAccountIds as $accountId) {

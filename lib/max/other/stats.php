@@ -67,7 +67,7 @@ function MAX_sortArray(&$aArr, $column, $ascending = true)
     $key = array_key_first($aArr);
     // If array keys are days (yyyy-mm-dd format), and the array is to be sorted by 'day',
     // use ksort to avoid comparing strings with formatted dates
-    if ($column == 'day' && preg_match("/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/", $key) == 1) {
+    if ($column == 'day' && preg_match("/^\\d{4}\\-\\d{2}\\-\\d{2}\$/", $key) == 1) {
         if ($ascending) {
             ksort($aArr);
         } else {

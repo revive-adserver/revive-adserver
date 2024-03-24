@@ -223,8 +223,8 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      */
     public function getZoneAvailableImpressions($zoneId)
     {
-        return !empty($this->aZonesAvailableImpressions[$zoneId]) ?
-            $this->aZonesAvailableImpressions[$zoneId] : self::DEFAULT_ZONE_FORECAST;
+        return empty($this->aZonesAvailableImpressions[$zoneId]) ?
+            self::DEFAULT_ZONE_FORECAST : $this->aZonesAvailableImpressions[$zoneId];
     }
 
     /**

@@ -71,10 +71,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
     public function onInstall()
     {
         $oDbLayer = $this->_factoryDBLayer();
-        if (!$oDbLayer || !$oDbLayer->install($this)) {
-            return false;
-        }
-        return true;
+        return $oDbLayer && $oDbLayer->install($this);
     }
 
     /**
@@ -449,15 +446,10 @@ abstract class Plugins_DeliveryLog extends OX_Component
         if (!$this->_testValidArrayKeys($aMap['sumSource'], $aMap['sumDestination'])) {
             return false;
         }
-
         // There must be the same number of entries in the "sumSource" and "sumDefault"
         // arrays, and the indexes used should match
-        if (!$this->_testValidArrayKeys($aMap['sumSource'], $aMap['sumDefault'])) {
-            return false;
-        }
-
         // Everything looks okay!
-        return true;
+        return $this->_testValidArrayKeys($aMap['sumSource'], $aMap['sumDefault']);
     }
 
     /**
@@ -503,15 +495,10 @@ abstract class Plugins_DeliveryLog extends OX_Component
         if (!$this->_testValidArray($aMap['extrasValue'])) {
             return false;
         }
-
         // There must be the same number of entries in the "extrasDestination" and "extrasValue"
         // arrays, and the indexes used should match
-        if (!$this->_testValidArrayKeys($aMap['extrasDestination'], $aMap['extrasValue'])) {
-            return false;
-        }
-
         // Everything looks okay!
-        return true;
+        return $this->_testValidArrayKeys($aMap['extrasDestination'], $aMap['extrasValue']);
     }
 
     /**
@@ -576,15 +563,10 @@ abstract class Plugins_DeliveryLog extends OX_Component
         if (!$this->_testValidNotNullArray($aMap['destination'])) {
             return false;
         }
-
         // There must be the same number of entries in the "source" and "destination"
         // arrays, and the indexes used should match
-        if (!$this->_testValidArrayKeys($aMap['source'], $aMap['destination'])) {
-            return false;
-        }
-
         // Everything looks okay!
-        return true;
+        return $this->_testValidArrayKeys($aMap['source'], $aMap['destination']);
     }
 
     /**
@@ -603,14 +585,9 @@ abstract class Plugins_DeliveryLog extends OX_Component
         if (!$this->_testMigrationValidTableOrColumn($aMap['bucketTable'])) {
             return false;
         }
-
         // Must have a valid "dateTimeColumn" value
-        if (!$this->_testMigrationValidTableOrColumn($aMap['dateTimeColumn'])) {
-            return false;
-        }
-
         // Everything looks okay!
-        return true;
+        return $this->_testMigrationValidTableOrColumn($aMap['dateTimeColumn']);
     }
 
     /**
@@ -625,10 +602,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      */
     private function _testMigrationValidTableOrColumn($value)
     {
-        if (is_null($value) || !is_string($value)) {
-            return false;
-        }
-        return true;
+        return !is_null($value) && is_string($value);
     }
 
     /**
@@ -644,10 +618,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
         if (!$this->_testValidArray($aArray)) {
             return false;
         }
-        if (empty($aArray)) {
-            return false;
-        }
-        return true;
+        return !empty($aArray);
     }
 
     /**
@@ -692,19 +663,12 @@ abstract class Plugins_DeliveryLog extends OX_Component
             return false;
         }
         $aKeys1 = [];
-        foreach ($aArray1 as $key => $value) {
-            $aKeys1[] = $key;
-        }
+        $aKeys1 = array_keys($aArray1);
         $aKeys2 = [];
-        foreach ($aArray2 as $key => $value) {
-            $aKeys2[] = $key;
-        }
+        $aKeys2 = array_keys($aArray2);
         asort($aKeys1);
         asort($aKeys2);
-        if ($aKeys1 !== $aKeys2) {
-            return false;
-        }
-        return true;
+        return $aKeys1 === $aKeys2;
     }
 
     /**

@@ -43,16 +43,13 @@ class OA_Dll_Variable extends OA_Dll
                 !$this->checkStructureNotRequiredStringField($oVariableInfo, 'variableName', 250)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oVariableInfo, 'trackerId') ||
+            !$this->checkIdExistence('trackers', $oVariableInfo->trackerId) ||
+            !$this->checkStructureRequiredStringField($oVariableInfo, 'variableName', 250)) {
             // Adding a variable.
-            if (!$this->checkStructureRequiredIntegerField($oVariableInfo, 'trackerId') ||
-                !$this->checkIdExistence('trackers', $oVariableInfo->trackerId) ||
-                !$this->checkStructureRequiredStringField($oVariableInfo, 'variableName', 250)) {
-                return false;
-            }
+            return false;
         }
-
-        if (!$this->checkStructureNotRequiredStringField($oVariableInfo, 'description', 250) ||
+        return !(!$this->checkStructureNotRequiredStringField($oVariableInfo, 'description', 250) ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'dataType') ||
             !$this->checkDataType($oVariableInfo) ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'purpose') ||
@@ -61,10 +58,7 @@ class OA_Dll_Variable extends OA_Dll
             !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'isUnique') ||
             !$this->checkStructureNotRequiredIntegerField($oVariableInfo, 'uniqueWindow') ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'variableCode', 255) ||
-            !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'hidden')) {
-            return false;
-        }
-        return true;
+            !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'hidden'));
     }
 
     private function checkDataType($oStructure)

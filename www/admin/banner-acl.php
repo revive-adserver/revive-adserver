@@ -63,15 +63,15 @@ if (!empty($action)) {
         $acls_updated = false;
         $now = OA::getNow();
 
-        if ($aBannerPrev['block_ad'] <> $block) {
+        if ($aBannerPrev['block_ad'] != $block) {
             $values['block'] = $block;
             $acls_updated = ($block == 0) ? true : $acls_updated;
         }
-        if ($aBannerPrev['cap_ad'] <> $cap) {
+        if ($aBannerPrev['cap_ad'] != $cap) {
             $values['capping'] = $cap;
             $acls_updated = ($cap == 0) ? true : $acls_updated;
         }
-        if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
+        if ($aBannerPrev['session_cap_ad'] != $session_capping) {
             $values['session_capping'] = $session_capping;
             $acls_updated = ($session_capping == 0) ? true : $acls_updated;
         }

@@ -22,8 +22,8 @@
 class MAX_FileScanner
 {
     public $_files;
-    public $_allowedFileMask;
-    public $_allowedFileTypes;
+    public $_allowedFileMask = null;
+    public $_allowedFileTypes = [];
 
     public $_lastMatch;
     public $_sorted;
@@ -33,8 +33,7 @@ class MAX_FileScanner
      */
     public function __construct()
     {
-        $this->_allowedFileTypes = [];
-        $this->_allowedFileMask = null; // eg: '^([a-zA-Z0-9\-]*)\.plugin\.php$'
+        // eg: '^([a-zA-Z0-9\-]*)\.plugin\.php$'
         $this->reset();
     }
 

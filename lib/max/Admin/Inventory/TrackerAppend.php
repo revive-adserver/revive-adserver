@@ -38,7 +38,7 @@ class MAX_Admin_Inventory_TrackerAppend
     public $advertiser_id;
     public $tracker_id;
     public $codes;
-    public $showReminder;
+    public $showReminder = false;
     public $assetPath;
 
     /** @var string */
@@ -54,7 +54,6 @@ class MAX_Admin_Inventory_TrackerAppend
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id = MAX_getValue('trackerid', 0);
         $this->assetPath = OX::assetPath();
-        $this->showReminder = false;
     }
 
     public function _useDefaultDal()
@@ -81,7 +80,7 @@ class MAX_Admin_Inventory_TrackerAppend
             }
         }
 
-        return join(',', $paused);
+        return implode(',', $paused);
     }
 
     public function handlePost($vars)

@@ -59,22 +59,22 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysqli implement
                 // Get first row
                 $aRow = $rsData->toArray();
                 // Prepare INSERT
-                $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";
+                $sInsert = "INSERT INTO {$sTableName} (" . implode(',', array_keys($aRow)) . ") VALUES ";
                 // Add first row data
-                $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
+                $sRow = '(' . implode(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
                 $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
                 // Add first insert
                 $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
                 // Deal with the other rows
                 while ($rsData->fetch()) {
                     $aRow = $rsData->toArray();
-                    $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
+                    $sRow = '(' . implode(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
                     $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
                     $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
                 }
             }
 
-            if (count($aExecQueries)) {
+            if ($aExecQueries !== []) {
                 // Try to disable the binlog for the inserts so we don't
                 // replicate back out over our logged data.
                 PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);

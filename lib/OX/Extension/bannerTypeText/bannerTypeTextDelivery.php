@@ -35,14 +35,14 @@
 function Plugin_BannerTypeText_delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
+    $prepend = empty($aBanner['prepend']) ? '' : $aBanner['prepend'];
+    $append = empty($aBanner['append']) ? '' : $aBanner['append'];
     $aBanner['bannerContent'] = $aBanner['bannertext'];
 
     // Create the anchor tag..
     if (!empty($aBanner['url'])) {  // There is a link
         $status = _adRenderBuildStatusCode($aBanner);
-        $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
+        $target = empty($aBanner['target']) ? '_blank' : $aBanner['target'];
         $clickTag = "<a href='{clickurl_html}' target='{$target}' rel='{rel}'{$status}>";
         $clickTagEnd = '</a>';
     } else {
@@ -50,7 +50,7 @@ function Plugin_BannerTypeText_delivery_adRender(&$aBanner, $zoneId = 0, $source
         $clickTagEnd = '';
     }
     // Get the text below the banner
-    $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
+    $bannerText = empty($aBanner['bannertext']) ? '' : "$clickTag{$aBanner['bannertext']}$clickTagEnd";
     // Get the image beacon...
     $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     return $prepend . $bannerText . $beaconTag . $append;

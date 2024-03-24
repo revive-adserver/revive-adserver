@@ -514,15 +514,13 @@ class XmlRpcUtils
                 )) {
                     return false;
                 }
-            } else {
-                if (!XmlRpcUtils::_getNotRequiredScalarValue(
-                    $aReferencesOnVariables[$i],
-                    $oParams,
-                    $i + $idxStart,
-                    $oResponseWithError
-                )) {
-                    return false;
-                }
+            } elseif (!XmlRpcUtils::_getNotRequiredScalarValue(
+                $aReferencesOnVariables[$i],
+                $oParams,
+                $i + $idxStart,
+                $oResponseWithError
+            )) {
+                return false;
             }
         }
         return true;

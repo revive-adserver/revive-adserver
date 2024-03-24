@@ -115,7 +115,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             // post-upgrade, and if so, migrate the data; requires that the
             // default openXDeliveryLog plugin is installed, so the migration
             // will not be called if it is not
-            if (key_exists('openXDeliveryLog', $this->aPackages)) {
+            if (array_key_exists('openXDeliveryLog', $this->aPackages)) {
                 $this->_postUpgrade();
             }
 

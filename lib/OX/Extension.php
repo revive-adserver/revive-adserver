@@ -33,7 +33,7 @@ class OX_Extension
                 require_once($path . $file);
                 if (class_exists($class)) {
                     $oExtension = new $class();
-                    if (is_object($oExtension) && is_a($oExtension, $class)) {
+                    if ($oExtension instanceof $class) {
                         $method = 'runTasks' . $event;
                         if (method_exists($oExtension, $method)) {
                             $result = $oExtension->$method();

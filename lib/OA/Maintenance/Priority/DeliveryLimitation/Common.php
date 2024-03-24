@@ -45,7 +45,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_P
 
         $aParts = OX_Component::parseComponentIdentifier($this->type);
         if (!empty($aParts) && count($aParts) == 3) {
-            $fileName = MAX_PATH . $aConf['pluginPaths']['plugins'] . join('/', $aParts) . '.delivery.php';
+            $fileName = MAX_PATH . $aConf['pluginPaths']['plugins'] . implode('/', $aParts) . '.delivery.php';
             $funcName = "MAX_check{$aParts[1]}_{$aParts[2]}";
             $callable = function_exists($funcName);
 
