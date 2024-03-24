@@ -184,9 +184,6 @@
         <property name="name" value="demoExtension"/>
     </ant>
     <ant dir="${basedir}/plugins_repo" target="release">
-        <property name="name" value="openXAdditionalBannerTypes"/>
-    </ant>
-    <ant dir="${basedir}/plugins_repo" target="release">
         <property name="name" value="openXTests"/>
     </ant>
   </target>
