@@ -6,14 +6,16 @@ parameters:
         - .
     scanFiles:
         - constants.php
+        - memory.php
         - variables.php
     excludePaths:
         analyseAndScan:
             - lib/xmlrpc/php/openads-api-xmlrpc.inc.php
-            - plugins
-            - plugins_dev
+            - plugins/*
+            - plugins_repo/openXDeveloperToolbox
+            - plugins_dev/*
             - */tests/*
-            - var
+            - var/*
             - www/admin/plugins
             - www/api/rest
             - www/delivery
@@ -38,5 +40,4 @@ parameters:
     bootstrapFiles:
         - phpstan-bootstrap.php
     ignoreErrors:
-#        - '#undefined property#'
         - '#should return#'
