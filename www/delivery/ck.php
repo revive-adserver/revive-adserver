@@ -185,11 +185,10 @@ if (
 ) {
 $GLOBALS['_MAX']['SSL_REQUEST'] = true;
 }
-$GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
-$GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
-list($micro_seconds, $seconds) = explode(" ", microtime());
+$GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'] ?? 2147483647;
+[$micro_seconds, $seconds] = explode(" ", microtime());
 $GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float) $micro_seconds + (float) $seconds));
-if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+if (!str_ends_with($_SERVER['SCRIPT_NAME'], 'install.php')) {
 $GLOBALS['serverTimezone'] = date_default_timezone_get();
 OA_setTimeZoneUTC();
 }
@@ -206,7 +205,7 @@ $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 function setupDeliveryConfigVariables()
 {
 if (!defined('MAX_PATH')) {
-define('MAX_PATH', dirname(__FILE__).'/../..');
+define('MAX_PATH', __DIR__);
 }
 if (!defined('OX_PATH')) {
 define('OX_PATH', MAX_PATH);
@@ -360,7 +359,7 @@ if (!is_array($_COOKIE[$cookieName])) {
 $output = [];
 $data = explode('_', $_COOKIE[$cookieName]);
 foreach ($data as $pair) {
-list($name, $value) = explode('.', $pair);
+[$name, $value] = explode('.', $pair);
 $output[$name] = $value;
 }
 $_COOKIE[$cookieName] = $output;
@@ -370,12 +369,10 @@ if (!empty($_COOKIE['_' . $cookieName]) && is_array($_COOKIE['_' . $cookieName])
 foreach ($_COOKIE['_' . $cookieName] as $adId => $cookie) {
 if (_isBlockCookie($cookieName)) {
 $_COOKIE[$cookieName][$adId] = $cookie;
-} else {
-if (isset($_COOKIE[$cookieName][$adId])) {
+} elseif (isset($_COOKIE[$cookieName][$adId])) {
 $_COOKIE[$cookieName][$adId] += $cookie;
 } else {
 $_COOKIE[$cookieName][$adId] = $cookie;
-}
 }
 MAX_cookieUnset("_{$cookieName}[{$adId}]");
 }
@@ -469,9 +466,9 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = [];
 }
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
 } else {
-$secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
+$secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 if (PHP_VERSION_ID < 70300) {
-@setcookie($name, $value, $expires, $path . '; samesite=' . $sameSite, $domain, $secure, $httpOnly);
+@setcookie($name, $value, ['expires' => $expires, 'path' => $path . '; samesite=' . $sameSite, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
 } else {
 @setcookie($name, $value, [
 'expires' => $expires,
@@ -487,21 +484,21 @@ if (PHP_VERSION_ID < 70300) {
 function MAX_cookieClientCookieUnset($name)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$domain = (!empty($conf['cookie']['domain'])) ? $conf['cookie']['domain'] : null;
+$domain = (empty($conf['cookie']['domain'])) ? null : $conf['cookie']['domain'];
 MAX_cookieSet($name, false, _getTimeYearAgo(), '/', $domain);
 MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(), '/', $domain);
 }
 function MAX_cookieClientCookieFlush()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$domain = !empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null;
+$domain = empty($conf['cookie']['domain']) ? null : $conf['cookie']['domain'];
 MAX_cookieSendP3PHeaders();
 if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
 foreach ($GLOBALS['_MAX']['COOKIE']['CACHE'] as $name => $v) {
-list($value, $expire) = $v;
+[$value, $expire] = $v;
 if ($name === $conf['var']['viewerId']) {
-MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);
+MAX_cookieClientCookieSet($name, $value, $expire, '/', empty($conf['cookie']['viewerIdDomain']) ? $domain : $conf['cookie']['viewerIdDomain']);
 } else {
 MAX_cookieSet($name, $value, $expire, '/', $domain);
 }
@@ -512,7 +509,7 @@ $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'
 if (!is_array($cookieNames)) {
 return;
 }
-$maxCookieSize = !empty($conf['cookie']['maxCookieSize']) ? $conf['cookie']['maxCookieSize'] : 2048;
+$maxCookieSize = empty($conf['cookie']['maxCookieSize']) ? 2048 : $conf['cookie']['maxCookieSize'];
 foreach ($cookieNames as $cookieName) {
 if (empty($_COOKIE["_{$cookieName}"])) {
 continue;
@@ -595,7 +592,7 @@ $aProxyHosts = [
 'inktomi'
 ];
 foreach ($aProxyHosts as $proxyName) {
-if (strpos($_SERVER['REMOTE_HOST'], $proxyName) !== false) {
+if (str_contains($_SERVER['REMOTE_HOST'], $proxyName)) {
 $proxy = true;
 break;
 }
@@ -650,7 +647,7 @@ function MAX_remotehostSetGeoInfo()
 if (!function_exists('parseDeliveryIniFile')) {
 }
 $aConf = $GLOBALS['_MAX']['CONF'];
-$type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
+$type = (empty($aConf['geotargeting']['type'])) ? null : $aConf['geotargeting']['type'];
 if (!is_null($type) && $type != 'none') {
 $aComponent = explode(':', $aConf['geotargeting']['type']);
 if (!empty($aComponent[1]) && (!empty($aConf['pluginGroupComponents'][$aComponent[1]]))) {
@@ -679,13 +676,13 @@ MAX_remotehostMatchSubnet($ip, '127.0.0.0', 8)
 function MAX_remotehostMatchSubnet($ip, $net, $mask)
 {
 $net = ip2long($net);
-if (!is_integer($ip)) {
+if (!is_int($ip)) {
 $ip = ip2long($ip);
 }
 if (!$ip || !$net) {
 return false;
 }
-if (is_integer($mask)) {
+if (is_int($mask)) {
 if ($mask > 32 || $mask <= 0) {
 return false;
 } elseif ($mask == 32) {
@@ -696,7 +693,7 @@ $mask = ~((1 << (32 - $mask)) - 1);
 } elseif (!($mask = ip2long($mask))) {
 return false;
 }
-return ($ip & $mask) == ($net & $mask) ? true : false;
+return ($ip & $mask) == ($net & $mask);
 }
 
 $file = '/lib/max/Delivery/log.php';
@@ -850,7 +847,7 @@ $default_banner_destination_url_id = $default_banner_image_url_id = 0;
 for ($i = 0; $i < 2; ++$i) {
 $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
 $variableName = $aPreferenceInfo['preference_name'] . '_id';
-$$variableName = $aPreferenceInfo['preference_id'];
+${$variableName} = $aPreferenceInfo['preference_id'];
 }
 $query = "
         SELECT
@@ -1589,10 +1586,10 @@ $onlykeywords = true;
 $part_array = explode(',', $part);
 $part_arrayCount = count($part_array);
 for ($k = 0; $k < $part_arrayCount; $k++) {
-if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_') {
+if (str_starts_with($part_array[$k], '+') || str_starts_with($part_array[$k], '_')) {
 $operator = 'AND';
 $part_array[$k] = substr($part_array[$k], 1);
-} elseif (substr($part_array[$k], 0, 1) == '-') {
+} elseif (str_starts_with($part_array[$k], '-')) {
 $operator = 'NOT';
 $part_array[$k] = substr($part_array[$k], 1);
 } else {
@@ -1705,7 +1702,7 @@ $conditions .= "AND d.campaignid <> {$campaignid} ";
 }
 $onlykeywords = false;
 }
-elseif (substr($part_array[$k], 0, 7) == 'format:') {
+elseif (str_starts_with($part_array[$k], 'format:')) {
 $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
 if (!empty($format)) {
 if ($operator == 'OR') {
@@ -1817,10 +1814,10 @@ $onlykeywords = true;
 $part_array = explode(',', $part);
 $part_arrayCount = count($part_array);
 for ($k = 0; $k < $part_arrayCount; $k++) {
-if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_') {
+if (str_starts_with($part_array[$k], '+') || str_starts_with($part_array[$k], '_')) {
 $operator = 'AND';
 $part_array[$k] = substr($part_array[$k], 1);
-} elseif (substr($part_array[$k], 0, 1) == '-') {
+} elseif (str_starts_with($part_array[$k], '-')) {
 $operator = 'NOT';
 $part_array[$k] = substr($part_array[$k], 1);
 } else {
@@ -1933,7 +1930,7 @@ $conditions .= "AND d.campaignid <> {$campaignid} ";
 }
 $onlykeywords = false;
 }
-elseif (substr($part_array[$k], 0, 7) == 'format:') {
+elseif (str_starts_with($part_array[$k], 'format:')) {
 $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
 if (!empty($format)) {
 if ($operator == 'OR') {
@@ -2171,12 +2168,12 @@ foreach ($aTrackerLinkedAds as $creativeId => $aLinkedInfo) {
 foreach ($aPossibleActions as $actionId => $action) {
 if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
 if (stristr($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], ' ')) {
-list($value, $extra) = explode(' ', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], 2);
+[$value, $extra] = explode(' ', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], 2);
 $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId] = $value;
 } else {
 $extra = '';
 }
-list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
+[$lastAction, $zoneId] = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
 $lastAction = MAX_commonUnCompressInt($lastAction);
 $lastSeenSecondsAgo = $now - $lastAction;
 if ($lastSeenSecondsAgo <= $aLinkedInfo[$action . '_window'] && $lastSeenSecondsAgo > 0) {
@@ -2268,7 +2265,7 @@ switch ($aVariable['type']) {
 case 'int':
 case 'numeric':
 $value = preg_replace('/[^0-9.]/', '', $value);
-$value = floatval($value);
+$value = (float) $value;
 break;
 case 'date':
 if (!empty($value)) {
@@ -2301,7 +2298,7 @@ if (!empty($aConf['logging']['enforceUserAgents'])) {
 $aKnownBrowsers = explode('|', strtolower($aConf['logging']['enforceUserAgents']));
 $allowed = false;
 foreach ($aKnownBrowsers as $browser) {
-if (strpos($agent, $browser) !== false) {
+if (str_contains($agent, $browser)) {
 $allowed = true;
 break;
 }
@@ -2315,7 +2312,7 @@ $okToLog = false;
 if (!empty($aConf['logging']['ignoreUserAgents'])) {
 $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
 foreach ($aKnownBots as $bot) {
-if (strpos($agent, $bot) !== false) {
+if (str_contains($agent, $bot)) {
 OX_Delivery_logMessage('user-agent ' . $agent . ' is a known bot ' . $bot, 7);
 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
 $okToLog = false;
@@ -2370,10 +2367,8 @@ $aArray = [];
 }
 if (empty($aArray[$index])) {
 $aArray[$index] = 0;
-} else {
-if (!is_integer($aArray[$index])) {
-$aArray[$index] = intval($aArray[$index]);
-}
+} elseif (!is_int($aArray[$index])) {
+$aArray[$index] = (int) $aArray[$index];
 }
 }
 function MAX_Delivery_log_setAdLimitations($index, $aAds, $aCaps)
@@ -2490,7 +2485,7 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
 if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
 return $content;
 }
-$aExtensions = $aExtensions ?? ['intl', 'iconv', 'mbstring', 'xml'];
+$aExtensions ??= ['intl', 'iconv', 'mbstring', 'xml'];
 if (is_array($content)) {
 foreach ($content as $key => $value) {
 $content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
@@ -2516,8 +2511,8 @@ foreach ($aExtensions as $extension) {
 if (false !== $converted) {
 break;
 }
-$mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
-$mappedToEncoding = isset($aMap[$extension][$toEncoding]) ? $aMap[$extension][$toEncoding] : $toEncoding;
+$mappedFromEncoding = $aMap[$extension][$fromEncoding] ?? $fromEncoding;
+$mappedToEncoding = $aMap[$extension][$toEncoding] ?? $toEncoding;
 switch ($extension) {
 case 'iconv':
 if (function_exists('iconv')) {
@@ -2627,7 +2622,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $convert = '';
 if (isset($string) && substr($string, 1, 4) == 'obfs' && $conf['delivery']['obfuscate']) {
 $strLen = strlen($string);
-for ($i = 6; $i < $strLen - 1; $i = $i + 3) {
+for ($i = 6; $i < $strLen - 1; $i += 3) {
 $dec = substr($string, $i, 3);
 $dec = 324 - $dec;
 $dec = chr($dec);
@@ -2646,8 +2641,8 @@ if (isset($withText) && !isset($withtext)) {
 $withtext = $withText;
 }
 $withtext = (isset($withtext) && is_numeric($withtext) ? $withtext : 0);
-$ct0 = (isset($ct0) ? $ct0 : '');
-$context = (isset($context) ? $context : []);
+$ct0 ??= '';
+$context ??= [];
 $target = (isset($target) && (!empty($target)) && (!strpos($target, chr(32))) ? $target : '');
 $charset = (isset($charset) && (!empty($charset)) && (!strpos($charset, chr(32))) ? $charset : 'UTF-8');
 $bannerid = (isset($bannerid) && is_numeric($bannerid) ? $bannerid : '');
@@ -2697,10 +2692,8 @@ $loc = '';
 }
 if (!empty($referer)) {
 $_SERVER['HTTP_REFERER'] = stripslashes($referer);
-} else {
-if (isset($_SERVER['HTTP_REFERER'])) {
+} elseif (isset($_SERVER['HTTP_REFERER'])) {
 unset($_SERVER['HTTP_REFERER']);
-}
 }
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = [
 $GLOBALS['_MAX']['CONF']['var']['blockAd'],
@@ -2813,7 +2806,7 @@ $arr = [
 ];
 if (isset($arr[$iStatusCode])) {
 $text = $iStatusCode . ' ' . $arr[$iStatusCode];
-if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
+if (!empty($aConf['delivery']['cgiForceStatusHeader']) && !str_starts_with(php_sapi_name(), 'cgi')) {
 MAX_header('Status: ' . $text);
 } else {
 MAX_header($_SERVER["SERVER_PROTOCOL"] . ' ' . $text);
@@ -2826,8 +2819,8 @@ $include = [];
 $exclude = [];
 foreach ($context as $idx => $value) {
 reset($value);
-list($key, $value) = each($value);
-list($item, $id) = explode(':', $value);
+[$key, $value] = each($value);
+[$item, $id] = explode(':', $value);
 switch ($item) {
 case 'campaignid': $value = 'c:' . $id;
 break;
@@ -2851,7 +2844,7 @@ return base64_encode(implode('#', $exclude) . '|' . implode('#', $include));
 }
 function MAX_commonUnpackContext($context = '')
 {
-list($exclude, $include) = explode('|', base64_decode($context));
+[$exclude, $include] = explode('|', base64_decode($context));
 return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
 }
 function MAX_commonCompressInt($int)
@@ -2869,7 +2862,7 @@ foreach ($array as $value) {
 if (empty($value)) {
 continue;
 }
-list($item, $id) = explode(':', $value);
+[$item, $id] = explode(':', $value);
 switch ($item) {
 case 'c': $unpacked[] = [$key => 'campaignid:' . $id];
 break;
@@ -2894,8 +2887,7 @@ $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($functionN
 if (function_exists($functionName)) {
 $return = call_user_func_array($functionName, $aParams);
 }
-} else {
-if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+} elseif (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
 $return = [];
 $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
 foreach ($hooks as $identifier) {
@@ -2903,7 +2895,6 @@ $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifie
 if (function_exists($functionName)) {
 OX_Delivery_logMessage('calling on ' . $functionName, 7);
 $return[$identifier] = call_user_func_array($functionName, $aParams);
-}
 }
 }
 }
@@ -2920,7 +2911,7 @@ exit;
 }
 }
 $aInfo = explode(':', $identifier);
-$functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
+$functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (empty($hook) ? '' : '_' . $hook);
 if (!function_exists($functionName)) {
 if (!empty($GLOBALS['_MAX']['CONF']['pluginSettings']['useMergedFunctions'])) {
 _includeDeliveryPluginFile('/var/cache/' . OX_getHostName() . '_mergedDeliveryFunctions.php');
@@ -2943,7 +2934,7 @@ function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $da
 if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
 throw new InvalidArgumentException('Empty delivery secret');
 }
-$secret = join("\t", [
+$secret = implode("\t", [
 base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
 $adId,
 $zoneId
@@ -2969,10 +2960,7 @@ return true;
 if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, (string) $ts)) {
 return false;
 }
-if ($ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow()) {
-return true;
-}
-return false;
+return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
 }
 function _includeDeliveryPluginFile($fileName)
 {
@@ -3083,7 +3071,7 @@ function OA_Delivery_Cache_getName($functionName)
 {
 $args = func_get_args();
 $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
-return join('^', $args) . '@' . $GLOBALS['OA_Delivery_Cache']['host'];
+return implode('^', $args) . '@' . $GLOBALS['OA_Delivery_Cache']['host'];
 }
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
@@ -3200,7 +3188,7 @@ return $aVariables;
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-$delay = intval(($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
+$delay = (int) (($GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 12) * 60);
 $now = MAX_commonGetTimeNow();
 $today = strtotime(date('Y-m-d'), $now);
 $nextRunTime = $today + (floor(($now - $today) / $interval) + 1) * $interval + $delay;
@@ -3289,9 +3277,9 @@ parse_str($qs, $aGet);
 if ($dest !== false) {
 $aGet[$conf['var']['dest']] = $dest;
 }
-$n = isset($_GET[$conf['var']['n']]) ? $_GET[$conf['var']['n']] : '';
+$n = $_GET[$conf['var']['n']] ?? '';
 if (empty($n)) {
-$n = isset($aGet[$conf['var']['n']]) ? $aGet[$conf['var']['n']] : '';
+$n = $aGet[$conf['var']['n']] ?? '';
 }
 if (!empty($n) && !empty($_COOKIE[$conf['var']['vars']][$n])) {
 $aVars = json_decode($_COOKIE[$conf['var']['vars']][$n], true);
@@ -3330,7 +3318,7 @@ $componentParams = OX_Delivery_Common_hook('addUrlParams', [['bannerid' => $adId
 if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
-foreach ($params as $key => $value) {
+foreach (array_keys($params) as $key) {
 $aValidVariables[] = $key;
 }
 }
@@ -3341,7 +3329,7 @@ if (!empty($destParams['query'])) {
 $destQuery = explode('&', $destParams['query']);
 if (!empty($destQuery)) {
 foreach ($destQuery as $destPair) {
-list($destName, $destValue) = explode('=', $destPair);
+[$destName, $destValue] = explode('=', $destPair);
 $aValidVariables[] = $destName;
 }
 }
@@ -3385,7 +3373,7 @@ $adId = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_D
 $zoneId = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : [];
 $creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : [];
 $lastClick = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : [];
-$aBlockLoggingClick = isset($_REQUEST[$conf['var']['blockLoggingClick']]) ? $_REQUEST[$conf['var']['blockLoggingClick']] : [];
+$aBlockLoggingClick = $_REQUEST[$conf['var']['blockLoggingClick']] ?? [];
 if (!empty($conf['deliveryLog']['enabled'])) {
 foreach ($adId as $k => $v) {
 OX_Delivery_logMessage('$adId[' . $k . ']=' . $v, 7);
@@ -3410,10 +3398,10 @@ $creativeId[$index] = 0;
 }
 }
 for ($i = 0; $i < count($adId); $i++) {
-$adId[$i] = intval($adId[$i]);
-$zoneId[$i] = intval($zoneId[$i]);
+$adId[$i] = (int) $adId[$i];
+$zoneId[$i] = (int) $zoneId[$i];
 if (isset($creativeId[$i])) {
-$creativeId[$i] = intval($creativeId[$i]);
+$creativeId[$i] = (int) $creativeId[$i];
 } else {
 $creativeId[$i] = 0;
 }
@@ -3443,7 +3431,7 @@ function _getZoneAd($zoneId)
 $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
 reset($zoneLinkedAds['xAds']);
-list($adId, $ad) = each($zoneLinkedAds['xAds']);
+[$adId, $ad] = each($zoneLinkedAds['xAds']);
 } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
 reset($zoneLinkedAds['ads']);
 foreach ($zoneLinkedAds['ads'] as $priority => $ads) {
@@ -3453,7 +3441,7 @@ break;
 }
 } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
 reset($zoneLinkedAds['lAds']);
-list($adId, $ad) = each($zoneLinkedAds['lAds']);
+[$adId, $ad] = each($zoneLinkedAds['lAds']);
 }
 return $adId;
 }
