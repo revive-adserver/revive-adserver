@@ -215,7 +215,7 @@ jobs:
         id: add-plugins
         uses: EndBug/add-and-commit@v9
         with:
-          add: etc/plugins
+          add: etc/plugins plugins_repo
           message: 'Regenerated plugins ${{ steps.gather.outputs.MSG }}'
 
       - name: Regenerate delivery

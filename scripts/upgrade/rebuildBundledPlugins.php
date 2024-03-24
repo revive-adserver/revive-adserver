@@ -32,19 +32,22 @@ $aDefaultPlugins = array_map(function ($v) {
 chdir(MAX_PATH . '/plugins_repo');
 
 foreach ($aDefaultPlugins as $plugin) {
-    echo "  => " . basename($plugin) . ": ";
+    [$currentVersion, $nextVersion] = getVersions($plugin);
 
-    if (false === exec('./zipkg.sh ' . escapeshellarg($plugin) . ' >/dev/null', $output, $rc)) {
-        exit($rc);
-    }
+    echo "  => " . basename($plugin) . " ({$currentVersion}): ";
+
+    buildPlugin($plugin);
 
     if (zipDiff("{$plugin}.zip", "../etc/plugins/{$plugin}.zip")) {
+        bumpVersion($plugin, $nextVersion);
+        buildPlugin($plugin);
+
         if (!@copy("{$plugin}.zip", "../etc/plugins/{$plugin}.zip")) {
             echo "FAILED!\n";
             exit(1);
         }
 
-        echo "UPDATED\n";
+        echo "UPDATED TO {$nextVersion}\n";
     } else {
         echo "no changes\n";
     }
@@ -53,6 +56,18 @@ foreach ($aDefaultPlugins as $plugin) {
 }
 
 echo "=> FINISHED UPDATING THE BUNDLED PLUGINS\n";
+
+function buildPlugin(string $plugin): void
+{
+    exec('./zipkg.sh ' . escapeshellarg($plugin) . ' >/dev/null', $output, $rc) ??
+        throw new \RuntimeException("Build error code: {$rc}:\n" . join("\n", $output));
+}
+
+function bumpVersion(string $plugin, string $version): void
+{
+    exec('ant update-version -Dname=' . escapeshellarg($plugin) . ' -Dversion=' . escapeshellarg($version) . ' >/dev/null', $output, $rc) ??
+        throw new \RuntimeException("Version update error code: {$rc}:\n" . join("\n", $output));
+}
 
 function zipDiff($file1, $file2)
 {
@@ -83,4 +98,19 @@ function zipDiff($file1, $file2)
     $z1->close();
 
     return $ret;
+}
+
+function getVersions(string $plugin): array
+{
+    $fileName = "{$plugin}/plugins/etc/{$plugin}.xml";
+    $xml = file_get_contents($fileName) or throw new \RuntimeException("Can't find xml file: {$fileName}");
+
+    if (!preg_match('#<version>(\d+\.\d+\.)(\d+)</version>#', $xml, $m)) {
+        throw new \RuntimeException("Can't parse version in: {$fileName}");
+    }
+
+    return [
+        $m[1] . $m[2],
+        sprintf("%s%d", $m[1], (int) $m[2] + 1),
+    ];
 }
