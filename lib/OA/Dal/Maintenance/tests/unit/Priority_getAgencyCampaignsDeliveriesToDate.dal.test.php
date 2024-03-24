@@ -24,14 +24,6 @@ class Test_OA_Dal_Maintenance_Priority_getAgencyCampaignsDeliveriesToDate extend
 {
     public $idCampaign2;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
 
     /**
      * Method to test the getAgencyCampaignsDeliveriesToDate method.

@@ -25,14 +25,6 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 {
     public $dalAffiliates;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalAffiliates = OA_Dal::factoryDAL('affiliates');

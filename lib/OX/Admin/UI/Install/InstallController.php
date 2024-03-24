@@ -470,7 +470,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
                 $aJobStatuses = $oStorage->get('aJobStatuses');
                 foreach ($aJobErrors as $id => $errMessage) {
                     $aJobStatuses[$id]['errors'][] = $errMessage;
-                    list($type, $name) = explode(':', $id);
+                    [$type, $name] = explode(':', $id);
                     $aJobStatuses[$id]['name'] = $name;
                     $aJobStatuses[$id]['type'] = $type;
                 }

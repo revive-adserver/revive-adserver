@@ -22,14 +22,6 @@ class Test_OA_Cache extends UnitTestCase
 {
     public $aData;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setup()
     {
         $this->aData = $this->_createTestArray();

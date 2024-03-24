@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 class Test_DeliveryLog extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the _viewersHostOkayToLog() function.
      */
     public function test_viewersHostOkayToLog()

@@ -24,7 +24,7 @@ class OA_Admin_UI_AbstractDecorator implements OA_Admin_UI_Decorator
 
     public function __construct($aParameters)
     {
-        $this->_renderMode = $aParameters['mode'] ? $aParameters['mode'] : 'wrap';
+        $this->_renderMode = $aParameters['mode'] ?: 'wrap';
     }
 
     /**

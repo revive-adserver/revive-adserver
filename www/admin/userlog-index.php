@@ -219,8 +219,8 @@ $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitFor
 // Build column header link params
 $aAllowdParams = ['advertiserId', 'campaignId', 'publisherId', 'zoneId'];
 foreach ($aAllowdParams as $key) {
-    if (!empty($$key)) {
-        $aUrlParam[$key] = "$key=" . $$key;
+    if (!empty(${$key})) {
+        $aUrlParam[$key] = "$key=" . ${$key};
     }
 }
 

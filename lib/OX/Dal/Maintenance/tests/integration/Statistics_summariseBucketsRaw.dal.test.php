@@ -25,14 +25,6 @@ Language_Loader::load();
 class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the summariseBucketsRaw() method.
      */
     public function testSummariseBucketsRaw()

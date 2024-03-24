@@ -110,7 +110,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                         ftp_pasv($ftpsock, true);
                     }
                     //Check path to ensure there is not a leading slash
-                    if (($store_ftpPath != "") && (substr($store_ftpPath, 0, 1) == "/")) {
+                    if (($store_ftpPath != "") && (str_starts_with($store_ftpPath, "/"))) {
                         $store_ftpPath = substr($store_ftpPath, 1);
                     }
 

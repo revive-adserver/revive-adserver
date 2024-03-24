@@ -43,7 +43,7 @@ if (!empty($zones)) {
         }
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if (!empty($nz)) {
-            list($zonename, $thisZoneid) = explode('=', $thisZone);
+            [$zonename, $thisZoneid] = explode('=', $thisZone);
             $varname = $zonename;
         } else {
             $thisZoneid = $varname = $thisZone;

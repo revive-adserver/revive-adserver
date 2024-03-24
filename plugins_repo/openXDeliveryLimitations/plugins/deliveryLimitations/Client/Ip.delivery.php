@@ -53,7 +53,7 @@ function MAX_checkClient_Ip($limitation, $op, $aParams = [])
         $pnet = pack('C4', $net[0], $net[1], $net[2], $net[3]);
         $pmask = pack('C4', $mask[0], $mask[1], $mask[2], $mask[3]);
     } else {
-        list($net, $mask) = explode('/', $limitation);
+        [$net, $mask] = explode('/', $limitation);
         $net = explode('.', $net);
         $pnet = pack('C4', $net[0], $net[1], $net[2], $net[3]);
         $mask = explode('.', $mask);

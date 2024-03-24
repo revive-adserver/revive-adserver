@@ -23,14 +23,6 @@ require_once MAX_PATH . '/lib/OA/DB/Charset.php';
  */
 class Test_OA_DB_Charset extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function testMySQL()
     {
         $oDbh = OA_DB::singleton();

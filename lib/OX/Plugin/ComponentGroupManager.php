@@ -1370,10 +1370,10 @@ class OX_Plugin_ComponentGroupManager
                 ) {
                     $aResult[$table]['dataobject'] = 'ERROR: dataobject problems found, details in debug.log ';
                     if (!is_a($aObjects[$name]['dbo'], 'DataObjects_' . ucfirst($table))) {
-                        $this->_logError('Dataobject classname mismatch ' . get_class($aObjects[$name]['dbo']) . ' should be DataObjects_' . ucfirst($table), PEAR_LOG_ERR);
+                        $this->_logError('Dataobject classname mismatch ' . $aObjects[$name]['dbo']::class . ' should be DataObjects_' . ucfirst($table), PEAR_LOG_ERR);
                     }
                     if (!is_a($aObjects[$name]['dbo'], 'DB_DataObjectCommon')) {
-                        $this->_logError('Dataobject classtype mismatch ' . get_class($aObjects[$name]['dbo']) . ' is not a DataObjectCommon', PEAR_LOG_ERR);
+                        $this->_logError('Dataobject classtype mismatch ' . $aObjects[$name]['dbo']::class . ' is not a DataObjectCommon', PEAR_LOG_ERR);
                     }
                 } else {
                     $aResult[$table]['dataobject'] = 'OK';
@@ -1381,7 +1381,7 @@ class OX_Plugin_ComponentGroupManager
                 foreach ($aObjects[$name]['def']['tables'][$table]['fields'] as $field => &$aField) {
                     if (!property_exists($aObjects[$name]['dbo'], $field)) {
                         $aResult[$table]['dataobject'] = 'ERROR: dataobject problems found, details in debug.log ';
-                        $this->_logError('DataObject class definition mismatch ' . get_class($aObjects[$name]['dbo']) . '::' . $field . ' not found', PEAR_LOG_ERR);
+                        $this->_logError('DataObject class definition mismatch ' . $aObjects[$name]['dbo']::class . '::' . $field . ' not found', PEAR_LOG_ERR);
                         $this->_logError(print_r($aObjects[$name]['dbo'], true), PEAR_LOG_ERR);
                         $this->_logError(print_r($aField, true), PEAR_LOG_ERR);
                     }

@@ -1550,10 +1550,7 @@ class OA_DB_Upgrade
      */
     public function _getPreviousFieldname($table, $field)
     {
-        if (isset($this->aChanges[$this->timingStr]['tables']['change'][$table]['rename']['fields'][$field]['was'])) {
-            return $this->aChanges[$this->timingStr]['tables']['change'][$table]['rename']['fields'][$field]['was'];
-        }
-        return false;
+        return $this->aChanges[$this->timingStr]['tables']['change'][$table]['rename']['fields'][$field]['was'] ?? false;
     }
 
     /**
@@ -1567,10 +1564,7 @@ class OA_DB_Upgrade
      */
     public function _getPreviousTablename($table)
     {
-        if (isset($this->aChanges[$this->timingStr]['tables']['rename'][$table]['was'])) {
-            return $this->aChanges[$this->timingStr]['tables']['rename'][$table]['was'];
-        }
-        return false;
+        return $this->aChanges[$this->timingStr]['tables']['rename'][$table]['was'] ?? false;
     }
 
     /**
@@ -1581,10 +1575,7 @@ class OA_DB_Upgrade
      */
     public function _getTableDefinition($aDefinition, $table)
     {
-        if (isset($aDefinition['tables'][$table])) {
-            return $aDefinition['tables'][$table];
-        }
-        return false;
+        return $aDefinition['tables'][$table] ?? false;
     }
 
     /**
@@ -1705,26 +1696,23 @@ class OA_DB_Upgrade
     public function _compileTaskIndex($task, $table, $index_name)
     {
         $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
-        switch ($task) {
-            case 'add':
-                $result = [
-                                 'table' => $table,
-                                 'name' => $index_name,
-                                 'cargo' => [
-                                                'indexes' => [
-                                                                 $index_name => $aTableDef['indexes'][$index_name]
-                                                                 ]
-                                               ]
-                                 ];
-                break;
-            case 'remove':
-                $result = [
-                                    'table' => $table,
-                                    'name' => $index_name,
-                                    'primary' => (strpos($index_name, '_pkey') > 0 ? true : false)  //$aTableDef['indexes'][$index_name]['primary']
-                                  ];
-                break;
-        }
+        $result = match ($task) {
+            'add' => [
+                             'table' => $table,
+                             'name' => $index_name,
+                             'cargo' => [
+                                            'indexes' => [
+                                                             $index_name => $aTableDef['indexes'][$index_name]
+                                                             ]
+                                           ]
+                             ],
+            'remove' => [
+                                'table' => $table,
+                                'name' => $index_name,
+                                'primary' => (strpos($index_name, '_pkey') > 0 ? true : false)  //$aTableDef['indexes'][$index_name]['primary']
+                              ],
+            default => new \RuntimeException(),
+        };
         return $result;
     }
 
@@ -2278,9 +2266,7 @@ class OA_DB_Upgrade
                 }
             }
 
-            $aDiffs['tables']['change'] = array_filter($aDiffs['tables']['change'], function ($tblDiff) {
-                return !empty($tblDiff);
-            });
+            $aDiffs['tables']['change'] = array_filter($aDiffs['tables']['change'], fn($tblDiff) => !empty($tblDiff));
         }
 
         return $aDiffs;

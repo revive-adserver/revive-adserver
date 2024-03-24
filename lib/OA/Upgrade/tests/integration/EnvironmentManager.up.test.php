@@ -22,14 +22,6 @@ Language_Loader::load();
  */
 class Test_OA_Environment_Manager extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_getFilePermissionErrors()
     {
         $oEnvMgr = $this->_getEnvMgrObj();

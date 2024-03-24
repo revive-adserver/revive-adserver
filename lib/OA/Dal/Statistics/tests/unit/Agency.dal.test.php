@@ -30,14 +30,6 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
      */
     public $_dalAgencyStatistics;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_dalAgencyStatistics = new OA_Dal_Statistics_Agency();

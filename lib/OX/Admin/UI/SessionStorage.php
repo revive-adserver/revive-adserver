@@ -37,7 +37,7 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
             }
         }
 
-        $this->id = isset($id) ? $id : 'session_id';
+        $this->id = $id ?? 'session_id';
         $this->path = $path;
     }
 

@@ -16,9 +16,8 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
-class Plugins_BannerTypeText extends OX_Component
+abstract class Plugins_BannerTypeText extends OX_Component
 {
     /**
      * Return the media (content) type

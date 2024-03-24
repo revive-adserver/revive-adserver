@@ -347,22 +347,17 @@ class Admin_DA
         require_once 'Cache/Lite/Function.php';
 
         //  manually determine timeout required to instantiate cache object
-        switch ($numArgs) {
-            case 3:
-                $timeout = $aArgs[2];
-                break;
-            case 5:
-                $timeout = $aArgs[4];
-                break;
-            default:
-                $timeout = null;
-        }
+        $timeout = match ($numArgs) {
+            3 => $aArgs[2],
+            5 => $aArgs[4],
+            default => null,
+        };
 
         $method = $aArgs[0];
 
         $options = [
                 'cacheDir' => MAX_CACHE,
-                'lifeTime' => ((isset($timeout)) ? $timeout : $conf['delivery']['cacheExpire'])];
+                'lifeTime' => ($timeout ?? $conf['delivery']['cacheExpire'])];
 
         // check if this method has defined different cache group
         $cacheGroups = $GLOBALS['_MAX']['Admin_DA']['cacheGroups'];
@@ -382,7 +377,7 @@ class Admin_DA
                 // catch stats case
                 if (is_array($aArgs[1])) {
                     $aParams = $aArgs[1];
-                    $allFields = isset($aArgs[2]) ? $aArgs[2] : false;
+                    $allFields = $aArgs[2] ?? false;
                     $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields);
                 } else {
                     $ret = $cache->call("Admin_DA::" . $method, $id);

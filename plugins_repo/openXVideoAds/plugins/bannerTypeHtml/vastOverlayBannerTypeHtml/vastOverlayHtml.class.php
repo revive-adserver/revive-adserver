@@ -151,7 +151,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 $("#div-overlay-format-html").hide('fast');
                 $("#div-overlay-size").show('slow');
             }
-            ${overlayFormatOptionToRunOnPageLoad}
+            {$overlayFormatOptionToRunOnPageLoad}
 
             </script>
 OVERLAY_FORMAT_JS;
@@ -204,7 +204,7 @@ OVERLAY_FORMAT_JS;
 
             }
 
-            ${overlayOptionToRunOnPageLoad}
+            {$overlayOptionToRunOnPageLoad}
 
             </script>
 OVERLAY_OPTION_JS;
@@ -306,7 +306,7 @@ OVERLAY_OPTION_JS;
         $filename = null;
         if ($fileFieldName == $aBanner['vast_overlay_format'] . '_upload') {
             $imageName = _getContentTypeIconImageName($aBanner['vast_creative_type']);
-            $size = _getBannerSizeText($type, $aBanner['filename']);
+            $size = _getBannerSizeText('web', $aBanner['filename']);
             $filename = $aBanner['filename'];
         }
 
@@ -396,10 +396,7 @@ OVERLAY_OPTION_JS;
             'url' => $GLOBALS['strURL'],
 
         ];
-        if (isset($labels[$fieldName])) {
-            return $labels[$fieldName];
-        }
-        return parent::getFieldLabel($fieldName);
+        return $labels[$fieldName] ?? parent::getFieldLabel($fieldName);
     }
 
     public function processNewUploadedFile(&$aFields, &$aVariables)

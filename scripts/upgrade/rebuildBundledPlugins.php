@@ -25,9 +25,7 @@ define('MAX_PATH', realpath(__DIR__ . '/../..'));
 $aDefaultPlugins = [];
 require MAX_PATH . '/etc/default_plugins.php';
 
-$aDefaultPlugins = array_map(function ($v) {
-    return $v['name'];
-}, $aDefaultPlugins);
+$aDefaultPlugins = array_map(fn($v) => $v['name'], $aDefaultPlugins);
 
 chdir(MAX_PATH . '/plugins_repo');
 

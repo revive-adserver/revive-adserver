@@ -138,7 +138,7 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
+        $aResult['date.timezone'] = (ini_get('date.timezone') ?: getenv('TZ'));
         $aResult['file_uploads'] = ini_get('file_uploads');
         $aResult['xml'] = extension_loaded('xml');
         $aResult['pcre'] = extension_loaded('pcre');

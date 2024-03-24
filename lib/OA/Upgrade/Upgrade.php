@@ -235,7 +235,7 @@ class OA_Upgrade
         $charset = $oDbc->getConfigurationValue();
         $aConfig['databaseCharset'] = [
             'checkComplete' => true,
-            'clientCharset' => $charset ? $charset : ''
+            'clientCharset' => $charset ?: ''
         ];
 
         return $aConfig;
@@ -519,9 +519,9 @@ class OA_Upgrade
             self::$canUpgradeOrInstall = [
                 'result' => $result,
                 'existing_installation_status' => $this->existing_installation_status,
-                'versionInitialApplication' => isset($this->versionInitialApplication) ? $this->versionInitialApplication : null,
-                'tables_core' => isset($this->versionInitialSchema['tables_core']) ? $this->versionInitialSchema['tables_core'] : null,
-                'package0' => isset($this->aPackageList[0]) ? $this->aPackageList[0] : null,
+                'versionInitialApplication' => $this->versionInitialApplication ?? null,
+                'tables_core' => $this->versionInitialSchema['tables_core'] ?? null,
+                'package0' => $this->aPackageList[0] ?? null,
                 'aDsn-database' => $this->aDsn['database'],
                 'aDsn-table' => $this->aDsn['table'],
                 'upgrading_from_milestone_version' => $this->upgrading_from_milestone_version,
@@ -1927,7 +1927,7 @@ class OA_Upgrade
         }
         $tablePrefixError = false;
         foreach ($aExistingTables as &$tablename) {
-            if (substr($tablename, 0, strlen($this->aDsn['table']['prefix'])) == $this->aDsn['table']['prefix']) {
+            if (str_starts_with($tablename, $this->aDsn['table']['prefix'])) {
                 $result = false;
                 $this->oLogger->log('Table with the prefix ' . $this->aDsn['table']['prefix'] . ' found: ' . $tablename);
                 if ($tablePrefixError == false) {
@@ -2073,7 +2073,7 @@ class OA_Upgrade
             }
             $this->aPackage = $this->oParser->aPackage;
             $this->aDBPackages = $this->aPackage['db_pkgs'];
-            $this->aPackage['versionFrom'] = ($this->aPackage['versionFrom'] ?? $this->versionInitialApplication);
+            $this->aPackage['versionFrom'] ??= $this->versionInitialApplication;
         } else {
             // an actual package for this version does not exist so fake it
             $this->aPackage['versionTo'] = VERSION;

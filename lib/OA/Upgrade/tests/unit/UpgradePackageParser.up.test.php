@@ -20,14 +20,6 @@ require_once MAX_PATH . '/lib/OA/Upgrade/UpgradePackageParser.php';
  */
 class Test_OA_UpgradePackageParser extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_parse()
     {
         $oParser = new OA_UpgradePackageParser();

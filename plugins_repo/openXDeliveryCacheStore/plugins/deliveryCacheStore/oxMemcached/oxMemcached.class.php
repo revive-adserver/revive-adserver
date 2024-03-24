@@ -12,7 +12,7 @@
 
 require_once LIB_PATH . '/Extension/deliveryCacheStore/DeliveryCacheStore.php';
 // Using multi-dirname so tests can be run from either plugins or plugins_repo
-require_once dirname(__FILE__) . '/oxMemcached.delivery.php';
+require_once __DIR__ . '/oxMemcached.delivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**

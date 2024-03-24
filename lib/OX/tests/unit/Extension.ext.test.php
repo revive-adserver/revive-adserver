@@ -15,8 +15,6 @@ require_once(LIB_PATH . '/Extension.php');
 
 class Test_OX_Extension extends UnitTestCase
 {
-    public function __construct() {}
-
     public function test_runTasksForEvent()
     {
         $oExtension = new OX_Extension();

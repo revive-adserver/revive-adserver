@@ -24,7 +24,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  */
-class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
+abstract class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
 {
     public $_aValues;
     // The character/string to delimit the data
@@ -45,10 +45,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
      */
     final public function Plugins_DeliveryLimitations_ArrayData() {}
 
-    public function displayArrayData()
-    {
-        throw new \RuntimeException('displayArrayData method not implemented');
-    }
+    abstract public function displayArrayData();
 
     public function init($data)
     {

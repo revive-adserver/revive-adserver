@@ -93,7 +93,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
         global $align, $collapsetime, $padding, $closetext;
 
         $mi->parameters[] = 'layerstyle=geocities';
-        $mi->parameters[] = 'align=' . (isset($align) ? $align : 'right');
+        $mi->parameters[] = 'align=' . ($align ?? 'right');
         $mi->parameters[] = 'padding=' . (isset($padding) ? (int) $padding : '2');
 
         if (isset($closetext)) {

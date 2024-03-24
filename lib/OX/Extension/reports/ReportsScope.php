@@ -17,11 +17,10 @@ require_once LIB_PATH . '/Extension/reports/Reports.php';
  * in {@link Plugins_Reports} to add methods for reports that are based on an
  * Admin_UI_OrganisationScope advertiser/publisher limitation object.
  *
- * @abstract
  * @package    OpenXPlugin
  * @subpackage Reports
  */
-class Plugins_ReportsScope extends Plugins_Reports
+abstract class Plugins_ReportsScope extends Plugins_Reports
 {
     /**
      * A local copy of the advertiser/publisher limitation object.

@@ -25,14 +25,6 @@ Language_Loader::load();
 class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the summariseBucketsAggregate() method.
      */
     public function testSummariseBucketsAggregate()

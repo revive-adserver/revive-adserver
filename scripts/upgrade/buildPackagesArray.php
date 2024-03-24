@@ -13,7 +13,7 @@
 // takes globals for tests
 // takes arguments when run from cli
 
-$path = dirname(dirname(dirname(__FILE__)));
+$path = dirname(__FILE__, 3);
 
 global $readPath, $writeFile;
 

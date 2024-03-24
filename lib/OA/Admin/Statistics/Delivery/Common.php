@@ -20,7 +20,7 @@ require_once 'Image/Graph.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
+abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
 {
     /**
      * @var mixed
@@ -57,7 +57,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         foreach ($this->aPlugins as $oPlugin) {
             $this->aPrefNames += $oPlugin->getPreferenceNames();
         }
-        uksort($this->aColumns, [$this, '_columnSort']);
+        uksort($this->aColumns, $this->_columnSort(...));
     }
 
     /**

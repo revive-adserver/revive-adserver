@@ -53,7 +53,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     public function getCacheId()
     {
         // Cache the graphs for each locale.
-        return [OX_getHostName(), get_class($this), $GLOBALS['_MAX']['PREF']['language']];
+        return [OX_getHostName(), static::class, $GLOBALS['_MAX']['PREF']['language']];
     }
 
     public function isDataRequired()
@@ -204,9 +204,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 $AxisY->forceMaximum(1);
             }
 
-            $func = function ($value) {
-                return OA_Dashboard_Widget_Graph::_formatY($value);
-            };
+            $func = fn($value) => OA_Dashboard_Widget_Graph::_formatY($value);
 
             $AxisY->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
             $AxisY2->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));

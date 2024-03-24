@@ -61,6 +61,7 @@ class OA_Maintenance_Priority_Ad
     public $pastActualImpressions;
     public $pastAdZonePriorityFactor;
     public $pastZoneTrafficFraction;
+    public $deliveryLimitationChanged;
     public $pastToBeDelivered;
     public $campaignPriority;
 
@@ -118,13 +119,12 @@ class OA_Maintenance_Priority_Ad
         }
         if (!$valid) {
             $this->_abort();
-            return;
         }
         // Store the required supplied values
         $this->id = $aParams['ad_id'];
-        $this->active = isset($aParams['active']) ? $aParams['active'] : null;
-        $this->type = isset($aParams['type']) ? $aParams['type'] : null;
-        $this->weight = isset($aParams['weight']) ? $aParams['weight'] : null;
+        $this->active = $aParams['active'] ?? null;
+        $this->type = $aParams['type'] ?? null;
+        $this->weight = $aParams['weight'] ?? null;
         // Set the object's data access layer objects
         $this->oMaxDalMaintenancePriority = $this->_getOA_Dal_Maintenance_Priority();
     }
@@ -169,13 +169,9 @@ class OA_Maintenance_Priority_Ad
     /**
      * A private method to abort script execution when an attempt is made
      * to instantiate the entity with incorrect parameters.
-     *
-     * @access private
      */
-    protected function _abort()
+    protected function _abort(): never
     {
-        $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
-        OA::debug($error, PEAR_LOG_EMERG);
-        exit();
+        throw new \RuntimeException('Unable to instantiate ' . self::class . ' object, aborting execution.');
     }
 }

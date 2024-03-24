@@ -1033,7 +1033,7 @@
          */
         function _extendClassCode($methods) {
             $code  = "class " . $this->_mock_class . " extends " . $this->_class . " {\n";
-            $code .= "    var \$_mock;\n";
+            $code .= "    private \$_mock;\n";
             $code .= $this->_addMethodList($methods);
             $code .= "\n";
             $code .= "    function __construct() {\n";
@@ -1203,11 +1203,17 @@
         function _overrideMethods($methods) {
             $code = "";
             foreach ($methods as $method) {
-                $code .= "    " . $this->_reflection->_getFullSignature($method) . " {\n";
-                $code .= "        \$args = func_get_args();\n";
-                $code .= "        \$result = &\$this->_mock->_invoke(\"$method\", \$args);\n";
-                $code .= "        return \$result;\n";
-                $code .= "    }\n";
+                $returnType = $this->_reflection->_getReturnTypeSignature($method);
+
+                $code .= "    " . $this->_reflection->_getFullSignature($method);
+                $code .= $returnType ? ": {$returnType}" : '';
+                $code .= "\n{";
+                $code .= "    \$args = func_get_args();\n";
+                $code .= "    \$result = &\$this->_mock->_invoke(\"$method\", \$args);\n";
+                if ('void' !== $returnType) {
+                    $code .= "    return \$result;\n";
+                }
+                $code .= "}\n";
             }
             return $code;
         }

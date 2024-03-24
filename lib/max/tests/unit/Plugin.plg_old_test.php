@@ -61,16 +61,6 @@ class TestErrorHandler
 class TestOfMAX_Plugin extends UnitTestCase
 {
     /**
-     * The constructor method.
-     *
-     * @return TestOfMAX_Plugin
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the factory() method.
      */
     public function testFactory()

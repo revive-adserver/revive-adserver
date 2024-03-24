@@ -31,8 +31,6 @@ class OA_BaseUpgradeAuditor
 
     public $aParams = [];
 
-    public function __construct() {}
-
     public function init($oDbh = '', $oLogger = '')
     {
         if ($oDbh) {
@@ -77,7 +75,7 @@ class OA_BaseUpgradeAuditor
 
     public function updateAuditAction($aParams = [])
     {
-        $id = (isset($aParams['id']) ? $aParams['id'] : $this->getUpgradeActionId());
+        $id = ($aParams['id'] ?? $this->getUpgradeActionId());
         unset($aParams['id']);
         if (!$id) {
             $this->logError('upgrade_action_id is empty');

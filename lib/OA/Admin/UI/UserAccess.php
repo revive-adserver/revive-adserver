@@ -203,7 +203,7 @@ class OA_Admin_UI_UserAccess
         $c = 0;
         foreach ($this->aAllowedPermissions as $permissionId => $aPermission) {
             if (is_array($aPermission)) {
-                list($permissionName, $indent, $onClick) = $aPermission;
+                [$permissionName, $indent, $onClick] = $aPermission;
             } else {
                 $permissionName = $aPermission;
                 $indent = false;

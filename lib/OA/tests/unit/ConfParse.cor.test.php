@@ -21,14 +21,6 @@ require_once MAX_PATH . '/init-delivery-parse.php';
 class Test_OA_ConfParse extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the getConfigVersion() method.
      */
     public function test_parseDeliveryIniFile()

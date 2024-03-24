@@ -51,7 +51,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
         if ($filesystem->put($name, $buffer)) {
             return $name;
         }
-    } catch (\Exception $e) {
+    } catch (\Exception) {
         // The previous behaviour was to ignore errors, so that's what we do here too
     }
 
@@ -87,7 +87,7 @@ function phpAds_ImageDuplicate($type, $name)
         if ($filesystem->copy($name, $destName)) {
             return $destName;
         }
-    } catch (\Exception $e) {
+    } catch (\Exception) {
         // The previous behaviour was to ignore errors, so that's what we do here too
     }
 
@@ -123,7 +123,7 @@ function phpAds_ImageRetrieve($type, $name)
 
     try {
         return $filesystem->read($name);
-    } catch (\Exception $e) {
+    } catch (\Exception) {
         // The previous behaviour was to ignore errors, so that's what we do here too
     }
 
@@ -151,7 +151,7 @@ function phpAds_ImageDelete($type, $name)
 
     try {
         return $filesystem->delete($name);
-    } catch (\Exception $e) {
+    } catch (\Exception) {
         // The previous behaviour was to ignore errors, so that's what we do here too
     }
 
@@ -182,7 +182,7 @@ function phpAds_ImageSize($type, $name)
 
     try {
         return $filesystem->getSize($name);
-    } catch (\Exception $e) {
+    } catch (\Exception) {
         // The previous behaviour was to ignore errors, so that's what we do here too
     }
 

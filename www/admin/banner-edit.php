@@ -266,7 +266,7 @@ function displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, 
     $oTpl->assign('campaignId', $campaignid);
     $oTpl->assign('bannerId', $bannerid);
     $oTpl->assign('bannerTypes', $bannerTypes);
-    $oTpl->assign('bannerType', ($ext_bannertype ? $ext_bannertype : $type));
+    $oTpl->assign('bannerType', ($ext_bannertype ?: $type));
     $oTpl->assign('bannerHeight', $aBanner["height"]);
     $oTpl->assign('bannerWidth', $aBanner["width"]);
     $oTpl->assign('disabled', $formDisabled);
@@ -496,9 +496,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
 
     $aVariables = [];
     $aVariables['campaignid'] = $aFields['campaignid'];
-    $aVariables['target'] = isset($aFields['target']) ? $aFields['target'] : '';
-    $aVariables['height'] = isset($aFields['height']) ? $aFields['height'] : 0;
-    $aVariables['width'] = isset($aFields['width']) ? $aFields['width'] : 0;
+    $aVariables['target'] = $aFields['target'] ?? '';
+    $aVariables['height'] = $aFields['height'] ?? 0;
+    $aVariables['width'] = $aFields['width'] ?? 0;
     $aVariables['weight'] = !empty($aFields['weight']) ? $aFields['weight'] : 0;
     $aVariables['adserver'] = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
     $aVariables['alt'] = !empty($aFields['alt']) ? $aFields['alt'] : '';
@@ -674,20 +674,14 @@ function _getContentTypeIconImageName($contentType)
         return $imageName;
     }
 
-    switch ($contentType) {
-        case 'jpeg': $imageName = 'icon-filetype-jpg.gif';
-            break;
-        case 'gif':  $imageName = 'icon-filetype-gif.gif';
-            break;
-        case 'png':  $imageName = 'icon-filetype-png.gif';
-            break;
-        case 'rpm':  $imageName = 'icon-filetype-rpm.gif';
-            break;
-        case 'mov':  $imageName = 'icon-filetype-mov.gif';
-            break;
-        default:     $imageName = 'icon-banner-stored.gif';
-            break;
-    }
+    $imageName = match ($contentType) {
+        'jpeg' => 'icon-filetype-jpg.gif',
+        'gif' => 'icon-filetype-gif.gif',
+        'png' => 'icon-filetype-png.gif',
+        'rpm' => 'icon-filetype-rpm.gif',
+        'mov' => 'icon-filetype-mov.gif',
+        default => 'icon-banner-stored.gif',
+    };
 
     return $imageName;
 }

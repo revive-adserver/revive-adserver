@@ -67,7 +67,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
             $i = 0;
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
-                $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
+                $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
 
                 if (!$i) {
                     $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";

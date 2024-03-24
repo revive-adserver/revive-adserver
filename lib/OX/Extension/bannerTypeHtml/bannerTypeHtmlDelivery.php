@@ -28,7 +28,7 @@
  *
  * @return string               The HTML to display this ad
  */
-function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = null)
+function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
@@ -37,7 +37,7 @@ function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId = 0, $source
     $aBanner['bannerContent'] = $aBanner['htmltemplate'];
 
     // Get the image beacon...
-    if ((strpos($code, '{logurl}') === false) && (strpos($code, '{logurl_enc}') === false)) {
+    if ((!str_contains($code, '{logurl}')) && (!str_contains($code, '{logurl_enc}'))) {
         $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     } else {
         $beaconTag = '';

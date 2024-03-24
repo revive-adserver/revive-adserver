@@ -14,7 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
 function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery()
 {

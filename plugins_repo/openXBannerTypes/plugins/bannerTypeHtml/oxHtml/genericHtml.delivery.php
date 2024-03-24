@@ -15,7 +15,7 @@
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
  */
-function Plugin_BannerTypeHTML_oxHtml_genericHtml_delivery(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc, $referer)
+function Plugin_BannerTypeHTML_oxHtml_genericHtml_delivery(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     // This function won't ever be called, as this is the bundled default html type.
     // In any case, let's provide a reference to the function that's used instead.

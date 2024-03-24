@@ -35,9 +35,6 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
      */
     public $unknownIdError = 'Unknown publisherId Error';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

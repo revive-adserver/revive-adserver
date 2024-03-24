@@ -19,9 +19,8 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
-class Plugins_BannerTypeHTML extends OX_Component
+abstract class Plugins_BannerTypeHTML extends OX_Component
 {
     public function getStorageType()
     {

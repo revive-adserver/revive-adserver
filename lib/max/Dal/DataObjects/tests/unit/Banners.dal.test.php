@@ -23,14 +23,6 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
  */
 class DataObjects_BannersTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         DataGenerator::cleanUp(['ad_zone_assoc']);

@@ -208,7 +208,7 @@ class MaxMindGeoIP2
                 array_keys(self::getCookieArray()),
                 explode('|', $string)
             );
-        } catch (\ValueError $e) {
+        } catch (\ValueError) {
             return false;
         }
 
@@ -246,7 +246,7 @@ class MaxMindGeoIP2
         foreach (preg_split('/\s+/', self::getMmdbPaths(), -1, PREG_SPLIT_NO_EMPTY) as $mmdb) {
             try {
                 yield new Reader($mmdb);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 // Do nothing!
             }
         }

@@ -148,7 +148,7 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
     }
 
     // Default extensions, sorted by accuracy and speed.
-    $aExtensions = $aExtensions ?? ['intl', 'iconv', 'mbstring', 'xml'];
+    $aExtensions ??= ['intl', 'iconv', 'mbstring', 'xml'];
 
     // Walk arrays
     if (is_array($content)) {
@@ -186,8 +186,8 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
             break;
         }
 
-        $mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
-        $mappedToEncoding = isset($aMap[$extension][$toEncoding]) ? $aMap[$extension][$toEncoding] : $toEncoding;
+        $mappedFromEncoding = $aMap[$extension][$fromEncoding] ?? $fromEncoding;
+        $mappedToEncoding = $aMap[$extension][$toEncoding] ?? $toEncoding;
 
         switch ($extension) {
             case 'iconv':
@@ -388,8 +388,8 @@ function MAX_commonInitVariables()
         $withtext = $withText;
     }
     $withtext = (isset($withtext) && is_numeric($withtext) ? $withtext : 0);
-    $ct0 = (isset($ct0) ? $ct0 : '');
-    $context = (isset($context) ? $context : []);
+    $ct0 ??= '';
+    $context ??= [];
 
     $target = (isset($target) && (!empty($target)) && (!strpos($target, chr(32))) ? $target : '');
     $charset = (isset($charset) && (!empty($charset)) && (!strpos($charset, chr(32))) ? $charset : 'UTF-8');
@@ -632,7 +632,7 @@ function MAX_sendStatusCode($iStatusCode)
         // with that, that's why we added the cgiForceStatusHeader confgiuration directive. If enabled
         // with CGI sapis, OpenX will use a "Status: NNN Reason" header, which seems to fix the behaviour
         // on the tested webserver (Apache 1.3, running php-cgi)
-        if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
+        if (!empty($aConf['delivery']['cgiForceStatusHeader']) && !str_starts_with(php_sapi_name(), 'cgi')) {
             MAX_header('Status: ' . $text);
         } else {
             MAX_header($_SERVER["SERVER_PROTOCOL"] . ' ' . $text);
@@ -646,8 +646,8 @@ function MAX_commonPackContext($context = [])
     $exclude = [];
     foreach ($context as $idx => $value) {
         reset($value);
-        list($key, $value) = each($value);
-        list($item, $id) = explode(':', $value);
+        [$key, $value] = each($value);
+        [$item, $id] = explode(':', $value);
         switch ($item) {
             case 'campaignid':  $value = 'c:' . $id;
                 break;
@@ -674,7 +674,7 @@ function MAX_commonPackContext($context = [])
 function MAX_commonUnpackContext($context = '')
 {
     //return unserialize(base64_decode($context));
-    list($exclude, $include) = explode('|', base64_decode($context));
+    [$exclude, $include] = explode('|', base64_decode($context));
     return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
 }
 
@@ -696,7 +696,7 @@ function _convertContextArray($key, $array)
         if (empty($value)) {
             continue;
         }
-        list($item, $id) = explode(':', $value);
+        [$item, $id] = explode(':', $value);
         switch ($item) {
             case 'c': $unpacked[] = [$key => 'campaignid:' . $id];
                 break;

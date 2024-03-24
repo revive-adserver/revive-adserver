@@ -22,10 +22,7 @@ class Test_postscript_2_3_36_beta_rc1 extends UnitTestCase
 {
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
-    public function Test_OA_Upgrade()
+    public function __construct()
     {
         parent::__construct();
         $this->prefix = 'oaTest_';

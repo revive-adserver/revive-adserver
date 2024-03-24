@@ -16,8 +16,6 @@ class OA_UpgradePostscript
 {
     public $oUpgrade;
 
-    public function __construct() {}
-
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];

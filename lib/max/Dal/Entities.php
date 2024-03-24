@@ -22,16 +22,6 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  */
 class MAX_Dal_Entities extends MAX_Dal_Common
 {
-    /**
-     * The constructor method.
-     *
-     * @return MAX_Dal_Entities
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /*========== METHODS FOR DEALING WITH ADS ===============*/
 
     /**

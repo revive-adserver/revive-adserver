@@ -18,7 +18,7 @@ if (!is_callable('MAX_adSelect')) {
 }
 
 
-function Plugin_bannerTypeHtml_apVideo_Network_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $loc, $referer)
+function Plugin_bannerTypeHtml_apVideo_Network_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $loc = '', $referer = '')
 {
     global $format;
 
@@ -47,9 +47,7 @@ function Plugin_bannerTypeHtml_apVideo_Network_Delivery_adRender(&$aBanner, $zon
             $trackingUrl .= "&source=" . urlencode($source);
         }
 
-        $trackingEvents = join("", array_map(function ($event) use ($trackingUrl) {
-            return "<Tracking event=\"{$event}\"><![CDATA[$trackingUrl&event=" . strtolower($event) . "]]></Tracking>";
-        }, [
+        $trackingEvents = join("", array_map(fn($event) => "<Tracking event=\"{$event}\"><![CDATA[$trackingUrl&event=" . strtolower($event) . "]]></Tracking>", [
                 'start',
                 'midpoint',
                 'firstQuartile',

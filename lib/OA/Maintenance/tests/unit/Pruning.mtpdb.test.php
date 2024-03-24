@@ -31,14 +31,6 @@ class Test_Priority extends UnitTestCase
     public $oDbh;
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to be run before all tests.
      */
     public function setUp()

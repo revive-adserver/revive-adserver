@@ -120,7 +120,7 @@ if (isset($graphFilter) && is_array($graphFilter)) {
     header("Location: $redirectUrl");
     die;
 } else {
-    $graphFilter = isset($graphFields) ? $graphFields : null;
+    $graphFilter = $graphFields ?? null;
 }
 
 // Handle filters

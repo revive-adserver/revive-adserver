@@ -68,7 +68,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
         echo "<div style=\"float: left;\">" .
                 "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
-                  htmlspecialchars(isset($this->data) ? $this->data : "") .
+                  htmlspecialchars($this->data ?? "") .
                 "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .

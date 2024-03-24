@@ -80,7 +80,7 @@ class OA_Admin_UI_Rule_JQueryValidationRuleBuilder
             $rulesText .= " \"$elementName\": {\n";
             $messagesText .= " \"$elementName\": {\n";
             $j = 1;
-            $elementRules = array_filter($elementRules, [$this, 'filterNonSupported']);
+            $elementRules = array_filter($elementRules, $this->filterNonSupported(...));
             $elemRulesCount = count($elementRules);
             foreach ($elementRules as $rule) {
                 $ruleAdaptor = $registry->getJQueryRuleAdaptor($rule['type']);

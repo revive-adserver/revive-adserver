@@ -25,7 +25,7 @@
 /***************************************************************************/
 
 // Initialise the OpenX environment....
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../../init.php';
 
 // Required files

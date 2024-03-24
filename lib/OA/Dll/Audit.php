@@ -299,19 +299,14 @@ class OA_Dll_Audit extends OA_Dll
      *
      * @return string action name
      */
-    public function getActionName($actionId)
+    public function getActionName(int $actionId)
     {
-        switch ($actionId) {
-            case OA_AUDIT_ACTION_INSERT:
-                $action = $GLOBALS['strInserted'];
-                break;
-            case OA_AUDIT_ACTION_UPDATE:
-                $action = $GLOBALS['strUpdated'];
-                break;
-            case OA_AUDIT_ACTION_DELETE:
-                $action = $GLOBALS['strDeleted'];
-                break;
-        }
+        $action = match ($actionId) {
+            OA_AUDIT_ACTION_INSERT => $GLOBALS['strInserted'],
+            OA_AUDIT_ACTION_UPDATE => $GLOBALS['strUpdated'],
+            OA_AUDIT_ACTION_DELETE => $GLOBALS['strDeleted'],
+            default => new \RuntimeException(),
+        };
 
         return $action;
     }

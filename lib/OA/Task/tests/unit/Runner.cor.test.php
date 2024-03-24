@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 class Test_OA_Task_Runner extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the class constructor.
      */
     public function testOA_Task_Runner()

@@ -633,7 +633,6 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      * into new style, bucket-based data, in the event of the requirement to process
      * any such data on upgrade to (or beyond) OpenX 2.8.
      *
-     * @abstract
      * @param string $bucketTable The bucket table to migrate the data into.
      * @param string $rawTable The raw table to migrate the data from.
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.

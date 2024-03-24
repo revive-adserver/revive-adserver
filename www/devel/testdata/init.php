@@ -24,7 +24,7 @@ function get_file_list($directory, $ext, $strip_ext = false)
     $dh = opendir($directory);
     if ($dh) {
         while (false !== ($file = readdir($dh))) {
-            if (strpos($file, $ext) > 0) {
+            if (strpos($file, (string) $ext) > 0) {
                 if ($strip_ext) {
                     $file = str_replace($ext, '', $file);
                 }

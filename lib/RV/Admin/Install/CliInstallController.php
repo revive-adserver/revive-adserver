@@ -71,7 +71,7 @@ class CliInstallController extends \OX_Admin_UI_Install_InstallController
         exit(1);
     }
 
-    protected function redirect($action)
+    protected function redirect($action): never
     {
         throw new RedirectException($action);
     }

@@ -75,7 +75,7 @@ $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
 $itemsPerPage = 250;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);
 $oTopPager = OX_buildPager($aWebsitesZones, $itemsPerPage, false);
-list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+[$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();
 $aWebsitesZones = array_slice($aWebsitesZones, $itemsFrom - 1, $itemsPerPage, true);
 
 $oTpl->assign('pager', $oPager);

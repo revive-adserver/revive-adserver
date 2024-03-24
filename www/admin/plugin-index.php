@@ -131,7 +131,7 @@ if (OA_Admin_Settings::isConfigWritable()) {
         $oTpl->assign('readme', $readme);
         $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, "plugin-index.php?selection=packages"));
 
-        $oTpl->assign('aMessages', ($aMessages ? $aMessages : []));
+        $oTpl->assign('aMessages', ($aMessages ?: []));
         $oTpl->assign('aErrors', $oExporter->aErrors);
     }
     //actions

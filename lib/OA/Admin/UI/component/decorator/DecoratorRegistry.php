@@ -74,7 +74,7 @@ class OA_Admin_UI_Decorator_Registry
             return null;
         }
 
-        list($path, $class) = $GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName];
+        [$path, $class] = $GLOBALS['_OA_Admin_UI_Decorator_Registry_registered_decorators'][$decoratorName];
 
         return new $class($aParameters);
 

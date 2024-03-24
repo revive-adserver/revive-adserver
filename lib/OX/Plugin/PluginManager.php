@@ -566,7 +566,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     public function _matchPackageFilename($name, $file)
     {
-        if (substr($file, 0, strlen($name)) != $name) {
+        if (!str_starts_with($file, $name)) {
             $this->_logError('Filename mismatch: name / file ' . $name . ' / ' . $file);
             return false;
         }
@@ -1081,11 +1081,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                     return true;
                 }
 
-                $aDecompressedFiles = array_map(function ($info) {
-                    return $info['filename'];
-                }, array_filter($result, function ($info) {
-                    return empty($info['folder']);
-                }));
+                $aDecompressedFiles = array_map(fn($info) => $info['filename'], array_filter($result, fn($info) => empty($info['folder'])));
 
                 foreach (array_diff($aOldFileList, $aDecompressedFiles) as $deletedFiles) {
                     @unlink($deletedFiles);
@@ -1142,25 +1138,28 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aContents as $i => &$aItem) {
             $aPath = pathinfo($aItem['filename']);
             $file = '/' . $aItem['filename'];
+
             if ($aItem['folder']) {  // ignore folders
                 continue;
             }
+
+            if (str_contains($aPath['dirname'], '/etc/changes')) { // don't check the changeset files (costly parsing of upgrade definitions etc.)
+                continue;
+            }
+
+            $aFilesStored[] = $file;
+
             if (!$aPkgFile && preg_match($pattPluginDefFile, $file, $aMatches)) { // its a plugin definition file
                 $this->_logMessage('detected plugin definition file ' . $file);
                 $aPkgFile['pathinfo'] = $aPath;
                 $aPkgFile['storedinfo'] = $aItem;
-                $aFilesStored[] = $file;
                 continue;
             }
+
             if (preg_match($pattGroupDefFile, $file, $aMatches)) { // its a group definition file
                 $this->_logMessage('detected group definition file ' . $file);
                 $aXMLFiles[$aPath['basename']]['pathinfo'] = $aPath;
                 $aXMLFiles[$aPath['basename']]['storedinfo'] = $aItem;
-                $aFilesStored[] = $file;
-                continue;
-            }
-            if (strpos($aPath['dirname'], '/etc/changes') == 0) { // don't check the changeset files (costly parsing of upgrade definitions etc.)
-                $aFilesStored[] = $file;
                 continue;
             }
         }
@@ -1329,7 +1328,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         require_once(MAX_PATH . '/lib/pclzip/pclzip.lib.php');
 
         if (!defined('OS_WINDOWS')) {
-            define('OS_WINDOWS', ((substr(PHP_OS, 0, 3) == 'WIN') ? 1 : 0));
+            define('OS_WINDOWS', ((str_starts_with(PHP_OS, 'WIN')) ? 1 : 0));
         }
 
         $oZip = new PclZip($source);

@@ -130,9 +130,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
         $mi->parameters['id'] = 'id=' . md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
 
         // Remap as tag attributes with data-revive prefix
-        $mi->parameters = array_map(function ($v) use ($conf) {
-            return preg_replace('#^(.*)=(.*)$#', 'data-' . $conf['var']['product'] . '-$1="$2"', $v);
-        }, $mi->parameters);
+        $mi->parameters = array_map(fn($v) => preg_replace('#^(.*)=(.*)$#', 'data-' . $conf['var']['product'] . '-$1="$2"', $v), $mi->parameters);
 
         $buffer .= '<ins ' . join(' ', $mi->parameters) . '></ins>' . PHP_EOL;
         if ($conf['webpath']['delivery'] === $conf['webpath']['deliverySSL']) {
@@ -272,14 +270,11 @@ EOF;
                     break;
                 case 'target':
                     $optionName = $GLOBALS['strInvocationTarget'];
-                    switch ($mi->$feature) {
-                        case '_blank':  $optionValue = 'New window';
-                            break;
-                        case '_top':    $optionValue = 'Same window';
-                            break;
-                        default:        $optionValue = $GLOBALS['strDefault'];
-                            break;
-                    }
+                    $optionValue = match ($mi->$feature) {
+                        '_blank' => 'New window',
+                        '_top' => 'Same window',
+                        default => $GLOBALS['strDefault'],
+                    };
                     break;
                 case 'source':
                     $optionName = $GLOBALS['strInvocationSource'];

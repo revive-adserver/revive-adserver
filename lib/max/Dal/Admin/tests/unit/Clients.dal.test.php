@@ -23,14 +23,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 {
     public $dalClients;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalClients = OA_Dal::factoryDAL('clients');

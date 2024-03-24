@@ -58,28 +58,6 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
 
     public $aParams = [];
 
-    /**
-     * php5 class constructor
-     *
-     * simpletest throws a BadGroupTest error
-     * Redefining already defined constructor for class Openads_DB_Upgrade
-     * when both constructors are present
-     *
-     */
-    //    function __construct()
-    //    {
-    //    }
-
-    /**
-     * php4 class constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        //this->__construct();
-    }
-
     public function setKeyParams($aParams = '')
     {
         $aParams['upgrade_action_id'] = $this->auditId;

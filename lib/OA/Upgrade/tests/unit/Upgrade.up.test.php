@@ -36,14 +36,6 @@ class OA_UpgradeRollbackTest extends OA_Upgrade
  */
 class Test_OA_Upgrade extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_versionCompare()
     {
         $aFiles[] = '2.3.32-beta-rc2';

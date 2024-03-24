@@ -80,7 +80,6 @@ class OA_Maintenance_Priority_DeliveryLimitation_Empty
      * A method to determine if the delivery limitation stored will prevent an
      * ad from delivering or not, given a time/date.
      *
-     * @abstract
      * @param object $oDate PEAR:Date, represeting the time/date to test if the ACL would
      *                      block delivery at that point in time.
      * @return mixed A boolean (true if the ad is BLOCKED (i.e. will NOT deliver), false

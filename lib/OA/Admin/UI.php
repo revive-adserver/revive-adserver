@@ -166,7 +166,7 @@ class OA_Admin_UI
         global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $ID = $this->getID($ID);
+        $ID = static::getID($ID);
         $this->setCurrentId($ID);
 
         if (!defined('phpAds_installing')) {
@@ -318,7 +318,7 @@ class OA_Admin_UI
         }
         if (!empty($currentPath)
             && $oCurrentSection->hasSectionBeenReplaced()
-            && strpos($currentPath, $expectedPathForThisSection) === false) {
+            && !str_contains($currentPath, $expectedPathForThisSection)) {
             $urlToRedirectTo = $oCurrentSection->getLink($this->getLinkParams());
             header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $urlToRedirectTo));
             exit;

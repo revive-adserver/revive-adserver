@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
+abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
 {
     public $aNodes;
 
@@ -208,7 +208,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 if (!isset($entity[$row[$key]][$s])) {
                     $entity[$row[$key]][$s] = $row[$s];
                 }
-                if (substr($s, -3) != '_id') {
+                if (!str_ends_with($s, '_id')) {
                     $entity[$row[$key]][$s] += $row[$s];
                 }
             }

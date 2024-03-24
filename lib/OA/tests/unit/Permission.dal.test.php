@@ -24,14 +24,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Permission extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp() {}
 
     public function tearDown()

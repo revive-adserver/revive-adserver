@@ -50,14 +50,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public $oLock;
 
     /**
-     * The class constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to store details on the last time that the maintenance priority
      * process ran.
      *
@@ -1641,7 +1633,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             OA::debug('    - Calculating which existing ad/zone pair priorities need to be zeroed', PEAR_LOG_DEBUG);
             $aSetToZero = [];
             reset($aRows);
-            while (list(, $aRow) = each($aRows)) {
+            foreach ($aRows as $aRow) {
                 if (is_null($aData[$aRow['zone_id']][$aRow['ad_id']])) {
                     // There is no new priority value for this existing ad/zone pair
                     $aSetToZero[$aRow['zone_id']][$aRow['ad_id']] = true;
@@ -1650,9 +1642,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Set all required normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
             OA::debug('    - Zeroing required existing ad/zone pair priorities', PEAR_LOG_DEBUG);
             reset($aSetToZero);
-            while (list($zoneId, $aAds) = each($aSetToZero)) {
+            foreach ($aSetToZero as $zoneId => $aAds) {
                 reset($aAds);
-                while (list($adId, ) = each($aAds)) {
+                foreach (array_keys($aAds) as $adId) {
                     OA::debug("    - Zeroing ad ID $adId, zone ID $zoneId pair priority.", PEAR_LOG_DEBUG);
                     $table = $this->_getTablename('ad_zone_assoc');
                     $query = "
@@ -1677,7 +1669,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             OA::debug('    - Updating required existing ad/zone pair priorities', PEAR_LOG_DEBUG);
             if (is_array($aData) && (count($aData) > 0)) {
                 reset($aData);
-                while (list(, $aZoneData) = each($aData)) {
+                foreach ($aData as $aZoneData) {
                     if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
                         foreach ($aZoneData['ads'] as $aAdZonePriority) {
                             $table = $this->_getTablename('ad_zone_assoc');
@@ -1736,7 +1728,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             OA::debug('    - Updating required existing ad/zone pair priorities', PEAR_LOG_DEBUG);
             if (is_array($aData) && (count($aData) > 0)) {
                 reset($aData);
-                while (list(, $aZoneData) = each($aData)) {
+                foreach ($aData as $aZoneData) {
                     if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
                         foreach ($aZoneData['ads'] as $aAdZonePriority) {
                             $table = $this->_getTablename('ad_zone_assoc');
@@ -1791,7 +1783,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (is_array($aData) && !empty($aData)) {
             $aValues = [];
             reset($aData);
-            while (list(, $aZoneData) = each($aData)) {
+            foreach ($aData as $aZoneData) {
                 if (is_array($aZoneData['ads']) && !empty($aZoneData['ads'])) {
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
                         $aValues[] = [
@@ -1807,7 +1799,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aAdZonePriority['priority'],
                             $aAdZonePriority['priority_factor'],
                             !empty($aAdZonePriority['priority_factor_limited']) ? 1 : 0,
-                            isset($aAdZonePriority['past_zone_traffic_fraction']) ? $aAdZonePriority['past_zone_traffic_fraction'] : null,
+                            $aAdZonePriority['past_zone_traffic_fraction'] ?? null,
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
                             0
                             ];

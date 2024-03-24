@@ -68,7 +68,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
     {
         if (is_array($data['data'])) {
             foreach ($data['data'] as $number) {
-                if (!is_numeric($number) || strpos($data['data'][0], ',') !== false) {
+                if (!is_numeric($number) || str_contains($data['data'][0], ',')) {
                     return $this->translate('Geo:Latitude/Longitude: One of the parameter is not a number', $this->extension, $this->group);
                 }
             }

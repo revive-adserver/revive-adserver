@@ -35,10 +35,7 @@ class OA_Upgrade_Config
     {
         if (file_exists($this->configPath . 'default.conf.php')) {
             $conf = @parse_ini_file($this->configPath . 'default.conf.php');
-            if (isset($conf['realConfig'])) {
-                return $conf['realConfig'];
-            }
-            return false;
+            return $conf['realConfig'] ?? false;
         }
     }
 
@@ -239,7 +236,7 @@ class OA_Upgrade_Config
     public function setupConfigDatabase($aConfig)
     {
         $this->setValue('database', 'type', $aConfig['type']);
-        $this->setValue('database', 'host', ($aConfig['host'] ? $aConfig['host'] : 'localhost'));
+        $this->setValue('database', 'host', ($aConfig['host'] ?: 'localhost'));
         $this->setValue('database', 'socket', $aConfig['socket']);
         if (empty($aConfig['port'])) {
             switch ($aConfig['type']) {

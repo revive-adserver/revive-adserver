@@ -48,7 +48,7 @@ OA_Permission::checkSessionToken();
 $aZonesIds = [];
 $aZonesIdsHash = [];
 foreach ($_REQUEST['ids'] as $zone) {
-    if (substr($zone, 0, 1) == 'z') {
+    if (str_starts_with($zone, 'z')) {
         $aZonesIds[] = (int) substr($zone, 1);
         $aZonesIdsHash[(int) substr($zone, 1)] = "x";
     }

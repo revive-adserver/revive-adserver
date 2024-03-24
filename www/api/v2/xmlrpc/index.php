@@ -25,14 +25,14 @@ $fc = new XmlRpcFrontController();
 $dispatches = [
     // Logon
     'ox.logon' => [
-        'function' => [$fc, 'logon'],
+        'function' => $fc->logon(...),
         'signature' => [
             ['string', 'string', 'string']
         ],
         'docstring' => 'Logon method'
     ],
     'ox.logoff' => [
-        'function' => [$fc, 'logoff'],
+        'function' => $fc->logoff(...),
         'signature' => [
             ['bool', 'string']
         ],
@@ -41,28 +41,28 @@ $dispatches = [
 
     // Advertiser functions
     'ox.addAdvertiser' => [
-        'function' => [$fc, 'addAdvertiser'],
+        'function' => $fc->addAdvertiser(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
         'docstring' => 'Add advertiser'
     ],
     'ox.modifyAdvertiser' => [
-        'function' => [$fc, 'modifyAdvertiser'],
+        'function' => $fc->modifyAdvertiser(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
         'docstring' => 'Modify advertiser information'
     ],
     'ox.deleteAdvertiser' => [
-        'function' => [$fc, 'deleteAdvertiser'],
+        'function' => $fc->deleteAdvertiser(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
         'docstring' => 'Delete advertiser'
     ],
     'ox.advertiserDailyStatistics' => [
-        'function' => [$fc, 'advertiserDailyStatistics'],
+        'function' => $fc->advertiserDailyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -72,7 +72,7 @@ $dispatches = [
         'docstring' => 'Generate Advertiser Daily Statistics'
     ],
     'ox.advertiserHourlyStatistics' => [
-        'function' => [$fc, 'advertiserHourlyStatistics'],
+        'function' => $fc->advertiserHourlyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -82,7 +82,7 @@ $dispatches = [
         'docstring' => 'Generate Advertiser Hourly Statistics'
     ],
     'ox.advertiserCampaignStatistics' => [
-        'function' => [$fc, 'advertiserCampaignStatistics'],
+        'function' => $fc->advertiserCampaignStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -92,7 +92,7 @@ $dispatches = [
             'docstring' => 'Generate Advertiser Campaign Statistics'
     ],
     'ox.advertiserBannerStatistics' => [
-        'function' => [$fc, 'advertiserBannerStatistics'],
+        'function' => $fc->advertiserBannerStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -102,7 +102,7 @@ $dispatches = [
         'docstring' => 'Generate Advertiser Banner Statistics'
     ],
     'ox.advertiserPublisherStatistics' => [
-        'function' => [$fc, 'advertiserPublisherStatistics'],
+        'function' => $fc->advertiserPublisherStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -112,7 +112,7 @@ $dispatches = [
         'docstring' => 'Generate Advertiser Publisher Statistics'
     ],
     'ox.advertiserZoneStatistics' => [
-        'function' => [$fc, 'advertiserZoneStatistics'],
+        'function' => $fc->advertiserZoneStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -122,14 +122,14 @@ $dispatches = [
         'docstring' => 'Generate Advertiser Zone Statistics'
     ],
     'ox.getAdvertiser' => [
-        'function' => [$fc, 'getAdvertiser'],
+        'function' => $fc->getAdvertiser(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
         'docstring' => 'Get Advertiser Information'
     ],
     'ox.getAdvertiserListByAgencyId' => [
-        'function' => [$fc, 'getAdvertiserListByAgencyId'],
+        'function' => $fc->getAdvertiserListByAgencyId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -138,7 +138,7 @@ $dispatches = [
 
     // Agency functions
     'ox.addAgency' => [
-        'function' => [$fc, 'addAgency'],
+        'function' => $fc->addAgency(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -146,7 +146,7 @@ $dispatches = [
     ],
 
     'ox.modifyAgency' => [
-        'function' => [$fc, 'modifyAgency'],
+        'function' => $fc->modifyAgency(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -154,7 +154,7 @@ $dispatches = [
     ],
 
     'ox.deleteAgency' => [
-        'function' => [$fc, 'deleteAgency'],
+        'function' => $fc->deleteAgency(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -162,7 +162,7 @@ $dispatches = [
     ],
 
     'ox.agencyDailyStatistics' => [
-        'function' => [$fc, 'agencyDailyStatistics'],
+        'function' => $fc->agencyDailyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -173,7 +173,7 @@ $dispatches = [
     ],
 
     'ox.agencyHourlyStatistics' => [
-        'function' => [$fc, 'agencyHourlyStatistics'],
+        'function' => $fc->agencyHourlyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -184,7 +184,7 @@ $dispatches = [
     ],
 
     'ox.agencyAdvertiserStatistics' => [
-        'function' => [$fc, 'agencyAdvertiserStatistics'],
+        'function' => $fc->agencyAdvertiserStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -195,7 +195,7 @@ $dispatches = [
     ],
 
     'ox.agencyCampaignStatistics' => [
-        'function' => [$fc, 'agencyCampaignStatistics'],
+        'function' => $fc->agencyCampaignStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -206,7 +206,7 @@ $dispatches = [
     ],
 
     'ox.agencyBannerStatistics' => [
-        'function' => [$fc, 'agencyBannerStatistics'],
+        'function' => $fc->agencyBannerStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -217,7 +217,7 @@ $dispatches = [
     ],
 
     'ox.agencyPublisherStatistics' => [
-        'function' => [$fc, 'agencyPublisherStatistics'],
+        'function' => $fc->agencyPublisherStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -228,7 +228,7 @@ $dispatches = [
     ],
 
     'ox.agencyZoneStatistics' => [
-        'function' => [$fc, 'agencyZoneStatistics'],
+        'function' => $fc->agencyZoneStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -239,7 +239,7 @@ $dispatches = [
     ],
 
     'ox.getAgency' => [
-        'function' => [$fc, 'getAgency'],
+        'function' => $fc->getAgency(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -247,7 +247,7 @@ $dispatches = [
     ],
 
     'ox.getAgencyList' => [
-        'function' => [$fc, 'getAgencyList'],
+        'function' => $fc->getAgencyList(...),
         'signature' => [
             ['array', 'string']
         ],
@@ -256,7 +256,7 @@ $dispatches = [
 
     // Banner functions
     'ox.addBanner' => [
-        'function' => [$fc, 'addBanner'],
+        'function' => $fc->addBanner(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -264,7 +264,7 @@ $dispatches = [
     ],
 
     'ox.modifyBanner' => [
-        'function' => [$fc, 'modifyBanner'],
+        'function' => $fc->modifyBanner(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -272,7 +272,7 @@ $dispatches = [
     ],
 
     'ox.deleteBanner' => [
-        'function' => [$fc, 'deleteBanner'],
+        'function' => $fc->deleteBanner(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -280,7 +280,7 @@ $dispatches = [
     ],
 
     'ox.getBannerTargeting' => [
-        'function' => [$fc, 'getBannerTargeting'],
+        'function' => $fc->getBannerTargeting(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -288,7 +288,7 @@ $dispatches = [
     ],
 
     'ox.setBannerTargeting' => [
-        'function' => [$fc, 'setBannerTargeting'],
+        'function' => $fc->setBannerTargeting(...),
         'signature' => [
             ['boolean', 'string', 'int', 'array']
         ],
@@ -296,7 +296,7 @@ $dispatches = [
     ],
 
     'ox.bannerDailyStatistics' => [
-        'function' => [$fc, 'bannerDailyStatistics'],
+        'function' => $fc->bannerDailyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -307,7 +307,7 @@ $dispatches = [
     ],
 
     'ox.bannerHourlyStatistics' => [
-        'function' => [$fc, 'bannerHourlyStatistics'],
+        'function' => $fc->bannerHourlyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -318,7 +318,7 @@ $dispatches = [
     ],
 
     'ox.bannerPublisherStatistics' => [
-        'function' => [$fc, 'bannerPublisherStatistics'],
+        'function' => $fc->bannerPublisherStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -329,7 +329,7 @@ $dispatches = [
     ],
 
     'ox.bannerZoneStatistics' => [
-        'function' => [$fc, 'bannerZoneStatistics'],
+        'function' => $fc->bannerZoneStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -341,7 +341,7 @@ $dispatches = [
 
 
     'ox.getBanner' => [
-        'function' => [$fc, 'getBanner'],
+        'function' => $fc->getBanner(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -349,7 +349,7 @@ $dispatches = [
     ],
 
     'ox.getBannerListByCampaignId' => [
-        'function' => [$fc, 'getBannerListByCampaignId'],
+        'function' => $fc->getBannerListByCampaignId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -358,7 +358,7 @@ $dispatches = [
 
     // Campaign functions
     'ox.addCampaign' => [
-        'function' => [$fc, 'addCampaign'],
+        'function' => $fc->addCampaign(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -366,7 +366,7 @@ $dispatches = [
     ],
 
     'ox.modifyCampaign' => [
-        'function' => [$fc, 'modifyCampaign'],
+        'function' => $fc->modifyCampaign(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -374,7 +374,7 @@ $dispatches = [
     ],
 
     'ox.deleteCampaign' => [
-        'function' => [$fc, 'deleteCampaign'],
+        'function' => $fc->deleteCampaign(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -382,7 +382,7 @@ $dispatches = [
     ],
 
     'ox.campaignDailyStatistics' => [
-        'function' => [$fc, 'campaignDailyStatistics'],
+        'function' => $fc->campaignDailyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -393,7 +393,7 @@ $dispatches = [
     ],
 
     'ox.campaignHourlyStatistics' => [
-        'function' => [$fc, 'campaignHourlyStatistics'],
+        'function' => $fc->campaignHourlyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -404,7 +404,7 @@ $dispatches = [
     ],
 
     'ox.campaignBannerStatistics' => [
-        'function' => [$fc, 'campaignBannerStatistics'],
+        'function' => $fc->campaignBannerStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -415,7 +415,7 @@ $dispatches = [
     ],
 
     'ox.campaignPublisherStatistics' => [
-        'function' => [$fc, 'campaignPublisherStatistics'],
+        'function' => $fc->campaignPublisherStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -426,7 +426,7 @@ $dispatches = [
     ],
 
     'ox.campaignZoneStatistics' => [
-        'function' => [$fc, 'campaignZoneStatistics'],
+        'function' => $fc->campaignZoneStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -437,7 +437,7 @@ $dispatches = [
     ],
 
     'ox.campaignConversionStatistics' => [
-        'function' => [$fc, 'campaignConversionStatistics'],
+        'function' => $fc->campaignConversionStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -448,7 +448,7 @@ $dispatches = [
     ],
 
     'ox.getCampaign' => [
-        'function' => [$fc, 'getCampaign'],
+        'function' => $fc->getCampaign(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -456,7 +456,7 @@ $dispatches = [
     ],
 
     'ox.getCampaignListByAdvertiserId' => [
-        'function' => [$fc, 'getCampaignListByAdvertiserId'],
+        'function' => $fc->getCampaignListByAdvertiserId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -465,7 +465,7 @@ $dispatches = [
 
     // Channel functions
     'ox.addChannel' => [
-        'function' => [$fc, 'addChannel'],
+        'function' => $fc->addChannel(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -473,7 +473,7 @@ $dispatches = [
     ],
 
     'ox.modifyChannel' => [
-        'function' => [$fc, 'modifyChannel'],
+        'function' => $fc->modifyChannel(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -481,7 +481,7 @@ $dispatches = [
     ],
 
     'ox.deleteChannel' => [
-        'function' => [$fc, 'deleteChannel'],
+        'function' => $fc->deleteChannel(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -489,7 +489,7 @@ $dispatches = [
     ],
 
     'ox.getChannel' => [
-        'function' => [$fc, 'getChannel'],
+        'function' => $fc->getChannel(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -497,7 +497,7 @@ $dispatches = [
     ],
 
     'ox.getChannelListByWebsiteId' => [
-        'function' => [$fc, 'getChannelListByWebsiteId'],
+        'function' => $fc->getChannelListByWebsiteId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -505,7 +505,7 @@ $dispatches = [
     ],
 
     'ox.getChannelListByAgencyId' => [
-        'function' => [$fc, 'getChannelListByAgencyId'],
+        'function' => $fc->getChannelListByAgencyId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -513,7 +513,7 @@ $dispatches = [
     ],
 
     'ox.getChannelTargeting' => [
-        'function' => [$fc, 'getChannelTargeting'],
+        'function' => $fc->getChannelTargeting(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -521,7 +521,7 @@ $dispatches = [
     ],
 
     'ox.setChannelTargeting' => [
-        'function' => [$fc, 'setChannelTargeting'],
+        'function' => $fc->setChannelTargeting(...),
         'signature' => [
             ['boolean', 'string', 'int', 'array']
         ],
@@ -530,7 +530,7 @@ $dispatches = [
 
     // Publisher (website) functions
     'ox.addPublisher' => [
-        'function' => [$fc, 'addPublisher'],
+        'function' => $fc->addPublisher(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -538,7 +538,7 @@ $dispatches = [
     ],
 
     'ox.modifyPublisher' => [
-        'function' => [$fc, 'modifyPublisher'],
+        'function' => $fc->modifyPublisher(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -546,7 +546,7 @@ $dispatches = [
     ],
 
     'ox.deletePublisher' => [
-        'function' => [$fc, 'deletePublisher'],
+        'function' => $fc->deletePublisher(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -554,7 +554,7 @@ $dispatches = [
     ],
 
     'ox.publisherDailyStatistics' => [
-        'function' => [$fc, 'publisherDailyStatistics'],
+        'function' => $fc->publisherDailyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -565,7 +565,7 @@ $dispatches = [
     ],
 
     'ox.publisherHourlyStatistics' => [
-        'function' => [$fc, 'publisherHourlyStatistics'],
+        'function' => $fc->publisherHourlyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -576,7 +576,7 @@ $dispatches = [
     ],
 
     'ox.publisherZoneStatistics' => [
-        'function' => [$fc, 'publisherZoneStatistics'],
+        'function' => $fc->publisherZoneStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -587,7 +587,7 @@ $dispatches = [
     ],
 
     'ox.publisherAdvertiserStatistics' => [
-        'function' => [$fc, 'publisherAdvertiserStatistics'],
+        'function' => $fc->publisherAdvertiserStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -598,7 +598,7 @@ $dispatches = [
     ],
 
     'ox.publisherCampaignStatistics' => [
-        'function' => [$fc, 'publisherCampaignStatistics'],
+        'function' => $fc->publisherCampaignStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -609,7 +609,7 @@ $dispatches = [
     ],
 
     'ox.publisherBannerStatistics' => [
-        'function' => [$fc, 'publisherBannerStatistics'],
+        'function' => $fc->publisherBannerStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -620,7 +620,7 @@ $dispatches = [
     ],
 
     'ox.getPublisher' => [
-        'function' => [$fc, 'getPublisher'],
+        'function' => $fc->getPublisher(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -628,7 +628,7 @@ $dispatches = [
     ],
 
     'ox.getPublisherListByAgencyId' => [
-        'function' => [$fc, 'getPublisherListByAgencyId'],
+        'function' => $fc->getPublisherListByAgencyId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -637,7 +637,7 @@ $dispatches = [
 
     // Tracker functions
     'ox.addTracker' => [
-        'function' => [$fc, 'addTracker'],
+        'function' => $fc->addTracker(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -645,7 +645,7 @@ $dispatches = [
     ],
 
     'ox.modifyTracker' => [
-        'function' => [$fc, 'modifyTracker'],
+        'function' => $fc->modifyTracker(...),
         'signature' => [
             ['boolean', 'string', 'struct']
         ],
@@ -653,7 +653,7 @@ $dispatches = [
     ],
 
     'ox.deleteTracker' => [
-        'function' => [$fc, 'deleteTracker'],
+        'function' => $fc->deleteTracker(...),
         'signature' => [
             ['boolean', 'string', 'int']
         ],
@@ -661,7 +661,7 @@ $dispatches = [
     ],
 
     'ox.linkTrackerToCampaign' => [
-        'function' => [$fc, 'linkTrackerToCampaign'],
+        'function' => $fc->linkTrackerToCampaign(...),
         'signature' => [
             ['boolean', 'string', 'int', 'int'],
             ['boolean', 'string', 'int', 'int', 'int']
@@ -670,7 +670,7 @@ $dispatches = [
     ],
 
     'ox.getTracker' => [
-        'function' => [$fc, 'getTracker'],
+        'function' => $fc->getTracker(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -679,7 +679,7 @@ $dispatches = [
 
     // User functions
     'ox.addUser' => [
-        'function' => [$fc, 'addUser'],
+        'function' => $fc->addUser(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -687,7 +687,7 @@ $dispatches = [
     ],
 
     'ox.modifyUser' => [
-        'function' => [$fc, 'modifyUser'],
+        'function' => $fc->modifyUser(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -695,7 +695,7 @@ $dispatches = [
     ],
 
     'ox.deleteUser' => [
-        'function' => [$fc, 'deleteUser'],
+        'function' => $fc->deleteUser(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -703,7 +703,7 @@ $dispatches = [
     ],
 
     'ox.getUser' => [
-        'function' => [$fc, 'getUser'],
+        'function' => $fc->getUser(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -711,7 +711,7 @@ $dispatches = [
     ],
 
     'ox.getUserList' => [
-        'function' => [$fc, 'getUserList'],
+        'function' => $fc->getUserList(...),
         'signature' => [
             ['array', 'string']
         ],
@@ -719,7 +719,7 @@ $dispatches = [
     ],
 
     'ox.getUserListByAccountId' => [
-        'function' => [$fc, 'getUserListByAccountId'],
+        'function' => $fc->getUserListByAccountId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -727,7 +727,7 @@ $dispatches = [
     ],
 
     'ox.updateSsoUserId' => [
-        'function' => [$fc, 'updateSsoUserId'],
+        'function' => $fc->updateSsoUserId(...),
         'signature' => [
             ['array', 'string', 'int', 'int']
         ],
@@ -735,7 +735,7 @@ $dispatches = [
     ],
 
     'ox.updateUserEmailBySsoId' => [
-        'function' => [$fc, 'updateUserEmailBySsoId'],
+        'function' => $fc->updateUserEmailBySsoId(...),
         'signature' => [
             ['array', 'string', 'int', 'string']
         ],
@@ -743,7 +743,7 @@ $dispatches = [
     ],
 
     'ox.linkUserToAdvertiserAccount' => [
-        'function' => [$fc, 'linkUserToAdvertiserAccount'],
+        'function' => $fc->linkUserToAdvertiserAccount(...),
         'signature' => [
             ['boolean', 'string', 'int', 'int', 'array'],
             ['boolean', 'string', 'int', 'int']
@@ -752,7 +752,7 @@ $dispatches = [
     ],
 
     'ox.linkUserToTraffickerAccount' => [
-        'function' => [$fc, 'linkUserToTraffickerAccount'],
+        'function' => $fc->linkUserToTraffickerAccount(...),
         'signature' => [
             ['boolean', 'string', 'int', 'int', 'array'],
             ['boolean', 'string', 'int', 'int']
@@ -761,7 +761,7 @@ $dispatches = [
     ],
 
     'ox.linkUserToManagerAccount' => [
-        'function' => [$fc, 'linkUserToManagerAccount'],
+        'function' => $fc->linkUserToManagerAccount(...),
         'signature' => [
             ['boolean', 'string', 'int', 'int', 'array'],
             ['boolean', 'string', 'int', 'int']
@@ -771,7 +771,7 @@ $dispatches = [
 
     // Variable functions
     'ox.addVariable' => [
-        'function' => [$fc, 'addVariable'],
+        'function' => $fc->addVariable(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -779,7 +779,7 @@ $dispatches = [
     ],
 
     'ox.modifyVariable' => [
-        'function' => [$fc, 'modifyVariable'],
+        'function' => $fc->modifyVariable(...),
         'signature' => [
             ['boolean', 'string', 'struct']
         ],
@@ -787,7 +787,7 @@ $dispatches = [
     ],
 
     'ox.deleteVariable' => [
-        'function' => [$fc, 'deleteVariable'],
+        'function' => $fc->deleteVariable(...),
         'signature' => [
             ['boolean', 'string', 'int']
         ],
@@ -795,7 +795,7 @@ $dispatches = [
     ],
 
     'ox.getVariable' => [
-        'function' => [$fc, 'getVariable'],
+        'function' => $fc->getVariable(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -804,7 +804,7 @@ $dispatches = [
 
     // Zone functions
     'ox.addZone' => [
-        'function' => [$fc, 'addZone'],
+        'function' => $fc->addZone(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -812,7 +812,7 @@ $dispatches = [
     ],
 
     'ox.modifyZone' => [
-        'function' => [$fc, 'modifyZone'],
+        'function' => $fc->modifyZone(...),
         'signature' => [
             ['int', 'string', 'struct']
         ],
@@ -820,7 +820,7 @@ $dispatches = [
     ],
 
     'ox.deleteZone' => [
-        'function' => [$fc, 'deleteZone'],
+        'function' => $fc->deleteZone(...),
         'signature' => [
             ['int', 'string', 'int']
         ],
@@ -828,7 +828,7 @@ $dispatches = [
     ],
 
     'ox.zoneDailyStatistics' => [
-        'function' => [$fc, 'zoneDailyStatistics'],
+        'function' => $fc->zoneDailyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -839,7 +839,7 @@ $dispatches = [
     ],
 
     'ox.zoneHourlyStatistics' => [
-        'function' => [$fc, 'zoneHourlyStatistics'],
+        'function' => $fc->zoneHourlyStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -850,7 +850,7 @@ $dispatches = [
     ],
 
     'ox.zoneAdvertiserStatistics' => [
-        'function' => [$fc, 'zoneAdvertiserStatistics'],
+        'function' => $fc->zoneAdvertiserStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -861,7 +861,7 @@ $dispatches = [
     ],
 
     'ox.zoneCampaignStatistics' => [
-        'function' => [$fc, 'zoneCampaignStatistics'],
+        'function' => $fc->zoneCampaignStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -872,7 +872,7 @@ $dispatches = [
     ],
 
     'ox.zoneBannerStatistics' => [
-        'function' => [$fc, 'zoneBannerStatistics'],
+        'function' => $fc->zoneBannerStatistics(...),
         'signature' => [
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'],
             ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
@@ -883,7 +883,7 @@ $dispatches = [
     ],
 
     'ox.getZone' => [
-        'function' => [$fc, 'getZone'],
+        'function' => $fc->getZone(...),
         'signature' => [
             ['struct', 'string', 'int']
         ],
@@ -891,7 +891,7 @@ $dispatches = [
     ],
 
     'ox.getZoneListByPublisherId' => [
-        'function' => [$fc, 'getZoneListByPublisherId'],
+        'function' => $fc->getZoneListByPublisherId(...),
         'signature' => [
             ['array', 'string', 'int']
         ],
@@ -899,7 +899,7 @@ $dispatches = [
     ],
 
     'ox.linkBanner' => [
-        'function' => [$fc, 'linkBanner'],
+        'function' => $fc->linkBanner(...),
         'signature' => [
             ['int', 'string', 'int', 'int']
         ],
@@ -907,7 +907,7 @@ $dispatches = [
     ],
 
     'ox.linkCampaign' => [
-        'function' => [$fc, 'linkCampaign'],
+        'function' => $fc->linkCampaign(...),
         'signature' => [
             ['int', 'string', 'int', 'int']
         ],
@@ -915,7 +915,7 @@ $dispatches = [
     ],
 
     'ox.unlinkBanner' => [
-        'function' => [$fc, 'unlinkBanner'],
+        'function' => $fc->unlinkBanner(...),
         'signature' => [
             ['int', 'string', 'int', 'int']
         ],
@@ -923,7 +923,7 @@ $dispatches = [
     ],
 
     'ox.unlinkCampaign' => [
-        'function' => [$fc, 'unlinkCampaign'],
+        'function' => $fc->unlinkCampaign(...),
         'signature' => [
             ['int', 'string', 'int', 'int']
         ],
@@ -931,7 +931,7 @@ $dispatches = [
     ],
 
     'ox.generateTags' => [
-        'function' => [$fc, 'generateTags'],
+        'function' => $fc->generateTags(...),
         'signature' => [
             ['string', 'string', 'int', 'string', 'struct'],
             ['string', 'string', 'int', 'string', 'array']

@@ -20,8 +20,6 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  */
 class OX_Extension_Common
 {
-    public function __construct() {}
-
     public function runTasksAfterPluginInstall()
     {
         $this->cachePreferenceOptions();
@@ -101,7 +99,7 @@ class OX_Extension_Common
     public function cachePreferenceOptions()
     {
         $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
-        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : []);
+        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ?: []);
         $aOptions = [];
 
         foreach ($aComponentGroups as $name => $enabled) {
@@ -110,7 +108,7 @@ class OX_Extension_Common
                 if (!empty($aConfig[$name]['preferences'])) {
                     $aOptions[$name] = [
                                                 'name' => $name,
-                                                'text' => ($aConfig[$name]['option'] ? $aConfig[$name]['option'] : $name),
+                                                'text' => ($aConfig[$name]['option'] ?: $name),
                                                 'value' => 'account-preferences-plugin.php?group=' . $name,
                                                 'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
                                              ];
@@ -126,8 +124,8 @@ class OX_Extension_Common
     {
         require_once LIB_PATH . '/Plugin/PluginManager.php';
         $oPluginManager = new OX_PluginManager();
-        $aPlugins = ($GLOBALS['_MAX']['CONF']['plugins'] ? $GLOBALS['_MAX']['CONF']['plugins'] : []);
-        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ? $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] : []);
+        $aPlugins = ($GLOBALS['_MAX']['CONF']['plugins'] ?: []);
+        $aComponentGroups = ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'] ?: []);
 
         foreach ($aPlugins as $name => $enabled) {
             $aPlugin = $oPluginManager->getPackageDiagnostics($name, true);

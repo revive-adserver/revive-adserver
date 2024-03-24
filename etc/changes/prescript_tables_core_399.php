@@ -16,8 +16,6 @@ require_once(MAX_PATH . '/lib/OA/DB/Sql.php');
 
 class prescript_tables_core_399
 {
-    public function __construct() {}
-
     public function execute_constructive($aParams)
     {
         $oDBUpgrader = $aParams[0];

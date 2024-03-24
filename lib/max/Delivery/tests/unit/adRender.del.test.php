@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 class Test_DeliveryAdRender extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * TODO: need data
      *
      */

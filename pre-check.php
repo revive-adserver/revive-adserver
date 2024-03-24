@@ -33,9 +33,9 @@ function RV_initialSystemCheck()
         // guess the proper relative path...
         if ($erorCode != -2) {
             // Checking if URL include www or admin in path
-            if (strpos($_SERVER['REQUEST_URI'], '/www/admin/') !== false) {
+            if (str_contains($_SERVER['REQUEST_URI'], '/www/admin/')) {
                 $imageRelativePath = "./precheck/";
-            } elseif (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
+            } elseif (str_contains($_SERVER['REQUEST_URI'], '/www/')) {
                 $imageRelativePath = "./admin/precheck/";
             }
         }
@@ -156,7 +156,7 @@ function RV_initialSystemCheck()
  */
 function OX_checkSystemInstalled()
 {
-    $path = @dirname(__FILE__);
+    $path = @__DIR__;
     if (!@empty($path)) {
         if (@file_exists($path . '/var/UPGRADE')) {
             return false;

@@ -136,7 +136,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
      * @return mixed An array of Zone objects, each populated with the
      *               relevant Advert objects and data.
      */
-    public function &_buildClasses()
+    public function _buildClasses()
     {
         OA::debug('- Building zone and creative objects', PEAR_LOG_DEBUG);
         // Obtain the forecast impression & actual impression inventory for
@@ -385,7 +385,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $pastActualImpressions = $oZone->availableImpressions;
 
             // which is then used to process the priority factor
-            list($factor, $limited, $fraction, $to_be_delivered) =
+            [$factor, $limited, $fraction, $to_be_delivered] =
                 $this->_getPriorityAdjustment(
                     $oAdvert,
                     $pastActualImpressions,
@@ -462,7 +462,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                     // Don't bother with additional priority compensation, assuming
                     // we want to adjust the priority in the same direction as
                     // before
-                    list($factor, $limited) = $this->_calculateFactor(
+                    [$factor, $limited] = $this->_calculateFactor(
                         $oAdvert->id,
                         $zoneId,
                         $oAdvert->pastAdZonePriorityFactor,
@@ -476,7 +476,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             // Any previous priority compensation had an affect, do we want to
             // try even more priority adjustment?
             if (!is_null($oAdvert->pastAdZonePriorityFactor)) {
-                list($factor, $limited) = $this->_calculateFactor(
+                [$factor, $limited] = $this->_calculateFactor(
                     $oAdvert->id,
                     $zoneId,
                     $oAdvert->pastAdZonePriorityFactor,
@@ -490,7 +490,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             // so perform basic adjustment based on the past operation interval's
             // performance
             $factor = $oAdvert->pastRequestedImpressions / $oAdvert->pastActualImpressions;
-            return [$factor, false, $fraction];
+            return [$factor, false, $fraction, 1];
         } elseif (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
                   (is_null($oAdvert->pastActualImpressions) || ($oAdvert->pastActualImpressions == 0))) {
             // It is not possible to calculate the fraction of the zone traffic that

@@ -369,16 +369,12 @@ if (!empty($aConversions)) {
                 <td colspan='5' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='100%'></td>
             </tr>";
 
-            switch ($conversion['connection_action']) {
-                case MAX_CONNECTION_AD_CLICK:   $action = 'Click';
-                    break;
-                case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival';
-                    break;
-                case MAX_CONNECTION_MANUAL:     $action = 'Manual';
-                    break;
-                default:                        $action = 'View';
-                    break;
-            }
+            $action = match ($conversion['connection_action']) {
+                MAX_CONNECTION_AD_CLICK => 'Click',
+                MAX_CONNECTION_AD_ARRIVAL => 'Arrival',
+                MAX_CONNECTION_MANUAL => 'Manual',
+                default => 'View',
+            };
 
             $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];
 

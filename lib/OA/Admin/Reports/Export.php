@@ -12,7 +12,7 @@
 
 // Include required files
 require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
-require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
+require_once LIB_PATH . '/Extension/reports/ReportsTrait.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 /**
@@ -21,8 +21,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
  * @package    OpenXAdmin
  * @subpackage Reports
  */
-class OA_Admin_Reports_Export extends Plugins_ReportsScope
+class OA_Admin_Reports_Export
 {
+    use ReportTrait;
+
     /**
      * The stats controller with stats ready to export.
      *
@@ -41,8 +43,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
     {
         $this->oStatsController = $oStatsController;
         // Set the Excel Report writer
-        $oWriter = new OA_Admin_ExcelWriter();
-        $this->useReportWriter($oWriter);
+        $this->useReportWriter(new OA_Admin_ExcelWriter());
     }
 
     /**
@@ -77,7 +78,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
         $this->_oReportWriter->openWithFilename($reportFileName);
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController(null, $this->oStatsController);
+        [$aHeaders, $aData] = $this->getHeadersAndDataFromStatsController(null, $this->oStatsController);
         // Add the worksheet
         $name = ucfirst($this->oStatsController->entity) . ' ' . ucfirst($this->oStatsController->breakdown);
         $this->createSubReport($reportName, $aHeaders, $aData);

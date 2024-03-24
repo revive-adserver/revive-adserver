@@ -28,9 +28,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 {
     public $doAudit;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

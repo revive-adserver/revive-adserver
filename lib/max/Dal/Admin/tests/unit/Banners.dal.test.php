@@ -25,14 +25,6 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
 {
     public $dalBanners;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalBanners = OA_Dal::factoryDAL('banners');

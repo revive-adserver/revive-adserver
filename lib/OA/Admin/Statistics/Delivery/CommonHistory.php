@@ -20,7 +20,7 @@ require_once 'Pager.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Delivery_Common
+abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Delivery_Common
 {
     /**
      * @var array
@@ -316,17 +316,11 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     {
         $parent = parent::exportArray();
 
-        switch ($this->statsBreakdown) {
-            case 'day':
-                $key_format = 'date';
-                break;
-            case 'hour':
-                $key_format = 'time';
-                break;
-            default:
-                $key_format = 'text';
-                break;
-        }
+        $key_format = match ($this->statsBreakdown) {
+            'day' => 'date',
+            'hour' => 'time',
+            default => 'text',
+        };
 
         $headers = array_merge([$this->statsKey], $parent['headers']);
         $formats = array_merge([$key_format], $parent['formats']);

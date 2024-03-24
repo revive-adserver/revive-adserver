@@ -502,7 +502,7 @@ $oZoneXmlRpcService = new ZoneXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'addZone' => [
-            'function' => [$oZoneXmlRpcService, 'addZone'],
+            'function' => $oZoneXmlRpcService->addZone(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -510,7 +510,7 @@ $server = new XML_RPC_Server(
         ],
 
         'modifyZone' => [
-            'function' => [$oZoneXmlRpcService, 'modifyZone'],
+            'function' => $oZoneXmlRpcService->modifyZone(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -518,7 +518,7 @@ $server = new XML_RPC_Server(
         ],
 
         'deleteZone' => [
-            'function' => [$oZoneXmlRpcService, 'deleteZone'],
+            'function' => $oZoneXmlRpcService->deleteZone(...),
             'signature' => [
                 ['int', 'string', 'int']
             ],
@@ -526,7 +526,7 @@ $server = new XML_RPC_Server(
         ],
 
         'zoneDailyStatistics' => [
-            'function' => [$oZoneXmlRpcService, 'zoneDailyStatistics'],
+            'function' => $oZoneXmlRpcService->zoneDailyStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -536,7 +536,7 @@ $server = new XML_RPC_Server(
         ],
 
         'zoneAdvertiserStatistics' => [
-            'function' => [$oZoneXmlRpcService, 'zoneAdvertiserStatistics'],
+            'function' => $oZoneXmlRpcService->zoneAdvertiserStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -546,7 +546,7 @@ $server = new XML_RPC_Server(
         ],
 
         'zoneCampaignStatistics' => [
-            'function' => [$oZoneXmlRpcService, 'zoneCampaignStatistics'],
+            'function' => $oZoneXmlRpcService->zoneCampaignStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -556,7 +556,7 @@ $server = new XML_RPC_Server(
         ],
 
         'zoneBannerStatistics' => [
-            'function' => [$oZoneXmlRpcService, 'zoneBannerStatistics'],
+            'function' => $oZoneXmlRpcService->zoneBannerStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -566,7 +566,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getZone' => [
-            'function' => [$oZoneXmlRpcService, 'getZone'],
+            'function' => $oZoneXmlRpcService->getZone(...),
             'signature' => [
                 ['struct', 'string', 'int']
             ],
@@ -574,7 +574,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getZoneListByPublisherId' => [
-            'function' => [$oZoneXmlRpcService, 'getZoneListByPublisherId'],
+            'function' => $oZoneXmlRpcService->getZoneListByPublisherId(...),
             'signature' => [
                 ['array', 'string', 'int']
             ],
@@ -582,7 +582,7 @@ $server = new XML_RPC_Server(
         ],
 
         'linkBanner' => [
-            'function' => [$oZoneXmlRpcService, 'linkBanner'],
+            'function' => $oZoneXmlRpcService->linkBanner(...),
             'signature' => [
                 ['int', 'string', 'int', 'int']
             ],
@@ -590,7 +590,7 @@ $server = new XML_RPC_Server(
         ],
 
         'linkCampaign' => [
-            'function' => [$oZoneXmlRpcService, 'linkCampaign'],
+            'function' => $oZoneXmlRpcService->linkCampaign(...),
             'signature' => [
                 ['int', 'string', 'int', 'int']
             ],
@@ -598,7 +598,7 @@ $server = new XML_RPC_Server(
         ],
 
         'unlinkBanner' => [
-            'function' => [$oZoneXmlRpcService, 'unlinkBanner'],
+            'function' => $oZoneXmlRpcService->unlinkBanner(...),
             'signature' => [
                 ['int', 'string', 'int', 'int']
             ],
@@ -606,7 +606,7 @@ $server = new XML_RPC_Server(
         ],
 
         'unlinkCampaign' => [
-            'function' => [$oZoneXmlRpcService, 'unlinkCampaign'],
+            'function' => $oZoneXmlRpcService->unlinkCampaign(...),
             'signature' => [
                 ['int', 'string', 'int', 'int']
             ],
@@ -614,7 +614,7 @@ $server = new XML_RPC_Server(
         ],
 
         'generateTags' => [
-            'function' => [$oZoneXmlRpcService, 'generateTags'],
+            'function' => $oZoneXmlRpcService->generateTags(...),
             'signature' => [
                 ['string', 'string', 'int', 'string', 'struct'],
                 ['string', 'string', 'int', 'string', 'array']

@@ -15,8 +15,6 @@ $className = 'prescript_upgrade_testPlugin_0_0_2_beta_rc1';
 
 class prescript_upgrade_testPlugin_0_0_2_beta_rc1
 {
-    public function __construct() {}
-
     public function execute($aParams = [])
     {
         $oManager = new OX_Plugin_ComponentGroupManager();

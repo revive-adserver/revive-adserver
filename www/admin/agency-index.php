@@ -85,9 +85,7 @@ $aManagers = $dalAgency->getAllManagers($listorder, $orderdirection);
 $agencyCount = count($aManagers);
 
 if ($hideinactive) {
-    $aManagers = array_filter($aManagers, function ($agency) {
-        return !$agency['status'];
-    });
+    $aManagers = array_filter($aManagers, fn($agency) => !$agency['status']);
 
     $inactiveCount = $agencyCount - count($aManagers);
 }

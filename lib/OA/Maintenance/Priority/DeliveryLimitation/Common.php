@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * with the goal of determining when (if at all) the deliver limitation "blocks"
  * (as opposed to "filters") deliver of an advertisement.
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Priority
  */
@@ -29,7 +28,6 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_P
      * A method to determine if the delivery limitation stored will prevent an
      * ad from delivering or not, given a time/date.
      *
-     * @abstract
      * @param object $oDate PEAR:Date, represeting the time/date to test if the ACL would
      *                      block delivery at that point in time.
      * @return mixed A boolean (true if the ad is BLOCKED (i.e. will NOT deliver), false

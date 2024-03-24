@@ -21,14 +21,6 @@ require_once MAX_PATH . '/lib/RV/Sync.php';
 class Test_RV_Sync extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the getConfigVersion() method.
      */
     public function testGetConfigVersion()

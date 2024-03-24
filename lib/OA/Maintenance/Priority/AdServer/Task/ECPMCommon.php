@@ -175,7 +175,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      */
     public function setAdEcpmPowAlpha($adId, $campaignEcpm)
     {
-        $this->aAdsEcpmPowAlpha[$adId] = pow($campaignEcpm, self::ALPHA);
+        $this->aAdsEcpmPowAlpha[$adId] = $campaignEcpm ** self::ALPHA;
     }
 
     /**

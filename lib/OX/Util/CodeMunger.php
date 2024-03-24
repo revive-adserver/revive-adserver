@@ -93,7 +93,7 @@ class OX_Util_CodeMunger
     public function flattenFile($filename)
     {
         // Skip dynamicly included files
-        if (strpos($filename, '$') !== false) {
+        if (str_contains($filename, '$')) {
             return false;
         }
 
@@ -101,7 +101,7 @@ class OX_Util_CodeMunger
         if ($pos = strrpos($filename, '/')) {
             $cwd = getcwd();
             $dir = substr($filename, 0, $pos);
-            if (!file_exists($dir . '/.') || !chdir($dir) || (substr($dir, -8) == 'lib/pear')) {
+            if (!file_exists($dir . '/.') || !chdir($dir) || (str_ends_with($dir, 'lib/pear'))) {
                 if ($this->OA_Pear === false) {
                     return false;
                 }
@@ -244,7 +244,7 @@ class OX_Util_CodeMunger
                         // so keep the original content
                         $orig .= $token;
                         // and capture the filename if not the concat op.
-                        if (strpos('.()', $token) === false) {
+                        if (!str_contains('.()', $token)) {
                             $cur .= $token;
                         }
                     }
@@ -275,11 +275,11 @@ class OX_Util_CodeMunger
                             }
                         }
                         if ($strip_delivery) {
-                            if (strstr($text, '###END_STRIP_DELIVERY') !== false) {
+                            if (str_contains($text, '###END_STRIP_DELIVERY')) {
                                 $strip_delivery = false;
                             }
                         } else {
-                            if (strstr($text, '###START_STRIP_DELIVERY') !== false) {
+                            if (str_contains($text, '###START_STRIP_DELIVERY')) {
                                 $strip_delivery = true;
                             }
                         }
@@ -361,7 +361,7 @@ class OX_Util_CodeMunger
                         if ($state === STATE_STD) {
                             if ($this->echoWhite) {
                                 $ret .= $text;
-                            } elseif (false !== strpos($text, "\n")) {
+                            } elseif (str_contains($text, "\n")) {
                                 switch (substr($ret, -1)) {
                                     case "\n":
                                         break;

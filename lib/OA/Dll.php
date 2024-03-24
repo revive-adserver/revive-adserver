@@ -304,38 +304,18 @@ class OA_Dll extends OA_BaseObjectWithErrors
      */
     public function checkIdExistence($table, $id)
     {
-        switch ($table) {
-            default:
-                $tableId = $table;
-                break;
-            case 'accounts':
-                $tableId = 'account';
-                break;
-            case 'affiliates':
-                $tableId = 'publisher';
-                break;
-            case 'clients':
-                $tableId = 'advertiser';
-                break;
-            case 'banners':
-                $tableId = 'banner';
-                break;
-            case 'zones':
-                $tableId = 'zone';
-                break;
-            case 'campaigns':
-                $tableId = 'campaign';
-                break;
-            case 'users':
-                $tableId = 'user';
-                break;
-            case 'trackers':
-                $tableId = 'tracker';
-                break;
-            case 'variables':
-                $tableId = 'variable';
-                break;
-        }
+        $tableId = match ($table) {
+            'accounts' => 'account',
+            'affiliates' => 'publisher',
+            'clients' => 'advertiser',
+            'banners' => 'banner',
+            'zones' => 'zone',
+            'campaigns' => 'campaign',
+            'users' => 'user',
+            'trackers' => 'tracker',
+            'variables' => 'variable',
+            default => $table,
+        };
 
         $doObject = OA_Dal::factoryDO($table);
         if (empty($id) || !($object = $doObject->get($id))) {

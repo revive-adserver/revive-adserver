@@ -68,7 +68,7 @@ function MAX_remotehostProxyLookup()
                 'inktomi'
             ];
             foreach ($aProxyHosts as $proxyName) {
-                if (strpos($_SERVER['REMOTE_HOST'], $proxyName) !== false) {
+                if (str_contains($_SERVER['REMOTE_HOST'], $proxyName)) {
                     $proxy = true;
                     break;
                 }

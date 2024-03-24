@@ -55,7 +55,7 @@ setcookie('schemaPath', $schemaPath);
 setcookie('schemaFile', $schemaFile);
 
 global $oaSchema;
-$oaSchema = new Openads_Schema_Manager($schemaFile, '', $schemaPath);
+$oaSchema = new Openads_Schema_Manager($schemaPath, $schemaFile, '');
 
 if (is_array($aErrs = OX_DevToolbox::checkFilePermissions([PATH_DEV, PATH_VAR, MAX_PATH . $pluginPath]))) {
     setcookie('schemaFile', '');

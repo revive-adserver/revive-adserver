@@ -73,8 +73,8 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     }
 
     $tracker['trackername'] .= $strDefault . " " . $strTracker;
-    $tracker['status'] = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
-    $tracker['type'] = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
+    $tracker['status'] = $pref['tracker_default_status'] ?? MAX_CONNECTION_STATUS_APPROVED;
+    $tracker['type'] = $pref['tracker_default_type'] ?? MAX_CONNECTION_TYPE_SALE;
     $tracker['linkcampaigns'] = $pref['tracker_link_campaigns'] == true ? 't' : 'f';
     $tracker['description'] = '';
 

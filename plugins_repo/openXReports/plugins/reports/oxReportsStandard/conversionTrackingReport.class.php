@@ -137,9 +137,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
+        $default_period_preset = $session['prefs']['GLOBALS']['report_period_preset'] ?? 'last_month';
+        $default_scope_advertiser = $session['prefs']['GLOBALS']['report_scope_advertiser'] ?? '';
+        $default_scope_publisher = $session['prefs']['GLOBALS']['report_scope_publisher'] ?? '';
         // Prepare the array for displaying the generation page
         $aImport = [
             'period' => [
@@ -315,7 +315,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        [$aHeaders, $aData] = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             $this->translate("Performance by Day"),
@@ -660,18 +660,11 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     $variableName = !empty($aTrackerVariable['tracker_variable_description']) ? $aTrackerVariable['tracker_variable_description'] : $aTrackerVariable['tracker_variable_name'];
                     // Don't display if the user is a publisher and the variable is hidden
                     if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
-                        switch ($aTrackerVariable['tracker_variable_data_type']) {
-                            case 'int':
-                            case 'numeric':
-                                $aHeaders[$variableName] = 'numeric';
-                                break;
-                            case 'date':
-                                $aHeaders[$variableName] = 'datetime';
-                                break;
-                            default:
-                                $aHeaders[$variableName] = 'text';
-                                break;
-                        }
+                        $aHeaders[$variableName] = match ($aTrackerVariable['tracker_variable_data_type']) {
+                            'int', 'numeric' => 'numeric',
+                            'date' => 'datetime',
+                            default => 'text',
+                        };
                     }
                 }
             }
@@ -1213,17 +1206,13 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      */
     public function _decodeConnectionType($code)
     {
-        switch ($code) {
-            case MAX_CONNECTION_AD_IMPRESSION:
-                return $GLOBALS['strImpression'];
-            case MAX_CONNECTION_AD_CLICK:
-                return $GLOBALS['strClick'];
-            case MAX_CONNECTION_AD_MANUAL:
-                return $GLOBALS['strManual'];
-            case MAX_CONNECTION_AD_ARRIVAL:
-                return $GLOBALS['strArrival'];
-        }
-        return $GLOBALS['strUnknown'];
+        return match ($code) {
+            MAX_CONNECTION_AD_IMPRESSION => $GLOBALS['strImpression'],
+            MAX_CONNECTION_AD_CLICK => $GLOBALS['strClick'],
+            MAX_CONNECTION_AD_MANUAL => $GLOBALS['strManual'],
+            MAX_CONNECTION_AD_ARRIVAL => $GLOBALS['strArrival'],
+            default => $GLOBALS['strUnknown'],
+        };
     }
 
     /**

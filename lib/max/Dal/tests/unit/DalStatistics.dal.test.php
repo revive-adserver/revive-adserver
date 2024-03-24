@@ -26,12 +26,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     public $doBanners = null;
     public $doDSAH = null;
 
-    /**
-     * The constructor method.
-     */
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

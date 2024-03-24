@@ -60,7 +60,7 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
                 $aRow = $rsData->toArray();
                 // Insert or update
                 $aExecQueries[] = "SELECT bucket_update_{$sTableName}(" .
-                    join(',', array_map([&$oMainDbh, 'quote'], $aRow)) .
+                    join(',', array_map($oMainDbh->quote(...), $aRow)) .
                     ")";
             }
 

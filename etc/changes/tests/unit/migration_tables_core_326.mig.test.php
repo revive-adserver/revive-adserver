@@ -26,10 +26,7 @@ class Migration_tables_core_326Test extends MigrationTest
     public $path;
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
-    public function Test_DB_Upgrade()
+    public function __construct()
     {
         parent::__construct();
 

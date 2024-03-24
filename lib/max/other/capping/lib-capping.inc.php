@@ -346,14 +346,14 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
         if (!isset($time)) {
             $time = _getTimeFromSec($aCappedObject['block']);
         }
-        $cap = (isset($cap)) ? $cap : $aCappedObject['capping'];
-        $session_capping = (isset($session_capping)) ? $session_capping : $aCappedObject['session_capping'];
+        $cap ??= $aCappedObject['capping'];
+        $session_capping ??= $aCappedObject['session_capping'];
     } else {
         if (!isset($time)) {
             $time = _getTimeFromSec($aCappedObject['block_' . strtolower($type)]);
         }
-        $cap = (isset($cap)) ? $cap : $aCappedObject['cap_' . strtolower($type)];
-        $session_capping = (isset($session_capping)) ? $session_capping : $aCappedObject['session_cap_' . strtolower($type)];
+        $cap ??= $aCappedObject['cap_' . strtolower($type)];
+        $session_capping ??= $aCappedObject['session_cap_' . strtolower($type)];
     }
 
     // Is there extra non-editable capping info to display?

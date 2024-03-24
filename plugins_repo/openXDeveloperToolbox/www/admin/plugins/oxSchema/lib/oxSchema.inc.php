@@ -79,7 +79,7 @@ class openXSchemaEditor
      *
      * @param string The XML schema file we are working on
      */
-    public function __construct($file_schema = 'tables_core.xml', $file_changes = '', $path_schema)
+    public function __construct($path_schema, $file_schema = 'tables_core.xml', $file_changes = '')
     {
         $this->oLogger = new OA_UpgradeLogger();
         $this->oLogger->setLogFile('schema.log');
@@ -87,7 +87,7 @@ class openXSchemaEditor
         if (empty($path_schema)) {
             $path_schema = '/etc/';
         }
-        if (!empty($path_schema) && (substr($path_schema, 0, 1) != '/')) {
+        if (!empty($path_schema) && (!str_starts_with($path_schema, '/'))) {
             $path_schema = '/' . $path_schema;
         }
         if (!empty($path_schema) && (substr($path_schema, strlen($path_schema) - 4, 4) != 'etc/')) {
@@ -109,7 +109,7 @@ class openXSchemaEditor
         $this->path_links_final = $this->path_dbo;
         $this->path_links_trans = MAX_PATH . '/var/';
 
-        $file_changes = ($file_changes ? $file_changes : 'changes_' . $file_schema);
+        $file_changes = ($file_changes ?: 'changes_' . $file_schema);
         $file_links = 'db_schema.links.ini';
 
         $this->schema_final = $this->path_schema_final . $file_schema;
@@ -202,10 +202,10 @@ class openXSchemaEditor
                     $aChanges['tables']['add'][$table] = ['was' => $table];
                 }
             }
-            $this->aDump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->aDump_options['output'] = ($output ?: $this->changes_trans);
             $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
             $this->aDump_options['split'] = true;
-            $aChanges['version'] = ($version ? $version : $aCurr_definition['version']);
+            $aChanges['version'] = ($version ?: $aCurr_definition['version']);
             $aChanges['name'] = $aCurr_definition['name'];
             $aChanges['comments'] = htmlspecialchars($comments);
             $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
@@ -234,7 +234,7 @@ class openXSchemaEditor
     {
         if (file_exists($input_file)) {
             $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
-            $this->aDump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->aDump_options['output'] = ($output ?: $this->changes_trans);
             $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
             $aChanges['comments'] = $comments;
             $this->aDump_options['split'] = true;
@@ -300,7 +300,7 @@ class openXSchemaEditor
         if (!$this->parseWorkingDefinitionFile()) {
             return false;
         }
-        $this->version = ($version ? $version : $this->version);
+        $this->version = ($version ?: $this->version);
         $basename = $this->_getBasename();
         $this->aDB_definition['version'] = $this->version;
         $this->aDump_options['custom_tags']['status'] = 'final';
@@ -415,7 +415,7 @@ class openXSchemaEditor
     public function writeWorkingDefinitionFile($output = '')
     {
         $this->aDump_options['custom_tags']['version'] = $this->version;
-        $this->aDump_options['output'] = ($output ? $output : $this->schema_trans);
+        $this->aDump_options['output'] = ($output ?: $this->schema_trans);
         $this->aDump_options['xsl_file'] = "xsl/mdb2_schema.xsl";
         $result = $this->oSchema->dumpDatabase($this->aDB_definition, $this->aDump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
         if (!Pear::iserror($result)) {
@@ -678,7 +678,7 @@ class openXSchemaEditor
      * @param boolean $unique
      * @return boolean
      */
-    public function indexAdd($table_name, $index_name, $aIndex_fields, $primary = '', $unique = '', $idx_fld_sort)
+    public function indexAdd($table_name, $index_name, $aIndex_fields, $idx_fld_sort, $primary = '', $unique = '')
     {
         if ($primary) {
             $index_name = $table_name . '_pkey';
@@ -1315,7 +1315,7 @@ class openXSchemaEditor
             $aPrev_definition = $this->oSchema->parseDatabaseDefinitionFile($this->schema_final);
             $aCurr_definition = $this->oSchema->parseDatabaseDefinitionFile($this->schema_trans);
             $aChanges = $this->oSchema->compareDefinitions($aCurr_definition, $aPrev_definition);
-            $this->aDump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->aDump_options['output'] = ($output ?: $this->changes_trans);
             $this->aDump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
             $this->aDump_options['split'] = true;
             $aChanges['version'] = $aCurr_definition['version'];
@@ -1448,7 +1448,7 @@ class openXSchemaEditor
             }
             return false;
         }
-        $this->version = ($version ? $version : $this->version);
+        $this->version = ($version ?: $this->version);
         if (!$this->_registerVersion($version, $name, $comments)) {
             $this->oLogger->logError('Failed to register schema version');
             return false;

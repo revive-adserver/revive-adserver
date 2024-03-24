@@ -20,8 +20,6 @@ $className = 'Client_UpgradePostscript_1_0_2';
  */
 class Client_UpgradePostscript_1_0_2
 {
-    public function __construct() {}
-
     public function execute($aParams)
     {
         if (isset($GLOBALS['_MAX']['CONF']['logging']['sniff'])) {

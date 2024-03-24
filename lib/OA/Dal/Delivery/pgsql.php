@@ -41,7 +41,7 @@ function OA_Dal_Delivery_connect($database = 'database')
     if ($dbConf['protocol'] == 'unix') {
         $dbConf['host'] = $dbConf['socket'];
     } else {
-        $dbConf['port'] = (isset($dbConf['port']) ? $dbConf['port'] : 5432);
+        $dbConf['port'] ??= 5432;
     }
     $dbParams[] = empty($dbConf['port']) ? '' : 'port=' . $dbConf['port'];
     $dbParams[] = empty($dbConf['host']) ? '' : 'host=' . $dbConf['host'];

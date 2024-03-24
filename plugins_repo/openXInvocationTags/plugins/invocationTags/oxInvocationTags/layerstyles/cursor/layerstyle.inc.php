@@ -75,7 +75,7 @@ function MAX_layerPutJs($output, $uniqid)
 
     // Cast all to int
     foreach ($variables as $v) {
-        $$v = (int) $$v;
+        ${$v} = (int) ${$v};
     } ?>
 
 

@@ -29,14 +29,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
 class Test_OA_OperationIntveral extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the checkOperationIntervalValue() method.
      *
      */

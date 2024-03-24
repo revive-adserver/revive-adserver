@@ -61,14 +61,14 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysqli implement
                 // Prepare INSERT
                 $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";
                 // Add first row data
-                $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
+                $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
                 $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
                 // Add first insert
                 $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
                 // Deal with the other rows
                 while ($rsData->fetch()) {
                     $aRow = $rsData->toArray();
-                    $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
+                    $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
                     $sOnDuplicate = ' ON DUPLICATE KEY UPDATE count = count + ' . $aRow['count'];
                     $aExecQueries[] = $sInsert . $sRow . $sOnDuplicate;
                 }

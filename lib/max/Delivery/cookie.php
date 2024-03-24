@@ -136,7 +136,7 @@ function MAX_cookieUnpackCapping()
                 $output = [];
                 $data = explode('_', $_COOKIE[$cookieName]);
                 foreach ($data as $pair) {
-                    list($name, $value) = explode('.', $pair);
+                    [$name, $value] = explode('.', $pair);
                     $output[$name] = $value;
                 }
                 $_COOKIE[$cookieName] = $output;
@@ -334,10 +334,10 @@ function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain
             }
             $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
         } else {
-            $secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
+            $secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 
             if (PHP_VERSION_ID < 70300) {
-                @setcookie($name, $value, $expires, $path . '; samesite=' . $sameSite, $domain, $secure, $httpOnly);
+                @setcookie($name, $value, ['expires' => $expires, 'path' => $path . '; samesite=' . $sameSite, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
             } else {
                 @setcookie($name, $value, [
                     'expires' => $expires,
@@ -379,7 +379,7 @@ function MAX_cookieClientCookieFlush()
         // Set cookies
         reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
         foreach ($GLOBALS['_MAX']['COOKIE']['CACHE'] as $name => $v) {
-            list($value, $expire) = $v;
+            [$value, $expire] = $v;
             // Treat the viewerId cookie differently, (always set in client)
             if ($name === $conf['var']['viewerId']) {
                 MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);

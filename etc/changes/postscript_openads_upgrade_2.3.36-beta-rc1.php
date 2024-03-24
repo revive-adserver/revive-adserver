@@ -18,8 +18,6 @@ class OA_UpgradePostscript_2_3_36
     public $oUpgrade;
     public $oSchema;
 
-    public function __construct() {}
-
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];

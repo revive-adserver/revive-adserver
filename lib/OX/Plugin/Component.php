@@ -27,7 +27,7 @@ define('OX_COMPONENT_SUFFIX', '.class.php');
  * @static
  * @package    OpenXPlugin
  */
-class OX_Component
+abstract class OX_Component
 {
     public $extension;
     public $group;
@@ -239,7 +239,7 @@ class OX_Component
         if (is_readable($directory)) {
             if ($aFiles = scandir($directory)) {
                 foreach ($aFiles as $i => $name) {
-                    if (substr($name, 0, 1) == '.') {
+                    if (str_starts_with($name, '.')) {
                         continue;
                     }
                     if (is_dir($directory . $name)) {
@@ -278,7 +278,7 @@ class OX_Component
                 $aMatches = array_merge($aMatches, preg_grep($fileMask, $aFiles));
                 if ($recursive) {
                     foreach ($aFiles as $i => $name) {
-                        if (substr($name, 0, 1) == '.') {
+                        if (str_starts_with($name, '.')) {
                             continue;
                         }
                         if (is_dir($directory . DIRECTORY_SEPARATOR . $name)) {
@@ -380,10 +380,7 @@ class OX_Component
     public static function getListOfRegisteredComponentsForHook($hook)
     {
         $aHooks = self::getComponentsHookCache();
-        if (isset($aHooks[$hook])) {
-            return $aHooks[$hook];
-        }
-        return [];
+        return $aHooks[$hook] ?? [];
     }
 
     public static function getComponentsHookCache()

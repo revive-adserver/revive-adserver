@@ -53,7 +53,7 @@ function MAX_AclAdjust($acl, $action)
     $count = count($acl ?? []);
     if (!empty($action['new']) && !empty($_REQUEST['type'])) {
         // Initialise this plugin to see if there is a default comparison
-        list($package, $name) = explode(':', $_REQUEST['type']);
+        [$package, $name] = explode(':', $_REQUEST['type']);
         $deliveryLimitationPlugin = OX_Component::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
         $defaultComparison = $deliveryLimitationPlugin->defaultComparison;
 
@@ -382,7 +382,7 @@ function MAX_AclValidate($page, $aParams)
 
     /** @var MDB2_Statement_Common $oStmt */
     /** @var MDB2_Statement_Common $oStmtAcl */
-    list($oStmt, $oStmtAcl) = $statements[$page];
+    [$oStmt, $oStmtAcl] = $statements[$page];
 
     /** @var MDB2_Result_Common $oResult */
     $oResult = $oStmt->execute($aParams);
@@ -490,7 +490,7 @@ function &OA_aclGetComponentFromType($type)
     if (count($aComponentIdentifier) == 2) {
         array_unshift($aComponentIdentifier, 'deliveryLimitations');
     }
-    list($extension, $group, $name) = $aComponentIdentifier;
+    [$extension, $group, $name] = $aComponentIdentifier;
 
     return OX_Component::factory($extension, $group, $name);
 }

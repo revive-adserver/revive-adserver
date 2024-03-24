@@ -103,26 +103,18 @@ class OA_Creative_File extends OA_Creative
         $contentType = '';
 
         $ext = substr($fileName, strrpos($fileName, '.') + 1);
-        switch (strtolower($ext)) {
-            case 'jpeg': $contentType = 'jpeg';
-                break;
-            case 'jpg':  $contentType = 'jpeg';
-                break;
-            case 'png':  $contentType = 'png';
-                break;
-            case 'gif':  $contentType = 'gif';
-                break;
-            case 'webp':  $contentType = 'webp';
-                break;
-            case 'swf':  $contentType = $alt ? '' : 'swf';
-                break;
-            case 'dcr':  $contentType = $alt ? '' : 'dcr';
-                break;
-            case 'rpm':  $contentType = $alt ? '' : 'rpm';
-                break;
-            case 'mov':  $contentType = $alt ? '' : 'mov';
-                break;
-        }
+        $contentType = match (strtolower($ext)) {
+            'jpeg' => 'jpeg',
+            'jpg' => 'jpeg',
+            'png' => 'png',
+            'gif' => 'gif',
+            'webp' => 'webp',
+            'swf' => $alt ? '' : 'swf',
+            'dcr' => $alt ? '' : 'dcr',
+            'rpm' => $alt ? '' : 'rpm',
+            'mov' => $alt ? '' : 'mov',
+            default => $contentType,
+        };
         return $contentType;
     }
 

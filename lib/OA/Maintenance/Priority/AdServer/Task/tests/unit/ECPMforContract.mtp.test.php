@@ -29,9 +29,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
 
     public const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::ALPHA;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

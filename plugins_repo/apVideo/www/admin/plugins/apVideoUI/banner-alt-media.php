@@ -35,7 +35,7 @@ phpAds_SessionDataStore();
 
 $doApVideo = OA_Dal::staticGetDO('ext_ap_video', $bannerid);
 if (!empty($doApVideo->alt_media)) {
-    $aBanner = json_decode($doApVideo->alt_media, true);
+    $aBanner = json_decode($doApVideo->alt_media, true, JSON_THROW_ON_ERROR);
 }
 
 if (empty($aBanner) || !is_array($aBanner)) {
@@ -166,7 +166,7 @@ function displayPage($aBanner, $form)
 
 function checkUrls($aFields)
 {
-    global $aTypes, $oTrans;
+    global $aBanner, $aTypes, $oTrans;
 
     $errorMessage = $oTrans->translate('Invalid URL');
 

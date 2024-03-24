@@ -64,9 +64,8 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      *
      * @return void
      */
-    public function displayData()
+    public function displayArrayData()
     {
-        $this->data = $this->_expandData($this->data);
         $tabindex = &$GLOBALS['tabindex'];
 
         // The region plugin is slightly different since we need to allow for multiple regions in different countries
@@ -110,8 +109,6 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
         echo "
             </table>
         ";
-
-        $this->data = $this->_flattenData($this->data);
     }
 
     /**
@@ -134,9 +131,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
             $country = array_shift($data);
 
             // Strip country code and hyphen
-            $data = array_map(function ($code) {
-                return substr($code, 3);
-            }, $data);
+            $data = array_map(fn($code) => substr($code, 3), $data);
 
             return $country . '|' . implode(',', $data);
         }
@@ -165,9 +160,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
             $country = $aData[0];
 
             // Add country code and hyphen
-            $aRegions = array_map(function ($code) use ($country) {
-                return "{$country}-{$code}";
-            }, MAX_limitationsGetAFromS($aData[1]));
+            $aRegions = array_map(fn($code) => "{$country}-{$code}", MAX_limitationsGetAFromS($aData[1]));
 
             return array_merge([$aData[0]], $aRegions);
         }

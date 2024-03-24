@@ -228,7 +228,7 @@ class OX_Admin_UI_Wizard
     {
         $stepId = empty($stepId) ? $this->currentStepId : $stepId;
 
-        return isset($this->aMetadata[$stepId]) ? $this->aMetadata[$stepId] : null;
+        return $this->aMetadata[$stepId] ?? null;
     }
 
 

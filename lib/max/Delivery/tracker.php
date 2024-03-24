@@ -171,12 +171,12 @@ function MAX_trackerCheckForValidAction($trackerid)
             if (!empty($aLinkedInfo[$action . '_window']) && !empty($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId])) {
                 // Check for any custom data which a plugin may have stored in the cookie
                 if (stristr($_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], ' ')) {
-                    list($value, $extra) = explode(' ', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], 2);
+                    [$value, $extra] = explode(' ', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId], 2);
                     $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId] = $value;
                 } else {
                     $extra = '';
                 }
-                list($lastAction, $zoneId) = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
+                [$lastAction, $zoneId] = explode('-', $_COOKIE[$aConf['var']['last' . ucfirst($action)]][$creativeId]);
                 // Decode the base32 timestamp
                 $lastAction = MAX_commonUnCompressInt($lastAction);
 

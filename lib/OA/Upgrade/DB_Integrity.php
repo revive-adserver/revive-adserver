@@ -28,8 +28,6 @@ class OA_DB_Integrity
     public $version;
     //var $OK = true;
 
-    public function __construct() {}
-
     public function init($version, $dbname = '', $createdb = true)
     {
         $this->_clearProperties();
@@ -337,7 +335,7 @@ class OA_DB_Integrity
         require_once MAX_PATH . '/lib/OA/Upgrade/Migration.php';
         Mock::generatePartial(
             'Migration',
-            $mockMigrator = 'Migration_' . rand(),
+            $mockMigrator = 'Migration_' . random_int(0, mt_getrandmax()),
             array_keys($this->aMigrationMethods)
         );
         $this->oDBUpgrader->oMigrator = new $mockMigrator($this);

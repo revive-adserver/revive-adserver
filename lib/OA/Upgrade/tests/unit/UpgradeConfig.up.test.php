@@ -20,14 +20,6 @@ require_once(MAX_PATH . '/lib/OA/Upgrade/Configuration.php');
  */
 class Test_OA_Upgrade_Config extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_constructor()
     {
         $oUpConfig = new OA_Upgrade_Config();

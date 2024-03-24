@@ -69,7 +69,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysqli implements OX_E
             $i = 0;
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
-                $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
+                $sRow = '(' . join(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
 
                 if (!$i) {
                     $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";

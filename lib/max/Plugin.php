@@ -424,9 +424,9 @@ class MAX_Plugin
     public static function getConfig($module, $package = null, $name = null, $processSections = false, $copyDefaultIfNotExists = true)
     {
         // First lets see if the config is saved in our global config file
-        $conf = isset($GLOBALS['_MAX']['CONF'][$module]) ? $GLOBALS['_MAX']['CONF'][$module] : false;
+        $conf = $GLOBALS['_MAX']['CONF'][$module] ?? false;
         if (!empty($package)) {
-            $conf = isset($conf[$package]) ? $conf[$package] : false;
+            $conf = $conf[$package] ?? false;
         }
 
         // Try plugin config
@@ -642,7 +642,7 @@ class MAX_Plugin
     public static function _mkDirRecursive($directory, $mode = null)
     {
         // Sanity check that the folder to be created is under MAX_PATH
-        if (substr($directory, 0, strlen(MAX_PATH)) != MAX_PATH) {
+        if (!str_starts_with($directory, MAX_PATH)) {
             $directory = MAX_PATH . $directory;
         }
         if (is_dir($directory)) {

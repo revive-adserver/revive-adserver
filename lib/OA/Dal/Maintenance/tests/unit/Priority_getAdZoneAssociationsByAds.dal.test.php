@@ -23,14 +23,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 class Test_OA_Dal_Maintenance_Priority_getAdZoneAssociationsByAds extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the getAdZoneAssociationsByAds method.
      *
      * Test 1: Test with bad input, and ensure that an empty array is retuend.

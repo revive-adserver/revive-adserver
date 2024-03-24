@@ -27,8 +27,6 @@ class OA_Admin_UI_Decorator_Factory
     }
 
 
-    public function __construct() {}
-
 
     /**
      * Registers OA_Admin_UI_Decorator for a decorator
@@ -76,7 +74,7 @@ class OA_Admin_UI_Decorator_Factory
             return null;
         }
 
-        list($path, $class) = $GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName];
+        [$path, $class] = $GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName];
         include_once($path);
 
         return new $class($aParameters);

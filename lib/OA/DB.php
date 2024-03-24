@@ -77,7 +77,7 @@ class OA_DB
         // A hack to allow for installation on pgsql
         // If the configuration hasn't been defined prevent
         // loading mysql MDB2 driver.
-        if (strpos($dsn, '//:@') !== false) {
+        if (str_contains($dsn, '//:@')) {
             // Return a silent error
             return new PEAR_Error('Bad argument: Empty DSN');
         }

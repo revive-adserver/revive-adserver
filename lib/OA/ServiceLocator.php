@@ -42,9 +42,9 @@ class OA_ServiceLocator
      * @param mixed $oService The object (service) being registered.
      * @return boolean Always returns true.
      */
-    public function register($serviceName, &$oService)
+    public function register($serviceName, $oService)
     {
-        $this->aService[$serviceName] = &$oService;
+        $this->aService[$serviceName] = $oService;
         return true;
     }
 

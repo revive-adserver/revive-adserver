@@ -72,7 +72,7 @@ class MAX_ErrorHandler
      */
     public function startHandler()
     {
-        set_error_handler([$this, 'errHandler']);
+        set_error_handler($this->errHandler(...));
     }
 
     /**
@@ -144,7 +144,7 @@ EOF;
                 $oDbh = OA_DB::singleton();
                 $lastQuery = $oDbh->last_query;
                 $aExtraInfo['callingURL'] = $_SERVER['SCRIPT_NAME'];
-                $aExtraInfo['lastSQL'] = isset($oDbh->last_query) ? $oDbh->last_query : null;
+                $aExtraInfo['lastSQL'] = $oDbh->last_query ?? null;
                 $aExtraInfo['clientData']['HTTP_REFERER'] = &$_SERVER['HTTP_REFERER'];
                 $aExtraInfo['clientData']['HTTP_USER_AGENT'] = &$_SERVER['HTTP_USER_AGENT'];
                 $aExtraInfo['clientData']['REMOTE_ADDR'] = &$_SERVER['REMOTE_ADDR'];

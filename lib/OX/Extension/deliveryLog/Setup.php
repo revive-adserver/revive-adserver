@@ -208,7 +208,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
         foreach ($aComponentsByHooks as $hookName => &$hookComponents) {
             foreach ($hookComponents as $componentId) {
                 [$extension, $group, $componentName]
-                    = $this->getExtensionGroupComponentFromId($componentId);
+                    = static::getExtensionGroupComponentFromId($componentId);
                 $componentFile = $this->getFilePathToPlugin($extension, $group, $componentName);
                 if (!$componentFile) {
                     $this->_logError('Error while generating delivery cache, file doesn\'t exist: '
@@ -276,7 +276,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
             $aComponents = $this->_getComponents($extension, $group);
             foreach ($aComponents as &$oComponent) {
                 if (!$oComponent->onInstall()) {
-                    $this->_logError('Error when installing component: ' . get_class($oComponent));
+                    $this->_logError('Error when installing component: ' . $oComponent::class);
                     $this->recoverUninstallComponents();
                     return false;
                 }

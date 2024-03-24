@@ -75,7 +75,7 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
             return null;
         }
 
-        list($path, $class) = $GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName];
+        [$path, $class] = $GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName];
 
         if (!isset($this->quickFormRuleNameToAdaptorMap[$quickFormRuleName])) {
             include_once($path);

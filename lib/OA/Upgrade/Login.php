@@ -87,7 +87,7 @@ class OA_Upgrade_Login
         phpAds_SessionStart();
 
         // No auto-login if auth is external
-        if (empty($oPlugin) || (get_class($oPlugin) != 'Plugins_Authentication')) {
+        if (empty($oPlugin) || ($oPlugin::class != 'Plugins_Authentication')) {
             phpAds_SessionDataDestroy();
             return;
         }

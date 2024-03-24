@@ -222,8 +222,8 @@ class OX_Maintenance_Priority_Campaign
         $this->id = (int) ($aParams['placement_id'] ?? 0);
 
         // Store the optional required values
-        $this->activateTime = isset($aParams['activate_time']) ? $aParams['activate_time'] : null;
-        $this->expireTime = isset($aParams['expire_time']) ? $aParams['expire_time'] : null;
+        $this->activateTime = $aParams['activate_time'] ?? null;
+        $this->expireTime = $aParams['expire_time'] ?? null;
         $this->impressionTargetTotal = isset($aParams['impression_target_total']) ? (int) $aParams['impression_target_total'] : 0;
         $this->clickTargetTotal = isset($aParams['click_target_total']) ? (int) $aParams['click_target_total'] : 0;
         $this->conversionTargetTotal = isset($aParams['conversion_target_total']) ? (int) $aParams['conversion_target_total'] : 0;
@@ -322,10 +322,8 @@ class OX_Maintenance_Priority_Campaign
      *
      * @access private
      */
-    public function _abort()
+    public function _abort(): never
     {
-        $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
-        OA::debug($error, PEAR_LOG_EMERG);
-        exit();
+        throw new \RuntimeException('Unable to instantiate ' . self::class . ' object, aborting execution.');
     }
 }

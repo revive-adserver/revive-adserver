@@ -23,14 +23,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class Test_OA_DB_Table_Core extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method to test the singleton method.
      *
      * Requirements:

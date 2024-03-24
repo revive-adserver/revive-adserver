@@ -24,14 +24,6 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task/ManageCampaigns.php';
 class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Test the creation of the class.
      */
     public function testCreate()

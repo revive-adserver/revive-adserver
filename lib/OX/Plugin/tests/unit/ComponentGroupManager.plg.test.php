@@ -34,14 +34,6 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     public $testpathPluginsAdmin = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
 
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_init()
     {
         $oManager = new OX_Plugin_ComponentGroupManager();

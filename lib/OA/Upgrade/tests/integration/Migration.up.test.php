@@ -32,14 +32,6 @@ class Test_Migration extends UnitTestCase
 
     public $test_schema_file;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->oDbh = OA_DB::singleton(OA_DB::getDsn());

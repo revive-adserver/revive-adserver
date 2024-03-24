@@ -20,9 +20,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Status.php';
  */
 class Test_OA_Maintenenace_Status extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();

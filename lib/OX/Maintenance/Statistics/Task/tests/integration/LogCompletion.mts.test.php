@@ -25,14 +25,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class Test_OX_Maintenance_Statistics_Task_LogCompletion extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Test the creation of the class.
      */
     public function testCreate()

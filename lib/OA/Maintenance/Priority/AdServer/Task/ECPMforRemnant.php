@@ -199,8 +199,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      */
     public function getCampaignDeliveredImpressions($campaignId)
     {
-        return isset($this->aCampaignsDeliveredImpressions[$campaignId]) ?
-            $this->aCampaignsDeliveredImpressions[$campaignId] : 0;
+        return $this->aCampaignsDeliveredImpressions[$campaignId] ?? 0;
     }
 
     /**

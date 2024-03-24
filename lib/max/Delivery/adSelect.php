@@ -139,11 +139,11 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 
     // Store the original zone, campaign or banner IDs for later use
     $originalZoneId = null;
-    if (strpos($what, 'zone:') === 0) {
+    if (str_starts_with($what, 'zone:')) {
         $originalZoneId = intval(substr($what, 5));
-    } elseif (strpos($what, 'campaignid:') === 0) {
+    } elseif (str_starts_with($what, 'campaignid:')) {
         $originalCampaignId = intval(substr($what, 11));
-    } elseif (strpos($what, 'bannerid:') === 0) {
+    } elseif (str_starts_with($what, 'bannerid:')) {
         $originalBannerId = intval(substr($what, 9));
     }
     $userid = MAX_cookieGetUniqueViewerId();
@@ -173,7 +173,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 $remaining = substr($what, $ix + 1);
                 $what = substr($what, 0, $ix);
             }
-            if (strpos($what, 'zone:') === 0) {
+            if (str_starts_with($what, 'zone:')) {
                 $zoneId = intval(substr($what, 5));
                 $row = _adSelectZone($zoneId, $context, $source, $richmedia);
             } else {
@@ -207,7 +207,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid'], $row);
 
                 if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
-                    && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
+                    && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], (string) $conf['file']['popup'])) {
                     // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
                     $GLOBALS['_MAX']['adChain'][] = $row;
                     $found = false;
@@ -388,7 +388,7 @@ function _adSelectDirect($what, $campaignid = '', $context = [], $source = '', $
  */
 function _getNextZone($zoneId, $arrZone)
 {
-    if (!empty($arrZone['chain']) && (substr($arrZone['chain'], 0, 5) == 'zone:')) {
+    if (!empty($arrZone['chain']) && (str_starts_with($arrZone['chain'], 'zone:'))) {
         return intval(substr($arrZone['chain'], 5));
     } else {
         return $zoneId;

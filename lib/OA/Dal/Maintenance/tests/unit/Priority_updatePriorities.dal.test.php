@@ -25,14 +25,6 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
     public $aIds = [];
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method to test the updatePriorities method.
      *
      * Test 1: Test with no Date registered in the service locator, ensure false returned.

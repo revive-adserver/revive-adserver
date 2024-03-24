@@ -28,7 +28,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
  * @package    OpenXAdmin
  * @subpackage Statistics
  */
-class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
+abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 {
     /**
      * @var string[]
@@ -393,52 +393,32 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * the child class with the necessary page data so that the class is ready to
      * have either the output() or outputGraph() method called to display the
      * statistics data.
-     *
-     * @abstract
      */
-    public function start()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function start();
 
     /**
      * An abstract, private method which must be overridden in the child class,
      * to load the required statistics fields plugins during instantiation.
      *
-     * @abstract
      * @access private
      */
-    public function _loadPlugins()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function _loadPlugins();
 
     /**
      * An abstract, private method which must be overridden in the child class,
      * to test if the appropriate data array is empty, or not.
      *
-     * @abstract
      * @access private
      * @return boolean True on empty, false if at least one row of data.
      */
-    public function _isEmptyResultArray()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function _isEmptyResultArray();
 
     /**
      * Create the error string to display when delivery statistics are not available.
      *
      * @return string The error string to display.
      */
-    public function showNoStatsString()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function showNoStatsString();
 
     /********** METHODS THAT CHILDREN CLASS WILL INHERIT AND CAN USE **********/
 
@@ -582,7 +562,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     public function showColumn($column)
     {
-        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
+        return $this->aColumnVisible[$column] ?? true;
     }
 
     /**
@@ -596,7 +576,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $res = $a->displayOrder - $b->displayOrder;
         if (!$res) {
             // Equally weighted plugins, sort by class name
-            return strcmp(get_class($a), get_class($b));
+            return strcmp($a::class, $b::class);
         }
         return $res;
     }
@@ -1044,9 +1024,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // How many rows of data are there?
         $rows = count($aRows);
         if ($rows == 1) {
-            // Nothing to do, whoopie!
-            reset($aRows);
-            $key = key($aRows);
+            $key = array_key_first($aRows);
             $aAverages = $aRows[$key];
         } else {
             // Boo, have to do real work

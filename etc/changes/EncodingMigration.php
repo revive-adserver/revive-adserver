@@ -132,8 +132,6 @@ class EncodingMigration extends Migration
         ],
     ];
 
-    public function __construct() {}
-
     public function _getEncodingForLanguage($language)
     {
         return empty($this->aEncodingMap[$language]) ? 'UTF-8' : $this->aEncodingMap[$language];

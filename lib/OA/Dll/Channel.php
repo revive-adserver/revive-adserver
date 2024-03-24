@@ -378,7 +378,7 @@ class OA_Dll_Channel extends OA_Dll
             foreach ($aTargeting as $executionOrder => $oTargeting) {
                 // Prepend "deliveryLimitations:" to any component-identifiers
                 // (for 2.6 backwards compatibility)
-                if (substr($oTargeting->type, 0, 20) != 'deliveryLimitations:') {
+                if (!str_starts_with($oTargeting->type, 'deliveryLimitations:')) {
                     $aTargeting[$executionOrder]->type = 'deliveryLimitations:' .
                         $aTargeting[$executionOrder]->type;
                 }

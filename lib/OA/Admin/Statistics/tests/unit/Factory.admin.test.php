@@ -70,17 +70,8 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         'zone-history' => 'OA_Admin_Statistics_Delivery_Controller_ZoneHistory'
     ];
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_getControllerClass()
     {
-        $expectPath = '/Statistics/Delivery/Controller/';
         foreach ($this->testTypesDelivery as $controllerType => $expectedClassName) {
             $aType = explode('-', $controllerType);
             $expectFile = '';
@@ -95,19 +86,10 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
 
     public function test_instantiateController()
     {
-        $file = MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
-        $aParams = [];
-        $class = 'OA_Admin_Statistics_Delivery_Common';
-        $oObject = &OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
-        $this->assertIsA($oObject, $class);
-        $this->assertEqual(count($oObject->aPlugins), 2);
-        $this->assertTrue(isset($oObject->aPlugins['default']));
-        $this->assertTrue(isset($oObject->aPlugins['affiliates']));
-
         $file = MAX_PATH . '/lib/OA/Admin/Statistics/tests/data/TestStatisticsController.php';
         $aParams = [];
         $class = 'OA_Admin_Statistics_Test';
-        $oObject = &OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $oObject = OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         $this->assertIsA($oObject, $class);
 
         // Disable default error handling
@@ -117,7 +99,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         $file = MAX_PATH . '/lib/OA/Admin/Statistics/tests/data/TestNotExists.php';
         $aParams = [];
         $class = 'OA_Admin_Statistics_Test';
-        $oObject = &OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $oObject = OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         $this->assertTrue(PEAR::isError($oObject));
         $this->assertEqual($oObject->getMessage(), 'OA_Admin_Statistics_Factory::_instantiateController() Unable to locate ' . basename($file));
 
@@ -125,7 +107,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         $file = MAX_PATH . '/lib/OA/Admin/Statistics/tests/data/TestStatisticsController.php';
         $aParams = [];
         $class = 'OA_Admin_not_exists';
-        $oObject = &OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
+        $oObject = OA_Admin_Statistics_Factory::_instantiateController($file, $class, $aParams);
         $this->assertTrue(PEAR::isError($oObject));
         $this->assertEqual($oObject->getMessage(), 'OA_Admin_Statistics_Factory::_instantiateController() Class ' . $class . ' doesn\'t exist');
 

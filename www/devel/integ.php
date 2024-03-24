@@ -38,8 +38,8 @@ if (array_key_exists('btn_integ_check', $_POST)) {
 } elseif (array_key_exists('btn_integ_exec', $_POST)) {
     $version = $_POST['changes_version'];
     if ($oIntegrity->init($version)) {
-        $oIntegrity->aTasksConstructiveSelected = (isset($_POST['constructive']) ? $_POST['constructive'] : []);
-        $oIntegrity->aTasksDestructiveSelected = (isset($_POST['destructive']) ? $_POST['destructive'] : []);
+        $oIntegrity->aTasksConstructiveSelected = ($_POST['constructive'] ?? []);
+        $oIntegrity->aTasksDestructiveSelected = ($_POST['destructive'] ?? []);
         $oIntegrity->compileExecuteTasklist('prune', 'execute');
     }
     if ($oIntegrity->init($version)) {

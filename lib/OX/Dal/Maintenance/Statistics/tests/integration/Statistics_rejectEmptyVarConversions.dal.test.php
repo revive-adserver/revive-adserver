@@ -22,9 +22,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

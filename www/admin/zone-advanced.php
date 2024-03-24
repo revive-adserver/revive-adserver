@@ -374,29 +374,13 @@ function _getChainZones($aZone)
 
 function _getChainZonesImage($aZone)
 {
-    switch ($aZone['delivery']) {
-        case phpAds_ZoneBanner: {
-            $imageName = '/images/icon-zone.gif';
-            break;
-        }
-
-        case phpAds_ZoneInterstitial: {
-            $imageName = '/images/icon-interstitial.gif';
-            break;
-        }
-
-        case phpAds_ZonePopup: {
-            $imageName = '/images/icon-popup.gif';
-            break;
-        }
-
-        case phpAds_ZoneText: {
-            $imageName = '/images/icon-textzone.gif';
-            break;
-        }
-
-        default: $imageName = '';
-    }
+    $imageName = match ($aZone['delivery']) {
+        phpAds_ZoneBanner => '/images/icon-zone.gif',
+        phpAds_ZoneInterstitial => '/images/icon-interstitial.gif',
+        phpAds_ZonePopup => '/images/icon-popup.gif',
+        phpAds_ZoneText => '/images/icon-textzone.gif',
+        default => '',
+    };
 
     if ($imageName) {
         $image = "<img src='" . OX::assetPath() . "$imageName' align='absmiddle'>";

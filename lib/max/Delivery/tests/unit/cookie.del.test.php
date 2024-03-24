@@ -21,14 +21,6 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 class Test_DeliveryCookie extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the MAX_cookieAdd() function.
      *
      * This function does not output cookies, instead it sets a global cookie array or ads to it if it exists

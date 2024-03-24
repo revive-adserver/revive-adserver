@@ -101,16 +101,14 @@ function MAX_limitationsMatchNumericValue($value, $limitation, $op)
     if (!is_numeric($value) || !is_numeric($limitation)) {
         return !MAX_limitationsIsOperatorPositive($op);
     }
-
-    switch ($op) {
-        case '==': return $value == $limitation;
-        case 'lt': return $value < $limitation;
-        case 'le': return $value <= $limitation;
-        case 'gt': return $value > $limitation;
-        case 'ge': return $value >= $limitation;
-    }
-
-    return !MAX_limitationsIsOperatorPositive($op);
+    return match ($op) {
+        '==' => $value == $limitation,
+        'lt' => $value < $limitation,
+        'le' => $value <= $limitation,
+        'gt' => $value > $limitation,
+        'ge' => $value >= $limitation,
+        default => !MAX_limitationsIsOperatorPositive($op),
+    };
 }
 
 /**
@@ -397,7 +395,7 @@ function MAX_limitationsGetAOperationsForString($oPlugin)
  */
 function MAX_stringContains($sString, $sToken)
 {
-    return strpos($sString, $sToken) !== false;
+    return str_contains($sString, $sToken);
 }
 
 /**

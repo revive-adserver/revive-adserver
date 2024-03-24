@@ -15,7 +15,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery.php';
 /**
  * The affiliates delivery statistics fields plugin.
  *
- * @abstract
  * @package    OpenXPlugin
  * @subpackage StatisticsFields
  */

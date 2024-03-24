@@ -25,14 +25,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class Test_OA_DB extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Tests that the database type is setup in the config .ini file.
      */
     public function testDbTypeDefined()

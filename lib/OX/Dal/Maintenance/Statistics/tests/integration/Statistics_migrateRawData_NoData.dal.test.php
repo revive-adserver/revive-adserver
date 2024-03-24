@@ -39,9 +39,6 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoData extends UnitTestC
      */
     public $oDal;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

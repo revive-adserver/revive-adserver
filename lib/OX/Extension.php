@@ -14,8 +14,6 @@ class OX_Extension
 {
     public $aExtensions = [];
 
-    public function __construct() {}
-
     /**
      * acquire the extensions event handling class if exists
      * execute the tasks
@@ -65,7 +63,7 @@ class OX_Extension
         $pkgPath = rtrim(MAX_PATH . $aConf['packages'], DIRECTORY_SEPARATOR);
         $dh = opendir(MAX_PATH . $aConf['plugins']);
         while (false !== ($file = readdir($dh))) {
-            if ((substr($file, 0, 1) != '.') &&
+            if ((!str_starts_with($file, '.')) &&
                  ($file != '..') &&
                  (rtrim(MAX_PATH . $aConf['plugins'] . $file, DIRECTORY_SEPARATOR) != $pkgPath)) {
                 $aResult[] = $file;

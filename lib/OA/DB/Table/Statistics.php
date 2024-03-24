@@ -39,7 +39,7 @@ class OA_DB_Table_Statistics extends OA_DB_Table
      */
     public static function singleton()
     {
-        $static = &$GLOBALS['_OA']['TABLES'][__CLASS__];
+        $static = &$GLOBALS['_OA']['TABLES'][self::class];
         if (!isset($static)) {
             $static = new OA_DB_Table_Statistics(); // Don't use a reference here!
             $static->init(MAX_PATH . '/etc/tables_temp_statistics.xml');
@@ -55,8 +55,8 @@ class OA_DB_Table_Statistics extends OA_DB_Table
      */
     public static function destroy()
     {
-        if (isset($GLOBALS['_OA']['TABLES'][__CLASS__])) {
-            unset($GLOBALS['_OA']['TABLES'][__CLASS__]);
+        if (isset($GLOBALS['_OA']['TABLES'][self::class])) {
+            unset($GLOBALS['_OA']['TABLES'][self::class]);
         }
     }
 }

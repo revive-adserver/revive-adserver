@@ -25,14 +25,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
 class Test_OA_Maintenance extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the _runGeneralPruning() method.
      */
     public function test_runGeneralPruning()

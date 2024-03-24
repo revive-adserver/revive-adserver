@@ -28,11 +28,6 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         parent::__construct();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
-        Mock::generatePartial(
-            'OX_Maintenance_Priority_Campaign',
-            'MockPartialOX_Maintenance_Priority_Campaign',
-            ['_abort']
-        );
     }
 
     /**
@@ -72,28 +67,16 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
     {
         // Test 1
         $aParams = 'foo';
-        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
-        $oCampaign->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
-        $oCampaign->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [];
-        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
-        $oCampaign->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
-        $oCampaign->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = ['campaign_id' => 'foo'];
-        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
-        $oCampaign->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
-        $oCampaign->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = ['priority' => 5];
-        $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
-        $oCampaign->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OX_Maintenance_Priority_Campaign::class, '__construct'))->invoke($oCampaign, $aParams);
-        $oCampaign->tally();
+        $this->assertAbortIsCalled($aParams);
 
         // Test 2
         $aParams = [
@@ -313,5 +296,17 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         $this->assertEqual($oCampaign->deliveredConversions, 1);
 
         $oMaxDalMaintenancePriority->tally();
+    }
+
+    private function assertAbortIsCalled(mixed $aParams): void
+    {
+        $oMaxEntityAd = null;
+
+        try {
+            $oMaxEntityAd = new OX_Maintenance_Priority_Campaign($aParams);
+        } catch (\RuntimeException) {
+        }
+
+        $this->assertNull($oMaxEntityAd);
     }
 }

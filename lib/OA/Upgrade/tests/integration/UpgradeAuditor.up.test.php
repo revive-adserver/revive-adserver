@@ -30,9 +30,6 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
     public $oDBAuditor;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

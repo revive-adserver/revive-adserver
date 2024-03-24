@@ -24,14 +24,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 {
     public $oDalCampaigns;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->oDalCampaigns = OA_Dal::factoryDAL('campaigns');

@@ -25,11 +25,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * An abstract class used to define common methods required to calculate the number
  * of required impressions for campaigns and their children ads.
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Priority
  */
-class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_Maintenance_Priority_AdServer_Task
+abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
     /**
      * A variable to store the type of High Priority Campaign being used.
@@ -120,11 +119,10 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * An abstract method to be implemented in child classes to obtain all
      * campaigns that meet the requirements of the child class.
      *
-     * @abstract
      * @access private
      * @return array An array of {@link OX_Maintenance_Priority_Campaign} objects.
      */
-    public function _getValidCampaigns() {}
+    abstract public function _getValidCampaigns();
 
     /**
      * A private method that can be used by implementations of _getValidCampaigns()
@@ -296,7 +294,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 $minVal = $val;
             }
         }
-        return (isset($minVal)) ? $minVal : 0;
+        return $minVal ?? 0;
     }
 
     /**

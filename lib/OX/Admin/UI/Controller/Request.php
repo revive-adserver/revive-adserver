@@ -176,7 +176,7 @@ class OX_Admin_UI_Controller_Request
             return $_SERVER;
         }
 
-        return (isset($_SERVER[$key])) ? $_SERVER[$key] : $default;
+        return $_SERVER[$key] ?? $default;
     }
 
 

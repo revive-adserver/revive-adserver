@@ -42,14 +42,6 @@ function test_MAX_cacheGetAd($ad_id)
  */
 class Test_DeliveryAdSelect extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         // Clean up so as not to interfere with the following test classes.

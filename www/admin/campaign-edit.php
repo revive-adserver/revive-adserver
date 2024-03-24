@@ -285,15 +285,15 @@ function buildCampaignForm($campaign)
     $form->addElement('hidden', 'clientid', $campaign['clientid']);
     $form->addElement('hidden', 'expire_time', $campaign['expire_time']);
     $form->addElement('hidden', 'target_old', isset($campaign['target_value']) ? (int) $campaign['target_value'] : 0);
-    $form->addElement('hidden', 'target_type_old', isset($campaign['target_type']) ? $campaign['target_type'] : '');
+    $form->addElement('hidden', 'target_type_old', $campaign['target_type'] ?? '');
     $form->addElement('hidden', 'weight_old', isset($campaign['weight']) ? (int) $campaign['weight'] : 0);
     $form->addElement('hidden', 'status_old', isset($campaign['status']) ? (int) $campaign['status'] : 1);
-    $form->addElement('hidden', 'previousweight', isset($campaign["weight"]) ? $campaign["weight"] : '');
-    $form->addElement('hidden', 'previoustarget', isset($campaign["target"]) ? $campaign["target"] : '');
-    $form->addElement('hidden', 'previousactive', isset($campaign["active"]) ? $campaign["active"] : '');
-    $form->addElement('hidden', 'previousimpressions', isset($campaign["impressions"]) ? $campaign["impressions"] : '');
-    $form->addElement('hidden', 'previousclicks', isset($campaign["clicks"]) ? $campaign["clicks"] : '');
-    $form->addElement('hidden', 'previousconversions', isset($campaign["conversions"]) ? $campaign["conversions"] : '');
+    $form->addElement('hidden', 'previousweight', $campaign["weight"] ?? '');
+    $form->addElement('hidden', 'previoustarget', $campaign["target"] ?? '');
+    $form->addElement('hidden', 'previousactive', $campaign["active"] ?? '');
+    $form->addElement('hidden', 'previousimpressions', $campaign["impressions"] ?? '');
+    $form->addElement('hidden', 'previousclicks', $campaign["clicks"] ?? '');
+    $form->addElement('hidden', 'previousconversions', $campaign["conversions"] ?? '');
 
     //campaign inactive note (if any)
     if (isset($campaign['status']) && $campaign['status'] != OA_ENTITY_STATUS_RUNNING) {
@@ -366,8 +366,8 @@ function buildCampaignForm($campaign)
         'priority' => ($campaign['priority'] > '0' && $campaign['campaignid'] != '') ? 2 : $campaign['priority'],
         'high_priority_value' => $campaign['priority'] > '0' ? $campaign['priority'] : 5,
         'target_value' => !empty($campaign['target_value']) ? $campaign['target_value'] : '-',
-        'weight' => isset($campaign["weight"]) ? $campaign["weight"] : $pref ['default_campaign_weight'],
-        'revenue_type' => isset($campaign["revenue_type"]) ? $campaign["revenue_type"] : MAX_FINANCE_CPM
+        'weight' => $campaign["weight"] ?? $pref ['default_campaign_weight'],
+        'revenue_type' => $campaign["revenue_type"] ?? MAX_FINANCE_CPM
     ]);
 
     return $form;
@@ -742,7 +742,7 @@ function processCampaignForm($form)
         if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT) {
             $aFields['priority'] = 0; // low
         } elseif ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
-            $aFields['priority'] = (isset($aFields['high_priority_value']) ? $aFields['high_priority_value'] : 5); //high
+            $aFields['priority'] = ($aFields['high_priority_value'] ?? 5); //high
         } elseif ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_OVERRIDE) {
             $aFields['priority'] = -1; // override
         } elseif ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
@@ -827,8 +827,8 @@ function processCampaignForm($form)
         $doCampaigns->session_capping = $aFields['session_capping'];
 
         // Activation and expiration
-        $doCampaigns->activate_time = isset($activate) ? $activate : OX_DATAOBJECT_NULL;
-        $doCampaigns->expire_time = isset($expire) ? $expire : OX_DATAOBJECT_NULL;
+        $doCampaigns->activate_time = $activate ?? OX_DATAOBJECT_NULL;
+        $doCampaigns->expire_time = $expire ?? OX_DATAOBJECT_NULL;
 
         if (!empty($aFields['campaignid']) && $aFields['campaignid'] != "null") {
             $doCampaigns->campaignid = $aFields['campaignid'];
@@ -953,9 +953,9 @@ function displayCampaignEditPage($campaign, $campaignForm, $statusForm, $campaig
     $oTpl->assign('conversionsEnabled', $conf ['logging'] ['trackerImpressions']);
     $oTpl->assign('adDirectEnabled', defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true);
 
-    $oTpl->assign('impressionsDelivered', isset($campaign['impressions_delivered']) ? $campaign['impressions_delivered'] : 0);
-    $oTpl->assign('clicksDelivered', isset($campaign['clicks_delivered']) ? $campaign['clicks_delivered'] : 0);
-    $oTpl->assign('conversionsDelivered', isset($campaign['conversions_delivered']) ? $campaign['conversions_delivered'] : 0);
+    $oTpl->assign('impressionsDelivered', $campaign['impressions_delivered'] ?? 0);
+    $oTpl->assign('clicksDelivered', $campaign['clicks_delivered'] ?? 0);
+    $oTpl->assign('conversionsDelivered', $campaign['conversions_delivered'] ?? 0);
 
     $oTpl->assign('campaignErrors', $campaignErrors);
 

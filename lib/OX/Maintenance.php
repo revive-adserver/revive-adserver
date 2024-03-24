@@ -87,7 +87,7 @@ class OX_Maintenance
             // Set UTC timezone
             OA_setTimeZoneUTC();
             // Get last run
-            $this->oLastRun = $this->getLastRun();
+            $this->oLastRun = static::getLastRun();
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator
@@ -195,7 +195,7 @@ class OX_Maintenance
     {
         global $serverTimezone;
 
-        $oLastRun = $oLastRun ?? $this->oLastRun;
+        $oLastRun ??= $this->oLastRun;
 
         if (empty($oLastRun)) {
             return true;

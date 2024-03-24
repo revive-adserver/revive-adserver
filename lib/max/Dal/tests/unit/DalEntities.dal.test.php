@@ -34,9 +34,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     public $doCampaigns = null;
     public $doAffiliates = null;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

@@ -64,7 +64,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     public function displayArrayData()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $this->bannerid = (isset($GLOBALS['bannerid'])) ? $GLOBALS['bannerid'] : 0;
+        $this->bannerid = $GLOBALS['bannerid'] ?? 0;
         $tabindex = &$GLOBALS['tabindex'];
 
         $aChannels = [];

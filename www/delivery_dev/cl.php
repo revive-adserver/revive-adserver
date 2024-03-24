@@ -126,7 +126,7 @@ function _getZoneAd($zoneId)
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
         reset($zoneLinkedAds['xAds']);
-        list($adId, $ad) = each($zoneLinkedAds['xAds']);
+        [$adId, $ad] = each($zoneLinkedAds['xAds']);
     } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
         reset($zoneLinkedAds['ads']);
         // we select the first (and only) banner linked to this email zone
@@ -137,7 +137,7 @@ function _getZoneAd($zoneId)
         }
     } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
         reset($zoneLinkedAds['lAds']);
-        list($adId, $ad) = each($zoneLinkedAds['lAds']);
+        [$adId, $ad] = each($zoneLinkedAds['lAds']);
     }
 
     return $adId;

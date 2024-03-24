@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 class Test_OA_DB_Table_Statistics extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method to test the singleton method.
      *
      * Requirements:

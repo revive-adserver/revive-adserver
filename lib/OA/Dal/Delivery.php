@@ -213,7 +213,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     for ($i = 0; $i < 2; ++$i) {
         $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
         $variableName = $aPreferenceInfo['preference_name'] . '_id';
-        $$variableName = $aPreferenceInfo['preference_id'];
+        ${$variableName} = $aPreferenceInfo['preference_id'];
     }
 
     // Search for possible default banner preference information for the zone
@@ -1202,10 +1202,10 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
         $part_arrayCount = count($part_array);
         for ($k = 0; $k < $part_arrayCount; $k++) {
             // Process switches
-            if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_') {
+            if (str_starts_with($part_array[$k], '+') || str_starts_with($part_array[$k], '_')) {
                 $operator = 'AND';
                 $part_array[$k] = substr($part_array[$k], 1);
-            } elseif (substr($part_array[$k], 0, 1) == '-') {
+            } elseif (str_starts_with($part_array[$k], '-')) {
                 $operator = 'NOT';
                 $part_array[$k] = substr($part_array[$k], 1);
             } else {
@@ -1350,7 +1350,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 }
 
                 // Format
-                elseif (substr($part_array[$k], 0, 7) == 'format:') {
+                elseif (str_starts_with($part_array[$k], 'format:')) {
                     $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
 
                     if (!empty($format)) {
@@ -1500,10 +1500,10 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
         $part_arrayCount = count($part_array);
         for ($k = 0; $k < $part_arrayCount; $k++) {
             // Process switches
-            if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_') {
+            if (str_starts_with($part_array[$k], '+') || str_starts_with($part_array[$k], '_')) {
                 $operator = 'AND';
                 $part_array[$k] = substr($part_array[$k], 1);
-            } elseif (substr($part_array[$k], 0, 1) == '-') {
+            } elseif (str_starts_with($part_array[$k], '-')) {
                 $operator = 'NOT';
                 $part_array[$k] = substr($part_array[$k], 1);
             } else {
@@ -1648,7 +1648,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                 }
 
                 // Format
-                elseif (substr($part_array[$k], 0, 7) == 'format:') {
+                elseif (str_starts_with($part_array[$k], 'format:')) {
                     $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
 
                     if (!empty($format)) {

@@ -794,33 +794,16 @@ function _getAdRenderFunction($aBanner, $richMedia = true)
     if (!empty($aBanner['ext_bannertype'])) {
         return OX_Delivery_Common_getFunctionFromComponentIdentifier($aBanner['ext_bannertype'], 'adRender');
     } else {
-        switch ($aBanner['contenttype']) {
-            case 'gif':
-            case 'jpeg':
-            case 'png':
-            case 'webp':
-                $functionName = '_adRenderImage';
-                break;
-            case 'txt':
-                $functionName = '_adRenderText';
-                break;
-            default:
-                switch ($aBanner['type']) {
-                    case 'html':
-                        $functionName = '_adRenderHtml';
-                        break;
-                    case 'url': // External banner without a recognised content type - assume image...
-                        $functionName = '_adRenderImage';
-                        break;
-                    case 'txt':
-                        $functionName = '_adRenderText';
-                        break;
-                    default:
-                        $functionName = '_adRenderHtml';
-                        break;
-                }
-                break;
-        }
+        $functionName = match ($aBanner['contenttype']) {
+            'gif', 'jpeg', 'png', 'webp' => '_adRenderImage',
+            'txt' => '_adRenderText',
+            default => match ($aBanner['type']) {
+                'html' => '_adRenderHtml',
+                'url' => '_adRenderImage',
+                'txt' => '_adRenderText',
+                default => '_adRenderHtml',
+            },
+        };
     }
     return $functionName;
 }

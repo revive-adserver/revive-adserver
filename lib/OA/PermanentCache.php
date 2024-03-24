@@ -40,7 +40,7 @@ class OA_PermanentCache
     public function __construct($cachePath = null)
     {
         $this->cachePath = is_null($cachePath) ? MAX_PATH . '/etc/permanentcache/' : $cachePath;
-        if (substr($cachePath, -1) != '/') {
+        if (!str_ends_with($cachePath, '/')) {
             $this->cachePath .= '/';
         }
         $this->oCache = new Cache_Lite([
@@ -134,7 +134,7 @@ class OA_PermanentCache
         $cacheName = str_replace('::', '/', $cacheName);
 
         // Strip MAX_PATH
-        if (strpos($cacheName, MAX_PATH) === 0) {
+        if (str_starts_with($cacheName, MAX_PATH)) {
             $cacheName = substr($cacheName, strlen(MAX_PATH) + 1);
         }
 

@@ -189,7 +189,7 @@ function setupConstants()
         // Define the installation base path if not defined
         // since local mode will pre-define this value
         if (!defined('MAX_PATH')) {
-            define('MAX_PATH', dirname(__FILE__));
+            define('MAX_PATH', __DIR__);
         }
         if (!defined('OX_PATH')) {
             define('OX_PATH', MAX_PATH);

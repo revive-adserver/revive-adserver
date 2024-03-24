@@ -33,9 +33,8 @@ class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
     {
         parent::__construct($aParameters);
 
-        $this->_tagName = $aParameters['tag'] ? $aParameters['tag'] : 'span';
-        $this->_aAttributes = $aParameters['attributes'] ? $aParameters['attributes'] :
-            [];
+        $this->_tagName = $aParameters['tag'] ?: 'span';
+        $this->_aAttributes = $aParameters['attributes'] ?: [];
     }
 
 

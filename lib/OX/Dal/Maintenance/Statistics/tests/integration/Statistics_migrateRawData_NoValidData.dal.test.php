@@ -39,9 +39,6 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends Unit
      */
     public $oDal;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

@@ -138,34 +138,17 @@ class OX_Util_Utils
      */
     public static function getCampaignStatusTranslationKey($status)
     {
-        switch ($status) {
-            case OA_ENTITY_STATUS_PENDING:
-                return 'strCampaignStatusPending';
-
-            case OA_ENTITY_STATUS_RUNNING:
-                return 'strCampaignStatusRunning';
-
-            case OA_ENTITY_STATUS_PAUSED:
-                return 'strCampaignStatusPaused';
-
-            case OA_ENTITY_STATUS_AWAITING:
-                return 'strCampaignStatusAwaiting';
-
-            case OA_ENTITY_STATUS_EXPIRED:
-                return 'strCampaignStatusExpired';
-
-            case OA_ENTITY_STATUS_INACTIVE:
-                return 'strCampaignStatusInactive';
-
-            case OA_ENTITY_STATUS_APPROVAL:
-                return 'strCampaignStatusApproval';
-
-            case OA_ENTITY_STATUS_REJECTED:
-                return 'strCampaignStatusRejected';
-                break;
-        }
-
-        return null;
+        return match ($status) {
+            OA_ENTITY_STATUS_PENDING => 'strCampaignStatusPending',
+            OA_ENTITY_STATUS_RUNNING => 'strCampaignStatusRunning',
+            OA_ENTITY_STATUS_PAUSED => 'strCampaignStatusPaused',
+            OA_ENTITY_STATUS_AWAITING => 'strCampaignStatusAwaiting',
+            OA_ENTITY_STATUS_EXPIRED => 'strCampaignStatusExpired',
+            OA_ENTITY_STATUS_INACTIVE => 'strCampaignStatusInactive',
+            OA_ENTITY_STATUS_APPROVAL => 'strCampaignStatusApproval',
+            OA_ENTITY_STATUS_REJECTED => 'strCampaignStatusRejected',
+            default => null,
+        };
     }
 
     /**

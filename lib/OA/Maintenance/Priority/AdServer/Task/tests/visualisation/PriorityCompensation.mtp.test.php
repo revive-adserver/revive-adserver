@@ -27,9 +27,6 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

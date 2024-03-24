@@ -14,8 +14,6 @@ $className = 'prescript_tables_testplugin_002';
 
 class prescript_tables_testplugin_002
 {
-    public function __construct() {}
-
     public function execute_constructive($aParams = [])
     {
         $oManager = new OX_Plugin_ComponentGroupManager();

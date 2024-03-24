@@ -232,7 +232,6 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *    "groupDestination" columns names used in ALL of the components
      *    MUST be IDENTICAL between the components.
      *
-     * @abstract
      * @return array The array describing how the bucket data should
      *               be migrated to the final statistics table. There
      *               are three possible formats, described below:

@@ -21,7 +21,7 @@
 
 // Set the current path
 // Done this way so that it works in CLI PHP
-$path = dirname(__FILE__);
+$path = __DIR__;
 
 // Require the timezone class, and get the system timezone,
 // storing in a global variable

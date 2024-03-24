@@ -22,7 +22,6 @@ require_once OX_PATH . '/lib/OX.php';
  * conversions that have empty variable values (where a variable value
  * is set to be required).
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Statistics
  */

@@ -21,15 +21,6 @@ require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 class Test_DeliveryRemotehost extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-
-    /**
      * @todo future test case
      * A function to convert the $_SERVER['REMOTE_ADDR'] global variable
      * from the current value to the real remote viewer's value, should

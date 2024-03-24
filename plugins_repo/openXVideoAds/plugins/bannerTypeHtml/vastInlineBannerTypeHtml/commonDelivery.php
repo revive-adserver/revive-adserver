@@ -20,7 +20,7 @@
 
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
-function deliverVastAd($pluginType, &$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc, $referer)
+function deliverVastAd($pluginType, &$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     global $format;
     extractVastParameters($aBanner);
@@ -168,7 +168,7 @@ function prepareOverlayParams(&$aOutputParams, $aBanner)
     //    var_dump($aOutputParams);exit;
 }
 
-function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $loc, $referer)
+function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $loc = '', $referer = '')
 {
     // If we have a companion banner to serve
     if (isset($aBanner['vast_companion_banner_id'])
@@ -269,52 +269,52 @@ function getVastVideoAdOutput($aO)
 
     $vastVideoMarkup = <<<VAST_VIDEO_AD_TEMPLATE
 			    <Video>
-                    <Duration>${aO['vastVideoDuration']}</Duration>
-                    <AdID><![CDATA[${aO['vastVideoId']}]]></AdID>
+                    <Duration>{$aO['vastVideoDuration']}</Duration>
+                    <AdID><![CDATA[{$aO['vastVideoId']}]]></AdID>
                     $videoClicksVast
                     <MediaFiles>
-                        <MediaFile delivery="${aO['vastVideoDelivery']}" bitrate="${aO['vastVideoBitrate']}" width="${aO['vastVideoWidth']}" height="${aO['vastVideoHeight']}" type="${aO['vastVideoType']}">
-                            <URL><![CDATA[${aO['fullPathToVideo']}]]></URL>
+                        <MediaFile delivery="{$aO['vastVideoDelivery']}" bitrate="{$aO['vastVideoBitrate']}" width="{$aO['vastVideoWidth']}" height="{$aO['vastVideoHeight']}" type="{$aO['vastVideoType']}">
+                            <URL><![CDATA[{$aO['fullPathToVideo']}]]></URL>
                         </MediaFile>
                     </MediaFiles>
                 </Video>
 
                 <TrackingEvents>
                     <Tracking event="start">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlStart']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlStart']}]]></URL>
                     </Tracking>
                     <Tracking event="midpoint">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlMidPoint']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlMidPoint']}]]></URL>
                     </Tracking>
                     <Tracking event="firstQuartile">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlFirstQuartile']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlFirstQuartile']}]]></URL>
                     </Tracking>
                     <Tracking event="thirdQuartile">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlThirdQuartile']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlThirdQuartile']}]]></URL>
                     </Tracking>
                     <Tracking event="complete">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlComplete']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlComplete']}]]></URL>
                     </Tracking>
                     <Tracking event="mute">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlMute']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlMute']}]]></URL>
                     </Tracking>
                     <Tracking event="pause">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlPause']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlPause']}]]></URL>
                     </Tracking>
                     <Tracking event="replay">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackReplay']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackReplay']}]]></URL>
                     </Tracking>
                     <Tracking event="fullscreen">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlFullscreen']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlFullscreen']}]]></URL>
                     </Tracking>
                     <Tracking event="stop">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlStop']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlStop']}]]></URL>
                     </Tracking>
                     <Tracking event="unmute">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlUnmute']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlUnmute']}]]></URL>
                     </Tracking>
                    <Tracking event="resume">
-                        <URL id="primaryAdServer"><![CDATA[${aO['trackUrlResume']}]]></URL>
+                        <URL id="primaryAdServer"><![CDATA[{$aO['trackUrlResume']}]]></URL>
                     </Tracking>
                 </TrackingEvents>
 VAST_VIDEO_AD_TEMPLATE;
@@ -329,7 +329,7 @@ function getImageUrlFromFilename($filename)
 
 function renderVastOutput($aOut, $pluginType, $vastAdDescription)
 {
-    $adSystem = $GLOBALS['_MAX']['CONF']['ui']['applicationName'] ? $GLOBALS['_MAX']['CONF']['ui']['applicationName'] : 'Revive Adserver';
+    $adSystem = $GLOBALS['_MAX']['CONF']['ui']['applicationName'] ?: 'Revive Adserver';
 
     $adName = $aOut['name'];
     $player = "";
@@ -339,22 +339,22 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
     $player .= "                <AdTitle><![CDATA[$adName]]></AdTitle>\n";
     $player .= "                    <Description><![CDATA[$vastAdDescription]]></Description>\n";
     $player .= "                    <Impression>\n";
-    $player .= "                        <URL id=\"primaryAdServer\"><![CDATA[${aOut['impressionUrl']}]]></URL>\n";
+    $player .= "                        <URL id=\"primaryAdServer\"><![CDATA[{$aOut['impressionUrl']}]]></URL>\n";
     if (!empty($aOut['thirdPartyImpressionUrl'])) {
-        $player .= "                        <URL id=\"secondaryAdServer\"><![CDATA[${aOut['thirdPartyImpressionUrl']}]]></URL>\n";
+        $player .= "                        <URL id=\"secondaryAdServer\"><![CDATA[{$aOut['thirdPartyImpressionUrl']}]]></URL>\n";
     }
     $player .= "                    </Impression>\n";
 
     if (isset($aOut['companionMarkup'])) {
         if (!empty($aOut['companionClickUrl'])) {
             $CompanionClickThrough = "                    <CompanionClickThrough>\n";
-            $CompanionClickThrough .= "                        <URL><![CDATA[${aOut['companionClickUrl']}]]></URL>\n";
+            $CompanionClickThrough .= "                        <URL><![CDATA[{$aOut['companionClickUrl']}]]></URL>\n";
             $CompanionClickThrough .= "                    </CompanionClickThrough>\n";
         }
         //debugdump( '$companionOutput', $companionOutput );
         $player .= "             <CompanionAds>\n";
-        $player .= "                <Companion id=\"companion\" width=\"${aOut['companionWidth']}\" height=\"${aOut['companionHeight']}\" resourceType=\"HTML\">\n";
-        $player .= "                    <Code><![CDATA[${aOut['companionMarkup']}]]></Code>\n";
+        $player .= "                <Companion id=\"companion\" width=\"{$aOut['companionWidth']}\" height=\"{$aOut['companionHeight']}\" resourceType=\"HTML\">\n";
+        $player .= "                    <Code><![CDATA[{$aOut['companionMarkup']}]]></Code>\n";
         $player .= "					$CompanionClickThrough";
         $player .= "                </Companion>\n";
         $player .= "            </CompanionAds>\n";
@@ -402,7 +402,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
 
         if (!empty($aOut['clickUrl'])) {
             $nonLinearClickThrough = "<NonLinearClickThrough>
-                    <URL><![CDATA[${aOut['clickUrl']}]]></URL>
+                    <URL><![CDATA[{$aOut['clickUrl']}]]></URL>
                 </NonLinearClickThrough>\n";
         }
 
@@ -413,7 +413,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
         }
 
         $player .= "             <NonLinearAds>\n";
-        $player .= "                <NonLinear id=\"overlay\" width=\"${aOut['overlayWidth']}\" height=\"${aOut['overlayHeight']}\" resourceType=\"$resourceType\" $creativeTypeAttribute>\n";
+        $player .= "                <NonLinear id=\"overlay\" width=\"{$aOut['overlayWidth']}\" height=\"{$aOut['overlayHeight']}\" resourceType=\"$resourceType\" $creativeTypeAttribute>\n";
         $player .= "                    <$elementName>
         									$code
         								</$elementName>\n";
@@ -530,7 +530,7 @@ function renderOverlayInAdminTool($aOut, $aBanner)
     }
     if ($aOut['overlayDestinationUrl']) {
         $htmlOverlayPrepend .= ' In the video player, this overlay will be clickable.';
-        $htmlOverlay = "<a target=\"_blank\" href=\"${aOut['overlayDestinationUrl']}\"> {$htmlOverlay}</a>";
+        $htmlOverlay = "<a target=\"_blank\" href=\"{$aOut['overlayDestinationUrl']}\"> {$htmlOverlay}</a>";
     }
 
     $htmlOverlay = $htmlOverlayPrepend . '<br/><br/>' . $htmlOverlay;

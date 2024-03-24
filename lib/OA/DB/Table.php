@@ -310,7 +310,7 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $tableName = preg_replace("/^{$aConf['table']['prefix']}/", '', $table);
-        $aResult = $this->listOATablesCaseSensitive($tableName);
+        $aResult = static::listOATablesCaseSensitive($tableName);
         return is_array($aResult) && in_array($table, $aResult);
     }
 
@@ -460,7 +460,7 @@ class OA_DB_Table
             $aSequences = $this->oDbh->manager->listSequences();
             OA_DB::disableCaseSensitive();
             foreach ($aSequences as $sequence) {
-                if (strpos($sequence, $table . '_') === 0) {
+                if (str_starts_with($sequence, $table . '_')) {
                     $sequence .= '_seq';
                     OA::debug('Dropping sequence ' . $sequence, PEAR_LOG_DEBUG);
                     RV::disableErrorHandling();
@@ -536,7 +536,7 @@ class OA_DB_Table
                     $match = false;
                     foreach (array_keys($this->aDefinition['tables']) as $tableName) {
                         $tableName = substr($aConf['table']['prefix'] . $tableName, 0, 29) . '_';
-                        if (strpos($sequence, $tableName) === 0) {
+                        if (str_starts_with($sequence, $tableName)) {
                             $match = true;
                             break;
                         }
@@ -678,7 +678,7 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $oDbh = OA_DB::singleton();
-        $tableName = $oDbh->quoteIdentifier($aConf['prefix'] . ($aConf[$tableName] ? $aConf[$tableName] : $tableName), true);
+        $tableName = $oDbh->quoteIdentifier($aConf['prefix'] . ($aConf[$tableName] ?: $tableName), true);
         $aResult = $oDbh->manager->checkTable($tableName);
         if ($aResult['msg_text'] !== 'OK') {
             OA::debug('PROBLEM WITH TABLE ' . $tableName . ': ' . $aResult['msg_text'], PEAR_LOG_ERR);

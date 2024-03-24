@@ -56,7 +56,7 @@ class OX_Admin_UI_Event_EventDispatcher
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
-            $c = __CLASS__;
+            $c = self::class;
             self::$instance = new $c();
         }
 
@@ -143,13 +143,13 @@ class OX_Admin_UI_Event_EventDispatcher
     private function getKey($callback): ?string
     {
         if ($callback instanceof Closure) {
-            return get_class($callback);
+            return $callback::class;
         }
 
         if (is_array($callback)) {
             if (is_object($callback[0])) {
                 //build key from object class name and method
-                return get_class($callback[0]) . '::' . $callback[1];
+                return $callback[0]::class . '::' . $callback[1];
             } else {
                 //build key from object class name and method
                 return $callback[0] . '::' . $callback[1];

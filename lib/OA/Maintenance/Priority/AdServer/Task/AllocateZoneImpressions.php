@@ -41,9 +41,6 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
 
     private $table;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

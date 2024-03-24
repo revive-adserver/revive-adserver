@@ -13,8 +13,8 @@
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
 
 /**
+ * A base class for loading test data using MDB2_Schema.
  *
- * @abstract A base class for loading test data using MDB2_Schema
  * @package Test Classes
  */
 class OA_Test_Data_MDB2Schema extends OA_Test_Data
@@ -23,12 +23,6 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
     public $datafile;
     public $oSchema;
     public $oTable;
-
-
-    /**
-     * The constructor method.
-     */
-    public function __construct() {}
 
     /**
      * verify the input file

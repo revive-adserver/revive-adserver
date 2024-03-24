@@ -40,7 +40,7 @@ function OA_Dal_Delivery_connect($database = 'database')
 
     $dbPersistent = empty($dbConf['persistent']) ? '' : 'p:';
     $dbHost = $dbConf['host'];
-    $dbPort = isset($dbConf['port']) ? $dbConf['port'] : 3306;
+    $dbPort = $dbConf['port'] ?? 3306;
     $dbUser = $dbConf['username'];
     $dbPassword = $dbConf['password'];
     $dbName = $dbConf['name'];

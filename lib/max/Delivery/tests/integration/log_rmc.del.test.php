@@ -24,9 +24,6 @@ require_once LIB_PATH . '/OperationInterval.php';
  */
 class Test_Max_Delivery_Log_RMC extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

@@ -30,14 +30,6 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
      */
     public $_dalPublisherStatistics;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_dalPublisherStatistics = new OA_Dal_Statistics_Publisher();

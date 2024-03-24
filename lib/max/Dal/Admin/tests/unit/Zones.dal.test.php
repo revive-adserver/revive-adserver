@@ -95,9 +95,6 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             ]
         ];
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

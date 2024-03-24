@@ -30,8 +30,6 @@ class OA_phpAdsNew
     public $engine = '';
     public $version = '';
 
-    public function __construct() {}
-
     public function init()
     {
         $this->aConfig = $this->_migratePANConfig($this->_getPANConfig());
@@ -178,7 +176,7 @@ class OA_phpAdsNew
             if ($phpAds_config['geotracking_type'] == 'geoip') {
                 if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
                     if (is_readable($phpAds_config['geotracking_location'])) {
-                        $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
+                        $phpAds_config['geotracking_conf'] = static::phpAds_geoip_getConf($phpAds_config['geotracking_location']);
                     } else {
                         $message .= "A GeoIP database is not readable." . $postWarningMessage;
                         $oUpgrader->oLogger->logWarning($message);

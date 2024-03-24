@@ -213,7 +213,7 @@ function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
         $aKnownBrowsers = explode('|', strtolower($aConf['logging']['enforceUserAgents']));
         $allowed = false;
         foreach ($aKnownBrowsers as $browser) {
-            if (strpos($agent, $browser) !== false) {
+            if (str_contains($agent, $browser)) {
                 $allowed = true;
                 break;
             }
@@ -229,7 +229,7 @@ function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
     if (!empty($aConf['logging']['ignoreUserAgents'])) {
         $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
         foreach ($aKnownBots as $bot) {
-            if (strpos($agent, $bot) !== false) {
+            if (str_contains($agent, $bot)) {
                 OX_Delivery_logMessage('user-agent ' . $agent . ' is a known bot ' . $bot, 7);
                 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
                 $okToLog = false;

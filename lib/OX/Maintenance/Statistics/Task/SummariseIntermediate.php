@@ -338,7 +338,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                         $oComponent = &OX_Component::factory('deliveryLog', $aContents['name'], $aComponent['name']);
                         if ($oComponent->enabled) {
                             $destinationTable = $oComponent->getStatisticsTableName();
-                            $aSummariseComponents[$destinationTable][get_class($oComponent)] = $oComponent;
+                            $aSummariseComponents[$destinationTable][$oComponent::class] = $oComponent;
                         }
                     }
                 }
@@ -392,7 +392,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     }
                     if ($aMap['method'] == $type) {
                         // Nice! We can migrate aggregate data
-                        $aRunComponents[$statisticsTable][get_class($oComponent)] = $aMap;
+                        $aRunComponents[$statisticsTable][$oComponent::class] = $aMap;
                     }
                 }
             }
@@ -405,7 +405,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     }
                     if ($aMap['method'] == $type) {
                         // Nice! We can migrate aggregate data
-                        $aRunComponents[$statisticsTable][get_class($oComponent)] = $aMap;
+                        $aRunComponents[$statisticsTable][$oComponent::class] = $aMap;
                     }
                 }
             }

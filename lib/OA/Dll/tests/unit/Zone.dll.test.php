@@ -41,9 +41,6 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
     public $unknownIdError = 'Unknown zoneId Error';
     public $chainError = 'Cannot chain a zone to itself';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

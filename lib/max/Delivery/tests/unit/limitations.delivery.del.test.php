@@ -20,14 +20,6 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Test_DeliveryLimitations_Delivery extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_MAX_limitationsMatchArray()
     {
         $this->assertTrue(MAX_limitationsMatchArray('browser', 'IE', '==', ['browser' => 'IE']));

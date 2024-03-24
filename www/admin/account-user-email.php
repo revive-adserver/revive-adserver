@@ -56,7 +56,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $aErrormessage[0][] = $GLOBALS['strPasswordWrong'];
     }
     if (isset($pw) && strlen($pw)) {
-        if (!strlen($pw) || strstr("\\", $pw)) {
+        if (!strlen($pw) || strstr("\\", (string) $pw)) {
             $aErrormessage[0][] = $GLOBALS['strInvalidPassword'];
         }
     }

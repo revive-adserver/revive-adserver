@@ -33,9 +33,6 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
     public $invalidLanguageError = 'Invalid language';
     public $invalidStatusError = 'Invalid status';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

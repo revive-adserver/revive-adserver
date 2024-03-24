@@ -222,12 +222,10 @@ class OA_Admin_Template extends Smarty
 
     public static function _modifier_utc_to_local($input, $type = null)
     {
-        switch ($type) {
-            case 'date':
-                return RV_Admin_DateTimeFormat::formatUTCDate($input);
-            default:
-                return RV_Admin_DateTimeFormat::formatUTCDateTime($input);
-        }
+        return match ($type) {
+            'date' => RV_Admin_DateTimeFormat::formatUTCDate($input),
+            default => RV_Admin_DateTimeFormat::formatUTCDateTime($input),
+        };
     }
 
     public static function _function_showCampaignType($aParams, &$smarty)
@@ -301,20 +299,12 @@ class OA_Admin_Template extends Smarty
             $campaign_active = isset($aParams['campaign']['status']) ? $aParams['campaign']['status'] == OA_ENTITY_STATUS_RUNNING : true;
             $active = $banner['status'] == OA_ENTITY_STATUS_RUNNING && $campaign_active;
 
-            switch ($banner['type']) {
-                case 'html':
-                    $flavour = '-html';
-                    break;
-                case 'txt':
-                    $flavour = '-text';
-                    break;
-                case 'url':
-                    $flavour = '-url';
-                    break;
-                default:
-                    $flavour = '-stored';
-                    break;
-            }
+            $flavour = match ($banner['type']) {
+                'html' => '-html',
+                'txt' => '-text',
+                'url' => '-url',
+                default => '-stored',
+            };
         } elseif (!empty($aParams['campaign']) && is_array($aParams['campaign'])) {
             $type = 'campaign';
             $campaign = $aParams['campaign'];
@@ -345,7 +335,7 @@ class OA_Admin_Template extends Smarty
 
                 $order = empty($aParams['order']) ? 'down' : $aParams['order'];
                 $url = empty($aParams['url']) ? '#' : $aParams['url'];
-                $url .= strpos($url, '?') !== false ? '&' : '?';
+                $url .= str_contains($url, '?') ? '&' : '?';
 
                 $buffer = '<a href="' . htmlspecialchars($url . 'listorder=' . $item) . '">' . $str . '</a>';
 
@@ -387,7 +377,7 @@ class OA_Admin_Template extends Smarty
                 $item = $aParams['item'];
 
                 $url = empty($aParams['url']) ? '#' : $aParams['url'];
-                $url .= strpos($url, '?') !== false ? '&' : '?';
+                $url .= str_contains($url, '?') ? '&' : '?';
                 $url .= 'listorder=' . $item;
 
                 $listorder = $smarty->get_template_vars('listorder');
@@ -483,28 +473,20 @@ class OA_Admin_Template extends Smarty
                 $type = $aParams['type'];
 
                 if ($active) {
-                    switch ($type) {
-                        case 'html':
-                            return 'iconBannerHtml';
-                        case 'txt':
-                            return 'iconBannerText';
-                        case 'url':
-                            return 'iconBannerExternal';
-                        default:
-                            return 'iconBanner';
-                    }
+                    return match ($type) {
+                        'html' => 'iconBannerHtml',
+                        'txt' => 'iconBannerText',
+                        'url' => 'iconBannerExternal',
+                        default => 'iconBanner',
+                    };
                 }
 
-                switch ($type) {
-                    case 'html':
-                        return 'iconBannerHtmlDisabled';
-                    case 'txt':
-                        return 'iconBannerTextDisabled';
-                    case 'url':
-                        return 'iconBannerExternalDisabled';
-                    default:
-                        return 'iconBannerDisabled';
-                }
+                return match ($type) {
+                    'html' => 'iconBannerHtmlDisabled',
+                    'txt' => 'iconBannerTextDisabled',
+                    'url' => 'iconBannerExternalDisabled',
+                    default => 'iconBannerDisabled',
+                };
             } else {
                 $smarty->trigger_error("t: missing 'active' parameter");
             }
@@ -561,36 +543,24 @@ class OA_Admin_Template extends Smarty
                 }
 
                 if ($active) {
-                    switch ($delivery) {
-                        case phpAds_ZoneInterstitial:
-                            return 'iconZoneFloating';
-                        case phpAds_ZoneText:
-                            return 'iconZoneText';
-                        case MAX_ZoneEmail:
-                            return 'iconZoneEmail';
-                        case OX_ZoneVideoInstream:
-                            return 'iconZoneVideoInstream';
-                        case OX_ZoneVideoOverlay:
-                            return 'iconZoneVideoOverlay';
-                        default:
-                            return 'iconZone';
-                    }
+                    return match ($delivery) {
+                        phpAds_ZoneInterstitial => 'iconZoneFloating',
+                        phpAds_ZoneText => 'iconZoneText',
+                        MAX_ZoneEmail => 'iconZoneEmail',
+                        OX_ZoneVideoInstream => 'iconZoneVideoInstream',
+                        OX_ZoneVideoOverlay => 'iconZoneVideoOverlay',
+                        default => 'iconZone',
+                    };
                 }
 
-                switch ($delivery) {
-                    case phpAds_ZoneInterstitial:
-                        return 'iconZoneFloatingDisabled';
-                    case phpAds_ZoneText:
-                        return 'iconZoneTextDisabled';
-                    case MAX_ZoneEmail:
-                        return 'iconZoneEmailDisabled';
-                    case OX_ZoneVideoInstream:
-                        return 'iconZoneVideoInstreamDisabled';
-                    case OX_ZoneVideoOverlay:
-                        return 'iconZoneVideoOverlayDisabled';
-                    default:
-                        return 'iconZoneDisabled';
-                }
+                return match ($delivery) {
+                    phpAds_ZoneInterstitial => 'iconZoneFloatingDisabled',
+                    phpAds_ZoneText => 'iconZoneTextDisabled',
+                    MAX_ZoneEmail => 'iconZoneEmailDisabled',
+                    OX_ZoneVideoInstream => 'iconZoneVideoInstreamDisabled',
+                    OX_ZoneVideoOverlay => 'iconZoneVideoOverlayDisabled',
+                    default => 'iconZoneDisabled',
+                };
             } else {
                 $smarty->trigger_error("t: missing 'active' parameter");
             }
@@ -715,7 +685,7 @@ class OA_Admin_Template extends Smarty
             if (!empty($aParams['search'])) {
                 $searchPhrase = $aParams['search'];
                 $text = $aParams['text'];
-                $strPos = stripos($text, $searchPhrase);
+                $strPos = stripos($text, (string) $searchPhrase);
                 if ($strPos !== false) {
                     $strLen = strlen($searchPhrase);
                     return htmlspecialchars(substr($text, 0, $strPos)) .

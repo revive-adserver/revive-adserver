@@ -178,7 +178,7 @@ class OX_Admin_UI_Controller_BaseController
 
     public function getModelProperty($property)
     {
-        return isset($this->aModel[$property]) ? $this->aModel[$property] : null;
+        return $this->aModel[$property] ?? null;
     }
 
 

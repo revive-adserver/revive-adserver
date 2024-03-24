@@ -38,13 +38,13 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Subdivision1 extends UnitTes
 
     public function testInit()
     {
-        $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'Subdivision1');
+        $oPlugin = OX_Component::factory('deliveryLimitations', 'Geo', 'Subdivision1');
         $oPlugin->init(['data' => 'FR|C1,97,98,99,A1,A2,A3,A4,A5,A6,A7,A8,A9,B1,B2,B3,B4,B5,B6,B7,B8,B9', 'comparison' => '==']);
     }
 
     public function testCompile()
     {
-        $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'Subdivision1');
+        $oPlugin = OX_Component::factory('deliveryLimitations', 'Geo', 'Subdivision1');
         $rawData = 'GB|T5,T7';
         $oPlugin->init(['data' => $rawData, 'comparison' => '=~']);
         $this->assertEqual('MAX_checkGeo_Subdivision1(\'GB|T5,T7\', \'=~\')', $oPlugin->compile());

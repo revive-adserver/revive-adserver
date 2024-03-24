@@ -41,7 +41,7 @@ $adId = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_D
 $zoneId = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : [];
 $creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : [];
 $lastClick = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : [];
-$aBlockLoggingClick = isset($_REQUEST[$conf['var']['blockLoggingClick']]) ? $_REQUEST[$conf['var']['blockLoggingClick']] : [];
+$aBlockLoggingClick = $_REQUEST[$conf['var']['blockLoggingClick']] ?? [];
 
 if (!empty($conf['deliveryLog']['enabled'])) {
     foreach ($adId as $k => $v) {
@@ -129,7 +129,7 @@ function _getZoneAd($zoneId)
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
         reset($zoneLinkedAds['xAds']);
-        list($adId, $ad) = each($zoneLinkedAds['xAds']);
+        [$adId, $ad] = each($zoneLinkedAds['xAds']);
     } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
         reset($zoneLinkedAds['ads']);
         // we select the first (and only) banner linked to this email zone
@@ -140,7 +140,7 @@ function _getZoneAd($zoneId)
         }
     } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
         reset($zoneLinkedAds['lAds']);
-        list($adId, $ad) = each($zoneLinkedAds['lAds']);
+        [$adId, $ad] = each($zoneLinkedAds['lAds']);
     }
 
     return $adId;

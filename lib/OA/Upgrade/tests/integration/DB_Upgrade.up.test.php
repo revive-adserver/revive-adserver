@@ -30,9 +30,6 @@ class Test_DB_Upgrade extends UnitTestCase
     public $aOptions;
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

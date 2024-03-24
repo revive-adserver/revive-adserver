@@ -158,7 +158,7 @@ class Plugins_Authentication extends OX_Component
      * Cleans up the session and carry on any additional tasks required to logout the user
      *
      */
-    public function logout()
+    public function logout(): never
     {
         phpAds_SessionDataDestroy();
         $dalAgency = OA_Dal::factoryDAL('agency');

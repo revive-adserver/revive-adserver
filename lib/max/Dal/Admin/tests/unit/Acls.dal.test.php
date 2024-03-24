@@ -28,14 +28,6 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
      */
     public $dalAcls;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalAcls = OA_Dal::factoryDAL('acls');
