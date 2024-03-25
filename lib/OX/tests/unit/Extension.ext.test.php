@@ -48,16 +48,13 @@ class Test_OX_Extension extends UnitTestCase
 
     /**
      * a list of all known plugins
-     *
-     * @return unknown
      */
     public function test_getAllExtensionsArray()
     {
-        $oExtension = new OX_Extension();
         $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] = '/lib/OX/tests/data/plugins/';
         $GLOBALS['_MAX']['CONF']['pluginPaths']['packages'] = '/lib/OX/tests/data/plugins/etc/';
 
-        $aResult = $oExtension->getAllExtensionsArray();
+        $aResult = OX_Extension::getAllExtensionsArray();
 
         $this->assertEqual(count($aResult), 3);
         sort($aResult);

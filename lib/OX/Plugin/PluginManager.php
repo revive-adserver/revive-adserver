@@ -1288,9 +1288,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         // are there any files in the zip that are not declared in the definitions?
         // but please ignore lang files
-        $aDiffStored = array_filter(array_diff($aFilesStored, $aFilesExpected), function ($file) {
-            return !preg_match('#^/plugins/etc/[^/]+/_lang/(?:po/)?[a-z][a-z](?:_[A-Z][A-Z])?\.(?:mo|pot?)$#D', $file);
-        });
+        $aDiffStored = array_filter(array_diff($aFilesStored, $aFilesExpected), fn($file) => !preg_match('#^/plugins/etc/[^/]+/_lang/(?:po/)?[a-z][a-z](?:_[A-Z][A-Z])?\.(?:mo|pot?)$#D', $file));
         if ($aDiffStored !== []) {
             $this->_logError(count($aDiffStored) . ' unexpected files found');
             foreach ($aDiffStored as &$file) {

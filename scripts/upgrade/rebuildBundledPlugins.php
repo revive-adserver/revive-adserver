@@ -58,13 +58,13 @@ echo "=> FINISHED UPDATING THE BUNDLED PLUGINS\n";
 function buildPlugin(string $plugin): void
 {
     exec('./zipkg.sh ' . escapeshellarg($plugin) . ' >/dev/null', $output, $rc) ??
-        throw new \RuntimeException("Build error code: {$rc}:\n" . join("\n", $output));
+        throw new \RuntimeException("Build error code: {$rc}:\n" . implode("\n", $output));
 }
 
 function bumpVersion(string $plugin, string $version): void
 {
     exec('ant update-version -Dname=' . escapeshellarg($plugin) . ' -Dversion=' . escapeshellarg($version) . ' >/dev/null', $output, $rc) ??
-        throw new \RuntimeException("Version update error code: {$rc}:\n" . join("\n", $output));
+        throw new \RuntimeException("Version update error code: {$rc}:\n" . implode("\n", $output));
 }
 
 function zipDiff($file1, $file2)
@@ -101,7 +101,7 @@ function zipDiff($file1, $file2)
 function getVersions(string $plugin): array
 {
     $fileName = "{$plugin}/plugins/etc/{$plugin}.xml";
-    $xml = file_get_contents($fileName) or throw new \RuntimeException("Can't find xml file: {$fileName}");
+    $xml = file_get_contents($fileName) ?: throw new \RuntimeException("Can't find xml file: {$fileName}");
 
     if (!preg_match('#<version>(\d+\.\d+\.)(\d+)</version>#', $xml, $m)) {
         throw new \RuntimeException("Can't parse version in: {$fileName}");

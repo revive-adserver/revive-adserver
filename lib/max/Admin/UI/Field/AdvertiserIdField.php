@@ -41,7 +41,7 @@ class Admin_UI_AdvertiserIdField extends Admin_UI_Field
         }
     }
 
-    public function _getAdvertiserArray($orderBy = null)
+    public static function _getAdvertiserArray($orderBy = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 

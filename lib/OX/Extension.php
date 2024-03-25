@@ -47,16 +47,14 @@ class OX_Extension
 
     public function setAllExtensions()
     {
-        $this->aExtensions = $this->getAllExtensionsArray();
+        $this->aExtensions = self::getAllExtensionsArray();
     }
 
     /**
      * a list of all known plugins
      * compiled by scanning the plugins folder
-     *
-     * @return unknown
      */
-    public function getAllExtensionsArray()
+    public static function getAllExtensionsArray(): array
     {
         $aResult[] = 'admin';
         $aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];

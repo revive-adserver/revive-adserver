@@ -82,7 +82,7 @@ class Installer
         $installTemplatesPath = MAX_PATH . '/lib/templates/wizard/install/';
         $view->template_dir = $installTemplatesPath;
         $view->assign("oxInstallerTemplateDir", $installTemplatesPath);
-        $view->register_function('ox_wizard_steps', [new OX_UI_WizardSteps(),  'wizardSteps']);
+        $view->register_function('ox_wizard_steps', fn($aParams, &$smarty) => (new OX_UI_WizardSteps())::wizardSteps($aParams, $smarty));
 
         return $view;
     }

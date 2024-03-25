@@ -158,7 +158,8 @@ class OA_Admin_Menu
         $aSections = $this->rootSection->getSections();
 
         if ($checkAccess) {
-            $aSections = array_values(array_filter($aSections, [new OA_Admin_SectionCheckerFilter(), 'accept']));
+            $oSectionCheckFilter = new OA_Admin_SectionCheckerFilter();
+            $aSections = array_values(array_filter($aSections, $oSectionCheckFilter->accept(...)));
         }
 
         return $aSections;

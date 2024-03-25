@@ -30,7 +30,7 @@ class Menu
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
-    public function buildTree()
+    public static function buildTree()
     {
         $menu = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
@@ -144,7 +144,7 @@ class Menu
 
                         ];
         foreach ($aItems as $aItem) {
-            $newNode = &$rootNode->addItem(
+            $newNode = $rootNode->addItem(
                 new HTML_TreeNode(
                     [
                                                                     'text' => $aItem['title'],

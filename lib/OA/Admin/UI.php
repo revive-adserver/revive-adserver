@@ -529,7 +529,8 @@ class OA_Admin_UI
         }
 
         //filter out exclusive and affixed sections from view if they're not active
-        $aSections = array_values(array_filter($aSections, [new OA_Admin_Section_Type_Filter($oCurrentSection), 'accept']));
+        $oSectionTypeFilter = new OA_Admin_Section_Type_Filter($oCurrentSection);
+        $aSections = array_values(array_filter($aSections, $oSectionTypeFilter->accept(...)));
 
 
         foreach ($aSections as $i => $aSection) {
