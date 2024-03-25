@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace REVIVE_ROOT;
 
-use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
@@ -18,8 +17,6 @@ use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
-use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
-use Rector\Php70\Rector\StaticCall\StaticCallOnNonStaticToInstanceCallRector;
 use Rector\Php71\Rector\FuncCall\RemoveExtraParametersRector;
 use Rector\Php72\Rector\Assign\ListEachRector;
 use Rector\Php72\Rector\Assign\ReplaceEachAssignmentWithKeyCurrentRector;
@@ -30,7 +27,6 @@ use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector;
 
 return function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths(
@@ -57,7 +53,7 @@ return function (RectorConfig $rectorConfig): void {
     );
 
     $rectorConfig->sets([
-//        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_81,
         SetList::CODE_QUALITY,
     ]);
 
@@ -76,11 +72,8 @@ return function (RectorConfig $rectorConfig): void {
         ExplicitBoolCompareRector::class,
         UseIdenticalOverEqualWithSameTypeRector::class,
         AbsolutizeRequireAndIncludePathRector::class,
-        CallableThisArrayToAnonymousFunctionRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
         NullToStrictStringFuncCallArgRector::class,
-        RemoveParentCallWithoutParentRector::class,
-        StaticCallOnNonStaticToInstanceCallRector::class,
         MixedTypeRector::class,
         RemoveExtraParametersRector::class,
         ClassPropertyAssignToConstructorPromotionRector::class,
