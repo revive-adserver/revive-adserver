@@ -127,6 +127,37 @@ jobs:
       - name: Run phpcs
         run: lib/vendor/bin/phpcs -qs
 
+  refactoring-checker:
+    name: Refactoring checker
+
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+
+    needs:
+      - dependency-validation
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Run rector
+        run: lib/vendor/bin/rector -n
+
   post-commit:
     name: Post commit hooks
 
@@ -136,6 +167,7 @@ jobs:
       - type-checker
       - code-style-checker
       - compatibility-checker
+      - refactoring-checker
 
     env:
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
@@ -241,9 +273,10 @@ jobs:
       - type-checker
       - code-style-checker
       - compatibility-checker
+      - refactoring-checker
       - post-commit
 
-    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.post-commit.result != 'failure' }}
+    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.refactoring-checker.result == 'success' && needs.post-commit.result != 'failure' }}
 
     uses: ./.github/workflows/test.yml
     with:
@@ -258,6 +291,7 @@ jobs:
       - type-checker
       - code-style-checker
       - compatibility-checker
+      - refactoring-checker
       - post-commit
 
     runs-on: ubuntu-latest
