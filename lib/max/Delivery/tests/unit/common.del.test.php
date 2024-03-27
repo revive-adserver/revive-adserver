@@ -468,7 +468,7 @@ class Test_DeliveryCommon extends UnitTestCase
         $GLOBALS['_MAX']['SSL_REQUEST'] = true;
         $this->assertEqual(
             explode('/', $aConf['webpath']['imagesSSL'])[0],
-            explode('/', $aConf['webpath']['deliverySSL'])[0],
+            explode('/', $aConf['webpath']['deliverySSL'])[0]
         );
         OX_Delivery_Common_sendPreconnectHeaders();
         $this->assertTrue(empty($GLOBALS['_HEADERS']));
