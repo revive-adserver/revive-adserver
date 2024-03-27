@@ -126,6 +126,10 @@ function buildZoneForm($aZone, $oComponent = null)
 
 function buildChainSettingsFormSection($form, $aZone)
 {
+    if ($aZone['delivery'] == MAX_ZoneEmail) {
+        return;
+    }
+
     $form->addElement('header', 'header_chain', $GLOBALS['strChainSettings']);
 
     $chainGroup[] = $form->createElement(
@@ -248,7 +252,7 @@ function processForm($aZone, $form, $oComponent = null)
     $doZones->get($aFields['zoneid']);
 
     // Determine chain
-    if ($aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
+    if ($doZones->delivery != MAX_ZoneEmail && $aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
         $chain = 'zone:' . $aFields['chainzone'];
     } else {
         $chain = '';
