@@ -52,7 +52,7 @@ Bug Fixes
    limitations of such zone type (the click URL is hardcoded to the original
    zone ID).
 
- * Fixed issue with seach settings being reset when typing a new search
+ * Fixed issue with search settings being reset when typing a new search
    keyword. Compact view is also the new default in order to keep resource
    usage low.
 
