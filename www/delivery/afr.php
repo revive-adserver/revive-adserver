@@ -3985,6 +3985,9 @@ return false;
 }
 function _getNextZone($zoneId, $arrZone)
 {
+if (4 == $arrZone['type']) {
+return $zoneId;
+}
 if (!empty($arrZone['chain']) && (str_starts_with($arrZone['chain'], 'zone:'))) {
 return (int) substr($arrZone['chain'], 5);
 } else {
