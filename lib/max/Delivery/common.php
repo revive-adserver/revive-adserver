@@ -838,6 +838,22 @@ function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $
     return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
 }
 
+function OX_Delivery_Common_sendPreconnectHeaders()
+{
+    if (empty($GLOBALS['_MAX']['SSL_REQUEST'])) {
+        return;
+    }
+
+    $delivery = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'])[0];
+    $images = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'])[0];
+
+    if ($delivery === $images) {
+        return;
+    }
+
+    MAX_header("Link: {$images}; rel=preconnect");
+}
+
 /**
  * This function includes a file relative to MAX_PATH, and ensures that it won't be included more than once
  *

@@ -90,7 +90,7 @@ function confirm_submit(o, str)
 
 function search_window(keyword, where)
 {
-	path = where+'?keyword='+keyword;
+	path = where+'?keyword='+keyword+'&compact=t';
 	SearchWindow = window.open("","Search","toolbar=no,location=no,status=no,scrollbars=yes,width=700,height=500,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
 
 	if (SearchWindow.frames.length == 0)

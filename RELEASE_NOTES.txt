@@ -29,7 +29,9 @@ Security Updates
 New Features
 ------------
 
- * None
+ * Added "Link: rel=preconnect" header when using SSL connection and images
+   are hosted on a different hostname then delivery (e.g. CDN), in order to
+   speed up ad rendering on a page.
 
 
 Bug Fixes
@@ -52,6 +54,10 @@ Bug Fixes
    Email/Newsletter zones while it cannot actually work due to the
    limitations of such zone type (the click URL is hardcoded to the original
    zone ID).
+
+ * Fixed issue with search settings being reset when typing a new search
+   keyword. Compact view is also the new default in order to keep resource
+   usage low.
 
 
 Non-Backwards Compatible Changes

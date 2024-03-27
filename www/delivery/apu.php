@@ -2962,6 +2962,18 @@ return false;
 }
 return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
 }
+function OX_Delivery_Common_sendPreconnectHeaders()
+{
+if (empty($GLOBALS['_MAX']['SSL_REQUEST'])) {
+return;
+}
+$delivery = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'])[0];
+$images = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'])[0];
+if ($delivery === $images) {
+return;
+}
+MAX_header("Link: {$images}; rel=preconnect");
+}
 function _includeDeliveryPluginFile($fileName)
 {
 if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
@@ -4468,6 +4480,7 @@ OX_Delivery_logMessage('passed _adSelectCheckCriteria: bannerid ' . $aAd['ad_id'
 return;
 }
 MAX_commonSetNoCacheHeaders();
+OX_Delivery_Common_sendPreconnectHeaders();
 MAX_commonRegisterGlobalsArray(
 [
 'left',

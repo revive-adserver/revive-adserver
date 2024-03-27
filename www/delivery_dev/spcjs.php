@@ -27,8 +27,10 @@ $output = OA_SPCGetJavaScript($id);
 //OX_Delivery_logMessage('output: ' . $output, 7);
 
 // Output JS
-MAX_commonSendContentTypeHeader("application/x-javascript");
-header("Expires: " . gmdate('r', time() + 86400));
+MAX_commonSendContentTypeHeader("application/javascript");
+MAX_header("Expires: " . gmdate('r', time() + 86400));
+
+OX_Delivery_Common_sendPreconnectHeaders();
 
 // Flush cookies
 MAX_cookieFlush();

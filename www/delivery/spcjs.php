@@ -2962,6 +2962,18 @@ return false;
 }
 return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
 }
+function OX_Delivery_Common_sendPreconnectHeaders()
+{
+if (empty($GLOBALS['_MAX']['SSL_REQUEST'])) {
+return;
+}
+$delivery = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'])[0];
+$images = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'])[0];
+if ($delivery === $images) {
+return;
+}
+MAX_header("Link: {$images}; rel=preconnect");
+}
 function _includeDeliveryPluginFile($fileName)
 {
 if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
@@ -3283,8 +3295,9 @@ return '';
 }
 MAX_commonRegisterGlobalsArray(['id']);
 $output = OA_SPCGetJavaScript($id);
-MAX_commonSendContentTypeHeader("application/x-javascript");
-header("Expires: " . gmdate('r', time() + 86400));
+MAX_commonSendContentTypeHeader("application/javascript");
+MAX_header("Expires: " . gmdate('r', time() + 86400));
+OX_Delivery_Common_sendPreconnectHeaders();
 MAX_cookieFlush();
 echo $output;
 function OA_SPCGetJavaScript($affiliateid)

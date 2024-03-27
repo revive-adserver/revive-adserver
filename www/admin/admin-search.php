@@ -219,9 +219,8 @@ $oTpl->assign('aBanners', $aBanners);
 $oTpl->assign('aAffiliates', $aAffiliates);
 $oTpl->assign('aZones', $aZones);
 
-
 $oUI = new OA_Admin_UI_Search();
 
-$oUI->showSearchHeader($keyword);
+$oUI->showSearchHeader($oTpl);
 $oTpl->display();
 $oUI->showFooter();

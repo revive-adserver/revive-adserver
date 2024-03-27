@@ -577,14 +577,18 @@ class Test_DeliveryAdSelect extends UnitTestCase
 
     public function test_getNextZone()
     {
+        $arrZone['type'] = 1;
         $arrZone['chain'] = false;
 
+        $this->assertEqual(10, _getNextZone(10, $arrZone));
+
+        $arrZone['chain'] = 'blabla:15';
         $this->assertEqual(10, _getNextZone(10, $arrZone));
 
         $arrZone['chain'] = 'zone:15';
         $this->assertEqual(15, _getNextZone(10, $arrZone));
 
-        $arrZone['chain'] = 'blabla:15';
+        $arrZone['type'] = '4';
         $this->assertEqual(10, _getNextZone(10, $arrZone));
     }
 
