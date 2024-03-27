@@ -56,47 +56,47 @@ class OA_Admin_Template extends Smarty
         $this->caching = 0;
         $this->cache_lifetime = 3600;
 
-        $this->register_modifier('utc_to_local', ['OA_Admin_Template', '_modifier_utc_to_local']);
+        $this->register_modifier('utc_to_local', OA_Admin_Template::_modifier_utc_to_local(...));
 
-        $this->register_function('t', ['OA_Admin_Template', '_function_t']);
+        $this->register_function('t', OA_Admin_Template::_function_t(...));
 
-        $this->register_function('tabindex', ['OA_Admin_Template', '_function_tabindex']);
+        $this->register_function('tabindex', OA_Admin_Template::_function_tabindex(...));
 
-        $this->register_function('oa_icon', ['OA_Admin_Template', '_function_oa_icon']);
-        $this->register_function('oa_title_sort', ['OA_Admin_Template', '_function_oa_title_sort']);
+        $this->register_function('oa_icon', OA_Admin_Template::_function_oa_icon(...));
+        $this->register_function('oa_title_sort', OA_Admin_Template::_function_oa_title_sort(...));
 
-        $this->register_function('ox_column_title', ['OA_Admin_Template', '_function_ox_column_title']);
-        $this->register_function('ox_column_class', ['OA_Admin_Template', '_function_ox_column_class']);
-        $this->register_function('ox_column_updated', ['OA_Admin_Template', '_function_ox_column_updated']);
+        $this->register_function('ox_column_title', OA_Admin_Template::_function_ox_column_title(...));
+        $this->register_function('ox_column_class', OA_Admin_Template::_function_ox_column_class(...));
+        $this->register_function('ox_column_updated', OA_Admin_Template::_function_ox_column_updated(...));
 
-        $this->register_function('ox_campaign_type', ['OA_Admin_Template', '_function_ox_campaign_type']);
-        $this->register_function('ox_campaign_status', ['OA_Admin_Template', '_function_ox_campaign_status']);
-        $this->register_function('ox_campaign_icon', ['OA_Admin_Template', '_function_ox_campaign_icon']);
-        $this->register_function('ox_banner_size', ['OA_Admin_Template', '_function_ox_banner_size']);
-        $this->register_function('ox_banner_icon', ['OA_Admin_Template', '_function_ox_banner_icon']);
-        $this->register_function('ox_zone_size', ['OA_Admin_Template', '_function_ox_zone_size']);
-        $this->register_function('ox_zone_icon', ['OA_Admin_Template', '_function_ox_zone_icon']);
-        $this->register_function('ox_tracker_type', ['OA_Admin_Template', '_function_ox_tracker_type']);
+        $this->register_function('ox_campaign_type', OA_Admin_Template::_function_ox_campaign_type(...));
+        $this->register_function('ox_campaign_status', OA_Admin_Template::_function_ox_campaign_status(...));
+        $this->register_function('ox_campaign_icon', OA_Admin_Template::_function_ox_campaign_icon(...));
+        $this->register_function('ox_banner_size', OA_Admin_Template::_function_ox_banner_size(...));
+        $this->register_function('ox_banner_icon', OA_Admin_Template::_function_ox_banner_icon(...));
+        $this->register_function('ox_zone_size', OA_Admin_Template::_function_ox_zone_size(...));
+        $this->register_function('ox_zone_icon', OA_Admin_Template::_function_ox_zone_icon(...));
+        $this->register_function('ox_tracker_type', OA_Admin_Template::_function_ox_tracker_type(...));
 
-        $this->register_function('ox_entity_id', ['OA_Admin_Template', '_function_ox_entity_id']);
+        $this->register_function('ox_entity_id', OA_Admin_Template::_function_ox_entity_id(...));
 
-        $this->register_function('boldSearchPhrase', ['OA_Admin_Template', '_function_boldSearchPhrase']);
+        $this->register_function('boldSearchPhrase', OA_Admin_Template::_function_boldSearchPhrase(...));
 
-        $this->register_function('oa_is_admin', ['OA_Admin_Template', '_function_oa_is_admin']);
-        $this->register_function('oa_is_manager', ['OA_Admin_Template', '_function_oa_is_manager']);
-        $this->register_function('oa_is_advertiser', ['OA_Admin_Template', '_function_oa_is_advertiser']);
-        $this->register_function('oa_is_trafficker', ['OA_Admin_Template', '_function_oa_is_trafficker']);
+        $this->register_function('oa_is_admin', OA_Admin_Template::_function_oa_is_admin(...));
+        $this->register_function('oa_is_manager', OA_Admin_Template::_function_oa_is_manager(...));
+        $this->register_function('oa_is_advertiser', OA_Admin_Template::_function_oa_is_advertiser(...));
+        $this->register_function('oa_is_trafficker', OA_Admin_Template::_function_oa_is_trafficker(...));
 
-        $this->register_function('phpAds_ShowBreak', ['OA_Admin_Template', '_function_phpAds_ShowBreak']);
-        $this->register_function('phpAds_DelConfirm', ['OA_Admin_Template', '_function_phpAds_DelConfirm']);
-        $this->register_function('MAX_zoneDelConfirm', ['OA_Admin_Template', '_function_MAX_zoneDelConfirm']);
+        $this->register_function('phpAds_ShowBreak', OA_Admin_Template::_function_phpAds_ShowBreak(...));
+        $this->register_function('phpAds_DelConfirm', OA_Admin_Template::_function_phpAds_DelConfirm(...));
+        $this->register_function('MAX_zoneDelConfirm', OA_Admin_Template::_function_MAX_zoneDelConfirm(...));
 
-        $this->register_function('showStatusText', ['OA_Admin_Template', '_function_showStatusText']);
-        $this->register_function('showCampaignType', ['OA_Admin_Template', '_function_showCampaignType']);
+        $this->register_function('showStatusText', OA_Admin_Template::_function_showStatusText(...));
+        $this->register_function('showCampaignType', OA_Admin_Template::_function_showCampaignType(...));
 
-        $this->register_function('oa_form_input_attributes', ['OA_Admin_Template', '_function_form_input_attributes']);
-        $this->register_block('oa_edit', ['OA_Admin_Template', '_block_edit']);
-        $this->register_block('oa_form_element', ['OA_Admin_Template', '_block_form_element']);
+        $this->register_function('oa_form_input_attributes', OA_Admin_Template::_function_form_input_attributes(...));
+        $this->register_block('oa_edit', OA_Admin_Template::_block_edit(...));
+        $this->register_block('oa_form_element', OA_Admin_Template::_block_form_element(...));
 
         $this->templateName = $templateName;
 
@@ -123,7 +123,7 @@ class OA_Admin_Template extends Smarty
          * be placed into GET method calls for CRUD operations in templates. See
          * OA_Permission::checkSessionToken() method for details.
          */
-        $this->register_function('rv_add_session_token', ['OA_Admin_Template', '_add_session_token']);
+        $this->register_function('rv_add_session_token', OA_Admin_Template::_add_session_token(...));
 
         // Also assign a template variable for other usages
         $this->assign("csrfToken", phpAds_SessionGetToken());

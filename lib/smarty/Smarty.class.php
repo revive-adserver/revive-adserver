@@ -683,7 +683,7 @@ class Smarty
      * Registers custom function to be used in templates
      *
      * @param string $function the name of the template function
-     * @param string $function_impl the name of the PHP function to register
+     * @param string|callable $function_impl the name of the PHP function to register
      */
     function register_function($function, $function_impl, $cacheable=true, $cache_attrs=null)
     {
@@ -734,7 +734,7 @@ class Smarty
      * Registers block function to be used in templates
      *
      * @param string $block name of template block
-     * @param string $block_impl PHP function to register
+     * @param string|callable $block_impl PHP function to register
      */
     function register_block($block, $block_impl, $cacheable=true, $cache_attrs=null)
     {
@@ -778,7 +778,7 @@ class Smarty
      * Registers modifier to be used in templates
      *
      * @param string $modifier name of template modifier
-     * @param string $modifier_impl name of PHP function to register
+     * @param string|callable $modifier_impl name of PHP function to register
      */
     function register_modifier($modifier, $modifier_impl)
     {
