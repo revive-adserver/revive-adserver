@@ -412,7 +412,7 @@ $oCampaignXmlRpcService = new CampaignXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'addCampaign' => [
-            'function' => [$oCampaignXmlRpcService, 'addCampaign'],
+            'function' => $oCampaignXmlRpcService->addCampaign(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -420,7 +420,7 @@ $server = new XML_RPC_Server(
         ],
 
         'modifyCampaign' => [
-            'function' => [$oCampaignXmlRpcService, 'modifyCampaign'],
+            'function' => $oCampaignXmlRpcService->modifyCampaign(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -428,7 +428,7 @@ $server = new XML_RPC_Server(
         ],
 
         'deleteCampaign' => [
-            'function' => [$oCampaignXmlRpcService, 'deleteCampaign'],
+            'function' => $oCampaignXmlRpcService->deleteCampaign(...),
             'signature' => [
                 ['int', 'string', 'int']
             ],
@@ -436,7 +436,7 @@ $server = new XML_RPC_Server(
         ],
 
         'campaignDailyStatistics' => [
-            'function' => [$oCampaignXmlRpcService, 'campaignDailyStatistics'],
+            'function' => $oCampaignXmlRpcService->campaignDailyStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -446,7 +446,7 @@ $server = new XML_RPC_Server(
         ],
 
         'campaignBannerStatistics' => [
-            'function' => [$oCampaignXmlRpcService, 'campaignBannerStatistics'],
+            'function' => $oCampaignXmlRpcService->campaignBannerStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -456,7 +456,7 @@ $server = new XML_RPC_Server(
         ],
 
         'campaignPublisherStatistics' => [
-            'function' => [$oCampaignXmlRpcService, 'campaignPublisherStatistics'],
+            'function' => $oCampaignXmlRpcService->campaignPublisherStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -466,7 +466,7 @@ $server = new XML_RPC_Server(
         ],
 
         'campaignZoneStatistics' => [
-            'function' => [$oCampaignXmlRpcService, 'campaignZoneStatistics'],
+            'function' => $oCampaignXmlRpcService->campaignZoneStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -476,7 +476,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getCampaign' => [
-            'function' => [$oCampaignXmlRpcService, 'getCampaign'],
+            'function' => $oCampaignXmlRpcService->getCampaign(...),
             'signature' => [
                 ['struct', 'string', 'int']
             ],
@@ -484,7 +484,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getCampaignListByAdvertiserId' => [
-            'function' => [$oCampaignXmlRpcService, 'getCampaignListByAdvertiserId'],
+            'function' => $oCampaignXmlRpcService->getCampaignListByAdvertiserId(...),
             'signature' => [
                 ['array', 'string', 'int']
             ],

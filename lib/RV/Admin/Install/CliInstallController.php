@@ -66,12 +66,12 @@ class CliInstallController extends \OX_Admin_UI_Install_InstallController
 
     protected function abortInstall(): void
     {
-        fputs(STDERR, "Installer is not supposed to be executed\n");
+        fwrite(STDERR, "Installer is not supposed to be executed\n");
 
         exit(1);
     }
 
-    protected function redirect($action)
+    protected function redirect($action): never
     {
         throw new RedirectException($action);
     }

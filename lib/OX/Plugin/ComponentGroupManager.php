@@ -50,15 +50,13 @@ class OX_Plugin_ComponentGroupManager
 
     public $aMenuObjects;
 
-    public $aWarnings;
-    public $aErrors;
+    public $aWarnings = [];
+    public $aErrors = [];
     /** @var bool */
     protected $configLocked;
 
     public function __construct()
     {
-        $this->aErrors = [];
-        $this->aWarnings = [];
         $this->init();
     }
 
@@ -164,7 +162,7 @@ class OX_Plugin_ComponentGroupManager
      */
     public function isEnabled($name)
     {
-        return ($GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$name] ? true : false);
+        return ((bool) $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$name]);
     }
 
     public function &_getOX_Plugin_UpgradeComponentGroup(&$aGroup, $oSender)
@@ -1370,10 +1368,10 @@ class OX_Plugin_ComponentGroupManager
                 ) {
                     $aResult[$table]['dataobject'] = 'ERROR: dataobject problems found, details in debug.log ';
                     if (!is_a($aObjects[$name]['dbo'], 'DataObjects_' . ucfirst($table))) {
-                        $this->_logError('Dataobject classname mismatch ' . get_class($aObjects[$name]['dbo']) . ' should be DataObjects_' . ucfirst($table), PEAR_LOG_ERR);
+                        $this->_logError('Dataobject classname mismatch ' . $aObjects[$name]['dbo']::class . ' should be DataObjects_' . ucfirst($table), PEAR_LOG_ERR);
                     }
                     if (!is_a($aObjects[$name]['dbo'], 'DB_DataObjectCommon')) {
-                        $this->_logError('Dataobject classtype mismatch ' . get_class($aObjects[$name]['dbo']) . ' is not a DataObjectCommon', PEAR_LOG_ERR);
+                        $this->_logError('Dataobject classtype mismatch ' . $aObjects[$name]['dbo']::class . ' is not a DataObjectCommon', PEAR_LOG_ERR);
                     }
                 } else {
                     $aResult[$table]['dataobject'] = 'OK';
@@ -1381,7 +1379,7 @@ class OX_Plugin_ComponentGroupManager
                 foreach ($aObjects[$name]['def']['tables'][$table]['fields'] as $field => &$aField) {
                     if (!property_exists($aObjects[$name]['dbo'], $field)) {
                         $aResult[$table]['dataobject'] = 'ERROR: dataobject problems found, details in debug.log ';
-                        $this->_logError('DataObject class definition mismatch ' . get_class($aObjects[$name]['dbo']) . '::' . $field . ' not found', PEAR_LOG_ERR);
+                        $this->_logError('DataObject class definition mismatch ' . $aObjects[$name]['dbo']::class . '::' . $field . ' not found', PEAR_LOG_ERR);
                         $this->_logError(print_r($aObjects[$name]['dbo'], true), PEAR_LOG_ERR);
                         $this->_logError(print_r($aField, true), PEAR_LOG_ERR);
                     }
@@ -1511,7 +1509,7 @@ class OX_Plugin_ComponentGroupManager
                 $aParse = $this->parseXML($file);
                 foreach ($aParse['install']['syscheck']['depends'] as &$aDepends) {
                     $aResult[$aDepends['name']]['isDependedOnBy'][] = $name;
-                    $installed = (isset($aConf[$aDepends['name']]) ? true : false);
+                    $installed = (isset($aConf[$aDepends['name']]));
                     if (!$installed) {
                         $aResult[$name]['dependsOn'][$aDepends['name']] = OX_PLUGIN_DEPENDENCY_NOTFOUND;
                         $msg = 'PLUGIN DEPENDENCY PROBLEM: ' . $name . ' depends on ' . $aDepends['name'] . ' but ' . $aDepends['name'] . ' is not installed!';
@@ -1922,8 +1920,8 @@ class OX_Plugin_ComponentGroupManager
         }
         $aParse = $this->parseXML($file, 'OX_ParserComponentGroup');
         $aConf = &$GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
-        $aGroup['installed'] = (isset($aConf[$name]) ? true : false);
-        $aGroup['enabled'] = ($aGroup['installed'] && $aConf[$name] ? true : false);
+        $aGroup['installed'] = (isset($aConf[$name]));
+        $aGroup['enabled'] = ($aGroup['installed'] && $aConf[$name]);
         $aGroup['settings'] = false;
         $aGroup['preferences'] = false;
         foreach ($aParse as $k => &$v) {

@@ -451,7 +451,7 @@ $oPublisherXmlRpcService = new PublisherXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'addPublisher' => [
-            'function' => [$oPublisherXmlRpcService, 'addPublisher'],
+            'function' => $oPublisherXmlRpcService->addPublisher(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -459,7 +459,7 @@ $server = new XML_RPC_Server(
         ],
 
         'modifyPublisher' => [
-            'function' => [$oPublisherXmlRpcService, 'modifyPublisher'],
+            'function' => $oPublisherXmlRpcService->modifyPublisher(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -467,7 +467,7 @@ $server = new XML_RPC_Server(
         ],
 
         'deletePublisher' => [
-            'function' => [$oPublisherXmlRpcService, 'deletePublisher'],
+            'function' => $oPublisherXmlRpcService->deletePublisher(...),
             'signature' => [
                 ['int', 'string', 'int']
             ],
@@ -475,7 +475,7 @@ $server = new XML_RPC_Server(
         ],
 
         'publisherDailyStatistics' => [
-            'function' => [$oPublisherXmlRpcService, 'publisherDailyStatistics'],
+            'function' => $oPublisherXmlRpcService->publisherDailyStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -485,7 +485,7 @@ $server = new XML_RPC_Server(
         ],
 
         'publisherZoneStatistics' => [
-            'function' => [$oPublisherXmlRpcService, 'publisherZoneStatistics'],
+            'function' => $oPublisherXmlRpcService->publisherZoneStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -495,7 +495,7 @@ $server = new XML_RPC_Server(
         ],
 
         'publisherAdvertiserStatistics' => [
-            'function' => [$oPublisherXmlRpcService, 'publisherAdvertiserStatistics'],
+            'function' => $oPublisherXmlRpcService->publisherAdvertiserStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -505,7 +505,7 @@ $server = new XML_RPC_Server(
         ],
 
         'publisherCampaignStatistics' => [
-            'function' => [$oPublisherXmlRpcService, 'publisherCampaignStatistics'],
+            'function' => $oPublisherXmlRpcService->publisherCampaignStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -515,7 +515,7 @@ $server = new XML_RPC_Server(
         ],
 
         'publisherBannerStatistics' => [
-            'function' => [$oPublisherXmlRpcService, 'publisherBannerStatistics'],
+            'function' => $oPublisherXmlRpcService->publisherBannerStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -525,7 +525,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getPublisher' => [
-            'function' => [$oPublisherXmlRpcService, 'getPublisher'],
+            'function' => $oPublisherXmlRpcService->getPublisher(...),
             'signature' => [
                 ['struct', 'string', 'int']
             ],
@@ -533,7 +533,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getPublisherListByAgencyId' => [
-            'function' => [$oPublisherXmlRpcService, 'getPublisherListByAgencyId'],
+            'function' => $oPublisherXmlRpcService->getPublisherListByAgencyId(...),
             'signature' => [
                 ['array', 'string', 'int']
             ],

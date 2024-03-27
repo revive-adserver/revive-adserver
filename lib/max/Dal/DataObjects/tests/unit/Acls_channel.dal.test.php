@@ -24,14 +24,6 @@ Language_Loader::load();
  */
 class DataObjects_Acls_channelTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         DataGenerator::cleanUp();

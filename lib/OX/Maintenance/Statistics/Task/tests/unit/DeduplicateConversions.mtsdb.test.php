@@ -26,14 +26,6 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task/DeduplicateConversions.php
 class Test_OX_Maintenance_Statistics_Task_DeduplicateConversions extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Test the creation of the class.
      */
     public function testCreate()

@@ -26,14 +26,6 @@ class Test_DeliveryLimitations extends UnitTestCase
     public $tmpCookie;
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * This setUp method is being used to install a package which contains (at the moment only one)
      * test (Dummy) plugins which are then used by the test scripts to test the extension point integrations.
      *

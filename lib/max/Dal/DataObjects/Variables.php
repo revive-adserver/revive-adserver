@@ -124,20 +124,12 @@ class DataObjects_Variables extends DB_DataObjectCommon
     public function setCode($variableMethod)
     {
         $variableCode = '';
-        switch ($variableMethod) {
-            case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS:
-                $variableCode = "var {$this->name} = \\'%%" . strtoupper($this->name) . "_VALUE%%\\'";
-                break;
-            case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM:
-                $variableCode = '';
-                break;
-            case DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM:
-                $variableCode = "var {$this->name} = \\'" . $this->variablecode . "\\'";
-                break;
-            default:
-                $variableCode = "var {$this->name} = escape(\\'%%" . strtoupper($this->name) . "_VALUE%%\\')";
-                break;
-        }
+        $variableCode = match ($variableMethod) {
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS => "var {$this->name} = \\'%%" . strtoupper($this->name) . "_VALUE%%\\'",
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM => '',
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM => "var {$this->name} = \\'" . $this->variablecode . "\\'",
+            default => "var {$this->name} = escape(\\'%%" . strtoupper($this->name) . "_VALUE%%\\')",
+        };
         $this->variablecode = $variableCode;
     }
 }

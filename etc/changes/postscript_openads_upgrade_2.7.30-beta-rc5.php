@@ -35,8 +35,6 @@ class OA_UpgradePostscript_2_7_30_beta_rc5
     public $prefix;
     public $tblPreferences;
 
-    public function __construct() {}
-
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];

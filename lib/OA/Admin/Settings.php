@@ -462,12 +462,12 @@ class OA_Admin_Settings
     {
         // Backup user's original config file
         if (file_exists($configFile)) {
-            $this->backupFilename = $this->_getBackupFilename($configFile);
-            if (substr($configFile, -4) == '.ini') {
+            $this->backupFilename = static::_getBackupFilename($configFile);
+            if (str_ends_with($configFile, '.ini')) {
                 // Add a PHP exit comment to ini files
                 $phpComment = ';<?php exit; ?>';
                 $iniFile = file_get_contents($configFile);
-                if (strpos($iniFile, $phpComment) !== 0) {
+                if (!str_starts_with($iniFile, $phpComment)) {
                     $iniFile = $phpComment . "\r\n" . $iniFile;
                 }
                 if (($fp = fopen($configFile, 'w')) && fwrite($fp, $iniFile)) {
@@ -489,7 +489,7 @@ class OA_Admin_Settings
     {
         $directory = dirname($filename);
         $basename = basename($filename);
-        if (substr($basename, -4) == '.ini') {
+        if (str_ends_with($basename, '.ini')) {
             $basename .= '.php';
         }
         $now = date("Ymd");

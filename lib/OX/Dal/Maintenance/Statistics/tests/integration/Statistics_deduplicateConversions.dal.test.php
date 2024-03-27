@@ -30,9 +30,6 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      */
     public $oDal;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

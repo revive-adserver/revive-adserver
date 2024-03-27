@@ -26,14 +26,6 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
     public $idZone1;
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method to test the getZonesAllocationsByAgency method.
      *
      * Requirements:

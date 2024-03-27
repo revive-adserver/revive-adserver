@@ -26,14 +26,6 @@ class Test_OA_Dal_Maintenance_Priority_getEcpmContractAgenciesIds extends UnitTe
     public $aExpectedData = [];
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the getEcpmAgenciesIds method.
      */
     public function testGetEcpmContractAgenciesIds()

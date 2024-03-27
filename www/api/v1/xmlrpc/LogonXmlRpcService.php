@@ -112,7 +112,7 @@ $oLogonXmlRpcService = new LogonXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'logon' => [
-            'function' => [$oLogonXmlRpcService, 'logon'],
+            'function' => $oLogonXmlRpcService->logon(...),
             'signature' => [
                 ['string', 'string', 'string']
             ],
@@ -120,7 +120,7 @@ $server = new XML_RPC_Server(
         ],
 
         'logoff' => [
-            'function' => [$oLogonXmlRpcService, 'logoff'],
+            'function' => $oLogonXmlRpcService->logoff(...),
             'signature' => [
                 ['bool', 'string']
             ],

@@ -10,10 +10,10 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
-#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:35
+#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:34
 msgid "Demonstration Plugin HTML Banner Type"
 msgstr "Demonstration Plugin HTML Banner Type"
 
-#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:48
+#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:47
 msgid "Please enter http://www.revive-adserver.com"
 msgstr "Please enter http://www.revive-adserver.com"

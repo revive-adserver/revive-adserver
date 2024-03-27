@@ -27,14 +27,6 @@ class Test_OA_Permission_User extends UnitTestCase
     public $accountId;
     public $userId;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_prepareTestData();

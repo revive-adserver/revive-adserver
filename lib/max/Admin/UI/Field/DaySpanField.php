@@ -284,7 +284,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             var specific = {$this->_name}SelectName == 'specific';";
 
         $oTmpDaySpan = new OA_Admin_DaySpan();
-        foreach ($this->_fieldSelectionNames as $v => $n) {
+        foreach (array_keys($this->_fieldSelectionNames) as $v) {
             if ($v != 'specific') {
                 if ($v != 'all_stats') {
                     $oTmpDaySpan->setSpanPresetValue($v);

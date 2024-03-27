@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
 class Plugins_BannerTypeHTML_oxHtml_genericHtml extends Plugins_BannerTypeHTML
 {

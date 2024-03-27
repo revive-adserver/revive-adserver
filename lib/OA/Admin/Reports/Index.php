@@ -30,7 +30,7 @@ class OA_Admin_Reports_Index
     /**
      * @var int|mixed
      */
-    public $tabindex;
+    public $tabindex = 1;
     /**
      * @var FieldFactory
      */
@@ -44,7 +44,6 @@ class OA_Admin_Reports_Index
     public function __construct()
     {
         $this->oFieldFactory = new FieldFactory();
-        $this->tabindex = 1;
     }
 
     /**

@@ -10,6 +10,6 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeText/oxText/genericText.class.php:35
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeText/oxText/genericText.class.php:34
 msgid "Generic Text Banner"
 msgstr "Generic Text Banner"

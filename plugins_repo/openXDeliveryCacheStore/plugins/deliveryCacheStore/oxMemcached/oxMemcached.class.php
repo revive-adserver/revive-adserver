@@ -12,7 +12,7 @@
 
 require_once LIB_PATH . '/Extension/deliveryCacheStore/DeliveryCacheStore.php';
 // Using multi-dirname so tests can be run from either plugins or plugins_repo
-require_once dirname(__FILE__) . '/oxMemcached.delivery.php';
+require_once __DIR__ . '/oxMemcached.delivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -49,7 +49,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         }
         // Check servers list
         $aServers = (explode(',', $aConf[$this->group]['memcachedServers']));
-        if (count($aServers) > 0) {
+        if ($aServers !== []) {
             foreach ($aServers as $key => $server) {
                 if (empty($server)) {
                     unset($aServers[$key]);
@@ -86,7 +86,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
             $aErrors[] = $this->translate('Could not connect to memcached');
         }
 
-        if (count($aErrors) > 0) {
+        if ($aErrors !== []) {
             return $aErrors;
         }
         return true;

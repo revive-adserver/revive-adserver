@@ -145,9 +145,9 @@ class OA_Dll_VariableInfo extends OA_Info
         $aVariableData['dataType'] = $aVariableData['datatype'];
 
         // Convert to boolean.
-        $aVariableData['rejectIfEmpty'] = $aVariableData['reject_if_empty'] == 1 ? true : false;
-        $aVariableData['isUnique'] = $aVariableData['is_unique'] == 1 ? true : false;
-        $aVariableData['hidden'] = $aVariableData['hidden'] == 1 ? true : false;
+        $aVariableData['rejectIfEmpty'] = $aVariableData['reject_if_empty'] == 1;
+        $aVariableData['isUnique'] = $aVariableData['is_unique'] == 1;
+        $aVariableData['hidden'] = $aVariableData['hidden'] == 1;
 
         $aVariableData['uniqueWindow'] = $aVariableData['unique_window'];
         $aVariableData['variableCode'] = $aVariableData['variablecode'];

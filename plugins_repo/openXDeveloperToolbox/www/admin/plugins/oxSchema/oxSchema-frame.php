@@ -47,7 +47,7 @@ setcookie('schemaFile', $schemaFile);
 
 require_once 'lib/oxSchema.inc.php';
 global $oSchema;
-$oSchema = new openXSchemaEditor($schemaFile, '', $schemaPath);
+$oSchema = new openXSchemaEditor($schemaPath, $schemaFile, '');
 
 require_once 'lib/oxAjax.inc.php';
 
@@ -101,7 +101,7 @@ if (array_key_exists('table_edit', $_POST) && $_POST['table_edit']) {
         $sort_desc = $_POST['idx_fld_desc'];
         $unique = $_POST['idx_unique'];
         $primary = $_POST['idx_primary'];
-        $oSchema->indexAdd($table, $index_name, $index_fields, $primary, $unique, $sort_desc);
+        $oSchema->indexAdd($table, $index_name, $index_fields, $sort_desc, $primary, $unique);
     } elseif (array_key_exists('btn_index_save', $_POST) && $_POST['index_name']) {
         $index_name = $_POST['index_name'];
         $index_no = $_POST['index_no'];

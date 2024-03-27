@@ -60,9 +60,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
+        $default_period_preset = $session['prefs']['GLOBALS']['report_period_preset'] ?? 'last_month';
+        $default_scope_advertiser = $session['prefs']['GLOBALS']['report_scope_advertiser'] ?? '';
+        $default_scope_publisher = $session['prefs']['GLOBALS']['report_scope_publisher'] ?? '';
         // Prepare the array for displaying the generation page
         $aImport = [
             'period' => [

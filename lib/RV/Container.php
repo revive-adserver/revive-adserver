@@ -47,7 +47,7 @@ class Container implements PsrContainerInterface
                     self::addServices($container, $isDelivery),
                     $configCache
                 );
-            } catch (IOException $e) {
+            } catch (IOException) {
                 // The cache couldn't be written, use the builder instead
                 $this->container = $container;
 

@@ -588,6 +588,8 @@
                     try {
                         $test = new $class();
                     } catch (\Throwable $e) {
+                        $reporter->paintException($e);
+
                         continue;
                     }
 

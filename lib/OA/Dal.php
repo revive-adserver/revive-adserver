@@ -29,9 +29,6 @@ class OA_Dal
      */
     public $oDbh;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         $this->oDbh = $this->_getDbh();
@@ -491,11 +488,11 @@ class OA_Dal
             // Send line
             $ret = pg_put_line($pg, $row);
             if (!$ret) {
-                return MAX::raiseError('Error COPY-ing data: ' . pg_errormessage($pg), PEAR_ERROR_RETURN);
+                return MAX::raiseError('Error COPY-ing data: ' . pg_last_error($pg), PEAR_ERROR_RETURN);
             }
         }
         $result = pg_put_line($pg, '\.' . $eol) && pg_end_copy($pg);
-        $result = $result ? count($aValues) : new PEAR_Error('Error at the end of the COPY: ' . pg_errormessage($pg));
+        $result = $result ? count($aValues) : new PEAR_Error('Error at the end of the COPY: ' . pg_last_error($pg));
 
         // Enable error handler again
         RV::enableErrorHandling();

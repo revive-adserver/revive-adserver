@@ -20,14 +20,6 @@ require_once MAX_PATH . '/lib/max/other/lib-geo.inc.php';
  */
 class LibGeometryTest extends UnitTestCase
 {
-    /**
-    * The constructor method.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_MAX_geoIsPlaceInRegion()
     {
         $this->assertTrue(MAX_geoIsPointInsideRect(

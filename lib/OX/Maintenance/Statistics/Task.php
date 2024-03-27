@@ -19,11 +19,10 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
  * A abstract class, defining an interface for Maintenance Statistics Common
  * Task objects, to be collected and run using the OA_Task_Runner class.
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Statistics
  */
-class OX_Maintenance_Statistics_Task extends OA_Task
+abstract class OX_Maintenance_Statistics_Task extends OA_Task
 {
     /**
      * The "module" name of the maintenance statistics tasks

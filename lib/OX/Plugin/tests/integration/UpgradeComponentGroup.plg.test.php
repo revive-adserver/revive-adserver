@@ -28,9 +28,6 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
     public $testpathData = '/lib/OX/Plugin/tests/data/plugins_repo/';
 
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

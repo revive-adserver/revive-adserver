@@ -26,9 +26,6 @@ class Test_OA_DB_XmlCache extends UnitTestCase
     public $oCache;
     public $oSchema;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

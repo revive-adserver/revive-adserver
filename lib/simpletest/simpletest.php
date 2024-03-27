@@ -164,7 +164,7 @@
          *    test run.
          *    @return SimpleTestContext    Current test run.
          */
-        public static function &getContext() {
+        public static function getContext() {
             static $context = false;
             if (! $context) {
                 $context = new SimpleTestContext();

@@ -151,11 +151,7 @@ class SinergiWrapper implements ClientDataWrapperInterface
     {
         $browser = $this->getSinergiBrowser()->getName();
 
-        if (isset(self::$aBrowserMap[$browser])) {
-            return self::$aBrowserMap[$browser];
-        }
-
-        return 'Unknown';
+        return self::$aBrowserMap[$browser] ?? 'Unknown';
     }
 
     /**

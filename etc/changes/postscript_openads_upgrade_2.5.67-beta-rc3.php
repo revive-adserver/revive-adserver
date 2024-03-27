@@ -67,8 +67,6 @@ class OA_UpgradePostscript_2_5_67
                             'Zone' => 'zones',
                             ];
 
-    public function __construct() {}
-
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];

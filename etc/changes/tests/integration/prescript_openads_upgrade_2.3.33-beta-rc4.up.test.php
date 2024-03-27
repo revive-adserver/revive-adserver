@@ -24,10 +24,7 @@ class Test_prescript_2_3_33_beta_rc4 extends UnitTestCase
     public $oConfiguration;
     public $configFile;
 
-    /**
-     * The constructor method.
-     */
-    public function Test_OA_Upgrade()
+    public function __construct()
     {
         parent::__construct();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];

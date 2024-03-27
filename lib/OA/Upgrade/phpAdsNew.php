@@ -30,8 +30,6 @@ class OA_phpAdsNew
     public $engine = '';
     public $version = '';
 
-    public function __construct() {}
-
     public function init()
     {
         $this->aConfig = $this->_migratePANConfig($this->_getPANConfig());
@@ -95,7 +93,7 @@ class OA_phpAdsNew
             $aResult['logging']['proxyLookup'] = $phpAds_config['proxy_lookup'] ?? false;
             $aResult['logging']['adImpressions'] = $phpAds_config['log_adviews'] ?? true;
             $aResult['logging']['adClicks'] = $phpAds_config['log_adclicks'] ?? true;
-            $aResult['logging']['ignoreHosts'] = join(',', $phpAds_config['ignore_hosts'] ?? []);
+            $aResult['logging']['ignoreHosts'] = implode(',', $phpAds_config['ignore_hosts'] ?? []);
             $aResult['logging']['blockAdImpressions'] = $phpAds_config['block_adviews'] ?? false;
             $aResult['logging']['blockAdClicks'] = $phpAds_config['block_adclicks'] ?? false;
             $aResult['p3p']['policies'] = $phpAds_config['p3p_policies'] ?? '';
@@ -178,7 +176,7 @@ class OA_phpAdsNew
             if ($phpAds_config['geotracking_type'] == 'geoip') {
                 if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
                     if (is_readable($phpAds_config['geotracking_location'])) {
-                        $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
+                        $phpAds_config['geotracking_conf'] = static::phpAds_geoip_getConf($phpAds_config['geotracking_location']);
                     } else {
                         $message .= "A GeoIP database is not readable." . $postWarningMessage;
                         $oUpgrader->oLogger->logWarning($message);

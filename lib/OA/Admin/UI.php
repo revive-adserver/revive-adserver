@@ -51,22 +51,22 @@ class OA_Admin_UI
     public $aLinkParams;
     /** holds the id of the page being currently displayed **/
     public $currentSectionId;
-    public $aTools;
-    public $aShortcuts;
+    public $aTools = [];
+    public $aShortcuts = [];
 
     /**
      * An array containing a list of CSS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
-    public $otherCSSFiles;
+    public $otherCSSFiles = [];
 
     /**
      * An array containing a list of JS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
-    public $otherJSFiles;
+    public $otherJSFiles = [];
 
     /**
      * Class constructor, private to force getInstance usage
@@ -77,11 +77,7 @@ class OA_Admin_UI
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
         $this->notificationManager = new OA_Admin_UI_NotificationManager();
-        $this->otherCSSFiles = [];
-        $this->otherJSFiles = [];
         $this->setLinkParams();
-        $this->aTools = [];
-        $this->aShortcuts = [];
     }
 
 
@@ -166,7 +162,7 @@ class OA_Admin_UI
         global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $ID = $this->getID($ID);
+        $ID = static::getID($ID);
         $this->setCurrentId($ID);
 
         if (!defined('phpAds_installing')) {
@@ -318,7 +314,7 @@ class OA_Admin_UI
         }
         if (!empty($currentPath)
             && $oCurrentSection->hasSectionBeenReplaced()
-            && strpos($currentPath, $expectedPathForThisSection) === false) {
+            && !str_contains($currentPath, $expectedPathForThisSection)) {
             $urlToRedirectTo = $oCurrentSection->getLink($this->getLinkParams());
             header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $urlToRedirectTo));
             exit;
@@ -533,7 +529,8 @@ class OA_Admin_UI
         }
 
         //filter out exclusive and affixed sections from view if they're not active
-        $aSections = array_values(array_filter($aSections, [new OA_Admin_Section_Type_Filter($oCurrentSection), 'accept']));
+        $oSectionTypeFilter = new OA_Admin_Section_Type_Filter($oCurrentSection);
+        $aSections = array_values(array_filter($aSections, $oSectionTypeFilter->accept(...)));
 
 
         foreach ($aSections as $i => $aSection) {

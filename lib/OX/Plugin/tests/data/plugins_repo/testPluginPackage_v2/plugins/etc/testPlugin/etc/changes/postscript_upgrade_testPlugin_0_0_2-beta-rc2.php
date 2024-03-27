@@ -15,8 +15,6 @@ $className = 'postscript_upgrade_testPlugin_0_0_2_beta_rc2';
 
 class postscript_upgrade_testPlugin_0_0_2_beta_rc2
 {
-    public function __construct() {}
-
     public function execute($aParams = [])
     {
         $oManager = new OX_Plugin_ComponentGroupManager();

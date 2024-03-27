@@ -27,14 +27,6 @@ class Test_OX_PluginManager extends UnitTestCase
     public $testpathDataObjects = '/var/';
 
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         // try to clean up in case of previous failure

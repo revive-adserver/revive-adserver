@@ -30,7 +30,7 @@ class Menu
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
-    public function buildTree()
+    public static function buildTree()
     {
         $icon_pkg = "package.png";
 

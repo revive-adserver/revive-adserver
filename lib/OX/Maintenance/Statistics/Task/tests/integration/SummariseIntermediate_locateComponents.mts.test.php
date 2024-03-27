@@ -26,14 +26,6 @@ Language_Loader::load();
 class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the _locateComponents() method.
      */
     public function test_locateComponents()

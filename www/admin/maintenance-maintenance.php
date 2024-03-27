@@ -53,19 +53,17 @@ if (!$oMaintStatus->isScheduledMaintenanceRunning) {
             echo "<br><br>";
             echo $strAutoMantenaceDisabledAndHasntRun;
         }
-    } else {
+    } elseif ($oMaintStatus->isAutoMaintenanceEnabled) {
         // Automatic maintenance WAS run in the last hour
-        if ($oMaintStatus->isAutoMaintenanceEnabled) {
-            // Automatic maintenance IS enabled
-            echo $strAutomaticMaintenanceHasRun;
-            echo "<br><br>";
-            echo $strAutoMantenaceEnabledAndRunning;
-        } else {
-            // Automatic maintenance IS NOT enabled
-            echo $strAutomaticMaintenanceHasRun;
-            echo "<br><br>";
-            echo $strAutoMantenaceDisabledAndRunning;
-        }
+        // Automatic maintenance IS enabled
+        echo $strAutomaticMaintenanceHasRun;
+        echo "<br><br>";
+        echo $strAutoMantenaceEnabledAndRunning;
+    } else {
+        // Automatic maintenance IS NOT enabled
+        echo $strAutomaticMaintenanceHasRun;
+        echo "<br><br>";
+        echo $strAutoMantenaceDisabledAndRunning;
     }
 } else {
     // Scheduled maintenance WAS run in the last hour

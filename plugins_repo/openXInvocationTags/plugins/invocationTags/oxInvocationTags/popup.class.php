@@ -166,7 +166,7 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
         }
         $buffer .= "<script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['popup'], $mi->https);
         $buffer .= "?n=" . $mi->uniqueid;
-        if (sizeof($mi->parameters) > 0) {
+        if (count($mi->parameters) > 0) {
             $buffer .= "&" . implode("&", $mi->parameters);
         }
         $buffer .= "'></script>\n";

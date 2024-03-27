@@ -432,9 +432,6 @@ class OA_Maintenance_Priority_DeliveryLimitation
             }
         }
         // Return the result
-        if ($result == 1) {
-            return true;
-        }
-        return false;
+        return $result == 1;
     }
 }

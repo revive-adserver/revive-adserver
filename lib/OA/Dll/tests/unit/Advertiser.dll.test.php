@@ -37,9 +37,6 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
      */
     public $unknownIdError = 'Unknown advertiserId Error';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

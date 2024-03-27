@@ -152,7 +152,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
         }
 
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&", $mi->parameters);
         }
 

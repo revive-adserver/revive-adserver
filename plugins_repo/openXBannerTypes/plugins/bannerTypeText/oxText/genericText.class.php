@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
 class Plugins_BannerTypeText_oxText_genericText extends Plugins_BannerTypeText
 {

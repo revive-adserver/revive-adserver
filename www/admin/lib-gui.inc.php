@@ -308,7 +308,7 @@ function phpAds_sqlDie()
 
         $dbmsName = 'MySQL';
     } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
-        $error = pg_errormessage();
+        $error = pg_last_error();
         $dbmsName = 'PostgreSQL';
     } else {
         $error = '';

@@ -20,7 +20,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  */
-class Plugins_DeliveryLimitations_ResourceData extends Plugins_DeliveryLimitations_ArrayData
+abstract class Plugins_DeliveryLimitations_ResourceData extends Plugins_DeliveryLimitations_ArrayData
 {
     public function init($data)
     {

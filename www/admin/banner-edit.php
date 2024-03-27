@@ -266,7 +266,7 @@ function displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, 
     $oTpl->assign('campaignId', $campaignid);
     $oTpl->assign('bannerId', $bannerid);
     $oTpl->assign('bannerTypes', $bannerTypes);
-    $oTpl->assign('bannerType', ($ext_bannertype ? $ext_bannertype : $type));
+    $oTpl->assign('bannerType', ($ext_bannertype ?: $type));
     $oTpl->assign('bannerHeight', $aBanner["height"]);
     $oTpl->assign('bannerWidth', $aBanner["width"]);
     $oTpl->assign('disabled', $formDisabled);
@@ -496,26 +496,26 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
 
     $aVariables = [];
     $aVariables['campaignid'] = $aFields['campaignid'];
-    $aVariables['target'] = isset($aFields['target']) ? $aFields['target'] : '';
-    $aVariables['height'] = isset($aFields['height']) ? $aFields['height'] : 0;
-    $aVariables['width'] = isset($aFields['width']) ? $aFields['width'] : 0;
-    $aVariables['weight'] = !empty($aFields['weight']) ? $aFields['weight'] : 0;
-    $aVariables['adserver'] = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
-    $aVariables['alt'] = !empty($aFields['alt']) ? $aFields['alt'] : '';
-    $aVariables['bannertext'] = !empty($aFields['bannertext']) ? $aFields['bannertext'] : '';
-    $aVariables['htmltemplate'] = !empty($aFields['htmltemplate']) ? $aFields['htmltemplate'] : '';
-    $aVariables['description'] = !empty($aFields['description']) ? $aFields['description'] : '';
+    $aVariables['target'] = $aFields['target'] ?? '';
+    $aVariables['height'] = $aFields['height'] ?? 0;
+    $aVariables['width'] = $aFields['width'] ?? 0;
+    $aVariables['weight'] = empty($aFields['weight']) ? 0 : $aFields['weight'];
+    $aVariables['adserver'] = empty($aFields['adserver']) ? '' : $aFields['adserver'];
+    $aVariables['alt'] = empty($aFields['alt']) ? '' : $aFields['alt'];
+    $aVariables['bannertext'] = empty($aFields['bannertext']) ? '' : $aFields['bannertext'];
+    $aVariables['htmltemplate'] = empty($aFields['htmltemplate']) ? '' : $aFields['htmltemplate'];
+    $aVariables['description'] = empty($aFields['description']) ? '' : $aFields['description'];
     $aVariables['imageurl'] = (!empty($aFields['imageurl']) && $aFields['imageurl'] != 'http://') ? $aFields['imageurl'] : '';
     $aVariables['url'] = (!empty($aFields['url']) && $aFields['url'] != 'http://') ? $aFields['url'] : '';
     $aVariables['status'] = ($aFields['status'] != '') ? $aFields['status'] : '';
-    $aVariables['statustext'] = !empty($aFields['statustext']) ? $aFields['statustext'] : '';
+    $aVariables['statustext'] = empty($aFields['statustext']) ? '' : $aFields['statustext'];
     $aVariables['storagetype'] = $aFields['type'];
     $aVariables['ext_bannertype'] = $aFields['ext_bannertype'];
     $aVariables['comments'] = $aFields['comments'];
     $aVariables['iframe_friendly'] = $aFields['iframe_friendly'] ? 1 : 0;
 
-    $aVariables['filename'] = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
-    $aVariables['contenttype'] = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
+    $aVariables['filename'] = empty($aBanner['filename']) ? '' : $aBanner['filename'];
+    $aVariables['contenttype'] = empty($aBanner['contenttype']) ? '' : $aBanner['contenttype'];
 
     if ($aFields['type'] == 'url') {
         $aVariables['contenttype'] = OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl']);
@@ -528,9 +528,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         $aVariables['contenttype'] = 'txt';
     }
 
-    $aVariables['alt_filename'] = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
-    $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
-    $aVariables['alt_imageurl'] = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
+    $aVariables['alt_filename'] = empty($aBanner['alt_filename']) ? '' : $aBanner['alt_filename'];
+    $aVariables['alt_contenttype'] = empty($aBanner['alt_contenttype']) ? '' : $aBanner['alt_contenttype'];
+    $aVariables['alt_imageurl'] = empty($aFields['alt_imageurl']) ? '' : $aFields['alt_imageurl'];
 
     if (isset($aFields['keyword']) && $aFields['keyword'] != '') {
         $keywordArray = preg_split('/[ ,]+/D', $aFields['keyword']);
@@ -599,7 +599,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         $aVariables['comments'] = $aBanner['comments'];
     }
 
-    $insert = (empty($bannerid)) ? true : false;
+    $insert = empty($bannerid);
 
     if ($oComponent) {
         $result = $oComponent->preprocessForm($insert, $bannerid, $aFields, $aVariables);
@@ -674,20 +674,14 @@ function _getContentTypeIconImageName($contentType)
         return $imageName;
     }
 
-    switch ($contentType) {
-        case 'jpeg': $imageName = 'icon-filetype-jpg.gif';
-            break;
-        case 'gif':  $imageName = 'icon-filetype-gif.gif';
-            break;
-        case 'png':  $imageName = 'icon-filetype-png.gif';
-            break;
-        case 'rpm':  $imageName = 'icon-filetype-rpm.gif';
-            break;
-        case 'mov':  $imageName = 'icon-filetype-mov.gif';
-            break;
-        default:     $imageName = 'icon-banner-stored.gif';
-            break;
-    }
+    $imageName = match ($contentType) {
+        'jpeg' => 'icon-filetype-jpg.gif',
+        'gif' => 'icon-filetype-gif.gif',
+        'png' => 'icon-filetype-png.gif',
+        'rpm' => 'icon-filetype-rpm.gif',
+        'mov' => 'icon-filetype-mov.gif',
+        default => 'icon-banner-stored.gif',
+    };
 
     return $imageName;
 }

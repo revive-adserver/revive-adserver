@@ -56,17 +56,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $aErrormessage[0][] = $GLOBALS['strPasswordWrong'];
     }
     if (isset($pw) && strlen($pw)) {
-        if (!strlen($pw) || strstr("\\", $pw)) {
+        if (!strlen($pw) || strstr("\\", (string) $pw)) {
             $aErrormessage[0][] = $GLOBALS['strInvalidPassword'];
         }
     }
-    if (!count($aErrormessage) && $changeEmail) {
+    if ($aErrormessage === [] && $changeEmail) {
         $result = $oPlugin->changeEmail($doUsers, $email_address, $pw);
         if (PEAR::isError($result)) {
             $aErrormessage[0][] = $result->getMessage();
         }
     }
-    if (!count($aErrormessage)) {
+    if ($aErrormessage === []) {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;

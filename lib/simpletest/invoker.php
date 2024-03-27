@@ -92,8 +92,8 @@
          *    Stores the invoker to wrap.
          *    @param SimpleInvoker $invoker  Test method runner.
          */
-        function __construct(&$invoker) {
-            $this->_invoker = &$invoker;
+        function __construct($invoker) {
+            $this->_invoker = $invoker;
         }
 
         /**
@@ -101,7 +101,7 @@
          *    @return SimpleTestCase    Test case.
          *    @access public
          */
-        function &getTestCase() {
+        function getTestCase() {
             return $this->_invoker->getTestCase();
         }
 

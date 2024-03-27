@@ -498,7 +498,7 @@ function _isAdCapped($aAd)
 
 function _isAdLimited($aAd)
 {
-    return ($aAd['compiledlimitation'] == '' or $aAd['compiledlimitation'] == 'true') ? false : true;
+    return ($aAd['compiledlimitation'] == '' || $aAd['compiledlimitation'] == 'true') ? false : true;
 }
 
 /*-------------------------------------------------------*/

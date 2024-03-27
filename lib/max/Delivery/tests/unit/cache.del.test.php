@@ -39,9 +39,6 @@ class Test_DeliveryCache extends UnitTestCase
      */
     public $oDeliveryCacheStore;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

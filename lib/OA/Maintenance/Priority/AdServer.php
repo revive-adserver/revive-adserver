@@ -34,9 +34,6 @@ class OA_Maintenance_Priority_AdServer
     /** @var array array of addMaintenancePriorityTask components. */
     private $aComponents;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         $this->aComponents = OX_Component::getListOfRegisteredComponentsForHook('addMaintenancePriorityTask');

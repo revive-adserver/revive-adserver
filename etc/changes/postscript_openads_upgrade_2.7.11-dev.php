@@ -38,8 +38,6 @@ class OA_UpgradePostscript_2_7_11_dev
     public $prefix;
     public $tblCampaigns;
 
-    public function __construct() {}
-
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];

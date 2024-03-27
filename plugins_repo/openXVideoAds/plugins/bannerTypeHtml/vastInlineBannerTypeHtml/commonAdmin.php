@@ -236,7 +236,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $selectableCompanions = [ 0 => 'none' ];
         foreach ($possibleCompanions as $currentCompanion) {
             // Only allow linking to banners that are not of type "vast"
-            if (strpos($currentCompanion['ext_bannertype'], 'vast') === false) {
+            if (!str_contains($currentCompanion['ext_bannertype'], 'vast')) {
                 $strNameToDisplay = $currentCompanion['name'] . " (" . $currentCompanion['width'] . "x" . $currentCompanion['height'] . " )";
                 $selectableCompanions[$currentCompanion['ad_id'] ] = $strNameToDisplay;
             }
@@ -421,7 +421,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
                 $("#vast_video_delivery").attr('value', 'streaming');
                 $("label[for=vast_net_connection_url]").show();
                 $("#vast_net_connection_url").show();
-                $("label[for=vast_video_filename]").html('${videoFilenameString}');
+                $("label[for=vast_video_filename]").html('{$videoFilenameString}');
             }
             function phpAds_formHttpProgressiveVideoUrlMode()
             {
@@ -429,10 +429,10 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
                 $("#vast_video_delivery").attr('value', 'progressive');
                 $("label[for=vast_net_connection_url]").hide();
                 $("#vast_net_connection_url").hide();
-                $("label[for=vast_video_filename]").html('${httpVideoUrlString}');
+                $("label[for=vast_video_filename]").html('{$httpVideoUrlString}');
             }
             $(document).ready( function(){
-                ${videoUrlFormatOptionToRunOnPageLoad};
+                {$videoUrlFormatOptionToRunOnPageLoad};
             });
             </script>
 VIDEO_FORMAT_OPTION_JS;

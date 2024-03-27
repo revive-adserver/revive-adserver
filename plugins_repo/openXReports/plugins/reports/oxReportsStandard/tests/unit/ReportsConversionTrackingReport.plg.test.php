@@ -26,14 +26,6 @@ class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends 
      */
     public $oPlugin;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         //$this->oPlugin = &MAX_Plugin::factory('reports', 'oxStandard', 'conversionTrackingReport');

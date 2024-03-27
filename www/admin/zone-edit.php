@@ -366,8 +366,8 @@ function processForm($form, $oComponent = null)
     if (!empty($aFields['zoneid'])) {
         // before we commit any changes to db, store whether the size has changed
         $aZone = Admin_DA::getZone($aFields['zoneid']);
-        $size_changed = ($aFields['width'] != $aZone['width'] || $aFields['height'] != $aZone['height']) ? true : false;
-        $type_changed = ($aFields['delivery'] != $aZone['type']) ? true : false;
+        $size_changed = $aFields['width'] != $aZone['width'] || $aFields['height'] != $aZone['height'];
+        $type_changed = $aFields['delivery'] != $aZone['type'];
 
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->zonename = $aFields['zonename'];

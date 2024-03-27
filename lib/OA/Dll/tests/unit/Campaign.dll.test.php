@@ -37,9 +37,6 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
      */
     public $unknownIdError = 'Unknown campaignId Error';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

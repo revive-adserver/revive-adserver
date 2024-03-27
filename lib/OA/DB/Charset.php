@@ -21,7 +21,7 @@ require_once MAX_PATH . '/lib/OA/DB.php';
  * @package    OpenXDB
  * @subpackage Charset
  */
-class OA_DB_Charset
+abstract class OA_DB_Charset
 {
     /**
      * @var MDB2_Driver_Common
@@ -55,7 +55,7 @@ class OA_DB_Charset
         if (!empty($oDbh) && !PEAR::isError($oDbh)) {
             $driver = strtolower($oDbh->dbsyntax);
             $class = 'OA_DB_Charset_' . $driver;
-            require_once dirname(__FILE__) . '/Charset/' . $driver . '.php';
+            require_once __DIR__ . '/Charset/' . $driver . '.php';
             return new $class($oDbh);
         }
     }
@@ -63,28 +63,16 @@ class OA_DB_Charset
     /**
      * A method to retrieve the currently used database character set
      *
-     * @abstract
-     *
      * @return mixed A string containing the charset or false if it cannot be retrieved
      */
-    public function getDatabaseCharset()
-    {
-        OA::debug('Cannot run abstract method');
-        exit;
-    }
+    abstract public function getDatabaseCharset();
 
     /**
      * A method to retrieve the currently used client character set
      *
-     * @abstract
-     *
      * @return mixed A string containing the charset or false if it cannot be retrieved
      */
-    public function getClientCharset()
-    {
-        OA::debug('Cannot run abstract method');
-        exit;
-    }
+    abstract public function getClientCharset();
 
     /**
      * A method to retrieve the configuration value for the client charset/encoding
@@ -106,14 +94,8 @@ class OA_DB_Charset
     /**
      * A method to set the client charset
      *
-     * @abstract
-     *
      * @param string $charset
      * @return mixed True on success, PEAR_Error otherwise
      */
-    public function setClientCharset($charset)
-    {
-        OA::debug('Cannot run abstract method');
-        exit;
-    }
+    abstract public function setClientCharset($charset);
 }

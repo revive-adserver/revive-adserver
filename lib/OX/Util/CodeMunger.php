@@ -93,7 +93,7 @@ class OX_Util_CodeMunger
     public function flattenFile($filename)
     {
         // Skip dynamicly included files
-        if (strpos($filename, '$') !== false) {
+        if (str_contains($filename, '$')) {
             return false;
         }
 
@@ -101,7 +101,7 @@ class OX_Util_CodeMunger
         if ($pos = strrpos($filename, '/')) {
             $cwd = getcwd();
             $dir = substr($filename, 0, $pos);
-            if (!file_exists($dir . '/.') || !chdir($dir) || (substr($dir, -8) == 'lib/pear')) {
+            if (!file_exists($dir . '/.') || !chdir($dir) || (str_ends_with($dir, 'lib/pear'))) {
                 if ($this->OA_Pear === false) {
                     return false;
                 }
@@ -113,23 +113,21 @@ class OX_Util_CodeMunger
             $ret = $this->parseFile(substr($filename, $pos + 1));
             chdir($cwd);
             return $ret;
+        } elseif (file_exists($filename)) {
+            return $this->parseFile($filename);
         } else {
-            if (file_exists($filename)) {
-                return $this->parseFile($filename);
-            } else {
-                if ($this->OA_Pear === false) {
-                    return false;
-                }
-
-                //try pear
-                $cwd = getcwd();
-                $dir = MAX_PATH . '/' . $this->OA_Pear;
-                chdir($dir);
-                $ret = $this->parseFile($filename);
-                chdir($cwd);
-
-                return $ret;
+            if ($this->OA_Pear === false) {
+                return false;
             }
+
+            //try pear
+            $cwd = getcwd();
+            $dir = MAX_PATH . '/' . $this->OA_Pear;
+            chdir($dir);
+            $ret = $this->parseFile($filename);
+            chdir($cwd);
+
+            return $ret;
         }
     }
 
@@ -213,40 +211,38 @@ class OX_Util_CodeMunger
                 // in normal state, just add to our return buffer
                 if ($state === STATE_STD) {
                     $ret .= $token;
-                } else {
+                } elseif ($token === ';') {
                     // we waiting to complete a require/require_once, so
                     // this is just happen !!!
-                    if ($token === ';') {
-                        switch ($state) {
-                            case STATE_REQUIRE_ONCE:
-                                // if we have done this file, don't slurp it again
-                                $thisfile = OX::realPathRelative($cur);
-                                if (array_key_exists($thisfile, $this->onlyOnce)) {
-                                    break;
-                                }
-                                //fall through
-                                // no break
-                            case STATE_REQUIRE:
-                                // try to load the file, if ...
-                                if (!($content = $this->flattenFile($cur))) {
-                                    // we are unable to slurp it, just add the original
-                                    // require-statement into our buffer
-                                    $ret .= $orig . ";\n";
-                                } else {
-                                    $ret .= $content;
-                                }
+                    switch ($state) {
+                        case STATE_REQUIRE_ONCE:
+                            // if we have done this file, don't slurp it again
+                            $thisfile = OX::realPathRelative($cur);
+                            if (array_key_exists($thisfile, $this->onlyOnce)) {
                                 break;
-                        }
-                        // require/require_once statement finished, return to normal
-                        $state = STATE_STD;
-                    } else {
-                        // we are currently collecting a require/require_once filename,
-                        // so keep the original content
-                        $orig .= $token;
-                        // and capture the filename if not the concat op.
-                        if (strpos('.()', $token) === false) {
-                            $cur .= $token;
-                        }
+                            }
+                            //fall through
+                            // no break
+                        case STATE_REQUIRE:
+                            // try to load the file, if ...
+                            if (!($content = $this->flattenFile($cur))) {
+                                // we are unable to slurp it, just add the original
+                                // require-statement into our buffer
+                                $ret .= $orig . ";\n";
+                            } else {
+                                $ret .= $content;
+                            }
+                            break;
+                    }
+                    // require/require_once statement finished, return to normal
+                    $state = STATE_STD;
+                } else {
+                    // we are currently collecting a require/require_once filename,
+                    // so keep the original content
+                    $orig .= $token;
+                    // and capture the filename if not the concat op.
+                    if (!str_contains('.()', $token)) {
+                        $cur .= $token;
                     }
                 }
             } else {
@@ -275,13 +271,11 @@ class OX_Util_CodeMunger
                             }
                         }
                         if ($strip_delivery) {
-                            if (strstr($text, '###END_STRIP_DELIVERY') !== false) {
+                            if (str_contains($text, '###END_STRIP_DELIVERY')) {
                                 $strip_delivery = false;
                             }
-                        } else {
-                            if (strstr($text, '###START_STRIP_DELIVERY') !== false) {
-                                $strip_delivery = true;
-                            }
+                        } elseif (str_contains($text, '###START_STRIP_DELIVERY')) {
+                            $strip_delivery = true;
                         }
                         break;
 
@@ -361,7 +355,7 @@ class OX_Util_CodeMunger
                         if ($state === STATE_STD) {
                             if ($this->echoWhite) {
                                 $ret .= $text;
-                            } elseif (false !== strpos($text, "\n")) {
+                            } elseif (str_contains($text, "\n")) {
                                 switch (substr($ret, -1)) {
                                     case "\n":
                                         break;

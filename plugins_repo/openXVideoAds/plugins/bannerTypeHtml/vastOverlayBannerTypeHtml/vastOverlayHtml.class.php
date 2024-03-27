@@ -151,7 +151,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 $("#div-overlay-format-html").hide('fast');
                 $("#div-overlay-size").show('slow');
             }
-            ${overlayFormatOptionToRunOnPageLoad}
+            {$overlayFormatOptionToRunOnPageLoad}
 
             </script>
 OVERLAY_FORMAT_JS;
@@ -204,7 +204,7 @@ OVERLAY_FORMAT_JS;
 
             }
 
-            ${overlayOptionToRunOnPageLoad}
+            {$overlayOptionToRunOnPageLoad}
 
             </script>
 OVERLAY_OPTION_JS;
@@ -306,7 +306,7 @@ OVERLAY_OPTION_JS;
         $filename = null;
         if ($fileFieldName == $aBanner['vast_overlay_format'] . '_upload') {
             $imageName = _getContentTypeIconImageName($aBanner['vast_creative_type']);
-            $size = _getBannerSizeText($type, $aBanner['filename']);
+            $size = _getBannerSizeText('web', $aBanner['filename']);
             $filename = $aBanner['filename'];
         }
 
@@ -396,23 +396,14 @@ OVERLAY_OPTION_JS;
             'url' => $GLOBALS['strURL'],
 
         ];
-        if (isset($labels[$fieldName])) {
-            return $labels[$fieldName];
-        }
-        return parent::getFieldLabel($fieldName);
+        return $labels[$fieldName] ?? parent::getFieldLabel($fieldName);
     }
 
     public function processNewUploadedFile(&$aFields, &$aVariables)
     {
         $incomingFieldName = null;
-        // Deal with any files that are uploaded -
-        // cant use the default banners handler for this upload field because this field
-        // is on all versions of the of the overlay form (ie. for text and html)
-        // so "empty filename supplied error" appear when creating a text/html overlay
-        switch ($aFields['vast_overlay_format']) {
-            case VAST_OVERLAY_FORMAT_IMAGE:
-                $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
-                break;
+        if ($aFields['vast_overlay_format'] === VAST_OVERLAY_FORMAT_IMAGE) {
+            $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
         }
         if (empty($_FILES[$incomingFieldName]['name'])) {
             return;

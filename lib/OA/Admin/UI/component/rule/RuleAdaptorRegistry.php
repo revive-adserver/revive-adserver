@@ -12,7 +12,7 @@
 
 class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
 {
-    private $quickFormRuleNameToAdaptorMap;
+    private $quickFormRuleNameToAdaptorMap = [];
 
     /**
      * Returns a singleton of OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
@@ -26,12 +26,6 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
             $instance = new OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry();
         }
         return $instance;
-    }
-
-
-    public function __construct()
-    {
-        $this->quickFormRuleNameToAdaptorMap = [];
     }
 
 
@@ -75,7 +69,7 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
             return null;
         }
 
-        list($path, $class) = $GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName];
+        [$path, $class] = $GLOBALS['_OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry_registered_adaptors'][$quickFormRuleName];
 
         if (!isset($this->quickFormRuleNameToAdaptorMap[$quickFormRuleName])) {
             include_once($path);

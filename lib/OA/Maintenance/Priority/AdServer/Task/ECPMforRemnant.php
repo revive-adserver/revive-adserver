@@ -159,7 +159,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
                     $minImpressionsToDeliver = 0;
                 } else {
                     // number of impressions which should be delivered in this operation interval
-                    $minImpressionsToDeliver = $minImpressionsToDeliver / $campaignRemainingOperationIntervals;
+                    $minImpressionsToDeliver /= $campaignRemainingOperationIntervals;
                 }
                 // scale the campaign min.impressions to each of ads proportionally
                 // to the weights of the ad
@@ -199,8 +199,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      */
     public function getCampaignDeliveredImpressions($campaignId)
     {
-        return isset($this->aCampaignsDeliveredImpressions[$campaignId]) ?
-            $this->aCampaignsDeliveredImpressions[$campaignId] : 0;
+        return $this->aCampaignsDeliveredImpressions[$campaignId] ?? 0;
     }
 
     /**

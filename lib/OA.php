@@ -123,7 +123,7 @@ class OA
         }
         if ($ident == $aConf['log']['ident'] . '-delivery') {
             $logFile = $aConf['deliveryLog']['name'];
-            list($micro_seconds, $seconds) = explode(" ", microtime());
+            [$micro_seconds, $seconds] = explode(" ", microtime());
             $message = (round(1000 * ((float) $micro_seconds + (float) $seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message;
         } else {
             $logFile = $aConf['log']['name'];

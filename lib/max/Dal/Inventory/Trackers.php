@@ -103,7 +103,7 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             }
         }
 
-        return join("\n", $appendcode);
+        return implode("\n", $appendcode);
     }
 
     public function checkCompiledAppendCodes()

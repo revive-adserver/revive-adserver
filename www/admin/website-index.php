@@ -75,7 +75,7 @@ $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
 $itemsPerPage = 250;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);
 $oTopPager = OX_buildPager($aWebsitesZones, $itemsPerPage, false);
-list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+[$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();
 $aWebsitesZones = array_slice($aWebsitesZones, $itemsFrom - 1, $itemsPerPage, true);
 
 $oTpl->assign('pager', $oPager);
@@ -88,7 +88,7 @@ $oTpl->assign('phpAds_ZoneBanner', phpAds_ZoneBanner);
 $oTpl->assign('phpAds_ZoneInterstitial', phpAds_ZoneInterstitial);
 $oTpl->assign('phpAds_ZonePopup', phpAds_ZonePopup);
 $oTpl->assign('phpAds_ZoneText' . phpAds_ZoneText);
-$oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
+$oTpl->assign('showAdDirect', defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true);
 
 $oTpl->assign('canDelete', OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE));
 

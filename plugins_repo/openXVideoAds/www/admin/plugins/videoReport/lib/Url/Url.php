@@ -204,7 +204,7 @@ class OX_Vast_Url
      * @param string $url
      * @return void http Location: header sent
      */
-    public static function redirectToUrl($url)
+    public static function redirectToUrl($url): never
     {
         header("Location: $url");
         exit;

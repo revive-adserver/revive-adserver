@@ -98,130 +98,68 @@ class OA_Admin_UI_Model_InventoryPageHeaderModelBuilder
 
     public function getEntityHeaderMeta($entityClass)
     {
-        switch ($entityClass) {
-            case 'advertiser':
-                return ['label' => $GLOBALS['strClient'], 'newLabel' => $GLOBALS['strAddClient'],
-                 'class' => 'iconAdvertiser', 'headerClass' => 'iconAdvertiserLarge',
-                 'newHeaderClass' => 'iconAdvertiserAddLarge'];
-
-            case 'campaign':
-                return ['label' => $GLOBALS['strCampaign'], 'newLabel' => $GLOBALS['strAddCampaign'],
-                 'newTarget' => $GLOBALS['strCampaignForAdvertiser'], 'class' => 'iconCampaign',
-                 'headerClass' => 'iconCampaignLarge', 'newHeaderClass' => 'iconCampaignAddLarge'];
-
-            case 'tracker':
-                return ['label' => $GLOBALS['strTracker'], 'newLabel' => $GLOBALS['strAddTracker'],
-                 'newTarget' => $GLOBALS['strTrackerForAdvertiser'], 'class' => 'track',
-                 'headerClass' => 'iconTrackerLarge', 'newHeaderClass' => 'iconTrackerAddLarge'];
-
-            case 'banner':
-                return ['label' => $GLOBALS['strBanner'], 'newLabel' => $GLOBALS['strAddBanner'],
-                 'newTarget' => $GLOBALS['strBannerToCampaign'], 'class' => 'ban',
-                 'headerClass' => 'iconBannerLarge', 'newHeaderClass' => 'iconBannerAddLarge'];
-
-            case 'website':
-                return ['label' => $GLOBALS['strAffiliate'], 'newLabel' => $GLOBALS['strAddNewAffiliate'],
-                 'class' => 'webs', 'headerClass' => 'iconWebsiteLarge',
-                 'newHeaderClass' => 'iconWebsiteAddLarge'];
-
-            case 'zone':
-                return ['label' => $GLOBALS['strZone'], 'newLabel' => $GLOBALS['strAddNewZone'],
-                 'newTarget' => $GLOBALS['strZoneToWebsite'], 'class' => 'zone',
-                 'headerClass' => 'iconZoneLarge', 'newHeaderClass' => 'iconZoneAddLarge'];
-
-            case 'channel':
-                return ['label' => $GLOBALS['strChannel'], 'newLabel' => $GLOBALS['strAddNewChannel'],
-                 'newTarget' => $GLOBALS['strChannelToWebsite'], 'class' => 'chan',
-                 'headerClass' => 'iconTargetingChannelLarge', 'newheaderClass' => 'iconTargetingChannelAddLarge'];
-
-            case 'global-channel':
-                return ['label' => $GLOBALS['strChannel'], 'newLabel' => $GLOBALS['strAddNewChannel'],
-                 'class' => 'chan', 'headerClass' => 'iconTargetingChannelLarge',
-                 'newheaderClass' => 'iconTargetingChannelAddLarge'];
-
-            case 'agency':
-                return ['label' => $GLOBALS['strAgency'], 'newLabel' => $GLOBALS['strAddAgency'],
-                'class' => 'agen', 'headerClass' => 'iconManagerLarge',
-                 'newheaderClass' => 'iconManagerAddLarge'];
-
-            case 'day':
-                return ['label' => $GLOBALS['strDay'], 'newLabel' => '', 'class' => 'day'];
-
-            case 'advertisers':
-                return ['label' => $GLOBALS['strClients'], 'headerClass' => 'iconAdvertisersLarge'];
-
-            case 'campaigns':
-                return ['label' => $GLOBALS['strCampaigns'], 'headerClass' => 'iconCampaignsLarge',
-                 'newTarget' => $GLOBALS['strCampaignsOfAdvertiser']];
-
-            case 'banners':
-                return ['label' => $GLOBALS['strBanners'], 'headerClass' => 'iconBannersLarge',
-                 'newTarget' => $GLOBALS['strBannersOfCampaign']];
-
-            case 'websites':
-                return ['label' => $GLOBALS['strAffiliates'], 'headerClass' => 'iconWebsitesLarge'];
-
-            case 'zones':
-                return ['label' => $GLOBALS['strZones'], 'headerClass' => 'iconZonesLarge',
-                 'newTarget' => $GLOBALS['strZonesOfWebsite']];
-
-            case 'channels':
-                return ['label' => $GLOBALS['strChannels'], 'headerClass' => 'iconTargetingChannelsLarge',
-                 'newTarget' => $GLOBALS['strChannelsOfWebsite']];
-        }
-
-        return null;
+        return match ($entityClass) {
+            'advertiser' => ['label' => $GLOBALS['strClient'], 'newLabel' => $GLOBALS['strAddClient'],
+             'class' => 'iconAdvertiser', 'headerClass' => 'iconAdvertiserLarge',
+             'newHeaderClass' => 'iconAdvertiserAddLarge'],
+            'campaign' => ['label' => $GLOBALS['strCampaign'], 'newLabel' => $GLOBALS['strAddCampaign'],
+             'newTarget' => $GLOBALS['strCampaignForAdvertiser'], 'class' => 'iconCampaign',
+             'headerClass' => 'iconCampaignLarge', 'newHeaderClass' => 'iconCampaignAddLarge'],
+            'tracker' => ['label' => $GLOBALS['strTracker'], 'newLabel' => $GLOBALS['strAddTracker'],
+             'newTarget' => $GLOBALS['strTrackerForAdvertiser'], 'class' => 'track',
+             'headerClass' => 'iconTrackerLarge', 'newHeaderClass' => 'iconTrackerAddLarge'],
+            'banner' => ['label' => $GLOBALS['strBanner'], 'newLabel' => $GLOBALS['strAddBanner'],
+             'newTarget' => $GLOBALS['strBannerToCampaign'], 'class' => 'ban',
+             'headerClass' => 'iconBannerLarge', 'newHeaderClass' => 'iconBannerAddLarge'],
+            'website' => ['label' => $GLOBALS['strAffiliate'], 'newLabel' => $GLOBALS['strAddNewAffiliate'],
+             'class' => 'webs', 'headerClass' => 'iconWebsiteLarge',
+             'newHeaderClass' => 'iconWebsiteAddLarge'],
+            'zone' => ['label' => $GLOBALS['strZone'], 'newLabel' => $GLOBALS['strAddNewZone'],
+             'newTarget' => $GLOBALS['strZoneToWebsite'], 'class' => 'zone',
+             'headerClass' => 'iconZoneLarge', 'newHeaderClass' => 'iconZoneAddLarge'],
+            'channel' => ['label' => $GLOBALS['strChannel'], 'newLabel' => $GLOBALS['strAddNewChannel'],
+             'newTarget' => $GLOBALS['strChannelToWebsite'], 'class' => 'chan',
+             'headerClass' => 'iconTargetingChannelLarge', 'newheaderClass' => 'iconTargetingChannelAddLarge'],
+            'global-channel' => ['label' => $GLOBALS['strChannel'], 'newLabel' => $GLOBALS['strAddNewChannel'],
+             'class' => 'chan', 'headerClass' => 'iconTargetingChannelLarge',
+             'newheaderClass' => 'iconTargetingChannelAddLarge'],
+            'agency' => ['label' => $GLOBALS['strAgency'], 'newLabel' => $GLOBALS['strAddAgency'],
+            'class' => 'agen', 'headerClass' => 'iconManagerLarge',
+             'newheaderClass' => 'iconManagerAddLarge'],
+            'day' => ['label' => $GLOBALS['strDay'], 'newLabel' => '', 'class' => 'day'],
+            'advertisers' => ['label' => $GLOBALS['strClients'], 'headerClass' => 'iconAdvertisersLarge'],
+            'campaigns' => ['label' => $GLOBALS['strCampaigns'], 'headerClass' => 'iconCampaignsLarge',
+             'newTarget' => $GLOBALS['strCampaignsOfAdvertiser']],
+            'banners' => ['label' => $GLOBALS['strBanners'], 'headerClass' => 'iconBannersLarge',
+             'newTarget' => $GLOBALS['strBannersOfCampaign']],
+            'websites' => ['label' => $GLOBALS['strAffiliates'], 'headerClass' => 'iconWebsitesLarge'],
+            'zones' => ['label' => $GLOBALS['strZones'], 'headerClass' => 'iconZonesLarge',
+             'newTarget' => $GLOBALS['strZonesOfWebsite']],
+            'channels' => ['label' => $GLOBALS['strChannels'], 'headerClass' => 'iconTargetingChannelsLarge',
+             'newTarget' => $GLOBALS['strChannelsOfWebsite']],
+            default => null,
+        };
     }
 
 
     public function getEntityBreadcrumbPath($entityClass)
     {
-        switch ($entityClass) {
-            case 'banner':
-                return ['advertiser', 'campaign', 'banner'];
-
-            case 'campaign':
-                return ['advertiser', 'campaign'];
-
-            case 'advertiser':
-                return ['advertiser'];
-
-            case 'tracker':
-                return ['advertiser', 'tracker'];
-
-            case 'website':
-            case 'zone':
-                return ['website', 'zone'];
-
-            case 'trafficker-zone':
-                return ['zone'];
-
-            case 'channel':
-                return ['website', 'channel'];
-
-            case 'global-channel':
-                return ['channel'];
-
-            case 'agency':
-                return ['agency'];
-
-            case 'advertisers':
-                return [];
-
-            case 'campaigns':
-                return ['advertiser'];
-
-            case 'banners':
-                return ['advertiser', 'campaign'];
-
-            case 'websites':
-                return [];
-
-            case 'zones':
-            case 'channels':
-                return ['website'];
-        }
-
-        return null;
+        return match ($entityClass) {
+            'banner' => ['advertiser', 'campaign', 'banner'],
+            'campaign' => ['advertiser', 'campaign'],
+            'advertiser' => ['advertiser'],
+            'tracker' => ['advertiser', 'tracker'],
+            'website', 'zone' => ['website', 'zone'],
+            'trafficker-zone' => ['zone'],
+            'channel' => ['website', 'channel'],
+            'global-channel' => ['channel'],
+            'agency' => ['agency'],
+            'advertisers' => [],
+            'campaigns' => ['advertiser'],
+            'banners' => ['advertiser', 'campaign'],
+            'websites' => [],
+            'zones', 'channels' => ['website'],
+            default => null,
+        };
     }
 }

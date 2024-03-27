@@ -27,9 +27,6 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
     public $doInterAd = null;
     public $doAdZone = null;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

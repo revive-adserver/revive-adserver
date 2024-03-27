@@ -30,13 +30,19 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_DemoDeliveryLimitation_DemoLimitation extends Plugins_DeliveryLimitations
 {
+    /**
+     * @var array<string, string>
+     */
+    public $aPatternOps = ['==' => 'LIKE', '!=' => 'NOT LIKE'];
+    /**
+     * @var array<string, string>
+     */
+    public $aStandardOps = ['==' => '=', '!=' => '!='];
     public function __construct()
     {
         $this->aOperations = [
             '==' => $GLOBALS['strEqualTo'],
             '!=' => $GLOBALS['strDifferentFrom']];
-        $this->aPatternOps = ['==' => 'LIKE', '!=' => 'NOT LIKE'];
-        $this->aStandardOps = ['==' => '=', '!=' => '!='];
     }
 
     /**

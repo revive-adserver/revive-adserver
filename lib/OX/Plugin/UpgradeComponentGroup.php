@@ -259,11 +259,11 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
                 $aPrefsDel[] = ['name' => str_replace($prefix, '', $doPreferences->preference_name)];
             }
         }
-        foreach ($aPrefsNew as $name => $aPref) {
+        foreach (array_keys($aPrefsNew) as $name) {
             // insert
             $this->oComponentGroupManager->_registerPreferences($this->aComponentGroup['name'], $aPrefsNew);
         }
-        foreach ($aPrefsDel as $i => $aPrefs) {
+        foreach (array_keys($aPrefsDel) as $i) {
             // delete
             $this->oComponentGroupManager->_unregisterPreferences($this->aComponentGroup['name'], $aPrefsDel);
         }

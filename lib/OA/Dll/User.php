@@ -134,36 +134,25 @@ class OA_Dll_User extends OA_Dll
                 !$this->checkIdExistence('users', $oUser->userId)) {
                 return false;
             }
-
             if (!$this->checkStructureNotRequiredStringField($oUser, 'contactName', 255) ||
                 !$this->checkStructureNotRequiredStringField($oUser, 'emailAddress', 64)) {
                 return false;
             }
-
             if (!empty($oUser->defaultAccountId) && !$this->_validateDefaultAccount($oUser)) {
                 return false;
             }
-
             // Get the old data
             $doUser = OA_Dal::factoryDO('users');
             $doUser->get($oUser->userId);
             $oOldUser = new OA_Dll_UserInfo();
             $this->_setUserDataFromArray($oOldUser, $doUser->toArray());
-        } else {
+        } elseif (!$this->checkStructureRequiredStringField($oUser, 'contactName', 255) ||
+            !$this->checkStructureRequiredStringField($oUser, 'emailAddress', 64) ||
+            !$this->checkStructureRequiredIntegerField($oUser, 'defaultAccountId')) {
             // When adding a user, check that the required field 'publisherId' is correct.
-            if (!$this->checkStructureRequiredStringField($oUser, 'contactName', 255) ||
-                !$this->checkStructureRequiredStringField($oUser, 'emailAddress', 64) ||
-                !$this->checkStructureRequiredIntegerField($oUser, 'defaultAccountId')) {
-                return false;
-            }
-        }
-
-        if (!$this->_validateAuthentication($oUser) ||
-            !$this->_validateUsername($oUser, $oOldUser)) {
             return false;
         }
-
-        return true;
+        return $this->_validateAuthentication($oUser) && $this->_validateUsername($oUser, $oOldUser);
     }
 
     /**

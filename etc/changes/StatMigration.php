@@ -22,8 +22,6 @@ class StatMigration extends Migration
     // Use this property to instruct the stats migration to do the right thing.
     public $compactStats = false;
 
-    public function __construct() {}
-
 
     public function migrateData()
     {

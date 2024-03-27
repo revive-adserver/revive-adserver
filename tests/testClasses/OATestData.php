@@ -14,8 +14,8 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
+ * A base class for generating OpenX test data using DataObjects.
  *
- * @abstract A base class for generating OpenX test data using DataObjects
  * @package Test Classes
  * @todo more _insert methods
  */
@@ -38,10 +38,6 @@ class OA_Test_Data
                         'trackers' => [],
                         'variables' => []
                       ];
-    /**
-     * The constructor method.
-     */
-    public function __construct() {}
 
     public function init()
     {

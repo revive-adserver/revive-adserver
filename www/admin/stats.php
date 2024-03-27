@@ -99,7 +99,7 @@ phpAds_registerGlobal(
 $day = htmlspecialchars($day);
 $listorder = htmlspecialchars($listorder);
 $orderdirection = htmlspecialchars($orderdirection);
-if (!($orderdirection == 'up' || $orderdirection == 'down')) {
+if ($orderdirection != 'up' && $orderdirection != 'down') {
     if (stristr($orderdirection, 'down')) {
         $orderdirection = 'down';
     } else {
@@ -120,7 +120,7 @@ if (isset($graphFilter) && is_array($graphFilter)) {
     header("Location: $redirectUrl");
     die;
 } else {
-    $graphFilter = isset($graphFields) ? $graphFields : null;
+    $graphFilter = $graphFields ?? null;
 }
 
 // Handle filters

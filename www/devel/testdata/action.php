@@ -39,22 +39,15 @@ function getUpgradeStatus($dbname)
     }
     $GLOBALS['_MAX']['CONF']['max']['installed'] = 0;
     $oUpgrader->detectOpenads();
-    switch ($oUpgrader->existing_installation_status) {
-        case OA_STATUS_CURRENT_VERSION: $aMessages[] = 'Database ' . $dbname . ' has current schema version';
-            break;
-        case OA_STATUS_OAD_VERSION_FAILED: $aMessages[] = 'Could not retrieve schema version from database ' . $dbname;
-            break;
-        case OA_STATUS_CAN_UPGRADE: $aMessages[] = 'Database ' . $dbname . ' should be upgraded';
-            break;
-        case OA_STATUS_OAD_CONFINTEG_FAILED: $aMessages[] = 'Database ' . $dbname . ' failed schema integrity check failed';
-            break;
-        case OA_STATUS_OAD_DBCONNECT_FAILED: $aMessages[] = 'Failed to connect to ' . $dbname;
-            break;
-        case OA_STATUS_OAD_NOT_INSTALLED: $aMessages[] = 'Application is not installed';
-            break;
-        default: $aMessages[] = 'Failed to retrieve installation status';
-            break;
-    }
+    $aMessages[] = match ($oUpgrader->existing_installation_status) {
+        OA_STATUS_CURRENT_VERSION => 'Database ' . $dbname . ' has current schema version',
+        OA_STATUS_OAD_VERSION_FAILED => 'Could not retrieve schema version from database ' . $dbname,
+        OA_STATUS_CAN_UPGRADE => 'Database ' . $dbname . ' should be upgraded',
+        OA_STATUS_OAD_CONFINTEG_FAILED => 'Database ' . $dbname . ' failed schema integrity check failed',
+        OA_STATUS_OAD_DBCONNECT_FAILED => 'Failed to connect to ' . $dbname,
+        OA_STATUS_OAD_NOT_INSTALLED => 'Application is not installed',
+        default => 'Failed to retrieve installation status',
+    };
     return $aMessages;
 }
 

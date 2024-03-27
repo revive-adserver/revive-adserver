@@ -45,7 +45,7 @@ class OX_Upgrade_InstallPlugin_Controller
         // Collect all plugin files present in the etc/plugins folder...
         $PLUGINS_DIR = opendir(MAX_PATH . '/etc/plugins');
         while ($file = readdir($PLUGINS_DIR)) {
-            if ((substr($file, 0, 1) == '.') || (substr($file, strrpos($file, '.')) != '.zip')) {
+            if ((str_starts_with($file, '.')) || (substr($file, strrpos($file, '.')) != '.zip')) {
                 continue;
             }
             $name = substr($file, 0, strrpos($file, '.'));
@@ -129,26 +129,17 @@ class OX_Upgrade_InstallPlugin_Controller
      */
     public static function openxToRevivePluginName($pluginName)
     {
-        switch ($pluginName) {
-            case "openXBannerTypes":
-                return "Banner Types Plugin";
-            case "openXDeliveryLimitations":
-                return "Delivery Rules Plugin";
-            case "openX3rdPartyServers":
-                return "3rd Party Servers Plugin";
-            case "openXReports":
-                return "Reports Plugin";
-            case "openXDeliveryCacheStore":
-                return "Banner Delivery Cache Store Plugin";
-            case "openXInvocationTags":
-                return "Invocation Tags Plugin";
-            case "openXDeliveryLog":
-                return "Banner Delivery Logging Plugin";
-            case "openXVideoAds":
-                return "IAB VAST Plugin";
-            case "reviveMaxMindGeoIP2":
-                return "MaxMind GeoIP2 Plugin";
-        }
-        return $pluginName;
+        return match ($pluginName) {
+            "openXBannerTypes" => "Banner Types Plugin",
+            "openXDeliveryLimitations" => "Delivery Rules Plugin",
+            "openX3rdPartyServers" => "3rd Party Servers Plugin",
+            "openXReports" => "Reports Plugin",
+            "openXDeliveryCacheStore" => "Banner Delivery Cache Store Plugin",
+            "openXInvocationTags" => "Invocation Tags Plugin",
+            "openXDeliveryLog" => "Banner Delivery Logging Plugin",
+            "openXVideoAds" => "IAB VAST Plugin",
+            "reviveMaxMindGeoIP2" => "MaxMind GeoIP2 Plugin",
+            default => $pluginName,
+        };
     }
 }

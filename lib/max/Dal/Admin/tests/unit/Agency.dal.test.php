@@ -24,14 +24,6 @@ class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
 {
     public $dalAgency;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalAgency = OA_Dal::factoryDAL('agency');

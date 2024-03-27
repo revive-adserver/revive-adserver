@@ -21,6 +21,7 @@
     <exclude name="build.sh"/>
     <exclude name="ecs.php"/>
     <exclude name="phpstan*"/>
+    <exclude name="phpcs.xml.dist"/>
     <exclude name="rector.php"/>
 
     <!-- Subdirectory rules -->
@@ -80,6 +81,7 @@
     <!-- Files in the main directory -->
     <include name="ecs.php"/>
     <include name="phpstan*"/>
+    <include name="phpcs.xml.dist"/>
     <include name="rector.php"/>
     <include name="tests.xsl"/>
     <include name="*.xml"/>

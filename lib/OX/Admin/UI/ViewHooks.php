@@ -65,8 +65,8 @@ class OX_Admin_UI_ViewHooks
      */
     protected function register(OA_Admin_Template $oTpl)
     {
-        $oTpl->register_function('view_before_content', [$this, 'beforeContent']);
-        $oTpl->register_function('view_after_content', [$this, 'afterContent']);
+        $oTpl->register_function('view_before_content', $this->beforeContent(...));
+        $oTpl->register_function('view_after_content', $this->afterContent(...));
     }
 
 

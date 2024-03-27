@@ -44,7 +44,7 @@ class OX_DevToolbox
             }
         }
 
-        if (count($aErrors)) {
+        if ($aErrors !== []) {
             return $aErrors;
         }
         return true;

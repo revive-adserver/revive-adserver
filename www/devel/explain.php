@@ -50,7 +50,7 @@ function parseLogFile()
                     $type = $aMatches['type'];
                     $query = trim($aMatches['query']);
                     $aResult[$k]['query'] = $query;
-                    if ($type == 'prepare' || (strpos($query, 'PREPARE MDB2_STATEMENT') === 0)) {
+                    if ($type == 'prepare' || (str_starts_with($query, 'PREPARE MDB2_STATEMENT'))) {
                         $aResult[$k]['error'] = 'cannot execute statement: ' . $query;
                     } else {
                         $result = $oDbh->getAssoc('EXPLAIN ' . $query);

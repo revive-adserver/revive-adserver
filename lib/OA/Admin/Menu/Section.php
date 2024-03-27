@@ -38,10 +38,10 @@ class OA_Admin_Menu_Section
     public $rank; //float value used to resove conflicts between the sections, defaults to 1
     public $exclusive; //bolean value stating whether section should be shown exclusively (no sibling sections) when it's active //TODO change to type
     public $affixed; //bolean value stating whether section should be shown affixed to sibling sections only when it's active //TODO change to type
-    public $aSections; //list of subsections
+    public $aSections = []; //list of subsections
     public $oSectionChecker; //checker used to decide whether this section can be shown to the user
     public $parentSection; //reference to parent section
-    public $aSectionsMap; //hash holding id => section
+    public $aSectionsMap = []; //hash holding id => section
 
     /**
      * When replacing some information for a section, it can happen that you also replace the "link"
@@ -53,7 +53,7 @@ class OA_Admin_Menu_Section
      * @see OA_Admin_UI::redirectSectionToCorrectUrlIfOldUrlDetected()
      * @var bool
      */
-    public $sectionHasBeenReplaced;
+    public $sectionHasBeenReplaced = false;
 
     /**
      * A string name that indicates relationship between sections on
@@ -116,13 +116,10 @@ class OA_Admin_Menu_Section
         $this->setExclusive($exclusive);
         $this->rank = $rank;
         $this->affixed = $affixed;
-        $this->aSections = [];
         $this->oSectionChecker = empty($aAccountPermissions) ? null : $this->_createSecurityChecker($aAccountPermissions);
-        $this->aSectionsMap = [];
         $this->groupName = $groupName;
         // Create instance of OX_Translation
         $this->oTranslation = new OX_Translation();
-        $this->sectionHasBeenReplaced = false;
     }
 
 

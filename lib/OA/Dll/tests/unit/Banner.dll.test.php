@@ -42,9 +42,6 @@ class OA_Dll_BannerTest extends DllUnitTestCase
 
     public $binaryGif;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

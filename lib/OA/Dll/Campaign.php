@@ -101,21 +101,17 @@ class OA_Dll_Campaign extends OA_Dll
                 !$this->checkIdExistence('campaigns', $oCampaign->campaignId)) {
                 return false;
             }
-
             if (!$this->checkStructureNotRequiredIntegerField($oCampaign, 'advertiserId')) {
                 return false;
             }
-
             if (isset($oCampaign->advertiserId) &&
                 !$this->checkIdExistence('clients', $oCampaign->advertiserId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oCampaign, 'advertiserId') ||
+            !$this->checkIdExistence('clients', $oCampaign->advertiserId)) {
             // When adding a campaign, check that the required field 'advertiserId' is correct.
-            if (!$this->checkStructureRequiredIntegerField($oCampaign, 'advertiserId') ||
-                !$this->checkIdExistence('clients', $oCampaign->advertiserId)) {
-                return false;
-            }
+            return false;
         }
 
         // If the campaign has a start date and end date, check the date order is correct.
@@ -232,15 +228,13 @@ class OA_Dll_Campaign extends OA_Dll
             )) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkPermissions(
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'campaigns',
+            $oCampaign->campaignId
+        )) {
             // Edit
-            if (!$this->checkPermissions(
-                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
-                'campaigns',
-                $oCampaign->campaignId
-            )) {
-                return false;
-            }
+            return false;
         }
 
         $oStartDate = $oCampaign->startDate;
@@ -278,15 +272,9 @@ class OA_Dll_Campaign extends OA_Dll
 
         $campaignData['revenue_type'] = $oCampaign->revenueType;
 
-        $campaignData['capping'] = $oCampaign->capping > 0
-                                            ? $oCampaign->capping
-                                            : 0;
-        $campaignData['session_capping'] = $oCampaign->sessionCapping > 0
-                                            ? $oCampaign->sessionCapping
-                                            : 0;
-        $campaignData['block'] = $oCampaign->block > 0
-                                            ? $oCampaign->block
-                                            : 0;
+        $campaignData['capping'] = max($oCampaign->capping, 0);
+        $campaignData['session_capping'] = max($oCampaign->sessionCapping, 0);
+        $campaignData['block'] = max($oCampaign->block, 0);
 
         $campaignData['viewwindow'] = $oCampaign->viewWindow;
         $campaignData['clickwindow'] = $oCampaign->clickWindow;

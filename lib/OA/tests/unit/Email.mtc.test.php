@@ -32,14 +32,6 @@ class Test_OA_Email extends UnitTestCase
      */
     public $http;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         // Store the current value of $GLOBALS['_MAX']['HTTP']

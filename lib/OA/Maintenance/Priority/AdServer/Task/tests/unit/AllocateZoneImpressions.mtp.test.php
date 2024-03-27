@@ -23,9 +23,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

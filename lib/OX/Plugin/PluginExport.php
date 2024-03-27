@@ -30,12 +30,7 @@ class OX_PluginExport
     public $aGroups = [];
     public $aErrors = [];
     /** @var string */
-    private $basePath;
-
-    public function __construct()
-    {
-        $this->basePath = MAX_PATH;
-    }
+    private $basePath = MAX_PATH;
 
     public function init($name)
     {
@@ -162,7 +157,7 @@ class OX_PluginExport
         require_once(MAX_PATH . '/lib/pclzip/pclzip.lib.php');
 
         if (!defined('OS_WINDOWS')) {
-            define('OS_WINDOWS', ((substr(PHP_OS, 0, 3) == 'WIN') ? 1 : 0));
+            define('OS_WINDOWS', ((str_starts_with(PHP_OS, 'WIN')) ? 1 : 0));
         }
 
         $target = $this->outputDir . $name . '.zip';
@@ -242,7 +237,7 @@ class OX_PluginExport
             $dh = opendir($this->basePath . $changesDir);
             if ($dh) {
                 while (false !== ($file = readdir($dh))) {
-                    if (substr($file, 0, 1) != '.') {
+                    if (!str_starts_with($file, '.')) {
                         $this->_addToFileList($changesDir . $file);
                     }
                 }
@@ -273,10 +268,7 @@ class OX_PluginExport
      */
     public function _makeDirectory($dir)
     {
-        if (@mkdir($dir, 0775, true)) {
-            return true;
-        }
-        return false;
+        return @mkdir($dir, 0775, true);
     }
 
     /*

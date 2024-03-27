@@ -4,6 +4,11 @@ require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common
 
 class OX_Video_Report
 {
+    public $statsTable;
+    public $campaignTable;
+    public $bannerTable;
+    public $zoneTable;
+    public $websiteTable;
     public static $graphMetricsToPlot = [1, 3, 2, 4, 5];
 
     public static $vastEventIdToEventName = [
@@ -360,7 +365,7 @@ class OX_Video_Report
             for ($eventId = 1;$eventId <= 9; $eventId++) {
                 // generate events inversely proportional to the event id,
                 // also make sure 25% happens more often than 50%
-                $count = ceil(rand(1, 1000) * 1 / ($eventId == 2 ? 3 : ($eventId == 3 ? 2 : $eventId)));
+                $count = ceil(random_int(1, 1000) * 1 / ($eventId == 2 ? 3 : ($eventId == 3 ? 2 : $eventId)));
                 $query = "INSERT INTO {$this->statsTable} (
 							`interval_start` ,
 							`creative_id` ,

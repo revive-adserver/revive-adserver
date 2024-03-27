@@ -53,16 +53,14 @@ if ($agencyid != '') {
             $aAgency = $doAgency->toArray();
         }
     }
-} else {
+} elseif (!isset($agency)) {
     // Do not set this information if the page
     // is the result of an error message
-    if (!isset($agency)) {
-        $aAgency['name'] = $GLOBALS['strUntitled'];
-        $aAgency['contact'] = '';
-        $aAgency['email'] = '';
-        $aAgency['logout_url'] = '';
-        $aAgency['status'] = OA_ENTITY_STATUS_RUNNING;
-    }
+    $aAgency['name'] = $GLOBALS['strUntitled'];
+    $aAgency['contact'] = '';
+    $aAgency['email'] = '';
+    $aAgency['logout_url'] = '';
+    $aAgency['status'] = OA_ENTITY_STATUS_RUNNING;
 }
 
 

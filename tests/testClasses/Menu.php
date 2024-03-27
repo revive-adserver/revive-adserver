@@ -31,7 +31,7 @@ class Menu
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
-    public function buildTree()
+    public static function buildTree()
     {
         preg_match('/^(\d+\.\d+)/', VERSION, $aMatches);
         // Create the root of the test suite

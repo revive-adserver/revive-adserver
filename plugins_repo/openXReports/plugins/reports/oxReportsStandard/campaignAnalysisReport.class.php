@@ -114,8 +114,8 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $default_campaign = isset($session['prefs']['GLOBALS']['report_campaign']) ? $session['prefs']['GLOBALS']['report_campaign'] : '';
+        $default_period_preset = $session['prefs']['GLOBALS']['report_period_preset'] ?? 'last_month';
+        $default_campaign = $session['prefs']['GLOBALS']['report_campaign'] ?? '';
         // Prepare the array for displaying the generation page
         $aImport = [
             'period' => [
@@ -296,7 +296,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        [$aHeaders, $aData] = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             $this->translate("Daily Breakdown"),
@@ -334,7 +334,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        [$aHeaders, $aData] = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             $this->translate("Ad Breakdown"),
@@ -372,7 +372,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        [$aHeaders, $aData] = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             $this->translate("Zone Breakdown"),

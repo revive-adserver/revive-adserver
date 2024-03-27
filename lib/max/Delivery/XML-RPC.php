@@ -266,7 +266,7 @@ function OA_Delivery_XmlRpc_View($params)
         OX_getHostName() .
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
-    $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+    $view_params[] = $_SERVER['HTTP_REFERER'] ?? '';
 
     // Mimic the behaviour of MAX_commonInitVariables()
     //
@@ -439,7 +439,7 @@ function OA_Delivery_XmlRpc_SPC($params)
         OX_getHostName() .
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
-    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
 
     // If the what parameter is an int, it is the affiliateid, otherwise it's a url-like array of name=zone pairs
     // This convention is inline with the parameters passed into local-mode SPC

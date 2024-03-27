@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 abstract class DeliveryCacheUnitTestCase extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Function creates 2 zones on 1 website and 2 campaigns 2 banners each under 1 advertiser
      * website and advertiser are under the same agency
      *

@@ -78,8 +78,8 @@ function getDBAuditTable($aAudit)
         $schemas .= sprintf($td, $aRec['backup_rows']);
         //$schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
         $schemas .= "</tr>";
-        $totalSize = $totalSize + $aRec['backup_size'];
-        $totalRows = $totalRows + $aRec['backup_rows'];
+        $totalSize += $aRec['backup_size'];
+        $totalRows += $aRec['backup_rows'];
     }
 
     $schemas .= "<tr>";
@@ -199,10 +199,10 @@ foreach ($aAudit as $k => $v) {
             } ?>
                         </td>
                         <td height='25'>
-                            <?php echo ($v['version_from']) ? $v['version_from'] : '<b>---</b>'; ?>
+                            <?php echo $v['version_from'] ?: '<b>---</b>'; ?>
                         </td>
                         <td height='25'>
-                            <?php echo ($v['version_to']) ? $v['version_to'] : '<b>---</b>'; ?>
+                            <?php echo $v['version_to'] ?: '<b>---</b>'; ?>
                         </td>
                         <td height='25'>
                             <span style="text-transform:lowercase;"><?php echo ($v['upgrade_name'] == 'version stamp') ? $strUpdatedDbVersionStamp : $aProductStatus[$v['description']]; ?></span>

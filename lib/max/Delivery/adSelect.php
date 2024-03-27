@@ -139,12 +139,12 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 
     // Store the original zone, campaign or banner IDs for later use
     $originalZoneId = null;
-    if (strpos($what, 'zone:') === 0) {
-        $originalZoneId = intval(substr($what, 5));
-    } elseif (strpos($what, 'campaignid:') === 0) {
-        $originalCampaignId = intval(substr($what, 11));
-    } elseif (strpos($what, 'bannerid:') === 0) {
-        $originalBannerId = intval(substr($what, 9));
+    if (str_starts_with($what, 'zone:')) {
+        $originalZoneId = (int) substr($what, 5);
+    } elseif (str_starts_with($what, 'campaignid:')) {
+        $originalCampaignId = (int) substr($what, 11);
+    } elseif (str_starts_with($what, 'bannerid:')) {
+        $originalBannerId = (int) substr($what, 9);
     }
     $userid = MAX_cookieGetUniqueViewerId();
     MAX_cookieAdd($conf['var']['viewerId'], $userid, _getTimeYearFromNow());
@@ -173,8 +173,8 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 $remaining = substr($what, $ix + 1);
                 $what = substr($what, 0, $ix);
             }
-            if (strpos($what, 'zone:') === 0) {
-                $zoneId = intval(substr($what, 5));
+            if (str_starts_with($what, 'zone:')) {
+                $zoneId = (int) substr($what, 5);
                 $row = _adSelectZone($zoneId, $context, $source, $richmedia);
             } else {
                 // Expand paths to regular statements
@@ -207,7 +207,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                 MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid'], $row);
 
                 if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
-                    && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
+                    && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], (string) $conf['file']['popup'])) {
                     // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
                     $GLOBALS['_MAX']['adChain'][] = $row;
                     $found = false;
@@ -292,7 +292,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             }
 
             // Try to fill the impression with a fallback from plugins
-            $outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', [$zoneId, $context, $source, $richmedia]) ?: []);
+            $outputbuffer = implode("\n", OX_Delivery_Common_hook('blankAdSelect', [$zoneId, $context, $source, $richmedia]) ?: []);
         }
 
         if (!empty($outputbuffer)) {
@@ -388,8 +388,8 @@ function _adSelectDirect($what, $campaignid = '', $context = [], $source = '', $
  */
 function _getNextZone($zoneId, $arrZone)
 {
-    if (!empty($arrZone['chain']) && (substr($arrZone['chain'], 0, 5) == 'zone:')) {
-        return intval(substr($arrZone['chain'], 5));
+    if (!empty($arrZone['chain']) && (str_starts_with($arrZone['chain'], 'zone:'))) {
+        return (int) substr($arrZone['chain'], 5);
     } else {
         return $zoneId;
     }
@@ -590,15 +590,12 @@ function _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMe
                     if ($aLinkedAd == $GLOBALS['OX_adSelect_SkipOtherPriorityLevels']) {
                         $ad_picked = true;
                     }
-                } else {
-                    if (!empty($aAds[$type][$pri])) {
-                        // Build preconditions
-                        $aContext = _adSelectBuildContextArray($aAds[$type][$pri], $type, $context);
-
-                        // New delivery algorithm: discard all invalid ads before iterating over them
-                        // $aAds passed by ref here
-                        _adSelectDiscardNonMatchingAds($aAds[$type][$pri], $aContext, $source, $richMedia);
-                    }
+                } elseif (!empty($aAds[$type][$pri])) {
+                    // Build preconditions
+                    $aContext = _adSelectBuildContextArray($aAds[$type][$pri], $type, $context);
+                    // New delivery algorithm: discard all invalid ads before iterating over them
+                    // $aAds passed by ref here
+                    _adSelectDiscardNonMatchingAds($aAds[$type][$pri], $aContext, $source, $richMedia);
                 }
             }
             if ($ad_picked && is_array($aLinkedAd)) {
@@ -675,7 +672,7 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
         if (!empty($conf['delivery']['ecpmSelectionRate'])) {
             // we should still allow there to be some portion of control
             // responses in order to avoid starving out any ad
-            $selection_rate = floatval($conf['delivery']['ecpmSelectionRate']);
+            $selection_rate = (float) $conf['delivery']['ecpmSelectionRate'];
 
             if (!_controlTrafficEnabled($aAds) ||
                     (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) /
@@ -764,7 +761,7 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                 !empty($conf['delivery']['ecpmSelectionRate'])) {
                 // we should still allow there to be some portion of control
                 // responses in order to avoid starving out any ad
-                $selection_rate = floatval($conf['delivery']['ecpmSelectionRate']);
+                $selection_rate = (float) $conf['delivery']['ecpmSelectionRate'];
 
                 if (!_controlTrafficEnabled($aAds) ||
                         (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) /
@@ -804,7 +801,7 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
 
                             for ($a_idx = $i; $a_idx <= $l; $a_idx++) {
                                 $id = $adids[$a_idx];
-                                $aAds[$id]['priority'] = $aAds[$id]['priority'] * $scale;
+                                $aAds[$id]['priority'] *= $scale;
                             }
                             $p_avail = 0;
 
@@ -895,7 +892,7 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                 ###END_STRIP_DELIVERY
                 $ad = MAX_cacheGetAd($aLinkedAd['ad_id']);
                 // Carry over for conversion tracking
-                $ad['tracker_status'] = (!empty($aLinkedAd['tracker_status'])) ? $aLinkedAd['tracker_status'] : null;
+                $ad['tracker_status'] = (empty($aLinkedAd['tracker_status'])) ? null : $aLinkedAd['tracker_status'];
                 // Carry over for ad dimensions for market ads
                 if ($ad['width'] == $ad['height'] && $ad['width'] == -1) {
                     $ad['width'] = $aLinkedAd['width'];
@@ -1131,11 +1128,9 @@ function _adSelectBuildContext($aBanner, $context = [])
                 if (!isset($data[$value]['=='])) {
                     $data[$value][] = '==';
                 }
-            } else {
+            } elseif (!isset($data[$value]['=='])) {
                 // Did we previously deliver an ad from this campaign?
-                if (!isset($data[$value]['=='])) {
-                    $context[] = ['!=' => $value];
-                }
+                $context[] = ['!=' => $value];
             }
         }
     }

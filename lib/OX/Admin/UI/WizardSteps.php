@@ -26,7 +26,7 @@ class OX_UI_WizardSteps
     {
         $currentStepId = $aParams['current'];
         $aSteps = $aParams['steps'];
-        $addStepNo = isset($aParams['addStepNumber']) ? $aParams['addStepNumber'] : true;
+        $addStepNo = $aParams['addStepNumber'] ?? true;
 
         $aWizardSteps = [];
         $i = 0;

@@ -130,8 +130,8 @@ $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
 phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 $remnantEcpmInfoText = $strEnableECPM . '<br/>&nbsp;&nbsp;&nbsp;&nbsp;';
-$remnantEcpmInfoText .= !empty($pref['campaign_ecpm_enabled']) ? $strEnableECPMfromECPM :
-    $strEnableECPMfromRemnant;
+$remnantEcpmInfoText .= empty($pref['campaign_ecpm_enabled']) ? $strEnableECPMfromRemnant :
+    $strEnableECPMfromECPM;
 
 $contractEcpmInfoText = $strEnableContractECPM;
 

@@ -22,14 +22,6 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Tests the saveSummary() method.
      *
      * Requirements:

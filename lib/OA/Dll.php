@@ -95,12 +95,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
             $this->raiseError('Data \'' . $fieldName . '\' in structure is empty');
             return false;
         }
-
-        if (!$this->checkStructureNotRequiredStringField($oStructure, $fieldName, $maxLength)) {
-            return false;
-        }
-
-        return true;
+        return $this->checkStructureNotRequiredStringField($oStructure, $fieldName, $maxLength);
     }
 
     /**
@@ -123,7 +118,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
                 $this->raiseError('Field \'' . $fieldName . '\' is not string');
                 return false;
             }
-            if ($maxLength != -1 and strlen($oStructure->$fieldName) > $maxLength) {
+            if ($maxLength != -1 && strlen($oStructure->$fieldName) > $maxLength) {
                 $this->raiseError('Exceed Maximum length of field \'' . $fieldName . '\'');
                 return false;
             }
@@ -148,12 +143,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
             $this->raiseError('Field \'' . $fieldName . '\' in structure does not exists');
             return false;
         }
-
-        if (!$this->checkStructureNotRequiredIntegerField($oStructure, $fieldName)) {
-            return false;
-        }
-
-        return true;
+        return $this->checkStructureNotRequiredIntegerField($oStructure, $fieldName);
     }
 
     /**
@@ -170,7 +160,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
     public function checkStructureNotRequiredIntegerField(&$oStructure, $fieldName)
     {
         if (isset($oStructure->$fieldName)) {
-            if (!is_integer($oStructure->$fieldName)) {
+            if (!is_int($oStructure->$fieldName)) {
                 $this->raiseError('Field \'' . $fieldName . '\' is not integer');
                 return false;
             }
@@ -194,12 +184,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
             $this->raiseError('Field \'' . $fieldName . '\' in structure does not exists');
             return false;
         }
-
-        if (!$this->checkStructureNotRequiredDoubleField($oStructure, $fieldName)) {
-            return false;
-        }
-
-        return true;
+        return $this->checkStructureNotRequiredDoubleField($oStructure, $fieldName);
     }
 
     /**
@@ -216,7 +201,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
     public function checkStructureNotRequiredDoubleField(&$oStructure, $fieldName)
     {
         if (isset($oStructure->$fieldName)) {
-            if (!is_double($oStructure->$fieldName)) {
+            if (!is_float($oStructure->$fieldName)) {
                 $this->raiseError('Field \'' . $fieldName . '\' is not double ' . gettype($fieldName));
                 return false;
             }
@@ -239,12 +224,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
             $this->raiseError('Field \'' . $fieldName . '\' in structure does not exists');
             return false;
         }
-
-        if (!$this->checkStructureNotRequiredIntegerField($oStructure, $fieldName)) {
-            return false;
-        }
-
-        return true;
+        return $this->checkStructureNotRequiredIntegerField($oStructure, $fieldName);
     }
 
     /**
@@ -304,38 +284,18 @@ class OA_Dll extends OA_BaseObjectWithErrors
      */
     public function checkIdExistence($table, $id)
     {
-        switch ($table) {
-            default:
-                $tableId = $table;
-                break;
-            case 'accounts':
-                $tableId = 'account';
-                break;
-            case 'affiliates':
-                $tableId = 'publisher';
-                break;
-            case 'clients':
-                $tableId = 'advertiser';
-                break;
-            case 'banners':
-                $tableId = 'banner';
-                break;
-            case 'zones':
-                $tableId = 'zone';
-                break;
-            case 'campaigns':
-                $tableId = 'campaign';
-                break;
-            case 'users':
-                $tableId = 'user';
-                break;
-            case 'trackers':
-                $tableId = 'tracker';
-                break;
-            case 'variables':
-                $tableId = 'variable';
-                break;
-        }
+        $tableId = match ($table) {
+            'accounts' => 'account',
+            'affiliates' => 'publisher',
+            'clients' => 'advertiser',
+            'banners' => 'banner',
+            'zones' => 'zone',
+            'campaigns' => 'campaign',
+            'users' => 'user',
+            'trackers' => 'tracker',
+            'variables' => 'variable',
+            default => $table,
+        };
 
         $doObject = OA_Dal::factoryDO($table);
         if (empty($id) || !($object = $doObject->get($id))) {

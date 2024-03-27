@@ -24,14 +24,6 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
 {
     public $dalChannel;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalChannel = OA_Dal::factoryDAL('channel');

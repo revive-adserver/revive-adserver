@@ -211,13 +211,11 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = $this->zonename;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                if (!$this->affiliateid) {
-                    $this->find(true);
-                }
-                $aAuditFields['affiliateid'] = $this->affiliateid;
-                break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            if (!$this->affiliateid) {
+                $this->find(true);
+            }
+            $aAuditFields['affiliateid'] = $this->affiliateid;
         }
     }
 }

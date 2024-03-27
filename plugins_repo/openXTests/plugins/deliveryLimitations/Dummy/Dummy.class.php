@@ -30,9 +30,6 @@ class Plugins_DeliveryLimitations_Dummy_Dummy extends Plugins_DeliveryLimitation
 
     public function isAllowed($param = false)
     {
-        if ($param == 'disallow') {
-            return false;
-        }
-        return true;
+        return $param != 'disallow';
     }
 }

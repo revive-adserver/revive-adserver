@@ -189,7 +189,7 @@ function displayAffiliateEditPage($affiliateid, $form, $oPublisherDll = null)
         $oTpl->assign('notice', $oPublisherDll->_noticeMessage);
     }
 
-    $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
+    $oTpl->assign('showAdDirect', defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true);
     $oTpl->assign('keyAddNew', $GLOBALS['keyAddNew']);
 
     $oTpl->display();

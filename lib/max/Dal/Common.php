@@ -72,7 +72,7 @@ class MAX_Dal_Common
     public function __construct()
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
-        $this->prefix = $this->getTablePrefix();
+        $this->prefix = static::getTablePrefix();
         $this->oDbh = &$this->_getDbConnection();
         $this->queryBuilder = $this->_getQueryTool($this->oDbh);
     }
@@ -203,11 +203,11 @@ class MAX_Dal_Common
         }
         // Add where conditions
         if (!empty($aParams['wheres'])) {
-            list($constraint, $operator) = $aParams['wheres'][0];
+            [$constraint, $operator] = $aParams['wheres'][0];
             $this->queryBuilder->setWhere($constraint, $operator);
             if (count($aParams['wheres']) > 1) {
                 for ($counter = 1; $counter < count($aParams['wheres']); $counter++) {
-                    list($constraint, $operator) = $aParams['wheres'][$counter];
+                    [$constraint, $operator] = $aParams['wheres'][$counter];
                     $this->queryBuilder->addWhere($constraint, $operator);
                 }
             }
@@ -215,7 +215,7 @@ class MAX_Dal_Common
         // Add joins
         if (!empty($aParams['joins'])) {
             foreach ($aParams['joins'] as $join) {
-                list($table, $joinCond) = $join;
+                [$table, $joinCond] = $join;
                 $this->queryBuilder->addJoin($table, $joinCond);
             }
         }
@@ -225,16 +225,16 @@ class MAX_Dal_Common
         }
         // Add order by conditions
         if (!empty($aParams['orderBys'])) {
-            list($field, $direction) = $aParams['orderBys'][0];
+            [$field, $direction] = $aParams['orderBys'][0];
             if (!is_bool($direction)) {
-                $direction = ($direction == 'DESC') ? true : false;
+                $direction = $direction == 'DESC';
             }
             $this->queryBuilder->setOrder($field, $direction);
             if (count($aParams['orderBys']) > 1) {
                 for ($counter = 1; $counter < count($aParams['orderBys']); $counter++) {
-                    list($field, $direction) = $aParams['orderBys'][$counter];
+                    [$field, $direction] = $aParams['orderBys'][$counter];
                     if (!is_bool($direction)) {
-                        $direction = ($direction == 'DESC') ? true : false;
+                        $direction = $direction == 'DESC';
                     }
                     $this->queryBuilder->addOrder($field, $direction);
                 }
@@ -242,11 +242,11 @@ class MAX_Dal_Common
         }
         // Add having conditions
         if (!empty($aParams['havings'])) {
-            list($constraint, $operator) = $aParams['havings'][0];
+            [$constraint, $operator] = $aParams['havings'][0];
             $this->queryBuilder->setHaving($constraint);
             if (count($aParams['havings']) > 1) {
                 for ($counter = 1; $counter < count($aParams['havings']); $counter++) {
-                    list($constraint, $operator) = $aParams['havings'][$counter];
+                    [$constraint, $operator] = $aParams['havings'][$counter];
                     $this->queryBuilder->addHaving($constraint, $operator);
                 }
             }
@@ -264,7 +264,7 @@ class MAX_Dal_Common
         if (is_array($nameColumn)) {
             $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
         } else {
-            $sqlTableOrder = !empty($nameColumn) ? " ORDER BY $nameColumn $direction" : '';
+            $sqlTableOrder = empty($nameColumn) ? '' : " ORDER BY $nameColumn $direction";
         }
         return $sqlTableOrder;
     }
@@ -288,7 +288,7 @@ class MAX_Dal_Common
      */
     public function getOrderColumn($listOrder)
     {
-        return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : $this->orderListName[$this->defaultOrderListName];
+        return $this->orderListName[$listOrder] ?? $this->orderListName[$this->defaultOrderListName];
     }
 
     public function _getTablename($tableName)

@@ -25,7 +25,7 @@ function getLastChangeset()
             }
         }
         krsort($aFiles);
-        if (count($aFiles) > 0) {
+        if ($aFiles !== []) {
             $result = $aFiles[0];
         } else {
             $result = false;
@@ -87,10 +87,10 @@ if (array_key_exists('select_changesets', $_POST)) {
         $schemaFile = 'changes/' . str_replace('changes_', 'schema_', $changesFile);
 
         require_once 'oaSchema.php';
-        $oaSchema = new Openads_Schema_Manager($schemaFile, '', $schemaPath);
+        $oaSchema = new Openads_Schema_Manager($schemaPath, $schemaFile, '');
 
         if (($aErrs = $oaSchema->checkPermissions()) !== true) {
-            die(join("<br />\n", $aErrs));
+            die(implode("<br />\n", $aErrs));
         }
 
         $oaSchema->writeMigrationClass(MAX_CHG . $changesFile, MAX_CHG);
@@ -117,10 +117,10 @@ if (array_key_exists('select_changesets', $_POST)) {
     }
 
     require_once 'oaSchema.php';
-    $oaSchema = new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
+    $oaSchema = new Openads_Schema_Manager($schemaPath, $schemaFile, $changesFile);
 
     if (($aErrs = $oaSchema->checkPermissions()) !== true) {
-        die(join("<br />\n", $aErrs));
+        die(implode("<br />\n", $aErrs));
     }
 
     $table_name = $_POST['table_name'];
@@ -142,10 +142,10 @@ if (array_key_exists('select_changesets', $_POST)) {
     }
 
     require_once 'oaSchema.php';
-    $oaSchema = new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
+    $oaSchema = new Openads_Schema_Manager($schemaPath, $schemaFile, $changesFile);
 
     if (($aErrs = $oaSchema->checkPermissions()) !== true) {
-        die(join("<br />\n", $aErrs));
+        die(implode("<br />\n", $aErrs));
     }
 
     //$table_name = $_POST['table_name'];

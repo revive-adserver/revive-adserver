@@ -23,14 +23,6 @@ Language_Loader::load();
  */
 class DataObjects_TrackersTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         DataGenerator::cleanUp(['trackers']);

@@ -112,14 +112,14 @@ if (!empty($trackerid)) {
         }
     } else {
         // Get values on the form
-        for ($f = 0; $f < sizeof($variables) + 1; $f++) {
+        for ($f = 0; $f < count($variables) + 1; $f++) {
             if (isset($_POST['name' . $f])) {
                 $variables[$f]['name'] = $_POST['name' . $f];
                 $variables[$f]['description'] = $_POST['description' . $f];
                 $variables[$f]['datatype'] = $_POST['datatype' . $f];
                 $variables[$f]['purpose'] = $_POST['purpose' . $f];
-                $variables[$f]['reject_if_empty'] = isset($_POST['reject_if_empty' . $f]) ? $_POST['reject_if_empty' . $f] : '';
-                $variables[$f]['is_unique'] = isset($_POST['is_unique' . $f]) ? $_POST['is_unique' . $f] : '';
+                $variables[$f]['reject_if_empty'] = $_POST['reject_if_empty' . $f] ?? '';
+                $variables[$f]['is_unique'] = $_POST['is_unique' . $f] ?? '';
                 // Set window delays
                 $uniqueWindowSeconds = 0;
                 if (!empty($_POST['uniquewindow' . $f])) {
@@ -208,20 +208,12 @@ if (!empty($trackerid)) {
                 $isUniqueAlreadyExists = true;
             }
 
-            switch ($variablemethod) {
-                case 'js':
-                    $v['variablecode'] = "var {$v['name']} = \\'%%" . strtoupper($v['name']) . "_VALUE%%\\'";
-                    break;
-                case 'dom':
-                    $v['variablecode'] = '';
-                    break;
-                case 'custom':
-                    $v['variablecode'] = "var {$v['name']} = \\'" . $v['variablecode'] . "\\'";
-                    break;
-                default:
-                    $v['variablecode'] = "var {$v['name']} = escape(\\'%%" . strtoupper($v['name']) . "_VALUE%%\\')";
-                    break;
-            }
+            $v['variablecode'] = match ($variablemethod) {
+                'js' => "var {$v['name']} = \\'%%" . strtoupper($v['name']) . "_VALUE%%\\'",
+                'dom' => '',
+                'custom' => "var {$v['name']} = \\'" . $v['variablecode'] . "\\'",
+                default => "var {$v['name']} = escape(\\'%%" . strtoupper($v['name']) . "_VALUE%%\\')",
+            };
 
             // Always delete variable_publisher entries
             if (!empty($v['variableid'])) {
@@ -377,7 +369,7 @@ if (isset($trackerid) && $trackerid != '') {
                 echo "<tr>\n";
                 echo "<td>" . $strVariablePurpose . "</td>\n";
                 echo "<td><select name='purpose" . $k . "'>\n";
-                echo "<option " . (!$v['purpose'] ? 'selected ' : '') . "value=''>" . $strGeneric . "</option>\n";
+                echo "<option " . ($v['purpose'] ? '' : 'selected ') . "value=''>" . $strGeneric . "</option>\n";
                 echo "<option " . ($v['purpose'] == 'basket_value' ? 'selected ' : '') . "value='basket_value'>" . $strBasketValue . "</option>\n";
                 echo "<option " . ($v['purpose'] == 'num_items' ? 'selected ' : '') . "value='num_items'>" . $strNumItems . "</option>\n";
                 echo "<option " . ($v['purpose'] == 'post_code' ? 'selected ' : '') . "value='post_code'>" . $strPostcode . "</option>\n";
@@ -400,11 +392,11 @@ if (isset($trackerid) && $trackerid != '') {
 
                 $seconds_left = $v['unique_window'];
                 $uniqueWindow['day'] = floor($seconds_left / (60 * 60 * 24));
-                $seconds_left = $seconds_left % (60 * 60 * 24);
+                $seconds_left %= 60 * 60 * 24;
                 $uniqueWindow['hour'] = floor($seconds_left / (60 * 60));
-                $seconds_left = $seconds_left % (60 * 60);
+                $seconds_left %= 60 * 60;
                 $uniqueWindow['minute'] = floor($seconds_left / (60));
-                $seconds_left = $seconds_left % (60);
+                $seconds_left %= 60;
                 $uniqueWindow['second'] = $seconds_left;
 
                 echo "<table cellpadding='0' cellspacing='0'><tr><td align='left'>";

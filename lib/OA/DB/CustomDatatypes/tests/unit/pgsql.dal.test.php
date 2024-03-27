@@ -26,9 +26,6 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
 
     public $customTypes = 17;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

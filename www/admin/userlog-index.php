@@ -79,7 +79,7 @@ if (empty($aColumnNamesFound)) {
     $listorder = 'updated';
 }
 $orderdirection = htmlspecialchars(MAX_getStoredValue('orderdirection', 'up'));
-if (!($orderdirection == 'up' || $orderdirection == 'down')) {
+if ($orderdirection != 'up' && $orderdirection != 'down') {
     if (stristr($orderdirection, 'down')) {
         $orderdirection = 'down';
     } else {
@@ -219,8 +219,8 @@ $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitFor
 // Build column header link params
 $aAllowdParams = ['advertiserId', 'campaignId', 'publisherId', 'zoneId'];
 foreach ($aAllowdParams as $key) {
-    if (!empty($$key)) {
-        $aUrlParam[$key] = "$key=" . $$key;
+    if (!empty(${$key})) {
+        $aUrlParam[$key] = "$key=" . ${$key};
     }
 }
 

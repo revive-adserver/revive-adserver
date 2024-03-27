@@ -30,14 +30,6 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
      */
     public $_dalAdvertiserStatistics;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_dalAdvertiserStatistics = new OA_Dal_Statistics_Advertiser();

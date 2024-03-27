@@ -34,22 +34,13 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @param $agencyId integer Limit results to advertisers owned by a given Agency ID
      * @return RecordSet
      */
-    public function getClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = [])
+    public function getClientByKeyword($keyword, $agencyId = null)
     {
-        // always add default type
-        $aIncludeSystemTypes = array_merge(
-            [DataObjects_Clients::ADVERTISER_TYPE_DEFAULT],
-            $aIncludeSystemTypes
-        );
-        foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);
-        }
-
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $whereClient = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
         $oDbh = OA_DB::singleton();
-        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix() . 'clients', true);
+        $oDbh->loadModule('Datatype');
 
+        $whereClientId = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
+        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix() . 'clients', true);
 
         $query = "
             SELECT
@@ -58,13 +49,13 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
             FROM
                 {$tableC} AS c
             WHERE
-                (
-                    c.clientname LIKE " . DBC::makeLiteral('%' . $keyword . '%') . $whereClient . "
-                )
-                AND c.type IN (" . implode(',', $aIncludeSystemTypes) . ")";
+                ({$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'c.clientname')}{$whereClientId})
+            ";
+
         if ($agencyId !== null) {
             $query .= " AND c.agencyid=" . DBC::makeLiteral($agencyId);
         }
+
         return DBC::NewRecordSet($query);
     }
 

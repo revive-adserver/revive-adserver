@@ -86,7 +86,7 @@ if ($limitations['compatible']) {
     }
 
     // Set document.context, if required
-    $output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>" : '';
+    $output['html'] .= (empty($context)) ? '' : "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>";
 
     echo MAX_javascriptToHTML(MAX_layerGetHtml($output, $uniqid), "MAX_{$uniqid}");
     MAX_layerPutJs($output, $uniqid);

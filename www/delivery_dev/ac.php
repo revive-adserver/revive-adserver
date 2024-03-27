@@ -22,7 +22,7 @@ MAX_commonSendContentTypeHeader('text/html');
 
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(['timeout']);
-$timeout = !empty($timeout) ? $timeout : 0;
+$timeout = empty($timeout) ? 0 : $timeout;
 
 if ($zoneid > 0) {
     // Get the zone from cache
@@ -38,10 +38,10 @@ if ($zoneid > 0) {
 // Get the banner from cache
 $aBanner = MAX_cacheGetAd($bannerid);
 
-$prepend = !empty($aZone['prepend']) ? $aZone['prepend'] : '';
+$prepend = empty($aZone['prepend']) ? '' : $aZone['prepend'];
 $html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
-$append = !empty($aZone['append']) ? $aZone['append'] : '';
-$title = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
+$append = empty($aZone['append']) ? '' : $aZone['append'];
+$title = empty($aBanner['alt']) ? 'Advertisement' : $aBanner['alt'];
 
 echo "
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>

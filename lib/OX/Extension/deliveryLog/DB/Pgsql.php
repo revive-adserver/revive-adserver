@@ -178,7 +178,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
         $c = 1;
         $and = '';
         $aColumns = $component->getBucketTableColumns();
-        foreach ($aColumns as $columnName => $columnType) {
+        foreach (array_keys($aColumns) as $columnName) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }
@@ -203,7 +203,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
         $c = 1;
         $comma = '';
         $aColumns = $component->getBucketTableColumns();
-        foreach ($aColumns as $columnName => $columnType) {
+        foreach (array_keys($aColumns) as $columnName) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }

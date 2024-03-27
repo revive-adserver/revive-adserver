@@ -62,7 +62,7 @@ if (!empty($action)) {
 } elseif (!empty($submit)) {
     OA_Permission::checkSessionToken();
 
-    $acl = (isset($acl)) ? $acl : [];
+    $acl ??= [];
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
         if (MAX_AclSave($acl, $aEntities)) {
@@ -72,7 +72,7 @@ if (!empty($action)) {
 
             $translation = new OX_Translation();
             $translated_message = $translation->translate($GLOBALS['strChannelAclHasBeenUpdated'], [
-                MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?" . (!empty($affiliateid) ? "affiliateid={$affiliateid}&" : "") . "channelid={$channelid}"),
+                MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?" . (empty($affiliateid) ? "" : "affiliateid={$affiliateid}&") . "channelid={$channelid}"),
                 htmlspecialchars($doChannel->name)
             ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

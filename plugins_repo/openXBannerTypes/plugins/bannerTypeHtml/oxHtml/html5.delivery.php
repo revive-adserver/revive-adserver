@@ -15,7 +15,7 @@
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
  */
-function Plugin_BannerTypeHTML_oxHtml_html5_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc, $referer)
+function Plugin_BannerTypeHTML_oxHtml_html5_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $filename = htmlspecialchars(_adRenderBuildImageUrlPrefix() . "/{$aBanner['filename']}/index.html");

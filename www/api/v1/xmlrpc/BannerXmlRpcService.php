@@ -444,7 +444,7 @@ $oBannerInfoXmlRpcService = new BannerXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'addBanner' => [
-            'function' => [$oBannerInfoXmlRpcService, 'addBanner'],
+            'function' => $oBannerInfoXmlRpcService->addBanner(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -452,7 +452,7 @@ $server = new XML_RPC_Server(
         ],
 
         'modifyBanner' => [
-            'function' => [$oBannerInfoXmlRpcService, 'modifyBanner'],
+            'function' => $oBannerInfoXmlRpcService->modifyBanner(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -460,7 +460,7 @@ $server = new XML_RPC_Server(
         ],
 
         'deleteBanner' => [
-            'function' => [$oBannerInfoXmlRpcService, 'deleteBanner'],
+            'function' => $oBannerInfoXmlRpcService->deleteBanner(...),
             'signature' => [
                 ['int', 'string', 'int']
             ],
@@ -468,7 +468,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getBannerTargeting' => [
-            'function' => [$oBannerInfoXmlRpcService, 'getBannerTargeting'],
+            'function' => $oBannerInfoXmlRpcService->getBannerTargeting(...),
             'signature' => [
                 ['array', 'string', 'int']
             ],
@@ -476,7 +476,7 @@ $server = new XML_RPC_Server(
         ],
 
         'setBannerTargeting' => [
-            'function' => [$oBannerInfoXmlRpcService, 'setBannerTargeting'],
+            'function' => $oBannerInfoXmlRpcService->setBannerTargeting(...),
             'signature' => [
                 ['boolean', 'string', 'int', 'array']
             ],
@@ -484,7 +484,7 @@ $server = new XML_RPC_Server(
         ],
 
         'bannerDailyStatistics' => [
-            'function' => [$oBannerInfoXmlRpcService, 'bannerDailyStatistics'],
+            'function' => $oBannerInfoXmlRpcService->bannerDailyStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -494,7 +494,7 @@ $server = new XML_RPC_Server(
         ],
 
         'bannerPublisherStatistics' => [
-            'function' => [$oBannerInfoXmlRpcService, 'bannerPublisherStatistics'],
+            'function' => $oBannerInfoXmlRpcService->bannerPublisherStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -504,7 +504,7 @@ $server = new XML_RPC_Server(
         ],
 
         'bannerZoneStatistics' => [
-            'function' => [$oBannerInfoXmlRpcService, 'bannerZoneStatistics'],
+            'function' => $oBannerInfoXmlRpcService->bannerZoneStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -515,7 +515,7 @@ $server = new XML_RPC_Server(
 
 
         'getBanner' => [
-            'function' => [$oBannerInfoXmlRpcService, 'getBanner'],
+            'function' => $oBannerInfoXmlRpcService->getBanner(...),
             'signature' => [
                 ['struct', 'string', 'int']
             ],
@@ -523,7 +523,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getBannerListByCampaignId' => [
-            'function' => [$oBannerInfoXmlRpcService, 'getBannerListByCampaignId'],
+            'function' => $oBannerInfoXmlRpcService->getBannerListByCampaignId(...),
             'signature' => [
                 ['array', 'string', 'int']
             ],

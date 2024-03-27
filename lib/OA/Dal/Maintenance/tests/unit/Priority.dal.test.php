@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method for testing the obtainPriorityLock and
      * releasePriorityLock methods.
      *

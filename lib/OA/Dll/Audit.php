@@ -299,19 +299,14 @@ class OA_Dll_Audit extends OA_Dll
      *
      * @return string action name
      */
-    public function getActionName($actionId)
+    public function getActionName(int $actionId)
     {
-        switch ($actionId) {
-            case OA_AUDIT_ACTION_INSERT:
-                $action = $GLOBALS['strInserted'];
-                break;
-            case OA_AUDIT_ACTION_UPDATE:
-                $action = $GLOBALS['strUpdated'];
-                break;
-            case OA_AUDIT_ACTION_DELETE:
-                $action = $GLOBALS['strDeleted'];
-                break;
-        }
+        $action = match ($actionId) {
+            OA_AUDIT_ACTION_INSERT => $GLOBALS['strInserted'],
+            OA_AUDIT_ACTION_UPDATE => $GLOBALS['strUpdated'],
+            OA_AUDIT_ACTION_DELETE => $GLOBALS['strDeleted'],
+            default => new \RuntimeException(),
+        };
 
         return $action;
     }
@@ -376,7 +371,7 @@ class OA_Dll_Audit extends OA_Dll
             $aChildren[] = $aAudit;
         }
 
-        return (!empty($aChildren)) ? $aChildren : false;
+        return (empty($aChildren)) ? false : $aChildren;
     }
 
     /**
@@ -400,7 +395,7 @@ class OA_Dll_Audit extends OA_Dll
         $oAudit->context = $context;
         $numRows = $oAudit->find();
 
-        return ($numRows > 0) ? true : false;
+        return $numRows > 0;
     }
 
     /**

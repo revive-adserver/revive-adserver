@@ -55,15 +55,15 @@ setcookie('schemaPath', $schemaPath);
 setcookie('schemaFile', $schemaFile);
 
 global $oaSchema;
-$oaSchema = new Openads_Schema_Manager($schemaFile, '', $schemaPath);
+$oaSchema = new Openads_Schema_Manager($schemaPath, $schemaFile, '');
 
 if (is_array($aErrs = OX_DevToolbox::checkFilePermissions([PATH_DEV, PATH_VAR, MAX_PATH . $pluginPath]))) {
     setcookie('schemaFile', '');
     setcookie('schemaPath', '');
     $errorMessage =
-        join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
+        implode("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n" .
         'To fix, please execute the following commands:' . "<br /><br >\n" .
-        join("<br />\n", $aErrs['fixes']);
+        implode("<br />\n", $aErrs['fixes']);
     die($errorMessage);
 }
 

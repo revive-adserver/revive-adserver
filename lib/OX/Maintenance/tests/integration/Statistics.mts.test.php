@@ -25,14 +25,6 @@ Language_Loader::load();
 class Test_OX_Maintenance_Statistics extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * The complete end-to-end integration test for 60 minute operation intervals.
      */
     public function testHourly()

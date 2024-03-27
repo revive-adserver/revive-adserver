@@ -24,14 +24,6 @@ TestEnv::recreateDatabaseAsLatin1OnMysql();
 class Test_EncodingMigration extends MigrationTest
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Test convertEncoding()
      *
      */

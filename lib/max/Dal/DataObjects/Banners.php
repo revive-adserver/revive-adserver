@@ -293,10 +293,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = $this->description;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                $aAuditFields['campaignid'] = $this->campaignid;
-                break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            $aAuditFields['campaignid'] = $this->campaignid;
         }
     }
 }

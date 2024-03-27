@@ -64,7 +64,7 @@ $allChannelsValid = true;
 while ($rsChannel->fetch() && $row = $rsChannel->toArray()) {
     if (!MAX_AclValidate('channel-acl.php', ['channelid' => $row['channelid']])) {
         $allChannelsValid = false;
-        $affiliateName = (!empty($row['affiliatename'])) ? $row['affiliatename'] : $strUntitled;
+        $affiliateName = (empty($row['affiliatename'])) ? $strUntitled : $row['affiliatename'];
         echo "<a href='channel-acl.php?affiliateid={$row['affiliateid']}&channelid={$row['channelid']}'>{$row['name']}</a><br />";
     }
 }
@@ -84,9 +84,9 @@ $allBannersValid = true;
 while ($rsBanners->fetch() && $row = $rsBanners->toArray()) {
     if (!MAX_AclValidate('banner-acl.php', ['bannerid' => $row['bannerid']])) {
         $allBannersValid = false;
-        $bannerName = (!empty($row['description'])) ? $row['description'] : $strUntitled;
-        $campaignName = (!empty($row['campaignname'])) ? $row['campaignname'] : $strUntitled;
-        $clientName = (!empty($row['clientname'])) ? $row['clientname'] : $strUntitled;
+        $bannerName = (empty($row['description'])) ? $strUntitled : $row['description'];
+        $campaignName = (empty($row['campaignname'])) ? $strUntitled : $row['campaignname'];
+        $clientName = (empty($row['clientname'])) ? $strUntitled : $row['clientname'];
         echo "{$clientName} -> {$campaignName} -> <a href='banner-acl.php?clientid={$row['clientid']}&campaignid={$row['campaignid']}&bannerid={$row['bannerid']}'>{$bannerName}</a><br />";
     }
 }

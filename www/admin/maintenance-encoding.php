@@ -120,8 +120,8 @@ if (!empty($_POST['encConfirm'])) {
 function _iterateTableFields($aTableFields, $execute = false)
 {
     $aChanged = [];
-    $encTo = (!empty($_POST['encTo'])) ? $_POST['encTo'] : 'UTF-8';
-    $encFrom = (!empty($_POST['encFrom'])) ? $_POST['encFrom'] : 'UTF-8';
+    $encTo = (empty($_POST['encTo'])) ? 'UTF-8' : $_POST['encTo'];
+    $encFrom = (empty($_POST['encFrom'])) ? 'UTF-8' : $_POST['encFrom'];
 
     foreach ($aTableFields as $table => $tableData) {
         $doTable = OA_Dal::factoryDO($table);
@@ -165,8 +165,8 @@ echo "<form action='maintenance-encoding.php' method='POST'>";
 $oOptions = new Plugins_InvocationTagsOptions();
 $aEncodings = $oOptions->_getAvailableCharsets();
 
-$selectedFrom = (!empty($_POST['encFrom'])) ? $_POST['encFrom'] : 'UTF-8';
-$selectedTo = (!empty($_POST['encTo'])) ? $_POST['encTo'] : 'UTF-8';
+$selectedFrom = (empty($_POST['encFrom'])) ? 'UTF-8' : $_POST['encFrom'];
+$selectedTo = (empty($_POST['encTo'])) ? 'UTF-8' : $_POST['encTo'];
 
 echo $strEncodingConvertFrom . " <select name='encFrom'>\n";
 foreach ($aEncodings as $encCode => $encName) {

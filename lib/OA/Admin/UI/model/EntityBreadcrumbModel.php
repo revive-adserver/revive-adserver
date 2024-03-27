@@ -25,12 +25,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbModel
      *
      * @var array
      */
-    private $aSegments;
-
-    public function __construct()
-    {
-        $this->aSegments = [];
-    }
+    private $aSegments = [];
 
 
     /**

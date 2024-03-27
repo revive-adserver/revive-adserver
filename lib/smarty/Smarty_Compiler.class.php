@@ -311,7 +311,7 @@ class Smarty_Compiler extends Smarty {
             $this->_current_line_no += substr_count($template_tags[$i], "\n");
         }
         if (count($this->_tag_stack)>0) {
-            list($_open_tag, $_line_no) = end($this->_tag_stack);
+            [$_open_tag, $_line_no] = end($this->_tag_stack);
             $this->_syntax_error("unclosed tag \{$_open_tag} (opened line $_line_no).", E_USER_ERROR, __FILE__, __LINE__);
             return;
         }
@@ -471,7 +471,7 @@ class Smarty_Compiler extends Smarty {
                 return $this->_compile_if_tag($tag_args);
 
             case 'else':
-                list($_open_tag) = end($this->_tag_stack);
+                [$_open_tag] = end($this->_tag_stack);
                 if ($_open_tag != 'if' && $_open_tag != 'elseif')
                     $this->_syntax_error('unexpected {else}', E_USER_ERROR, __FILE__, __LINE__);
                 else
@@ -479,7 +479,7 @@ class Smarty_Compiler extends Smarty {
                 return '<?php else: ?>';
 
             case 'elseif':
-                list($_open_tag) = end($this->_tag_stack);
+                [$_open_tag] = end($this->_tag_stack);
                 if ($_open_tag != 'if' && $_open_tag != 'elseif')
                     $this->_syntax_error('unexpected {elseif}', E_USER_ERROR, __FILE__, __LINE__);
                 if ($_open_tag == 'if')
@@ -554,7 +554,7 @@ class Smarty_Compiler extends Smarty {
 
             case 'php':
                 /* handle folded tags replaced by {php} */
-                list(, $block) = each($this->_folded_blocks);
+                [, $block] = each($this->_folded_blocks);
                 $this->_current_line_no += substr_count($block[0], "\n");
                 /* the number of matched elements in the regexp in _compile_file()
                    determins the type of folded tag that was found */
@@ -813,7 +813,7 @@ class Smarty_Compiler extends Smarty {
         $_cache_attrs = '';
         $arg_list = $this->_compile_arg_list('function', $tag_command, $attrs, $_cache_attrs);
 
-        $output = $this->_compile_plugin_call('function', $tag_command).'(array('.implode(',', $arg_list)."), \$this)";
+        $output = $this->_compile_plugin_call('function', $tag_command).'(['.implode(',', $arg_list)."], \$this)";
         if($tag_modifier != '') {
             $this->_parse_modifiers($output, $tag_modifier);
         }
@@ -843,7 +843,7 @@ class Smarty_Compiler extends Smarty {
             $start_tag = true;
         }
 
-        list($object, $obj_comp) = explode('->', $tag_command);
+        [$object, $obj_comp] = explode('->', $tag_command);
 
         $arg_list = array();
         if(count($attrs)) {
@@ -1232,7 +1232,7 @@ class Smarty_Compiler extends Smarty {
             $output = "<?php ob_start(); ?>";
             $this->_capture_stack[] = array($buffer, $assign);
         } else {
-            list($buffer, $assign) = array_pop($this->_capture_stack);
+            [$buffer, $assign] = array_pop($this->_capture_stack);
             $output = "<?php \$this->_smarty_vars['capture'][$buffer] = ob_get_contents(); ";
             if (isset($assign)) {
                 $output .= " \$this->assign($assign, ob_get_contents());";
@@ -1902,7 +1902,7 @@ class Smarty_Compiler extends Smarty {
     function _parse_modifiers(&$output, $modifier_string)
     {
         preg_match_all('~\|(@?\w+)((?>:(?:'. $this->_qstr_regexp . '|[^|]+))*)~', '|' . $modifier_string, $_match);
-        list(, $_modifiers, $modifier_arg_strings) = $_match;
+        [, $_modifiers, $modifier_arg_strings] = $_match;
 
         for ($_i = 0, $_for_max = count($_modifiers); $_i < $_for_max; $_i++) {
             $_modifier_name = $_modifiers[$_i];
@@ -2151,7 +2151,8 @@ class Smarty_Compiler extends Smarty {
                         "\$this->_plugins['$type']['$name'][0][0]->"    /* method callback */
                         : (string)($this->_plugins[$type][$name][0][0]).'::'    /* class callback */
                        ). $this->_plugins[$type][$name][0][1];
-
+            } elseif ($this->_plugins[$type][$name][0] instanceof Closure) {
+                return "\$this->_plugins['$type']['$name'][0]";
             } else {
                 /* function callback */
                 return $this->_plugins[$type][$name][0];
@@ -2270,7 +2271,7 @@ class Smarty_Compiler extends Smarty {
     {
         $message = '';
         if (count($this->_tag_stack)>0) {
-            list($_open_tag, $_line_no) = array_pop($this->_tag_stack);
+            [$_open_tag, $_line_no] = array_pop($this->_tag_stack);
             if ($close_tag == $_open_tag) {
                 return $_open_tag;
             }

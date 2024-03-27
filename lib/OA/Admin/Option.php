@@ -209,7 +209,7 @@ class OA_Admin_Option
 
         foreach ($aSections as $k => $v) {
             if (OA_Permission::isAccount($v['perm'])) {
-                $aResult[$k]['name'] = (isset($v['text']) ? $v['text'] : $v['name']);
+                $aResult[$k]['name'] = ($v['text'] ?? $v['name']);
                 $aResult[$k]['link'] = ($this->_optionType == 'account-preferences' ? $v['value'] : $this->_optionType . '-' . $k . '.php');
                 addLeftMenuSubItem($k, $aResult[$k]['name'], $aResult[$k]['link']);
             }
@@ -415,8 +415,8 @@ class OA_Admin_Option
                             // item value from the settings configuration file
                             if (is_null($value) && $this->_optionType == 'account-settings') {
                                 $aNameExploded = explode('_', $aItem['name'], 2);
-                                $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
-                                $aSettingKey = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+                                $aSettingSection = $aNameExploded[0] ?? null;
+                                $aSettingKey = $aNameExploded[1] ?? null;
                                 if (isset($aConf[$aSettingSection][$aSettingKey])) {
                                     // Load the configuration .php file value
                                     $value = $aConf[$aSettingSection][$aSettingKey];
@@ -675,14 +675,11 @@ class OA_Admin_Option
                     preg_match("/^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$/Di", $word, $regs);
                     $type = $this->_showGetType($aData, $regs[2]);
                     $javascript .= $regs[1] . "document." . $formName . "." . $regs[2] . ".";
-                    switch ($type) {
-                        case 'checkbox':    $javascript .= 'checked';
-                            break;
-                        case 'select':      $javascript .= 'selectedIndex';
-                            break;
-                        default:            $javascript .= 'value';
-                            break;
-                    }
+                    match ($type) {
+                        'checkbox' => $javascript .= 'checked',
+                        'select' => $javascript .= 'selectedIndex',
+                        default => $javascript .= 'value',
+                    };
                     $javascript .= " " . $regs[3] . " " . $regs[4] . $regs[5];
                     $javascript .= " && " . $regs[1] . "document." . $formName . "." . $regs[2] . ".disabled " . $regs[3] . " false";
                 }
@@ -942,8 +939,8 @@ class OA_Admin_Option
             $aConf = $GLOBALS['_MAX']['CONF'];
             if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name'])) {
                 $aNameExploded = explode('_', $aItem['name']);
-                $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
-                $aSettingKey = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+                $aSettingSection = $aNameExploded[0] ?? null;
+                $aSettingKey = $aNameExploded[1] ?? null;
                 if (isset($aConf[$aSettingSection][$aSettingKey]) && (!OA_Admin_Settings::isConfigWritable())) {
                     return true;
                 }

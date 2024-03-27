@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
  *
  * @package    OpenXPlugin
  * @subpackage MaintenancePriorityTask
- * @abstract
  */
 abstract class Plugins_MaintenancePriorityTask extends OX_Component
 {
@@ -32,7 +31,6 @@ abstract class Plugins_MaintenancePriorityTask extends OX_Component
      * to run in the Maintenance Priority Engine
      * Implements hook 'addMaintenancePriorityTask'
      *
-     * @abstract
      * @return OX_Maintenance_Priority_Task
      */
     abstract public function addMaintenancePriorityTask();

@@ -74,7 +74,7 @@ class OA_Maintenance_Regenerate
             }
             // Now check that the start and end dates match the start and end
             // of the operation interval
-            list($oOperationIntervalStart, $oOperationIntervalEnd) =
+            [$oOperationIntervalStart, $oOperationIntervalEnd] =
                 OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate, $operationInterval);
             if (!$oStartDate->equals($oOperationIntervalStart)) {
                 return false;

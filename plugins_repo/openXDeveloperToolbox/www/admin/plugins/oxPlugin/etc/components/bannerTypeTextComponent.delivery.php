@@ -14,7 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  *
  * This function generates the code to show a "text" ad
  *

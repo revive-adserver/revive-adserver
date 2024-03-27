@@ -17,7 +17,7 @@
 
 // Require the initialisation file
 // Done differently from elsewhere so that it works in CLI MacOS X
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../init.php';
 
 // Required files

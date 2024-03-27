@@ -28,9 +28,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
     public $doClients = null;
     public $oDbh = null;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

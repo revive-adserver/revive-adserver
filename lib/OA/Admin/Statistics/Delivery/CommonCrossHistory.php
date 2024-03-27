@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
+abstract class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
     public $crossEntitiesCache;
 

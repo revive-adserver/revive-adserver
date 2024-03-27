@@ -65,8 +65,7 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
     public function __construct($aParameters)
     {
         $this->_tagName = $aParameters['tag'];
-        $this->_aAddAttributes = $aParameters['addAttributes']
-            ? $aParameters['addAttributes'] : [];
+        $this->_aAddAttributes = $aParameters['addAttributes'] ?: [];
 
         $this->_regexp = $aParameters['regexp'];
         $this->_callback = $aParameters['callback'];
@@ -123,9 +122,7 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
     {
         //use given callback, if none use default one
         if (empty($this->_callback)) {
-            $this->_callback = function ($aMatches) {
-                return $this->defaultCallback($aMatches);
-            };
+            $this->_callback = fn($aMatches) => $this->defaultCallback($aMatches);
         }
 
         return $this->_callback;

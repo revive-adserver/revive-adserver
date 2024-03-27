@@ -118,9 +118,9 @@ class OA_Permission
     public static function checkSessionToken($tokenName = 'token')
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $token = isset($_POST[$tokenName]) ? $_POST[$tokenName] : false;
+            $token = $_POST[$tokenName] ?? false;
         } else {
-            $token = isset($_GET[$tokenName]) ? $_GET[$tokenName] : false;
+            $token = $_GET[$tokenName] ?? false;
         }
 
         OA_Permission::enforceTrue(
@@ -203,11 +203,7 @@ class OA_Permission
     {
         global $session;
 
-        if (isset($session['user'])) {
-            return $session['user'];
-        }
-
-        return false;
+        return $session['user'] ?? false;
     }
 
     /**
@@ -230,10 +226,7 @@ class OA_Permission
      */
     public static function isManualAccountSwitch()
     {
-        if (isset($GLOBALS['_OX']['accountSwtich'])) {
-            return true;
-        }
-        return false;
+        return isset($GLOBALS['_OX']['accountSwtich']);
     }
 
     public static function attemptToSwitchToAccount($accountType)
@@ -319,7 +312,7 @@ class OA_Permission
         }
 
         if ($sort) {
-            foreach ($aAccountsByType as $accountType => $aAccount) {
+            foreach (array_keys($aAccountsByType) as $accountType) {
                 natcasesort($aAccountsByType[$accountType]);
             }
         }
@@ -344,15 +337,11 @@ class OA_Permission
     {
         $name = $row['account_name'];
 
-        switch ($row['status']) {
-            case OA_ENTITY_STATUS_PAUSED:
-                $name .= " ({$GLOBALS['strAgencyStatusPaused']})";
-                break;
-
-            case OA_ENTITY_STATUS_INACTIVE:
-                $name .= " ({$GLOBALS['strAgencyStatusInactive']})";
-                break;
-        }
+        match ($row['status']) {
+            OA_ENTITY_STATUS_PAUSED => $name .= " ({$GLOBALS['strAgencyStatusPaused']})",
+            OA_ENTITY_STATUS_INACTIVE => $name .= " ({$GLOBALS['strAgencyStatusInactive']})",
+            default => $name,
+        };
 
         return $name;
     }
@@ -828,7 +817,7 @@ class OA_Permission
             OA_ACCOUNT_MANAGER => 'agency'
         ];
 
-        return isset($aTypes[$type]) ? $aTypes[$type] : false;
+        return $aTypes[$type] ?? false;
     }
 
     /**
@@ -888,7 +877,7 @@ class OA_Permission
                  * Ignore NULL responses from plugins and update has access only
                  * if plugin was interested in the entity
                  */
-                $hasAccess = $pluginResult === null ? $hasAccess : $pluginResult;
+                $hasAccess = $pluginResult ?? $hasAccess;
 
                 if ($hasAccess === false) { //break on first plugin denying access
                     break;
@@ -927,7 +916,7 @@ class OA_Permission
         }
 
 
-        return $hasAccess === null ? true : $hasAccess;
+        return $hasAccess ?? true;
     }
 
     /**
@@ -1149,8 +1138,8 @@ class OA_Permission
     public static function _accountTypeSort($a, $b)
     {
         $aTypes = [OA_ACCOUNT_ADMIN => 0, OA_ACCOUNT_MANAGER => 1, OA_ACCOUNT_ADVERTISER => 2, OA_ACCOUNT_TRAFFICKER => 3];
-        $a = isset($aTypes[$a]) ? $aTypes[$a] : 1000;
-        $b = isset($aTypes[$b]) ? $aTypes[$b] : 1000;
+        $a = $aTypes[$a] ?? 1000;
+        $b = $aTypes[$b] ?? 1000;
 
         return $a - $b;
     }
@@ -1227,10 +1216,7 @@ class OA_Permission
     public static function userNameExists($userName)
     {
         $doUser = OA_Dal::factoryDO('users');
-        if (!PEAR::isError($doUser) && $doUser->userExists($userName)) {
-            return true;
-        }
-        return false;
+        return !PEAR::isError($doUser) && $doUser->userExists($userName);
     }
 
     /**
@@ -1316,7 +1302,7 @@ class OA_Permission
     public static function deleteExistingPermissions($accountId, $userId, $allowedPermissions)
     {
         if (is_array($allowedPermissions)) {
-            foreach ($allowedPermissions as $permissionId => $perm) {
+            foreach (array_keys($allowedPermissions) as $permissionId) {
                 $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
                 $doAccount_user_permission_assoc->permission_id = $permissionId;
                 $doAccount_user_permission_assoc->account_id = $accountId;

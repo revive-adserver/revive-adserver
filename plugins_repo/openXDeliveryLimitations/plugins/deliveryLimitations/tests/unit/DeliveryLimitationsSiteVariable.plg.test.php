@@ -34,14 +34,6 @@ Language_Loader::load();
 class Plugins_TestOfPlugins_Delivery_Site_Variable extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the _preCompile() method of the delivery limitation class
      *
      */

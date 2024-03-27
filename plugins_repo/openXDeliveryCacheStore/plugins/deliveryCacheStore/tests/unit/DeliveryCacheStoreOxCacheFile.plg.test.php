@@ -25,14 +25,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/oxCacheFile/oxCacheFile.cla
 class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Tests the delivery part of this plugin.
      */
 

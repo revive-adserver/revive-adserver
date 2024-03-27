@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/pear/HTML/QuickForm/Renderer/Array.php';
 class OA_Admin_UI_Component_ArrayRenderer extends HTML_QuickForm_Renderer_Array
 {
     public $_values;
-    private $_groupStack;
+    private $_groupStack = [];
     /**
      * @var OA_Admin_UI_Component_Form
      */
@@ -29,7 +29,6 @@ class OA_Admin_UI_Component_ArrayRenderer extends HTML_QuickForm_Renderer_Array
     public function __construct($collectHidden = false, $staticLabels = false)
     {
         parent::__construct($collectHidden, $staticLabels);
-        $this->_groupStack = [];
     }
 
     /**

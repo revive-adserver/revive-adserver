@@ -98,7 +98,7 @@ class InstallCommand extends AbstractInstallerCommand
 
             $form = $this->oController->getModelProperty('form');
 
-            throw new RuntimeException(\join("\n", $form['errors']));
+            throw new RuntimeException(implode("\n", $form['errors']));
         } catch (RedirectException $e) {
             if ('configuration' !== $e->getAction()) {
                 throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
@@ -126,7 +126,7 @@ class InstallCommand extends AbstractInstallerCommand
 
             $form = $this->oController->getModelProperty('form');
 
-            throw new RuntimeException(\join("\n", $form['errors']));
+            throw new RuntimeException(implode("\n", $form['errors']));
         } catch (RedirectException $e) {
             if ('jobs' !== $e->getAction()) {
                 throw new RuntimeException("Unexpected redirect: {$e->getAction()}");

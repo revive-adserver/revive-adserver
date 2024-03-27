@@ -29,14 +29,6 @@ class Test_OX_PluginExport extends UnitTestCase
     public $testpathDataObjects = '/var/';
 
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         TestEnv::clearMenuCache();

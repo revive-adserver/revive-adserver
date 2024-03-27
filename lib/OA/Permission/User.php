@@ -205,20 +205,12 @@ class OA_Permission_User
      */
     public function &_getEntityDO()
     {
-        switch ($this->aAccount['account_type']) {
-            case OA_ACCOUNT_MANAGER:
-                $doEntity = OA_Dal::factoryDO('agency');
-                break;
-            case OA_ACCOUNT_ADVERTISER:
-                $doEntity = OA_Dal::factoryDO('clients');
-                break;
-            case OA_ACCOUNT_TRAFFICKER:
-                $doEntity = OA_Dal::factoryDO('affiliates');
-                break;
-            default:
-                $doEntity = null;
-                break;
-        }
+        $doEntity = match ($this->aAccount['account_type']) {
+            OA_ACCOUNT_MANAGER => OA_Dal::factoryDO('agency'),
+            OA_ACCOUNT_ADVERTISER => OA_Dal::factoryDO('clients'),
+            OA_ACCOUNT_TRAFFICKER => OA_Dal::factoryDO('affiliates'),
+            default => null,
+        };
 
         return $doEntity;
     }

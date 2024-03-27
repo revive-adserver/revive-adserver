@@ -152,15 +152,15 @@ class OX_Admin_UI_Wizard
 
     public function getFirstStep()
     {
-        return !empty($this->aStepIds) ? $this->aStepIds[0] : null;
+        return empty($this->aStepIds) ? null : $this->aStepIds[0];
     }
 
 
     public function getLastStep()
     {
-        return !empty($this->aStepIds)
-            ? $this->aStepIds[count($this->aStepIds) - 1]
-            : null;
+        return empty($this->aStepIds)
+            ? null
+            : $this->aStepIds[count($this->aStepIds) - 1];
     }
 
 
@@ -210,7 +210,7 @@ class OX_Admin_UI_Wizard
         $storage = $this->getWizardData();
 
         $aStepData = $storage['stepData'];
-        $aStepData = !empty($aStepData) ? $aStepData : [];
+        $aStepData = empty($aStepData) ? [] : $aStepData;
         $aStepData[$stepId] = $aData;
         $storage['stepData'] = $aStepData;
 
@@ -228,7 +228,7 @@ class OX_Admin_UI_Wizard
     {
         $stepId = empty($stepId) ? $this->currentStepId : $stepId;
 
-        return isset($this->aMetadata[$stepId]) ? $this->aMetadata[$stepId] : null;
+        return $this->aMetadata[$stepId] ?? null;
     }
 
 

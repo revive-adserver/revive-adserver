@@ -1,6 +1,1 @@
-parameters:
-	ignoreErrors:
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$oTaskRunner\\.$#"
-			count: 1
-			path: lib/OX/Maintenance/Statistics.php
+

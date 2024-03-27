@@ -77,7 +77,7 @@ class OA_Admin_UI_CampaignZoneLink
             $pagerParams
         );
 
-        list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+        [$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();
         $websites = array_slice($websites, $itemsFrom - 1, self::WEBSITES_PER_PAGE, true);
 
         // Add statistics for the displayed zones if required

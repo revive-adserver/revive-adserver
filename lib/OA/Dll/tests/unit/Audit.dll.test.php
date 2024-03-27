@@ -29,9 +29,6 @@ class OA_Dll_AuditTest extends DllUnitTestCase
      */
     public $unknownIdError = 'Unknown auditId Error';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

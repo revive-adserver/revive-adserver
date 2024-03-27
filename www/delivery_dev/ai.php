@@ -22,7 +22,6 @@ MAX_commonRegisterGlobalsArray(['filename', 'contenttype']);
 
 if (!empty($filename)) {
     $aCreative = MAX_cacheGetCreative($filename);
-
     if (empty($aCreative) || !isset($aCreative['contents'])) {
         // Filename not found, show the admin user's default banner
         // (as the agency cannot be determined from a filename)
@@ -35,12 +34,10 @@ if (!empty($filename)) {
         // Filename found, dump contents to browser
         MAX_imageServe($aCreative, $filename, $contenttype);
     }
-} else {
+} elseif (!empty($conf['defaultBanner']['imageUrl'])) {
     // Filename not specified, show the admin user's default banner
     // (as the agency cannot be determined from a filename)
-    if (!empty($conf['defaultBanner']['imageUrl'])) {
-        MAX_redirect($conf['defaultBanner']['imageUrl']);
-    } else {
-        MAX_commonDisplay1x1();
-    }
+    MAX_redirect($conf['defaultBanner']['imageUrl']);
+} else {
+    MAX_commonDisplay1x1();
 }

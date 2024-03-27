@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the OA_Maintenance_Priority_DeliveryLimitation class.
  *
@@ -21,23 +23,29 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Maintenance_Priority_DeliveryLimitation',
             'Partial_MockOA_Maintenance_Priority_DeliveryLimitation',
-            ['_getOperationInterval']
+            []
         );
 
+        OA_setTimeZoneUTC();
+    }
+
+    public function setUp()
+    {
         // Install the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
         TestEnv::installPluginPackage('openXDeliveryLimitations', false);
+    }
 
-        OA_setTimeZoneUTC();
+    public function tearDown()
+    {
+        // Uninstall the openXDeliveryLog plugin
+        TestEnv::uninstallPluginPackage('openXDeliveryLimitations', false);
     }
 
     /**
@@ -81,8 +89,8 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ],
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
+
         // Test that the different limitations have been set correctly
         $this->assertEqual(count($oDeliveryLimitationManager->aRules), 4);
         $this->assertEqual($oDeliveryLimitationManager->aRules[0]->type, 'deliveryLimitations:Client:IP');
@@ -137,8 +145,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ],
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $this->assertEqual($oDeliveryLimitationManager->_getOperationGroupCount(), 1);
 
         $aDeliveryLimitations = [
@@ -176,8 +183,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ],
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $this->assertEqual($oDeliveryLimitationManager->_getOperationGroupCount(), 2);
     }
 
@@ -212,8 +218,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertFalse($result);
 
@@ -230,8 +235,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertTrue($result);
 
@@ -256,8 +260,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertFalse($result);
 
@@ -282,8 +285,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertTrue($result);
 
@@ -308,8 +310,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertTrue($result);
 
@@ -334,8 +335,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertFalse($result);
 
@@ -360,8 +360,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertFalse($result);
 
@@ -386,8 +385,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertTrue($result);
 
@@ -428,8 +426,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertTrue($result);
 
@@ -469,8 +466,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertFalse($result);
 
@@ -510,8 +506,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertTrue($result);
 
@@ -551,8 +546,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ]
         ];
         $oDeliveryLimitationManager = new Partial_MockOA_Maintenance_Priority_DeliveryLimitation($this);
-        $oDeliveryLimitationManager->setReturnValue('_getOperationInterval', true);
-        $oDeliveryLimitationManager->__construct($aDeliveryLimitations);
+        (new ReflectionMethod(OA_Maintenance_Priority_DeliveryLimitation::class, '__construct'))->invoke($oDeliveryLimitationManager, $aDeliveryLimitations);
         $result = $oDeliveryLimitationManager->deliveryBlocked($oDate);
         $this->assertFalse($result);
     }

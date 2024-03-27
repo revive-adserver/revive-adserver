@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DataObjects_AgencyTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         DataGenerator::cleanUp();

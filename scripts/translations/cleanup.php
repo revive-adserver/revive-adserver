@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-define('MAX_PATH', dirname(dirname(__DIR__)));
+define('MAX_PATH', dirname(__DIR__, 2));
 
 $aFiles = [
     'default.lang.php',

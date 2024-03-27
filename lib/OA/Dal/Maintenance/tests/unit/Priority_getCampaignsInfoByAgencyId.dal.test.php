@@ -32,14 +32,6 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
     private $secondAdId;
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the getCampaignsInfoByAgencyId method.
      */
     public function testGetCampaignsInfoByAgencyId()

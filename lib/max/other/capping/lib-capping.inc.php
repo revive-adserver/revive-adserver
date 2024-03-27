@@ -75,10 +75,10 @@ function _getTimeFromSec($secDuration)
 {
     $time = [];
     $time['hour'] = ($secDuration - ($secDuration % 3600)) / 3600;
-    $secDuration = $secDuration % 3600;
+    $secDuration %= 3600;
 
     $time['minute'] = ($secDuration - ($secDuration % 60)) / 60;
-    $secDuration = $secDuration % 60;
+    $secDuration %= 60;
 
     $time['second'] = $secDuration;
     return $time;
@@ -346,14 +346,14 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
         if (!isset($time)) {
             $time = _getTimeFromSec($aCappedObject['block']);
         }
-        $cap = (isset($cap)) ? $cap : $aCappedObject['capping'];
-        $session_capping = (isset($session_capping)) ? $session_capping : $aCappedObject['session_capping'];
+        $cap ??= $aCappedObject['capping'];
+        $session_capping ??= $aCappedObject['session_capping'];
     } else {
         if (!isset($time)) {
             $time = _getTimeFromSec($aCappedObject['block_' . strtolower($type)]);
         }
-        $cap = (isset($cap)) ? $cap : $aCappedObject['cap_' . strtolower($type)];
-        $session_capping = (isset($session_capping)) ? $session_capping : $aCappedObject['session_cap_' . strtolower($type)];
+        $cap ??= $aCappedObject['cap_' . strtolower($type)];
+        $session_capping ??= $aCappedObject['session_cap_' . strtolower($type)];
     }
 
     // Is there extra non-editable capping info to display?

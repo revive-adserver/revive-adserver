@@ -37,7 +37,7 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Tracker',
             'PartialMockOA_Dll_Tracker',
-            ['checkPermissions', 'updateVariableCode']
+            ['checkPermissions']
         );
         Mock::generatePartial(
             'OA_Dll_Advertiser',
@@ -87,7 +87,7 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
         );
 
         // Modify (don't change the variableMethod)
-        unset($oTrackerInfo->variableMethod);
+        $oTrackerInfo->variableMethod = null;
         $this->assertTrue(
             $dllTrackerPartialMock->modify($oTrackerInfo),
             $dllTrackerPartialMock->getLastError()

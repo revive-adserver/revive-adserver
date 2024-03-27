@@ -68,7 +68,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
         echo "<div style=\"float: left;\">" .
                 "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
-                  htmlspecialchars(isset($this->data) ? $this->data : "") .
+                  htmlspecialchars($this->data ?? "") .
                 "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .
@@ -123,7 +123,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
             }
             $registerableDomain .= '\z';
             $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
-            array_push($aCompiledData, $registerableDomain);
+            $aCompiledData[] = $registerableDomain;
         }
         return implode('|', $aCompiledData);
     }
@@ -183,7 +183,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
                 if ($oHost !== false) {
                     $registerableDomain = $oHost->registerableDomain;
                     if (is_string($registerableDomain) && strlen($registerableDomain)) {
-                        array_push($aSanitisedData, $registerableDomain);
+                        $aSanitisedData[] = $registerableDomain;
                     }
                 }
             }

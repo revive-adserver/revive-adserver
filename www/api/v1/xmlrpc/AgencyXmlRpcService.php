@@ -490,7 +490,7 @@ $oAgencyXmlRpcService = new AgencyXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'addAgency' => [
-            'function' => [$oAgencyXmlRpcService, 'addAgency'],
+            'function' => $oAgencyXmlRpcService->addAgency(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -498,7 +498,7 @@ $server = new XML_RPC_Server(
         ],
 
         'modifyAgency' => [
-            'function' => [$oAgencyXmlRpcService, 'modifyAgency'],
+            'function' => $oAgencyXmlRpcService->modifyAgency(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -506,7 +506,7 @@ $server = new XML_RPC_Server(
         ],
 
         'deleteAgency' => [
-            'function' => [$oAgencyXmlRpcService, 'deleteAgency'],
+            'function' => $oAgencyXmlRpcService->deleteAgency(...),
             'signature' => [
                 ['int', 'string', 'int']
             ],
@@ -514,7 +514,7 @@ $server = new XML_RPC_Server(
         ],
 
         'agencyDailyStatistics' => [
-            'function' => [$oAgencyXmlRpcService, 'agencyDailyStatistics'],
+            'function' => $oAgencyXmlRpcService->agencyDailyStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -524,7 +524,7 @@ $server = new XML_RPC_Server(
         ],
 
         'agencyAdvertiserStatistics' => [
-            'function' => [$oAgencyXmlRpcService, 'agencyAdvertiserStatistics'],
+            'function' => $oAgencyXmlRpcService->agencyAdvertiserStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -534,7 +534,7 @@ $server = new XML_RPC_Server(
         ],
 
         'agencyCampaignStatistics' => [
-            'function' => [$oAgencyXmlRpcService, 'agencyCampaignStatistics'],
+            'function' => $oAgencyXmlRpcService->agencyCampaignStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -544,7 +544,7 @@ $server = new XML_RPC_Server(
         ],
 
         'agencyBannerStatistics' => [
-            'function' => [$oAgencyXmlRpcService, 'agencyBannerStatistics'],
+            'function' => $oAgencyXmlRpcService->agencyBannerStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -554,7 +554,7 @@ $server = new XML_RPC_Server(
         ],
 
         'agencyPublisherStatistics' => [
-            'function' => [$oAgencyXmlRpcService, 'agencyPublisherStatistics'],
+            'function' => $oAgencyXmlRpcService->agencyPublisherStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -564,7 +564,7 @@ $server = new XML_RPC_Server(
         ],
 
         'agencyZoneStatistics' => [
-            'function' => [$oAgencyXmlRpcService, 'agencyZoneStatistics'],
+            'function' => $oAgencyXmlRpcService->agencyZoneStatistics(...),
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
@@ -574,7 +574,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getAgency' => [
-            'function' => [$oAgencyXmlRpcService, 'getAgency'],
+            'function' => $oAgencyXmlRpcService->getAgency(...),
             'signature' => [
                 ['struct', 'string', 'int']
             ],
@@ -582,7 +582,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getAgencyList' => [
-            'function' => [$oAgencyXmlRpcService, 'getAgencyList'],
+            'function' => $oAgencyXmlRpcService->getAgencyList(...),
             'signature' => [
                 ['array', 'string']
             ],

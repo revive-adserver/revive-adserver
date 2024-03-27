@@ -181,12 +181,12 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
             $mi->parameters[] = 'charset=' . urlencode($mi->charset);
         }
         $mi->parameters[] = 'layerstyle=floater';
-        $mi->parameters[] = 'ltr=' . (isset($ltr) ? $ltr : 't');
-        $mi->parameters[] = 'loop=' . (isset($loop) ? $loop : 'n');
-        $mi->parameters[] = 'speed=' . (isset($speed) ? $speed : 3);
-        $mi->parameters[] = 'pause=' . (isset($pause) ? $pause : 10);
-        $mi->parameters[] = 'shiftv=' . (isset($shiftv) ? $shiftv : 0);
-        $mi->parameters[] = 'transparent=' . (isset($transparent) ? $transparent : 't');
+        $mi->parameters[] = 'ltr=' . ($ltr ?? 't');
+        $mi->parameters[] = 'loop=' . ($loop ?? 'n');
+        $mi->parameters[] = 'speed=' . ($speed ?? 3);
+        $mi->parameters[] = 'pause=' . ($pause ?? 10);
+        $mi->parameters[] = 'shiftv=' . ($shiftv ?? 0);
+        $mi->parameters[] = 'transparent=' . ($transparent ?? 't');
         if (!isset($transparent)) {
             $transparent = 't';
         }
@@ -202,7 +202,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
             $mi->parameters[] = 'rmargin=' . $rmargin;
         }
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer = "<script type='text/javascript'><!--//<![CDATA[

@@ -43,12 +43,12 @@ function phpAds_updateExpandArray($expand_arr, $expand, $collapse)
     }
 
     $index = array_search($collapse, $expand_arr);
-    if (is_integer($index)) {
+    if (is_int($index)) {
         unset($expand_arr[$index]);
     }
 
     $index = array_search('', $expand_arr);
-    if (is_integer($index)) {
+    if (is_int($index)) {
         unset($expand_arr[$index]);
     }
 

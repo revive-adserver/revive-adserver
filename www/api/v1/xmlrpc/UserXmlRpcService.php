@@ -274,7 +274,7 @@ $oUserXmlRpcService = new UserXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'addUser' => [
-            'function' => [$oUserXmlRpcService, 'addUser'],
+            'function' => $oUserXmlRpcService->addUser(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -282,7 +282,7 @@ $server = new XML_RPC_Server(
         ],
 
         'modifyUser' => [
-            'function' => [$oUserXmlRpcService, 'modifyUser'],
+            'function' => $oUserXmlRpcService->modifyUser(...),
             'signature' => [
                 ['int', 'string', 'struct']
             ],
@@ -290,7 +290,7 @@ $server = new XML_RPC_Server(
         ],
 
         'deleteUser' => [
-            'function' => [$oUserXmlRpcService, 'deleteUser'],
+            'function' => $oUserXmlRpcService->deleteUser(...),
             'signature' => [
                 ['int', 'string', 'int']
             ],
@@ -298,7 +298,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getUser' => [
-            'function' => [$oUserXmlRpcService, 'getUser'],
+            'function' => $oUserXmlRpcService->getUser(...),
             'signature' => [
                 ['struct', 'string', 'int']
             ],
@@ -306,7 +306,7 @@ $server = new XML_RPC_Server(
         ],
 
         'getUserListByAccountId' => [
-            'function' => [$oUserXmlRpcService, 'getUserListByAccountId'],
+            'function' => $oUserXmlRpcService->getUserListByAccountId(...),
             'signature' => [
                 ['array', 'string', 'int']
             ],
@@ -314,7 +314,7 @@ $server = new XML_RPC_Server(
         ],
 
         'updateSsoUserId' => [
-            'function' => [$oUserXmlRpcService, 'updateSsoUserId'],
+            'function' => $oUserXmlRpcService->updateSsoUserId(...),
             'signature' => [
                 ['array', 'string', 'int', 'int']
             ],
@@ -322,7 +322,7 @@ $server = new XML_RPC_Server(
         ],
 
         'updateUserEmailBySsoId' => [
-            'function' => [$oUserXmlRpcService, 'updateUserEmailBySsoId'],
+            'function' => $oUserXmlRpcService->updateUserEmailBySsoId(...),
             'signature' => [
                 ['array', 'string', 'int', 'string']
             ],

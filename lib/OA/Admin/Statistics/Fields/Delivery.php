@@ -19,11 +19,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  * Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery is an abstract
  * class for every delivery statistics fields plugin.
  *
- * @abstract
  * @package    OpenXPlugin
  * @subpackage StatisticsFields
  */
-class OA_StatisticsFieldsDelivery
+abstract class OA_StatisticsFieldsDelivery
 {
     /**
      * An array of the fields that the statistics plugin provides support for.
@@ -74,19 +73,6 @@ class OA_StatisticsFieldsDelivery
     public $displayOrder = 0;
 
     /**
-     * A method to return the name of the plugin. Must be implemented
-     * in children classes.
-     *
-     * @abstract
-     * @return string A string describing the plugin class.
-     */
-    public function getName()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
-
-    /**
      * A method to prepare the array of translated column names that is associated
      * with the data that needs to be displayed by the calling OA_Admin_Statistics_Common
      * or child class.
@@ -96,7 +82,7 @@ class OA_StatisticsFieldsDelivery
      * @return array An array of fields, indexed by "field", giving the
      *               "short" name - {@see $this->_aFields}.
      */
-    public function getFields(&$oController)
+    public function getFields($oController)
     {
         // Get the preferences
         $aPref = $GLOBALS['_MAX']['PREF'];
@@ -110,7 +96,7 @@ class OA_StatisticsFieldsDelivery
                 $aFields[$k] = empty($aPref[$var . '_label']) ? '' : $aPref[$var . '_label'];
             }
             if (empty($aFields[$k])) {
-                $aFields[$k] = isset($v['short']) ? $v['short'] : $v['name'];
+                $aFields[$k] = $v['short'] ?? $v['name'];
             }
         }
         return $aFields;
@@ -366,11 +352,7 @@ class OA_StatisticsFieldsDelivery
      *
      * @param array Row of stats
      */
-    public function summarizeStats(&$row)
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
+    abstract public function summarizeStats(&$row);
 
     /**
      * Return plugin column formats

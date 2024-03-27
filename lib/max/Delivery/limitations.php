@@ -38,7 +38,7 @@ function MAX_limitationsCheckAcl($row, $source = '')
         if (strlen($row['acl_plugins'])) {
             $acl_plugins = explode(',', $row['acl_plugins']);
             foreach ($acl_plugins as $acl_plugin) {
-                list($extension, $package, $name) = explode(':', $acl_plugin);
+                [$extension, $package, $name] = explode(':', $acl_plugin);
                 $pluginName = MAX_PATH . $aConf['pluginPaths']['plugins'] . "{$extension}/{$package}/{$name}.delivery.php";
                 if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
                     // If any of the delivery files doesn't exists don't check the delivery limitations
@@ -98,9 +98,9 @@ function MAX_limitationsIsAdForbidden($aAd)
  */
 function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
 {
-    $capZone = isset($aCapping['cap_zone']) ? $aCapping['cap_zone'] : null;
-    $sessionCapZone = isset($aCapping['session_cap_zone']) ? $aCapping['session_cap_zone'] : null;
-    $blockZone = isset($aCapping['block_zone']) ? $aCapping['block_zone'] : null;
+    $capZone = $aCapping['cap_zone'] ?? null;
+    $sessionCapZone = $aCapping['session_cap_zone'] ?? null;
+    $blockZone = $aCapping['block_zone'] ?? null;
     $showCappedNoCookie = !empty($aCapping['show_capped_no_cookie_zone']);
     return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone, $showCappedNoCookie));
 }

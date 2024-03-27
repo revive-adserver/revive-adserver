@@ -244,11 +244,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
         $query = "UPDATE {$table} SET confbackup='" . $this->oDbh->escape($reason) . "' WHERE upgrade_action_id='" . $this->oDbh->escape($upgrade_action_id) . "'";
 
         $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}")) {
-            return false;
-        }
-        return true;
+        return !$this->isPearError($result, "error updating {$this->prefix}{$this->logTable}");
     }
 
     /**
@@ -264,10 +260,6 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
         $query = "UPDATE {$table} SET logfile='" . $this->oDbh->escape($reason) . "' WHERE upgrade_action_id='" . $this->oDbh->escape($upgrade_action_id) . "'";
 
         $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}")) {
-            return false;
-        }
-        return true;
+        return !$this->isPearError($result, "error updating {$this->prefix}{$this->logTable}");
     }
 }

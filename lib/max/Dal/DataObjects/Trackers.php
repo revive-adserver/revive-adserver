@@ -165,10 +165,8 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = $this->trackername;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                $aAuditFields['clientid'] = $this->clientid;
-                break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            $aAuditFields['clientid'] = $this->clientid;
         }
     }
 }

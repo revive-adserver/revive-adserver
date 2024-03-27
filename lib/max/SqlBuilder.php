@@ -131,13 +131,13 @@ class SqlBuilder
 
             case 'stats_by_entity':
                 if (isset($aParams['include']) && is_array($aParams['include'])) {
-                    if (array_search('advertiser_id', $aParams['include']) !== false) {
+                    if (in_array('advertiser_id', $aParams['include'])) {
                         $aColumns += ['m.clientid' => 'advertiser_id'];
                     }
-                    if (array_search('placement_id', $aParams['include']) !== false) {
+                    if (in_array('placement_id', $aParams['include'])) {
                         $aColumns += ['d.campaignid' => 'placement_id'];
                     }
-                    if (array_search('publisher_id', $aParams['include']) !== false) {
+                    if (in_array('publisher_id', $aParams['include'])) {
                         $aColumns += ['z.affiliateid' => 'publisher_id'];
                     }
                 }
@@ -156,10 +156,10 @@ class SqlBuilder
 
                 // Remove unused columns to avoid implicit group by
                 if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
-                    if (array_search('ad_id', $aParams['exclude']) !== false) {
+                    if (in_array('ad_id', $aParams['exclude'])) {
                         unset($aColumns[$compositeKey]);
                         unset($aColumns['s.ad_id']);
-                        if (array_search('zone_id', $aParams['exclude']) !== false) {
+                        if (in_array('zone_id', $aParams['exclude'])) {
                             unset($aColumns['s.zone_id']);
                             if (count($aParams['include'])) {
                                 $tr = [
@@ -174,7 +174,7 @@ class SqlBuilder
                         } else {
                             $aColumns["(s.zone_id)"] = 'pkey';
                         }
-                    } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
+                    } elseif (in_array('zone_id', $aParams['exclude'])) {
                         unset($aColumns[$compositeKey]);
                         unset($aColumns['s.zone_id']);
                         $aColumns["(s.ad_id)"] = 'pkey';
@@ -257,7 +257,7 @@ class SqlBuilder
         }
 
         $matchingEntitiesToFix = 'history_';
-        if (substr($entity, 0, strlen($matchingEntitiesToFix)) == $matchingEntitiesToFix) {
+        if (str_starts_with($entity, $matchingEntitiesToFix)) {
             // postgresql throws an error: column "m.campaignid" must appear in the GROUP BY clause or be used in an aggregate function
             // we therefore remove the column ad_id built on a concatenation of various other fields, as this particular field
             // is not in use in the Global Statistics stats screen (when entity == history_*)
@@ -277,20 +277,15 @@ class SqlBuilder
     public static function _getStatsColumns($entity)
     {
         $aColumns = ['SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions'];
-        switch ($entity) {
-            case 'ad':         $aColumns += ['d.bannerid' => 'ad_id'];
-                break;
-            case 'advertiser': $aColumns += ['a.clientid' => 'advertiser_id'];
-                break;
-            case 'agency':     $aColumns += ['g.agencyid' => 'agency_id'];
-                break;
-            case 'placement':  $aColumns += ['m.campaignid' => 'placement_id'];
-                break;
-            case 'publisher':  $aColumns += ['p.affiliateid' => 'publisher_id'];
-                break;
-            case 'zone':       $aColumns += ['z.zoneid' => 'zone_id'];
-                break;
-        }
+        match ($entity) {
+            'ad' => $aColumns += ['d.bannerid' => 'ad_id'],
+            'advertiser' => $aColumns += ['a.clientid' => 'advertiser_id'],
+            'agency' => $aColumns += ['g.agencyid' => 'agency_id'],
+            'placement' => $aColumns += ['m.campaignid' => 'placement_id'],
+            'publisher' => $aColumns += ['p.affiliateid' => 'publisher_id'],
+            'zone' => $aColumns += ['z.zoneid' => 'zone_id'],
+            default => $aColumns,
+        };
 
         return $aColumns;
     }
@@ -630,13 +625,13 @@ class SqlBuilder
 
                 if (isset($aParams['include']) && is_array($aParams['include'])) {
                     // Fake needed parameters
-                    if (array_search('advertiser_id', $aParams['include']) !== false) {
+                    if (in_array('advertiser_id', $aParams['include'])) {
                         $aParams['advertiser_id'] = 1;
                     }
-                    if (array_search('placement_id', $aParams['include']) !== false) {
+                    if (in_array('placement_id', $aParams['include'])) {
                         $aParams['placement_id'] = 1;
                     }
-                    if (array_search('publisher_id', $aParams['include']) !== false) {
+                    if (in_array('publisher_id', $aParams['include'])) {
                         $aParams['publisher_id'] = 1;
                     }
                 }
@@ -1115,20 +1110,14 @@ class SqlBuilder
         }
 
         // If there are multiple values, use IN instead of =
-        if (strpos($value, ',') !== false) {
+        if (str_contains($value, ',')) {
             $aLimitations[] = "$columnName IN ($value)";
         } else {
-            switch ($comparison_type) {
-                case MAX_LIMITATION_NOT_EQUAL:
-                    $aLimitations[] = "$columnName != $value";
-                    break;
-                case MAX_LIMITATION_BITWISE:
-                    $aLimitations[] = "($columnName & $value > 0)";
-                    break;
-                default:
-                    $aLimitations[] = "$columnName = $value";
-                    break;
-            }
+            $aLimitations[] = match ($comparison_type) {
+                MAX_LIMITATION_NOT_EQUAL => "$columnName != $value",
+                MAX_LIMITATION_BITWISE => "($columnName & $value > 0)",
+                default => "$columnName = $value",
+            };
         }
     }
 
@@ -1144,19 +1133,11 @@ class SqlBuilder
         $aLimitations = [];
 
         if (!empty($aParams['agency_id'])) {
-            switch ($entity) {
-                case 'advertiser':
-                case 'placement':
-                case 'ad':
-                    $aLimitations[] = "a.agencyid={$aParams['agency_id']}";
-                    break;
-                case 'publisher':
-                case 'zone':
-                    $aLimitations[] = "p.agencyid={$aParams['agency_id']}";
-                    break;
-                default:
-                    $aLimitations[] = "(a.agencyid={$aParams['agency_id']} OR p.agencyid={$aParams['agency_id']})";
-            }
+            $aLimitations[] = match ($entity) {
+                'advertiser', 'placement', 'ad' => "a.agencyid={$aParams['agency_id']}",
+                'publisher', 'zone' => "p.agencyid={$aParams['agency_id']}",
+                default => "(a.agencyid={$aParams['agency_id']} OR p.agencyid={$aParams['agency_id']})",
+            };
         }
 
         if (!empty($aParams['publisher_id'])) {
@@ -1306,13 +1287,13 @@ class SqlBuilder
         switch ($entity) {
             case 'stats_by_entity':
                 if (isset($aParams['exclude']) && !empty($aParams['agency_id'])) {
-                    if (array_search('ad_id', $aParams['exclude']) !== false) {
+                    if (in_array('ad_id', $aParams['exclude'])) {
                         // include blanks and deleted entities in the stats
                         $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
                         $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
                         $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
                     }
-                    if (array_search('zone_id', $aParams['exclude']) !== false) {
+                    if (in_array('zone_id', $aParams['exclude'])) {
                         // include direct selection and deleted entities in the stats
                         $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
                         $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['affiliates']] = 'p';
@@ -1350,7 +1331,7 @@ class SqlBuilder
             return false;
         }
         $success = $do->setFrom($aParams);
-        if (!$success === true) {
+        if (!$success) {
             return false;
         }
         return $do->delete();
@@ -1373,7 +1354,7 @@ class SqlBuilder
             return false;
         }
         $success = $do->setFrom($aVariables);
-        if (!$success === true) {
+        if (!$success) {
             return false;
         }
         return $do->insert();
@@ -1431,7 +1412,7 @@ class SqlBuilder
                     $table = $tableKey;
 
                     //  check for prefix
-                    if (!empty($conf['table']['prefix']) && strpos($table, $conf['table']['prefix']) != 0) {
+                    if (!empty($conf['table']['prefix']) && !str_starts_with($table, $conf['table']['prefix'])) {
                         $table = $conf['table']['prefix'] . $table;
                     }
 
@@ -1439,10 +1420,10 @@ class SqlBuilder
 
                     $joinLimitation = '';
 
-                    if (count($prev_aliases)) {
+                    if ($prev_aliases !== []) {
                         if (is_array($aLimitations)) {
                             foreach ($aLimitations as $limitationKey => $limitation) {
-                                if (preg_match("/({$alias}\.[a-z0-9_]+ *= *(" . join('|', $prev_aliases) . ")\..+|(" . join('|', $prev_aliases) . ")\.[a-z0-9_]+ *= *{$alias}\..+)/", $limitation)) {
+                                if (preg_match("/({$alias}\.[a-z0-9_]+ *= *(" . implode('|', $prev_aliases) . ")\..+|(" . implode('|', $prev_aliases) . ")\.[a-z0-9_]+ *= *{$alias}\..+)/", $limitation)) {
                                     $joinLimitation = $limitation;
                                     unset($aLimitations[$limitationKey]);
                                     break;
@@ -1455,7 +1436,7 @@ class SqlBuilder
 
                     if ($joinLimitation) {
                         $tables .= " $joinType JOIN $qTable AS $alias ON ($joinLimitation)";
-                    } elseif (count($prev_aliases)) {
+                    } elseif ($prev_aliases !== []) {
                         continue;
                     }
 
@@ -1483,7 +1464,7 @@ class SqlBuilder
         }
 
         $group = '';
-        if (is_array($aGroupColumns) && count($aGroupColumns) > 0) {
+        if (is_array($aGroupColumns) && $aGroupColumns !== []) {
             $group = ' GROUP BY ' . implode(',', $aGroupColumns);
         }
 
@@ -1560,7 +1541,7 @@ class SqlBuilder
 
         array_pop($aData);
 
-        $sql = join($isPgsql ? '||' : ', ', $aData);
+        $sql = implode($isPgsql ? '||' : ', ', $aData);
 
         return $isPgsql ? "({$sql})" : "CONCAT({$sql})";
     }

@@ -68,11 +68,8 @@ function _putFile($source, $target, $aVals)
 
 function _fileExists($file)
 {
-    if (file_exists($file)) {
-        //echo 'File exists '.$file;
-        return true;
-    }
-    return false;
+    //echo 'File exists '.$file;
+    return file_exists($file);
 }
 
 function _fileMissing($file)

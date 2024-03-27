@@ -194,7 +194,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     public function setEntityMap($aEntityMap)
     {
         if (!empty($aEntityMap)) {
-            uasort($aEntityMap, [$this, "orderEntitiesByNameAsc"]);
+            uasort($aEntityMap, $this->orderEntitiesByNameAsc(...));
         }
         $this->aEntityMap = $aEntityMap;
     }

@@ -103,7 +103,7 @@ class OA_Admin_UI_AccountSwitch
         $added = 0;
         $limit = empty($q) ? self::MAX_ACCOUNTS_IN_GROUP : self::MAX_ACCOUNTS_IN_SEARCH;
         foreach ($accounts as $id => $name) {
-            if ((empty($q) || stripos($name, $q) !== false) && $added++ < $limit) {
+            if ((empty($q) || stripos($name, (string) $q) !== false) && $added++ < $limit) {
                 $result[$id] = $name;
             }
         }

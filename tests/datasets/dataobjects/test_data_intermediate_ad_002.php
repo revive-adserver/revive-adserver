@@ -11,8 +11,8 @@
 */
 
 /**
+ * A class for generating/loading a dataset for delivery testing
  *
- * @abstract A class for generating/loading a dataset for delivery testing
  * @package Test Classes
  */
 

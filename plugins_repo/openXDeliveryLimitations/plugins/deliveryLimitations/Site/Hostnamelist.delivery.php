@@ -42,8 +42,5 @@ function MAX_checkSite_Hostnamelist($limitation, $op, $aParams = [])
     if ($op == '=~' && isset($aLookup[$hostname])) {
         return true;
     }
-    if ($op == '!~' && !isset($aLookup[$hostname])) {
-        return true;
-    }
-    return false;
+    return $op == '!~' && !isset($aLookup[$hostname]);
 }

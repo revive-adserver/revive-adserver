@@ -50,18 +50,13 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
             break;
 
         case 'ad':
-            switch ($type) {
-                case 'html': $icon = $active ? 'images/icon-banner-html.gif' : 'images/icon-banner-html-d.gif';
-                    break;
-                case 'txt': $icon = $active ? 'images/icon-banner-text.gif' : 'images/icon-banner-text-d.gif';
-                    break;
-                case 'url': $icon = $active ? 'images/icon-banner-url.gif' : 'images/icon-banner-url-d.gif';
-                    break;
-                case 'web': $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif';
-                    break;
-                default: $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif';
-                    break;
-            }
+            $icon = match ($type) {
+                'html' => $active ? 'images/icon-banner-html.gif' : 'images/icon-banner-html-d.gif',
+                'txt' => $active ? 'images/icon-banner-text.gif' : 'images/icon-banner-text-d.gif',
+                'url' => $active ? 'images/icon-banner-url.gif' : 'images/icon-banner-url-d.gif',
+                'web' => $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif',
+                default => $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif',
+            };
             break;
 
         case 'zone':
@@ -86,7 +81,7 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
             break;
     }
 
-    return substr($icon, 0, 4) == 'http' ? $icon : (OX::assetPath() . "/" . $icon);
+    return str_starts_with($icon, 'http') ? $icon : (OX::assetPath() . "/" . $icon);
 }
 
 function MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $entityIds = null, $anonymous = false)
@@ -612,67 +607,32 @@ function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbP
 
 function MAX_buildBreadcrumbInfo($entityClass)
 {
-    switch ($entityClass) {
-        case 'advertiser':
-            return ["label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv"];
-
-        case 'campaign':
-            return ["label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "newTarget" => $GLOBALS['strCampaignForAdvertiser'], "class" => "camp"];
-
-        case 'tracker':
-            return ["label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "newTarget" => $GLOBALS['strTrackerForAdvertiser'], "class" => "track"];
-
-        case 'banner':
-            return ["label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "newTarget" => $GLOBALS['strBannerToCampaign'], "class" => "ban"];
-
-        case 'website':
-            return ["label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs"];
-
-        case 'zone':
-            return ["label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "newTarget" => $GLOBALS['strZoneToWebsite'], "class" => "zone"];
-
-        case 'channel':
-            return ["label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "newTarget" => $GLOBALS['strChannelToWebsite'], "class" => "chan"];
-
-        case 'agency':
-            return ["label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen"];
-
-        case 'day':
-            return ["label" => $GLOBALS['strDay'], "newLabel" => '', "class" => "day"];
-    }
-
-    return null;
+    return match ($entityClass) {
+        'advertiser' => ["label" => $GLOBALS['strClient'], "newLabel" => $GLOBALS['strAddClient'], "class" => "adv"],
+        'campaign' => ["label" => $GLOBALS['strCampaign'], "newLabel" => $GLOBALS['strAddCampaign'], "newTarget" => $GLOBALS['strCampaignForAdvertiser'], "class" => "camp"],
+        'tracker' => ["label" => $GLOBALS['strTracker'], "newLabel" => $GLOBALS['strAddTracker'], "newTarget" => $GLOBALS['strTrackerForAdvertiser'], "class" => "track"],
+        'banner' => ["label" => $GLOBALS['strBanner'], "newLabel" => $GLOBALS['strAddBanner'], "newTarget" => $GLOBALS['strBannerToCampaign'], "class" => "ban"],
+        'website' => ["label" => $GLOBALS['strAffiliate'], "newLabel" => $GLOBALS['strAddNewAffiliate'], "class" => "webs"],
+        'zone' => ["label" => $GLOBALS['strZone'], "newLabel" => $GLOBALS['strAddNewZone'], "newTarget" => $GLOBALS['strZoneToWebsite'], "class" => "zone"],
+        'channel' => ["label" => $GLOBALS['strChannel'], "newLabel" => $GLOBALS['strAddNewChannel'], "newTarget" => $GLOBALS['strChannelToWebsite'], "class" => "chan"],
+        'agency' => ["label" => $GLOBALS['strAgency'], "newLabel" => $GLOBALS['strAddAgency'], "class" => "agen"],
+        'day' => ["label" => $GLOBALS['strDay'], "newLabel" => '', "class" => "day"],
+        default => null,
+    };
 }
 
 function MAX_buildBreadcrumbPath($entityClass)
 {
-    switch ($entityClass) {
-        case 'banner':
-        case 'campaign':
-        case 'advertiser':
-            return ['advertiser', 'campaign', 'banner'];
-
-        case 'tracker':
-            return ['advertiser', 'tracker'];
-
-        case 'website':
-        case 'zone':
-            return ['website', 'zone'];
-
-        case 'trafficker-zone':
-            return ['zone'];
-
-        case 'channel':
-            return ['website', 'channel'];
-
-        case 'global-channel':
-            return ['channel'];
-
-        case 'agency':
-            return ['agency'];
-    }
-
-    return null;
+    return match ($entityClass) {
+        'banner', 'campaign', 'advertiser' => ['advertiser', 'campaign', 'banner'],
+        'tracker' => ['advertiser', 'tracker'],
+        'website', 'zone' => ['website', 'zone'],
+        'trafficker-zone' => ['zone'],
+        'channel' => ['website', 'channel'],
+        'global-channel' => ['channel'],
+        'agency' => ['agency'],
+        default => null,
+    };
 }
 
 /**
@@ -794,15 +754,12 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     <select name='$entityIdName'{$onChange}{$tabInfo}>";
     // Show an empty value in the dropdown if none is selected
     if (empty($entityId)) {
-        switch ($entity) {
-            case 'advertiser': $description = "-- {$GLOBALS['strSelectAdvertiser']} --";
-                break;
-            case 'placement': $description = "-- {$GLOBALS['strSelectPlacement']} --";
-                break;
-            case 'ad': $description = "-- {$GLOBALS['strSelectAd']} --";
-                break;
-            default: $description = '';
-        }
+        $description = match ($entity) {
+            'advertiser' => "-- {$GLOBALS['strSelectAdvertiser']} --",
+            'placement' => "-- {$GLOBALS['strSelectPlacement']} --",
+            'ad' => "-- {$GLOBALS['strSelectAd']} --",
+            default => '',
+        };
         echo "
         <option value='' selected>$description</option>";
     }
@@ -865,7 +822,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>";
     $i = 0;
     $inactive = 0;
-    $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams) : [];
+    $aPlacements = empty($aParams) ? [] : Admin_DA::getPlacements($aParams);
     foreach ($aPlacements as $placementId => $aPlacement) {
         $aAds = Admin_DA::getAds($aParams + ['placement_id' => $placementId], true);
         $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
@@ -898,7 +855,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
                     $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                     $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                     $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
-                    $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
+                    $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (empty($aAd['bannertext']) ? 64 : 90);
                     echo "
 <tr height='1'>
 <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
@@ -960,7 +917,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
 
     $i = 0;
     $inactive = 0;
-    $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams) : [];
+    $aPlacements = (empty($aParams)) ? [] : Admin_DA::getPlacements($aParams);
     foreach ($aPlacements as $placementId => $aPlacement) {
         $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
         if (!$hideInactive || $placementActive) {
@@ -1019,7 +976,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                         $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                         $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
                         $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
-                        $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (!empty($aAd['bannertext']) ? 90 : 64);
+                        $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (empty($aAd['bannertext']) ? 64 : 90);
                         echo "
     <tr height='1'>
         <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
@@ -1260,7 +1217,7 @@ function MAX_displayChannels($channels, $aParams)
                     $ownerNameStr = '';
                 }
             }
-            $ownerStr = !empty($ownerTypeStr) ? '&nbsp&nbsp<i>' . $ownerTypeStr . '</i>' . htmlspecialchars($ownerNameStr) : '';
+            $ownerStr = empty($ownerTypeStr) ? '' : '&nbsp&nbsp<i>' . $ownerTypeStr . '</i>' . htmlspecialchars($ownerNameStr);
 
             echo "<a href='channel-edit.php?{$entityString}channelid={$channel['channel_id']}'>" . htmlspecialchars($channel['name'] . $ownerStr) . "</a>";
             echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -1373,11 +1330,11 @@ function _isZoneActive($aZone)
 function _secondsToWindowArray($seconds)
 {
     $return['days'] = floor($seconds / (60 * 60 * 24));
-    $seconds = $seconds % (60 * 60 * 24);
+    $seconds %= 60 * 60 * 24;
     $return['hours'] = floor($seconds / (60 * 60));
-    $seconds = $seconds % (60 * 60);
+    $seconds %= 60 * 60;
     $return['minutes'] = floor($seconds / (60));
-    $seconds = $seconds % (60);
+    $seconds %= 60;
     $return['seconds'] = $seconds;
     return $return;
 }
@@ -1597,8 +1554,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 {
     global $phpAds_TextDirection;
 
-    $agencyId = isset($aEntities['agencyid']) ? $aEntities['agencyid'] : null;
-    $websiteId = isset($aEntities['affiliateid']) ? $aEntities['affiliateid'] : null;
+    $agencyId = $aEntities['agencyid'] ?? null;
+    $websiteId = $aEntities['affiliateid'] ?? null;
     $channelId = $aEntities['channelid'];
     $channelName = $aOtherChannels[$channelId]['name'];
 
@@ -1617,7 +1574,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     if ($channelType == 'publisher') {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit-affiliate' : 'channel-edit-affiliate_new';
+            case 'channel-edit.php': $tabValue = (empty($channelId)) ? 'channel-edit-affiliate_new' : 'channel-edit-affiliate';
                 break;
             case 'channel-acl.php': $tabValue = 'channel-affiliate-acl';
                 break;
@@ -1625,7 +1582,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     } else {
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'channel-edit.php': $tabValue = (!empty($channelId)) ? 'channel-edit' : 'channel-edit_new';
+            case 'channel-edit.php': $tabValue = (empty($channelId)) ? 'channel-edit_new' : 'channel-edit';
                 break;
             case 'channel-acl.php': $tabValue = 'channel-acl';
                 break;
@@ -1638,7 +1595,6 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     $publisherEditUrl = "affiliate-edit.php?affiliateid=$websiteId";
     if (!empty($channelId)) {
         addChannelPageTools($agencyId, $websiteId, $channelId, $channelType);
-
         // Determine which tab is highlighted
         $publisher = Admin_DA::getPublisher($websiteId);
         $publisherName = $publisher['name'];
@@ -1655,18 +1611,16 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
                 ["name" => $channelName]], "channel", "edit-new");
             phpAds_PageHeader($tabValue, $oHeaderModel);
         }
+    } elseif (!empty($channelId)) {
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+        $oHeaderModel = $builder->buildEntityHeader([
+            ["name" => $channelName]], "global-channel", "edit");
+        phpAds_PageHeader($tabValue, $oHeaderModel);
     } else {
-        if (!empty($channelId)) {
-            $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-            $oHeaderModel = $builder->buildEntityHeader([
-                ["name" => $channelName]], "global-channel", "edit");
-            phpAds_PageHeader($tabValue, $oHeaderModel);
-        } else {
-            $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
-            $oHeaderModel = $builder->buildEntityHeader([
-                        ["name" => ""]], "global-channel", "edit-new");
-            phpAds_PageHeader($tabValue, $oHeaderModel);
-        }
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+        $oHeaderModel = $builder->buildEntityHeader([
+                    ["name" => ""]], "global-channel", "edit-new");
+        phpAds_PageHeader($tabValue, $oHeaderModel);
     }
 }
 
@@ -1993,7 +1947,7 @@ function OX_buildPager(
     }
 
     $pager = Pager::factory($pagerOptions);
-    list($from, $to) = $pager->getOffsetByPageId();
+    [$from, $to] = $pager->getOffsetByPageId();
     $summary = "<em>$from</em>-<em>$to</em> of <em>" . $pager->numItems() . " $itemsName</em>";
     $pager->summary = $summary;
 

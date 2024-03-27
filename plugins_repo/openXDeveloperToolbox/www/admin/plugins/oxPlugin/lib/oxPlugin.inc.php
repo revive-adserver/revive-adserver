@@ -67,7 +67,7 @@ class OX_PluginBuilder_Common
     public function _replaceTags(&$subject)
     {
         $result = preg_replace(array_values($this->aRegPattern), array_values($this->aRegReplace), $subject);
-        $subject = ($result ? $result : $subject);
+        $subject = ($result ?: $subject);
         return;
     }
 
@@ -84,7 +84,7 @@ class OX_PluginBuilder_Common
         $dh = opendir($dir);
         if ($dh) {
             while (false !== ($file = readdir($dh))) {
-                if (substr($file, 0, 1) != '.') {
+                if (!str_starts_with($file, '.')) {
                     if (is_dir($dir . '/' . $file)) {
                         $this->_compileFiles($dir . '/' . $file, $replace);
                     } else {

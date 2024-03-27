@@ -14,8 +14,8 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
 
 /**
+ * A base class for generating test data using DataObjects.
  *
- * @abstract A base class for generating test data using DataObjects
  * @package Test Classes
  * @todo more _insert methods
  */
@@ -36,11 +36,6 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
     public $doTrackers;
     public $doVariables;
 
-
-    /**
-     * The constructor method.
-     */
-    public function __construct() {}
 
     /**
      * instantiate the dataobjects

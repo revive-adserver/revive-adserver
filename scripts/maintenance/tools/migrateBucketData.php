@@ -17,7 +17,7 @@ $scriptName = $argv[0];
 //define('INTERVAL_END',   '2009-07-15 00:59:59');
 
 // Initialise the OpenX environment....
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../../init.php';
 
 // Required files

@@ -17,9 +17,8 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  * interface for plugin classes.
  *
  * @package    OpenXPlugin
- * @abstract
  */
-class MAX_Plugin_Common
+abstract class MAX_Plugin_Common
 {
     public $module;
     public $package;

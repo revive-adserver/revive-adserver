@@ -24,8 +24,6 @@ class OA_Version_Controller
 
     public $versionTablename;
 
-    public function __construct() {}
-
     public function init($oDbh = '')
     {
         $this->oDbh = $oDbh;

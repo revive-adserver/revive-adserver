@@ -23,14 +23,6 @@ class Test_DeliveryCommon extends UnitTestCase
     /** @var int */
     public $original_server_port;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;

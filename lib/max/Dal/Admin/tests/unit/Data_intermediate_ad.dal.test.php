@@ -28,14 +28,6 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
     private $aIds;
     private $aIds2;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');

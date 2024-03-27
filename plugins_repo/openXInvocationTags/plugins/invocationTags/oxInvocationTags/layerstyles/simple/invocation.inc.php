@@ -189,8 +189,8 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plu
         global $nobg, $noborder;
 
         $mi->parameters[] = 'layerstyle=simple';
-        $mi->parameters[] = 'align=' . (isset($align) ? $align : 'right');
-        $mi->parameters[] = 'valign=' . (isset($valign) ? $valign : 'top');
+        $mi->parameters[] = 'align=' . ($align ?? 'right');
+        $mi->parameters[] = 'valign=' . ($valign ?? 'top');
         $mi->parameters[] = 'padding=' . (isset($padding) ? (int) $padding : '2');
 
         if (!empty($mi->charset)) {
@@ -225,7 +225,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plu
         }
 
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&", $mi->parameters);
         }
 

@@ -30,11 +30,7 @@ class OA_Dal_ApplicationVariables
     {
         $aVars = OA_Dal_ApplicationVariables::_getAll();
 
-        if (isset($aVars[$name])) {
-            return $aVars[$name];
-        }
-
-        return null;
+        return $aVars[$name] ?? null;
     }
 
     /**
@@ -134,6 +130,6 @@ class OA_Dal_ApplicationVariables
      */
     public static function generatePlatformHash()
     {
-        return sha1(uniqid(rand(), true));
+        return sha1(uniqid(random_int(0, mt_getrandmax()), true));
     }
 }

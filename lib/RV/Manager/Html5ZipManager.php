@@ -209,7 +209,7 @@ EOF;
             $size = $parser->parseSize($html);
 
             if (null !== $size) {
-                list($this->width, $this->height) = $size;
+                [$this->width, $this->height] = $size;
                 return;
             }
         }
@@ -283,7 +283,7 @@ EOF;
             if (false !== $macOsDir && 'dir' === $macOsDir['type']) {
                 $filesystem->deleteDir('__MACOSX');
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
         }
     }
 

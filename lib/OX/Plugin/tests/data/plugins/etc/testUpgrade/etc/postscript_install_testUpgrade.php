@@ -15,8 +15,6 @@ $className = 'OX_postscript_install_testPlugin';
 
 class OX_postscript_install_testPlugin
 {
-    public function __construct() {}
-
     public function execute($aParams = [])
     {
         return $this->defaultData();

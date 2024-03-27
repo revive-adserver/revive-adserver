@@ -41,7 +41,7 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
         }
     }
 
-    public function _getPublisherArray($orderBy = null)
+    public static function _getPublisherArray($orderBy = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -60,7 +60,9 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
                 " FROM " . $conf['table']['prefix'] . $conf['table']['affiliates'] .
                 " WHERE affiliateid=" . OA_Permission::getEntityId();
         }
-        $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
+        if ($orderBy) {
+            $query .= " ORDER BY $orderBy ASC";
+        }
 
         $oDbh = OA_DB::singleton();
         $oRes = $oDbh->query($query);

@@ -62,16 +62,14 @@ if ($clientid != "") {
             $aAdvertiser = $doClients->toArray();
         }
     }
-} else {
-    if (!isset($aAdvertiser)) {
-        $aAdvertiser['clientname'] = $strUntitled;
-        $aAdvertiser['contact'] = '';
-        $aAdvertiser['comments'] = '';
-        $aAdvertiser['email'] = '';
-        $aAdvertiser['reportdeactivate'] = 'f';
-        $aAdvertiser['report'] = 'f';
-        $aAdvertiser['reportinterval'] = 7;
-    }
+} elseif (!isset($aAdvertiser)) {
+    $aAdvertiser['clientname'] = $strUntitled;
+    $aAdvertiser['contact'] = '';
+    $aAdvertiser['comments'] = '';
+    $aAdvertiser['email'] = '';
+    $aAdvertiser['reportdeactivate'] = 'f';
+    $aAdvertiser['report'] = 'f';
+    $aAdvertiser['reportinterval'] = 7;
 }
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */

@@ -18,7 +18,7 @@ ob_start();
 
 // Run maintenance
 // Done this way so that it works in CLI PHP
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../scripts/maintenance/maintenance.php';
 
 // Get and clean output buffer

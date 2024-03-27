@@ -25,16 +25,14 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
     public $decorators;
     private $dispatcher;
     private $id;
-    private $forceClientValidation;
+    private $forceClientValidation = false;
     private $jQueryValidationBuilder;
-    private $hasRequiredFields;
+    private $hasRequiredFields = false;
 
     public function __construct($formName = '', $method = 'POST', $action = '', $target = '', $attributes = null, $trackSubmit = true)
     {
         parent::__construct($formName, $method, $action, $target, $attributes, $trackSubmit);
         $this->id = $formName;
-        $this->forceClientValidation = false;
-        $this->hasRequiredFields = false;
 
         //register custom fields
         parent::registerElementType(

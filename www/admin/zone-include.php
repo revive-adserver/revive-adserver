@@ -207,7 +207,7 @@ if ($aZone['type'] == MAX_ZoneEmail) {
 if ($view == 'placement') {
     $aDirectLinkedAds = Admin_DA::getAdZones(['zone_id' => $zoneId], true, 'ad_id');
     $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + ['agency_id' => $agencyId], false);
-    $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + ['advertiser_id' => $advertiserId], false) : null;
+    $aOtherPlacements = empty($advertiserId) ? null : Admin_DA::getPlacements($aParams + ['advertiser_id' => $advertiserId], false);
     $aZonesPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], true, 'placement_id');
     MAX_displayZoneEntitySelection('placement', $aOtherAdvertisers, $aOtherPlacements, null, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectCampaignToLink'], $pageName, $tabIndex);
     if (!empty($aZonesPlacements)) {
@@ -219,11 +219,11 @@ if ($view == 'placement') {
     MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, $tabIndex, $aDirectLinkedAds);
 } elseif ($view == 'ad') {
     $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + ['agency_id' => $agencyId], false);
-    $aOtherPlacements = !empty($advertiserId) ? Admin_DA::getPlacements($aParams + ['advertiser_id' => $advertiserId], false) : null;
-    $aOtherAds = !empty($placementId) ? Admin_DA::getAds($aParams + ['placement_id' => $placementId], false) : null;
+    $aOtherPlacements = empty($advertiserId) ? null : Admin_DA::getPlacements($aParams + ['advertiser_id' => $advertiserId], false);
+    $aOtherAds = empty($placementId) ? null : Admin_DA::getAds($aParams + ['placement_id' => $placementId], false);
     $aAdsZones = Admin_DA::getAdZones(['zone_id' => $zoneId], true, 'ad_id');
     MAX_displayZoneEntitySelection('ad', $aOtherAdvertisers, $aOtherPlacements, $aOtherAds, $advertiserId, $placementId, $adId, $publisherId, $zoneId, $GLOBALS['strSelectBannerToLink'], $pageName, $tabIndex);
-    $aParams = !empty($aAdsZones) ? ['ad_id' => implode(',', array_keys($aAdsZones))] : null;
+    $aParams = empty($aAdsZones) ? null : ['ad_id' => implode(',', array_keys($aAdsZones))];
     MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex);
 }
 ?>

@@ -27,14 +27,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class Test_OA_Dal_Maintenance_Common extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the setProcessLastRunInfo() method.
      *
      * Requirements:

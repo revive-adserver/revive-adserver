@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
+abstract class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
 {
     public $aAnonAdvertisers;
     public $aAnonPlacements;

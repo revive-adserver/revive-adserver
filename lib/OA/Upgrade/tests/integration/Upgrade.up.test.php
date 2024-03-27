@@ -23,9 +23,6 @@ class Test_OA_Upgrade extends UnitTestCase
 {
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

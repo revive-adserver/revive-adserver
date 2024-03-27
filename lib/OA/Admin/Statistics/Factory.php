@@ -69,7 +69,7 @@ class OA_Admin_Statistics_Factory
         }
 
         // Prepare the strings required to generate the file and class names
-        list($primary, $secondary) = explode('-', $controllerType, 2);
+        [$primary, $secondary] = explode('-', $controllerType, 2);
         $primary = ucfirst(strtolower($primary));
         $aSecondary = explode('-', $secondary);
         foreach ($aSecondary as $key => $string) {

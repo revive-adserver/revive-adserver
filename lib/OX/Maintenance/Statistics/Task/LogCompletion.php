@@ -24,22 +24,11 @@ require_once OX_PATH . '/lib/OX.php';
  * The MSE process task class that logs the completion of MSE process
  * to the database.
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Statistics
  */
 class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statistics_Task
 {
-    /**
-     * The constructor method.
-     *
-     * @return OX_Maintenance_Statistics_Task_LogCompletion
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * The implementation of the OA_Task::run() method that performs
      * the required task of logging the completion of the MSE process.
