@@ -653,8 +653,8 @@ function MAX_commonPackContext($context = [])
     $exclude = [];
     foreach ($context as $idx => $value) {
         reset($value);
-        list($key, $value) = each($value);
-        list($item, $id) = explode(':', $value);
+        [$key, $value] = each($value);
+        [$item, $id] = explode(':', $value);
         switch ($item) {
             case 'campaignid':  $value = 'c:' . $id; break;
             case 'clientid':    $value = 'a:' . $id; break;
@@ -675,7 +675,7 @@ function MAX_commonPackContext($context = [])
 function MAX_commonUnpackContext($context = '')
 {
     //return unserialize(base64_decode($context));
-    list($exclude, $include) = explode('|', base64_decode($context));
+    [$exclude, $include] = explode('|', base64_decode($context));
     return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
 }
 
@@ -697,7 +697,7 @@ function _convertContextArray($key, $array)
         if (empty($value)) {
             continue;
         }
-        list($item, $id) = explode(':', $value);
+        [$item, $id] = explode(':', $value);
         switch ($item) {
             case 'c': $unpacked[] = [$key => 'campaignid:' . $id]; break;
             case 'a': $unpacked[] = [$key => 'clientid:' . $id]; break;
@@ -842,6 +842,22 @@ function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $
     }
 
     return false;
+}
+
+function OX_Delivery_Common_sendPreconnectHeaders()
+{
+    if (empty($GLOBALS['_MAX']['SSL_REQUEST'])) {
+        return;
+    }
+
+    $delivery = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'])[0];
+    $images = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'])[0];
+
+    if ($delivery === $images) {
+        return;
+    }
+
+    MAX_header("Link: {$images}; rel=preconnect");
 }
 
 /**

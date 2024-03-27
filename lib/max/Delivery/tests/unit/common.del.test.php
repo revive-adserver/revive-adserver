@@ -36,8 +36,12 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;
         $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = 'www.maxstore.net/www/delivery';
         $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] = 'secure.maxstore.net/www/delivery';
+        $GLOBALS['_MAX']['CONF']['webpath']['images'] = 'www.maxstore.net/www/images';
+        $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'] = 'secure.maxstore.net/www/images';
 
         $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode(hash('sha256', 'revive-adserver'));
+
+        unset($GLOBALS['_HEADERS']);
     }
 
     public function tearDown()
@@ -451,5 +455,28 @@ class Test_DeliveryCommon extends UnitTestCase
 
         // Cleanup
         unset($GLOBALS['_MAX']['NOW']);
+    }
+
+    public function test_OX_Delivery_Common_sendPreconnectHeaders()
+    {
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+
+        $GLOBALS['_MAX']['SSL_REQUEST'] = false;
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertTrue(empty($GLOBALS['_HEADERS']));
+
+        $GLOBALS['_MAX']['SSL_REQUEST'] = true;
+        $this->assertEqual(
+            explode('/', $aConf['webpath']['imagesSSL'])[0],
+            explode('/', $aConf['webpath']['deliverySSL'])[0],
+        );
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertTrue(empty($GLOBALS['_HEADERS']));
+
+        $aConf['webpath']['imagesSSL'] = 'cdn.example.com';
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertEqual($GLOBALS['_HEADERS'], [
+            'Link: cdn.example.com; rel=preconnect',
+        ]);
     }
 }
