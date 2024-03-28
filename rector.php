@@ -67,6 +67,7 @@ return function (RectorConfig $rectorConfig): void {
         __DIR__ . '/plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin/etc',
         __DIR__ . '/lib/pear',
         __DIR__ . '/lib/smarty',
+        __DIR__ . '/lib/max/language',
         '*/etc/changes/*.php',
         '*xajax*',
         ExplicitBoolCompareRector::class,
