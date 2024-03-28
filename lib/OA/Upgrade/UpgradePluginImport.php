@@ -22,7 +22,6 @@ class OX_UpgradePluginImport extends OX_PluginExport
 {
     public $aDataObjectFiles = [];
     public $aMissingFiles = [];
-    public $basePath; // The path to look for file in
     public $destPath = MAX_PATH; // The path to look to place files in
 
     /** @var string */

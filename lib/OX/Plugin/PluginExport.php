@@ -29,8 +29,9 @@ class OX_PluginExport
     public $aPlugin = [];
     public $aGroups = [];
     public $aErrors = [];
+
     /** @var string */
-    private $basePath = MAX_PATH;
+    public $basePath = MAX_PATH;
 
     public function init($name)
     {
