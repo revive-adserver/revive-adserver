@@ -30,7 +30,47 @@ jobs:
           pull_request_title: 'New Crowdin Translations'
           pull_request_body: 'Updated translations from Crowdin'
           pull_request_base_branch_name: 'master'
+          pull_request_labels: Translation
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+  fix-code-style:
+    name: Apply code style fixes
+
+    needs:
+      - synchronize-with-crowdin
+
+    if: needs.synchronize-with-crowdin.outputs.pull_request_number
+
+    env:
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: crowdin_translations
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies with Composer
+        run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Run ECS
+        run: lib/vendor/bin/ecs check --fix --no-progress-bar --no-ansi --no-interaction -- lib/max/languages
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: lib/max/languages
+          message: '[ci skip] code style fixes'
