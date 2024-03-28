@@ -31,5 +31,3 @@ $GLOBALS['strSyscheckStatus'] = "Status";
 
 
 /** finish step * */
-
-

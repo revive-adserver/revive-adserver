@@ -48,5 +48,3 @@ $GLOBALS['strConfigureUpgradeTitle'] = "Налаштування конфігу�
 
 
 /** finish step * */
-
-

@@ -30,5 +30,3 @@ $GLOBALS['strWarning'] = "Amaran";
 
 
 /** finish step * */
-
-

@@ -83,4 +83,3 @@ $GLOBALS['strUnableUpdateConfFile'] = "Yapılandırma dosyanızı güncelleyemiy
 $GLOBALS['strUnableToCreateAdmin'] = "Sistem yöneticisi hesabı oluşturamıyoruz, veritabanınız erişilebilir mi?";
 $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME}, PHP yüklemenizin sunucunuzun saat dilimi olan \"Sistem / Yerel Zaman\" değerini döndürdüğünü tespit etti. Bu, bazı Linux dağıtımları tarafından uygulanan bir PHP yaması yüzünden.
 Ne yazık ki, bu geçerli bir PHP zaman dilimi değil. Lütfen php.ini dosyanızı düzenleyin ve \"date.timezone\" özelliğini sunucunuz için doğru değere ayarlayın.";
-

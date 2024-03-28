@@ -14,11 +14,11 @@ msgstr ""
 "X-Crowdin-File: /demoExtension/plugins/etc/demoBannerTypeHtml/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 288\n"
 
-#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:35
+#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:34
 msgid "Demonstration Plugin HTML Banner Type"
 msgstr "Demo Plugin HTML Banner Typ"
 
-#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:48
+#: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:47
 msgid "Please enter http://www.revive-adserver.com"
 msgstr "Bitte http://www.revive-adserver.com eingeben"
 

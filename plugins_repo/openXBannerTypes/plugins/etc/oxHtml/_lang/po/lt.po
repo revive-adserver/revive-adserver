@@ -14,15 +14,15 @@ msgstr ""
 "X-Crowdin-File: /openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 298\n"
 
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:34
 msgid "Generic HTML Banner"
 msgstr "Bendras HTML baneris"
 
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:39
 msgid "HTML5 Banner (ZIP package)"
 msgstr ""
 
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:55
 msgid "Upload an HTML5 banner"
 msgstr ""
 
