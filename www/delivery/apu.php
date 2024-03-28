@@ -205,7 +205,7 @@ $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 function setupDeliveryConfigVariables()
 {
 if (!defined('MAX_PATH')) {
-define('MAX_PATH', __DIR__);
+define('MAX_PATH', __DIR__.'/../..');
 }
 if (!defined('OX_PATH')) {
 define('OX_PATH', MAX_PATH);
