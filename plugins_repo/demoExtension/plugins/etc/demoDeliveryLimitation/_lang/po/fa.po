@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-File: /demoExtension/plugins/etc/demoDeliveryLimitation/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 252\n"
 
-#: plugins_repo/demoExtension/plugins/deliveryLimitations/demoDeliveryLimitation/demoLimitation.class.php:49
+#: plugins_repo/demoExtension/plugins/deliveryLimitations/demoDeliveryLimitation/demoLimitation.class.php:55
 msgid "Demo"
 msgstr "نسخه ی آزمایشی"
 
