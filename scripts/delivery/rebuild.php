@@ -28,7 +28,7 @@ echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 // Set the MAX_PATH constant (this assumes that the script is located in
 // MAX_PATH . '/scripts'
 define('MAX_PATH', dirname(__FILE__, 3));
-define('OX_PATH', dirname(__FILE__, 3));
+define('OX_PATH', MAX_PATH);
 define('LIB_PATH', MAX_PATH . '/lib/OX');
 define('RV_PATH', MAX_PATH);
 

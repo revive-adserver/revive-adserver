@@ -143,19 +143,11 @@ class OX_Util_CodeMunger
         // Replace the initial <?php with the licence header
         $code = preg_replace('#^\<\?php[\n\r]+#is', $this->header, $code);
 
-        // Modify the MAX_PATH define due to dirname(__FILE__) point \www\delivery in delivery scripts
-        // from: define('MAX_PATH', dirname(__FILE__));
-        // to:   define('MAX_PATH', dirname(__FILE__).'/../..');
+        // Modify the MAX_PATH define due to __DIR__ point \www\delivery in delivery scripts
+        // from: define('MAX_PATH', __DIR__);
+        // to:   define('MAX_PATH', __DIR__.'/../..');
         $code = preg_replace(
-            '/(define\(\'MAX_PATH\',\s*dirname\(__FILE__\))(\))/',
-            '${1}.\'/../..\'${2}',
-            $code
-        );
-        // Modify the OX_PATH define due to dirname(__FILE__) point \www\delivery in delivery scripts
-        // from: define('OX_PATH', dirname(__FILE__));
-        // to:   define('OX_PATH', dirname(__FILE__).'/../..');
-        $code = preg_replace(
-            '/(define\(\'OX_PATH\',\s*dirname\(__FILE__\))(\))/',
+            '/(define\(\'MAX_PATH\',\s*__DIR__)(\))/',
             '${1}.\'/../..\'${2}',
             $code
         );
