@@ -97,4 +97,3 @@ $GLOBALS['strContinueToLogin'] = "Kattintson a \"Tovább\" gombra a {$PRODUCT_NA
 $GLOBALS['strUnableCreateConfFile'] = "Nem tudjuk létrehozni a konfigurációs fájlt. Kérjük, ellenőrizze a {$PRODUCT_NAME} var mappájának engedélyeit.";
 $GLOBALS['strUnableUpdateConfFile'] = "Nem tudjuk frissíteni a konfigurációs fájlt. Kérjük, ellenőrizze a {$PRODUCT_NAME} var mappájának engedélyeit, és ellenőrizze az előző telepítés konfigurációs fájljának engedélyeit, melyeket ebbe a mappába másolt.";
 $GLOBALS['strUnableToCreateAdmin'] = "Nem tudunk Adminisztrátor fiókot létrehozni. A megadott adatbázis elérhető?";
-

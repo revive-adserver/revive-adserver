@@ -15,7 +15,7 @@ msgstr ""
 "X-Crowdin-File-ID: 366\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:75
 msgid "Country"
 msgstr "国"
 
@@ -59,7 +59,7 @@ msgstr "緯度"
 msgid "Longitude"
 msgstr "経度"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:94
 msgid "Subdivision(s)"
 msgstr ""
 

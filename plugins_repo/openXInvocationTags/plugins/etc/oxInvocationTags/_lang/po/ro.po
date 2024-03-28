@@ -26,7 +26,7 @@ msgstr "Tag Javascript"
 msgid "Interstitial or Floating DHTML Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:231
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:229
 msgid "Style"
 msgstr "Stil"
 

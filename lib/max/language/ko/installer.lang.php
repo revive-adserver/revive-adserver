@@ -85,5 +85,3 @@ $GLOBALS['strPreviousInstallTitle'] = "이전 설치";
 
 
 /** finish step * */
-
-
