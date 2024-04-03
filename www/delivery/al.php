@@ -2852,8 +2852,8 @@ $include = [];
 $exclude = [];
 foreach ($context as $idx => $value) {
 reset($value);
-[$key, $value] = each($value);
-[$item, $id] = explode(':', $value);
+list($key, $value) = each($value);
+list($item, $id) = explode(':', $value);
 switch ($item) {
 case 'campaignid': $value = 'c:' . $id; break;
 case 'clientid': $value = 'a:' . $id; break;
@@ -2871,7 +2871,7 @@ return base64_encode(implode('#', $exclude) . '|' . implode('#', $include));
 }
 function MAX_commonUnpackContext($context = '')
 {
-[$exclude, $include] = explode('|', base64_decode($context));
+list($exclude, $include) = explode('|', base64_decode($context));
 return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
 }
 function MAX_commonCompressInt($int)
@@ -2889,7 +2889,7 @@ foreach ($array as $value) {
 if (empty($value)) {
 continue;
 }
-[$item, $id] = explode(':', $value);
+list($item, $id) = explode(':', $value);
 switch ($item) {
 case 'c': $unpacked[] = [$key => 'campaignid:' . $id]; break;
 case 'a': $unpacked[] = [$key => 'clientid:' . $id]; break;
@@ -2989,18 +2989,6 @@ if ($ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow()) 
 return true;
 }
 return false;
-}
-function OX_Delivery_Common_sendPreconnectHeaders()
-{
-if (empty($GLOBALS['_MAX']['SSL_REQUEST'])) {
-return;
-}
-$delivery = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'])[0];
-$images = explode('/', $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'])[0];
-if ($delivery === $images) {
-return;
-}
-MAX_header("Link: {$images}; rel=preconnect");
 }
 function _includeDeliveryPluginFile($fileName)
 {
@@ -4582,7 +4570,6 @@ return '"' . $string . '"';
 }
 
 MAX_commonSetNoCacheHeaders();
-OX_Delivery_Common_sendPreconnectHeaders();
 MAX_commonRegisterGlobalsArray(['layerstyle']);
 if (!isset($layerstyle) || empty($layerstyle)) {
 $layerstyle = 'geocities';
