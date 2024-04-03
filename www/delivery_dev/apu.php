@@ -19,8 +19,6 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
-OX_Delivery_Common_sendPreconnectHeaders();
-
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(
     [

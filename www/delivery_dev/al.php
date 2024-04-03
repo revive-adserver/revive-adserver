@@ -21,8 +21,6 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
-OX_Delivery_Common_sendPreconnectHeaders();
-
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(['layerstyle']);
 if (!isset($layerstyle) || empty($layerstyle)) {

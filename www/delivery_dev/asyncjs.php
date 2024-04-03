@@ -16,10 +16,8 @@ require_once '../../init-delivery.php';
 $etag = md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
 $product = $GLOBALS['_MAX']['CONF']['var']['product'];
 
-OX_Delivery_Common_sendPreconnectHeaders();
-
 if (!empty($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] == $etag) {
-    MAX_header("HTTP/1.x 304 Not modified");
+    header("HTTP/1.x 304 Not modified");
 
     // Some temporary cookies might have been deleted, if so send permanent ones
     MAX_cookieFlush();
