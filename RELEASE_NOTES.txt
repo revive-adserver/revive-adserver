@@ -33,6 +33,11 @@ New Features
    are hosted on a different hostname then delivery (e.g. CDN), in order to
    speed up ad rendering on a page.
 
+ * Updated the MaxMind GeoIP2 plugin to support the upcoming changes in the
+   procedures required to download database updates from MaxMind. In order
+   for the automatic updates to continue working, the MaxMind account ID
+   needs to be added in the plugin configuration screen.
+
 
 Bug Fixes
 ---------
