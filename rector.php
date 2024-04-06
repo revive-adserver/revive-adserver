@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace REVIVE_ROOT;
 
+use Rector\CodeQuality\Rector\ClassMethod\ExplicitReturnNullRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
@@ -90,5 +91,6 @@ return function (RectorConfig $rectorConfig): void {
         SensitiveConstantNameRector::class,
         ListEachRector::class,
         ReplaceEachAssignmentWithKeyCurrentRector::class,
+        ExplicitReturnNullRector::class,
     ]);
 };
