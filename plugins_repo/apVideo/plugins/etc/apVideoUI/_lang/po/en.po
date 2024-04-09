@@ -10,6 +10,10 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
+msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
+msgstr "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
+
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-trackers.php:75
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:50
 msgid "Additional Trackers"
@@ -39,7 +43,3 @@ msgstr "Invalid URL"
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoZoneChecker.php:39
 msgid "VAST2 Invocation Code"
 msgstr "VAST2 Invocation Code"
-
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/zone-invocation.php:55
-msgid "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
-msgstr "Below you will find the tag that can be used in video players and other systems that are VAST 2.0 compliant:"
