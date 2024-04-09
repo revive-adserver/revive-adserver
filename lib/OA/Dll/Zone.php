@@ -273,7 +273,13 @@ class OA_Dll_Zone extends OA_Dll
      */
     public function delete($zoneId)
     {
-        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) {
+        if (!$this->checkPermissions(
+            $this->aAllowTraffickerAndAbovePerm,
+            'zones',
+            $zoneId,
+            null,
+            OA_Permission::OPERATION_DELETE
+        )) {
             return false;
         }
 
