@@ -310,7 +310,9 @@ class OA_Dll_Campaign extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'campaigns',
-            $campaignId
+            $campaignId,
+            null,
+            OA_Permission::OPERATION_DELETE
         )) {
             return false;
         }

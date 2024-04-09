@@ -653,17 +653,25 @@ class OA_Permission
      * perform an action on his account. This method only performs a permission check
      * if user is working as an accountType
      *
-     * @static
-     *
      * @param string $permission See OA_PERM_* constants
      * @param int $accountId Defaults to the current active account
      */
     public static function enforceAccountPermission($accountType, $permission)
     {
-        if (self::isAccount($accountType)) {
-            self::enforceTrue(self::hasPermission($permission));
-        }
-        return true;
+        self::enforceTrue(self::checkAccountPermission($accountType, $permission));
+    }
+
+    /**
+     * A method to check if the user doesn't have specific permissions to
+     * perform an action on his account. This method only performs a permission check
+     * if user is working as an accountType
+     *
+     * @param string $permission See OA_PERM_* constants
+     * @param int $accountId Defaults to the current active account
+     */
+    public static function checkAccountPermission($accountType, $permission)
+    {
+        return !self::isAccount($accountType) || self::hasPermission($permission);
     }
 
     /**

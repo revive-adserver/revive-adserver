@@ -64,6 +64,9 @@ Bug Fixes
    keyword. Compact view is also the new default in order to keep resource
    usage low.
 
+ * Fixed issue with manager user delete permission not being properly
+   checked when third party products were using the "DLL" data access layer.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

@@ -332,7 +332,9 @@ class OA_Dll_Banner extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'banners',
-            $bannerId
+            $bannerId,
+            null,
+            OA_Permission::OPERATION_DELETE
         )) {
             return false;
         }

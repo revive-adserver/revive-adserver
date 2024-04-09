@@ -364,16 +364,23 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (!empty($id) && !$this->checkIdExistence($table, $id)) {
             return false;
         }
+
         if (isset($id) && !OA_Permission::hasAccessToObject($table, $id, $operationAccessType)) {
             if (!OA_Permission::attemptToSwitchForAccess($table, $id)) {
                 $isError = true;
             }
         }
+
         if (isset($allowed)) {
             if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER) && !OA_Permission::hasPermission($allowed)) {
                 $isError = true;
             }
         }
+
+        if (OA_Permission::OPERATION_DELETE === $operationAccessType && !OA_Permission::checkAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_MANAGER_DELETE)) {
+            $isError = true;
+        }
+
         if ($isError) {
             $this->raiseError('Access forbidden');
             return false;

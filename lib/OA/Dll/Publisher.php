@@ -220,7 +220,9 @@ class OA_Dll_Publisher extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'affiliates',
-            $publisherId
+            $publisherId,
+            null,
+            OA_Permission::OPERATION_DELETE
         )) {
             return false;
         }

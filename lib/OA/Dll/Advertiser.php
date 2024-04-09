@@ -221,7 +221,9 @@ class OA_Dll_Advertiser extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'clients',
-            $advertiserId
+            $advertiserId,
+            null,
+            OA_Permission::OPERATION_DELETE
         )) {
             return false;
         }
