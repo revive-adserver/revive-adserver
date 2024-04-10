@@ -40,4 +40,5 @@ $GLOBALS['strClear'] = "پاک کردن";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "کمپین {id} غیر فعال شد";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
