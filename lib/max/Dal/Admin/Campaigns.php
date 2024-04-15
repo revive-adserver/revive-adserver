@@ -506,20 +506,14 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return RecordSet
      * @access public
      */
-    public function getCampaignAndClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = [])
+    public function getCampaignAndClientByKeyword($keyword, $agencyId = null)
     {
-        // always add default type
-        $aIncludeSystemTypes = array_merge(
-            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
-            $aIncludeSystemTypes
-        );
-        foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);
-        }
-
-        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=" . DBC::makeLiteral($keyword) : '';
-        $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
+        $oDbh->loadModule('Datatype');
+
+        $whereCampaignId = is_numeric($keyword) ? " OR m.campaignid=" . DBC::makeLiteral($keyword) : '';
+
+        $prefix = $this->getTablePrefix();
         $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
         $tableC = $oDbh->quoteIdentifier($prefix . 'clients', true);
 
@@ -529,15 +523,10 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             m.campaignname AS campaignname,
             m.clientid AS clientid
         FROM
-            {$tableM} AS m,
-            {$tableC} AS c
+            {$tableM} AS m INNER JOIN
+            {$tableC} AS c ON (m.clientid = c.clientid)
         WHERE
-            (
-            m.clientid=c.clientid
-            AND (m.campaignname LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
-                $whereCampaign)
-            AND m.type IN (" . implode(',', $aIncludeSystemTypes) . ")
-            )
+            ({$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'm.campaignname')}{$whereCampaignId})
         ";
 
         if ($agencyId !== null) {
@@ -558,19 +547,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *              included apart from default campaigns
      * @return array associative array $campaignId => array of campaign details
      */
-    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = [])
+    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null)
     {
-        $aIncludeSystemTypes = array_merge(
-            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
-            $aIncludeSystemTypes
-        );
-
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientid;
         $doCampaigns->selectAs(['campaignid'], 'placement_id');
         $doCampaigns->selectAs(['campaignname'], 'name');
-        $doCampaigns->whereInAdd('type', $aIncludeSystemTypes);
-        $doCampaigns->orderBy('(type=' . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . ') ASC');
         $doCampaigns->addListOrderBy($listorder, $orderdirection);
 
         $doCampaigns->find();
@@ -590,9 +572,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * @todo Consider removing order options (or making them optional)
      */
-    public function getAllCampaigns($listorder, $orderdirection, $aIncludeSystemTypes = [])
+    public function getAllCampaigns($listorder, $orderdirection)
     {
-        $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
@@ -606,9 +587,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 priority AS priority,
                 revenue AS revenue
             FROM
-                {$tableM}
-            WHERE
-                type IN (" . implode(',', $aIncludeSystemTypes) . ") " .
+                {$tableM}" .
             $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
         ;
 
@@ -624,9 +603,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *
      * @todo Consider removing order options (or making them optional)
      */
-    public function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = [])
+    public function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
@@ -645,8 +623,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 {$tableC} AS c
             WHERE
                 c.clientid=m.clientid
-                AND c.agencyid=" . DBC::makeLiteral($agency_id) . "
-                AND m.type IN (" . implode(',', $aIncludeSystemTypes) . ") " .
+                AND c.agencyid=" . DBC::makeLiteral($agency_id) .
             $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
         ;
 

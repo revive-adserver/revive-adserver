@@ -67,6 +67,9 @@ Bug Fixes
  * Fixed issue with manager user delete permission not being properly
    checked when third party products were using the "DLL" data access layer.
 
+ * Fixed issue with the search functionality being case sensitive when
+   using a Postgres database.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
