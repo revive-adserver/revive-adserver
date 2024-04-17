@@ -88,6 +88,12 @@ class Plugins_Authentication extends OX_Component
             return new PEAR_Error($GLOBALS['strSessionIDNotMatch']);
         }
 
+        phpAds_SessionDataFetch();
+
+        if (null === $GLOBALS['session']) {
+            return new PEAR_Error($GLOBALS['strEnableCookies']);
+        }
+
         return [
             'username' => MAX_commonGetPostValueUnslashed('username'),
             'password' => MAX_commonGetPostValueUnslashed('password')
