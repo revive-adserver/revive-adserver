@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.5.2
+Release Notes: Revive Adserver 5.5.3
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.5.2
+What's New in Revive Adserver 5.5.3
 -----------------------------------
 
- * Release date: April 17th, 2024
+ * Release date: t.b.d.
 
 
 Security Updates
@@ -29,36 +29,13 @@ Security Updates
 New Features
 ------------
 
- * Updated the MaxMind GeoIP2 plugin to support the upcoming changes in the
-   procedures required to download database updates from MaxMind. In order
-   for the automatic updates to continue working, the MaxMind account ID
-   needs to be added in the plugin configuration screen.
+ * None
 
 
 Bug Fixes
 ---------
 
- * Fixed Geo/Organisation delivery limitation not working as expected.
-
- * Fix issue with password recovery process showing an empty recovery screen
-   at the end of a successful process, under some circumstances.
-
- * Fix issue with midnight maintenance potentially becoming very slow during
-   pruning of the data_summary_ad_zone_assoc table on big instances.
-
- * Fix unexpected 500 errors when using an invalid configuration file.
-
- * Fixed issue with zone chaining being presented as a viable option for
-   Email/Newsletter zones while it cannot actually work due to the
-   limitations of such zone type (the click URL is hardcoded to the original
-   zone ID).
-
- * Fixed issue with search settings being reset when typing a new search
-   keyword. Compact view is also the new default in order to keep resource
-   usage low.
-
- * Fixed issue with manager user delete permission not being properly
-   checked when third party products were using the "DLL" data access layer.
+ * None
 
 
 Non-Backwards Compatible Changes
