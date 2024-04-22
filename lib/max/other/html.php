@@ -17,9 +17,15 @@ require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/InventoryPageHeaderModelBuilder.php';
 
 
-function MAX_getDisplayName($name, $length = 60, $append = '...')
+function MAX_getDisplayName($name, ?int $length = null, $append = '...')
 {
-    $displayName = strlen($name) > $length ? rtrim(substr($name, 0, $length - strlen($append))) . $append : $name;
+    $conf = $GLOBALS['_MAX']['CONF'];
+    if ($length === null && isset($conf['ui']['displayNameLength'])) {
+        $length = $conf['ui']['displayNameLength'];
+    }
+    $maxLength = $length > 0 ? $length : 60;
+
+    $displayName = strlen($name) > $maxLength ? rtrim(substr($name, 0, $maxLength - strlen($append))) . $append : $name;
     if (empty($displayName)) {
         $displayName = $GLOBALS['strUntitled'];
     }
