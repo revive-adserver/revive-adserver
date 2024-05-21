@@ -40,6 +40,9 @@ Bug Fixes
  * HEAD requests to delivery scripts were previously executed and counted
    as proper requests, even though the ad payload would have been discarded.
 
+ * Fixed issue with the search functionality being case-sensitive when
+   using a Postgres database.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

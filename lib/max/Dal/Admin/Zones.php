@@ -26,9 +26,12 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
 
     public function getZoneByKeyword($keyword, $agencyId = null, $affiliateId = null)
     {
-        $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
-        $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
+        $oDbh->loadModule('Datatype');
+
+        $whereZoneId = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
+
+        $prefix = $this->getTablePrefix();
         $tableZ = $oDbh->quoteIdentifier($prefix . 'zones', true);
         $tableA = $oDbh->quoteIdentifier($prefix . 'affiliates', true);
 
@@ -39,16 +42,15 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             z.description AS description,
             a.affiliateid AS affiliateid
         FROM
-            {$tableZ} AS z,
-            {$tableA} AS a
+            {$tableZ} AS z INNER JOIN
+            {$tableA} AS a ON (z.affiliateid = a.affiliateid)
         WHERE
             (
-            z.affiliateid=a.affiliateid
-            AND (z.zonename LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
-            OR description LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
-            $whereZone)
+                {$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'z.zonename')} OR
+                {$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'z.description')}
+                {$whereZoneId}
             )
-    ";
+        ";
 
         if ($agencyId !== null) {
             $query .= " AND a.agencyid=" . DBC::makeLiteral($agencyId);

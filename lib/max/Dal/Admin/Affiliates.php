@@ -24,10 +24,14 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
 
     public function getAffiliateByKeyword($keyword, $agencyId = null)
     {
-        $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
-        $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
+        $oDbh->loadModule('Datatype');
+
+        $whereAffiliateId = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
+
+        $prefix = $this->getTablePrefix();
         $tableA = $oDbh->quoteIdentifier($prefix . 'affiliates', true);
+
         $query = "
         SELECT
             a.affiliateid AS affiliateid,
@@ -35,11 +39,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         FROM
             {$tableA} AS a
         WHERE
-            (
-            a.name LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
-            $whereAffiliate
-            )
-
+            ({$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'a.name')}{$whereAffiliateId})
         ";
 
         if ($agencyId !== null) {

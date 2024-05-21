@@ -21,6 +21,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 {
+    /** @var MAX_Dal_Admin_Clients */
     public $dalClients;
 
     public function setUp()
@@ -50,7 +51,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         // Restore the test environment - tests rely on the fact that the
         // clients generated will start with client ID 1
         TestEnv::truncateAllTables();
-        $aIncludeSystemTypes = [DataObjects_Clients::ADVERTISER_TYPE_MARKET];
 
         // Test 1
         $rsClients = $this->dalClients->getClientByKeyword('foo');
@@ -62,7 +62,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
-        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 2
@@ -84,7 +83,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients->clientname = 'Advertiser 2';
         $doClients->agencyid = 2;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
-        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $aClientId = DataGenerator::generateOne($doClients);
         $rsClients->fetch();
         $aRow = $rsClients->toArray();
@@ -93,15 +91,9 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $rsClients = $this->dalClients->getClientByKeyword('foo');
         $rsClients->reset();
         $this->assertEqual($rsClients->getRowCount(), 0);
-        $rsClients = $this->dalClients->getClientByKeyword('foo', null, $aIncludeSystemTypes);
-        $rsClients->reset();
-        $this->assertEqual($rsClients->getRowCount(), 0);
 
         // Test 5
         $rsClients = $this->dalClients->getClientByKeyword('2');
-        $rsClients->reset();
-        $this->assertEqual($rsClients->getRowCount(), 0);
-        $rsClients = $this->dalClients->getClientByKeyword('2', null, $aIncludeSystemTypes);
         $rsClients->reset();
         $this->assertEqual($rsClients->getRowCount(), 1);
         $rsClients->fetch();
@@ -111,13 +103,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
         // Test 6
         $rsClients = $this->dalClients->getClientByKeyword('Advertiser');
-        $rsClients->reset();
-        $this->assertEqual($rsClients->getRowCount(), 1);
-        $rsClients->fetch();
-        $aRow = $rsClients->toArray();
-        $this->assertEqual($aRow['clientid'], 1);
-        $this->assertEqual($aRow['clientname'], 'Advertiser 1');
-        $rsClients = $this->dalClients->getClientByKeyword('Advertiser', null, $aIncludeSystemTypes);
         $rsClients->reset();
         $this->assertEqual($rsClients->getRowCount(), 2);
         $rsClients->fetch();
@@ -131,7 +116,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
         // Test 7
         $rsClients = $this->dalClients->getClientByKeyword('Advertiser', 1);
-        $rsClients = $this->dalClients->getClientByKeyword('Advertiser', 1, $aIncludeSystemTypes);
         $rsClients->reset();
         $this->assertEqual($rsClients->getRowCount(), 1);
         $rsClients->fetch();

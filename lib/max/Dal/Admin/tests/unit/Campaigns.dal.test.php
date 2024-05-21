@@ -22,6 +22,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
  */
 class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 {
+    /** @var MAX_Dal_Admin_Campaigns */
     public $oDalCampaigns;
 
     public function setUp()
@@ -42,38 +43,13 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Insert campaigns
         $numCampaigns = 2;
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->campaignname = 'normal campaign';
         $aCampaignId = DataGenerator::generate($doCampaigns, $numCampaigns);
-
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->campaignname = 'market campaign';
-        $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
-        $marketCampaignId = DataGenerator::generateOne($doCampaigns);
 
         // Call method
         $aCampaigns = $this->oDalCampaigns->getAllCampaigns('name', 'up');
 
         // Test same number of campaigns are returned.
         $this->assertEqual(count($aCampaigns), $numCampaigns);
-
-        // Call method with market campaigns
-        $aIncludeSystemTypes = [
-            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
-        ];
-        $aCampaigns = $this->oDalCampaigns->getAllCampaigns('name', 'up', $aIncludeSystemTypes);
-        $this->assertEqual(count($aCampaigns), $numCampaigns + 1);
-        // test ordering, fisrt should be market campaign
-        reset($aCampaigns);
-        $aCampaign = current($aCampaigns);
-        $this->assertEqual($aCampaign['campaignname'], 'market campaign');
-
-        // reverse order
-        $aCampaigns = $this->oDalCampaigns->getAllCampaigns('name', 'down', $aIncludeSystemTypes);
-        $this->assertEqual(count($aCampaigns), $numCampaigns + 1);
-        // test ordering, fisrt should be market campaign
-        reset($aCampaigns);
-        $aCampaign = current($aCampaigns);
-        $this->assertEqual($aCampaign['campaignname'], 'market campaign');
     }
 
     public function testCountActiveCampaigns()
@@ -154,24 +130,14 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Create a campaign
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->campaignname = 'foo';
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
+
         $aData = [
             'reportlastdate' => ['2007-04-03 18:39:45']
         ];
-
-        DataGenerator::setData('clients', $aData);
-        DataGenerator::generate($doCampaign, 1, true);
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $dg->generate($doCampaign, 1, true);
         $agencyId = DataGenerator::getReferenceId('agency');
-        $doCampaign = OA_Dal::factoryDO('campaigns');
-        $doCampaign->campaignname = 'foomarket';
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
-        $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45'],
-            'agency' => $agencyId
-        ];
-        DataGenerator::setData('clients', $aData);
-        DataGenerator::generate($doCampaign, 1, true);
-
 
         // Search for the campaign
         $expected = 0;
@@ -186,18 +152,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $actual = $rsCampaigns->getRowCount();
         $this->assertEqual($actual, $expected);
 
-        $expected = 2;
-        $rsCampaigns = $this->oDalCampaigns->getCampaignAndClientByKeyword(
-            'foo',
-            null,
-            [DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN]
-        );
-        $rsCampaigns->find();
-        $actual = $rsCampaigns->getRowCount();
-        $this->assertEqual($actual, $expected);
-
         // Restrict the search to agency (defaults to 1)
-        $expected = 1;
         $rsCampaigns = $this->oDalCampaigns->getCampaignAndClientByKeyword('foo', $agencyId);
         $rsCampaigns->find();
         $actual = $rsCampaigns->getRowCount();
@@ -210,78 +165,17 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
-        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
         $clientId1 = DataGenerator::generateOne($doClients);
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientname = 'Advertiser 2';
-        $doClients->agencyid = 2;
-        $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
-        $clientId2 = DataGenerator::generateOne($doClients);
 
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->clientid = $clientId1;
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
         $doCampaign->campaignname = 'Adv1 Campaign 1';
         $campaign1 = DataGenerator::generateOne($doCampaign);
-        $doCampaign = OA_Dal::factoryDO('campaigns');
-        $doCampaign->clientid = $clientId2;
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
-        $doCampaign->campaignname = 'Adv2 Campaign 1';
-        $campaign2 = DataGenerator::generateOne($doCampaign);
-        $doCampaign = OA_Dal::factoryDO('campaigns');
-        $doCampaign->clientid = $clientId2;
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT;
-        $doCampaign->campaignname = 'Adv2 Campaign 2';
-        $campaign3 = DataGenerator::generateOne($doCampaign);
-        $doCampaign = OA_Dal::factoryDO('campaigns');
-        $doCampaign->clientid = $clientId2;
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
-        $doCampaign->campaignname = 'Adv2 Campaign 3';
-        $campaign4 = DataGenerator::generateOne($doCampaign);
 
         $result = $this->oDalCampaigns->getClientCampaigns($campaign1);
         $this->assertEqual(count($result), 1);
         $this->assertIsA($result[$campaign1], 'array');
         $this->assertEqual($result[$campaign1]['name'], 'Adv1 Campaign 1');
-        $result = $this->oDalCampaigns->getClientCampaigns(
-            $campaign1,
-            'name',
-            '',
-            [DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN]
-        );
-        $this->assertEqual(count($result), 1);
-
-        $result = $this->oDalCampaigns->getClientCampaigns($campaign2);
-        $this->assertEqual(count($result), 0);
-
-        $aIncludeSystemTypes = [DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN];
-        $result = $this->oDalCampaigns->getClientCampaigns($campaign2, 'name', 'up', $aIncludeSystemTypes);
-        $this->assertEqual(count($result), 1);
-        $this->assertEqual($result[$campaign2]['name'], 'Adv2 Campaign 1');
-
-        $aIncludeSystemTypes = [
-            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
-            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT,
-            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN,
-        ];
-        $result = $this->oDalCampaigns->getClientCampaigns($campaign2, 'name', 'up', $aIncludeSystemTypes);
-        $this->assertEqual(count($result), 3);
-        reset($result);
-        list($campaignId, $campaign) = each($result);
-        $this->assertEqual($campaignId, $campaign2);
-        list($campaignId, $campaign) = each($result);
-        $this->assertEqual($campaignId, $campaign3);
-        list($campaignId, $campaign) = each($result);
-        $this->assertEqual($campaignId, $campaign4);
-
-        $result = $this->oDalCampaigns->getClientCampaigns($campaign2, 'name', 'down', $aIncludeSystemTypes);
-        $this->assertEqual(count($result), 3);
-        list($campaignId, $campaign) = each($result);
-        $this->assertEqual($campaignId, $campaign4);
-        list($campaignId, $campaign) = each($result);
-        $this->assertEqual($campaignId, $campaign3);
-        list($campaignId, $campaign) = each($result);
-        $this->assertEqual($campaignId, $campaign2);
     }
 
     /**
@@ -987,13 +881,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         DataGenerator::setData('clients', $aData);
         $aCampaigns2 = DataGenerator::generate('campaigns', $numCampaigns2, true);
         $agencyId2 = DataGenerator::getReferenceId('agency');
-        $clientId = DataGenerator::getReferenceId('clients');
-
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->clientid = $clientId;
-        $doCampaigns->campaignname = 'market campaign';
-        $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
-        $marketCampaignId = DataGenerator::generateOne($doCampaigns);
 
         // Take test data
         $aCampaigns = $this->oDalCampaigns->getAllCampaignsUnderAgency($agencyId2, 'name', 'up');
@@ -1002,12 +889,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         ksort($aCampaigns);
         sort($aCampaigns2);
         $this->assertEqual(array_keys($aCampaigns), array_values($aCampaigns2));
-
-        $aIncludeSystemTypes = [
-            DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
-        ];
-        $aCampaigns = $this->oDalCampaigns->getAllCampaignsUnderAgency($agencyId2, 'name', 'up', $aIncludeSystemTypes);
-        $this->assertEqual(count($aCampaigns), $numCampaigns2 + 1);
     }
 
     /**
