@@ -172,6 +172,9 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
         }
     }
 
+    // Allow plugins to add magic macros
+    _adRenderAddPluginMagicMacros($aMagicMacros, $aBanner, $code);
+
     // Pass over the search / replace patterns
     $aBanner['aMagicMacros'] = $aMagicMacros;
 
@@ -806,4 +809,23 @@ function _getAdRenderFunction($aBanner, $richMedia = true)
         };
     }
     return $functionName;
+}
+
+function _adRenderAddPluginMagicMacros(array &$aMagicMacros, array $aBanner, string $code): void
+{
+    $pluginMagicMacros = OX_Delivery_Common_hook('addMagicMacros', [$aBanner, $code]);
+
+    if (!is_array($pluginMagicMacros)) {
+        return;
+    }
+
+    foreach ($pluginMagicMacros as $pluginMagicMacro) {
+        if (!is_array($pluginMagicMacro)) {
+            continue;
+        }
+
+        foreach ($pluginMagicMacro as $key => $value) {
+            $aMagicMacros[$key] = $value;
+        }
+    }
 }
