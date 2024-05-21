@@ -33,6 +33,8 @@ New Features
    are hosted on a different hostname then delivery (e.g. CDN), in order to
    speed up ad rendering on a page.
 
+ * Added new "addMagicMacros" delivery plugin hook.
+
 
 Bug Fixes
 ---------
