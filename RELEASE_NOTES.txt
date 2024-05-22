@@ -35,6 +35,9 @@ New Features
 
  * Added new "addMagicMacros" delivery plugin hook.
 
+ * New displayNameLength configuration directive to increase the length of
+   campaign and banner names displayed in the zone linking screens.
+
 
 Bug Fixes
 ---------
@@ -58,7 +61,7 @@ Community Contributions
 We would like to thank the following community members for their
 contribution to this release:
 
- * None
+ * zd-ls
 
 
 System Requirements
