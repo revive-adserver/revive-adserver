@@ -56,6 +56,7 @@ dashboardEnabled                    = true
 hideNavigator                       = false
 zoneLinkingStatistics               = true
 disableDirectSelection              = true
+displayNameLength                   = 60
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
