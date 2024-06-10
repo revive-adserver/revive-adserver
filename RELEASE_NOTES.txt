@@ -48,6 +48,9 @@ Bug Fixes
  * Fixed issue with the search functionality being case-sensitive when
    using a Postgres database.
 
+ * Optimimized some queries used in the statistics screen, leading to
+   faster response times on very large instances.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

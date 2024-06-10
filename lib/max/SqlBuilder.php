@@ -594,13 +594,19 @@ class SqlBuilder
                 }
 
                 if (!empty($aParams['agency_id'])) {
-                    $aTables += [
-                        $conf['table']['prefix'] . $conf['table']['clients'] => 'a',
-                        $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
-                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd',
-                        $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p',
-                        $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
-                    ];
+                    if (!in_array('ad_id', $aParams['exclude'] ?? [])) {
+                        $aTables += [
+                            $conf['table']['prefix'] . $conf['table']['clients'] => 'a',
+                            $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
+                            $conf['table']['prefix'] . $conf['table']['banners'] => 'd',
+                        ];
+                    }
+                    if (!in_array('zone_id', $aParams['exclude'] ?? [])) {
+                        $aTables += [
+                            $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p',
+                            $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
+                        ];
+                    }
                 }
 
                 if (!empty($aParams['advertiser_id'])) {
@@ -979,7 +985,13 @@ class SqlBuilder
             case 'history_hour':
             case 'stats':
                 if (!empty($aParams['agency_id'])) {
-                    $aLimitations[] = "(a.agencyid = {$aParams['agency_id']} OR p.agencyid = {$aParams['agency_id']})";
+                    if (in_array('ad_id', $aParams['exclude'] ?? [])) {
+                        $aLimitations[] = "p.agencyid = {$aParams['agency_id']}";
+                    } elseif (in_array('zone_id', $aParams['exclude'] ?? [])) {
+                        $aLimitations[] = "a.agencyid = {$aParams['agency_id']}";
+                    } else {
+                        $aLimitations[] = "(a.agencyid = {$aParams['agency_id']} OR p.agencyid = {$aParams['agency_id']})";
+                    }
                 }
 
                 if (!empty($aParams['publisher_id'])) {
