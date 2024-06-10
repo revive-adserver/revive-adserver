@@ -27,14 +27,10 @@ msgstr "Impression trackers (one URL per line)"
 msgid "Invalid URL: %s"
 msgstr "Invalid URL: %s"
 
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:31
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:83
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:31
 msgid "Alternate Media"
 msgstr "Alternate Media"
-
-#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoZoneChecker.php:39
-msgid "VAST2 Invocation Code"
-msgstr "VAST2 Invocation Code"
 
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:86
 msgid "%s Video URL"
@@ -43,3 +39,7 @@ msgstr "%s Video URL"
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:171
 msgid "Invalid URL"
 msgstr "Invalid URL"
+
+#: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoZoneChecker.php:39
+msgid "VAST2 Invocation Code"
+msgstr "VAST2 Invocation Code"
