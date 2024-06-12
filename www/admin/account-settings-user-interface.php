@@ -55,7 +55,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'ui_gzipCompression' => [
             'ui' => 'gzipCompression',
             'bool' => true
-        ]
+        ],
+        'ui_badLoginLogPath' => ['ui' => 'badLoginLogPath']
     ];
     // SSL Settings
     $aElements += [
@@ -215,6 +216,15 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'ui_gzipCompression',
                 'text' => $strGzipContentCompression
+            ],
+            [
+                'type' => 'break'
+            ],
+            [
+                'type' => 'text',
+                'name' => 'ui_badLoginLogPath',
+                'text' => $strGuiBadLoginLogPath,
+                'size' => 35
             ]
         ]
     ],

@@ -109,6 +109,7 @@ class LogonServiceImpl extends BaseServiceImpl
                 return false;
             }
         } else {
+            require_once MAX_PATH . '/lib/util/file/badLogin.php';
             $this->raiseError($strUsernameOrPasswordWrong);
             return false;
         }
