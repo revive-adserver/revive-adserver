@@ -1571,6 +1571,10 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->_buildAuditArray($actionid, $aAuditFields);
                 // Do not audit if nothing has changed
                 if (count($aAuditFields)) {
+                    //Add the remote address to the details array in order to show it on userlog-audit-detailed
+                    if(!empty($_SERVER['REMOTE_ADDR'])){
+                        $aAuditFields['ip'] = $_SERVER['REMOTE_ADDR'];
+                    }
                     // Serialise the data
                     $this->doAudit->details = serialize($aAuditFields);
                     $this->doAudit->updated = OA::getNowUTC();
