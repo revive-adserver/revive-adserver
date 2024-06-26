@@ -117,7 +117,7 @@ return -1;
 $aSize = [
 'G' => 1073741824,
 'M' => 1048576,
-'K' => 1024
+'K' => 1024,
 ];
 $phpMemoryLimitInBytes = $phpMemoryLimit;
 foreach ($aSize as $type => $multiplier) {
@@ -589,7 +589,7 @@ $proxy = true;
 $aProxyHosts = [
 'proxy',
 'cache',
-'inktomi'
+'inktomi',
 ];
 foreach ($aProxyHosts as $proxyName) {
 if (str_contains($_SERVER['REMOTE_HOST'], $proxyName)) {
@@ -605,7 +605,7 @@ $aHeaders = [
 'HTTP_FORWARDED_FOR',
 'HTTP_X_FORWARDED',
 'HTTP_X_FORWARDED_FOR',
-'HTTP_CLIENT_IP'
+'HTTP_CLIENT_IP',
 ];
 foreach ($aHeaders as $header) {
 if (!empty($_SERVER[$header])) {
@@ -744,7 +744,7 @@ $query = "
 $res = OA_Dal_Delivery_query($query);
 $aResult = [
 'adminAccountId' => $adminAccountId,
-'aAccounts' => []
+'aAccounts' => [],
 ];
 if (OA_Dal_Delivery_isValidResult($res)) {
 while ($row = OA_Dal_Delivery_fetchAssoc($res)) {
@@ -937,7 +937,7 @@ $aDefaultDestinationURLs[$aRow['item']] = $aRow['value'];
 $aTypes = [
 0 => 'admin',
 1 => 'manager',
-2 => 'trafficker'
+2 => 'trafficker',
 ];
 foreach ($aTypes as $type) {
 if (isset($aDefaultImageURLs['default_banner_image_url_' . $type])) {
@@ -987,7 +987,7 @@ $aRows['count_active'] = 0;
 $totals = [
 'xAds' => 0,
 'ads' => 0,
-'lAds' => 0
+'lAds' => 0,
 ];
 if (!empty($aRows['default'])) {
 return $aRows;
@@ -1202,7 +1202,7 @@ $aRows['count_active'] = 0;
 $totals = [
 'xAds' => 0,
 'ads' => 0,
-'lAds' => 0
+'lAds' => 0,
 ];
 $query = OA_Dal_Delivery_buildAdInfoQuery($search, $lastpart, $precondition);
 $rAds = OA_Dal_Delivery_query($query);
@@ -1244,7 +1244,7 @@ $aRows['count_active'] = 0;
 $totals = [
 'xAds' => 0,
 'ads' => 0,
-'lAds' => 0
+'lAds' => 0,
 ];
 $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
 $rAds = OA_Dal_Delivery_query($query);
@@ -1565,13 +1565,13 @@ $aColumns = [
 'm.ecpm AS ecpm',
 'cl.advertiser_limitation AS advertiser_limitation',
 'a.account_id AS account_id',
-'a.agencyid AS agency_id'
+'a.agencyid AS agency_id',
 ];
 $aTables = [
 "" . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['banners']) . " AS d",
 "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['campaigns']) . " AS m ON (d.campaignid = m.campaignid) ",
 "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['clients']) . " AS cl ON (m.clientid = cl.clientid) ",
-"JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc']) . " AS az ON (d.bannerid = az.ad_id)"
+"JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc']) . " AS az ON (d.bannerid = az.ad_id)",
 ];
 $select = "
       az.zone_id = 0
@@ -2285,7 +2285,7 @@ if (count($aVariables)) {
 OX_Delivery_Common_hook(
 'logConversionVariable',
 [$aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)],
-empty($pluginId) ? null : $pluginId . 'Variable'
+empty($pluginId) ? null : $pluginId . 'Variable',
 );
 }
 }
@@ -2429,7 +2429,7 @@ $type,
 $aItems[$index],
 $aCaps['block'][$index],
 $aCaps['capping'][$index],
-$aCaps['session_capping'][$index]
+$aCaps['session_capping'][$index],
 );
 }
 function MAX_commonGetDeliveryUrl($file = '')
@@ -2802,7 +2802,7 @@ $arr = [
 502 => 'Bad Gateway',
 503 => 'Service Unavailable',
 504 => 'Gateway Timeout',
-505 => 'HTTP Version Not Supported'
+505 => 'HTTP Version Not Supported',
 ];
 if (isset($arr[$iStatusCode])) {
 $text = $iStatusCode . ' ' . $arr[$iStatusCode];
@@ -2937,12 +2937,12 @@ throw new InvalidArgumentException('Empty delivery secret');
 $secret = implode("\t", [
 base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
 $adId,
-$zoneId
+$zoneId,
 ]);
 return hash_hmac(
 'sha256',
 $data,
-$secret
+$secret,
 );
 }
 function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $dest): bool
@@ -3004,7 +3004,7 @@ define('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = [
 'prefix' => 'deliverycache_',
 'host' => OX_getHostName(),
-'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
+'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'],
 ];
 function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 {
@@ -3012,7 +3012,7 @@ $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $aCacheVar = OX_Delivery_Common_hook(
 'cacheRetrieve',
 [$filename],
-$GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+$GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
 );
 if ($aCacheVar !== false) {
 if ($aCacheVar['cache_name'] != $name) {
@@ -3049,14 +3049,14 @@ $aCacheVar['cache_expire'] = $expireAt;
 return OX_Delivery_Common_hook(
 'cacheStore',
 [$filename, $aCacheVar],
-$GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+$GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
 );
 }
 function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
 OX_Delivery_Common_hook(
 'preCacheStore_' . OA_Delivery_Cache_getHookName($name),
-[$name, &$cache]
+[$name, &$cache],
 );
 if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
 return $cache;
@@ -3682,7 +3682,7 @@ if ($dest) {
 $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
 $aBanner['bannerid'] ?? 0,
 $zoneId,
-$dest
+$dest,
 );
 $aParams[$conf['var']['dest']] = $dest;
 } elseif ($conf['delivery']['clickUrlValidity'] > 0) {
@@ -3690,7 +3690,7 @@ $aParams[$conf['var']['timestamp']] = (string) MAX_commonGetTimeNow();
 $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
 $aBanner['bannerid'] ?? 0,
 $zoneId,
-$aParams[$conf['var']['timestamp']]
+$aParams[$conf['var']['timestamp']],
 );
 $aParams[$conf['var']['dest']] = '';
 }
@@ -3704,7 +3704,7 @@ return $input;
 return str_replace(
 array_keys($aBanner['aMagicMacros']),
 array_values($aBanner['aMagicMacros']),
-$input
+$input,
 );
 }
 function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', ?string $ct0 = null, bool $logClick = true, ?string $customDestination = null): string
@@ -3994,7 +3994,7 @@ if (!empty($aDirectLinkedAdInfos['default_banner_image_url'])) {
 return [
 'default' => true,
 'default_banner_image_url' => $aDirectLinkedAdInfos['default_banner_image_url'],
-'default_banner_destination_url' => $aDirectLinkedAdInfos['default_banner_destination_url']
+'default_banner_destination_url' => $aDirectLinkedAdInfos['default_banner_destination_url'],
 ];
 }
 return false;
@@ -4071,7 +4071,7 @@ if (!empty($aZoneInfo['default_banner_image_url'])) {
 return [
 'default' => true,
 'default_banner_image_url' => $aZoneInfo['default_banner_image_url'],
-'default_banner_destination_url' => $aZoneInfo['default_banner_destination_url']
+'default_banner_destination_url' => $aZoneInfo['default_banner_destination_url'],
 ];
 }
 return false;
@@ -4119,7 +4119,7 @@ if (!$ad_picked) {
 $aLinkedAd = OX_Delivery_Common_hook(
 'adSelect',
 [&$aAds, &$context, &$source, &$richMedia, $companion, $type, $pri],
-$adSelectFunction
+$adSelectFunction,
 );
 if (is_array($aLinkedAd)) {
 $ad_picked = true;
@@ -4512,8 +4512,8 @@ MAX_commonRegisterGlobalsArray(
 'menubar',
 'status',
 'resizable',
-'scrollbars'
-]
+'scrollbars',
+],
 );
 if (!isset($left)) {
 $left = 0;
