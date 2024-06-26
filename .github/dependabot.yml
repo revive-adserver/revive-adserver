@@ -1,0 +1,14 @@
+version: 2
+updates:
+    - package-ecosystem: "composer"
+      directory: "/"
+      target-branch: "master"
+      open-pull-requests-limit: 5
+      schedule:
+          interval: "daily"
+          time: "08:00"
+          timezone: "Europe/Rome"
+      groups:
+          symfony:
+              patterns:
+                  - "symfony/*"
