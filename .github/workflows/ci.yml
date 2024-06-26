@@ -12,6 +12,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     env:
+      PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
@@ -23,7 +24,7 @@ jobs:
      - name: Install PHP
        uses: shivammathur/setup-php@v2
        with:
-         php-version: 8.3
+         php-version: ${{ env.PHP_VERSION }}
          extensions: ${{ env.PHP_EXTENSIONS }}
          coverage: none
          tools: composer
@@ -31,8 +32,21 @@ jobs:
      - name: Ensure that composer.json is valid
        run: composer validate --no-ansi --strict composer.json
 
+     - name: Get Composer cache directory
+       id: composer-cache
+       run: |
+         echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+     - name: Cache Composer dependencies
+       uses: actions/cache@v4
+       with:
+         path: "${{ steps.composer-cache.outputs.dir }}"
+         key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+         restore-keys: |
+           php-${{ env.PHP_VERSION }}-composer-
+
      - name: Ensure that dependencies can be installed
-       run: composer install --no-ansi --dry-run
+       run: composer install --no-ansi
 
   code-style-checker:
     name: Code-style checker
@@ -54,10 +68,23 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
           tools: composer
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            php-${{ env.PHP_VERSION }}-composer-
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
@@ -85,10 +112,23 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
           tools: composer
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            php-${{ env.PHP_VERSION }}-composer-
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
@@ -116,10 +156,23 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
           tools: composer
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            php-${{ env.PHP_VERSION }}-composer-
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
@@ -147,10 +200,23 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
           tools: composer
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            php-${{ env.PHP_VERSION }}-composer-
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
@@ -185,7 +251,7 @@ jobs:
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ env.PHP_INI_VALUES }}
           tools: composer
@@ -216,6 +282,19 @@ jobs:
             echo '${{ toJson(github.event.commits) }}' | jq -r '.[].message' | sed s'/^/ * /g'
             echo EOF
           } >> "$GITHUB_OUTPUT"
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            php-${{ env.PHP_VERSION }}-composer-
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
