@@ -1,6 +1,7 @@
 includes:
     - phpstan-baseline.neon
 parameters:
+    tmpDir: var/cache/tools/phpstan
     level: 0
     paths:
         - .

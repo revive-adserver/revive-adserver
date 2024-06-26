@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace REVIVE_ROOT;
 
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodeQuality\Rector\ClassMethod\ExplicitReturnNullRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
@@ -31,6 +32,9 @@ use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 
 return function (RectorConfig $rectorConfig): void {
+    $rectorConfig->cacheClass(FileCacheStorage::class);
+    $rectorConfig->cacheDirectory(__DIR__ . '/var/cache/tools/rector');
+
     $rectorConfig->paths(
         array_merge(
             [

@@ -35,4 +35,6 @@ return ECSConfig::configure()
         NullableTypeDeclarationForDefaultNullValueFixer::class
     ])
     ->withPhpCsFixerSets(perCS20: true)
-    ->withPreparedSets(psr12: true);
+    ->withPreparedSets(psr12: true)
+    ->withCache(__DIR__ . '/var/cache/tools/ecs')
+;

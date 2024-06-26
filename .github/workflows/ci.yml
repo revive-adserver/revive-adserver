@@ -89,6 +89,14 @@ jobs:
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
 
+      - name: Cache ECS results
+        uses: actions/cache@v4
+        with:
+          path: "var/cache/tools/ecs"
+          key: "ecs-${{ github.run_id }}"
+          restore-keys: |
+            ecs-
+
       - name: Run ECS
         run: lib/vendor/bin/ecs --no-progress-bar --no-ansi --no-interaction
 
@@ -132,6 +140,14 @@ jobs:
 
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
+
+      - name: Cache PHPStan results
+        uses: actions/cache@v4
+        with:
+          path: "var/cache/tools/phpstan"
+          key: "phpstan-${{ github.run_id }}"
+          restore-keys: |
+            phpstan-
 
       - name: Run PHPStan
         run: lib/vendor/bin/phpstan --no-progress -n
@@ -221,7 +237,18 @@ jobs:
       - name: Install dependencies with Composer
         run: composer install --no-interaction --no-ansi --no-progress
 
-      - name: Run rector
+      - name: Cache Rector results
+        uses: actions/cache@v4
+        with:
+          path: "var/cache/tools/rector"
+          key: "rector-${{ github.run_id }}"
+          restore-keys: |
+            rector-
+
+      - name: Init Rector cache
+        run: mkdir -p var/cache/tools/rector
+
+      - name: Run Rector
         run: lib/vendor/bin/rector -n
 
   post-commit:
