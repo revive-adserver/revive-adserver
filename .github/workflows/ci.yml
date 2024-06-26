@@ -84,7 +84,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: echo "name=dir::$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -122,10 +122,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    concurrency:
-      group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -140,7 +136,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: echo "name=dir::$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -178,10 +174,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    concurrency:
-      group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -196,7 +188,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: echo "name=dir::$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -226,10 +218,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    concurrency:
-      group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -244,7 +232,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: echo "name=dir::$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -337,7 +325,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: echo "name=dir::$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
