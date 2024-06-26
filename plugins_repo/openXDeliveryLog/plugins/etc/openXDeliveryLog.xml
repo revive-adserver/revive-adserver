@@ -4,13 +4,13 @@
 <plugin>
     <name>openXDeliveryLog</name>
     <displayName>Banner Delivery Logging Plugin</displayName>
-    <creationDate>2019-09-11</creationDate>
+    <creationDate>2024-06-26</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Standard delivery logging plugin for OpenX</description>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <type>extension</type>
 
     <install>
