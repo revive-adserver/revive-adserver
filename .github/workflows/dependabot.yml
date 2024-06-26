@@ -1,0 +1,77 @@
+name: Dependabot Composer Fix
+
+on: pull_request_target
+
+permissions:
+  pull-requests: read
+  contents: write
+
+jobs:
+  composer:
+    name: Composer Update
+    runs-on: ubuntu-latest
+
+    if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/composer')
+
+    env:
+      PHP_VERSION: 8.3
+      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.MATTEO_PAT }}
+
+      - name: Fetch Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v1.3.0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          coverage: none
+          tools: composer
+
+      - name: Setup problem matchers for PHP
+        run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "php-${{ env.PHP_VERSION }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            php-${{ env.PHP_VERSION }}-composer-
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Rollback dependabot changes
+        run: |
+          git fetch --no-tags --no-recurse-submodules --depth=1 origin +${{ github.base_ref }}
+          git checkout origin/${{ github.base_ref }} -- composer.lock
+
+      - name: Install dependencies
+        # merge-plugin currently forces update of merged dependencies during first install.
+        # Roll updates back to limit changes to targeted package.
+        # https://github.com/wikimedia/composer-merge-plugin/pull/219
+        run: |
+          composer install
+          git checkout origin/${{ github.base_ref }} -- composer.lock
+          composer install
+
+      - name: Update dependency
+        run: composer update --with-all-dependencies ${{ steps.dependabot-metadata.outputs.dependency-names }}:${{ steps.dependabot-metadata.outputs.new-version }} --no-progress
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: composer.lock
+          message: "[dependabot skip] Fix composer package update"

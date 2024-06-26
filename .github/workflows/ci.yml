@@ -61,6 +61,7 @@ jobs:
       - dependency-validation
 
     env:
+      PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
@@ -79,8 +80,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -113,6 +113,7 @@ jobs:
       - dependency-validation
 
     env:
+      PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
@@ -131,8 +132,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -165,6 +165,7 @@ jobs:
       - dependency-validation
 
     env:
+      PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
@@ -183,8 +184,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -209,6 +209,7 @@ jobs:
       - dependency-validation
 
     env:
+      PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-latest
@@ -227,8 +228,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
@@ -267,6 +267,7 @@ jobs:
       - refactoring-checker
 
     env:
+      PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
@@ -316,8 +317,7 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
