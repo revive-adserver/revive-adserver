@@ -84,7 +84,7 @@ if (!empty($video)) {
     $creative->setAttribute('sequence', '1');
     $creative->setAttribute(
         'id',
-        $adId = $video->removeChild($video->getElementsByTagName('AdID')->item(0))->nodeValue
+        $adId = $video->removeChild($video->getElementsByTagName('AdID')->item(0))->nodeValue,
     );
 
     foreach ($video->childNodes as $node) {

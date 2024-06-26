@@ -50,244 +50,244 @@ class Test_Migration_546 extends MigrationTest
      * @var array
      */
     public $aPrefsOld = [
-       0 => [
-           'config_version' => 200.314,
-           'my_header' => 'this is MY header',
-           'my_footer' => 'this is MY footer',
-           'my_logo' => 'this is MY logo',
-           'language' => 'australian',
-           'name' => 'AdServer',
-           'company_name' => 'adhd.com',
-           'override_gd_imageformat' => 'f',
-           'begin_of_week' => 1,
-           'percentage_decimals' => 2,
-           'type_sql_allow' => 't',
-           'type_url_allow' => 't',
-           'type_web_allow' => 't',
-           'type_html_allow' => 't',
-           'type_txt_allow' => 't',
-           'banner_html_auto' => 't',
-           'admin_fullname' => 'Administrator',
-           'admin_email' => 'admin@example.com',
-           'warn_admin' => 't',
-           'warn_agency' => 't',
-           'warn_client' => 't',
-           'warn_limit' => 2000,
-           'admin_email_headers' => '',
-           'admin_novice' => 't',
-           'default_banner_weight' => 1,
-           'default_campaign_weight' => 1,
-           'default_banner_url' => '',
-           'default_banner_destination' => '',
-           'client_welcome' => 't',
-           'client_welcome_msg' => 'hi there client!',
-           'publisher_welcome' => 't',
-           'publisher_welcome_msg' => 'hi there publisher!',
-           'content_gzip_compression' => 't',
-           'userlog_email' => 't',
-           'gui_show_campaign_info' => 't',
-           'gui_show_campaign_preview' => 't',
-           'gui_campaign_anonymous' => 'f',
-           'gui_show_banner_info' => 't',
-           'gui_show_banner_preview' => 't',
-           'gui_show_banner_html' => 't',
-           'gui_show_matching' => 't',
-           'gui_show_parents' => 't',
-           'gui_hide_inactive' => 't',
-           'gui_link_compact_limit' => 50,
-           'gui_header_background_color' => '#FFFFFF',
-           'gui_header_foreground_color' => '#000000',
-           'gui_header_active_tab_color' => '#111111',
-           'gui_header_text_color' => '#777777',
-           'gui_invocation_3rdparty_default' => '0',
-           'qmail_patch' => 'f',
-           'updates_enabled' => 't',
-           'updates_cache' => 'b:0;',
-           'updates_timestamp' => 1199316921,
-           'updates_last_seen' => 0.000,
-           'allow_invocation_plain' => 't',
-           'allow_invocation_plain_nocookies' => 'f',
-           'allow_invocation_js' => 't',
-           'allow_invocation_frame' => 'f',
-           'allow_invocation_xmlrpc' => 'f',
-           'allow_invocation_local' => 'f',
-           'allow_invocation_interstitial' => 'f',
-           'allow_invocation_popup' => 'f',
-           'allow_invocation_clickonly' => 't',
-           'auto_clean_tables' => 'f',
-           'auto_clean_tables_interval' => 5,
-           'auto_clean_userlog' => 't',
-           'auto_clean_userlog_interval' => 3,
-           'auto_clean_tables_vacuum' => 't',
-           'autotarget_factor' => 0.69,
-           'maintenance_timestamp' => 1199354707,
-           'compact_stats' => 't',
-           'statslastday' => '2008-01-01',
-           'statslasthour' => 0,
-           'default_tracker_status' => 1,
-           'default_tracker_type' => 1,
-           'default_tracker_linkcampaigns' => 'f',
-           'publisher_agreement' => 'f',
-           'publisher_agreement_text' => '',
-           'publisher_payment_modes' => '',
-           'publisher_currencies' => '',
-           'publisher_categories' => '',
-           'publisher_help_files' => '',
-           'publisher_default_tax_id' => 'f',
-           'publisher_default_approved' => 'f',
-           'more_reports' => null,
-           'gui_column_id' => ['1' => ['show' => 0, 'label' => 'id', 'rank' => 1]],
-           'gui_column_requests' => ['1' => ['show' => 1, 'label' => 'requests', 'rank' => 2]],
-           'gui_column_impressions' => ['1' => ['show' => 0, 'label' => 'impressions', 'rank' => 3]],
-           'gui_column_clicks' => ['1' => ['show' => 1, 'label' => 'clicks', 'rank' => 4]],
-           'gui_column_ctr' => ['1' => ['show' => 1, 'label' => 'ctr', 'rank' => 5]],
-           'gui_column_conversions' => ['1' => ['show' => 1, 'label' => 'conversions', 'rank' => 6]],
-           'gui_column_conversions_pending' => ['1' => ['show' => 0, 'label' => 'conversions_pending', 'rank' => 7]],
-           'gui_column_sr_views' => ['1' => ['show' => 1, 'label' => 'sr_views', 'rank' => 8]],
-           'gui_column_sr_clicks' => ['1' => ['show' => 0, 'label' => 'sr_clicks', 'rank' => 9]],
-           'gui_column_revenue' => ['1' => ['show' => 1, 'label' => 'revenue', 'rank' => 10]],
-           'gui_column_cost' => ['1' => ['show' => 1, 'label' => 'cost', 'rank' => 11]],
-           'gui_column_bv' => ['1' => ['show' => 0, 'label' => 'bv', 'rank' => 12]],
-           'gui_column_num_items' => ['1' => ['show' => 0, 'label' => 'num_items', 'rank' => 13]],
-           'gui_column_revcpc' => ['1' => ['show' => 1, 'label' => 'revcpc', 'rank' => 14]],
-           'gui_column_costcpc' => ['1' => ['show' => 1, 'label' => 'costcpc', 'rank' => 15]],
-           'gui_column_technology_cost' => ['1' => ['show' => 1, 'label' => 'technology_cost', 'rank' => 16]],
-           'gui_column_income' => ['1' => ['show' => 1, 'label' => 'income', 'rank' => 17]],
-           'gui_column_income_margin' => ['1' => ['show' => 1, 'label' => 'income_margin', 'rank' => 18]],
-           'gui_column_profit' => ['1' => ['show' => 1, 'label' => 'profit', 'rank' => 19]],
-           'gui_column_margin' => ['1' => ['show' => 1, 'label' => 'margin', 'rank' => 20]],
-           'gui_column_erpm' => ['1' => ['show' => 1, 'label' => 'erpm', 'rank' => 21]],
-           'gui_column_erpc' => ['1' => ['show' => 1, 'label' => 'erpc', 'rank' => 22]],
-           'gui_column_erps' => ['1' => ['show' => 1, 'label' => 'erps', 'rank' => 23]],
-           'gui_column_eipm' => ['1' => ['show' => 1, 'label' => 'eipm', 'rank' => 24]],
-           'gui_column_eipc' => ['1' => ['show' => 1, 'label' => 'eipc', 'rank' => 25]],
-           'gui_column_eips' => ['1' => ['show' => 1, 'label' => 'eips', 'rank' => 26]],
-           'gui_column_ecpm' => ['1' => ['show' => 1, 'label' => 'ecpm', 'rank' => 27]],
-           'gui_column_ecpc' => ['1' => ['show' => 1, 'label' => 'ecpc', 'rank' => 28]],
-           'gui_column_ecps' => ['1' => ['show' => 1, 'label' => 'ecps', 'rank' => 29]],
-           'gui_column_epps' => ['1' => ['show' => 0, 'label' => 'epps', 'rank' => 30]],
-           'maintenance_cron_timestamp' => 1198674011,
-           'warn_limit_days' => 1
-       ],
-       1 => [
-           'config_version' => 0.000,
-           'my_header' => null,
-           'my_footer' => null,
-           'my_logo' => null,
-           'language' => 'english',
-           'name' => null,
-           'company_name' => 'mysite.com',
-           'override_gd_imageformat' => null,
-           'begin_of_week' => 1,
-           'percentage_decimals' => 2,
-           'type_sql_allow' => 't',
-           'type_url_allow' => 't',
-           'type_web_allow' => 'f',
-           'type_html_allow' => 't',
-           'type_txt_allow' => 't',
-           'banner_html_auto' => 't',
-           'admin_fullname' => 'admin',
-           'admin_email' => 'admin@example.com',
-           'warn_admin' => 't',
-           'warn_agency' => 't',
-           'warn_client' => 't',
-           'warn_limit' => 100,
-           'admin_email_headers' => null,
-           'admin_novice' => 't',
-           'default_banner_weight' => 1,
-           'default_campaign_weight' => 1,
-           'default_banner_url' => null,
-           'default_banner_destination' => null,
-           'client_welcome' => 't',
-           'client_welcome_msg' => null,
-           'publisher_welcome' => 't',
-           'publisher_welcome_msg' => null,
-           'content_gzip_compression' => 'f',
-           'userlog_email' => 't',
-           'gui_show_campaign_info' => 't',
-           'gui_show_campaign_preview' => 'f',
-           'gui_campaign_anonymous' => 'f',
-           'gui_show_banner_info' => 't',
-           'gui_show_banner_preview' => 't',
-           'gui_show_banner_html' => 'f',
-           'gui_show_matching' => 't',
-           'gui_show_parents' => 'f',
-           'gui_hide_inactive' => 'f',
-           'gui_link_compact_limit' => 50,
-           'gui_header_background_color' => null,
-           'gui_header_foreground_color' => null,
-           'gui_header_active_tab_color' => null,
-           'gui_header_text_color' => null,
-           'gui_invocation_3rdparty_default' => '',
-           'qmail_patch' => 'f',
-           'updates_enabled' => 't',
-           'updates_cache' => 'b:0;',
-           'updates_timestamp' => 1205747697,
-           'updates_last_seen' => 0.000,
-           'allow_invocation_plain' => 'f',
-           'allow_invocation_plain_nocookies' => 't',
-           'allow_invocation_js' => 't',
-           'allow_invocation_frame' => 'f',
-           'allow_invocation_xmlrpc' => 'f',
-           'allow_invocation_local' => 't',
-           'allow_invocation_interstitial' => 't',
-           'allow_invocation_popup' => 't',
-           'allow_invocation_clickonly' => 't',
-           'auto_clean_tables' => 'f',
-           'auto_clean_tables_interval' => 5,
-           'auto_clean_userlog' => 't',
-           'auto_clean_userlog_interval' => 5,
-           'auto_clean_tables_vacuum' => 't',
-           'autotarget_factor' => -1,
-           'maintenance_timestamp' => 0,
-           'compact_stats' => 't',
-           'statslastday' => '0000-00-00',
-           'statslasthour' => 0,
-           'default_tracker_status' => 1,
-           'default_tracker_type' => 1,
-           'default_tracker_linkcampaigns' => 'f',
-           'publisher_agreement' => 'f',
-           'publisher_agreement_text' => null,
-           'publisher_payment_modes' => null,
-           'publisher_currencies' => null,
-           'publisher_categories' => null,
-           'publisher_help_files' => null,
-           'publisher_default_tax_id' => 'f',
-           'publisher_default_approved' => 'f',
-           'more_reports' => null,
-           'gui_column_id' => null,
-           'gui_column_requests' => null,
-           'gui_column_impressions' => null,
-           'gui_column_clicks' => null,
-           'gui_column_ctr' => null,
-           'gui_column_conversions' => null,
-           'gui_column_conversions_pending' => null,
-           'gui_column_sr_views' => null,
-           'gui_column_sr_clicks' => null,
-           'gui_column_revenue' => null,
-           'gui_column_cost' => null,
-           'gui_column_bv' => null,
-           'gui_column_num_items' => null,
-           'gui_column_revcpc' => null,
-           'gui_column_costcpc' => null,
-           'gui_column_technology_cost' => null,
-           'gui_column_income' => null,
-           'gui_column_income_margin' => null,
-           'gui_column_profit' => null,
-           'gui_column_margin' => null,
-           'gui_column_erpm' => null,
-           'gui_column_erpc' => null,
-           'gui_column_erps' => null,
-           'gui_column_eipm' => null,
-           'gui_column_eipc' => null,
-           'gui_column_eips' => null,
-           'gui_column_ecpm' => null,
-           'gui_column_ecpc' => null,
-           'gui_column_ecps' => null,
-           'gui_column_epps' => null,
-           'maintenance_cron_timestamp' => null,
-           'warn_limit_days' => 1
-       ]
+        0 => [
+            'config_version' => 200.314,
+            'my_header' => 'this is MY header',
+            'my_footer' => 'this is MY footer',
+            'my_logo' => 'this is MY logo',
+            'language' => 'australian',
+            'name' => 'AdServer',
+            'company_name' => 'adhd.com',
+            'override_gd_imageformat' => 'f',
+            'begin_of_week' => 1,
+            'percentage_decimals' => 2,
+            'type_sql_allow' => 't',
+            'type_url_allow' => 't',
+            'type_web_allow' => 't',
+            'type_html_allow' => 't',
+            'type_txt_allow' => 't',
+            'banner_html_auto' => 't',
+            'admin_fullname' => 'Administrator',
+            'admin_email' => 'admin@example.com',
+            'warn_admin' => 't',
+            'warn_agency' => 't',
+            'warn_client' => 't',
+            'warn_limit' => 2000,
+            'admin_email_headers' => '',
+            'admin_novice' => 't',
+            'default_banner_weight' => 1,
+            'default_campaign_weight' => 1,
+            'default_banner_url' => '',
+            'default_banner_destination' => '',
+            'client_welcome' => 't',
+            'client_welcome_msg' => 'hi there client!',
+            'publisher_welcome' => 't',
+            'publisher_welcome_msg' => 'hi there publisher!',
+            'content_gzip_compression' => 't',
+            'userlog_email' => 't',
+            'gui_show_campaign_info' => 't',
+            'gui_show_campaign_preview' => 't',
+            'gui_campaign_anonymous' => 'f',
+            'gui_show_banner_info' => 't',
+            'gui_show_banner_preview' => 't',
+            'gui_show_banner_html' => 't',
+            'gui_show_matching' => 't',
+            'gui_show_parents' => 't',
+            'gui_hide_inactive' => 't',
+            'gui_link_compact_limit' => 50,
+            'gui_header_background_color' => '#FFFFFF',
+            'gui_header_foreground_color' => '#000000',
+            'gui_header_active_tab_color' => '#111111',
+            'gui_header_text_color' => '#777777',
+            'gui_invocation_3rdparty_default' => '0',
+            'qmail_patch' => 'f',
+            'updates_enabled' => 't',
+            'updates_cache' => 'b:0;',
+            'updates_timestamp' => 1199316921,
+            'updates_last_seen' => 0.000,
+            'allow_invocation_plain' => 't',
+            'allow_invocation_plain_nocookies' => 'f',
+            'allow_invocation_js' => 't',
+            'allow_invocation_frame' => 'f',
+            'allow_invocation_xmlrpc' => 'f',
+            'allow_invocation_local' => 'f',
+            'allow_invocation_interstitial' => 'f',
+            'allow_invocation_popup' => 'f',
+            'allow_invocation_clickonly' => 't',
+            'auto_clean_tables' => 'f',
+            'auto_clean_tables_interval' => 5,
+            'auto_clean_userlog' => 't',
+            'auto_clean_userlog_interval' => 3,
+            'auto_clean_tables_vacuum' => 't',
+            'autotarget_factor' => 0.69,
+            'maintenance_timestamp' => 1199354707,
+            'compact_stats' => 't',
+            'statslastday' => '2008-01-01',
+            'statslasthour' => 0,
+            'default_tracker_status' => 1,
+            'default_tracker_type' => 1,
+            'default_tracker_linkcampaigns' => 'f',
+            'publisher_agreement' => 'f',
+            'publisher_agreement_text' => '',
+            'publisher_payment_modes' => '',
+            'publisher_currencies' => '',
+            'publisher_categories' => '',
+            'publisher_help_files' => '',
+            'publisher_default_tax_id' => 'f',
+            'publisher_default_approved' => 'f',
+            'more_reports' => null,
+            'gui_column_id' => ['1' => ['show' => 0, 'label' => 'id', 'rank' => 1]],
+            'gui_column_requests' => ['1' => ['show' => 1, 'label' => 'requests', 'rank' => 2]],
+            'gui_column_impressions' => ['1' => ['show' => 0, 'label' => 'impressions', 'rank' => 3]],
+            'gui_column_clicks' => ['1' => ['show' => 1, 'label' => 'clicks', 'rank' => 4]],
+            'gui_column_ctr' => ['1' => ['show' => 1, 'label' => 'ctr', 'rank' => 5]],
+            'gui_column_conversions' => ['1' => ['show' => 1, 'label' => 'conversions', 'rank' => 6]],
+            'gui_column_conversions_pending' => ['1' => ['show' => 0, 'label' => 'conversions_pending', 'rank' => 7]],
+            'gui_column_sr_views' => ['1' => ['show' => 1, 'label' => 'sr_views', 'rank' => 8]],
+            'gui_column_sr_clicks' => ['1' => ['show' => 0, 'label' => 'sr_clicks', 'rank' => 9]],
+            'gui_column_revenue' => ['1' => ['show' => 1, 'label' => 'revenue', 'rank' => 10]],
+            'gui_column_cost' => ['1' => ['show' => 1, 'label' => 'cost', 'rank' => 11]],
+            'gui_column_bv' => ['1' => ['show' => 0, 'label' => 'bv', 'rank' => 12]],
+            'gui_column_num_items' => ['1' => ['show' => 0, 'label' => 'num_items', 'rank' => 13]],
+            'gui_column_revcpc' => ['1' => ['show' => 1, 'label' => 'revcpc', 'rank' => 14]],
+            'gui_column_costcpc' => ['1' => ['show' => 1, 'label' => 'costcpc', 'rank' => 15]],
+            'gui_column_technology_cost' => ['1' => ['show' => 1, 'label' => 'technology_cost', 'rank' => 16]],
+            'gui_column_income' => ['1' => ['show' => 1, 'label' => 'income', 'rank' => 17]],
+            'gui_column_income_margin' => ['1' => ['show' => 1, 'label' => 'income_margin', 'rank' => 18]],
+            'gui_column_profit' => ['1' => ['show' => 1, 'label' => 'profit', 'rank' => 19]],
+            'gui_column_margin' => ['1' => ['show' => 1, 'label' => 'margin', 'rank' => 20]],
+            'gui_column_erpm' => ['1' => ['show' => 1, 'label' => 'erpm', 'rank' => 21]],
+            'gui_column_erpc' => ['1' => ['show' => 1, 'label' => 'erpc', 'rank' => 22]],
+            'gui_column_erps' => ['1' => ['show' => 1, 'label' => 'erps', 'rank' => 23]],
+            'gui_column_eipm' => ['1' => ['show' => 1, 'label' => 'eipm', 'rank' => 24]],
+            'gui_column_eipc' => ['1' => ['show' => 1, 'label' => 'eipc', 'rank' => 25]],
+            'gui_column_eips' => ['1' => ['show' => 1, 'label' => 'eips', 'rank' => 26]],
+            'gui_column_ecpm' => ['1' => ['show' => 1, 'label' => 'ecpm', 'rank' => 27]],
+            'gui_column_ecpc' => ['1' => ['show' => 1, 'label' => 'ecpc', 'rank' => 28]],
+            'gui_column_ecps' => ['1' => ['show' => 1, 'label' => 'ecps', 'rank' => 29]],
+            'gui_column_epps' => ['1' => ['show' => 0, 'label' => 'epps', 'rank' => 30]],
+            'maintenance_cron_timestamp' => 1198674011,
+            'warn_limit_days' => 1,
+        ],
+        1 => [
+            'config_version' => 0.000,
+            'my_header' => null,
+            'my_footer' => null,
+            'my_logo' => null,
+            'language' => 'english',
+            'name' => null,
+            'company_name' => 'mysite.com',
+            'override_gd_imageformat' => null,
+            'begin_of_week' => 1,
+            'percentage_decimals' => 2,
+            'type_sql_allow' => 't',
+            'type_url_allow' => 't',
+            'type_web_allow' => 'f',
+            'type_html_allow' => 't',
+            'type_txt_allow' => 't',
+            'banner_html_auto' => 't',
+            'admin_fullname' => 'admin',
+            'admin_email' => 'admin@example.com',
+            'warn_admin' => 't',
+            'warn_agency' => 't',
+            'warn_client' => 't',
+            'warn_limit' => 100,
+            'admin_email_headers' => null,
+            'admin_novice' => 't',
+            'default_banner_weight' => 1,
+            'default_campaign_weight' => 1,
+            'default_banner_url' => null,
+            'default_banner_destination' => null,
+            'client_welcome' => 't',
+            'client_welcome_msg' => null,
+            'publisher_welcome' => 't',
+            'publisher_welcome_msg' => null,
+            'content_gzip_compression' => 'f',
+            'userlog_email' => 't',
+            'gui_show_campaign_info' => 't',
+            'gui_show_campaign_preview' => 'f',
+            'gui_campaign_anonymous' => 'f',
+            'gui_show_banner_info' => 't',
+            'gui_show_banner_preview' => 't',
+            'gui_show_banner_html' => 'f',
+            'gui_show_matching' => 't',
+            'gui_show_parents' => 'f',
+            'gui_hide_inactive' => 'f',
+            'gui_link_compact_limit' => 50,
+            'gui_header_background_color' => null,
+            'gui_header_foreground_color' => null,
+            'gui_header_active_tab_color' => null,
+            'gui_header_text_color' => null,
+            'gui_invocation_3rdparty_default' => '',
+            'qmail_patch' => 'f',
+            'updates_enabled' => 't',
+            'updates_cache' => 'b:0;',
+            'updates_timestamp' => 1205747697,
+            'updates_last_seen' => 0.000,
+            'allow_invocation_plain' => 'f',
+            'allow_invocation_plain_nocookies' => 't',
+            'allow_invocation_js' => 't',
+            'allow_invocation_frame' => 'f',
+            'allow_invocation_xmlrpc' => 'f',
+            'allow_invocation_local' => 't',
+            'allow_invocation_interstitial' => 't',
+            'allow_invocation_popup' => 't',
+            'allow_invocation_clickonly' => 't',
+            'auto_clean_tables' => 'f',
+            'auto_clean_tables_interval' => 5,
+            'auto_clean_userlog' => 't',
+            'auto_clean_userlog_interval' => 5,
+            'auto_clean_tables_vacuum' => 't',
+            'autotarget_factor' => -1,
+            'maintenance_timestamp' => 0,
+            'compact_stats' => 't',
+            'statslastday' => '0000-00-00',
+            'statslasthour' => 0,
+            'default_tracker_status' => 1,
+            'default_tracker_type' => 1,
+            'default_tracker_linkcampaigns' => 'f',
+            'publisher_agreement' => 'f',
+            'publisher_agreement_text' => null,
+            'publisher_payment_modes' => null,
+            'publisher_currencies' => null,
+            'publisher_categories' => null,
+            'publisher_help_files' => null,
+            'publisher_default_tax_id' => 'f',
+            'publisher_default_approved' => 'f',
+            'more_reports' => null,
+            'gui_column_id' => null,
+            'gui_column_requests' => null,
+            'gui_column_impressions' => null,
+            'gui_column_clicks' => null,
+            'gui_column_ctr' => null,
+            'gui_column_conversions' => null,
+            'gui_column_conversions_pending' => null,
+            'gui_column_sr_views' => null,
+            'gui_column_sr_clicks' => null,
+            'gui_column_revenue' => null,
+            'gui_column_cost' => null,
+            'gui_column_bv' => null,
+            'gui_column_num_items' => null,
+            'gui_column_revcpc' => null,
+            'gui_column_costcpc' => null,
+            'gui_column_technology_cost' => null,
+            'gui_column_income' => null,
+            'gui_column_income_margin' => null,
+            'gui_column_profit' => null,
+            'gui_column_margin' => null,
+            'gui_column_erpm' => null,
+            'gui_column_erpc' => null,
+            'gui_column_erps' => null,
+            'gui_column_eipm' => null,
+            'gui_column_eipc' => null,
+            'gui_column_eips' => null,
+            'gui_column_ecpm' => null,
+            'gui_column_ecpc' => null,
+            'gui_column_ecps' => null,
+            'gui_column_epps' => null,
+            'maintenance_cron_timestamp' => null,
+            'warn_limit_days' => 1,
+        ],
     ];
 
     public function __construct()
@@ -330,17 +330,17 @@ class Test_Migration_546 extends MigrationTest
             $this->initDatabase(
                 542,
                 [
-                   'agency',
-                   'affiliates',
-                   'application_variable',
-                   'audit',
-                   'channel',
-                   'clients',
-                   'preference',
-                   'preference_advertiser',
-                   'preference_publisher',
-                   'acls', 'acls_channel', 'banners', 'campaigns', 'tracker_append', 'trackers', 'userlog', 'variables', 'zones'
-                ]
+                    'agency',
+                    'affiliates',
+                    'application_variable',
+                    'audit',
+                    'channel',
+                    'clients',
+                    'preference',
+                    'preference_advertiser',
+                    'preference_publisher',
+                    'acls', 'acls_channel', 'banners', 'campaigns', 'tracker_append', 'trackers', 'userlog', 'variables', 'zones',
+                ],
             );
             // Set up the database with the standard set of accounts,
             // preferences and settings
@@ -622,821 +622,821 @@ class Test_Migration_546 extends MigrationTest
     public function _getPrefsExpectations($set)
     {
         $aReturn = [
-           'default_banner_image_url' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_banner_url'],
-                                                              'level' => OA_ACCOUNT_TRAFFICKER
-                                                           ],
-           'default_banner_destination_url' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_banner_destination'],
-                                                              'level' => OA_ACCOUNT_TRAFFICKER
-                                                           ],
-           'auto_alter_html_banners_for_click_tracking' => [
-                                                               'value' => $this->aPrefsOld[$set]['banner_html_auto'],
-                                                               'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'default_banner_weight' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_banner_weight'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'default_campaign_weight' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_campaign_weight'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'warn_email_admin' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_admin'],
-                                                              'level' => OA_ACCOUNT_ADMIN
-                                                           ],
-           'warn_email_admin_impression_limit' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_limit'],
-                                                              'level' => OA_ACCOUNT_ADMIN
-                                                           ],
-           'warn_email_admin_day_limit' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_limit_days'],
-                                                              'level' => OA_ACCOUNT_ADMIN
-                                                           ],
-           'warn_email_manager' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_agency'],
-                                                              'level' => OA_ACCOUNT_MANAGER
-                                                           ],
-           'warn_email_manager_impression_limit' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_limit'],
-                                                              'level' => OA_ACCOUNT_MANAGER
-                                                           ],
-           'warn_email_manager_day_limit' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_limit_days'],
-                                                               'level' => OA_ACCOUNT_MANAGER
-                                                           ],
-           'warn_email_advertiser' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_client'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'warn_email_advertiser_impression_limit' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_limit'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'warn_email_advertiser_day_limit' => [
-                                                              'value' => $this->aPrefsOld[$set]['warn_limit_days'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'tracker_default_status' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_tracker_status'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'tracker_default_type' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_tracker_type'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'tracker_link_campaigns' => [
-                                                              'value' => $this->aPrefsOld[$set]['default_tracker_linkcampaigns'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'ui_show_campaign_info' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_campaign_info'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'ui_show_banner_info' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_banner_info'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'ui_show_campaign_preview' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_campaign_preview'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'ui_show_banner_html' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_banner_html'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'ui_show_banner_preview' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_banner_preview'],
-                                                              'level' => OA_ACCOUNT_ADVERTISER
-                                                           ],
-           'ui_hide_inactive' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_hide_inactive'],
-                                                              'level' => ''
-                                                           ],
-           'ui_show_matching_banners' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_matching'],
-                                                              'level' => OA_ACCOUNT_TRAFFICKER
-                                                           ],
-           'ui_show_matching_banners_parents' => [
-                                                              'value' => $this->aPrefsOld[$set]['gui_show_parents'],
-                                                              'level' => OA_ACCOUNT_TRAFFICKER
-                                                           ],
-           'ui_novice_user' => [
-                                                              'value' => $this->aPrefsOld[$set]['admin_novice'],
-                                                              'level' => ''
-                                                           ],
-           'ui_week_start_day' => [
-                                                              'value' => $this->aPrefsOld[$set]['begin_of_week'],
-                                                              'level' => ''
-                                                           ],
-           'ui_percentage_decimals' => [
-                                                              'value' => $this->aPrefsOld[$set]['percentage_decimals'],
-                                                              'level' => ''
-                                                           ]
+            'default_banner_image_url' => [
+                'value' => $this->aPrefsOld[$set]['default_banner_url'],
+                'level' => OA_ACCOUNT_TRAFFICKER,
+            ],
+            'default_banner_destination_url' => [
+                'value' => $this->aPrefsOld[$set]['default_banner_destination'],
+                'level' => OA_ACCOUNT_TRAFFICKER,
+            ],
+            'auto_alter_html_banners_for_click_tracking' => [
+                'value' => $this->aPrefsOld[$set]['banner_html_auto'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'default_banner_weight' => [
+                'value' => $this->aPrefsOld[$set]['default_banner_weight'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'default_campaign_weight' => [
+                'value' => $this->aPrefsOld[$set]['default_campaign_weight'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'warn_email_admin' => [
+                'value' => $this->aPrefsOld[$set]['warn_admin'],
+                'level' => OA_ACCOUNT_ADMIN,
+            ],
+            'warn_email_admin_impression_limit' => [
+                'value' => $this->aPrefsOld[$set]['warn_limit'],
+                'level' => OA_ACCOUNT_ADMIN,
+            ],
+            'warn_email_admin_day_limit' => [
+                'value' => $this->aPrefsOld[$set]['warn_limit_days'],
+                'level' => OA_ACCOUNT_ADMIN,
+            ],
+            'warn_email_manager' => [
+                'value' => $this->aPrefsOld[$set]['warn_agency'],
+                'level' => OA_ACCOUNT_MANAGER,
+            ],
+            'warn_email_manager_impression_limit' => [
+                'value' => $this->aPrefsOld[$set]['warn_limit'],
+                'level' => OA_ACCOUNT_MANAGER,
+            ],
+            'warn_email_manager_day_limit' => [
+                'value' => $this->aPrefsOld[$set]['warn_limit_days'],
+                'level' => OA_ACCOUNT_MANAGER,
+            ],
+            'warn_email_advertiser' => [
+                'value' => $this->aPrefsOld[$set]['warn_client'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'warn_email_advertiser_impression_limit' => [
+                'value' => $this->aPrefsOld[$set]['warn_limit'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'warn_email_advertiser_day_limit' => [
+                'value' => $this->aPrefsOld[$set]['warn_limit_days'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'tracker_default_status' => [
+                'value' => $this->aPrefsOld[$set]['default_tracker_status'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'tracker_default_type' => [
+                'value' => $this->aPrefsOld[$set]['default_tracker_type'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'tracker_link_campaigns' => [
+                'value' => $this->aPrefsOld[$set]['default_tracker_linkcampaigns'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'ui_show_campaign_info' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_campaign_info'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'ui_show_banner_info' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_banner_info'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'ui_show_campaign_preview' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_campaign_preview'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'ui_show_banner_html' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_banner_html'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'ui_show_banner_preview' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_banner_preview'],
+                'level' => OA_ACCOUNT_ADVERTISER,
+            ],
+            'ui_hide_inactive' => [
+                'value' => $this->aPrefsOld[$set]['gui_hide_inactive'],
+                'level' => '',
+            ],
+            'ui_show_matching_banners' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_matching'],
+                'level' => OA_ACCOUNT_TRAFFICKER,
+            ],
+            'ui_show_matching_banners_parents' => [
+                'value' => $this->aPrefsOld[$set]['gui_show_parents'],
+                'level' => OA_ACCOUNT_TRAFFICKER,
+            ],
+            'ui_novice_user' => [
+                'value' => $this->aPrefsOld[$set]['admin_novice'],
+                'level' => '',
+            ],
+            'ui_week_start_day' => [
+                'value' => $this->aPrefsOld[$set]['begin_of_week'],
+                'level' => '',
+            ],
+            'ui_percentage_decimals' => [
+                'value' => $this->aPrefsOld[$set]['percentage_decimals'],
+                'level' => '',
+            ],
         ];
         if ($set == 0) {
             $aColumnPreferences = [
-               'ui_column_id' => [
-                                                           'value' => '',
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_requests' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_requests']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_impressions' => [
-                                                           'value' => '',
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_clicks' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_clicks']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ctr' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ctr']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_conversions']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_pending' => [
-                                                           'value' => '',
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_views' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_sr_views']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_clicks' => [
-                                                           'value' => '',
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revenue' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_revenue']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_cost' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_cost']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_bv' => [
-                                                           'value' => '',
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_num_items' => [
-                                                           'value' => '',
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revcpc' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_revcpc']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_costcpc' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_costcpc']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_technology_cost' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_technology_cost']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_income']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_margin' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_income_margin']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_profit' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_profit']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_margin' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_margin']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpm' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erpm']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpc' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erpc']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erps' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erps']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipm' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eipm']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipc' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eipc']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eips' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eips']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpm' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecpm']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpc' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecpc']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecps' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecps']['1']['show'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_id_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_id']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_requests_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_requests']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_impressions_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_impressions']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_clicks_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_clicks']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ctr_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ctr']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_conversions']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_pending_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_conversions_pending']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_views_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_sr_views']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_clicks_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_sr_clicks']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revenue_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_revenue']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_cost_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_cost']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_bv_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_bv']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_num_items_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_num_items']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revcpc_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_revcpc']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_costcpc_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_costcpc']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_technology_cost_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_technology_cost']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_income']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_margin_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_income_margin']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_profit_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_profit']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_margin_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_margin']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpm_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erpm']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpc_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erpc']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erps_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erps']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipm_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eipm']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipc_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eipc']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eips_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eips']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpm_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecpm']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpc_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecpc']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecps_label' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecps']['1']['label'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_id_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_id']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_requests_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_requests']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_impressions_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_impressions']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_clicks_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_clicks']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ctr_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ctr']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_conversions']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_pending_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_conversions_pending']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_views_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_sr_views']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_clicks_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_sr_clicks']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revenue_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_revenue']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_cost_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_cost']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_bv_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_bv']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_num_items_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_num_items']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revcpc_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_revcpc']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_costcpc_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_costcpc']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_technology_cost_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_technology_cost']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_income']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_margin_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_income_margin']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_profit_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_profit']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_margin_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_margin']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpm_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erpm']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpc_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erpc']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erps_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_erps']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipm_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eipm']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipc_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eipc']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eips_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_eips']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpm_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecpm']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpc_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecpc']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecps_rank' => [
-                                                           'value' => $this->aPrefsOld[$set]['gui_column_ecps']['1']['rank'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ]
+                'ui_column_id' => [
+                    'value' => '',
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_requests' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_requests']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_impressions' => [
+                    'value' => '',
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_clicks' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_clicks']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ctr' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ctr']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_conversions']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_pending' => [
+                    'value' => '',
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_views' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_sr_views']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_clicks' => [
+                    'value' => '',
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revenue' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_revenue']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_cost' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_cost']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_bv' => [
+                    'value' => '',
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_num_items' => [
+                    'value' => '',
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revcpc' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_revcpc']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_costcpc' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_costcpc']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_technology_cost' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_technology_cost']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_income']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_margin' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_income_margin']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_profit' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_profit']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_margin' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_margin']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpm' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erpm']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpc' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erpc']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erps' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erps']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipm' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eipm']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipc' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eipc']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eips' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eips']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpm' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecpm']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpc' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecpc']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecps' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecps']['1']['show'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_id_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_id']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_requests_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_requests']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_impressions_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_impressions']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_clicks_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_clicks']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ctr_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ctr']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_conversions']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_pending_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_conversions_pending']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_views_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_sr_views']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_clicks_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_sr_clicks']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revenue_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_revenue']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_cost_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_cost']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_bv_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_bv']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_num_items_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_num_items']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revcpc_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_revcpc']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_costcpc_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_costcpc']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_technology_cost_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_technology_cost']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_income']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_margin_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_income_margin']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_profit_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_profit']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_margin_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_margin']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpm_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erpm']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpc_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erpc']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erps_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erps']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipm_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eipm']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipc_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eipc']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eips_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eips']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpm_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecpm']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpc_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecpc']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecps_label' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecps']['1']['label'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_id_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_id']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_requests_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_requests']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_impressions_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_impressions']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_clicks_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_clicks']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ctr_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ctr']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_conversions']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_pending_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_conversions_pending']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_views_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_sr_views']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_clicks_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_sr_clicks']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revenue_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_revenue']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_cost_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_cost']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_bv_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_bv']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_num_items_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_num_items']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revcpc_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_revcpc']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_costcpc_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_costcpc']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_technology_cost_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_technology_cost']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_income']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_margin_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_income_margin']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_profit_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_profit']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_margin_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_margin']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpm_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erpm']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpc_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erpc']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erps_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_erps']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipm_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eipm']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipc_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eipc']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eips_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_eips']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpm_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecpm']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpc_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecpc']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecps_rank' => [
+                    'value' => $this->aPrefsOld[$set]['gui_column_ecps']['1']['rank'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
             ];
         } elseif ($set == 1) {
             $aColumnDefaults = $this->_getDefaultPreferences();
             $aColumnPreferences = [
-               'ui_column_id' => [
-                                                           'value' => $aColumnDefaults['ui_column_id']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_requests' => [
-                                                           'value' => $aColumnDefaults['ui_column_requests']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_impressions' => [
-                                                           'value' => $aColumnDefaults['ui_column_impressions']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_clicks' => [
-                                                           'value' => $aColumnDefaults['ui_column_clicks']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ctr' => [
-                                                           'value' => $aColumnDefaults['ui_column_ctr']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions' => [
-                                                           'value' => $aColumnDefaults['ui_column_conversions']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_pending' => [
-                                                           'value' => $aColumnDefaults['ui_column_conversions_pending']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_views' => [
-                                                           'value' => $aColumnDefaults['ui_column_sr_views']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_clicks' => [
-                                                           'value' => $aColumnDefaults['ui_column_sr_clicks']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revenue' => [
-                                                           'value' => $aColumnDefaults['ui_column_revenue']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_cost' => [
-                                                           'value' => $aColumnDefaults['ui_column_cost']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_bv' => [
-                                                           'value' => $aColumnDefaults['ui_column_bv']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_num_items' => [
-                                                           'value' => $aColumnDefaults['ui_column_num_items']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revcpc' => [
-                                                           'value' => $aColumnDefaults['ui_column_revcpc']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_costcpc' => [
-                                                           'value' => $aColumnDefaults['ui_column_costcpc']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_technology_cost' => [
-                                                           'value' => $aColumnDefaults['ui_column_technology_cost']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income' => [
-                                                           'value' => $aColumnDefaults['ui_column_income']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_margin' => [
-                                                           'value' => $aColumnDefaults['ui_column_income_margin']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_profit' => [
-                                                           'value' => $aColumnDefaults['ui_column_profit']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_margin' => [
-                                                           'value' => $aColumnDefaults['ui_column_margin']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpm' => [
-                                                           'value' => $aColumnDefaults['ui_column_erpm']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpc' => [
-                                                           'value' => $aColumnDefaults['ui_column_erpc']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erps' => [
-                                                           'value' => $aColumnDefaults['ui_column_erps']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipm' => [
-                                                           'value' => $aColumnDefaults['ui_column_eipm']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipc' => [
-                                                           'value' => $aColumnDefaults['ui_column_eipc']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eips' => [
-                                                           'value' => $aColumnDefaults['ui_column_eips']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpm' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecpm']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpc' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecpc']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecps' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecps']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_id_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_id_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_requests_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_requests_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_impressions_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_impressions_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_clicks_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_clicks_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ctr_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_ctr_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_conversions_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_pending_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_conversions_pending_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_views_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_sr_views_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_clicks_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_sr_clicks_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revenue_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_revenue_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_cost_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_cost_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_bv_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_bv_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_num_items_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_num_items_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revcpc_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_revcpc_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_costcpc_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_costcpc_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_technology_cost_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_technology_cost_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_income_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_margin_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_income_margin_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_profit_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_profit_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_margin_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_margin_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpm_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_erpm_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpc_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_erpc_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erps_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_erps_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipm_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_eipm_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipc_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_eipc_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eips_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_eips_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpm_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecpm_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpc_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecpc_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecps_label' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecps_label']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_id_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_id_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_requests_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_requests_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_impressions_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_impressions_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_clicks_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_clicks_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ctr_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_ctr_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_conversions_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_conversions_pending_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_conversions_pending_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_views_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_sr_views_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_sr_clicks_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_sr_clicks_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revenue_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_revenue_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_cost_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_cost_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_bv_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_bv_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_num_items_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_num_items_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_revcpc_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_revcpc_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_costcpc_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_costcpc_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_technology_cost_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_technology_cost_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_income_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_income_margin_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_income_margin_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_profit_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_profit_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_margin_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_margin_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpm_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_erpm_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erpc_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_erpc_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_erps_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_erps_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipm_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_eipm_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eipc_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_eipc_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_eips_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_eips_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpm_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecpm_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecpc_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecpc_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ],
-               'ui_column_ecps_rank' => [
-                                                           'value' => $aColumnDefaults['ui_column_ecps_rank']['default'],
-                                                           'level' => OA_ACCOUNT_MANAGER
-                                                        ]
+                'ui_column_id' => [
+                    'value' => $aColumnDefaults['ui_column_id']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_requests' => [
+                    'value' => $aColumnDefaults['ui_column_requests']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_impressions' => [
+                    'value' => $aColumnDefaults['ui_column_impressions']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_clicks' => [
+                    'value' => $aColumnDefaults['ui_column_clicks']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ctr' => [
+                    'value' => $aColumnDefaults['ui_column_ctr']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions' => [
+                    'value' => $aColumnDefaults['ui_column_conversions']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_pending' => [
+                    'value' => $aColumnDefaults['ui_column_conversions_pending']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_views' => [
+                    'value' => $aColumnDefaults['ui_column_sr_views']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_clicks' => [
+                    'value' => $aColumnDefaults['ui_column_sr_clicks']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revenue' => [
+                    'value' => $aColumnDefaults['ui_column_revenue']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_cost' => [
+                    'value' => $aColumnDefaults['ui_column_cost']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_bv' => [
+                    'value' => $aColumnDefaults['ui_column_bv']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_num_items' => [
+                    'value' => $aColumnDefaults['ui_column_num_items']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revcpc' => [
+                    'value' => $aColumnDefaults['ui_column_revcpc']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_costcpc' => [
+                    'value' => $aColumnDefaults['ui_column_costcpc']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_technology_cost' => [
+                    'value' => $aColumnDefaults['ui_column_technology_cost']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income' => [
+                    'value' => $aColumnDefaults['ui_column_income']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_margin' => [
+                    'value' => $aColumnDefaults['ui_column_income_margin']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_profit' => [
+                    'value' => $aColumnDefaults['ui_column_profit']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_margin' => [
+                    'value' => $aColumnDefaults['ui_column_margin']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpm' => [
+                    'value' => $aColumnDefaults['ui_column_erpm']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpc' => [
+                    'value' => $aColumnDefaults['ui_column_erpc']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erps' => [
+                    'value' => $aColumnDefaults['ui_column_erps']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipm' => [
+                    'value' => $aColumnDefaults['ui_column_eipm']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipc' => [
+                    'value' => $aColumnDefaults['ui_column_eipc']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eips' => [
+                    'value' => $aColumnDefaults['ui_column_eips']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpm' => [
+                    'value' => $aColumnDefaults['ui_column_ecpm']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpc' => [
+                    'value' => $aColumnDefaults['ui_column_ecpc']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecps' => [
+                    'value' => $aColumnDefaults['ui_column_ecps']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_id_label' => [
+                    'value' => $aColumnDefaults['ui_column_id_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_requests_label' => [
+                    'value' => $aColumnDefaults['ui_column_requests_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_impressions_label' => [
+                    'value' => $aColumnDefaults['ui_column_impressions_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_clicks_label' => [
+                    'value' => $aColumnDefaults['ui_column_clicks_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ctr_label' => [
+                    'value' => $aColumnDefaults['ui_column_ctr_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_label' => [
+                    'value' => $aColumnDefaults['ui_column_conversions_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_pending_label' => [
+                    'value' => $aColumnDefaults['ui_column_conversions_pending_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_views_label' => [
+                    'value' => $aColumnDefaults['ui_column_sr_views_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_clicks_label' => [
+                    'value' => $aColumnDefaults['ui_column_sr_clicks_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revenue_label' => [
+                    'value' => $aColumnDefaults['ui_column_revenue_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_cost_label' => [
+                    'value' => $aColumnDefaults['ui_column_cost_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_bv_label' => [
+                    'value' => $aColumnDefaults['ui_column_bv_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_num_items_label' => [
+                    'value' => $aColumnDefaults['ui_column_num_items_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revcpc_label' => [
+                    'value' => $aColumnDefaults['ui_column_revcpc_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_costcpc_label' => [
+                    'value' => $aColumnDefaults['ui_column_costcpc_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_technology_cost_label' => [
+                    'value' => $aColumnDefaults['ui_column_technology_cost_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_label' => [
+                    'value' => $aColumnDefaults['ui_column_income_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_margin_label' => [
+                    'value' => $aColumnDefaults['ui_column_income_margin_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_profit_label' => [
+                    'value' => $aColumnDefaults['ui_column_profit_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_margin_label' => [
+                    'value' => $aColumnDefaults['ui_column_margin_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpm_label' => [
+                    'value' => $aColumnDefaults['ui_column_erpm_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpc_label' => [
+                    'value' => $aColumnDefaults['ui_column_erpc_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erps_label' => [
+                    'value' => $aColumnDefaults['ui_column_erps_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipm_label' => [
+                    'value' => $aColumnDefaults['ui_column_eipm_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipc_label' => [
+                    'value' => $aColumnDefaults['ui_column_eipc_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eips_label' => [
+                    'value' => $aColumnDefaults['ui_column_eips_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpm_label' => [
+                    'value' => $aColumnDefaults['ui_column_ecpm_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpc_label' => [
+                    'value' => $aColumnDefaults['ui_column_ecpc_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecps_label' => [
+                    'value' => $aColumnDefaults['ui_column_ecps_label']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_id_rank' => [
+                    'value' => $aColumnDefaults['ui_column_id_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_requests_rank' => [
+                    'value' => $aColumnDefaults['ui_column_requests_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_impressions_rank' => [
+                    'value' => $aColumnDefaults['ui_column_impressions_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_clicks_rank' => [
+                    'value' => $aColumnDefaults['ui_column_clicks_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ctr_rank' => [
+                    'value' => $aColumnDefaults['ui_column_ctr_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_rank' => [
+                    'value' => $aColumnDefaults['ui_column_conversions_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_conversions_pending_rank' => [
+                    'value' => $aColumnDefaults['ui_column_conversions_pending_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_views_rank' => [
+                    'value' => $aColumnDefaults['ui_column_sr_views_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_sr_clicks_rank' => [
+                    'value' => $aColumnDefaults['ui_column_sr_clicks_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revenue_rank' => [
+                    'value' => $aColumnDefaults['ui_column_revenue_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_cost_rank' => [
+                    'value' => $aColumnDefaults['ui_column_cost_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_bv_rank' => [
+                    'value' => $aColumnDefaults['ui_column_bv_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_num_items_rank' => [
+                    'value' => $aColumnDefaults['ui_column_num_items_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_revcpc_rank' => [
+                    'value' => $aColumnDefaults['ui_column_revcpc_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_costcpc_rank' => [
+                    'value' => $aColumnDefaults['ui_column_costcpc_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_technology_cost_rank' => [
+                    'value' => $aColumnDefaults['ui_column_technology_cost_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_rank' => [
+                    'value' => $aColumnDefaults['ui_column_income_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_income_margin_rank' => [
+                    'value' => $aColumnDefaults['ui_column_income_margin_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_profit_rank' => [
+                    'value' => $aColumnDefaults['ui_column_profit_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_margin_rank' => [
+                    'value' => $aColumnDefaults['ui_column_margin_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpm_rank' => [
+                    'value' => $aColumnDefaults['ui_column_erpm_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erpc_rank' => [
+                    'value' => $aColumnDefaults['ui_column_erpc_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_erps_rank' => [
+                    'value' => $aColumnDefaults['ui_column_erps_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipm_rank' => [
+                    'value' => $aColumnDefaults['ui_column_eipm_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eipc_rank' => [
+                    'value' => $aColumnDefaults['ui_column_eipc_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_eips_rank' => [
+                    'value' => $aColumnDefaults['ui_column_eips_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpm_rank' => [
+                    'value' => $aColumnDefaults['ui_column_ecpm_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecpc_rank' => [
+                    'value' => $aColumnDefaults['ui_column_ecpc_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
+                'ui_column_ecps_rank' => [
+                    'value' => $aColumnDefaults['ui_column_ecps_rank']['default'],
+                    'level' => OA_ACCOUNT_MANAGER,
+                ],
             ];
         }
         $aReturn = array_merge($aReturn, $aColumnPreferences);
@@ -1517,44 +1517,44 @@ class Test_Migration_546 extends MigrationTest
     public function _getAdminAgencies()
     {
         return [
-           0 => [
-               'agencyid' => '6',
-               'name' => 'Default manager',
-               'email' => 'admin@example.com',
-               'account_id' => '2',
-           ]
+            0 => [
+                'agencyid' => '6',
+                'name' => 'Default manager',
+                'email' => 'admin@example.com',
+                'account_id' => '2',
+            ],
         ];
     }
 
     public function _getAdminAccounts()
     {
         return [
-           0 => [
-               'account_id' => '1',
-               'account_type' => 'ADMIN',
-               'account_name' => 'Administrator',
-           ],
-           1 => [
-               'account_id' => '2',
-               'account_type' => 'MANAGER',
-               'account_name' => 'Default manager',
-           ]
+            0 => [
+                'account_id' => '1',
+                'account_type' => 'ADMIN',
+                'account_name' => 'Administrator',
+            ],
+            1 => [
+                'account_id' => '2',
+                'account_type' => 'MANAGER',
+                'account_name' => 'Default manager',
+            ],
         ];
     }
 
     public function _getAdminUsers($set)
     {
         $aReturn = [
-           0 => [
-               'user_id' => '1',
-               'email_address' => 'admin@example.com',
-               'username' => 'admin',
-               'password' => 'admin',
-               'language' => 'en',
-               'default_account_id' => '2',
-               'comments' => null,
-               'active' => '1',
-           ]
+            0 => [
+                'user_id' => '1',
+                'email_address' => 'admin@example.com',
+                'username' => 'admin',
+                'password' => 'admin',
+                'language' => 'en',
+                'default_account_id' => '2',
+                'comments' => null,
+                'active' => '1',
+            ],
         ];
         if ($set == 0) {
             $aReturn[0]['contact_name'] = 'Administrator';
@@ -1567,215 +1567,215 @@ class Test_Migration_546 extends MigrationTest
     public function _getManagerAgencies()
     {
         return [
-           0 => [
-               'agencyid' => '1',
-               'name' => 'Agency 1',
-               'email' => 'ag1@example.com',
-               'account_id' => '3',
-           ],
-           1 => [
-               'agencyid' => '2',
-               'name' => 'Agency 2',
-               'email' => 'ag2@example.com',
-               'account_id' => '4',
-           ],
-           2 => [
-               'agencyid' => '3',
-               'name' => 'Agency 3',
-               'email' => 'ag3@example.com',
-               'account_id' => '5',
-           ],
-           3 => [
-               'agencyid' => '4',
-               'name' => 'Agency 4',
-               'email' => 'ag4@example.com',
-               'account_id' => '6',
-           ],
-           4 => [
-               'agencyid' => '5',
-               'name' => 'Agency 5',
-               'email' => 'ag5@example.com',
-               'account_id' => '7',
-           ]
+            0 => [
+                'agencyid' => '1',
+                'name' => 'Agency 1',
+                'email' => 'ag1@example.com',
+                'account_id' => '3',
+            ],
+            1 => [
+                'agencyid' => '2',
+                'name' => 'Agency 2',
+                'email' => 'ag2@example.com',
+                'account_id' => '4',
+            ],
+            2 => [
+                'agencyid' => '3',
+                'name' => 'Agency 3',
+                'email' => 'ag3@example.com',
+                'account_id' => '5',
+            ],
+            3 => [
+                'agencyid' => '4',
+                'name' => 'Agency 4',
+                'email' => 'ag4@example.com',
+                'account_id' => '6',
+            ],
+            4 => [
+                'agencyid' => '5',
+                'name' => 'Agency 5',
+                'email' => 'ag5@example.com',
+                'account_id' => '7',
+            ],
         ];
     }
 
     public function _getManagerAccounts()
     {
         return [
-           0 => [
-               'account_id' => '3',
-               'account_type' => 'MANAGER',
-               'account_name' => 'Agency 1',
-           ],
-           1 => [
-               'account_id' => '4',
-               'account_type' => 'MANAGER',
-               'account_name' => 'Agency 2',
-           ],
-           2 => [
-               'account_id' => '5',
-               'account_type' => 'MANAGER',
-               'account_name' => 'Agency 3',
-           ],
-           3 => [
-               'account_id' => '6',
-               'account_type' => 'MANAGER',
-               'account_name' => 'Agency 4',
-           ],
-           4 => [
-               'account_id' => '7',
-               'account_type' => 'MANAGER',
-               'account_name' => 'Agency 5',
-           ]
+            0 => [
+                'account_id' => '3',
+                'account_type' => 'MANAGER',
+                'account_name' => 'Agency 1',
+            ],
+            1 => [
+                'account_id' => '4',
+                'account_type' => 'MANAGER',
+                'account_name' => 'Agency 2',
+            ],
+            2 => [
+                'account_id' => '5',
+                'account_type' => 'MANAGER',
+                'account_name' => 'Agency 3',
+            ],
+            3 => [
+                'account_id' => '6',
+                'account_type' => 'MANAGER',
+                'account_name' => 'Agency 4',
+            ],
+            4 => [
+                'account_id' => '7',
+                'account_type' => 'MANAGER',
+                'account_name' => 'Agency 5',
+            ],
         ];
     }
 
     public function _getManagerUsers()
     {
         return [
-           0 => [
-               'user_id' => '2',
-               'contact_name' => 'Agency 2',
-               'email_address' => 'ag2@example.com',
-               'username' => 'agency2',
-               'password' => 'agency2',
-               'language' => 'pt_BR',
-               'default_account_id' => '4',
-               'comments' => null,
-               'active' => '1',
-           ],
-           1 => [
-               'user_id' => '3',
-               'contact_name' => 'Agency 3',
-               'email_address' => 'ag3@example.com',
-               'username' => 'agency3',
-               'password' => 'agency3',
-               'language' => 'ru',
-               'default_account_id' => '5',
-               'comments' => null,
-               'active' => '1',
-           ]
+            0 => [
+                'user_id' => '2',
+                'contact_name' => 'Agency 2',
+                'email_address' => 'ag2@example.com',
+                'username' => 'agency2',
+                'password' => 'agency2',
+                'language' => 'pt_BR',
+                'default_account_id' => '4',
+                'comments' => null,
+                'active' => '1',
+            ],
+            1 => [
+                'user_id' => '3',
+                'contact_name' => 'Agency 3',
+                'email_address' => 'ag3@example.com',
+                'username' => 'agency3',
+                'password' => 'agency3',
+                'language' => 'ru',
+                'default_account_id' => '5',
+                'comments' => null,
+                'active' => '1',
+            ],
         ];
     }
 
     public function _getTraffickerAffiliates()
     {
         return [
-           0 => [
-               'affiliateid' => '1',
-               'agencyid' => '1',
-               'account_id' => '10',
-           ],
-           1 => [
-               'affiliateid' => '2',
-               'agencyid' => '6',
-               'account_id' => '11',
-           ]
+            0 => [
+                'affiliateid' => '1',
+                'agencyid' => '1',
+                'account_id' => '10',
+            ],
+            1 => [
+                'affiliateid' => '2',
+                'agencyid' => '6',
+                'account_id' => '11',
+            ],
         ];
     }
 
     public function _getTraffickerAccounts()
     {
         return [
-           0 => [
-               'account_id' => '10',
-               'account_type' => 'TRAFFICKER',
-               'account_name' => 'Publisher 1',
-           ],
-           1 => [
-               'account_id' => '11',
-               'account_type' => 'TRAFFICKER',
-               'account_name' => 'Publisher 2',
-           ]
+            0 => [
+                'account_id' => '10',
+                'account_type' => 'TRAFFICKER',
+                'account_name' => 'Publisher 1',
+            ],
+            1 => [
+                'account_id' => '11',
+                'account_type' => 'TRAFFICKER',
+                'account_name' => 'Publisher 2',
+            ],
         ];
     }
 
     public function _getTraffickerUsers()
     {
         return [
-           0 => [
-               'user_id' => '5',
-               'contact_name' => 'Publisher 2',
-               'email_address' => 'pu2@example.com',
-               'username' => 'publisher2',
-               'password' => 'publisher2',
-               'language' => 'de',
-               'default_account_id' => '11',
-               'comments' => null,
-               'active' => '1',
-           ]
+            0 => [
+                'user_id' => '5',
+                'contact_name' => 'Publisher 2',
+                'email_address' => 'pu2@example.com',
+                'username' => 'publisher2',
+                'password' => 'publisher2',
+                'language' => 'de',
+                'default_account_id' => '11',
+                'comments' => null,
+                'active' => '1',
+            ],
         ];
     }
 
     public function _getAdvertiserClients()
     {
         return [
-           0 => [
-               'clientid' => '1',
-               'agencyid' => '1',
-               'account_id' => '8',
-           ],
-           1 => [
-               'clientid' => '2',
-               'agencyid' => '3',
-               'account_id' => '9',
-           ]
+            0 => [
+                'clientid' => '1',
+                'agencyid' => '1',
+                'account_id' => '8',
+            ],
+            1 => [
+                'clientid' => '2',
+                'agencyid' => '3',
+                'account_id' => '9',
+            ],
         ];
     }
 
     public function _getAdvertiserAccounts()
     {
         return [
-           0 => [
-               'account_id' => '8',
-               'account_type' => 'ADVERTISER',
-               'account_name' => 'Advertiser 1',
-           ],
-           1 => [
-               'account_id' => '9',
-               'account_type' => 'ADVERTISER',
-               'account_name' => 'Advertiser 2',
-           ]
+            0 => [
+                'account_id' => '8',
+                'account_type' => 'ADVERTISER',
+                'account_name' => 'Advertiser 1',
+            ],
+            1 => [
+                'account_id' => '9',
+                'account_type' => 'ADVERTISER',
+                'account_name' => 'Advertiser 2',
+            ],
         ];
     }
 
     public function _getAdvertiserUsers()
     {
         return [
-           0 => [
-               'user_id' => '4',
-               'contact_name' => 'Advertiser 2',
-               'email_address' => 'ad2@example.com',
-               'username' => 'advertiser2',
-               'password' => 'advertiser2',
-               'language' => 'ru',
-               'default_account_id' => '9',
-               'comments' => null,
-               'active' => '1',
-           ]
+            0 => [
+                'user_id' => '4',
+                'contact_name' => 'Advertiser 2',
+                'email_address' => 'ad2@example.com',
+                'username' => 'advertiser2',
+                'password' => 'advertiser2',
+                'language' => 'ru',
+                'default_account_id' => '9',
+                'comments' => null,
+                'active' => '1',
+            ],
         ];
     }
 
     public function _getChannels()
     {
         return [
-           0 => [
-               'channelid' => '1',
-               'agencyid' => '6',
-           ],
-           1 => [
-               'channelid' => '2',
-               'agencyid' => '6',
-           ],
-           2 => [
-               'channelid' => '3',
-               'agencyid' => '1',
-           ],
-           3 => [
-               'channelid' => '4',
-               'agencyid' => '1',
-           ]
+            0 => [
+                'channelid' => '1',
+                'agencyid' => '6',
+            ],
+            1 => [
+                'channelid' => '2',
+                'agencyid' => '6',
+            ],
+            2 => [
+                'channelid' => '3',
+                'agencyid' => '1',
+            ],
+            3 => [
+                'channelid' => '4',
+                'agencyid' => '1',
+            ],
         ];
     }
 }

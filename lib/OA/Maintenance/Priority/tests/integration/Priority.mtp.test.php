@@ -145,7 +145,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 11,
             'priority' => $aTestOneZero['priority'],
             'priority_factor' => $aTestOneZero['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestOneZero);
         $aTestTwoZero = [];
@@ -162,7 +162,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 12,
             'priority' => $aTestTwoZero['priority'],
             'priority_factor' => $aTestTwoZero['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestTwoZero);
         $aTestThreeZero = [];
@@ -179,7 +179,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 6,
             'priority' => $aTestThreeZero['priority'],
             'priority_factor' => $aTestThreeZero['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestThreeZero);
         $aTestOneOne = [];
@@ -196,7 +196,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 10,
             'priority' => $aTestOneOne['priority'],
             'priority_factor' => $aTestOneOne['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestOneOne);
         $aTestTwoThree = [];
@@ -213,7 +213,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 8,
             'priority' => $aTestTwoThree['priority'],
             'priority_factor' => $aTestTwoThree['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestTwoThree);
         $aTestThreeThree = [];
@@ -230,7 +230,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 2,
             'priority' => $aTestThreeThree['priority'],
             'priority_factor' => $aTestThreeThree['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestThreeThree);
         $aTestThreeFour = [];
@@ -247,7 +247,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 3,
             'priority' => $aTestThreeFour['priority'],
             'priority_factor' => $aTestThreeFour['priority_factor'],
-            'past_zone_traffic_fraction' => null
+            'past_zone_traffic_fraction' => null,
         ];
         $this->_assertPriority($aTestThreeFour);
         // Test 1: Ensure that the values in the log_maintenance_priority table are correct
@@ -256,7 +256,7 @@ class Test_Priority extends UnitTestCase
             $oTest1BeforeUpdateDate,
             $oTest1AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_ECPM
+            DAL_PRIORITY_UPDATE_ECPM,
         );
 
         // Insert data that indicates that the Maintenance Statistics Engine
@@ -309,7 +309,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 12,
             'priority' => $aTestOneZero['priority'],
             'priority_factor' => $aTestOneZero['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestOneZero);
         $aTestTwoZero['priority'] = 12 / 200;
@@ -323,7 +323,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 12,
             'priority' => $aTestTwoZero['priority'],
             'priority_factor' => $aTestTwoZero['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestTwoZero);
         $aTestThreeZero['priority'] = 6 / 200;
@@ -337,7 +337,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 6,
             'priority' => $aTestThreeZero['priority'],
             'priority_factor' => $aTestThreeZero['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestThreeZero);
         $aTestOneOne['priority_factor'] = 1;           // Remains at 1, zone was not active
@@ -350,7 +350,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 10,
             'priority' => $aTestOneOne['priority'],
             'priority_factor' => $aTestOneOne['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestOneOne);
         $aTestTwoThree['priority_factor'] = 1;         // Remains at 1, zone was not active
@@ -363,7 +363,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 8,
             'priority' => $aTestTwoThree['priority'],
             'priority_factor' => $aTestTwoThree['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestTwoThree);
         $aTestThreeThree['priority_factor'] = 1;       // Remains at 1, zone was not active
@@ -376,7 +376,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 2,
             'priority' => $aTestThreeThree['priority'],
             'priority_factor' => $aTestThreeThree['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestThreeThree);
         $aTestThreeFour['priority_factor'] = 1;        // Remains at 1, zone was not active
@@ -389,7 +389,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 3,
             'priority' => $aTestThreeFour['priority'],
             'priority_factor' => $aTestThreeFour['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestThreeFour);
         // Test 2: Ensure that the values in the log_maintenance_priority table are correct
@@ -398,7 +398,7 @@ class Test_Priority extends UnitTestCase
             $oTest1BeforeUpdateDate,
             $oTest1AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_ECPM
+            DAL_PRIORITY_UPDATE_ECPM,
         );
 
         $this->_assertLogMaintenance(
@@ -406,7 +406,7 @@ class Test_Priority extends UnitTestCase
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_ECPM
+            DAL_PRIORITY_UPDATE_ECPM,
         );
 
         // Insert data that indicates that the Maintenance Statistics Engine
@@ -487,7 +487,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 5,
             'priority' => $aTestOneZero['priority'],
             'priority_factor' => $aTestOneZero['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestOneZero);
         $aTestTwoZero['priority'] = 12 / 200;
@@ -501,7 +501,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 12,
             'priority' => $aTestTwoZero['priority'],
             'priority_factor' => $aTestTwoZero['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestTwoZero);
         $aTestThreeZero['priority'] = 6 / 200;
@@ -515,7 +515,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 6,
             'priority' => $aTestThreeZero['priority'],
             'priority_factor' => $aTestThreeZero['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestThreeZero);
         $aTestOneOne['priority'] = 5 / 200;     // Changed, skipped OIs
@@ -529,7 +529,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 5,
             'priority' => $aTestOneOne['priority'],
             'priority_factor' => $aTestOneOne['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestOneOne);
         $aTestTwoThree['priority'] = 12 / 20;   // Zone has had some impressions, we have a forecast now
@@ -543,7 +543,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 12,
             'priority' => $aTestTwoThree['priority'],
             'priority_factor' => $aTestTwoThree['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestTwoThree);
         $aTestThreeThree['priority'] = 4 / 20; // Ad/Zone has delivered!
@@ -557,7 +557,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 4,
             'priority' => $aTestThreeThree['priority'],
             'priority_factor' => $aTestThreeThree['priority_factor'],
-            'past_zone_traffic_fraction' => 1
+            'past_zone_traffic_fraction' => 1,
         ];
         $this->_assertPriority($aTestThreeThree);
         $aTestThreeFour['priority'] = 2 / 200;  // Ad has delivered, but not in this zone
@@ -571,7 +571,7 @@ class Test_Priority extends UnitTestCase
             'requested_impressions' => 2,
             'priority' => $aTestThreeFour['priority'],
             'priority_factor' => $aTestThreeFour['priority_factor'],
-            'past_zone_traffic_fraction' => 0
+            'past_zone_traffic_fraction' => 0,
         ];
         $this->_assertPriority($aTestThreeFour);
         // Test 3: Ensure that the values in the log_maintenance_priority table are correct
@@ -580,14 +580,14 @@ class Test_Priority extends UnitTestCase
             $oTest1BeforeUpdateDate,
             $oTest1AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_ECPM
+            DAL_PRIORITY_UPDATE_ECPM,
         );
         $this->_assertLogMaintenance(
             6,
             $oTest2BeforeUpdateDate,
             $oTest2AfterUpdateDate,
             60,
-            DAL_PRIORITY_UPDATE_ECPM
+            DAL_PRIORITY_UPDATE_ECPM,
         );
     }
 

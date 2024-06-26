@@ -55,8 +55,8 @@ class Migration_603 extends Migration
     {
         // banners.ext_bannertype needs to be set for html and txt banners
         $aBannerTypeMap = [
-           'html' => 'bannerTypeHtml:oxHtml:genericHtml',
-           'txt' => 'bannerTypeText:oxText:genericText',
+            'html' => 'bannerTypeHtml:oxHtml:genericHtml',
+            'txt' => 'bannerTypeText:oxText:genericText',
         ];
         $table = $this->oDBH->quoteIdentifier($this->_getTableName('banners'));
         $sucess = true;
@@ -95,8 +95,8 @@ class Migration_603 extends Migration
             'Time:Hour' => 'deliveryLimitations:Time:Hour',
         ];
         $tables = [
-           $this->oDBH->quoteIdentifier($this->_getTableName('acls')),
-           $this->oDBH->quoteIdentifier($this->_getTableName('acls_channel')),
+            $this->oDBH->quoteIdentifier($this->_getTableName('acls')),
+            $this->oDBH->quoteIdentifier($this->_getTableName('acls_channel')),
         ];
         foreach ($tables as $table) {
             foreach ($aAclsTypeMap as $old => $new) {

@@ -28,7 +28,7 @@ phpAds_registerGlobalUnslashed(
     'comments',
     'affiliateid',
     'agencyid',
-    'channelid'
+    'channelid',
 );
 
 /*-------------------------------------------------------*/
@@ -128,9 +128,9 @@ function processChannelEditForm($form)
         $translated_message = $translation->translate(
             $GLOBALS['strChannelHasBeenUpdated'],
             [
-            MAX::constructURL(MAX_URL_ADMIN, $channelURL),
-            htmlspecialchars($aFields['name'])
-            ]
+                MAX::constructURL(MAX_URL_ADMIN, $channelURL),
+                htmlspecialchars($aFields['name']),
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -157,7 +157,7 @@ function processChannelEditForm($form)
         $translated_message = $translation->translate($GLOBALS['strChannelHasBeenAdded'], [
             MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
             htmlspecialchars($aFields['name']),
-            MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid'])
+            MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

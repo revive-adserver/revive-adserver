@@ -585,7 +585,7 @@ class Migration_308 extends Migration
             $result = $this->createGeoTargetingConfiguration(
                 $aPanConfig['geotracking_type'],
                 $aPanConfig['geotracking_location'],
-                $aPanConfig['geotracking_stats']
+                $aPanConfig['geotracking_stats'],
             );
 
             if ($result === false) {
@@ -607,7 +607,7 @@ class Migration_308 extends Migration
     public function createGeoTargetingConfiguration(
         $geotracking_type,
         $geotracking_location,
-        $geotracking_stats
+        $geotracking_stats,
     ) {
         $upgradeConfig = new OA_Upgrade_Config();
         $host = OX_getHostName();
@@ -645,19 +645,19 @@ class Migration_308 extends Migration
     public function getDatabaseType($geotracking_conf)
     {
         $aLocationStrings = [
-           1 => 'geoipCountryLocation',
-           7 => 'geoipRegionLocation',
-           3 => 'geoipRegionLocation',
-           6 => 'geoipCityLocation',
-           2 => 'geoipCityLocation',
-           5 => 'geoipOrgLocation',
-           4 => 'geoipIspLocation',
-           10 => 'geoipNetspeedLocation',
-           // 8 => 'geoipDmaLocation', // GEOIP_PROXY_EDITION // We're unsure
-           // 9 => 'geoipAreaLocation' // GEOIP_ASNUM_EDITION // of these two
-                                                              // and will have
-                                                              // to check with
-                                                              // MaxMind
+            1 => 'geoipCountryLocation',
+            7 => 'geoipRegionLocation',
+            3 => 'geoipRegionLocation',
+            6 => 'geoipCityLocation',
+            2 => 'geoipCityLocation',
+            5 => 'geoipOrgLocation',
+            4 => 'geoipIspLocation',
+            10 => 'geoipNetspeedLocation',
+            // 8 => 'geoipDmaLocation', // GEOIP_PROXY_EDITION // We're unsure
+            // 9 => 'geoipAreaLocation' // GEOIP_ASNUM_EDITION // of these two
+            // and will have
+            // to check with
+            // MaxMind
         ];
         $aGeotrackingConf = unserialize($geotracking_conf);
         if ($aGeotrackingConf === false) {

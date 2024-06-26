@@ -81,7 +81,7 @@ if (isset($action)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strZoneLinkedCampaign'], [
             MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
-            htmlspecialchars($aZone['name'])
+            htmlspecialchars($aZone['name']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
     } elseif ($action == 'set' && $view == 'ad' && !empty($adId)) {
@@ -94,7 +94,7 @@ if (isset($action)) {
             $translation = new OX_Translation();
             $translated_message = $translation->translate($GLOBALS['strZoneLinkedBanner'], [
                 MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
-                htmlspecialchars($aZone['name'])
+                htmlspecialchars($aZone['name']),
             ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
@@ -105,7 +105,7 @@ if (isset($action)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strZoneRemovedCampaign'], [
             MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
-            htmlspecialchars($aZone['name'])
+            htmlspecialchars($aZone['name']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
     } elseif ($action == 'remove' && !empty($adId) && empty($placementId)) {
@@ -115,7 +115,7 @@ if (isset($action)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strZoneRemovedBanner'], [
             MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId),
-            htmlspecialchars($aZone['name'])
+            htmlspecialchars($aZone['name']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
     }

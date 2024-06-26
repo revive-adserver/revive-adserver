@@ -64,7 +64,7 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalBannerStatistics->getBannerDailyStatistics(
             $doBanner->bannerid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -87,7 +87,7 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalBannerStatistics->getBannerDailyStatistics(
             $doBanner->bannerid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -117,7 +117,7 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalBannerStatistics->getBannerHourlyStatistics(
             $doBanner->bannerid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -141,7 +141,7 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalBannerStatistics->getBannerHourlyStatistics(
             $doBanner->bannerid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -201,13 +201,13 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $rsBannerStatistics = $this->_dalBannerStatistics->getBannerPublisherStatistics(
             $doBanner->bannerid,
             new Date('1984-01-01'),
-            new Date('2007-09-13')
+            new Date('2007-09-13'),
         );
 
         $rsBannerStatistics->find();
         $this->assertTrue(
             $rsBannerStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsBannerStatistics->fetch();
@@ -241,24 +241,24 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $rsBannerStatistics = $this->_dalBannerStatistics->getBannerPublisherStatistics(
             $doBanner->bannerid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsBannerStatistics->find();
         $this->assertTrue(
             $rsBannerStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get 1 row
         $rsBannerStatistics = $this->_dalBannerStatistics->getBannerPublisherStatistics(
             $doBanner->bannerid,
             new Date('1984-01-01'),
-            new Date('1984-03-09')
+            new Date('1984-03-09'),
         );
         $rsBannerStatistics->find();
         $this->assertTrue(
             $rsBannerStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
     }
 
@@ -316,13 +316,13 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $rsBannerStatistics = $this->_dalBannerStatistics->getBannerZoneStatistics(
             $doBanner->bannerid,
             new Date('1984-01-01'),
-            new Date('2007-09-13')
+            new Date('2007-09-13'),
         );
 
         $rsBannerStatistics->find();
         $this->assertTrue(
             $rsBannerStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsBannerStatistics->fetch();
@@ -362,24 +362,24 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $rsBannerStatistics = $this->_dalBannerStatistics->getBannerZoneStatistics(
             $doBanner->bannerid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsBannerStatistics->find();
         $this->assertTrue(
             $rsBannerStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get 1 row
         $rsBannerStatistics = $this->_dalBannerStatistics->getBannerZoneStatistics(
             $doBanner->bannerid,
             new Date('1984-01-01'),
-            new Date('1984-03-09')
+            new Date('1984-03-09'),
         );
         $rsBannerStatistics->find();
         $this->assertTrue(
             $rsBannerStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
     }
 }

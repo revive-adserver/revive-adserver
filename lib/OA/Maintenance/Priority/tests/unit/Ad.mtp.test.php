@@ -68,14 +68,14 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         $this->assertAbortIsCalled($aParams);
 
         $aParams = [
-            'status' => OA_ENTITY_STATUS_RUNNING
+            'status' => OA_ENTITY_STATUS_RUNNING,
         ];
         $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
         $this->assertAbortIsCalled($aParams);
 
@@ -83,28 +83,21 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
             'ad_id' => 'foo',
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
         $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'ad_id' => 1,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
         $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'weight' => 1
-        ];
-        $this->assertAbortIsCalled($aParams);
-
-        $aParams = [
-            'ad_id' => 1,
-            'status' => OA_ENTITY_STATUS_AWAITING,
-            'type' => 'sql'
+            'weight' => 1,
         ];
         $this->assertAbortIsCalled($aParams);
 
@@ -112,13 +105,20 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_AWAITING,
             'type' => 'sql',
-            'weight' => 'foo'
+        ];
+        $this->assertAbortIsCalled($aParams);
+
+        $aParams = [
+            'ad_id' => 1,
+            'status' => OA_ENTITY_STATUS_AWAITING,
+            'type' => 'sql',
+            'weight' => 'foo',
         ];
         $this->assertAbortIsCalled($aParams);
 
         // Test 2
         $aParams = [
-            'ad_id' => 1
+            'ad_id' => 1,
         ];
         $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
         $this->assertEqual($oMaxEntityAd->id, 1);
@@ -130,7 +130,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 2
+            'weight' => 2,
         ];
         $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
         $this->assertEqual($oMaxEntityAd->id, 1);
@@ -150,7 +150,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         $oMaxDalMaintenancePriority->expectCallCount('getAllDeliveryLimitationsByTypeId', 1);
 
         $aParams = [
-            'ad_id' => 1
+            'ad_id' => 1,
         ];
         $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
         $oMaxEntityAd->getDeliveryLimitations();

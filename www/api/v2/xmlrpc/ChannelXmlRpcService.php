@@ -48,15 +48,15 @@ class ChannelXmlRpcService extends BaseChannelService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oChannelInfo,
                 $oParams,
                 1,
                 ['agencyId', 'websiteId', 'channelName', 'description',
-                'comments'],
-                $oResponseWithError
+                    'comments'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -88,14 +88,14 @@ class ChannelXmlRpcService extends BaseChannelService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oChannelInfo,
                 $oParams,
                 1,
                 ['channelId', 'channelName', 'description', 'comments'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -125,7 +125,7 @@ class ChannelXmlRpcService extends BaseChannelService
             [&$sessionId, &$channelId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -154,7 +154,7 @@ class ChannelXmlRpcService extends BaseChannelService
             [&$sessionId, &$channelId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -163,7 +163,7 @@ class ChannelXmlRpcService extends BaseChannelService
         if ($this->_oChannelServiceImp->getChannel(
             $sessionId,
             $channelId,
-            $oChannel
+            $oChannel,
         )) {
             return XmlRpcUtils::getEntityResponse($oChannel);
         } else {
@@ -188,7 +188,7 @@ class ChannelXmlRpcService extends BaseChannelService
             [&$sessionId, &$agencyId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -217,7 +217,7 @@ class ChannelXmlRpcService extends BaseChannelService
             [&$sessionId, &$websiteId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -246,7 +246,7 @@ class ChannelXmlRpcService extends BaseChannelService
             [&$sessionId, &$channelId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -255,7 +255,7 @@ class ChannelXmlRpcService extends BaseChannelService
         if ($this->_oChannelServiceImp->getChannelTargeting(
             $sessionId,
             $channelId,
-            $aTargeting
+            $aTargeting,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
         } else {
@@ -281,7 +281,7 @@ class ChannelXmlRpcService extends BaseChannelService
             [&$sessionId, &$channelId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getArrayOfStructuresScalarFields(
                 $aTargeting,
@@ -290,7 +290,7 @@ class ChannelXmlRpcService extends BaseChannelService
                 2,
                 ['logical', 'type',
                     'comparison', 'data'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -298,7 +298,7 @@ class ChannelXmlRpcService extends BaseChannelService
         if ($this->_oChannelServiceImp->setChannelTargeting(
             $sessionId,
             $channelId,
-            $aTargeting
+            $aTargeting,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {

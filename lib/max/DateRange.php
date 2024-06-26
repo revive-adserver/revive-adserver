@@ -413,7 +413,7 @@ class DateRange
             $start->getYear(),
             $end->getDay(),
             $end->getMonth(),
-            $end->getYear()
+            $end->getYear(),
         );
         return $days;
     }

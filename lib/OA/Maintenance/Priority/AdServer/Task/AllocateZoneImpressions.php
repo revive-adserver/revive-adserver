@@ -98,10 +98,10 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                     $this->aAvailableForecastZoneImpressions[$zoneId] = $this->oDal->getZoneForecastDefaultZoneImpressions();
                 }
                 $this->aOverSubscribedZones[$zoneId] = [
-                                                           'zoneId' => $zoneId,
-                                                           'availableImpressions' => $availableImpressions,
-                                                           'desiredImpressions' => 0
-                                                       ];
+                    'zoneId' => $zoneId,
+                    'availableImpressions' => $availableImpressions,
+                    'desiredImpressions' => 0,
+                ];
             }
         }
     }
@@ -236,7 +236,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                             'ad_id' => $oAd->id,
                             'zone_id' => 0,
                             'required_impressions' => $oAd->requiredImpressions,
-                            'campaign_priority' => $oCampaign->priority
+                            'campaign_priority' => $oCampaign->priority,
                         ];
                         // Set the creative/zone association information for the advertisement
                         if (!isset($this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id])) {
@@ -267,7 +267,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                                         'ad_id' => $oAd->id,
                                         'zone_id' => $zone['zone_id'],
                                         'required_impressions' => $requiredImpressions,
-                                        'campaign_priority' => $oCampaign->priority
+                                        'campaign_priority' => $oCampaign->priority,
                                     ];
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;

@@ -121,12 +121,12 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
             'period' => [
                 'title' => $GLOBALS['strPeriod'],
                 'type' => 'date-month',
-                'default' => $default_period_preset
+                'default' => $default_period_preset,
             ],
             'campaign' => [
                 'title' => $GLOBALS['strCampaign'],
                 'type' => 'campaignid-dropdown',
-                'default' => $default_campaign
+                'default' => $default_campaign,
             ],
             'sheets' => [
                 'title' => $GLOBALS['strWorksheets'],
@@ -134,9 +134,9 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
                 'sheets' => [
                     'daily_breakdown' => $this->translate("Daily Breakdown"),
                     'ad_breakdown' => $this->translate("Ad Breakdown"),
-                    'zone_breakdown' => $this->translate("Zone Breakdown")
-                ]
-            ]
+                    'zone_breakdown' => $this->translate("Zone Breakdown"),
+                ],
+            ],
         ];
         return $aImport;
     }
@@ -301,7 +301,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         $this->createSubReport(
             $this->translate("Daily Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 
@@ -339,7 +339,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         $this->createSubReport(
             $this->translate("Ad Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 
@@ -377,7 +377,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         $this->createSubReport(
             $this->translate("Zone Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 }

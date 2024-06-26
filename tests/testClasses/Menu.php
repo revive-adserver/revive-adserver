@@ -39,8 +39,8 @@ class Menu
         $rootNode = new HTML_TreeNode(
             [
                 'text' => PRODUCT_NAME . ' ' . $aMatches[1] . ' Tests',
-                'icon' => "package.png"
-            ]
+                'icon' => "package.png",
+            ],
         );
         // Create the top-level test groups
         foreach ($GLOBALS['_MAX']['TEST']['groups'] as $type) {
@@ -50,8 +50,8 @@ class Menu
                     'text' => ucwords($type) . ' Test Suite',
                     'icon' => "package.png",
                     'link' => "run.php?type=$type&level=all",
-                    'linkTarget' => "right"
-                ]
+                    'linkTarget' => "right",
+                ],
             );
             $structure = TestFiles::getAllTestFiles($type);
             foreach ($structure as $layerCode => $folders) {
@@ -61,9 +61,9 @@ class Menu
                             'text' => $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layerCode][0],
                             'icon' => "package.png",
                             'link' => "run.php?type=$type&level=layer&layer=$layerCode",
-                            'linkTarget' => 'right'
-                        ]
-                    )
+                            'linkTarget' => 'right',
+                        ],
+                    ),
                 );
                 foreach ($folders as $folder => $files) {
                     if (count($files)) {
@@ -73,9 +73,9 @@ class Menu
                                     'text' => $folder,
                                     'icon' => "class_folder.png",
                                     'link' => "run.php?type=$type&level=folder&layer=$layerCode&folder=$folder",
-                                    'linkTarget' => 'right'
-                                ]
-                            )
+                                    'linkTarget' => 'right',
+                                ],
+                            ),
                         );
                     }
                     foreach ($files as $index => $file) {
@@ -85,9 +85,9 @@ class Menu
                                     'text' => $file,
                                     'icon' => "Method.png",
                                     'link' => "run.php?type=$type&level=file&layer=$layerCode&folder=$folder&file=$file",
-                                    'linkTarget' => 'right'
-                                ]
-                            )
+                                    'linkTarget' => 'right',
+                                ],
+                            ),
                         );
                     }
                 }
@@ -106,8 +106,8 @@ class Menu
                 'text' => 'PEAR PHPUnit Test Suite',
                 'icon' => "package.png",
                 'link' => "",
-                'linkTarget' => "right"
-            ]
+                'linkTarget' => "right",
+            ],
         );
         $firstNode = &${$nodeName}->addItem(
             new HTML_TreeNode(
@@ -115,9 +115,9 @@ class Menu
                     'text' => 'PEAR::MDB2',
                     'icon' => "package.png",
                     'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2/tests",
-                    'linkTarget' => 'right'
-                ]
-            )
+                    'linkTarget' => 'right',
+                ],
+            ),
         );
         $firstNode = &${$nodeName}->addItem(
             new HTML_TreeNode(
@@ -125,9 +125,9 @@ class Menu
                     'text' => 'PEAR::MDB2_Schema',
                     'icon' => "package.png",
                     'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2_Schema/tests",
-                    'linkTarget' => 'right'
-                ]
-            )
+                    'linkTarget' => 'right',
+                ],
+            ),
         );
         $rootNode->addItem(${$nodeName});
 
@@ -155,8 +155,8 @@ class Menu
         assert(is_object($parentNode));
 
         $node_options = [
-              'icon' => 'package.png',
-              'linkTarget' => 'right'
+            'icon' => 'package.png',
+            'linkTarget' => 'right',
         ];
         $node_options['text'] = $title;
         $node_options['link'] = $target_url;

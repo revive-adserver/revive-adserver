@@ -146,14 +146,14 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             if (!array_key_exists($aZone['affiliateid'], $aWebsitesAndZones)) {
                 $aWebsitesAndZones[$aZone['affiliateid']] =
                     [
-                      'name' => $aZone['affiliatename'],
-                      'linked' => null
+                        'name' => $aZone['affiliatename'],
+                        'linked' => null,
                     ];
             }
             $aWebsitesAndZones[$aZone['affiliateid']]['zones'][$aZone['zoneid']] =
                    [
-                     'name' => $aZone['zonename'],
-                     'linked' => $aZone['islinked'] ?? false,
+                       'name' => $aZone['zonename'],
+                       'linked' => $aZone['islinked'] ?? false,
                    ];
         }
 

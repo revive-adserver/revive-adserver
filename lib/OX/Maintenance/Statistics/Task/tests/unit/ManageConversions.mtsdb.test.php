@@ -80,8 +80,8 @@ class Test_OX_Maintenance_Statistics_Task_ManageConversions extends UnitTestCase
             'manageConversions',
             [
                 $oDate,
-                new Date('2008-09-08 17:59:59')
-            ]
+                new Date('2008-09-08 17:59:59'),
+            ],
         );
         $oDal->__construct();
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);

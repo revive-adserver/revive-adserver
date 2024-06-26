@@ -174,8 +174,8 @@ class OX_OperationInterval
             $oEnd->setTZbyID('UTC');
             return [
                 'start' => $oStart,
-                'end' => $oEnd
-                ];
+                'end' => $oEnd,
+            ];
         }
         if ($operationInterval < 1) {
             $operationInterval = OX_OperationInterval::getOperationInterval();
@@ -516,7 +516,7 @@ class OX_OperationInterval
             $oStartCopy->getSecond(),
             $oStartCopy->getMonth(),
             $oStartCopy->getDay(),
-            $oStartCopy->getYear()
+            $oStartCopy->getYear(),
         );
 
         // Get timestamp of end date/time - in seconds
@@ -526,7 +526,7 @@ class OX_OperationInterval
             $oEndCopy->getSecond(),
             $oEndCopy->getMonth(),
             $oEndCopy->getDay(),
-            $oEndCopy->getYear()
+            $oEndCopy->getYear(),
         );
 
         // calculate interval length in seconds

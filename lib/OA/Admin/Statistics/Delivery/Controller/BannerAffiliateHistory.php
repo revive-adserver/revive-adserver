@@ -74,7 +74,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
             'clientid' => $advertiserId,
             'affiliateid' => $publisherId,
             'campaignid' => $placementId,
-            'bannerid' => $adId
+            'bannerid' => $adId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -104,7 +104,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
             phpAds_PageContext(
                 MAX_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
-                $publisherId == $k
+                $publisherId == $k,
             );
         }
 
@@ -113,29 +113,29 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
-            'iconCampaign'
+            'iconCampaign',
         );
         $this->_addShortcut(
             $GLOBALS['strBannerProperties'],
             'banner-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
-            'iconBanner'
+            'iconBanner',
         );
         $this->_addShortcut(
             $GLOBALS['strModifyBannerAcl'],
             'banner-acl.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
-            'iconTargetingChannelAcl'
+            'iconTargetingChannelAcl',
         );
 
         // Prepare the data for display by output() method
         $aParams = [
             'ad_id' => $adId,
-            'publisher_id' => $publisherId
+            'publisher_id' => $publisherId,
         ];
         $this->prepare($aParams, 'stats.php');
     }

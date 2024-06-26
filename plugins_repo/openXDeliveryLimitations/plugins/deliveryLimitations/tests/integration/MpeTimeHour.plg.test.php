@@ -47,7 +47,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Hour',
             'comparison' => '=~',
             'data' => '1,5,7,20',
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationHour = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $oDate = new Date('2006-02-07 23:15:45');
@@ -67,7 +67,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Hour',
             'comparison' => '=~',
             'data' => '1,5,7,20@Europe/Rome',
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationHour = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $oDate = new Date('2006-02-07 23:15:45');

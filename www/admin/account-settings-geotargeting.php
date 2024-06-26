@@ -43,8 +43,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'geotargeting_type' => ['geotargeting' => 'type'],
         'geotargeting_showUnavailable' => [
             'geotargeting' => 'showUnavailable',
-            'bool' => true
-        ]
+            'bool' => true,
+        ],
     ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -56,7 +56,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         // The settings configuration file was written correctly,
@@ -95,18 +95,18 @@ $aSettings = [
                 'type' => 'select',
                 'name' => 'geotargeting_type',
                 'text' => $strGeotargetingType,
-                'items' => $aComponentItems
+                'items' => $aComponentItems,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'geotargeting_showUnavailable',
                 'text' => $strGeoShowUnavailable,
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

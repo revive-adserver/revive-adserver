@@ -132,8 +132,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 [
                     'width' => 239,
                     'height' => 132,
-                    'antialias' => $useAntialias ? 'native' : false
-                ]
+                    'antialias' => $useAntialias ? 'native' : false,
+                ],
             );
 
             $Graph = Image_Graph::factory('graph', $Canvas);

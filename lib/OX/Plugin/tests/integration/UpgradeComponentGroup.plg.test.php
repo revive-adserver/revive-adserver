@@ -169,10 +169,10 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
             $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
             $doAccount_Preference_Assoc->whereAdd('preference_id = ' . $doPreferences->preference_id);
             $aPrefsOld[$doPreferences->preference_name] = [
-                                                                   'permission' => $doPreferences->account_type,
-                                                                   'id' => $doPreferences->preference_id,
-                                                                   'acct_assoc' => $doAccount_Preference_Assoc->getAll(),
-                                                                   ];
+                'permission' => $doPreferences->account_type,
+                'id' => $doPreferences->preference_id,
+                'acct_assoc' => $doAccount_Preference_Assoc->getAll(),
+            ];
         }
         $this->assertEqual(count($aPrefsOld), 2);
         $this->assertFalse(isset($aPrefsOld[$prefix . 'preference3']));
@@ -194,10 +194,10 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
             $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
             $doAccount_Preference_Assoc->whereAdd('preference_id = ' . $doPreferences->preference_id);
             $aPrefsNew[$doPreferences->preference_name] = [
-                                                                   'permission' => $doPreferences->account_type,
-                                                                   'id' => $doPreferences->preference_id,
-                                                                   'acct_assoc' => $doAccount_Preference_Assoc->getAll(),
-                                                                   ];
+                'permission' => $doPreferences->account_type,
+                'id' => $doPreferences->preference_id,
+                'acct_assoc' => $doAccount_Preference_Assoc->getAll(),
+            ];
         }
         $this->assertEqual(count($aPrefsNew), 2);
         $this->assertFalse(isset($aPrefsNew[$prefix . 'preference2']));

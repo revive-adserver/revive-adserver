@@ -110,7 +110,7 @@ class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
 
         if ($doImages) {
             return [
-                'size' => strlen($doImages->contents)
+                'size' => strlen($doImages->contents),
             ];
         }
 

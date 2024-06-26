@@ -48,7 +48,7 @@ class OA_PermanentCache
             'fileNameProtection' => false,
             'lifeTime' => null,
             'readControlType' => 'md5',
-            'dontCacheWhenTheResultIsFalse' => true
+            'dontCacheWhenTheResultIsFalse' => true,
         ]);
     }
 

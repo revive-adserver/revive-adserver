@@ -406,7 +406,7 @@ class Migration
             $result = $dbTable->resetSequenceByData($table, $field);
             if (PEAR::isError($result)) {
                 return $this->_logErrorAndReturnFalse(
-                    "Error resetting {$table} sequence during migration $idxMigration: " . $result->getUserInfo()
+                    "Error resetting {$table} sequence during migration $idxMigration: " . $result->getUserInfo(),
                 );
             }
         }

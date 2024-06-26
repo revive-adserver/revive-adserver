@@ -49,7 +49,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      */
     private $extensionTypes = [
         self::DATA_EXTENSION,
-        self::LOG_EXTENSION
+        self::LOG_EXTENSION,
     ];
 
     /**

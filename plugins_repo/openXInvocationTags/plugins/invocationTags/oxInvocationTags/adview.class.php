@@ -100,7 +100,7 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
   * these banners, so if you want these tags to allocate space for the
   * ad before it shows, you will need to add this information to the
   * <img> tag."),
-            ];
+        ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];

@@ -149,7 +149,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     protected function _getColumnTypesList(
         Plugins_DeliveryLog $component,
-        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN]
+        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN],
     ) {
         $str = '';
         $aColumns = $component->getBucketTableColumns();
@@ -172,7 +172,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     protected function _getSPWhere(
         Plugins_DeliveryLog $component,
-        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN]
+        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN],
     ) {
         $where = '';
         $c = 1;
@@ -197,7 +197,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     protected function _getSPValuesList(
         Plugins_DeliveryLog $component,
-        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN]
+        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN],
     ) {
         $values = '';
         $c = 1;

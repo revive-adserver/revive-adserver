@@ -65,7 +65,7 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_Complex extends UnitTest
         $aTables = [
             $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'] => $aConf['table']['prefix'] . 'data_bkt_r',
             $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'] => $aConf['table']['prefix'] . 'data_bkt_m',
-            $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'] => $aConf['table']['prefix'] . 'data_bkt_c'
+            $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'] => $aConf['table']['prefix'] . 'data_bkt_c',
         ];
 
         // Install the openXDeliveryLog plugin, which will create the

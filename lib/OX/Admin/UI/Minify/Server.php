@@ -72,7 +72,7 @@ class OX_UI_Minify_Server
         }
 
         $array[] = new Minify_Source(['filepath' => $fileName,
-                'minifyOptions' => [
-                        'prependRelativePath' => $baseDir]]);
+            'minifyOptions' => [
+                'prependRelativePath' => $baseDir]]);
     }
 }

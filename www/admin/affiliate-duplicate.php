@@ -44,7 +44,7 @@ $translated_message = $translation->translate(
     [MAX::constructURL(MAX_URL_ADMIN, "affiliate-edit.php?affiliateid=$affiliateid"),
         htmlspecialchars($oldName),
         MAX::constructURL(MAX_URL_ADMIN, "affiliate-edit.php?affiliateid=$new_affiliateId"),
-        htmlspecialchars($newName)]
+        htmlspecialchars($newName)],
 );
 OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

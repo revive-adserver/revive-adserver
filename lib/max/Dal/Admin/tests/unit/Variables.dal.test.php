@@ -103,14 +103,14 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         // JS
         $this->assertTrue($this->dalVariables->updateVariableCode(
             $trackerId,
-            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS,
         ));
         $this->assertVariableCode($trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_JS);
 
         // DOM
         $this->assertTrue($this->dalVariables->updateVariableCode(
             $trackerId,
-            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM,
         ));
         $this->assertVariableCode($trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_DOM);
 
@@ -121,7 +121,7 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $doVariables->update(DB_DATAOBJECT_WHEREADD_ONLY);
         $this->assertTrue($this->dalVariables->updateVariableCode(
             $trackerId,
-            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM
+            DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM,
         ));
         $this->assertVariableCode($trackerId, DataObjects_Trackers::TRACKER_VARIABLE_METHOD_CUSTOM);
 

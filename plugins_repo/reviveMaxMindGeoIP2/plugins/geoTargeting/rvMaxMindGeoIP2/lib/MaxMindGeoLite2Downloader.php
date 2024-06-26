@@ -125,7 +125,7 @@ class MaxMindGeoLite2Downloader
 
         return $this->client->get(
             sprintf(self::GEOLITE2_DOWNLOAD_URI, self::GEOLITE2_DBNAME),
-            $options
+            $options,
         );
     }
 

@@ -62,7 +62,7 @@ function MAX_limitationsMatchString(
     $limitation,
     $op,
     $aParams = [],
-    $namespace = 'CLIENT'
+    $namespace = 'CLIENT',
 ) {
     if ($limitation == '') {
         return true;
@@ -129,7 +129,7 @@ function MAX_limitationsMatchNumeric(
     $limitation,
     $op,
     $aParams = [],
-    $namespace = 'CLIENT'
+    $namespace = 'CLIENT',
 ) {
     if ($limitation == '') {
         return !MAX_limitationsIsOperatorPositive($op);
@@ -380,7 +380,7 @@ function MAX_limitationsGetAOperationsForString($oPlugin)
         '=~' => MAX_Plugin_Translation::translate('Contains', $oPlugin->extension, $oPlugin->group),
         '!~' => MAX_Plugin_Translation::translate('Does not contain', $oPlugin->extension, $oPlugin->group),
         '=x' => MAX_Plugin_Translation::translate('Regex match', $oPlugin->extension, $oPlugin->group),
-        '!x' => MAX_Plugin_Translation::translate('Regex does not match', $oPlugin->extension, $oPlugin->group)
+        '!x' => MAX_Plugin_Translation::translate('Regex does not match', $oPlugin->extension, $oPlugin->group),
     ];
 }
 

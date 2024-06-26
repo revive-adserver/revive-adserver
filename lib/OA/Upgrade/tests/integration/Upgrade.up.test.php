@@ -270,7 +270,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_Upgrade',
             'OA_Upgrade_for_detectPAN',
-            ['initDatabaseConnection']
+            ['initDatabaseConnection'],
         );
         $oUpgrade = new OA_Upgrade_for_detectPAN($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
@@ -280,7 +280,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_phpAdsNew',
             'OA_phpAdsNew_for_detectPAN',
-            ['init', 'getPANversion']
+            ['init', 'getPANversion'],
         );
 
         $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
@@ -332,7 +332,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_Upgrade',
             'OA_Upgrade_for_detectM01',
-            ['initDatabaseConnection']
+            ['initDatabaseConnection'],
         );
         $oUpgrade = new OA_Upgrade_for_detectM01($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
@@ -342,7 +342,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_phpAdsNew',
             'OA_phpAdsNew_for_detectM01',
-            ['init', 'getPANversion']
+            ['init', 'getPANversion'],
         );
 
         $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
@@ -522,16 +522,16 @@ class Test_OA_Upgrade extends UnitTestCase
             'OA_Upgrade_Config',
             $mockConfig = 'OA_Upgrade_Config' . rand(),
             [
-                                        'backupConfig',
-                                        'mergeConfig',
-                                        'setupConfigDatabase',
-                                        'setupConfigTable',
-                                        'setValue',
-                                        'writeConfig',
-                                        'getConfigBackupName',
-                                        'clearConfigBackupName',
-                                        'setBulkValue',
-                                    ]
+                'backupConfig',
+                'mergeConfig',
+                'setupConfigDatabase',
+                'setupConfigTable',
+                'setValue',
+                'writeConfig',
+                'getConfigBackupName',
+                'clearConfigBackupName',
+                'setBulkValue',
+            ],
         );
         $oUpgrade->oConfiguration = new $mockConfig($this);
 
@@ -568,7 +568,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Integrity',
             $mockInteg = 'OA_DB_Integrity' . rand(),
-            ['checkIntegrityQuick']
+            ['checkIntegrityQuick'],
         );
         $oUpgrade->oIntegrity = new $mockInteg($this);
         $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);

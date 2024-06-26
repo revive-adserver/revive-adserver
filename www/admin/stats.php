@@ -94,7 +94,7 @@ phpAds_registerGlobal(
     'graphFilter',
     'graphFields',
     'listorder',
-    'orderdirection'
+    'orderdirection',
 );
 $day = htmlspecialchars($day);
 $listorder = htmlspecialchars($listorder);
@@ -172,7 +172,7 @@ $aParams = null;
 if (isset($plugin) && $plugin != '') {
     $aParams = [
         'skipFormatting' => true,
-        'disablePager' => true
+        'disablePager' => true,
     ];
 }
 

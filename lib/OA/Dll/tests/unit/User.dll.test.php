@@ -37,12 +37,12 @@ class OA_Dll_UserTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Agency',
             'PartialMockOA_Dll_Agency_UserTest',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
         Mock::generatePartial(
             'OA_Dll_User',
             'PartialMockOA_Dll_User',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
     }
 
@@ -85,7 +85,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllUserPartialMock->modify($oUserInfo),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Modify
@@ -93,14 +93,14 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllUserPartialMock->modify($oUserInfo),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Add a user with the same username
         $this->assertTrue(
             (!$dllUserPartialMock->modify($oUserInfo2) &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_USERNAME_NOT_UNIQUE),
         );
 
         // Modify with short password
@@ -108,27 +108,27 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue(
             (!$dllUserPartialMock->modify($oUserInfo) &&
                 $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_PASSWORD_TOO_SHORT),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_PASSWORD_TOO_SHORT)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_PASSWORD_TOO_SHORT),
         );
 
         // Delete
         $this->assertTrue(
             $dllUserPartialMock->delete($oUserInfo->userId),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Modify not existing id
         $this->assertTrue(
             (!$dllUserPartialMock->modify($oUserInfo) &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID),
         );
 
         // Delete not existing id
         $this->assertTrue(
             (!$dllUserPartialMock->delete($oUserInfo->userId) &&
                            $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID),
         );
 
         $dllUserPartialMock->tally();
@@ -154,7 +154,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $oAgencyInfo->password = 'password';
         $this->assertTrue(
             $dllAgencyPartialMock->modify($oAgencyInfo),
-            $dllAgencyPartialMock->getLastError()
+            $dllAgencyPartialMock->getLastError(),
         );
 
         $oUserInfo1 = new OA_Dll_UserInfo();
@@ -172,12 +172,12 @@ class OA_Dll_UserTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllUserPartialMock->modify($oUserInfo1),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         $this->assertTrue(
             $dllUserPartialMock->modify($oUserInfo2),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         $oUserInfo1Get = null;
@@ -186,16 +186,16 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue(
             $dllUserPartialMock->getUser(
                 $oUserInfo1->userId,
-                $oUserInfo1Get
+                $oUserInfo1Get,
             ),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
         $this->assertTrue(
             $dllUserPartialMock->getUser(
                 $oUserInfo2->userId,
-                $oUserInfo2Get
+                $oUserInfo2Get,
             ),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Check field value
@@ -214,13 +214,13 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue(
             $dllUserPartialMock->getUserListByAccountId(
                 $oAgencyInfo->accountId,
-                $aUserList
+                $aUserList,
             ),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
         $this->assertEqual(
             count($aUserList) == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
         $oUserInfo1Get = $aUserList[0];
         $oUserInfo2Get = $aUserList[1];
@@ -236,17 +236,17 @@ class OA_Dll_UserTest extends DllUnitTestCase
         // Delete
         $this->assertTrue(
             $dllUserPartialMock->delete($oUserInfo1->userId),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Get not existing id
         $this->assertTrue(
             (!$dllUserPartialMock->getUser(
                 $oUserInfo1->userId,
-                $oUserInfo1Get
+                $oUserInfo1Get,
             ) &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID),
         );
 
         $dllAgencyPartialMock->tally();
@@ -274,20 +274,20 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllUserPartialMock->updateUserEmailBySsoId(1001, 'email@example.com'),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Test errors
         $this->assertTrue(
             (!$dllUserPartialMock->updateSsoUserId(0, 'email@example.com') &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS),
         );
 
         $this->assertTrue(
             (!$dllUserPartialMock->updateSsoUserId(1, '') &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS),
         );
 
         $dllUserPartialMock->tally();
@@ -314,20 +314,20 @@ class OA_Dll_UserTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllUserPartialMock->updateSsoUserId(1001, 1002),
-            $dllUserPartialMock->getLastError()
+            $dllUserPartialMock->getLastError(),
         );
 
         // Test errors
         $this->assertTrue(
             (!$dllUserPartialMock->updateSsoUserId(0, 1) &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS),
         );
 
         $this->assertTrue(
             (!$dllUserPartialMock->updateSsoUserId(1, 0) &&
                           $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_WRONG_PARAMS),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_WRONG_PARAMS),
         );
 
         $dllUserPartialMock->tally();
@@ -345,7 +345,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue(
             (!$dllUserPartialMock->linkUserToAdvertiserAccount($userId, 9999) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_ACC_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_ACC_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_ACC_ID),
         );
 
         // Create advertiser
@@ -359,14 +359,14 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue(
             (!$dllUserPartialMock->linkUserToAdvertiserAccount(9999, $advertiserAccountId) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID),
         );
 
         // linkUserToAdvertiserAccount
         $this->assertTrue($dllUserPartialMock->linkUserToAdvertiserAccount(
             $userId,
             $advertiserAccountId,
-            $aAdvertiserPermissions
+            $aAdvertiserPermissions,
         ));
 
         // Check the link was made
@@ -379,7 +379,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue($dllUserPartialMock->linkUserToAdvertiserAccount(
             $userId,
             $advertiserAccountId,
-            $aAdvertiserPermissions
+            $aAdvertiserPermissions,
         ));
 
         // linkUserToTraffickerAccount
@@ -392,7 +392,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue($dllUserPartialMock->linkUserToTraffickerAccount(
             $userId,
             $traffickerAccountId,
-            $aTraffickerPermissions
+            $aTraffickerPermissions,
         ));
 
         $this->assertLink($userId, $traffickerAccountId);
@@ -406,7 +406,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue($dllUserPartialMock->linkUserToManagerAccount(
             $userId,
             $managerAccountId,
-            $aManagerPermissions
+            $aManagerPermissions,
         ));
 
         $this->assertLink($userId, $managerAccountId);
@@ -416,19 +416,19 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue(
             (!$dllUserPartialMock->linkUserToAdvertiserAccount($userId, $managerAccountId) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
         );
 
         $this->assertTrue(
             (!$dllUserPartialMock->linkUserToTraffickerAccount($userId, $advertiserAccountId) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
         );
 
         $this->assertTrue(
             (!$dllUserPartialMock->linkUserToManagerAccount($userId, $advertiserAccountId) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
-            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH)
+            $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_ACCOUNT_TYPE_MISMATCH),
         );
     }
 

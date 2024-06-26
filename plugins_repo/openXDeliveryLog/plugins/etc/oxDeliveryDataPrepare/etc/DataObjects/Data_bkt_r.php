@@ -36,9 +36,9 @@ class DataObjects_Data_bkt_r extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'interval_start' => '',
-                'count' => '',
-                ];
+        'interval_start' => '',
+        'count' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

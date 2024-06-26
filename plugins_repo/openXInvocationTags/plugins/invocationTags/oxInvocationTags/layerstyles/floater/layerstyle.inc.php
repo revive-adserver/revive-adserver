@@ -31,7 +31,7 @@ function MAX_layerGetLimitations()
 
     return [
         'richmedia' => $richmedia,
-        'compatible' => $compatible
+        'compatible' => $compatible,
     ];
 }
 
@@ -50,7 +50,7 @@ function MAX_layerPutJs($output, $uniqid)
     MAX_commonRegisterGlobalsArray([
         'loop', 'speed', 'pause',
         'shiftv', 'lmargin', 'rmargin',
-        'ltr', 'limited'
+        'ltr', 'limited',
     ]);
 
     $loop = 'n' === ($loop ?? 'n') ? 'n' : (int) $loop;

@@ -26,7 +26,7 @@ class DHTML_Calendar
         $calendar_lib_path = '/calendar/',
         $lang = 'en',
         $theme = 'calendar-win2k-1',
-        $stripped = true
+        $stripped = true,
     ) {
         if ($stripped) {
             $this->calendar_file = 'calendar_stripped.js';
@@ -39,7 +39,7 @@ class DHTML_Calendar
         $this->calendar_theme_file = $theme . '.css';
         $this->calendar_lib_path = preg_replace('/\/+$/', '/', $calendar_lib_path);
         $this->calendar_options = ['ifFormat' => '%Y/%m/%d',
-                                        'daFormat' => '%Y/%m/%d'];
+            'daFormat' => '%Y/%m/%d'];
     }
 
     public function set_option($name, $value)
@@ -84,7 +84,7 @@ class DHTML_Calendar
         $attrstr = $this->_make_html_attr(array_merge(
             $field_attributes,
             ['id' => $this->_field_id($id),
-                                                            'type' => 'text']
+                'type' => 'text'],
         ));
         echo '<input ' . $attrstr . '/>';
         echo '<a href="#" id="' . $this->_trigger_id($id) . '">' .
@@ -93,7 +93,7 @@ class DHTML_Calendar
         $options = array_merge(
             $cal_options,
             ['inputField' => $this->_field_id($id),
-                                     'button' => $this->_trigger_id($id)]
+                'button' => $this->_trigger_id($id)],
         );
         echo $this->_make_calendar($options);
     }

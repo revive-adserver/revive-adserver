@@ -149,7 +149,7 @@ class MAX_Admin_Inventory_TrackerAppend
             $translation = new OX_Translation();
             $translated_message = $translation->translate($GLOBALS['strTrackerAppendHasBeenUpdated'], [
                 MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $this->advertiser_id . "&trackerid=" . $this->tracker_id),
-                htmlspecialchars($doTrackers->trackername)
+                htmlspecialchars($doTrackers->trackername),
             ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -172,7 +172,7 @@ class MAX_Admin_Inventory_TrackerAppend
         $output = new HTML_Template_Flexy([
             'templateDir' => MAX_PATH . '/lib/max/Admin/Inventory/themes',
             'compileDir' => MAX_PATH . '/var/templates_compiled',
-            'flexyIgnore' => true
+            'flexyIgnore' => true,
         ]);
 
         // Load token now

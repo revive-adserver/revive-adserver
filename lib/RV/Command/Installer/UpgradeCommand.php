@@ -95,7 +95,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             'password' => $password,
         ];
         $_REQUEST = [
-            '_qf__adserver-login-form' => '1'
+            '_qf__adserver-login-form' => '1',
         ];
 
         $oRequest = new \OX_Admin_UI_Controller_Request();
@@ -107,7 +107,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             $this->oController->process($oRequest);
 
             throw new RuntimeException(
-                \current(\current($this->oController->getModelProperty('aMessages')))
+                \current(\current($this->oController->getModelProperty('aMessages'))),
             );
         } catch (RedirectException $e) {
             if ('database' !== $e->getAction()) {
@@ -123,7 +123,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             'action' => 'database',
         ];
         $_REQUEST = [
-            '_qf__install-db-form' => '1'
+            '_qf__install-db-form' => '1',
         ];
 
         $oRequest = new \OX_Admin_UI_Controller_Request();
@@ -135,7 +135,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             $this->oController->process($oRequest);
 
             throw new RuntimeException(
-                \current(\current($this->oController->getModelProperty('aMessages')))
+                \current(\current($this->oController->getModelProperty('aMessages'))),
             );
         } catch (RedirectException $e) {
             return 'configuration' === $e->getAction();
@@ -150,7 +150,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             'previousPath' => $previousPath,
         ];
         $_REQUEST = [
-            '_qf__install-config-form' => '1'
+            '_qf__install-config-form' => '1',
         ];
 
         $oRequest = new \OX_Admin_UI_Controller_Request();
@@ -162,7 +162,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             $this->oController->process($oRequest);
 
             throw new RuntimeException(
-                \current(\current($this->oController->getModelProperty('aMessages')))
+                \current(\current($this->oController->getModelProperty('aMessages'))),
             );
         } catch (RedirectException $e) {
             if ('jobs' !== $e->getAction()) {

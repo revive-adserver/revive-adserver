@@ -74,7 +74,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -83,7 +83,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/baz' . MAX_PLUGINS_EXTENSION . '.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/baz' . MAX_PLUGINS_EXTENSION . '.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -113,7 +113,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -122,7 +122,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/baz' . MAX_PLUGINS_EXTENSION . '.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/baz' . MAX_PLUGINS_EXTENSION . '.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -257,7 +257,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($result), 5);
         $this->assertEqual(
             $result['standard:advertisingAnalysisReport'],
-            MAX_PATH . '/plugins/reports/standard/advertisingAnalysisReport' . MAX_PLUGINS_EXTENSION
+            MAX_PATH . '/plugins/reports/standard/advertisingAnalysisReport' . MAX_PLUGINS_EXTENSION,
         );
     }
 
@@ -275,7 +275,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.'
+            'Unable to include the file ' . MAX_PATH . '/plugins/foo/bar/bar' . MAX_PLUGINS_EXTENSION . '.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -290,7 +290,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Method 'foo()' not defined in class 'Plugins_Reports_Standard_AdvertisingAnalysisReport'."
+            "Method 'foo()' not defined in class 'Plugins_Reports_Standard_AdvertisingAnalysisReport'.",
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -330,7 +330,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Bad argument: Not an array of plugins.'
+            'Bad argument: Not an array of plugins.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -340,7 +340,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Bad argument: Not an array of plugins.'
+            'Bad argument: Not an array of plugins.',
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -351,7 +351,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Method 'foo()' not defined in class 'Plugins_Reports_Standard_AdvertisingAnalysisReport'."
+            "Method 'foo()' not defined in class 'Plugins_Reports_Standard_AdvertisingAnalysisReport'.",
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
@@ -428,7 +428,7 @@ class TestOfMAX_Plugin extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Config file 'foo' does not exist."
+            "Config file 'foo' does not exist.",
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();

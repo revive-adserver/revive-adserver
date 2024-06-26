@@ -48,7 +48,7 @@ function phpAds_PageShortcut($name, $link, $icon)
     $phpAds_shortcuts[] = [
         'name' => $name,
         'link' => $link,
-        'icon' => OX::assetPath() . "/" . $icon
+        'icon' => OX::assetPath() . "/" . $icon,
     ];
 }
 

@@ -117,7 +117,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
         $aDates =
             $this->oDal->getMaintenancePriorityLastRunInfo(
                 DAL_PRIORITY_UPDATE_ECPM,
-                ['start_run', 'end_run']
+                ['start_run', 'end_run'],
             );
         if (!is_null($aDates)) {
             // Set the details of the last time Priority Compensation started running
@@ -141,7 +141,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
             $oStartDate,
             $oEndDate,
             null,
-            DAL_PRIORITY_UPDATE_ECPM
+            DAL_PRIORITY_UPDATE_ECPM,
         );
     }
 
@@ -163,7 +163,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
             $this->aCampaignsDeliveries[$campaignId]['sum_clicks'],
             $this->aCampaignsDeliveries[$campaignId]['sum_conversions'],
             $aCampaign[self::IDX_ACTIVATE],
-            $aCampaign[self::IDX_EXPIRE]
+            $aCampaign[self::IDX_EXPIRE],
         );
     }
 

@@ -455,7 +455,7 @@ class OA_Dll_User extends OA_Dll
                 $aPermissions,
                 $accountId,
                 $userId,
-                $aAllowedPermissions
+                $aAllowedPermissions,
             );
             if (PEAR::isError($result)) {
                 $this->raiseError($result->getMessage());
@@ -491,7 +491,7 @@ class OA_Dll_User extends OA_Dll
             $userId,
             $advertiserAccountId,
             $aPermissions,
-            OA_Permission::ADVERTISER_PERMISSIONS
+            OA_Permission::ADVERTISER_PERMISSIONS,
         );
     }
 
@@ -520,7 +520,7 @@ class OA_Dll_User extends OA_Dll
             $userId,
             $traffickerAccountId,
             $aPermissions,
-            OA_Permission::TRAFFICKER_PERMISSIONS
+            OA_Permission::TRAFFICKER_PERMISSIONS,
         );
     }
 
@@ -549,7 +549,7 @@ class OA_Dll_User extends OA_Dll
             $userId,
             $managerAccountId,
             $aPermissions,
-            OA_Permission::MANAGER_PERMISSIONS
+            OA_Permission::MANAGER_PERMISSIONS,
         );
     }
 

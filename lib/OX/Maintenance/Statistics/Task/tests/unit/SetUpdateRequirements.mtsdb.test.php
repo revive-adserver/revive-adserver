@@ -67,7 +67,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             [
                 '_getMaintenanceStatisticsLastRunInfo',
                 '_getEarliestLoggedDeliveryData',
-            ]
+            ],
         );
 
         // Prepare an array of times that the MSE should be run at, to
@@ -75,7 +75,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         $aMSERunTimes = [
             0 => new Date('2008-08-12 13:00:01'),
             1 => new Date('2008-08-12 13:30:01'),
-            2 => new Date('2008-08-12 14:00:01')
+            2 => new Date('2008-08-12 14:00:01'),
         ];
 
 

@@ -104,37 +104,37 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
             'text',
             'webpathAdmin',
             $GLOBALS['strWebPathSimple'],
-            ['prefix' => $http_s, 'class' => 'large']
+            ['prefix' => $http_s, 'class' => 'large'],
         );
         $this->addElement(
             'text',
             'webpathDelivery',
             $GLOBALS['strDeliveryPath'],
-            ['prefix' => $http, 'class' => 'large']
+            ['prefix' => $http, 'class' => 'large'],
         );
         $this->addElement(
             'text',
             'webpathImages',
             $GLOBALS['strImagePath'],
-            ['prefix' => $http, 'class' => 'large']
+            ['prefix' => $http, 'class' => 'large'],
         );
         $this->addElement(
             'text',
             'webpathDeliverySSL',
             $GLOBALS['strDeliverySslPath'],
-            ['prefix' => $https, 'class' => 'large']
+            ['prefix' => $https, 'class' => 'large'],
         );
         $this->addElement(
             'text',
             'webpathImagesSSL',
             $GLOBALS['strImageSslPath'],
-            ['prefix' => $https, 'class' => 'large']
+            ['prefix' => $https, 'class' => 'large'],
         );
         $this->addElement(
             'text',
             'storeWebDir',
             $GLOBALS['strImageStore'],
-            ['class' => 'large']
+            ['class' => 'large'],
         );
 
         //Form validation rules
@@ -159,7 +159,7 @@ class OX_Admin_UI_Install_ConfigForm extends OX_Admin_UI_Install_BaseForm
             'text',
             'previousPath',
             $GLOBALS['strPathToPrevious'],
-            ['class' => 'medium']
+            ['class' => 'medium'],
         );
         //Form validation rules
         $this->addRequiredRule('previousPath', $GLOBALS['strPathToPrevious']);

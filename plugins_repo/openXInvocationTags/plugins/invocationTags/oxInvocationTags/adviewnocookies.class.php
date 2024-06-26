@@ -104,7 +104,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         $aComments = [
             'Third Party Comment' => '',
             'Comment' => '',
-            ];
+        ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];

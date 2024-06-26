@@ -50,7 +50,7 @@ if (!empty($clientid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strAdvertiserHasBeenDeleted'], [
-            htmlspecialchars($aAdvertiser['clientname'])
+            htmlspecialchars($aAdvertiser['clientname']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strAdvertisersHaveBeenDeleted']);

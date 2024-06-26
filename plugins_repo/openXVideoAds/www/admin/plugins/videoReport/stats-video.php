@@ -22,7 +22,7 @@ $availableEntities = [
     'campaign',
     'banner',
     'website',
-    'zone'
+    'zone',
 ];
 if (!in_array($entity, $availableEntities)) {
     exit("Invalid input parameters");
@@ -56,7 +56,7 @@ $availableDimensions += [
     "week" => "Week",
     "month" => "Month",
     "year" => "Year",
-    "hour-of-day" => "Hour of Day"
+    "hour-of-day" => "Hour of Day",
 ];
 if (empty($dimension)) {
     $dimension = 'day';
@@ -90,7 +90,7 @@ $dataTable = $videoReport->getVastStatistics(
     $entityId,
     $dimension,
     $startDate,
-    $endDate
+    $endDate,
 );
 $columns = $videoReport->getColumnsIdToNameInOrder($availableDimensions[$dimension]);
 $summaryRow = $videoReport->getSummaryRowFromDataTable($dataTable);
@@ -132,7 +132,7 @@ if ($selectedDimensionExpanded && !empty($expandId)) {
         $startDate,
         $endDate,
         $dimension,
-        $expandId
+        $expandId,
     );
 }
 $isThereAnyData = @$summaryRow[1] > 0;

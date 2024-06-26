@@ -263,17 +263,17 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertTrue($oUserConf->writeConfigChange($this->basePath, $userFilename), 'Error writing config file');
 
         $expected = ['foo' => ['one' => 'bar',
-                                         'two' => 'baz',
-                                         'new' => 'additional_value'],
-                          'webpath' => ['admin' => 'localhost',
-                                             'delivery' => 'localhost',
-                                             'deliverySSL' => 'localhost'],
-                          'new' => ['new_key' => 'new_value']];
+            'two' => 'baz',
+            'new' => 'additional_value'],
+            'webpath' => ['admin' => 'localhost',
+                'delivery' => 'localhost',
+                'deliverySSL' => 'localhost'],
+            'new' => ['new_key' => 'new_value']];
 
         $this->assertEqual(
             $expected,
             $oUserConf->mergeConfigChanges($this->basePath . '/disthost.' . $distFilename . '.conf.php'),
-            'Config files don\'t match'
+            'Config files don\'t match',
         );
 
         // Clean up
@@ -342,7 +342,7 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(
             $expected,
             OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
-            'Filenames don\'t match'
+            'Filenames don\'t match',
         );
 
         // Test when backup filename already exists.
@@ -353,7 +353,7 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(
             $expected0,
             OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
-            'Filenames don\'t match'
+            'Filenames don\'t match',
         );
 
         // Clean up
@@ -370,7 +370,7 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(
             $expected,
             OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
-            'Filenames don\'t match'
+            'Filenames don\'t match',
         );
 
         // Clean up

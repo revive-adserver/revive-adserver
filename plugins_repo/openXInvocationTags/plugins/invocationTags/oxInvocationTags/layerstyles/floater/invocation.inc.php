@@ -17,7 +17,7 @@ define('phpAds_adLayerLoaded', true);
 
 // Register input variables
 MAX_commonRegisterGlobalsArray(['ltr', 'loop', 'speed', 'pause', 'shiftv', 'transparent', 'backcolor',
-                       'limited', 'lmargin', 'rmargin']);
+    'limited', 'lmargin', 'rmargin']);
 
 
 /**
@@ -229,7 +229,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'layerstyle' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
+            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         ];
     }
 

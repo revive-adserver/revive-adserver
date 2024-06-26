@@ -69,7 +69,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         $aDates =
             $this->oDal->getMaintenancePriorityLastRunInfo(
                 DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION,
-                ['start_run', 'end_run']
+                ['start_run', 'end_run'],
             );
         if (!is_null($aDates)) {
             // Set the details of the last time Priority Compensation started running
@@ -111,7 +111,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                 $oStartDate,
                 $oEndDate,
                 null,
-                DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION
+                DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION,
             );
         }
     }
@@ -309,7 +309,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                     'required_impressions' => $oAdvert->requiredImpressions,
                     'requested_impressions' => $oAdvert->requestedImpressions,
                     'to_be_delivered' => $oAdvert->toBeDelivered,
-                    'campaign_priority' => $oAdvert->campaignPriority
+                    'campaign_priority' => $oAdvert->campaignPriority,
                 ];
             }
             $result['blank'] = 1;
@@ -331,7 +331,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                 'required_impressions' => $oAdvert->requiredImpressions,
                 'requested_impressions' => $oAdvert->requestedImpressions,
                 'to_be_delivered' => $oAdvert->toBeDelivered,
-                'campaign_priority' => $oAdvert->campaignPriority
+                'campaign_priority' => $oAdvert->campaignPriority,
             ];
             $usedImpressions += $oAdvert->requestedImpressions;
         }
@@ -390,7 +390,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                     $oAdvert,
                     $pastActualImpressions,
                     $oZone->id,
-                    $oZone->active
+                    $oZone->active,
                 );
             // Store if the creative is meant to be delivered, or not
             $result['ads'][$oAdvert->id]['to_be_delivered'] = $to_be_delivered;
@@ -468,7 +468,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                         $oAdvert->pastAdZonePriorityFactor,
                         $oAdvert->pastRequestedImpressions,
                         $oAdvert->pastActualImpressions,
-                        false
+                        false,
                     );
                     return [$factor, $limited, $fraction, 1];
                 }
@@ -482,7 +482,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                     $oAdvert->pastAdZonePriorityFactor,
                     $oAdvert->pastRequestedImpressions,
                     $oAdvert->pastActualImpressions,
-                    true
+                    true,
                 );
                 return [$factor, $limited, $fraction, 1];
             }

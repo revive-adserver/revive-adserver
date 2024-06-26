@@ -62,7 +62,7 @@ function MAX_AclAdjust($acl, $action)
             'data' => '',
             'executionorder' => $count,
             'logical' => isset($acl[$count - 1]) ? $acl[$count - 1]['logical'] : '',
-            'type' => $_REQUEST['type']
+            'type' => $_REQUEST['type'],
         ];
     }
     if (!empty($action['del'])) {

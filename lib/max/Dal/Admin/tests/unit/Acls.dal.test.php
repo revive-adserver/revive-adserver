@@ -51,9 +51,9 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
 
         // Generate acls, two of them with the same $bannerId
         $data = [
-           'bannerid' => [$bannerId, $bannerId, 3],
-           'data' => ["$channelId,2,3", '4,5,6', "$channelId"],
-           'executionorder' => [1, 2, 3]
+            'bannerid' => [$bannerId, $bannerId, 3],
+            'data' => ["$channelId,2,3", '4,5,6', "$channelId"],
+            'executionorder' => [1, 2, 3],
         ];
 
         DataGenerator::setData('acls', $data);

@@ -107,11 +107,11 @@ class OX_Extension_Common
                 $aConfig[$name] = $oComponentGroupManager->_getComponentGroupConfiguration($name);
                 if (!empty($aConfig[$name]['preferences'])) {
                     $aOptions[$name] = [
-                                                'name' => $name,
-                                                'text' => ($aConfig[$name]['option'] ?: $name),
-                                                'value' => 'account-preferences-plugin.php?group=' . $name,
-                                                'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
-                                             ];
+                        'name' => $name,
+                        'text' => ($aConfig[$name]['option'] ?: $name),
+                        'value' => 'account-preferences-plugin.php?group=' . $name,
+                        'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
+                    ];
                 }
             }
         }

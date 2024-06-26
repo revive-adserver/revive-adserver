@@ -229,18 +229,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $joinTable2 = $this->_getTablenameUnquoted('data_intermediate_ad');
         $query['table'] = $table;
         $query['fields'] = [
-                                "SUM($joinTable2.requests) AS sum_requests",
-                                "SUM($joinTable2.impressions) AS sum_views",
-                                "SUM($joinTable2.clicks) AS sum_clicks",
-                                "SUM($joinTable2.conversions) AS sum_conversions",
-                                "$table.campaignid AS placement_id"
+            "SUM($joinTable2.requests) AS sum_requests",
+            "SUM($joinTable2.impressions) AS sum_views",
+            "SUM($joinTable2.clicks) AS sum_clicks",
+            "SUM($joinTable2.conversions) AS sum_conversions",
+            "$table.campaignid AS placement_id",
         ];
         $query['wheres'] = [
-        ["$table.campaignid = $id", 'AND']
+            ["$table.campaignid = $id", 'AND'],
         ];
         $query['joins'] = [
-        [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
-        [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id"]
+            [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
+            [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id"],
         ];
         $query['group'] = "placement_id";
         return $this->_get($query);
@@ -262,8 +262,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $table = $this->_getTablenameUnquoted('campaigns');
         $aWheres = [
-        ["$table.priority = " . DataObjects_Campaigns::PRIORITY_ECPM, 'AND'],
-        ["$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'],
+            ["$table.priority = " . DataObjects_Campaigns::PRIORITY_ECPM, 'AND'],
+            ["$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'],
         ];
         return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
     }
@@ -288,10 +288,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $table = $this->_getTablenameUnquoted('campaigns');
         $do = OA_Dal::factoryDO('Campaigns');
         $aWheres = [
-        ["$table.priority = " . $priority, 'AND'],
-        ["$table.ecpm_enabled = 1", 'AND'],
-        ["$table.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT, 'AND'],
-        ["$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'],
+            ["$table.priority = " . $priority, 'AND'],
+            ["$table.ecpm_enabled = 1", 'AND'],
+            ["$table.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT, 'AND'],
+            ["$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'],
         ];
         return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
     }
@@ -315,9 +315,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $table = $this->_getTablenameUnquoted('campaigns');
         $do = OA_Dal::factoryDO('Campaigns');
         $aWheres = [
-        ["$table.priority = " . $priority, 'AND'],
-        ["$table.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT, 'AND'],
-        ["$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'],
+            ["$table.priority = " . $priority, 'AND'],
+            ["$table.type = " . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT, 'AND'],
+            ["$table.revenue_type != " . MAX_FINANCE_CPM, 'AND'],
         ];
         return $this->getAgencyCampaignsDeliveriesToDate($id, $aWheres);
     }
@@ -351,23 +351,23 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $joinTable3 = $this->_getTablenameUnquoted('clients');
         $query['table'] = $table;
         $query['fields'] = [
-                                "SUM($joinTable2.impressions) AS sum_impressions",
-                                "SUM($joinTable2.clicks) AS sum_clicks",
-                                "SUM($joinTable2.conversions) AS sum_conversions",
-                                "$table.campaignid AS campaign_id"
+            "SUM($joinTable2.impressions) AS sum_impressions",
+            "SUM($joinTable2.clicks) AS sum_clicks",
+            "SUM($joinTable2.conversions) AS sum_conversions",
+            "$table.campaignid AS campaign_id",
         ];
         $query['wheres'] = [
-        ["$joinTable3.agencyid = $id", 'AND'],
-        ["$joinTable1.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
-        ["$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+            ["$joinTable3.agencyid = $id", 'AND'],
+            ["$joinTable1.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+            ["$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
         ];
         if (!empty($aWheres)) {
             $query['wheres'] = array_merge($query['wheres'], $aWheres);
         }
         $query['joins'] = [
-        [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
-        [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id"],
-        [$joinTable3, "$joinTable3.clientid = $table.clientid"]
+            [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
+            [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id"],
+            [$joinTable3, "$joinTable3.clientid = $table.clientid"],
         ];
         $query['group'] = "campaign_id";
         $result = $this->_get($query);
@@ -376,7 +376,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $aResult[$row['campaign_id']] = [
                 'sum_impressions' => $row['sum_impressions'],
                 'sum_clicks' => $row['sum_clicks'],
-                'sum_conversions' => $row['sum_conversions']
+                'sum_conversions' => $row['sum_conversions'],
             ];
         }
         return $aResult;
@@ -418,18 +418,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 
         $query['table'] = $table;
         $query['fields'] = [
-                                "SUM($joinTable2.requests) AS sum_requests",
-                                "SUM($joinTable2.impressions) AS sum_views",
-                                "SUM($joinTable2.clicks) AS sum_clicks",
-                                "SUM($joinTable2.conversions) AS sum_conversions",
-                                "$table.campaignid AS placement_id"
+            "SUM($joinTable2.requests) AS sum_requests",
+            "SUM($joinTable2.impressions) AS sum_views",
+            "SUM($joinTable2.clicks) AS sum_clicks",
+            "SUM($joinTable2.conversions) AS sum_conversions",
+            "$table.campaignid AS placement_id",
         ];
         $query['wheres'] = [
-        ["$table.campaignid = $id", 'AND']
+            ["$table.campaignid = $id", 'AND'],
         ];
         $query['joins'] = [
-        [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
-        [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "' AND $joinTable2.date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'"]
+            [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
+            [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "' AND $joinTable2.date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'"],
         ];
         $query['group'] = "placement_id";
         return $this->_get($query);
@@ -474,8 +474,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             'sum_requests',
             'sum_views',
             'sum_clicks',
-            'sum_conversions'
-            ];
+            'sum_conversions',
+        ];
         foreach ($items as $item) {
             if (!empty($aPlacementsStats[0][$item])) {
                 $aPlacements[$item] = $aPlacementsStats[0][$item];
@@ -506,25 +506,25 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $query['table'] = $table;
 
         $query['joins'] = [
-        [$tableB, "$table.ad_id = $tableB.bannerid"],
-        [$tableC, "$tableB.campaignid = $tableC.campaignid"]
+            [$tableB, "$table.ad_id = $tableB.bannerid"],
+            [$tableC, "$tableB.campaignid = $tableC.campaignid"],
         ];
 
         $query['fields'] = [
-                                "$table.zone_id",
-                                "$table.ad_id",
-                                "$table.required_impressions",
-                                "$table.requested_impressions",
-                                "$table.to_be_delivered"
+            "$table.zone_id",
+            "$table.ad_id",
+            "$table.required_impressions",
+            "$table.requested_impressions",
+            "$table.to_be_delivered",
         ];
         $query['orderBys'] = [
-        ["$table.zone_id", 'ASC'],
-        ["$table.ad_id", 'ASC']
+            ["$table.zone_id", 'ASC'],
+            ["$table.ad_id", 'ASC'],
         ];
         $query['wheres'] = [
-        ["$tableC.priority > 0", 'AND'],
-        ["$tableC.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
-        ["$tableB.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+            ["$tableC.priority > 0", 'AND'],
+            ["$tableC.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
+            ["$tableB.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
         ];
         return $this->_get($query);
     }
@@ -945,8 +945,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             'to_be_delivered' => $aPastPriorityResult[$a][$z]['to_be_delivered'] ?? null,
                             'priority_factor' => $aPastPriorityResult[$a][$z]['priority_factor'] ?? null,
                             'past_zone_traffic_fraction' => $aPastPriorityResult[$a][$z]['past_zone_traffic_fraction'] ?? null,
-                            'impressions' => $aPastDeliveryResult[$a][$z]['impressions'] ?? null
-                            ];
+                            'impressions' => $aPastDeliveryResult[$a][$z]['impressions'] ?? null,
+                        ];
                     }
                 }
             }
@@ -1052,8 +1052,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 'requested_impressions' => $aNonDeliveringPastPriorityResult[$a][$z]['requested_impressions'],
                                 'to_be_delivered' => $aNonDeliveringPastPriorityResult[$a][$z]['to_be_delivered'],
                                 'priority_factor' => $aNonDeliveringPastPriorityResult[$a][$z]['priority_factor'],
-                                'past_zone_traffic_fraction' => $aNonDeliveringPastPriorityResult[$a][$z]['past_zone_traffic_fraction']
-                                ];
+                                'past_zone_traffic_fraction' => $aNonDeliveringPastPriorityResult[$a][$z]['past_zone_traffic_fraction'],
+                            ];
                         }
                     }
                 }
@@ -1258,7 +1258,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     'timestamp',
                     'integer',
                     'integer',
-                    ];
+                ];
                 $stSelectSumImpressions = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_RESULT);
 
                 OA::debug('  - Looping over each zone linked to ' . count($aNotInLastOIPastPriorityResult) . ' ads');
@@ -1274,8 +1274,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aNotInLastOIPastPriorityResult[$a][$z]['interval_start'],
                             $aNotInLastOIPastPriorityResult[$a][$z]['interval_end'],
                             $a,
-                            $z
-                            ];
+                            $z,
+                        ];
                         $rsResult = $stSelectSumImpressions->execute($aData);
                         $aResult = $rsResult->fetchAll();
                         if (isset($aResult[0]['impressions'])) {
@@ -1298,8 +1298,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 'requested_impressions' => $aNotInLastOIPastPriorityResult[$a][$z]['requested_impressions'],
                                 'to_be_delivered' => $aNotInLastOIPastPriorityResult[$a][$z]['to_be_delivered'],
                                 'priority_factor' => $aNotInLastOIPastPriorityResult[$a][$z]['priority_factor'],
-                                'past_zone_traffic_fraction' => $aNotInLastOIPastPriorityResult[$a][$z]['past_zone_traffic_fraction']
-                                ];
+                                'past_zone_traffic_fraction' => $aNotInLastOIPastPriorityResult[$a][$z]['past_zone_traffic_fraction'],
+                            ];
                             if (isset($aNotInLastOIPastPriorityResult[$a][$z]['impressions'])) {
                                 $aFinalResult[$a][$z]['impressions'] = $aNotInLastOIPastPriorityResult[$a][$z]['impressions'];
                             }
@@ -1354,7 +1354,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         'requested_impressions' => $aRow['requested_impressions'],
                         'to_be_delivered' => $aRow['to_be_delivered'],
                         'priority_factor' => $aRow['priority_factor'],
-                        'past_zone_traffic_fraction' => $aRow['past_zone_traffic_fraction']
+                        'past_zone_traffic_fraction' => $aRow['past_zone_traffic_fraction'],
                     ];
                     if (isset($aRow['operation_interval'])) {
                         $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['operation_interval'] = $aRow['operation_interval'];
@@ -1801,30 +1801,30 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             empty($aAdZonePriority['priority_factor_limited']) ? 0 : 1,
                             $aAdZonePriority['past_zone_traffic_fraction'] ?? null,
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
-                            0
-                            ];
+                            0,
+                        ];
                     }
                 }
             }
             if (is_array($aValues) && !empty($aValues)) {
                 $tableNameUnquoted = $this->_getTablenameUnquoted('data_summary_ad_zone_assoc');
                 $fields = [
-                            'operation_interval',
-                            'operation_interval_id',
-                            'interval_start',
-                            'interval_end',
-                            'ad_id',
-                            'zone_id',
-                            'required_impressions',
-                            'requested_impressions',
-                            'to_be_delivered',
-                            'priority',
-                            'priority_factor',
-                            'priority_factor_limited',
-                            'past_zone_traffic_fraction',
-                            'created',
-                            'created_by'
-                    ];
+                    'operation_interval',
+                    'operation_interval_id',
+                    'interval_start',
+                    'interval_end',
+                    'ad_id',
+                    'zone_id',
+                    'required_impressions',
+                    'requested_impressions',
+                    'to_be_delivered',
+                    'priority',
+                    'priority_factor',
+                    'priority_factor_limited',
+                    'past_zone_traffic_fraction',
+                    'created',
+                    'created_by',
+                ];
                 $this->batchInsert($tableNameUnquoted, $aValues, $fields);
             }
         }
@@ -1898,8 +1898,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $data = [];
             foreach ($aData as $aValues) {
                 $data[] = [
-                $aValues['ad_id'],
-                $aValues['required_impressions']
+                    $aValues['ad_id'],
+                    $aValues['required_impressions'],
                 ];
             }
             $this->batchInsert($tableNameUnquoted, $data, ['ad_id', 'required_impressions']);
@@ -2029,12 +2029,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $table = $this->_getTablenameUnquoted('ad_zone_assoc');
         $query['table'] = $table;
         $query['fields'] = [
-                                "$table.ad_id AS ad_id",
-                                "$table.zone_id AS zone_id"
+            "$table.ad_id AS ad_id",
+            "$table.zone_id AS zone_id",
         ];
         $query['wheres'] = [
-        ["$table.ad_id IN (" . implode(', ', $aAdvertID) . ')', 'AND'],
-        ["$table.link_type = " . MAX_AD_ZONE_LINK_NORMAL, 'AND']
+            ["$table.ad_id IN (" . implode(', ', $aAdvertID) . ')', 'AND'],
+            ["$table.link_type = " . MAX_AD_ZONE_LINK_NORMAL, 'AND'],
         ];
         $result = $this->_get($query);
         $aResult = [];
@@ -2063,11 +2063,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $data = [];
             foreach ($aData as $aValues) {
                 $data[] = [
-                $aValues['ad_id'],
-                $aValues['zone_id'],
-                $aValues['required_impressions'],
-                $aValues['requested_impressions'],
-                empty($aValues['to_be_delivered']) ? 0 : 1
+                    $aValues['ad_id'],
+                    $aValues['zone_id'],
+                    $aValues['required_impressions'],
+                    $aValues['requested_impressions'],
+                    empty($aValues['to_be_delivered']) ? 0 : 1,
                 ];
             }
             $this->batchInsert($tableNameUnquoted, $data, ['ad_id', 'zone_id', 'required_impressions', 'requested_impressions', 'to_be_delivered']);
@@ -2175,7 +2175,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     [
                         'zone_id' => $zoneId,
                         'forecast_impressions' => $aRow['forecast_impressions'],
-                        'operation_interval_id' => $aRow['operation_interval_id']
+                        'operation_interval_id' => $aRow['operation_interval_id'],
                     ];
                 $count++;
                 $totalForecastImpressions += $aRow['forecast_impressions'];
@@ -2197,7 +2197,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     'zone_id' => $zoneId,
                     'forecast_impressions' => $averageForecastImpressions,
                     'operation_interval_id' => $operationIntervalID,
-                    ];
+                ];
             }
         }
         // Overwrite current OI with previous OI to match the zone forecasting algorithm
@@ -2492,11 +2492,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
             if (!isset($aResult[$aRow['campaignid']])) {
                 $aResult[$aRow['campaignid']] = [
-                $idxRevenue => $aRow['revenue'],
-                $idxRevenueType => $aRow['revenue_type'],
-                $idxActivate => $aRow['activate_time'],
-                $idxExpire => $aRow['expire_time'],
-                $idxAds => [],
+                    $idxRevenue => $aRow['revenue'],
+                    $idxRevenueType => $aRow['revenue_type'],
+                    $idxActivate => $aRow['activate_time'],
+                    $idxExpire => $aRow['expire_time'],
+                    $idxAds => [],
                 ];
             }
             if (!isset($aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']])) {

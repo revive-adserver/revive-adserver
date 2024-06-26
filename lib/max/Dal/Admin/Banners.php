@@ -273,7 +273,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             $tableB,
             [],
             "bannerid=" . DBC::makeLiteral($bannerId),
-            ['campaignid' => DBC::makeLiteral($campaignId)]
+            ['campaignid' => DBC::makeLiteral($campaignId)],
         );
     }
 

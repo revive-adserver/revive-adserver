@@ -41,13 +41,13 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Agency',
             'PartialMockOA_Dll_Agency_PublisherTest',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
         parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Publisher',
             'PartialMockOA_Dll_Publisher_PublisherTest',
-            ['checkPermissions', 'getDefaultAgencyId']
+            ['checkPermissions', 'getDefaultAgencyId'],
         );
     }
 
@@ -80,7 +80,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllPublisherPartialMock->modify($oPublisherInfo),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         $this->assertTrue($oPublisherInfo->accountId);
@@ -90,13 +90,13 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllPublisherPartialMock->modify($oPublisherInfo),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         // Delete
         $this->assertTrue(
             $dllPublisherPartialMock->delete($oPublisherInfo->publisherId),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         // Modify not existing id
@@ -104,14 +104,14 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
             (!$dllPublisherPartialMock->modify($oPublisherInfo) &&
                           $dllPublisherPartialMock->getLastError() ==
                             $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         // Delete not existing id
         $this->assertTrue(
             (!$dllPublisherPartialMock->delete($oPublisherInfo->publisherId) &&
              $dllPublisherPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllPublisherPartialMock   ->tally();
@@ -136,7 +136,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $oAgencyInfo->password = 'password';
         $this->assertTrue(
             $dllAgencyPartialMock->modify($oAgencyInfo),
-            $dllAgencyPartialMock->getLastError()
+            $dllAgencyPartialMock->getLastError(),
         );
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $oAgencyInfo->agencyId);
@@ -153,12 +153,12 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllPublisherPartialMock->modify($oPublisherInfo1),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         $this->assertTrue(
             $dllPublisherPartialMock->modify($oPublisherInfo2),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
         $this->assertTrue($oPublisherInfo1->accountId);
         $this->assertTrue($oPublisherInfo2->accountId);
@@ -169,16 +169,16 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertTrue(
             $dllPublisherPartialMock->getPublisher(
                 $oPublisherInfo1->publisherId,
-                $oPublisherInfo1Get
+                $oPublisherInfo1Get,
             ),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
         $this->assertTrue(
             $dllPublisherPartialMock->getPublisher(
                 $oPublisherInfo2->publisherId,
-                $oPublisherInfo2Get
+                $oPublisherInfo2Get,
             ),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         // Check field value
@@ -187,7 +187,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'emailAddress');
         $this->assertFalse(
             isset($oPublisherInfo1Get->password),
-            'Field \'password\' must be null'
+            'Field \'password\' must be null',
         );
         $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');
 
@@ -196,13 +196,13 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertTrue(
             $dllPublisherPartialMock->getPublisherListByAgencyId(
                 $oAgencyInfo->agencyId,
-                $aPublisherList
+                $aPublisherList,
             ),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
         $this->assertEqual(
             count($aPublisherList) == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
         $oPublisherInfo1Get = $aPublisherList[0];
         $oPublisherInfo2Get = $aPublisherList[1];
@@ -220,17 +220,17 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         // Delete
         $this->assertTrue(
             $dllPublisherPartialMock->delete($oPublisherInfo1->publisherId),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         // Get not existing id
         $this->assertTrue(
             (!$dllPublisherPartialMock->getPublisher(
                 $oPublisherInfo1->publisherId,
-                $oPublisherInfo1Get
+                $oPublisherInfo1Get,
             ) &&
                           $dllPublisherPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllPublisherPartialMock->tally();
@@ -259,7 +259,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllPublisherPartialMock->modify($oPublisherInfo),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         // Get no data
@@ -270,9 +270,9 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
                 new Date('2001-12-01'),
                 new Date('2007-09-19'),
                 false,
-                $rsPublisherStatistics
+                $rsPublisherStatistics,
             ),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         $this->assertTrue(isset($rsPublisherStatistics));
@@ -290,16 +290,16 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
                 new Date('2007-09-19'),
                 new Date('2001-12-01'),
                 false,
-                $rsPublisherStatistics
+                $rsPublisherStatistics,
             ) &&
             $dllPublisherPartialMock->getLastError() == $this->wrongDateError),
-            $this->_getMethodShouldReturnError($this->wrongDateError)
+            $this->_getMethodShouldReturnError($this->wrongDateError),
         );
 
         // Delete
         $this->assertTrue(
             $dllPublisherPartialMock->delete($oPublisherInfo->publisherId),
-            $dllPublisherPartialMock->getLastError()
+            $dllPublisherPartialMock->getLastError(),
         );
 
         // Test statistics for not existing id
@@ -310,10 +310,10 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
                 new Date('2001-12-01'),
                 new Date('2007-09-19'),
                 false,
-                $rsPublisherStatistics
+                $rsPublisherStatistics,
             ) &&
             $dllPublisherPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllPublisherPartialMock->tally();

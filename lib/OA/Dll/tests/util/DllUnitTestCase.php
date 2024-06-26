@@ -52,14 +52,14 @@ class DllUnitTestCase extends UnitTestCase
             $this->assertEqual(
                 $oObj1->$fieldName->format("%Y-%m-%d"),
                 $oObj2->$fieldName->format("%Y-%m-%d"),
-                'Field \'' . $fieldName . '\' value is incorrect'
+                'Field \'' . $fieldName . '\' value is incorrect',
             );
         } else {
             if (isset($oObj1->$fieldName) || isset($oObj2->$fieldName)) {
                 $this->assertEqual(
                     $oObj1->$fieldName,
                     $oObj2->$fieldName,
-                    'Field \'' . $fieldName . '\' value is incorrect'
+                    'Field \'' . $fieldName . '\' value is incorrect',
                 );
             }
         }

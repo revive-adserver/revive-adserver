@@ -85,7 +85,7 @@ class InstallCommand extends AbstractInstallerCommand
             'action' => 'database',
         ]);
         $_REQUEST = [
-            '_qf__install-db-form' => '1'
+            '_qf__install-db-form' => '1',
         ];
 
         $oRequest = new \OX_Admin_UI_Controller_Request();
@@ -113,7 +113,7 @@ class InstallCommand extends AbstractInstallerCommand
             'action' => 'configuration',
         ]);
         $_REQUEST = [
-            '_qf__install-config-form' => '1'
+            '_qf__install-config-form' => '1',
         ];
 
         $oRequest = new \OX_Admin_UI_Controller_Request();

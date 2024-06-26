@@ -22,8 +22,8 @@ class Plugins_DeliveryDataPrepare_OxDeliveryGeo_DataGeo extends OX_Component
     {
         return [
             'deliveryDataPrepare:oxDeliveryGeo:dataGeo' => [
-                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon'
-            ]
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
+            ],
         ];
     }
 }

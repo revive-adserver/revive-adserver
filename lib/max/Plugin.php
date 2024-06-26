@@ -683,7 +683,7 @@ class MAX_Plugin
         $aOptions = [
             'cacheDir' => $cacheDir,
             'lifeTime' => $cacheExpire,
-            'automaticSerialization' => true
+            'automaticSerialization' => true,
         ];
         if (!is_dir($aOptions['cacheDir'])) {
             if (!MAX_Plugin::_mkDirRecursive($aOptions['cacheDir'], MAX_PLUGINS_VAR_WRITE_MODE)) {

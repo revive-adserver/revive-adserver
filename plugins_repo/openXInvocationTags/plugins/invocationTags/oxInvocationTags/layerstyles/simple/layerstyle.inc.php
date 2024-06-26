@@ -29,7 +29,7 @@ function MAX_layerGetLimitations()
 
     return [
         'richmedia' => $richmedia,
-        'compatible' => $compatible
+        'compatible' => $compatible,
     ];
 }
 
@@ -47,7 +47,7 @@ function MAX_layerPutJs($output, $uniqid)
     // Register input variables
     MAX_commonRegisterGlobalsArray([
         'align', 'valign', 'closetime', 'padding',
-        'shifth', 'shiftv', 'closebutton'
+        'shifth', 'shiftv', 'closebutton',
     ]);
 
     $padding = (int) ($padding ?? 2);
@@ -202,7 +202,7 @@ function MAX_layerGetHtml($output, $uniqid)
     // Register input variables
     MAX_commonRegisterGlobalsArray([
         'padding', 'backcolor', 'bordercolor',
-        'closebutton', 'nobg', 'noborder'
+        'closebutton', 'nobg', 'noborder',
     ]);
 
     $padding = (int) ($padding ?? 2);

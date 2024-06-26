@@ -85,27 +85,27 @@ $aSettings = [
                 'type' => 'select',
                 'name' => 'tracker_default_status',
                 'text' => $strDefaultTrackerStatus,
-                'items' => $aStatuses
+                'items' => $aStatuses,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'select',
                 'name' => 'tracker_default_type',
                 'text' => $strDefaultTrackerType,
-                'items' => $aTrackerTypes
+                'items' => $aTrackerTypes,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'tracker_link_campaigns',
-                'text' => $strLinkCampaignsByDefault
-            ]
-        ]
-    ]
+                'text' => $strLinkCampaignsByDefault,
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

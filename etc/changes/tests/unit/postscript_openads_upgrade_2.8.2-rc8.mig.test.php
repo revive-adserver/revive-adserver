@@ -48,7 +48,7 @@ class Migration_postscript_2_8_2_RC8Test extends MigrationTest
         Mock::generatePartial(
             'OA_UpgradeLogger',
             $mockLogger = 'OA_UpgradeLogger' . rand(),
-            ['logOnly', 'logError', 'log']
+            ['logOnly', 'logError', 'log'],
         );
 
         $oLogger = new $mockLogger($this);
@@ -59,7 +59,7 @@ class Migration_postscript_2_8_2_RC8Test extends MigrationTest
         Mock::generatePartial(
             'OA_Upgrade',
             $mockUpgrade = 'OA_Upgrade' . rand(),
-            ['addPostUpgradeTask']
+            ['addPostUpgradeTask'],
         );
         $mockUpgrade = new $mockUpgrade($this);
         $mockUpgrade->setReturnValue('addPostUpgradeTask', true);
@@ -141,15 +141,15 @@ class Migration_postscript_2_8_2_RC8Test extends MigrationTest
         // Test succesful upgrade
         $aResult = $oDbh->queryAll("SELECT data FROM {$tblAcls} ORDER BY bannerid, executionorder");
         $this->assertEqual($aResult, [
-          ['data' => '20090701@America/New_York'], // Agency 1 TZ
-          ['data' => '3,4@America/New_York'],      // Agency 1 TZ
-          ['data' => '3,15@UTC'],                  // Hardcoded TZ - skipped
-          ['data' => '127.0.0.1'],                 // Non-time - skipped
-          ['data' => '20090702@America/New_York'], // Agency 1 TZ
-          ['data' => '20090703@America/New_York'], // Agency 1 TZ
-          ['data' => '20090704@Europe/Rome'],      // Admin TZ
-          ['data' => '127.0.0.1'],                 // Non-time - skipped,
-          ['data' => '20090705@Asia/Tokio'],       // Agency 3 TZ
+            ['data' => '20090701@America/New_York'], // Agency 1 TZ
+            ['data' => '3,4@America/New_York'],      // Agency 1 TZ
+            ['data' => '3,15@UTC'],                  // Hardcoded TZ - skipped
+            ['data' => '127.0.0.1'],                 // Non-time - skipped
+            ['data' => '20090702@America/New_York'], // Agency 1 TZ
+            ['data' => '20090703@America/New_York'], // Agency 1 TZ
+            ['data' => '20090704@Europe/Rome'],      // Admin TZ
+            ['data' => '127.0.0.1'],                 // Non-time - skipped,
+            ['data' => '20090705@Asia/Tokio'],       // Agency 3 TZ
         ]);
     }
 }

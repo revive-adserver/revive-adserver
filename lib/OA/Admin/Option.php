@@ -135,39 +135,39 @@ class OA_Admin_Option
                 [
                     'name' => $GLOBALS['strBannerPreferences'],
                     'value' => $this->_optionType . '-banner.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['campaign'] =
                 [
                     'name' => $GLOBALS['strCampaignPreferences'],
                     'value' => $this->_optionType . '-campaign.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                 ];
             $aSections['campaign-email-reports'] =
                 [
                     'name' => $GLOBALS['strCampaignEmailReportsPreferences'],
                     'value' => $this->_optionType . '-campaign-email-reports.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions']) {
                 $aSections['tracker'] =
                     [
                         'name' => $GLOBALS['strTrackerPreferences'],
                         'value' => $this->_optionType . '-tracker.php',
-                        'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER]
+                        'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     ];
             }
             $aSections['timezone'] =
                 [
                     'name' => $GLOBALS['strTimezonePreferences'],
                     'value' => $this->_optionType . '-timezone.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['user-interface'] =
                 [
                     'name' => $GLOBALS['strUserInterfacePreferences'],
                     'value' => $this->_optionType . '-user-interface.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $this->_mergePluginOptions($aSections);
         } elseif ($this->_optionType == 'account-user') {
@@ -175,17 +175,17 @@ class OA_Admin_Option
             $aSections['name-language'] =
                 [
                     'name' => $GLOBALS['strNameLanguage'],
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['email'] =
                 [
                     'name' => $GLOBALS['strChangeEmail'],
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['password'] =
                 [
                     'name' => $GLOBALS['strChangePassword'],
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
         }/*
         elseif ($this->_optionType == 'account-user') {
@@ -371,12 +371,12 @@ class OA_Admin_Option
                             // Create two fake items for the label and rank
                             $aLabelItem = [
                                 'name' => $aSubItem['name'] . '_label',
-                                'depends' => $aSubItem['name'] . '==true'
+                                'depends' => $aSubItem['name'] . '==true',
                             ];
                             $aRankItem = [
                                 'name' => $aSubItem['name'] . '_rank',
                                 'depends' => $aSubItem['name'] . '==true',
-                                'check' => 'wholeNumber'
+                                'check' => 'wholeNumber',
                             ];
                             $checkbuffer .= "max_formSetRequirements('" . $aSubItem['name'] . '_rank' . "', '" . addslashes($aSubItem['text']) . "', false, 'wholeNumber');\n";
                             // Add the fake item dependencies
@@ -868,7 +868,7 @@ class OA_Admin_Option
                 $aPreference = $doPreferences->toArray();
                 $aPreferenceTypes[$aPreference['preference_name']] = [
                     'preference_id' => $aPreference['preference_id'],
-                    'account_type' => $aPreference['account_type']
+                    'account_type' => $aPreference['account_type'],
                 ];
             }
         }
@@ -997,7 +997,7 @@ class OA_Admin_Option
             PEAR_LOG_WARNING => 'PEAR_LOG_WARNING',
             PEAR_LOG_NOTICE => 'PEAR_LOG_NOTICE',
             PEAR_LOG_INFO => 'PEAR_LOG_INFO',
-            PEAR_LOG_DEBUG => 'PEAR_LOG_DEBUG'
+            PEAR_LOG_DEBUG => 'PEAR_LOG_DEBUG',
         ];
 
         if (array_key_exists($priority, $levels)) {

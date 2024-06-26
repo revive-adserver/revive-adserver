@@ -93,7 +93,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXPreferencesHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
@@ -118,7 +118,7 @@ foreach ($aStatisticsFieldsDelivery as $obj) {
     foreach ($aVars as $name => $text) {
         $aStatistics[] = [
             'text' => $text,
-            'name' => $name
+            'name' => $name,
         ];
     }
 }
@@ -132,33 +132,33 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_campaign_info',
-                'text' => $strShowCampaignInfo
+                'text' => $strShowCampaignInfo,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_banner_info',
-                'text' => $strShowBannerInfo
+                'text' => $strShowBannerInfo,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_campaign_preview',
-                'text' => $strShowCampaignPreview
+                'text' => $strShowCampaignPreview,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_banner_html',
-                'text' => $strShowBannerHTML
+                'text' => $strShowBannerHTML,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_banner_preview',
-                'text' => $strShowBannerPreview
+                'text' => $strShowBannerPreview,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
@@ -166,45 +166,45 @@ $aSettings = [
                 'text' => $strUseWyswygHtmlEditorByDefault,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_hide_inactive',
-                'text' => $strHideInactive
+                'text' => $strHideInactive,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_matching_banners',
-                'text' => $strGUIShowMatchingBanners
+                'text' => $strGUIShowMatchingBanners,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_matching_banners_parents',
-                'text' => $strGUIShowParentCampaigns
+                'text' => $strGUIShowParentCampaigns,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'ui_show_entity_id',
-                'text' => $strShowEntityId
-            ]
-        ]
+                'text' => $strShowEntityId,
+            ],
+        ],
     ],
     [
         'text' => $strConfirmationUI,
         'items' => [
-             [
+            [
                 'type' => 'checkbox',
                 'name' => 'ui_novice_user',
-                'text' => $strNovice
+                'text' => $strNovice,
             ],
-        ]
+        ],
     ],
     [
         'text' => $strStatisticsDefaults,
@@ -213,27 +213,27 @@ $aSettings = [
                 'type' => 'select',
                 'name' => 'ui_week_start_day',
                 'text' => $strBeginOfWeek,
-                'items' => [$strDayFullNames[0], $strDayFullNames[1]]
+                'items' => [$strDayFullNames[0], $strDayFullNames[1]],
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'select',
                 'name' => 'ui_percentage_decimals',
                 'text' => $strPercentageDecimals,
-                'items' => [0, 1, 2, 3]
+                'items' => [0, 1, 2, 3],
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'statscolumns',
                 'name' => '',
-                'rows' => $aStatistics
-            ]
-        ]
-    ]
+                'rows' => $aStatistics,
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

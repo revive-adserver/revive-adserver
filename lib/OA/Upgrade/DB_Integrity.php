@@ -113,13 +113,13 @@ class OA_DB_Integrity
         $aResult[] = 'output file: ' . $aVariables['output'];
 
         $options = [
-                            'output_mode' => 'file',
-                            'output' => $aVariables['output'],
-                            'end_of_line' => "\n",
-                            'xsl_file' => "",
-                            'custom_tags' => ['version' => $aVariables['schema'], 'status' => 'final', 'application' => $aVariables['appver']],
-                            'prefix' => $prefix,
-                          ];
+            'output_mode' => 'file',
+            'output' => $aVariables['output'],
+            'end_of_line' => "\n",
+            'xsl_file' => "",
+            'custom_tags' => ['version' => $aVariables['schema'], 'status' => 'final', 'application' => $aVariables['appver']],
+            'prefix' => $prefix,
+        ];
         $error = $this->oDBUpgrader->oSchema->dumpDatabaseContent($this->oDBUpgrader->aDefinitionNew, $options);
         if (PEAR::isError($error)) {
             $aResult[] = $error->getUserInfo();
@@ -336,7 +336,7 @@ class OA_DB_Integrity
         Mock::generatePartial(
             'Migration',
             $mockMigrator = 'Migration_' . random_int(0, mt_getrandmax()),
-            array_keys($this->aMigrationMethods)
+            array_keys($this->aMigrationMethods),
         );
         $this->oDBUpgrader->oMigrator = new $mockMigrator($this);
 

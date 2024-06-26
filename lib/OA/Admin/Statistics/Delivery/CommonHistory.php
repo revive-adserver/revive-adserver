@@ -181,7 +181,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Stati
                 'clearIfVoid' => false,
                 'urlVar' => 'page',
                 'useSessions' => false,
-                'mode' => 'Jumping'
+                'mode' => 'Jumping',
             ];
 
             if ($params['perPage'] % $per_page || $params['perPage'] > $per_page * 4) {
@@ -198,7 +198,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Stati
             $this->pagerSelect = preg_replace(
                 '/(<select.*?)(>)/i',
                 '$1 onchange="this.form.submit()"$2',
-                $pager->getPerPageSelectBox($per_page, $per_page * 4, $per_page)
+                $pager->getPerPageSelectBox($per_page, $per_page * 4, $per_page),
             );
         } else {
             $this->aStatsData = $aStats;
@@ -343,7 +343,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Stati
         return [
             'headers' => $headers,
             'formats' => $formats,
-            'data' => $data
+            'data' => $data,
         ];
     }
 }

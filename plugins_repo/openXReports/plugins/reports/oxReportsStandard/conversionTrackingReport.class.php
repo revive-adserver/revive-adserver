@@ -145,13 +145,13 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             'period' => [
                 'title' => $GLOBALS['strPeriod'],
                 'type' => 'date-month',
-                'default' => $default_period_preset
+                'default' => $default_period_preset,
             ],
             'scope' => [
                 'title' => $GLOBALS['strLimitations'],
                 'type' => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
-                'scope_publisher' => $default_scope_publisher
+                'scope_publisher' => $default_scope_publisher,
             ],
             'sheets' => [
                 'title' => $GLOBALS['strWorksheets'],
@@ -161,9 +161,9 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     'connection_by_day' => $this->translate("Connection Summary by Day"),
                     'variable_by_day' => $this->translate("Variable Summary by Day"),
                     'variable_by_variable' => $this->translate("Variable Summary by Variable"),
-                    'connection_detail' => $this->translate("Connection Detail")
-                ]
-            ]
+                    'connection_detail' => $this->translate("Connection Detail"),
+                ],
+            ],
         ];
         return $aImport;
     }
@@ -320,7 +320,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         $this->createSubReport(
             $this->translate("Performance by Day"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 
@@ -338,7 +338,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $worksheetName,
             $this->_name,
             $this->_getReportParametersForDisplay(),
-            $this->_getReportWarningsForDisplay()
+            $this->_getReportWarningsForDisplay(),
         );
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
@@ -431,7 +431,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $worksheetName,
             $this->_name,
             $this->_getReportParametersForDisplay(),
-            $this->_getReportWarningsForDisplay()
+            $this->_getReportWarningsForDisplay(),
         );
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
@@ -550,7 +550,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $worksheetName,
             $this->_name,
             $this->_getReportParametersForDisplay(),
-            $this->_getReportWarningsForDisplay()
+            $this->_getReportWarningsForDisplay(),
         );
         // Create a subsection for each tracker
         foreach ($aTrackerVariables as $trackerId => $aTracker) {
@@ -643,7 +643,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $worksheetName,
             $this->_name,
             $this->_getReportParametersForDisplay(),
-            $this->_getReportWarningsForDisplay()
+            $this->_getReportWarningsForDisplay(),
         );
         $aStatus = $this->_getConnectionStatuses();
         // Create a subsection for each tracker

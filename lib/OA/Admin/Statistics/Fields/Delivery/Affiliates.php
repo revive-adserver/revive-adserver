@@ -42,7 +42,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strRevenue_short'],
                 'rank' => 4,
                 'pref' => 'ui_column_revenue',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_bv'] =
@@ -51,7 +51,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strBasketValue_short'],
                 'pref' => 'ui_column_bv',
                 'format' => 'currency',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_num_items'] =
@@ -60,7 +60,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strNumberOfItems_short'],
                 'pref' => 'ui_column_num_items',
                 'format' => 'default',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_revcpc'] =
@@ -68,7 +68,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name' => $GLOBALS['strRevenueCPC'],
                 'short' => $GLOBALS['strRevenueCPC_short'],
                 'pref' => 'ui_column_revcpc',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_erpm'] =
@@ -76,7 +76,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name' => $GLOBALS['strERPM'],
                 'short' => $GLOBALS['strERPM_short'],
                 'pref' => 'ui_column_erpm',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_erpc'] =
@@ -84,7 +84,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name' => $GLOBALS['strERPC'],
                 'short' => $GLOBALS['strERPC_short'],
                 'pref' => 'ui_column_erpc',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_erps'] =
@@ -93,7 +93,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strERPS_short'],
                 'pref' => 'ui_column_erps',
                 'format' => 'currency',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_eipm'] =
@@ -101,7 +101,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name' => $GLOBALS['strEIPM'],
                 'short' => $GLOBALS['strEIPM_short'],
                 'pref' => 'ui_column_eipm',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_eipc'] =
@@ -109,7 +109,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name' => $GLOBALS['strEIPC'],
                 'short' => $GLOBALS['strEIPC_short'],
                 'pref' => 'ui_column_eipc',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_eips'] =
@@ -118,7 +118,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strEIPS_short'],
                 'pref' => 'ui_column_eips',
                 'format' => 'currency',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_ecpm'] =
@@ -127,7 +127,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strECPM_short'],
                 'rank' => 5,
                 'pref' => 'ui_column_ecpm',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_ecpc'] =
@@ -135,7 +135,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'name' => $GLOBALS['strECPC'],
                 'short' => $GLOBALS['strECPC_short'],
                 'pref' => 'ui_column_ecpc',
-                'format' => 'currency'
+                'format' => 'currency',
             ];
 
         $this->_aFields['sum_ecps'] =
@@ -144,7 +144,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strECPS_short'],
                 'pref' => 'ui_column_ecps',
                 'format' => 'currency',
-                'ctf' => true
+                'ctf' => true,
             ];
     }
 

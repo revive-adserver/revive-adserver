@@ -46,7 +46,7 @@ class Test_RV_Sync extends UnitTestCase
             '2.6.0-rc57-custom' => 2600.357,
             '2.6.0-custom' => 2600.400,
 
-            'foo' => false
+            'foo' => false,
         ];
 
         foreach ($aVersions as $version => $config_version) {

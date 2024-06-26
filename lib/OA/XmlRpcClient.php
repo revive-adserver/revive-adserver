@@ -38,7 +38,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $proxy = '',
         $proxy_port = 0,
         $proxy_user = '',
-        $proxy_pass = ''
+        $proxy_pass = '',
     ) {
         if ($aExtensions = OA::getAvailableSSLExtensions()) {
             $this->hasCurl = in_array('curl', $aExtensions);
@@ -77,7 +77,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $port,
         $timeout = 0,
         $username = '',
-        $password = ''
+        $password = '',
     ) {
         if (!empty($timeout)) {
             // Set timeout
@@ -91,12 +91,12 @@ class OA_XML_RPC_Client extends XML_RPC_Client
             'http' => [
                 'method' => 'POST',
                 'header' => preg_replace('/^.*?\r\n/', '', $this->headers),
-                'content' => $msg->payload
+                'content' => $msg->payload,
             ],
             'ssl' => [
                 'verify_peer' => $this->verifyPeer,
-                'cafile' => $this->caFile
-            ]
+                'cafile' => $this->caFile,
+            ],
         ]);
 
         $protocol = $this->protocol == 'ssl://' ? 'https://' : 'http://';
@@ -113,7 +113,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                 'Connection to RPC server '
                               . $server . ':' . $port
                               . ' failed. ' . $this->errstr,
-                XML_RPC_ERROR_CONNECTION_FAILED
+                XML_RPC_ERROR_CONNECTION_FAILED,
             );
             return 0;
         }
@@ -138,7 +138,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $port,
         $timeout = 0,
         $username = '',
-        $password = ''
+        $password = '',
     ) {
         $this->_sendHttpGenerate($msg, $username, $password);
 
@@ -169,7 +169,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                     'Connection to RPC server '
                                   . $server . ':' . $port
                                   . ' failed. ' . $this->errstr,
-                    XML_RPC_ERROR_CONNECTION_FAILED
+                    XML_RPC_ERROR_CONNECTION_FAILED,
                 );
             }
 
@@ -187,7 +187,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $port,
         $timeout = 0,
         $username = '',
-        $password = ''
+        $password = '',
     ) {
         if ($this->hasCurl || $this->hasOpenssl) {
             $args = func_get_args();

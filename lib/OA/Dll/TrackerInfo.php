@@ -71,7 +71,7 @@ class OA_Dll_TrackerInfo extends OA_Info
             'status' => 'integer',
             'type' => 'integer',
             'linkCampaigns' => 'boolean',
-            'variableMethod' => 'string'
+            'variableMethod' => 'string',
         ];
     }
 

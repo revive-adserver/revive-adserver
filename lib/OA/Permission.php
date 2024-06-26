@@ -124,7 +124,7 @@ class OA_Permission
         }
 
         OA_Permission::enforceTrue(
-            phpAds_SessionValidateToken($token, $tokenName)
+            phpAds_SessionValidateToken($token, $tokenName),
         );
     }
 
@@ -695,7 +695,7 @@ class OA_Permission
         $entityTable,
         $entityId = null,
         $allowNewEntity = false,
-        $operationAccessType = self::OPERATION_ALL
+        $operationAccessType = self::OPERATION_ALL,
     ) {
         if (!$allowNewEntity) {
             self::enforceTrue(!empty($entityId));
@@ -739,7 +739,7 @@ class OA_Permission
         $entityId,
         $operationAccessType = self::OPERATION_ALL,
         $accountId = null,
-        $accountType = null
+        $accountType = null,
     ) {
         $hasAccess = self::_hasAccessToObject($entityTable, $entityId, $accountId, $accountType);
 
@@ -756,7 +756,7 @@ class OA_Permission
                 $entityId,
                 $operationAccessType,
                 $accountId,
-                $accountType
+                $accountType,
             );
         }
 
@@ -822,7 +822,7 @@ class OA_Permission
             OA_ACCOUNT_ADMIN => 'users',
             OA_ACCOUNT_ADVERTISER => 'clients',
             OA_ACCOUNT_TRAFFICKER => 'affiliates',
-            OA_ACCOUNT_MANAGER => 'agency'
+            OA_ACCOUNT_MANAGER => 'agency',
         ];
 
         return $aTypes[$type] ?? false;
@@ -848,7 +848,7 @@ class OA_Permission
         $entityId,
         $operationAccessType = self::OPERATION_ALL,
         $accountId = null,
-        $accountType = null
+        $accountType = null,
     ) {
         static $componentCache;
 
@@ -879,7 +879,7 @@ class OA_Permission
                     $entityId,
                     $operationAccessType,
                     $accountId,
-                    $accountType
+                    $accountType,
                 );
                 /*
                  * Ignore NULL responses from plugins and update has access only
@@ -961,7 +961,7 @@ class OA_Permission
     public static function attemptToSwitchForAccess(
         $entityTable,
         $entityId,
-        $operationAccessType = self::OPERATION_ALL
+        $operationAccessType = self::OPERATION_ALL,
     ) {
         if (!($userId = self::getUserId())) {
             return false;
@@ -977,7 +977,7 @@ class OA_Permission
                         $entityId,
                         $operationAccessType,
                         $accountId,
-                        $accountType
+                        $accountType,
                     );
                     if ($hasAccess) {
                         self::switchAccount($accountId, $hasAccess = true);
@@ -993,7 +993,7 @@ class OA_Permission
                     $entityId,
                     $operationAccessType,
                     $accountId,
-                    null
+                    null,
                 );
                 if ($hasAccess) {
                     self::switchAccount($accountId, $hasAccess = true);
@@ -1266,7 +1266,7 @@ class OA_Permission
         $aPermissions,
         $accountId = null,
         $userId = null,
-        $aAllowedPermissions = null
+        $aAllowedPermissions = null,
     ) {
         if (empty($userId)) {
             $userId = self::getUserId();

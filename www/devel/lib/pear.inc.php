@@ -13,8 +13,8 @@ ini_set('include_path', MAX_PEAR . PATH_SEPARATOR
                         . ini_get('include_path'));
 
 $error_levels = [  E_USER_NOTICE => 'NOTICE',
-                        E_USER_WARNING => 'WARNING',
-                        E_USER_ERROR => 'ERROR'];
+    E_USER_WARNING => 'WARNING',
+    E_USER_ERROR => 'ERROR'];
 
 // our very own pear class
 // empty, but allows us to slot an alternative error handler if we want to

@@ -132,34 +132,34 @@ class Openads_Schema_Manager
 
         if ($this->use_links) {
             $this->aFile_perms = [
-                                        $this->path_schema_trans,
-                                        $this->path_changes_final,
-                                        $this->path_changes_trans,
-                                        $this->path_links_trans,
-                                        $this->links_final,
-                                        $this->schema_final,
-                                        MAX_SCHEMA_LOG,
-                                        MAX_PATH . '/www/devel/'
-                                    ];
+                $this->path_schema_trans,
+                $this->path_changes_final,
+                $this->path_changes_trans,
+                $this->path_links_trans,
+                $this->links_final,
+                $this->schema_final,
+                MAX_SCHEMA_LOG,
+                MAX_PATH . '/www/devel/',
+            ];
         } else {
             $this->aFile_perms = [
-                                        $this->path_schema_trans,
-                                        $this->path_changes_final,
-                                        $this->path_changes_trans,
-                                        $this->schema_final,
-                                        MAX_SCHEMA_LOG,
-                                        MAX_PATH . '/www/devel/'
-                                    ];
+                $this->path_schema_trans,
+                $this->path_changes_final,
+                $this->path_changes_trans,
+                $this->schema_final,
+                MAX_SCHEMA_LOG,
+                MAX_PATH . '/www/devel/',
+            ];
         }
 
 
         $this->aDump_options = [
-                                        'output_mode' => 'file',
-                                        'output' => $this->schema_trans,
-                                        'end_of_line' => "\n",
-                                        'xsl_file' => "xsl/mdb2_schema.xsl",
-                                        'custom_tags' => ['version' => '', 'status' => 'transitional']
-                                      ];
+            'output_mode' => 'file',
+            'output' => $this->schema_trans,
+            'end_of_line' => "\n",
+            'xsl_file' => "xsl/mdb2_schema.xsl",
+            'custom_tags' => ['version' => '', 'status' => 'transitional'],
+        ];
 
         //$GLOBALS['_MAX']['CONF']['database']['name'] = $this->dbo_name;
         $this->oSchema = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()), $this->aDump_options);
@@ -1212,7 +1212,7 @@ class Openads_Schema_Manager
                 MDB2_SCHEMA_ERROR_WRITER,
                 null,
                 null,
-                'it was not possible to open the migration output file: ' . $file
+                'it was not possible to open the migration output file: ' . $file,
             );
         }
 

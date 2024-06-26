@@ -160,15 +160,15 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
         $this->oAuditor->setUpgradeActionId();
         $this->oAuditor->setKeyParams(
             ['upgrade_name' => $this->package_file,
-                                            'version_to' => $version,
-                                            'version_from' => $this->versionInitialApplication,
-                                            'logfile' => basename($this->oLogger->logFile)
-                                            ]
+                'version_to' => $version,
+                'version_from' => $this->versionInitialApplication,
+                'logfile' => basename($this->oLogger->logFile),
+            ],
         );
         $this->oAuditor->logAuditAction(
             ['description' => 'FAILED',
-                                              'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                             ]
+                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+            ],
         );
         if (!$this->_upgradeConfig()) {
             $this->oLogger->logError('Failed to upgrade configuration file');
@@ -189,9 +189,9 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
         }
         $this->oAuditor->updateAuditAction(
             ['description' => 'UPGRADE COMPLETE',
-                                                 'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                 'confbackup' => $this->oConfiguration->getConfigBackupName()
-                                                ]
+                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                'confbackup' => $this->oConfiguration->getConfigBackupName(),
+            ],
         );
         $this->_pickupRecoveryFile();
         return true;
@@ -231,9 +231,9 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
         $aConf = $GLOBALS['_MAX']['CONF'][$this->aComponentGroup['name']];
         foreach ($this->aComponentGroup['install']['conf']['settings'] as $k => $aSet) {
             $aSettingsNew[] = [
-                                    'key' => $aSet['key'],
-                                    'value' => (array_key_exists($aSet['key'], $aConf) ? $aConf[$aSet['key']] : $aSet['value'])
-                                   ];
+                'key' => $aSet['key'],
+                'value' => (array_key_exists($aSet['key'], $aConf) ? $aConf[$aSet['key']] : $aSet['value']),
+            ];
         }
         return $this->oComponentGroupManager->_unregisterSettings($this->aComponentGroup['name'], false)
             && $this->oComponentGroupManager->_registerSettings($this->aComponentGroup['name'], $aSettingsNew);

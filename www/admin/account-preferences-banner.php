@@ -55,7 +55,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXPreferencesHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -90,19 +90,19 @@ $aSettings = [
                 'name' => 'default_banner_image_url',
                 'text' => $strDefaultBannerUrl,
                 'size' => 35,
-                'check' => 'url'
+                'check' => 'url',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'default_banner_destination_url',
                 'text' => $strDefaultBannerDestination,
                 'size' => 35,
-                'check' => 'url'
-            ]
-        ]
+                'check' => 'url',
+            ],
+        ],
     ],
     [
         'text' => $strWeightDefaults,
@@ -112,20 +112,20 @@ $aSettings = [
                 'name' => 'default_banner_weight',
                 'text' => $strDefaultBannerWeight,
                 'size' => 12,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'default_campaign_weight',
                 'text' => $strDefaultCampaignWeight,
                 'size' => 12,
-                'check' => 'wholeNumber'
-            ]
-        ]
-    ]
+                'check' => 'wholeNumber',
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

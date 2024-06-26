@@ -500,7 +500,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'name' => $this->campaignname,
                 'clientid' => $this->clientid,
                 'auditid' => $auditId,
-                'action' => $actionType
+                'action' => $actionType,
             ];
             // Load cache
             require_once MAX_PATH . '/lib/OA/Cache.php';
@@ -510,7 +510,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 // No cache, initialise
                 $aCache = [
                     'maxItems' => $maxItems,
-                    'aAccounts' => []
+                    'aAccounts' => [],
                 ];
             }
             // Get owning account id
@@ -558,7 +558,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $clicksToDate,
             $conversionsToDate,
             $this->activate_time,
-            $this->expire_time
+            $this->expire_time,
         );
     }
 

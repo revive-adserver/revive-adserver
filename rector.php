@@ -55,7 +55,7 @@ return function (RectorConfig $rectorConfig): void {
             ],
             glob(__DIR__ . '/lib/*.php'),
             glob(__DIR__ . '/*.php'),
-        )
+        ),
     );
 
     $rectorConfig->sets([

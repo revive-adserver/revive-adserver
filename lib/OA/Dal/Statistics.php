@@ -197,7 +197,7 @@ class OA_Dal_Statistics extends OA_Dal
 
         return $this->oDbh->quoteIdentifier(
             $aConf['table']['prefix'] . $aConf['table'][$tableName],
-            true
+            true,
         );
     }
 }

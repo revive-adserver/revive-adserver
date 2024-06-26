@@ -35,7 +35,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Audit',
             'PartialMockOA_Dll_Audit',
-            []
+            [],
         );
 
         OA_setTimeZone('Europe/Rome');
@@ -52,7 +52,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aActionName = [
             OA_AUDIT_ACTION_INSERT => $GLOBALS['strInserted'],
             OA_AUDIT_ACTION_UPDATE => $GLOBALS['strUpdated'],
-            OA_AUDIT_ACTION_DELETE => $GLOBALS['strDeleted']
+            OA_AUDIT_ACTION_DELETE => $GLOBALS['strDeleted'],
         ];
         foreach ($aActionName as $key => $str) {
             $this->assertIdentical($str, $dllAuditPartialMock->getActionName($key));
@@ -220,10 +220,10 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $startDate = $oSpanDate->getDate();
         $endDate = $oDate->getDate();
         $aParam = [
-                    'start_date' => $startDate,
-                    'end_date' => $endDate,
-                    'startRecord' => 0,
-                    'perPage' => 10];
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'startRecord' => 0,
+            'perPage' => 10];
         $aResults = $dllAuditPartialMock->getAuditLog($aParam);
 
         $this->assertIsA($aResults, 'array');
@@ -249,19 +249,19 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         $aExpect = [
             [  //  Banner
                 'parentcontext' => $GLOBALS['strCampaign'],
-                'parentcontextid' => 1
+                'parentcontextid' => 1,
             ],
             [  //  Campaign
                 'parentcontext' => $GLOBALS['strClient'],
-                'parentcontextid' => 2
+                'parentcontextid' => 2,
             ],
             [  //  Channel
                 'parentcontext' => $GLOBALS['strAffiliate'],
-                'parentcontextid' => 3
+                'parentcontextid' => 3,
             ],
             [  //  Zone
                 'parentcontext' => $GLOBALS['strAffiliate'],
-                'parentcontextid' => 4
+                'parentcontextid' => 4,
             ],
         ];
 
@@ -352,7 +352,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         $aParam = [
             'perPage' => 10,
-            'startRecord' => 0
+            'startRecord' => 0,
         ];
         $aResult = $dllAuditPartialMock->getAuditLog($aParam);
         $this->assertEqual(count($aResult), 2);
@@ -437,7 +437,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
 
         $aParam = [
             'perPage' => 10,
-            'startRecord' => 0
+            'startRecord' => 0,
         ];
         $aResult = $dllAuditPartialMock->getAuditLog($aParam);
         $this->assertEqual(count($aResult), 2);
@@ -580,7 +580,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $this->assertEqual($aResRow['actionid'], $aExpRow['actionid']);
             $this->assertEqual(
                 $aResRow['context'],
-                $dllAuditPartialMock->getContextDescription($aExpRow['context'])
+                $dllAuditPartialMock->getContextDescription($aExpRow['context']),
             );
             $this->assertEqual($aResRow['contextid'], $aExpRow['contextid']);
             $this->assertEqual($aResRow['parentid'], $aExpRow['parentid']);

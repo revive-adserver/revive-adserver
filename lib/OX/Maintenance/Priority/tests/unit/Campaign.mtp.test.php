@@ -89,7 +89,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
             'target_impression' => 2,
             'target_click' => 3,
             'target_conversion' => 4,
-            'priority' => 5
+            'priority' => 5,
         ];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertEqual($oCampaign->id, 1);
@@ -114,7 +114,7 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
             'impression_target_daily' => 2,
             'click_target_daily' => 3,
             'conversion_target_daily' => 4,
-            'priority' => 5
+            'priority' => 5,
         ];
         $oCampaign = new OX_Maintenance_Priority_Campaign($aParams);
         $this->assertEqual($oCampaign->id, 1);

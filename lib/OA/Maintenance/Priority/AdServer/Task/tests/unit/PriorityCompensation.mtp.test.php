@@ -25,17 +25,17 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         parent::__construct();
         Mock::generate(
             'OA_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand()
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand(),
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
-            ['_getDal', '_getMaxEntityAdObject']
+            ['_getDal', '_getMaxEntityAdObject'],
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_Ad',
             'PartialOA_Maintenance_Priority_Ad',
-            []
+            [],
         );
     }
 
@@ -64,13 +64,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             2 => 200,
             3 => 300,
             4 => 400,
-            5 => 500
+            5 => 500,
         ];
         $oDal->setReturnReference('getZonesForecastsForAllZones', $returnGetAllZonesImpInv);
         $oDal->expectOnce('getZonesForecastsForAllZones');
         $returnGetAllDeliveryLimitationChangedCreatives = [
             1 => '0000-00-00 00:00:00',
-            2 => '2006-04-27 12:00:05'
+            2 => '2006-04-27 12:00:05',
         ];
         $oDal->setReturnReference('getAllDeliveryLimitationChangedCreatives', $returnGetAllDeliveryLimitationChangedCreatives);
         $oDal->expectOnce('getAllDeliveryLimitationChangedCreatives');
@@ -151,7 +151,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 'required_impressions' => 33,
                 'requested_impressions' => 33,
                 'to_be_delivered' => 1,
-            ]
+            ],
         ];
         $oDal->setReturnReference('getAllZonesWithAllocInv', $returnGetAllZonesWithAllocInv);
         $oDal->expectOnce('getAllZonesWithAllocInv');
@@ -164,9 +164,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                     'requested_impressions' => 5,
                     'priority_factor' => 0.5,
                     'past_zone_traffic_fraction' => 0.1,
-                    'impressions' => 10]
-                ]
-            ];
+                    'impressions' => 10],
+            ],
+        ];
         $oDal->setReturnReference('getPreviousAdDeliveryInfo', $returnGetPreviousAdDeliveryInfo);
         $oDal->expectOnce('getPreviousAdDeliveryInfo');
 
@@ -360,9 +360,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 0 => ['priority' => 0],
                 1 => ['priority' => 0],
                 2 => ['priority' => 0],
-                9 => ['priority' => 0]
+                9 => ['priority' => 0],
             ],
-            'blank' => 0
+            'blank' => 0,
         ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0);
@@ -377,9 +377,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 0 => ['priority' => 0],
                 1 => ['priority' => 0],
                 2 => ['priority' => 0],
-                9 => ['priority' => 0]
+                9 => ['priority' => 0],
             ],
-            'blank' => 37
+            'blank' => 37,
         ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0);
@@ -394,9 +394,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 0 => ['priority' => 10],
                 1 => ['priority' => 20],
                 2 => ['priority' => 30],
-                9 => ['priority' => 40]
+                9 => ['priority' => 40],
             ],
-            'blank' => 0
+            'blank' => 0,
         ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0.1);
@@ -409,9 +409,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 0 => ['priority' => 5],
                 1 => ['priority' => 20],
                 2 => ['priority' => 30],
-                9 => ['priority' => 40]
+                9 => ['priority' => 40],
             ],
-            'blank' => 5
+            'blank' => 5,
         ];
         $oPriorityCompensation->scalePriorities($aData);
         $this->assertEqual($aData['ads'][0]['priority'], 0.05);

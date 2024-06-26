@@ -172,7 +172,7 @@ class OX_Maintenance_Priority_Campaign
         'conversion_target_total' => 'conversions',
         'impression_target_daily' => 'target_impression',
         'click_target_daily' => 'target_click',
-        'conversion_target_daily' => 'target_conversion'
+        'conversion_target_daily' => 'target_conversion',
     ];
 
     /**

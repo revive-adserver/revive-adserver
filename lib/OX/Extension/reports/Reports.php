@@ -178,7 +178,7 @@ abstract class Plugins_Reports extends OX_Component
             "plugin-author" => $this->_author,
             "plugin-export" => $this->_export,
             "plugin-authorize" => $this->_authorize,
-            "plugin-import" => $this->_import
+            "plugin-import" => $this->_import,
         ];
         return $aPluginInfo;
     }

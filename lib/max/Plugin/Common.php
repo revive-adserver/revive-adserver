@@ -87,7 +87,7 @@ abstract class MAX_Plugin_Common
             $this->package,
             $this->name,
             $doNotTestCacheValidity,
-            $options
+            $options,
         );
     }
 
@@ -110,7 +110,7 @@ abstract class MAX_Plugin_Common
             $this->module,
             $this->package,
             $this->name,
-            $options
+            $options,
         );
     }
 

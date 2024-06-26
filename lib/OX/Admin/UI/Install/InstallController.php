@@ -189,22 +189,22 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         if ($oStatus->isRecovery()) {
             $pageTitle = $this->oTranslation->translate(
                 'InstallStatusRecovery',
-                [VERSION]
+                [VERSION],
             );
         } elseif ($oStatus->isInstall()) {
             $pageTitle = $this->oTranslation->translate(
                 'InstallStatusInstall',
-                [VERSION]
+                [VERSION],
             );
         } elseif ($oStatus->isUpgrade()) {
             $pageTitle = $this->oTranslation->translate(
                 'InstallStatusUpgrade',
-                [VERSION]
+                [VERSION],
             );
         } elseif ($oStatus->isUpToDate()) {
             $pageTitle = $this->oTranslation->translate(
                 'InstallStatusUpToDate',
-                [VERSION]
+                [VERSION],
             );
         }
         $this->setModelProperty('pageHeader', new OA_Admin_UI_Model_PageHeaderModel($pageTitle));
@@ -271,7 +271,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
 
         $this->setModelProperty(
             'aChecks',
-            array_merge($oCheckResults->getSections(), $oUpgraderResults->getSections())
+            array_merge($oCheckResults->getSections(), $oUpgraderResults->getSections()),
         );
         $this->setModelProperty('oWizard', $oWizard);
         $this->setModelProperty('needsRetry', !$canSkip);
@@ -302,14 +302,14 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         $oWizard = new OX_Admin_UI_Install_Wizard($this->getInstallStatus(), 'login');
         $oForm = new OX_Admin_UI_Install_AdminLoginForm(
             $this->oTranslation,
-            $oWizard->getCurrentStep()
+            $oWizard->getCurrentStep(),
         );
 
         if ($oForm->validate()) {
             if (!OA_Upgrade_Login::checkLogin()) {
                 $this->setModelProperty(
                     'aMessages',
-                    ['error' => [$GLOBALS['strUsernameOrPasswordWrong']]]
+                    ['error' => [$GLOBALS['strUsernameOrPasswordWrong']]],
                 );
             } else {
                 $oWizard->markStepAsCompleted();
@@ -342,7 +342,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
             $aDbTypes,
             $aTableTypes,
             $isUpgrade,
-            $hasZoneError
+            $hasZoneError,
         );
 
         //populate form with defaults from upgrader dsn
@@ -398,7 +398,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
             $aLanguages,
             $aTimezones,
             $isUpgrade,
-            $prevPathRequired
+            $prevPathRequired,
         );
 
         $aStepData = $oWizard->getStepData();
@@ -493,7 +493,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         $aUrls = OX_Upgrade_InstallPlugin_Controller::getTasksUrls($baseInstallUrl);
         $aUrls = array_merge(
             $aUrls,
-            OX_Upgrade_PostUpgradeTask_Controller::getTasksUrls($baseInstallUrl, $oUpgrader)
+            OX_Upgrade_PostUpgradeTask_Controller::getTasksUrls($baseInstallUrl, $oUpgrader),
         );
 
         $json = new Services_JSON();
@@ -637,7 +637,7 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         if (!$upgradeFileRemoved) {
             $this->setModelProperty(
                 'aMessages',
-                ['error' => [$GLOBALS['strOaUpToDateCantRemove']]]
+                ['error' => [$GLOBALS['strOaUpToDateCantRemove']]],
             );
         }
     }

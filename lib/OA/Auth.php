@@ -142,7 +142,7 @@ class OA_Auth
             sprintf($GLOBALS['strPasswordUnsafeWarning'], MAX::constructURL(MAX_URL_ADMIN, 'account-user-password.php')),
             'global',
             'warning',
-            10000
+            10000,
         );
     }
 
@@ -186,7 +186,7 @@ class OA_Auth
     public static function getSessionData($doUser, $skipDatabaseAccess = false)
     {
         return [
-            'user' => new OA_Permission_User($doUser, $skipDatabaseAccess)
+            'user' => new OA_Permission_User($doUser, $skipDatabaseAccess),
         ];
     }
 
@@ -200,7 +200,7 @@ class OA_Auth
     public static function getFakeSessionData()
     {
         return [
-            'user' => false
+            'user' => false,
         ];
     }
 

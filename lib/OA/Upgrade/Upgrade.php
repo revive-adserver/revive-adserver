@@ -235,7 +235,7 @@ class OA_Upgrade
         $charset = $oDbc->getConfigurationValue();
         $aConfig['databaseCharset'] = [
             'checkComplete' => true,
-            'clientCharset' => $charset ?: ''
+            'clientCharset' => $charset ?: '',
         ];
 
         return $aConfig;
@@ -298,10 +298,10 @@ class OA_Upgrade
 
                     $this->oAuditor->setKeyParams(
                         ['upgrade_name' => $this->package_file,
-                                                        'version_to' => $aResult[0]['version_from'],
-                                                        'version_from' => $aResult[0]['version_to'],
-                                                        'logfile' => basename($this->oLogger->logFile)
-                                                       ]
+                            'version_to' => $aResult[0]['version_from'],
+                            'version_from' => $aResult[0]['version_to'],
+                            'logfile' => basename($this->oLogger->logFile),
+                        ],
                     );
                     $this->oAuditor->setUpgradeActionId();
 
@@ -309,9 +309,9 @@ class OA_Upgrade
                     if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId'], $versionInitialSchema, $schemaName)) {
                         $this->oAuditor->logAuditAction(
                             ['description' => 'ROLLBACK FAILED',
-                                                              'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                              'confbackup' => ''
-                                                             ]
+                                'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
+                                'confbackup' => '',
+                            ],
                         );
                         return false;
                     }
@@ -319,9 +319,9 @@ class OA_Upgrade
                     if (!$this->oDBUpgrader->rollback()) {
                         $this->oAuditor->logAuditAction(
                             ['description' => 'ROLLBACK FAILED',
-                                                              'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                              'confbackup' => ''
-                                                             ]
+                                'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
+                                'confbackup' => '',
+                            ],
                         );
                         return false;
                     }
@@ -363,9 +363,9 @@ class OA_Upgrade
                     $this->oLogger->log('Database and configuration files have been rolled back to version ' . $aResult[0]['version_from']);
                     $this->oAuditor->logAuditAction(
                         ['description' => 'ROLLBACK COMPLETE',
-                                                          'action' => UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
-                                                          'confbackup' => ''
-                                                         ]
+                            'action' => UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
+                            'confbackup' => '',
+                        ],
                     );
                 }
             } else {
@@ -1122,10 +1122,10 @@ class OA_Upgrade
 
         $this->oAuditor->setKeyParams(
             ['upgrade_name' => 'install_' . VERSION,
-                                            'version_to' => VERSION,
-                                            'version_from' => 0,
-                                            'logfile' => basename($this->oLogger->logFile)
-                                            ]
+                'version_to' => VERSION,
+                'version_from' => 0,
+                'logfile' => basename($this->oLogger->logFile),
+            ],
         );
 
         if (!$this->oVersioner->putSchemaVersion('tables_core', $this->oTable->aDefinition['version'])) {
@@ -1155,8 +1155,8 @@ class OA_Upgrade
 
         $this->oAuditor->logAuditAction(
             ['description' => 'UPGRADE_COMPLETE',
-                                                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                               ]
+                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+            ],
         );
 
         if ($this->upgrading_from_milestone_version) {
@@ -1199,8 +1199,8 @@ class OA_Upgrade
         $this->oLogger->logError($msg);
         $this->oAuditor->logAuditAction(
             ['description' => 'UPGRADE_FAILED',
-                                                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                                ]
+                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+            ],
         );
     }
 
@@ -1403,15 +1403,15 @@ class OA_Upgrade
             $this->oAuditor->setUpgradeActionId();
             $this->oAuditor->setKeyParams(
                 ['upgrade_name' => $this->package_file,
-                                                'version_to' => $version,
-                                                'version_from' => $this->getProductApplicationVersion(true),
-                                                'logfile' => basename($this->oLogger->logFile)
-                                                ]
+                    'version_to' => $version,
+                    'version_from' => $this->getProductApplicationVersion(true),
+                    'logfile' => basename($this->oLogger->logFile),
+                ],
             );
             $this->oAuditor->logAuditAction(
                 ['description' => 'FAILED',
-                                                  'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                                 ]
+                    'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+                ],
             );
             // Update SQL functions to the latest version
             if (PEAR::isError(OA_DB::createFunctions())) {
@@ -1437,9 +1437,9 @@ class OA_Upgrade
 
             $this->oAuditor->updateAuditAction(
                 ['description' => 'UPGRADE_COMPLETE',
-                                                     'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                     'confbackup' => $this->oConfiguration->getConfigBackupName()
-                                                    ]
+                    'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                    'confbackup' => $this->oConfiguration->getConfigBackupName(),
+                ],
             );
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
@@ -1498,18 +1498,18 @@ class OA_Upgrade
         $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
         $this->oAuditor->setKeyParams(
             ['upgrade_name' => $this->package_file,
-                                            'version_to' => $this->aPackage['versionTo'],
-                                            'version_from' => $this->aPackage['versionFrom'],
-                                            'logfile' => basename($this->oLogger->logFile)
-                                            ]
+                'version_to' => $this->aPackage['versionTo'],
+                'version_from' => $this->aPackage['versionFrom'],
+                'logfile' => basename($this->oLogger->logFile),
+            ],
         );
         // do this here in case there is a fatal error
         // in one of the upgrade methods
         // this ensures that there is recovery info available after
         $this->oAuditor->logAuditAction(
             ['description' => 'FAILED',
-                                              'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                             ]
+                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+            ],
         );
         $this->_writeRecoveryFile();
         if (!$this->runScript($this->aPackage['prescript'] ?? null)) {
@@ -1532,9 +1532,9 @@ class OA_Upgrade
         $this->versionInitialApplication = $this->aPackage['versionTo'];
         $this->oAuditor->updateAuditAction(
             ['description' => 'UPGRADE_COMPLETE',
-                                                 'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                 'confbackup' => $this->oConfiguration->getConfigBackupName()
-                                                ]
+                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                'confbackup' => $this->oConfiguration->getConfigBackupName(),
+            ],
         );
         return true;
     }
@@ -2146,10 +2146,10 @@ class OA_Upgrade
                     $aLine = explode('/', trim($v));
                     if (is_array($aLine) && (count($aLine) == 3) && (is_numeric($aLine[0]))) {
                         $aResult[] = [
-                                            'auditId' => $aLine[0],
-                                            'package' => $aLine[1],
-                                            'updated' => $aLine[2],
-                                            ];
+                            'auditId' => $aLine[0],
+                            'package' => $aLine[1],
+                            'updated' => $aLine[2],
+                        ];
                     } else {
                         return [];
                     }

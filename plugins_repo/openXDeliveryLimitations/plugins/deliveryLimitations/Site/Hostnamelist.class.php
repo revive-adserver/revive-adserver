@@ -36,7 +36,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     {
         $this->aOperations = [
             '=~' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these hostnames', $this->extension, $this->group),
-            '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $this->extension, $this->group)
+            '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $this->extension, $this->group),
         ];
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Hostname List';

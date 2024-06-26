@@ -49,7 +49,7 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
         $aTables = [
             'MAX_Delivery_log_logAdRequest' => 'data_bkt_r',
             'MAX_Delivery_log_logAdImpression' => 'data_bkt_m',
-            'MAX_Delivery_log_logAdClick' => 'data_bkt_c'
+            'MAX_Delivery_log_logAdClick' => 'data_bkt_c',
         ];
 
         foreach ($aTables as $function => $table) {

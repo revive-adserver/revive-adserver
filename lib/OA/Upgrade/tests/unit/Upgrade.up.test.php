@@ -422,7 +422,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_UpgradeAuditor',
             $mockAuditor = 'OA_DB_UpgradeAuditor' . rand(),
-            ['logAuditAction']
+            ['logAuditAction'],
         );
 
         $oUpgrade->oAuditor->oDBAuditor = new $mockAuditor($this);
@@ -464,7 +464,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_UpgradeAuditor',
             $mockAuditor = 'OA_UpgradeAuditor' . rand(),
-            ['queryAuditByUpgradeId', "getUpgradeActionId"]
+            ['queryAuditByUpgradeId', "getUpgradeActionId"],
         );
         $oUpgrade->oAuditor = new $mockAuditor($this);
 
@@ -478,10 +478,10 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertTrue($oUpgrade->_writeRecoveryFile(), 'failed to write recovery file');
 
         $aAudit = [0 => ['upgrade_action_id' => 1,
-                        'upgrade_name' => 'openads_upgrade_2.0.11_to_2.3.0',
-                        'version_to' => '2.3.0',
-                        'version_from' => '2.0.11'
-                       ]];
+            'upgrade_name' => 'openads_upgrade_2.0.11_to_2.3.0',
+            'version_to' => '2.3.0',
+            'version_from' => '2.0.11',
+        ]];
         $oUpgrade->oAuditor->setReturnValue('queryAuditByUpgradeId', $aAudit);
 
         $this->assertEqual($oUpgrade->getOriginalApplicationVersion(), '2.0.11');
@@ -513,7 +513,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_UpgradeLogger',
             $mockLogger = 'OA_UpgradeLoggerMock' . rand(),
-            ['logError', 'logOnly']
+            ['logError', 'logOnly'],
         );
 
 
@@ -588,7 +588,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_UpgradePackageParser',
             $mockParser = 'OA_UpgradePackageParser' . rand(),
-            ['setInputFile', 'parse']
+            ['setInputFile', 'parse'],
         );
 
         $oUpgrade->oParser = new $mockParser($this);
@@ -609,7 +609,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_Version_Controller',
             $mockVersioner = 'OA_Version_Controller' . rand(),
-            ['getSchemaVersion', 'putSchemaVersion']
+            ['getSchemaVersion', 'putSchemaVersion'],
         );
 
         $oUpgrade->oVersioner = new $mockVersioner($this);
@@ -621,7 +621,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Upgrade',
             $mockDBUpgrade = 'OA_DB_Upgrade' . rand(),
-            ['upgrade', 'init']
+            ['upgrade', 'init'],
         );
 
         $oUpgrade->oDBUpgrader = new $mockDBUpgrade($this);
@@ -634,7 +634,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_UpgradeAuditor',
             $mockAuditor = 'OA_DB_UpgradeAuditor' . rand(),
-            ['logAuditAction']
+            ['logAuditAction'],
         );
 
         $oUpgrade->oAuditor->oDBAuditor = new $mockAuditor($this);
@@ -656,7 +656,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_Version_Controller',
             $mockVersioner = 'OA_Version_Controller' . rand(),
-            ['getSchemaVersion', 'putSchemaVersion']
+            ['getSchemaVersion', 'putSchemaVersion'],
         );
 
         $oUpgrade->oVersioner = new $mockVersioner($this);
@@ -668,7 +668,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Upgrade',
             $mockDBUpgrade = 'OA_DB_Upgrade' . rand(),
-            ['init', 'upgrade', 'rollback', 'prepPrescript']
+            ['init', 'upgrade', 'rollback', 'prepPrescript'],
         );
 
         $oUpgrade->oDBUpgrader = new $mockDBUpgrade($this);
@@ -682,7 +682,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_UpgradeAuditor',
             $mockAuditor = 'OA_DB_UpgradeAuditor' . rand(),
-            ['logAuditAction']
+            ['logAuditAction'],
         );
 
         $oUpgrade->oAuditor->oDBAuditor = new $mockAuditor($this);
@@ -716,7 +716,7 @@ class Test_OA_Upgrade extends UnitTestCase
             'language' => 'es',
         ];
         $aPrefs = [
-            'timezone' => 'Europe/Madrid'
+            'timezone' => 'Europe/Madrid',
         ];
 
         // there shouldn't be admin account
@@ -793,7 +793,7 @@ class Test_OA_Upgrade extends UnitTestCase
             'language' => 'es',
         ];
         $aPrefs = [
-            'timezone' => 'Europe/Madrid'
+            'timezone' => 'Europe/Madrid',
         ];
         $oUpgrade->putAdmin($aAdmin, $aPrefs);
 

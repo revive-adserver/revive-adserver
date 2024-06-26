@@ -83,7 +83,7 @@ $entityIds = [
     'affiliateid' => $affiliateid,
     'zoneid' => $zoneid,
     'setPerPage' => $setPerPage,
-    'pageID' => $pageID
+    'pageID' => $pageID,
 ];
 $addUrl = "entity=conversions&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&affiliateid=$affiliateid&zoneid=$zoneid&setPerPage=$setPerPage&pageID=$pageID";
 
@@ -91,7 +91,7 @@ if (!empty($day)) {
     $entityIds += [
         'day' => $day,
         'hour' => $hour,
-        'howLong' => $howLong
+        'howLong' => $howLong,
     ];
     $addUrl .= "&day=" . urlencode($day) . "&hour=" . urlencode($hour) . "&howLong=" . urlencode($howLong);
 } else {
@@ -333,13 +333,13 @@ if (!empty($aConversions)) {
         }
 
         $aConversionStatuses = [
-                MAX_CONNECTION_STATUS_IGNORE,
-                MAX_CONNECTION_STATUS_PENDING,
-                MAX_CONNECTION_STATUS_ONHOLD,
-                MAX_CONNECTION_STATUS_APPROVED,
-                MAX_CONNECTION_STATUS_DISAPPROVED,
-                MAX_CONNECTION_STATUS_DUPLICATE,
-            ];
+            MAX_CONNECTION_STATUS_IGNORE,
+            MAX_CONNECTION_STATUS_PENDING,
+            MAX_CONNECTION_STATUS_ONHOLD,
+            MAX_CONNECTION_STATUS_APPROVED,
+            MAX_CONNECTION_STATUS_DISAPPROVED,
+            MAX_CONNECTION_STATUS_DUPLICATE,
+        ];
 
         echo "{$conversion['date_time']}</td>";
         if ($editStatuses) {

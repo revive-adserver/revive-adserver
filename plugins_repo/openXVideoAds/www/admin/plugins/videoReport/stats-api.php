@@ -12,16 +12,16 @@ class OX_Video_Report
     public static $graphMetricsToPlot = [1, 3, 2, 4, 5];
 
     public static $vastEventIdToEventName = [
-         1 => 'Started',
-         2 => 'Viewed > 50%',
-         3 => 'Viewed > 25%',
-         4 => 'Viewed > 75%',
-         5 => 'Completed',
-         6 => 'Muted',
-         7 => 'Replayed',
-         8 => 'Fullscreen',
-         9 => 'Stopped',
-     ];
+        1 => 'Started',
+        2 => 'Viewed > 50%',
+        3 => 'Viewed > 25%',
+        4 => 'Viewed > 75%',
+        5 => 'Completed',
+        6 => 'Muted',
+        7 => 'Replayed',
+        8 => 'Fullscreen',
+        9 => 'Stopped',
+    ];
 
     public static $vastEventIdInOrder = [1, 3, 2, 4, 5, 7, 8, 6, 9, ];
 
@@ -61,7 +61,7 @@ class OX_Video_Report
         $startDate,
         $endDate,
         $entityFilterName = false,
-        $entityFilterValue = false
+        $entityFilterValue = false,
     ) {
         $startDateTime = $this->getDateTimeInUtc("$startDate 00:00:00");
         $endDateTime = $this->getDateTimeInUtc("$endDate 23:59:59");
@@ -215,8 +215,8 @@ class OX_Video_Report
         switch ($dimension) {
             case 'hour-of-day':
                 return [
-                   '0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
-                   '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h',
+                    '0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
+                    '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h',
                 ];
                 break;
             case 'day':

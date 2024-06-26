@@ -42,7 +42,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strID_short'],
                 'pref' => 'ui_column_id',
                 'ctrl' => 'OA_Admin_Statistics_Delivery_CommonEntity',
-                'format' => 'id'
+                'format' => 'id',
             ];
         $this->_aFields['sum_requests'] =
             [
@@ -50,7 +50,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strRequests_short'],
                 'pref' => 'ui_column_requests',
                 'active' => true,
-                'format' => 'default'
+                'format' => 'default',
             ];
 
         $this->_aFields['sum_views'] =
@@ -60,7 +60,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'pref' => 'ui_column_impressions',
                 'rank' => 1,
                 'active' => true,
-                'format' => 'default'
+                'format' => 'default',
             ];
 
         $this->_aFields['sum_clicks'] =
@@ -70,7 +70,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'pref' => 'ui_column_clicks',
                 'rank' => 2,
                 'active' => true,
-                'format' => 'default'
+                'format' => 'default',
             ];
 
         $this->_aFields['sum_ctr'] =
@@ -79,7 +79,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strCTR_short'],
                 'pref' => 'ui_column_ctr',
                 'rank' => 3,
-                'format' => 'percent'
+                'format' => 'percent',
             ];
 
         $this->_aFields['sum_conversions'] =
@@ -90,7 +90,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'link' => 'stats.php?entity=conversions&',
                 'active' => true,
                 'format' => 'default',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_conversions_pending'] =
@@ -101,7 +101,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'link' => 'stats.php?entity=conversions&',
                 'active' => true,
                 'format' => 'default',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_sr_views'] =
@@ -110,7 +110,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strImpressionSR_short'],
                 'pref' => 'ui_column_sr_views',
                 'format' => 'percent',
-                'ctf' => true
+                'ctf' => true,
             ];
 
         $this->_aFields['sum_sr_clicks'] =
@@ -119,7 +119,7 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
                 'short' => $GLOBALS['strClickSR_short'],
                 'pref' => 'ui_column_sr_clicks',
                 'format' => 'percent',
-                'ctf' => true
+                'ctf' => true,
             ];
     }
 

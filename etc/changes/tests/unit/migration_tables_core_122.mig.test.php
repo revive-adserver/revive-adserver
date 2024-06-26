@@ -64,7 +64,7 @@ class migration_tables_core_122Test extends MigrationTest
 
         if ($this->oDbh->dbsyntax == 'pgsql') {
             $value = $this->oDbh->queryOne(
-                "SELECT NEXTVAL('{$prefix}campaigns_campaignid_seq')"
+                "SELECT NEXTVAL('{$prefix}campaigns_campaignid_seq')",
             );
 
             $this->assertTrue($value > 5, "The current sequence value is $value.");

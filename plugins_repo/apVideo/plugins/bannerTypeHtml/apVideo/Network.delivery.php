@@ -48,18 +48,18 @@ function Plugin_bannerTypeHtml_apVideo_Network_Delivery_adRender(&$aBanner, $zon
         }
 
         $trackingEvents = implode("", array_map(fn($event) => "<Tracking event=\"{$event}\"><![CDATA[$trackingUrl&event=" . strtolower($event) . "]]></Tracking>", [
-                'start',
-                'midpoint',
-                'firstQuartile',
-                'thirdQuartile',
-                'complete',
-                'mute',
-                'pause',
-                'replay',
-                'fullscreen',
-                'stop',
-                'unmute',
-                'resume',
+            'start',
+            'midpoint',
+            'firstQuartile',
+            'thirdQuartile',
+            'complete',
+            'mute',
+            'pause',
+            'replay',
+            'fullscreen',
+            'stop',
+            'unmute',
+            'resume',
         ]));
 
         $aDetails = AP_Video_Dal_Delivery::cacheGetAdDetails($aBanner['ad_id']);

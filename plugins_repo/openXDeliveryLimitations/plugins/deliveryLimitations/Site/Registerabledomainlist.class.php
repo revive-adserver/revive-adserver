@@ -36,7 +36,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     {
         $this->aOperations = [
             '=x' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these registerable domains', $this->extension, $this->group),
-            '!x' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $this->extension, $this->group)
+            '!x' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $this->extension, $this->group),
         ];
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Registerable Domain List';

@@ -87,7 +87,7 @@ class OA_Admin_UI_AccountSwitch
         } else {
             $session['recentlyUsedAccounts'] = array_merge(
                 ['a' . $accountId => $accountId],
-                $session['recentlyUsedAccounts']
+                $session['recentlyUsedAccounts'],
             );
         }
         phpAds_SessionDataStore();
@@ -97,7 +97,7 @@ class OA_Admin_UI_AccountSwitch
         $accounts,
         $q,
         &$remainingCounts,
-        $remainingCountsKey
+        $remainingCountsKey,
     ) {
         $result = [];
         $added = 0;

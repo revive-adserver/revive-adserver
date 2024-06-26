@@ -66,7 +66,7 @@ if (isset($channelid) && $channelid != 0) {
             [MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?" . $oldChannelParams),
                 htmlspecialchars($oldName),
                 MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?" . $newChannelParams),
-                htmlspecialchars($newName)]
+                htmlspecialchars($newName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

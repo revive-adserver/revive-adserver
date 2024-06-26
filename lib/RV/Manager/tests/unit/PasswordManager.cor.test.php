@@ -22,7 +22,7 @@ class Test_RV_Manager_PasswordManager extends UnitTestCase
         Mock::generatePartial(
             'DataObjects_Users',
             'PartialMockDataObjects_Users',
-            ['update']
+            ['update'],
         );
     }
 

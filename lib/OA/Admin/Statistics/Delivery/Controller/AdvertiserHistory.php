@@ -60,7 +60,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
 
         // Add standard page parameters
         $this->aPageParams = [
-            'clientid' => $advertiserId
+            'clientid' => $advertiserId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -87,13 +87,13 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
 
         // Prepare the data for display by output() method
         $aParams = [
-            'advertiser_id' => $advertiserId
+            'advertiser_id' => $advertiserId,
         ];
         $this->prepare($aParams, 'stats.php');
     }

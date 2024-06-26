@@ -256,55 +256,55 @@ class OX_Plugin_ComponentGroupManager
     public function getDiagnosticTasks($aGroup)
     {
         $aTaskList[] = [
-                            'method' => '_checkOpenXCompatibility',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['oxversion'],
-                                             ]
-                            ];
+            'method' => '_checkOpenXCompatibility',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['oxversion'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkSystemEnvironment',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['syscheck']['php'],
-                                             ]
-                            ];
+            'method' => '_checkSystemEnvironment',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['syscheck']['php'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkDatabaseEnvironment',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['syscheck']['dbms']
-                                             ]
-                            ];
+            'method' => '_checkDatabaseEnvironment',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['syscheck']['dbms'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkDependenciesForInstallOrEnable',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['syscheck']['depends']
-                                             ],
-                            ];
+            'method' => '_checkDependenciesForInstallOrEnable',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['syscheck']['depends'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkFiles',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['files']
-                                             ],
-                            ];
+            'method' => '_checkFiles',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['files'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_verifyDataObjects',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['schema']
-                                             ],
-                            ];
+            'method' => '_verifyDataObjects',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['schema'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkNavigationCheckers',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['navigation']['checkers'] ?? [],
-                                              $aGroup['install']['files']
-                                             ],
-                            ];
+            'method' => '_checkNavigationCheckers',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['navigation']['checkers'] ?? [],
+                $aGroup['install']['files'],
+            ],
+        ];
         // settings, preferences
         return $aTaskList;
     }
@@ -318,105 +318,105 @@ class OX_Plugin_ComponentGroupManager
     public function getInstallTasks($aGroup)
     {
         $aTaskList[] = [
-                            'method' => '_checkOpenXCompatibility',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['oxversion'],
-                                             ]
-                            ];
+            'method' => '_checkOpenXCompatibility',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['oxversion'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkSystemEnvironment',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['syscheck']['php'],
-                                             ]
-                            ];
+            'method' => '_checkSystemEnvironment',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['syscheck']['php'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkDatabaseEnvironment',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['syscheck']['dbms']
-                                             ]
-                            ];
+            'method' => '_checkDatabaseEnvironment',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['syscheck']['dbms'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_runScript',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['prescript']
-                                             ],
-                            ];
+            'method' => '_runScript',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['prescript'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkDependenciesForInstallOrEnable',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['syscheck']['depends']
-                                             ],
-                            ];
+            'method' => '_checkDependenciesForInstallOrEnable',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['syscheck']['depends'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkFiles',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['files']
-                                             ],
-                            ];
+            'method' => '_checkFiles',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['files'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkNavigationCheckers',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['navigation']['checkers'] ?? [],
-                                              $aGroup['install']['files']
-                                             ],
-                            ];
+            'method' => '_checkNavigationCheckers',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['navigation']['checkers'] ?? [],
+                $aGroup['install']['files'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_checkMenus',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['navigation'],
-                                              $aGroup['install']['files']
-                                             ],
-                            ];
+            'method' => '_checkMenus',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['navigation'],
+                $aGroup['install']['files'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_registerSchema',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['schema']
-                                             ],
-                            ];
+            'method' => '_registerSchema',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['schema'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_registerPreferences',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['conf']['preferences']
-                                             ],
-                            ];
+            'method' => '_registerPreferences',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['conf']['preferences'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_registerSettings',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['conf']['settings']
-                                             ],
-                            ];
+            'method' => '_registerSettings',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['conf']['settings'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => 'disableComponentGroup',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['extends']
-                                             ],
-                            ];
+            'method' => 'disableComponentGroup',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['extends'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_registerPluginVersion',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['version']
-                                             ],
-                            ];
+            'method' => '_registerPluginVersion',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['version'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_runScript',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['postscript']
-                                             ],
-                            ];
+            'method' => '_runScript',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['postscript'],
+            ],
+        ];
         return $aTaskList;
     }
 
@@ -435,52 +435,52 @@ class OX_Plugin_ComponentGroupManager
                                              ),
                             );*/
         $aTaskList[] = [
-                            'method' => '_runScript',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['uninstall']['prescript']
-                                             ],
-                            ];
+            'method' => '_runScript',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['uninstall']['prescript'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_unregisterPluginVersion',
-                            'params' => [
-                                              $aGroup['name']
-                                             ],
-                            ];
+            'method' => '_unregisterPluginVersion',
+            'params' => [
+                $aGroup['name'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_unregisterPreferences',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['conf']['preferences']
-                                             ],
-                            ];
+            'method' => '_unregisterPreferences',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['conf']['preferences'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_unregisterSettings',
-                            'params' => [
-                                              $aGroup['name']
-                                             ],
-                            ];
+            'method' => '_unregisterSettings',
+            'params' => [
+                $aGroup['name'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_unregisterSchema',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['install']['schema']
-                                             ],
-                            ];
+            'method' => '_unregisterSchema',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['install']['schema'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_runScript',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['uninstall']['postscript']
-                                             ],
-                            ];
+            'method' => '_runScript',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['uninstall']['postscript'],
+            ],
+        ];
         $aTaskList[] = [
-                            'method' => '_removeFiles',
-                            'params' => [
-                                              $aGroup['name'],
-                                              $aGroup['allfiles'],
-                                             ],
-                            ];
+            'method' => '_removeFiles',
+            'params' => [
+                $aGroup['name'],
+                $aGroup['allfiles'],
+            ],
+        ];
         return $aTaskList;
     }
 
@@ -872,29 +872,29 @@ class OX_Plugin_ComponentGroupManager
         foreach ($oTable->aDefinition['tables'] as $table => &$aDef) {
             $this->_auditSetKeys(
                 [ 'schema_name' => $schema,
-                                        'version' => $version,
-                                        'timing' => DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT
-                                    ],
-                true
+                    'version' => $version,
+                    'timing' => DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT,
+                ],
+                true,
             );
             if (!$oTable->createTable($table)) {
                 $this->_logError('Failed to create table for ' . $table);
                 $this->_auditStart(
                     ['info1' => 'CREATE FAILED',
-                                         'tablename' => $table,
-                                         'action' => DB_UPGRADE_ACTION_UPGRADE_FAILED,
-                                         ],
-                    true
+                        'tablename' => $table,
+                        'action' => DB_UPGRADE_ACTION_UPGRADE_FAILED,
+                    ],
+                    true,
                 );
                 $this->_dropTables($name, $aSchema);
                 return false;
             }
             $this->_auditStart(
                 ['info1' => 'CREATE SUCCEEDED',
-                                     'tablename' => $table,
-                                     'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-                                     ],
-                true
+                    'tablename' => $table,
+                    'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                ],
+                true,
             );
         }
         return $version;
@@ -919,19 +919,19 @@ class OX_Plugin_ComponentGroupManager
         foreach ($oTable->aDefinition['tables'] as $table => &$aDef) {
             $this->_auditSetKeys(
                 [ 'schema_name' => $schema,
-                                        'version' => $version,
-                                        'timing' => DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT
-                                      ],
-                true
+                    'version' => $version,
+                    'timing' => DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT,
+                ],
+                true,
             );
             if (!$oTable->dropTable($oTable->_generateTableName($table))) {
                 if ($this->_tableExists($table)) {
                     $this->_auditStart(
                         ['info1' => 'DROP FAILED',
-                                         'tablename' => $table,
-                                         'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
-                                         ],
-                        true
+                            'tablename' => $table,
+                            'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
+                        ],
+                        true,
                     );
                     $this->_logError('Failed to drop table ' . $table);
                     return false;
@@ -939,10 +939,10 @@ class OX_Plugin_ComponentGroupManager
             }
             $this->_auditStart(
                 ['info1' => 'DROP SUCCEEDED',
-                                     'tablename' => $table,
-                                     'action' => DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED,
-                                    ],
-                true
+                    'tablename' => $table,
+                    'action' => DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED,
+                ],
+                true,
             );
         }
         return true;

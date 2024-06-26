@@ -38,7 +38,7 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table_Priority',
             'PartialMockOA_DB_Table_Priority',
-            ['_getDbConnection']
+            ['_getDbConnection'],
         );
         $oTable = new PartialMockOA_DB_Table_Priority($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
@@ -66,7 +66,7 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
     {
         $tmpTables = [
             'tmp_ad_required_impression',
-            'tmp_ad_zone_impression'
+            'tmp_ad_zone_impression',
         ];
 
         // Test 1

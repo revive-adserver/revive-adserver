@@ -67,7 +67,7 @@ class ZoneXmlRpcService extends BaseZoneService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oZoneInfo,
@@ -75,7 +75,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 1,
                 ['publisherId', 'zoneName', 'type', 'width', 'height', 'comments',
                     'capping', 'sessionCapping', 'block'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -107,15 +107,15 @@ class ZoneXmlRpcService extends BaseZoneService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oZoneInfo,
                 $oParams,
                 1,
                 ['zoneId', 'publisherId', 'zoneName', 'type', 'width',
-                  'height', 'comments', 'capping', 'sessionCapping', 'block'],
-                $oResponseWithError
+                    'height', 'comments', 'capping', 'sessionCapping', 'block'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -144,7 +144,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -173,7 +173,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$oStartDate, &$oEndDate],
             [true, true, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -184,14 +184,14 @@ class ZoneXmlRpcService extends BaseZoneService
             $zoneId,
             $oStartDate,
             $oEndDate,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
@@ -214,7 +214,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$oStartDate, &$oEndDate],
             [true, true, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -225,15 +225,15 @@ class ZoneXmlRpcService extends BaseZoneService
             $zoneId,
             $oStartDate,
             $oEndDate,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
@@ -256,7 +256,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$oStartDate, &$oEndDate],
             [true, true, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -267,17 +267,17 @@ class ZoneXmlRpcService extends BaseZoneService
             $zoneId,
             $oStartDate,
             $oEndDate,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'campaignId' => 'integer',
-                                                                'campaignName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'campaignId' => 'integer',
+                'campaignName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
@@ -300,7 +300,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$oStartDate, &$oEndDate],
             [true, true, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -311,19 +311,19 @@ class ZoneXmlRpcService extends BaseZoneService
             $zoneId,
             $oStartDate,
             $oEndDate,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'campaignId' => 'integer',
-                                                                'campaignName' => 'string',
-                                                                'bannerId' => 'integer',
-                                                                'bannerName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'campaignId' => 'integer',
+                'campaignName' => 'string',
+                'bannerId' => 'integer',
+                'bannerName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
@@ -346,7 +346,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -355,7 +355,7 @@ class ZoneXmlRpcService extends BaseZoneService
         if ($this->_oZoneServiceImp->getZone(
             $sessionId,
             $zoneId,
-            $oZone
+            $oZone,
         )) {
             return XmlRpcUtils::getEntityResponse($oZone);
         } else {
@@ -380,7 +380,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$publisherId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -389,7 +389,7 @@ class ZoneXmlRpcService extends BaseZoneService
         if ($this->_oZoneServiceImp->getZoneListByPublisherId(
             $sessionId,
             $publisherId,
-            $aZoneList
+            $aZoneList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aZoneList);
         } else {
@@ -404,7 +404,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$bannerId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -423,7 +423,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$campaignId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -442,7 +442,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$bannerId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -461,7 +461,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$campaignId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -480,7 +480,7 @@ class ZoneXmlRpcService extends BaseZoneService
             [&$sessionId, &$zoneId, &$codeType, &$aParams],
             [true, true, true, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -504,25 +504,25 @@ $server = new XML_RPC_Server(
         'addZone' => [
             'function' => $oZoneXmlRpcService->addZone(...),
             'signature' => [
-                ['int', 'string', 'struct']
+                ['int', 'string', 'struct'],
             ],
-            'docstring' => 'Add zone'
+            'docstring' => 'Add zone',
         ],
 
         'modifyZone' => [
             'function' => $oZoneXmlRpcService->modifyZone(...),
             'signature' => [
-                ['int', 'string', 'struct']
+                ['int', 'string', 'struct'],
             ],
-            'docstring' => 'Modify zone information'
+            'docstring' => 'Modify zone information',
         ],
 
         'deleteZone' => [
             'function' => $oZoneXmlRpcService->deleteZone(...),
             'signature' => [
-                ['int', 'string', 'int']
+                ['int', 'string', 'int'],
             ],
-            'docstring' => 'Delete zone'
+            'docstring' => 'Delete zone',
         ],
 
         'zoneDailyStatistics' => [
@@ -530,9 +530,9 @@ $server = new XML_RPC_Server(
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
-                ['array', 'string', 'int']
+                ['array', 'string', 'int'],
             ],
-            'docstring' => 'Generate Zone Daily Statistics'
+            'docstring' => 'Generate Zone Daily Statistics',
         ],
 
         'zoneAdvertiserStatistics' => [
@@ -540,9 +540,9 @@ $server = new XML_RPC_Server(
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
-                ['array', 'string', 'int']
+                ['array', 'string', 'int'],
             ],
-            'docstring' => 'Generate Zone Advertiser Statistics'
+            'docstring' => 'Generate Zone Advertiser Statistics',
         ],
 
         'zoneCampaignStatistics' => [
@@ -550,9 +550,9 @@ $server = new XML_RPC_Server(
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
-                ['array', 'string', 'int']
+                ['array', 'string', 'int'],
             ],
-            'docstring' => 'Generate Zone Campaign Statistics'
+            'docstring' => 'Generate Zone Campaign Statistics',
         ],
 
         'zoneBannerStatistics' => [
@@ -560,68 +560,68 @@ $server = new XML_RPC_Server(
             'signature' => [
                 ['array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'],
                 ['array', 'string', 'int', 'dateTime.iso8601'],
-                ['array', 'string', 'int']
+                ['array', 'string', 'int'],
             ],
-            'docstring' => 'Generate Zone Banner Statistics'
+            'docstring' => 'Generate Zone Banner Statistics',
         ],
 
         'getZone' => [
             'function' => $oZoneXmlRpcService->getZone(...),
             'signature' => [
-                ['struct', 'string', 'int']
+                ['struct', 'string', 'int'],
             ],
-            'docstring' => 'Get Zone Information'
+            'docstring' => 'Get Zone Information',
         ],
 
         'getZoneListByPublisherId' => [
             'function' => $oZoneXmlRpcService->getZoneListByPublisherId(...),
             'signature' => [
-                ['array', 'string', 'int']
+                ['array', 'string', 'int'],
             ],
-            'docstring' => 'Get Zone List By Publisher Id'
+            'docstring' => 'Get Zone List By Publisher Id',
         ],
 
         'linkBanner' => [
             'function' => $oZoneXmlRpcService->linkBanner(...),
             'signature' => [
-                ['int', 'string', 'int', 'int']
+                ['int', 'string', 'int', 'int'],
             ],
-            'docstring' => 'Link a banner to a zone'
+            'docstring' => 'Link a banner to a zone',
         ],
 
         'linkCampaign' => [
             'function' => $oZoneXmlRpcService->linkCampaign(...),
             'signature' => [
-                ['int', 'string', 'int', 'int']
+                ['int', 'string', 'int', 'int'],
             ],
-            'docstring' => 'Link a campaign to a zone'
+            'docstring' => 'Link a campaign to a zone',
         ],
 
         'unlinkBanner' => [
             'function' => $oZoneXmlRpcService->unlinkBanner(...),
             'signature' => [
-                ['int', 'string', 'int', 'int']
+                ['int', 'string', 'int', 'int'],
             ],
-            'docstring' => 'Unlink a banner to from zone'
+            'docstring' => 'Unlink a banner to from zone',
         ],
 
         'unlinkCampaign' => [
             'function' => $oZoneXmlRpcService->unlinkCampaign(...),
             'signature' => [
-                ['int', 'string', 'int', 'int']
+                ['int', 'string', 'int', 'int'],
             ],
-            'docstring' => 'Unlink a campaign from a zone'
+            'docstring' => 'Unlink a campaign from a zone',
         ],
 
         'generateTags' => [
             'function' => $oZoneXmlRpcService->generateTags(...),
             'signature' => [
                 ['string', 'string', 'int', 'string', 'struct'],
-                ['string', 'string', 'int', 'string', 'array']
+                ['string', 'string', 'int', 'string', 'array'],
             ],
-            'docstring' => 'Unlink a campaign from a zone'
+            'docstring' => 'Unlink a campaign from a zone',
         ],
 
     ],
-    1  // serviceNow
+    1,  // serviceNow
 );

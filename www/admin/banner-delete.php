@@ -53,7 +53,7 @@ if (!empty($bannerid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strBannerHasBeenDeleted'], [
-            htmlspecialchars($aBanner['description'])
+            htmlspecialchars($aBanner['description']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strBannersHaveBeenDeleted']);

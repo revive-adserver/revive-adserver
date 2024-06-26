@@ -95,14 +95,14 @@ $cwd = getcwd();
        <?php $calendar->make_input_field(
            // calendar options go here; see the documentation and/or calendar-setup.js
            ['firstDay' => 1, // show Monday first
-                 'showsTime' => true,
-                 'showOthers' => true,
-                 'ifFormat' => '%Y-%m-%d %I:%M %P',
-                 'timeFormat' => '12'],
+               'showsTime' => true,
+               'showOthers' => true,
+               'ifFormat' => '%Y-%m-%d %I:%M %P',
+               'timeFormat' => '12'],
            // field attributes go here
            ['style' => 'width: 15em; color: #840; background-color: #ff8; border: 1px solid #000; text-align: center',
-                 'name' => 'date1',
-                 'value' => strftime('%Y-%m-%d %I:%M %P', strtotime('now'))]
+               'name' => 'date1',
+               'value' => strftime('%Y-%m-%d %I:%M %P', strtotime('now'))],
        ); ?>
      </td>
      </tr>

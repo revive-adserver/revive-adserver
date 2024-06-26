@@ -45,7 +45,7 @@ class Container implements PsrContainerInterface
             try {
                 $this->rebuildCachedContainer(
                     self::addServices($container, $isDelivery),
-                    $configCache
+                    $configCache,
                 );
             } catch (IOException) {
                 // The cache couldn't be written, use the builder instead
@@ -110,7 +110,7 @@ class Container implements PsrContainerInterface
         $dumper = new PhpDumper($container);
         $configCache->write(
             $dumper->dump(['class' => 'ReviveAdserverCachedContainer']),
-            $container->getResources()
+            $container->getResources(),
         );
 
         return $container;

@@ -74,7 +74,7 @@ class OA_Task_Runner
                         $this->aTasks = array_merge(
                             array_slice($this->aTasks, 0, $key + 1),
                             [$oTask],
-                            array_slice($this->aTasks, $key + 1)
+                            array_slice($this->aTasks, $key + 1),
                         );
                     } elseif ($order == self::TASK_ORDER_REPLACE) {
                         // Replace the specified task
@@ -84,7 +84,7 @@ class OA_Task_Runner
                         $this->aTasks = array_merge(
                             array_slice($this->aTasks, 0, $key),
                             [$oTask],
-                            array_slice($this->aTasks, $key)
+                            array_slice($this->aTasks, $key),
                         );
                     }
                     return true;

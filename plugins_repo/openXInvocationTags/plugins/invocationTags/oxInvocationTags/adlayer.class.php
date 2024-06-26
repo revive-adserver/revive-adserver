@@ -117,7 +117,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
   *"),
-            ];
+        ];
         if (isset($GLOBALS['layerstyle']) &&
             ($GLOBALS['layerstyle'] == 'geocities' || $GLOBALS['layerstyle'] == 'simple')) {
             $aComments['Comment'] = $this->translate(
@@ -127,7 +127,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * /www/images/layerstyles/%s/...
   * To be accessible via: http(s)://%s/layerstyles/%s/...
   *------------------------------------------------------------*",
-                [$GLOBALS['layerstyle'], $conf['webpath']['images'], $GLOBALS['layerstyle']]
+                [$GLOBALS['layerstyle'], $conf['webpath']['images'], $GLOBALS['layerstyle']],
             );
         } else {
             $aComments['Comment'] = '';
@@ -218,7 +218,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
                     $layerstyles[$stylefile] = $GLOBALS['strAdLayerStyleName'][$stylefile] ?? str_replace(
                         "- ",
                         "-",
-                        ucwords(str_replace("-", "- ", $stylefile))
+                        ucwords(str_replace("-", "- ", $stylefile)),
                     );
                 }
             }

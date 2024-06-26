@@ -47,14 +47,14 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
                 'tracker_id' => 1,
                 'name' => 'fooVar',
                 'type' => 'string',
-                'variablecode' => ''
+                'variablecode' => '',
             ],
             66 => [
                 'variable_id' => 66,
                 'tracker_id' => 1,
                 'name' => 'barVar',
                 'type' => 'string',
-                'variablecode' => ''
+                'variablecode' => '',
             ],
         ];
         $_GET['fooVar'] = 'foo';

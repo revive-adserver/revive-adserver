@@ -33,8 +33,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         'name' => 'campaignname',
         'id' => ['clientid', 'campaignid'],
         'status' => 'status',
-    // hack to sort by type asc first (non default campaigns always on top)
-    // DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
+        // hack to sort by type asc first (non default campaigns always on top)
+        // DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
         'type+name' => "(type=0) ASC, campaignname",
         'type+id' => ['(type=0) ASC, clientid', 'campaignid'],
         'type+status' => '(type=0) ASC, status',
@@ -301,9 +301,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         // Define array to return the expiration dates (if they exist)
         $aReturn = [
-                         'estimatedExpiration' => '',
-                         'campaignExpiration' => ''
-                         ];
+            'estimatedExpiration' => '',
+            'campaignExpiration' => '',
+        ];
 
         // Does the campaign have lifetime impression targets?
         // If yes, try to get a stimated expiration date
@@ -490,7 +490,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aExpiration = [
                 'daysLeft' => $daysLeft,
                 'date_f' => $estimatedEndDateFormat,
-                'date' => $oEstimatedEndDate
+                'date' => $oEstimatedEndDate,
             ];
         }
         return $aExpiration;
@@ -754,7 +754,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     {
         $aIncludeSystemTypes = array_merge(
             [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
-            $aIncludeSystemTypes
+            $aIncludeSystemTypes,
         );
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);

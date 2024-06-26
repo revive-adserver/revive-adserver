@@ -156,8 +156,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -188,8 +188,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -220,8 +220,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -252,8 +252,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -284,8 +284,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -316,8 +316,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -339,7 +339,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllPublisher->getPublisher($publisherId, $oPublisher)
+                $this->_dllPublisher->getPublisher($publisherId, $oPublisher),
             );
         } else {
             return false;
@@ -364,8 +364,8 @@ class PublisherServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisherListByAgencyId(
                     $agencyId,
-                    $aPublisherList
-                )
+                    $aPublisherList,
+                ),
             );
         } else {
             return false;

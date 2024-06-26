@@ -39,7 +39,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobalUnslashed(
         'contact_name',
-        'language'
+        'language',
     );
 
     OA_Permission::checkSessionToken();
@@ -77,7 +77,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strUserPreferencesUpdated'],
-                [htmlspecialchars($title)]
+                [htmlspecialchars($title)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -122,34 +122,34 @@ $aSettings = [
     [
         'text' => $strUserDetails,
         'items' => [
-         [
+            [
                 'type' => 'plaintext',
                 'name' => 'username',
                 'value' => $aUser['username'],
                 'text' => $strUsername,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'plaintext',
                 'name' => 'email_address',
                 'value' => $aUser['email_address'],
                 'text' => $strEmailAddress,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'contact_name',
                 'value' => $aUser['contact_name'],
                 'text' => $strFullName,
-                'size' => 35
-            ]
-        ]
+                'size' => 35,
+            ],
+        ],
     ],
     [
         'text' => $strLanguage,
@@ -159,10 +159,10 @@ $aSettings = [
                 'name' => 'language',
                 'text' => $strLanguage,
                 'items' => RV_Admin_Languages::getAvailableLanguages(),
-                'value' => $GLOBALS['_MAX']['PREF']['language']
-            ]
-        ]
-    ]
+                'value' => $GLOBALS['_MAX']['PREF']['language'],
+            ],
+        ],
+    ],
 ];
 
 $oOptions->show($aSettings, $aErrormessage);

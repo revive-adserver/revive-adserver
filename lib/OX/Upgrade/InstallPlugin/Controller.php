@@ -53,7 +53,7 @@ class OX_Upgrade_InstallPlugin_Controller
                 'id' => 'plugin:' . $name,
                 'name' => $GLOBALS['strPluginTaskChecking'] . ': <br/> ' .
                           OX_Upgrade_InstallPlugin_Controller::openxToRevivePluginName($name),
-                'url' => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1'
+                'url' => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1',
             ];
         }
         closedir($PLUGINS_DIR);
@@ -100,7 +100,7 @@ class OX_Upgrade_InstallPlugin_Controller
                         'id' => 'plugin:' . $aPlugin['name'],
                         'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/> ' .
                                   OX_Upgrade_InstallPlugin_Controller::openxToRevivePluginName($aPlugin['name']),
-                        'url' => $url
+                        'url' => $url,
                     ];
                     unset($aPluginZips[$aPlugin['name']]);
                 }

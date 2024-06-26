@@ -61,7 +61,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
             [
                 'type' => 'deliveryLimitations:Geo:UsMetro',
                 'op' => 'x',
-            ]
+            ],
         );
     }
 
@@ -75,7 +75,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
             [
                 'type' => 'deliveryLimitations:Geo:ConnectionType',
                 'op' => 'x',
-            ]
+            ],
         );
     }
 
@@ -92,7 +92,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
                 'type' => 'deliveryLimitations:Geo:Subdivision1',
                 'op' => 'x',
                 'data' => 'US|CA,NY',
-            ]
+            ],
         );
 
         $this->assertEqual(
@@ -105,7 +105,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
                 'type' => 'deliveryLimitations:Geo:Subdivision1',
                 'op' => 'x',
                 'data' => 'IT|36,77',
-            ]
+            ],
         );
 
         $this->assertEqual(
@@ -118,7 +118,7 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
                 'type' => 'deliveryLimitations:Geo:Subdivision2',
                 'op' => 'x',
                 'data' => 'BE|VAN,VBR',
-            ]
+            ],
         );
 
         $this->assertEqual(
@@ -130,8 +130,8 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
             [
                 'type' => 'deliveryLimitations:Geo:Subdivision1',
                 'op' => 'x',
-                'data' => 'TW|KHH'
-            ]
+                'data' => 'TW|KHH',
+            ],
         );
 
         $this->assertEqual(
@@ -143,8 +143,8 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
             [
                 'type' => 'deliveryLimitations:Geo:Subdivision1',
                 'op' => 'x',
-                'data' => 'CN|FJ'
-            ]
+                'data' => 'CN|FJ',
+            ],
         );
 
         // Lose the region that has been moved to another country
@@ -157,8 +157,8 @@ class Test_RV_Upgrade_GeoIp2Migration extends UnitTestCase
             [
                 'type' => 'deliveryLimitations:Geo:Subdivision1',
                 'op' => 'x',
-                'data' => 'TW|KHH'
-            ]
+                'data' => 'TW|KHH',
+            ],
         );
     }
 }

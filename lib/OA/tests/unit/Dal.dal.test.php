@@ -125,7 +125,7 @@ class Test_OA_Dal extends UnitTestCase
             [
                 'ad_id' => '29',
                 'required_impressions' => '120',
-            ]
+            ],
         ];
         $result = OA_Dal::$method('tmp_ad_required_impression', ['ad_id', 'required_impressions'], $aData);
         $this->assertEqual($result, 2);
@@ -135,7 +135,7 @@ class Test_OA_Dal extends UnitTestCase
         $this->assertEqual($result, $aData);
 
         $oneMoreRow = [
-            [100, 2]
+            [100, 2],
         ];
         $result = OA_Dal::$method('tmp_ad_required_impression', ['ad_id', 'required_impressions'], $oneMoreRow);
         $this->assertEqual($result, 1);
@@ -144,7 +144,7 @@ class Test_OA_Dal extends UnitTestCase
         $this->assertEqual($result, array_merge($aData, [
             [
                 'ad_id' => 100,
-                'required_impressions' => 2
+                'required_impressions' => 2,
             ]]));
         TestEnv::dropTempTables();
     }

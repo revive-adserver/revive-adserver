@@ -20,17 +20,17 @@ require_once LIB_PATH . '/Plugin/ParserBase.php';
 class OX_ParserComponentGroup extends OX_ParserBase
 {
     public $aNav = [OA_ACCOUNT_ADMIN => [],
-                         OA_ACCOUNT_MANAGER => [],
-                         OA_ACCOUNT_ADVERTISER => [],
-                         OA_ACCOUNT_TRAFFICKER => [],
-                         'checkers' => [],
-                         ];
+        OA_ACCOUNT_MANAGER => [],
+        OA_ACCOUNT_ADVERTISER => [],
+        OA_ACCOUNT_TRAFFICKER => [],
+        'checkers' => [],
+    ];
     public $aSchema = [
-                          'mdb2schema' => '',
-                          'dboschema' => '',
-                          'dbolinks' => '',
-                          'dataobjects' => '',
-                           ];
+        'mdb2schema' => '',
+        'dboschema' => '',
+        'dbolinks' => '',
+        'dataobjects' => '',
+    ];
     public $aData;
     public $aComponents = [];
     public $aComponent = [];
@@ -43,17 +43,17 @@ class OX_ParserComponentGroup extends OX_ParserBase
             case 'plugin':
 
                 $this->aNav = [
-                                     OA_ACCOUNT_ADMIN => [],
-                                     OA_ACCOUNT_MANAGER => [],
-                                     OA_ACCOUNT_ADVERTISER => [],
-                                     OA_ACCOUNT_TRAFFICKER => [],
-                                    ];
+                    OA_ACCOUNT_ADMIN => [],
+                    OA_ACCOUNT_MANAGER => [],
+                    OA_ACCOUNT_ADVERTISER => [],
+                    OA_ACCOUNT_TRAFFICKER => [],
+                ];
                 $this->aSchema = [
-                                      'mdb2schema' => '',
-                                      'dboschema' => '',
-                                      'dbolinks' => '',
-                                      'dataobjects' => [],
-                                       ];
+                    'mdb2schema' => '',
+                    'dboschema' => '',
+                    'dbolinks' => '',
+                    'dataobjects' => [],
+                ];
 
                 break;
             case 'plugin-install-navigation-admin-menu':

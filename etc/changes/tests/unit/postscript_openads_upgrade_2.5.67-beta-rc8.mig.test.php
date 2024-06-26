@@ -35,7 +35,7 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
 
             $aAValues = [
                 ['name' => 'x'],
-                ['name' => 'y']
+                ['name' => 'y'],
             ];
             foreach ($aAValues as $aValues) {
                 $sql = OA_DB_Sql::sqlForInsert('affiliates', $aValues);
@@ -51,21 +51,21 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
             $aAValues = [
                 [
                     'affiliateid' => $this->oDbh->nextID($prefix . 'affiliates_affiliateid'),
-                    'name' => 'z1'
+                    'name' => 'z1',
                 ],
                 [
                     'affiliateid' => $this->oDbh->nextID($prefix . 'affiliates_affiliateid'),
-                    'name' => 'z2'
+                    'name' => 'z2',
                 ],
                 [
                     'affiliateid' => $this->oDbh->nextID($prefix . 'affiliates_affiliateid'),
-                    'name' => 'z3'
+                    'name' => 'z3',
                 ],
             ];
             $aExpect = [
                 'PEAR_Error',
                 'PEAR_Error',
-                'int'
+                'int',
             ];
             $this->oDbh->expectError(MDB2_ERROR_CONSTRAINT);
             foreach ($aAValues as $key => $aValues) {
@@ -78,7 +78,7 @@ class Migration_postscript_2_5_67_RC8Test extends MigrationTest
             Mock::generatePartial(
                 'OA_UpgradeLogger',
                 $mockLogger = 'OA_UpgradeLogger' . rand(),
-                ['logOnly', 'logError', 'log']
+                ['logOnly', 'logError', 'log'],
             );
 
             $oLogger = new $mockLogger($this);

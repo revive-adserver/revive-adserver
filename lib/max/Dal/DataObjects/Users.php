@@ -344,7 +344,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         // auditing of user entities to be only visible to the admin
         // account
         $aAccountIds = [
-            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
+            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id'),
         ];
         return $aAccountIds;
     }

@@ -113,7 +113,7 @@ class OA_Dll_Variable extends OA_Dll
                 if (!$this->checkPermissions(
                     [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     'trackers',
-                    $oVariableInfo->trackerId
+                    $oVariableInfo->trackerId,
                 )) {
                     return false;
                 }
@@ -129,7 +129,7 @@ class OA_Dll_Variable extends OA_Dll
             if (!$this->checkPermissions(
                 [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                 'variables',
-                $oVariableInfo->variableId
+                $oVariableInfo->variableId,
             )) {
                 return false;
             }
@@ -205,7 +205,7 @@ class OA_Dll_Variable extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'variables',
-            $variableId
+            $variableId,
         )) {
             return false;
         }

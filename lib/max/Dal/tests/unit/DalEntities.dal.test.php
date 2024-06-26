@@ -174,7 +174,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'status' => OA_ENTITY_STATUS_RUNNING,
             'weight' => 1,
             'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idBanner1 = $this->_insertBanner($aData);
         $aResult = $oDal->getAdsByCampaignId($campaignId);
@@ -183,8 +183,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'ad_id' => $idBanner1,
                 'status' => OA_ENTITY_STATUS_RUNNING,
                 'type' => 'sql',
-                'weight' => 1
-            ]
+                'weight' => 1,
+            ],
         ];
         $this->assertEqual($aResult[1]['ad_id'], $aExpectedResult[1]['ad_id']);
 
@@ -194,7 +194,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'status' => OA_ENTITY_STATUS_PAUSED,
             'weight' => 5,
             'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idBanner2 = $this->_insertBanner($aData);
         $aData = [
@@ -202,7 +202,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'status' => OA_ENTITY_STATUS_RUNNING,
             'weight' => 2,
             'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idBanner3 = $this->_insertBanner($aData);
         $aResult = $oDal->getAdsByCampaignId($campaignId);
@@ -211,14 +211,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'ad_id' => $idBanner1,
                 'status' => OA_ENTITY_STATUS_RUNNING,
                 'type' => 'sql',
-                'weight' => 1
+                'weight' => 1,
             ],
             $idBanner2 => [
                 'ad_id' => $idBanner2,
                 'status' => OA_ENTITY_STATUS_PAUSED,
                 'type' => 'sql',
-                'weight' => 5
-            ]
+                'weight' => 5,
+            ],
         ];
         $this->assertEqual($aResult[1]['ad_id'], $aExpectedResult[1]['ad_id']);
         $this->assertEqual($aResult[2]['ad_id'], $aExpectedResult[2]['ad_id']);
@@ -260,7 +260,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Site:Channel',
             '==',
             12,
-            0
+            0,
         ];
         $idAcls1 = $this->_insertAcls($aData);
         $adId = 1;
@@ -276,7 +276,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Site:Channel',
             '==',
             10,
-            0
+            0,
         ];
         $idAcls1 = $this->_insertAcls($aData);
         $aData = [
@@ -285,7 +285,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Site:Channel',
             '==',
             11,
-            1
+            1,
         ];
         $idAcls2 = $this->_insertAcls($aData);
         $aData = [
@@ -294,7 +294,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Site:Channel',
             '==',
             12,
-            0
+            0,
         ];
         $idAcls3 = $this->_insertAcls($aData);
         $adId = 1;
@@ -304,14 +304,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'logical' => 'and',
                 'type' => 'Site:Channel',
                 'comparison' => '==',
-                'data' => 10
+                'data' => 10,
             ],
             1 => [
                 'logical' => 'or',
                 'type' => 'Site:Channel',
                 'comparison' => '==',
-                'data' => 11
-            ]
+                'data' => 11,
+            ],
         ];
         $this->assertEqual($aResult, $aExpectedResult);
         DataGenerator::cleanUp();
@@ -351,7 +351,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Time:Hour',
             '==',
             12,
-            0
+            0,
         ];
         $idAclsChannel1 = $this->_insertAclsChannel($aData);
         $aResult = $oDal->getDeliveryLimitationsByChannelId(1);
@@ -366,7 +366,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Time:Hour',
             '==',
             10,
-            0
+            0,
         ];
         $idAclsChannel1 = $this->_insertAclsChannel($aData);
         $aData = [
@@ -375,7 +375,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Time:Hour',
             '==',
             11,
-            1
+            1,
         ];
         $idAclsChannel2 = $this->_insertAclsChannel($aData);
         $aData = [
@@ -384,7 +384,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'Time:Hour',
             '==',
             12,
-            0
+            0,
         ];
         $idAclsChannel3 = $this->_insertAclsChannel($aData);
         $aResult = $oDal->getDeliveryLimitationsByChannelId(1);
@@ -393,14 +393,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'logical' => 'and',
                 'type' => 'Time:Hour',
                 'comparison' => '==',
-                'data' => 10
+                'data' => 10,
             ],
             1 => [
                 'logical' => 'or',
                 'type' => 'Time:Hour',
                 'comparison' => '==',
-                'data' => 11
-            ]
+                'data' => 11,
+            ],
         ];
         $this->assertEqual($aResult, $aExpectedResult);
         DataGenerator::cleanUp();

@@ -58,7 +58,7 @@ class PluginInstaller
         $aResult = [
             'name' => $pluginName,
             'status' => '',
-            'errors' => &$aErrors
+            'errors' => &$aErrors,
         ];
 
         $aPlugin = $this->getPlugin($pluginName);
@@ -109,7 +109,7 @@ class PluginInstaller
         $aResult = [
             'name' => $pluginName,
             'status' => '',
-            'errors' => &$aErrors
+            'errors' => &$aErrors,
         ];
 
         $oPluginManager = new OX_PluginManager();
@@ -215,7 +215,7 @@ class PluginInstaller
         $aResult = [
             'name' => $pluginName,
             'status' => '',
-            'errors' => &$aErrors
+            'errors' => &$aErrors,
         ];
 
         if (array_key_exists($pluginName, $GLOBALS['_MAX']['CONF']['plugins'])) {
@@ -258,7 +258,7 @@ class PluginInstaller
         return [
             'path' => MAX_PATH . '/etc/plugins/',
             'name' => $pluginName,
-            'ext' => 'zip', 'disabled' => true
+            'ext' => 'zip', 'disabled' => true,
         ];
     }
 

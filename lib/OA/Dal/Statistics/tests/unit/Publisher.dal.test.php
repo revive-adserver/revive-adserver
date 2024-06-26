@@ -63,7 +63,7 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalPublisherStatistics->getPublisherDailyStatistics(
             $doPublisher->affiliateid,
             new Date('2007-08-20'),
-            new Date('2007-08-20')
+            new Date('2007-08-20'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -87,7 +87,7 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalPublisherStatistics->getPublisherDailyStatistics(
             $doPublisher->affiliateid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -116,7 +116,7 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalPublisherStatistics->getPublisherHourlyStatistics(
             $doPublisher->affiliateid,
             new Date('2007-08-20'),
-            new Date('2007-08-20')
+            new Date('2007-08-20'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -141,7 +141,7 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalPublisherStatistics->getPublisherHourlyStatistics(
             $doPublisher->affiliateid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -192,14 +192,14 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherZoneStatistics(
             $doPublisher->affiliateid,
             new Date('2007-01-01'),
-            new Date('2007-03-02')
+            new Date('2007-03-02'),
         );
 
         $rsPublisherStatistics->find();
 
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsPublisherStatistics->fetch();
@@ -235,12 +235,12 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherZoneStatistics(
             $doPublisher->affiliateid,
             new Date('2007-05-01'),
-            new Date('2007-05-02')
+            new Date('2007-05-02'),
         );
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -286,13 +286,13 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherAdvertiserStatistics(
             $doPublisher->affiliateid,
             new Date('1984-01-01'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsPublisherStatistics->fetch();
@@ -316,24 +316,24 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherAdvertiserStatistics(
             $doPublisher->affiliateid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get data from only 1 advertiser
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherAdvertiserStatistics(
             $doPublisher->affiliateid,
             new Date('1984-01-01'),
-            new Date('1984-03-09')
+            new Date('1984-03-09'),
         );
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsPublisherStatistics->fetch();
@@ -396,13 +396,13 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherCampaignStatistics(
             $doPublisher->affiliateid,
             new Date('2007-06-06'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsPublisherStatistics->fetch();
@@ -434,24 +434,24 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherCampaignStatistics(
             $doPublisher->affiliateid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get data from only 1 row
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherCampaignStatistics(
             $doPublisher->affiliateid,
             new Date('2007-06-06'),
-            new Date('2007-09-08')
+            new Date('2007-09-08'),
         );
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
     }
 
@@ -510,13 +510,13 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherBannerStatistics(
             $doPublisher->affiliateid,
             new Date('2007-01-06'),
-            new Date('2007-11-18')
+            new Date('2007-11-18'),
         );
 
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsPublisherStatistics->fetch();
@@ -552,12 +552,12 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics = $this->_dalPublisherStatistics->getPublisherBannerStatistics(
             $doPublisher->affiliateid,
             new Date('2007-12-21'),
-            new Date('2008-09-21')
+            new Date('2008-09-21'),
         );
         $rsPublisherStatistics->find();
         $this->assertTrue(
             $rsPublisherStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 }

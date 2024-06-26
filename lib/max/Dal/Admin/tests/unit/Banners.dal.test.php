@@ -212,7 +212,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $doBanners->alt = 'bar';
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -263,7 +263,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);

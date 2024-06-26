@@ -36,8 +36,8 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
                     [
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId,
-                        'ad_id' => $adId]
-                )
+                        'ad_id' => $adId],
+                ),
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             //  determine if there are 1 or more ads
@@ -47,15 +47,15 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
                         'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId,
-                        'ad_id' => $adId]
-                )
+                        'ad_id' => $adId],
+                ),
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getAds(
                             [  'advertiser_id' => $advertiserId,
-                                    'placement_id' => $placementId,
-                                    'ad_id' => $adId]
+                                'placement_id' => $placementId,
+                                'ad_id' => $adId],
                         ));
         }
     }
@@ -72,7 +72,7 @@ function MAX_checkAdvertiser($advertiserId, $aParams = [])
             $allowed = count(Admin_DA::getAdvertisers(
                 $aParams +
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'advertiser_id' => $advertiserId]
+                    'advertiser_id' => $advertiserId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
@@ -108,7 +108,7 @@ function MAX_checkPublisher($publisherId)
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPublishers(
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'publisher_id' => $publisherId]
+                    'publisher_id' => $publisherId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = ($publisherId == OA_Permission::getEntityId())
@@ -126,21 +126,21 @@ function MAX_checkPlacement($advertiserId, $placementId, $aParams = [])
             $allowed = count(Admin_DA::getPlacements(
                 $aParams +
                 [  'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'placement_id' => $placementId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPlacements(
                 $aParams +
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'advertiser_id' => $advertiserId,
+                    'placement_id' => $placementId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getPlacements(
                             $aParams +
                 [  'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'placement_id' => $placementId],
                         ));
         }
     }
@@ -154,19 +154,19 @@ function MAX_checkTracker($advertiserId, $trackerId)
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getTrackers(
                 [  'advertiser_id' => $advertiserId,
-                        'tracker_id' => $trackerId]
+                    'tracker_id' => $trackerId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getTrackers(
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'advertiser_id' => $advertiserId,
-                        'tracker_id' => $trackerId]
+                    'advertiser_id' => $advertiserId,
+                    'tracker_id' => $trackerId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getTrackers(
                             [  'advertiser_id' => $advertiserId,
-                        'tracker_id' => $trackerId]
+                                'tracker_id' => $trackerId],
                         ));
         }
     }
@@ -180,19 +180,19 @@ function MAX_checkZone($publisherId, $zoneId)
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getZones(
                 [  'publisher_id' => $publisherId,
-                        'zone_id' => $zoneId]
+                    'zone_id' => $zoneId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getZones(
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'publisher_id' => $publisherId,
-                        'zone_id' => $zoneId]
+                    'publisher_id' => $publisherId,
+                    'zone_id' => $zoneId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = ($publisherId == OA_Permission::getEntityId())
                         && count(Admin_DA::getZones(
                             [  'publisher_id' => $publisherId,
-                        'zone_id' => $zoneId]
+                                'zone_id' => $zoneId],
                         ));
         }
     }
@@ -221,12 +221,12 @@ function MAX_checkChannel($agencyId, $channelId)
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getChannels(
                 [ 'channel_id' => $channelId,
-                       'channel_type' => 'admin']
+                    'channel_type' => 'admin'],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getChannels(
                 [  'agency_id' => $agencyId,
-                        'channel_id' => $channelId]
+                    'channel_id' => $channelId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = false;

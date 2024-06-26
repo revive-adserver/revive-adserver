@@ -96,7 +96,7 @@ abstract class MigrationTest extends DbTestCase
         Mock::generatePartial(
             'OA_UpgradeLogger',
             $mockLogger = 'OA_UpgradeLogger' . rand(),
-            ['logOnly', 'logError', 'log']
+            ['logOnly', 'logError', 'log'],
         );
 
         $oLogger = new $mockLogger($this);

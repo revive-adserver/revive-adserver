@@ -57,9 +57,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
         for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
             $expected = [
-                        'zone_id' => 1,
-                        'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
-                        'operation_interval_id' => $operationIntervalID
+                'zone_id' => 1,
+                'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
+                'operation_interval_id' => $operationIntervalID,
             ];
             $this->assertEqual($aResult[$operationIntervalID], $expected);
         }

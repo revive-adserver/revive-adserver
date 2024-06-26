@@ -36,7 +36,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensationScaleBack',
-            ['_getDal']
+            ['_getDal'],
         );
     }
 
@@ -80,7 +80,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             'requestedColour' => 'blue',
             'availableColour' => 'black',
             'deliveredColour' => 'green',
-            'priorityFactorColour' => 'red'
+            'priorityFactorColour' => 'red',
         ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
@@ -254,10 +254,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oPlotareaSecondary = &Image_Graph::factory('plotarea', ['axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY]);
@@ -314,10 +314,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -380,7 +380,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             'requestedColour' => 'blue',
             'availableColour' => 'black',
             'deliveredColour' => 'green',
-            'priorityFactorColour' => 'red'
+            'priorityFactorColour' => 'red',
         ];
         $aAds[2] = [
             'requiredImpressions' => 5000,
@@ -389,7 +389,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             'requestedColour' => 'blue',
             'availableColour' => 'black',
             'deliveredColour' => 'green',
-            'priorityFactorColour' => 'red'
+            'priorityFactorColour' => 'red',
         ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
@@ -563,10 +563,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oPlotareaSecondary = &Image_Graph::factory('plotarea', ['axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY]);
@@ -625,10 +625,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -665,10 +665,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oPlotareaSecondary = &Image_Graph::factory('plotarea', ['axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY]);
@@ -727,10 +727,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -797,7 +797,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             'requestedColour' => 'blue',
             'availableColour' => 'black',
             'deliveredColour' => 'green',
-            'priorityFactorColour' => 'red'
+            'priorityFactorColour' => 'red',
         ];
         $aAds[2] = [
             'requiredImpressions' => 5000,
@@ -806,7 +806,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             'requestedColour' => 'blue',
             'availableColour' => 'black',
             'deliveredColour' => 'green',
-            'priorityFactorColour' => 'red'
+            'priorityFactorColour' => 'red',
         ];
         $aAds[3] = [
             'requiredImpressions' => 5000,
@@ -815,7 +815,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             'requestedColour' => 'blue',
             'availableColour' => 'black',
             'deliveredColour' => 'green',
-            'priorityFactorColour' => 'red'
+            'priorityFactorColour' => 'red',
         ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
@@ -993,10 +993,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oPlotareaSecondary = &Image_Graph::factory('plotarea', ['axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY]);
@@ -1055,10 +1055,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -1095,10 +1095,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oPlotareaSecondary = &Image_Graph::factory('plotarea', ['axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY]);
@@ -1157,10 +1157,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -1197,10 +1197,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oPlotareaSecondary = &Image_Graph::factory('plotarea', ['axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY]);
@@ -1259,10 +1259,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis']),
                     $oLegend = Image_Graph::factory('legend'),
-                    90
+                    90,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);

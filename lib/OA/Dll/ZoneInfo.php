@@ -164,19 +164,19 @@ class OA_Dll_ZoneInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-                    'zoneId' => 'integer',
-                    'publisherId' => 'integer',
-                    'zoneName' => 'string',
-                    'type' => 'integer',
-                    'width' => 'integer',
-                    'height' => 'integer',
-                    'capping' => 'integer',
-                    'sessionCapping' => 'integer',
-                    'block' => 'integer',
-                    'comments' => 'string',
-                    'append' => 'string',
-                    'prepend' => 'string',
-                    'chainedZoneId' => 'integer',
-                ];
+            'zoneId' => 'integer',
+            'publisherId' => 'integer',
+            'zoneName' => 'string',
+            'type' => 'integer',
+            'width' => 'integer',
+            'height' => 'integer',
+            'capping' => 'integer',
+            'sessionCapping' => 'integer',
+            'block' => 'integer',
+            'comments' => 'string',
+            'append' => 'string',
+            'prepend' => 'string',
+            'chainedZoneId' => 'integer',
+        ];
     }
 }

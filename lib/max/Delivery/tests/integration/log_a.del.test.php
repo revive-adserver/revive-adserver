@@ -56,7 +56,7 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
             'cid' => 2,
             'zid' => 3,
             'dt' => $GLOBALS['_MAX']['NOW'] - 60,
-            'window' => 60
+            'window' => 60,
         ];
         MAX_Delivery_log_logConversion(1, $aConversion);
 

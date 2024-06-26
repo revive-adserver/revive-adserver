@@ -29,7 +29,7 @@ function MAX_layerGetLimitations()
 
     return [
         'richmedia' => $richmedia,
-        'compatible' => $compatible
+        'compatible' => $compatible,
     ];
 }
 

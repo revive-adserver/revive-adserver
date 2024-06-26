@@ -173,9 +173,9 @@ function MAX_limitationsGeoCitySerialize($aCityLimitation)
 function MAX_limitationsGeoCityUnserialize($sCityLimitation)
 {
     return [
-                substr($sCityLimitation, 0, strpos($sCityLimitation, '|')),
-                substr($sCityLimitation, strpos($sCityLimitation, '|') + 1)
-            ];
+        substr($sCityLimitation, 0, strpos($sCityLimitation, '|')),
+        substr($sCityLimitation, strpos($sCityLimitation, '|') + 1),
+    ];
 }
 
 function MAX_limitationsGetSCities($aData)

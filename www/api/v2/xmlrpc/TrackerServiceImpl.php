@@ -129,7 +129,7 @@ class TrackerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult(
-                $this->dllTracker->getTracker($trackerId, $oTrackerInfo)
+                $this->dllTracker->getTracker($trackerId, $oTrackerInfo),
             );
         } else {
             return false;

@@ -20,7 +20,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
 {
     public $onDeleteCascade = true;
     public $onDeleteCascadeSkip = [
-        'audit', 'users'
+        'audit', 'users',
     ];
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */

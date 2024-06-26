@@ -167,7 +167,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
                     $adId,
                     $adInfo[self::IDX_WEIGHT],
                     $campaignAdsWeightSum,
-                    $minImpressionsToDeliver
+                    $minImpressionsToDeliver,
                 );
             }
         }
@@ -185,7 +185,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
         $campaignRemainingOperationIntervals =
         OX_OperationInterval::getIntervalsRemaining(
             $this->aOIDates['start'],
-            $beginningOfTomorrow
+            $beginningOfTomorrow,
         );
         return $campaignRemainingOperationIntervals;
     }
@@ -215,7 +215,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
         $adId,
         $adWeight,
         $campaignAdsWeightSum,
-        $campaignMinRequiredImpressions
+        $campaignMinRequiredImpressions,
     ) {
         $this->aAdsMinImpressions[$adId] = $campaignMinRequiredImpressions *
             $adWeight / $campaignAdsWeightSum;
@@ -261,7 +261,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
             foreach ($aCampaign[self::IDX_ADS] as $adId => $aAd) {
                 $aAdsZonesMinImpressions[$adId] = $this->calculateAdZoneMinImpr(
                     $aCampaign[self::IDX_ADS][$adId][self::IDX_ZONES],
-                    $this->aAdsMinImpressions[$adId]
+                    $this->aAdsMinImpressions[$adId],
                 );
             }
         }

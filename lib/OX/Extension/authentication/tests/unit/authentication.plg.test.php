@@ -74,7 +74,7 @@ class Test_Authentication extends UnitTestCase
         Mock::generatePartial(
             'OA_Dll_User',
             'PartialMockOA_Dll_User',
-            ['raiseError']
+            ['raiseError'],
         );
 
         $dllUserMock = new PartialMockOA_Dll_User();

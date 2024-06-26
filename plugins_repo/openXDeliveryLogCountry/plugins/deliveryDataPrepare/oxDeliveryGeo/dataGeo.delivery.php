@@ -37,7 +37,7 @@ function Plugin_deliveryDataPrepare_oxDeliveryGeo_dataGeo($adId, $zoneId)
             'area_code' => null,
             'organisation' => null,
             'netspeed' => null,
-            'continent' => null
+            'continent' => null,
         ];
     }
 }

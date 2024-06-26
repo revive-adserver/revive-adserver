@@ -43,7 +43,7 @@ function phpAds_ZoneParseAppendCode($append)
     $conf = $GLOBALS['_MAX']['CONF'];
     $ret = [
         ['zoneid' => '', 'delivery' => phpAds_ZonePopup],
-        []
+        [],
     ];
     if (preg_match("/ad(popup|layer)\.php\?([^'\"]+)['\"]/D", $append, $match)) {
         if (!empty($match[2])) {

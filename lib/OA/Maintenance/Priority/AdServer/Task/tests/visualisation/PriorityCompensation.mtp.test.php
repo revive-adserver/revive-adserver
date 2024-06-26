@@ -34,7 +34,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
-            ['_getDal']
+            ['_getDal'],
         );
     }
 
@@ -70,17 +70,17 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $aAds[1] = [
             'impressions' => 5000,
             'channel' => null,
-            'colour' => 'red'
+            'colour' => 'red',
         ];
         $aAds[2] = [
             'impressions' => 1500,
             'channel' => 1,
-            'colour' => 'blue'
+            'colour' => 'blue',
         ];
         $aAds[3] = [
             'impressions' => 750,
             'channel' => 2,
-            'colour' => 'green'
+            'colour' => 'green',
         ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
@@ -167,10 +167,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis_log']),
                     $oLegend = Image_Graph::factory('legend'),
-                    80
+                    80,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -247,17 +247,17 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $aAds[1] = [
             'impressions' => 5000,
             'channel' => null,
-            'colour' => 'red'
+            'colour' => 'red',
         ];
         $aAds[2] = [
             'impressions' => 1500,
             'channel' => 1,
-            'colour' => 'blue'
+            'colour' => 'blue',
         ];
         $aAds[3] = [
             'impressions' => 750,
             'channel' => 2,
-            'colour' => 'green'
+            'colour' => 'green',
         ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
@@ -353,10 +353,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis_log']),
                     $oLegend = Image_Graph::factory('legend'),
-                    80
+                    80,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);
@@ -433,17 +433,17 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $aAds[1] = [
             'impressions' => 5000,
             'channel' => null,
-            'colour' => 'red'
+            'colour' => 'red',
         ];
         $aAds[2] = [
             'impressions' => 1500,
             'channel' => 1,
-            'colour' => 'blue'
+            'colour' => 'blue',
         ];
         $aAds[3] = [
             'impressions' => 750,
             'channel' => 2,
-            'colour' => 'green'
+            'colour' => 'green',
         ];
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
@@ -539,10 +539,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
                 Image_Graph::vertical(
                     $oPlotarea = Image_Graph::factory('plotarea', ['axis', 'axis_log']),
                     $oLegend = Image_Graph::factory('legend'),
-                    80
+                    80,
                 ),
-                10
-            )
+                10,
+            ),
         );
         $oLegend->setPlotarea($oPlotarea);
         $oGridLines = &$oPlotarea->addNew('line_grid', [], IMAGE_GRAPH_AXIS_X);

@@ -138,7 +138,7 @@ class Migration_609 extends Migration
                 $result = $oStmt->execute([
                     $this->_convertDate($aCampaign['activate'], $tz, 0),
                     $this->_convertDate($aCampaign['expire'], $tz, 1),
-                    $campaignId
+                    $campaignId,
                 ]);
                 if (PEAR::isError($result)) {
                     if ($useTransaction) {

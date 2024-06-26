@@ -35,7 +35,7 @@ $aErrors = [];
 $result = [
     'name' => @$_REQUEST['plugin'],
     'status' => '<br />Invalid Request',
-    'errors' => &$aErrors
+    'errors' => &$aErrors,
 ];
 
 if (OA_Upgrade_Login::checkLogin(false)) {

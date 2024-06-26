@@ -499,7 +499,7 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
                 'type' => 'Geo:Region',
                 'logical' => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
                 'comparison' => MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~',
-                'data' => $country . '|' . implode(',', $aRegions)
+                'data' => $country . '|' . implode(',', $aRegions),
             ];
         }
     }

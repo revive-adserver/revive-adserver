@@ -32,7 +32,7 @@ return ECSConfig::configure()
     ])
     ->withRules([
         ArraySyntaxFixer::class,
-        NullableTypeDeclarationForDefaultNullValueFixer::class
+        NullableTypeDeclarationForDefaultNullValueFixer::class,
     ])
     ->withPhpCsFixerSets(perCS20: true)
     ->withPreparedSets(psr12: true)

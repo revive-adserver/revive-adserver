@@ -45,7 +45,7 @@ class OX_UI_WizardSteps
                     'name' => $addStepNo ? ($i + 1) . '. ' . $stepName : $stepName,
                     'current' => $current,
                     'done' => !$currentReached,
-                    'beforeCurrent' => false //this will be updated when current is reached
+                    'beforeCurrent' => false, //this will be updated when current is reached
                 ];
 
                 $aWizardSteps[] = $aStep;

@@ -620,7 +620,7 @@ function MAX_sendStatusCode($iStatusCode)
         502 => 'Bad Gateway',
         503 => 'Service Unavailable',
         504 => 'Gateway Timeout',
-        505 => 'HTTP Version Not Supported'
+        505 => 'HTTP Version Not Supported',
     ];
     if (isset($arr[$iStatusCode])) {
         $text = $iStatusCode . ' ' . $arr[$iStatusCode];
@@ -803,13 +803,13 @@ function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $da
     $secret = implode("\t", [
         base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
         $adId,
-        $zoneId
+        $zoneId,
     ]);
 
     return hash_hmac(
         'sha256',
         $data,
-        $secret
+        $secret,
     );
 }
 

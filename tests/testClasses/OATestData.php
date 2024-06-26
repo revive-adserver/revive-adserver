@@ -24,20 +24,20 @@ class OA_Test_Data
     public $oDbh;
     public $oNow;
     public $aIds = [
-                        'agency' => [],
-                        'clients' => [],
-                        'affiliates' => [],
-                        'campaigns' => [],
-                        'banners' => [],
-                        'zones' => [],
-                        'ad_zone_assoc' => [],
-                        'acls' => [],
-                        'acls_channel' => [],
-                        'campaigns_trackers' => [],
-                        'channel' => [],
-                        'trackers' => [],
-                        'variables' => []
-                      ];
+        'agency' => [],
+        'clients' => [],
+        'affiliates' => [],
+        'campaigns' => [],
+        'banners' => [],
+        'zones' => [],
+        'ad_zone_assoc' => [],
+        'acls' => [],
+        'acls_channel' => [],
+        'campaigns_trackers' => [],
+        'channel' => [],
+        'trackers' => [],
+        'variables' => [],
+    ];
 
     public function init()
     {

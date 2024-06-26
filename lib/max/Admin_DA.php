@@ -189,7 +189,7 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams);
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables, $aParams)
+            SqlBuilder::_getTableLimitations($aTables, $aParams),
         );
         $aGroupColumns = SqlBuilder::_getGroupColumns($entity, $aParams);
         $aLeftJoinedTables = SqlBuilder::_getLeftJoinedTables($entity, $aParams);
@@ -242,7 +242,7 @@ class Admin_DA
         }
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables, $aParams)
+            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables, $aParams),
         );
         return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key, $aLeftJoinedTables);
     }
@@ -265,7 +265,7 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams, true);
         $aLimitations = array_merge(
             SqlBuilder::_getStatsLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables, $aParams)
+            SqlBuilder::_getTableLimitations($aTables, $aParams),
         );
 
         $aGroupBy = [$key];
@@ -355,8 +355,8 @@ class Admin_DA
         $method = $aArgs[0];
 
         $options = [
-                'cacheDir' => MAX_CACHE,
-                'lifeTime' => ($timeout ?? $conf['delivery']['cacheExpire'])];
+            'cacheDir' => MAX_CACHE,
+            'lifeTime' => ($timeout ?? $conf['delivery']['cacheExpire'])];
 
         // check if this method has defined different cache group
         $cacheGroups = $GLOBALS['_MAX']['Admin_DA']['cacheGroups'];
@@ -762,7 +762,7 @@ class Admin_DA
             'day',
             'format',
             ['%Y-%m-%d'],
-            $GLOBALS['date_format']
+            $GLOBALS['date_format'],
         );
     }
 
@@ -774,7 +774,7 @@ class Admin_DA
             'month',
             'format',
             ['%Y-%m'],
-            $GLOBALS['month_format']
+            $GLOBALS['month_format'],
         );
     }
 
@@ -784,7 +784,7 @@ class Admin_DA
             'history_dow',
             $aParams,
             'dow',
-            'getDayOfWeek'
+            'getDayOfWeek',
         );
     }
 
@@ -794,7 +794,7 @@ class Admin_DA
             'history_hour',
             $aParams,
             'hour',
-            'getHour'
+            'getHour',
         );
     }
 

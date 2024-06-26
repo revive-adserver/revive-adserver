@@ -125,7 +125,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
         $zone_id,
         $day,
         $hour,
-        $table = null
+        $table = null,
     ) {
         $prefix = $this->getTablePrefix();
         if ($operation != '-') {

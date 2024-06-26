@@ -64,9 +64,9 @@ class SqlBuilder
                 $aColumns += ['g.agencyid' => 'agency_id', 'g.name' => 'name', 'g.status' => 'status'];
                 if ($allFields) {
                     $aColumns += [
-                    'g.contact' => 'contact',
-                    'g.email' => 'email',
-                    'g.logout_url' => 'logout_url'
+                        'g.contact' => 'contact',
+                        'g.email' => 'email',
+                        'g.logout_url' => 'logout_url',
                     ];
                 }
                 break;
@@ -147,7 +147,7 @@ class SqlBuilder
                 $aColumns += [
                     $compositeKey => 'pkey',
                     's.ad_id' => 'ad_id',
-                    's.zone_id' => 'zone_id'
+                    's.zone_id' => 'zone_id',
                 ] + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
 
                 if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
@@ -165,7 +165,7 @@ class SqlBuilder
                                 $tr = [
                                     'placement_id' => 'd.campaignid',
                                     'advertiser_id' => 'm.clientid',
-                                    'publisher_id' => 'z.affiliateid'
+                                    'publisher_id' => 'z.affiliateid',
                                 ];
                                 $aColumns[strtr(self::sqlKeyConcat($aParams['include']), $tr)] = 'pkey';
                             } else {
@@ -604,7 +604,7 @@ class SqlBuilder
                     if (!in_array('zone_id', $aParams['exclude'] ?? [])) {
                         $aTables += [
                             $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p',
-                            $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
+                            $conf['table']['prefix'] . $conf['table']['zones'] => 'z',
                         ];
                     }
                 }
@@ -612,17 +612,17 @@ class SqlBuilder
                 if (!empty($aParams['advertiser_id'])) {
                     $aTables += [
                         $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm',
-                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd'
+                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd',
                     ];
                 }
                 if (!empty($aParams['placement_id'])) {
                     $aTables += [
-                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd'
+                        $conf['table']['prefix'] . $conf['table']['banners'] => 'd',
                     ];
                 }
                 if (!empty($aParams['publisher_id'])) {
                     $aTables += [
-                        $conf['table']['prefix'] . $conf['table']['zones'] => 'z'
+                        $conf['table']['prefix'] . $conf['table']['zones'] => 'z',
                     ];
                 }
                 break;
@@ -741,7 +741,7 @@ class SqlBuilder
                 'ad_active',
                 'd.status',
                 OA_ENTITY_STATUS_RUNNING,
-                $aParams['ad_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL
+                $aParams['ad_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL,
             );
         }
         if (!empty($aParams['placement_active'])) {
@@ -750,7 +750,7 @@ class SqlBuilder
                 'placement_active',
                 'm.status',
                 OA_ENTITY_STATUS_RUNNING,
-                $aParams['placement_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL
+                $aParams['placement_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL,
             );
         }
         if (!empty($aParams['placement_anonymous'])) {

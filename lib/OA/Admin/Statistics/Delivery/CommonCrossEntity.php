@@ -121,7 +121,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_S
                         $tmp = [
                             'placement_id' => $aEntitiesData[$entityId]['id'],
                             'name' => $aEntitiesData[$entityId]['name'],
-                            'anonymous' => true
+                            'anonymous' => true,
                         ];
                         $aEntitiesData[$entityId]['name'] = MAX_getPlacementName($tmp);
                         break;
@@ -148,7 +148,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_S
             MAX_sortArray(
                 $aEntitiesData,
                 $this->listOrderField,
-                $this->listOrderDirection == 'up'
+                $this->listOrderDirection == 'up',
             );
         }
     }
@@ -252,7 +252,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_S
                     MAX_sortArray(
                         $aEntitiesData,
                         $this->listOrderField,
-                        $this->listOrderDirection == 'up'
+                        $this->listOrderDirection == 'up',
                     );
                 } elseif ($this->listOrderDirection == 'up') {
                     $aEntitiesData[] = $zone;
@@ -305,7 +305,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_S
                     MAX_sortArray(
                         $aEntitiesData,
                         $this->listOrderField,
-                        $this->listOrderDirection == 'up'
+                        $this->listOrderDirection == 'up',
                     );
                 } elseif ($this->listOrderDirection == 'up') {
                     $aEntitiesData[] = $zone;

@@ -140,7 +140,7 @@ $oTpl->assign('canInvocation', !$isTrafficker || OA_Permission::hasPermission(OA
 $oTpl->assign(
     'canDelete',
     ($isTrafficker && OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) ||
-    (!$isTrafficker && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE))
+    (!$isTrafficker && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)),
 );
 
 
@@ -179,10 +179,10 @@ function buildAffiliateZonesHeaderModel($websiteId)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $websiteName, 'url' => $websiteEditUrl,
-               'id' => $websiteId, 'entities' => getWebsiteMap(),
-               'htmlName' => 'affiliateid'
-              ],
-        ['name' => '']
+            'id' => $websiteId, 'entities' => getWebsiteMap(),
+            'htmlName' => 'affiliateid',
+        ],
+        ['name' => ''],
     ], 'zones', 'list');
 
     return $oHeaderModel;

@@ -29,7 +29,7 @@ phpAds_registerGlobalUnslashed(
     'trackername',
     'status',
     'type',
-    'linkcampaigns'
+    'linkcampaigns',
 );
 
 // Security check
@@ -128,7 +128,7 @@ function buildTrackerForm($tracker)
         'select',
         'status',
         $GLOBALS['strDefaultStatus'],
-        $activeStatuses
+        $activeStatuses,
     );
     $form->addElement(
         'advcheckbox',
@@ -136,7 +136,7 @@ function buildTrackerForm($tracker)
         null,
         $GLOBALS['strLinkCampaignsByDefault'],
         null,
-        ["f", "t"]
+        ["f", "t"],
     );
 
     $form->addElement('controls', 'form-controls');
@@ -180,7 +180,7 @@ function processTrackerEditForm($form)
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenAdded'], [
             MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $aFields['clientid'] . "&trackerid=" . $aFields['trackerid']),
-            htmlspecialchars($aFields['trackername'])
+            htmlspecialchars($aFields['trackername']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect('advertiser-trackers.php?clientid=' . $aFields['clientid']);
@@ -192,7 +192,7 @@ function processTrackerEditForm($form)
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $aFields['clientid'] . "&trackerid=" . $aFields['trackerid']),
-            htmlspecialchars($aFields['trackername'])
+            htmlspecialchars($aFields['trackername']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect("tracker-edit.php?clientid=" . $aFields['clientid'] . "&trackerid=" . $aFields['trackerid']);

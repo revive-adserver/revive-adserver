@@ -71,25 +71,25 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'getFilePathToXMLInstall',
-                                      'parseXML',
-                                      'getComponentGroupVersion'
-                                     ]
+                'getFilePathToXMLInstall',
+                'parseXML',
+                'getComponentGroupVersion',
+            ],
         );
         $oManager = new $oMockManager($this);
 
         $aComponentGroup['foo'] = [
-                                'name' => 'foo',
-                                'install' => ['syscheck' => ['depends' => []]],
-                                ];
+            'name' => 'foo',
+            'install' => ['syscheck' => ['depends' => []]],
+        ];
         $aComponentGroup['bar'] = [
-                                'name' => 'bar',
-                                'install' => ['syscheck' => ['depends' => [0 => ['name' => 'foo', 'version' => '1.0.0']]]],
-                                ];
+            'name' => 'bar',
+            'install' => ['syscheck' => ['depends' => [0 => ['name' => 'foo', 'version' => '1.0.0']]]],
+        ];
         $aComponentGroup['bar1'] = [
-                                'name' => 'bar1',
-                                'install' => ['syscheck' => ['depends' => [0 => ['name' => 'foo', 'version' => '1.0.0']]]],
-                                ];
+            'name' => 'bar1',
+            'install' => ['syscheck' => ['depends' => [0 => ['name' => 'foo', 'version' => '1.0.0']]]],
+        ];
         $oManager->setReturnValueAt(0, 'parseXML', $aComponentGroup['bar']);
         $oManager->setReturnValueAt(1, 'parseXML', $aComponentGroup['foo']);
         $oManager->setReturnValueAt(2, 'parseXML', $aComponentGroup['bar']);
@@ -178,9 +178,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_Cache',
             $oMockCache = 'OA_Cache' . rand(),
             [
-                                      'save',
-                                      'setFileNameProtection'
-                                     ]
+                'save',
+                'setFileNameProtection',
+            ],
         );
         $oCache = new $oMockCache($this);
         $oCache->setReturnValueAt(0, 'save', false);
@@ -191,8 +191,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getOA_Cache'
-                                     ]
+                '_getOA_Cache',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_getOA_Cache', $oCache);
@@ -212,9 +212,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_Cache',
             $oMockCache = 'OA_Cache' . rand(),
             [
-                                      'load',
-                                      'setFileNameProtection'
-                                      ]
+                'load',
+                'setFileNameProtection',
+            ],
         );
         $oCache = new $oMockCache($this);
         $aTest['isDependedOnBy'] = ['foo' => ['bar' => ['installed' => true, 'enabled' => false]]];
@@ -227,8 +227,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getOA_Cache'
-                                     ]
+                '_getOA_Cache',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_getOA_Cache', $oCache);
@@ -395,9 +395,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'task1',
-                                      'task2'
-                                     ]
+                'task1',
+                'task2',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -407,13 +407,13 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager->expectCallCount('task2', 1);
 
         $aTaskList[] = [
-                            'method' => 'task1',
-                            'params' => ['foo'],
-                            ];
+            'method' => 'task1',
+            'params' => ['foo'],
+        ];
         $aTaskList[] = [
-                            'method' => 'task2',
-                            'params' => ['bar'],
-                            ];
+            'method' => 'task2',
+            'params' => ['bar'],
+        ];
 
         $this->assertTrue($oManager->_runTasks('testPlugin', $aTaskList));
         $oManager->tally();
@@ -425,9 +425,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'task1',
-                                      'task2'
-                                     ]
+                'task1',
+                'task2',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -437,13 +437,13 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager->expectCallCount('task2', 0);
 
         $aTaskList[] = [
-                            'method' => 'task1',
-                            'params' => ['foo'],
-                            ];
+            'method' => 'task1',
+            'params' => ['foo'],
+        ];
         $aTaskList[] = [
-                            'method' => 'task2',
-                            'params' => ['bar'],
-                            ];
+            'method' => 'task2',
+            'params' => ['bar'],
+        ];
 
         $this->assertFalse($oManager->_runTasks('testPlugin', $aTaskList));
         $oManager->tally();
@@ -455,11 +455,11 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'task1',
-                                      'task2',
-                                      'untask1',
-                                      'untask2'
-                                     ]
+                'task1',
+                'task2',
+                'untask1',
+                'untask2',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -475,21 +475,21 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
 
         $aTaskList[] = [
-                            'method' => 'task1',
-                            'params' => ['foo'],
-                            ];
+            'method' => 'task1',
+            'params' => ['foo'],
+        ];
         $aTaskList[] = [
-                            'method' => 'task2',
-                            'params' => ['bar'],
-                            ];
+            'method' => 'task2',
+            'params' => ['bar'],
+        ];
         $aUndoList[] = [
-                            'method' => 'untask2',
-                            'params' => ['bar'],
-                            ];
+            'method' => 'untask2',
+            'params' => ['bar'],
+        ];
         $aUndoList[] = [
-                            'method' => 'untask1',
-                            'params' => ['foo'],
-                            ];
+            'method' => 'untask1',
+            'params' => ['foo'],
+        ];
 
         $this->assertFalse($oManager->_runTasks('testPlugin', $aTaskList, $aUndoList));
         $oManager->tally();
@@ -501,11 +501,11 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'task1',
-                                      'task2',
-                                      'untask1',
-                                      'untask2'
-                                     ]
+                'task1',
+                'task2',
+                'untask1',
+                'untask2',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -521,21 +521,21 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
 
         $aTaskList[] = [
-                            'method' => 'task1',
-                            'params' => ['foo'],
-                            ];
+            'method' => 'task1',
+            'params' => ['foo'],
+        ];
         $aTaskList[] = [
-                            'method' => 'task2',
-                            'params' => ['bar'],
-                            ];
+            'method' => 'task2',
+            'params' => ['bar'],
+        ];
         $aUndoList[] = [
-                            'method' => 'untask2',
-                            'params' => ['bar'],
-                            ];
+            'method' => 'untask2',
+            'params' => ['bar'],
+        ];
         $aUndoList[] = [
-                            'method' => 'untask1',
-                            'params' => ['foo'],
-                            ];
+            'method' => 'untask1',
+            'params' => ['foo'],
+        ];
 
         $this->assertFalse($oManager->_runTasks('testPlugin', $aTaskList, $aUndoList));
         $oManager->tally();
@@ -547,9 +547,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $oMockParser = 'stdClass' . rand(),
             [
-                                      'setInputFile',
-                                      'parse'
-                                     ]
+                'setInputFile',
+                'parse',
+            ],
         );
         $oParser = new $oMockParser($this);
         $oParser->setReturnValue('setInputFile', true);
@@ -557,16 +557,16 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oParser->setReturnValue('parse', true);
         $oParser->expectOnce('parse');
         $oParser->aPlugin = [
-                                  1 => 'test1',
-                                  2 => 'test2',
-                                 ];
+            1 => 'test1',
+            2 => 'test2',
+        ];
 
         Mock::generatePartial(
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_instantiateClass'
-                                     ]
+                '_instantiateClass',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oParser);
@@ -592,9 +592,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager = new OX_Plugin_ComponentGroupManager();
 
         $GLOBALS['_MAX']['CONF']['test'] = [
-                                                  'foo' => 1,
-                                                  'bar' => 0,
-                                                 ];
+            'foo' => 1,
+            'bar' => 0,
+        ];
         $aComponentGroups = $oManager->getComponentGroupSettingsArray('test');
         $this->assertIsA($aComponentGroups, 'array');
         $this->assertEqual(count($aComponentGroups), 2);
@@ -612,8 +612,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $mockVerCtrl = 'stdClass' . rand(),
             [
-                                      'getApplicationVersion'
-                                     ]
+                'getApplicationVersion',
+            ],
         );
         $oVerCtrl = new $mockVerCtrl($this);
         $oVerCtrl->setReturnValueAt(0, 'getApplicationVersion', '0.1', ['foo']);
@@ -623,8 +623,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getVersionController'
-                                     ]
+                '_getVersionController',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -669,9 +669,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_Admin_Settings',
             $oMockConfig = 'OA_Admin_Settings' . rand(),
             [
-                                      'settingChange',
-                                      'writeConfigChange'
-                                     ]
+                'settingChange',
+                'writeConfigChange',
+            ],
         );
         $oConfig = new $oMockConfig($this);
         $oConfig->setReturnValue('settingChange', true);
@@ -683,8 +683,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_instantiateClass'
-                                     ]
+                '_instantiateClass',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oConfig);
@@ -700,8 +700,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_setPlugin'
-                                     ]
+                '_setPlugin',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValueAt(0, '_setPlugin', true);
@@ -719,8 +719,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_setPlugin'
-                                     ]
+                '_setPlugin',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValueAt(0, '_setPlugin', true);
@@ -738,8 +738,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $mockVerCtrl = 'stdClass' . rand(),
             [
-                                      'getSchemaVersion'
-                                     ]
+                'getSchemaVersion',
+            ],
         );
         $oVerCtrl = new $mockVerCtrl($this);
         $oVerCtrl->setReturnValueAt(0, 'getSchemaVersion', '999', ['foo']);
@@ -749,8 +749,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getVersionController'
-                                     ]
+                '_getVersionController',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -768,9 +768,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'getSchemaInfo',
-                                      'parseXML'
-                                     ]
+                'getSchemaInfo',
+                'parseXML',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -779,10 +779,10 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager->pathPluginsAdmin = $this->testpathPluginsAdmin;
 
         $aComponentGroup1 = [
-                        '1' => 'foo',
-                        '2' => 'bar',
-                        'install' => ['schema' => ['mdb2schema' => 'fooschema']],
-                        ];
+            '1' => 'foo',
+            '2' => 'bar',
+            'install' => ['schema' => ['mdb2schema' => 'fooschema']],
+        ];
         $oManager->setReturnValueAt(0, 'parseXML', $aComponentGroup1);
         $oManager->setReturnValueAt(0, 'getSchemaInfo', '999', ['fooschema']);
 
@@ -795,10 +795,10 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $this->assertEqual($aResult['schema_version'], '999');
 
         $aComponentGroup2 = [
-                        '1' => 'foo',
-                        '2' => 'bar',
-                        'install' => ['conf' => ['settings' => [['visible' => 1, 1, 2]], 'preferences' => [0, 1, 2]]],
-                        ];
+            '1' => 'foo',
+            '2' => 'bar',
+            'install' => ['conf' => ['settings' => [['visible' => 1, 1, 2]], 'preferences' => [0, 1, 2]]],
+        ];
         $oManager->setReturnValueAt(1, 'parseXML', $aComponentGroup2);
         $oManager->setReturnValueAt(1, 'getSchemaInfo', false);
 
@@ -824,8 +824,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $mockVerCtrl = 'stdClass' . rand(),
             [
-                                      'putApplicationVersion'
-                                     ]
+                'putApplicationVersion',
+            ],
         );
         $oVerCtrl = new $mockVerCtrl($this);
         $oVerCtrl->setReturnValueAt(0, 'putApplicationVersion', '0.1', ['0.1', 'test']);
@@ -836,8 +836,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getVersionController'
-                                     ]
+                '_getVersionController',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -857,8 +857,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $mockVerCtrl = 'stdClass' . rand(),
             [
-                                      'putSchemaVersion'
-                                     ]
+                'putSchemaVersion',
+            ],
         );
         $oVerCtrl = new $mockVerCtrl($this);
         $oVerCtrl->setReturnValueAt(0, 'putSchemaVersion', '999', ['test', '999']);
@@ -869,8 +869,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getVersionController'
-                                     ]
+                '_getVersionController',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -890,8 +890,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $mockVerCtrl = 'stdClass' . rand(),
             [
-                                      'removeVariable'
-                                     ]
+                'removeVariable',
+            ],
         );
         $oVerCtrl = new $mockVerCtrl($this);
         $oVerCtrl->setReturnValueAt(0, 'removeVariable', true, ['test']);
@@ -902,8 +902,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getVersionController'
-                                     ]
+                '_getVersionController',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -923,8 +923,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'Mock_stdClass',
             $mockVerCtrl = 'stdClass' . rand(),
             [
-                                      'removeVersion'
-                                     ]
+                'removeVersion',
+            ],
         );
         $oVerCtrl = new $mockVerCtrl($this);
         $oVerCtrl->setReturnValueAt(0, 'removeVersion', true, ['test']);
@@ -935,8 +935,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getVersionController'
-                                     ]
+                '_getVersionController',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -956,9 +956,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_Admin_Settings',
             $oMockConfig = 'OA_Admin_Settings' . rand(),
             [
-                                      'settingChange',
-                                      'writeConfigChange'
-                                     ]
+                'settingChange',
+                'writeConfigChange',
+            ],
         );
         $oConfig = new $oMockConfig($this);
         $oConfig->setReturnValue('settingChange', true);
@@ -971,22 +971,22 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_instantiateClass'
-                                     ]
+                '_instantiateClass',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oConfig);
 
         $aSettings[] = [
-                             'section' => 'foo',
-                             'key' => 'foo1',
-                             'data' => 'bar1',
-                            ];
+            'section' => 'foo',
+            'key' => 'foo1',
+            'data' => 'bar1',
+        ];
         $aSettings[] = [
-                             'section' => 'foo',
-                             'key' => 'foo2',
-                             'data' => 'bar2',
-                            ];
+            'section' => 'foo',
+            'key' => 'foo2',
+            'data' => 'bar2',
+        ];
         $this->assertTrue($oManager->_registerSettings('testPlugin', $aSettings));
         $this->assertFalse($oManager->_registerSettings('testPlugin', $aSettings));
 
@@ -1001,8 +1001,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_Admin_Settings',
             $oMockConfig = 'OA_Admin_Settings' . rand(),
             [
-                                      'writeConfigChange'
-                                     ]
+                'writeConfigChange',
+            ],
         );
         $oConfig = new $oMockConfig($this);
         $oConfig->setReturnValueAt(0, 'writeConfigChange', true);
@@ -1015,23 +1015,23 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_instantiateClass'
-                                     ]
+                '_instantiateClass',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oConfig);
         $oManager->expectCallCount('_instantiateClass', 2);
 
         $aSettings[] = [
-                             'section' => 'foo',
-                             'key' => 'foo1',
-                             'data' => 'bar1',
-                            ];
+            'section' => 'foo',
+            'key' => 'foo1',
+            'data' => 'bar1',
+        ];
         $aSettings[] = [
-                             'section' => 'foo',
-                             'key' => 'foo2',
-                             'data' => 'bar2',
-                            ];
+            'section' => 'foo',
+            'key' => 'foo2',
+            'data' => 'bar2',
+        ];
         $this->assertEqual(count($oConfig->aConf['pluginGroupComponents']), 1);
         $this->assertEqual(count($oConfig->aConf['test']), 1);
         $this->assertTrue($oManager->_unregisterSettings('test'));
@@ -1048,9 +1048,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_Environment_Manager',
             $oMockEnvMgr = 'OA_Environment_Manager' . rand(),
             [
-                                      'getPHPInfo',
-                                      '_checkCriticalPHP',
-                                     ]
+                'getPHPInfo',
+                '_checkCriticalPHP',
+            ],
         );
         $oEnvMgr = new $oMockEnvMgr($this);
         $oEnvMgr->setReturnValueAt(0, 'getPHPInfo', ['version' => '4.3.12']);
@@ -1062,16 +1062,16 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_instantiateClass'
-                                     ]
+                '_instantiateClass',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oEnvMgr);
 
         $aPhp[] = [
-                        'name' => 'version',
-                        'value' => '4.3.11',
-                       ];
+            'name' => 'version',
+            'value' => '4.3.11',
+        ];
         $this->assertTrue($oManager->_checkSystemEnvironment('testPlugin', $aPhp));
         $this->assertFalse($oManager->_checkSystemEnvironment('testPlugin', $aPhp));
 
@@ -1093,7 +1093,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                     ]
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -1103,16 +1103,16 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         // Test 2 - plugin does not support user database
         $aDbms[0] = [
-                         'name' => $phptype,
-                         'supported' => 0,
-                         ];
+            'name' => $phptype,
+            'supported' => 0,
+        ];
         $this->assertFalse($oManager->_checkDatabaseEnvironment('testPlugin', $aDbms));
 
         // Test 3 - plugin does support user database
         $aDbms[0] = [
-                         'name' => $phptype,
-                         'supported' => 1,
-                         ];
+            'name' => $phptype,
+            'supported' => 1,
+        ];
         $this->assertTrue($oManager->_checkDatabaseEnvironment('testPlugin', $aDbms));
     }
 
@@ -1122,8 +1122,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                        'getComponentGroupVersion',
-                                     ]
+                'getComponentGroupVersion',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -1161,8 +1161,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_loadDependencyArray'
-                                     ]
+                '_loadDependencyArray',
+            ],
         );
         $oManager = new $oMockManager($this);
         $aDepends['foo']['isDependedOnBy'][0] = 'bar';
@@ -1202,13 +1202,13 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_createTables',
-                                      '_dropTables',
-                                       '_registerSchemaVersion',
-                                       '_putDataObjects',
-                                      '_cacheDataObjects',
-                                      '_verifyDataObjects'
-                                     ]
+                '_createTables',
+                '_dropTables',
+                '_registerSchemaVersion',
+                '_putDataObjects',
+                '_cacheDataObjects',
+                '_verifyDataObjects',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_dropTables', true);
@@ -1270,9 +1270,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_dropTables',
-                                      '_unregisterSchemaVersion',
-                                     ]
+                '_dropTables',
+                '_unregisterSchemaVersion',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -1300,27 +1300,27 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_DB_Table',
             $oMockTable = 'OA_DB_Table' . rand(),
             [
-                                      'init',
-                                      'createTable',
-                                      'dropAllTables',
-                                     ]
+                'init',
+                'createTable',
+                'dropAllTables',
+            ],
         );
         $oTable = new $oMockTable($this);
         $oTable->aDefinition = [
-                                     'name' => 'testPlugin',
-                                     'version' => 001,
-                                     'tables' => ['testplugin_table' => []],
-                                     ];
+            'name' => 'testPlugin',
+            'version' => 001,
+            'tables' => ['testplugin_table' => []],
+        ];
         Mock::generatePartial(
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                        '_instantiateClass',
-                                        '_dropTables',
-                                        '_auditInit',
-                                        '_auditSetKeys',
-                                        '_auditStart',
-                                     ]
+                '_instantiateClass',
+                '_dropTables',
+                '_auditInit',
+                '_auditSetKeys',
+                '_auditStart',
+            ],
         );
         ;
         $oManager = new $oMockManager($this);
@@ -1364,26 +1364,26 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_DB_Table',
             $oMockTable = 'OA_DB_Table' . rand(),
             [
-                                      'init',
-                                      'dropTable',
-                                     ]
+                'init',
+                'dropTable',
+            ],
         );
         $oTable = new $oMockTable($this);
         $oTable->aDefinition = [
-                                     'name' => 'testPlugin',
-                                     'version' => 001,
-                                     'tables' => ['testplugin_table' => []]
-                                     ];
+            'name' => 'testPlugin',
+            'version' => 001,
+            'tables' => ['testplugin_table' => []],
+        ];
         Mock::generatePartial(
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                        '_instantiateClass',
-                                        '_auditInit',
-                                        '_auditSetKeys',
-                                        '_auditStart',
-                                        '_tableExists',
-                                     ]
+                '_instantiateClass',
+                '_auditInit',
+                '_auditSetKeys',
+                '_auditStart',
+                '_tableExists',
+            ],
         );
         ;
         $oManager = new $oMockManager($this);
@@ -1434,8 +1434,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OA_UpgradeAuditor',
             $oMockAuditor = 'OA_UpgradeAuditor' . rand(),
             [
-                                        'init',
-                                     ]
+                'init',
+            ],
         );
         $oAuditor = new $oMockAuditor($this);
         $oAuditor->setReturnValue('init', true);
@@ -1444,8 +1444,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                        '_instantiateClass',
-                                     ]
+                '_instantiateClass',
+            ],
         );
         ;
         $oManager = new $oMockManager($this);
@@ -1478,8 +1478,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_UpgradeComponentGroup',
             $oMockUpgrade = 'OX_Plugin_UpgradeComponentGroup' . rand(),
             [
-                                      'canUpgrade'
-                                     ]
+                'canUpgrade',
+            ],
         );
         $oUpgrade = new $oMockUpgrade($this);
         $oUpgrade->expectCallCount('canUpgrade', 5);
@@ -1488,16 +1488,16 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getOX_Plugin_UpgradeComponentGroup',
-                                     ]
+                '_getOX_Plugin_UpgradeComponentGroup',
+            ],
         );
         $oManager = new $oMockManager($this);
 
         $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', $oUpgrade);
 
         $aComponentGroup = ['name' => 'foo',
-                         'version' => '1.0.0',
-                        ];
+            'version' => '1.0.0',
+        ];
 
         // Test 1 - can upgrade
         $oUpgrade->existing_installation_status = OA_STATUS_PLUGIN_CAN_UPGRADE;
@@ -1531,9 +1531,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_UpgradeComponentGroup',
             $oMockUpgrade = 'OX_Plugin_UpgradeComponentGroup' . rand(),
             [
-                                      'canUpgrade',
-                                      'upgrade',
-                                     ]
+                'canUpgrade',
+                'upgrade',
+            ],
         );
         $oUpgrade = new $oMockUpgrade($this);
         $oUpgrade->setReturnValue('canUpgrade', true);
@@ -1545,16 +1545,16 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             'OX_Plugin_ComponentGroupManager',
             $oMockManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      '_getOX_Plugin_UpgradeComponentGroup',
-                                     ]
+                '_getOX_Plugin_UpgradeComponentGroup',
+            ],
         );
         $oManager = new $oMockManager($this);
 
         $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', $oUpgrade);
 
         $aComponentGroup = ['name' => 'foo',
-                         'version' => '1.0.0',
-                        ];
+            'version' => '1.0.0',
+        ];
 
         $this->assertEqual($oManager->upgradeComponentGroup($aComponentGroup), UPGRADE_ACTION_UPGRADE_FAILED);
 

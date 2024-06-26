@@ -63,7 +63,7 @@ class OX_Maintenance_Statistics_MigrateBucketData
         // TODO: make it work for a range of dates
         $aDates = [
             'start' => $oStartDate,
-            'end' => $oEndDate
+            'end' => $oEndDate,
         ];
 
         // Prepare the DAL object

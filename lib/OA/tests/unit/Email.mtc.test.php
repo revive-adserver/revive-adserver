@@ -67,7 +67,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             $mockName,
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new $mockName();
@@ -450,7 +450,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             $mockName,
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new $mockName();
@@ -640,7 +640,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             $mockName,
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new $mockName();
@@ -1307,7 +1307,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             'PartialMockOA_Email',
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new PartialMockOA_Email();

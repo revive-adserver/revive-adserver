@@ -58,17 +58,17 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Subdivision1 extends UnitTes
         $this->assertTrue(MAX_checkGeo_Subdivision1(
             'GB|T7,T8,T9',
             '=~',
-            ['country' => 'GB', 'subdivision_1' => 'T8']
+            ['country' => 'GB', 'subdivision_1' => 'T8'],
         ));
         $this->assertFalse(MAX_checkGeo_Subdivision1(
             'GB|T7,T9',
             '=~',
-            ['country' => 'GB', 'subdivision_1' => 'T8']
+            ['country' => 'GB', 'subdivision_1' => 'T8'],
         ));
         $this->assertFalse(MAX_checkGeo_Subdivision1(
             'GB|T5,T7',
             '=~',
-            ['subdivision_1' => 'T9']
+            ['subdivision_1' => 'T9'],
         ));
     }
 }

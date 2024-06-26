@@ -34,7 +34,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
             [
                 'ad_id' => 23,
                 'required_impressions' => 140,
-            ]
+            ],
         ];
         $result = $oDal->saveRequiredAdImpressions($aData);
         $oDbh = OA_DB::singleton();
@@ -69,13 +69,13 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
             [
                 'ad_id' => 29,
                 'required_impressions' => 120,
-            ]
+            ],
         ];
         $result = $oDal->saveRequiredAdImpressions($aData);
         $aAdvertID = [
             1,
             2,
-            29
+            29,
         ];
         $aData = $oDal->getRequiredAdImpressions($aAdvertID);
         $this->assertEqual(count($aData), 1);
@@ -102,14 +102,14 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
                 'ad_id' => 56,
                 'zone_id' => 11,
                 'required_impressions' => 9997,
-                'requested_impressions' => 9000
+                'requested_impressions' => 9000,
             ],
             [
                 'ad_id' => 56,
                 'zone_id' => 12,
                 'required_impressions' => 24,
-                'requested_impressions' => 24
-            ]
+                'requested_impressions' => 24,
+            ],
         ];
         $result = $oDal->saveAllocatedImpressions($aData);
         $query = "SELECT * FROM " . $oDbh->quoteIdentifier('tmp_ad_zone_impression', true) . " ORDER BY ad_id, zone_id";

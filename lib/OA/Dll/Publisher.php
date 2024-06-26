@@ -145,7 +145,7 @@ class OA_Dll_Publisher extends OA_Dll
         if (!$this->checkPermissions(
             $this->aAllowTraffickerAndAbovePerm,
             'affiliates',
-            $oPublisher->publisherId
+            $oPublisher->publisherId,
         )) {
             return false;
         }
@@ -222,7 +222,7 @@ class OA_Dll_Publisher extends OA_Dll
             'affiliates',
             $publisherId,
             null,
-            OA_Permission::OPERATION_DELETE
+            OA_Permission::OPERATION_DELETE,
         )) {
             return false;
         }
@@ -340,7 +340,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -382,7 +382,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -425,7 +425,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -469,7 +469,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -514,7 +514,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -561,7 +561,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;

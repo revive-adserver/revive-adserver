@@ -71,7 +71,7 @@ class DalUnitTestCase extends UnitTestCase
         return $this->assertExpectation(
             new EqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
             $this->stripUpdated($this->stripPrivateFields($second)),
-            $message
+            $message,
         );
     }
 
@@ -90,7 +90,7 @@ class DalUnitTestCase extends UnitTestCase
         return $this->assertExpectation(
             new NotEqualExpectation($this->stripUpdated($this->stripPrivateFields($first))),
             $this->stripUpdated($this->stripPrivateFields($second)),
-            $message
+            $message,
         );
     }
 
@@ -106,7 +106,7 @@ class DalUnitTestCase extends UnitTestCase
         $dumper = new SimpleDumper();
         $message = sprintf(
             $message,
-            "[" . $dumper->describeValue($value) . "] should be empty"
+            "[" . $dumper->describeValue($value) . "] should be empty",
         );
         return $this->assertTrue(empty($value), $message);
     }
@@ -123,7 +123,7 @@ class DalUnitTestCase extends UnitTestCase
         $dumper = new SimpleDumper();
         $message = sprintf(
             $message,
-            "[" . $dumper->describeValue($value) . "] should not be null"
+            "[" . $dumper->describeValue($value) . "] should not be null",
         );
         return $this->assertTrue(!empty($value), $message);
     }

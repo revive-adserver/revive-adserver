@@ -64,8 +64,8 @@ abstract class Plugins_BannerTypeText extends OX_Component
             null,
             [
                 'class' => 'code', 'cols' => '45', 'rows' => '10', 'wrap' => 'off',
-                'dir' => 'ltr', 'style' => 'width:550px;'
-            ]
+                'dir' => 'ltr', 'style' => 'width:550px;',
+            ],
         );
         $form->addGroup($textG, 'text_banner_g', null, ["<br>", ""], false);
 

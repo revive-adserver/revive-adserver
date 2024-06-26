@@ -334,7 +334,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     {
         $this->assertEqual(
             OX_OperationInterval::getOperationInterval(),
-            $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval']
+            $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'],
         );
     }
 

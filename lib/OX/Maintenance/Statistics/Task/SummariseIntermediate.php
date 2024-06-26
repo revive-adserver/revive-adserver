@@ -103,7 +103,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     $oStoreEndDate->copy($oEndDate);
                     $this->aRunDates[] = [
                         'start' => $oStoreStartDate,
-                        'end' => $oStoreEndDate
+                        'end' => $oStoreEndDate,
                     ];
                     // Go to the next operation interval
                     $oStartDate->copy($oEndDate);

@@ -44,7 +44,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
         parent::init($data);
         $this->aOperations = [
             '==' => $this->translate('Is within'),
-            '!=' => $this->translate('Is not within')
+            '!=' => $this->translate('Is not within'),
         ];
     }
 

@@ -63,7 +63,7 @@ class LogonXmlRpcService extends BaseLogonService
             [&$userName, &$password],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }

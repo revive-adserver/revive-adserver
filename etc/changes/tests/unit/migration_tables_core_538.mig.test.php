@@ -78,8 +78,8 @@ class Migration_538Test extends MigrationTest
         $aExpected = [
             [
                 'date_time' => '2007-01-01 01:00:00',
-                'impressions' => '1'
-            ]
+                'impressions' => '1',
+            ],
         ];
 
         $aResult = $this->oDbh->queryAll("SELECT date_time, impressions FROM {$tableDia} ORDER BY date_time");

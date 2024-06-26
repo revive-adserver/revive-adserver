@@ -310,7 +310,7 @@ class MAX_Admin_Invocation
                         [
                             'pluginKey' => $pluginKey,
                             'isAllowed' => true,
-                            'name' => $invocationTag->getName()
+                            'name' => $invocationTag->getName(),
                         ];
                 }
             }

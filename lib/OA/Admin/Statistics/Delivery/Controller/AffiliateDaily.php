@@ -79,7 +79,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
 
         // Add standard page parameters
         $this->aPageParams = [
-            'affiliateid' => $publisherId
+            'affiliateid' => $publisherId,
         ];
 
         // Add the cross-entity parameters
@@ -131,13 +131,13 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid=' . $publisherId,
-                'iconAffiliate'
+                'iconAffiliate',
             );
         }
 
         // Prepare the data for display by output() method
         $aParams = [
-            'publisher_id' => $publisherId
+            'publisher_id' => $publisherId,
         ];
         if (!empty($adId)) {
             $aParams['ad_id'] = $adId;

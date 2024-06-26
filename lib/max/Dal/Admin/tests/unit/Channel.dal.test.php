@@ -38,7 +38,7 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
     {
         // Insert 2 channels
         $aData = [
-            'acls_updated' => ['2007-04-04 17:27:33']
+            'acls_updated' => ['2007-04-04 17:27:33'],
         ];
 
         DataGenerator::setData('channel', $aData);

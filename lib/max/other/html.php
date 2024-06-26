@@ -601,13 +601,13 @@ function MAX_displayInventoryBreadcrumbsInternal($aEntityNamesUrls, $breadcrumbP
             'url' => $aEntityNamesUrls[$i]["url"],
             'label' => ($newEntity && $i == count($aEntityNamesUrls) - 1 ? $breadcrumbInfo['newLabel'] : $breadcrumbInfo['label']),
             'newTarget' => $breadcrumbInfo['newTarget'],
-            'cssClass' => $breadcrumbInfo['class']
+            'cssClass' => $breadcrumbInfo['class'],
         ];
     }
 
     $phpAds_breadcrumbs = [
         'path' => $path,
-        'newEntity' => $newEntity
+        'newEntity' => $newEntity,
     ];
 }
 
@@ -662,9 +662,9 @@ function buildAdvertiserHeaderModel($idOrAdvertiser)
 
     $oHeaderModel = $builder->buildEntityHeader(
         [
-        ["name" => $aAdvertiser['clientname']]],
+            ["name" => $aAdvertiser['clientname']]],
         "advertiser",
-        $pageType
+        $pageType,
     );
     return $oHeaderModel;
 }
@@ -688,10 +688,10 @@ function MAX_displayTrackerBreadcrumbs($clientid, $trackerid = null)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(
         [
-                                        ["name" => $advertiserName, "url" => $advertiserEditUrl],
-                                        ["name" => $trackerName]],
+            ["name" => $advertiserName, "url" => $advertiserEditUrl],
+            ["name" => $trackerName]],
         'tracker',
-        $pageType
+        $pageType,
     );
 
     return $oHeaderModel;
@@ -1274,7 +1274,7 @@ function MAX_zoneDelConfirm($zoneId)
     return phpAds_DelConfirm(
         ($dalZones->checkZoneLinkedToActiveCampaign($zoneId)) ?
                     $GLOBALS['strConfirmDeleteZoneLinkActive'] . '\n' . $GLOBALS['strConfirmDeleteZone']
-                    : $GLOBALS['strConfirmDeleteZone']
+                    : $GLOBALS['strConfirmDeleteZone'],
     );
 }
 
@@ -1399,10 +1399,10 @@ function MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherC
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(
         [
-                                          ["name" => $advertiserName, "url" => $advertiserEditUrl],
-                                          ["name" => $campaignName]],
+            ["name" => $advertiserName, "url" => $advertiserEditUrl],
+            ["name" => $campaignName]],
         "campaign",
-        "edit"
+        "edit",
     );
     phpAds_PageHeader(null, $oHeaderModel);
 }
@@ -1452,11 +1452,11 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader(
         [
-                                      ["name" => $advertiserName, "url" => $advertiserEditUrl],
-                                      ["name" => $campaignName, "url" => $campaignEditUrl],
-                                      ["name" => $bannerName]],
+            ["name" => $advertiserName, "url" => $advertiserEditUrl],
+            ["name" => $campaignName, "url" => $campaignEditUrl],
+            ["name" => $bannerName]],
         "banner",
-        $pageType
+        $pageType,
     );
 
     global $phpAds_breadcrumbs_extra;
@@ -1545,9 +1545,9 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
 
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
-                                       ["name" => $publisherName, "url" => $publisherEditUrl],
-                                       ["name" => empty($zoneId) ? '' : $zoneName]
-                                   ], "zone", empty($zoneId));
+        ["name" => $publisherName, "url" => $publisherEditUrl],
+        ["name" => empty($zoneId) ? '' : $zoneName],
+    ], "zone", empty($zoneId));
 
     if (!empty($zoneId)) {
         addZonePageTools($websiteId, $zoneId, $aOtherPublishers, $aEntities);
@@ -1625,7 +1625,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
     } else {
         $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
         $oHeaderModel = $builder->buildEntityHeader([
-                    ["name" => ""]], "global-channel", "edit-new");
+            ["name" => ""]], "global-channel", "edit-new");
         phpAds_PageHeader($tabValue, $oHeaderModel);
     }
 }
@@ -1916,7 +1916,7 @@ function OX_buildPager(
     $delta = 4,
     $currentPage = null,
     $fileName = null,
-    $params = null
+    $params = null,
 ) {
     require_once MAX_PATH . '/lib/pear/Pager/Pager.php';
 
@@ -1939,7 +1939,7 @@ function OX_buildPager(
         'curPageLinkClassName' => 'current',
         'spacesBeforeSeparator' => 0,
         'httpMethod' => 'GET',
-        'spacesAfterSeparator' => 0
+        'spacesAfterSeparator' => 0,
     ];
     if (!empty($fileName)) {
         $pagerOptions['fileName'] = $fileName;

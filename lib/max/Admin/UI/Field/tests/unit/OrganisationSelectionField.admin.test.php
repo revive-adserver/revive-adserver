@@ -19,7 +19,7 @@ class OrganisationSelectionFieldTest extends UnitTestCase
         $factory = new FieldFactory();
 
         $query_array = [
-            'example_advertiser' => 392
+            'example_advertiser' => 392,
         ];
 
         $field = $factory->newField('scope');
@@ -37,7 +37,7 @@ class OrganisationSelectionFieldTest extends UnitTestCase
         $factory = new FieldFactory();
 
         $query_array = [
-            'example_publisher' => 768
+            'example_publisher' => 768,
         ];
 
         $field = $factory->newField('scope');

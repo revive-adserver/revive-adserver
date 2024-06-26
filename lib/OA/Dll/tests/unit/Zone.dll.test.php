@@ -47,12 +47,12 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Publisher',
             'PartialMockOA_Dll_Publisher_ZoneTest',
-            ['checkPermissions', 'getDefaultAgencyId']
+            ['checkPermissions', 'getDefaultAgencyId'],
         );
         Mock::generatePartial(
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
     }
 
@@ -94,7 +94,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllZonePartialMock->modify($oZoneInfo),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Modify
@@ -102,7 +102,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllZonePartialMock->modify($oZoneInfo),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Chain zone to itself
@@ -110,7 +110,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertTrue(
             (!$dllZonePartialMock->modify($oZoneInfo) &&
                 $dllZonePartialMock->getLastError() == $this->chainError),
-            $this->_getMethodShouldReturnError($this->chainError)
+            $this->_getMethodShouldReturnError($this->chainError),
         );
 
         // Chain zone to non existing zone
@@ -118,27 +118,27 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertTrue(
             (!$dllZonePartialMock->modify($oZoneInfo) &&
                 $dllZonePartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         // Delete
         $this->assertTrue(
             $dllZonePartialMock->delete($oZoneInfo->zoneId),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Modify not existing id
         $this->assertTrue(
             (!$dllZonePartialMock->modify($oZoneInfo) &&
                 $dllZonePartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         // Delete not existing id
         $this->assertTrue(
             (!$dllZonePartialMock->delete($oZoneInfo->zoneId) &&
                 $dllZonePartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllZonePartialMock   ->tally();
@@ -178,7 +178,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         // Add zone 1
         $this->assertTrue(
             $dllZonePartialMock->modify($oZoneInfo1),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Chain zone 2 to 1
@@ -187,7 +187,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         // Add zone 2
         $this->assertTrue(
             $dllZonePartialMock->modify($oZoneInfo2),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         $oZoneInfo1Get = null;
@@ -197,16 +197,16 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertTrue(
             $dllZonePartialMock->getZone(
                 $oZoneInfo1->zoneId,
-                $oZoneInfo1Get
+                $oZoneInfo1Get,
             ),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
         $this->assertTrue(
             $dllZonePartialMock->getZone(
                 $oZoneInfo2->zoneId,
-                $oZoneInfo2Get
+                $oZoneInfo2Get,
             ),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Check field value
@@ -223,13 +223,13 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertTrue(
             $dllZonePartialMock->getZoneListByPublisherId(
                 $oPublisherInfo->publisherId,
-                $aZoneList
+                $aZoneList,
             ),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
         $this->assertEqual(
             count($aZoneList) == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
         $oZoneInfo1Get = $aZoneList[0];
         $oZoneInfo2Get = $aZoneList[1];
@@ -245,17 +245,17 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         // Delete
         $this->assertTrue(
             $dllZonePartialMock->delete($oZoneInfo1->zoneId),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Get not existing id
         $this->assertTrue(
             (!$dllZonePartialMock->getZone(
                 $oZoneInfo1->zoneId,
-                $oZoneInfo1Get
+                $oZoneInfo1Get,
             ) &&
                           $dllZonePartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllZonePartialMock->tally();
@@ -291,7 +291,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllZonePartialMock->modify($oZoneInfo),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Get no data
@@ -302,9 +302,9 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
                 new Date('2001-12-01'),
                 new Date('2007-09-19'),
                 false,
-                $rsZoneStatistics
+                $rsZoneStatistics,
             ),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         $this->assertTrue(isset($rsZoneStatistics));
@@ -322,16 +322,16 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
                 new Date('2007-09-19'),
                 new Date('2001-12-01'),
                 false,
-                $rsZoneStatistics
+                $rsZoneStatistics,
             ) &&
             $dllZonePartialMock->getLastError() == $this->wrongDateError),
-            $this->_getMethodShouldReturnError($this->wrongDateError)
+            $this->_getMethodShouldReturnError($this->wrongDateError),
         );
 
         // Delete
         $this->assertTrue(
             $dllZonePartialMock->delete($oZoneInfo->zoneId),
-            $dllZonePartialMock->getLastError()
+            $dllZonePartialMock->getLastError(),
         );
 
         // Test statistics for not existing id
@@ -342,10 +342,10 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
                 new Date('2001-12-01'),
                 new Date('2007-09-19'),
                 false,
-                $rsZoneStatistics
+                $rsZoneStatistics,
             ) &&
             $dllZonePartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllZonePartialMock->tally();

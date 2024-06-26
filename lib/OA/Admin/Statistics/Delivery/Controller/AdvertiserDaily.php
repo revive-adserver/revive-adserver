@@ -127,13 +127,13 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserDaily extends OA_Admin_S
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
 
         // Prepare the data for display by output() method
         $aParams = [
-            'advertiser_id' => $advertiserId
+            'advertiser_id' => $advertiserId,
         ];
         if (!empty($zoneId)) {
             $aParams['zone_id'] = $zoneId;

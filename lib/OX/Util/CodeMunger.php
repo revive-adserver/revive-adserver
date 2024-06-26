@@ -149,7 +149,7 @@ class OX_Util_CodeMunger
         $code = preg_replace(
             '/(define\(\'MAX_PATH\',\s*__DIR__)(\))/',
             '${1}.\'/../..\'${2}',
-            $code
+            $code,
         );
         return $code;
     }

@@ -25,22 +25,22 @@ class LibGeometryTest extends UnitTestCase
         $this->assertTrue(MAX_geoIsPointInsideRect(
             '10.0000',
             '10.0000',
-            $this->newRegion('5.0000', '15.0000', '5.0000', '15.0000')
+            $this->newRegion('5.0000', '15.0000', '5.0000', '15.0000'),
         ));
         $this->assertTrue(MAX_geoIsPointInsideRect(
             '-10.0000',
             '6.0000',
-            $this->newRegion('-11.0000', '6.0000', '6.0000', '12.0000')
+            $this->newRegion('-11.0000', '6.0000', '6.0000', '12.0000'),
         ));
         $this->assertFalse(MAX_geoIsPointInsideRect(
             '-10.0000',
             '6.0000',
-            $this->newRegion('-9.0000', '6.0000', '6.0000', '12.0000')
+            $this->newRegion('-9.0000', '6.0000', '6.0000', '12.0000'),
         ));
         $this->assertFalse(MAX_geoIsPointInsideRect(
             '-10.0000',
             '6.0000',
-            $this->newRegion('-11.0000', '6.0000', '6.0001', '12.0000')
+            $this->newRegion('-11.0000', '6.0000', '6.0001', '12.0000'),
         ));
     }
 

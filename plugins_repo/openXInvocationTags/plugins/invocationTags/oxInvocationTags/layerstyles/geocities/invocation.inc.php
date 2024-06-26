@@ -136,7 +136,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'layerstyle' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
+            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         ];
     }
 }

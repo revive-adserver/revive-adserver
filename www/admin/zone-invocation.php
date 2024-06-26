@@ -57,11 +57,11 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 $dalZones = OA_Dal::factoryDAL('zones');
 if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
     $extra = ['affiliateid' => $affiliateid,
-                   'zoneid' => $zoneid,
-                   'width' => $zone['width'],
-                   'height' => $zone['height'],
-                   'delivery' => $zone['delivery'],
-                   'website' => $zone['website']
+        'zoneid' => $zoneid,
+        'width' => $zone['width'],
+        'height' => $zone['height'],
+        'delivery' => $zone['delivery'],
+        'website' => $zone['website'],
     ];
 
     $maxInvocation = new MAX_Admin_Invocation();

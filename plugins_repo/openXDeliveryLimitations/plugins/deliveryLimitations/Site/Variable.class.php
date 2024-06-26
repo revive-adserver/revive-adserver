@@ -84,7 +84,7 @@ class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitati
     {
         $result = [
             substr($data, 0, strpos($data, '|')),
-            substr($data, strpos($data, '|') + 1)
+            substr($data, strpos($data, '|') + 1),
         ];
         return $result;
     }

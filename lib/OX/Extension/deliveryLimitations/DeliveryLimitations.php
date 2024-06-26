@@ -109,7 +109,7 @@ abstract class Plugins_DeliveryLimitations extends OX_Component
         return MAX_Plugin_Translation::translate(
             $this->nameEnglish,
             $this->extension,
-            $this->group
+            $this->group,
         );
     }
 

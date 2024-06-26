@@ -128,7 +128,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 'logical' => $aRow['logical'],
                 'type' => $aRow['type'],
                 'comparison' => $aRow['comparison'],
-                'data' => $aRow['data']
+                'data' => $aRow['data'],
             ];
         }
         return $aResult;
@@ -183,7 +183,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 'logical' => $aRow['logical'],
                 'type' => $aRow['type'],
                 'comparison' => $aRow['comparison'],
-                'data' => $aRow['data']
+                'data' => $aRow['data'],
             ];
         }
         return $aResult;

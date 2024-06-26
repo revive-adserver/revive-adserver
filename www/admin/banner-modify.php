@@ -74,7 +74,7 @@ if (!empty($bannerid)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strBannerHasBeenMoved'],
-            [htmlspecialchars($bannerName), htmlspecialchars($campaignName)]
+            [htmlspecialchars($bannerName), htmlspecialchars($campaignName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -111,8 +111,8 @@ if (!empty($bannerid)) {
             $GLOBALS['strBannerAclHasBeenAppliedTo'],
             [MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid"),
                 htmlspecialchars($bannerName),
-                $appliedTo
-            ]
+                $appliedTo,
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -138,7 +138,7 @@ if (!empty($bannerid)) {
             [MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid"),
                 htmlspecialchars($oldName),
                 MAX::constructURL(MAX_URL_ADMIN, "banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$new_bannerid"),
-                htmlspecialchars($newName)]
+                htmlspecialchars($newName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

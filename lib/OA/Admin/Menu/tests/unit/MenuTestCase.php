@@ -110,7 +110,7 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
             $data['helpLink'],
             $data['accPerm'],
             $data['rank'],
-            $data['affixed']
+            $data['affixed'],
         );
     }
 
@@ -123,13 +123,13 @@ abstract class Test_OA_Admin_MenuTestCase extends UnitTestCase
             $id = $startId + $i;
 
             $sectionData[] = ['id' => "my-section$id",
-           'name' => "Test section $id",
-           'link' => "/www/admin.test-$id.php",
-           'exclusive' => ($i % 3) == 0 ? false : true,
-           'helpLink' => "http://docs.openx.org/test$id",
-           'accPerm' => [],
-           'rank' => $id,
-           'affixed' => ($i % 2) == 0];
+                'name' => "Test section $id",
+                'link' => "/www/admin.test-$id.php",
+                'exclusive' => ($i % 3) == 0 ? false : true,
+                'helpLink' => "http://docs.openx.org/test$id",
+                'accPerm' => [],
+                'rank' => $id,
+                'affixed' => ($i % 2) == 0];
         }
 
         return $sectionData;

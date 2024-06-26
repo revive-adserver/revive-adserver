@@ -132,7 +132,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaign->campaignname = 'foo';
 
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
         $dg = new DataGenerator();
         $dg->setData('clients', $aData);
@@ -218,7 +218,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 0;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -228,7 +228,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $expected = [
             'estimatedExpiration' => $GLOBALS['strEstimated'] . ": " .
                                      $GLOBALS['strNoExpirationEstimation'],
-            'campaignExpiration' => $GLOBALS['strNoExpiration']
+            'campaignExpiration' => $GLOBALS['strNoExpiration'],
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -243,7 +243,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 0;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -282,7 +282,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
                                      $oExpirationDate->format('%d.%m.%Y') .
                                      " (" . $GLOBALS['strDaysLeft'] . ": " .
                                      $daysLeft . ")",
-            'campaignExpiration' => $GLOBALS['strNoExpiration']
+            'campaignExpiration' => $GLOBALS['strNoExpiration'],
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -297,7 +297,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = $totalClicks;
         $doCampaigns->conversions = 0;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -336,7 +336,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
                                      $oExpirationDate->format('%d.%m.%Y') .
                                      " (" . $GLOBALS['strDaysLeft'] . ": " .
                                      $daysLeft . ")",
-            'campaignExpiration' => $GLOBALS['strNoExpiration']
+            'campaignExpiration' => $GLOBALS['strNoExpiration'],
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -351,7 +351,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = $totalConversions;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -389,7 +389,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
                                      $oExpirationDate->format('%d.%m.%Y') .
                                      " (" . $GLOBALS['strDaysLeft'] . ": " .
                                      $daysLeft . ")",
-            'campaignExpiration' => $GLOBALS['strNoExpiration']
+            'campaignExpiration' => $GLOBALS['strNoExpiration'],
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -406,7 +406,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = $totalClicks;
         $doCampaigns->conversions = $totalConversions;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -452,7 +452,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
                                      $oExpirationDate->format('%d.%m.%Y') .
                                      " (" . $GLOBALS['strDaysLeft'] . ": " .
                                      $daysLeft . ")",
-            'campaignExpiration' => $GLOBALS['strNoExpiration']
+            'campaignExpiration' => $GLOBALS['strNoExpiration'],
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -477,7 +477,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->conversions = 0;
         $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -496,7 +496,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
             'campaignExpiration' => $GLOBALS['strExpirationDate'] . ": " .
                                     $oDate->format('%d.%m.%Y') .
                                     " (" . $GLOBALS['strDaysLeft'] . ": " .
-                                    $daysLeft . ")"
+                                    $daysLeft . ")",
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -521,7 +521,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->conversions = 0;
         $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -539,7 +539,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
             'campaignExpiration' => $GLOBALS['strCampaignStop'] . ": " .
                                      $oDate->format('%d.%m.%Y') . " (" .
                                      $daysExpired . " " .
-                                     $GLOBALS['strDaysAgo'] . ")"
+                                     $GLOBALS['strDaysAgo'] . ")",
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -572,7 +572,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = $totalClicks;
         $doCampaigns->conversions = $totalConversions;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -618,7 +618,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
                                      $oExpirationDate->format('%d.%m.%Y') .
                                      " (" . $GLOBALS['strDaysLeft'] . ": " .
                                      $daysLeft . ")",
-            'campaignExpiration' => $campaignExpiration
+            'campaignExpiration' => $campaignExpiration,
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -650,7 +650,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->clicks = $totalClicks;
         $doCampaigns->conversions = $totalConversions;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -696,7 +696,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
                                      $oExpirationDate->format('%d.%m.%Y') . " (" .
                                      $GLOBALS['strDaysLeft'] . ": " .
                                      $daysLeft . ")",
-            'campaignExpiration' => $campaignExpiration
+            'campaignExpiration' => $campaignExpiration,
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -726,7 +726,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->conversions = $totalConversions;
         $doCampaigns->expire_time = $oDate->getDate(DATE_FORMAT_ISO);
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -777,7 +777,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // relevant estimation because the campaign will expire before this estimation.
         $expected = [
             'estimatedExpiration' => '',
-            'campaignExpiration' => $campaignExpiration
+            'campaignExpiration' => $campaignExpiration,
         ];
         $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
@@ -845,7 +845,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aRet = $this->oDalCampaigns->updateCampaignsPriorityByAgency(
             $agencyId1,
             DataObjects_Campaigns::PRIORITY_REMNANT,
-            DataObjects_Campaigns::PRIORITY_ECPM
+            DataObjects_Campaigns::PRIORITY_ECPM,
         );
         foreach ($aRet as $checkCampaignId => $aCampaign) {
             // test that statuses should change
@@ -853,7 +853,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
             $this->assertEqual(
                 OA_ENTITY_STATUS_INACTIVE,
                 $doCheck->status,
-                'Campaign was not made inactive'
+                'Campaign was not made inactive',
             );
         }
     }
@@ -866,7 +866,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Add test data (add a little bit more than required)
         $numCampaigns1 = 3;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -875,7 +875,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         $numCampaigns2 = 2;
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);

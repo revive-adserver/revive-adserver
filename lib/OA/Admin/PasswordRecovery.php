@@ -269,7 +269,7 @@ class OA_Admin_PasswordRecovery
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strPwdRecEmailPwdRecovery',
-            'strPwdRecEmailBody'
+            'strPwdRecEmailBody',
         );
 
         return $sent;
@@ -287,7 +287,7 @@ class OA_Admin_PasswordRecovery
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strWelcomeEmailSubject',
-            'strWelcomeEmailBody'
+            'strWelcomeEmailBody',
         );
 
         return $sent;
@@ -305,7 +305,7 @@ class OA_Admin_PasswordRecovery
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strPasswordUpdateEmailSubject',
-            'strPasswordUpdateEmailBody'
+            'strPasswordUpdateEmailBody',
         );
 
         return $sent;

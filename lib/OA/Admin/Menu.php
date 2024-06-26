@@ -432,7 +432,7 @@ class OA_Admin_Menu
             phpAds_PageContext(
                 phpAds_buildAffiliateName($doAffiliates->affiliateid, $doAffiliates->name),
                 "$pageName?affiliateid=" . $doAffiliates->affiliateid,
-                $affiliateid == $doAffiliates->affiliateid
+                $affiliateid == $doAffiliates->affiliateid,
             );
         }
     }
@@ -460,7 +460,7 @@ class OA_Admin_Menu
             phpAds_PageContext(
                 phpAds_buildName($doClients->clientid, $doClients->clientname),
                 "$pageName?clientid=" . $doClients->clientid,
-                $clientid == $doClients->clientid
+                $clientid == $doClients->clientid,
             );
         }
     }
@@ -474,7 +474,7 @@ class OA_Admin_Menu
             phpAds_PageContext(
                 phpAds_buildName($doAgency->agencyid, $doAgency->name),
                 "$pageName?agencyid=" . $doAgency->agencyid,
-                $agencyid == $doAgency->agencyid
+                $agencyid == $doAgency->agencyid,
             );
         }
     }

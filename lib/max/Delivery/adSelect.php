@@ -367,9 +367,9 @@ function _adSelectDirect($what, $campaignid = '', $context = [], $source = '', $
     // this looks broken...
     if (!empty($aDirectLinkedAdInfos['default_banner_image_url'])) {
         return [
-           'default' => true,
-           'default_banner_image_url' => $aDirectLinkedAdInfos['default_banner_image_url'],
-           'default_banner_destination_url' => $aDirectLinkedAdInfos['default_banner_destination_url']
+            'default' => true,
+            'default_banner_image_url' => $aDirectLinkedAdInfos['default_banner_image_url'],
+            'default_banner_destination_url' => $aDirectLinkedAdInfos['default_banner_destination_url'],
         ];
     }
 
@@ -493,9 +493,9 @@ function _adSelectZone($zoneId, $context = [], $source = '', $richMedia = true)
 
     if (!empty($aZoneInfo['default_banner_image_url'])) {
         return [
-           'default' => true,
-           'default_banner_image_url' => $aZoneInfo['default_banner_image_url'],
-           'default_banner_destination_url' => $aZoneInfo['default_banner_destination_url']
+            'default' => true,
+            'default_banner_image_url' => $aZoneInfo['default_banner_image_url'],
+            'default_banner_destination_url' => $aZoneInfo['default_banner_destination_url'],
         ];
     }
 
@@ -585,7 +585,7 @@ function _adSelectInnerLoop($adSelectFunction, $aAds, $context, $source, $richMe
                     $aLinkedAd = OX_Delivery_Common_hook(
                         'adSelect',
                         [&$aAds, &$context, &$source, &$richMedia, $companion, $type, $pri],
-                        $adSelectFunction
+                        $adSelectFunction,
                     );
                     // Did we pick an ad from this campaign-priority level?
                     if (is_array($aLinkedAd)) {

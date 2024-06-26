@@ -77,7 +77,7 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
         // isn't installed or enabled
         $this->skipIf(
             ($this->oDeliveryCacheManager->oCacheStorePlugin === false),
-            "There is no cache storage plugin"
+            "There is no cache storage plugin",
         );
     }
 

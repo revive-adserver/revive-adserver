@@ -80,7 +80,7 @@ function OA_Dal_Delivery_getAccountTZs()
 
     $aResult = [
         'adminAccountId' => $adminAccountId,
-        'aAccounts' => []
+        'aAccounts' => [],
     ];
     if (OA_Dal_Delivery_isValidResult($res)) {
         while ($row = OA_Dal_Delivery_fetchAssoc($res)) {
@@ -314,7 +314,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     $aTypes = [
         0 => 'admin',
         1 => 'manager',
-        2 => 'trafficker'
+        2 => 'trafficker',
     ];
 
     // Iterate over the found default values, setting the admin value(s) (if found)
@@ -410,7 +410,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
     $totals = [
         'xAds' => 0,
         'ads' => 0,
-        'lAds' => 0
+        'lAds' => 0,
     ];
 
     if (!empty($aRows['default'])) {
@@ -693,7 +693,7 @@ function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart =
     $totals = [
         'xAds' => 0,
         'ads' => 0,
-        'lAds' => 0
+        'lAds' => 0,
     ];
 
     $query = OA_Dal_Delivery_buildAdInfoQuery($search, $lastpart, $precondition);
@@ -762,7 +762,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     $totals = [
         'xAds' => 0,
         'ads' => 0,
-        'lAds' => 0
+        'lAds' => 0,
     ];
 
     $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
@@ -1117,70 +1117,70 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $aColumns = [
-            'd.bannerid AS ad_id',
-            'd.campaignid AS placement_id',
-            'd.status AS status',
-            'd.description AS name',
-            'd.storagetype AS type',
-            'd.contenttype AS contenttype',
-            'd.pluginversion AS pluginversion',
-            'd.filename AS filename',
-            'd.imageurl AS imageurl',
-            'd.htmltemplate AS htmltemplate',
-            'd.htmlcache AS htmlcache',
-            'd.width AS width',
-            'd.height AS height',
-            'd.weight AS weight',
-            'd.seq AS seq',
-            'd.target AS target',
-            'd.url AS url',
-            'd.alt AS alt',
-            'd.statustext AS statustext',
-            'd.bannertext AS bannertext',
-            'd.adserver AS adserver',
-            'd.block AS block_ad',
-            'd.capping AS cap_ad',
-            'd.session_capping AS session_cap_ad',
-            'd.compiledlimitation AS compiledlimitation',
-            'd.acl_plugins AS acl_plugins',
-            'd.prepend AS prepend',
-            'd.append AS append',
-            'd.bannertype AS bannertype',
-            'd.alt_filename AS alt_filename',
-            'd.alt_imageurl AS alt_imageurl',
-            'd.alt_contenttype AS alt_contenttype',
-            'd.parameters AS parameters',
-            'd.transparent AS transparent',
-            'd.ext_bannertype AS ext_bannertype',
-            'd.iframe_friendly AS iframe_friendly',
-            'az.priority AS priority',
-            'az.priority_factor AS priority_factor',
-            'az.to_be_delivered AS to_be_delivered',
-            'm.campaignid AS campaign_id',
-            'm.priority AS campaign_priority',
-            'm.weight AS campaign_weight',
-            'm.companion AS campaign_companion',
-            'm.block AS block_campaign',
-            'm.capping AS cap_campaign',
-            'm.session_capping AS session_cap_campaign',
-            'm.show_capped_no_cookie AS show_capped_no_cookie',
-            'm.clickwindow AS clickwindow',
-            'm.viewwindow AS viewwindow',
-            'cl.clientid AS client_id',
-            'm.expire_time AS expire_time',
-            'm.revenue_type AS revenue_type',
-            'm.ecpm_enabled AS ecpm_enabled',
-            'm.ecpm AS ecpm',
-            'cl.advertiser_limitation AS advertiser_limitation',
-            'a.account_id AS account_id',
-            'a.agencyid AS agency_id'
+        'd.bannerid AS ad_id',
+        'd.campaignid AS placement_id',
+        'd.status AS status',
+        'd.description AS name',
+        'd.storagetype AS type',
+        'd.contenttype AS contenttype',
+        'd.pluginversion AS pluginversion',
+        'd.filename AS filename',
+        'd.imageurl AS imageurl',
+        'd.htmltemplate AS htmltemplate',
+        'd.htmlcache AS htmlcache',
+        'd.width AS width',
+        'd.height AS height',
+        'd.weight AS weight',
+        'd.seq AS seq',
+        'd.target AS target',
+        'd.url AS url',
+        'd.alt AS alt',
+        'd.statustext AS statustext',
+        'd.bannertext AS bannertext',
+        'd.adserver AS adserver',
+        'd.block AS block_ad',
+        'd.capping AS cap_ad',
+        'd.session_capping AS session_cap_ad',
+        'd.compiledlimitation AS compiledlimitation',
+        'd.acl_plugins AS acl_plugins',
+        'd.prepend AS prepend',
+        'd.append AS append',
+        'd.bannertype AS bannertype',
+        'd.alt_filename AS alt_filename',
+        'd.alt_imageurl AS alt_imageurl',
+        'd.alt_contenttype AS alt_contenttype',
+        'd.parameters AS parameters',
+        'd.transparent AS transparent',
+        'd.ext_bannertype AS ext_bannertype',
+        'd.iframe_friendly AS iframe_friendly',
+        'az.priority AS priority',
+        'az.priority_factor AS priority_factor',
+        'az.to_be_delivered AS to_be_delivered',
+        'm.campaignid AS campaign_id',
+        'm.priority AS campaign_priority',
+        'm.weight AS campaign_weight',
+        'm.companion AS campaign_companion',
+        'm.block AS block_campaign',
+        'm.capping AS cap_campaign',
+        'm.session_capping AS session_cap_campaign',
+        'm.show_capped_no_cookie AS show_capped_no_cookie',
+        'm.clickwindow AS clickwindow',
+        'm.viewwindow AS viewwindow',
+        'cl.clientid AS client_id',
+        'm.expire_time AS expire_time',
+        'm.revenue_type AS revenue_type',
+        'm.ecpm_enabled AS ecpm_enabled',
+        'm.ecpm AS ecpm',
+        'cl.advertiser_limitation AS advertiser_limitation',
+        'a.account_id AS account_id',
+        'a.agencyid AS agency_id',
     ];
 
     $aTables = [
         "" . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['banners']) . " AS d",
         "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['campaigns']) . " AS m ON (d.campaignid = m.campaignid) ",
         "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['clients']) . " AS cl ON (m.clientid = cl.clientid) ",
-        "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc']) . " AS az ON (d.bannerid = az.ad_id)"
+        "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc']) . " AS az ON (d.bannerid = az.ad_id)",
     ];
     $select = "
       az.zone_id = 0
@@ -1438,41 +1438,41 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $aColumns = [
-            'd.bannerid AS ad_id',
-            'd.campaignid AS placement_id',
-            'd.status AS status',
-            'd.storagetype AS type',
-            'd.contenttype AS contenttype',
-            'd.weight AS weight',
-            'd.width AS width',
-            'd.ext_bannertype AS ext_bannertype',
-            'd.height AS height',
-            'd.adserver AS adserver',
-            'd.block AS block_ad',
-            'd.capping AS cap_ad',
-            'd.session_capping AS session_cap_ad',
-            'd.compiledlimitation AS compiledlimitation',
-            'd.acl_plugins AS acl_plugins',
-            'd.alt_filename AS alt_filename',
-            'az.priority AS priority',
-            'az.priority_factor AS priority_factor',
-            'az.to_be_delivered AS to_be_delivered',
-            'm.campaignid AS campaign_id',
-            'm.priority AS campaign_priority',
-            'm.weight AS campaign_weight',
-            'm.companion AS campaign_companion',
-            'm.block AS block_campaign',
-            'm.capping AS cap_campaign',
-            'm.session_capping AS session_cap_campaign',
-            'm.show_capped_no_cookie AS show_capped_no_cookie',
-            'cl.clientid AS client_id',
-            'm.expire_time AS expire_time',
-            'm.revenue_type AS revenue_type',
-            'm.ecpm_enabled AS ecpm_enabled',
-            'm.ecpm AS ecpm',
-            'ct.status AS tracker_status',
-            OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:") . " AS html_ssl_unsafe",
-            OX_Dal_Delivery_regex("d.imageurl", "^http:") . " AS url_ssl_unsafe",
+        'd.bannerid AS ad_id',
+        'd.campaignid AS placement_id',
+        'd.status AS status',
+        'd.storagetype AS type',
+        'd.contenttype AS contenttype',
+        'd.weight AS weight',
+        'd.width AS width',
+        'd.ext_bannertype AS ext_bannertype',
+        'd.height AS height',
+        'd.adserver AS adserver',
+        'd.block AS block_ad',
+        'd.capping AS cap_ad',
+        'd.session_capping AS session_cap_ad',
+        'd.compiledlimitation AS compiledlimitation',
+        'd.acl_plugins AS acl_plugins',
+        'd.alt_filename AS alt_filename',
+        'az.priority AS priority',
+        'az.priority_factor AS priority_factor',
+        'az.to_be_delivered AS to_be_delivered',
+        'm.campaignid AS campaign_id',
+        'm.priority AS campaign_priority',
+        'm.weight AS campaign_weight',
+        'm.companion AS campaign_companion',
+        'm.block AS block_campaign',
+        'm.capping AS cap_campaign',
+        'm.session_capping AS session_cap_campaign',
+        'm.show_capped_no_cookie AS show_capped_no_cookie',
+        'cl.clientid AS client_id',
+        'm.expire_time AS expire_time',
+        'm.revenue_type AS revenue_type',
+        'm.ecpm_enabled AS ecpm_enabled',
+        'm.ecpm AS ecpm',
+        'ct.status AS tracker_status',
+        OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:") . " AS html_ssl_unsafe",
+        OX_Dal_Delivery_regex("d.imageurl", "^http:") . " AS url_ssl_unsafe",
     ];
 
     $aTables = [

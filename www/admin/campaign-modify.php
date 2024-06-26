@@ -61,7 +61,7 @@ if (!empty($campaignid)) {
                 [MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"),
                     htmlspecialchars($oldName),
                     MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$newCampaignId"),
-                    htmlspecialchars($newName)]
+                    htmlspecialchars($newName)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -128,7 +128,7 @@ if (!empty($campaignid)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strCampaignHasBeenMoved'],
-            [htmlspecialchars($campaignName), htmlspecialchars($advertiserName)]
+            [htmlspecialchars($campaignName), htmlspecialchars($advertiserName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
     }

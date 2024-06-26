@@ -37,7 +37,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
             '>' => $GLOBALS['strLaterThan'],
             '>=' => $GLOBALS['strLaterThanOrEqual'],
             '<' => $GLOBALS['strEarlierThan'],
-            '<=' => $GLOBALS['strEarlierThanOrEqual']
+            '<=' => $GLOBALS['strEarlierThanOrEqual'],
         ];
 
         $this->nameEnglish = 'Time - Date';

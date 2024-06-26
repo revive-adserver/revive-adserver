@@ -281,7 +281,7 @@ class Services_JSON
                                 'C*',
                                 $ord_var_c,
                                 ord($var[$c + 1]),
-                                ord($var[$c + 2])
+                                ord($var[$c + 2]),
                             );
                             $c += 2;
                             $utf16 = $this->utf82utf16($char);
@@ -296,7 +296,7 @@ class Services_JSON
                                 $ord_var_c,
                                 ord($var[$c + 1]),
                                 ord($var[$c + 2]),
-                                ord($var[$c + 3])
+                                ord($var[$c + 3]),
                             );
                             $c += 3;
                             $utf16 = $this->utf82utf16($char);
@@ -312,7 +312,7 @@ class Services_JSON
                                 ord($var[$c + 1]),
                                 ord($var[$c + 2]),
                                 ord($var[$c + 3]),
-                                ord($var[$c + 4])
+                                ord($var[$c + 4]),
                             );
                             $c += 4;
                             $utf16 = $this->utf82utf16($char);
@@ -329,7 +329,7 @@ class Services_JSON
                                 ord($var[$c + 2]),
                                 ord($var[$c + 3]),
                                 ord($var[$c + 4]),
-                                ord($var[$c + 5])
+                                ord($var[$c + 5]),
                             );
                             $c += 5;
                             $utf16 = $this->utf82utf16($char);
@@ -364,7 +364,7 @@ class Services_JSON
                     $properties = array_map(
                         $this->name_value(...),
                         array_keys($var),
-                        array_values($var)
+                        array_values($var),
                     );
 
                     foreach ($properties as $property) {
@@ -393,7 +393,7 @@ class Services_JSON
                 $properties = array_map(
                     $this->name_value(...),
                     array_keys($vars),
-                    array_values($vars)
+                    array_values($vars),
                 );
 
                 foreach ($properties as $property) {
@@ -443,16 +443,16 @@ class Services_JSON
     {
         $str = preg_replace([
 
-                // eliminate single line comments in '// ...' form
-                '#^\s*//(.+)$#m',
+            // eliminate single line comments in '// ...' form
+            '#^\s*//(.+)$#m',
 
-                // eliminate multi-line comments in '/* ... */' form, at start of string
-                '#^\s*/\*(.+)\*/#Us',
+            // eliminate multi-line comments in '/* ... */' form, at start of string
+            '#^\s*/\*(.+)\*/#Us',
 
-                // eliminate multi-line comments in '/* ... */' form, at end of string
-                '#/\*(.+)\*/\s*$#Us'
+            // eliminate multi-line comments in '/* ... */' form, at end of string
+            '#/\*(.+)\*/\s*$#Us',
 
-            ], '', $str);
+        ], '', $str);
 
         // eliminate extraneous space
         return trim($str);
@@ -606,8 +606,8 @@ class Services_JSON
                     }
 
                     $stk[] = ['what' => SERVICES_JSON_SLICE,
-                                           'where' => 0,
-                                           'delim' => false];
+                        'where' => 0,
+                        'delim' => false];
 
                     $chrs = substr($str, 1, -1);
                     $chrs = $this->reduce_string($chrs);
@@ -749,7 +749,7 @@ if (class_exists('PEAR_Error')) {
             $code = null,
             $mode = null,
             $options = null,
-            $userinfo = null
+            $userinfo = null,
         ) {
             parent::__construct($message, $code, $mode, $options, $userinfo);
         }
@@ -765,7 +765,7 @@ if (class_exists('PEAR_Error')) {
             $code = null,
             $mode = null,
             $options = null,
-            $userinfo = null
+            $userinfo = null,
         ) {}
     }
 }

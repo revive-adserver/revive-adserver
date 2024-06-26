@@ -93,7 +93,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
             $creative_id,
             $zone_id,
             $day,
-            $hour
+            $hour,
         );
 
         $doData_intermediate_ad = OA_Dal::staticGetDO('data_intermediate_ad', $dataIntermediateAdId);

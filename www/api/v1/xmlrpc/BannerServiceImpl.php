@@ -150,7 +150,7 @@ class BannerServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllBanner->getBannerTargeting(
                 $bannerId,
-                $aTargeting
+                $aTargeting,
             ));
         } else {
             return false;
@@ -175,7 +175,7 @@ class BannerServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllBanner->setBannerTargeting(
                 $bannerId,
-                $aTargeting
+                $aTargeting,
             ));
         } else {
             return false;
@@ -205,8 +205,8 @@ class BannerServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     false,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -236,8 +236,8 @@ class BannerServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     false,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -267,8 +267,8 @@ class BannerServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     false,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -290,7 +290,7 @@ class BannerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllBanner->getBanner($bannerId, $oBanner)
+                $this->_dllBanner->getBanner($bannerId, $oBanner),
             );
         } else {
             return false;
@@ -314,8 +314,8 @@ class BannerServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllBanner->getBannerListByCampaignId(
                     $campaignId,
-                    $aBannerList
-                )
+                    $aBannerList,
+                ),
             );
         } else {
             return false;

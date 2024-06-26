@@ -137,7 +137,7 @@ class LibAclTest extends DalUnitTestCase
         $doBanners = &OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual(
             "MAX_checkDummy_Dummy('openx.org', '!~') and MAX_checkDummy_Dummy('0,1', '=~')",
-            $doBanners->compiledlimitation
+            $doBanners->compiledlimitation,
         );
         $this->assertEqual("Dummy:Dummy", $doBanners->acl_plugins);
     }

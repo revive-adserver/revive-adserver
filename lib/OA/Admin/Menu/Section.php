@@ -511,10 +511,10 @@ class OA_Admin_Menu_Section
                 foreach ($aPairAccounts as $i => $aPairAccount) {
                     $checkers[] = new OA_Admin_Menu_Compound_Checker(
                         [
-                      new OA_Admin_SectionAccountChecker($aPairAccount),
-                      new OA_Admin_SectionPermissionChecker($aPairPermissions) //plese remember that this checker does OR check for permissions
-                    ],
-                        'AND'
+                            new OA_Admin_SectionAccountChecker($aPairAccount),
+                            new OA_Admin_SectionPermissionChecker($aPairPermissions), //plese remember that this checker does OR check for permissions
+                        ],
+                        'AND',
                     );
                 }
             } else { //just account only, no associated permission, add to accounts array

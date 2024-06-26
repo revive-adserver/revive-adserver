@@ -184,7 +184,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             $clickTarget,
             $aConf['priority']['defaultClickRatio'],
             $oCampaign->deliveredClicks,
-            $oCampaign->deliveredImpressions
+            $oCampaign->deliveredImpressions,
         );
         // Calculate impressions required to fulfill conversion requirement
         if ($type == 'total') {
@@ -196,7 +196,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             $conversionTarget,
             $aConf['priority']['defaultConversionRatio'],
             $oCampaign->deliveredConversions,
-            $oCampaign->deliveredImpressions
+            $oCampaign->deliveredImpressions,
         );
         // Get impression requirement
         if ($type == 'total') {
@@ -215,8 +215,8 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             [
                 $clickImpressions,
                 $conversionImpressions,
-                $impressions
-            ]
+                $impressions,
+            ],
         );
 
         // Apply globally defined level of intentional over-delivery from
@@ -376,7 +376,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             $campaignRemainingOperationIntervals =
                 OX_OperationInterval::getIntervalsRemaining(
                     $aCurrentOperationIntervalDates['start'],
-                    $oCampaignExpiryDate
+                    $oCampaignExpiryDate,
                 );
             // For all ads in the campaign, determine:
             // - If the ad is capable of delivery in the current operation
@@ -416,7 +416,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
                         $aAdDeliveryLimitations[$oAd->id]->getActiveAdOperationIntervals(
                             $campaignRemainingOperationIntervals,
                             $aCurrentOperationIntervalDates['start'],
-                            $oCampaignExpiryDate
+                            $oCampaignExpiryDate,
                         );
                     // Determine the value of the ad weight multiplied by the number
                     // of operation intervals remaining that the ad can deliver in
@@ -461,11 +461,11 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
                     $aCurrentOperationIntervalDates['start'],
                     $oCampaignExpiryDate,
                     $aAdDeliveryLimitations[$oAd->id],
-                    $aAdZones[$oAd->id]
+                    $aAdZones[$oAd->id],
                 );
                 $aRequiredAdImpressions[] = [
                     'ad_id' => $oAd->id,
-                    'required_impressions' => $oAd->requiredImpressions
+                    'required_impressions' => $oAd->requiredImpressions,
                 ];
             }
         }
@@ -535,7 +535,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             $oDeliveryLimitation->getAdLifetimeZoneImpressionsRemaining(
                 $oStart,
                 $oEnd,
-                $aCumulativeZoneForecast
+                $aCumulativeZoneForecast,
             );
         // Are there impressions forecast?
         if ($totalAdLifetimeZoneImpressionsRemaining == 0) {

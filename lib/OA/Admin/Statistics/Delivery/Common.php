@@ -115,7 +115,7 @@ abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_D
                 MAX_CONNECTION_AD_IMPRESSION,
                 MAX_CONNECTION_AD_CLICK,
                 MAX_CONNECTION_AD_ARRIVAL,
-                MAX_CONNECTION_MANUAL
+                MAX_CONNECTION_MANUAL,
             ];
             foreach ($aConversionTypes as $conversionType) {
                 if (isset($aRows['sum_conversions_' . $conversionType])) {
@@ -213,7 +213,7 @@ abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_D
         return [
             'headers' => $headers,
             'formats' => $formats,
-            'data' => $data
+            'data' => $data,
         ];
     }
 }

@@ -96,7 +96,7 @@ function buildBannerAltMediaForm($aBanner)
 <script type="text/javascript">
             $('input.frozen').addClass('large');
 </script>
-EOF
+EOF,
     );
 
     $form->addFormRule('checkUrls');

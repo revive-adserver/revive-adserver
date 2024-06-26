@@ -67,18 +67,18 @@ class BannerXmlRpcService extends BaseBannerService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarAndNotScalarFields(
                 $oBannerInfo,
                 $oParams,
                 1,
                 ['campaignId', 'bannerName', 'storageType', 'fileName',
-                        'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
-                        'target', 'url', 'bannerText', 'status', 'adserver', 'transparent',
-                        'capping', 'sessionCapping', 'block', 'comments', 'alt', 'append', 'prepend'],
+                    'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
+                    'target', 'url', 'bannerText', 'status', 'adserver', 'transparent',
+                    'capping', 'sessionCapping', 'block', 'comments', 'alt', 'append', 'prepend'],
                 ['aImage', 'aBackupImage'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -110,18 +110,18 @@ class BannerXmlRpcService extends BaseBannerService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarAndNotScalarFields(
                 $oBannerInfo,
                 $oParams,
                 1,
                 ['bannerId', 'campaignId', 'bannerName', 'storageType', 'fileName',
-                        'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
-                        'target', 'url', 'bannerText', 'status', 'adserver', 'transparent',
-                        'capping', 'sessionCapping', 'block', 'comments', 'alt', 'append', 'prepend'],
+                    'imageURL', 'htmlTemplate', 'width', 'height', 'weight',
+                    'target', 'url', 'bannerText', 'status', 'adserver', 'transparent',
+                    'capping', 'sessionCapping', 'block', 'comments', 'alt', 'append', 'prepend'],
                 ['aImage', 'aBackupImage'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -150,7 +150,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -178,7 +178,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -187,7 +187,7 @@ class BannerXmlRpcService extends BaseBannerService
         if ($this->_oBannerServiceImp->getBannerTargeting(
             $sessionId,
             $bannerId,
-            $aTargeting
+            $aTargeting,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
         } else {
@@ -213,7 +213,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getArrayOfStructuresScalarFields(
                 $aTargeting,
@@ -222,7 +222,7 @@ class BannerXmlRpcService extends BaseBannerService
                 2,
                 ['logical', 'type',
                     'comparison', 'data'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -230,7 +230,7 @@ class BannerXmlRpcService extends BaseBannerService
         if ($this->_oBannerServiceImp->setBannerTargeting(
             $sessionId,
             $bannerId,
-            $aTargeting
+            $aTargeting,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {
@@ -255,7 +255,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -267,14 +267,14 @@ class BannerXmlRpcService extends BaseBannerService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $aData);
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
@@ -297,7 +297,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -309,15 +309,15 @@ class BannerXmlRpcService extends BaseBannerService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'hour' => 'integer',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $aData);
+                'hour' => 'integer',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
@@ -340,7 +340,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -352,15 +352,15 @@ class BannerXmlRpcService extends BaseBannerService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
-                                                                'publisherName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'publisherName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
@@ -383,7 +383,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -395,18 +395,18 @@ class BannerXmlRpcService extends BaseBannerService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
-                                                                'publisherName' => 'string',
-                                                                'zoneId' => 'integer',
-                                                                'zoneName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                'conversions' => 'integer'
-                                                                ], $rsStatisticsData);
+                'publisherName' => 'string',
+                'zoneId' => 'integer',
+                'zoneName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+                'conversions' => 'integer',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
@@ -429,7 +429,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$bannerId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -438,7 +438,7 @@ class BannerXmlRpcService extends BaseBannerService
         if ($this->_oBannerServiceImp->getBanner(
             $sessionId,
             $bannerId,
-            $oBanner
+            $oBanner,
         )) {
             return XmlRpcUtils::getEntityResponse($oBanner);
         } else {
@@ -463,7 +463,7 @@ class BannerXmlRpcService extends BaseBannerService
             [&$sessionId, &$campaignId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -472,7 +472,7 @@ class BannerXmlRpcService extends BaseBannerService
         if ($this->_oBannerServiceImp->getBannerListByCampaignId(
             $sessionId,
             $campaignId,
-            $aBannerList
+            $aBannerList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aBannerList);
         } else {

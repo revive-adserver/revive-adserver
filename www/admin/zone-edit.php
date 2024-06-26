@@ -35,7 +35,7 @@ phpAds_registerGlobalUnslashed(
     'width',
     'height',
     'submit',
-    'comments'
+    'comments',
 );
 
 /*-------------------------------------------------------*/
@@ -139,7 +139,7 @@ function buildZoneForm($zone, $oComponent = null)
         phpAds_ZoneBanner,
         ['id' => 'delivery-b',
             'onClick' => 'phpAds_formEnableSize();',
-            'onChange' => 'oa_hide("warning_change_zone_type");']
+            'onChange' => 'oa_hide("warning_change_zone_type");'],
     );
     if ($conf['oxInvocationTags']['isAllowedAdlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial) {
         $zoneTypes[] = $form->createElement(
@@ -150,7 +150,7 @@ function buildZoneForm($zone, $oComponent = null)
             phpAds_ZoneInterstitial,
             ['id' => 'delivery-i',
                 'onClick' => 'phpAds_formEnableSize();',
-                'onChange' => 'oa_hide("warning_change_zone_type");']
+                'onChange' => 'oa_hide("warning_change_zone_type");'],
         );
     }
     if ($conf['oxInvocationTags']['isAllowedPopup'] || $zone['delivery'] == phpAds_ZonePopup) {
@@ -162,7 +162,7 @@ function buildZoneForm($zone, $oComponent = null)
             phpAds_ZonePopup,
             ['id' => 'delivery-p',
                 'onClick' => 'phpAds_formEnableSize();',
-                'onChange' => 'oa_hide("warning_change_zone_type");']
+                'onChange' => 'oa_hide("warning_change_zone_type");'],
         );
     }
     $zoneTypes[] = $form->createElement(
@@ -172,7 +172,7 @@ function buildZoneForm($zone, $oComponent = null)
         "<img src='" . OX::assetPath() . "/images/icon-textzone.gif' align='absmiddle'>&nbsp;" . $GLOBALS['strTextAdZone'],
         phpAds_ZoneText,
         ['id' => 'delivery-t', 'onClick' => 'phpAds_formDisableSize();',
-            'onChange' => 'oa_hide("warning_change_zone_type");']
+            'onChange' => 'oa_hide("warning_change_zone_type");'],
     );
     $zoneTypes[] = $form->createElement(
         'radio',
@@ -181,7 +181,7 @@ function buildZoneForm($zone, $oComponent = null)
         "<img src='" . OX::assetPath() . "/images/icon-zone-email.gif' align='absmiddle'>&nbsp;" . $GLOBALS['strEmailAdZone'],
         MAX_ZoneEmail,
         ['id' => 'delivery-e', 'onClick' => 'phpAds_formEnableSize();',
-            'onChange' => 'oa_hide("warning_change_zone_type");']
+            'onChange' => 'oa_hide("warning_change_zone_type");'],
     );
     if (!empty($conf['allowedBanners']['video'])) {
         $zoneTypes[] = $form->createElement(
@@ -191,7 +191,7 @@ function buildZoneForm($zone, $oComponent = null)
             "<img src='" . OX::assetPath() . "/images/icon-zone-video-instream.png' align='absmiddle'>&nbsp;" . $GLOBALS['strZoneVideoInstream'],
             OX_ZoneVideoInstream,
             ['id' => 'delivery-vi', 'onClick' => 'phpAds_formDisableSize();',
-                'onChange' => 'oa_hide("warning_change_zone_type");']
+                'onChange' => 'oa_hide("warning_change_zone_type");'],
         );
         $zoneTypes[] = $form->createElement(
             'radio',
@@ -200,7 +200,7 @@ function buildZoneForm($zone, $oComponent = null)
             "<img src='" . OX::assetPath() . "/images/icon-zone-video-overlay.png' align='absmiddle'>&nbsp;" . $GLOBALS['strZoneVideoOverlay'],
             OX_ZoneVideoOverlay,
             ['id' => 'delivery-vo', 'onClick' => 'phpAds_formDisableSize();',
-                'onChange' => 'oa_hide("warning_change_zone_type");']
+                'onChange' => 'oa_hide("warning_change_zone_type");'],
         );
     }
     $form->addGroup($zoneTypes, 'zone_types', $GLOBALS['strZoneType'], "<br/>");
@@ -226,7 +226,7 @@ function buildZoneForm($zone, $oComponent = null)
         '',
         '',
         'default',
-        ['id' => 'size-d']
+        ['id' => 'size-d'],
     );
     foreach (array_keys($phpAds_IAB) as $key) {
         $iabSizes[$phpAds_IAB[$key]['width'] . "x" . $phpAds_IAB[$key]['height']] =
@@ -238,7 +238,7 @@ function buildZoneForm($zone, $oComponent = null)
         'size',
         null,
         $iabSizes,
-        ['onchange' => 'phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage("warning_change_zone_size");', 'class' => 'medium']
+        ['onchange' => 'phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage("warning_change_zone_size");', 'class' => 'medium'],
     );
 
 
@@ -248,7 +248,7 @@ function buildZoneForm($zone, $oComponent = null)
         '',
         '',
         'custom',
-        ['id' => 'size-c']
+        ['id' => 'size-c'],
     );
 
     $aCustomSize['width'] = $form->createElement(
@@ -256,7 +256,7 @@ function buildZoneForm($zone, $oComponent = null)
         'width',
         $GLOBALS['strWidth'] . ':',
         ['onkeydown' => 'phpAds_formEditSize();',
-            'onChange' => 'oa_sizeChangeUpdateMessage("warning_change_zone_size");']
+            'onChange' => 'oa_sizeChangeUpdateMessage("warning_change_zone_size");'],
     );
     $aCustomSize['width']->setSize(5);
     $aCustomSize['height'] = $form->createElement(
@@ -264,7 +264,7 @@ function buildZoneForm($zone, $oComponent = null)
         'height',
         $GLOBALS['strHeight'] . ':',
         ['onkeydown' => 'phpAds_formEditSize();',
-            'onChange' => 'oa_sizeChangeUpdateMessage("warning_change_zone_size");']
+            'onChange' => 'oa_sizeChangeUpdateMessage("warning_change_zone_size");'],
     );
     $aCustomSize['height']->setSize(5);
 
@@ -459,9 +459,9 @@ function processForm($form, $oComponent = null)
         $translated_message = $translation->translate(
             $GLOBALS['strZoneHasBeenUpdated'],
             [
-            MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=" . $aFields['affiliateid'] . "&zoneid=" . $aFields['zoneid']),
-            htmlspecialchars($aFields['zonename'])
-            ]
+                MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=" . $aFields['affiliateid'] . "&zoneid=" . $aFields['zoneid']),
+                htmlspecialchars($aFields['zonename']),
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -500,7 +500,7 @@ function processForm($form, $oComponent = null)
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strZoneHasBeenAdded'], [
             MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
-            htmlspecialchars($aFields['zonename'])
+            htmlspecialchars($aFields['zonename']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

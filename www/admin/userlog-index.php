@@ -93,7 +93,7 @@ $pageID = (int) MAX_getStoredValue('pageID', 1);
 $aPeriod = [
     'period_preset' => $periodPreset,
     'period_start' => $startDate,
-    'period_end' => $endDate
+    'period_end' => $endDate,
 ];
 $daySpan = new OA_Admin_UI_Audit_DaySpanField('period');
 $daySpan->setValueFromArray($aPeriod);
@@ -163,7 +163,7 @@ $aParams = [
     'start_date' => $startDate,
     'end_date' => $endDate,
     'prevImg' => '<< ' . $oTrans->translate('Back'),
-    'nextImg' => $oTrans->translate('Next') . ' >>'
+    'nextImg' => $oTrans->translate('Next') . ' >>',
 ];
 
 // Only pass advertiser or website props if we show related checkboxes

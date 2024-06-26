@@ -70,7 +70,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         // Add standard page parameters
         $this->aPageParams = [
             'clientid' => $advertiserId,
-            'affiliateid' => $publisherId
+            'affiliateid' => $publisherId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -100,7 +100,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
             phpAds_PageContext(
                 MAX_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
-                $publisherId == $k
+                $publisherId == $k,
             );
         }
 
@@ -109,14 +109,14 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
 
         // Prepare the data for display by output() method
         $aParams = [
             'advertiser_id' => $advertiserId,
-            'publisher_id' => $publisherId
+            'publisher_id' => $publisherId,
         ];
         $this->prepare($aParams, 'stats.php');
     }

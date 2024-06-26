@@ -253,7 +253,7 @@ if (isset($_REQUEST['ajax'])) {
         $clicks,
         $conversions,
         $startDate,
-        $endDate
+        $endDate,
     );
     echo OA_Admin_NumberFormat::formatNumber($ecpm, 4);
     exit();
@@ -333,7 +333,7 @@ function buildCampaignForm($campaign)
     $form->setDefaults([
         'impressions' => !isset($campaign['impressions']) || $campaign['impressions'] == '' || $campaign['impressions'] < 0 ? '-' : $campaign['impressions'],
         'clicks' => !isset($campaign['clicks']) || $campaign['clicks'] == '' || $campaign['clicks'] < 0 ? '-' : $campaign['clicks'],
-        'conversions' => !isset($campaign['conversions']) || $campaign['conversions'] == '' || $campaign['conversions'] < 0 ? '-' : $campaign['conversions']
+        'conversions' => !isset($campaign['conversions']) || $campaign['conversions'] == '' || $campaign['conversions'] < 0 ? '-' : $campaign['conversions'],
     ]);
 
     if (!empty($campaign['activate_date'])) {
@@ -367,7 +367,7 @@ function buildCampaignForm($campaign)
         'high_priority_value' => $campaign['priority'] > '0' ? $campaign['priority'] : 5,
         'target_value' => empty($campaign['target_value']) ? '-' : $campaign['target_value'],
         'weight' => $campaign["weight"] ?? $pref ['default_campaign_weight'],
-        'revenue_type' => $campaign["revenue_type"] ?? MAX_FINANCE_CPM
+        'revenue_type' => $campaign["revenue_type"] ?? MAX_FINANCE_CPM,
     ]);
 
     return $form;
@@ -524,8 +524,8 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEn
             'ecpm_group',
             'process',
             ['tag' => 'tr',
-                   'addAttributes' => ['id' => 'sect_priority_ecpm{numCall}',
-                                             'class' => $newCampaign ? 'hide' : '' ] ]
+                'addAttributes' => ['id' => 'sect_priority_ecpm{numCall}',
+                    'class' => $newCampaign ? 'hide' : '' ] ],
         );
 
         // Minimum number of required impressions should only be shown for remnant ecpm.
@@ -536,8 +536,8 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEn
             'g_min_impressions',
             'process',
             ['tag' => 'tr',
-                   'addAttributes' => ['id' => 'ecpm_min_row{numCall}',
-                                             'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '']]
+                'addAttributes' => ['id' => 'ecpm_min_row{numCall}',
+                    'class' => $campaign['priority'] != DataObjects_Campaigns::PRIORITY_ECPM ? 'hide' : '']],
         );
     } else {
         $form->addElement('hidden', 'ecpm', $campaign ['ecpm']);
@@ -882,8 +882,8 @@ function processCampaignForm($form)
         } else {
             $translated_message = $translation->translate($GLOBALS ['strCampaignHasBeenUpdated'], [
                 MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid']),
-                htmlspecialchars($aFields['campaignname'])
-                ]);
+                htmlspecialchars($aFields['campaignname']),
+            ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
             OX_Admin_Redirect::redirect("campaign-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid']);
         }
@@ -1039,7 +1039,7 @@ function checkIfCampaignTypeSpecified($submitValues)
         $translation = new OX_Translation();
         return ['g_ctype' => $translation->translate(
             $GLOBALS['strXRequiredField'],
-            [$GLOBALS['strCampaignType']]
+            [$GLOBALS['strCampaignType']],
         )];
     }
     return true;

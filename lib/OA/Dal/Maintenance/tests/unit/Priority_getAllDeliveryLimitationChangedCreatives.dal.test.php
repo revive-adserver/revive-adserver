@@ -56,7 +56,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives 
         $oDateLastPC = new Date('2006-10-04 11:14:53');
         $aLastRun = [
             'start_run' => $oDateLastPC,
-            'now' => $oDateNow
+            'now' => $oDateNow,
         ];
 
         // Test 0

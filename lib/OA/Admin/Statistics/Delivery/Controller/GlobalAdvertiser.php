@@ -107,21 +107,21 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
             case 2:
                 $this->showHideLevels = [
                     0 => ['text' => $GLOBALS['strShowParentAdvertisers'], 'icon' => 'images/icon-advertiser.gif'],
-                    1 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif']
+                    1 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveBannersHidden']}";
                 break;
             case 1:
                 $this->showHideLevels = [
                     0 => ['text' => $GLOBALS['strShowParentAdvertisers'], 'icon' => 'images/icon-advertiser.gif'],
-                    2 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif']
+                    2 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveCampaignsHidden']}";
                 break;
             case 0:
                 $this->showHideLevels = [
                     1 => ['text' => $GLOBALS['strHideParentAdvertisers'], 'icon' => 'images/icon-advertiser-d.gif'],
-                    2 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif']
+                    2 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveAdvertisersHidden']}";
                 break;

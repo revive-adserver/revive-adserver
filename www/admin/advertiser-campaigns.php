@@ -229,7 +229,7 @@ phpAds_SessionDataStore();
 OX_Admin_UI_ViewHooks::registerPageView(
     $oTpl,
     'advertiser-campaigns',
-    ['advertiserId' => $clientid]
+    ['advertiserId' => $clientid],
 );
 
 $oTpl->display();
@@ -250,10 +250,10 @@ function buildAdvertiserCampaignsHeaderModel($advertiserId, $aAllAdvertisers)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $advertiserName, 'url' => $advertiserEditUrl,
-               'id' => $advertiserId, 'entities' => $aAllAdvertisers,
-               'htmlName' => 'clientid'
-              ],
-        ['name' => '']
+            'id' => $advertiserId, 'entities' => $aAllAdvertisers,
+            'htmlName' => 'clientid',
+        ],
+        ['name' => ''],
     ], 'campaigns', 'list');
 
     return $oHeaderModel;

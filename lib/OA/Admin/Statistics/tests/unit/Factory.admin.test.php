@@ -67,7 +67,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         'zone-campaigns' => 'OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns',
         'zone-campaign-history' => 'OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory',
         //'zone-daily'                    => 'OA_Admin_Statistics_Delivery_Controller_ZoneDaily',
-        'zone-history' => 'OA_Admin_Statistics_Delivery_Controller_ZoneHistory'
+        'zone-history' => 'OA_Admin_Statistics_Delivery_Controller_ZoneHistory',
     ];
 
     public function test_getControllerClass()

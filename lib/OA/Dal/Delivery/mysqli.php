@@ -57,7 +57,7 @@ function OA_Dal_Delivery_connect($database = 'database')
             null,
             empty($dbConf['ca']) ? null : $dbConf['ca'],
             empty($dbConf['capath']) ? null : $dbConf['capath'],
-            null
+            null,
         );
         if ($dbLink = @mysqli_real_connect($init, $dbPersistent . $dbHost, $dbUser, $dbPassword, $dbName, $dbPort)) {
             // Connection successful (else: $dbLink == false)
@@ -191,7 +191,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
     return OA_Dal_Delivery_query(
         $query,
-        'rawDatabase'
+        'rawDatabase',
     );
 }
 

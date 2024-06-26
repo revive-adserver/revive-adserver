@@ -28,7 +28,7 @@ class MDB2ConfigWriter
             $username,
             $password,
             $name,
-            $tableType
+            $tableType,
         ) == false) {
             return false;
         }
@@ -45,7 +45,7 @@ class MDB2ConfigWriter
             $username,
             $password,
             $name,
-            $tableType
+            $tableType,
         );
     }
 
@@ -59,7 +59,7 @@ class MDB2ConfigWriter
         $username,
         $password,
         $name,
-        $tableType
+        $tableType,
     ) {
         $sConfig = file_get_contents($fTestConfigSource);
         $sConfig = str_replace('%db.type%', $type, $sConfig);

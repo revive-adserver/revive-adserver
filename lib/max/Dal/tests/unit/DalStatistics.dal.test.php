@@ -94,14 +94,14 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             'campaignid' => $placementId,
             'active' => 't',
             'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idBanner1 = $this->_insertBanner($aData);
         $aData = [
             'day' => '2006-10-30',
             'hour' => 12,
             'ad_id' => $idBanner1,
-            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idDSAH1 = $this->_insertDataSummaryAdHourly($aData);
 
@@ -114,42 +114,42 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             'campaignid' => $placementId,
             'active' => 't',
             'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idBanner2 = $this->_insertBanner($aData);
         $aData = [
             'campaignid' => 999,
             'active' => 't',
             'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
-            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'acls_updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idBanner3 = $this->_insertBanner($aData);
         $aData = [
             'day' => '2006-10-29',
             'hour' => 12,
             'ad_id' => $idBanner2,
-            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idDSAH1 = $this->_insertDataSummaryAdHourly($aData);
         $aData = [
             'day' => '2006-10-28',
             'hour' => 12,
             'ad_id' => $idBanner2,
-            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idDSAH2 = $this->_insertDataSummaryAdHourly($aData);
         $aData = [
             'day' => '2006-10-27',
             'hour' => 12,
             'ad_id' => $idBanner2,
-            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idDSAH3 = $this->_insertDataSummaryAdHourly($aData);
         $aData = [
             'day' => '2006-10-26',
             'hour' => 12,
             'ad_id' => 999,
-            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S')
+            'updated' => $oNow->format('%Y-%m-%d %H:%M:%S'),
         ];
         $idDSAH4 = $this->_insertDataSummaryAdHourly($aData);
 

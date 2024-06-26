@@ -33,7 +33,7 @@ class Html5ZipManagerPass implements CompilerPassInterface
             foreach ($tags as $attributes) {
                 $definition->addMethodCall('addParser', [
                     new Reference($id),
-                    $attributes['priority']
+                    $attributes['priority'],
                 ]);
             }
         }

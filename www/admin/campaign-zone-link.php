@@ -32,7 +32,7 @@ phpAds_registerGlobalUnslashed(
     'campaignid',
     'allSelected',
     'text-linked',
-    'text-available'
+    'text-available',
 );
 
 $agencyId = OA_Permission::getAgencyId();

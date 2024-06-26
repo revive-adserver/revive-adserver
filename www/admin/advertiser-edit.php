@@ -37,7 +37,7 @@ phpAds_registerGlobalUnslashed(
     'reportdeactivate',
     'report',
     'reportinterval',
-    'submit'
+    'submit',
 );
 
 
@@ -204,9 +204,9 @@ function processForm($aAdvertiser, $form)
         $translated_message = $translation->translate(
             $GLOBALS['strAdvertiserHasBeenUpdated'],
             [
-            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' . $aAdvertiser['clientid']),
-            htmlspecialchars($aAdvertiser['clientname'])
-            ]
+                MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' . $aAdvertiser['clientid']),
+                htmlspecialchars($aAdvertiser['clientname']),
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect('advertiser-edit.php?clientid=' . $aAdvertiser['clientid']);

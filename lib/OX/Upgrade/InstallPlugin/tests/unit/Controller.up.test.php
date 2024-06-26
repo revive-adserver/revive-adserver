@@ -27,7 +27,7 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
         Mock::generatePartial(
             'OX_Admin_UI_Install_InstallStatus',
             'OX_Admin_UI_Install_InstallStatusMock',
-            ['isUpgrade']
+            ['isUpgrade'],
         );
         $oInstallStatus = new OX_Admin_UI_Install_InstallStatusMock($this);
         $oInstallStatus->setReturnValue('isUpgrade', true);
@@ -53,14 +53,14 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
             $aExpected[] = [
                 'id' => 'plugin:' . $pluginName,
                 'name' => $GLOBALS['strPluginTaskChecking'] . ': <br/> ' . $this->_correctPluginName($pluginName),
-                'url' => $baseInstallUrl . 'install-plugin.php?status=1&plugin=' . $pluginName
+                'url' => $baseInstallUrl . 'install-plugin.php?status=1&plugin=' . $pluginName,
             ];
         }
         $aExpected[] = [
             'id' => 'plugin:' . $lastPlugin,
             'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/> ' . $this->_correctPluginName($lastPlugin),
             'url' => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $lastPlugin .
-                     ((empty($lastPluginData['disabled'])) ? '' : '&disabled=1')
+                     ((empty($lastPluginData['disabled'])) ? '' : '&disabled=1'),
         ];
 
         $result = OX_Upgrade_InstallPlugin_Controller::getTasksUrls($baseInstallUrl);

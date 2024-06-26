@@ -246,7 +246,7 @@ EOF;
                 $newscript = str_replace(
                     $jsvar[0][$k],
                     str_replace($jsvar[2][$k], "REVIVE.getParameter('{$var}', {$jsvar[2][$k]})", $jsvar[0][$k]),
-                    $newscript
+                    $newscript,
                 );
             }
 

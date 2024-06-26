@@ -148,8 +148,8 @@ class Test_DeliveryCommon extends UnitTestCase
         $strRe0 = "Mr O'Reilly";
         $strRe1 = "'Mr Reilly'";
         $aIn = [0 => $strIn0,
-                        1 => [0 => $strIn1],
-                        ];
+            1 => [0 => $strIn1],
+        ];
         MAX_commonRemoveSpecialChars($aIn);
         $prn = var_export($aIn[1][0], true);
 
@@ -460,7 +460,7 @@ class Test_DeliveryCommon extends UnitTestCase
         $GLOBALS['_MAX']['SSL_REQUEST'] = true;
         $this->assertEqual(
             explode('/', $aConf['webpath']['imagesSSL'])[0],
-            explode('/', $aConf['webpath']['deliverySSL'])[0]
+            explode('/', $aConf['webpath']['deliverySSL'])[0],
         );
         OX_Delivery_Common_sendPreconnectHeaders();
         $this->assertTrue(empty($GLOBALS['_HEADERS']));

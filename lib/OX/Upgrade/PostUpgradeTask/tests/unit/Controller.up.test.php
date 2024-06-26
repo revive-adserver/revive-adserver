@@ -26,7 +26,7 @@ class OX_Upgrade_PostUpgradeTask_ControllerTest extends UnitTestCase
         Mock::generatePartial(
             'OA_Upgrade',
             'OA_UpgradeMock',
-            ['getPostUpgradeTasks']
+            ['getPostUpgradeTasks'],
         );
 
         $baseInstallUrl = 'my base url';

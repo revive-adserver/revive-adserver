@@ -63,7 +63,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
 
         // Add standard page parameters
         $this->aPageParams = [
-            'clientid' => $advertiserId
+            'clientid' => $advertiserId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
 

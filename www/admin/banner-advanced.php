@@ -52,7 +52,7 @@ if (isset($submitbutton)) {
     $translation = new OX_Translation();
     $translated_message = $translation->translate($GLOBALS['strBannerAdvancedHasBeenUpdated'], [
         MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
-        htmlspecialchars($doBanners->description)
+        htmlspecialchars($doBanners->description),
     ]);
 
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

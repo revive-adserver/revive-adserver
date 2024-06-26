@@ -64,7 +64,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
             'period' => [
                 'title' => $GLOBALS['strPeriod'],
                 'type' => 'date-month',
-                'default' => $default_period_preset
+                'default' => $default_period_preset,
             ],
         ];
         return $aImport;
@@ -127,7 +127,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
             $this->translate("Manager") => 'text',
             $strImpressions => 'decimal',
             $strClicks => 'decimal',
-            $strConversions => 'decimal'
+            $strConversions => 'decimal',
         ];
         // Manually prepare the data array
         $aData = $this->_fetchData();
@@ -135,7 +135,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         $this->createSubReport(
             $this->translate("Account Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 

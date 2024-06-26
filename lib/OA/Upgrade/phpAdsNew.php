@@ -259,7 +259,7 @@ class OA_phpAdsNew
             'GEOIP_UNKNOWN_SPEED' => 0,
             'GEOIP_DIALUP_SPEED' => 1,
             'GEOIP_CABLEDSL_SPEED' => 2,
-            'GEOIP_CORPORATE_SPEED' => 3
+            'GEOIP_CORPORATE_SPEED' => 3,
         ];
     }
 
@@ -329,7 +329,7 @@ class OA_phpAdsNew
             'plugin_conf' => [
                 'databaseType' => $databaseType,
                 'databaseSegments' => $databaseSegments,
-                'record_length' => $record_length
+                'record_length' => $record_length,
             ],
             'capabilities' => [
                 'country' => in_array($databaseType, [$GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
@@ -343,8 +343,8 @@ class OA_phpAdsNew
                 'dma_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
                 'area_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
                 'org_isp' => in_array($databaseType, [$GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION]),
-                'netspeed' => $databaseType == $GEOIP_NETSPEED_EDITION
-            ]
+                'netspeed' => $databaseType == $GEOIP_NETSPEED_EDITION,
+            ],
         ];
     }
 

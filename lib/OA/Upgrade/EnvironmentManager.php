@@ -171,12 +171,12 @@ class OA_Environment_Manager
     public function buildFilePermArrayItem($file, $recurse = false, $result = 'OK', $error = false, $string = '')
     {
         return [
-                    'file' => $file,
-                    'recurse' => $recurse,
-                    'result' => $result,
-                    'error' => $error,
-                    'string' => $string,
-                    ];
+            'file' => $file,
+            'recurse' => $recurse,
+            'result' => $result,
+            'error' => $error,
+            'string' => $string,
+        ];
     }
 
     public function checkFilePermission($file, $recurse)
@@ -322,7 +322,7 @@ class OA_Environment_Manager
         if (version_compare(
             $this->aInfo['PHP']['actual']['version'],
             $this->aInfo['PHP']['expected']['version'],
-            "<"
+            "<",
         )) {
             $result = OA_ENV_ERROR_PHP_VERSION;
         } else {

@@ -67,7 +67,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oUserInfo,
@@ -76,7 +76,7 @@ class UserXmlRpcService extends BaseUserService
                 ['userName', 'contactName',
                     'emailAddress', 'username', 'password',
                     'defaultAccountId', 'active'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -108,7 +108,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oUserInfo,
@@ -117,7 +117,7 @@ class UserXmlRpcService extends BaseUserService
                 ['userId', 'userName', 'contactName',
                     'emailAddress', 'username', 'password',
                     'defaultAccountId', 'active'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -146,7 +146,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -175,7 +175,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -184,7 +184,7 @@ class UserXmlRpcService extends BaseUserService
         if ($this->_oUserServiceImp->getUser(
             $sessionId,
             $userId,
-            $oUser
+            $oUser,
         )) {
             return XmlRpcUtils::getEntityResponse($oUser);
         } else {
@@ -209,7 +209,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$accountId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -218,7 +218,7 @@ class UserXmlRpcService extends BaseUserService
         if ($this->_oUserServiceImp->getUserListByAccountId(
             $sessionId,
             $accountId,
-            $aUserList
+            $aUserList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
         } else {
@@ -233,7 +233,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$oldSsoUserId, &$newSsoUserId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -252,7 +252,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$ssoUserId, &$email],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -276,58 +276,58 @@ $server = new XML_RPC_Server(
         'addUser' => [
             'function' => $oUserXmlRpcService->addUser(...),
             'signature' => [
-                ['int', 'string', 'struct']
+                ['int', 'string', 'struct'],
             ],
-            'docstring' => 'Add user'
+            'docstring' => 'Add user',
         ],
 
         'modifyUser' => [
             'function' => $oUserXmlRpcService->modifyUser(...),
             'signature' => [
-                ['int', 'string', 'struct']
+                ['int', 'string', 'struct'],
             ],
-            'docstring' => 'Modify user information'
+            'docstring' => 'Modify user information',
         ],
 
         'deleteUser' => [
             'function' => $oUserXmlRpcService->deleteUser(...),
             'signature' => [
-                ['int', 'string', 'int']
+                ['int', 'string', 'int'],
             ],
-            'docstring' => 'Delete user'
+            'docstring' => 'Delete user',
         ],
 
         'getUser' => [
             'function' => $oUserXmlRpcService->getUser(...),
             'signature' => [
-                ['struct', 'string', 'int']
+                ['struct', 'string', 'int'],
             ],
-            'docstring' => 'Get User Information'
+            'docstring' => 'Get User Information',
         ],
 
         'getUserListByAccountId' => [
             'function' => $oUserXmlRpcService->getUserListByAccountId(...),
             'signature' => [
-                ['array', 'string', 'int']
+                ['array', 'string', 'int'],
             ],
-            'docstring' => 'Get User List By Account Id'
+            'docstring' => 'Get User List By Account Id',
         ],
 
         'updateSsoUserId' => [
             'function' => $oUserXmlRpcService->updateSsoUserId(...),
             'signature' => [
-                ['array', 'string', 'int', 'int']
+                ['array', 'string', 'int', 'int'],
             ],
-            'docstring' => 'Change the SSO User ID field'
+            'docstring' => 'Change the SSO User ID field',
         ],
 
         'updateUserEmailBySsoId' => [
             'function' => $oUserXmlRpcService->updateUserEmailBySsoId(...),
             'signature' => [
-                ['array', 'string', 'int', 'string']
+                ['array', 'string', 'int', 'string'],
             ],
-            'docstring' => 'Change users email for the user who match the SSO User ID'
+            'docstring' => 'Change users email for the user who match the SSO User ID',
         ],
     ],
-    1  // serviceNow
+    1,  // serviceNow
 );

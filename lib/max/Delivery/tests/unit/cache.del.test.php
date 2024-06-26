@@ -54,7 +54,7 @@ class Test_DeliveryCache extends UnitTestCase
         // this not interrupt tests
         $this->skipIf(
             ($this->oDeliveryCacheStore === false),
-            "Some tests was skipped because there is no cache store plugin"
+            "Some tests was skipped because there is no cache store plugin",
         );
         // Run test only if cache storage Plugin is enabled and working
         if ($this->oDeliveryCacheStore !== false) {
@@ -75,13 +75,13 @@ class Test_DeliveryCache extends UnitTestCase
             $aCacheVar = OX_Delivery_Common_hook(
                 'cacheRetrieve',
                 [$filename],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
             $aCacheVar['cache_time'] = MAX_commonGetTimeNow() - $GLOBALS['OA_Delivery_Cache']['expiry'] - 1;
             OX_Delivery_Common_hook(
                 'cacheStore',
                 [$filename, $aCacheVar],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
 
             // Test expired cache
@@ -117,7 +117,7 @@ class Test_DeliveryCache extends UnitTestCase
             $aCacheVar = OX_Delivery_Common_hook(
                 'cacheRetrieve',
                 [$filename],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
             $this->assertTrue(is_array($aCacheVar));
             $this->assertEqual($content, $aCacheVar['cache_contents']);
@@ -133,7 +133,7 @@ class Test_DeliveryCache extends UnitTestCase
             $aCacheVar = OX_Delivery_Common_hook(
                 'cacheRetrieve',
                 [$filename],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
             $this->assertTrue(is_array($aCacheVar));
             $this->assertEqual(4, count($aCacheVar));
@@ -164,13 +164,13 @@ class Test_DeliveryCache extends UnitTestCase
             $aCacheVar = OX_Delivery_Common_hook(
                 'cacheRetrieve',
                 [$filename],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
             $aCacheVar['cache_contents'] = $content2;
             OX_Delivery_Common_hook(
                 'cacheStore',
                 [$filename, $aCacheVar],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
 
             // Tests if return cached contents
@@ -183,7 +183,7 @@ class Test_DeliveryCache extends UnitTestCase
             $aCacheVar = OX_Delivery_Common_hook(
                 'cacheRetrieve',
                 [$filename],
-                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+                $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
             );
             $this->assertEqual($content, $aCacheVar['cache_contents']);
         }

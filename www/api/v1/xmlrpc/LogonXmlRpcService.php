@@ -63,7 +63,7 @@ class LogonXmlRpcService extends BaseLogonService
             [&$userName, &$password],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -114,18 +114,18 @@ $server = new XML_RPC_Server(
         'logon' => [
             'function' => $oLogonXmlRpcService->logon(...),
             'signature' => [
-                ['string', 'string', 'string']
+                ['string', 'string', 'string'],
             ],
-            'docstring' => 'Logon method'
+            'docstring' => 'Logon method',
         ],
 
         'logoff' => [
             'function' => $oLogonXmlRpcService->logoff(...),
             'signature' => [
-                ['bool', 'string']
+                ['bool', 'string'],
             ],
-            'docstring' => 'Logoff method'
+            'docstring' => 'Logoff method',
         ],
     ],
-    1  // serviceNow
+    1,  // serviceNow
 );

@@ -33,30 +33,30 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * @var array
      */
     public $_aWebsitesAndZones = [ 1 => [
-                                            'name' => 'website 1',
-                                            'oac_category_id' => 6510,
-                                            'zones' =>
-                                                 [
-                                                   1 => [ 'zonename' => 'zone 1 on web 1', 'oac_category_id' => 6510 ],
-                                                   2 => [ 'zonename' => 'zone 2 on web 1', 'oac_category_id' => 6502 ],
-                                                   3 => [ 'zonename' => 'zone 3 on web 1', 'oac_category_id' => 'null' ]
-                                                 ]
-                                          ],
-                                     2 => [
-                                            'name' => 'website 2',
-                                            'oac_category_id' => 'null',
-                                            'zones' =>
-                                                 [
-                                                   1 => [ 'zonename' => 'zone 1 on web 2', 'oac_category_id' => 6581 ],
-                                                   2 => [ 'zonename' => 'zone 2 on web 2', 'oac_category_id' => 6502 ],
-                                                 ]
-                                          ],
-                                     3 => [
-                                            'name' => 'website 3',
-                                            'oac_category_id' => 6581,
-                                            'zones' => 'null'
-                                          ]
-                             ];
+        'name' => 'website 1',
+        'oac_category_id' => 6510,
+        'zones' =>
+             [
+                 1 => [ 'zonename' => 'zone 1 on web 1', 'oac_category_id' => 6510 ],
+                 2 => [ 'zonename' => 'zone 2 on web 1', 'oac_category_id' => 6502 ],
+                 3 => [ 'zonename' => 'zone 3 on web 1', 'oac_category_id' => 'null' ],
+             ],
+    ],
+        2 => [
+            'name' => 'website 2',
+            'oac_category_id' => 'null',
+            'zones' =>
+                 [
+                     1 => [ 'zonename' => 'zone 1 on web 2', 'oac_category_id' => 6581 ],
+                     2 => [ 'zonename' => 'zone 2 on web 2', 'oac_category_id' => 6502 ],
+                 ],
+        ],
+        3 => [
+            'name' => 'website 3',
+            'oac_category_id' => 6581,
+            'zones' => 'null',
+        ],
+    ];
 
     /**
      * A sample structure for tests containing advertisers and campaigns
@@ -64,36 +64,36 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      * @var array
      */
     public $_aAdvertisersAndCampaigns = [ 1 => [
-                                            'clientname' => 'Advertiser 1',
-                                            'campaigns' =>
-                                                 [
-                                                   1 => [ 'campaignname' => 'campaign 1 adv 1'],
-                                                   2 => [ 'campaignname' => 'campaign 2 adv 1'],
-                                                 ]
-                                          ],
-                                          2 => [
-                                            'clientname' => 'Advertiser 2',
-                                            'campaigns' =>
-                                                 [
-                                                   1 => [ 'campaignname' => 'campaign 1 adv 2'],
-                                                 ]
-                                          ]
-                                   ];
+        'clientname' => 'Advertiser 1',
+        'campaigns' =>
+             [
+                 1 => [ 'campaignname' => 'campaign 1 adv 1'],
+                 2 => [ 'campaignname' => 'campaign 2 adv 1'],
+             ],
+    ],
+        2 => [
+            'clientname' => 'Advertiser 2',
+            'campaigns' =>
+                 [
+                     1 => [ 'campaignname' => 'campaign 1 adv 2'],
+                 ],
+        ],
+    ];
     /**
      * A sample structure for tests containing categories
      *
      * @var array
      */
     public $_aCategories = [
-            65 => [
-                'name' => 'Micro processor',
-                'subcategories' => [
-                    6502 => 'Apple II',
-                    6510 => 'Commedore 64',
-                    6581 => 'C64 SID'
-                ]
-            ]
-        ];
+        65 => [
+            'name' => 'Micro processor',
+            'subcategories' => [
+                6502 => 'Apple II',
+                6510 => 'Commedore 64',
+                6581 => 'C64 SID',
+            ],
+        ],
+    ];
 
     public function __construct()
     {
@@ -101,7 +101,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
     }
 
@@ -228,7 +228,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             'height' => 5,
             'width' => 10,
             'delivery' => 1,
-            'website' => 'http://example.com'
+            'website' => 'http://example.com',
         ];
         $aActual = $this->dalZones->getZoneForInvocationForm($zoneId);
 
@@ -498,12 +498,12 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
                              )
                     ) {
                         $aExpected[] = [
-                                        'zoneid' => $aZonesIds[$websiteKey][$zoneKey],
-                                        'zonename' => $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'],
-                                        'affiliateid' => $aAffiliatesIds[$websiteKey],
-                                        'affiliatename' => $aWebsitesAndZones[$websiteKey]['name'],
-                                        'islinked' => null
-                                      ];
+                            'zoneid' => $aZonesIds[$websiteKey][$zoneKey],
+                            'zonename' => $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'],
+                            'affiliateid' => $aAffiliatesIds[$websiteKey],
+                            'affiliatename' => $aWebsitesAndZones[$websiteKey]['name'],
+                            'islinked' => null,
+                        ];
                     }
                 }
             }
@@ -726,11 +726,11 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($doAdZoneAssoc->count(), 4);
 
         $aExpectedAdZoneAssocs = [
-                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
-                        ['zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]],
-                        ['zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]],
-                        ['zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3]]
-                ];
+            ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+            ['zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]],
+            ['zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]],
+            ['zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3]],
+        ];
         foreach ($aExpectedAdZoneAssocs as $row => $aExpectedAdZoneAssoc) {
             $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
@@ -972,9 +972,9 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         //  $aBannerIds[1][1][2] linked to zone $aZonesIds[1][1]
 
         $aExpectedAdZoneAssocs = [
-                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
-                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]],
-                ];
+            ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+            ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]],
+        ];
         foreach ($aExpectedAdZoneAssocs as $aExpectedAdZoneAssoc) {
             $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
@@ -1182,11 +1182,11 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($doAdZoneAssoc->count(), 4);
 
         $aExpectedAdZoneAssocs = [
-                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
-                        ['zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]],
-                        ['zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]],
-                        ['zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3]]
-                ];
+            ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+            ['zone_id' => $aZonesIds[2][1], 'ad_id' => $aBannerIds[1][1][1]],
+            ['zone_id' => $aZonesIds[2][2], 'ad_id' => $aBannerIds[1][1][2]],
+            ['zone_id' => $aZonesIds[1][2], 'ad_id' => $aBannerIds[1][1][3]],
+        ];
         foreach ($aExpectedAdZoneAssocs as $row => $aExpectedAdZoneAssoc) {
             $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];
@@ -1312,9 +1312,9 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         //  $aBannerIds[1][1][2] linked to zone $aZonesIds[1][1]
 
         $aExpectedAdZoneAssocs = [
-                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
-                        ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]],
-                ];
+            ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][1]],
+            ['zone_id' => $aZonesIds[1][1], 'ad_id' => $aBannerIds[1][1][2]],
+        ];
         foreach ($aExpectedAdZoneAssocs as $aExpectedAdZoneAssoc) {
             $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAdZoneAssoc->zone_id = $aExpectedAdZoneAssoc['zone_id'];

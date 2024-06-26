@@ -134,7 +134,7 @@ class OA_Admin_UI_Component_ArrayRenderer extends HTML_QuickForm_Renderer_Array
         $elAry = [
             'name' => $html->getName(),
             'type' => $html->getType(),
-            'html' => $html->toHtml()
+            'html' => $html->toHtml(),
         ];
 
         //get decorators

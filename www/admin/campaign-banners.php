@@ -275,14 +275,14 @@ function buildCampaignBannersHeaderModel($aEntities)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $advertiserName, 'url' => '',
-               'id' => $advertiserId, 'entities' => getAdvertiserMap($agencyId),
-               'htmlName' => 'clientid'
-              ],
+            'id' => $advertiserId, 'entities' => getAdvertiserMap($agencyId),
+            'htmlName' => 'clientid',
+        ],
         ['name' => $campaignName, 'url' => $campaignEditUrl,
-               'id' => $campaignId, 'entities' => getCampaignMap($advertiserId),
-               'htmlName' => 'campaignid'
-              ],
-        ['name' => '']
+            'id' => $campaignId, 'entities' => getCampaignMap($advertiserId),
+            'htmlName' => 'campaignid',
+        ],
+        ['name' => ''],
     ], 'banners', 'list');
 
     return $oHeaderModel;

@@ -81,7 +81,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         // Add standard page parameters
         $this->aPageParams = [
             'clientid' => $advertiserId,
-            'campaignid' => $placementId
+            'campaignid' => $placementId,
         ];
 
         // Add the cross-entity parameters
@@ -131,18 +131,18 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
-            'iconCampaign'
+            'iconCampaign',
         );
 
         // Prepare the data for display by output() method
         $aParams = [
-            'placement_id' => $placementId
+            'placement_id' => $placementId,
         ];
         if (!empty($zoneId)) {
             $aParams['zone_id'] = $zoneId;

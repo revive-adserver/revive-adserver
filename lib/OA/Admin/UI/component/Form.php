@@ -38,43 +38,43 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
         parent::registerElementType(
             'html',
             MAX_PATH . '/lib/OA/Admin/UI/component/Html.php',
-            'OA_Admin_UI_Component_Html'
+            'OA_Admin_UI_Component_Html',
         );
 
         parent::registerElementType(
             'controls',
             MAX_PATH . '/lib/OA/Admin/UI/component/FormControls.php',
-            'OA_Admin_UI_Component_FormControls'
+            'OA_Admin_UI_Component_FormControls',
         );
 
         parent::registerElementType(
             'break',
             MAX_PATH . '/lib/OA/Admin/UI/component/FormBreak.php',
-            'OA_Admin_UI_Component_FormBreak'
+            'OA_Admin_UI_Component_FormBreak',
         );
 
         parent::registerElementType(
             'custom',
             MAX_PATH . '/lib/OA/Admin/UI/component/CustomFormElement.php',
-            'OA_Admin_UI_Component_CustomFormElement'
+            'OA_Admin_UI_Component_CustomFormElement',
         );
 
         parent::registerElementType(
             'plugin-custom',
             MAX_PATH . '/lib/OA/Admin/UI/component/CustomPluginFormElement.php',
-            'OA_Admin_UI_Component_CustomPluginFormElement'
+            'OA_Admin_UI_Component_CustomPluginFormElement',
         );
 
         parent::registerElementType(
             'script',
             MAX_PATH . '/lib/OA/Admin/UI/component/ScriptFormElement.php',
-            'OA_Admin_UI_Component_ScriptFormElement'
+            'OA_Admin_UI_Component_ScriptFormElement',
         );
 
         parent::registerElementType(
             'plugin-script',
             MAX_PATH . '/lib/OA/Admin/UI/component/PluginScriptFormElement.php',
-            'OA_Admin_UI_Component_PluginScriptFormElement'
+            'OA_Admin_UI_Component_PluginScriptFormElement',
         );
 
         //register additional rules
@@ -86,106 +86,106 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
             'decimalplaces',
             'rule',
             'OA_Admin_UI_Rule_DecimalPlaces',
-            MAX_PATH . '/lib/OA/Admin/UI/component/rule/DecimalPlaces.php'
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/DecimalPlaces.php',
         );
         $this->registerRule(
             'min',
             'rule',
             'OA_Admin_UI_Rule_Min',
-            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Min.php'
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Min.php',
         );
         $this->registerRule(
             'max',
             'rule',
             'OA_Admin_UI_Rule_Max',
-            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Max.php'
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Max.php',
         );
 
         $this->registerRule(
             'unique',
             'rule',
             'OA_Admin_UI_Rule_Unique',
-            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Unique.php'
+            MAX_PATH . '/lib/OA/Admin/UI/component/rule/Unique.php',
         );
 
         //register jquery rule adaptors
         $this->registerJQueryRuleAdaptor(
             'required',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormRequiredRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryRequiredRule'
+            'OA_Admin_UI_Rule_JQueryRequiredRule',
         );
 
         $this->registerJQueryRuleAdaptor(
             'minlength',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMinLengthRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMinLengthRule'
+            'OA_Admin_UI_Rule_JQueryMinLengthRule',
         );
         $this->registerJQueryRuleAdaptor(
             'maxlength',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMaxLengthRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMaxLengthRule'
+            'OA_Admin_UI_Rule_JQueryMaxLengthRule',
         );
 
         $this->registerJQueryRuleAdaptor(
             'email',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormEmailRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryEmailRule'
+            'OA_Admin_UI_Rule_JQueryEmailRule',
         );
 
         $this->registerJQueryRuleAdaptor(
             'numeric',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormDigitsRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryDigitsRule'
+            'OA_Admin_UI_Rule_JQueryDigitsRule',
         );
         $this->registerJQueryRuleAdaptor(
             'nonzero',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormNonZeroRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryNonZeroRule'
+            'OA_Admin_UI_Rule_JQueryNonZeroRule',
         );
         $this->registerJQueryRuleAdaptor(
             'decimal',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormNumberRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryNumberRule'
+            'OA_Admin_UI_Rule_JQueryNumberRule',
         );
         $this->registerJQueryRuleAdaptor(
             'min',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMinRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMinRule'
+            'OA_Admin_UI_Rule_JQueryMinRule',
         );
         $this->registerJQueryRuleAdaptor(
             'max',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormMaxRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryMaxRule'
+            'OA_Admin_UI_Rule_JQueryMaxRule',
         );
         $this->registerJQueryRuleAdaptor(
             'decimalplaces',
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormDecimalPlacesAdaptor.php',
-            'OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor'
+            'OA_Admin_UI_Rule_QuickFormDecimalPlacesAdaptor',
         );
 
 
         $this->registerJQueryRuleAdaptor(
             "unique",
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormUniqueRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryUniqueRule'
+            'OA_Admin_UI_Rule_JQueryUniqueRule',
         );
 
         $this->registerJQueryRuleAdaptor(
             "compare",
             MAX_PATH . '/lib/OA/Admin/UI/component/rule/QuickFormCompareRuleAdaptor.php',
-            'OA_Admin_UI_Rule_JQueryCompareRule'
+            'OA_Admin_UI_Rule_JQueryCompareRule',
         );
 
         //register element decorators
         $this->registerElementDecorator(
             'tag',
             MAX_PATH . '/lib/OA/Admin/UI/component/decorator/HTMLTagDecorator.php',
-            'OA_Admin_UI_HTMLTagDecorator'
+            'OA_Admin_UI_HTMLTagDecorator',
         );
         $this->registerElementDecorator(
             'process',
             MAX_PATH . '/lib/OA/Admin/UI/component/decorator/ProcessingDecorator.php',
-            'OA_Admin_UI_ProcessingDecorator'
+            'OA_Admin_UI_ProcessingDecorator',
         );
 
 
@@ -444,7 +444,7 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
             "\t" => '\t',
             "'" => "\\'",
             '"' => '\"',
-            '\\' => '\\\\'
+            '\\' => '\\\\',
         ];
 
         $activeRules = [];

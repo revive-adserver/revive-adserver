@@ -30,14 +30,14 @@ class OA_UpgradePostscript_2_3_36
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $table = 'preference';
         $aColumns = [
-                          'ad_clicks_sum',
-                          'ad_views_sum',
-                          'ad_clicks_per_second',
-                          'ad_views_per_second',
-                          'ad_cs_data_last_sent',
-                          'ad_cs_data_last_sent',
-                          'ad_cs_data_last_received',
-                        ];
+            'ad_clicks_sum',
+            'ad_views_sum',
+            'ad_clicks_per_second',
+            'ad_views_per_second',
+            'ad_cs_data_last_sent',
+            'ad_cs_data_last_sent',
+            'ad_cs_data_last_received',
+        ];
         OA_DB::setCaseSensitive();
         $aDef = $this->oSchema->getDefinitionFromDatabase([$prefix . $table]);
         OA_DB::disableCaseSensitive();

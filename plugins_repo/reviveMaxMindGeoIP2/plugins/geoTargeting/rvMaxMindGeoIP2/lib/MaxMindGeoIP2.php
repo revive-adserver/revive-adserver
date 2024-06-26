@@ -206,7 +206,7 @@ class MaxMindGeoIP2
         try {
             $aGeoInfo = @array_combine(
                 array_keys(self::getCookieArray()),
-                explode('|', $string)
+                explode('|', $string),
             );
         } catch (\ValueError) {
             return false;

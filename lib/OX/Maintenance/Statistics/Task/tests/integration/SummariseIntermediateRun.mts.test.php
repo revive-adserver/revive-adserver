@@ -58,8 +58,8 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 'summariseBucketsAggregate',
                 'migrateRawRequests',
                 'migrateRawImpressions',
-                'migrateRawClicks'
-            ]
+                'migrateRawClicks',
+            ],
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_1($this);
 
@@ -103,8 +103,8 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 'summariseBucketsAggregate',
                 'migrateRawRequests',
                 'migrateRawImpressions',
-                'migrateRawClicks'
-            ]
+                'migrateRawClicks',
+            ],
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_2($this);
 
@@ -144,8 +144,8 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 'summariseBucketsAggregate',
                 'migrateRawRequests',
                 'migrateRawImpressions',
-                'migrateRawClicks'
-            ]
+                'migrateRawClicks',
+            ],
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_3($this);
 
@@ -161,9 +161,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
@@ -178,9 +178,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $aMap = [];
@@ -201,7 +201,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -209,9 +209,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 08:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 09:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 09:01:00'{$timestampCastString}",
+                ],
+            ],
         );
 
         $oDal->expectNever('migrateRawRequests');
@@ -252,8 +252,8 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 'summariseBucketsAggregate',
                 'migrateRawRequests',
                 'migrateRawImpressions',
-                'migrateRawClicks'
-            ]
+                'migrateRawClicks',
+            ],
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_4($this);
 
@@ -269,9 +269,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
@@ -286,9 +286,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $aMap = [];
@@ -309,7 +309,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -317,33 +317,33 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 08:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 09:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 09:01:00'{$timestampCastString}",
+                ],
+            ],
         );
 
         $oDal->expectOnce(
             'migrateRawRequests',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
 
         $oDal->expectOnce(
             'migrateRawImpressions',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
 
         $oDal->expectOnce(
             'migrateRawClicks',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
 
         (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
@@ -381,8 +381,8 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 'summariseBucketsAggregate',
                 'migrateRawRequests',
                 'migrateRawImpressions',
-                'migrateRawClicks'
-            ]
+                'migrateRawClicks',
+            ],
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_5($this);
 
@@ -403,9 +403,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 08:59:59');
         $oStartDate->addSeconds(1);
@@ -419,9 +419,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 09:59:59');
         $oStartDate->addSeconds(1);
@@ -435,9 +435,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
@@ -453,9 +453,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 08:59:59');
         $oStartDate->addSeconds(1);
@@ -469,9 +469,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 09:59:59');
         $oStartDate->addSeconds(1);
@@ -485,9 +485,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $aMap = [];
@@ -509,7 +509,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -517,9 +517,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 08:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}",
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 08:59:59');
         $oStartDate->addSeconds(1);
@@ -533,7 +533,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -541,9 +541,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 09:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 09:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}",
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 09:59:59');
         $oStartDate->addSeconds(1);
@@ -557,7 +557,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -565,9 +565,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 10:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 10:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}",
+                ],
+            ],
         );
 
         $oDal->expectNever('migrateRawRequests');
@@ -607,8 +607,8 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 'summariseBucketsAggregate',
                 'migrateRawRequests',
                 'migrateRawImpressions',
-                'migrateRawClicks'
-            ]
+                'migrateRawClicks',
+            ],
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_6($this);
 
@@ -629,9 +629,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 08:59:59');
         $oStartDate->addSeconds(1);
@@ -645,9 +645,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 09:59:59');
         $oStartDate->addSeconds(1);
@@ -661,9 +661,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
@@ -679,9 +679,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 08:59:59');
         $oStartDate->addSeconds(1);
@@ -695,9 +695,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 09:59:59');
         $oStartDate->addSeconds(1);
@@ -711,9 +711,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $oComponent->getStatisticsMigration(),
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
-                ]
-            ]
+                    'end' => $oEndDate,
+                ],
+            ],
         );
 
         $aMap = [];
@@ -735,7 +735,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -743,9 +743,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 08:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}",
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 08:59:59');
         $oStartDate->addSeconds(1);
@@ -759,7 +759,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -767,9 +767,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 09:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 09:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}",
+                ],
+            ],
         );
         $oStartDate = new Date('2008-08-28 09:59:59');
         $oStartDate->addSeconds(1);
@@ -783,7 +783,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 $aMap,
                 [
                     'start' => $oStartDate,
-                    'end' => $oEndDate
+                    'end' => $oEndDate,
                 ],
                 [
                     'operation_interval' => '60',
@@ -791,9 +791,9 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                     'interval_start' => "'2008-08-28 10:00:00'{$timestampCastString}",
                     'interval_end' => "'2008-08-28 10:59:59'{$timestampCastString}",
                     'creative_id' => 0,
-                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}"
-                ]
-            ]
+                    'updated' => "'2008-08-28 11:01:00'{$timestampCastString}",
+                ],
+            ],
         );
 
         $oStartDate = new Date('2008-08-28 07:59:59');
@@ -805,24 +805,24 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             'migrateRawRequests',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
         $oDal->expectAt(
             0,
             'migrateRawImpressions',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
         $oDal->expectAt(
             0,
             'migrateRawClicks',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
 
         $oStartDate = new Date('2008-08-28 08:59:59');
@@ -834,24 +834,24 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             'migrateRawRequests',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
         $oDal->expectAt(
             1,
             'migrateRawImpressions',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
         $oDal->expectAt(
             1,
             'migrateRawClicks',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
 
         $oStartDate = new Date('2008-08-28 09:59:59');
@@ -863,24 +863,24 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             'migrateRawRequests',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
         $oDal->expectAt(
             2,
             'migrateRawImpressions',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
         $oDal->expectAt(
             2,
             'migrateRawClicks',
             [
                 $oStartDate,
-                $oEndDate
-            ]
+                $oEndDate,
+            ],
         );
 
         (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);

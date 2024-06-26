@@ -90,7 +90,7 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
         return preg_replace_callback(
             $this->getPattern(),
             $this->getCallback(),
-            $content
+            $content,
         );
     }
 

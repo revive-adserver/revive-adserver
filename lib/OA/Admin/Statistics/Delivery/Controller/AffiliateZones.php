@@ -63,7 +63,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
 
         // Add standard page parameters
         $this->aPageParams = [
-            'affiliateid' => $publisherId
+            'affiliateid' => $publisherId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid=' . $publisherId,
-                'iconAffiliate'
+                'iconAffiliate',
             );
         }
 

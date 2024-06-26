@@ -222,7 +222,7 @@ class OA_Dll_Agency extends OA_Dll
                         $agencyData['contactName'],
                         $agencyData['userEmail'],
                         $agencyData['language'],
-                        $oAgency->accountId
+                        $oAgency->accountId,
                     );
                     if ($userId) {
                         // Link the user and give permission to create new accounts
@@ -234,7 +234,7 @@ class OA_Dll_Agency extends OA_Dll
                             $aPermissions,
                             $oAgency->accountId,
                             $userId,
-                            $aAllowedPermissions
+                            $aAllowedPermissions,
                         );
                     }
                 }
@@ -363,7 +363,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -374,7 +374,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -408,7 +408,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -419,7 +419,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -454,7 +454,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -465,7 +465,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -502,7 +502,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -513,7 +513,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -552,7 +552,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -563,7 +563,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -598,7 +598,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -609,7 +609,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -646,7 +646,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -657,7 +657,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;

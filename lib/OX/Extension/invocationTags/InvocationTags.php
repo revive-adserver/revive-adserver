@@ -221,7 +221,7 @@ abstract class Plugins_InvocationTags extends OX_Component
             $name,
             $this->getName(),
             PRODUCT_NAME,
-            VERSION
+            VERSION,
         );
 
         if (!empty($mi->comments)) {

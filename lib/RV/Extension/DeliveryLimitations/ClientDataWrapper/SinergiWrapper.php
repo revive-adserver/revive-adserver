@@ -50,12 +50,12 @@ class SinergiWrapper implements ClientDataWrapperInterface
      * @var array
      */
     private static $aOsMap = [
-      Os::WINDOWS => [
-          '95' => '95',
-          '98' => '98',
-          '2000' => '2k',
-          'XP' => 'xp',
-          '7' => 'w7',
+        Os::WINDOWS => [
+            '95' => '95',
+            '98' => '98',
+            '2000' => '2k',
+            'XP' => 'xp',
+            '7' => 'w7',
         ],
         Os::OSX => 'osx',
         Os::LINUX => 'linux',

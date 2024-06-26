@@ -58,7 +58,7 @@ if (!empty($trackerid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenDeleted'], [
-            htmlspecialchars($aTracker['trackername'])
+            htmlspecialchars($aTracker['trackername']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strTrackersHaveBeenDeleted']);

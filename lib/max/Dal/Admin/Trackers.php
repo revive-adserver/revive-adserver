@@ -18,7 +18,7 @@ class MAX_Dal_Admin_Trackers extends MAX_Dal_Common
 
     public $orderListName = [
         'name' => 'trackername',
-        'id' => 'trackerid'
+        'id' => 'trackerid',
     ];
 
     /**

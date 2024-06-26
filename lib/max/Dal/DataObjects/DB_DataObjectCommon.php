@@ -74,7 +74,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @var array
      */
     public $defaultValues = [
-        'updated' => '%DATE_TIME%'
+        'updated' => '%DATE_TIME%',
     ];
 
     /**
@@ -348,7 +348,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!$found) {
             DB_DataObject::raiseError(
                 "Reference '{$referenceTable}' doesn't exist for table {$this->_tableName}",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
         }
         return $found;
@@ -465,7 +465,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!array_key_exists($columnName, $fields)) {
             DB_DataObject::raiseError(
                 "no such field '{$columnName}' exists in table '{$this->_tableName}'",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
             return [];
         }
@@ -491,7 +491,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!array_key_exists($columnName, $fields)) {
             DB_DataObject::raiseError(
                 "no such field '{$columnName}' exists in table '{$this->_tableName}'",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
             return null;
         }
@@ -531,7 +531,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (count($keys) != 1) {
             DB_DataObject::raiseError(
                 "no primary key defined or more than one pk in table '{$this->_tableName}'",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
             return false;
         }
@@ -1470,12 +1470,12 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($accountType == OA_ACCOUNT_ADMIN) {
             // Simply return the admin account ID
             $aAccountIds = [
-                OA_ACCOUNT_ADMIN => $accountId
+                OA_ACCOUNT_ADMIN => $accountId,
             ];
         } elseif ($accountType == OA_ACCOUNT_MANAGER) {
             // Simply return the manager account ID
             $aAccountIds = [
-                OA_ACCOUNT_MANAGER => $accountId
+                OA_ACCOUNT_MANAGER => $accountId,
             ];
         } elseif ($accountType == OA_ACCOUNT_ADVERTISER) {
             // Set the owning manager account ID to the admin
@@ -1493,7 +1493,7 @@ class DB_DataObjectCommon extends DB_DataObject
             // Return the manager and advertiser account IDs
             $aAccountIds = [
                 OA_ACCOUNT_MANAGER => $managerAccountId,
-                OA_ACCOUNT_ADVERTISER => $accountId
+                OA_ACCOUNT_ADVERTISER => $accountId,
             ];
         } elseif ($accountType == OA_ACCOUNT_TRAFFICKER) {
             // Set the owning manager account ID to the admin
@@ -1511,7 +1511,7 @@ class DB_DataObjectCommon extends DB_DataObject
             // Return the manager and trafficker account IDs
             $aAccountIds = [
                 OA_ACCOUNT_MANAGER => $managerAccountId,
-                OA_ACCOUNT_TRAFFICKER => $accountId
+                OA_ACCOUNT_TRAFFICKER => $accountId,
             ];
         }
         return $aAccountIds;

@@ -129,7 +129,7 @@ class OA_Dll_Channel extends OA_Dll
                 if (!$this->checkPermissions(
                     [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     'affiliates',
-                    $oChannel->websiteId
+                    $oChannel->websiteId,
                 )) {
                     return false;
                 }
@@ -137,7 +137,7 @@ class OA_Dll_Channel extends OA_Dll
         } elseif (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'channel',
-            $oChannel->channelId
+            $oChannel->channelId,
         )) {
             return false;
         }

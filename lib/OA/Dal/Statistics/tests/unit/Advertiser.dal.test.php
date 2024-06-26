@@ -61,7 +61,7 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAdvertiserStatistics->getAdvertiserDailyStatistics(
             $doAdvertiser->clientid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -81,7 +81,7 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAdvertiserStatistics->getAdvertiserDailyStatistics(
             $doAdvertiser->clientid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -108,7 +108,7 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAdvertiserStatistics->getAdvertiserHourlyStatistics(
             $doAdvertiser->clientid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -129,7 +129,7 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAdvertiserStatistics->getAdvertiserHourlyStatistics(
             $doAdvertiser->clientid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -179,14 +179,14 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserDailyStatistics = $this->_dalAdvertiserStatistics->getAdvertiserCampaignStatistics(
             $doAdvertiser->clientid,
             new Date('2007-07-07'),
-            new Date('2007-09-12')
+            new Date('2007-09-12'),
         );
 
         $rsAdvertiserDailyStatistics->find();
 
         $this->assertTrue(
             $rsAdvertiserDailyStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsAdvertiserDailyStatistics->fetch();
@@ -218,14 +218,14 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserCampaignStatistics = $this->_dalAdvertiserStatistics->getAdvertiserCampaignStatistics(
             $doAdvertiser->clientid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $rsAdvertiserCampaignStatistics->find();
 
         $this->assertTrue(
             $rsAdvertiserCampaignStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -275,13 +275,13 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserDailyStatistics = $this->_dalAdvertiserStatistics->getAdvertiserBannerStatistics(
             $doAdvertiser->clientid,
             new Date('2006-07-07'),
-            new Date('2007-09-12')
+            new Date('2007-09-12'),
         );
 
         $rsAdvertiserDailyStatistics->find();
         $this->assertTrue(
             $rsAdvertiserDailyStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsAdvertiserDailyStatistics->fetch();
@@ -330,14 +330,14 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserBannerStatistics = $this->_dalAdvertiserStatistics->getAdvertiserBannerStatistics(
             $doAdvertiser->clientid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $rsAdvertiserBannerStatistics->find();
 
         $this->assertTrue(
             $rsAdvertiserBannerStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -384,13 +384,13 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserStatistics = $this->_dalAdvertiserStatistics->getAdvertiserPublisherStatistics(
             $doAdvertiser->clientid,
             new Date('1984-01-01'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsAdvertiserStatistics->find();
         $this->assertTrue(
             $rsAdvertiserStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsAdvertiserStatistics->fetch();
@@ -415,24 +415,24 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserStatistics = $this->_dalAdvertiserStatistics->getAdvertiserPublisherStatistics(
             $doAdvertiser->clientid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsAdvertiserStatistics->find();
         $this->assertTrue(
             $rsAdvertiserStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get data from only 1 advertiser
         $rsAdvertiserStatistics = $this->_dalAdvertiserStatistics->getAdvertiserPublisherStatistics(
             $doAdvertiser->clientid,
             new Date('1986-01-01'),
-            new Date('1986-04-09')
+            new Date('1986-04-09'),
         );
         $rsAdvertiserStatistics->find();
         $this->assertTrue(
             $rsAdvertiserStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsAdvertiserStatistics->fetch();
@@ -486,13 +486,13 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserStatistics = $this->_dalAdvertiserStatistics->getAdvertiserZoneStatistics(
             $doAdvertiser->clientid,
             new Date('1983-01-01'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsAdvertiserStatistics->find();
         $this->assertTrue(
             $rsAdvertiserStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsAdvertiserStatistics->fetch();
@@ -520,24 +520,24 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserStatistics = $this->_dalAdvertiserStatistics->getAdvertiserZoneStatistics(
             $doAdvertiser->clientid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsAdvertiserStatistics->find();
         $this->assertTrue(
             $rsAdvertiserStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get data from only 1 advertiser
         $rsAdvertiserStatistics = $this->_dalAdvertiserStatistics->getAdvertiserZoneStatistics(
             $doAdvertiser->clientid,
             new Date('1983-01-01'),
-            new Date('1983-09-01')
+            new Date('1983-09-01'),
         );
         $rsAdvertiserStatistics->find();
         $this->assertTrue(
             $rsAdvertiserStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsAdvertiserStatistics->fetch();

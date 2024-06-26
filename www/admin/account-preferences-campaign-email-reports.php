@@ -64,7 +64,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXPreferencesHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -93,10 +93,10 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'warn_email_admin',
-                'text' => $strWarnAdmin
+                'text' => $strWarnAdmin,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -105,10 +105,10 @@ $aSettings = [
                 'size' => 12,
                 'depends' => 'warn_email_admin==true',
                 'req' => true,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -117,20 +117,20 @@ $aSettings = [
                 'size' => 12,
                 'depends' => 'warn_email_admin==true',
                 'req' => true,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
-        ]
-     ],
-     [
+        ],
+    ],
+    [
         'text' => $strAgencyEmailWarnings,
         'items' => [
             [
                 'type' => 'checkbox',
                 'name' => 'warn_email_manager',
-                'text' => $strWarnAgency
+                'text' => $strWarnAgency,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -139,10 +139,10 @@ $aSettings = [
                 'size' => 12,
                 'depends' => 'warn_email_manager==true',
                 'req' => true,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -151,20 +151,20 @@ $aSettings = [
                 'size' => 12,
                 'depends' => 'warn_email_manager==true',
                 'req' => true,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
-        ]
-     ],
-     [
+        ],
+    ],
+    [
         'text' => $strAdveEmailWarnings,
         'items' => [
             [
                 'type' => 'checkbox',
                 'name' => 'warn_email_advertiser',
-                'text' => $strWarnClient
+                'text' => $strWarnClient,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -173,10 +173,10 @@ $aSettings = [
                 'size' => 12,
                 'depends' => 'warn_email_advertiser==true',
                 'req' => true,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -185,10 +185,10 @@ $aSettings = [
                 'size' => 12,
                 'depends' => 'warn_email_advertiser==true',
                 'req' => true,
-                'check' => 'wholeNumber'
-            ]
-        ]
-    ]
+                'check' => 'wholeNumber',
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

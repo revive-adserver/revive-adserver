@@ -103,7 +103,7 @@ class Test_OA_DB extends UnitTestCase
             strtolower($aConf['database']['type']) . '://' .
             $aConf['database']['username'] . ':' . $aConf['database']['password'] .
             '@' . $aConf['database']['host'] . ':' . $aConf['database']['port'] . '/' .
-            $aConf['database']['name']
+            $aConf['database']['name'],
         );
         $this->assertTrue($dbConnection);
     }
@@ -149,36 +149,36 @@ class Test_OA_DB extends UnitTestCase
         if ($oDbh->dbsyntax == 'pgsql') {
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'x', 'a'),
-                'ox_x_a_seq'
+                'ox_x_a_seq',
             );
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a'),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a_seq'
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a_seq',
             );
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb'),
-                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq'
+                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq',
             );
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab'),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq'
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa_seq',
             );
 
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'x', 'a', false),
-                'ox_x_a'
+                'ox_x_a',
             );
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyy', 'a', false),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a'
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_a',
             );
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'x', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb', false),
-                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+                'ox_x_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             );
             $this->assertEqual(
                 OA_DB::getSequenceName($oDbh, 'xxxxxxxxxxxxxxxxxxxxxxxxxxy', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaab', false),
-                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+                'ox_xxxxxxxxxxxxxxxxxxxxxxxxxx_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             );
         } else {
             $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a'), 'x');
@@ -229,41 +229,41 @@ class Test_OA_DB extends UnitTestCase
         RV::disableErrorHandling();
 
         $vals = [
-                        0,
-                        32, // chr(32) ox_32_ _test
-                        33, // chr(33) ox_33_!_test
-                        34, // chr(34) ox_34_"_test
-                        35, // chr(35) ox_35_#_test
-                        37, // chr(37) ox_37_%_test
-                        38, // chr(38) ox_38_&_test
-                        39, // chr(39) ox_39_'_test
-                        40, // chr(40) ox_40_(_test
-                        41, // chr(41) ox_41_)_test
-                        42, // chr(42) ox_42_*_test
-                        43, // chr(43) ox_43_+_test
-                        44, // chr(44) ox_44_,_test
-                        45, // chr(45) ox_45_-_test
-                        46, // chr(46) ox_46_._test
-                        47, // chr(47) ox_47_/_test
-                        58, // chr(58) ox_58_:_test
-                        59, // chr(59) ox_59_;_test
-                        60, // chr(60) ox_60_<_test
-                        61, // chr(61) ox_61_=_test
-                        62, // chr(62) ox_62_>_test
-                        63, // chr(63) ox_63_?_test
-                        64, // chr(64) ox_64_@_test
-                        91, // chr(91) ox_91_[_test
-                        92, // chr(92) ox_92_\_test
-                        93, // chr(93) ox_93_]_test
-                        94, // chr(94) ox_94_^_test
-                        96, // chr(96) ox_96_`_test
-                        123, // chr(123) ox_123_{_test
-                        124, // chr(124) ox_124_|_test
-                        125, // chr(125) ox_125_}_test
-                        126, // chr(126) ox_126_~_test
-                        156, // chr(156) ox_156_£_test
-                        255,
-                    ];
+            0,
+            32, // chr(32) ox_32_ _test
+            33, // chr(33) ox_33_!_test
+            34, // chr(34) ox_34_"_test
+            35, // chr(35) ox_35_#_test
+            37, // chr(37) ox_37_%_test
+            38, // chr(38) ox_38_&_test
+            39, // chr(39) ox_39_'_test
+            40, // chr(40) ox_40_(_test
+            41, // chr(41) ox_41_)_test
+            42, // chr(42) ox_42_*_test
+            43, // chr(43) ox_43_+_test
+            44, // chr(44) ox_44_,_test
+            45, // chr(45) ox_45_-_test
+            46, // chr(46) ox_46_._test
+            47, // chr(47) ox_47_/_test
+            58, // chr(58) ox_58_:_test
+            59, // chr(59) ox_59_;_test
+            60, // chr(60) ox_60_<_test
+            61, // chr(61) ox_61_=_test
+            62, // chr(62) ox_62_>_test
+            63, // chr(63) ox_63_?_test
+            64, // chr(64) ox_64_@_test
+            91, // chr(91) ox_91_[_test
+            92, // chr(92) ox_92_\_test
+            93, // chr(93) ox_93_]_test
+            94, // chr(94) ox_94_^_test
+            96, // chr(96) ox_96_`_test
+            123, // chr(123) ox_123_{_test
+            124, // chr(124) ox_124_|_test
+            125, // chr(125) ox_125_}_test
+            126, // chr(126) ox_126_~_test
+            156, // chr(156) ox_156_£_test
+            255,
+        ];
 
         //$pattern = '';
         foreach ($vals as $i) {

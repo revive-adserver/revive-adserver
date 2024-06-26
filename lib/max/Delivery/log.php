@@ -183,7 +183,7 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
         OX_Delivery_Common_hook(
             'logConversionVariable',
             [$aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)],
-            empty($pluginId) ? null : $pluginId . 'Variable'
+            empty($pluginId) ? null : $pluginId . 'Variable',
         );
     }
 }
@@ -472,6 +472,6 @@ function _setLimitations($type, $index, $aItems, $aCaps)
         $aItems[$index],
         $aCaps['block'][$index],
         $aCaps['capping'][$index],
-        $aCaps['session_capping'][$index]
+        $aCaps['session_capping'][$index],
     );
 }

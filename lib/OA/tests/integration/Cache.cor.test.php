@@ -74,14 +74,14 @@ class Test_OA_Cache extends UnitTestCase
     public function _createTestArray()
     {
         $aArray = [
-                        'testString' => 'abcdefghijklmnopqrstuvwxyz01234567890',
-                        'testInteger' => 1234567890,
-                        'testFloat' => 1234567890.0987654321,
-                        'testBinary' => decbin(1234567890),
-                        'testHex' => dechex(1234567890),
-                        'testDateTime' => getdate(),
-                        'testUTF8' => 'àbcdèéfghìjklmnopqrstùvwxyz01234567890',
-                        ];
+            'testString' => 'abcdefghijklmnopqrstuvwxyz01234567890',
+            'testInteger' => 1234567890,
+            'testFloat' => 1234567890.0987654321,
+            'testBinary' => decbin(1234567890),
+            'testHex' => dechex(1234567890),
+            'testDateTime' => getdate(),
+            'testUTF8' => 'àbcdèéfghìjklmnopqrstùvwxyz01234567890',
+        ];
         $aResult[0] = $aArray;
         $aResult[0][0] = $aArray;
         $aResult[0][1] = $aArray;

@@ -137,7 +137,7 @@ class OA_Permission_User
             'account_id' => 0,
             'account_type' => '',
             'entity_id' => 0,
-            'agency_id' => 0
+            'agency_id' => 0,
         ];
     }
 

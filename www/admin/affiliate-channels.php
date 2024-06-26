@@ -116,10 +116,10 @@ function buildAffiliateChannelsHeaderModel($websiteId)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $websiteName, 'url' => $websiteEditUrl,
-               'id' => $websiteId, 'entities' => getWebsiteMap(),
-               'htmlName' => 'affiliateid'
-              ],
-        ['name' => '']
+            'id' => $websiteId, 'entities' => getWebsiteMap(),
+            'htmlName' => 'affiliateid',
+        ],
+        ['name' => ''],
     ], 'channels', 'list');
 
     return $oHeaderModel;

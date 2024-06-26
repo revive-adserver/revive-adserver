@@ -58,12 +58,12 @@ class Test_OX_Admin_Timezones extends UnitTestCase
     {
         $aConfigTimezone = [
             'America/Detroit' => 'Europe/London',
-            'Europe/London' => 'Europe/London'
+            'Europe/London' => 'Europe/London',
         ];
 
         $aResult = [
             'America/Detroit' => 'America/Detroit',
-            'Europe/London' => ''
+            'Europe/London' => '',
         ];
 
         foreach ($aConfigTimezone as $tz => $aTimezone) {
@@ -77,7 +77,7 @@ class Test_OX_Admin_Timezones extends UnitTestCase
             '18000000' => '0500',
             '11224000' => '0307',
             '34200000' => '0930',
-            '45900000' => '1245'
+            '45900000' => '1245',
         ];
 
         foreach ($aOffset as $offset => $result) {

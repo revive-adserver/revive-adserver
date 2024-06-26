@@ -54,7 +54,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         phpAds_PageContext(
             MAX_buildName($row['affiliateid'], $row['name']),
             "affiliate-invocation.php?affiliateid=" . $row['affiliateid'],
-            $affiliateid == $row['affiliateid']
+            $affiliateid == $row['affiliateid'],
         );
     }
     addWebsitePageTools($affiliateid);

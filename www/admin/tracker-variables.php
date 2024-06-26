@@ -22,7 +22,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 // Register input variables
 phpAds_registerGlobal(
     'action',
-    'variablemethod'
+    'variablemethod',
 );
 
 // Since there may be an unknown number of variables posted (which are accessed by $_POST directly in the code below),
@@ -165,18 +165,18 @@ if (!empty($trackerid)) {
     // insert a new variable
     if (isset($action['new'])) {
         $variables[] = [
-                'publisher_visible' => [],
-                'publisher_hidden' => [],
-                'name' => '',
-                'hidden' => 'f',
-                'description' => '',
-                'datatype' => 'string',
-                'purpose' => '',
-                'reject_if_empty' => '',
-                'is_unique' => null,
-                'unique_window' => 0,
-                'variablecode' => '',
-            ];
+            'publisher_visible' => [],
+            'publisher_hidden' => [],
+            'name' => '',
+            'hidden' => 'f',
+            'description' => '',
+            'datatype' => 'string',
+            'purpose' => '',
+            'reject_if_empty' => '',
+            'is_unique' => null,
+            'unique_window' => 0,
+            'variablecode' => '',
+        ];
     }
 
 
@@ -263,7 +263,7 @@ if (!empty($trackerid)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strTrackerVarsHaveBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $clientid . "&trackerid=" . $trackerid),
-            htmlspecialchars($doTrackers->trackername)
+            htmlspecialchars($doTrackers->trackername),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

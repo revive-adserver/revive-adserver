@@ -37,7 +37,7 @@ class RV_Admin_Languages
         'russian_cp1251' => 'ru',
         'russian_koi8r' => 'ru',
         'spanish' => 'es',
-        'turkish' => 'tr'
+        'turkish' => 'tr',
     ];
 
     /**

@@ -90,7 +90,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strXPreferencesHaveBeenUpdated'],
-                [htmlspecialchars($title)]
+                [htmlspecialchars($title)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -117,34 +117,34 @@ $count = count($aComponentSettings);
 $i = 0;
 foreach ($aComponentSettings as $k => $v) {
     $aSettings[0]['items'][] = [
-                                     'type' => $v['type'],
-                                     'name' => $group . '_' . $v['key'],
-                                     'text' => $oTrans->translate($v['label']),
-                                     'req' => $v['required'],
-                                     'size' => $v['size'],
-                                     'value' => $v['value'],
-                                     'visible' => $v['visible'],
-                                     ];
+        'type' => $v['type'],
+        'name' => $group . '_' . $v['key'],
+        'text' => $oTrans->translate($v['label']),
+        'req' => $v['required'],
+        'size' => $v['size'],
+        'value' => $v['value'],
+        'visible' => $v['visible'],
+    ];
     //add break after a field excluding last
     $i++;
     if ($i < $count) {
         $aSettings[0]['items'][] = [
-                    'type' => 'break'
-                ];
+            'type' => 'break',
+        ];
     }
 }
 
 
 $aSettings[0]['items'][] = [
-                                 'type' => 'hiddenfield',
-                                 'name' => 'group',
-                                 'value' => $group,
-                                 ];
+    'type' => 'hiddenfield',
+    'name' => 'group',
+    'value' => $group,
+];
 $aSettings[0]['items'][] = [
-                                 'type' => 'hiddenfield',
-                                 'name' => 'plugin',
-                                 'value' => $plugin,
-                                 ];
+    'type' => 'hiddenfield',
+    'name' => 'plugin',
+    'value' => $plugin,
+];
 
 
 /*-------------------------------------------------------*/

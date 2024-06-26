@@ -127,7 +127,7 @@ class OX_Admin_UI_Hooks
         $oContext = new OX_Admin_UI_Event_EventContext([
             'pageId' => $pageId,
             'pageData' => $pageData,
-            'oTpl' => $oTpl
+            'oTpl' => $oTpl,
         ]);
 
         $aStrings = self::getDispatcher()->triggerEvent('beforePageContent', $oContext);
@@ -173,7 +173,7 @@ class OX_Admin_UI_Hooks
         $oContext = new OX_Admin_UI_Event_EventContext([
             'pageId' => $pageId,
             'pageData' => $pageData,
-            'oTpl' => $oTpl
+            'oTpl' => $oTpl,
         ]);
 
         $aStrings = self::getDispatcher()->triggerEvent('afterPageContent', $oContext);

@@ -432,7 +432,7 @@ class OA_Preferences
         if ($aNewElements) {
             self::putDefaultPreferences(
                 OA_Dal_ApplicationVariables::get('admin_account_id'),
-                $aNewElements
+                $aNewElements,
             );
 
             // Reload preference types
@@ -808,7 +808,7 @@ class OA_Preferences
                     $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
                         [
                             'account_type' => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
-                            'value' => $aPreferenceValue['value']
+                            'value' => $aPreferenceValue['value'],
                         ];
                 }
             }
@@ -840,7 +840,7 @@ class OA_Preferences
             $aPreference = $doPreferences->toArray();
             $aPreferenceTypes[$aPreference['preference_name']] = [
                 'preference_id' => $aPreference['preference_id'],
-                'account_type' => $aPreference['account_type']
+                'account_type' => $aPreference['account_type'],
             ];
         }
 

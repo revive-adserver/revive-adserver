@@ -60,15 +60,15 @@ class Delivery_TestOfRvMaxMindGeoIP2 extends UnitTestCase
     {
         $data = [
             "1.2.0.0" => [
-                    "is_anonymous" => true,
-                    "is_anonymous_vpn" => true
+                "is_anonymous" => true,
+                "is_anonymous_vpn" => true,
             ],
             "81.2.69.0" => [
-                    "is_anonymous" => true,
-                    "is_anonymous_vpn" => true,
-                    "is_hosting_provider" => true,
-                    "is_public_proxy" => true,
-                    "is_tor_exit_node" => true
+                "is_anonymous" => true,
+                "is_anonymous_vpn" => true,
+                "is_hosting_provider" => true,
+                "is_public_proxy" => true,
+                "is_tor_exit_node" => true,
 
             ],
         ];

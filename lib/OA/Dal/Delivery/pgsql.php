@@ -160,7 +160,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
     return OA_Dal_Delivery_query(
         $query,
-        'rawDatabase'
+        'rawDatabase',
     );
 }
 

@@ -503,8 +503,8 @@ class Test_OA_Environment_Manager extends UnitTestCase
             'OA_Environment_Manager',
             $mockEnvMgr = 'OA_Environment_Manager' . rand(),
             [
-                                      'checkFilePermission'
-                                     ]
+                'checkFilePermission',
+            ],
         );
 
         $oEnvMgr = new $mockEnvMgr();
@@ -541,22 +541,22 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr = $this->_getEnvMgrObj();
 
         $oEnvMgr->aInfo['PERMS']['actual'][0] = [
-                                                    'file' => 'var',
-                                                    'recurse' => true,
-                                                    'result' => 'OK',
-                                                    'error' => false,
-                                                    'string' => '',
-                                                  ];
+            'file' => 'var',
+            'recurse' => true,
+            'result' => 'OK',
+            'error' => false,
+            'string' => '',
+        ];
 
         $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(), '');
 
         $oEnvMgr->aInfo['PERMS']['actual'][0] = [
-                                                    'file' => 'var',
-                                                    'recurse' => true,
-                                                    'result' => 'NOT writeable',
-                                                    'error' => true,
-                                                    'string' => 'strErrorFixPermissionsRCommand',
-                                                  ];
+            'file' => 'var',
+            'recurse' => true,
+            'result' => 'NOT writeable',
+            'error' => true,
+            'string' => 'strErrorFixPermissionsRCommand',
+        ];
 
         $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(), '');
     }

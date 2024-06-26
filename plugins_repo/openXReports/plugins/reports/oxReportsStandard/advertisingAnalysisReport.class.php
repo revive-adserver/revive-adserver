@@ -93,7 +93,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         // Prepare which worksheets can be in the report
         $aSheets = [
             'daily_breakdown' => $this->translate("Daily Breakdown"),
-            'campaign_breakdown' => $this->translate("Campaign Breakdown")
+            'campaign_breakdown' => $this->translate("Campaign Breakdown"),
         ];
         $aSheets['zone_breakdown'] = $this->translate("Zone Breakdown");
         // Prepare the array for displaying the generation page
@@ -101,19 +101,19 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
             'period' => [
                 'title' => $GLOBALS['strPeriod'],
                 'type' => 'date-month',
-                'default' => $default_period_preset
+                'default' => $default_period_preset,
             ],
             'scope' => [
                 'title' => $GLOBALS['strLimitations'],
                 'type' => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
-                'scope_publisher' => $default_scope_publisher
+                'scope_publisher' => $default_scope_publisher,
             ],
             'sheets' => [
                 'title' => $GLOBALS['strWorksheets'],
                 'type' => 'sheet',
-                'sheets' => $aSheets
-            ]
+                'sheets' => $aSheets,
+            ],
         ];
         return $aImport;
     }
@@ -258,7 +258,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         $this->createSubReport(
             $this->translate("Daily Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 
@@ -308,7 +308,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         $this->createSubReport(
             $this->translate("Campaign Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 
@@ -360,7 +360,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         $this->createSubReport(
             $this->translate("Zone Breakdown"),
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 }

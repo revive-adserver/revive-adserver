@@ -39,7 +39,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_P
         if (!is_a($oDate, 'Date')) {
             return MAX::raiseError(
                 'Parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Common is not a PEAR::Date object',
-                MAX_ERROR_INVALIDARGS
+                MAX_ERROR_INVALIDARGS,
             );
         }
 
@@ -55,7 +55,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_P
             }
 
             $aParams = [
-                'timestamp' => $oDate->getDate(DATE_FORMAT_UNIXTIME)
+                'timestamp' => $oDate->getDate(DATE_FORMAT_UNIXTIME),
             ];
 
             if ($callable) {
@@ -66,7 +66,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_P
 
         return MAX::raiseError(
             'Limitation parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Common is not correct',
-            MAX_ERROR_INVALIDARGS
+            MAX_ERROR_INVALIDARGS,
         );
     }
 }

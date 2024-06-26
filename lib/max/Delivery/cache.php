@@ -38,7 +38,7 @@ define('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = [
     'prefix' => 'deliverycache_',
     'host' => OX_getHostName(),
-    'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
+    'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire'],
 ];
 
 /**
@@ -57,7 +57,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
     $aCacheVar = OX_Delivery_Common_hook(
         'cacheRetrieve',
         [$filename],
-        $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
     );
     if ($aCacheVar !== false) {
         if ($aCacheVar['cache_name'] != $name) {
@@ -116,7 +116,7 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
     return OX_Delivery_Common_hook(
         'cacheStore',
         [$filename, $aCacheVar],
-        $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']
+        $GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin'],
     );
 }
 
@@ -135,7 +135,7 @@ function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireA
 {
     OX_Delivery_Common_hook(
         'preCacheStore_' . OA_Delivery_Cache_getHookName($name),
-        [$name, &$cache]
+        [$name, &$cache],
     );
     if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
         return $cache;

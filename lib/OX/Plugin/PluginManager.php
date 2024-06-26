@@ -174,15 +174,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys(
                 ['upgrade_name' => 'upgrade_' . $name,
-                                        'version_to' => $aPackageNew['version'],
-                                        'version_from' => $aPackageOld['version'],
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => $aPackageNew['version'],
+                    'version_from' => $aPackageOld['version'],
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PACKAGE UPGRADE FAILED',
-                                                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                               ]
+                    'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+                ],
             );
             if (!$this->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld)) {
                 if ($this->oUpgrader) {
@@ -196,9 +196,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             $this->_auditUpdate(
                 ['description' => 'UPGRADE COMPLETE',
-                                      'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
             $this->_runExtensionTasks('AfterPluginInstall');
             $result = true;
@@ -292,15 +292,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys(
                 ['upgrade_name' => 'install_' . ($aPackage['name'] ?? ''),
-                                        'version_to' => $aPackage['version'] ?? 0,
-                                        'version_from' => 0,
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => $aPackage['version'] ?? 0,
+                    'version_from' => 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PACKAGE INSTALL FAILED',
-                                                'action' => UPGRADE_ACTION_INSTALL_FAILED,
-                                                ]
+                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                ],
             );
 
             if (!$this->_installComponentGroups($aPlugins)) {
@@ -314,9 +314,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             $this->_auditUpdate(
                 ['description' => 'PACKAGE INSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
             $this->_runExtensionTasks('AfterPluginInstall');
             $result = true;
@@ -371,15 +371,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_runExtensionTasks('BeforePluginUninstall');
             $this->_auditSetKeys(
                 ['upgrade_name' => 'uninstall_' . ($aPackage['name'] ?? ''),
-                                        'version_to' => 0,
-                                        'version_from' => $aPackage['version'] ?? 0,
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => 0,
+                    'version_from' => $aPackage['version'] ?? 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PACKAGE UNINSTALL FAILED',
-                                                'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
-                                               ]
+                    'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
+                ],
             );
             // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
             $this->disablePackage($name, $force);
@@ -399,9 +399,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
             $this->_auditUpdate(
                 ['description' => 'PACKAGE UNINSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
             $this->_runExtensionTasks('AfterPluginUninstall');
 
@@ -716,15 +716,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aGroups as $idx => &$aGroup) {
             $this->_auditSetKeys(
                 ['upgrade_name' => 'install_' . ($aGroup['name'] ?? ''),
-                                        'version_to' => $aGroup['version'] ?? 0,
-                                        'version_from' => 0,
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => $aGroup['version'] ?? 0,
+                    'version_from' => 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PLUGIN INSTALL FAILED',
-                                                             'action' => UPGRADE_ACTION_INSTALL_FAILED,
-                                                            ]
+                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                ],
             );
             $this->_auditSetID();
             if (!$this->installComponentGroup($aGroup)) {
@@ -734,9 +734,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_cacheDependencies(); // need to keep recreating the array
             $this->_auditUpdate(
                 ['description' => 'PLUGIN INSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
         }
         return true;
@@ -758,15 +758,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aGroups as $idx => &$aGroup) {
             $this->_auditSetKeys(
                 ['upgrade_name' => 'uninstall_' . ($aGroup['name'] ?? null),
-                                            'version_to' => 0,
-                                            'version_from' => $aGroup['version'] ?? 0,
-                                            'logfile' => 'plugins.log'
-                                            ]
+                    'version_to' => 0,
+                    'version_from' => $aGroup['version'] ?? 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PLUGIN UNINSTALL FAILED',
-                                                 'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
-                                                ]
+                    'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
+                ],
             );
             $this->_auditSetID();
             if (!$this->uninstallComponentGroup($aGroup)) {
@@ -776,9 +776,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_cacheDependencies(); // need to keep recreating the array
             $this->_auditUpdate(
                 ['description' => 'PLUGIN UNINSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_INSTALL_FAILED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                    'id' => $auditId,
+                ],
             );
         }
         return true;

@@ -91,7 +91,7 @@ if (!empty($action)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strBannerAclHasBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
-            htmlspecialchars($doBanners->description)
+            htmlspecialchars($doBanners->description),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -142,7 +142,7 @@ $aParams = [
     'titleLink' => "campaign-edit.php?clientid=$clientid&campaignid=$campaignid",
     'aText' => $GLOBALS['strCappingCampaign'],
     'aCappedObject' => $aBanner,
-    'type' => 'Campaign'
+    'type' => 'Campaign',
 ];
 
 $tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad', $aParams);

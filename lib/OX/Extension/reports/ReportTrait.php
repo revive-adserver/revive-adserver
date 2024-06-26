@@ -79,8 +79,8 @@ trait ReportTrait
                 $controllerType,
                 [
                     'skipFormatting' => true,
-                    'disablePager' => true
-                ]
+                    'disablePager' => true,
+                ],
             );
             if (PEAR::isError($oStatsController)) {
                 return ['Unkcown Stats Controller ', [$oStatsController->getMessage()]];
@@ -132,7 +132,7 @@ trait ReportTrait
             $worksheet,
             $this->_name,
             $this->_getReportParametersForDisplay(),
-            $this->_getReportWarningsForDisplay()
+            $this->_getReportWarningsForDisplay(),
         );
         $this->_oReportWriter->createReportSection($worksheet, $title, $aHeaders, $aData, 30, null);
     }

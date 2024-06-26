@@ -67,7 +67,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->aPageParams = [
             'clientid' => $advertiserId,
             'campaignid' => $placementId,
-            'bannerid' => $adId
+            'bannerid' => $adId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -98,23 +98,23 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
-            'iconCampaign'
+            'iconCampaign',
         );
         $this->_addShortcut(
             $GLOBALS['strBannerProperties'],
             'banner-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
-            'iconBanner'
+            'iconBanner',
         );
         $this->_addShortcut(
             $GLOBALS['strModifyBannerAcl'],
             'banner-acl.php?clientid=' . $advertiserId . '&campaignid=' . $placementId . '&bannerid=' . $adId,
-            'iconTargetingChannelAcl'
+            'iconTargetingChannelAcl',
         );
 
 

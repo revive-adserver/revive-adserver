@@ -16,7 +16,7 @@ define('phpAds_adLayerLoaded', true);
 
 // Register input variables
 MAX_commonRegisterGlobalsArray(['stickyness', 'offsetx', 'offsety', 'hide',
-                       'transparancy', 'delay', 'trail']);
+    'transparancy', 'delay', 'trail']);
 
 /**
  *
@@ -180,9 +180,9 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
             'campaignid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-              'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'layerstyle' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
+            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         ];
     }
 }

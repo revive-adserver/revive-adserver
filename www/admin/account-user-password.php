@@ -37,7 +37,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobalUnslashed(
         'pwold',
         'pw',
-        'pw2'
+        'pw2',
     );
 
     OA_Permission::checkSessionToken();
@@ -105,27 +105,27 @@ $aSettings = [
                 'autocomplete' => 'username',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'plaintext',
                 'name' => 'contact_name',
                 'value' => $aUser['contact_name'],
                 'text' => $strFullName,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'plaintext',
                 'name' => 'email_address',
                 'value' => $aUser['email_address'],
                 'text' => $strEmailAddress,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'password',
@@ -135,7 +135,7 @@ $aSettings = [
                 'autocomplete' => 'current-password',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'password',
@@ -146,7 +146,7 @@ $aSettings = [
                 'autocomplete' => 'new-password',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'password',
@@ -154,9 +154,9 @@ $aSettings = [
                 'text' => $strReenterNewPassword,
                 'check' => 'compare:pw',
                 'autocomplete' => 'new-password',
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];
 
 $oOptions->show($aSettings, $aErrormessage);

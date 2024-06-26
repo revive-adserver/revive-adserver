@@ -195,7 +195,7 @@ class OX_Util_Utils
         $startDate = null,
         $endDate = null,
         $defaultClickRatio = null,
-        $defaultConversionRatio = null
+        $defaultConversionRatio = null,
     ) {
         $ecpm = 0.0;
 

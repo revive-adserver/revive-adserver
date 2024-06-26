@@ -36,7 +36,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobalUnslashed(
         'pw',
-        'email_address'
+        'email_address',
     );
 
     OA_Permission::checkSessionToken();
@@ -112,20 +112,20 @@ $aSettings = [
                 'name' => 'username',
                 'value' => $aUser['username'],
                 'text' => $strUsername,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'plaintext',
                 'name' => 'contact_name',
                 'value' => $aUser['contact_name'],
                 'text' => $strFullName,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'password',
@@ -134,7 +134,7 @@ $aSettings = [
                 'req' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -142,10 +142,10 @@ $aSettings = [
                 'value' => $aUser['email_address'],
                 'text' => $strEmailAddress,
                 'size' => 35,
-                'check' => 'email'
-            ]
-        ]
-    ]
+                'check' => 'email',
+            ],
+        ],
+    ],
 ];
 
 $oOptions->show($aSettings, $aErrormessage);

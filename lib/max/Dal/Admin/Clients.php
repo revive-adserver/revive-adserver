@@ -97,7 +97,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     {
         $aIncludeSystemTypes = array_merge(
             [DataObjects_Clients::ADVERTISER_TYPE_DEFAULT],
-            $aIncludeSystemTypes
+            $aIncludeSystemTypes,
         );
 
         $doClients = OA_Dal::factoryDO('clients');

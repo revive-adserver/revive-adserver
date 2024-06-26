@@ -23,7 +23,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 phpAds_registerGlobal(
     'hideinactive',
     'listorder',
-    'orderdirection'
+    'orderdirection',
 );
 
 // Security check

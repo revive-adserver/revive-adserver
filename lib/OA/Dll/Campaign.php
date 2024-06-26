@@ -190,7 +190,7 @@ class OA_Dll_Campaign extends OA_Dll
         if (!$this->checkPermissions(
             $this->aAllowAdvertiserAndAbovePerm,
             'campaigns',
-            $campaignId
+            $campaignId,
         )) {
             return false;
         } else {
@@ -224,14 +224,14 @@ class OA_Dll_Campaign extends OA_Dll
             if (!$this->checkPermissions(
                 [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                 'clients',
-                $oCampaign->advertiserId
+                $oCampaign->advertiserId,
             )) {
                 return false;
             }
         } elseif (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'campaigns',
-            $oCampaign->campaignId
+            $oCampaign->campaignId,
         )) {
             // Edit
             return false;
@@ -312,7 +312,7 @@ class OA_Dll_Campaign extends OA_Dll
             'campaigns',
             $campaignId,
             null,
-            OA_Permission::OPERATION_DELETE
+            OA_Permission::OPERATION_DELETE,
         )) {
             return false;
         }
@@ -433,7 +433,7 @@ class OA_Dll_Campaign extends OA_Dll
                 $campaignId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -475,7 +475,7 @@ class OA_Dll_Campaign extends OA_Dll
                 $campaignId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -522,7 +522,7 @@ class OA_Dll_Campaign extends OA_Dll
                 $campaignId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -565,7 +565,7 @@ class OA_Dll_Campaign extends OA_Dll
                 $campaignId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -610,7 +610,7 @@ class OA_Dll_Campaign extends OA_Dll
                 $campaignId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -646,7 +646,7 @@ class OA_Dll_Campaign extends OA_Dll
         $oStartDate,
         $oEndDate,
         $localTZ,
-        &$rsStatisticsData
+        &$rsStatisticsData,
     ) {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
@@ -658,7 +658,7 @@ class OA_Dll_Campaign extends OA_Dll
                 $campaignId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;

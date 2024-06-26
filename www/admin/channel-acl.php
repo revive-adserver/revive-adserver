@@ -73,7 +73,7 @@ if (!empty($action)) {
             $translation = new OX_Translation();
             $translated_message = $translation->translate($GLOBALS['strChannelAclHasBeenUpdated'], [
                 MAX::constructURL(MAX_URL_ADMIN, "channel-edit.php?" . (empty($affiliateid) ? "" : "affiliateid={$affiliateid}&") . "channelid={$channelid}"),
-                htmlspecialchars($doChannel->name)
+                htmlspecialchars($doChannel->name),
             ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

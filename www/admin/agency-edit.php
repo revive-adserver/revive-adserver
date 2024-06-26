@@ -32,7 +32,7 @@ phpAds_registerGlobalUnslashed(
     'contact',
     'email',
     'submit',
-    'logout_url'
+    'logout_url',
 );
 
 // Security check

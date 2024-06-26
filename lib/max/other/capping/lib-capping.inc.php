@@ -150,7 +150,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
     $form->addDecorator(
         'h_capping',
         'tag',
-        ['attributes' => ['id' => 'sect_cap', 'class' => $hide ? 'hide' : '']]
+        ['attributes' => ['id' => 'sect_cap', 'class' => $hide ? 'hide' : '']],
     );
 
 
@@ -158,7 +158,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
         'text',
         'capping',
         null,
-        ['size' => 2, 'id' => 'cap']
+        ['size' => 2, 'id' => 'cap'],
     );
     $viewsPerDayG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingTotal']);
     $form->addGroup($viewsPerDayG, 'cap_per_d', $aText['limit']);
@@ -167,7 +167,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
         'text',
         'session_capping',
         null,
-        ['size' => 2, 'id' => 'session_capping']
+        ['size' => 2, 'id' => 'session_capping'],
     );
     $viewsPerSessG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingSession']);
     $form->addGroup($viewsPerSessG, 'cap_per_s', $aText['limit']);
@@ -179,14 +179,14 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
             'time[hour]',
             $GLOBALS['strHours'],
             ['id' => 'timehour', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
-            'size' => 2, "labelPlacement" => "after"]
+                'size' => 2, "labelPlacement" => "after"],
         );
         $resetG['minute'] = $form->createElement(
             'text',
             'time[minute]',
             $GLOBALS['strMinutes'],
             ['id' => 'timeminute', 'onKeyUp' => 'phpAds_formLimitUpdate(this);',
-            'size' => 2, "labelPlacement" => "after"]
+                'size' => 2, "labelPlacement" => "after"],
         );
         $resetG['second'] = $form->createElement(
             'text',
@@ -194,7 +194,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
             $GLOBALS['strSeconds'],
             ['id' => 'timesecond', 'onBlur' => 'phpAds_formLimitBlur(this);',
                 'onKeyUp' => 'phpAds_formLimitUpdate(this);', 'size' => 2,
-                "labelPlacement" => "after"]
+                "labelPlacement" => "after"],
         );
         if (($capping != '-' && $capping > 0)
             || ($session_capping != '-' && $session_capping > 0)) {
@@ -213,7 +213,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
     //set values for capping section
     $form->setDefaults(['time[hour]' => $time['hour'],
         'time[minute]' => $time['minute'],
-        'time[second]' => $time['second']
+        'time[second]' => $time['second'],
     ]);
 
     // Is there extra non-editable capping info to display?
@@ -254,7 +254,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
             'text',
             'extra_cap',
             null,
-            ['size' => 2, 'extra_cap' => 'cap', 'disabled' => '1']
+            ['size' => 2, 'extra_cap' => 'cap', 'disabled' => '1'],
         );
         $eViewsPerDayG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingTotal']);
         $form->addGroup($eViewsPerDayG, 'ev_per_d', $aExtraDisplay['aText']['limit']);
@@ -263,7 +263,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
             'text',
             'extra_session_capping',
             null,
-            ['size' => 2, 'id' => 'extra_session_capping', 'disabled' => '1']
+            ['size' => 2, 'id' => 'extra_session_capping', 'disabled' => '1'],
         );
         $eViewsPerSessG['note'] = $form->createElement('html', null, $GLOBALS['strDeliveryCappingSession']);
         $form->addGroup($eViewsPerSessG, 'ev_per_s', $aExtraDisplay['aText']['limit']);
@@ -273,21 +273,21 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
             'extra_time[hour]',
             $GLOBALS['strHours'],
             ['id' => 'extratimehour', 'size' => 2,
-            'disabled' => '1', "labelPlacement" => "after"]
+                'disabled' => '1', "labelPlacement" => "after"],
         );
         $eResetG['minute'] = $form->createElement(
             'text',
             'extra_time[minute]',
             $GLOBALS['strMinutes'],
             ['id' => 'extratimeminute', 'size' => 2,
-            'disabled' => '1', "labelPlacement" => "after"]
+                'disabled' => '1', "labelPlacement" => "after"],
         );
         $eResetG['second'] = $form->createElement(
             'text',
             'extra_time[second]',
             $GLOBALS['strSeconds'],
             ['id' => 'extratimesecond', 'size' => 2,
-            'disabled' => '1', "labelPlacement" => "after"]
+                'disabled' => '1', "labelPlacement" => "after"],
         );
         $form->addGroup($eResetG, 'v_per_s', $GLOBALS['strDeliveryCappingReset'], "&nbsp;");
 
@@ -295,7 +295,7 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
             'extra_session_capping' => $extra_session_capping,
             'extra_time[hour]' => $extra_time['hour'],
             'extra_time[minute]' => $extra_time['minute'],
-            'extra_time[second]' => $extra_time['second']
+            'extra_time[second]' => $extra_time['second'],
         ]);
     }
 

@@ -289,10 +289,10 @@ class Test_DeliveryLog extends UnitTestCase
         $add9ClickTime = MAX_commonCompressInt($timeNow - 15);
 
         $aBlockLoggingClick = [
-                                  1 => $add1ClickTime,
-                                  3 => $add3ClickTime,
-                                  9 => $add9ClickTime
-                              ];
+            1 => $add1ClickTime,
+            3 => $add3ClickTime,
+            9 => $add9ClickTime,
+        ];
 
         // Test 1
         $GLOBALS['conf']['logging']['blockAdClicksWindow'] = 0;

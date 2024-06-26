@@ -37,11 +37,11 @@ class DataObjects_Stats_country extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'date_time' => '%NO_DATE_TIME%',
-                'impressions' => 0,
-                'clicks' => 0,
-                'country' => '',
-                ];
+        'date_time' => '%NO_DATE_TIME%',
+        'impressions' => 0,
+        'clicks' => 0,
+        'country' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

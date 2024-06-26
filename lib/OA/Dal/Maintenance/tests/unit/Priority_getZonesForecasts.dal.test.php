@@ -134,7 +134,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
 
         $expected = [
             $this->zoneId1 => 200,
-            $this->zoneId2 => 15000
+            $this->zoneId2 => 15000,
         ];
         $this->assertEqual($result, $expected);
 

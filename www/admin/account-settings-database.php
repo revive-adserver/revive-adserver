@@ -151,30 +151,30 @@ $oSettings = [
                 'disabled' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
-                    'type' => 'checkbox',
-                    'name' => 'database_localsocket',
-                    'text' => $strDbLocal,
-                    'onclick' => 'toggleSocketInput(this);',
-                    'disabled' => true,
+                'type' => 'checkbox',
+                'name' => 'database_localsocket',
+                'text' => $strDbLocal,
+                'onclick' => 'toggleSocketInput(this);',
+                'disabled' => true,
             ],
             [
-                    'type' => 'hidden',
-                    'name' => 'database_protocol',
+                'type' => 'hidden',
+                'name' => 'database_protocol',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
-                    'type' => 'text',
-                    'name' => 'database_socket',
-                    'text' => $strDbSocket,
-                    'disabled' => true,
+                'type' => 'text',
+                'name' => 'database_socket',
+                'text' => $strDbSocket,
+                'disabled' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -183,7 +183,7 @@ $oSettings = [
                 'disabled' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -193,7 +193,7 @@ $oSettings = [
                 'disabled' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -202,7 +202,7 @@ $oSettings = [
                 'disabled' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -211,8 +211,8 @@ $oSettings = [
                 'value' => stripslashes($GLOBALS['_MAX']['CONF']['database']['name']),
                 'decode' => true,
                 'disabled' => true,
-            ]
-        ]
+            ],
+        ],
     ],
     [
         'text' => $strAdvancedSettings,
@@ -226,7 +226,7 @@ $oSettings = [
 
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -236,8 +236,8 @@ $oSettings = [
                 'value' => stripslashes($GLOBALS['_MAX']['CONF']['table']['prefix']),
                 'decode' => true,
                 'disabled' => true,
-            ]
-        ]
+            ],
+        ],
     ],
     [
         'text' => $strDatabaseOptimalisations,
@@ -247,7 +247,7 @@ $oSettings = [
                 'name' => 'database_persistent',
                 'text' => $strPersistentConnections,
                 'disabled' => true,
-            ]
+            ],
         ],
     ],
 ];

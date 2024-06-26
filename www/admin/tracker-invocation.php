@@ -29,7 +29,7 @@ phpAds_registerGlobal(
     'invtype',
     'trackerid',
     'clientid',
-    'append'
+    'append',
 );
 
 // Security check

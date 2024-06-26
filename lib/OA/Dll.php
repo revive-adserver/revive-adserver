@@ -46,11 +46,11 @@ class OA_Dll extends OA_BaseObjectWithErrors
 {
     public $aAllowTraffickerAndAbovePerm = [
         OA_ACCOUNT_MANAGER,
-        OA_ACCOUNT_TRAFFICKER
+        OA_ACCOUNT_TRAFFICKER,
     ];
     public $aAllowAdvertiserAndAbovePerm = [
         OA_ACCOUNT_MANAGER,
-        OA_ACCOUNT_ADVERTISER
+        OA_ACCOUNT_ADVERTISER,
     ];
 
     /**

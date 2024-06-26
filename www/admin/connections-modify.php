@@ -196,7 +196,7 @@ if (!empty($aConversions)) {
                     $creative_id,
                     $zone_id,
                     $opDay,
-                    $opHour
+                    $opHour,
                 );
 
                 // Update "$data_summary_table" table
@@ -209,7 +209,7 @@ if (!empty($aConversions)) {
                     $zone_id,
                     $opDay,
                     $opHour,
-                    $data_summary_table
+                    $data_summary_table,
                 );
 
                 // Update finance info
@@ -233,7 +233,7 @@ if (!empty($aConversions)) {
         // Clear cache
         include_once 'Cache/Lite.php';
         $options = [
-                'cacheDir' => MAX_CACHE,
+            'cacheDir' => MAX_CACHE,
         ];
         $cache = new Cache_Lite($options);
         $cache->clean(OX_getHostName() . 'stats');

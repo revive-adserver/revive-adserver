@@ -690,7 +690,7 @@ class Plugins_InvocationTagsOptions
                 'UTF-8' => 'Unicode (UTF-8)',
                 'Windows-1258' => 'Vietnamese (Windows-1258)',
                 'ISO-8859-1' => 'Western European (ISO-8859-1)',
-                'Windows-1252' => 'Western European (Windows-1252)'
+                'Windows-1252' => 'Western European (Windows-1252)',
             ];
         } elseif (function_exists('utf8_encode')) { // No? Tough luck, that's what xml_encode/decode support
             return [

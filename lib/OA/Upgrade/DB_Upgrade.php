@@ -367,26 +367,26 @@ class OA_DB_Upgrade
             if ($result) {
                 $this->oAuditor->logAuditAction(
                     ['info1' => 'UPGRADE STARTED',
-                                                      'info2' => $versionFrom,
-                                                      'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
-                                                     ]
+                        'info2' => $versionFrom,
+                        'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
+                    ],
                 );
                 if ($this->_backup()) {
                     if (!$this->_executeTasks()) {
                         $this->_logError('UPGRADE FAILED: ' . $this->schema . '_' . $this->versionTo);
                         $this->oAuditor->logAuditAction(
                             ['info1' => 'UPGRADE FAILED',
-                                                              'info2' => '',
-                                                              'action' => DB_UPGRADE_ACTION_UPGRADE_FAILED,
-                                                             ]
+                                'info2' => '',
+                                'action' => DB_UPGRADE_ACTION_UPGRADE_FAILED,
+                            ],
                         );
                         return false;
                     } else {
                         $this->_logOnly('UPGRADE SUCCEEDED');
                         $this->oAuditor->logAuditAction(
                             ['info1' => 'UPGRADE SUCCEEDED',
-                                                              'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                             ]
+                                'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                            ],
                         );
                         // currently we are executing constructive immediately after destructive
                         //$this->_scheduleDestructive();
@@ -415,8 +415,8 @@ class OA_DB_Upgrade
         if (count($this->aChanges['affected_tables']['destructive']) > 0) {
             $this->oAuditor->logAuditAction(
                 ['info1' => 'DESTRUCTIVE OUTSTANDING',
-                                                     'action' => DB_UPGRADE_ACTION_OUTSTANDING_UPGRADE,
-                                                     ]
+                    'action' => DB_UPGRADE_ACTION_OUTSTANDING_UPGRADE,
+                ],
             );
         }
         return true;
@@ -529,8 +529,8 @@ class OA_DB_Upgrade
             if (!empty($aTables)) {
                 $this->oAuditor->logAuditAction(
                     ['info1' => 'BACKUP STARTED',
-                                                      'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
-                                                     ]
+                        'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
+                    ],
                 );
 
                 // Create backup SQL functions if needed
@@ -539,9 +539,9 @@ class OA_DB_Upgrade
                     $this->_halt();
                     $this->oAuditor->logAuditAction(
                         ['info1' => 'BACKUP FAILED',
-                                                          'info2' => 'creating backup SQL functions',
-                                                          'action' => DB_UPGRADE_ACTION_BACKUP_FAILED,
-                                                         ]
+                            'info2' => 'creating backup SQL functions',
+                            'action' => DB_UPGRADE_ACTION_BACKUP_FAILED,
+                        ],
                     );
                     return false;
                 }
@@ -563,9 +563,9 @@ class OA_DB_Upgrade
                             $this->_halt();
                             $this->oAuditor->logAuditAction(
                                 ['info1' => 'BACKUP FAILED',
-                                                                  'info2' => 'creating backup table' . $table_bak,
-                                                                  'action' => DB_UPGRADE_ACTION_BACKUP_FAILED,
-                                                                 ]
+                                    'info2' => 'creating backup table' . $table_bak,
+                                    'action' => DB_UPGRADE_ACTION_BACKUP_FAILED,
+                                ],
                             );
                             return false;
                         }
@@ -578,11 +578,11 @@ class OA_DB_Upgrade
                         //	                                                         );
                         $this->oAuditor->logAuditAction(
                             ['info1' => 'copied table',
-                                                              'tablename' => $table,
-                                                              'tablename_backup' => $table_bak,
-                                                              'table_backup_schema' => serialize($aBakDef),
-                                                              'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
-                                                             ]
+                                'tablename' => $table,
+                                'tablename_backup' => $table_bak,
+                                'table_backup_schema' => serialize($aBakDef),
+                                'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+                            ],
                         );
                     } else {
                         $this->aAddedTables[$table] = true;
@@ -590,21 +590,21 @@ class OA_DB_Upgrade
                 }
                 $this->oAuditor->logAuditAction(
                     ['info1' => 'BACKUP COMPLETE',
-                                                      'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                                                     ]
+                        'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                    ],
                 );
             } else {
                 $this->oAuditor->logAuditAction(
                     ['info1' => 'BACKUP UNNECESSARY',
-                                                      'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                                                     ]
+                        'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                    ],
                 );
             }
         } else {
             $this->oAuditor->logAuditAction(
                 ['info1' => 'BACKUP IGNORED',
-                                                  'action' => DB_UPGRADE_ACTION_BACKUP_IGNORED,
-                                                 ]
+                    'action' => DB_UPGRADE_ACTION_BACKUP_IGNORED,
+                ],
             );
         }
         return true;
@@ -634,9 +634,9 @@ class OA_DB_Upgrade
                             foreach ($aTimings as $timing => &$aTableRec) {
                                 $this->oAuditor->setKeyParams(
                                     ['schema_name' => $aTableRec['schema_name'],
-                                                                    'version' => $aTableRec['version'],
-                                                                    'timing' => $aTableRec['timing'],
-                                                                   ]
+                                        'version' => $aTableRec['version'],
+                                        'timing' => $aTableRec['timing'],
+                                    ],
                                 );
                                 if (in_array($this->prefix . $aTableRec['tablename_backup'], $this->aDBTables)) {
                                     $strSourceTable = "{$aTableRec['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}";
@@ -648,20 +648,20 @@ class OA_DB_Upgrade
                                         $this->_halt();
                                         $this->oAuditor->logAuditAction(
                                             ['info1' => 'ROLLBACK FAILED',
-                                                                              'info2' => 'failed to restore table',
-                                                                              'tablename' => $table,
-                                                                              'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                                             ]
+                                                'info2' => 'failed to restore table',
+                                                'tablename' => $table,
+                                                'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
+                                            ],
                                         );
                                         return false;
                                     }
                                     $this->_logOnly("backup table restored: {$this->prefix}{$aTableRec['tablename_backup']} => $strSourceTable");
                                     $this->oAuditor->logAuditAction(
                                         ['info1' => 'reverted table',
-                                                                          'tablename' => $table,
-                                                                          'tablename_backup' => $aTableRec['tablename_backup'],
-                                                                          'action' => DB_UPGRADE_ACTION_ROLLBACK_TABLE_RESTORED,
-                                                                         ]
+                                            'tablename' => $table,
+                                            'tablename_backup' => $aTableRec['tablename_backup'],
+                                            'action' => DB_UPGRADE_ACTION_ROLLBACK_TABLE_RESTORED,
+                                        ],
                                     );
                                     if (!$this->dropBackupTable($aTableRec, 'dropped after successful restore')) {
                                         $this->_logError("failed to drop backup table {$this->prefix}{$aTableRec['tablename_backup']} after successfully restoring {$strSourceTable}");
@@ -671,9 +671,9 @@ class OA_DB_Upgrade
                                     $this->_logError("backup table not found during rollback: {$this->prefix}{$aTableRec['tablename_backup']}");
                                     $this->oAuditor->logAuditAction(
                                         ['info1' => 'ROLLBACK FAILED',
-                                                                          'info2' => "backup table not found: {$aTableRec['tablename_backup']}",
-                                                                          'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                                         ]
+                                            'info2' => "backup table not found: {$aTableRec['tablename_backup']}",
+                                            'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
+                                        ],
                                     );
                                     return false;
                                 }
@@ -690,26 +690,26 @@ class OA_DB_Upgrade
                         foreach ($aTables as $table => &$aTableRec) {
                             $this->oAuditor->setKeyParams(
                                 ['schema_name' => $aTableRec['schema_name'],
-                                                                'version' => $aTableRec['version'],
-                                                                'timing' => $aTableRec['timing'],
-                                                               ]
+                                    'version' => $aTableRec['version'],
+                                    'timing' => $aTableRec['timing'],
+                                ],
                             );
                             if ($this->dropTable($table)) {
                                 $this->_logOnly("table dropped: {$aTableRec['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}");
                                 $this->oAuditor->logAuditAction(
                                     ['info1' => 'dropped new table',
-                                                                      'tablename' => $table,
-                                                                      'action' => DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED,
-                                                                     ]
+                                        'tablename' => $table,
+                                        'action' => DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED,
+                                    ],
                                 );
                             } else {
                                 $this->_halt();
                                 $this->_logError("failed to drop table: {$aTableRec['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}");
                                 $this->oAuditor->logAuditAction(
                                     ['info1' => 'ROLLBACK FAILED',
-                                                                      'info2' => "table not deleted: {$table}",
-                                                                      'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                                     ]
+                                        'info2' => "table not deleted: {$table}",
+                                        'action' => DB_UPGRADE_ACTION_ROLLBACK_FAILED,
+                                    ],
                                 );
                                 return false;
                             }
@@ -862,10 +862,10 @@ class OA_DB_Upgrade
     public function _restoreAutoIncrement($table_name, $field_name, $aFldDiff)
     {
         $aTask['cargo'] = [
-                                 'change' => [
-                                                $field_name => $aFldDiff
-                                                ]
-                                ];
+            'change' => [
+                $field_name => $aFldDiff,
+            ],
+        ];
         $table_name = $this->prefix . $table_name;
         $result = $this->oSchema->db->manager->alterTable($table_name, $aTask['cargo'], false);
         if ($this->_isPearError($result, 'error restoring autoincrement field during rollback: ' . $table_name . '.' . $field_name)) {
@@ -1073,9 +1073,9 @@ class OA_DB_Upgrade
                     if (($result) && (!$this->_isPearError($result, 'error creating table ' . $this->prefix . $table))) {
                         $this->oAuditor->logAuditAction(
                             ['info1' => 'added new table',
-                                                              'tablename' => $table,
-                                                              'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-                                                             ]
+                                'tablename' => $table,
+                                'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                            ],
                         );
                         if (!$this->_executeMigrationMethodTable($table, 'afterAddTable')) {
                             $this->_halt();
@@ -1118,9 +1118,9 @@ class OA_DB_Upgrade
                     if (!$this->_isPearError($result, 'error renaming table ' . $tbl_old . ' to ' . $tbl_new)) {
                         $this->oAuditor->logAuditAction(
                             ['info1' => 'renamed table',
-                                                              'tablename' => $aTask['name'],
-                                                              'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-                                                             ]
+                                'tablename' => $aTask['name'],
+                                'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                            ],
                         );
                         if (!$this->_executeMigrationMethodTable($aTask['name'], 'afterRenameTable')) {
                             $this->_halt();
@@ -1600,17 +1600,17 @@ class OA_DB_Upgrade
         $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
 
         $aTable = [
-                         'name' => $table,
-                         'cargo' => $aTableDef['fields']
-                        ];
+            'name' => $table,
+            'cargo' => $aTableDef['fields'],
+        ];
 
         if (isset($aTableDef['indexes'])) {
             foreach ($aTableDef['indexes'] as $index_name => &$aIndex_def) {
                 $aTable['indexes'][] = [
-                                                'table' => $table,
-                                                'name' => $index_name,
-                                                'cargo' => $aIndex_def
-                                            ];
+                    'table' => $table,
+                    'name' => $index_name,
+                    'cargo' => $aIndex_def,
+                ];
             }
         }
         $this->aTaskList['tables'][$task][] = $aTable;
@@ -1633,46 +1633,46 @@ class OA_DB_Upgrade
     public function _compileTaskField($task, $table, $field_name, $field_name_new)
     {
         $result = [
-        'name' => $table,
-        'field' => $field_name,
-        'cargo' => []
+            'name' => $table,
+            'field' => $field_name,
+            'cargo' => [],
         ];
 
         switch ($task) {
             case 'remove':
                 $result['cargo'] = [
-                                            $task => [
-                                                         $field_name => []
-                                                        ]
-                                          ];
+                    $task => [
+                        $field_name => [],
+                    ],
+                ];
                 break;
             case 'add':
                 $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
                 $result['cargo'] = [
-                                            $task => [
-                                                         $field_name => $aDef
-                                                        ]
-                                         ];
+                    $task => [
+                        $field_name => $aDef,
+                    ],
+                ];
                 break;
             case 'change':
                 $aDef['definition'] = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
                 $result['cargo'] = [
-                                            $task => [
-                                                         $field_name => $aDef
-                                                        ]
-                                          ];
+                    $task => [
+                        $field_name => $aDef,
+                    ],
+                ];
                 break;
             case 'rename':
                 $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name_new);
                 $result['was'] = $field_name_new;
                 $result['cargo'] = [
-                                            $task => [
-                                                         $field_name => [
-                                                                            'name' => $field_name_new,
-                                                                            'definition' => $aDef
-                                                                            ]
-                                                        ]
-                                         ];
+                    $task => [
+                        $field_name => [
+                            'name' => $field_name_new,
+                            'definition' => $aDef,
+                        ],
+                    ],
+                ];
                 break;
         }
         return $result;
@@ -1691,19 +1691,19 @@ class OA_DB_Upgrade
         $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
         $result = match ($task) {
             'add' => [
-                             'table' => $table,
-                             'name' => $index_name,
-                             'cargo' => [
-                                            'indexes' => [
-                                                             $index_name => $aTableDef['indexes'][$index_name]
-                                                             ]
-                                           ]
-                             ],
+                'table' => $table,
+                'name' => $index_name,
+                'cargo' => [
+                    'indexes' => [
+                        $index_name => $aTableDef['indexes'][$index_name],
+                    ],
+                ],
+            ],
             'remove' => [
-                                'table' => $table,
-                                'name' => $index_name,
-                                'primary' => (strpos($index_name, '_pkey') > 0)  //$aTableDef['indexes'][$index_name]['primary']
-                              ],
+                'table' => $table,
+                'name' => $index_name,
+                'primary' => (strpos($index_name, '_pkey') > 0),  //$aTableDef['indexes'][$index_name]['primary']
+            ],
             default => new \RuntimeException(),
         };
         return $result;
@@ -1719,9 +1719,9 @@ class OA_DB_Upgrade
     public function _compileTaskTable($task, $table, $was = '')
     {
         $result = [
-                            'name' => $table,
-                            'cargo' => []
-                          ];
+            'name' => $table,
+            'cargo' => [],
+        ];
         switch ($task) {
             case 'rename':
                 $result['cargo'] = ['was' => $was];

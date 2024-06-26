@@ -67,7 +67,7 @@ class OA_Email
                                     $aAdvertiser['clientid'],
                                     "{$aEmail['subject']}\n\n
                                      {$aUser['contact_name']}({$aUser['email_address']})\n\n
-                                     {$aEmail['contents']}"
+                                     {$aEmail['contents']}",
                                 );
                             }
                         }
@@ -449,7 +449,7 @@ class OA_Email
             $aAdminPrefs = $oPreference->loadAccountPreferences(
                 $adminAccountId,
                 $adminPrefsNames,
-                OA_ACCOUNT_ADMIN
+                OA_ACCOUNT_ADMIN,
             );
 
             // Get admin users
@@ -482,7 +482,7 @@ class OA_Email
             $aPrefs['advertiser'] = $oPreference->loadAccountPreferences(
                 $doClients->account_id,
                 $advertiserPrefsNames,
-                OA_ACCOUNT_ADVERTISER
+                OA_ACCOUNT_ADVERTISER,
             );
 
             if (!isset($aAgencyCache[$doClients->agencyid])) {
@@ -495,7 +495,7 @@ class OA_Email
                 $aPrefs['manager'] = $oPreference->loadAccountPreferences(
                     $doAgency->account_id,
                     $managerPrefsNames,
-                    OA_ACCOUNT_MANAGER
+                    OA_ACCOUNT_MANAGER,
                 );
 
                 // Get agency "From" details
@@ -503,7 +503,7 @@ class OA_Email
 
                 // Store in the agency cache
                 $this->aAgencyCache = [
-                    $doClients->agencyid => [$aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails]
+                    $doClients->agencyid => [$aLinkedUsers['manager'], $aPrefs['manager'], $aAgencyFromDetails],
                 ];
             } else {
                 // Retrieve agency cache
@@ -534,7 +534,7 @@ class OA_Email
 
             // Store in the client cache
             $this->aClientCache = [
-                $aCampaign['clientid'] => [$aLinkedUsers, $aPrefs, $aAgencyFromDetails]
+                $aCampaign['clientid'] => [$aLinkedUsers, $aPrefs, $aAgencyFromDetails],
             ];
         } else {
             // Retrieve client cache
@@ -572,7 +572,7 @@ class OA_Email
                                     $aCampaign['campaignid'],
                                     'impressions',
                                     $aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'],
-                                    $accountType
+                                    $accountType,
                                 );
 
                                 if ($aEmail !== false) {
@@ -585,7 +585,7 @@ class OA_Email
                                                 $aCampaign['campaignid'],
                                                 "{$aEmail['subject']}\n\n
                                                  {$aUser['contact_name']}({$aUser['email_address']})\n\n
-                                                 {$aEmail['contents']}"
+                                                 {$aEmail['contents']}",
                                             );
                                         }
                                     }
@@ -624,7 +624,7 @@ class OA_Email
                                     $aCampaign['campaignid'],
                                     'date',
                                     $oEndDate->format($date_format),
-                                    $accountType
+                                    $accountType,
                                 );
                                 // Send the email...
                                 if ($aEmail !== false) {
@@ -637,7 +637,7 @@ class OA_Email
                                                 $aCampaign['campaignid'],
                                                 "{$aEmail['subject']}\n\n
                                                  {$aUser['contact_name']}({$aUser['email_address']})\n\n
-                                                 {$aEmail['contents']}"
+                                                 {$aEmail['contents']}",
                                             );
                                         }
                                     }
@@ -852,7 +852,7 @@ class OA_Email
                                 $doCampaigns->campaignid,
                                 "{$aEmail['subject']}\n\n
                                  {$aUser['contact_name']}({$aUser['email_address']})\n\n
-                                 {$aEmail['contents']}"
+                                 {$aEmail['contents']}",
                             );
                         }
                     }
@@ -1271,11 +1271,11 @@ class OA_Email
         }
         if (!$duplicatedEmail) {
             $aLinkedUsers[] = [
-                                  'email_address' => $aAdvertiser['email'],
-                                  'contact_name' => $aAdvertiser['contact'],
-                                  'language' => null,
-                                  'user_id' => 0
-                                 ];
+                'email_address' => $aAdvertiser['email'],
+                'contact_name' => $aAdvertiser['contact'],
+                'language' => null,
+                'user_id' => 0,
+            ];
         }
 
         return $aLinkedUsers;
@@ -1387,7 +1387,7 @@ class OA_Email
         return sprintf(
             '=?%s?Q?%s?=',
             $phpAds_CharSet,
-            quoted_printable_encode($string)
+            quoted_printable_encode($string),
         );
     }
 }

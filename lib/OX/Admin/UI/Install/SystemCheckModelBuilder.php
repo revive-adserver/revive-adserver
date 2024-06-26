@@ -64,7 +64,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $oCheckModel = new SystemCheckModel(
             $aResult,
             $aSection['hasError'],
-            $aSection['hasWarning']
+            $aSection['hasWarning'],
         );
 
         return $oCheckModel;
@@ -109,7 +109,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'name' => 'timezone',
             'value' => $timezone,
             'hasWarning' => $timezoneErr,
-            'warnings' => $timezoneErr ? [$GLOBALS['strTimezoneLocal']] : null
+            'warnings' => $timezoneErr ? [$GLOBALS['strTimezoneLocal']] : null,
         ];
 
         // Memory limit
@@ -155,7 +155,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
                 'name' => $aVal['file'],
                 'value' => $aVal['result'],
                 'errors' => empty($aVal['message']) ? null : [$aVal['message']],
-                'hasError' => $aVal['error']
+                'hasError' => $aVal['error'],
             ];
         }
         $aSection = $this->buildCheckSectionMessages($aEnvPerms, $aSection);
@@ -307,7 +307,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'hasError' => !empty($aErrors),
             'errors' => $aErrors,
             'hasInfo' => !empty($aInfos),
-            'infos' => $aInfos
+            'infos' => $aInfos,
         ];
 
         return $aCheck;

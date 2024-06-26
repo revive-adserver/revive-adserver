@@ -85,7 +85,7 @@ class OA_Dll_Tracker extends OA_Dll
                 if (!$this->checkPermissions(
                     [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     'clients',
-                    $oTrackerInfo->clientId
+                    $oTrackerInfo->clientId,
                 )) {
                     return false;
                 }
@@ -99,7 +99,7 @@ class OA_Dll_Tracker extends OA_Dll
             if (!$this->checkPermissions(
                 [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                 'trackers',
-                $oTrackerInfo->trackerId
+                $oTrackerInfo->trackerId,
             )) {
                 return false;
             }
@@ -149,7 +149,7 @@ class OA_Dll_Tracker extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'trackers',
-            $trackerId
+            $trackerId,
         )) {
             return false;
         }
@@ -191,7 +191,7 @@ class OA_Dll_Tracker extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'trackers',
-            $trackerId
+            $trackerId,
         )) {
             return false;
         }

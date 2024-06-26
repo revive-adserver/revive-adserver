@@ -121,7 +121,7 @@ if (!empty($clients)) {
 
 $aCount = [
     'advertisers' => count($clients),
-    'advertisers_hidden' => 0
+    'advertisers_hidden' => 0,
 ];
 
 

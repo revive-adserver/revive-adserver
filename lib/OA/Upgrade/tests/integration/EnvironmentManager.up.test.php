@@ -27,8 +27,8 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr = $this->_getEnvMgrObj();
         $file = '/root';
         $oEnvMgr->aFilePermissions = [
-                                            $file
-                                           ];
+            $file,
+        ];
         $aResult = $oEnvMgr->getFilePermissionErrors();
         $this->assertTrue($aResult, "should have returned a permission error (unless {$file} is writable that is ;)");
     }

@@ -33,7 +33,7 @@ class Test_OA_DB_Table extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table',
             'PartialMockOA_DB_Table',
-            ['_getDbConnection']
+            ['_getDbConnection'],
         );
     }
 

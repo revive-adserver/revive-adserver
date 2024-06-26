@@ -14,18 +14,18 @@
  * NOTE: If this list of event ever changes (IDs or names), the Video Reports must be updated as well
  */
 $aVastEventStrToIdMap = [
-     'start' => 1,
-     'midpoint' => 2,
-     'firstquartile' => 3,
-     'thirdquartile' => 4,
-     'complete' => 5,
-     'mute' => 6,
-     'replay' => 7,
-     'fullscreen' => 8,
-     'stop' => 9,
-     'unmute' => 10,
-     'resume' => 11,
-     'pause' => 12,
+    'start' => 1,
+    'midpoint' => 2,
+    'firstquartile' => 3,
+    'thirdquartile' => 4,
+    'complete' => 5,
+    'mute' => 6,
+    'replay' => 7,
+    'fullscreen' => 8,
+    'stop' => 9,
+    'unmute' => 10,
+    'resume' => 11,
+    'pause' => 12,
 ];
 
 MAX_commonRegisterGlobalsArray(['event', 'video_time_posn']);

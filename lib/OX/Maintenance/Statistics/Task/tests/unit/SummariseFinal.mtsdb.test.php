@@ -44,12 +44,12 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
             'types' => [
                 0 => 'request',
                 1 => 'impression',
-                2 => 'click'
+                2 => 'click',
             ],
             'connections' => [
                 1 => MAX_CONNECTION_AD_IMPRESSION,
-                2 => MAX_CONNECTION_AD_CLICK
-            ]
+                2 => MAX_CONNECTION_AD_CLICK,
+            ],
         ];
 
         // Mock the DAL, and set expectations

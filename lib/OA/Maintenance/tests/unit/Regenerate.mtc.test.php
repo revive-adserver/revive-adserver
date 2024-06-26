@@ -27,8 +27,8 @@ class Test_OA_Maintenenace_Regenerate extends UnitTestCase
         $oEndDate = new Date('2006-05-09 13:59:59');
 
         $aTestDates = [ 1 => [ 'start' => new Date('2006-05-09 13:10:00'), 'end' => new Date('2006-05-09 13:14:59')],
-                              2 => [ 'start' => new Date('2006-05-09 12:00:00'), 'end' => new Date('2006-05-09 12:59:59')],
-                              3 => [ 'start' => new Date('2006-05-09 13:55:00'), 'end' => new Date('2006-05-09 12:59:59')] ];
+            2 => [ 'start' => new Date('2006-05-09 12:00:00'), 'end' => new Date('2006-05-09 12:59:59')],
+            3 => [ 'start' => new Date('2006-05-09 13:55:00'), 'end' => new Date('2006-05-09 12:59:59')] ];
 
         // Create some test data
         foreach ($aTestDates as $key => $aDates) {

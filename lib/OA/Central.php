@@ -79,7 +79,7 @@ class OA_Central
         return new OA_XML_RPC_Client(
             $aConf[$pathVariable],
             "{$protocol}://{$aConf['host']}",
-            $port
+            $port,
         );
     }
 

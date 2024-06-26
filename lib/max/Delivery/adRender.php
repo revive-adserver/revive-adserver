@@ -639,7 +639,7 @@ function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string 
         $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
             $aBanner['bannerid'] ?? 0,
             $zoneId,
-            $dest
+            $dest,
         );
         $aParams[$conf['var']['dest']] = $dest;
     } elseif ($conf['delivery']['clickUrlValidity'] > 0) {
@@ -648,7 +648,7 @@ function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string 
         $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
             $aBanner['bannerid'] ?? 0,
             $zoneId,
-            $aParams[$conf['var']['timestamp']]
+            $aParams[$conf['var']['timestamp']],
         );
         $aParams[$conf['var']['dest']] = '';
     }
@@ -665,7 +665,7 @@ function _adRenderReplaceMagicMacros(array $aBanner, string $input): string
     return str_replace(
         array_keys($aBanner['aMagicMacros']),
         array_values($aBanner['aMagicMacros']),
-        $input
+        $input,
     );
 }
 

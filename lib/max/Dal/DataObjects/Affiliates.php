@@ -133,7 +133,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
-                'default_account_id' => $this->account_id
+                'default_account_id' => $this->account_id,
             ];
         }
 
@@ -164,7 +164,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
-                'default_account_id' => $this->account_id
+                'default_account_id' => $this->account_id,
             ];
         }
 

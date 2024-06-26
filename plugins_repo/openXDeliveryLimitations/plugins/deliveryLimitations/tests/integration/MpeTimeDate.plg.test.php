@@ -63,7 +63,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '==',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
@@ -80,7 +80,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '!=',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
@@ -97,7 +97,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '<=',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
@@ -114,7 +114,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '>=',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
@@ -131,7 +131,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '<',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
@@ -148,7 +148,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '>',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
@@ -165,7 +165,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '>',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         PEAR::pushErrorHandling(null);
@@ -180,7 +180,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '==',
             'data' => $limitationData,
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date (-1 day, 19pm in EST): true, ad is inactive

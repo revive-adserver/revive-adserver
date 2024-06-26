@@ -804,7 +804,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $oStartDate->getYear(),
             $oEndDate->getDay(),
             $oEndDate->getMonth(),
-            $oEndDate->getYear()
+            $oEndDate->getYear(),
         );
         if ($days == 0) {
             // Save the data
@@ -1078,7 +1078,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $aAdFinanceMappings = [
                 MAX_FINANCE_CPM => 'impressions',
                 MAX_FINANCE_CPC => 'clicks',
-                MAX_FINANCE_CPA => 'conversions'
+                MAX_FINANCE_CPA => 'conversions',
             ];
         }
         $countQueries = 0;
@@ -1178,7 +1178,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             "  - Calculating MT revenue for banner [id%d] between %s and %s:",
             $aInfo['ad_id'],
             $oStartDate->format('%Y-%m-%d %H:%M:%S %Z'),
-            $oEndDate->format('%Y-%m-%d %H:%M:%S %Z')
+            $oEndDate->format('%Y-%m-%d %H:%M:%S %Z'),
         ), PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -1216,14 +1216,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Month start: %s",
-            $oMonthStart->format('%Y-%m-%d %H:%M:%S %Z')
+            $oMonthStart->format('%Y-%m-%d %H:%M:%S %Z'),
         ), PEAR_LOG_DEBUG);
 
         $daysInMonth = $oMonthStart->getDaysInMonth();
 
         OA::debug(sprintf(
             "    - Days in month: %d",
-            $daysInMonth
+            $daysInMonth,
         ), PEAR_LOG_DEBUG);
 
         $oMonthEnd = new Date($oMonthStart);
@@ -1233,7 +1233,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Month end: %s",
-            $oMonthEnd->format('%Y-%m-%d %H:%M:%S %Z')
+            $oMonthEnd->format('%Y-%m-%d %H:%M:%S %Z'),
         ), PEAR_LOG_DEBUG);
 
         $oDiff = new Date_Span();
@@ -1242,7 +1242,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Hours per month: %d",
-            $hoursPerMonth
+            $hoursPerMonth,
         ), PEAR_LOG_DEBUG);
 
         $oDiff = new Date_Span();
@@ -1251,7 +1251,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Hours per interval: %d",
-            $hoursPerInterval
+            $hoursPerInterval,
         ), PEAR_LOG_DEBUG);
 
         $adZoneCombinations = $this->aMtRevenueCache[$aInfo['campaign_id']];
@@ -1259,14 +1259,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         OA::debug(sprintf(
             "    - Ad/zone/OI combinations for campaign [id%d]: %d",
             $aInfo['campaign_id'],
-            $this->aMtRevenueCache[$aInfo['campaign_id']]
+            $this->aMtRevenueCache[$aInfo['campaign_id']],
         ), PEAR_LOG_DEBUG);
 
         $result = $aInfo['revenue'] / $hoursPerMonth * $hoursPerInterval / $adZoneCombinations;
 
         OA::debug(sprintf(
             "    - Result: %0.4f",
-            $result
+            $result,
         ), PEAR_LOG_DEBUG);
 
         return $result;
@@ -1526,7 +1526,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         $advertisements[$advertisementRow['advertisement_id']] = [
                             $advertisementRow['description'],
                             $advertisementRow['alt'],
-                            $advertisementRow['url']
+                            $advertisementRow['url'],
                         ];
                     }
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {

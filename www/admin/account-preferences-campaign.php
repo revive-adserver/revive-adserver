@@ -111,7 +111,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXPreferencesHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
@@ -145,16 +145,16 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'campaign_ecpm_enabled',
                 'text' => $remnantEcpmInfoText,
-                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
+                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN),
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'contract_ecpm_enabled',
                 'text' => $contractEcpmInfoText,
-                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-            ]
-        ]
-    ]
+                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN),
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

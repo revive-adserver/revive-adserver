@@ -338,7 +338,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $form->addElement(
             'text',
             'vast_thirdparty_impression',
-            'Impression tracking beacon URL <br>(incl. http://)'
+            'Impression tracking beacon URL <br>(incl. http://)',
         );
     }
 
@@ -355,7 +355,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
                 'html',
                 'companion_help_contract',
                 '<br/><b>Note:</b> Revive Adserver currently doesn\'t support the display of a companion banner for "Contract" campaigns.
-                             <br/>If you wish to display a companion banner, please select a "Remnant" or "Override" campaign.'
+                             <br/>If you wish to display a companion banner, please select a "Remnant" or "Override" campaign.',
             );
 
             return;
@@ -444,7 +444,7 @@ VIDEO_FORMAT_OPTION_JS;
                 '',
                 'streaming (RTMP)',
                 VAST_VIDEO_URL_STREAMING_FORMAT,
-                ['id' => 'video-url-format-streaming', 'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ]
+                ['id' => 'video-url-format-streaming', 'onClick' => 'phpAds_formRtmpStreamingVideoUrlMode();' ],
             );
 
             $videoUrlFormats[] = $form->createElement(
@@ -453,7 +453,7 @@ VIDEO_FORMAT_OPTION_JS;
                 '',
                 'progressive (HTTP)',
                 VAST_VIDEO_URL_PROGRESSIVE_FORMAT,
-                ['id' => 'video-url-format-progressive', 'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ]
+                ['id' => 'video-url-format-progressive', 'onClick' => 'phpAds_formHttpProgressiveVideoUrlMode();' ],
             );
             $this->setElementIsRequired('vast_video_delivery', 'vast_overlay_action', VAST_OVERLAY_CLICK_TO_VIDEO);
             $form->addGroup($videoUrlFormats, 'VideoFormatAction', $this->getLabelWithRequiredStar($this->getFieldLabel('vast_video_delivery')), "<br/>");
@@ -465,13 +465,13 @@ VIDEO_FORMAT_OPTION_JS;
             $form,
             ['text', 'vast_net_connection_url', $this->getFieldLabel('vast_net_connection_url')],
             'vast_video_delivery',
-            VAST_VIDEO_URL_STREAMING_FORMAT
+            VAST_VIDEO_URL_STREAMING_FORMAT,
         );
         $this->addFormRequiredElement(
             $form,
             ['text', 'vast_video_filename', $this->getFieldLabel('vast_video_filename')],
             'vast_overlay_action',
-            VAST_OVERLAY_CLICK_TO_VIDEO
+            VAST_OVERLAY_CLICK_TO_VIDEO,
         );
         $form->addElement('html', 'jsForVideoFormat', $videoUrlFomatOptionJs);
 
@@ -483,13 +483,13 @@ VIDEO_FORMAT_OPTION_JS;
             $form,
             ['select', 'vast_video_type', $this->getFieldLabel('vast_video_type'), $vastVideoType],
             'vast_overlay_action',
-            VAST_OVERLAY_CLICK_TO_VIDEO
+            VAST_OVERLAY_CLICK_TO_VIDEO,
         );
         $this->addFormRequiredElement(
             $form,
             ['text', 'vast_video_duration', $this->getFieldLabel('vast_video_duration')],
             'vast_overlay_action',
-            VAST_OVERLAY_CLICK_TO_VIDEO
+            VAST_OVERLAY_CLICK_TO_VIDEO,
         );
         $form->addElement('text', 'vast_video_clickthrough_url', "Destination URL (incl. http://) <br />when user clicks on the video");
     }

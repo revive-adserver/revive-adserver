@@ -31,7 +31,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Empty extends UnitTestCase
             'type' => 'Client:IP',
             'comparison' => '==',
             'data' => '192.168.0.1',
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 

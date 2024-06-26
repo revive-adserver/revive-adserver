@@ -48,12 +48,12 @@ class Test_postscript_5_0_0_beta_rc1 extends MigrationTest
 
         $this->assertEqual(
             $this->oDbh->queryAll("SELECT * FROM {$tblAcls} ORDER BY bannerid, executionorder"),
-            $this->getAcls()
+            $this->getAcls(),
         );
 
         $this->assertEqual(
             $this->oDbh->queryAll("SELECT * FROM {$tblAclsChannel} ORDER BY channelid, executionorder"),
-            $this->getChannelAcls()
+            $this->getChannelAcls(),
         );
     }
 

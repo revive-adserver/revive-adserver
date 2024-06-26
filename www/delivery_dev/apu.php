@@ -34,8 +34,8 @@ MAX_commonRegisterGlobalsArray(
         'menubar',
         'status',
         'resizable',
-        'scrollbars'
-    ]
+        'scrollbars',
+    ],
 );
 
 // Set defaults for script specific input variables

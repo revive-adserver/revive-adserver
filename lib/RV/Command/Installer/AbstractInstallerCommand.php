@@ -100,7 +100,7 @@ abstract class AbstractInstallerCommand extends ReviveCommand
 
                     return $errors;
                 },
-                ''
+                '',
             ));
         } catch (RedirectException $e) {
             $nextAction = $this->oController->isUpgrade() ? 'login' : 'database';

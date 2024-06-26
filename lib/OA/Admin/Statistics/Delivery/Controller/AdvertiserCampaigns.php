@@ -63,7 +63,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
 
         // Add standard page parameters
         $this->aPageParams = [
-            'clientid' => $advertiserId
+            'clientid' => $advertiserId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
 
@@ -142,13 +142,13 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
         switch ($this->startLevel) {
             case 1:
                 $this->showHideLevels = [
-                    0 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif']
+                    0 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveBannersHidden']}";
                 break;
             case 0:
                 $this->showHideLevels = [
-                    1 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif']
+                    1 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveCampaignsHidden']}";
                 break;

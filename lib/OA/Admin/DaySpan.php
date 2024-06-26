@@ -362,7 +362,7 @@ class OA_Admin_DaySpan
         $this->_setEndDate($oDateEnd);
         return [
             'start' => $oDateStart,
-            'end' => $oDateEnd
+            'end' => $oDateEnd,
         ];
     }
 

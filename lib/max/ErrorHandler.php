@@ -30,21 +30,21 @@ require_once OX_PATH . '/lib/OX.php';
 class MAX_ErrorHandler
 {
     public $errorType = [
-           1 => ['Error', 3],
-           2 => ['Warning', 4],
-           4 => ['Parsing Error', 3],
-           8 => ['Notice', 5],
-           16 => ['Core Error', 3],
-           32 => ['Core Warning', 4],
-           64 => ['Compile Error', 3],
-           128 => ['Compile Warning', 4],
-           256 => ['User Error', 3],
-           512 => ['User Warning', 4],
-           1024 => ['User Notice', 5],
-           2048 => ['Strict', 5],
-           4096 => ['Recoverable', 5],
-           8192 => ['Deprecated', 5],
-            ];
+        1 => ['Error', 3],
+        2 => ['Warning', 4],
+        4 => ['Parsing Error', 3],
+        8 => ['Notice', 5],
+        16 => ['Core Error', 3],
+        32 => ['Core Warning', 4],
+        64 => ['Compile Error', 3],
+        128 => ['Compile Warning', 4],
+        256 => ['User Error', 3],
+        512 => ['User Warning', 4],
+        1024 => ['User Notice', 5],
+        2048 => ['Strict', 5],
+        4096 => ['Recoverable', 5],
+        8192 => ['Deprecated', 5],
+    ];
     public $sourceContextOptions = ['lines' => 5];
 
     /**

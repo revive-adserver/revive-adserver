@@ -238,7 +238,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
             'name',
             'up',
             null,
-            [DataObjects_Clients::ADVERTISER_TYPE_MARKET]
+            [DataObjects_Clients::ADVERTISER_TYPE_MARKET],
         );
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);
@@ -282,7 +282,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
             'name',
             'down',
             null,
-            [DataObjects_Clients::ADVERTISER_TYPE_MARKET]
+            [DataObjects_Clients::ADVERTISER_TYPE_MARKET],
         );
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);

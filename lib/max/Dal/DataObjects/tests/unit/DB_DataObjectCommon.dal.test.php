@@ -26,7 +26,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     public function setUp()
     {
         DataGenerator::cleanUp(
-            ['agency', 'clients']
+            ['agency', 'clients'],
         );
     }
 
@@ -74,7 +74,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignName = 'test name';
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -248,7 +248,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     {
         // very quick test
         $data = [
-            'name' => ['name 1', 'name 2']
+            'name' => ['name 1', 'name 2'],
         ];
 
         DataGenerator::setData('agency', $data);
@@ -284,7 +284,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     public function testGetUniqueValuesFromColumn()
     {
         $data = [
-            'name' => [1, 1, 2, 2, 3] // 3 unique
+            'name' => [1, 1, 2, 2, 3], // 3 unique
         ];
 
         DataGenerator::setData('agency', $data);
@@ -505,7 +505,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDo = 'DB_DataObjectCommon' . rand(),
-            ['_cloneObjectFromDatabase']
+            ['_cloneObjectFromDatabase'],
         );
 
         $oDoOld = new $mockDo($this);
@@ -558,7 +558,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDO = 'DB_DataObjectCommon' . rand(),
-            ['_prepAuditArray', '_buildAuditArray', '_auditEnabled', 'insert', '_getContext', '_getContextId', 'getOwningAccountIds']
+            ['_prepAuditArray', '_buildAuditArray', '_auditEnabled', 'insert', '_getContext', '_getContextId', 'getOwningAccountIds'],
         );
 
         $oDO = new $mockDO($this);
@@ -600,10 +600,10 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $dbObject->someValue = true;
 
         $valueType = ['booleanVar' => ['val' => true, 'type' => 145, 'expected' => 'true'],
-                            'intVar1' => ['val' => 123, 'type' => 1, 'expected' => '123'],
-                            'intVar2' => ['val' => 234, 'type' => 129, 'expected' => '234'],
-                            'blobVar1' => ['val' => '<p>12345</p>', 'type' => 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'],
-                            'blobVar2' => ['val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;']];
+            'intVar1' => ['val' => 123, 'type' => 1, 'expected' => '123'],
+            'intVar2' => ['val' => 234, 'type' => 129, 'expected' => '234'],
+            'blobVar1' => ['val' => '<p>12345</p>', 'type' => 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'],
+            'blobVar2' => ['val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;']];
 
         foreach ($valueType as $name => $arr) {
             $dbObject->$name = $arr['val'];

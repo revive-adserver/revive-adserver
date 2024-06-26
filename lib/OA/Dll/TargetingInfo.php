@@ -58,10 +58,10 @@ class OA_Dll_TargetingInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-                    'logical' => 'string',
-                    'type' => 'string',
-                    'comparison' => 'string',
-                    'data' => 'string'
-                ];
+            'logical' => 'string',
+            'type' => 'string',
+            'comparison' => 'string',
+            'data' => 'string',
+        ];
     }
 }

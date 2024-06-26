@@ -36,7 +36,7 @@ phpAds_registerGlobal(
     'appendtype',
     'chaintype',
     'chainzone',
-    'prepend'
+    'prepend',
 );
 
 
@@ -138,7 +138,7 @@ function buildChainSettingsFormSection($form, $aZone)
         null,
         $GLOBALS['strZoneStopDelivery'],
         0,
-        ['id' => 'chaintype-s']
+        ['id' => 'chaintype-s'],
     );
     $chainGroup[] = $form->createElement(
         'radio',
@@ -146,17 +146,17 @@ function buildChainSettingsFormSection($form, $aZone)
         null,
         $GLOBALS['strZoneOtherZone'],
         1,
-        ['id' => 'chaintype-z']
+        ['id' => 'chaintype-z'],
     );
     $chainGroup[] = $form->createElement(
         'select',
         'chainzone',
         _getChainZonesImage($aZone),
         _getChainZones($aZone),
-        ['id' => 'chainzone', 'class' => 'medium']
+        ['id' => 'chainzone', 'class' => 'medium'],
     );
     $form->addDecorator('chainzone', 'tag', ['attributes' => ['id' => 'chain-zone-select',
-            'class' => $aZone['chain'] == '' ? 'hide' : '']]);
+        'class' => $aZone['chain'] == '' ? 'hide' : '']]);
 
     $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], ["<BR>", '', '']);
 }
@@ -175,7 +175,7 @@ function buildAppendFormSection($form, $aZone)
             null,
             $GLOBALS['strZoneAppendNoBanner'],
             null,
-            ["f", "t"]
+            ["f", "t"],
         );
     }
 
@@ -184,13 +184,13 @@ function buildAppendFormSection($form, $aZone)
             'textarea',
             'prepend',
             $GLOBALS['strZonePrependHTML'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
         $form->addElement(
             'textarea',
             'append',
             $GLOBALS['strZoneAppend'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
     } elseif ($aZone['delivery'] == phpAds_ZoneText) {
         // It isn't possible to append other banners to text zones, but
@@ -200,14 +200,14 @@ function buildAppendFormSection($form, $aZone)
             'textarea',
             'prepend',
             $GLOBALS['strZonePrependHTML'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
 
         $form->addElement(
             'textarea',
             'append',
             $GLOBALS['strZoneAppend'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
     }
 }
@@ -303,7 +303,7 @@ function processForm($aZone, $form, $oComponent = null)
     $translation = new OX_Translation();
     $translated_message = $translation->translate($GLOBALS['strZoneAdvancedHasBeenUpdated'], [
         MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
-        htmlspecialchars($doZones->zonename)
+        htmlspecialchars($doZones->zonename),
     ]);
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

@@ -157,8 +157,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -189,8 +189,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -221,8 +221,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -253,8 +253,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -285,8 +285,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -317,8 +317,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -340,7 +340,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser)
+                $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser),
             );
         } else {
             return false;
@@ -365,8 +365,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserListByAgencyId(
                     $agencyId,
-                    $aAdvertiserList
-                )
+                    $aAdvertiserList,
+                ),
             );
         } else {
             return false;

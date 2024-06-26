@@ -26,7 +26,7 @@ phpAds_registerGlobalUnslashed(
     'orderdirection',
     'pubid',
     'url',
-    'formId'
+    'formId',
 );
 
 // Security check

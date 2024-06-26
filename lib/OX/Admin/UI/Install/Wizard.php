@@ -46,7 +46,7 @@ class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
         if ($oStatus->isRecovery()) {
             $aSteps = [
                 'recovery' => 'Recovery',
-                'finish' => 'Finish'
+                'finish' => 'Finish',
             ];
         }
         if ($oStatus->isInstall()) {
@@ -54,10 +54,10 @@ class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
                 'welcome' => 'Welcome',
                 'database' => 'Database',
                 'configuration' => 'Configuration',
-                'finish' => 'Finish'
+                'finish' => 'Finish',
             ];
             $aMeta = [
-                'finish' => ['secured' => true]
+                'finish' => ['secured' => true],
             ];
         } elseif ($oStatus->isUpgrade()) {
             $aSteps = [
@@ -65,7 +65,7 @@ class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
                 'login' => 'Administrator Login',
                 'database' => 'Database',
                 'configuration' => 'Configuration',
-                'finish' => 'Finish'
+                'finish' => 'Finish',
             ];
 
             $aMeta = [
@@ -73,7 +73,7 @@ class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
                 'login' => ['secured' => false],
                 'database' => ['secured' => true],
                 'configuration' => ['secured' => true],
-                'finish' => ['secured' => true]
+                'finish' => ['secured' => true],
             ];
 
 
@@ -88,7 +88,7 @@ class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
             }
         } elseif ($oStatus->isUpToDate()) {
             $aSteps = [
-                'uptodate' => 'Up To Date'
+                'uptodate' => 'Up To Date',
             ];
         }
         return ['steps' => $aSteps, 'meta' => $aMeta];

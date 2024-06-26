@@ -51,7 +51,7 @@ class Migration_540Test extends MigrationTest
         $aBanners = $this->oDbh->getAssoc("SELECT bannerid, status FROM {$tblBanners} ORDER BY bannerid");
         $aExpected = [
             1 => OA_ENTITY_STATUS_RUNNING,
-            2 => OA_ENTITY_STATUS_PAUSED
+            2 => OA_ENTITY_STATUS_PAUSED,
         ];
         $this->assertEqual($aBanners, $aExpected);
 
@@ -62,7 +62,7 @@ class Migration_540Test extends MigrationTest
             3 => OA_ENTITY_STATUS_EXPIRED,
             4 => OA_ENTITY_STATUS_EXPIRED,
             5 => OA_ENTITY_STATUS_EXPIRED,
-            6 => OA_ENTITY_STATUS_EXPIRED
+            6 => OA_ENTITY_STATUS_EXPIRED,
         ];
         $this->assertEqual($aCampaigns, $aExpected);
     }

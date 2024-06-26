@@ -58,42 +58,42 @@ class OX_ParserBase extends XML_Parser
         $this->aPhp = [];
         $this->aDepends = [];
         $this->aConf = [
-                              'option' => '',
-                              'settings' => [],
-                              'preferences' => [],
-                               ];
+            'option' => '',
+            'settings' => [],
+            'preferences' => [],
+        ];
         $this->aSyscheck = [
-                              'php' => [],
-                              'dbms' => [],
-                              'depends' => [],
-                               ];
+            'php' => [],
+            'dbms' => [],
+            'depends' => [],
+        ];
         $this->aInstall = [
-                                'conf' => [],
-                                'syscheck' => [],
-                                'files' => [],
-                                'prescript' => '',
-                                'postscript' => '',
-                                ];
+            'conf' => [],
+            'syscheck' => [],
+            'files' => [],
+            'prescript' => '',
+            'postscript' => '',
+        ];
         $this->aUninstall = [
-                                'prescript' => '',
-                                'postscript' => '',
-                                ];
+            'prescript' => '',
+            'postscript' => '',
+        ];
         $this->aPlugin = [
-                             'name' => '',
-                             'displayname' => '',
-                             'creationdate' => '',
-                             'author' => '',
-                             'authoremail' => '',
-                             'authorurl' => '',
-                             'license' => '',
-                             'description' => '',
-                             'version' => '',
-                             'oxversion' => '',
-                             'extends' => '',
-                             'install' => [],
-                             'upgrade' => [],
-                             'uninstall' => [],
-                             ];
+            'name' => '',
+            'displayname' => '',
+            'creationdate' => '',
+            'author' => '',
+            'authoremail' => '',
+            'authorurl' => '',
+            'license' => '',
+            'description' => '',
+            'version' => '',
+            'oxversion' => '',
+            'extends' => '',
+            'install' => [],
+            'upgrade' => [],
+            'uninstall' => [],
+        ];
     }
 
     private function _assignArray()

@@ -34,12 +34,12 @@ class OA_Dll_VariableTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Tracker',
             'PartialMockOA_Dll_Tracker',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
         Mock::generatePartial(
             'OA_Dll_Variable',
             'PartialMockOA_Dll_Variable',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
     }
 
@@ -78,33 +78,33 @@ class OA_Dll_VariableTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         // Modify
         $this->assertTrue(
             $dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         // Delete
         $this->assertTrue(
             $dllVariablePartialMock->delete($oVariableInfo->variableId),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         // Modify not existing id
         $this->assertTrue(
             (!$dllVariablePartialMock->modify($oVariableInfo) &&
             $dllVariablePartialMock->getLastError() == OA_Dll_Variable::ERROR_UNKNOWN_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID),
         );
 
         // Delete not existing id
         $this->assertTrue(
             (!$dllVariablePartialMock->delete($oVariableInfo->variableId) &&
             $dllVariablePartialMock->getLastError() == OA_Dll_Variable::ERROR_UNKNOWN_ID),
-            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID)
+            $this->_getMethodShouldReturnError(OA_Dll_Variable::ERROR_UNKNOWN_ID),
         );
 
         $dllVariablePartialMock->tally();
@@ -124,7 +124,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllTrackerPartialMock->modify($oTrackerInfo),
-            $dllTrackerPartialMock->getLastError()
+            $dllTrackerPartialMock->getLastError(),
         );
 
         // Add
@@ -134,7 +134,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         $oVariableInfoGet = null;
@@ -142,7 +142,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase
         // Get
         $this->assertTrue($dllVariablePartialMock->getVariable(
             $oVariableInfo->variableId,
-            $oVariableInfoGet
+            $oVariableInfoGet,
         ), $dllVariablePartialMock->getLastError());
 
         // Check field value
@@ -200,7 +200,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase
         // Add with hidden website
         $this->assertTrue(
             $dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         // Check the value of variable_publisher
@@ -227,7 +227,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllVariablePartialMock->modify($oVariableInfo),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         // Add another unqique variable
@@ -238,7 +238,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase
 
         $this->assertTrue(
             $dllVariablePartialMock->modify($oVariableInfo2),
-            $dllVariablePartialMock->getLastError()
+            $dllVariablePartialMock->getLastError(),
         );
 
         // Check the second var is unique

@@ -88,18 +88,18 @@ class OA_Dll_VariableInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-        'variableId' => 'integer',
-        'trackerId' => 'integer',
-        'variableName' => 'string',
-        'description' => 'string',
-        'dataType' => 'string',
-        'purpose' => 'string',
-        'rejectIfEmpty' => 'boolean',
-        'isUnique' => 'boolean',
-        'uniqueWindow' => 'integer',
-        'variableCode' => 'string',
-        'hidden' => 'boolean',
-        'hiddenWebsites' => 'array'
+            'variableId' => 'integer',
+            'trackerId' => 'integer',
+            'variableName' => 'string',
+            'description' => 'string',
+            'dataType' => 'string',
+            'purpose' => 'string',
+            'rejectIfEmpty' => 'boolean',
+            'isUnique' => 'boolean',
+            'uniqueWindow' => 'integer',
+            'variableCode' => 'string',
+            'hidden' => 'boolean',
+            'hiddenWebsites' => 'array',
         ];
     }
 

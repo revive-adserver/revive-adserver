@@ -50,7 +50,7 @@ if (!empty($affiliateid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenDeleted'], [
-            htmlspecialchars($aAffiliate['name'])
+            htmlspecialchars($aAffiliate['name']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strWebsitesHaveBeenDeleted']);

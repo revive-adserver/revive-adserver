@@ -37,7 +37,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     public function __construct(
         $name = 'DaySpanField',
         $fieldSelectionDefault = 'last_month',
-        $aFieldSelectionNames = null
+        $aFieldSelectionNames = null,
     ) {
         parent::__construct();
         if (is_null($aFieldSelectionNames)) {
@@ -69,8 +69,8 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             'this_month' => $GLOBALS['strCollectedThisMonth'],
             'last_month' => $GLOBALS['strCollectedLastMonth'],
             'all_stats' => $GLOBALS['strCollectedAllStats'],
-            'specific' => $GLOBALS['strCollectedSpecificDates']
-          ];
+            'specific' => $GLOBALS['strCollectedSpecificDates'],
+        ];
     }
 
 

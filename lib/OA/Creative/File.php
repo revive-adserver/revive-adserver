@@ -94,7 +94,7 @@ class OA_Creative_File extends OA_Creative
     {
         return OA_Creative_File::staticGetContentTypeByExtension(
             $this->fileName,
-            $alt
+            $alt,
         );
     }
 
@@ -204,7 +204,7 @@ class OA_Creative_File extends OA_Creative
                 UPLOAD_ERR_FORM_SIZE => "file size exceeds form max allowed size.",
                 UPLOAD_ERR_PARTIAL => "partial upload.",
                 UPLOAD_ERR_NO_FILE => "no file uploaded.",
-                UPLOAD_ERR_NO_TMP_DIR => "temp directory not available."
+                UPLOAD_ERR_NO_TMP_DIR => "temp directory not available.",
             ];
             if (isset($aErrors[$_FILES[$variableName]['error']])) {
                 $message = $aErrors[$_FILES[$variableName]['error']];

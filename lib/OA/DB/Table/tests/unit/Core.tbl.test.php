@@ -39,7 +39,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table_Core',
             'PartialMockOA_DB_Table_Core',
-            ['_getDbConnection']
+            ['_getDbConnection'],
         );
         $oTable = new PartialMockOA_DB_Table_Core($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);

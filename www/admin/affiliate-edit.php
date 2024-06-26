@@ -36,7 +36,7 @@ phpAds_registerGlobalUnslashed(
     'errormessage',
     'submit',
     'publiczones_old',
-    'formId'
+    'formId',
 );
 
 // Security check
@@ -145,16 +145,16 @@ function processForm($affiliateid, $form)
         $translation = new OX_Translation();
         if ($newWebsite) {
             $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenAdded'], [
-               MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
-               htmlspecialchars($oPublisher->publisherName),
-               MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $oPublisher->publisherId),
+                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
+                htmlspecialchars($oPublisher->publisherName),
+                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $oPublisher->publisherId),
             ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
             $redirectURL = "website-index.php";
         } else {
             $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenUpdated'], [
-               MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
-               htmlspecialchars($oPublisher->publisherName),
+                MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
+                htmlspecialchars($oPublisher->publisherName),
             ]);
             $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
         }

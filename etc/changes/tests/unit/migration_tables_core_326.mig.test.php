@@ -50,7 +50,7 @@ class Migration_tables_core_326Test extends MigrationTest
         Mock::generatePartial(
             'OA_DB_UpgradeAuditor',
             $mockAuditor = 'OA_DB_UpgradeAuditor' . rand(),
-            ['logAuditAction', 'setKeyParams']
+            ['logAuditAction', 'setKeyParams'],
         );
 
         $oLogger = new OA_UpgradeLogger();
@@ -103,9 +103,9 @@ class Migration_tables_core_326Test extends MigrationTest
         $oDBAuditor = new OA_DB_UpgradeAuditor();
         $this->assertTrue($oDBAuditor->init($oDB_Upgrade->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
         $oDBAuditor->setKeyParams(['schema_name' => $oDB_Upgrade->schema,
-                                        'version' => $oDB_Upgrade->versionTo,
-                                        'timing' => $oDB_Upgrade->timingInt
-                                        ]);
+            'version' => $oDB_Upgrade->versionTo,
+            'timing' => $oDB_Upgrade->timingInt,
+        ]);
         $oDB_Upgrade->oAuditor = &$oDBAuditor;
         return $oDB_Upgrade;
     }

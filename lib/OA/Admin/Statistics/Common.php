@@ -489,8 +489,8 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     'week' => $GLOBALS['strBreakdownByWeek'],
                     'month' => $GLOBALS['strBreakdownByMonth'],
                     'dow' => $GLOBALS['strBreakdownByDow'],
-                    'hour' => $GLOBALS['strBreakdownByHour']
-                ]
+                    'hour' => $GLOBALS['strBreakdownByHour'],
+                ],
             );
             $aElements['statsBreakdown']->setValue($this->statsBreakdown);
             $aElements['statsBreakdown']->setAttributes(['onchange' => 'this.form.submit()']);
@@ -749,7 +749,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         $this->_addBreadcrumb(
                             MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
                             MAX_getEntityIcon('advertiser'),
-                            $type
+                            $type,
                         );
                     }
                 }
@@ -766,7 +766,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     $this->_addBreadcrumb(
                         MAX_buildName($campaign['placement_id'], $campaign['name']),
                         MAX_getEntityIcon('placement'),
-                        $type
+                        $type,
                     );
                 }
                 break;
@@ -784,7 +784,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     $this->_addBreadcrumb(
                         MAX_buildName($banner['ad_id'], $banner['name']),
                         MAX_getEntityIcon('ad'),
-                        $type
+                        $type,
                     );
                 }
                 break;
@@ -797,7 +797,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         $this->_addBreadcrumb(
                             MAX_buildName($publisher['publisher_id'], $publisher['name']),
                             MAX_getEntityIcon('publisher'),
-                            'website'
+                            'website',
                         );
                     }
                 }
@@ -811,7 +811,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     $this->_addBreadcrumb(
                         MAX_buildName($zone['zone_id'], $zone['name']),
                         MAX_getEntityIcon('zone'),
-                        $type
+                        $type,
                     );
                 }
                 break;
@@ -875,7 +875,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             'orderdirection',
             'day',
             'period_preset',
-            'setPerPage'
+            'setPerPage',
         ];
 
         // Clear existing params, if required

@@ -21,9 +21,9 @@ class DataObjects_Ext_ap_video extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'alt_media' => '',
-                'impression_trackers' => '',
-                ];
+        'alt_media' => '',
+        'impression_trackers' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

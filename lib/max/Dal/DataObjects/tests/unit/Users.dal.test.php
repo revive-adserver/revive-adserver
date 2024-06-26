@@ -109,7 +109,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
             foreach ($aPermissions as $permissionId) {
                 $this->assertTrue(
                     isset($aNewPermissions[$accountId][$permissionId]),
-                    'Permission id(' . $permissionId . ') in account id(' . $accountId . ') is not set'
+                    'Permission id(' . $permissionId . ') in account id(' . $accountId . ') is not set',
                 );
             }
         }

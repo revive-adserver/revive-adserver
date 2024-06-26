@@ -45,7 +45,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
         Mock::generatePartial(
             'DataObjects_Banners',
             $mockBanners = 'DataObjects_Banners' . rand(),
-            ['_imageDuplicate']
+            ['_imageDuplicate'],
         );
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->init();

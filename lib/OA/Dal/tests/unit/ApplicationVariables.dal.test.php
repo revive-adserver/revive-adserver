@@ -34,7 +34,7 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 
         $aData = [
             'one' => 'foo',
-            'two' => 'bar'
+            'two' => 'bar',
         ];
 
         foreach ($aData as $k => $v) {

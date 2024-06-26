@@ -131,7 +131,7 @@ class OA_Dll_Advertiser extends OA_Dll
         if (!$this->checkPermissions(
             $this->aAllowAdvertiserAndAbovePerm,
             'clients',
-            $advertiserId
+            $advertiserId,
         )) {
             return false;
         } else {
@@ -163,7 +163,7 @@ class OA_Dll_Advertiser extends OA_Dll
         if (!$this->checkPermissions(
             $this->aAllowAdvertiserAndAbovePerm,
             'clients',
-            $oAdvertiser->advertiserId
+            $oAdvertiser->advertiserId,
         )) {
             return false;
         }
@@ -223,7 +223,7 @@ class OA_Dll_Advertiser extends OA_Dll
             'clients',
             $advertiserId,
             null,
-            OA_Permission::OPERATION_DELETE
+            OA_Permission::OPERATION_DELETE,
         )) {
             return false;
         }

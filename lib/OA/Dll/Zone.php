@@ -203,7 +203,7 @@ class OA_Dll_Zone extends OA_Dll
                 $this->aAllowTraffickerAndAbovePerm,
                 'affiliates',
                 $oZone->publisherId,
-                OA_PERM_ZONE_ADD
+                OA_PERM_ZONE_ADD,
             )) {
                 return false;
             }
@@ -211,7 +211,7 @@ class OA_Dll_Zone extends OA_Dll
             $this->aAllowTraffickerAndAbovePerm,
             'zones',
             $oZone->zoneId,
-            OA_PERM_ZONE_EDIT
+            OA_PERM_ZONE_EDIT,
         )) {
             // Edit
             return false;
@@ -222,7 +222,7 @@ class OA_Dll_Zone extends OA_Dll
                 $this->aAllowTraffickerAndAbovePerm,
                 'zones',
                 $oZone->chainedZoneId,
-                OA_PERM_ZONE_EDIT
+                OA_PERM_ZONE_EDIT,
             )) {
                 return false;
             }
@@ -274,7 +274,7 @@ class OA_Dll_Zone extends OA_Dll
             'zones',
             $zoneId,
             null,
-            OA_Permission::OPERATION_DELETE
+            OA_Permission::OPERATION_DELETE,
         )) {
             return false;
         }
@@ -395,7 +395,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -437,7 +437,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -481,7 +481,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -526,7 +526,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -573,7 +573,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -721,7 +721,7 @@ class OA_Dll_Zone extends OA_Dll
             'adviewnocookies' => 'invocationTags:oxInvocationTags:adviewnocookies',
             'local' => 'invocationTags:oxInvocationTags:local',
             'popup' => 'invocationTags:oxInvocationTags:popup',
-            'xmlrpc' => 'invocationTags:oxInvocationTags:xmlrpc'
+            'xmlrpc' => 'invocationTags:oxInvocationTags:xmlrpc',
         ];
         // Translate old code type to new Component Identifier
         if (array_key_exists($codeType, $aBackwardsCompatibityTypes)) {

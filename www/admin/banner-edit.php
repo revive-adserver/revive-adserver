@@ -56,7 +56,7 @@ phpAds_registerGlobalUnslashed(
     'upload',
     'url',
     'weight',
-    'width'
+    'width',
 );
 
 /*-------------------------------------------------------*/
@@ -328,7 +328,7 @@ function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = f
                 'fileSize' => $size,
                 'newLabel' => $GLOBALS['strNewBannerFile'],
                 'updateLabel' => $GLOBALS['strUploadOrKeep'],
-              ]
+            ],
         );
 
         $form->addElement('header', 'header_b_links', "Banner link");
@@ -472,13 +472,13 @@ function addUploadGroup($form, $aBanner, $vars)
 
         if (!empty($vars['decorateId'])) {
             $form->addDecorator($vars['uploadName'] . '_group', 'process', ['tag' => 'tr',
-                    'addAttributes' => ['id' => $vars['decorateId'] . '{numCall}',
+                'addAttributes' => ['id' => $vars['decorateId'] . '{numCall}',
                     'style' => 'display:none']]);
         }
     }
     $form->setDefaults([
-            $vars['radioName'] => $update ? 'f' : 't',
-        ]);
+        $vars['radioName'] => $update ? 'f' : 't',
+    ]);
 }
 
 
@@ -637,7 +637,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         // Queue confirmation message
         $translated_message = $translation->translate($GLOBALS['strBannerHasBeenAdded'], [
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
-            htmlspecialchars($aFields['description'])
+            htmlspecialchars($aFields['description']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -646,9 +646,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         $translated_message = $translation->translate(
             $GLOBALS['strBannerHasBeenUpdated'],
             [
-            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $aFields['bannerid']),
-            htmlspecialchars($aFields ['description'])
-        ]
+                MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $aFields['bannerid']),
+                htmlspecialchars($aFields ['description']),
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         $nextPage = "banner-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'] . "&bannerid=$bannerid";

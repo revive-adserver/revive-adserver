@@ -77,7 +77,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $this->_insertDataIntermediateAdConnection($aData);
 
@@ -119,7 +119,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Permitted Variable',
-            'reject_if_empty' => 0
+            'reject_if_empty' => 0,
         ];
         $this->_insertVariable($aData);
 
@@ -134,7 +134,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -174,7 +174,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Permitted Variable',
-            'reject_if_empty' => 0
+            'reject_if_empty' => 0,
         ];
         $this->_insertVariable($aData);
 
@@ -189,7 +189,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -197,7 +197,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -234,7 +234,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Permitted Variable',
-            'reject_if_empty' => 0
+            'reject_if_empty' => 0,
         ];
         $this->_insertVariable($aData);
 
@@ -249,7 +249,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -257,7 +257,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -294,7 +294,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Permitted Variable',
-            'reject_if_empty' => 0
+            'reject_if_empty' => 0,
         ];
         $this->_insertVariable($aData);
 
@@ -309,7 +309,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -317,7 +317,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -359,7 +359,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Not Permitted Variable',
-            'reject_if_empty' => 1
+            'reject_if_empty' => 1,
         ];
         $this->_insertVariable($aData);
 
@@ -374,7 +374,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -417,7 +417,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Not Permitted Variable',
-            'reject_if_empty' => 1
+            'reject_if_empty' => 1,
         ];
         $this->_insertVariable($aData);
 
@@ -432,7 +432,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -440,7 +440,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -480,7 +480,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Not Permitted Variable',
-            'reject_if_empty' => 1
+            'reject_if_empty' => 1,
         ];
         $this->_insertVariable($aData);
 
@@ -495,7 +495,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -503,7 +503,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -543,7 +543,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'trackerid' => 1,
             'name' => 'Empty Not Permitted Variable',
-            'reject_if_empty' => 1
+            'reject_if_empty' => 1,
         ];
         $this->_insertVariable($aData);
 
@@ -558,7 +558,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -566,7 +566,7 @@ class Test_OX_Dal_Maintenance_Statistics_rejectEmptyVarConversions extends UnitT
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 

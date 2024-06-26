@@ -123,7 +123,7 @@ class Plugins_DeliveryLimitations_Client_BrowserVersion extends Plugins_Delivery
                     return sprintf(
                         '%s: %s',
                         $this->getName(),
-                        $this->translate('Version should be a number')
+                        $this->translate('Version should be a number'),
                     );
                 }
             }

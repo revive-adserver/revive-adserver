@@ -46,7 +46,7 @@ class TestEnv
                 PEAR::raiseError(
                     "TestEnv unable to create the {$aConf['database']['name']} test database."
                     . $result->getUserInfo(),
-                    PEAR_LOG_ERR
+                    PEAR_LOG_ERR,
                 );
                 die(1);
             }
@@ -84,20 +84,20 @@ class TestEnv
                 'OX_PluginManager',
                 $mockPkgMgrClass = 'MOX_PluginManager' . rand(),
                 [
-                        '_auditInit',
-                        '_auditSetKeys',
-                        '_auditStart',
-                        '_auditUpdate',
-                        '_auditSetID',
-                        '_checkDatabaseEnvironment',
-                        '_registerSchema',
-                        '_registerPreferences',
-                        '_registerPluginVersion',
-                        '_unregisterSchema',
-                        '_unregisterPreferences',
-                        '_unregisterPluginVersion',
-                        '_runExtensionTasks',
-                     ]
+                    '_auditInit',
+                    '_auditSetKeys',
+                    '_auditStart',
+                    '_auditUpdate',
+                    '_auditSetID',
+                    '_checkDatabaseEnvironment',
+                    '_registerSchema',
+                    '_registerPreferences',
+                    '_registerPluginVersion',
+                    '_unregisterSchema',
+                    '_unregisterPreferences',
+                    '_unregisterPluginVersion',
+                    '_runExtensionTasks',
+                ],
             );
             $oPkgMgr = new $mockPkgMgrClass();
             // install tasks

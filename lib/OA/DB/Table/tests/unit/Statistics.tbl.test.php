@@ -38,7 +38,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table_Statistics',
             'PartialMockOA_DB_Table_Statistics',
-            ['_getDbConnection']
+            ['_getDbConnection'],
         );
         $oTable = new PartialMockOA_DB_Table_Statistics($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
@@ -65,7 +65,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
             'tmp_ad_click',
             'tmp_tracker_impression_ad_impression_connection',
             'tmp_tracker_impression_ad_click_connection',
-            'tmp_ad_connection'
+            'tmp_ad_connection',
         ];
 
         // Test 1

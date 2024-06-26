@@ -417,7 +417,7 @@ abstract class OA_StatisticsFieldsDelivery
         }
 
         $aFrom = [
-            "{$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac"
+            "{$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac",
         ];
         $aWhere = ["diac.inside_window = 1"];
 

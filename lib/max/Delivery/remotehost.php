@@ -65,7 +65,7 @@ function MAX_remotehostProxyLookup()
             $aProxyHosts = [
                 'proxy',
                 'cache',
-                'inktomi'
+                'inktomi',
             ];
             foreach ($aProxyHosts as $proxyName) {
                 if (str_contains($_SERVER['REMOTE_HOST'], $proxyName)) {
@@ -84,7 +84,7 @@ function MAX_remotehostProxyLookup()
                 'HTTP_FORWARDED_FOR',
                 'HTTP_X_FORWARDED',
                 'HTTP_X_FORWARDED_FOR',
-                'HTTP_CLIENT_IP'
+                'HTTP_CLIENT_IP',
             ];
 
             foreach ($aHeaders as $header) {

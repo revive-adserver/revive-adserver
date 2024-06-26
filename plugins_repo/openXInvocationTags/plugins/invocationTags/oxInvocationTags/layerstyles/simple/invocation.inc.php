@@ -16,7 +16,7 @@ define('phpAds_adLayerLoaded', true);
 
 // Register input variables
 MAX_commonRegisterGlobalsArray(['target', 'align', 'padding', 'closebutton', 'backcolor', 'bordercolor',
-                       'valign', 'closetime', 'shifth', 'shiftv', 'nobg', 'noborder']);
+    'valign', 'closetime', 'shifth', 'shiftv', 'nobg', 'noborder']);
 
 
 /**
@@ -254,7 +254,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plu
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'layerstyle' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
+            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         ];
     }
 

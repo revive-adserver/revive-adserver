@@ -55,10 +55,10 @@ class TestOfFileScanner extends UnitTestCase
         $this->assertIdentical(
             $fs->getAllFiles(),
             [
-                    MAX_FILE_TEST_DIR . '/test.inc',
-                    MAX_FILE_TEST_DIR . '/test.plugin.php',
-                    MAX_FILE_TEST_DIR . '/translation.php',
-                ]
+                MAX_FILE_TEST_DIR . '/test.inc',
+                MAX_FILE_TEST_DIR . '/test.plugin.php',
+                MAX_FILE_TEST_DIR . '/translation.php',
+            ],
         );
 
         $fs->reset();
@@ -66,11 +66,11 @@ class TestOfFileScanner extends UnitTestCase
         $this->assertIdentical(
             $fs->getAllFiles(),
             [
-                    MAX_FILE_TEST_DIR . '/subdir/test2.plugin.php',
-                    MAX_FILE_TEST_DIR . '/test.inc',
-                    MAX_FILE_TEST_DIR . '/test.plugin.php',
-                    MAX_FILE_TEST_DIR . '/translation.php',
-                ]
+                MAX_FILE_TEST_DIR . '/subdir/test2.plugin.php',
+                MAX_FILE_TEST_DIR . '/test.inc',
+                MAX_FILE_TEST_DIR . '/test.plugin.php',
+                MAX_FILE_TEST_DIR . '/translation.php',
+            ],
         );
     }
 

@@ -43,30 +43,30 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'email_fromName' => ['email' => 'fromName'],
         'email_fromCompany' => ['email' => 'fromCompany'],
         'email_useManagerDetails' => ['email' => 'useManagerDetails',
-                                           'bool' => true
-                                          ]
+            'bool' => true,
+        ],
     ];
     // E-mail Log
     $aElements += [
         'email_logOutgoing' => [
             'email' => 'logOutgoing',
-            'bool' => true
-        ]
+            'bool' => true,
+        ],
     ];
     // E-mail Headers
     $aElements += [
         'email_headers' => [
             'email' => 'headers',
             'preg_match' => "/\r?\n/",
-            'preg_replace' => '\\r\\n'
-        ]
+            'preg_replace' => '\\r\\n',
+        ],
     ];
     // qmail Patch
     $aElements += [
         'email_qmailPatch' => [
             'email' => 'qmailPatch',
-            'bool' => true
-        ]
+            'bool' => true,
+        ],
     ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -78,7 +78,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         // The settings configuration file was written correctly,
@@ -102,28 +102,28 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 // output using the $oOption object
 $aSettings = [
     [
-       'text' => $strEmailAddresses,
-       'items' => [
+        'text' => $strEmailAddresses,
+        'items' => [
             [
                 'type' => 'text',
                 'name' => 'email_fromAddress',
                 'text' => $strEmailFromAddress,
                 'req' => true,
                 'size' => 35,
-                'check' => 'email'
+                'check' => 'email',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'email_fromName',
                 'text' => $strEmailFromName,
                 'req' => false,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -133,45 +133,45 @@ $aSettings = [
                 'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'email_useManagerDetails',
                 'text' => $strUseManagerDetails,
-            ]
-        ]
+            ],
+        ],
     ],
     [
-       'text' => $strEmailLog,
-       'items' => [
+        'text' => $strEmailLog,
+        'items' => [
             [
                 'type' => 'checkbox',
                 'name' => 'email_logOutgoing',
-                'text' => $strUserlogEmail
-            ]
-        ]
+                'text' => $strUserlogEmail,
+            ],
+        ],
     ],
     [
-       'text' => $strEmailHeader,
-       'items' => [
+        'text' => $strEmailHeader,
+        'items' => [
             [
-               'type' => 'textarea',
-               'name' => 'email_headers',
-               'text' => $strAdminEmailHeaders
-            ]
-        ]
+                'type' => 'textarea',
+                'name' => 'email_headers',
+                'text' => $strAdminEmailHeaders,
+            ],
+        ],
     ],
-        [
+    [
         'text' => $strQmailPatch,
         'items' => [
             [
                 'type' => 'checkbox',
                 'name' => 'email_qmailPatch',
-                'text' => $strEnableQmailPatch
-            ]
-        ]
-    ]
+                'text' => $strEnableQmailPatch,
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

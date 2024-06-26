@@ -68,15 +68,15 @@ class PublisherXmlRpcService extends BasePublisherService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oPublisherInfo,
                 $oParams,
                 1,
                 ['agencyId', 'publisherName', 'contactName',
-                        'emailAddress', 'website', 'username', 'password', 'comments'],
-                $oResponseWithError
+                    'emailAddress', 'website', 'username', 'password', 'comments'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -108,16 +108,16 @@ class PublisherXmlRpcService extends BasePublisherService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oPublisherInfo,
                 $oParams,
                 1,
                 ['publisherId', 'agencyId', 'publisherName',
-                        'contactName', 'emailAddress', 'website',
-                        'username', 'password', 'comments'],
-                $oResponseWithError
+                    'contactName', 'emailAddress', 'website',
+                    'username', 'password', 'comments'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -146,7 +146,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -175,7 +175,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -187,14 +187,14 @@ class PublisherXmlRpcService extends BasePublisherService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $aData);
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
@@ -217,7 +217,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -229,15 +229,15 @@ class PublisherXmlRpcService extends BasePublisherService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'hour' => 'integer',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $aData);
+                'hour' => 'integer',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
@@ -260,7 +260,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -272,15 +272,15 @@ class PublisherXmlRpcService extends BasePublisherService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['zoneId' => 'integer',
-                                                                'zoneName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'zoneName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
@@ -303,7 +303,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -315,15 +315,15 @@ class PublisherXmlRpcService extends BasePublisherService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
@@ -346,7 +346,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -358,18 +358,18 @@ class PublisherXmlRpcService extends BasePublisherService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'campaignId' => 'integer',
-                                                                'campaignName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                'conversions' => 'integer'
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'campaignId' => 'integer',
+                'campaignName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+                'conversions' => 'integer',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
@@ -392,7 +392,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -404,20 +404,20 @@ class PublisherXmlRpcService extends BasePublisherService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'campaignId' => 'integer',
-                                                                'campaignName' => 'string',
-                                                                'bannerId' => 'integer',
-                                                                'bannerName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                'conversions' => 'integer'
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'campaignId' => 'integer',
+                'campaignName' => 'string',
+                'bannerId' => 'integer',
+                'bannerName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+                'conversions' => 'integer',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
@@ -440,7 +440,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$publisherId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -449,7 +449,7 @@ class PublisherXmlRpcService extends BasePublisherService
         if ($this->_oPublisherServiceImp->getPublisher(
             $sessionId,
             $publisherId,
-            $oPublisher
+            $oPublisher,
         )) {
             return XmlRpcUtils::getEntityResponse($oPublisher);
         } else {
@@ -474,7 +474,7 @@ class PublisherXmlRpcService extends BasePublisherService
             [&$sessionId, &$agencyId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -483,7 +483,7 @@ class PublisherXmlRpcService extends BasePublisherService
         if ($this->_oPublisherServiceImp->getPublisherListByAgencyId(
             $sessionId,
             $agencyId,
-            $aPublisherList
+            $aPublisherList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aPublisherList);
         } else {

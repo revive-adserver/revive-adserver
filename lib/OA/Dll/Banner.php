@@ -205,7 +205,7 @@ class OA_Dll_Banner extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER],
             'banners',
-            $bannerId
+            $bannerId,
         )) {
             return false;
         } else {
@@ -240,7 +240,7 @@ class OA_Dll_Banner extends OA_Dll
                 $this->aAllowAdvertiserAndAbovePerm,
                 'campaigns',
                 $oBanner->campaignId,
-                OA_PERM_BANNER_EDIT
+                OA_PERM_BANNER_EDIT,
             )) {
                 return false;
             }
@@ -248,7 +248,7 @@ class OA_Dll_Banner extends OA_Dll
             $this->aAllowAdvertiserAndAbovePerm,
             'banners',
             $oBanner->bannerId,
-            OA_PERM_BANNER_EDIT
+            OA_PERM_BANNER_EDIT,
         )) {
             // Edit
             return false;
@@ -334,7 +334,7 @@ class OA_Dll_Banner extends OA_Dll
             'banners',
             $bannerId,
             null,
-            OA_Permission::OPERATION_DELETE
+            OA_Permission::OPERATION_DELETE,
         )) {
             return false;
         }

@@ -42,8 +42,8 @@ class CommonTest extends UnitTestCase
         $strRe1 = addslashes($strIn1);
 
         $aIn = [0 => $strIn0,
-                        1 => [0 => $strIn1],
-                        ];
+            1 => [0 => $strIn1],
+        ];
         $aRet = MAX_commonSlashArray($aIn);
 
         $this->assertEqual($aRet[0], $strRe0);

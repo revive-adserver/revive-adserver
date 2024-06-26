@@ -141,7 +141,7 @@ class Test_DeliveryAdRender extends UnitTestCase
             'alt_filename' => 'myaltfile.jpg',
             'imageurl' => 'http://www.somewhere.com/myimageurl.jpg',
             'type' => 'url',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $useAlt = false;
         $params = '';
@@ -193,7 +193,7 @@ class Test_DeliveryAdRender extends UnitTestCase
             'ad_id' => '9999',
             'placement_id' => '111',
             'url' => 'http://www.somewhere.com',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 1;
         $source = 'test';
@@ -238,7 +238,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderBuildParams');
         $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.somewhere.com',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -253,7 +253,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderBuildParams');
         $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.example.com/?foo+bar',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -268,7 +268,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderBuildParams');
         $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.example.com/?foo+bar',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -293,7 +293,7 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $aBanner = [
             'bannerid' => '9999',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -307,7 +307,7 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $aBanner = [
             'bannerid' => '9999',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -322,7 +322,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $aBanner = [
             'bannerid' => '9999',
             'url' => 'http://www.somewhere.com',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
