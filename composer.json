@@ -35,7 +35,7 @@
         "league/flysystem": "^1.0",
         "league/flysystem-ziparchive": "^1.0",
         "sinergi/browser-detector": "^6.0",
-        "jeremykendall/php-domain-parser": "~2.0",
+        "jeremykendall/php-domain-parser": "~6.3",
         "figdice/asseteer": "dev-master",
         "wikimedia/composer-merge-plugin": "^2.0",
         "guzzlehttp/guzzle": "^7.8",
