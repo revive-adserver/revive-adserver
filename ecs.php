@@ -26,7 +26,6 @@ return ECSConfig::configure()
         glob(__DIR__ . '/tests/.php'),
     ))
     ->withSkip([
-        __DIR__ . '/lib/max/language',
         __DIR__ . '/plugins_repo/openXDeveloperToolbox',
         __DIR__ . '/www/devel/lib/xajax/examples',
     ])
