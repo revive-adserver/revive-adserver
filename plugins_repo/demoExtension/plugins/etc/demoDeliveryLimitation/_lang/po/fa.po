@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: fa\n"
 "X-Crowdin-File: /demoExtension/plugins/etc/demoDeliveryLimitation/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 252\n"
+"PO-Revision-Date: 2024-04-10 08:13\n"
 
 #: plugins_repo/demoExtension/plugins/deliveryLimitations/demoDeliveryLimitation/demoLimitation.class.php:55
 msgid "Demo"

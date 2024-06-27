@@ -24,11 +24,19 @@ $GLOBALS['strTablesPrefix'] = "Lentelių pavadinimų priešdelis";
 $GLOBALS['strTablesType'] = "Lentelės tipas";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Jūsų pastarasis bandymas buvo su klaida";
+$GLOBALS['strRecoveryRequired'] = "";
 
+$GLOBALS['strProductUpToDateTitle'] = "";
+$GLOBALS['strOaUpToDate'] = "";
 $GLOBALS['strOaUpToDateCantRemove'] = "Įspėjimas: Atnaujinimo failas vis dar yra Jūsų var aplanke. Mes negalime pašalinti šio failo dėl tam tikrų prieigos draudimų. Prašome ištrinkite šį failą patys.";
 $GLOBALS['strErrorWritePermissions'] = "Aptiktos failo leidimų klaidos, jos turibūti ištaisytos prieš tęsiant. <br/> Tam kad pataisytumėte klaidas Linux sistemoje, pabandykite įvesti sekančias komandas:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "";
+$GLOBALS['strNotWriteable'] = "";
+$GLOBALS['strDirNotWriteableError'] = "";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Rasta failo leidimo klaidų ir jos turi būti pataisytos prieš tęsiant. ";
+$GLOBALS['strCheckDocumentation'] = "";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "";
 
 $GLOBALS['strAdminUrlPrefix'] = "Administartoriaus sąsaja su URL";
 $GLOBALS['strDeliveryUrlPrefix'] = "Pristatymo variklio URL";
@@ -37,6 +45,7 @@ $GLOBALS['strImagesUrlPrefix'] = "Vaizdų išsaugojimo URL";
 $GLOBALS['strImagesUrlPrefixSSL'] = "Vaizdų išsaugojimo URL (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -44,11 +53,14 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "Vaizdų išsaugojimo URL (SSL)";
 
 // Global
 $GLOBALS['strChooseSection'] = "Pasirinkti dalį";
+$GLOBALS['strEditConfigNotPossible'] = "";
+$GLOBALS['strEditConfigPossible'] = "";
 $GLOBALS['strUnableToWriteConfig'] = "Neįmano įrašyti pakeitimų į šiuos konfigūracijos failus";
 $GLOBALS['strUnableToWritePrefs'] = "Neįmanoma nustatyti pirmenybių duomenų bazėje";
 $GLOBALS['strImageDirLockedDetected'] = "Pateiktas <b>Paveikslėlių aplankas</b> nėra įrašomas per serverį. <br> Jūs negalite tęsti kol nepakeitėte aplankų galimų leidimų arba nesukūrėte naujo aplanko.";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Administratoriaus vartotojo avrdas";
@@ -56,8 +68,12 @@ $GLOBALS['strAdminPassword'] = "Administratoriaus slaptažodis";
 $GLOBALS['strInvalidUsername'] = "Netinkamas vartotojo vardas";
 $GLOBALS['strBasicInformation'] = "Pradinė informacija";
 $GLOBALS['strAdministratorEmail'] = "Administratoriaus el.pašto adresas";
+$GLOBALS['strAdminCheckUpdates'] = "";
+$GLOBALS['strAdminShareStack'] = "";
 $GLOBALS['strNovice'] = "Ištrinimo veiksmai reikalaujami dėl saugumo tikslų";
 $GLOBALS['strUserlogEmail'] = "Įrašyti visas išsiunčiamas elektroninio pašto žinutes";
+$GLOBALS['strEnableDashboard'] = "";
+$GLOBALS['strEnableDashboardSyncNotice'] = "";
 $GLOBALS['strTimezone'] = "Laiko zona";
 $GLOBALS['strEnableAutoMaintenance'] = "Automatiškai atlikite aptarnavimo darbus per pristatymą jei nėra pagal grafiką sudarytų aptarvimų darbų sąrašo";
 
@@ -72,14 +88,20 @@ $GLOBALS['strDbPort'] = "Duomenų bazės jungties numeris";
 $GLOBALS['strDbUser'] = "Duomenų bazės vartotojo vardas";
 $GLOBALS['strDbPassword'] = "Duomenų bazės slaptažodis";
 $GLOBALS['strDbName'] = "Duomenų bazės pavadinimas";
+$GLOBALS['strDbNameHint'] = "";
 $GLOBALS['strDatabaseOptimalisations'] = "Duomenų bazės optimizavimo nustatymai";
 $GLOBALS['strPersistentConnections'] = "Naudokite nuolaitines jungtis";
 $GLOBALS['strCantConnectToDb'] = "Neiįmanoma susjungti su duomenų baze";
+$GLOBALS['strCantConnectToDbDelivery'] = '';
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "El. pašto nustatymai";
 $GLOBALS['strEmailAddresses'] = "El. paštas  el. pašto adresas";
+$GLOBALS['strEmailFromName'] = "";
 $GLOBALS['strEmailFromAddress'] = "El. paštas  el. pašto adresas";
+$GLOBALS['strEmailFromCompany'] = "";
+$GLOBALS['strUseManagerDetails'] = '';
+$GLOBALS['strQmailPatch'] = "";
 $GLOBALS['strEnableQmailPatch'] = "Įgalinti pašto taisymą";
 $GLOBALS['strEmailHeader'] = "El. pašto antraštė";
 $GLOBALS['strEmailLog'] = "El. pašto registras";
@@ -87,6 +109,7 @@ $GLOBALS['strEmailLog'] = "El. pašto registras";
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Audit trail nustatymai";
 $GLOBALS['strEnableAudit'] = "Įgalinti Audit trail";
+$GLOBALS['strEnableAuditForZoneLinking'] = "";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "Suderinti prisijungimo nustatymus";
@@ -95,6 +118,7 @@ $GLOBALS['strDebugMethodNames'] = "Įterpti metodinius vardus suderinant prisiju
 $GLOBALS['strDebugLineNumbers'] = "įterpti linijų numerius derinant prisijungimą";
 $GLOBALS['strDebugType'] = "Suderinti prisijungimo tipą";
 $GLOBALS['strDebugTypeFile'] = "Failas";
+$GLOBALS['strDebugTypeMcal'] = "";
 $GLOBALS['strDebugTypeSql'] = "SQL duomenų bazė";
 $GLOBALS['strDebugTypeSyslog'] = "Sistemos registras";
 $GLOBALS['strDebugName'] = "Suderinti Prisijungimo vardą, Kalendarių, SQL lentelę,<br />arba Syslog Facility";
@@ -104,13 +128,16 @@ $GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Pagrindinė informacija";
 $GLOBALS['strPEAR_LOG_NOTICE'] = "PEAR_LOG_PRIMINIMAS";
 $GLOBALS['strPEAR_LOG_WARNING'] = "PEAR_LOG_ĮSPĖJIMAS";
 $GLOBALS['strPEAR_LOG_ERR'] = "PEAR_LOG_KLAIDA";
+$GLOBALS['strPEAR_LOG_CRIT'] = "";
 $GLOBALS['strPEAR_LOG_ALERT'] = "PEAR_LOG_PAVOJUS";
 $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - Mažiausiai informacijos";
 $GLOBALS['strDebugIdent'] = "Suderinti identifikacijos grandinę";
 $GLOBALS['strDebugUsername'] = "mCal, SQL serverio vartotojo vardas";
 $GLOBALS['strDebugPassword'] = "mCal, SQL serverio slaptažodis";
+$GLOBALS['strProductionSystem'] = "";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "";
 $GLOBALS['strWebPathSimple'] = "Web kelias";
 $GLOBALS['strDeliveryPath'] = "Pristatymo kelias";
 $GLOBALS['strImagePath'] = "Vaizdų kelias";
@@ -131,41 +158,72 @@ $GLOBALS['strTypeFTPPassive'] = "Naudoti pasyvų FTP";
 $GLOBALS['strTypeFTPErrorDir'] = "FTP hostingo aplankas neegiztuoja";
 $GLOBALS['strTypeFTPErrorConnect'] = "Neįmanoma prisijungti prie FTP serverio, prisijungimo vardas arba slaptažodis neteisingi";
 $GLOBALS['strTypeFTPErrorNoSupport'] = "Jūsų PHP instaliacija nepalaiko Jūsų FTP";
+$GLOBALS['strTypeFTPErrorUpload'] = "";
 $GLOBALS['strTypeFTPErrorHost'] = "FTP hostingas neteisingas";
 $GLOBALS['strDeliveryFilenames'] = "Pristatymo failų vardai";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "Ad paspaudimas";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Ad konvertavimo kintamuosius";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "Ad turinys";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "Ad konvertacija";
 $GLOBALS['strDeliveryFilenamesAdConversionJS'] = "Ad konvertacija (JavaScript)";
 $GLOBALS['strDeliveryFilenamesAdFrame'] = "Ad rėmeliai";
 $GLOBALS['strDeliveryFilenamesAdImage'] = "Ad paveikslėlis";
+$GLOBALS['strDeliveryFilenamesAdJS'] = "";
 $GLOBALS['strDeliveryFilenamesAdLayer'] = "Ad lygmuo";
 $GLOBALS['strDeliveryFilenamesAdLog'] = "Ad registras";
+$GLOBALS['strDeliveryFilenamesAdPopup'] = "";
 $GLOBALS['strDeliveryFilenamesAdView'] = "Ad rodymas";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC kreipimasis";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Vietinis kreipimasis";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Priekinis tikrintojas";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "";
 $GLOBALS['strDeliveryCaching'] = "Banerio pristatymo kelio nustatymai";
 $GLOBALS['strDeliveryCacheLimit'] = "Laikas ";
+$GLOBALS['strDeliveryCacheStore'] = "";
+$GLOBALS['strDeliveryAcls'] = "";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "";
+$GLOBALS['strDeliveryObfuscate'] = "";
+$GLOBALS['strDeliveryClickUrlValidity'] = "";
+$GLOBALS['strDeliveryRelAttribute'] = "";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "";
 $GLOBALS['strP3PSettings'] = "P3P privatumo politika";
 $GLOBALS['strUseP3P'] = "Naudoti P3P politiką";
 $GLOBALS['strP3PCompactPolicy'] = "P3P susitarimo politika";
 $GLOBALS['strP3PPolicyLocation'] = "P3P vietos politika";
+$GLOBALS['strPrivacySettings'] = "";
+$GLOBALS['strDisableViewerId'] = "";
+$GLOBALS['strAnonymiseIp'] = "";
 
 // General Settings
+$GLOBALS['generalSettings'] = "";
+$GLOBALS['uiEnabled'] = "";
+$GLOBALS['defaultLanguage'] = "";
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting nustatymai";
 $GLOBALS['strGeotargeting'] = "Geotargeting nustatymai";
 $GLOBALS['strGeotargetingType'] = "Geotargeting modulio tipas";
+$GLOBALS['strGeoShowUnavailable'] = "";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventorius";
+$GLOBALS['strShowCampaignInfo'] = "";
+$GLOBALS['strShowBannerInfo'] = "";
+$GLOBALS['strShowCampaignPreview'] = "";
 $GLOBALS['strShowBannerHTML'] = "Rodyti banerį vietoj HTML kodo per HTML banerio peržiūrą";
 $GLOBALS['strShowBannerPreview'] = "Rodyti banerio peržiūrą, puslapių viršuje, tuose puslapiuose, kurie naudojami baneriams";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "";
+$GLOBALS['strHideInactive'] = "";
 $GLOBALS['strGUIShowMatchingBanners'] = "rodyti sutampančius banerius <i> Susieti baneriai</i> puspaliuose";
 $GLOBALS['strGUIShowParentCampaigns'] = "Rodyti pirminias kampanijas per <i> Susieti  baneriai </i> puslapius";
+$GLOBALS['strShowEntityId'] = "";
 $GLOBALS['strStatisticsDefaults'] = "Statistika";
 $GLOBALS['strBeginOfWeek'] = "Savaitės pradžia";
 $GLOBALS['strPercentageDecimals'] = "Dešimtainė procento dalis";
@@ -197,15 +255,25 @@ $GLOBALS['strEnforceUserAgents'] = "<b>Registruokite</b> tik tą statistiką iš
 $GLOBALS['strBannerStorage'] = "Banerio išsaugojimo nustatymai";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "";
+$GLOBALS['strEnableContractECPM'] = "";
+$GLOBALS['strEnableECPMfromRemnant'] = "";
+$GLOBALS['strEnableECPMfromECPM'] = "";
+$GLOBALS['strInactivatedCampaigns'] = "";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "Techninio aptarnavimo nustatymai";
 $GLOBALS['strConversionTracking'] = "Agento konvertacijos nustatymai";
 $GLOBALS['strEnableConversionTracking'] = "Įgalinti agento konvertaciją";
+$GLOBALS['strBlockInactiveBanners'] = "";
 $GLOBALS['strBlockAdClicks'] = "Neskaičiuoti paspaudimų jei peržiūrėtojas paspaudė ant tos pačios zonos poros per tam tikrą laiką (sekundės)";
 $GLOBALS['strMaintenanceOI'] = "Techninio aptarnavimo intervalas (minutės)";
 $GLOBALS['strPrioritySettings'] = "Pirmenybės nustatymai";
 $GLOBALS['strPriorityInstantUpdate'] = "Atnaujinti reklamos pirmenybės iš karto kai tik atliekami bet kokie UI pasikeitimai";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "";
+$GLOBALS['strDefaultImpConvWindow'] = "";
+$GLOBALS['strDefaultCliConvWindow'] = "";
+$GLOBALS['strAdminEmailHeaders'] = "";
 $GLOBALS['strWarnLimit'] = "Išsiųsti įspėjimą kai įspūdžių/nuomonių skaičius yra mažesnis nei nurodyta čia";
 $GLOBALS['strWarnLimitDays'] = "Siųsti įspėjimą kai likę dienų mažiau nei nurodyta čia";
 $GLOBALS['strWarnAdmin'] = "Išsiųsti įspėjimą administratoriui kiekvieną kartą kai kampanijos galiojimo laikas beveik pasibaigė";
@@ -223,13 +291,21 @@ $GLOBALS['strDefaultTrackerType'] = "Pagrindinis agento tipas";
 $GLOBALS['strSSLSettings'] = "SSL nustatymai";
 $GLOBALS['requireSSL'] = "Leisti SSL priėjimą vartotojo sąsajoje";
 $GLOBALS['sslPort'] = "SSL sotis naudojama internetinio serverio";
+$GLOBALS['strDashboardSettings'] = "";
 $GLOBALS['strMyLogo'] = "Įprasto logo failo vardas";
 $GLOBALS['strGuiHeaderForegroundColor'] = "Antraštės pirminė spalva";
 $GLOBALS['strGuiHeaderBackgroundColor'] = "Antraštės fono spalva";
 $GLOBALS['strGuiActiveTabColor'] = "Aktyvios pozicijos spalva";
 $GLOBALS['strGuiHeaderTextColor'] = "Teksto antraštėje spalva";
+$GLOBALS['strGuiSupportLink'] = "";
 $GLOBALS['strGzipContentCompression'] = "Naudokite GZIP turinio suspaudimo programą";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate'] = "";
+$GLOBALS['strNewPlatformHash'] = "";
+$GLOBALS['strPlatformHashInsertingError'] = "";
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "";
+$GLOBALS['strEnableNewPlugins'] = "";
+$GLOBALS['strUseMergedFunctions'] = "";

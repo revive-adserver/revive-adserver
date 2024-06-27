@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "لطفا نوع نیایش را انت�
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا نوع بنر را انتخاب کنید invocation";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
 $GLOBALS['strAbbrSeconds'] = "ثانیه";
 
 // Common Invocation Parameters

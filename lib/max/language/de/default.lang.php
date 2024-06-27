@@ -11,14 +11,22 @@
  */
 
 // Set text direction and characterset
+$GLOBALS['phpAds_TextDirection'] = "";
+$GLOBALS['phpAds_TextAlignRight'] = "";
+$GLOBALS['phpAds_TextAlignLeft'] = "";
+$GLOBALS['phpAds_CharSet'] = "";
 
 $GLOBALS['phpAds_DecimalPoint'] = ",";
 $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%d.%m.%Y";
+$GLOBALS['time_format'] = "";
 $GLOBALS['minute_format'] = "%H:%M";
+$GLOBALS['month_format'] = "";
 $GLOBALS['day_format'] = "%d-%m";
+$GLOBALS['week_format'] = "";
+$GLOBALS['weekiso_format'] = "";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
 $GLOBALS['excel_integer_formatting'] = "#,##0";
@@ -158,7 +166,7 @@ $GLOBALS['strUserUnlinkedFromAccount'] = "Benutzer wurde aus dem Benutzerkonto e
 $GLOBALS['strUserWasDeleted'] = "Benutzer wurde gelöscht";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Dieser Benutzer ist nicht mit diesem Benutzerkonto verknüpft";
 $GLOBALS['strCantDeleteOneAdminUser'] = "Das Löschen des Benutzers ist nicht möglich. Mindestens ein Benutzer muss mit dem Admin-Konto verknüpft sein.";
-$GLOBALS['strLinkUserHelp'] = "Um einen <b>existierenden Benutzer</b> hinzuzufügen, schreiben Sie %1\$s und klicken auf %2\$s <br />Um einen <b>neuen Benutzer</b>, schreiben Sie den gewünschten %1\$s und klicken Sie %2\$s";
+$GLOBALS['strLinkUserHelp'] = "Um einen <b>existierenden Benutzer</b> hinzuzufügen, schreiben Sie %1\\$s und klicken auf %2\\$s <br />Um einen <b>neuen Benutzer</b>, schreiben Sie den gewünschten %1\\$s und klicken Sie %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Benutzername";
 $GLOBALS['strLinkUserHelpEmail'] = "E-Mail Adresse";
 $GLOBALS['strLastLoggedIn'] = "Zuletzt eingeloggt";
@@ -173,7 +181,7 @@ $GLOBALS['strAuthentification'] = "Authentifikation";
 $GLOBALS['strWelcomeTo'] = "Willkommen bei";
 $GLOBALS['strEnterUsername'] = "Geben Sie Benutzername und Passwort ein";
 $GLOBALS['strEnterBoth'] = "Bitte beides eingeben; Benutzername und Passwort";
-$GLOBALS['strEnableCookies'] = "Sie müssen Cookies im Browser aktivieren bevor die {$PRODUCT_NAME} verwenden können";
+$GLOBALS['strEnableCookies'] = "Sie müssen Cookies im Browser aktivieren bevor die {{PRODUCT_NAME}} verwenden können";
 $GLOBALS['strSessionIDNotMatch'] = "Sitzungs-Cookie fehlerhaft, bitte loggen Sie sich erneut ein.";
 $GLOBALS['strLogin'] = "Anmelden";
 $GLOBALS['strLogout'] = "Ausloggen";
@@ -794,7 +802,7 @@ $GLOBALS['strGenerateHttpsTags'] = "Generiere Tags unter Verwendung des HTTPS-Pr
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Datenbankverbindungsfehler.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Ein fataler Fehler ist aufgetreten %1\$s kann sich nicht mit der Datenbank verbinden. 
+$GLOBALS['strErrorCantConnectToDatabase'] = "Ein fataler Fehler ist aufgetreten %1\\$s kann sich nicht mit der Datenbank verbinden. 
 Daher ist eine Benutzung der Administations-Oberfläche nicht möglich.
 Die Auslieferung von Anzeigen ist möglicherweise ebenfalls betroffen.  
 Mögliche Gründe für dieses Problem sind:
@@ -802,19 +810,19 @@ Mögliche Gründe für dieses Problem sind:
 <li>Der Datenbank-Server funktioniert im Moment nicht.</li>
 <li>Die Adresse des Datenbank-Servers hat sich geändert.</li>
 <li>Die Zugangsdaten für den Zugriff auf den Datenbank-Server sind nicht korrekt.</li>
-<li>Die PHP-Erweiterung <i>%2\$s</i> wurde nicht geladen.</li>
+<li>Die PHP-Erweiterung <i>%2\\$s</i> wurde nicht geladen.</li>
 </ul>";
 $GLOBALS['strNoMatchesFound'] = "Kein Objekt gefunden";
 $GLOBALS['strErrorOccurred'] = "Ein Fehler ist aufgetreten";
 $GLOBALS['strErrorDBPlain'] = "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten ";
 $GLOBALS['strErrorDBSerious'] = "Ein schwerwiegendes Problem mit der Datenbank wurde erkannt";
-$GLOBALS['strErrorDBNoDataPlain'] = "Aufgrund eines Fehlers mit der Datenbank konnte {$PRODUCT_NAME} weder aus der Datenbank lesen noch in sie schreiben. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Aufgrund eines schweren Problems mit der Datenbank konnte {$PRODUCT_NAME}  keine Daten suchen";
+$GLOBALS['strErrorDBNoDataPlain'] = "Aufgrund eines Fehlers mit der Datenbank konnte {{PRODUCT_NAME}} weder aus der Datenbank lesen noch in sie schreiben. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "Aufgrund eines schweren Problems mit der Datenbank konnte {{PRODUCT_NAME}}  keine Daten suchen";
 $GLOBALS['strErrorDBCorrupt'] = "Die Datenbanktabelle ist wahrscheinlich zerstört und mu&szlig wiederhergestellt werden. Informationen über die Wiederherstellung zerstörter Tabellen finden sich im Handbuch.";
 $GLOBALS['strErrorDBContact'] = "Bitte nehmen Sie Kontakt mit dem Systemverwalter Ihres Servers auf und schildern Sie ihm das Problem. Nur er kann helfen.";
-$GLOBALS['strErrorDBSubmitBug'] = "Wenn das Problem wiederholt auftritt, kann es ein Fehler in {$PRODUCT_NAME} sein. Bitte protokollieren Sie die Fehlermeldung uns senden sie diese an den Support von {$PRODUCT_NAME}. Bitte versuchen Sie, alle Aktivitäten, die zu diesem Fehler führten, so genau wie möglich zu beschreiben.";
+$GLOBALS['strErrorDBSubmitBug'] = "Wenn das Problem wiederholt auftritt, kann es ein Fehler in {{PRODUCT_NAME}} sein. Bitte protokollieren Sie die Fehlermeldung uns senden sie diese an den Support von {{PRODUCT_NAME}}. Bitte versuchen Sie, alle Aktivitäten, die zu diesem Fehler führten, so genau wie möglich zu beschreiben.";
 $GLOBALS['strMaintenanceNotActive'] = "Das Wartungsprogramm lief während der letzen 24 Stunden nicht.
-Damit {$PRODUCT_NAME} korrekt arbeiten kann, muß das Wartungsprogramm stündlich
+Damit {{PRODUCT_NAME}} korrekt arbeiten kann, muß das Wartungsprogramm stündlich
 aufgerufen werden.
 
 Im Administrations-Handbuch finden sich weitere Informationen
@@ -1132,12 +1140,12 @@ $GLOBALS['strAuditNoData'] = "Es wurde keine Benutzeraktivität innerhalb des au
 $GLOBALS['strAuditTrail'] = "Prüfprotokoll";
 $GLOBALS['strAuditTrailSetup'] = "Heute das Prüfprotokoll einrichten";
 $GLOBALS['strAuditTrailGoTo'] = "Gehe zur Prüfprotokollseite";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Prüfprotokolle gestatten Ihnen einen Einblick wer wann was geändert hat. Oder um es anders auszudrücken: {$PRODUCT_NAME} protokolliert für Sie alle Änderungen im System.</li><li>Diese Nachricht wird Ihnen angezeigt, weil das Prüfprotokoll aktuell deaktiviert ist.</li><li>Sie möchten mehr hierüber wissen? Lesen Sie die <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Dokumentation über die Prüfprotokolle.</a></li>";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Prüfprotokolle gestatten Ihnen einen Einblick wer wann was geändert hat. Oder um es anders auszudrücken: {{PRODUCT_NAME}} protokolliert für Sie alle Änderungen im System.</li><li>Diese Nachricht wird Ihnen angezeigt, weil das Prüfprotokoll aktuell deaktiviert ist.</li><li>Sie möchten mehr hierüber wissen? Lesen Sie die <a href='{{PRODUCT_DOCSURL}}/settings/auditTrail' class='site-link' target='help' >Dokumentation über die Prüfprotokolle.</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Gehe zur Kampagne";
 $GLOBALS['strCampaignSetUp'] = "Heute eine Kampagne einrichten";
-$GLOBALS['strCampaignNoRecords'] = "<li>In Kampagnen können Sie beliebig viele Banner unterschiedlicher Größe (Breite/Höhe) mit gleichen Eigenschaften zusammenfassen.</li><li>Sparen Sie Zeit indem Sie Banner mit gleichen Auslieferungsbeschränkungen in einer Kampagne zusammenfassen, und nicht in jedem Banner erneut definieren müssen.</li><li>Sehen Sie sich die <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Dokumentation über die Kampagnen an.</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>In Kampagnen können Sie beliebig viele Banner unterschiedlicher Größe (Breite/Höhe) mit gleichen Eigenschaften zusammenfassen.</li><li>Sparen Sie Zeit indem Sie Banner mit gleichen Auslieferungsbeschränkungen in einer Kampagne zusammenfassen, und nicht in jedem Banner erneut definieren müssen.</li><li>Sehen Sie sich die <a class='site-link' target='help' href='{{PRODUCT_DOCSURL}}/inventory/advertisersAndCampaigns/campaigns'>Dokumentation über die Kampagnen an.</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Es gibt keine Ereignisse zu den Kampagnen anzuzeigen.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "In dem angegebenen Zeitraum wurde keine Kampagne gestartet oder beendet.";

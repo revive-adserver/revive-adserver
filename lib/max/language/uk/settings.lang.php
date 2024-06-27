@@ -24,10 +24,10 @@ $GLOBALS['strTablesPrefix'] = "Префікс імен таблиць";
 $GLOBALS['strTablesType'] = "Тип таблиці";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Під час вашої попередньої спроби оновлення сталася помилка";
-$GLOBALS['strRecoveryRequired'] = "Під час обробки вашого попереднього оновлення сталася помилка, тому {$PRODUCT_NAME} має спробувати відновити процес оновлення. Натисніть кнопку «Відновити» нижче.";
+$GLOBALS['strRecoveryRequired'] = "Під час обробки вашого попереднього оновлення сталася помилка, тому {{PRODUCT_NAME}} має спробувати відновити процес оновлення. Натисніть кнопку «Відновити» нижче.";
 
-$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} оновлено";
-$GLOBALS['strOaUpToDate'] = "Ваша база даних і файлова структура {$PRODUCT_NAME} використовують найновішу версію, тому оновлення наразі не потрібне. Натисніть «Продовжити», щоб перейти до панелі адміністрування.";
+$GLOBALS['strProductUpToDateTitle'] = "{{PRODUCT_NAME}} оновлено";
+$GLOBALS['strOaUpToDate'] = "Ваша база даних і файлова структура {{PRODUCT_NAME}} використовують найновішу версію, тому оновлення наразі не потрібне. Натисніть «Продовжити», щоб перейти до панелі адміністрування.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Файл UPGRADE все ще присутній у вашій папці \"var\". Ми не можемо видалити цей файл через недостатні дозволи. Будь ласка, видаліть цей файл самостійно.";
 $GLOBALS['strErrorWritePermissions'] = "Було виявлено помилки дозволу на файл, і їх потрібно виправити, перш ніж ви зможете продовжити.<br />Щоб виправити помилки в системі Linux, спробуйте ввести наступні команди:";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
@@ -35,8 +35,8 @@ $GLOBALS['strNotWriteable'] = "НЕ доступно для запису";
 $GLOBALS['strDirNotWriteableError'] = "Каталог має бути доступним для запису";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Було виявлено помилки дозволу на файл, і їх потрібно виправити, перш ніж ви зможете продовжити.";
-$GLOBALS['strCheckDocumentation'] = "Щоб отримати додаткову допомогу, перегляньте <a href=\"{$PRODUCT_DOCSURL}\">документацію {$PRODUCT_NAME}</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "Ваша поточна конфігурація PHP не відповідає вимогам {$PRODUCT_NAME}. Щоб вирішити проблеми, будь ласка, змініть налаштування у файлі «php.ini».";
+$GLOBALS['strCheckDocumentation'] = "Щоб отримати додаткову допомогу, перегляньте <a href=\"{{PRODUCT_DOCSURL}}\">документацію {{PRODUCT_NAME}}</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "Ваша поточна конфігурація PHP не відповідає вимогам {{PRODUCT_NAME}}. Щоб вирішити проблеми, будь ласка, змініть налаштування у файлі «php.ini».";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL-адреса інтерфейсу адміністратора";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL-адреса системи доставки";
@@ -71,7 +71,7 @@ $GLOBALS['strInvalidUsername'] = "Невірне ім'я користувача"
 $GLOBALS['strBasicInformation'] = "Основна інформація";
 $GLOBALS['strAdministratorEmail'] = "Адреса електронної пошти адміністратора";
 $GLOBALS['strAdminCheckUpdates'] = "Автоматично перевіряти наявність оновлень продукту та сповіщень системи безпеки (рекомендовано).";
-$GLOBALS['strAdminShareStack'] = "Поділіться технічною інформацією з командою {$PRODUCT_NAME}, щоб допомогти з розробкою та тестуванням.";
+$GLOBALS['strAdminShareStack'] = "Поділіться технічною інформацією з командою {{PRODUCT_NAME}}, щоб допомогти з розробкою та тестуванням.";
 $GLOBALS['strNovice'] = "Дії видалення потребують підтвердження з міркувань безпеки";
 $GLOBALS['strUserlogEmail'] = "Логувати всі вихідні повідомлення електронної пошти";
 $GLOBALS['strEnableDashboard'] = "Увімкнути інформаційну панель";
@@ -139,7 +139,7 @@ $GLOBALS['strDebugPassword'] = "mCal, пароль SQL Server";
 $GLOBALS['strProductionSystem'] = "Виробнича система";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "Шляхи доступу до сервера {$PRODUCT_NAME}";
+$GLOBALS['strWebPath'] = "Шляхи доступу до сервера {{PRODUCT_NAME}}";
 $GLOBALS['strWebPathSimple'] = "Веб-шлях";
 $GLOBALS['strDeliveryPath'] = "Шлях доставки";
 $GLOBALS['strImagePath'] = "Шлях до зображень";
@@ -275,7 +275,7 @@ $GLOBALS['strPriorityInstantUpdate'] = "Негайно оновлювати пр
 $GLOBALS['strPriorityIntentionalOverdelivery'] = "Навмисно передоставити Контрактні Кампанії<br />(% перевиконання)";
 $GLOBALS['strDefaultImpConvWindow'] = "Вікно перетворення показів реклами за умовчанням (секунди)";
 $GLOBALS['strDefaultCliConvWindow'] = "Вікно конверсії кліку оголошення за умовчанням (секунди)";
-$GLOBALS['strAdminEmailHeaders'] = "Додайти такі заголовки до кожного повідомлення електронної пошти, надісланого {$PRODUCT_NAME}";
+$GLOBALS['strAdminEmailHeaders'] = "Додайти такі заголовки до кожного повідомлення електронної пошти, надісланого {{PRODUCT_NAME}}";
 $GLOBALS['strWarnLimit'] = "Надсилати попередження, коли кількість показів, що залишилися, менша за вказану тут";
 $GLOBALS['strWarnLimitDays'] = "Надіслати попередження, коли залишилося менше днів, ніж зазначено тут";
 $GLOBALS['strWarnAdmin'] = "Надсилати попередження адміністратору щоразу, коли термін дії кампанії майже закінчився";

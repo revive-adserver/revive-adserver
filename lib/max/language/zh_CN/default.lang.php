@@ -11,17 +11,26 @@
  */
 
 // Set text direction and characterset
+$GLOBALS['phpAds_TextDirection'] = "";
+$GLOBALS['phpAds_TextAlignRight'] = "";
+$GLOBALS['phpAds_TextAlignLeft'] = "";
+$GLOBALS['phpAds_CharSet'] = "";
 
 $GLOBALS['phpAds_DecimalPoint'] = ".";
 $GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%Y-%m-%d";
+$GLOBALS['time_format'] = "";
+$GLOBALS['minute_format'] = "";
 $GLOBALS['month_format'] = "%Y-%m";
 $GLOBALS['day_format'] = "%m-%d";
 $GLOBALS['week_format'] = "%Y-%W";
+$GLOBALS['weekiso_format'] = "";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
+$GLOBALS['excel_integer_formatting'] = "";
+$GLOBALS['excel_decimal_formatting'] = "";
 
 /* ------------------------------------------------------- */
 /* Translations                                          */
@@ -32,6 +41,7 @@ $GLOBALS['strHelp'] = "帮助";
 $GLOBALS['strStartOver'] = "重新开始";
 $GLOBALS['strShortcuts'] = "快捷方式";
 $GLOBALS['strActions'] = "操作";
+$GLOBALS['strAndXMore'] = "";
 $GLOBALS['strAdminstration'] = "库存";
 $GLOBALS['strMaintenance'] = "维护";
 $GLOBALS['strProbability'] = "权重";
@@ -84,6 +94,7 @@ $GLOBALS['strExpandAll'] = "展开（<u>E</u>）";
 $GLOBALS['strCollapseAll'] = "折叠（<u>C</u>）";
 $GLOBALS['strShowAll'] = "显示所有";
 $GLOBALS['strNoAdminInterface'] = "管理屏幕已关闭以进行维护。 这不会影响您的市场活动的交付。";
+$GLOBALS['strFieldStartDateBeforeEnd'] = "";
 $GLOBALS['strFieldContainsErrors'] = "以下字段包含错误：";
 $GLOBALS['strFieldFixBeforeContinue1'] = "在您可以继续之前，您需要";
 $GLOBALS['strFieldFixBeforeContinue2'] = "更正这些错误。";
@@ -102,7 +113,11 @@ $GLOBALS['strWarning'] = "警告";
 $GLOBALS['strNotice'] = "通知";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "";
+$GLOBALS['strNoCheckForUpdates'] = "";
+$GLOBALS['strEnableCheckForUpdates'] = "";
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "";
 $GLOBALS['strDashboardSystemMessage'] = "系统消息";
 $GLOBALS['strDashboardErrorHelp'] = "如果此错误重复出现，请描述问题详情并在 <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com/</a> 上发布。";
 
@@ -113,6 +128,9 @@ $GLOBALS['strOverrideAds'] = "优先广告";
 $GLOBALS['strHighAds'] = "Contract Advertisements";
 $GLOBALS['strECPMAds'] = "eCPM Advertisements";
 $GLOBALS['strLowAds'] = "普通项目";
+$GLOBALS['strLimitations'] = "";
+$GLOBALS['strNoLimitations'] = "";
+$GLOBALS['strCapping'] = "";
 
 // Properties
 $GLOBALS['strName'] = "名称";
@@ -131,7 +149,9 @@ $GLOBALS['strWorkingAs'] = "用户组";
 $GLOBALS['strWorkingAs_Key'] = "用户组（<u>W</u>）";
 $GLOBALS['strWorkingAs'] = "用户组";
 $GLOBALS['strSwitchTo'] = "切换到";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "";
 $GLOBALS['strWorkingFor'] = "%s 账户";
+$GLOBALS['strNoAccountWithXInNameFound'] = "";
 $GLOBALS['strRecentlyUsed'] = "最近使用";
 $GLOBALS['strLinkUser'] = "添加";
 $GLOBALS['strLinkUser_Key'] = "添加新的用户（<u>U</u>）";
@@ -139,10 +159,17 @@ $GLOBALS['strUsernameToLink'] = "用户名";
 $GLOBALS['strNewUserWillBeCreated'] = "正在添加新的用户";
 $GLOBALS['strToLinkProvideEmail'] = "请输入 Email";
 $GLOBALS['strToLinkProvideUsername'] = "请输入用户名";
+$GLOBALS['strUserLinkedToAccount'] = "";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "";
 $GLOBALS['strUserAccountUpdated'] = "用户已经成功更新。";
+$GLOBALS['strUserUnlinkedFromAccount'] = "";
 $GLOBALS['strUserWasDeleted'] = "用户已经彻底删除。";
+$GLOBALS['strUserNotLinkedWithAccount'] = "";
+$GLOBALS['strCantDeleteOneAdminUser'] = "";
+$GLOBALS['strLinkUserHelp'] = "";
 $GLOBALS['strLinkUserHelpUser'] = "用户名";
 $GLOBALS['strLinkUserHelpEmail'] = "Email";
+$GLOBALS['strLastLoggedIn'] = "";
 $GLOBALS['strDateLinked'] = "添加日期";
 
 // Login & Permissions
@@ -154,7 +181,7 @@ $GLOBALS['strAuthentification'] = "身份验证";
 $GLOBALS['strWelcomeTo'] = "欢迎使用";
 $GLOBALS['strEnterUsername'] = "请输入您的用户名和密码";
 $GLOBALS['strEnterBoth'] = "请输入您的用户名和密码";
-$GLOBALS['strEnableCookies'] = "在使用 {$PRODUCT_NAME} 之前，您需要启用 cookie功能。";
+$GLOBALS['strEnableCookies'] = "在使用 {{PRODUCT_NAME}} 之前，您需要启用 cookie功能。";
 $GLOBALS['strSessionIDNotMatch'] = "会话出现错误，请重新登录。";
 $GLOBALS['strLogin'] = "登录";
 $GLOBALS['strLogout'] = "注销";
@@ -172,6 +199,7 @@ $GLOBALS['strNotSamePasswords'] = "密码输入不一致。";
 $GLOBALS['strRepeatPassword'] = "密码确认";
 $GLOBALS['strDeadLink'] = "您的链接已失效。";
 $GLOBALS['strNoPlacement'] = "您选择的Camaign不存在。请尝试 这个<a href='{link}'>link</a>。";
+$GLOBALS['strNoAdvertiser'] = "";
 
 // General advertising
 $GLOBALS['strRequests'] = "投放请求";
@@ -179,6 +207,7 @@ $GLOBALS['strImpressions'] = "素材展示";
 $GLOBALS['strClicks'] = "素材点击";
 $GLOBALS['strConversions'] = "数据追踪";
 $GLOBALS['strCTRShort'] = "CTR";
+$GLOBALS['strCNVRShort'] = "";
 $GLOBALS['strCTR'] = "点击率";
 $GLOBALS['strTotalClicks'] = "总点击次数";
 $GLOBALS['strTotalConversions'] = "总转化数";
@@ -187,6 +216,7 @@ $GLOBALS['strTrackerID'] = "追踪器 ID";
 $GLOBALS['strTrackerName'] = "追踪器名称";
 $GLOBALS['strTrackerImageTag'] = "图片";
 $GLOBALS['strTrackerJsTag'] = "Javascript";
+$GLOBALS['strTrackerAlwaysAppend'] = "";
 $GLOBALS['strBanners'] = "素材";
 $GLOBALS['strCampaigns'] = "项目";
 $GLOBALS['strCampaignID'] = "项目 ID";
@@ -202,6 +232,7 @@ $GLOBALS['strFinanceCPC'] = "CPC";
 $GLOBALS['strFinanceCPA'] = "CPA";
 $GLOBALS['strFinanceMT'] = "包月";
 $GLOBALS['strFinanceCTR'] = "CTR";
+$GLOBALS['strFinanceCR'] = "";
 
 // Time and date related
 $GLOBALS['strDate'] = "日期";
@@ -247,24 +278,29 @@ $GLOBALS['strClients'] = "客户";
 $GLOBALS['strClientsAndCampaigns'] = "按项目";
 $GLOBALS['strAddClient'] = "添加新的客户";
 $GLOBALS['strClientProperties'] = "客户";
+$GLOBALS['strClientHistory'] = "";
 $GLOBALS['strNoClients'] = "您还没有添加客户。在添加新的项目前，您需要先<a href='advertiser-edit.php'>添加客户</a>。";
 $GLOBALS['strConfirmDeleteClient'] = "您真的要删除这个客户吗？";
 $GLOBALS['strConfirmDeleteClients'] = "您真的要删除所有选中的客户吗？";
 $GLOBALS['strHideInactive'] = "隐藏没有投放记录的行";
 $GLOBALS['strInactiveAdvertisersHidden'] = "个没有投放记录的客户已被隐藏";
+$GLOBALS['strAdvertiserSignup'] = "";
 $GLOBALS['strAdvertiserCampaigns'] = "查看项目列表";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "联系人";
 $GLOBALS['strContactName'] = "姓名";
+$GLOBALS['strEMail'] = "";
 $GLOBALS['strSendAdvertisingReport'] = "通过 Email 发送项目报表";
 $GLOBALS['strNoDaysBetweenReports'] = "项目报表发送周期（天）";
 $GLOBALS['strSendDeactivationWarning'] = "当系统自动启用或停用项目投放时通过 Email 发送通知";
 $GLOBALS['strAllowClientModifyBanner'] = "修改素材";
 $GLOBALS['strAllowClientDisableBanner'] = "停用素材";
 $GLOBALS['strAllowClientActivateBanner'] = "启用素材";
+$GLOBALS['strAllowCreateAccounts'] = "";
 $GLOBALS['strAdvertiserLimitation'] = "禁止在同一个页面上重复投放属于该客户的素材";
 $GLOBALS['strAllowAuditTrailAccess'] = "查看日志";
+$GLOBALS['strAllowDeleteItems'] = "";
 
 // Campaign
 $GLOBALS['strCampaign'] = "项目";
@@ -275,6 +311,7 @@ $GLOBALS['strCampaignForAdvertiser'] = "到";
 $GLOBALS['strLinkedCampaigns'] = "项目关联";
 $GLOBALS['strCampaignProperties'] = "项目";
 $GLOBALS['strCampaignOverview'] = "项目近况";
+$GLOBALS['strCampaignHistory'] = "";
 $GLOBALS['strNoCampaigns'] = "您还没有为该客户添加项目。";
 $GLOBALS['strNoCampaignsAddAdvertiser'] = "您还没有添加项目。在添加新的项目前，您需要先<a href='advertiser-edit.php'>添加客户</a>。";
 $GLOBALS['strConfirmDeleteCampaign'] = "您真的要删除该项目吗？";
@@ -285,7 +322,10 @@ $GLOBALS['strHideInactiveCampaigns'] = "隐藏未启用的项目";
 $GLOBALS['strInactiveCampaignsHidden'] = "个未启用的项目已被隐藏";
 $GLOBALS['strPriorityInformation'] = "权重";
 $GLOBALS['strECPMInformation'] = "eCPM 优先级";
+$GLOBALS['strRemnantEcpmDescription'] = "";
+$GLOBALS['strEcpmMinImpsDescription'] = "";
 $GLOBALS['strHiddenCampaign'] = "项目";
+$GLOBALS['strHiddenAd'] = "";
 $GLOBALS['strHiddenAdvertiser'] = "客户";
 $GLOBALS['strHiddenTracker'] = "追踪器";
 $GLOBALS['strHiddenWebsite'] = "媒体";
@@ -306,6 +346,7 @@ $GLOBALS['strZonesUnlinked'] = "个版位已经成功解除关联";
 $GLOBALS['strZonesSearch'] = "搜索";
 $GLOBALS['strZonesSearchTitle'] = "按名称搜索媒体或广告位";
 $GLOBALS['strNoWebsitesAndZones'] = "没有媒体或广告位";
+$GLOBALS['strNoWebsitesAndZonesText'] = "";
 $GLOBALS['strToLink'] = "可以关联";
 $GLOBALS['strToUnlink'] = "可以解除关联";
 $GLOBALS['strLinked'] = "关联";
@@ -334,6 +375,11 @@ $GLOBALS['strConversionsBooked'] = "数据追踪上限";
 $GLOBALS['strCampaignWeight'] = "权重";
 $GLOBALS['strAnonymous'] = "隐藏该项目的客户以及该项目关联的媒体";
 $GLOBALS['strTargetPerDay'] = " / 天";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "";
+$GLOBALS['strCampaignWarningOverrideNoWeight'] = "";
+$GLOBALS['strCampaignWarningNoTarget'] = "";
+$GLOBALS['strCampaignStatusPending'] = "";
 $GLOBALS['strCampaignStatusInactive'] = "已停用";
 $GLOBALS['strCampaignStatusRunning'] = "正在投放";
 $GLOBALS['strCampaignStatusPaused'] = "已暂停";
@@ -349,16 +395,20 @@ $GLOBALS['strCampaignType'] = "项目类型";
 $GLOBALS['strType'] = "类型";
 $GLOBALS['strContract'] = "标准合同";
 $GLOBALS['strOverride'] = "优先";
+$GLOBALS['strOverrideInfo'] = "";
 $GLOBALS['strStandardContract'] = "标准合同";
 $GLOBALS['strStandardContractInfo'] = "通过控制每天的投放量，保证该项目的总投放量均匀分布到投放周期中的每一天。";
 $GLOBALS['strRemnant'] = "普通项目";
 $GLOBALS['strRemnantInfo'] = "无特殊规则的普通项目。";
+$GLOBALS['strECPMInfo'] = "";
 $GLOBALS['strPricing'] = "结算";
 $GLOBALS['strPricingModel'] = "结算方式";
 $GLOBALS['strSelectPricingModel'] = "-- 选择结算方式 --";
 $GLOBALS['strRatePrice'] = "单价";
 $GLOBALS['strMinimumImpressions'] = "每日最低展示量";
 $GLOBALS['strLimit'] = "限制";
+$GLOBALS['strLowExclusiveDisabled'] = "";
+$GLOBALS['strCannotSetBothDateAndLimit'] = "";
 $GLOBALS['strWhyDisabled'] = "为何禁用？";
 $GLOBALS['strBackToCampaigns'] = "返回项目列表";
 $GLOBALS['strCampaignBanners'] = "转到素材列表";
@@ -367,6 +417,7 @@ $GLOBALS['strCookies'] = "Cookie";
 // Tracker
 $GLOBALS['strTracker'] = "追踪器";
 $GLOBALS['strTrackers'] = "追踪器";
+$GLOBALS['strTrackerPreferences'] = "";
 $GLOBALS['strAddTracker'] = "添加新的追踪器";
 $GLOBALS['strTrackerForAdvertiser'] = "到";
 $GLOBALS['strNoTrackers'] = "您还没有为该客户添加追踪器";
@@ -381,6 +432,7 @@ $GLOBALS['strConversionWindow'] = "数据追踪有效期限";
 $GLOBALS['strUniqueWindow'] = "指定时间段内唯一";
 $GLOBALS['strClick'] = "点击";
 $GLOBALS['strView'] = "查看";
+$GLOBALS['strArrival'] = "";
 $GLOBALS['strManual'] = "手动";
 $GLOBALS['strImpression'] = "素材展示";
 $GLOBALS['strConversionType'] = "数据类型";
@@ -396,6 +448,7 @@ $GLOBALS['strAddBanner_Key'] = "添加新的素材（<u>N</u>）";
 $GLOBALS['strBannerToCampaign'] = "到";
 $GLOBALS['strShowBanner'] = "显示素材";
 $GLOBALS['strBannerProperties'] = "素材";
+$GLOBALS['strBannerHistory'] = "";
 $GLOBALS['strNoBanners'] = "您还没有为该项目添加素材。";
 $GLOBALS['strNoBannersAddCampaign'] = "您还没有添加素材。在添加新的素材前，您需要先<a href='campaign-edit.php?clientid=%s'>添加项目</a>。";
 $GLOBALS['strNoBannersAddAdvertiser'] = "您还没有添加素材。在添加新的素材前，您需要先<a href='advertiser-edit.php'>添加客户</a>。";
@@ -405,6 +458,10 @@ $GLOBALS['strShowParentCampaigns'] = "显示素材所属的项目";
 $GLOBALS['strHideParentCampaigns'] = "隐藏素材所属的项目";
 $GLOBALS['strHideInactiveBanners'] = "隐藏停用的素材";
 $GLOBALS['strInactiveBannersHidden'] = "个停用的素材已被隐藏";
+$GLOBALS['strWarningMissing'] = "";
+$GLOBALS['strWarningMissingClosing'] = "";
+$GLOBALS['strWarningMissingOpening'] = "";
+$GLOBALS['strSubmitAnyway'] = "";
 $GLOBALS['strBannersOfCampaign'] = "属于"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
 
 // Banner Preferences
@@ -415,6 +472,10 @@ $GLOBALS['strDefaultBannerUrl'] = "默认图片 URL";
 $GLOBALS['strDefaultBannerDestination'] = "默认着陆页 URL";
 $GLOBALS['strAllowedBannerTypes'] = "允许的Banner类型";
 $GLOBALS['strTypeSqlAllow'] = "允许 SQL 本地Banner";
+$GLOBALS['strTypeWebAllow'] = "";
+$GLOBALS['strTypeUrlAllow'] = "";
+$GLOBALS['strTypeHtmlAllow'] = "";
+$GLOBALS['strTypeTxtAllow'] = "";
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "请选择素材的类型";
@@ -423,8 +484,11 @@ $GLOBALS['strWebBanner'] = "上传本地图片到服务器";
 $GLOBALS['strURLBanner'] = "链接到外部Banner";
 $GLOBALS['strHTMLBanner'] = "创建HTML Banner";
 $GLOBALS['strTextBanner'] = "创建一个文本素材";
+$GLOBALS['strAlterHTML'] = "";
+$GLOBALS['strIframeFriendly'] = "";
 $GLOBALS['strUploadOrKeep'] = "您希望保持现有的图片，还是上传新的图片？";
 $GLOBALS['strNewBannerFile'] = "请选择您要上传的图片<br /><br /><br />";
+$GLOBALS['strNewBannerFileAlt'] = "";
 $GLOBALS['strNewBannerURL'] = "图片 URL (包括 http://)";
 $GLOBALS['strURL'] = "着陆页 URL（包括 http://）";
 $GLOBALS['strKeyword'] = "关键字";
@@ -432,10 +496,15 @@ $GLOBALS['strTextBelow'] = "图片下方显示文字";
 $GLOBALS['strWeight'] = "权重";
 $GLOBALS['strAlt'] = "图片无法显示时的替换文字";
 $GLOBALS['strStatusText'] = "状态栏信息";
+$GLOBALS['strCampaignsWeight'] = "";
 $GLOBALS['strBannerWeight'] = "Banner权重";
+$GLOBALS['strBannersWeight'] = "";
 $GLOBALS['strAdserverTypeGeneric'] = "通用 HTML Banner";
+$GLOBALS['strDoNotAlterHtml'] = "";
 $GLOBALS['strGenericOutputAdServer'] = "一般";
 $GLOBALS['strBackToBanners'] = "返回素材列表";
+$GLOBALS['strUseWyswygHtmlEditor'] = "";
+$GLOBALS['strChangeDefault'] = "";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "在素材前附加 HTML 代码";
@@ -444,7 +513,24 @@ $GLOBALS['strBannerAppendHTML'] = "在素材后附加 HTML 代码";
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "投放控制";
 $GLOBALS['strACL'] = "投放控制";
+$GLOBALS['strACLAdd'] = "";
+$GLOBALS['strApplyLimitationsTo'] = "";
 $GLOBALS['strAllBannersInCampaign'] = "该项目下的所有素材";
+$GLOBALS['strRemoveAllLimitations'] = "";
+$GLOBALS['strEqualTo'] = "";
+$GLOBALS['strDifferentFrom'] = "";
+$GLOBALS['strLaterThan'] = "";
+$GLOBALS['strLaterThanOrEqual'] = "";
+$GLOBALS['strEarlierThan'] = "";
+$GLOBALS['strEarlierThanOrEqual'] = "";
+$GLOBALS['strContains'] = "";
+$GLOBALS['strNotContains'] = "";
+$GLOBALS['strGreaterThan'] = "";
+$GLOBALS['strLessThan'] = "";
+$GLOBALS['strGreaterOrEqualTo'] = "";
+$GLOBALS['strLessOrEqualTo'] = "";
+$GLOBALS['strAND'] = "";                          // logical operator
+$GLOBALS['strOR'] = "";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "仅当符合条件时显示素材：";
 $GLOBALS['strWeekDays'] = "工作日";
 $GLOBALS['strTime'] = "时间";
@@ -452,6 +538,7 @@ $GLOBALS['strDomain'] = "域名";
 $GLOBALS['strSource'] = "来源";
 $GLOBALS['strBrowser'] = "浏览器";
 $GLOBALS['strOS'] = "操作系统";
+$GLOBALS['strDeliveryLimitations'] = "";
 
 $GLOBALS['strDeliveryCappingReset'] = "投放控制周期";
 $GLOBALS['strDeliveryCappingTotal'] = "次（总计）";
@@ -460,16 +547,19 @@ $GLOBALS['strDeliveryCappingSession'] = "次／会话";
 if (!isset($GLOBALS['strCappingBanner'])) {
     $GLOBALS['strCappingBanner'] = [];
 }
+$GLOBALS['strCappingBanner']['title'] = "";
 $GLOBALS['strCappingBanner']['limit'] = "限制展示";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
     $GLOBALS['strCappingCampaign'] = [];
 }
+$GLOBALS['strCappingCampaign']['title'] = "";
 $GLOBALS['strCappingCampaign']['limit'] = "限制展示";
 
 if (!isset($GLOBALS['strCappingZone'])) {
     $GLOBALS['strCappingZone'] = [];
 }
+$GLOBALS['strCappingZone']['title'] = "";
 $GLOBALS['strCappingZone']['limit'] = "限制展示";
 
 // Website
@@ -478,9 +568,11 @@ $GLOBALS['strAffiliates'] = "媒体";
 $GLOBALS['strAffiliatesAndZones'] = "按版位";
 $GLOBALS['strAddNewAffiliate'] = "添加新的媒体";
 $GLOBALS['strAffiliateProperties'] = "媒体";
+$GLOBALS['strAffiliateHistory'] = "";
 $GLOBALS['strNoAffiliates'] = "您还没有添加媒体。在添加新的版位前，您需要先<a href='affiliate-edit.php'>添加媒体</a>。";
 $GLOBALS['strConfirmDeleteAffiliate'] = "您真的要删除该媒体吗？";
 $GLOBALS['strConfirmDeleteAffiliates'] = "您真的要删除所有选中的媒体吗？";
+$GLOBALS['strInactiveAffiliatesHidden'] = "";
 $GLOBALS['strShowParentAffiliates'] = "显示版位所属的媒体";
 $GLOBALS['strHideParentAffiliates'] = "隐藏版位所属的媒体";
 
@@ -508,6 +600,7 @@ $GLOBALS['strAddNewZone_Key'] = "添加新的版位（<u>N</u>）";
 $GLOBALS['strZoneToWebsite'] = "到";
 $GLOBALS['strLinkedZones'] = "版位关联";
 $GLOBALS['strAvailableZones'] = "可关联的版位";
+$GLOBALS['strLinkingNotSuccess'] = "";
 $GLOBALS['strZoneProperties'] = "版位";
 $GLOBALS['strZoneHistory'] = "投放记录";
 $GLOBALS['strNoZones'] = "您还没有为该媒体添加版位。";
@@ -518,13 +611,19 @@ $GLOBALS['strConfirmDeleteZoneLinkActive'] = "检测到该版位有项目关联�
 $GLOBALS['strZoneType'] = "版位类型";
 $GLOBALS['strBannerButtonRectangle'] = "图片（横幅、按钮、矩形等）";
 $GLOBALS['strInterstitial'] = "DHTML";
+$GLOBALS['strPopup'] = "";
 $GLOBALS['strTextAdZone'] = "文字链接";
 $GLOBALS['strEmailAdZone'] = "Email";
 $GLOBALS['strZoneVideoInstream'] = "嵌入视频";
 $GLOBALS['strZoneVideoOverlay'] = "悬浮视频";
 $GLOBALS['strShowMatchingBanners'] = "显示项目及素材";
 $GLOBALS['strHideMatchingBanners'] = "仅显示项目列表";
+$GLOBALS['strBannerLinkedAds'] = "";
 $GLOBALS['strCampaignLinkedAds'] = "关联到该版位的项目";
+$GLOBALS['strInactiveZonesHidden'] = "";
+$GLOBALS['strWarnChangeZoneType'] = "";
+$GLOBALS['strWarnChangeZoneSize'] = '';
+$GLOBALS['strWarnChangeBannerSize'] = '';
 $GLOBALS['strWarnBannerReadonly'] = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
 $GLOBALS['strZonesOfWebsite'] = '属于'; //this is added between page name and website name eg. 'Zones in www.example.com'
 $GLOBALS['strBackToZones'] = "返回版位列表";
@@ -557,13 +656,19 @@ $GLOBALS['strZoneAppend'] = "在该版位展示的素材后附加 HTML 代码";
 $GLOBALS['strAppendSettings'] = "附加代码";
 $GLOBALS['strZonePrependHTML'] = "在该版位展示的素材前附加 HTML 代码";
 $GLOBALS['strZoneAppendNoBanner'] = "在没有任何素材展示时仍然投放附加代码";
+$GLOBALS['strZoneAppendHTMLCode'] = "";
+$GLOBALS['strZoneAppendZoneSelection'] = "";
 
 // Zone probability
+$GLOBALS['strZoneProbListChain'] = "";
+$GLOBALS['strZoneProbNullPri'] = "";
+$GLOBALS['strZoneProbListChainLoop'] = "";
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strSelectZoneType'] = "请选择关联方式";
 $GLOBALS['strLinkedBanners'] = "按素材关联";
 $GLOBALS['strCampaignDefaults'] = "按项目批量关联";
+$GLOBALS['strLinkedCategories'] = "";
 $GLOBALS['strWithXBanners'] = "%d 个素材";
 $GLOBALS['strRawQueryString'] = "关键词";
 $GLOBALS['strIncludedBanners'] = "素材关联";
@@ -571,6 +676,7 @@ $GLOBALS['strMatchingBanners'] = "{count} 个规格匹配的素材";
 $GLOBALS['strNoCampaignsToLink'] = "目前没有项目适用于该版位";
 $GLOBALS['strNoTrackersToLink'] = "目前没有追踪器适用于该项目";
 $GLOBALS['strNoZonesToLinkToCampaign'] = "目前没有版位适用于该项目";
+$GLOBALS['strSelectBannerToLink'] = "";
 $GLOBALS['strSelectCampaignToLink'] = "请选择您要关联到该版位的项目：";
 $GLOBALS['strSelectAdvertiser'] = "选择客户";
 $GLOBALS['strSelectPlacement'] = "选择项目";
@@ -594,6 +700,12 @@ $GLOBALS['strShortcutShowStatuses'] = "显示审核状态";
 $GLOBALS['strStats'] = "报表";
 $GLOBALS['strNoStats'] = "暂时没有投放记录";
 $GLOBALS['strNoStatsForPeriod'] = "%s 到 %s 暂时没有投放记录";
+$GLOBALS['strGlobalHistory'] = "";
+$GLOBALS['strDailyHistory'] = "";
+$GLOBALS['strDailyStats'] = "";
+$GLOBALS['strWeeklyHistory'] = "";
+$GLOBALS['strMonthlyHistory'] = "";
+$GLOBALS['strTotalThisPeriod'] = "";
 $GLOBALS['strPublisherDistribution'] = "按媒体";
 $GLOBALS['strCampaignDistribution'] = "按项目";
 $GLOBALS['strViewBreakdown'] = "时间视图";
@@ -603,9 +715,19 @@ $GLOBALS['strBreakdownByMonth'] = "个月";
 $GLOBALS['strBreakdownByDow'] = "星期";
 $GLOBALS['strBreakdownByHour'] = "小时";
 $GLOBALS['strItemsPerPage'] = "每页显示";
+$GLOBALS['strDistributionHistoryCampaign'] = "";
+$GLOBALS['strDistributionHistoryBanner'] = "";
+$GLOBALS['strDistributionHistoryWebsite'] = "";
+$GLOBALS['strDistributionHistoryZone'] = "";
+$GLOBALS['strShowGraphOfStatistics'] = "";
 $GLOBALS['strExportStatisticsToExcel'] = "导出为 Excel 格式（<u>E</u>）";
+$GLOBALS['strGDnotEnabled'] = "";
+$GLOBALS['strStatsArea'] = "";
 
 // Expiration
+$GLOBALS['strNoExpiration'] = "";
+$GLOBALS['strEstimated'] = "";
+$GLOBALS['strNoExpirationEstimation'] = "";
 $GLOBALS['strDaysAgo'] = "天前";
 $GLOBALS['strCampaignStop'] = "停止Campaign";
 
@@ -614,6 +736,7 @@ $GLOBALS['strAdvancedReports'] = "更多...";
 $GLOBALS['strStartDate'] = "开始日期";
 $GLOBALS['strEndDate'] = "结束日期";
 $GLOBALS['strPeriod'] = "时间段";
+$GLOBALS['strLimitations'] = "";
 $GLOBALS['strWorksheets'] = "选择视图";
 
 // Admin_UI_Fields
@@ -628,6 +751,7 @@ $GLOBALS['strUserLog'] = "日志";
 $GLOBALS['strUserLogDetails'] = "用户日志详情";
 $GLOBALS['strDeleteLog'] = "删除日志";
 $GLOBALS['strAction'] = "行为";
+$GLOBALS['strNoActionsLogged'] = "";
 
 // Code generation
 $GLOBALS['strGenerateBannercode'] = "代码";
@@ -636,20 +760,26 @@ $GLOBALS['strGenerate'] = "生成";
 $GLOBALS['strParameters'] = "参数设置";
 $GLOBALS['strFrameSize'] = "框架大小";
 $GLOBALS['strBannercode'] = "素材代码";
+$GLOBALS['strTrackercode'] = "";
 $GLOBALS['strBackToTheList'] = "选择其它报表";
 $GLOBALS['strCharset'] = "字符集";
 $GLOBALS['strAutoDetect'] = "自动检测";
+$GLOBALS['strCacheBusterComment'] = "";
+$GLOBALS['strGenerateHttpsTags'] = "";
 
 // Errors
+$GLOBALS['strErrorDatabaseConnection'] = "";
+$GLOBALS['strErrorCantConnectToDatabase'] = "";
 $GLOBALS['strNoMatchesFound'] = "没有找到匹配的信息。";
 $GLOBALS['strErrorOccurred'] = "发生错误。";
 $GLOBALS['strErrorDBPlain'] = "访问数据库时发生错误。";
 $GLOBALS['strErrorDBSerious'] = "检测到数据库存在严重问题。";
-$GLOBALS['strErrorDBNoDataPlain'] = "数据库异常，{$PRODUCT_NAME} 无法存取数据。";
-$GLOBALS['strErrorDBNoDataSerious'] = "数据库异常，{$PRODUCT_NAME} 无法读取数据。";
+$GLOBALS['strErrorDBNoDataPlain'] = "数据库异常，{{PRODUCT_NAME}} 无法存取数据。";
+$GLOBALS['strErrorDBNoDataSerious'] = "数据库异常，{{PRODUCT_NAME}} 无法读取数据。";
 $GLOBALS['strErrorDBCorrupt'] = "数据表异常，请参考 <i>Administrator guide</i> 中的 <i>Troubleshooting</i> 章节尝试修复。";
 $GLOBALS['strErrorDBContact'] = "请联系系统管理员。";
-$GLOBALS['strMaintenanceNotActive'] = "距离上次运行维护任务已经超过 24 小时。\\n为保证 {$PRODUCT_NAME} 正常工作，维护任务运行的间隔不应该超过 1 小时。\\n\\n请参考管理员手册配置维护任务。";
+$GLOBALS['strErrorDBSubmitBug'] = "";
+$GLOBALS['strMaintenanceNotActive'] = "距离上次运行维护任务已经超过 24 小时。\\n为保证 {{PRODUCT_NAME}} 正常工作，维护任务运行的间隔不应该超过 1 小时。\\n\\n请参考管理员手册配置维护任务。";
 $GLOBALS['strErrorLinkingBanner'] = "将素材关联到该版位时发生错误：";
 $GLOBALS['strUnableToLinkBanner'] = "无法关联该素材：";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "收入金额数字格式无效。";
@@ -676,6 +806,13 @@ $GLOBALS['strInvalidWebsiteURL'] = "媒体 URL 格式无效。";
 // Email
 $GLOBALS['strSirMadam'] = "先生／女士";
 $GLOBALS['strMailSubject'] = "项目报表";
+$GLOBALS['strMailHeader'] = "";
+$GLOBALS['strMailBannerStats'] = "";
+$GLOBALS['strMailBannerActivatedSubject'] = "";
+$GLOBALS['strMailBannerDeactivatedSubject'] = "";
+$GLOBALS['strMailBannerActivated'] = "";
+$GLOBALS['strMailBannerDeactivated'] = "";
+$GLOBALS['strMailFooter'] = "";
 $GLOBALS['strClientDeactivated'] = "该项目已被停用";
 $GLOBALS['strBeforeActivate'] = "还没到项目启用日期";
 $GLOBALS['strAfterExpire'] = "已过了项目停用日期";
@@ -685,9 +822,22 @@ $GLOBALS['strNoMoreConversions'] = "已达到订单上限";
 $GLOBALS['strWeightIsNull'] = "权重设置为零";
 $GLOBALS['strRevenueIsNull'] = "收入设置为零";
 $GLOBALS['strTargetIsNull'] = "每日投放量上限设置为零，您需要设置项目停用日期以及每日投放量上限";
+$GLOBALS['strNoViewLoggedInInterval'] = "";
+$GLOBALS['strNoClickLoggedInInterval'] = "";
+$GLOBALS['strNoConversionLoggedInInterval'] = "";
+$GLOBALS['strMailReportPeriod'] = "";
+$GLOBALS['strMailReportPeriodAll'] = "";
+$GLOBALS['strNoStatsForCampaign'] = "";
+$GLOBALS['strImpendingCampaignExpiry'] = "";
+$GLOBALS['strYourCampaign'] = "";
+$GLOBALS['strTheCampiaignBelongingTo'] = "";
+$GLOBALS['strImpendingCampaignExpiryDateBody'] = "";
+$GLOBALS['strImpendingCampaignExpiryImpsBody'] = "";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "";
 
 // Priority
 $GLOBALS['strPriority'] = "优先级";
+$GLOBALS['strSourceEdit'] = "";
 
 // Preferences
 $GLOBALS['strPreferences'] = "设置";
@@ -718,16 +868,33 @@ $GLOBALS['strColumnRank'] = "排序";
 $GLOBALS['strRevenue'] = "收入";
 $GLOBALS['strNumberOfItems'] = "追踪器数据计数";
 $GLOBALS['strRevenueCPC'] = "CPC 收入";
+$GLOBALS['strERPM'] = "";
+$GLOBALS['strERPC'] = "";
+$GLOBALS['strERPS'] = "";
+$GLOBALS['strEIPM'] = "";
+$GLOBALS['strEIPC'] = "";
+$GLOBALS['strEIPS'] = "";
 $GLOBALS['strECPM'] = "eCPM";
+$GLOBALS['strECPC'] = "";
+$GLOBALS['strECPS'] = "";
 $GLOBALS['strPendingConversions'] = "待审数据";
 $GLOBALS['strImpressionSR'] = "素材展示 SR";
 $GLOBALS['strClickSR'] = "素材点击 SR";
 
 // Short names
 $GLOBALS['strRevenue_short'] = "收入";
+$GLOBALS['strBasketValue_short'] = "";
 $GLOBALS['strNumberOfItems_short'] = "计数";
 $GLOBALS['strRevenueCPC_short'] = "CPC 收入";
+$GLOBALS['strERPM_short'] = "";
+$GLOBALS['strERPC_short'] = "";
+$GLOBALS['strERPS_short'] = "";
+$GLOBALS['strEIPM_short'] = "";
+$GLOBALS['strEIPC_short'] = "";
+$GLOBALS['strEIPS_short'] = "";
 $GLOBALS['strECPM_short'] = "ECPM";
+$GLOBALS['strECPC_short'] = "";
+$GLOBALS['strECPS_short'] = "";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "请求";
 $GLOBALS['strImpressions_short'] = "展示";
@@ -748,6 +915,21 @@ $GLOBALS['strChooseSection'] = '请选择任务';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "升级";
+$GLOBALS['strViewPastUpdates'] = "";
+$GLOBALS['strFromVersion'] = "";
+$GLOBALS['strToVersion'] = "";
+$GLOBALS['strToggleDataBackupDetails'] = "";
+$GLOBALS['strClickViewBackupDetails'] = "";
+$GLOBALS['strClickHideBackupDetails'] = "";
+$GLOBALS['strShowBackupDetails'] = "";
+$GLOBALS['strHideBackupDetails'] = "";
+$GLOBALS['strBackupDeleteConfirm'] = "";
+$GLOBALS['strDeleteArtifacts'] = "";
+$GLOBALS['strArtifacts'] = "";
+$GLOBALS['strBackupDbTables'] = "";
+$GLOBALS['strLogFiles'] = "";
+$GLOBALS['strConfigBackups'] = "";
+$GLOBALS['strUpdatedDbVersionStamp'] = "";
 $GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "升级完成";
 $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "升级失败";
 
@@ -763,11 +945,24 @@ $GLOBALS['strConfirmDeleteAgency'] = "您真的要删除该用户组吗？";
 $GLOBALS['strHideInactiveAgencies'] = "隐藏停用的用户组";
 $GLOBALS['strInactiveAgenciesHidden'] = "个用户组已被隐藏";
 $GLOBALS['strSwitchAccount'] = "切换到该组";
+$GLOBALS['strAgencyStatusRunning'] = "";
 $GLOBALS['strAgencyStatusInactive'] = "已停用";
+$GLOBALS['strAgencyStatusPaused'] = "";
 
 // Channels
+$GLOBALS['strChannel'] = "";
+$GLOBALS['strChannels'] = "";
+$GLOBALS['strChannelManagement'] = "";
+$GLOBALS['strAddNewChannel'] = "";
+$GLOBALS['strAddNewChannel_Key'] = "";
 $GLOBALS['strChannelToWebsite'] = "到";
+$GLOBALS['strNoChannels'] = "";
+$GLOBALS['strNoChannelsAddWebsite'] = "";
+$GLOBALS['strEditChannelLimitations'] = "";
+$GLOBALS['strChannelProperties'] = "";
 $GLOBALS['strChannelLimitations'] = "投放控制";
+$GLOBALS['strConfirmDeleteChannel'] = "";
+$GLOBALS['strConfirmDeleteChannels'] = "";
 $GLOBALS['strChannelsOfWebsite'] = '属于'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
@@ -776,6 +971,7 @@ $GLOBALS['strVariableDescription'] = "详细描述";
 $GLOBALS['strVariableDataType'] = "数据类型";
 $GLOBALS['strVariablePurpose'] = "目的";
 $GLOBALS['strGeneric'] = "一般";
+$GLOBALS['strBasketValue'] = "";
 $GLOBALS['strNumItems'] = "追踪器数据计数";
 $GLOBALS['strVariableIsUnique'] = "检查唯一性";
 $GLOBALS['strNumber'] = "数字";
@@ -794,32 +990,65 @@ $GLOBALS['strVariableCode'] = "Javascript 追踪代码";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "忘记密码";
+$GLOBALS['strPasswordRecovery'] = "";
+$GLOBALS['strWelcomePage'] = "";
+$GLOBALS['strWelcomePageText'] = "";
 $GLOBALS['strEmailRequired'] = "请输入您的 Email";
+$GLOBALS['strPwdRecWrongExpired'] = "";
 $GLOBALS['strPwdRecEnterEmail'] = "请输入您的 Email";
 $GLOBALS['strPwdRecEnterPassword'] = "请输入您的新密码";
 $GLOBALS['strProceed'] = "继续 >";
+$GLOBALS['strNotifyPageMessage'] = "";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "";
+$GLOBALS['strPwdRecEmailBody'] = "";
 
+$GLOBALS['strPwdRecEmailSincerely'] = "";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "";
+$GLOBALS['strWelcomeEmailBody'] = "";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "";
+$GLOBALS['strPasswordUpdateEmailBody'] = "";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "";
+$GLOBALS['strPasswordResetRequired'] = "";
+$GLOBALS['strPasswordUnsafeWarning'] = "";
 
 // Audit
+$GLOBALS['strAdditionalItems'] = "";
+$GLOBALS['strAuditSystem'] = "";
+$GLOBALS['strFor'] = "";
+$GLOBALS['strHas'] = "";
+$GLOBALS['strBinaryData'] = "";
 $GLOBALS['strAuditTrailDisabled'] = "Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.";
 
 // Widget - Audit
+$GLOBALS['strAuditNoData'] = "";
 $GLOBALS['strAuditTrail'] = "日志";
+$GLOBALS['strAuditTrailSetup'] = "";
 $GLOBALS['strAuditTrailGoTo'] = "转到日志列表";
+$GLOBALS['strAuditTrailNotEnabled'] = "";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "转到项目列表";
+$GLOBALS['strCampaignSetUp'] = "";
+$GLOBALS['strCampaignNoRecords'] = "";
+$GLOBALS['strCampaignNoRecordsAdmin'] = "";
 
+$GLOBALS['strCampaignNoDataTimeSpan'] = "";
+$GLOBALS['strCampaignAuditNotActivated'] = "";
+$GLOBALS['strCampaignAuditTrailSetup'] = "";
 
 $GLOBALS['strUnsavedChanges'] = "该页面上有尚未保存的更新，请在编辑完成后按“保存”按钮";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "";
+$GLOBALS['strDeliveryRulesDbError'] = "";
+$GLOBALS['strDeliveryRulesTruncation'] = "";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "您已经成功切换到<b>%s</b>组。";
@@ -867,6 +1096,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "新媒体<a href='%s'>%s</a>已经成功�
 $GLOBALS['strWebsiteHasBeenUpdated'] = "媒体<a href='%s'>%s</a>已经成功更新。";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "媒体<b>%s</b>已经成功删除。";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "所有选中的媒体已经成功删除。";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "";
 
 $GLOBALS['strZoneHasBeenAdded'] = "版位<a href='%s'>%s</a>已经成功添加。";
 $GLOBALS['strZoneHasBeenUpdated'] = "版位<a href='%s'>%s</a>已经成功更新。";
@@ -880,25 +1110,40 @@ $GLOBALS['strZoneLinkedCampaign'] = "项目已经成功关联到版位<a href='%
 $GLOBALS['strZoneRemovedBanner'] = "素材已经成功从版位<a href='%s'>%s</a>解除关联。";
 $GLOBALS['strZoneRemovedCampaign'] = "项目已经成功从版位<a href='%s'>%s</a>解除关联。";
 
+$GLOBALS['strChannelHasBeenAdded'] = "";
+$GLOBALS['strChannelHasBeenUpdated'] = "";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "";
+$GLOBALS['strChannelHasBeenDeleted'] = "";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "";
+$GLOBALS['strChannelHasBeenDuplicated'] = "";
 
 $GLOBALS['strUserPreferencesUpdated'] = "您的<b>%s</b>已经成功更新。";
 $GLOBALS['strEmailChanged'] = "您的 E-mail 已经成功更新。";
 $GLOBALS['strPasswordChanged'] = "您的密码已经成功更新。";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b>已经成功更新。";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b>已经成功更新。";
+$GLOBALS['strTZPreferencesWarning'] = "";
 
 // Report error messages
+$GLOBALS['strReportErrorMissingSheets'] = "";
 $GLOBALS['strReportErrorUnknownCode'] = "未知的错误代码 #";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = '';
+$GLOBALS['strPasswordTooShort'] = "";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "";
+$GLOBALS['strPasswordScore'][1] = "";
+$GLOBALS['strPasswordScore'][2] = "";
+$GLOBALS['strPasswordScore'][3] = "";
+$GLOBALS['strPasswordScore'][4] = "";
 
 
 /* ------------------------------------------------------- */
@@ -907,9 +1152,20 @@ if (!isset($GLOBALS['strPasswordScore'])) {
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "";
+$GLOBALS['keyUp'] = "";
 $GLOBALS['keyNextItem'] = ".";
 $GLOBALS['keyPreviousItem'] = ",";
+$GLOBALS['keyList'] = "";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
+$GLOBALS['keySearch'] = "";
+$GLOBALS['keyCollapseAll'] = "";
+$GLOBALS['keyExpandAll'] = "";
+$GLOBALS['keyAddNew'] = "";
+$GLOBALS['keyNext'] = "";
+$GLOBALS['keyPrevious'] = "";
+$GLOBALS['keyLinkUser'] = "";
+$GLOBALS['keyWorkingAs'] = "";

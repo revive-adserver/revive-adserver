@@ -12,10 +12,12 @@
 
 // Other
 $GLOBALS['strCopyToClipboard'] = "Kopírovat do schránky";
+$GLOBALS['strCopy'] = "";
 $GLOBALS['strChooseTypeOfInvocation'] = "Prosím zvolte typ volání banneru";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Prosím zvolte typ volání banneru";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
 $GLOBALS['strAbbrSeconds'] = "vteřin";
 
 // Common Invocation Parameters
@@ -28,6 +30,7 @@ $GLOBALS['strInvocationDontShowAgain'] = "Nezobrazovat banner znova na stejné s
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Nezobrazovat banner ze stejné kampaně znova na stejné stránce";
 $GLOBALS['strInvocationTemplate'] = "Uložit banner v proměnné aby mohl být použit v šabloně";
 $GLOBALS['strInvocationBannerID'] = "ID banneru";
+$GLOBALS['strInvocationComments'] = "";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Obnovit po";
@@ -35,6 +38,8 @@ $GLOBALS['strIframeMakeTransparent'] = "Udělat iframe průhledný";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Typ Pop-upu";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
 $GLOBALS['strPopUpCreateInstance'] = "Zobrazit když je pop-up vytvořen";
 $GLOBALS['strPopUpImmediately'] = "Okamžitě";
 $GLOBALS['strPopUpOnClose'] = "Když je zavřena stránka";
@@ -51,6 +56,8 @@ $GLOBALS['strWindowResizable'] = "Měnitelná velikost";
 $GLOBALS['strShowScrollbars'] = "Skrolovatelný";
 
 // Support for cachebusting code
+$GLOBALS['strCacheBuster'] = "";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Varování";
+$GLOBALS['strImgWithAppendWarning'] = "";

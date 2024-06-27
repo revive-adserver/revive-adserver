@@ -17,11 +17,14 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Veuillez choisir le type d'invocation";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Veuillez choisir le type d'invocation de bannières";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
+$GLOBALS['strAbbrSeconds'] = "";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Sélection de bannières";
 $GLOBALS['strInvocationCampaignID'] = "Campagne";
 $GLOBALS['strInvocationTarget'] = "Cadre cible";
+$GLOBALS['strInvocationSource'] = "";
 $GLOBALS['strInvocationWithText'] = "Afficher du texte sous la bannière";
 $GLOBALS['strInvocationDontShowAgain'] = "Ne pas afficher la bannière à nouveau sur la même page";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Ne pas afficher une bannière de la même campagne à nouveau sur la même page";
@@ -44,7 +47,13 @@ $GLOBALS['strPopUpAfterSec'] = "Après";
 $GLOBALS['strAutoCloseAfter'] = "Fermer automatiquement après";
 $GLOBALS['strPopUpTop'] = "Position initiale (haut)";
 $GLOBALS['strPopUpLeft'] = "Position initiale (gauche)";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "État";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Insérer un code empêchant la mise en cache";

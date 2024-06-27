@@ -24,10 +24,10 @@ $GLOBALS['strTablesPrefix'] = "Präfix für Tabellennamen";
 $GLOBALS['strTablesType'] = "Tabellentype";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Der vorige Upgrade-Versuch hat Fehler hinterlassen.";
-$GLOBALS['strRecoveryRequired'] = "Bei der vorigen Upgrade-Prozedur sind Fehler aufgetreten. {$PRODUCT_NAME} wird versuchen den Zustand vor dem Upgrade wieder herzustellen. Bitte klicken Sie auf Wiederherstellen.";
+$GLOBALS['strRecoveryRequired'] = "Bei der vorigen Upgrade-Prozedur sind Fehler aufgetreten. {{PRODUCT_NAME}} wird versuchen den Zustand vor dem Upgrade wieder herzustellen. Bitte klicken Sie auf Wiederherstellen.";
 
-$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} ist aktuell";
-$GLOBALS['strOaUpToDate'] = "Ihre {$PRODUCT_NAME} Datenbank und Verzeichnisstruktur ist auf dem neusten Stand, für diese Daten ist kein Upgradevorgang nötig. Bitte klicken Sie auf Fortsetzen um zur Administrationsseite von {$PRODUCT_NAME} zu gelangen.";
+$GLOBALS['strProductUpToDateTitle'] = "{{PRODUCT_NAME}} ist aktuell";
+$GLOBALS['strOaUpToDate'] = "Ihre {{PRODUCT_NAME}} Datenbank und Verzeichnisstruktur ist auf dem neusten Stand, für diese Daten ist kein Upgradevorgang nötig. Bitte klicken Sie auf Fortsetzen um zur Administrationsseite von {{PRODUCT_NAME}} zu gelangen.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Warnung: Es fehlen die nötigen Rechte an der Datei UPGRADE um diese aus dem Openads-'var'-Verzeichnis zu entfernen. Bitte löschen Sie die Datei manuell.";
 $GLOBALS['strErrorWritePermissions'] = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.<br />Um diese Rechte auf einem Linux System zu gewähren, tippen Sie den/die folgenden Befehle auf einer Shell:";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
@@ -35,8 +35,8 @@ $GLOBALS['strNotWriteable'] = "NICHT schreibbar";
 $GLOBALS['strDirNotWriteableError'] = "Verzeichnis muss schreibbar sein";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.";
-$GLOBALS['strCheckDocumentation'] = "Wenn Sie mehr Hilfe benötigen, besuchen Sie bitte die <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} Online-Dokumentation</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "Die aktuelle PHP-Konfiguration erfüllt nicht die Anforderungen des {$PRODUCT_NAME}. Um die Probleme zu beheben, ändern Sie bitte die Einstellungen in der Datei \"php.ini\".";
+$GLOBALS['strCheckDocumentation'] = "Wenn Sie mehr Hilfe benötigen, besuchen Sie bitte die <a href='{{PRODUCT_DOCSURL}}'>{{PRODUCT_NAME}} Online-Dokumentation</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "Die aktuelle PHP-Konfiguration erfüllt nicht die Anforderungen des {{PRODUCT_NAME}}. Um die Probleme zu beheben, ändern Sie bitte die Einstellungen in der Datei \"php.ini\".";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL der Admin-Oberfläche";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL des Ad-Servers";
@@ -138,7 +138,7 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL-Server Paßwort";
 $GLOBALS['strProductionSystem'] = "Produktionssystem";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "{$PRODUCT_NAME} Server Verzeichnisse";
+$GLOBALS['strWebPath'] = "{{PRODUCT_NAME}} Server Verzeichnisse";
 $GLOBALS['strWebPathSimple'] = "Web-Pfad";
 $GLOBALS['strDeliveryPath'] = "Auslieferungs-Pfad";
 $GLOBALS['strImagePath'] = "Banner-Pfad";
@@ -274,7 +274,7 @@ $GLOBALS['strPriorityInstantUpdate'] = "Sofortige Neuberechnung der Prioritäten
 $GLOBALS['strPriorityIntentionalOverdelivery'] = "Vertragskampagnen vorsätzlich überliefern<br />(% Überlieferung)";
 $GLOBALS['strDefaultImpConvWindow'] = "Standard-Zeitfenster für Konversion einer Anzeige (Sekunden)";
 $GLOBALS['strDefaultCliConvWindow'] = "Standard-Zeitfenster für Konversion eines Anzeigen-Klicks (Sekunden)";
-$GLOBALS['strAdminEmailHeaders'] = "Alle e-Mails, die von {$PRODUCT_NAME} gesendet werden, erhalten die folgenden Header hinzugefügt";
+$GLOBALS['strAdminEmailHeaders'] = "Alle e-Mails, die von {{PRODUCT_NAME}} gesendet werden, erhalten die folgenden Header hinzugefügt";
 $GLOBALS['strWarnLimit'] = "Warnung per E-Mail bei Unterschreiten der definierten Untergrenze";
 $GLOBALS['strWarnLimitDays'] = "Sende eine Warnung wenn weniger Tage verblieben sind als hier angegeben.";
 $GLOBALS['strWarnAdmin'] = "Warnung per E-Mail an den Administrator, wenn eine Kampagne ausgelaufen ist";

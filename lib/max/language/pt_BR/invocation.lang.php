@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Por favor escolha o tipo de inserção"
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Por favor escolha o tipo de inserção de banner";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
 $GLOBALS['strAbbrSeconds'] = "seg.";
 
 // Common Invocation Parameters
@@ -37,6 +38,8 @@ $GLOBALS['strIframeMakeTransparent'] = "Fazer o iframe ser transparente";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Tipo de Pop-up";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
 $GLOBALS['strPopUpCreateInstance'] = "Criar instï¿œncia quando o pop-up ï¿œ criado";
 $GLOBALS['strPopUpImmediately'] = "Immediatamente";
 $GLOBALS['strPopUpOnClose'] = "Quando a pï¿œgina ï¿œ encerrada";
@@ -44,7 +47,13 @@ $GLOBALS['strPopUpAfterSec'] = "Apï¿œs";
 $GLOBALS['strAutoCloseAfter'] = "Automaticamente encerrada apï¿œs";
 $GLOBALS['strPopUpTop'] = "Posiï¿œï¿œo Inicial (topo)";
 $GLOBALS['strPopUpLeft'] = "Posiï¿œï¿œo Inicial (esquerda)";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "Estado";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserir código anti-cache";

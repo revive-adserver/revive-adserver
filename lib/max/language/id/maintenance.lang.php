@@ -17,19 +17,19 @@ $GLOBALS['strAppendCodes'] = "Tambahkan kode";
 // Maintenance
 $GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>Pemeliharaan terjadwal belum berjalan dalam satu jam terakhir. Ini mungkin berarti Anda belum mengaturnya dengan benar. </b>";
 
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	Pemeliharaan otomatis diaktifkan, namun belum dipicu. Pemeliharaan otomatis hanya dipicu bila {$PRODUCT_NAME} mengirimkan spanduk.
-    Untuk kinerja terbaik, Anda harus menyiapkan <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>pemeliharaan terjadwal</a>.";
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	Pemeliharaan otomatis diaktifkan, namun belum dipicu. Pemeliharaan otomatis hanya dipicu bila {{PRODUCT_NAME}} mengirimkan spanduk.
+    Untuk kinerja terbaik, Anda harus menyiapkan <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>pemeliharaan terjadwal</a>.";
 
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	Pemeliharaan otomatis saat ini dinonaktifkan, jadi ketika {$PRODUCT_NAME} mengirimkan spanduk, perawatan otomatis tidak akan dipicu.
-       Untuk kinerja terbaik, Anda harus menyiapkan <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>pemeliharaan terjadwal </a>.
-    Namun, jika Anda tidak akan menyiapkan <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>pemeliharaan terjadwal </a>,
-    maka <i>harus</i> <a href='account-settings-maintenance.php'>mengaktifkan pemeliharaan otomatis</a>untuk memastikan bahwa {$PRODUCT_NAME} bekerja dengan benar.";
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	Pemeliharaan otomatis saat ini dinonaktifkan, jadi ketika {{PRODUCT_NAME}} mengirimkan spanduk, perawatan otomatis tidak akan dipicu.
+       Untuk kinerja terbaik, Anda harus menyiapkan <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>pemeliharaan terjadwal </a>.
+    Namun, jika Anda tidak akan menyiapkan <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>pemeliharaan terjadwal </a>,
+    maka <i>harus</i> <a href='account-settings-maintenance.php'>mengaktifkan pemeliharaan otomatis</a>untuk memastikan bahwa {{PRODUCT_NAME}} bekerja dengan benar.";
 
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	Pemeliharaan otomatis diaktifkan dan akan dipicu, jika diperlukan, bila {$PRODUCT_NAME} mengirimkan spanduk. Namun, untuk kinerja terbaik, Anda harus menyiapkan <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>pemeliharaan terjadwal</a>.";
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	Pemeliharaan otomatis diaktifkan dan akan dipicu, jika diperlukan, bila {{PRODUCT_NAME}} mengirimkan spanduk. Namun, untuk kinerja terbaik, Anda harus menyiapkan <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>pemeliharaan terjadwal</a>.";
 
-$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	Namun, perawatan otomatis baru saja dinonaktifkan. Untuk memastikan bahwa {$PRODUCT_NAME} bekerja dengan benar, Anda harus menyiapkan akun <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>terjadwal pemeliharaan</a> atau
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	Namun, perawatan otomatis baru saja dinonaktifkan. Untuk memastikan bahwa {{PRODUCT_NAME}} bekerja dengan benar, Anda harus menyiapkan akun <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>terjadwal pemeliharaan</a> atau
 	 <a href ='-settings-maintenance.php'>mengaktifkan kembali pemeliharaan otomatis</a>.<br><br> 
-	Untuk kinerja terbaik, Anda harus menyiapkan <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>pemeliharaan terjadwal</a>.";
+	Untuk kinerja terbaik, Anda harus menyiapkan <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>pemeliharaan terjadwal</a>.";
 
 $GLOBALS['strScheduledMantenaceRunning'] = "<b>Pemeliharaan terjadwal berjalan dengan benar.</b>";
 
@@ -71,10 +71,15 @@ dalam sebuah direktori, beban pada database berkurang yang mengakibatkan kecepat
 ";
 
 // Security
+$GLOBALS['strSecurity'] = "";
+$GLOBALS['strSecurityExplanation'] = "";
+$GLOBALS['strSecurityOK'] = "";
+$GLOBALS['strSecurityKO'] = "";
+$GLOBALS['strSecurityReadMore'] = "";
 
 // Encoding
 $GLOBALS['strEncoding'] = "Pengkodean";
-$GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} sekarang menyimpan semua data dalam database dalam format UTF-8.<br/>
+$GLOBALS['strEncodingExplaination'] = "{{PRODUCT_NAME}} sekarang menyimpan semua data dalam database dalam format UTF-8.<br/>
      Bila memungkinkan, data Anda akan otomatis dikonversi ke pengkodean ini.<br/>
      Jika setelah mengupgrade karakter Anda yang korup, dan Anda tahu pengkodean yang digunakan, Anda dapat menggunakan alat ini untuk mengubah data dari format tersebut menjadi UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Konversikan dari pengkodean ini:";
@@ -101,27 +106,27 @@ $GLOBALS['strUpdateServerDown'] = "Berdasarkan alasan yang tidak jelas pada saat
 adanya Update gagal dilakukan. Silakan coba kembali pada lain waktu.
 ";
 
-$GLOBALS['strNoNewVersionAvailable'] = "Anda telah menggunakan versi {$PRODUCT_NAME} yang terbaru. Pada saat ini belum ada Update untuk versi ini.
+$GLOBALS['strNoNewVersionAvailable'] = "Anda telah menggunakan versi {{PRODUCT_NAME}} yang terbaru. Pada saat ini belum ada Update untuk versi ini.
 ";
 
-$GLOBALS['strServerCommunicationError'] = "    <b>Komunikasi dengan server pembaruan habis waktunya, jadi {$PRODUCT_NAME} tidak
+$GLOBALS['strServerCommunicationError'] = "    <b>Komunikasi dengan server pembaruan habis waktunya, jadi {{PRODUCT_NAME}} tidak
      dapat memeriksa apakah versi yang lebih baru tersedia pada tahap ini. Silakan coba lagi nanti.</b>";
 
 $GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Periksa pembaruan dinonaktifkan. Mohon aktifkan  via
     <a href='account-settings-update.php'>perbarui setelan</a> layar.</b>";
 
-$GLOBALS['strNewVersionAvailable'] = "<b>Ada versi baru untuk {$PRODUCT_NAME}.</b><br> Disarankan untuk meng-update sehubungan
+$GLOBALS['strNewVersionAvailable'] = "<b>Ada versi baru untuk {{PRODUCT_NAME}}.</b><br> Disarankan untuk meng-update sehubungan
 update tersebut memperbaiki berberapa masalah dan membawa fasilitas baru. Untuk informasi lebih lanjut
 bacalah	dokumentasi yang tersedia dalam file dibawah ini.
 ";
 
 $GLOBALS['strSecurityUpdate'] = "	<b>Disarankan untuk meng-update secepat mungkin sehubungan dalam update ini ada berberapa perbaikan
-	dalam segi keamanan.</b> Ada kemungkinan bahwa versi dari {$PRODUCT_NAME} yang digunakan
+	dalam segi keamanan.</b> Ada kemungkinan bahwa versi dari {{PRODUCT_NAME}} yang digunakan
 oleh Anda mudah diserang dan sudah tidak aman lagi. Untuk informasi lebih lanjut bacalah dokumentasi
 	tentang caranya meng-update yang tersedia dalam file dibawah ini.
 ";
 
-$GLOBALS['strNotAbleToCheck'] = "<b>Sehubungan ekstensi XML tidak tersedia pada server Anda, maka {$PRODUCT_NAME} tidak sanggup
+$GLOBALS['strNotAbleToCheck'] = "<b>Sehubungan ekstensi XML tidak tersedia pada server Anda, maka {{PRODUCT_NAME}} tidak sanggup
 untuk mencari ketersediaan versi baru.</b>
 ";
 
@@ -154,10 +159,15 @@ $GLOBALS['strAppendCodesValid'] = "Semua appendcode yang dilacak tracker valid";
 $GLOBALS['strRepairAppenedCodes'] = "Beberapa ketidakkonsistenan ditemukan di atas, Anda dapat memperbaiki ini dengan menggunakan tombol di bawah ini, ini akan mengkompilasi ulang kode tambahan untuk setiap pelacak di sistem";
 
 $GLOBALS['strPlugins'] = "Plugin";
-$GLOBALS['strPluginsPrecis'] = "Diagnosa dan perbaiki masalah dengan plugin {$PRODUCT_NAME}";
+$GLOBALS['strPluginsPrecis'] = "Diagnosa dan perbaiki masalah dengan plugin {{PRODUCT_NAME}}";
 
 $GLOBALS['strMenus'] = "Menu";
 $GLOBALS['strMenusPrecis'] = "Membangun kembali cache menu";
 $GLOBALS['strMenusCachedOk'] = "Menu cache telah dibangun kembali";
 
 // Users
+$GLOBALS['strUserPasswords'] = "";
+$GLOBALS['strUserPasswordsExplaination'] = "";
+$GLOBALS['strCheckUserPasswords'] = "";
+$GLOBALS['strUserPasswordsEverythingOK'] = "";
+$GLOBALS['strUserPasswordsEmailsSent'] = "";

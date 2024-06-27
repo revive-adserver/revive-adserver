@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Пожалуйста, выберите 
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Пожалуйста, выберите тип вызова баннера";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
 $GLOBALS['strAbbrSeconds'] = "сек";
 
 // Common Invocation Parameters
@@ -39,13 +40,20 @@ $GLOBALS['strIframeMakeTransparent'] = "Сделать iframe прозрачны
 $GLOBALS['strPopUpStyle'] = "Тип Pop-up";
 $GLOBALS['strPopUpStylePopUp'] = "Выскакивает над";
 $GLOBALS['strPopUpStylePopUnder'] = "Выскакивает под";
+$GLOBALS['strPopUpCreateInstance'] = "";
 $GLOBALS['strPopUpImmediately'] = "Немедленно";
 $GLOBALS['strPopUpOnClose'] = "Когда страница закрывается";
 $GLOBALS['strPopUpAfterSec'] = "Через";
 $GLOBALS['strAutoCloseAfter'] = "Автоматически закрыть через";
 $GLOBALS['strPopUpTop'] = "Начальная позиция (верх)";
 $GLOBALS['strPopUpLeft'] = "Начальная позиция (левый край)";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "Статус";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Вставить код, запрещающий кэширование";

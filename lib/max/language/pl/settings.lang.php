@@ -24,14 +24,19 @@ $GLOBALS['strTablesPrefix'] = "Prefiks nazw tabeli";
 $GLOBALS['strTablesType'] = "Typ tabeli";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "W czasie poprzedniej próby aktualizacji wystąpiły błędy";
-$GLOBALS['strRecoveryRequired'] = "Wystąpił błąd w trakcie przetwarzania poprzedniej próby aktualizacji. {$PRODUCT_NAME} spróbuje odzyskać dane z poprzedniej aktualizacji. Kliknij Odzyskaj poniżej.";
+$GLOBALS['strRecoveryRequired'] = "Wystąpił błąd w trakcie przetwarzania poprzedniej próby aktualizacji. {{PRODUCT_NAME}} spróbuje odzyskać dane z poprzedniej aktualizacji. Kliknij Odzyskaj poniżej.";
 
-$GLOBALS['strOaUpToDate'] = "Twoja baza danych {$PRODUCT_NAME} oraz struktura pliku wskazuje, że korzystasz z najnowszej wersji i aktualizacja nie jest wymagana w tym momencie. Kliknij Dalej, aby przejść do panelu administratora {$PRODUCT_NAME}.";
+$GLOBALS['strProductUpToDateTitle'] = "";
+$GLOBALS['strOaUpToDate'] = "Twoja baza danych {{PRODUCT_NAME}} oraz struktura pliku wskazuje, że korzystasz z najnowszej wersji i aktualizacja nie jest wymagana w tym momencie. Kliknij Dalej, aby przejść do panelu administratora {{PRODUCT_NAME}}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Ostrzeżenie: plik UPGRADE wciąż znajduje się w folderze var. Nie możemy go usunąć ze względu na ograniczone uprawnienia. Musisz usunąć plik własnoręcznie.";
 $GLOBALS['strErrorWritePermissions'] = "Wykryto błędy w dostępie do pliku. Błędy muszą zostać naprawione zanim przejdziesz dalej.<br/>Aby naprawić błędy w systemie Linux, spróbuj wpisać następujące polecenie(a):";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "";
+$GLOBALS['strNotWriteable'] = "";
+$GLOBALS['strDirNotWriteableError'] = "";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Wykryto błędy w dostępie do pliku. Błędy muszą zostać naprawione zanim przejdziesz dalej.";
-$GLOBALS['strCheckDocumentation'] = "Więcej wskazówek uzyskasz w <a href='{$PRODUCT_DOCSURL}'>Dokumentacji {$PRODUCT_NAME}</a>.";
+$GLOBALS['strCheckDocumentation'] = "Więcej wskazówek uzyskasz w <a href='{{PRODUCT_DOCSURL}}'>Dokumentacji {{PRODUCT_NAME}}</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL interfejsu administratora";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL serwera";
@@ -48,11 +53,14 @@ $GLOBALS['strUpgrade'] = "Aktualizacja";
 
 // Global
 $GLOBALS['strChooseSection'] = "Wybierz sekcję";
+$GLOBALS['strEditConfigNotPossible'] = "";
+$GLOBALS['strEditConfigPossible'] = "";
 $GLOBALS['strUnableToWriteConfig'] = "Nie można wprowadzić zmian w pliku config";
 $GLOBALS['strUnableToWritePrefs'] = "Nie można wprowadzić preferencji w bazie danych";
 $GLOBALS['strImageDirLockedDetected'] = "Wskazany <b>Folder Obrazów</b> nie jest otwarty do edycji. <b>Zmień uprawnienia w folderze lub utwórz folder, aby kontynuować.";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Nazwa użytkownika Administratora";
@@ -61,8 +69,11 @@ $GLOBALS['strInvalidUsername'] = "Nieprawidłowa nazwa użytkownika";
 $GLOBALS['strBasicInformation'] = "Informacje podstawowe";
 $GLOBALS['strAdministratorEmail'] = "E-mail Administratora";
 $GLOBALS['strAdminCheckUpdates'] = "Sorawdź aktualizacje";
+$GLOBALS['strAdminShareStack'] = "";
 $GLOBALS['strNovice'] = "Usuwanie wymaga potwierdzenia ze względu na bezpieczeństwo";
 $GLOBALS['strUserlogEmail'] = "Loguj wszystkie wychodzące wiadomości e-mail";
+$GLOBALS['strEnableDashboard'] = "";
+$GLOBALS['strEnableDashboardSyncNotice'] = "";
 $GLOBALS['strTimezone'] = "Strefa czasowa";
 $GLOBALS['strEnableAutoMaintenance'] = "Jeśli nie ustawiono konserwacji, przeprowadź ją automatycznie w trakcie dostarczania";
 
@@ -89,6 +100,7 @@ $GLOBALS['strEmailAddresses'] = "Wyślij \"Od\" - adres e-mail";
 $GLOBALS['strEmailFromName'] = "Wyślij \"Od\" - nazwa";
 $GLOBALS['strEmailFromAddress'] = "Wyślij \"Od\" - adres e-mail";
 $GLOBALS['strEmailFromCompany'] = "Wyślij \"Od\" - firma";
+$GLOBALS['strUseManagerDetails'] = '';
 $GLOBALS['strQmailPatch'] = "Włącz łatkę qmail";
 $GLOBALS['strEnableQmailPatch'] = "Włącz łatkę qmail";
 $GLOBALS['strEmailHeader'] = "Nagłówki e-mail";
@@ -97,6 +109,7 @@ $GLOBALS['strEmailLog'] = "Log e-maila";
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Ustawienia Audytu";
 $GLOBALS['strEnableAudit'] = "Włącz Audyt";
+$GLOBALS['strEnableAuditForZoneLinking'] = "";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "Ustawienia protokołowania diagnostycznego";
@@ -105,7 +118,9 @@ $GLOBALS['strDebugMethodNames'] = "Uwzględnij nazwę metody w protokole diagnos
 $GLOBALS['strDebugLineNumbers'] = "Uwzględnij numer linii w protokole diagnostycznym";
 $GLOBALS['strDebugType'] = "Typ protokołu diagnostycznego";
 $GLOBALS['strDebugTypeFile'] = "Plik";
+$GLOBALS['strDebugTypeMcal'] = "";
 $GLOBALS['strDebugTypeSql'] = "Baza danych SQL";
+$GLOBALS['strDebugTypeSyslog'] = "";
 $GLOBALS['strDebugName'] = "Nazwa protokołu diagnostycznego, kalendarz, tabela SQL, <br />lub urządzenie Syslog";
 $GLOBALS['strDebugPriority'] = "Poziom priorytetu diagnozowania";
 $GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Pełne dane";
@@ -122,6 +137,7 @@ $GLOBALS['strDebugPassword'] = "Hasło serwera mCal, SQL";
 $GLOBALS['strProductionSystem'] = "System produkcji";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "";
 $GLOBALS['strWebPathSimple'] = "Ścieżka strony";
 $GLOBALS['strDeliveryPath'] = "Ścieżka dostarczania";
 $GLOBALS['strImagePath'] = "Ścieżka obrazów";
@@ -136,6 +152,7 @@ $GLOBALS['strTypeWebModeFtp'] = "Zewnętrzny serwer FTP";
 $GLOBALS['strTypeWebDir'] = "Katalog lokalny";
 $GLOBALS['strTypeFTPHost'] = "Adres serwera FTP";
 $GLOBALS['strTypeFTPDirectory'] = "Katalog serwera";
+$GLOBALS['strTypeFTPUsername'] = "";
 $GLOBALS['strTypeFTPPassword'] = "Hasło";
 $GLOBALS['strTypeFTPPassive'] = "Używaj pasywnego FTP";
 $GLOBALS['strTypeFTPErrorDir'] = "Podany katalog na serwerze nie istnieje";
@@ -145,6 +162,7 @@ $GLOBALS['strTypeFTPErrorUpload'] = "Nie można przesłać pliku na serwer FTP, 
 $GLOBALS['strTypeFTPErrorHost'] = "Nazwa hosta serwera FTP nie jest poprawna";
 $GLOBALS['strDeliveryFilenames'] = "Nazwy plików przychodzących";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "Kliknięcie";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Zmienne konwersji";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "Zawartość reklamy";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "Konwersja";
@@ -159,20 +177,40 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Wyświetlenie reklamy";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Kod wywołujący XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Lokalny kod wywołujący";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Sterownik główny";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "";
 $GLOBALS['strDeliveryCaching'] = "Ustawienia cache banerów";
 $GLOBALS['strDeliveryCacheLimit'] = "Okres czasu pomiędzy aktualizacjami cache banerów (w sekundach)";
+$GLOBALS['strDeliveryCacheStore'] = "";
+$GLOBALS['strDeliveryAcls'] = "";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "";
+$GLOBALS['strDeliveryObfuscate'] = "";
+$GLOBALS['strDeliveryClickUrlValidity'] = "";
+$GLOBALS['strDeliveryRelAttribute'] = "";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "";
 $GLOBALS['strP3PSettings'] = "Polityka prywatności P3P";
 $GLOBALS['strUseP3P'] = "Użyj deklaracji P3P";
 $GLOBALS['strP3PCompactPolicy'] = "Skrócona deklaracja P3P";
 $GLOBALS['strP3PPolicyLocation'] = "Lokalizacja deklaracji P3P";
+$GLOBALS['strPrivacySettings'] = "";
+$GLOBALS['strDisableViewerId'] = "";
+$GLOBALS['strAnonymiseIp'] = "";
 
 // General Settings
+$GLOBALS['generalSettings'] = "";
 $GLOBALS['uiEnabled'] = "Interfejs użytkownika aktywny";
+$GLOBALS['defaultLanguage'] = "";
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting";
 $GLOBALS['strGeotargeting'] = "Geotargeting";
 $GLOBALS['strGeotargetingType'] = "Typ modułu Geotargetingu";
+$GLOBALS['strGeoShowUnavailable'] = "";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inwentarz";
@@ -181,9 +219,11 @@ $GLOBALS['strShowBannerInfo'] = "Pokaż dodatkowe informacje o banerze na stroni
 $GLOBALS['strShowCampaignPreview'] = "Pokaż podgląd wszystkich banerów na stronie <i>Banery</i>";
 $GLOBALS['strShowBannerHTML'] = "Pokaż baner zamiast zwykłego kodu HTML w podglądzie banerów HTML";
 $GLOBALS['strShowBannerPreview'] = "Pokaż podgląd banera na górze stron, które wyświetlają banery";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "";
 $GLOBALS['strHideInactive'] = "Ukryj nieaktywne";
 $GLOBALS['strGUIShowMatchingBanners'] = "Pokaż pasujące banery na stronach <i>Podłączony baner</i>";
 $GLOBALS['strGUIShowParentCampaigns'] = "Pokaż nadrzędne kampanie na stronach <i>Podłączony baner</i>";
+$GLOBALS['strShowEntityId'] = "";
 $GLOBALS['strStatisticsDefaults'] = "Statystyki";
 $GLOBALS['strBeginOfWeek'] = "Początek tygodnia";
 $GLOBALS['strPercentageDecimals'] = "Cyfr po przecinku";
@@ -215,16 +255,25 @@ $GLOBALS['strEnforceUserAgents'] = "<b>Loguj wyłącznie</b> statystyki dla klie
 $GLOBALS['strBannerStorage'] = "Ustawienia przechowywania banerów";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "";
+$GLOBALS['strEnableContractECPM'] = "";
+$GLOBALS['strEnableECPMfromRemnant'] = "";
+$GLOBALS['strEnableECPMfromECPM'] = "";
+$GLOBALS['strInactivatedCampaigns'] = "";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "Ustawienia konserwacji";
 $GLOBALS['strConversionTracking'] = "Ustawienia śledzenia konwersji";
 $GLOBALS['strEnableConversionTracking'] = "Uruchom śledzenie konwersji";
+$GLOBALS['strBlockInactiveBanners'] = "";
 $GLOBALS['strBlockAdClicks'] = "Nie zliczaj Kliknięć, jeśli odwiedzający kliknął tę samą parę reklama/strefa w ciągu określonego okresu czasu (w sekundach)";
 $GLOBALS['strMaintenanceOI'] = "Odstęp między przeprowadzaniem konserwacji (w minutach)";
 $GLOBALS['strPrioritySettings'] = "Ustawienia priorytetów";
 $GLOBALS['strPriorityInstantUpdate'] = "Aktualizuj priorytety reklamy natychmiast po modyfikacjach w interfejsie";
-$GLOBALS['strAdminEmailHeaders'] = "Dodaj następujące nagłówki do każdego e-maila wysyłanego przez {$PRODUCT_NAME}";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "";
+$GLOBALS['strDefaultImpConvWindow'] = "";
+$GLOBALS['strDefaultCliConvWindow'] = "";
+$GLOBALS['strAdminEmailHeaders'] = "Dodaj następujące nagłówki do każdego e-maila wysyłanego przez {{PRODUCT_NAME}}";
 $GLOBALS['strWarnLimit'] = "Limit Ostrzeżenia - wyślij ostrzeżenie, gdy ilość pozostałych odsłon jest mniejsza niż ta określona tutaj";
 $GLOBALS['strWarnLimitDays'] = "Wyślij ostrzeżenie, gdy ilość dni jest mniejsza niż ta określona tutaj";
 $GLOBALS['strWarnAdmin'] = "Wyślij ostrzeżenie do administratora zawsze, gdy kampania dobiega końca";
@@ -248,8 +297,15 @@ $GLOBALS['strGuiHeaderForegroundColor'] = "Kolor planu pierwszego w nagłówku";
 $GLOBALS['strGuiHeaderBackgroundColor'] = "Kolor tła nagłówka";
 $GLOBALS['strGuiActiveTabColor'] = "Kolor aktywnej zakładki";
 $GLOBALS['strGuiHeaderTextColor'] = "Kolor tekstu w nagłówku";
+$GLOBALS['strGuiSupportLink'] = "";
 $GLOBALS['strGzipContentCompression'] = "Użyj kompresji zawartości GZIP";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate'] = "";
+$GLOBALS['strNewPlatformHash'] = "";
+$GLOBALS['strPlatformHashInsertingError'] = "";
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "";
+$GLOBALS['strEnableNewPlugins'] = "";
+$GLOBALS['strUseMergedFunctions'] = "";

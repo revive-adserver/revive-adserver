@@ -37,10 +37,27 @@ $GLOBALS['strIFrameRefreshAfter'] = "Atnaujinti po";
 $GLOBALS['strIframeMakeTransparent'] = "Padaryti rėmelį permatomą";
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
+$GLOBALS['strPopUpImmediately'] = "";
+$GLOBALS['strPopUpOnClose'] = "";
+$GLOBALS['strPopUpAfterSec'] = "";
+$GLOBALS['strAutoCloseAfter'] = "";
+$GLOBALS['strPopUpTop'] = "";
+$GLOBALS['strPopUpLeft'] = "";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "Statusas";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Įterpti Cache-Busting kodą";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Perspėjimas";
+$GLOBALS['strImgWithAppendWarning'] = "";

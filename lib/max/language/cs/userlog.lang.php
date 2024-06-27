@@ -20,6 +20,7 @@ $GLOBALS['strDeleted'] = "Smazat";
 $GLOBALS['strInserted'] = "vloženo";
 $GLOBALS['strUpdated'] = "aktualizováno";
 $GLOBALS['strDelete'] = "Smazat";
+$GLOBALS['strHas'] = "";
 $GLOBALS['strFilters'] = "Filtry";
 $GLOBALS['strAdvertiser'] = "Inzerent";
 $GLOBALS['strPublisher'] = "Webová stránka";
@@ -30,6 +31,8 @@ $GLOBALS['strAction'] = "Akce";
 $GLOBALS['strParameter'] = "Parametry";
 $GLOBALS['strValue'] = "Hodnota";
 $GLOBALS['strReturnAuditTrail'] = "Návrat do auditu";
+$GLOBALS['strAuditTrail'] = "";
+$GLOBALS['strMaintenanceLog'] = "";
 $GLOBALS['strAuditResultsNotFound'] = "Nebyly nalezeny žádné události odpovídající na vybraná kritéria";
 $GLOBALS['strCollectedAllEvents'] = "Všechny události";
 $GLOBALS['strClear'] = "Vyčistit";
@@ -39,6 +42,8 @@ if (!isset($GLOBALS['strUserlog'])) {
 }
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Report pro inzerenta {id} poslat emailem";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampaň {id} aktivována";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "";
 $GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Upozornění na deaktivaci kampaně {id} poslat emailem";
 $GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampaň {id} deaktivována";
 $GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priorita přepočítána";

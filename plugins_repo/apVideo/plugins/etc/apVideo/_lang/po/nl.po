@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: nl\n"
 "X-Crowdin-File: /apVideo/plugins/etc/apVideo/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 405\n"
+"PO-Revision-Date: 2023-08-09 09:44\n"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:24
 msgid "Inline Network Video Ad"

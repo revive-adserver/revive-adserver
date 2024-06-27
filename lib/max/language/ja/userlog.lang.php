@@ -26,6 +26,7 @@ $GLOBALS['strAdvertiser'] = "広告主";
 $GLOBALS['strPublisher'] = "Webサイト";
 $GLOBALS['strCampaign'] = "キャンペーン";
 $GLOBALS['strZone'] = "ゾーン";
+$GLOBALS['strType'] = "";
 $GLOBALS['strAction'] = "アクション";
 $GLOBALS['strParameter'] = "パラメータ";
 $GLOBALS['strValue'] = "数値";
@@ -39,4 +40,13 @@ $GLOBALS['strClear'] = "クリア";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";

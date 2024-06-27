@@ -17,6 +17,8 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Te rugăm să alegi tipul de cod pentru
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Te rugăm să alegi tipul de cod pentru banner";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
+$GLOBALS['strAbbrSeconds'] = "";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Alegere banner";
@@ -35,7 +37,23 @@ $GLOBALS['strIFrameRefreshAfter'] = "Reîmprospătează după";
 $GLOBALS['strIframeMakeTransparent'] = "Iframe transparent";
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
+$GLOBALS['strPopUpImmediately'] = "";
+$GLOBALS['strPopUpOnClose'] = "";
+$GLOBALS['strPopUpAfterSec'] = "";
+$GLOBALS['strAutoCloseAfter'] = "";
+$GLOBALS['strPopUpTop'] = "";
+$GLOBALS['strPopUpLeft'] = "";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "Stare";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserează cod Cache-Busting";

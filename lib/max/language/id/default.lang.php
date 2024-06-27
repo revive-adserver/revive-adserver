@@ -11,14 +11,26 @@
  */
 
 // Set text direction and characterset
+$GLOBALS['phpAds_TextDirection'] = "";
+$GLOBALS['phpAds_TextAlignRight'] = "";
+$GLOBALS['phpAds_TextAlignLeft'] = "";
+$GLOBALS['phpAds_CharSet'] = "";
 
 $GLOBALS['phpAds_DecimalPoint'] = ",";
 $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 // Date & time configuration
+$GLOBALS['date_format'] = "";
+$GLOBALS['time_format'] = "";
+$GLOBALS['minute_format'] = "";
+$GLOBALS['month_format'] = "";
 $GLOBALS['day_format'] = "%d-%m";
+$GLOBALS['week_format'] = "";
+$GLOBALS['weekiso_format'] = "";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
+$GLOBALS['excel_integer_formatting'] = "";
+$GLOBALS['excel_decimal_formatting'] = "";
 
 /* ------------------------------------------------------- */
 /* Translations                                          */
@@ -147,10 +159,14 @@ $GLOBALS['strUsernameToLink'] = "Username pengguna untuk ditambahkan";
 $GLOBALS['strNewUserWillBeCreated'] = "Pengguna baru akan dibuat";
 $GLOBALS['strToLinkProvideEmail'] = "Untuk menambahkan pengguna, berikan email pengguna";
 $GLOBALS['strToLinkProvideUsername'] = "Untuk menambahkan pengguna, berikan username";
+$GLOBALS['strUserLinkedToAccount'] = "";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "";
 $GLOBALS['strUserAccountUpdated'] = "Akun pengguna diperbarui";
+$GLOBALS['strUserUnlinkedFromAccount'] = "";
 $GLOBALS['strUserWasDeleted'] = "Pengguna telah dihapus";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Pengguna tersebut tidak terkait dengan akun";
-$GLOBALS['strLinkUserHelp'] = "Untuk menambahkan <b> pengguna yang ada </b>, ketik%1\$s dan klik%2\$s <br/> Untuk menambahkan<b>pengguna baru </b>, ketik%1\$s dan klik%2\$s";
+$GLOBALS['strCantDeleteOneAdminUser'] = "";
+$GLOBALS['strLinkUserHelp'] = "Untuk menambahkan <b> pengguna yang ada </b>, ketik%1\\$s dan klik%2\\$s <br/> Untuk menambahkan<b>pengguna baru </b>, ketik%1\\$s dan klik%2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Nama Pengguna";
 $GLOBALS['strLinkUserHelpEmail'] = "alamat email";
 $GLOBALS['strLastLoggedIn'] = "Terakhir masuk";
@@ -165,7 +181,7 @@ $GLOBALS['strAuthentification'] = "Autentifikasi";
 $GLOBALS['strWelcomeTo'] = "Selamat Datang di";
 $GLOBALS['strEnterUsername'] = "Silakan masukan Nama dan Kata Sandi Anda untuk Login";
 $GLOBALS['strEnterBoth'] = "Silakan masukan Nama <i>dan</i> Kata Sandi";
-$GLOBALS['strEnableCookies'] = "Anda harus mengaktifkan cookies sebelum bisa menggunakannya {$PRODUCT_NAME}";
+$GLOBALS['strEnableCookies'] = "Anda harus mengaktifkan cookies sebelum bisa menggunakannya {{PRODUCT_NAME}}";
 $GLOBALS['strSessionIDNotMatch'] = "Kesalahan cookie sesi, masuk lagi";
 $GLOBALS['strLogin'] = "Masuk";
 $GLOBALS['strLogout'] = "Keluar";
@@ -281,8 +297,10 @@ $GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila kampanye tidak a
 $GLOBALS['strAllowClientModifyBanner'] = "Izinkan pengguna ini untuk merubah banner yang dimiliki";
 $GLOBALS['strAllowClientDisableBanner'] = "Izinkan pengguna ini untuk hentikan banner yang dimiliki";
 $GLOBALS['strAllowClientActivateBanner'] = "Izinkan pengguna ini untuk aktifkan banner yang dimiliki";
+$GLOBALS['strAllowCreateAccounts'] = "";
 $GLOBALS['strAdvertiserLimitation'] = "Tampilkan hanya satu banner dari pengiklan ini di halaman web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Izinkan pengguna mengakses jejak audit";
+$GLOBALS['strAllowDeleteItems'] = "";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampanye";
@@ -512,7 +530,9 @@ $GLOBALS['strTextBelow'] = "Teks dibawah gambar";
 $GLOBALS['strWeight'] = "Bobot";
 $GLOBALS['strAlt'] = "Teks alternatif";
 $GLOBALS['strStatusText'] = "Teks status";
+$GLOBALS['strCampaignsWeight'] = "";
 $GLOBALS['strBannerWeight'] = "Bobot banner";
+$GLOBALS['strBannersWeight'] = "";
 $GLOBALS['strAdserverTypeGeneric'] = "Spanduk HTML Generik";
 $GLOBALS['strDoNotAlterHtml'] = "Jangan ubah HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generik";
@@ -785,27 +805,28 @@ $GLOBALS['strAutoDetect'] = "Deteksi otomatis";
 $GLOBALS['strCacheBusterComment'] = "  * Ganti semua contoh {random} dengan
    * nomor acak yang dihasilkan (atau timestamp).
    *";
+$GLOBALS['strGenerateHttpsTags'] = "";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Kesalahan koneksi database.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Kesalahan fatal terjadi %1\$s tidak dapat terhubung ke database. Karena
+$GLOBALS['strErrorCantConnectToDatabase'] = "Kesalahan fatal terjadi %1\\$s tidak dapat terhubung ke database. Karena
                                                    Ini tidak mungkin menggunakan antarmuka administrator. Pengiriman
                                                    spanduk juga mungkin terpengaruh Kemungkinan alasan untuk masalah ini adalah:
                                                    <ul>
                                                      <li>Server database tidak berfungsi saat ini</li>
                                                      <li>Lokasi server database telah berubah</li>
                                                      <li>Username atau password yang digunakan untuk menghubungi database server tidak benar</li>
-                                                     <li>PHP belum memuat <i>%2\$s</i> perpanjangan</li>
+                                                     <li>PHP belum memuat <i>%2\\$s</i> perpanjangan</li>
                                                    </ul>";
 $GLOBALS['strNoMatchesFound'] = "Tidak ada sepadan yang ditemukan";
 $GLOBALS['strErrorOccurred'] = "Telah terjadi Error";
 $GLOBALS['strErrorDBPlain'] = "Telah terjadi Error sewaktu mengakses database";
 $GLOBALS['strErrorDBSerious'] = "Terdeteksi masalah serius pada database";
-$GLOBALS['strErrorDBNoDataPlain'] = "Karena masalah pada database {$PRODUCT_NAME} tidak dapat mengambil atau menyimpan data. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Karena masalah serius dengan database, {$PRODUCT_NAME} tidak dapat mengambil data";
+$GLOBALS['strErrorDBNoDataPlain'] = "Karena masalah pada database {{PRODUCT_NAME}} tidak dapat mengambil atau menyimpan data. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "Karena masalah serius dengan database, {{PRODUCT_NAME}} tidak dapat mengambil data";
 $GLOBALS['strErrorDBCorrupt'] = "Tabel pada database rupanya rusak dan perlu perbaikan. Untuk informasi lebih lanjut tentang caranya memperbaiki tabel yang rusak mohon baca BAB <i>Troubleshooting</i> pada <i>Administrator Guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Mohon hubungi Administrator dari server ini dan beritahukan masalah ini.";
-$GLOBALS['strErrorDBSubmitBug'] = "Jika masalah ini dapat direproduksi, hal itu mungkin disebabkan oleh bug di {$PRODUCT_NAME}. Harap laporkan informasi berikut ke pembuat {$PRODUCT_NAME}. Juga coba gambarkan tindakan yang menyebabkan kesalahan ini sejelas mungkin.";
+$GLOBALS['strErrorDBSubmitBug'] = "Jika masalah ini dapat direproduksi, hal itu mungkin disebabkan oleh bug di {{PRODUCT_NAME}}. Harap laporkan informasi berikut ke pembuat {{PRODUCT_NAME}}. Juga coba gambarkan tindakan yang menyebabkan kesalahan ini sejelas mungkin.";
 $GLOBALS['strMaintenanceNotActive'] = "Script pemeliharaan belum dijalankan dalam 24 jam terakhir.
 Agar aplikasi berfungsi dengan benar maka perlu dijalankan
 setiap jam.
@@ -819,7 +840,7 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "format nomor salah di bidang Informas
 $GLOBALS['strErrorEditingZone'] = "Kesalahan saat memperbarui zona:";
 $GLOBALS['strUnableToChangeZone'] = "Gagal melakukan perubahan ini disebabkan:";
 $GLOBALS['strDatesConflict'] = "tanggal-tanggal berbentrokan dengan:";
-$GLOBALS['strEmailNoDates'] = "Kampanye yang tertaut ke Zona Email harus memiliki tanggal mulai dan tanggal akhir. {$PRODUCT_NAME} memastikan bahwa pada tanggal tertentu, hanya satu banner aktif yang terhubung ke Zona Email. Pastikan bahwa kampanye yang sudah tertaut ke zona tidak memiliki tanggal yang tumpang tindih dengan kampanye yang ingin Anda tautkan.";
+$GLOBALS['strEmailNoDates'] = "Kampanye yang tertaut ke Zona Email harus memiliki tanggal mulai dan tanggal akhir. {{PRODUCT_NAME}} memastikan bahwa pada tanggal tertentu, hanya satu banner aktif yang terhubung ke Zona Email. Pastikan bahwa kampanye yang sudah tertaut ke zona tidak memiliki tanggal yang tumpang tindih dengan kampanye yang ingin Anda tautkan.";
 $GLOBALS['strWarningInaccurateStats'] = "Beberapa statistik ini masuk dalam zona waktu non-UTC, dan mungkin tidak ditampilkan di zona waktu yang benar.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Baca lebih lanjut tentang ini";
 $GLOBALS['strWarningInaccurateReport'] = "Beberapa statistik dalam laporan ini masuk dalam zona waktu non-UTC, dan mungkin tidak ditampilkan di zona waktu yang benar";
@@ -980,7 +1001,9 @@ $GLOBALS['strConfirmDeleteAgency'] = "Apakah benar Anda ingin menghapus zona ini
 $GLOBALS['strHideInactiveAgencies'] = "Hide inactive agencies";
 $GLOBALS['strInactiveAgenciesHidden'] = "zona yang tidak aktif tersembunyi";
 $GLOBALS['strSwitchAccount'] = "Beralih ke akun ini";
+$GLOBALS['strAgencyStatusRunning'] = "";
 $GLOBALS['strAgencyStatusInactive'] = "aktif";
+$GLOBALS['strAgencyStatusPaused'] = "";
 
 // Channels
 $GLOBALS['strChannel'] = "Set Aturan Pengiriman";
@@ -1023,22 +1046,38 @@ $GLOBALS['strVariableCode'] = "Kode pelacak berbasis Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Lupa kata sandi Anda?";
+$GLOBALS['strPasswordRecovery'] = "";
+$GLOBALS['strWelcomePage'] = "";
+$GLOBALS['strWelcomePageText'] = "";
 $GLOBALS['strEmailRequired'] = "Pengisian alamat E-mail diwajibkan!";
+$GLOBALS['strPwdRecWrongExpired'] = "";
 $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah ini";
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";
 $GLOBALS['strProceed'] = "Lanjut &gt;";
+$GLOBALS['strNotifyPageMessage'] = "";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "";
+$GLOBALS['strPwdRecEmailBody'] = "";
 
+$GLOBALS['strPwdRecEmailSincerely'] = "";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "";
+$GLOBALS['strWelcomeEmailBody'] = "";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "";
+$GLOBALS['strPasswordUpdateEmailBody'] = "";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "";
+$GLOBALS['strPasswordResetRequired'] = "";
+$GLOBALS['strPasswordUnsafeWarning'] = "";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "dan item tambahan";
+$GLOBALS['strAuditSystem'] = "";
 $GLOBALS['strFor'] = "untuk";
 $GLOBALS['strHas'] = "telah";
 $GLOBALS['strBinaryData'] = "Data biner";
@@ -1049,16 +1088,16 @@ $GLOBALS['strAuditNoData'] = "Tidak ada aktivitas pengguna yang tercatat selama 
 $GLOBALS['strAuditTrail'] = "Jejak audit";
 $GLOBALS['strAuditTrailSetup'] = "Setup Audit Trail hari ini";
 $GLOBALS['strAuditTrailGoTo'] = "Buka halaman Audit Trail";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Jejak Audit memungkinkan Anda melihat siapa yang melakukan apa dan kapan. Atau dengan kata lain, itu melacak perubahan sistem di dalamnya{$PRODUCT_NAME}</li>
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Jejak Audit memungkinkan Anda melihat siapa yang melakukan apa dan kapan. Atau dengan kata lain, itu melacak perubahan sistem di dalamnya{{PRODUCT_NAME}}</li>
         <li>Anda melihat pesan ini, karena Anda belum mengaktifkan Jejak Audit </li>
-        <li>Tertarik belajar lebih banyak? Baca <a<a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >Dokumentasi Audit Trail </a></li>";
+        <li>Tertarik belajar lebih banyak? Baca <a<a href='{{PRODUCT_DOCSURL}}/admin/settings/auditTrail' class='site-link' target='help' >Dokumentasi Audit Trail </a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Buka halaman Kampanye";
 $GLOBALS['strCampaignSetUp'] = "Buat Kampanye hari ini";
 $GLOBALS['strCampaignNoRecords'] = "<li>Kampanye memungkinkan Anda mengelompokkan sejumlah iklan spanduk, dari ukuran apa pun, yang berbagi persyaratan periklanan umum </li>
         <li>Hemat waktu dengan mengelompokkan spanduk dalam kampanye dan tidak lagi menentukan setelan pengiriman untuk setiap iklan secara terpisah </li>
-        <li>Periksa<a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Dokumentasi kampanye </a>! </li>";
+        <li>Periksa<a class='site-link' target='help' href='{{PRODUCT_DOCSURL}}/user/inventory/advertisersAndCampaigns/campaigns'>Dokumentasi kampanye </a>! </li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Tidak ada aktivitas kampanye yang ditampilkan. </li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Tidak ada kampanye yang dimulai atau selesai selama jangka waktu yang telah Anda pilih";
@@ -1068,6 +1107,8 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Aktifkan Trail Audit untuk mulai melih
 
 $GLOBALS['strUnsavedChanges'] = "Anda memiliki perubahan yang belum disimpan di halaman ini, pastikan Anda menekan &quot; Simpan Perubahan &quot; saat selesai";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "PERINGATAN: Aturan pengiriman dalam cache <strong> JANGAN SETUJU </strong> dengan aturan pengiriman yang ditunjukkan di bawah ini <br/> Tolong tekan simpan perubahan untuk memperbarui aturan pengiriman tembolok";
+$GLOBALS['strDeliveryRulesDbError'] = "";
+$GLOBALS['strDeliveryRulesTruncation'] = "";
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Beberapa peraturan pengiriman melaporkan nilai yang salah:";
 
 //confirmation messages
@@ -1116,6 +1157,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> telah ditambah
 $GLOBALS['strWebsiteHasBeenUpdated'] = "Situs web <a href='%s'>%s</a> telah diperbarui";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Situs web <b>%s</b> sudah dihapus";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "Semua situs web yang dipilih telah dihapus";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Zona <a href='%s'>%s</a> telah ditambahkan";
 $GLOBALS['strZoneHasBeenUpdated'] = "Zona <a href='%s'>%s</a> telah diperbarui";
@@ -1131,6 +1173,7 @@ $GLOBALS['strZoneRemovedCampaign'] = "Kampanye telah dibatalkan dari zona <a hre
 
 $GLOBALS['strChannelHasBeenAdded'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah ditambahkan. <a href='%s'>Tetapkan aturan pengiriman.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah diperbarui";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "";
 $GLOBALS['strChannelHasBeenDeleted'] = "Aturan pengiriman ditetapkan <b>%s</b> sudah dihapus";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Semua kumpulan aturan pengiriman yang dipilih telah dihapus";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";
@@ -1150,11 +1193,18 @@ $GLOBALS['strReportErrorUnknownCode'] = "Kode kesalahan tidak diketahui #";
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = '';
+$GLOBALS['strPasswordTooShort'] = "";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "";
+$GLOBALS['strPasswordScore'][1] = "";
+$GLOBALS['strPasswordScore'][2] = "";
+$GLOBALS['strPasswordScore'][3] = "";
+$GLOBALS['strPasswordScore'][4] = "";
 
 
 /* ------------------------------------------------------- */
@@ -1163,9 +1213,11 @@ if (!isset($GLOBALS['strPasswordScore'])) {
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "";
 $GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
+$GLOBALS['keyList'] = "";
 
 // Other keys
 // Please make sure you underline the key you
@@ -1177,3 +1229,4 @@ $GLOBALS['keyAddNew'] = "n";
 $GLOBALS['keyNext'] = "n";
 $GLOBALS['keyPrevious'] = "p";
 $GLOBALS['keyLinkUser'] = "u";
+$GLOBALS['keyWorkingAs'] = "";

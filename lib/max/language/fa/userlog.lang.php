@@ -40,5 +40,13 @@ $GLOBALS['strClear'] = "پاک کردن";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "";
 $GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "کمپین {id} غیر فعال شد";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";

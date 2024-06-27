@@ -17,13 +17,13 @@ $GLOBALS['strAppendCodes'] = "Agregar códigos";
 // Maintenance
 $GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>El mantenimiento programado no se ha ejecutado en la pasada hora. Esto puede significar que no lo haya configurado correctamente.</b>";
 
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "El mantenimiento automático está habilitado, pero no ha sido ejecutado. El mantenimiento automático se ejecuta únicamente cuando {$PRODUCT_NAME} entrega algún banners. Para un mejor rendimiento, debería configurar  el <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>mantenimiento programado</a>.";
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "El mantenimiento automático está habilitado, pero no ha sido ejecutado. El mantenimiento automático se ejecuta únicamente cuando {{PRODUCT_NAME}} entrega algún banners. Para un mejor rendimiento, debería configurar  el <a href='{{PRODUCT_DOCSURL}}/maintenance' target='_blank'>mantenimiento programado</a>.";
 
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "El mantenimiento automático está deshabilitado, así que cuando {$PRODUCT_NAME} entregue banners, el mantenimiento automático no se ejecutará. Para un mejor performance, puede configurar un <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>mantenimiento programado</a>. Sin embargo, si no va a configurar un <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>mantenimiento programado</a>, entonces <i>debe</i> <a href='account-settings-maintenance.php'>activar un mantenimiento programado</a> para asegurarse que {$PRODUCT_NAME} funcione 'correctamente.'";
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "El mantenimiento automático está deshabilitado, así que cuando {{PRODUCT_NAME}} entregue banners, el mantenimiento automático no se ejecutará. Para un mejor performance, puede configurar un <a href='{{PRODUCT_DOCSURL}}/maintenance' target='_blank'>mantenimiento programado</a>. Sin embargo, si no va a configurar un <a href='{{PRODUCT_DOCSURL}}/maintenance' target='_blank'>mantenimiento programado</a>, entonces <i>debe</i> <a href='account-settings-maintenance.php'>activar un mantenimiento programado</a> para asegurarse que {{PRODUCT_NAME}} funcione 'correctamente.'";
 
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "Mantenimiento automático está habilitado y será ejecutado, como es requerido, cuando {$PRODUCT_NAME} entregue banners. Sin embargo, para un mejor rendimiento, debería configurar el<<a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>mantenimiento programado</a>.";
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "Mantenimiento automático está habilitado y será ejecutado, como es requerido, cuando {{PRODUCT_NAME}} entregue banners. Sin embargo, para un mejor rendimiento, debería configurar el<<a href='{{PRODUCT_DOCSURL}}/maintenance' target='_blank'>mantenimiento programado</a>.";
 
-$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "El mantenimiento automático ha sido recientemente deshabilitado. Para asegurar que {$PRODUCT_NAME} funciona correctamente, debería configurar el <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>mantenimiento programado</a> o bien<a href='account-settings-maintenance.php'>volver a habilitar el mantenimiento automático</a>.<br><br>Para un mejor rendimiento, debería configurar el <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>mantenimiento programado</a>.";
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "El mantenimiento automático ha sido recientemente deshabilitado. Para asegurar que {{PRODUCT_NAME}} funciona correctamente, debería configurar el <a href='{{PRODUCT_DOCSURL}}/maintenance' target='_blank'>mantenimiento programado</a> o bien<a href='account-settings-maintenance.php'>volver a habilitar el mantenimiento automático</a>.<br><br>Para un mejor rendimiento, debería configurar el <a href='{{PRODUCT_DOCSURL}}/maintenance' target='_blank'>mantenimiento programado</a>.";
 
 $GLOBALS['strScheduledMantenaceRunning'] = "<b>El mantenimiento programado se está ejecutando correctamente.</b>";
 
@@ -44,8 +44,8 @@ $GLOBALS['strRebuildDeliveryCache'] = "Reconstruir la base de datos de banner";
 $GLOBALS['strBannerCacheExplaination'] = "    La base de datos de cache de banner se usa para agilizar la muestra de banners durante la entrega<br />
     Esta cache necesita ser actualizada cuando:
       <ul>
-         <li>Actualice su versión de {$PRODUCT_NAME}</li>
-         <li>Traslade su instalación de {$PRODUCT_NAME} a un servidor diferente</li>
+         <li>Actualice su versión de {{PRODUCT_NAME}}</li>
+         <li>Traslade su instalación de {{PRODUCT_NAME}} a un servidor diferente</li>
       </ul>";
 
 // Cache
@@ -60,10 +60,15 @@ $GLOBALS['strMoveToDirectory'] = "Mover imágenes almacenadas en la base de dato
 $GLOBALS['strStorageExplaination'] = "Las imágenes usadas por banners locales están almacenadas en la base de datos o bien en un directorio. Si almacena las imagenes en un directorio la carga en la base de datos se verá reducida y esto provocará que aumente su velocidad.";
 
 // Security
+$GLOBALS['strSecurity'] = "";
+$GLOBALS['strSecurityExplanation'] = "";
+$GLOBALS['strSecurityOK'] = "";
+$GLOBALS['strSecurityKO'] = "";
+$GLOBALS['strSecurityReadMore'] = "";
 
 // Encoding
 $GLOBALS['strEncoding'] = "Codificación";
-$GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} ahora almacena todos los datos en la base de datos en formato UTF-8<br />Cuando sea posible, sus datos serán convertidos automáticamente a esta codificación.<br />Si después de actualizar encuentra caracteres corruptos, y conoce la codificación usada, puede usar esta herramienta para convertir los datos de ese formato a UTF-8";
+$GLOBALS['strEncodingExplaination'] = "{{PRODUCT_NAME}} ahora almacena todos los datos en la base de datos en formato UTF-8<br />Cuando sea posible, sus datos serán convertidos automáticamente a esta codificación.<br />Si después de actualizar encuentra caracteres corruptos, y conoce la codificación usada, puede usar esta herramienta para convertir los datos de ese formato a UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Convertir desde esta codificación";
 $GLOBALS['strEncodingConvertTest'] = "Probar conversión";
 $GLOBALS['strConvertThese'] = "Los siguientes datos serán cambiados si continúa";
@@ -74,11 +79,11 @@ $GLOBALS['strAvailableUpdates'] = "Hay actualizaciones disponibles";
 $GLOBALS['strDownloadZip'] = "Descargar (.zip)";
 $GLOBALS['strDownloadGZip'] = "Descargar (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "Se ha encontrado una nueva versión de {$PRODUCT_NAME} disponible.
+$GLOBALS['strUpdateAlert'] = "Se ha encontrado una nueva versión de {{PRODUCT_NAME}} disponible.
 
 Desea obtener mas información
 sobre esta actualización?";
-$GLOBALS['strUpdateAlertSecurity'] = "Se ha encontrado una nueva versión de {$PRODUCT_NAME} disponible.
+$GLOBALS['strUpdateAlertSecurity'] = "Se ha encontrado una nueva versión de {{PRODUCT_NAME}} disponible.
 
 Es altamente recomendable que actualice el sistema
 tan pronto como sea posible, ya que
@@ -86,18 +91,18 @@ esta versión contiene uno o más parches para problemas de seguridad.";
 
 $GLOBALS['strUpdateServerDown'] = "Debido a razones desconocidas es imposible obtener<br />información sobre posibles actualizaciones. Por favor, inténtelo mas tarde.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "Su versión de {$PRODUCT_NAME} se encuentra actualizada. No hay actualizaciones disponibles.";
+$GLOBALS['strNoNewVersionAvailable'] = "Su versión de {{PRODUCT_NAME}} se encuentra actualizada. No hay actualizaciones disponibles.";
 
-$GLOBALS['strServerCommunicationError'] = "<b>La comunicación con el servidor de actualización ha tardado demasiado tiempo, por lo cual {$PRODUCT_NAME} no puede determinar si existe una nueva versión disponible en este momento. Por favor, intente nuevamente más tarde.</b>";
+$GLOBALS['strServerCommunicationError'] = "<b>La comunicación con el servidor de actualización ha tardado demasiado tiempo, por lo cual {{PRODUCT_NAME}} no puede determinar si existe una nueva versión disponible en este momento. Por favor, intente nuevamente más tarde.</b>";
 
 $GLOBALS['strCheckForUpdatesDisabled'] = "<b>Comprobar actualizaciones está deshabilitado. Por favor habilite esa opción en la pantalla <a href='account-settings-update.php'>actualizar opciones</a>.</b>";
 
-$GLOBALS['strNewVersionAvailable'] = "<b>Una nueva versión de {$PRODUCT_NAME} se encuentra disponible.</b><br /> Se recomienda instalar esta actualización, ya que puede arreglar algunos problemas existentes y agregar características nuevas. Para más información sobre actualizaciones, por favor lea la documentación incluída en los archivos.";
+$GLOBALS['strNewVersionAvailable'] = "<b>Una nueva versión de {{PRODUCT_NAME}} se encuentra disponible.</b><br /> Se recomienda instalar esta actualización, ya que puede arreglar algunos problemas existentes y agregar características nuevas. Para más información sobre actualizaciones, por favor lea la documentación incluída en los archivos.";
 
 $GLOBALS['strSecurityUpdate'] = "<b>Es altamente recomendable instalar esta actualización, ya que contiene parches de seguridad.</b>
 La versión de  que se encuentra usando es vulnerable a ciertos ataques y probablemente no sea segura. Para mayor información sobre actualizaciones, por favor lea la documentación incluída en los archivos.";
 
-$GLOBALS['strNotAbleToCheck'] = "<b>Debido a que la extensión XML no está disponible en su servidor, {$PRODUCT_NAME} no puede comprobar si hay una nueva versión disponible.</b>";
+$GLOBALS['strNotAbleToCheck'] = "<b>Debido a que la extensión XML no está disponible en su servidor, {{PRODUCT_NAME}} no puede comprobar si hay una nueva versión disponible.</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = "Si quiere saber si hay una nueva versión disponible, por favor, consulte en nuestra página web.";
 
@@ -108,9 +113,15 @@ $GLOBALS['strAndPlain'] = "y";
 
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Reglas de Entrega";
+$GLOBALS['strAllBannerChannelCompiled'] = "";
+$GLOBALS['strBannerChannelResult'] = "";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "";
 $GLOBALS['strErrorsFound'] = "Errores encontrados";
 $GLOBALS['strRepairCompiledLimitations'] = "Se encontraron algunas incosistencias anteriormente, puede repararlas usando el botón de abajo, este recompilará las limitaciones compiladas para cada banner/canal en el sistema<br />";
 $GLOBALS['strRecompile'] = "Recompilar";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "";
+$GLOBALS['strCheckACLs'] = "";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Bajo algunas circustancias el motor de entrega puede discrepar con algunos de los códigos agregados para los trackers, use el siguiente enlace para validar los códigos agregados a la base de datos ";
@@ -121,10 +132,15 @@ $GLOBALS['strAppendCodesValid'] = "Todos los trackers de los códigos agregados 
 $GLOBALS['strRepairAppenedCodes'] = "Se encontraron algunas inconsistencias arriba, puede repararlas usando el botón de abajo, esto recompilará los códigos agregados para cada tracker en el sistema";
 
 $GLOBALS['strPlugins'] = "Plugins";
-$GLOBALS['strPluginsPrecis'] = "Diagnosticar y reparar problemas con plugins de {$PRODUCT_NAME}";
+$GLOBALS['strPluginsPrecis'] = "Diagnosticar y reparar problemas con plugins de {{PRODUCT_NAME}}";
 
 $GLOBALS['strMenus'] = "Menús";
 $GLOBALS['strMenusPrecis'] = "Reconstruir la cache de menú";
 $GLOBALS['strMenusCachedOk'] = "Caché de menú ha sido reconstruido";
 
 // Users
+$GLOBALS['strUserPasswords'] = "";
+$GLOBALS['strUserPasswordsExplaination'] = "";
+$GLOBALS['strCheckUserPasswords'] = "";
+$GLOBALS['strUserPasswordsEverythingOK'] = "";
+$GLOBALS['strUserPasswordsEmailsSent'] = "";

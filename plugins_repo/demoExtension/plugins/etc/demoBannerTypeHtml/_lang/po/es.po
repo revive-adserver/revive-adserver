@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /demoExtension/plugins/etc/demoBannerTypeHtml/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 288\n"
+"PO-Revision-Date: 2024-03-28 08:11\n"
 
 #: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:34
 msgid "Demonstration Plugin HTML Banner Type"

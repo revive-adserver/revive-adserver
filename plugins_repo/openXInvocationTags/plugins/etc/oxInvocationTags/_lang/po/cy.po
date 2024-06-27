@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: cy\n"
 "X-Crowdin-File: /openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 250\n"
+"PO-Revision-Date: 2024-03-28 08:11\n"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:35
 msgid "iFrame Tag"

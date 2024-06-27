@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Client/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 364\n"
+"PO-Revision-Date: 2021-09-27 08:00\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:63
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:64

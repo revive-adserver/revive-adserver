@@ -17,17 +17,21 @@ $GLOBALS['strInstallStatusUpgrade'] = 'Actualizando a Revive Adserver %s';
 $GLOBALS['strInstallStatusUpToDate'] = 'Detectada Revive Adserver %s';
 
 /** welcome step * */
-$GLOBALS['strWelcomeTitle'] = "Bienvenido a {$PRODUCT_NAME}";
-$GLOBALS['strInstallIntro'] = "Gracias por elegir {$PRODUCT_NAME}. Este asistente le guiará por el proceso de instalación de {$PRODUCT_NAME}.";
-$GLOBALS['strUpgradeIntro'] = "Gracias por elegir {$PRODUCT_NAME}. Este asistente le guiará a través del proceso de actualización {$PRODUCT_NAME}.";
-$GLOBALS['strInstallerHelpIntro'] = "Para ayudarle con el proceso de instalación de {$PRODUCT_NAME}, por favor, consulte la <a href='{$PRODUCT_DOCSURL}' target='_blank'> documentación</a>.";
-$GLOBALS['strTermsIntro'] = "{$PRODUCT_NAME} se distribuye libremente bajo una licencia de código abierto, la Licencia Pública General de GNU. Por favor revisar y aceptar los siguientes documentos para continuar la instalación.";
+$GLOBALS['strWelcomeTitle'] = "Bienvenido a {{PRODUCT_NAME}}";
+$GLOBALS['strInstallIntro'] = "Gracias por elegir {{PRODUCT_NAME}}. Este asistente le guiará por el proceso de instalación de {{PRODUCT_NAME}}.";
+$GLOBALS['strUpgradeIntro'] = "Gracias por elegir {{PRODUCT_NAME}}. Este asistente le guiará a través del proceso de actualización {{PRODUCT_NAME}}.";
+$GLOBALS['strInstallerHelpIntro'] = "Para ayudarle con el proceso de instalación de {{PRODUCT_NAME}}, por favor, consulte la <a href='{{PRODUCT_DOCSURL}}' target='_blank'> documentación</a>.";
+$GLOBALS['strTermsIntro'] = "{{PRODUCT_NAME}} se distribuye libremente bajo una licencia de código abierto, la Licencia Pública General de GNU. Por favor revisar y aceptar los siguientes documentos para continuar la instalación.";
 
 /** check step * */
 $GLOBALS['strSystemCheck'] = "Comprobación del sistema";
+$GLOBALS['strSystemCheckIntro'] = "";
+$GLOBALS['strFixErrorsBeforeContinuing'] = "";
 
-$GLOBALS['strAppCheckErrors'] = "Se encontraron errores al detectar instalaciones previas de {$PRODUCT_NAME}";
+$GLOBALS['strAppCheckErrors'] = "Se encontraron errores al detectar instalaciones previas de {{PRODUCT_NAME}}";
+$GLOBALS['strAppCheckDbIntegrityError'] = "";
 
+$GLOBALS['strSyscheckProgressMessage'] = "";
 $GLOBALS['strError'] = "Error";
 $GLOBALS['strWarning'] = "Advertencia";
 $GLOBALS['strOK'] = "Aceptar";
@@ -44,28 +48,61 @@ $GLOBALS['strCheckWarning'] = 'advertencia';
 $GLOBALS['strCheckWarnings'] = 'advertencias';
 
 /** admin login step * */
-$GLOBALS['strAdminLoginTitle'] = "Inicie sesión como el administrador de {$PRODUCT_NAME}";
-$GLOBALS['strAdminLoginIntro'] = "Para continuar, ingrese la información de inicio de sesión de la cuenta del administrador de {$PRODUCT_NAME}.";
+$GLOBALS['strAdminLoginTitle'] = "Inicie sesión como el administrador de {{PRODUCT_NAME}}";
+$GLOBALS['strAdminLoginIntro'] = "Para continuar, ingrese la información de inicio de sesión de la cuenta del administrador de {{PRODUCT_NAME}}.";
 $GLOBALS['strLoginProgressMessage'] = 'Iniciando la sesión...';
 
 /** database step * */
+$GLOBALS['strDbSetupTitle'] = "";
+$GLOBALS['strDbSetupIntro'] = "";
 $GLOBALS['strDbUpgradeTitle'] = "Se ha detectado su base de datos";
+$GLOBALS['strDbUpgradeIntro'] = "";
 $GLOBALS['strDbProgressMessageInstall'] = 'Instalando base de datos...';
 $GLOBALS['strDbProgressMessageUpgrade'] = 'Actualizando base de datos...';
 $GLOBALS['strDbSeeMoreFields'] = 'Ver más campos de la base de datos...';
+$GLOBALS['strDbTimeZoneWarning'] = "";
+$GLOBALS['strDbTimeZoneNoWarnings'] = "";
 $GLOBALS['strDBInstallSuccess'] = "Base de datos creada con éxito";
 $GLOBALS['strDBUpgradeSuccess'] = "Base de datos actualizada con éxito";
 
-$GLOBALS['strDetectedVersion'] = "Versión {$PRODUCT_NAME} detectada";
+$GLOBALS['strDetectedVersion'] = "Versión {{PRODUCT_NAME}} detectada";
 
 /** config step * */
+$GLOBALS['strConfigureInstallTitle'] = "";
+$GLOBALS['strConfigureInstallIntro'] = "";
 $GLOBALS['strConfigureUpgradeTitle'] = "Ajustes de configuración";
-$GLOBALS['strConfigureUpgradeIntro'] = "Proporcione la ruta a la instalación anterior de {$PRODUCT_NAME}.";
+$GLOBALS['strConfigureUpgradeIntro'] = "Proporcione la ruta a la instalación anterior de {{PRODUCT_NAME}}.";
 $GLOBALS['strConfigSeeMoreFields'] = "Ver más campos de configuración...";
 $GLOBALS['strPreviousInstallTitle'] = "Instalación anterior";
-$GLOBALS['strConfigureProgressMessage'] = "Configurando {$PRODUCT_NAME}...";
+$GLOBALS['strPathToPrevious'] = "";
+$GLOBALS['strPathToPreviousError'] = "";
+$GLOBALS['strConfigureProgressMessage'] = "Configurando {{PRODUCT_NAME}}...";
 
 /** jobs step * */
+$GLOBALS['strJobsInstallTitle'] = "";
+$GLOBALS['strJobsInstallIntro'] = "";
+$GLOBALS['strJobsUpgradeTitle'] = "";
+$GLOBALS['strJobsUpgradeIntro'] = "";
+$GLOBALS['strJobsProgressInstallMessage'] = "";
+$GLOBALS['strJobsProgressUpgradeMessage'] = "";
 
+$GLOBALS['strPluginTaskChecking'] = "";
+$GLOBALS['strPluginTaskInstalling'] = "";
+$GLOBALS['strPostInstallTaskRunning'] = "";
 
 /** finish step * */
+$GLOBALS['strFinishInstallTitle'] = "";
+$GLOBALS['strFinishUpgradeWithErrorsTitle'] = "";
+$GLOBALS['strFinishUpgradeTitle'] = "";
+$GLOBALS['strFinishInstallWithErrorsTitle'] = "";
+$GLOBALS['strDetailedTaskErrorList'] = "";
+$GLOBALS['strPluginInstallFailed'] = "";
+$GLOBALS['strTaskInstallFailed'] = "";
+$GLOBALS['strContinueToLogin'] = "";
+
+$GLOBALS['strUnableCreateConfFile'] = "";
+$GLOBALS['strUnableUpdateConfFile'] = "";
+$GLOBALS['strUnableToCreateAdmin'] = "";
+$GLOBALS['strTimezoneLocal'] = "";
+
+$GLOBALS['strInstallNonBlockingErrors'] = "";

@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: he\n"
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 366\n"
+"PO-Revision-Date: 2024-03-28 08:11\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:75

@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: de\n"
 "X-Crowdin-File: /apVideo/plugins/etc/apVideoUI/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 407\n"
+"PO-Revision-Date: 2024-03-07 08:09\n"
 
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/banner-alt-media.php:83
 #: plugins_repo/apVideo/www/admin/plugins/apVideoUI/navigation/videoBannerChecker.php:31

@@ -14,18 +14,23 @@
 $GLOBALS['phpAds_TextDirection'] = "rtl";
 $GLOBALS['phpAds_TextAlignRight'] = "left";
 $GLOBALS['phpAds_TextAlignLeft'] = "right";
+$GLOBALS['phpAds_CharSet'] = "";
 
 $GLOBALS['phpAds_DecimalPoint'] = ".";
 $GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%d/%m/%Y";
+$GLOBALS['time_format'] = "";
+$GLOBALS['minute_format'] = "";
 $GLOBALS['month_format'] = "%m/%Y";
 $GLOBALS['day_format'] = "%d/%m";
 $GLOBALS['week_format'] = "%W/%Y";
 $GLOBALS['weekiso_format'] = "%V/%G";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
+$GLOBALS['excel_integer_formatting'] = "";
+$GLOBALS['excel_decimal_formatting'] = "";
 
 /* ------------------------------------------------------- */
 /* Translations                                          */
@@ -154,10 +159,14 @@ $GLOBALS['strUsernameToLink'] = "שם משתמש למשתמש החדש";
 $GLOBALS['strNewUserWillBeCreated'] = "משתמש חדש יווצר";
 $GLOBALS['strToLinkProvideEmail'] = "כדי להוסיף משתמש, הקש כתובת דוא''ל";
 $GLOBALS['strToLinkProvideUsername'] = "כדי להוסיף משתמש, אנא הקש שם משתמש";
+$GLOBALS['strUserLinkedToAccount'] = "";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "";
 $GLOBALS['strUserAccountUpdated'] = "חשבון משתמש עודכן.";
+$GLOBALS['strUserUnlinkedFromAccount'] = "";
 $GLOBALS['strUserWasDeleted'] = "המשתמש נמחק.";
 $GLOBALS['strUserNotLinkedWithAccount'] = "משתמש זה לא מקושר לחשבון בזה.";
-$GLOBALS['strLinkUserHelp'] = "בכדי להוסיף <b>משתמש קיים</b>, הקלד את %1\$s ולחץ על %2\$s <br /> כדי להוסיף <b>משתמש חדש</b>, הקלד את %1\$s הרצוי ולחץ על %2\$s";
+$GLOBALS['strCantDeleteOneAdminUser'] = "";
+$GLOBALS['strLinkUserHelp'] = "בכדי להוסיף <b>משתמש קיים</b>, הקלד את %1\\$s ולחץ על %2\\$s <br /> כדי להוסיף <b>משתמש חדש</b>, הקלד את %1\\$s הרצוי ולחץ על %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "שם משתמש";
 $GLOBALS['strLinkUserHelpEmail'] = "דוא''ל";
 $GLOBALS['strLastLoggedIn'] = "התחברות אחרונה:";
@@ -172,7 +181,7 @@ $GLOBALS['strAuthentification'] = "אימות";
 $GLOBALS['strWelcomeTo'] = "ברוכים הבאים ל";
 $GLOBALS['strEnterUsername'] = "נא להכניס שם וסיסמא כדי להיכנס";
 $GLOBALS['strEnterBoth'] = "אנא הזן את שם המשתמש והסיסמא";
-$GLOBALS['strEnableCookies'] = "עליך לאפשר קוקיס (cookies) לפני השימוש ב-{$PRODUCT_NAME}";
+$GLOBALS['strEnableCookies'] = "עליך לאפשר קוקיס (cookies) לפני השימוש ב-{{PRODUCT_NAME}}";
 $GLOBALS['strSessionIDNotMatch'] = "אירעה שגיאת עוגיה. עליך להתחבר מחדש.";
 $GLOBALS['strLogin'] = "התחבר";
 $GLOBALS['strLogout'] = "התנתק";
@@ -288,8 +297,10 @@ $GLOBALS['strSendDeactivationWarning'] = "שלח אזהרה אם התעמולה 
 $GLOBALS['strAllowClientModifyBanner'] = "אפשר למשתמש זה לשנות את הבאנרים שלו";
 $GLOBALS['strAllowClientDisableBanner'] = "אפשר למשתמש זה לשתק באנרים בעצמו";
 $GLOBALS['strAllowClientActivateBanner'] = "אפשר למשתמש זה להפעיל באנרים בעצמו";
+$GLOBALS['strAllowCreateAccounts'] = "";
 $GLOBALS['strAdvertiserLimitation'] = "הצג רק באנר אחד ממפרסם זה בדף אינטרנט";
 $GLOBALS['strAllowAuditTrailAccess'] = "אפשר למשתמש זה לגשת לדוח ביקורת";
+$GLOBALS['strAllowDeleteItems'] = "";
 
 // Campaign
 $GLOBALS['strCampaign'] = "קמפיין";
@@ -461,6 +472,7 @@ $GLOBALS['strImpression'] = "Impression";
 $GLOBALS['strConversionType'] = "Conversion Type";
 $GLOBALS['strLinkCampaignsByDefault'] = "Link newly created campaigns by default";
 $GLOBALS['strBackToTrackers'] = "Back to trackers";
+$GLOBALS['strIPAddress'] = "";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "באנר";
@@ -470,6 +482,7 @@ $GLOBALS['strAddBanner_Key'] = "הוסף באנר <u>ח</u>דש";
 $GLOBALS['strBannerToCampaign'] = "לקמפיין";
 $GLOBALS['strShowBanner'] = "הצג באנר";
 $GLOBALS['strBannerProperties'] = "מאפייני באנר";
+$GLOBALS['strBannerHistory'] = "";
 $GLOBALS['strNoBanners'] = "אין באנרים בקמפיין זה.";
 $GLOBALS['strNoBannersAddCampaign'] = "כרגע אין באנרים מוגדרים, כי אין קמפיינים. כדי ליצור באנר, <a href='campaign-edit.php?clientid=%s'> להוסיף קמפיין חדש </a> תחילה.";
 $GLOBALS['strNoBannersAddAdvertiser'] = "כרגע אין באנרים המוגדרים, כי אין מפרסמים. כדי ליצור באנר, <a href='advertiser-edit.php'> להוסיף מפרסם חדש </a> תחילה.";
@@ -517,11 +530,15 @@ $GLOBALS['strTextBelow'] = "כיתוב שמתחת לבאנר";
 $GLOBALS['strWeight'] = "משקל";
 $GLOBALS['strAlt'] = "כיתוב חלופי";
 $GLOBALS['strStatusText'] = "כיתוב בשורת הסטטוס";
+$GLOBALS['strCampaignsWeight'] = "";
 $GLOBALS['strBannerWeight'] = "משקל הבאנר";
+$GLOBALS['strBannersWeight'] = "";
 $GLOBALS['strAdserverTypeGeneric'] = "באנר HTML כללי";
 $GLOBALS['strDoNotAlterHtml'] = "אל תשנה את ה-HTML";
 $GLOBALS['strGenericOutputAdServer'] = "כללי";
 $GLOBALS['strBackToBanners'] = "לחזור באנרים";
+$GLOBALS['strUseWyswygHtmlEditor'] = "";
+$GLOBALS['strChangeDefault'] = "";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "תמיד להוסיף HTML לפני הבאנר:";
@@ -564,16 +581,19 @@ $GLOBALS['strDeliveryCappingSession'] = "בכל סשן";
 if (!isset($GLOBALS['strCappingBanner'])) {
     $GLOBALS['strCappingBanner'] = [];
 }
+$GLOBALS['strCappingBanner']['title'] = "";
 $GLOBALS['strCappingBanner']['limit'] = "להגביל צפיית באנרים ל:";
 
 if (!isset($GLOBALS['strCappingCampaign'])) {
     $GLOBALS['strCappingCampaign'] = [];
 }
+$GLOBALS['strCappingCampaign']['title'] = "";
 $GLOBALS['strCappingCampaign']['limit'] = "להגביל צפיית קמפיין ל:";
 
 if (!isset($GLOBALS['strCappingZone'])) {
     $GLOBALS['strCappingZone'] = [];
 }
+$GLOBALS['strCappingZone']['title'] = "";
 $GLOBALS['strCappingZone']['limit'] = "להגביל צפיית באיזורים ל:";
 
 // Website
@@ -720,6 +740,11 @@ $GLOBALS['strShortcutShowStatuses'] = "Show statuses";
 $GLOBALS['strStats'] = "סטטיסטיקה";
 $GLOBALS['strNoStats'] = "לא קיימת סטטיסטיקה עדיין.";
 $GLOBALS['strNoStatsForPeriod'] = "כרגע אין סטטיסטיקות זמינות לתקופה של% ל% s";
+$GLOBALS['strGlobalHistory'] = "";
+$GLOBALS['strDailyHistory'] = "";
+$GLOBALS['strDailyStats'] = "";
+$GLOBALS['strWeeklyHistory'] = "";
+$GLOBALS['strMonthlyHistory'] = "";
 $GLOBALS['strTotalThisPeriod'] = "סך הכל לתקופה זו";
 $GLOBALS['strPublisherDistribution'] = "היתפלגות אתר ";
 $GLOBALS['strCampaignDistribution'] = "היתפלגות קמפיין";
@@ -730,6 +755,10 @@ $GLOBALS['strBreakdownByMonth'] = "חודש";
 $GLOBALS['strBreakdownByDow'] = "יו םבשבוע";
 $GLOBALS['strBreakdownByHour'] = "שעה";
 $GLOBALS['strItemsPerPage'] = "פריטים לעמוד";
+$GLOBALS['strDistributionHistoryCampaign'] = "";
+$GLOBALS['strDistributionHistoryBanner'] = "";
+$GLOBALS['strDistributionHistoryWebsite'] = "";
+$GLOBALS['strDistributionHistoryZone'] = "";
 $GLOBALS['strShowGraphOfStatistics'] = "Show <u>G</u>raph of Statistics";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xport Statistics to Excel";
 $GLOBALS['strGDnotEnabled'] = "You must have GD enabled in PHP to display graphs. <br />Please see <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for more information, including how to install GD on your server.";
@@ -776,17 +805,20 @@ $GLOBALS['strBackToTheList'] = "Go back to report list";
 $GLOBALS['strCharset'] = "Character set";
 $GLOBALS['strAutoDetect'] = "זיהוי אוטומטי";
 $GLOBALS['strCacheBusterComment'] = "  * להחליף את כל המופעים של {random} עם * מספר אקראי שנוצר (או חותמת זמן).   *";
+$GLOBALS['strGenerateHttpsTags'] = "";
 
 // Errors
+$GLOBALS['strErrorDatabaseConnection'] = "";
+$GLOBALS['strErrorCantConnectToDatabase'] = "";
 $GLOBALS['strNoMatchesFound'] = "לא נמצאו תוצאות";
 $GLOBALS['strErrorOccurred'] = "אירעה שגיאה";
 $GLOBALS['strErrorDBPlain'] = "ארעה שגיאה בגישה לבסיס הנתונים";
 $GLOBALS['strErrorDBSerious'] = "ארעה שגיאה חמורה בבסיס הנתונים";
-$GLOBALS['strErrorDBNoDataPlain'] = "עקב בעיה עם מסד הנתונים {$PRODUCT_NAME} לא הצלחתי לאחזר או לאחסן נתונים. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "עקב בעיה חמורה בבסיס הנתוניא, {$PRODUCT_NAME} לא יכלה להשיג מידע.";
+$GLOBALS['strErrorDBNoDataPlain'] = "עקב בעיה עם מסד הנתונים {{PRODUCT_NAME}} לא הצלחתי לאחזר או לאחסן נתונים. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "עקב בעיה חמורה בבסיס הנתוניא, {{PRODUCT_NAME}} לא יכלה להשיג מידע.";
 $GLOBALS['strErrorDBCorrupt'] = "טבלאות בסיס הנתוניא כנראה קרסו ודורשות תיקון. מידע נוסף בדבר תיקון טבלאות שקרסו ניתן למצוא בפרק <i>Troubleshooting</i> של ה<i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "אנא צור קשר עא האחראי של שרת זה והודיע לו לגבי הבעיה.";
-$GLOBALS['strErrorDBSubmitBug'] = "אא הבעיה נשנית, אפשר שמדובר בבאג ב-{$PRODUCT_NAME}. אנא דווח את המידע הבא ליוצריא של {$PRODUCT_NAME}. כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
+$GLOBALS['strErrorDBSubmitBug'] = "אא הבעיה נשנית, אפשר שמדובר בבאג ב-{{PRODUCT_NAME}}. אנא דווח את המידע הבא ליוצריא של {{PRODUCT_NAME}}. כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
 $GLOBALS['strMaintenanceNotActive'] = "The maintenance script has not been run in the last 24 hours.
 In order for the application to function correctly it needs to run
 every hour.
@@ -798,7 +830,9 @@ $GLOBALS['strUnableToLinkBanner'] = "Cannot link this banner: ";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "incorrect number format in Revenue Information field";
 $GLOBALS['strErrorEditingCampaignECPM'] = "incorrect number format in ECPM Information field";
 $GLOBALS['strErrorEditingZone'] = "Error updating zone:";
+$GLOBALS['strUnableToChangeZone'] = "";
 $GLOBALS['strDatesConflict'] = "Dates of the campaign you are trying to link overlap with the dates of a campaign already linked ";
+$GLOBALS['strEmailNoDates'] = "";
 $GLOBALS['strWarningInaccurateStats'] = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Read more about this";
 $GLOBALS['strWarningInaccurateReport'] = "Some of the statistics in this report were logged in a non-UTC timezone, and may not be displayed in the correct timezone";
@@ -880,6 +914,7 @@ $GLOBALS['strColumnRank'] = "Column Rank";
 
 // Long names
 $GLOBALS['strRevenue'] = "Revenue";
+$GLOBALS['strNumberOfItems'] = "";
 $GLOBALS['strRevenueCPC'] = "Revenue CPC";
 $GLOBALS['strERPM'] = "ERPM";
 $GLOBALS['strERPC'] = "ERPC";
@@ -895,6 +930,7 @@ $GLOBALS['strImpressionSR'] = "Impression SR";
 $GLOBALS['strClickSR'] = "Click SR";
 
 // Short names
+$GLOBALS['strRevenue_short'] = "";
 $GLOBALS['strBasketValue_short'] = "BV";
 $GLOBALS['strNumberOfItems_short'] = "Num. Items";
 $GLOBALS['strRevenueCPC_short'] = "Rev. CPC";
@@ -957,14 +993,28 @@ $GLOBALS['strConfirmDeleteAgency'] = "Do you really want to delete this account?
 $GLOBALS['strHideInactiveAgencies'] = "Hide inactive accounts";
 $GLOBALS['strInactiveAgenciesHidden'] = "inactive account(s) hidden";
 $GLOBALS['strSwitchAccount'] = "Switch to this account";
+$GLOBALS['strAgencyStatusRunning'] = "";
 $GLOBALS['strAgencyStatusInactive'] = "לא פעיל ";
+$GLOBALS['strAgencyStatusPaused'] = "";
 
 // Channels
+$GLOBALS['strChannel'] = "";
+$GLOBALS['strChannels'] = "";
+$GLOBALS['strChannelManagement'] = "";
+$GLOBALS['strAddNewChannel'] = "";
+$GLOBALS['strAddNewChannel_Key'] = "";
 $GLOBALS['strChannelToWebsite'] = "לאתר";
+$GLOBALS['strNoChannels'] = "";
+$GLOBALS['strNoChannelsAddWebsite'] = "";
+$GLOBALS['strEditChannelLimitations'] = "";
+$GLOBALS['strChannelProperties'] = "";
 $GLOBALS['strChannelLimitations'] = "אופציות תפוצה";
+$GLOBALS['strConfirmDeleteChannel'] = "";
+$GLOBALS['strConfirmDeleteChannels'] = "";
 $GLOBALS['strChannelsOfWebsite'] = 'ב'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
+$GLOBALS['strVariableName'] = "";
 $GLOBALS['strVariableDescription'] = "תיאור";
 $GLOBALS['strVariableDataType'] = "סוג נתונים";
 $GLOBALS['strVariablePurpose'] = "Purpose";
@@ -988,22 +1038,38 @@ $GLOBALS['strVariableCode'] = "Javascript tracking code";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "שכחת סיסמא?";
+$GLOBALS['strPasswordRecovery'] = "";
+$GLOBALS['strWelcomePage'] = "";
+$GLOBALS['strWelcomePageText'] = "";
 $GLOBALS['strEmailRequired'] = "דוא''ל הוא שדה חובה";
+$GLOBALS['strPwdRecWrongExpired'] = "";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";
+$GLOBALS['strNotifyPageMessage'] = "";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "";
+$GLOBALS['strPwdRecEmailBody'] = "";
 
+$GLOBALS['strPwdRecEmailSincerely'] = "";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "";
+$GLOBALS['strWelcomeEmailBody'] = "";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "";
+$GLOBALS['strPasswordUpdateEmailBody'] = "";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "";
+$GLOBALS['strPasswordResetRequired'] = "";
+$GLOBALS['strPasswordUnsafeWarning'] = "";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";
+$GLOBALS['strAuditSystem'] = "";
 $GLOBALS['strFor'] = "for";
 $GLOBALS['strHas'] = "has";
 $GLOBALS['strBinaryData'] = "Binary data";
@@ -1014,9 +1080,12 @@ $GLOBALS['strAuditNoData'] = "No user activity has been recorded during the time
 $GLOBALS['strAuditTrail'] = "Audit Trail";
 $GLOBALS['strAuditTrailSetup'] = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo'] = "Go to Audit Trail page";
+$GLOBALS['strAuditTrailNotEnabled'] = "";
 
 // Widget - Campaign
+$GLOBALS['strCampaignGoTo'] = "";
 $GLOBALS['strCampaignSetUp'] = "Set up a Campaign today";
+$GLOBALS['strCampaignNoRecords'] = "";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>There is no campaign activity to display.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "No campaigns have started or finished during the timeframe you have selected";
@@ -1025,6 +1094,10 @@ $GLOBALS['strCampaignAuditNotActivated'] = "<li>In order to view campaigns which
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activate Audit Trail to start viewing Campaigns";
 
 $GLOBALS['strUnsavedChanges'] = "You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "";
+$GLOBALS['strDeliveryRulesDbError'] = "";
+$GLOBALS['strDeliveryRulesTruncation'] = "";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "You are now working as <b>%s</b>";
@@ -1072,6 +1145,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> has been added
 $GLOBALS['strWebsiteHasBeenUpdated'] = "Website <a href='%s'>%s</a> has been updated";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> has been deleted";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "All selected website have been deleted";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
 $GLOBALS['strZoneHasBeenUpdated'] = "Zone <a href='%s'>%s</a> has been updated";
@@ -1085,25 +1159,40 @@ $GLOBALS['strZoneLinkedCampaign'] = "Campaign has been linked to zone <a href='%
 $GLOBALS['strZoneRemovedBanner'] = "Banner has been unlinked from zone <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "Campaign has been unlinked from zone <a href='%s'>%s</a>";
 
+$GLOBALS['strChannelHasBeenAdded'] = "";
+$GLOBALS['strChannelHasBeenUpdated'] = "";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "";
+$GLOBALS['strChannelHasBeenDeleted'] = "";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "";
+$GLOBALS['strChannelHasBeenDuplicated'] = "";
 
 $GLOBALS['strUserPreferencesUpdated'] = "Your <b>%s</b> preferences has been updated";
 $GLOBALS['strEmailChanged'] = "Your E-mail has been changed";
 $GLOBALS['strPasswordChanged'] = "Your password has been changed";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
+$GLOBALS['strTZPreferencesWarning'] = "";
 
 // Report error messages
+$GLOBALS['strReportErrorMissingSheets'] = "";
 $GLOBALS['strReportErrorUnknownCode'] = "Unknown error code #";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = '';
+$GLOBALS['strPasswordTooShort'] = "";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "";
+$GLOBALS['strPasswordScore'][1] = "";
+$GLOBALS['strPasswordScore'][2] = "";
+$GLOBALS['strPasswordScore'][3] = "";
+$GLOBALS['strPasswordScore'][4] = "";
 
 
 /* ------------------------------------------------------- */
@@ -1112,9 +1201,11 @@ if (!isset($GLOBALS['strPasswordScore'])) {
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "";
 $GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ".";
 $GLOBALS['keyPreviousItem'] = ",";
+$GLOBALS['keyList'] = "";
 
 // Other keys
 // Please make sure you underline the key you
@@ -1126,3 +1217,4 @@ $GLOBALS['keyAddNew'] = "ח";
 $GLOBALS['keyNext'] = "ח";
 $GLOBALS['keyPrevious'] = "ק";
 $GLOBALS['keyLinkUser'] = "u";
+$GLOBALS['keyWorkingAs'] = "";

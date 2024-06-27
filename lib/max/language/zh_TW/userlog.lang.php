@@ -40,4 +40,13 @@ $GLOBALS['strClear'] = "清除";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "已發送發布商{id}報告郵件";

@@ -13,12 +13,14 @@
 // Set translation strings
 $GLOBALS['strDeliveryEngine'] = "Dostarczanie";
 $GLOBALS['strMaintenance'] = "Konserwacja";
+$GLOBALS['strAdministrator'] = "";
 
 // Audit
 $GLOBALS['strDeleted'] = "usunięto";
 $GLOBALS['strInserted'] = "dodano";
 $GLOBALS['strUpdated'] = "aktualizowano";
 $GLOBALS['strDelete'] = "Usuń";
+$GLOBALS['strHas'] = "";
 $GLOBALS['strFilters'] = "Filtry";
 $GLOBALS['strAdvertiser'] = "Reklamodawca";
 $GLOBALS['strPublisher'] = "Strona";
@@ -38,4 +40,13 @@ $GLOBALS['strClear'] = "Wyczyść";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";

@@ -28,20 +28,36 @@ $GLOBALS['strInvocationSource'] = "来源";
 $GLOBALS['strInvocationWithText'] = "在素材下方显示文字";
 $GLOBALS['strInvocationDontShowAgain'] = "禁止在同一个页面上重复投放相同的素材";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "禁止在同一个页面上重复投放属于同一项目的素材";
+$GLOBALS['strInvocationTemplate'] = "";
+$GLOBALS['strInvocationBannerID'] = "";
 $GLOBALS['strInvocationComments'] = "包含注释";
 
 // Iframe
+$GLOBALS['strIFrameRefreshAfter'] = "";
+$GLOBALS['strIframeMakeTransparent'] = "";
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
 $GLOBALS['strPopUpImmediately'] = "立刻";
 $GLOBALS['strPopUpOnClose'] = "当页面关闭时";
+$GLOBALS['strPopUpAfterSec'] = "";
+$GLOBALS['strAutoCloseAfter'] = "";
 $GLOBALS['strPopUpTop'] = "初始位置 (顶部)";
 $GLOBALS['strPopUpLeft'] = "初始位置 (左侧)";
+$GLOBALS['strWindowOptions'] = "";
 $GLOBALS['strShowToolbars'] = "工具栏";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "状态";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "包含 Cache Buster 参数";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "警告";
+$GLOBALS['strImgWithAppendWarning'] = "";

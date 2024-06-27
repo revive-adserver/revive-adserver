@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: lt\n"
 "X-Crowdin-File: /openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 298\n"
+"PO-Revision-Date: 2024-03-28 08:11\n"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:34
 msgid "Generic HTML Banner"

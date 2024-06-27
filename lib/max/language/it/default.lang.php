@@ -165,7 +165,8 @@ $GLOBALS['strUserAccountUpdated'] = "Account utente aggiornato";
 $GLOBALS['strUserUnlinkedFromAccount'] = "L'utente è stato rimosso dall'account";
 $GLOBALS['strUserWasDeleted'] = "L’utente è stato eliminato";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Tale utente non è collegato con l`account";
-$GLOBALS['strLinkUserHelp'] = "Per aggiungere un utente <b>esistente</b>, digita %1\$s e clicca %2\$s <br />Per aggiungere un <b>nuovo utente</b>, digita il %1\$s desiderato e clicca %2\$s";
+$GLOBALS['strCantDeleteOneAdminUser'] = "";
+$GLOBALS['strLinkUserHelp'] = "Per aggiungere un utente <b>esistente</b>, digita %1\\$s e clicca %2\\$s <br />Per aggiungere un <b>nuovo utente</b>, digita il %1\\$s desiderato e clicca %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "nome utente";
 $GLOBALS['strLinkUserHelpEmail'] = "indirizzo email";
 $GLOBALS['strLastLoggedIn'] = "Ultimo accesso";
@@ -180,7 +181,7 @@ $GLOBALS['strAuthentification'] = "Autenticazione";
 $GLOBALS['strWelcomeTo'] = "Benvenuto su";
 $GLOBALS['strEnterUsername'] = "Inserisci il tuo nome utente e la tua password per accedere";
 $GLOBALS['strEnterBoth'] = "È necessario inserire sia nome utente che password";
-$GLOBALS['strEnableCookies'] = "È necessario abilitare i cookie prima di poter utilizzare {$PRODUCT_NAME}";
+$GLOBALS['strEnableCookies'] = "È necessario abilitare i cookie prima di poter utilizzare {{PRODUCT_NAME}}";
 $GLOBALS['strSessionIDNotMatch'] = "Errore nel cookie di sessione, per favore entra nuovamente.";
 $GLOBALS['strLogin'] = "Nome utente";
 $GLOBALS['strLogout'] = "Esci";
@@ -299,6 +300,7 @@ $GLOBALS['strAllowClientActivateBanner'] = "Permetti a questo utente di attivare
 $GLOBALS['strAllowCreateAccounts'] = "Consenti a questo utente di gestire gli utenti di questo account";
 $GLOBALS['strAdvertiserLimitation'] = "Mostra solo un banner di questo editore sulla stessa pagina web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permetti a questo utente di accedere all'Audit Trail";
+$GLOBALS['strAllowDeleteItems'] = "";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Campagna";
@@ -332,6 +334,7 @@ $GLOBALS['strCampaignDelivery'] = "Consegna campagna";
 $GLOBALS['strCompanionPositioning'] = "Posizionamento del companion";
 $GLOBALS['strSelectUnselectAll'] = "Seleziona / Deseleziona tutti";
 $GLOBALS['strCampaignsOfAdvertiser'] = "di"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
+$GLOBALS['strShowCappedNoCookie'] = "";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns'] = "Calcolato per tutte le campagne";
@@ -379,6 +382,7 @@ non verranno visualizzati finché il peso non sarà impostato
 ad un numero valido.
 
 Sei sicuro di voler procedere?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "";
 $GLOBALS['strCampaignWarningOverrideNoWeight'] = "Il tipo di questa campagna è stato impostato su Override,
 ma il peso è impostato a zero o non è stato specificato.
 Questo farà disattivare la campagna
@@ -409,7 +413,9 @@ $GLOBALS['strCampaignType'] = "Nome Campagna";
 $GLOBALS['strType'] = "Tipo";
 $GLOBALS['strContract'] = "Contratto";
 $GLOBALS['strOverride'] = "Override";
+$GLOBALS['strOverrideInfo'] = "";
 $GLOBALS['strStandardContract'] = "Contratto";
+$GLOBALS['strStandardContractInfo'] = "";
 $GLOBALS['strRemnant'] = "Remnant";
 $GLOBALS['strRemnantInfo'] = "Il tipo di campagna predefinito. Le campagne Remnant hanno diverse
     opzioni di consegna, e dovresti idealmente avere sempre almeno una campagna Remnant
@@ -417,12 +423,15 @@ $GLOBALS['strRemnantInfo'] = "Il tipo di campagna predefinito. Le campagne Remna
     Usa campagne Remnant per mostrare banner casa, banner pubblicitari o anche
     pubblicità diretta che è stata venduta, ma dove non vi è un requisito di rendimento temporale
     critico per la campagna a cui aderire.";
+$GLOBALS['strECPMInfo'] = "";
 $GLOBALS['strPricing'] = "Tariffe";
 $GLOBALS['strPricingModel'] = "Modello di pricing";
 $GLOBALS['strSelectPricingModel'] = "-- Seleziona il modello --";
 $GLOBALS['strRatePrice'] = "Tariffa / prezzo";
 $GLOBALS['strMinimumImpressions'] = "Minimo impressioni giornaliere";
 $GLOBALS['strLimit'] = "Limite";
+$GLOBALS['strLowExclusiveDisabled'] = "";
+$GLOBALS['strCannotSetBothDateAndLimit'] = "";
 $GLOBALS['strWhyDisabled'] = "perché è disabilitato?";
 $GLOBALS['strBackToCampaigns'] = "Torna a campagne";
 $GLOBALS['strCampaignBanners'] = "Banner della campagna";
@@ -789,24 +798,25 @@ $GLOBALS['strGenerateHttpsTags'] = "Genera tag utilizzando il protocollo HTTPS";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Errore di connessione al database.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Errore fatale: %1\$s non può collegarsi al database. Per tanto non è possibile usare l'interfaccia amministrativa. Inoltre può essere stata compromessa la distribuzione dei banner. Possibili cause del problema:<ul><li>Il server database in questo momento non funziona</li> <li>L'indirizzo del server database è cambiato</li> <li>Le credenziali di accesso al server database non sono corrette</li> <li>L'estensione <i>%2\$s</i> di PHP non è stata caricata</li> </ul>";
+$GLOBALS['strErrorCantConnectToDatabase'] = "Errore fatale: %1\\$s non può collegarsi al database. Per tanto non è possibile usare l'interfaccia amministrativa. Inoltre può essere stata compromessa la distribuzione dei banner. Possibili cause del problema:<ul><li>Il server database in questo momento non funziona</li> <li>L'indirizzo del server database è cambiato</li> <li>Le credenziali di accesso al server database non sono corrette</li> <li>L'estensione <i>%2\\$s</i> di PHP non è stata caricata</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "Nessuna corrispondenza trovata";
 $GLOBALS['strErrorOccurred'] = "Segnalazione Errore";
 $GLOBALS['strErrorDBPlain'] = "Si è verificato un errore nell'accesso al database";
 $GLOBALS['strErrorDBSerious'] = "È stato riscontrato un grave problema con il database";
-$GLOBALS['strErrorDBNoDataPlain'] = "A causa di un problema con il database {$PRODUCT_NAME} non può leggere o memorizzare i dati. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "A causa di un grave problema con il database, {$PRODUCT_NAME} non può leggere i dati";
+$GLOBALS['strErrorDBNoDataPlain'] = "A causa di un problema con il database {{PRODUCT_NAME}} non può leggere o memorizzare i dati. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "A causa di un grave problema con il database, {{PRODUCT_NAME}} non può leggere i dati";
 $GLOBALS['strErrorDBCorrupt'] = "Probabilmente la tabella è corrotta ed è necessario ripararla. Per avere più informazioni su come riparare le tabelle corrotte, leggere il capitolo <i>Troubleshooting</i> della <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Contatta l'amministratore di questo server ed informalo del problema.";
-$GLOBALS['strErrorDBSubmitBug'] = "Se questo problema è riproducibile, potrebbe essere causato da un bug di {$PRODUCT_NAME}. Per favore sottoponi le informazioni sottostanti ai creatori di {$PRODUCT_NAME}. Tenta inoltre di descrivere le azioni che hanno portato a questo errore il più chiaramente possible.";
+$GLOBALS['strErrorDBSubmitBug'] = "Se questo problema è riproducibile, potrebbe essere causato da un bug di {{PRODUCT_NAME}}. Per favore sottoponi le informazioni sottostanti ai creatori di {{PRODUCT_NAME}}. Tenta inoltre di descrivere le azioni che hanno portato a questo errore il più chiaramente possible.";
 $GLOBALS['strMaintenanceNotActive'] = "La procedura di manutenzione non è stata avviata nelle ultime 24 ore.
-Per fare in modo che {$PRODUCT_NAME} funzioni correttamente, lo script deve essere avviato ogni ora
+Per fare in modo che {{PRODUCT_NAME}} funzioni correttamente, lo script deve essere avviato ogni ora
 
 Consulta la guida per l'amministratore per maggiori informazioni sulla
 configurazione dello script di manutenzione.";
 $GLOBALS['strErrorLinkingBanner'] = "Non è stato possibile collegare questo banner a questa zona perché:";
 $GLOBALS['strUnableToLinkBanner'] = "Impossibile collegare questo banner:";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "numero nel formato non corretto per il campo Informazioni ricavi ";
+$GLOBALS['strErrorEditingCampaignECPM'] = "";
 $GLOBALS['strErrorEditingZone'] = "Errore durante l'aggiornamento della zona:";
 $GLOBALS['strUnableToChangeZone'] = "Impossibile applicare questi cambiamenti perché:";
 $GLOBALS['strDatesConflict'] = "le date sono in conflitto con:";
@@ -817,6 +827,13 @@ $GLOBALS['strWarningInaccurateReport'] = "Alcune delle statistiche in questo rep
 
 //Validation
 $GLOBALS['strRequiredFieldLegend'] = "indica campo obbligatorio";
+$GLOBALS['strFormContainsErrors'] = "";
+$GLOBALS['strXRequiredField'] = "";
+$GLOBALS['strEmailField'] = "";
+$GLOBALS['strNumericField'] = "";
+$GLOBALS['strGreaterThanZeroField'] = "";
+$GLOBALS['strXGreaterThanZeroField'] = "";
+$GLOBALS['strXPositiveWholeNumberField'] = "";
 $GLOBALS['strInvalidWebsiteURL'] = "URL del sito Web non valido";
 
 // Email
@@ -837,6 +854,8 @@ $GLOBALS['strNoMoreImpressions'] = "non sono rimaste visualizzazioni";
 $GLOBALS['strNoMoreClicks'] = "non ci sono più Click a disposizione";
 $GLOBALS['strNoMoreConversions'] = "non ci sono Vendite rimaste";
 $GLOBALS['strWeightIsNull'] = "il suo peso è impostato a zero";
+$GLOBALS['strRevenueIsNull'] = "";
+$GLOBALS['strTargetIsNull'] = "";
 $GLOBALS['strNoViewLoggedInInterval'] = "Nessuna visualizzazione risulta essere stata loggata durante la creazione di questo rapporto";
 $GLOBALS['strNoClickLoggedInInterval'] = "Nessun click risulta essere stata loggata durante la creazione di questo rapporto";
 $GLOBALS['strNoConversionLoggedInInterval'] = "Nessuna conversione registrata durante l`arco di questo report";
@@ -912,10 +931,12 @@ $GLOBALS['strECPC_short'] = "ECPC";
 $GLOBALS['strECPS_short'] = "ECPS";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Ric.";
+$GLOBALS['strImpressions_short'] = "";
 $GLOBALS['strClicks_short'] = "Click";
 $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConversions_short'] = "Conv.";
 $GLOBALS['strPendingConversions_short'] = "Conv. in attesa";
+$GLOBALS['strImpressionSR_short'] = "";
 $GLOBALS['strClickSR_short'] = "Click SR";
 
 // Global Settings
@@ -1003,25 +1024,38 @@ $GLOBALS['strVariableCode'] = "Codice tracciamento Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Hai dimenticato la password?";
+$GLOBALS['strPasswordRecovery'] = "";
 $GLOBALS['strWelcomePage'] = "Benvenuto nuovo utente!";
+$GLOBALS['strWelcomePageText'] = "";
 $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
 $GLOBALS['strPwdRecWrongExpired'] = "Link di reimpostazione password errato o scaduto, si prega di richiederne uno nuovo";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
 $GLOBALS['strProceed'] = "Procedi >";
+$GLOBALS['strNotifyPageMessage'] = "";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "";
+$GLOBALS['strPwdRecEmailBody'] = "";
 
 $GLOBALS['strPwdRecEmailSincerely'] = "Cordiali saluti,";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "";
+$GLOBALS['strWelcomeEmailBody'] = "";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "";
+$GLOBALS['strPasswordUpdateEmailBody'] = "";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "";
+$GLOBALS['strPasswordResetRequired'] = "";
+$GLOBALS['strPasswordUnsafeWarning'] = "";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e oggetti aggiuntivi";
+$GLOBALS['strAuditSystem'] = "";
 $GLOBALS['strFor'] = "per";
 $GLOBALS['strHas'] = "era";
 $GLOBALS['strBinaryData'] = "Dati binari";
@@ -1032,14 +1066,14 @@ $GLOBALS['strAuditNoData'] = "Nessuna attività dell`utente  è stata registrata
 $GLOBALS['strAuditTrail'] = "Audit Trail";
 $GLOBALS['strAuditTrailSetup'] = "Importa Audit Trail oggi";
 $GLOBALS['strAuditTrailGoTo'] = "Vai alla pagina Audit Trail";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail ti permette di vedere chi ha fatto cosa e quando. In altre parole, Audit Trail mantiene traccia dei cambiamenti del sistema {$PRODUCT_NAME}</li>
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail ti permette di vedere chi ha fatto cosa e quando. In altre parole, Audit Trail mantiene traccia dei cambiamenti del sistema {{PRODUCT_NAME}}</li>
 <li>Se visualizzi questo messaggio, Audit Trail non è stato attivato</li>
-<li>Vuoi saperne di più? Leggi la <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Documentazione Audit Trail</a></li>";
+<li>Vuoi saperne di più? Leggi la <a href='{{PRODUCT_DOCSURL}}/settings/auditTrail' class='site-link' target='help' >Documentazione Audit Trail</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Vai alla pagina delle campagne";
 $GLOBALS['strCampaignSetUp'] = "Impostare una campagna di oggi";
-$GLOBALS['strCampaignNoRecords'] = "<li>Le campagne ti permettono di raggruppare insieme banner di ogni dimensione che condividono gli stessi requisiti</li><li>Risparmia tempo definendo guppi di banner e non dovrai più impostare tutti i parametri singolarmente per ogni banner</li><li>Consulta la <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Documentazione sulle Campagne</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>Le campagne ti permettono di raggruppare insieme banner di ogni dimensione che condividono gli stessi requisiti</li><li>Risparmia tempo definendo guppi di banner e non dovrai più impostare tutti i parametri singolarmente per ogni banner</li><li>Consulta la <a class='site-link' target='help' href='{{PRODUCT_DOCSURL}}/inventory/advertisersAndCampaigns/campaigns'>Documentazione sulle Campagne</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Non ci sono attività da mostrare.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nessuna campagna avviata o finita durante il periodo selezionato";
@@ -1053,10 +1087,27 @@ $GLOBALS['strDeliveryRulesTruncation'] = "ATTENZIONE: MySQL troncato i dati dura
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Alcune regole di consegna segnalano valori errati:";
 
 //confirmation messages
+$GLOBALS['strYouAreNowWorkingAsX'] = "";
+$GLOBALS['strYouDontHaveAccess'] = "";
 
+$GLOBALS['strAdvertiserHasBeenAdded'] = "";
+$GLOBALS['strAdvertiserHasBeenUpdated'] = "";
+$GLOBALS['strAdvertiserHasBeenDeleted'] = "";
 $GLOBALS['strAdvertisersHaveBeenDeleted'] = "Eliminati tutti gli inserzionisti selezionati";
 
+$GLOBALS['strTrackerHasBeenAdded'] = "";
+$GLOBALS['strTrackerHasBeenUpdated'] = "";
+$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "";
+$GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "";
+$GLOBALS['strTrackerAppendHasBeenUpdated'] = "";
+$GLOBALS['strTrackerHasBeenDeleted'] = "";
+$GLOBALS['strTrackersHaveBeenDeleted'] = "";
+$GLOBALS['strTrackerHasBeenDuplicated'] = "";
+$GLOBALS['strTrackerHasBeenMoved'] = "";
 
+$GLOBALS['strCampaignHasBeenAdded'] = "";
+$GLOBALS['strCampaignHasBeenUpdated'] = "";
+$GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "";
 $GLOBALS['strCampaignHasBeenDeleted'] = "La campagna <b>%s</b> è stata cancellata";
 $GLOBALS['strCampaignsHaveBeenDeleted'] = "Tutte le campagne selezionate sono state eliminate";
 $GLOBALS['strCampaignHasBeenDuplicated'] = "La campagna <a href='%s'>%s</a> è stata copiata in <a href='%s'>%s</a>";
@@ -1117,11 +1168,18 @@ $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = '';
+$GLOBALS['strPasswordTooShort'] = "";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "";
+$GLOBALS['strPasswordScore'][1] = "";
+$GLOBALS['strPasswordScore'][2] = "";
+$GLOBALS['strPasswordScore'][3] = "";
+$GLOBALS['strPasswordScore'][4] = "";
 
 
 /* ------------------------------------------------------- */

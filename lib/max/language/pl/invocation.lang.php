@@ -38,6 +38,8 @@ $GLOBALS['strIframeMakeTransparent'] = "Zrób przezroczystą iframe";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Typ Pop-up";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
 $GLOBALS['strPopUpCreateInstance'] = "Kiedy pop-up ma być wyświetlony";
 $GLOBALS['strPopUpImmediately'] = "Natychmiast";
 $GLOBALS['strPopUpOnClose'] = "Kiedy strona jest zamykana";
@@ -45,6 +47,13 @@ $GLOBALS['strPopUpAfterSec'] = "Po";
 $GLOBALS['strAutoCloseAfter'] = "Automatycznie zamknij po";
 $GLOBALS['strPopUpTop'] = "Początkowa pozycja (góra)";
 $GLOBALS['strPopUpLeft'] = "Początkowa pozycja (lewa)";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
+$GLOBALS['strShowStatus'] = "";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Wstaw kod Cache-Busting";

@@ -14,6 +14,7 @@ msgstr ""
 "X-Crowdin-Language: cy\n"
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Time/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 352\n"
+"PO-Revision-Date: 2021-05-28 15:39\n"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
 msgid "Hour of day"

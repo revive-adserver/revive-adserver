@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Venligst vælg den type af banner invoc
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Venligst vælg den type af banner invocation";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
 $GLOBALS['strAbbrSeconds'] = "sek";
 
 // Common Invocation Parameters
@@ -28,6 +29,7 @@ $GLOBALS['strInvocationWithText'] = "Vis tekst under banner";
 $GLOBALS['strInvocationDontShowAgain'] = "Vis ikke banneren igen på den samme side";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Vis ikke banneren fra den samme kampagne igen på den samme side";
 $GLOBALS['strInvocationTemplate'] = "Gem banneren inde i en variable så den kan bruges som skabelon";
+$GLOBALS['strInvocationBannerID'] = "";
 $GLOBALS['strInvocationComments'] = "Inklusiv kommentar";
 
 // Iframe
@@ -35,6 +37,23 @@ $GLOBALS['strIFrameRefreshAfter'] = "Opdater efter";
 $GLOBALS['strIframeMakeTransparent'] = "Gør iframen transperant";
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
+$GLOBALS['strPopUpImmediately'] = "";
+$GLOBALS['strPopUpOnClose'] = "";
+$GLOBALS['strPopUpAfterSec'] = "";
+$GLOBALS['strAutoCloseAfter'] = "";
+$GLOBALS['strPopUpTop'] = "";
+$GLOBALS['strPopUpLeft'] = "";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
+$GLOBALS['strShowStatus'] = "";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Insæt Cache-Busting kode";

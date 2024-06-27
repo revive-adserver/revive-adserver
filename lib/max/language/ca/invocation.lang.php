@@ -13,6 +13,8 @@
 // Other
 $GLOBALS['strCopyToClipboard'] = "Copia al porta-retalls";
 $GLOBALS['strCopy'] = "copia";
+$GLOBALS['strChooseTypeOfInvocation'] = "";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "";
 
 // Measures
 $GLOBALS['strAbbrPixels'] = "px";
@@ -26,6 +28,7 @@ $GLOBALS['strInvocationSource'] = "Font";
 $GLOBALS['strInvocationWithText'] = "Mostra el text sota el bàner";
 $GLOBALS['strInvocationDontShowAgain'] = "No tornis a mostrar el bàner a la mateixa pàgina";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "No tornis a mostrar un bàner de la mateixa campanya a la mateixa pàgina";
+$GLOBALS['strInvocationTemplate'] = "";
 $GLOBALS['strInvocationBannerID'] = "ID del bàner";
 $GLOBALS['strInvocationComments'] = "Inclou els comentaris";
 
@@ -34,7 +37,10 @@ $GLOBALS['strIFrameRefreshAfter'] = "Refresca cada";
 $GLOBALS['strIframeMakeTransparent'] = "Fes l'iframe transparent";
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "";
 $GLOBALS['strPopUpStylePopUp'] = "Finestra emergent";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
 $GLOBALS['strPopUpImmediately'] = "Immediatament";
 $GLOBALS['strPopUpOnClose'] = "Quan es tanqui la pàgina";
 $GLOBALS['strPopUpAfterSec'] = "Després de";
@@ -50,6 +56,8 @@ $GLOBALS['strWindowResizable'] = "Redimensionable";
 $GLOBALS['strShowScrollbars'] = "Barres de desplaçament";
 
 // Support for cachebusting code
+$GLOBALS['strCacheBuster'] = "";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Advertència";
+$GLOBALS['strImgWithAppendWarning'] = "";

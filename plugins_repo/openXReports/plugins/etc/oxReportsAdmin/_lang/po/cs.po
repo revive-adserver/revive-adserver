@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 334\n"
+"PO-Revision-Date: 2021-09-27 08:00\n"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:39
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:136

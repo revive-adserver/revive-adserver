@@ -24,15 +24,19 @@ $GLOBALS['strTablesPrefix'] = "Táblanevek előtagja";
 $GLOBALS['strTablesType'] = "Tábla típusa";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Az előző újraépítési kísérlete során hiba történt";
-$GLOBALS['strRecoveryRequired'] = "Az előző frissítés során hiba történt és az {$PRODUCT_NAME}nek most meg kell próbálnia visszaállítani a frissítés előtti állapotot. Kattintson a Visszaállítás gombra!";
+$GLOBALS['strRecoveryRequired'] = "Az előző frissítés során hiba történt és az {{PRODUCT_NAME}}nek most meg kell próbálnia visszaállítani a frissítés előtti állapotot. Kattintson a Visszaállítás gombra!";
 
-$GLOBALS['strOaUpToDate'] = "Az {$PRODUCT_NAME} adatbázis és fájlstruktúra a lehető legfrissebb verziót használja, így nincs szükség újraépítésre. Kérjük kattintson a Folytatásra, hogy az {$PRODUCT_NAME} adminisztrációs felületre irányíthassuk!";
+$GLOBALS['strProductUpToDateTitle'] = "";
+$GLOBALS['strOaUpToDate'] = "Az {{PRODUCT_NAME}} adatbázis és fájlstruktúra a lehető legfrissebb verziót használja, így nincs szükség újraépítésre. Kérjük kattintson a Folytatásra, hogy az {{PRODUCT_NAME}} adminisztrációs felületre irányíthassuk!";
 $GLOBALS['strOaUpToDateCantRemove'] = "Figyelmeztetés: Az UPGRADE fájl még mindig a var könyvtárban van. Nem sikerült automatikusan eltávolítani a fájlt, mert a fájlra vonatkozó engedélyezések nem tették lehetővé. Kérjük törölje a fájlt manuálisan!";
 $GLOBALS['strErrorWritePermissions'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.<br />A hibák kijavításához Linux rendszeren a következő parancs(ok) beírását érdemes megpróbálni:";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod a+w %s</i>";
+$GLOBALS['strNotWriteable'] = "";
+$GLOBALS['strDirNotWriteableError'] = "";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.";
-$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} dokumentációt</a>.";
+$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://{{PRODUCT_DOCSURL}}'>{{PRODUCT_NAME}} dokumentációt</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "";
 
 $GLOBALS['strAdminUrlPrefix'] = "Az Adminisztrációs Felület URL-je";
 $GLOBALS['strDeliveryUrlPrefix'] = "A Kiszolgáló Motor URL-je";
@@ -49,6 +53,8 @@ $GLOBALS['strUpgrade'] = "Frissítés";
 
 // Global
 $GLOBALS['strChooseSection'] = "Válasszon egyet";
+$GLOBALS['strEditConfigNotPossible'] = "";
+$GLOBALS['strEditConfigPossible'] = "";
 $GLOBALS['strUnableToWriteConfig'] = "A konfigurációs fájl írása sikertelen";
 $GLOBALS['strUnableToWritePrefs'] = "A beállítás adatbázisba írása sikertelen";
 $GLOBALS['strImageDirLockedDetected'] = "A kiszolgáló nem tudja írnia a megadott <b>Képek Könyvtárt</b>. <br>Addig nem tud továbblépni, amíg vagy meg nem változtatja a beállításokat vagy létre nem hozza a könyvtárat.";
@@ -63,8 +69,11 @@ $GLOBALS['strInvalidUsername'] = "Érvénytelen felhasználóinév";
 $GLOBALS['strBasicInformation'] = "Alapinformációk";
 $GLOBALS['strAdministratorEmail'] = "Adminisztrátori e-mailek";
 $GLOBALS['strAdminCheckUpdates'] = "Frissítés keresése";
+$GLOBALS['strAdminShareStack'] = "";
 $GLOBALS['strNovice'] = "A törlésekhez megerősítés szükséges biztonsági okokból";
 $GLOBALS['strUserlogEmail'] = "Kimenő e-mail üzenetek naplózása";
+$GLOBALS['strEnableDashboard'] = "";
+$GLOBALS['strEnableDashboardSyncNotice'] = "";
 $GLOBALS['strTimezone'] = "Időzóna";
 $GLOBALS['strEnableAutoMaintenance'] = "Automatikusan fusson le a karbantartó eljárás a kiszolgáláskor, ha nincs beállítva a karbantartás ütemterve. ";
 
@@ -74,19 +83,33 @@ $GLOBALS['strDatabaseServer'] = "Globális adatbázis szerver beállítások";
 $GLOBALS['strDbLocal'] = "Kapcsolódás helyi kiszolgálóhoz szoftvercsatornával";
 $GLOBALS['strDbType'] = "Adatbázis típusa";
 $GLOBALS['strDbHost'] = "Adatbázis kiszolgálóneve";
+$GLOBALS['strDbSocket'] = "";
 $GLOBALS['strDbPort'] = "Adatbázis port száma";
 $GLOBALS['strDbUser'] = "Adatbázis felhasználói neve";
 $GLOBALS['strDbPassword'] = "Adatbázis jelszó";
 $GLOBALS['strDbName'] = "Adatbázis név";
+$GLOBALS['strDbNameHint'] = "";
 $GLOBALS['strDatabaseOptimalisations'] = "Adatbázis optimalizációs beállítások";
 $GLOBALS['strPersistentConnections'] = "�?llandó kapcsolat használata";
 $GLOBALS['strCantConnectToDb'] = "Nem sikerült kapcsolódni az adatbázishoz";
+$GLOBALS['strCantConnectToDbDelivery'] = '';
 
 // Email Settings
+$GLOBALS['strEmailSettings'] = "";
+$GLOBALS['strEmailAddresses'] = "";
+$GLOBALS['strEmailFromName'] = "";
+$GLOBALS['strEmailFromAddress'] = "";
+$GLOBALS['strEmailFromCompany'] = "";
+$GLOBALS['strUseManagerDetails'] = '';
 $GLOBALS['strQmailPatch'] = "A qmail folt engedélyezése";
 $GLOBALS['strEnableQmailPatch'] = "Qmail patch engedélyezése";
+$GLOBALS['strEmailHeader'] = "";
+$GLOBALS['strEmailLog'] = "";
 
 // Audit Trail Settings
+$GLOBALS['strAuditTrailSettings'] = "";
+$GLOBALS['strEnableAudit'] = "";
+$GLOBALS['strEnableAuditForZoneLinking'] = "";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "Hibakereső naplózázás beállításai";
@@ -95,17 +118,26 @@ $GLOBALS['strDebugMethodNames'] = "Eljárásnevek hozzáadása a hibereső napl�
 $GLOBALS['strDebugLineNumbers'] = "Naplózott sorok sorszámának hozzáadása a hibakereső naplózáshoz";
 $GLOBALS['strDebugType'] = "Hibakereső napló típusa";
 $GLOBALS['strDebugTypeFile'] = "Fájl";
+$GLOBALS['strDebugTypeMcal'] = "";
 $GLOBALS['strDebugTypeSql'] = "SQL adatbázis";
+$GLOBALS['strDebugTypeSyslog'] = "";
 $GLOBALS['strDebugName'] = "Hibakereső napló név, naptár, SQL tábla,<br />vagy Syslog Facility";
 $GLOBALS['strDebugPriority'] = "Hibakereső prioritási szint";
 $GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Az elérhető legtöbb információ";
 $GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Alapértelmezett információmennyiség";
+$GLOBALS['strPEAR_LOG_NOTICE'] = "";
+$GLOBALS['strPEAR_LOG_WARNING'] = "";
+$GLOBALS['strPEAR_LOG_ERR'] = "";
+$GLOBALS['strPEAR_LOG_CRIT'] = "";
+$GLOBALS['strPEAR_LOG_ALERT'] = "";
 $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - Minimális információ";
 $GLOBALS['strDebugIdent'] = "Azonosító sztring hibakeresése";
 $GLOBALS['strDebugUsername'] = "mCal, SQL szerver felhasználóinév";
 $GLOBALS['strDebugPassword'] = "mCal, SQL szerver jelszó";
+$GLOBALS['strProductionSystem'] = "";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "";
 $GLOBALS['strWebPathSimple'] = "Webes elérési út";
 $GLOBALS['strDeliveryPath'] = "Kézbesítés elérési útja";
 $GLOBALS['strImagePath'] = "Képek elérési útja";
@@ -125,9 +157,12 @@ $GLOBALS['strTypeFTPPassword'] = "Jelszó";
 $GLOBALS['strTypeFTPPassive'] = "Passzív kapcsolat használata";
 $GLOBALS['strTypeFTPErrorDir'] = "Az FTP kiszolgáló könyvtár nem létezik";
 $GLOBALS['strTypeFTPErrorConnect'] = "Nem sikerült kapcsolódni az FTP szerverhez, a login név vagy a jelszó nem megfelelő";
+$GLOBALS['strTypeFTPErrorNoSupport'] = "";
+$GLOBALS['strTypeFTPErrorUpload'] = "";
 $GLOBALS['strTypeFTPErrorHost'] = "Az FTP kiszolgáló nem megfelelő";
 $GLOBALS['strDeliveryFilenames'] = "Kézbesítendő fájl nevek";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "Hirdetés kattintás";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Hirdetés változó behelyettesítés";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "Hirdetés tartalom";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "Hirdetés behelyettesítés";
@@ -141,19 +176,41 @@ $GLOBALS['strDeliveryFilenamesAdPopup'] = "Hirdetés popup";
 $GLOBALS['strDeliveryFilenamesAdView'] = "Hirdetés megtekintés";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC kérés";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Helyi kérés";
+$GLOBALS['strDeliveryFilenamesFrontController'] = "";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "";
 $GLOBALS['strDeliveryCaching'] = "Banner kézbesítési gyorsítótár beállításai";
 $GLOBALS['strDeliveryCacheLimit'] = "A banner gyorsítótár frissítései közti idő (másodpercekben)";
+$GLOBALS['strDeliveryCacheStore'] = "";
+$GLOBALS['strDeliveryAcls'] = "";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "";
+$GLOBALS['strDeliveryObfuscate'] = "";
+$GLOBALS['strDeliveryClickUrlValidity'] = "";
+$GLOBALS['strDeliveryRelAttribute'] = "";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "";
 $GLOBALS['strP3PSettings'] = "P3P adatvédelmi irányelvek";
 $GLOBALS['strUseP3P'] = "P3P irányelvek használata";
 $GLOBALS['strP3PCompactPolicy'] = "P3P tömörített irányelv";
 $GLOBALS['strP3PPolicyLocation'] = "P3P irányelvek helye";
+$GLOBALS['strPrivacySettings'] = "";
+$GLOBALS['strDisableViewerId'] = "";
+$GLOBALS['strAnonymiseIp'] = "";
 
 // General Settings
+$GLOBALS['generalSettings'] = "";
+$GLOBALS['uiEnabled'] = "";
+$GLOBALS['defaultLanguage'] = "";
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting beállítások";
 $GLOBALS['strGeotargeting'] = "Geotargeting beállítások";
 $GLOBALS['strGeotargetingType'] = "Geotargeting modul típus";
+$GLOBALS['strGeoShowUnavailable'] = "";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Leltár";
@@ -162,15 +219,18 @@ $GLOBALS['strShowBannerInfo'] = "Extra banner info megjelenítése a <i>Banner �
 $GLOBALS['strShowCampaignPreview'] = "Minden banner megjelenítése a <i>Banner áttekintés</i> oldalon";
 $GLOBALS['strShowBannerHTML'] = "A HTML code helyett a tényleges banner megmutatása a HTML bannerek megjelenítésekor";
 $GLOBALS['strShowBannerPreview'] = "Bannerek megjelenítése a kapcsolódó oldalak tetején";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "";
 $GLOBALS['strHideInactive'] = "Az inaktív objektumok elrejtése az áttekintéses oldalakról";
 $GLOBALS['strGUIShowMatchingBanners'] = "Egyező bannerek megjelenítése a <i>Linkelt banner</i> oldalakon";
 $GLOBALS['strGUIShowParentCampaigns'] = "Szülő kampányok megjelenítése a <i>Linkelt banner</i> oldalakon";
+$GLOBALS['strShowEntityId'] = "";
 $GLOBALS['strStatisticsDefaults'] = "Statisztikák";
 $GLOBALS['strBeginOfWeek'] = "Hét kezdete";
 $GLOBALS['strPercentageDecimals'] = "Százalékok tört része";
 $GLOBALS['strWeightDefaults'] = "Alapértelmezett súlyozás";
 $GLOBALS['strDefaultBannerWeight'] = "Alapértelmezett  reklám súly";
 $GLOBALS['strDefaultCampaignWeight'] = "Alapértelmezett  kampány súly";
+$GLOBALS['strConfirmationUI'] = "";
 
 // Invocation Settings
 $GLOBALS['strInvocationDefaults'] = "Követelések alapértelmezett beállításai";
@@ -188,19 +248,32 @@ $GLOBALS['strReverseLookup'] = "Látogató kiszolgálónevének visszakeresése 
 $GLOBALS['strProxyLookup'] = "Valódi IP cím keresése amikor a látogató proxy szerver mögött van";
 $GLOBALS['strPreventLogging'] = "Banner naplózás blokkolásának beállításai";
 $GLOBALS['strIgnoreHosts'] = "A következő IP címek és kiszolgálónevek kihagyása a naplózásból";
+$GLOBALS['strIgnoreUserAgents'] = "";
+$GLOBALS['strEnforceUserAgents'] = "";
 
 // Banner Storage Settings
+$GLOBALS['strBannerStorage'] = "";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "";
+$GLOBALS['strEnableContractECPM'] = "";
+$GLOBALS['strEnableECPMfromRemnant'] = "";
+$GLOBALS['strEnableECPMfromECPM'] = "";
+$GLOBALS['strInactivatedCampaigns'] = "";
 
 // Statistics & Maintenance Settings
+$GLOBALS['strMaintenanceSettings'] = "";
+$GLOBALS['strConversionTracking'] = "";
+$GLOBALS['strEnableConversionTracking'] = "";
+$GLOBALS['strBlockInactiveBanners'] = "";
 $GLOBALS['strBlockAdClicks'] = "Hírdetés kattintás számlálásának kihagyása ha a látogató kattintott az adott hírdetés/zóna párra a megadott időn belül (másodpercben)";
 $GLOBALS['strMaintenanceOI'] = "Karbantartás művelet időköze (percben)";
 $GLOBALS['strPrioritySettings'] = "Prioritás beállítások";
 $GLOBALS['strPriorityInstantUpdate'] = "Hirdetés prioritások frissítése rögtön a változtatások mentése után";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "";
 $GLOBALS['strDefaultImpConvWindow'] = "Alapértelmezett megtekintési konverziós ablak (másodpercben)";
 $GLOBALS['strDefaultCliConvWindow'] = "Alapértelmezett kattintási konverziós ablak (másodpercben)";
-$GLOBALS['strAdminEmailHeaders'] = "A következő fejlécek hozzáadása a {$PRODUCT_NAME} által küldött elektronikus üzenethez";
+$GLOBALS['strAdminEmailHeaders'] = "A következő fejlécek hozzáadása a {{PRODUCT_NAME}} által küldött elektronikus üzenethez";
 $GLOBALS['strWarnLimit'] = "Figyelmeztetés küldése ha a hátrelévő megtekintések száma kevesebb mint";
 $GLOBALS['strWarnLimitDays'] = "Figyelmeztetés küldése ha a hátralévő napok száma kevesebb mint ";
 $GLOBALS['strWarnAdmin'] = "Figyelmeztetés küldése az adminisztrátornak ha a kampány hamarosan lejár";
@@ -215,13 +288,24 @@ $GLOBALS['strMyHeader'] = "Fejléc fájl helye";
 $GLOBALS['strMyFooter'] = "Lábléc fájl helye";
 $GLOBALS['strDefaultTrackerStatus'] = "Alapértelmezett követő státusz";
 $GLOBALS['strDefaultTrackerType'] = "Alapértelmezett követő típus";
+$GLOBALS['strSSLSettings'] = "";
+$GLOBALS['requireSSL'] = "";
+$GLOBALS['sslPort'] = "";
+$GLOBALS['strDashboardSettings'] = "";
 $GLOBALS['strMyLogo'] = "Egyedi logó fájl neve";
 $GLOBALS['strGuiHeaderForegroundColor'] = "Fejléc előtér színe";
 $GLOBALS['strGuiHeaderBackgroundColor'] = "Fejléc háttér színe";
 $GLOBALS['strGuiActiveTabColor'] = "Az aktív fül színe";
 $GLOBALS['strGuiHeaderTextColor'] = "A fejléc szövegének színe";
+$GLOBALS['strGuiSupportLink'] = "";
 $GLOBALS['strGzipContentCompression'] = "GZIP tartalom tömörítés használata";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate'] = "";
+$GLOBALS['strNewPlatformHash'] = "";
+$GLOBALS['strPlatformHashInsertingError'] = "";
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "";
+$GLOBALS['strEnableNewPlugins'] = "";
+$GLOBALS['strUseMergedFunctions'] = "";

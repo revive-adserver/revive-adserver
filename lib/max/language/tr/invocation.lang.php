@@ -17,6 +17,8 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Lütfen banner çağırma tipini seçin
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Lütfen banner çağırma tipini seçiniz";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
+$GLOBALS['strAbbrSeconds'] = "";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Banner seçimi";
@@ -27,6 +29,7 @@ $GLOBALS['strInvocationWithText'] = "Banner altında yazı göster";
 $GLOBALS['strInvocationDontShowAgain'] = "Aynı sayfada bannerı tekrar gösterme";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Aynı sayfada aynı kampanyadan başka bir banner gösterme";
 $GLOBALS['strInvocationTemplate'] = "Şablon içerisinde kullanım için bannerı bir değişken içinde sakla.";
+$GLOBALS['strInvocationBannerID'] = "";
 $GLOBALS['strInvocationComments'] = "Yorumlarla birlikte";
 
 // Iframe
@@ -36,6 +39,8 @@ $GLOBALS['strIframeMakeTransparent'] = "Çerçeveyi şeffaf yap";
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Pop-up tipi";
 $GLOBALS['strPopUpStylePopUp'] = "Açılır pencere";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
 $GLOBALS['strPopUpImmediately'] = "Hemen";
 $GLOBALS['strPopUpOnClose'] = "Sayfa kapandığında";
 $GLOBALS['strPopUpAfterSec'] = "Sonra";
@@ -51,6 +56,7 @@ $GLOBALS['strWindowResizable'] = "Boyutlandırılabilir";
 $GLOBALS['strShowScrollbars'] = "Kaydırma çubukları";
 
 // Support for cachebusting code
+$GLOBALS['strCacheBuster'] = "";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Uyarı";

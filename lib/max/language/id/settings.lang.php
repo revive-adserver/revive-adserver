@@ -24,10 +24,10 @@ $GLOBALS['strTablesPrefix'] = "Awalan nama tabel";
 $GLOBALS['strTablesType'] = "Jenis Tabel";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Proses upgrade semula mengalami sebuah Error";
-$GLOBALS['strRecoveryRequired'] = "Telah terjadi sebuah Error pada saat memproses upgrade yang sebelumnya dan {$PRODUCT_NAME} perlu membangkitkan proses upgrade terlebih dahulu. Mohon klik tombol Bangkitkan dibawah.";
+$GLOBALS['strRecoveryRequired'] = "Telah terjadi sebuah Error pada saat memproses upgrade yang sebelumnya dan {{PRODUCT_NAME}} perlu membangkitkan proses upgrade terlebih dahulu. Mohon klik tombol Bangkitkan dibawah.";
 
-$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} sudah terbaru";
-$GLOBALS['strOaUpToDate'] = "Database dan struktur file dari {$PRODUCT_NAME} sudah menggunakan versi yang terbaru. Maka dengan itu upgrade untuk sementara waktu tidak diperlukan. Mohon klik Lanjut untuk diantar ke panel administrasi dari {$PRODUCT_NAME}.";
+$GLOBALS['strProductUpToDateTitle'] = "{{PRODUCT_NAME}} sudah terbaru";
+$GLOBALS['strOaUpToDate'] = "Database dan struktur file dari {{PRODUCT_NAME}} sudah menggunakan versi yang terbaru. Maka dengan itu upgrade untuk sementara waktu tidak diperlukan. Mohon klik Lanjut untuk diantar ke panel administrasi dari {{PRODUCT_NAME}}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Perhatian: File UPGRADE masih berada dalam direktori var. Kami tidak dapat menghapus file tersebut disebabkan oleh permission yang tidak cukup. Mohon hapuskan file tersebut secara manual.";
 $GLOBALS['strErrorWritePermissions'] = "Error pada File permission terdeteksi. Masalah ini harus diperbaiki terlebih dahulu sebelum melanjut.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod a+w %s</i>";
@@ -35,8 +35,8 @@ $GLOBALS['strNotWriteable'] = "TIDAK bisa ditulisi";
 $GLOBALS['strDirNotWriteableError'] = "Direktori harus dapat ditulisi";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Error pada File permission terdeteksi. Masalah ini harus diperbaiki terlebih dahulu sebelum melanjut.";
-$GLOBALS['strCheckDocumentation'] = "Pertolongan untuk mengatasi masalah ini dapat ditemukan pada <a href='http://{$PRODUCT_DOCSURL}'>Dokumentasi {$PRODUCT_NAME}</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "Konfigurasi PHP anda saat ini tidak memenuhi persyaratan {$PRODUCT_NAME}. Untuk mengatasi masalah, mohon modifikasi setting di file 'php.ini' Anda.";
+$GLOBALS['strCheckDocumentation'] = "Pertolongan untuk mengatasi masalah ini dapat ditemukan pada <a href='http://{{PRODUCT_DOCSURL}}'>Dokumentasi {{PRODUCT_NAME}}</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "Konfigurasi PHP anda saat ini tidak memenuhi persyaratan {{PRODUCT_NAME}}. Untuk mengatasi masalah, mohon modifikasi setting di file 'php.ini' Anda.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL tampilan untuk Admin";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL tampilan untuk mesin penyampaian iklan";
@@ -71,7 +71,7 @@ $GLOBALS['strInvalidUsername'] = "Nama pengguna tidak berlaku";
 $GLOBALS['strBasicInformation'] = "Informasi Dasar";
 $GLOBALS['strAdministratorEmail'] = "Alamat E-Mail Administrator";
 $GLOBALS['strAdminCheckUpdates'] = "Cari Update";
-$GLOBALS['strAdminShareStack'] = "Bagikan informasi teknis dengan Tim {$PRODUCT_NAME} untuk membantu pengembangan dan pengujian.";
+$GLOBALS['strAdminShareStack'] = "Bagikan informasi teknis dengan Tim {{PRODUCT_NAME}} untuk membantu pengembangan dan pengujian.";
 $GLOBALS['strNovice'] = "Hapus tindakan memerlukan konfirmasi keamanan";
 $GLOBALS['strUserlogEmail'] = "Catat seluruh E-Mail yang dikirim";
 $GLOBALS['strEnableDashboard'] = "Aktifkan Dashboard";
@@ -139,7 +139,7 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL Server Password";
 $GLOBALS['strProductionSystem'] = "Sistem produksi";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "{$PRODUCT_NAME} Jalur Akses Server";
+$GLOBALS['strWebPath'] = "{{PRODUCT_NAME}} Jalur Akses Server";
 $GLOBALS['strWebPathSimple'] = "Lintasan Web";
 $GLOBALS['strDeliveryPath'] = "Cache penyampaian";
 $GLOBALS['strImagePath'] = "Lintasan gambar";
@@ -164,6 +164,7 @@ $GLOBALS['strTypeFTPErrorUpload'] = "Tidak dapat mengunggah berkas ke Server FTP
 $GLOBALS['strTypeFTPErrorHost'] = "Hosti FTP yang dipilih salah";
 $GLOBALS['strDeliveryFilenames'] = "Nama-nama file dari Penyampaian Global";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "Klik iklan";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Variabel Konversi Iklan";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "Konten Iklan";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "Konversi Iklan";
@@ -180,16 +181,27 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Invokasi lokal";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Kontrol depan";
 $GLOBALS['strDeliveryFilenamesSinglePageCall'] = "Panggilan Halaman Tunggal";
 $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Panggilan Laman Tunggal (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "";
 $GLOBALS['strDeliveryCaching'] = "Penyetelan global untuk caching penyampaian";
 $GLOBALS['strDeliveryCacheLimit'] = "Time Between Cache Updates (seconds)";
 $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
 $GLOBALS['strDeliveryAcls'] = "Evaluasi aturan pengiriman banner selama pengiriman";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluasi aturan pengiriman banner untuk iklan pilihan langsung";
 $GLOBALS['strDeliveryObfuscate'] = "Aturan pengiriman yang tidak jelas ditetapkan saat mengirim iklan";
+$GLOBALS['strDeliveryClickUrlValidity'] = "";
+$GLOBALS['strDeliveryRelAttribute'] = "";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "";
 $GLOBALS['strP3PSettings'] = "Kebijaksanaan keleluasaan pribadi global P3P";
 $GLOBALS['strUseP3P'] = "Gunakan kebijaksanaan P3P";
 $GLOBALS['strP3PCompactPolicy'] = "Kebijakan P3P Compact";
 $GLOBALS['strP3PPolicyLocation'] = "Lokasi dari kebijaksanaan P3P";
+$GLOBALS['strPrivacySettings'] = "";
+$GLOBALS['strDisableViewerId'] = "";
+$GLOBALS['strAnonymiseIp'] = "";
 
 // General Settings
 $GLOBALS['generalSettings'] = "Penyetelan Global Umum";
@@ -263,7 +275,7 @@ $GLOBALS['strPriorityInstantUpdate'] = "Perbarui prioritas iklan segera saat per
 $GLOBALS['strPriorityIntentionalOverdelivery'] = "Secara sengaja over-deliver Contract Campaigns<br />(% over-delivery)";
 $GLOBALS['strDefaultImpConvWindow'] = "Jendela Konversi Tayangan Iklan Default (detik)";
 $GLOBALS['strDefaultCliConvWindow'] = "Jendela Konversi Klik Iklan Default (detik)";
-$GLOBALS['strAdminEmailHeaders'] = "Tambahkan header berikut pada semua E-Mail yang dikirimkan oleh {$PRODUCT_NAME}";
+$GLOBALS['strAdminEmailHeaders'] = "Tambahkan header berikut pada semua E-Mail yang dikirimkan oleh {{PRODUCT_NAME}}";
 $GLOBALS['strWarnLimit'] = "Kirimkan pemberitahuan bilamana jumlah impresi yang tersisa kurang dari jumlah impresi yang ditentukan disini";
 $GLOBALS['strWarnLimitDays'] = "Kirimkan pemberitahuan bilamana jumlah hari yang tersisa kurang dari jumlah hari yang ditentukan disini";
 $GLOBALS['strWarnAdmin'] = "Kirim peringatan kepada administrator setiap kali kampanye hampir kedaluwarsa";

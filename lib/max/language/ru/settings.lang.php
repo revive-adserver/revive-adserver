@@ -26,12 +26,17 @@ $GLOBALS['strTablesType'] = "Тип таблиц";
 $GLOBALS['strRecoveryRequiredTitle'] = "Во время предыдущей попытки обновления произошла ошибка";
 $GLOBALS['strRecoveryRequired'] = "Во время предыдущей попытки обновления произошла ошибка. Нажмите на кнопку \"Исправить\" для исправления.";
 
+$GLOBALS['strProductUpToDateTitle'] = "";
 $GLOBALS['strOaUpToDate'] = "Файловая структура и схема данных вашей инсталляции не нуждаются в обновлении. Нажмите \"продолжить\" для перехода в административную панель.";
 $GLOBALS['strOaUpToDateCantRemove'] = "предупреждение: файл UPGRADE по прежнему находится в папке var. Программа установки не в состоянии удалить его из-за недостатка прав доступа. Пожалуйста, удалите его самостоятельно.";
 $GLOBALS['strErrorWritePermissions'] = "Прежде, чем вы сможете продолжить, необходимо исправить ошибки прав доступа к файлам.<br />Чтобы исправить ошибки в ОС Linux попробуйте выполнить следующие команды:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "";
+$GLOBALS['strNotWriteable'] = "";
+$GLOBALS['strDirNotWriteableError'] = "";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Прежде, чем вы сможете продолжить, необходимо исправить ошибки прав доступа к файлам.";
-$GLOBALS['strCheckDocumentation'] = "Для вызова справки, откройте <a href='{$PRODUCT_DOCSURL}'>Документацию {$PRODUCT_NAME}</a>.";
+$GLOBALS['strCheckDocumentation'] = "Для вызова справки, откройте <a href='{{PRODUCT_DOCSURL}}'>Документацию {{PRODUCT_NAME}}</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL административного интерфейса";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL движка доставки баннеров";
@@ -48,11 +53,14 @@ $GLOBALS['strUpgrade'] = "Обновить";
 
 // Global
 $GLOBALS['strChooseSection'] = "Выберите раздел";
+$GLOBALS['strEditConfigNotPossible'] = "";
+$GLOBALS['strEditConfigPossible'] = "";
 $GLOBALS['strUnableToWriteConfig'] = "Невозможно сохранить изменения в файл конфигурации";
 $GLOBALS['strUnableToWritePrefs'] = "Невозможно сохранить настройки в БД";
 $GLOBALS['strImageDirLockedDetected'] = "Указанная<b>папка для изображений</b>недоступна для записи. <br>Необходимо изменить настройки доступа, или создать папку.";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Имя пользователя-администратора";
@@ -61,7 +69,10 @@ $GLOBALS['strInvalidUsername'] = "Неверное имя пользовател
 $GLOBALS['strBasicInformation'] = "Основная информация";
 $GLOBALS['strAdministratorEmail'] = "Адрес электронной почты администратора";
 $GLOBALS['strAdminCheckUpdates'] = "Проверить обновления";
+$GLOBALS['strAdminShareStack'] = "";
+$GLOBALS['strNovice'] = "";
 $GLOBALS['strUserlogEmail'] = "Протоколировать все исходящие сообщения электронной почты";
+$GLOBALS['strEnableDashboard'] = "";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Пожалуйста разрешите <a href='account-settings-update.php'>Проверить обновление</a> если вы хотите использовать панель инструментов.";
 $GLOBALS['strTimezone'] = "Часовой пояс";
 $GLOBALS['strEnableAutoMaintenance'] = "Автоматически проводить обслуживание БД во время доставки баннеров, если обслуживание не настроено вручную";
@@ -84,14 +95,21 @@ $GLOBALS['strCantConnectToDb'] = "Не могу связаться с базой
 $GLOBALS['strCantConnectToDbDelivery'] = 'Не удается подключиться к базе данных для доставки';
 
 // Email Settings
+$GLOBALS['strEmailSettings'] = "";
 $GLOBALS['strEmailAddresses'] = "Email \"От\" адрес";
 $GLOBALS['strEmailFromName'] = "Email \"От\" Имя";
 $GLOBALS['strEmailFromAddress'] = "Email \"От\" Электронная почта";
 $GLOBALS['strEmailFromCompany'] = "Email \"От\" Компания";
+$GLOBALS['strUseManagerDetails'] = '';
 $GLOBALS['strQmailPatch'] = "патч для qmail";
+$GLOBALS['strEnableQmailPatch'] = "";
+$GLOBALS['strEmailHeader'] = "";
+$GLOBALS['strEmailLog'] = "";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Настройки аудита изменений";
+$GLOBALS['strEnableAudit'] = "";
+$GLOBALS['strEnableAuditForZoneLinking'] = "";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "Глобальные настройки отладочного журнала";
@@ -100,11 +118,18 @@ $GLOBALS['strDebugMethodNames'] = "Включать имена методов в
 $GLOBALS['strDebugLineNumbers'] = "Включать номера строк в отладочный журнал";
 $GLOBALS['strDebugType'] = "Тип отладочного журнала";
 $GLOBALS['strDebugTypeFile'] = "Файл";
+$GLOBALS['strDebugTypeMcal'] = "";
 $GLOBALS['strDebugTypeSql'] = "БД";
+$GLOBALS['strDebugTypeSyslog'] = "";
 $GLOBALS['strDebugName'] = "Имя файла Журнала отладки, таблица БД или метка Syslog";
 $GLOBALS['strDebugPriority'] = "Уровень приоритета отладки";
 $GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Основная информация";
 $GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Информация по умолчанию";
+$GLOBALS['strPEAR_LOG_NOTICE'] = "";
+$GLOBALS['strPEAR_LOG_WARNING'] = "";
+$GLOBALS['strPEAR_LOG_ERR'] = "";
+$GLOBALS['strPEAR_LOG_CRIT'] = "";
+$GLOBALS['strPEAR_LOG_ALERT'] = "";
 $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - Полная информация";
 $GLOBALS['strDebugIdent'] = "Строка идентификации отладки";
 $GLOBALS['strDebugUsername'] = "Имя пользователя для mCal или SQL сервера";
@@ -112,6 +137,7 @@ $GLOBALS['strDebugPassword'] = "Пароль для mCal или SQL сервер
 $GLOBALS['strProductionSystem'] = "Production сервер";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "";
 $GLOBALS['strWebPathSimple'] = "Расположение веб-страниц";
 $GLOBALS['strDeliveryPath'] = "Расположение папки доставки";
 $GLOBALS['strImagePath'] = "Расположение папки изображений";
@@ -131,10 +157,12 @@ $GLOBALS['strTypeFTPPassword'] = "Пароль";
 $GLOBALS['strTypeFTPPassive'] = "Использовать пассивный режим";
 $GLOBALS['strTypeFTPErrorDir'] = "Указанная папка недоступна";
 $GLOBALS['strTypeFTPErrorConnect'] = "Невозможно соединиться с сервером, неправильные имя пользователя или пароль";
+$GLOBALS['strTypeFTPErrorNoSupport'] = "";
 $GLOBALS['strTypeFTPErrorUpload'] = "Невозможно загрузить файл на FTP сервер, проверьте права доступа.";
 $GLOBALS['strTypeFTPErrorHost'] = "Неправильное имя сервера";
 $GLOBALS['strDeliveryFilenames'] = "Имена файлов глобальной доставки";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "Клик по баннеру";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Переменные действия";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "Содержание баннера";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "Действие баннера";
@@ -149,20 +177,40 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Просмотр баннера";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Вызов XML-RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Локальный вызов";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Фронт контроллер";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "";
 $GLOBALS['strDeliveryCaching'] = "Настройки кэширования доставки";
 $GLOBALS['strDeliveryCacheLimit'] = "Время между обновлениями кэша (сек.)";
+$GLOBALS['strDeliveryCacheStore'] = "";
+$GLOBALS['strDeliveryAcls'] = "";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "";
+$GLOBALS['strDeliveryObfuscate'] = "";
+$GLOBALS['strDeliveryClickUrlValidity'] = "";
+$GLOBALS['strDeliveryRelAttribute'] = "";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "";
 $GLOBALS['strP3PSettings'] = "Настройки P3P (политика обращения с частной информацией) ";
 $GLOBALS['strUseP3P'] = "Использовать P3P-политики";
 $GLOBALS['strP3PCompactPolicy'] = "Компактная политика P3P";
 $GLOBALS['strP3PPolicyLocation'] = "Место размещения P3P-политики";
+$GLOBALS['strPrivacySettings'] = "";
+$GLOBALS['strDisableViewerId'] = "";
+$GLOBALS['strAnonymiseIp'] = "";
 
 // General Settings
+$GLOBALS['generalSettings'] = "";
 $GLOBALS['uiEnabled'] = "Интерфейс пользователя включен";
+$GLOBALS['defaultLanguage'] = "";
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Настройки гео-таргетинга";
 $GLOBALS['strGeotargeting'] = "Настройки гео-таргетинга";
 $GLOBALS['strGeotargetingType'] = "Тип модуля гео-таргетинга";
+$GLOBALS['strGeoShowUnavailable'] = "";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Администрирование";
@@ -171,15 +219,18 @@ $GLOBALS['strShowBannerInfo'] = "Показывать дополнительну
 $GLOBALS['strShowCampaignPreview'] = "Показывать превью баннеров на странице <i>обзора баннеров</i>";
 $GLOBALS['strShowBannerHTML'] = "Показывать баннер вместо HTML-кода на странице обзора HTML баннеров";
 $GLOBALS['strShowBannerPreview'] = "Показывать превью баннера вверху страниц управления баннерами";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "";
 $GLOBALS['strHideInactive'] = "Скрыть неактивные";
 $GLOBALS['strGUIShowMatchingBanners'] = "Показывать баннеры на странице <i>Связанные баннеры</i>";
 $GLOBALS['strGUIShowParentCampaigns'] = "Показывать кампании на странице <i>Связанные баннеры</i>";
+$GLOBALS['strShowEntityId'] = "";
 $GLOBALS['strStatisticsDefaults'] = "Статистика";
 $GLOBALS['strBeginOfWeek'] = "Начало недели";
 $GLOBALS['strPercentageDecimals'] = "Десятичные дроби";
 $GLOBALS['strWeightDefaults'] = "Вес по умолчанию";
 $GLOBALS['strDefaultBannerWeight'] = "Вес баннера по умолчанию";
 $GLOBALS['strDefaultCampaignWeight'] = "Вес кампании по умолчанию";
+$GLOBALS['strConfirmationUI'] = "";
 
 // Invocation Settings
 $GLOBALS['strInvocationDefaults'] = "Настройки вызова по умолчанию";
@@ -201,16 +252,28 @@ $GLOBALS['strIgnoreUserAgents'] = "<b>Не</b> считать статистик
 $GLOBALS['strEnforceUserAgents'] = "<b>Считать только</b> статистику для клиентов со следующими строками в user-agent (по одной на строку)";
 
 // Banner Storage Settings
+$GLOBALS['strBannerStorage'] = "";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "";
+$GLOBALS['strEnableContractECPM'] = "";
+$GLOBALS['strEnableECPMfromRemnant'] = "";
+$GLOBALS['strEnableECPMfromECPM'] = "";
+$GLOBALS['strInactivatedCampaigns'] = "";
 
 // Statistics & Maintenance Settings
+$GLOBALS['strMaintenanceSettings'] = "";
 $GLOBALS['strConversionTracking'] = "Настройки учета конверсии";
 $GLOBALS['strEnableConversionTracking'] = "Разрешить учет конверсии";
+$GLOBALS['strBlockInactiveBanners'] = "";
+$GLOBALS['strBlockAdClicks'] = "";
 $GLOBALS['strMaintenanceOI'] = "Интервал между операциями обслуживания (минут)";
 $GLOBALS['strPrioritySettings'] = "Глобальные настройки приоритетов";
 $GLOBALS['strPriorityInstantUpdate'] = "Обновлять приоритеты немедленно при внесении изменений";
-$GLOBALS['strAdminEmailHeaders'] = "Добавлять в каждое письмо заголовок message sent by {$PRODUCT_NAME}";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "";
+$GLOBALS['strDefaultImpConvWindow'] = "";
+$GLOBALS['strDefaultCliConvWindow'] = "";
+$GLOBALS['strAdminEmailHeaders'] = "Добавлять в каждое письмо заголовок message sent by {{PRODUCT_NAME}}";
 $GLOBALS['strWarnLimit'] = "Предупреждение о лимите";
 $GLOBALS['strWarnLimitDays'] = "Отправлять сообщение если осталось дней меньше чем";
 $GLOBALS['strWarnAdmin'] = "Отправлять сообщение администратору всякий раз когда кампания близка к завершению";
@@ -225,6 +288,7 @@ $GLOBALS['strMyHeader'] = "Мой заголовок";
 $GLOBALS['strMyFooter'] = "Мой подвал";
 $GLOBALS['strDefaultTrackerStatus'] = "Статус по умолчанию";
 $GLOBALS['strDefaultTrackerType'] = "Тип по умолчанию";
+$GLOBALS['strSSLSettings'] = "";
 $GLOBALS['requireSSL'] = "Принудительно использовать SSL в GUI";
 $GLOBALS['sslPort'] = "SSL порт сервера";
 $GLOBALS['strDashboardSettings'] = "Настройка панели";
@@ -233,8 +297,15 @@ $GLOBALS['strGuiHeaderForegroundColor'] = "Цвет букв заголовка"
 $GLOBALS['strGuiHeaderBackgroundColor'] = "Цвет фона заголовка";
 $GLOBALS['strGuiActiveTabColor'] = "Цвет активной закладки";
 $GLOBALS['strGuiHeaderTextColor'] = "Цвет текста в заголовке";
+$GLOBALS['strGuiSupportLink'] = "";
 $GLOBALS['strGzipContentCompression'] = "Использовать Gzip сжатие";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate'] = "";
+$GLOBALS['strNewPlatformHash'] = "";
+$GLOBALS['strPlatformHashInsertingError'] = "";
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "";
+$GLOBALS['strEnableNewPlugins'] = "";
+$GLOBALS['strUseMergedFunctions'] = "";

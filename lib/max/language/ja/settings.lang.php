@@ -24,14 +24,19 @@ $GLOBALS['strTablesPrefix'] = "テーブルプリフィックス";
 $GLOBALS['strTablesType'] = "テーブルタイプ";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "前回のアップデートでエラーが発生";
-$GLOBALS['strRecoveryRequired'] = "前回のアップデートプロセスでエラーが発生しています。{$PRODUCT_NAME} は、アップデートプロセスの回復を試みます。以下の\\'復旧する\\'ボタンをクリックしてください。";
+$GLOBALS['strRecoveryRequired'] = "前回のアップデートプロセスでエラーが発生しています。{{PRODUCT_NAME}} は、アップデートプロセスの回復を試みます。以下の\\'復旧する\\'ボタンをクリックしてください。";
 
-$GLOBALS['strOaUpToDate'] = "あなたの{$PRODUCT_NAME}は最新です！次へボタンを押して、{$PRODUCT_NAME}の管理画面へと進んでください。";
+$GLOBALS['strProductUpToDateTitle'] = "";
+$GLOBALS['strOaUpToDate'] = "あなたの{{PRODUCT_NAME}}は最新です！次へボタンを押して、{{PRODUCT_NAME}}の管理画面へと進んでください。";
 $GLOBALS['strOaUpToDateCantRemove'] = "警告:アップデートファイルが、varディレクトリに残っています。十分な権限がないため、アップデートファイルを削除できませんでした。このファイルを自分自身の手で削除してください。";
 $GLOBALS['strErrorWritePermissions'] = "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。<br />Linux系のシステムでは、以下のコマンドを入力してください。:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "";
+$GLOBALS['strNotWriteable'] = "";
+$GLOBALS['strDirNotWriteableError'] = "";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。";
-$GLOBALS['strCheckDocumentation'] = "詳細な情報に関しては、 <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} こちら</a>をご覧下さい。";
+$GLOBALS['strCheckDocumentation'] = "詳細な情報に関しては、 <a href='{{PRODUCT_DOCSURL}}'>{{PRODUCT_NAME}} こちら</a>をご覧下さい。";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "";
 
 $GLOBALS['strAdminUrlPrefix'] = "管理者画面URL";
 $GLOBALS['strDeliveryUrlPrefix'] = "配信エンジンURL";
@@ -48,11 +53,14 @@ $GLOBALS['strUpgrade'] = "アップデート";
 
 // Global
 $GLOBALS['strChooseSection'] = "セクションの選択";
+$GLOBALS['strEditConfigNotPossible'] = "";
+$GLOBALS['strEditConfigPossible'] = "";
 $GLOBALS['strUnableToWriteConfig'] = "設定ファイルに書き込む事ができませんでした。";
 $GLOBALS['strUnableToWritePrefs'] = "データベースに設定を反映できませんでした。";
 $GLOBALS['strImageDirLockedDetected'] = "指定した<b>画像ストレージ</b>への書き込みができません。<br>ディレクトリのパーミッションを変更するか、新しくディレクトリを作成してください。";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "管理者  ユーザ名";
@@ -61,6 +69,7 @@ $GLOBALS['strInvalidUsername'] = "ユーザ名が不正です";
 $GLOBALS['strBasicInformation'] = "基本情報";
 $GLOBALS['strAdministratorEmail'] = "管理者メールアドレス";
 $GLOBALS['strAdminCheckUpdates'] = "アップデートの確認";
+$GLOBALS['strAdminShareStack'] = "";
 $GLOBALS['strNovice'] = "アクションを削除する前に確認する";
 $GLOBALS['strUserlogEmail'] = "全ての送信メールの内容をログに取る";
 $GLOBALS['strEnableDashboard'] = "ダッシュボードを有効にする";
@@ -83,6 +92,7 @@ $GLOBALS['strDbNameHint'] = "もしない場合、データベースが自動で
 $GLOBALS['strDatabaseOptimalisations'] = "データベース最適化設定";
 $GLOBALS['strPersistentConnections'] = "持続的にデータベースに接続する";
 $GLOBALS['strCantConnectToDb'] = "データベースに接続できません";
+$GLOBALS['strCantConnectToDbDelivery'] = '';
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Eメール設定";
@@ -90,6 +100,7 @@ $GLOBALS['strEmailAddresses'] = "Eメール  アドレス";
 $GLOBALS['strEmailFromName'] = "Eメール  宛先名";
 $GLOBALS['strEmailFromAddress'] = "Eメール  Eメールアドレス";
 $GLOBALS['strEmailFromCompany'] = "Eメール  社用";
+$GLOBALS['strUseManagerDetails'] = '';
 $GLOBALS['strQmailPatch'] = "Qメールパッチ";
 $GLOBALS['strEnableQmailPatch'] = "Qmailパッチを適用する";
 $GLOBALS['strEmailHeader'] = "Eメールヘッダ";
@@ -98,6 +109,7 @@ $GLOBALS['strEmailLog'] = "Eメールログ";
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "追跡記録ログ";
 $GLOBALS['strEnableAudit'] = "監査の追跡を有効にする";
+$GLOBALS['strEnableAuditForZoneLinking'] = "";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "ログ検査方法の設定";
@@ -106,6 +118,7 @@ $GLOBALS['strDebugMethodNames'] = "関数名を検査ログに含める";
 $GLOBALS['strDebugLineNumbers'] = "検査ログに行番号を含める";
 $GLOBALS['strDebugType'] = "検査ログのタイプ";
 $GLOBALS['strDebugTypeFile'] = "ファイル";
+$GLOBALS['strDebugTypeMcal'] = "";
 $GLOBALS['strDebugTypeSql'] = "SQLデータベース";
 $GLOBALS['strDebugTypeSyslog'] = "システムログ";
 $GLOBALS['strDebugName'] = "ログ名、カレンダー、SQLテーブル<br />もしくはシスログを検査する";
@@ -124,6 +137,7 @@ $GLOBALS['strDebugPassword'] = "mCal, SQLサーバのパスワード";
 $GLOBALS['strProductionSystem'] = "プロダクションシステム";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "";
 $GLOBALS['strWebPathSimple'] = "Webパス";
 $GLOBALS['strDeliveryPath'] = "配信パス";
 $GLOBALS['strImagePath'] = "画像パス";
@@ -148,6 +162,7 @@ $GLOBALS['strTypeFTPErrorUpload'] = "FTPサーバにファイルをアップロ�
 $GLOBALS['strTypeFTPErrorHost'] = "FTPホストが正しくありません";
 $GLOBALS['strDeliveryFilenames'] = "配信ファイル名";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "広告クリック";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "広告コンバージョン値";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "広告内容";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "広告コンバージョン";
@@ -162,12 +177,29 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "広告ビュー";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPCで広告を生成する";
 $GLOBALS['strDeliveryFilenamesLocal'] = "ローカルサーバより広告を生成する";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "フロントコントローラ";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "";
 $GLOBALS['strDeliveryCaching'] = "バナーキャッシュの設定";
 $GLOBALS['strDeliveryCacheLimit'] = "バナーキャッシュの更新間隔";
+$GLOBALS['strDeliveryCacheStore'] = "";
+$GLOBALS['strDeliveryAcls'] = "";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "";
+$GLOBALS['strDeliveryObfuscate'] = "";
+$GLOBALS['strDeliveryClickUrlValidity'] = "";
+$GLOBALS['strDeliveryRelAttribute'] = "";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "";
 $GLOBALS['strP3PSettings'] = "P3Pプライベートポリシー";
 $GLOBALS['strUseP3P'] = "P3Pポリシーを使う";
 $GLOBALS['strP3PCompactPolicy'] = "P3Pコンパクトポリシー";
 $GLOBALS['strP3PPolicyLocation'] = "P3Pポリシーの場所";
+$GLOBALS['strPrivacySettings'] = "";
+$GLOBALS['strDisableViewerId'] = "";
+$GLOBALS['strAnonymiseIp'] = "";
 
 // General Settings
 $GLOBALS['generalSettings'] = "全般設定";
@@ -178,6 +210,7 @@ $GLOBALS['defaultLanguage'] = "デフォルト言語設定";
 $GLOBALS['strGeotargetingSettings'] = "ジオターゲティング設定";
 $GLOBALS['strGeotargeting'] = "ジオターゲティング設定";
 $GLOBALS['strGeotargetingType'] = "ジオターゲティングモジュールタイプ";
+$GLOBALS['strGeoShowUnavailable'] = "";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "インベントリ";
@@ -186,9 +219,11 @@ $GLOBALS['strShowBannerInfo'] = "バナーの追加情報を<i>バナーの概�
 $GLOBALS['strShowCampaignPreview'] = "全てのバナーのプレビューを<i>バナーの概要</i>に表示する";
 $GLOBALS['strShowBannerHTML'] = "HTMLバナーの場合、HTMLタグではなく、実際のバナーを表示する";
 $GLOBALS['strShowBannerPreview'] = "バナーが表示される画面に遷移した場合、バナーのプレビューを画面上部に表示する";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "";
 $GLOBALS['strHideInactive'] = "非アクティブなものを隠す";
 $GLOBALS['strGUIShowMatchingBanners'] = "マッチするバナーを<i>関連済みバナー</i>で表示する";
 $GLOBALS['strGUIShowParentCampaigns'] = "親キャンペーンを<i>関連済みバナー</i>で表示する";
+$GLOBALS['strShowEntityId'] = "";
 $GLOBALS['strStatisticsDefaults'] = "統計";
 $GLOBALS['strBeginOfWeek'] = "週の始まり";
 $GLOBALS['strPercentageDecimals'] = "10進数のパーセンテージ";
@@ -220,16 +255,25 @@ $GLOBALS['strEnforceUserAgents'] = "以下の内容がUserAgentに含まれて�
 $GLOBALS['strBannerStorage'] = "バナーストレージ設定";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "";
+$GLOBALS['strEnableContractECPM'] = "";
+$GLOBALS['strEnableECPMfromRemnant'] = "";
+$GLOBALS['strEnableECPMfromECPM'] = "";
+$GLOBALS['strInactivatedCampaigns'] = "";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "メンテナンス設定";
 $GLOBALS['strConversionTracking'] = "コンバージョン追跡設定";
 $GLOBALS['strEnableConversionTracking'] = "コンバージョンの追跡を有効にする";
+$GLOBALS['strBlockInactiveBanners'] = "";
 $GLOBALS['strBlockAdClicks'] = "特定の時間内に同じゾーンもしくは広告にアクセスするユーザがいた場合、その広告クリック数を取得しない";
 $GLOBALS['strMaintenanceOI'] = "メンテナンス時間間隔(分）";
 $GLOBALS['strPrioritySettings'] = "優先度設定";
 $GLOBALS['strPriorityInstantUpdate'] = "優先度の変更を即反映する";
-$GLOBALS['strAdminEmailHeaders'] = "{$PRODUCT_NAME} が送るメールのヘッダに以下の情報を付与する";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "";
+$GLOBALS['strDefaultImpConvWindow'] = "";
+$GLOBALS['strDefaultCliConvWindow'] = "";
+$GLOBALS['strAdminEmailHeaders'] = "{{PRODUCT_NAME}} が送るメールのヘッダに以下の情報を付与する";
 $GLOBALS['strWarnLimit'] = "インプレッションの残数がここで指定する数値を下回った場合、警告Eメールを送信する";
 $GLOBALS['strWarnLimitDays'] = "表示日数の残数がここで指定する数値を下回った場合、警告Eメールを送信する";
 $GLOBALS['strWarnAdmin'] = "キャンペーンが終了しそうになったら、管理者宛てにメールを送る。";
@@ -253,8 +297,15 @@ $GLOBALS['strGuiHeaderForegroundColor'] = "ヘッダーのフロント色";
 $GLOBALS['strGuiHeaderBackgroundColor'] = "ヘッダーの背景色";
 $GLOBALS['strGuiActiveTabColor'] = "アクティブタブの色";
 $GLOBALS['strGuiHeaderTextColor'] = "ヘッダーのテキスト色";
+$GLOBALS['strGuiSupportLink'] = "";
 $GLOBALS['strGzipContentCompression'] = "GZIP圧縮をする";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate'] = "";
+$GLOBALS['strNewPlatformHash'] = "";
+$GLOBALS['strPlatformHashInsertingError'] = "";
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "";
+$GLOBALS['strEnableNewPlugins'] = "";
+$GLOBALS['strUseMergedFunctions'] = "";

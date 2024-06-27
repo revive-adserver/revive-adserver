@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: es-ES\n"
 "X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 382\n"
+"PO-Revision-Date: 2021-07-26 08:00\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:33
 msgid "memcached"

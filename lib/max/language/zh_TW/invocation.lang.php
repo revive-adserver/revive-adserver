@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "請選擇生成的公告形式";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "請選擇生成的公告形式";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "";
 $GLOBALS['strAbbrSeconds'] = "秒";
 
 // Common Invocation Parameters
@@ -36,7 +37,23 @@ $GLOBALS['strIFrameRefreshAfter'] = "於此之後刷新";
 $GLOBALS['strIframeMakeTransparent'] = "iframe透明";
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "";
+$GLOBALS['strPopUpStylePopUp'] = "";
+$GLOBALS['strPopUpStylePopUnder'] = "";
+$GLOBALS['strPopUpCreateInstance'] = "";
+$GLOBALS['strPopUpImmediately'] = "";
+$GLOBALS['strPopUpOnClose'] = "";
+$GLOBALS['strPopUpAfterSec'] = "";
+$GLOBALS['strAutoCloseAfter'] = "";
+$GLOBALS['strPopUpTop'] = "";
+$GLOBALS['strPopUpLeft'] = "";
+$GLOBALS['strWindowOptions'] = "";
+$GLOBALS['strShowToolbars'] = "";
+$GLOBALS['strShowLocation'] = "";
+$GLOBALS['strShowMenubar'] = "";
 $GLOBALS['strShowStatus'] = "狀態";
+$GLOBALS['strWindowResizable'] = "";
+$GLOBALS['strShowScrollbars'] = "";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "插入Cache-Busting代碼";

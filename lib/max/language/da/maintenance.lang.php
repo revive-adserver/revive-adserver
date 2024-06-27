@@ -12,15 +12,24 @@
 
 // Main strings
 $GLOBALS['strChooseSection'] = "Vælg sektion";
+$GLOBALS['strAppendCodes'] = "";
 
 // Maintenance
+$GLOBALS['strScheduledMaintenanceHasntRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "";
 
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "";
 
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "";
 
+$GLOBALS['strScheduledMantenaceRunning'] = "";
 
+$GLOBALS['strAutomaticMaintenanceHasRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabled'] = "";
 
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Genkalkuler prioritet";
@@ -47,20 +56,34 @@ $GLOBALS['strDeliveryCacheFiles'] = "	Leverings cachen er for øjeblikket gemt i
 
 // Storage
 $GLOBALS['strStorage'] = "Lager";
+$GLOBALS['strMoveToDirectory'] = "";
+$GLOBALS['strStorageExplaination'] = "";
 
 // Security
+$GLOBALS['strSecurity'] = "";
+$GLOBALS['strSecurityExplanation'] = "";
+$GLOBALS['strSecurityOK'] = "";
+$GLOBALS['strSecurityKO'] = "";
+$GLOBALS['strSecurityReadMore'] = "";
 
 // Encoding
+$GLOBALS['strEncoding'] = "";
+$GLOBALS['strEncodingExplaination'] = "";
+$GLOBALS['strEncodingConvertFrom'] = "";
+$GLOBALS['strEncodingConvertTest'] = "";
+$GLOBALS['strConvertThese'] = "";
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Kontrollere for opdateringer. Venligst vent...";
 $GLOBALS['strAvailableUpdates'] = "Tilgængelige opdateringer";
+$GLOBALS['strDownloadZip'] = "";
+$GLOBALS['strDownloadGZip'] = "";
 
-$GLOBALS['strUpdateAlert'] = "En ny version af {$PRODUCT_NAME} er tilgængelig.
+$GLOBALS['strUpdateAlert'] = "En ny version af {{PRODUCT_NAME}} er tilgængelig.
 
 Ønsker fu at få mere information
 om denne opdatering?";
-$GLOBALS['strUpdateAlertSecurity'] = "En ny version af {$PRODUCT_NAME} er tilgængelig.
+$GLOBALS['strUpdateAlertSecurity'] = "En ny version af {{PRODUCT_NAME}} er tilgængelig.
 
 Det anbefales meget at opgradere
 så hurtigt som muligt, da denne
@@ -68,20 +91,22 @@ version indeholder en eller flere sikkerhedsopdateringer.";
 
 $GLOBALS['strUpdateServerDown'] = "Af en ukendt årsag er det ikke muligt at indente<br>information om mulige opdateringer. Venligst forsøg igen senere.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	Din version af {$PRODUCT_NAME} er opdateret. Der er for øjeblikket ingen opdateringer tilgængelige.";
+$GLOBALS['strNoNewVersionAvailable'] = "	Din version af {{PRODUCT_NAME}} er opdateret. Der er for øjeblikket ingen opdateringer tilgængelige.";
 
+$GLOBALS['strServerCommunicationError'] = "";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "";
 
-$GLOBALS['strNewVersionAvailable'] = "	<b>En ny version af {$PRODUCT_NAME} er tilgængelig.</b><br /> Det anbefales at installere denne opdatering,
+$GLOBALS['strNewVersionAvailable'] = "	<b>En ny version af {{PRODUCT_NAME}} er tilgængelig.</b><br /> Det anbefales at installere denne opdatering,
 	fordi den vil muligvis reperere nogle eksisterende problemer og tilføje nye funktioner. For yderligere information
 	om opgradering venligst læs dokumentationen som er inkluderet i filen vist nedenfor";
 
 $GLOBALS['strSecurityUpdate'] = "	<b>Det anbefales kraftigt at installere denne opdatering så hurtigt som muligt, da den indeholder et antal
-	sikkerheds fejlrettelser.</b> Denne version af {$PRODUCT_NAME} som du anvender for øjeblikket er
+	sikkerheds fejlrettelser.</b> Denne version af {{PRODUCT_NAME}} som du anvender for øjeblikket er
 	sårbar overfor nogle angreb og er måske ikke sikker. For yderligere information
 	om omdateringen venligst læs dokumentationen som er inkluderet i filen nedenfor.";
 
-$GLOBALS['strNotAbleToCheck'] = "	<b>På grund af XML udvidelse ikke er tilgængelig på din server, {$PRODUCT_NAME} har ikke
+$GLOBALS['strNotAbleToCheck'] = "	<b>På grund af XML udvidelse ikke er tilgængelig på din server, {{PRODUCT_NAME}} har ikke
 mulighed for at kontrollere om der er en ny version tilgængelig.</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = "	Hvis du ønsker at vide om der er en nyere version tilgængelig, venligst besøg vores webside.";
@@ -92,9 +117,35 @@ $GLOBALS['strRunningOn'] = "kører på";
 $GLOBALS['strAndPlain'] = "og";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "";
+$GLOBALS['strAllBannerChannelCompiled'] = "";
+$GLOBALS['strBannerChannelResult'] = "";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "";
+$GLOBALS['strErrorsFound'] = "";
+$GLOBALS['strRepairCompiledLimitations'] = "";
+$GLOBALS['strRecompile'] = "";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "";
+$GLOBALS['strCheckACLs'] = "";
 
 //  Append codes
+$GLOBALS['strAppendCodesDesc'] = "";
+$GLOBALS['strCheckAppendCodes'] = "";
+$GLOBALS['strAppendCodesRecompiled'] = "";
+$GLOBALS['strAppendCodesResult'] = "";
+$GLOBALS['strAppendCodesValid'] = "";
+$GLOBALS['strRepairAppenedCodes'] = "";
 
+$GLOBALS['strPlugins'] = "";
+$GLOBALS['strPluginsPrecis'] = "";
 
+$GLOBALS['strMenus'] = "";
+$GLOBALS['strMenusPrecis'] = "";
+$GLOBALS['strMenusCachedOk'] = "";
 
 // Users
+$GLOBALS['strUserPasswords'] = "";
+$GLOBALS['strUserPasswordsExplaination'] = "";
+$GLOBALS['strCheckUserPasswords'] = "";
+$GLOBALS['strUserPasswordsEverythingOK'] = "";
+$GLOBALS['strUserPasswordsEmailsSent'] = "";

@@ -14,14 +14,23 @@
 $GLOBALS['phpAds_TextDirection'] = "rtl";
 $GLOBALS['phpAds_TextAlignRight'] = "left";
 $GLOBALS['phpAds_TextAlignLeft'] = "right";
+$GLOBALS['phpAds_CharSet'] = "";
 
 $GLOBALS['phpAds_DecimalPoint'] = ".";
 $GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
+$GLOBALS['date_format'] = "";
+$GLOBALS['time_format'] = "";
+$GLOBALS['minute_format'] = "";
+$GLOBALS['month_format'] = "";
 $GLOBALS['day_format'] = "%d-%m";
+$GLOBALS['week_format'] = "";
+$GLOBALS['weekiso_format'] = "";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
+$GLOBALS['excel_integer_formatting'] = "";
+$GLOBALS['excel_decimal_formatting'] = "";
 
 /* ------------------------------------------------------- */
 /* Translations                                          */
@@ -136,6 +145,8 @@ $GLOBALS['strHighAds'] = "
 قرارداد کمپین تبلیغات";
 $GLOBALS['strECPMAds'] = "eCPM کمپین تبلیغات";
 $GLOBALS['strLowAds'] = "تبلیغات کمپین باقی ماندهs";
+$GLOBALS['strLimitations'] = "";
+$GLOBALS['strNoLimitations'] = "";
 $GLOBALS['strCapping'] = "
 سر پوش";
 
@@ -172,10 +183,14 @@ $GLOBALS['strNewUserWillBeCreated'] = "
 $GLOBALS['strToLinkProvideEmail'] = "برای اضافه کردن کاربر، ارائه ایمیل کاربر";
 $GLOBALS['strToLinkProvideUsername'] = "
 برای اضافه کردن کاربر، ارائه نام کاربری";
+$GLOBALS['strUserLinkedToAccount'] = "";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "";
 $GLOBALS['strUserAccountUpdated'] = "حساب کاربر به روز شد";
+$GLOBALS['strUserUnlinkedFromAccount'] = "";
 $GLOBALS['strUserWasDeleted'] = "کاربر حذف شد";
 $GLOBALS['strUserNotLinkedWithAccount'] = "چنین کاربر با حساب مرتبط نیست";
-$GLOBALS['strLinkUserHelp'] = "برای اضاقه کردن <b>کاربر موجود</b>, بنویسدe %1\$s و کلیک کنید %2\$s <br />باز اضافه کردن <b>کاربر جدید</b>, نوع مورد نظر را تایپ کنید %1\$s و کلیک کنید %2\$s";
+$GLOBALS['strCantDeleteOneAdminUser'] = "";
+$GLOBALS['strLinkUserHelp'] = "برای اضاقه کردن <b>کاربر موجود</b>, بنویسدe %1\\$s و کلیک کنید %2\\$s <br />باز اضافه کردن <b>کاربر جدید</b>, نوع مورد نظر را تایپ کنید %1\\$s و کلیک کنید %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "نام کاربری";
 $GLOBALS['strLinkUserHelpEmail'] = "آدرس ایمیل";
 $GLOBALS['strLastLoggedIn'] = "آخرین ورود";
@@ -190,7 +205,7 @@ $GLOBALS['strAuthentification'] = "احراز هویت";
 $GLOBALS['strWelcomeTo'] = "خوش آمدید به ";
 $GLOBALS['strEnterUsername'] = "نام کاربری و رمز خود را برای ورود وارد کنید";
 $GLOBALS['strEnterBoth'] = "لطفا هم نام کاربری و هم رمز را وارد کنید";
-$GLOBALS['strEnableCookies'] = "شما نیاز به فعال کردن کوکی ها دارید قبل از استفاده از {$PRODUCT_NAME}";
+$GLOBALS['strEnableCookies'] = "شما نیاز به فعال کردن کوکی ها دارید قبل از استفاده از {{PRODUCT_NAME}}";
 $GLOBALS['strSessionIDNotMatch'] = "خطا در کوکی ، لطفا دوباره وارد شوید";
 $GLOBALS['strLogin'] = "ورود";
 $GLOBALS['strLogout'] = "خروج";
@@ -218,6 +233,7 @@ $GLOBALS['strClicks'] = "کلیک";
 $GLOBALS['strConversions'] = "
 تبدیل";
 $GLOBALS['strCTRShort'] = "نرخ کلیک";
+$GLOBALS['strCNVRShort'] = "";
 $GLOBALS['strCTR'] = "کلیک از طریق نسبت";
 $GLOBALS['strTotalClicks'] = "مجموع کلیک ها";
 $GLOBALS['strTotalConversions'] = "مجموع مکالمات";
@@ -237,6 +253,9 @@ $GLOBALS['strWindowDelay'] = "تاخیر پنجره";
 $GLOBALS['strStatsVariables'] = "مقادیر";
 
 // Finance
+$GLOBALS['strFinanceCPM'] = "";
+$GLOBALS['strFinanceCPC'] = "";
+$GLOBALS['strFinanceCPA'] = "";
 $GLOBALS['strFinanceMT'] = "مدت اجاره";
 $GLOBALS['strFinanceCTR'] = "نرخ کلیک";
 $GLOBALS['strFinanceCR'] = "کپی رایت";
@@ -307,8 +326,10 @@ $GLOBALS['strAllowClientModifyBanner'] = "
 به این کاربر اجازه تغییر آگهی ها خود را بدهید";
 $GLOBALS['strAllowClientDisableBanner'] = "به این کاربر اجازه غیر فعال کردن آگهی ها خود را بدهید";
 $GLOBALS['strAllowClientActivateBanner'] = "به این کاربر اجازه فعال شدن آگهی ها خود را بدهید";
+$GLOBALS['strAllowCreateAccounts'] = "";
 $GLOBALS['strAdvertiserLimitation'] = "نمایش تنها یک بنر از این تبلیغ کننده در صفحه وب";
 $GLOBALS['strAllowAuditTrailAccess'] = "به این کاربر اجازه دسترسی به دنباله حسابرسی بدهید";
+$GLOBALS['strAllowDeleteItems'] = "";
 
 // Campaign
 $GLOBALS['strCampaign'] = "کمپین";
@@ -607,11 +628,15 @@ $GLOBALS['strTextBelow'] = "متن زیر تصویر";
 $GLOBALS['strWeight'] = "وزن";
 $GLOBALS['strAlt'] = "متن ALT";
 $GLOBALS['strStatusText'] = "متن وضعیت";
+$GLOBALS['strCampaignsWeight'] = "";
 $GLOBALS['strBannerWeight'] = "وزن تبلیغات";
+$GLOBALS['strBannersWeight'] = "";
 $GLOBALS['strAdserverTypeGeneric'] = "بنر عمومی Html";
 $GLOBALS['strDoNotAlterHtml'] = "HTML را تغییر ندهید";
 $GLOBALS['strGenericOutputAdServer'] = "عمومی سازی";
 $GLOBALS['strBackToBanners'] = "بازگشت به تبلیغات";
+$GLOBALS['strUseWyswygHtmlEditor'] = "";
+$GLOBALS['strChangeDefault'] = "";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "همیشه کدHTML زیر به این بنر prepend کنید";
@@ -621,7 +646,10 @@ $GLOBALS['strBannerAppendHTML'] = "
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "گزینه های تحویل";
 $GLOBALS['strACL'] = "گزینه های تحویل";
+$GLOBALS['strACLAdd'] = "";
+$GLOBALS['strApplyLimitationsTo'] = "";
 $GLOBALS['strAllBannersInCampaign'] = "همه تبلیغات در این کمپین";
+$GLOBALS['strRemoveAllLimitations'] = "";
 $GLOBALS['strEqualTo'] = "برابر است با";
 $GLOBALS['strDifferentFrom'] = "متفاوت است";
 $GLOBALS['strLaterThan'] = "است بعد از";
@@ -644,6 +672,7 @@ $GLOBALS['strDomain'] = "دامنه";
 $GLOBALS['strSource'] = "منبع";
 $GLOBALS['strBrowser'] = "مرورگر";
 $GLOBALS['strOS'] = "سیستم عامل";
+$GLOBALS['strDeliveryLimitations'] = "";
 
 $GLOBALS['strDeliveryCappingReset'] = "تنظیم مجدد نمایش شمارنده پس از:";
 $GLOBALS['strDeliveryCappingTotal'] = "در مجموع";
@@ -733,10 +762,14 @@ $GLOBALS['strWarnChangeZoneType'] = "پنهان تغییر نوع منطقه ب�
                                                     <li>کمپین منطقه ایمیل تنها می توانید یک بنر فعال در یک زمان</li>
                                                 </ul>";
 $GLOBALS['strWarnChangeZoneSize'] = 'تغییر اندازه منطقه خواهد بر خلاف هر گونه تبلیغات که به اندازه جدید نیست، و هر گونه آگهی ها از کمپین مرتبط که به اندازه جدید اضافه کنید';
+$GLOBALS['strWarnChangeBannerSize'] = '';
+$GLOBALS['strWarnBannerReadonly'] = '';
 $GLOBALS['strZonesOfWebsite'] = 'در'; //this is added between page name and website name eg. 'Zones in www.example.com'
 $GLOBALS['strBackToZones'] = "برگشتن به ناحیه ها";
 
 $GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "IAB فول بنر (468 x 60)";
+$GLOBALS['strIab']['IAB_Skyscraper(120x600)'] = "";
+$GLOBALS['strIab']['IAB_Leaderboard(728x90)'] = "";
 $GLOBALS['strIab']['IAB_Button1(120x90)'] = "IAB دکمه 1 (120 x 90)";
 $GLOBALS['strIab']['IAB_Button2(120x60)'] = "IAB دکمه 2 (120 x 60)";
 $GLOBALS['strIab']['IAB_HalfBanner(234x60)'] = "IAB نیم بنر (234 x 60)";
@@ -749,6 +782,7 @@ $GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB مثلثی متوسط
 $GLOBALS['strIab']['IAB_LargeRectangle(336x280)'] = "IAB مثلثی بزرگ (336 x 280)";
 $GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = "IAB مثلثی عمودی (240 x 400)";
 $GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB پهن Skyscraper (160 x 600)";
+$GLOBALS['strIab']['IAB_Pop-Under(720x300)'] = "";
 $GLOBALS['strIab']['IAB_3:1Rectangle(300x100)'] = "IAB 3:1 مثلثی (300 x 100)";
 
 // Advanced zone settings
@@ -822,13 +856,19 @@ $GLOBALS['strBreakdownByMonth'] = "ماه";
 $GLOBALS['strBreakdownByDow'] = "روز هفته";
 $GLOBALS['strBreakdownByHour'] = "ساعت";
 $GLOBALS['strItemsPerPage'] = "آیتم ها در هر صفحه";
+$GLOBALS['strDistributionHistoryCampaign'] = "";
+$GLOBALS['strDistributionHistoryBanner'] = "";
+$GLOBALS['strDistributionHistoryWebsite'] = "";
+$GLOBALS['strDistributionHistoryZone'] = "";
 $GLOBALS['strShowGraphOfStatistics'] = "نمایش گراف آمار";
 $GLOBALS['strExportStatisticsToExcel'] = "خروجی آمار به صورت اکسل";
+$GLOBALS['strGDnotEnabled'] = "";
 $GLOBALS['strStatsArea'] = "ناحیه";
 
 // Expiration
 $GLOBALS['strNoExpiration'] = "هیچ تاریخ انقضایی ست نشده";
 $GLOBALS['strEstimated'] = "تاریخ تخمینی انقضا";
+$GLOBALS['strNoExpirationEstimation'] = "";
 $GLOBALS['strDaysAgo'] = "روز پیش";
 $GLOBALS['strCampaignStop'] = "توقف کمپین";
 
@@ -837,6 +877,7 @@ $GLOBALS['strAdvancedReports'] = "گزارش های پیشرفته";
 $GLOBALS['strStartDate'] = "آغاز تاریخ";
 $GLOBALS['strEndDate'] = "پایان تاریخ";
 $GLOBALS['strPeriod'] = "دوره";
+$GLOBALS['strLimitations'] = "";
 $GLOBALS['strWorksheets'] = "آموزشی";
 
 // Admin_UI_Fields
@@ -864,15 +905,18 @@ $GLOBALS['strTrackercode'] = "کدپخش کننده";
 $GLOBALS['strBackToTheList'] = "برگرد به لیست گزارشات";
 $GLOBALS['strCharset'] = "ست کارکتر";
 $GLOBALS['strAutoDetect'] = "تشخیص خودکار";
+$GLOBALS['strCacheBusterComment'] = "";
+$GLOBALS['strGenerateHttpsTags'] = "";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "خطای اتصال پایگاه داده.";
+$GLOBALS['strErrorCantConnectToDatabase'] = "";
 $GLOBALS['strNoMatchesFound'] = "هیچ چیز مطابی پیدا نشد";
 $GLOBALS['strErrorOccurred'] = "یخ خطا اتفاق افتاد";
 $GLOBALS['strErrorDBPlain'] = "یک خطا هنگام اتصال به دیتابیس اتفاق افتاد";
 $GLOBALS['strErrorDBSerious'] = "یک مشکل جدی با دیتابیس تشخیص داده شد";
-$GLOBALS['strErrorDBNoDataPlain'] = "با توجه به مشکل با دیتابیس {$PRODUCT_NAME} نیمتوان دیتا را ذخیره یا فراخوانی کرد. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "با توجه به مشکل جدی با دیتابیس, {$PRODUCT_NAME} نمیتوان دیتا را بازخوانی کرد";
+$GLOBALS['strErrorDBNoDataPlain'] = "با توجه به مشکل با دیتابیس {{PRODUCT_NAME}} نیمتوان دیتا را ذخیره یا فراخوانی کرد. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "با توجه به مشکل جدی با دیتابیس, {{PRODUCT_NAME}} نمیتوان دیتا را بازخوانی کرد";
 $GLOBALS['strErrorDBCorrupt'] = "جدول دیتبایس خراب است و نیاز به تعمیر دارد .";
 $GLOBALS['strErrorDBContact'] = "لطقا با مدیر سورور ارتباط برقرار کنید و مشکل را با او در میان بگذارید";
 $GLOBALS['strErrorDBSubmitBug'] = "اگر این مشکل قابل پردازش مجدد باشد باعث ایجاد یک خطا در.می شود. لط�?ا اطلاعات زیر را به نویسنده برنامه گزارش دهید. همچنین سعی کنید که اعمالی را که باعث ایجاد این خطا شده اند برای نوسنده برنامه تشریح نمایید.";
@@ -887,9 +931,12 @@ $GLOBALS['strErrorEditingZone'] = "ارور بروزراسننی منطقه:";
 $GLOBALS['strUnableToChangeZone'] = "نمیتوان این تغییرات را اعمال کرد زیرا :";
 $GLOBALS['strDatesConflict'] = "dates conflict with:";
 $GLOBALS['strEmailNoDates'] = "Email zone campaigns must have a start and end date";
+$GLOBALS['strWarningInaccurateStats'] = "";
 $GLOBALS['strWarningInaccurateReadMore'] = "دربارهی ی این بیشتر بخوانید";
+$GLOBALS['strWarningInaccurateReport'] = "";
 
 //Validation
+$GLOBALS['strRequiredFieldLegend'] = "";
 $GLOBALS['strFormContainsErrors'] = "فرم شامل ارور است ، لطفا فیلدهای مشخص شده را تصحیح کنید ";
 $GLOBALS['strXRequiredField'] = "%s نیاز است";
 $GLOBALS['strEmailField'] = "لطفا یک ایمیل معتبر وارد کنید";
@@ -913,6 +960,7 @@ $GLOBALS['strMailFooter'] = "درود,
 $GLOBALS['strClientDeactivated'] = "این کمپین در حال حاضر فعال نیست زیرا";
 $GLOBALS['strBeforeActivate'] = "هنوز موعد فعال شدن فرا نرسیده است";
 $GLOBALS['strAfterExpire'] = "تاریخ انقضا فرا رسیده است";
+$GLOBALS['strNoMoreImpressions'] = "";
 $GLOBALS['strNoMoreClicks'] = "هیچ کلیکی باقی نمانده است";
 $GLOBALS['strNoMoreConversions'] = "هیچ فروشی باقی نمانده است";
 $GLOBALS['strWeightIsNull'] = "وزن آن صفر تنظیم شده است";
@@ -924,8 +972,12 @@ $GLOBALS['strNoConversionLoggedInInterval'] = "هیچ مشاهده تبلیغا�
 $GLOBALS['strMailReportPeriod'] = "این گزارش شامل آماری از {startdate} تا {enddate}می باشد.";
 $GLOBALS['strMailReportPeriodAll'] = "این گزارش شامل�? همه آمار تا {enddate} می باشد.";
 $GLOBALS['strNoStatsForCampaign'] = "هیچ آماری برای این  موجود نمی باشد";
+$GLOBALS['strImpendingCampaignExpiry'] = "";
 $GLOBALS['strYourCampaign'] = "کمپین شما";
 $GLOBALS['strTheCampiaignBelongingTo'] = "کمپین متعلق به";
+$GLOBALS['strImpendingCampaignExpiryDateBody'] = "";
+$GLOBALS['strImpendingCampaignExpiryImpsBody'] = "";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "";
 
 // Priority
 $GLOBALS['strPriority'] = "
@@ -950,6 +1002,7 @@ $GLOBALS['strAdveEmailWarnings'] = "ایمیل اخطار ادمین";
 $GLOBALS['strFullName'] = "نام کامل";
 $GLOBALS['strEmailAddress'] = "آدرس ایمیل";
 $GLOBALS['strUserDetails'] = "جزئیات کاربر";
+$GLOBALS['strUserInterfacePreferences'] = "";
 $GLOBALS['strPluginPreferences'] = "تنظیمات افزونه";
 $GLOBALS['strColumnName'] = "نام ردیف";
 $GLOBALS['strShowColumn'] = "نمایش ردیف";
@@ -959,14 +1012,42 @@ $GLOBALS['strColumnRank'] = "رتبه ردیف";
 // Long names
 $GLOBALS['strRevenue'] = "درآمد";
 $GLOBALS['strNumberOfItems'] = "تعداد آیتم ها";
+$GLOBALS['strRevenueCPC'] = "";
+$GLOBALS['strERPM'] = "";
+$GLOBALS['strERPC'] = "";
+$GLOBALS['strERPS'] = "";
+$GLOBALS['strEIPM'] = "";
+$GLOBALS['strEIPC'] = "";
+$GLOBALS['strEIPS'] = "";
+$GLOBALS['strECPM'] = "";
+$GLOBALS['strECPC'] = "";
+$GLOBALS['strECPS'] = "";
 $GLOBALS['strPendingConversions'] = "مکالمات در حال پردازش";
 $GLOBALS['strImpressionSR'] = "آثار";
 $GLOBALS['strClickSR'] = "کلیک SR";
 
 // Short names
+$GLOBALS['strRevenue_short'] = "";
+$GLOBALS['strBasketValue_short'] = "";
+$GLOBALS['strNumberOfItems_short'] = "";
+$GLOBALS['strRevenueCPC_short'] = "";
+$GLOBALS['strERPM_short'] = "";
+$GLOBALS['strERPC_short'] = "";
+$GLOBALS['strERPS_short'] = "";
+$GLOBALS['strEIPM_short'] = "";
+$GLOBALS['strEIPC_short'] = "";
+$GLOBALS['strEIPS_short'] = "";
+$GLOBALS['strECPM_short'] = "";
+$GLOBALS['strECPC_short'] = "";
+$GLOBALS['strECPS_short'] = "";
 $GLOBALS['strID_short'] = "شناسه";
+$GLOBALS['strRequests_short'] = "";
+$GLOBALS['strImpressions_short'] = "";
 $GLOBALS['strClicks_short'] = "کلیک";
 $GLOBALS['strCTR_short'] = "نرخ کلیک";
+$GLOBALS['strConversions_short'] = "";
+$GLOBALS['strPendingConversions_short'] = "";
+$GLOBALS['strImpressionSR_short'] = "";
 $GLOBALS['strClickSR_short'] = "کلیک SR";
 
 // Global Settings
@@ -982,6 +1063,7 @@ $GLOBALS['strProductUpdates'] = "بروزرسانی های محصول";
 $GLOBALS['strViewPastUpdates'] = "مدیریت آپدیت ها و افزونه های قبلی";
 $GLOBALS['strFromVersion'] = "از نسخه";
 $GLOBALS['strToVersion'] = "به نسخه";
+$GLOBALS['strToggleDataBackupDetails'] = "";
 $GLOBALS['strClickViewBackupDetails'] = "برای مشاهده جزئیات پشتیبان گیری کلیک کنید.";
 $GLOBALS['strClickHideBackupDetails'] = "برای مخفی شدن جزئیات پتیبان گیری کلیک کنید";
 $GLOBALS['strShowBackupDetails'] = "جزئیات دیتا پشتیبان گیری را نمایش بده";
@@ -991,6 +1073,7 @@ $GLOBALS['strDeleteArtifacts'] = "حذف آثار";
 $GLOBALS['strArtifacts'] = "آثار";
 $GLOBALS['strBackupDbTables'] = "پشتیبان گیری از جدول های دیتابیس";
 $GLOBALS['strLogFiles'] = "فایل های لاگ";
+$GLOBALS['strConfigBackups'] = "";
 $GLOBALS['strUpdatedDbVersionStamp'] = "استم بروزرسانی شده دیتابیس";
 $GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "ارتقا رسانی کامل شد";
 $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "ارتقا رسانی شکست خورد";
@@ -1007,12 +1090,25 @@ $GLOBALS['strConfirmDeleteAgency'] = "آیا واقعا میخواهید این 
 $GLOBALS['strHideInactiveAgencies'] = "مخفی کردن حساب های کاربری غیر فعال";
 $GLOBALS['strInactiveAgenciesHidden'] = "اکانت های غیر فعال مخفی شدند.";
 $GLOBALS['strSwitchAccount'] = "انتقال به این حساب کاربری";
+$GLOBALS['strAgencyStatusRunning'] = "";
 $GLOBALS['strAgencyStatusInactive'] = "
 غیر فعال";
+$GLOBALS['strAgencyStatusPaused'] = "";
 
 // Channels
+$GLOBALS['strChannel'] = "";
+$GLOBALS['strChannels'] = "";
+$GLOBALS['strChannelManagement'] = "";
+$GLOBALS['strAddNewChannel'] = "";
+$GLOBALS['strAddNewChannel_Key'] = "";
 $GLOBALS['strChannelToWebsite'] = "به وب سایت";
+$GLOBALS['strNoChannels'] = "";
+$GLOBALS['strNoChannelsAddWebsite'] = "";
+$GLOBALS['strEditChannelLimitations'] = "";
+$GLOBALS['strChannelProperties'] = "";
 $GLOBALS['strChannelLimitations'] = "گزینه های تحویل";
+$GLOBALS['strConfirmDeleteChannel'] = "";
+$GLOBALS['strConfirmDeleteChannels'] = "";
 $GLOBALS['strChannelsOfWebsite'] = 'در'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
@@ -1023,50 +1119,75 @@ $GLOBALS['strVariablePurpose'] = "هدف";
 $GLOBALS['strGeneric'] = "عمومی سازی";
 $GLOBALS['strBasketValue'] = "ارزش سبد";
 $GLOBALS['strNumItems'] = "تعداد آیتم ها";
+$GLOBALS['strVariableIsUnique'] = "";
 $GLOBALS['strNumber'] = "عدد";
 $GLOBALS['strString'] = "رشته";
+$GLOBALS['strTrackFollowingVars'] = "";
 $GLOBALS['strAddVariable'] = "اضافه کردن متغیر";
+$GLOBALS['strNoVarsToTrack'] = "";
 $GLOBALS['strVariableRejectEmpty'] = "پس زدن در صورت خالی بودن ؟";
+$GLOBALS['strTrackingSettings'] = "";
 $GLOBALS['strTrackerType'] = "نام تراکر";
+$GLOBALS['strTrackerTypeJS'] = "";
+$GLOBALS['strTrackerTypeDefault'] = "";
+$GLOBALS['strTrackerTypeDOM'] = "";
 $GLOBALS['strTrackerTypeCustom'] = "کد سفارشی جاوا اسکریپت";
+$GLOBALS['strVariableCode'] = "";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "رمز خود را فراموش کردید؟";
+$GLOBALS['strPasswordRecovery'] = "";
+$GLOBALS['strWelcomePage'] = "";
+$GLOBALS['strWelcomePageText'] = "";
 $GLOBALS['strEmailRequired'] = "ایمیل یک فیلد ضروری است";
+$GLOBALS['strPwdRecWrongExpired'] = "";
 $GLOBALS['strPwdRecEnterEmail'] = "در زیر ایمیل خود را وارد کنید";
 $GLOBALS['strPwdRecEnterPassword'] = "در زیر پسورد جدید خود را وارد کنید";
 $GLOBALS['strProceed'] = "ادامه >";
+$GLOBALS['strNotifyPageMessage'] = "";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "";
+$GLOBALS['strPwdRecEmailBody'] = "";
 
+$GLOBALS['strPwdRecEmailSincerely'] = "";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "";
+$GLOBALS['strWelcomeEmailBody'] = "";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "";
+$GLOBALS['strPasswordUpdateEmailBody'] = "";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "";
+$GLOBALS['strPasswordResetRequired'] = "";
+$GLOBALS['strPasswordUnsafeWarning'] = "";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "وآیتم های اضافه";
+$GLOBALS['strAuditSystem'] = "";
 $GLOBALS['strFor'] = "برای";
 $GLOBALS['strHas'] = "دارد";
 $GLOBALS['strBinaryData'] = "دیتا باینری";
+$GLOBALS['strAuditTrailDisabled'] = "";
 
 // Widget - Audit
 $GLOBALS['strAuditNoData'] = "هیچ فعالیت کاربری در دوره ای که انتخاب کردید ، ثبت نشده است";
 $GLOBALS['strAuditTrail'] = "حسابرسی نویسن";
 $GLOBALS['strAuditTrailSetup'] = "امروز حسابرسی نویسن را راهن اندازی کنید";
 $GLOBALS['strAuditTrailGoTo'] = "برو به صفحه ی حسابرسی نوین";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>حسابرسی نوین به شما کمک میکند تا بفهمید چه شخصی در چه زمانی چه کاری انجام داده است {$PRODUCT_NAME}</li>
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>حسابرسی نوین به شما کمک میکند تا بفهمید چه شخصی در چه زمانی چه کاری انجام داده است {{PRODUCT_NAME}}</li>
         <li>این پیام را به این دلیل میبینید چون هنوز حسابرسی نویسن را فعال نکرده اید.</li>
-        <li>علاقه دارید بیشتر بدانید؟ <a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >راهنما حسابرسی نوین</a></li>";
+        <li>علاقه دارید بیشتر بدانید؟ <a href='{{PRODUCT_DOCSURL}}/admin/settings/auditTrail' class='site-link' target='help' >راهنما حسابرسی نوین</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "رفتن به صفحه ی کمپین ها";
 $GLOBALS['strCampaignSetUp'] = "تنظیم یک کمپین امروز";
 $GLOBALS['strCampaignNoRecords'] = "<li>کمپین ها به شما کمک میکنند تا بنرها و تبلیغ و .. را که یک هدف تبلیغاتی را دنال میکنند ، هماهنگ کنید.</li>
         <li>با همگروه کردن بنرها با هم در زمان صرفه جویی کنید و برای هر کدام جداگانه تنظیمات تحویل را انجام ندهید.</li>
-        <li>پک کنید <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>";
+        <li>پک کنید <a class='site-link' target='help' href='{{PRODUCT_DOCSURL}}/user/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>هیچ فعالیت کمپینی برای نمایش وجود ندارد.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "هیچ کمپینی در دوره ای که انتخاب کرده اید ، نه شروع شده و نه پایان یافته است.";
@@ -1075,6 +1196,10 @@ $GLOBALS['strCampaignAuditNotActivated'] = "<li>برای دیدن کمپین ه�
 $GLOBALS['strCampaignAuditTrailSetup'] = "برای دیدن کمپین ها ، حسابرسی نویسن را فعال کنید.";
 
 $GLOBALS['strUnsavedChanges'] = "تنظیمات را در این صفحه ذخیره نکرده اید . مطمن شوید آن ها را ذخیره کرده باشید.";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "";
+$GLOBALS['strDeliveryRulesDbError'] = "";
+$GLOBALS['strDeliveryRulesTruncation'] = "";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "شما در حال انجام کار به عنوان <b>%s</b>";
@@ -1089,6 +1214,7 @@ $GLOBALS['strTrackerHasBeenAdded'] = "Tracker <a href='%s'>%s</a> اضافه ش�
 $GLOBALS['strTrackerHasBeenUpdated'] = "Tracker <a href='%s'>%s</a> بروزرسانی شد";
 $GLOBALS['strTrackerVarsHaveBeenUpdated'] = "مقدار tracker <a href='%s'>%s</a> بروزرسانی شد";
 $GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "کمپین های لینک شده tracker <a href='%s'>%s</a> بروزرسانی شد.";
+$GLOBALS['strTrackerAppendHasBeenUpdated'] = "";
 $GLOBALS['strTrackerHasBeenDeleted'] = "Tracker <b>%s</b> حذف شد";
 $GLOBALS['strTrackersHaveBeenDeleted'] = "همه ی ترکرهای انتخاب شده ، حذف گردیدند.";
 $GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> کپی شد به <a href='%s'>%s</a>";
@@ -1121,6 +1247,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "سایت <a href='%s'>%s</a> اضافه ش
 $GLOBALS['strWebsiteHasBeenUpdated'] = "سایت <a href='%s'>%s</a> بروزرسانی شد";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "سایت <b>%s</b> حذف شد";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "همه ی سایت های انتخاب شده حذف گردیدند";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "";
 
 $GLOBALS['strZoneHasBeenAdded'] = "منطقه <a href='%s'>%s</a> اضافه شد";
 $GLOBALS['strZoneHasBeenUpdated'] = "منطقه <a href='%s'>%s</a> بروزرسانی شد";
@@ -1134,12 +1261,19 @@ $GLOBALS['strZoneLinkedCampaign'] = "کمپین به منطقه متصل شد <a
 $GLOBALS['strZoneRemovedBanner'] = "بنر از منطقه جدا شد <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "کمپین از منطقه غیر لینک شد <a href='%s'>%s</a>";
 
+$GLOBALS['strChannelHasBeenAdded'] = "";
+$GLOBALS['strChannelHasBeenUpdated'] = "";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "";
+$GLOBALS['strChannelHasBeenDeleted'] = "";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "";
+$GLOBALS['strChannelHasBeenDuplicated'] = "";
 
 $GLOBALS['strUserPreferencesUpdated'] = "شما <b>%s</b> تنظیمات بروزرسانی شد";
 $GLOBALS['strEmailChanged'] = "ایمیل شما تغییر کرد";
 $GLOBALS['strPasswordChanged'] = "رمز شما تغییر کرد";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> hبروزرسانی شد";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> hبروزرسانی شد";
+$GLOBALS['strTZPreferencesWarning'] = "";
 
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "هیچ کاربرگی برای گزارش انتخاب نشده است";
@@ -1149,11 +1283,18 @@ $GLOBALS['strReportErrorUnknownCode'] = "ارور ناممشخص کد #";
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = '';
+$GLOBALS['strPasswordTooShort'] = "";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "";
+$GLOBALS['strPasswordScore'][1] = "";
+$GLOBALS['strPasswordScore'][2] = "";
+$GLOBALS['strPasswordScore'][3] = "";
+$GLOBALS['strPasswordScore'][4] = "";
 
 
 /* ------------------------------------------------------- */
@@ -1162,9 +1303,20 @@ if (!isset($GLOBALS['strPasswordScore'])) {
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "";
+$GLOBALS['keyUp'] = "";
 $GLOBALS['keyNextItem'] = ".";
 $GLOBALS['keyPreviousItem'] = ",";
+$GLOBALS['keyList'] = "";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
+$GLOBALS['keySearch'] = "";
+$GLOBALS['keyCollapseAll'] = "";
+$GLOBALS['keyExpandAll'] = "";
+$GLOBALS['keyAddNew'] = "";
+$GLOBALS['keyNext'] = "";
+$GLOBALS['keyPrevious'] = "";
+$GLOBALS['keyLinkUser'] = "";
+$GLOBALS['keyWorkingAs'] = "";

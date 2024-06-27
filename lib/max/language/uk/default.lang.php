@@ -11,16 +11,26 @@
  */
 
 // Set text direction and characterset
+$GLOBALS['phpAds_TextDirection'] = "";
+$GLOBALS['phpAds_TextAlignRight'] = "";
+$GLOBALS['phpAds_TextAlignLeft'] = "";
+$GLOBALS['phpAds_CharSet'] = "";
 
 $GLOBALS['phpAds_DecimalPoint'] = ".";
 $GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%d/%m/%Y";
+$GLOBALS['time_format'] = "";
 $GLOBALS['minute_format'] = "%H:%M";
+$GLOBALS['month_format'] = "";
 $GLOBALS['day_format'] = "%d-%m";
+$GLOBALS['week_format'] = "";
+$GLOBALS['weekiso_format'] = "";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
+$GLOBALS['excel_integer_formatting'] = "";
+$GLOBALS['excel_decimal_formatting'] = "";
 
 /* ------------------------------------------------------- */
 /* Translations                                          */
@@ -156,7 +166,7 @@ $GLOBALS['strUserUnlinkedFromAccount'] = "Користувача видален�
 $GLOBALS['strUserWasDeleted'] = "Користувача видалено";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Такий користувач не прив'язаний до облікового запису";
 $GLOBALS['strCantDeleteOneAdminUser'] = "Ви не можете видалити цього користувача. Принаймні один користувач має бути пов’язаний з обліковим записом адміністратора.";
-$GLOBALS['strLinkUserHelp'] = "Щоб додати <b>існуючого користувача</b>, введіть %1\$s і натисніть %2\$s <br />Щоб додати <b>нового користувача</b>, введіть бажене %1\\ $s і натисніть %2\$s";
+$GLOBALS['strLinkUserHelp'] = "Щоб додати <b>існуючого користувача</b>, введіть %1\\$s і натисніть %2\\$s <br />Щоб додати <b>нового користувача</b>, введіть бажене %1\\ $s і натисніть %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Ім'я користувача";
 $GLOBALS['strLinkUserHelpEmail'] = "адреса електронної пошти";
 $GLOBALS['strLastLoggedIn'] = "Останній вхід";
@@ -171,7 +181,7 @@ $GLOBALS['strAuthentification'] = "Доступ";
 $GLOBALS['strWelcomeTo'] = "Ласкаво просимо в";
 $GLOBALS['strEnterUsername'] = "Введіть ваш логін і пароль для входу в систему";
 $GLOBALS['strEnterBoth'] = "Будь ласка, введіть логін і пароль";
-$GLOBALS['strEnableCookies'] = "Вам необхідно вирішити cookies для роботи з  {$PRODUCT_NAME}";
+$GLOBALS['strEnableCookies'] = "Вам необхідно вирішити cookies для роботи з  {{PRODUCT_NAME}}";
 $GLOBALS['strSessionIDNotMatch'] = "Помилка cookie сеансу, будь ласка, увійдіть знову";
 $GLOBALS['strLogin'] = "Ім'я користувача";
 $GLOBALS['strLogout'] = "Вихід";
@@ -781,25 +791,30 @@ $GLOBALS['strTrackercode'] = "Трекеркод";
 $GLOBALS['strBackToTheList'] = "Повернутися до списку звітів";
 $GLOBALS['strCharset'] = "Набір символів";
 $GLOBALS['strAutoDetect'] = "Автовизначення";
+$GLOBALS['strCacheBusterComment'] = "";
+$GLOBALS['strGenerateHttpsTags'] = "";
 
 // Errors
+$GLOBALS['strErrorDatabaseConnection'] = "";
+$GLOBALS['strErrorCantConnectToDatabase'] = "";
 $GLOBALS['strNoMatchesFound'] = "Ничего не найдено";
 $GLOBALS['strErrorOccurred'] = "Произошла ошибка";
 $GLOBALS['strErrorDBPlain'] = "Ошибка доступа к БД";
 $GLOBALS['strErrorDBSerious'] = "Обнаружена серьезная проблема с БД";
-$GLOBALS['strErrorDBNoDataPlain'] = "Из-за проблем с доступом к БД {$PRODUCT_NAME}  не может сохранить или получить данные";
-$GLOBALS['strErrorDBNoDataSerious'] = "Из-за серьезных проблем с БД {$PRODUCT_NAME}  не может сохранить или получить данные";
+$GLOBALS['strErrorDBNoDataPlain'] = "Из-за проблем с доступом к БД {{PRODUCT_NAME}}  не может сохранить или получить данные";
+$GLOBALS['strErrorDBNoDataSerious'] = "Из-за серьезных проблем с БД {{PRODUCT_NAME}}  не может сохранить или получить данные";
 $GLOBALS['strErrorDBCorrupt'] = "Возможно, БД повреждена и нуждается в починке. Для дополнительной информации о починке поврежденных таблиц БД прочтите раздел <i>Устранение неполадок</i> в <i>Руководстве Администратора</i>";
 $GLOBALS['strErrorDBContact'] = "Свяжитесь с администратором сервера и сообщите ему о проблеме";
-$GLOBALS['strErrorDBSubmitBug'] = "Если ошибку можно воспроизвести, возможно это баг ПО {$PRODUCT_NAME}. Пожалуйста, сообщите об этом разработчикам {$PRODUCT_NAME}. Приложите к сообщению возможно более подробное описание ошибки.";
+$GLOBALS['strErrorDBSubmitBug'] = "Если ошибку можно воспроизвести, возможно это баг ПО {{PRODUCT_NAME}}. Пожалуйста, сообщите об этом разработчикам {{PRODUCT_NAME}}. Приложите к сообщению возможно более подробное описание ошибки.";
 $GLOBALS['strMaintenanceNotActive'] = "Утилита обслуживания БД не запускалась в последние 24 часа.
-Для корректной работы {$PRODUCT_NAME} необходимо запускать утилиту обслуживания
+Для корректной работы {{PRODUCT_NAME}} необходимо запускать утилиту обслуживания
  каждый час.
  Обратитесь к руководству администратора для сведений
  по настройке обслуживания БД.";
 $GLOBALS['strErrorLinkingBanner'] = "Невозможно привязать выбранный баннер к этой зоне, т.к.:";
 $GLOBALS['strUnableToLinkBanner'] = "Невозможно привязать выбранный баннер:";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "некорректный формат в поле Информация об оплате";
+$GLOBALS['strErrorEditingCampaignECPM'] = "";
 $GLOBALS['strErrorEditingZone'] = "Ошибка обновления зоны:";
 $GLOBALS['strUnableToChangeZone'] = "Невозможно сохранить изменения, т.к.:";
 $GLOBALS['strDatesConflict'] = "дата конфликтует с:";
@@ -809,6 +824,15 @@ $GLOBALS['strWarningInaccurateReadMore'] = "Узнать больше";
 $GLOBALS['strWarningInaccurateReport'] = "Часть статистики была собрана в не-UTC часовом поясе, и не может быть отображена при использовании корректного часового пояса.";
 
 //Validation
+$GLOBALS['strRequiredFieldLegend'] = "";
+$GLOBALS['strFormContainsErrors'] = "";
+$GLOBALS['strXRequiredField'] = "";
+$GLOBALS['strEmailField'] = "";
+$GLOBALS['strNumericField'] = "";
+$GLOBALS['strGreaterThanZeroField'] = "";
+$GLOBALS['strXGreaterThanZeroField'] = "";
+$GLOBALS['strXPositiveWholeNumberField'] = "";
+$GLOBALS['strInvalidWebsiteURL'] = "";
 
 // Email
 $GLOBALS['strSirMadam'] = "Г-н/Г-жа";
@@ -859,10 +883,12 @@ $GLOBALS['strReenterNewPassword'] = "Подтвердите пароль";
 $GLOBALS['strNameLanguage'] = "Имя и Язык";
 $GLOBALS['strAccountPreferences'] = "Настройки аккаунта";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Настройки доставки отчетов";
+$GLOBALS['strTimezonePreferences'] = "";
 $GLOBALS['strAdminEmailWarnings'] = "Предупреждения администратора";
 $GLOBALS['strAgencyEmailWarnings'] = "Предупреждения агентства";
 $GLOBALS['strAdveEmailWarnings'] = "Предупреждения клиента";
 $GLOBALS['strFullName'] = "ФИО";
+$GLOBALS['strEmailAddress'] = "";
 $GLOBALS['strUserDetails'] = "Данные пользователя";
 $GLOBALS['strUserInterfacePreferences'] = "Настройки GUI";
 $GLOBALS['strPluginPreferences'] = "Главные настройки";
@@ -904,16 +930,20 @@ $GLOBALS['strECPC_short'] = "CPC (ціна кліка)";
 $GLOBALS['strECPS_short'] = "CPM (ціна 1000 показів)";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Запр.";
+$GLOBALS['strImpressions_short'] = "";
 $GLOBALS['strClicks_short'] = "Кліков";
 $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConversions_short'] = "Конв.";
 $GLOBALS['strPendingConversions_short'] = "Неизрасходованные действ.";
+$GLOBALS['strImpressionSR_short'] = "";
 $GLOBALS['strClickSR_short'] = "Клик (SR)";
 
 // Global Settings
+$GLOBALS['strConfiguration'] = "";
 $GLOBALS['strGlobalSettings'] = "Общие настройки";
 $GLOBALS['strGeneralSettings'] = "Общие установки";
 $GLOBALS['strMainSettings'] = "Главные настройки";
+$GLOBALS['strPlugins'] = "";
 $GLOBALS['strChooseSection'] = 'Виберіть розділ';
 
 // Product Updates
@@ -948,11 +978,24 @@ $GLOBALS['strConfirmDeleteAgency'] = "Ви дійсно хочете видал�
 $GLOBALS['strHideInactiveAgencies'] = "Скрыть неактивные учетные записи";
 $GLOBALS['strInactiveAgenciesHidden'] = "неактивні клієнти приховані";
 $GLOBALS['strSwitchAccount'] = "Переключиться в этот аккаунт";
+$GLOBALS['strAgencyStatusRunning'] = "";
 $GLOBALS['strAgencyStatusInactive'] = "активний";
+$GLOBALS['strAgencyStatusPaused'] = "";
 
 // Channels
+$GLOBALS['strChannel'] = "";
+$GLOBALS['strChannels'] = "";
+$GLOBALS['strChannelManagement'] = "";
+$GLOBALS['strAddNewChannel'] = "";
+$GLOBALS['strAddNewChannel_Key'] = "";
 $GLOBALS['strChannelToWebsite'] = "на сайт";
+$GLOBALS['strNoChannels'] = "";
+$GLOBALS['strNoChannelsAddWebsite'] = "";
+$GLOBALS['strEditChannelLimitations'] = "";
+$GLOBALS['strChannelProperties'] = "";
 $GLOBALS['strChannelLimitations'] = "Варіанти доставки";
+$GLOBALS['strConfirmDeleteChannel'] = "";
+$GLOBALS['strConfirmDeleteChannels'] = "";
 $GLOBALS['strChannelsOfWebsite'] = 'в'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
@@ -980,21 +1023,38 @@ $GLOBALS['strVariableCode'] = "Код отслеживания JS";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Забыли пароль?";
+$GLOBALS['strPasswordRecovery'] = "";
+$GLOBALS['strWelcomePage'] = "";
+$GLOBALS['strWelcomePageText'] = "";
 $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно для заполнения";
+$GLOBALS['strPwdRecWrongExpired'] = "";
 $GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";
+$GLOBALS['strProceed'] = "";
+$GLOBALS['strNotifyPageMessage'] = "";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "";
+$GLOBALS['strPwdRecEmailBody'] = "";
 
+$GLOBALS['strPwdRecEmailSincerely'] = "";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "";
+$GLOBALS['strWelcomeEmailBody'] = "";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "";
+$GLOBALS['strPasswordUpdateEmailBody'] = "";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "";
+$GLOBALS['strPasswordResetRequired'] = "";
+$GLOBALS['strPasswordUnsafeWarning'] = "";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "добавить дополнительные элементы";
+$GLOBALS['strAuditSystem'] = "";
 $GLOBALS['strFor'] = "для";
 $GLOBALS['strHas'] = "має";
 $GLOBALS['strBinaryData'] = "Двоичные данные";
@@ -1005,14 +1065,14 @@ $GLOBALS['strAuditNoData'] = "За выбранный вами временно�
 $GLOBALS['strAuditTrail'] = "Аудит изменений";
 $GLOBALS['strAuditTrailSetup'] = "Настроить аудит изменений сегодня";
 $GLOBALS['strAuditTrailGoTo'] = "Перейти на страницу аудита изменений";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Аудит изменений позволяет видеть, кто, что и когда делал в системе. Иначе говоря, он позволяет отслеживать изменения в {$PRODUCT_NAME}</li>
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Аудит изменений позволяет видеть, кто, что и когда делал в системе. Иначе говоря, он позволяет отслеживать изменения в {{PRODUCT_NAME}}</li>
 <li>Вы видите это сообщение, потому что вы не активировали Аудит изменений</li>
-<li>Нужно больше информации? Читайте <<a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >документацию по аудиту изменений</a></li>";
+<li>Нужно больше информации? Читайте <<a href='{{PRODUCT_DOCSURL}}/settings/auditTrail' class='site-link' target='help' >документацию по аудиту изменений</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Перейти на стр. кампании";
 $GLOBALS['strCampaignSetUp'] = "Настроить кампанию сегодня";
-$GLOBALS['strCampaignNoRecords'] = "<li>Кампании позволяют группировать баннеры разных форматов, связанные по смыслу</li><li>При группировке баннеров в кампании отпадает необходимость настройки параметров для каждого баннера в отдельности</li><li>Подробности вы можете найти в <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Документации по кампаниям</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>Кампании позволяют группировать баннеры разных форматов, связанные по смыслу</li><li>При группировке баннеров в кампании отпадает необходимость настройки параметров для каждого баннера в отдельности</li><li>Подробности вы можете найти в <a class='site-link' target='help' href='{{PRODUCT_DOCSURL}}/inventory/advertisersAndCampaigns/campaigns'>Документации по кампаниям</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>У вас нет активных кампаний.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "В выбранный вами период ни одна кампания не стартовала и не закончилась";
@@ -1020,29 +1080,105 @@ $GLOBALS['strCampaignAuditNotActivated'] = "<li>Чтобы видеть, как�
 $GLOBALS['strCampaignAuditTrailSetup'] = "Активируйте аудит для начала отображения кампаний";
 
 $GLOBALS['strUnsavedChanges'] = "У вас есть несохраненные изменения. Не забудьте нажать кнопку \"Сохранить\" когда закончите редактирование";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "";
+$GLOBALS['strDeliveryRulesDbError'] = "";
+$GLOBALS['strDeliveryRulesTruncation'] = "";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "";
 
 //confirmation messages
+$GLOBALS['strYouAreNowWorkingAsX'] = "";
+$GLOBALS['strYouDontHaveAccess'] = "";
 
+$GLOBALS['strAdvertiserHasBeenAdded'] = "";
+$GLOBALS['strAdvertiserHasBeenUpdated'] = "";
+$GLOBALS['strAdvertiserHasBeenDeleted'] = "";
+$GLOBALS['strAdvertisersHaveBeenDeleted'] = "";
 
+$GLOBALS['strTrackerHasBeenAdded'] = "";
+$GLOBALS['strTrackerHasBeenUpdated'] = "";
+$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "";
+$GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "";
+$GLOBALS['strTrackerAppendHasBeenUpdated'] = "";
+$GLOBALS['strTrackerHasBeenDeleted'] = "";
+$GLOBALS['strTrackersHaveBeenDeleted'] = "";
+$GLOBALS['strTrackerHasBeenDuplicated'] = "";
+$GLOBALS['strTrackerHasBeenMoved'] = "";
 
+$GLOBALS['strCampaignHasBeenAdded'] = "";
+$GLOBALS['strCampaignHasBeenUpdated'] = "";
+$GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "";
+$GLOBALS['strCampaignHasBeenDeleted'] = "";
+$GLOBALS['strCampaignsHaveBeenDeleted'] = "";
+$GLOBALS['strCampaignHasBeenDuplicated'] = "";
+$GLOBALS['strCampaignHasBeenMoved'] = "";
 
+$GLOBALS['strBannerHasBeenAdded'] = "";
+$GLOBALS['strBannerHasBeenUpdated'] = "";
+$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "";
+$GLOBALS['strBannerAclHasBeenUpdated'] = "";
+$GLOBALS['strBannerAclHasBeenAppliedTo'] = "";
+$GLOBALS['strBannerHasBeenDeleted'] = "";
+$GLOBALS['strBannersHaveBeenDeleted'] = "";
+$GLOBALS['strBannerHasBeenDuplicated'] = "";
+$GLOBALS['strBannerHasBeenMoved'] = "";
+$GLOBALS['strBannerHasBeenActivated'] = "";
+$GLOBALS['strBannerHasBeenDeactivated'] = "";
 
+$GLOBALS['strXZonesLinked'] = "";
+$GLOBALS['strXZonesUnlinked'] = "";
 
+$GLOBALS['strWebsiteHasBeenAdded'] = "";
+$GLOBALS['strWebsiteHasBeenUpdated'] = "";
+$GLOBALS['strWebsiteHasBeenDeleted'] = "";
+$GLOBALS['strWebsitesHaveBeenDeleted'] = "";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "";
 
+$GLOBALS['strZoneHasBeenAdded'] = "";
+$GLOBALS['strZoneHasBeenUpdated'] = "";
+$GLOBALS['strZoneAdvancedHasBeenUpdated'] = "";
+$GLOBALS['strZoneHasBeenDeleted'] = "";
+$GLOBALS['strZonesHaveBeenDeleted'] = "";
+$GLOBALS['strZoneHasBeenDuplicated'] = "";
+$GLOBALS['strZoneHasBeenMoved'] = "";
+$GLOBALS['strZoneLinkedBanner'] = "";
+$GLOBALS['strZoneLinkedCampaign'] = "";
+$GLOBALS['strZoneRemovedBanner'] = "";
+$GLOBALS['strZoneRemovedCampaign'] = "";
 
+$GLOBALS['strChannelHasBeenAdded'] = "";
+$GLOBALS['strChannelHasBeenUpdated'] = "";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "";
+$GLOBALS['strChannelHasBeenDeleted'] = "";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "";
+$GLOBALS['strChannelHasBeenDuplicated'] = "";
 
+$GLOBALS['strUserPreferencesUpdated'] = "";
+$GLOBALS['strEmailChanged'] = "";
+$GLOBALS['strPasswordChanged'] = "";
+$GLOBALS['strXPreferencesHaveBeenUpdated'] = "";
+$GLOBALS['strXSettingsHaveBeenUpdated'] = "";
+$GLOBALS['strTZPreferencesWarning'] = "";
 
 // Report error messages
+$GLOBALS['strReportErrorMissingSheets'] = "";
+$GLOBALS['strReportErrorUnknownCode'] = "";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = '';
+$GLOBALS['strPasswordTooShort'] = "";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "";
+$GLOBALS['strPasswordScore'][1] = "";
+$GLOBALS['strPasswordScore'][2] = "";
+$GLOBALS['strPasswordScore'][3] = "";
+$GLOBALS['strPasswordScore'][4] = "";
 
 
 /* ------------------------------------------------------- */
@@ -1051,8 +1187,11 @@ if (!isset($GLOBALS['strPasswordScore'])) {
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "";
+$GLOBALS['keyUp'] = "";
 $GLOBALS['keyNextItem'] = ".";
 $GLOBALS['keyPreviousItem'] = ",";
+$GLOBALS['keyList'] = "";
 
 // Other keys
 // Please make sure you underline the key you
@@ -1063,3 +1202,5 @@ $GLOBALS['keyExpandAll'] = "Р";
 $GLOBALS['keyAddNew'] = "н";
 $GLOBALS['keyNext'] = "н";
 $GLOBALS['keyPrevious'] = "П";
+$GLOBALS['keyLinkUser'] = "";
+$GLOBALS['keyWorkingAs'] = "";

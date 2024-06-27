@@ -13,6 +13,7 @@ msgstr ""
 "X-Crowdin-Language: id\n"
 "X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxCacheFile/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 380\n"
+"PO-Revision-Date: 2021-05-28 15:36\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:31
 msgid "File based cache"

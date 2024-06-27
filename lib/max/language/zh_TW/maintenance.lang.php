@@ -12,15 +12,24 @@
 
 // Main strings
 $GLOBALS['strChooseSection'] = "選擇章節";
+$GLOBALS['strAppendCodes'] = "";
 
 // Maintenance
+$GLOBALS['strScheduledMaintenanceHasntRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "";
 
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "";
 
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "";
 
+$GLOBALS['strScheduledMantenaceRunning'] = "";
 
+$GLOBALS['strAutomaticMaintenanceHasRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabled'] = "";
 
 // Priority
 $GLOBALS['strRecalculatePriority'] = "重新計算優先級";
@@ -51,8 +60,18 @@ $GLOBALS['strMoveToDirectory'] = "將圖片從數據庫中移動到目錄下 ";
 $GLOBALS['strStorageExplaination'] = "圖片文件可存儲在數據庫或文件系統中。存儲在文件系統中將比存儲在數據庫中效率更高。";
 
 // Security
+$GLOBALS['strSecurity'] = "";
+$GLOBALS['strSecurityExplanation'] = "";
+$GLOBALS['strSecurityOK'] = "";
+$GLOBALS['strSecurityKO'] = "";
+$GLOBALS['strSecurityReadMore'] = "";
 
 // Encoding
+$GLOBALS['strEncoding'] = "";
+$GLOBALS['strEncodingExplaination'] = "";
+$GLOBALS['strEncodingConvertFrom'] = "";
+$GLOBALS['strEncodingConvertTest'] = "";
+$GLOBALS['strConvertThese'] = "";
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "查找更新，請稍候……";
@@ -60,25 +79,28 @@ $GLOBALS['strAvailableUpdates'] = "提供的更新";
 $GLOBALS['strDownloadZip'] = "下載 (.zip)";
 $GLOBALS['strDownloadGZip'] = "下載 (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME} 新版本已發布。
+$GLOBALS['strUpdateAlert'] = "{{PRODUCT_NAME}} 新版本已發布。
 
  您希望了解更多關於新版本的資訊嗎？? ";
-$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME} 新版本已發布。
+$GLOBALS['strUpdateAlertSecurity'] = "{{PRODUCT_NAME}} 新版本已發布。
 
  由於提供了很多安全方面的修改? 所以強烈建議您更新到新版本。 ";
 
+$GLOBALS['strUpdateServerDown'] = "";
 
-$GLOBALS['strNoNewVersionAvailable'] = "您{$PRODUCT_NAME}的版本已是最新的。 ";
+$GLOBALS['strNoNewVersionAvailable'] = "您{{PRODUCT_NAME}}的版本已是最新的。 ";
 
+$GLOBALS['strServerCommunicationError'] = "";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "";
 
-$GLOBALS['strNewVersionAvailable'] = "<b>{$PRODUCT_NAME}的新版本已經發布。 </b><br />由於修改一些已知的問題及增加了一些新功能。所以建議您安裝這個更新。如果您希望進一步了解相關細心，請參閱文件中的相關文檔。
+$GLOBALS['strNewVersionAvailable'] = "<b>{{PRODUCT_NAME}}的新版本已經發布。 </b><br />由於修改一些已知的問題及增加了一些新功能。所以建議您安裝這個更新。如果您希望進一步了解相關細心，請參閱文件中的相關文檔。
  ";
 
 $GLOBALS['strSecurityUpdate'] = "<b>由於涉及若干個安全更新，所以強烈建議您升級。</b>
- 您現在的{$PRODUCT_NAME}版本，可能因為攻擊而變得不可靠。如果希望了解進一步的資訊，請參閱文件中的相關文檔。 ";
+ 您現在的{{PRODUCT_NAME}}版本，可能因為攻擊而變得不可靠。如果希望了解進一步的資訊，請參閱文件中的相關文檔。 ";
 
-$GLOBALS['strNotAbleToCheck'] = "<b>由於您伺服器上沒有XML引申，所以{$PRODUCT_NAME}無法查找是否有新的更新提供。</b>";
+$GLOBALS['strNotAbleToCheck'] = "<b>由於您伺服器上沒有XML引申，所以{{PRODUCT_NAME}}無法查找是否有新的更新提供。</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = "如果您希望知道是否有新的版本提供，請查閱我們的網站。";
 
@@ -88,9 +110,35 @@ $GLOBALS['strRunningOn'] = "運行的";
 $GLOBALS['strAndPlain'] = "與";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "";
+$GLOBALS['strAllBannerChannelCompiled'] = "";
+$GLOBALS['strBannerChannelResult'] = "";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "";
+$GLOBALS['strErrorsFound'] = "";
+$GLOBALS['strRepairCompiledLimitations'] = "";
+$GLOBALS['strRecompile'] = "";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "";
+$GLOBALS['strCheckACLs'] = "";
 
 //  Append codes
+$GLOBALS['strAppendCodesDesc'] = "";
+$GLOBALS['strCheckAppendCodes'] = "";
+$GLOBALS['strAppendCodesRecompiled'] = "";
+$GLOBALS['strAppendCodesResult'] = "";
+$GLOBALS['strAppendCodesValid'] = "";
+$GLOBALS['strRepairAppenedCodes'] = "";
 
+$GLOBALS['strPlugins'] = "";
+$GLOBALS['strPluginsPrecis'] = "";
 
+$GLOBALS['strMenus'] = "";
+$GLOBALS['strMenusPrecis'] = "";
+$GLOBALS['strMenusCachedOk'] = "";
 
 // Users
+$GLOBALS['strUserPasswords'] = "";
+$GLOBALS['strUserPasswordsExplaination'] = "";
+$GLOBALS['strCheckUserPasswords'] = "";
+$GLOBALS['strUserPasswordsEverythingOK'] = "";
+$GLOBALS['strUserPasswordsEmailsSent'] = "";

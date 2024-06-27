@@ -12,28 +12,33 @@
 
 // Main strings
 $GLOBALS['strChooseSection'] = "إختيار قسم";
+$GLOBALS['strAppendCodes'] = "";
 
 // Maintenance
+$GLOBALS['strScheduledMaintenanceHasntRun'] = "";
 
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	<unk> الصيانة التلقائية مفعلة وسيتم تشغيلها، حسب الاقتضاء، عندما يقوم {$PRODUCT_NAME} بتسليم اللافتات.
-	<unk> ولكن من أجل أفضل أداء ، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.";
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	<unk> الصيانة التلقائية مفعلة وسيتم تشغيلها، حسب الاقتضاء، عندما يقوم {{PRODUCT_NAME}} بتسليم اللافتات.
+	<unk> ولكن من أجل أفضل أداء ، يجب عليك إعداد <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.";
 
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	<unk> الصيانة التلقائية معطلة حاليًا، لذلك عندما يقوم {$PRODUCT_NAME} بتسليم اللافتات، لن يتم تشغيل الصيانة التلقائية.
-	<unk> من أجل أفضل أداء، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.
-    ومع ذلك، إذا لم تقم بإعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>،
-    ثم <i>يجب</i> <a href='account-settings-maintenance.php'>تمكين الصيانة التلقائية</a> لضمان أن {$PRODUCT_NAME} يعمل بشكل صحيح.";
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	<unk> الصيانة التلقائية معطلة حاليًا، لذلك عندما يقوم {{PRODUCT_NAME}} بتسليم اللافتات، لن يتم تشغيل الصيانة التلقائية.
+	<unk> من أجل أفضل أداء، يجب عليك إعداد <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.
+    ومع ذلك، إذا لم تقم بإعداد <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>صيانة مجدولة</a>،
+    ثم <i>يجب</i> <a href='account-settings-maintenance.php'>تمكين الصيانة التلقائية</a> لضمان أن {{PRODUCT_NAME}} يعمل بشكل صحيح.";
 
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	<unk> الصيانة التلقائية مفعلة وسيتم تشغيلها، حسب الاقتضاء، عندما يقوم {$PRODUCT_NAME} بتسليم اللافتات.
-	<unk> ولكن من أجل أفضل أداء ، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.";
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	<unk> الصيانة التلقائية مفعلة وسيتم تشغيلها، حسب الاقتضاء، عندما يقوم {{PRODUCT_NAME}} بتسليم اللافتات.
+	<unk> ولكن من أجل أفضل أداء ، يجب عليك إعداد <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.";
 
-$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	• غير أن الصيانة التلقائية قد أوقفت مؤخرا. للتأكد من أن {$PRODUCT_NAME} يعمل بشكل صحيح، يجب عليك
-	<unk> إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a> أو
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	• غير أن الصيانة التلقائية قد أوقفت مؤخرا. للتأكد من أن {{PRODUCT_NAME}} يعمل بشكل صحيح، يجب عليك
+	<unk> إعداد <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>صيانة مجدولة</a> أو
 	<a href='account-settings-maintenance.php'>إعادة تمكين الصيانة التلقائية</a>.
 	<br><br>
-	<unk> من أجل أفضل أداء ، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>الصيانة المجدولة</a>.";
+	<unk> من أجل أفضل أداء ، يجب عليك إعداد <a href='{{PRODUCT_DOCSURL}}/admin/maintenance' target='_blank'>الصيانة المجدولة</a>.";
 
+$GLOBALS['strScheduledMantenaceRunning'] = "";
 
+$GLOBALS['strAutomaticMaintenanceHasRun'] = "";
 
+$GLOBALS['strAutoMantenaceEnabled'] = "";
 
 // Priority
 $GLOBALS['strRecalculatePriority'] = "إعادة حساب الأهمية";
@@ -53,6 +58,7 @@ $GLOBALS['strBannerCacheExplaination'] = "كاش قاعدة بيانات الب�
 </ul>";
 
 // Cache
+$GLOBALS['strCache'] = "";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	حالياً يتم استخدام الذاكرة المشتركة لتخزين كاش التسليم.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	حالياً يتم استخدام قاعدة البيانات لتخزين كاش التسليم.";
 $GLOBALS['strDeliveryCacheFiles'] = "	حالياً يتم تخزين كاش التسليم في ملفات متعددة على الخادم.";
@@ -64,8 +70,18 @@ $GLOBALS['strStorageExplaination'] = "	صور البنرات المستخدمة 
 	المجلدات سيقل الضغط على قواعد البيانات و سيؤدي ذلك إلى زيادة في سرعة عرض الإعلانات.";
 
 // Security
+$GLOBALS['strSecurity'] = "";
+$GLOBALS['strSecurityExplanation'] = "";
+$GLOBALS['strSecurityOK'] = "";
+$GLOBALS['strSecurityKO'] = "";
+$GLOBALS['strSecurityReadMore'] = "";
 
 // Encoding
+$GLOBALS['strEncoding'] = "";
+$GLOBALS['strEncodingExplaination'] = "";
+$GLOBALS['strEncodingConvertFrom'] = "";
+$GLOBALS['strEncodingConvertTest'] = "";
+$GLOBALS['strConvertThese'] = "";
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "يتم البحث عن تحديثات، الرجاء الإنتظار...";
@@ -73,11 +89,11 @@ $GLOBALS['strAvailableUpdates'] = "التحديثات المتوافرة";
 $GLOBALS['strDownloadZip'] = "تحميل (ملف مضغوط .zip)";
 $GLOBALS['strDownloadGZip'] = "تحميل (ملف مضغوط .tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "نسخة جديدة متوافرة من {$PRODUCT_NAME}
+$GLOBALS['strUpdateAlert'] = "نسخة جديدة متوافرة من {{PRODUCT_NAME}}
 
  هل تريد الحصول على معلومات أكثر
  حول هذا التحديث؟";
-$GLOBALS['strUpdateAlertSecurity'] = "نسخة جديدة متوافر من {$PRODUCT_NAME}
+$GLOBALS['strUpdateAlertSecurity'] = "نسخة جديدة متوافر من {{PRODUCT_NAME}}
 
  ينصح بشدة أن تتم الترقية
  بأقرب فرصة، هذه النسخة
@@ -85,20 +101,22 @@ $GLOBALS['strUpdateAlertSecurity'] = "نسخة جديدة متوافر من {$PR
 
 $GLOBALS['strUpdateServerDown'] = "لسبب غير معروف لم نتمكن من<br> إسترجاع أي معلومة حول التحديثات المتوقعة. نرجو الرجو في وقت لاحق.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	 نسختكم من {$PRODUCT_NAME} هي آخر نسخة متوافرة. لا يوجد أي تحديث حالياً.";
+$GLOBALS['strNoNewVersionAvailable'] = "	 نسختكم من {{PRODUCT_NAME}} هي آخر نسخة متوافرة. لا يوجد أي تحديث حالياً.";
 
+$GLOBALS['strServerCommunicationError'] = "";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "";
 
-$GLOBALS['strNewVersionAvailable'] = "	<b>نسخة جديدة متوفرة من {$PRODUCT_NAME}</b><br /> It is ننصح بالتحديث إلى هذه النسخة،
+$GLOBALS['strNewVersionAvailable'] = "	<b>نسخة جديدة متوفرة من {{PRODUCT_NAME}}</b><br /> It is ننصح بالتحديث إلى هذه النسخة،
 	قد تحتوي النسخة على تحديثات لإصلاح بعض المشاكل الحالية، أو قد تكون بعض الإضافات الجديدة إضيفت لهذه النسخة، لمزيد من المعلومات
 	حول التحديث نرجو مراجعة المعلومات الموجودة بالملفات بالأسفل.";
 
 $GLOBALS['strSecurityUpdate'] = "	<b>ينصح بشدة أن تقوم بتركيب التحديثات بأقرب فرصة ممكنة، هذه التحديثات تحتوي على عدد
-	من التحديثات الأمنية.</b> نسخة {$PRODUCT_NAME} التي تستخدمها حالياً قد تحتوي على
+	من التحديثات الأمنية.</b> نسخة {{PRODUCT_NAME}} التي تستخدمها حالياً قد تحتوي على
 	بعض الثغرات الأمنية و قد تكون غير آمنة. للمزيد من المعلومات
 	حول عملية الترقية، الرجاء قراءة التعليمات الموجودة ضمن الملف بالأسفل.";
 
-$GLOBALS['strNotAbleToCheck'] = "	<b>بسبب عدم تفعيل خاصية XML أو عدم وجودها على السيرفر {$PRODUCT_NAME} لم يتمكن
+$GLOBALS['strNotAbleToCheck'] = "	<b>بسبب عدم تفعيل خاصية XML أو عدم وجودها على السيرفر {{PRODUCT_NAME}} لم يتمكن
 من التحقق من وجود نسخ جديدة.</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = "	إن كنت تريد التحقق من وجود نسخ جديدة، الرجاء زيارة موقعنا.";
@@ -109,9 +127,35 @@ $GLOBALS['strRunningOn'] = "تعمل على";
 $GLOBALS['strAndPlain'] = "و";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "";
+$GLOBALS['strAllBannerChannelCompiled'] = "";
+$GLOBALS['strBannerChannelResult'] = "";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "";
+$GLOBALS['strErrorsFound'] = "";
+$GLOBALS['strRepairCompiledLimitations'] = "";
+$GLOBALS['strRecompile'] = "";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "";
+$GLOBALS['strCheckACLs'] = "";
 
 //  Append codes
+$GLOBALS['strAppendCodesDesc'] = "";
+$GLOBALS['strCheckAppendCodes'] = "";
+$GLOBALS['strAppendCodesRecompiled'] = "";
+$GLOBALS['strAppendCodesResult'] = "";
+$GLOBALS['strAppendCodesValid'] = "";
+$GLOBALS['strRepairAppenedCodes'] = "";
 
+$GLOBALS['strPlugins'] = "";
+$GLOBALS['strPluginsPrecis'] = "";
 
+$GLOBALS['strMenus'] = "";
+$GLOBALS['strMenusPrecis'] = "";
+$GLOBALS['strMenusCachedOk'] = "";
 
 // Users
+$GLOBALS['strUserPasswords'] = "";
+$GLOBALS['strUserPasswordsExplaination'] = "";
+$GLOBALS['strCheckUserPasswords'] = "";
+$GLOBALS['strUserPasswordsEverythingOK'] = "";
+$GLOBALS['strUserPasswordsEmailsSent'] = "";

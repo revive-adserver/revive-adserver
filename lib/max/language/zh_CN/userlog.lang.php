@@ -20,6 +20,7 @@ $GLOBALS['strDeleted'] = "删除";
 $GLOBALS['strInserted'] = "添加";
 $GLOBALS['strUpdated'] = "更新";
 $GLOBALS['strDelete'] = "删除";
+$GLOBALS['strHas'] = "";
 $GLOBALS['strFilters'] = "过滤";
 $GLOBALS['strAdvertiser'] = "客户";
 $GLOBALS['strPublisher'] = "媒体";
@@ -30,9 +31,22 @@ $GLOBALS['strAction'] = "行为";
 $GLOBALS['strParameter'] = "参数";
 $GLOBALS['strValue'] = "值";
 $GLOBALS['strReturnAuditTrail'] = "返回";
+$GLOBALS['strAuditTrail'] = "";
+$GLOBALS['strMaintenanceLog'] = "";
+$GLOBALS['strAuditResultsNotFound'] = "";
 $GLOBALS['strCollectedAllEvents'] = "所有";
 $GLOBALS['strClear'] = "重置";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "";

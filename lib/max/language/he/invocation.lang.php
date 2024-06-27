@@ -12,6 +12,8 @@
 
 // Other
 $GLOBALS['strCopyToClipboard'] = "העתק לזיכרון";
+$GLOBALS['strCopy'] = "";
+$GLOBALS['strChooseTypeOfInvocation'] = "";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "נא לבחור בסוג קוד הקריאה";
 
 // Measures
@@ -27,6 +29,8 @@ $GLOBALS['strInvocationWithText'] = "הצג כיתוב מתחת לבנר";
 $GLOBALS['strInvocationDontShowAgain'] = "אל תציג באנר זה פעם נוספת באותו העמוד";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "אל תציד באנר מאותו הקמפיין שוב באותו העמוד";
 $GLOBALS['strInvocationTemplate'] = "שמור את הבאנר בתוך משתנה כדי שאפשר יהיה לשלבו בתבנית עמוד (Template)";
+$GLOBALS['strInvocationBannerID'] = "";
+$GLOBALS['strInvocationComments'] = "";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "רענן אחרי";
@@ -52,6 +56,8 @@ $GLOBALS['strWindowResizable'] = "שינוי גודל";
 $GLOBALS['strShowScrollbars'] = "גוללים";
 
 // Support for cachebusting code
+$GLOBALS['strCacheBuster'] = "";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "אזהרה";
+$GLOBALS['strImgWithAppendWarning'] = "";
