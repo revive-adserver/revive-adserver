@@ -2308,18 +2308,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCompatibility/PHPCompatibility.git",
-                "reference": "88e77dff171bdd843969a4297ebe52f9f849275a"
+                "reference": "5a0ad8d5abab6fc6898a3d7d4f804729229e3962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibility/zipball/88e77dff171bdd843969a4297ebe52f9f849275a",
-                "reference": "88e77dff171bdd843969a4297ebe52f9f849275a",
+                "url": "https://api.github.com/repos/PHPCompatibility/PHPCompatibility/zipball/5a0ad8d5abab6fc6898a3d7d4f804729229e3962",
+                "reference": "5a0ad8d5abab6fc6898a3d7d4f804729229e3962",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4",
-                "phpcsstandards/phpcsutils": "^1.0.9",
-                "squizlabs/php_codesniffer": "^3.9.0"
+                "phpcsstandards/phpcsutils": "^1.0.12",
+                "squizlabs/php_codesniffer": "^3.10.0"
             },
             "replace": {
                 "wimg/php-compatibility": "*"
@@ -2390,7 +2390,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-04-02T20:53:47+00:00"
+            "time": "2024-06-07T09:46:11+00:00"
         },
         {
             "name": "phpcsstandards/phpcsutils",
