@@ -17,7 +17,6 @@
     <install>
 
         <files>
-            <file path="{MODULEPATH}etc/rvMaxMindGeoIP2/">composer.json</file>
             <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/lib/">MaxMindGeoIP2.php</file>
             <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/lib/">MaxMindGeoLite2Downloader.php</file>
             <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/">rvMaxMindGeoIP2.class.php</file>
