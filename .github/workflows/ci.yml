@@ -17,10 +17,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    concurrency:
-      group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-
     steps:
      - name: Checkout
        uses: actions/checkout@v4
@@ -279,14 +275,15 @@ jobs:
 
     concurrency:
       group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
 
     outputs:
-      sha: ${{ steps.add-delivery.outputs.commit_long_sha || steps.add-plugins.outputs.commit_long_sha || steps.add-trans.outputs.commit_long_sha || steps.add-xml.outputs.commit_long_sha }}
+      next: ${{ steps.push.outputs.next }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MATTEO_PAT }}
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
@@ -347,6 +344,7 @@ jobs:
         with:
           add: etc/xmlcache
           message: 'Regenerated XML cache ${{ steps.gather.outputs.MSG }}'
+          push: false
 
       - name: Update plugin translations
         run: php scripts/translations/update-plugins.php
@@ -357,6 +355,7 @@ jobs:
         with:
           add: plugins_repo
           message: 'Updated plugin translations ${{ steps.gather.outputs.MSG }}'
+          push: false
 
       - name: Update plugin packages
         run: php scripts/upgrade/rebuildBundledPlugins.php
@@ -367,6 +366,7 @@ jobs:
         with:
           add: etc/plugins plugins_repo
           message: 'Regenerated plugins ${{ steps.gather.outputs.MSG }}'
+          push: false
 
       - name: Regenerate delivery
         run: |
@@ -379,10 +379,14 @@ jobs:
         with:
           add: www/delivery
           message: 'Regenerated delivery scripts ${{ steps.gather.outputs.MSG }}'
+          push: false
 
-      - name: Output SHA
+      - name: Push
+        if: steps.add-delivery.outputs.committed == 'true' || steps.add-plugins.outputs.committed == 'true'  || steps.add-trans.outputs.committed == 'true'  || steps.add-xml.outputs.committed == 'true'
+        id: push
         run: |
-          echo "sha=${{ steps.add-delivery.outputs.commit_long_sha || steps.add-plugins.outputs.commit_long_sha || steps.add-trans.outputs.commit_long_sha || steps.add-xml.outputs.commit_long_sha || github.sha }}" >> $GITHUB_OUTPUT
+          git push origin
+          echo "next=skip" >> $GITHUB_OUTPUT
 
   trigger-tests:
     name: Trigger tests
@@ -394,16 +398,14 @@ jobs:
       - refactoring-checker
       - post-commit
 
-    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.refactoring-checker.result == 'success' && needs.post-commit.result != 'failure' }}
+    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.refactoring-checker.result == 'success' && needs.post-commit.result != 'failure' && needs.post-commit.result != 'cancelled' && needs.post-commit.outputs.next != 'skip' }}
 
     uses: ./.github/workflows/test.yml
-    with:
-      sha: ${{ needs.post-commit.outputs.sha }}
 
   upload-to-crowdin:
     name: Upload translation sources
 
-    if: github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master'
+    if: github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master' && needs.post-commit.outputs.next != 'skip'
 
     needs:
       - type-checker

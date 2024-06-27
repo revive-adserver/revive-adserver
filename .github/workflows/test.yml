@@ -1,15 +1,10 @@
 name: Test Runner
 
 on:
-  workflow_call:
-    inputs:
-      sha:
-        required: false
-        type: string
+  workflow_call: ~
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 
 permissions:
   checks: write
@@ -95,8 +90,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.sha }}
 
       - name: Install Java
         uses: actions/setup-java@v4
@@ -172,13 +165,11 @@ jobs:
     needs:
       - run-tests
 
-    if: always()
+    if: always() && needs.run-tests.result != 'cancelled' && needs.run-tests.result != 'skipped'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.sha }}
 
       - name: Download Test Report
         uses: dawidd6/action-download-artifact@v3
