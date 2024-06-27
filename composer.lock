@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d673414a0f2307a36b915476c0f654d",
+    "content-hash": "ee9117f444df860a23b1fefd31a9186b",
     "packages": [
         {
             "name": "bower-asset/tinymce",
@@ -38,54 +38,6 @@
                 "reference": "f0735425180b130d6c57efbc044a47c0c8f1fd65"
             },
             "type": "bower-asset"
-        },
-        {
-            "name": "figdice/asseteer",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/revive-adserver/asseteer.git",
-                "reference": "1ba5ff5b31a7cb38be8c556f3988399023b48c38"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/revive-adserver/asseteer/zipball/1ba5ff5b31a7cb38be8c556f3988399023b48c38",
-                "reference": "1ba5ff5b31a7cb38be8c556f3988399023b48c38",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "asseteer\\": "./"
-                }
-            },
-            "license": [
-                "GPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Gabriel Zerbib",
-                    "email": "gabriel@figdice.org"
-                }
-            ],
-            "description": "Post-install resource copy script for Composer",
-            "homepage": "https://github.com/gabrielzerbib/asseteer",
-            "keywords": [
-                "composer",
-                "deploy",
-                "install",
-                "javascript",
-                "resources",
-                "stylesheet"
-            ],
-            "support": {
-                "source": "https://github.com/revive-adserver/asseteer/tree/master"
-            },
-            "time": "2018-08-09T07:22:36+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1053,6 +1005,58 @@
             },
             "abandoned": true,
             "time": "2021-09-23T13:51:44+00:00"
+        },
+        {
+            "name": "slowprog/composer-copy-file",
+            "version": "0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slowprog/CopyFile.git",
+                "reference": "b02d55f7587577f29d355f0ce7b697f66dffc0af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slowprog/CopyFile/zipball/b02d55f7587577f29d355f0ce7b697f66dffc0af",
+                "reference": "b02d55f7587577f29d355f0ce7b697f66dffc0af",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev",
+                "mikey179/vfsstream": "~1",
+                "php-mock/php-mock-phpunit": "~1",
+                "phpunit/phpunit": "5.7.27",
+                "symfony/filesystem": "~2.7",
+                "symfony/finder": "~2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SlowProg\\CopyFile\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Tyshev",
+                    "email": "slowprog@gmail.com"
+                }
+            ],
+            "description": "Composer script copying your files after install",
+            "homepage": "https://github.com/SlowProg/composer-copy-file",
+            "keywords": [
+                "copy file"
+            ],
+            "support": {
+                "issues": "https://github.com/slowprog/CopyFile/issues",
+                "source": "https://github.com/slowprog/CopyFile/tree/0.3.3"
+            },
+            "time": "2020-07-02T14:44:41+00:00"
         },
         {
             "name": "symfony/config",
@@ -2738,7 +2742,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "figdice/asseteer": 20,
         "phpcompatibility/php-compatibility": 20
     },
     "prefer-stable": false,
