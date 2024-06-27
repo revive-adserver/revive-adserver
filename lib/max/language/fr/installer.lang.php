@@ -87,3 +87,4 @@ $GLOBALS['strTaskInstallFailed'] = "Une erreur s'est produite pendant la tâche 
 $GLOBALS['strUnableCreateConfFile'] = "Nous ne pouvons pas créer votre fichier de configuration. Veuillez vérifier les permissions du dossier var {$PRODUCT_NAME}.";
 $GLOBALS['strUnableUpdateConfFile'] = "Nous ne pouvons pas créer votre fichier de configuration. Veuillez vérifier les permissions du dossier var {$PRODUCT_NAME}, et vérifiez aussi les permissions du précédent fichier de configuration d'installation que vous avez copié dans ce dosier.";
 $GLOBALS['strUnableToCreateAdmin'] = "Nous ne pouvons pas créer un compte administrateur de système. Votre base de données est-elle accessible?";
+
