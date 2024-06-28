@@ -164,7 +164,6 @@ $GLOBALS['strAuthentification'] = "Kimlik Doğrulama";
 $GLOBALS['strWelcomeTo'] = "Hoşgeldiniz ";
 $GLOBALS['strEnterUsername'] = "Giriş yapabilmek için kullanıcı adınızı ve parolanızı giriniz";
 $GLOBALS['strEnterBoth'] = "Lütfen kullanıcı adınızı ve parolanızı birlikte giriniz";
-$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME} kullanmaya başlamadan önce tarayıcı (browser) ayarlarınızı çerezleri (cookie) kabul edecek şekilde değiştirmelisiniz.";
 $GLOBALS['strSessionIDNotMatch'] = "Oturum çerezi hatası, lütfen oturum aç";
 $GLOBALS['strLogin'] = "Giriş";
 $GLOBALS['strLogout'] = "Çıkış";
@@ -729,11 +728,8 @@ $GLOBALS['strNoMatchesFound'] = "Uygun kayıt bulunamadı";
 $GLOBALS['strErrorOccurred'] = "Bir hata oluştu";
 $GLOBALS['strErrorDBPlain'] = "Veritabanına erişilirken bir hata oluştu";
 $GLOBALS['strErrorDBSerious'] = "Veritabanıyla ilgili ciddi bir problem tespit edildi";
-$GLOBALS['strErrorDBNoDataPlain'] = "Veritabanındaki bir problemden dolayı {$PRODUCT_NAME} veriyi alamadı veya kaydedemedi. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Veritabanındaki bir problemden dolayı {$PRODUCT_NAME} veriye erişemedi";
 $GLOBALS['strErrorDBCorrupt'] = "Veritabanı tablosu muhtemelen bozuk ve onarılması gerekiyor. Bozulmuş tabloların onarımı hakkında daha fazla bilgi için lütfen <i>Yönetici klavuzu</i>'nun <i>Sorun Çözme</i> bölümünü okuyun.";
 $GLOBALS['strErrorDBContact'] = "Lütfen bu sunucunun yöneticisiyle iletişime geçin ve problem hakkında bilgilendirin.";
-$GLOBALS['strErrorDBSubmitBug'] = "Eğer problem yeniden oluşturulabiliyorsa, bu durum {$PRODUCT_NAME} içindeki bir bug'dan kaynaklanıyor olabilir. Lütfen aşağıdaki bilgileri {$PRODUCT_NAME} üreticilerine ulaştırın. Beraberinde hatanın oluşmasıyla sonuçlanan işlemlerinizi olabildiğince açık bir şekilde açıklamaya çalışın.";
 $GLOBALS['strMaintenanceNotActive'] = "Bakım rutini son 24 saat içinde çalıştırılmadı.
 Ürününün doğru çalışması için bakım rutininin
  her saat çalışması gerekir.
@@ -746,7 +742,6 @@ $GLOBALS['strErrorEditingCampaignRevenue'] = "Gelir bilgisi alanında hatalı sa
 $GLOBALS['strErrorEditingCampaignECPM'] = "ECPM Bilgisi alanında hatalı sayı biçimi";
 $GLOBALS['strUnableToChangeZone'] = "Belirtilen nedenle bu değişiklik uygulanamadı:";
 $GLOBALS['strDatesConflict'] = "tarih çakışıyor: ";
-$GLOBALS['strEmailNoDates'] = "Eposta alanı kampanyaları için başlangıç ve bitiş tarihleri belirtilmelidir";
 $GLOBALS['strWarningInaccurateStats'] = "Bu istatistiklerin bazıları UTC olmayan bir zaman diliminde günlüğe kaydedildi ve doğru saat diliminde gösterilmeyebilir.";
 $GLOBALS['strWarningInaccurateReport'] = "Bu rapordaki istatistiklerin bir kısmı UTC olmayan bir saat diliminde günlüğe kaydedildi ve doğru zaman diliminde gösterilmeyebilir";
 

@@ -173,7 +173,6 @@ $GLOBALS['strAuthentification'] = "Authentifikation";
 $GLOBALS['strWelcomeTo'] = "Willkommen bei";
 $GLOBALS['strEnterUsername'] = "Geben Sie Benutzername und Passwort ein";
 $GLOBALS['strEnterBoth'] = "Bitte beides eingeben; Benutzername und Passwort";
-$GLOBALS['strEnableCookies'] = "Sie müssen Cookies im Browser aktivieren bevor die {$PRODUCT_NAME} verwenden können";
 $GLOBALS['strSessionIDNotMatch'] = "Sitzungs-Cookie fehlerhaft, bitte loggen Sie sich erneut ein.";
 $GLOBALS['strLogin'] = "Anmelden";
 $GLOBALS['strLogout'] = "Ausloggen";
@@ -808,11 +807,8 @@ $GLOBALS['strNoMatchesFound'] = "Kein Objekt gefunden";
 $GLOBALS['strErrorOccurred'] = "Ein Fehler ist aufgetreten";
 $GLOBALS['strErrorDBPlain'] = "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten ";
 $GLOBALS['strErrorDBSerious'] = "Ein schwerwiegendes Problem mit der Datenbank wurde erkannt";
-$GLOBALS['strErrorDBNoDataPlain'] = "Aufgrund eines Fehlers mit der Datenbank konnte {$PRODUCT_NAME} weder aus der Datenbank lesen noch in sie schreiben. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Aufgrund eines schweren Problems mit der Datenbank konnte {$PRODUCT_NAME}  keine Daten suchen";
 $GLOBALS['strErrorDBCorrupt'] = "Die Datenbanktabelle ist wahrscheinlich zerstört und mu&szlig wiederhergestellt werden. Informationen über die Wiederherstellung zerstörter Tabellen finden sich im Handbuch.";
 $GLOBALS['strErrorDBContact'] = "Bitte nehmen Sie Kontakt mit dem Systemverwalter Ihres Servers auf und schildern Sie ihm das Problem. Nur er kann helfen.";
-$GLOBALS['strErrorDBSubmitBug'] = "Wenn das Problem wiederholt auftritt, kann es ein Fehler in {$PRODUCT_NAME} sein. Bitte protokollieren Sie die Fehlermeldung uns senden sie diese an den Support von {$PRODUCT_NAME}. Bitte versuchen Sie, alle Aktivitäten, die zu diesem Fehler führten, so genau wie möglich zu beschreiben.";
 $GLOBALS['strMaintenanceNotActive'] = "Das Wartungsprogramm lief während der letzen 24 Stunden nicht.
 Damit {$PRODUCT_NAME} korrekt arbeiten kann, muß das Wartungsprogramm stündlich
 aufgerufen werden.
@@ -826,7 +822,6 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "Ungültiges Zahlenformat im Feld ECPM
 $GLOBALS['strErrorEditingZone'] = "Fehler beim Update der Zone:";
 $GLOBALS['strUnableToChangeZone'] = "Diese Änderung ist unwirksam weil:";
 $GLOBALS['strDatesConflict'] = "Datumskonflikt mit:";
-$GLOBALS['strEmailNoDates'] = "E-Mail- und Newsletter-Kampagnen müssen ein Start- und ein Enddatum haben.";
 $GLOBALS['strWarningInaccurateStats'] = "Einige der Statistikdaten sind nicht in der UTC-Zeitzone erfasst worden. Diese werden möglicherweise nicht in der richtigen Zeitzone dargestellt.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Lesen Sie mehr hierüber";
 $GLOBALS['strWarningInaccurateReport'] = "Einige der Statistikdaten dieses Berichts sind nicht in der UTC-Zeitzone erfasst worden. Diese werden möglicherweise nicht in der richtigen Zeitzone dargestellt.";
@@ -1033,7 +1028,6 @@ $GLOBALS['strVariableCode'] = "Javascript-Tracking-Code";
 $GLOBALS['strForgotPassword'] = "Passwort vergessen?";
 $GLOBALS['strPasswordRecovery'] = "Passwort zurücksetzen";
 $GLOBALS['strWelcomePage'] = "Willkommen neuer Nutzer!";
-$GLOBALS['strWelcomePageText'] = "<b>Willkommen im {$PRODUCT_NAME}.</b><br>Als neuer Nutzer legen Sie bitte zunächst Ihr Passwort fest. Bitte wählen Sie ein sicheres und nur dafür verwendetes Passwort.";
 $GLOBALS['strEmailRequired'] = "Das Eingabefeld e-Mail muss ausgefüllt sein";
 $GLOBALS['strPwdRecWrongExpired'] = "Der Link zum Zurücksetzen des Passworts ist fehlerhaft. Bitte fordern Sie einen neuen Link an.";
 $GLOBALS['strPwdRecEnterEmail'] = "Geben Sie nachfolgend Ihre eMail Adresse ein";
@@ -1113,10 +1107,6 @@ Danke, dass Sie mithelfen {application_name} sicherer für alle zu machen!
 
 // Password reset warning
 $GLOBALS['strPasswordResetRequiredTitle'] = "Wichtiger Hinweis zur verbesserten Passwort-Sicherheit";
-$GLOBALS['strPasswordResetRequired'] = "Kürzlich wurde die {$PRODUCT_NAME} Software auf eine neue Version aktualisiert die eine modernere und sicherere Art der Passwort-Speicherung beinhaltet. Daher ist es nötig, dass Sie ein neues Passwort festlegen um {$PRODUCT_NAME} weiter nutzen zu können.
-Bitte prüfen Sie Ihr E-Mail-Postfach, ob Sie eine E-Mail zum Zurücksetzen des Passworts erhalten haben!
-Eine E-Mail zum Zurücksetzen des Passworts wurde an die E-Mail-Adresse Ihres Benutzerkontos gesendet. Bitte öffnen Sie diese E-Mail und klicken Sie den Link darin an. Der Link führt zu einem Formular mit dem Sie ein neues Passwort festlegen können. 
-Bis die E-Mail eintrifft, können unter Umständen einige Minuten vergehen. Wenn die E-Mail nicht im Posteingang zu finden ist, prüfen Sie bitte auch den SPAM- bzw. Junk-Ordner Ihres E-Mail-Postfachs.";
 $GLOBALS['strPasswordUnsafeWarning'] = "Ihr Passwort wurde als nicht sicher genug eingeschätzt. Bitte <a href='%s'>ändern Sie es</a> so bald wie möglich.";
 
 // Audit
@@ -1132,12 +1122,10 @@ $GLOBALS['strAuditNoData'] = "Es wurde keine Benutzeraktivität innerhalb des au
 $GLOBALS['strAuditTrail'] = "Prüfprotokoll";
 $GLOBALS['strAuditTrailSetup'] = "Heute das Prüfprotokoll einrichten";
 $GLOBALS['strAuditTrailGoTo'] = "Gehe zur Prüfprotokollseite";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Prüfprotokolle gestatten Ihnen einen Einblick wer wann was geändert hat. Oder um es anders auszudrücken: {$PRODUCT_NAME} protokolliert für Sie alle Änderungen im System.</li><li>Diese Nachricht wird Ihnen angezeigt, weil das Prüfprotokoll aktuell deaktiviert ist.</li><li>Sie möchten mehr hierüber wissen? Lesen Sie die <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Dokumentation über die Prüfprotokolle.</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Gehe zur Kampagne";
 $GLOBALS['strCampaignSetUp'] = "Heute eine Kampagne einrichten";
-$GLOBALS['strCampaignNoRecords'] = "<li>In Kampagnen können Sie beliebig viele Banner unterschiedlicher Größe (Breite/Höhe) mit gleichen Eigenschaften zusammenfassen.</li><li>Sparen Sie Zeit indem Sie Banner mit gleichen Auslieferungsbeschränkungen in einer Kampagne zusammenfassen, und nicht in jedem Banner erneut definieren müssen.</li><li>Sehen Sie sich die <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Dokumentation über die Kampagnen an.</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Es gibt keine Ereignisse zu den Kampagnen anzuzeigen.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "In dem angegebenen Zeitraum wurde keine Kampagne gestartet oder beendet.";

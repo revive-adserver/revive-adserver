@@ -124,7 +124,6 @@ $GLOBALS['strAuthentification'] = "認證";
 $GLOBALS['strWelcomeTo'] = "歡迎來到";
 $GLOBALS['strEnterUsername'] = "請填入你的用戶名和密碼";
 $GLOBALS['strEnterBoth'] = "請填入你的用戶名和密碼";
-$GLOBALS['strEnableCookies'] = "您需要啟用cookie才能使用{$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "登錄";
 $GLOBALS['strLogout'] = "退出";
 $GLOBALS['strUsername'] = "用戶名";
@@ -526,15 +525,11 @@ $GLOBALS['strNoMatchesFound'] = "沒有符合的結果";
 $GLOBALS['strErrorOccurred'] = "出錯";
 $GLOBALS['strErrorDBPlain'] = "訪問數據庫出錯";
 $GLOBALS['strErrorDBSerious'] = "數據庫出錯";
-$GLOBALS['strErrorDBNoDataPlain'] = "{$PRODUCT_NAME} 無法從數據庫中取回或儲存數據。";
-$GLOBALS['strErrorDBNoDataSerious'] = "由於{$PRODUCT_NAME} 無法從數據庫中取回數據，因而導致一個嚴重問題";
 $GLOBALS['strErrorDBCorrupt'] = "數據庫表格出錯需要修復。希望了解關於修復表格的更多資訊，請參閱<i>管理員手冊</i>中的<i>排錯</i>章節";
 $GLOBALS['strErrorDBContact'] = "請聯繫伺服器管理員注意相關問題。";
-$GLOBALS['strErrorDBSubmitBug'] = "如果這個問題重複出現，則可能是由於{$PRODUCT_NAME}自身的BUG導致的。請向{$PRODUCT_NAME}開發人員報告這個錯誤。為了幫助開發人員解決問題，請儘量清晰地描述您的錯誤。";
 $GLOBALS['strMaintenanceNotActive'] = "管理代碼在過去的24小時內沒有被執行。為了保證{$PRODUCT_NAME}能夠正常地提供服務，管理代碼應該每小時執行一次。請閱讀管理員手冊了解更多相關資訊。";
 $GLOBALS['strUnableToChangeZone'] = "因為以下原因無法應用更新";
 $GLOBALS['strDatesConflict'] = "數據衝突";
-$GLOBALS['strEmailNoDates'] = "電子郵件版位必須有開始好結束時間";
 
 //Validation
 

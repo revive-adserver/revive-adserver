@@ -13,7 +13,6 @@
 /** status messages * */
 
 /** welcome step * */
-$GLOBALS['strWelcomeTitle'] = "欢迎来到 {$PRODUCT_NAME}";
 
 /** check step * */
 $GLOBALS['strSystemCheckIntro'] = "The install wizard perfomed a check of your web server settings to ensure that the installation process can complete successfully.

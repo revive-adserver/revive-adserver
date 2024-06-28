@@ -557,7 +557,6 @@ $GLOBALS['strErrorLinkingBanner'] = "Neįmanoma ssieti šį banerį su šia zona
 $GLOBALS['strUnableToLinkBanner'] = "Negalima susieti šio banerio:";
 $GLOBALS['strUnableToChangeZone'] = "Neįmanoma patvirtinti šių pasikeitimų, nes:";
 $GLOBALS['strDatesConflict'] = "datos prieštarauja su:";
-$GLOBALS['strEmailNoDates'] = "Elektroninio pašto zonos privalo turėti pradžią ir pabaigą";
 $GLOBALS['strWarningInaccurateStats'] = "Kai kurios iš šių statistikų buvo prijungtos  prie ne ne-UTC laiko zonos, ir gali būti rodomos neteisingu laiko zonos laiku. ";
 $GLOBALS['strWarningInaccurateReadMore'] = "Skaitykite daugiau apie tai";
 $GLOBALS['strWarningInaccurateReport'] = "Dalis  šios ataskaitos statistikos buvo priregistruoti į ne-UTC laiko zoną, ir gali būti rodoma neteisingoje laiko zonoje ";

@@ -147,7 +147,6 @@ $GLOBALS['strAuthentification'] = "Preverjanje pristnosti";
 $GLOBALS['strWelcomeTo'] = "Dobrodošli v";
 $GLOBALS['strEnterUsername'] = "Vnesite svoje uporabniško ime in geslo";
 $GLOBALS['strEnterBoth'] = "Prosimo, vnesite svoje uporabniško ime in geslo";
-$GLOBALS['strEnableCookies'] = "Imeti morate omogočene piškotke, če želite uporabljati {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Napaka piškotka seje. Prosimo, prijavite se znova";
 $GLOBALS['strLogin'] = "Prijava";
 $GLOBALS['strLogout'] = "Odjava";
@@ -684,11 +683,8 @@ $GLOBALS['strNoMatchesFound'] = "Ni zadetkov";
 $GLOBALS['strErrorOccurred'] = "Prišlo je do napake";
 $GLOBALS['strErrorDBPlain'] = "Prišlo je do napake pri dostopanju do podatkovne baze.";
 $GLOBALS['strErrorDBSerious'] = "Odkrit je bil resen problem pri podatkovni bazi.";
-$GLOBALS['strErrorDBNoDataPlain'] = "Zaradi problema z podatkovno bazo, {$PRODUCT_NAME} ni mogel pridobiti ali shraniti podatkov.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Zaradi resnega problema z podatkovno bazo, {$PRODUCT_NAME} ni mogel pridobiti podatkov.";
 $GLOBALS['strErrorDBCorrupt'] = "Podatkovna baza je najverjetneje pokvarjena in potrebuje popravilo. Za več informacij o popravilu baz si prosimo preberite poglavje <i>Tehnične motnje</i> v <i>Administratorskem vodiču</i>.";
 $GLOBALS['strErrorDBContact'] = "Prosimo, obvestite administratorja o problemu na tej strani.";
-$GLOBALS['strErrorDBSubmitBug'] = "Če se je ta problem znova pojavil, je to mogoče zaradi hrošča v {$PRODUCT_NAME}. Prosimo, posredujte to informacijo ustvarjalcem {$PRODUCT_NAME}. Opišite tudi postopek, ki je vodil do te napake.";
 $GLOBALS['strMaintenanceNotActive'] = "Vzdrževalna skripta ni bila zagnana v zadnjih 24-ih urah.
 Da bi {$PRODUCT_NAME} deloval pravilno, jo je potrebno zagnati
 vsako uro.
@@ -701,7 +697,6 @@ $GLOBALS['strErrorEditingCampaignRevenue'] = "napačna oblika številk v polju I
 $GLOBALS['strErrorEditingZone'] = "Napaka pri posodabljanju področja:";
 $GLOBALS['strUnableToChangeZone'] = "Ne morem prilagoditi te spremembe zaradi:";
 $GLOBALS['strDatesConflict'] = "datumi so v navzkrižju z:";
-$GLOBALS['strEmailNoDates'] = "E-poštne področne kampanje morajo imeti začetni in zaključni datum";
 $GLOBALS['strWarningInaccurateStats'] = "Nekatere od teh statistik so bile zabeležene v napačnem časovnem področju, zato morda ne bodo pravilno prikazane";
 $GLOBALS['strWarningInaccurateReadMore'] = "Preberite več o tem";
 $GLOBALS['strWarningInaccurateReport'] = "Nekatere od statistik v tem poročilu so bile zabeležene v napačnem časovnem področju, zato morda ne bodo pravilno prikazane";
@@ -899,12 +894,10 @@ $GLOBALS['strAuditNoData'] = "Nobena uporabniško dejanje ni bilo zabeleženo me
 $GLOBALS['strAuditTrail'] = "Pregledna pot (audit trail)";
 $GLOBALS['strAuditTrailSetup'] = "Nastavite Pregledno pot danes";
 $GLOBALS['strAuditTrailGoTo'] = "Pojdite na stran Pregledne poti";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Pregledna pot vam omogoča vpogled v to, kaj je kdo naredil in kdaj. Skratka, beleži vse sistemske spremembe {$PRODUCT_NAME}</li><li>To sporočilo vidite zato, ker nimate omogočene Pregledne poti</li><li>Želite vedeti več? Preberite <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Dokumentacija Pregledne poti</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Pojdite na stran kampanje";
 $GLOBALS['strCampaignSetUp'] = "Ustvari novo kampanjo danes";
-$GLOBALS['strCampaignNoRecords'] = "<li>Kampanje vam omogočajo razvrščanje poljubno število oglasnih pasic različnih velikosti skupaj, ki imajo skupne oglaševalske zahteve.</li> <li>Prihranite čas pri razvrščanju pasic v kampanji, kajti ni vam potrebno več nastavljati dostavnih lastnosti za posamezen oglas.</li><li>Preglejte <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Nobena kampanja ni aktivna za prikaz.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nobena kampanja se ni začela ali končala v časovnem okvirju, ki ste ga določili";

@@ -172,7 +172,6 @@ $GLOBALS['strAuthentification'] = "אימות";
 $GLOBALS['strWelcomeTo'] = "ברוכים הבאים ל";
 $GLOBALS['strEnterUsername'] = "נא להכניס שם וסיסמא כדי להיכנס";
 $GLOBALS['strEnterBoth'] = "אנא הזן את שם המשתמש והסיסמא";
-$GLOBALS['strEnableCookies'] = "עליך לאפשר קוקיס (cookies) לפני השימוש ב-{$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "אירעה שגיאת עוגיה. עליך להתחבר מחדש.";
 $GLOBALS['strLogin'] = "התחבר";
 $GLOBALS['strLogout'] = "התנתק";
@@ -782,11 +781,8 @@ $GLOBALS['strNoMatchesFound'] = "לא נמצאו תוצאות";
 $GLOBALS['strErrorOccurred'] = "אירעה שגיאה";
 $GLOBALS['strErrorDBPlain'] = "ארעה שגיאה בגישה לבסיס הנתונים";
 $GLOBALS['strErrorDBSerious'] = "ארעה שגיאה חמורה בבסיס הנתונים";
-$GLOBALS['strErrorDBNoDataPlain'] = "עקב בעיה עם מסד הנתונים {$PRODUCT_NAME} לא הצלחתי לאחזר או לאחסן נתונים. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "עקב בעיה חמורה בבסיס הנתוניא, {$PRODUCT_NAME} לא יכלה להשיג מידע.";
 $GLOBALS['strErrorDBCorrupt'] = "טבלאות בסיס הנתוניא כנראה קרסו ודורשות תיקון. מידע נוסף בדבר תיקון טבלאות שקרסו ניתן למצוא בפרק <i>Troubleshooting</i> של ה<i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "אנא צור קשר עא האחראי של שרת זה והודיע לו לגבי הבעיה.";
-$GLOBALS['strErrorDBSubmitBug'] = "אא הבעיה נשנית, אפשר שמדובר בבאג ב-{$PRODUCT_NAME}. אנא דווח את המידע הבא ליוצריא של {$PRODUCT_NAME}. כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
 $GLOBALS['strMaintenanceNotActive'] = "The maintenance script has not been run in the last 24 hours.
 In order for the application to function correctly it needs to run
 every hour.

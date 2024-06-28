@@ -128,7 +128,6 @@ $GLOBALS['strAuthentification'] = "Ægtheds kontrol";
 $GLOBALS['strWelcomeTo'] = "Velkommen til";
 $GLOBALS['strEnterUsername'] = "Indtast dit brugernavn og kodeord for at logge ind";
 $GLOBALS['strEnterBoth'] = "Indtast venligs både dit brugernavn og kodeord";
-$GLOBALS['strEnableCookies'] = "Det er nødvendigt at du tillader cookies før du kan bruge {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Log ind";
 $GLOBALS['strLogout'] = "Log ud";
 $GLOBALS['strUsername'] = "Brugernavn";
@@ -552,11 +551,8 @@ $GLOBALS['strNoMatchesFound'] = "Der er ikke fundet nogle matchende resultater";
 $GLOBALS['strErrorOccurred'] = "Der opstod en fejl";
 $GLOBALS['strErrorDBPlain'] = "Der opstod en fejl under adgangsforsøget til databasen.";
 $GLOBALS['strErrorDBSerious'] = "Der er detekteret et avorligt problem med databasen.";
-$GLOBALS['strErrorDBNoDataPlain'] = "På grund af et problem med databasen {$PRODUCT_NAME}  kunne data hverken hentes eller gemmes.";
-$GLOBALS['strErrorDBNoDataSerious'] = "På grund af et alvorligt problem med databasen, {$PRODUCT_NAME} kunne data ikke hentes";
 $GLOBALS['strErrorDBCorrupt'] = "Database tabellen er sandsynligvis fejlbehæftet og behøver at blive repareret. For yderligere information om at reparere fejlbehæftede tabeller, venligst læs kapitlet <i>Troubleshooting</i> i <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Venligst kontakt administratoren af denne server og meddel ham eller hende om dette problem.";
-$GLOBALS['strErrorDBSubmitBug'] = "Hvis det er muligt at genskabe et problem er det måske opstået ved en bug i {$PRODUCT_NAME}. Venligst rapporter den følgende information til personen som har lavet {$PRODUCT_NAME}. Forsøg også at beskrive så tydeligt som muligt hvilke handlinger som har forårsaget at denne fejl opstod.";
 $GLOBALS['strMaintenanceNotActive'] = "Vedligeholdelses skripten er ikke blevet kørt de seneste 24 timer.
  For at {$PRODUCT_NAME} skal fungere korrekt er det nødvendig at køre hver
 hver time.
@@ -567,7 +563,6 @@ $GLOBALS['strErrorLinkingBanner'] = "Det var ikke muligt at linke banner til den
 $GLOBALS['strUnableToLinkBanner'] = "Kan ikke linke denne banner:_";
 $GLOBALS['strUnableToChangeZone'] = "Kan ikke tilføje denne ændring på grund af:";
 $GLOBALS['strDatesConflict'] = "datoer konflikter med:";
-$GLOBALS['strEmailNoDates'] = "Email zone kampagne må have en start og slut dato";
 
 //Validation
 

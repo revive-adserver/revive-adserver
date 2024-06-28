@@ -110,7 +110,6 @@ $GLOBALS['strAuthentification'] = "Prihlásenie";
 $GLOBALS['strWelcomeTo'] = "Vitajte v";
 $GLOBALS['strEnterUsername'] = "Zadajte Vaše užívateľské meno a heslo pre prihlásenie";
 $GLOBALS['strEnterBoth'] = "Prosím vložte užívateľské meno a heslo";
-$GLOBALS['strEnableCookies'] = "Skôr ako začnete používať {$PRODUCT_NAME} musíte mať povolené COOKIES";
 $GLOBALS['strLogin'] = "Prihlásiť";
 $GLOBALS['strLogout'] = "Odhlásiť";
 $GLOBALS['strUsername'] = "Užívateľské meno";

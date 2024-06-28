@@ -124,7 +124,6 @@ $GLOBALS['strAuthentification'] = "Επικύρωση Στοιχείων";
 $GLOBALS['strWelcomeTo'] = "Καλώς ήλθατε στο";
 $GLOBALS['strEnterUsername'] = "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας για να συνδεθειτε";
 $GLOBALS['strEnterBoth'] = "Παρακαλώ εισάγετε και το όνομα χρήστη αλλά και τον κωδικό σας. Και τα δύο.";
-$GLOBALS['strEnableCookies'] = "Πρέπει να ενεργοποιήσετε τα cookies πριν χρησιμοποιήσετε το {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Σύνδεση";
 $GLOBALS['strLogout'] = "Αποσύνδεση";
 $GLOBALS['strUsername'] = "Όνομα Χρήστη";

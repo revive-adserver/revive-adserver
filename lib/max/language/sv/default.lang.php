@@ -163,7 +163,6 @@ $GLOBALS['strAuthentification'] = "Autentisering";
 $GLOBALS['strWelcomeTo'] = "Välkommen till";
 $GLOBALS['strEnterUsername'] = "Ange ditt användarnamn och lösenord för att logga in";
 $GLOBALS['strEnterBoth'] = "Vänligen ange både användarnamn och lösenord";
-$GLOBALS['strEnableCookies'] = "Du måste aktivera cookies innan du kan använda {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Logga in";
 $GLOBALS['strLogout'] = "Logga ut";
 $GLOBALS['strUsername'] = "Användarnamn";
@@ -672,16 +671,12 @@ $GLOBALS['strNoMatchesFound'] = "Inga matchningar hittades";
 $GLOBALS['strErrorOccurred'] = "Ett fel inträffade";
 $GLOBALS['strErrorDBPlain'] = "Ett fel inträffande vid läsning från databasen";
 $GLOBALS['strErrorDBSerious'] = "Ett allvarligt problem med databasen har upptäckts";
-$GLOBALS['strErrorDBNoDataPlain'] = "Pga problem med databasen kunde inte {$PRODUCT_NAME} hämta eller lagra data.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Pga allvarligt problem med databasen kunde inte {$PRODUCT_NAME} hämta data.";
 $GLOBALS['strErrorDBCorrupt'] = "Databasen är förmodligen korrupt och behöver lagas. För mer info om hur man fixar korrupta tabeller, vänligen läs kapitlet <i>Felsökning</i> i <i>Administrationsguide</i>";
 $GLOBALS['strErrorDBContact'] = "Vänligen kontakta serveradministratören och meddela problemet.";
-$GLOBALS['strErrorDBSubmitBug'] = "Om detta problem kan återskapas så kan det skapats av en bugg i {$PRODUCT_NAME}. Vänligen rapportera följande information till skaparna av {$PRODUCT_NAME}. Försök också beskriva handlingarna som ledde till detta fel så tydligt som möjligt.";
 $GLOBALS['strErrorLinkingBanner'] = "Det var inte möjligt att länka bannern till den här zonen pga:";
 $GLOBALS['strUnableToLinkBanner'] = "Kan inte länka bannern:";
 $GLOBALS['strUnableToChangeZone'] = "Kan inte genomföra denna ändring därför att:";
 $GLOBALS['strDatesConflict'] = "datumen i konflikt med:";
-$GLOBALS['strEmailNoDates'] = "Kampanjer för emailzoner måste ha ett start och ett slutdatum";
 
 //Validation
 
@@ -824,9 +819,6 @@ $GLOBALS['strAuditTrailDisabled'] = "Revisionsspårning har inaktiverats av syst
 $GLOBALS['strAuditTrail'] = "Auditlista";
 $GLOBALS['strAuditTrailSetup'] = "Konfigurera revisionsspårning idag";
 $GLOBALS['strAuditTrailGoTo'] = "Gå till revisionsspårningssidan";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Revisionsspårning gör så att du kan se vem som gjorde vad och när. Eller för att uttrycka det på ett annat sätt håller det koll på systemändringar inom {$PRODUCT_NAME}</li>
-        <li>Du ser detta meddelande, eftersom du inte har aktiverat revisionsspårning</li>
-        <li>Intresserad av att lära sig mer? Läs <a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help'> Dokumentation för revisionsspårning</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignSetUp'] = "Skapa en kampanj idag";
