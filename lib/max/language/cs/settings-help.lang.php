@@ -51,7 +51,6 @@ $GLOBALS['phpAds_hlp_company_name'] = "Tento název se používá v e-mailu zasl
 
 
 
-
 $GLOBALS['phpAds_hlp_obfuscate'] = "Tady nic...";
 
 

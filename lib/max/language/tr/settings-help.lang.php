@@ -65,9 +65,6 @@ $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "Çerezlerle birlikte gönderilen ko
 
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "Tam bir gizlilik politikası kullanmak istiyorsanız, ilkenin bulunduğu yeri belirtebilirsiniz.";
 
-$GLOBALS['phpAds_hlp_compact_stats'] = "Geleneksel olarak {$PRODUCT_NAME} oldukça ayrıntılı bir günlüğe kaydetme işlemi gerçekleştirdi; bu çok detaylıydı, ancak veritabanı sunucusunda da çok talepkardı. Bu, çok sayıda ziyaretçinin bulunduğu sitelerde büyük bir problem olabilir. Bu sorunun üstesinden gelmek için {$PRODUCT_NAME}, yeni bir istatistik türünü desteklemektedir; kompakt istatistikler, veritabanı sunucusunda daha az talep gerektirir, ancak aynı zamanda daha az detaylıdır.
-Kompakt istatistikler, her saat için ilan izlemesi, ilan tıklaması ve ilan dönüşümleri toplar; daha fazla ayrıntıya ihtiyacınız varsa, sıkıştırılmış istatistikleri kapatabilirsiniz.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normalde tüm ilan izlemeleri günlüğe kaydedilir; İlan izlemesi ile ilgili istatistikleri toplamak istemiyorsanız, bu özelliği kapatabilirsiniz.";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "Bir ziyaretçi bir sayfayı yeniden yüklerse, her daim {$PRODUCT_NAME} tarafından bir ilan izlemesi kaydedilir.

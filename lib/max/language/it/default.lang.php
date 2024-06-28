@@ -165,6 +165,7 @@ $GLOBALS['strUserAccountUpdated'] = "Account utente aggiornato";
 $GLOBALS['strUserUnlinkedFromAccount'] = "L'utente è stato rimosso dall'account";
 $GLOBALS['strUserWasDeleted'] = "L’utente è stato eliminato";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Tale utente non è collegato con l`account";
+$GLOBALS['strCantDeleteOneAdminUser'] = "Non puoi eliminare questo utente. Almeno un utente deve essere collegato con l'account amministratore.";
 $GLOBALS['strLinkUserHelp'] = "Per aggiungere un utente <b>esistente</b>, digita %1\$s e clicca %2\$s <br />Per aggiungere un <b>nuovo utente</b>, digita il %1\$s desiderato e clicca %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "nome utente";
 $GLOBALS['strLinkUserHelpEmail'] = "indirizzo email";
@@ -299,6 +300,7 @@ $GLOBALS['strAllowClientActivateBanner'] = "Permetti a questo utente di attivare
 $GLOBALS['strAllowCreateAccounts'] = "Consenti a questo utente di gestire gli utenti di questo account";
 $GLOBALS['strAdvertiserLimitation'] = "Mostra solo un banner di questo editore sulla stessa pagina web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permetti a questo utente di accedere all'Audit Trail";
+$GLOBALS['strAllowDeleteItems'] = "Consenti a questo utente di eliminare gli elementi";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Campagna";
@@ -332,6 +334,7 @@ $GLOBALS['strCampaignDelivery'] = "Consegna campagna";
 $GLOBALS['strCompanionPositioning'] = "Posizionamento del companion";
 $GLOBALS['strSelectUnselectAll'] = "Seleziona / Deseleziona tutti";
 $GLOBALS['strCampaignsOfAdvertiser'] = "di"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
+$GLOBALS['strShowCappedNoCookie'] = "Mostra gli annunci memorizzati se i cookie sono disabilitati";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns'] = "Calcolato per tutte le campagne";
@@ -379,6 +382,13 @@ non verranno visualizzati finché il peso non sarà impostato
 ad un numero valido.
 
 Sei sicuro di voler procedere?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "Questa campagna utilizza l'ottimizzazione di eCPM
+ma il 'entrate' è impostato a zero o non è stato specificato.
+Questo farà disattivare la campagna
+e i suoi banner non saranno consegnati fino a quando il fatturato
+non sarà stato impostato su un numero valido.
+
+Sei sicuro di voler continuare?";
 $GLOBALS['strCampaignWarningOverrideNoWeight'] = "Il tipo di questa campagna è stato impostato su Override,
 ma il peso è impostato a zero o non è stato specificato.
 Questo farà disattivare la campagna
@@ -409,7 +419,16 @@ $GLOBALS['strCampaignType'] = "Nome Campagna";
 $GLOBALS['strType'] = "Tipo";
 $GLOBALS['strContract'] = "Contratto";
 $GLOBALS['strOverride'] = "Override";
+$GLOBALS['strOverrideInfo'] = "Sovrascrivi le campagne sono un tipo speciale di campagna specificatamente per
+    sovrascrivere (vale a dire prendere la priorità su) Campagne rimanenti e contratti. Sovrascrivi le campagne sono generalmente utilizzate con
+    specifiche regole di targeting e/o capping per garantire che i banner della campagna siano sempre visualizzati in alcune posizioni
+    , a determinati utenti, e forse un certo numero di volte, come parte di una promozione specifica. (Questa campagna di tipo
+    era precedentemente conosciuta come 'Contract (Exclusive)'.)";
 $GLOBALS['strStandardContract'] = "Contratto";
+$GLOBALS['strStandardContractInfo'] = "Le campagne di contratto sono per fornire senza problemi le impressioni
+    necessarie per raggiungere un determinato requisito di prestazioni temporali critiche. Cioè, le campagne Contract sono per quando
+    un inserzionista ha pagato specificamente per avere un dato numero di impressioni, clic e/o conversioni da
+    ottenute tra due date o al giorno.";
 $GLOBALS['strRemnant'] = "Remnant";
 $GLOBALS['strRemnantInfo'] = "Il tipo di campagna predefinito. Le campagne Remnant hanno diverse
     opzioni di consegna, e dovresti idealmente avere sempre almeno una campagna Remnant
@@ -417,12 +436,15 @@ $GLOBALS['strRemnantInfo'] = "Il tipo di campagna predefinito. Le campagne Remna
     Usa campagne Remnant per mostrare banner casa, banner pubblicitari o anche
     pubblicità diretta che è stata venduta, ma dove non vi è un requisito di rendimento temporale
     critico per la campagna a cui aderire.";
+$GLOBALS['strECPMInfo'] = "Questa è una campagna standard che può essere vincolata con una data di fine o con un limite specifico. Sulla base delle impostazioni correnti sarà data la priorità utilizzando eCPM.";
 $GLOBALS['strPricing'] = "Tariffe";
 $GLOBALS['strPricingModel'] = "Modello di pricing";
 $GLOBALS['strSelectPricingModel'] = "-- Seleziona il modello --";
 $GLOBALS['strRatePrice'] = "Tariffa / prezzo";
 $GLOBALS['strMinimumImpressions'] = "Minimo impressioni giornaliere";
 $GLOBALS['strLimit'] = "Limite";
+$GLOBALS['strLowExclusiveDisabled'] = "Non puoi cambiare questa campagna in Remnant o Exclusive, dal momento che sono impostati sia una data di fine che uno dei limiti di impressioni/clic/conversioni. <br>Al fine di modificare il tipo, è necessario impostare nessuna data di scadenza o rimuovere limiti.";
+$GLOBALS['strCannotSetBothDateAndLimit'] = "Non puoi impostare sia una data di fine che un limite per una campagna Remnant o Exclusive.<br>Se è necessario impostare sia una data di fine che un limite impressioni/click/conversioni si prega di utilizzare una campagna Contract non esclusiva.";
 $GLOBALS['strWhyDisabled'] = "perché è disabilitato?";
 $GLOBALS['strBackToCampaigns'] = "Torna a campagne";
 $GLOBALS['strCampaignBanners'] = "Banner della campagna";
@@ -807,6 +829,7 @@ configurazione dello script di manutenzione.";
 $GLOBALS['strErrorLinkingBanner'] = "Non è stato possibile collegare questo banner a questa zona perché:";
 $GLOBALS['strUnableToLinkBanner'] = "Impossibile collegare questo banner:";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "numero nel formato non corretto per il campo Informazioni ricavi ";
+$GLOBALS['strErrorEditingCampaignECPM'] = "formato numerico errato nel campo Informazioni ECPM";
 $GLOBALS['strErrorEditingZone'] = "Errore durante l'aggiornamento della zona:";
 $GLOBALS['strUnableToChangeZone'] = "Impossibile applicare questi cambiamenti perché:";
 $GLOBALS['strDatesConflict'] = "le date sono in conflitto con:";
@@ -817,6 +840,13 @@ $GLOBALS['strWarningInaccurateReport'] = "Alcune delle statistiche in questo rep
 
 //Validation
 $GLOBALS['strRequiredFieldLegend'] = "indica campo obbligatorio";
+$GLOBALS['strFormContainsErrors'] = "Il modulo contiene errori, correggi i campi contrassegnati qui sotto.";
+$GLOBALS['strXRequiredField'] = "%s è obbligatorio";
+$GLOBALS['strEmailField'] = "Inserisci un'email valida";
+$GLOBALS['strNumericField'] = "Inserisci un numero (sono consentite solo cifre)";
+$GLOBALS['strGreaterThanZeroField'] = "Deve essere maggiore di 0";
+$GLOBALS['strXGreaterThanZeroField'] = "%s deve essere maggiore di 0";
+$GLOBALS['strXPositiveWholeNumberField'] = "%s deve essere un numero intero positivo";
 $GLOBALS['strInvalidWebsiteURL'] = "URL del sito Web non valido";
 
 // Email
@@ -837,6 +867,8 @@ $GLOBALS['strNoMoreImpressions'] = "non sono rimaste visualizzazioni";
 $GLOBALS['strNoMoreClicks'] = "non ci sono più Click a disposizione";
 $GLOBALS['strNoMoreConversions'] = "non ci sono Vendite rimaste";
 $GLOBALS['strWeightIsNull'] = "il suo peso è impostato a zero";
+$GLOBALS['strRevenueIsNull'] = "le sue entrate sono pari a zero";
+$GLOBALS['strTargetIsNull'] = "il suo limite al giorno è impostato a zero - è necessario specificare sia una data di fine che un limite o impostare il limite per valore giornaliero";
 $GLOBALS['strNoViewLoggedInInterval'] = "Nessuna visualizzazione risulta essere stata loggata durante la creazione di questo rapporto";
 $GLOBALS['strNoClickLoggedInInterval'] = "Nessun click risulta essere stata loggata durante la creazione di questo rapporto";
 $GLOBALS['strNoConversionLoggedInInterval'] = "Nessuna conversione registrata durante l`arco di questo report";
@@ -912,10 +944,12 @@ $GLOBALS['strECPC_short'] = "ECPC";
 $GLOBALS['strECPS_short'] = "ECPS";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Ric.";
+$GLOBALS['strImpressions_short'] = "Impr.";
 $GLOBALS['strClicks_short'] = "Click";
 $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConversions_short'] = "Conv.";
 $GLOBALS['strPendingConversions_short'] = "Conv. in attesa";
+$GLOBALS['strImpressionSR_short'] = "Impr. SR";
 $GLOBALS['strClickSR_short'] = "Click SR";
 
 // Global Settings
@@ -1003,25 +1037,97 @@ $GLOBALS['strVariableCode'] = "Codice tracciamento Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Hai dimenticato la password?";
+$GLOBALS['strPasswordRecovery'] = "Reimpostazione password";
 $GLOBALS['strWelcomePage'] = "Benvenuto nuovo utente!";
+$GLOBALS['strWelcomePageText'] = "<b>Benvenuto in {$PRODUCT_NAME}.</b><br>Come nuovo utente, inizia impostando la tua prima password. Assicurati di selezionare una password sicura e unica.";
 $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
 $GLOBALS['strPwdRecWrongExpired'] = "Link di reimpostazione password errato o scaduto, si prega di richiederne uno nuovo";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
 $GLOBALS['strProceed'] = "Procedi >";
+$GLOBALS['strNotifyPageMessage'] = "Ti è stata inviata una e-mail, che include un link che ti permetterà di
+                                         reimpostare la tua password e accedere.<br />Si prega di consentire alcuni minuti per l'arrivo della e-mail.<br />
+                                         Se non ricevi l'e-mail, per favore controlla la tua cartella spam.<br />
+                                         <a href=\"index.php\">Ritorna alla pagina di accesso principale.</a>";
 
 // Password recovery - Default
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "Reimposta La Tua Password %s";
+$GLOBALS['strPwdRecEmailBody'] = "Caro {name},
+
+Sembra che tu, o qualcuno che finge di essere te, abbia recentemente richiesto che la tua password {application_name} sia reimpostata.
+
+Se sei stato tu ad effettuare la richiesta, puoi reimpostare la password per il tuo nome utente '{username}' 
+cliccando sul seguente link:
+
+{reset_link}
+
+Se, invece, hai inviato la richiesta di reimpostazione password per errore, o se non hai fatto una richiesta, puoi semplicamente
+ignorare questa email. Non sono state apportate modifiche alla tua password e il link di reset della password scadrà automaticamente.
+
+Se continui a ricevere queste email di reimpostazione della password, potrebbe indicare che qualcuno sta tentando di
+di accedere al tuo nome utente. In questo caso, si consiglia di contattare il team di supporto o l'amministratore di sistema
+per il vostro sistema {application_name} ed avvisarli dell'accaduto.
+
+{admin_signature}";
 
 $GLOBALS['strPwdRecEmailSincerely'] = "Cordiali saluti,";
 
 // Password recovery - Welcome email
+$GLOBALS['strWelcomeEmailSubject'] = "Benvenuto in %s: imposta la tua password";
+$GLOBALS['strWelcomeEmailBody'] = "Gentile {name},
+
+Un nome utente è stato creato per te, permettendoti di accedere su {application_name}.
+
+Il tuo nome utente è '{username}'.
+
+Per motivi di sicurezza, la password per il tuo nome utente non è stata ancora definita.
+
+Per inserire la tua password, clicca sul seguente link:
+
+{reset_link}
+
+Assicurati di inserire una password sicura ed unica.
+
+{admin_signature}";
 
 // Password recovery - Hash update
+$GLOBALS['strPasswordUpdateEmailSubject'] = "Per favore imposta una nuova password per il tuo utente %s";
+$GLOBALS['strPasswordUpdateEmailBody'] = "Gentile {name},
+
+Stai ricevendo questa email perché hai un nome utente su {application_name}.
+
+Recentemente, il software {application_name} è stato aggiornato a una nuova versione, che implementa un metodo moderno e molto più sicuro
+per la verifica delle password utente. Questa modifica aiuta a rendere {application_name} più sicuro
+per te e per tutti gli altri che lo utilizzano.
+
+Per sfruttare al massimo il miglioramento, la password è stata invalidata.
+Pertanto, vorremmo invitarvi a impostare una nuova password ora. Inserendo la tua nuova password,
+vedrai una barra colorata che indica quanto sia forte la nuova password. Assicurati di inserire una password univoca sicura e
+.
+
+Per impostare una nuova password per il tuo nome utente '{username}' ora, per favore clicca sul seguente link:
+
+{reset_link}
+
+Per una maggiore sicurezza, il link qui sopra scadrà dopo qualche tempo. Se il link non è più valido,
+ti verrà chiesto di inserire il tuo indirizzo e-mail e avviare un normale processo di ripristino della password.
+
+Grazie per aver contribuito a rendere {application_name} più sicuro per tutti!
+
+{admin_signature}";
 
 // Password reset warning
+$GLOBALS['strPasswordResetRequiredTitle'] = "Nota importante sul miglioramento della sicurezza delle password";
+$GLOBALS['strPasswordResetRequired'] = "
+Recentemente, il software {$PRODUCT_NAME} è stato aggiornato a una nuova versione, che implementa un metodo più moderno e molto più sicuro di memorizzare le password. Per poter accedere e continuare ad usare {$PRODUCT_NAME} devi prima impostare una nuova password.
+Controlla la tua casella di posta per una email di reimpostazione della password!
+Una email di reimpostazione della password è stata inviata all'indirizzo email associato al tuo nome utente. Si prega di aprire l'e-mail e fare clic sul link in esso. Questo visualizzerà una schermata che consente di inserire la nuova password.
+Ci possono volere alcuni minuti prima che arrivi l'email. Se non vedi l'email nella tua casella di posta, assicurati di controllare anche la tua cartella spam.";
+$GLOBALS['strPasswordUnsafeWarning'] = "La tua password non è considerata abbastanza sicura. Per favore <a href='%s'>cambiala</a> il prima possibile.";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e oggetti aggiuntivi";
+$GLOBALS['strAuditSystem'] = "Sistema";
 $GLOBALS['strFor'] = "per";
 $GLOBALS['strHas'] = "era";
 $GLOBALS['strBinaryData'] = "Dati binari";
@@ -1053,10 +1159,27 @@ $GLOBALS['strDeliveryRulesTruncation'] = "ATTENZIONE: MySQL troncato i dati dura
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Alcune regole di consegna segnalano valori errati:";
 
 //confirmation messages
+$GLOBALS['strYouAreNowWorkingAsX'] = "Ora stai lavorando come <b>%s</b>";
+$GLOBALS['strYouDontHaveAccess'] = "Non hai accesso a quella pagina. Sei stato reindirizzato.";
 
+$GLOBALS['strAdvertiserHasBeenAdded'] = "L'inserzionista <a href='%s'>%s</a> è stato aggiunto, <a href='%s'>aggiungi una campagna</a>";
+$GLOBALS['strAdvertiserHasBeenUpdated'] = "L'inserzionista <a href='%s'>%s</a> è stato aggiornato";
+$GLOBALS['strAdvertiserHasBeenDeleted'] = "L'inserzionista <b>%s</b> è stato eliminato";
 $GLOBALS['strAdvertisersHaveBeenDeleted'] = "Eliminati tutti gli inserzionisti selezionati";
 
+$GLOBALS['strTrackerHasBeenAdded'] = "Tracker <a href='%s'>%s</a> è stato aggiunto";
+$GLOBALS['strTrackerHasBeenUpdated'] = "Tracker <a href='%s'>%s</a> è stato aggiornato";
+$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "Le variabili del tracker <a href='%s'>%s</a> sono state aggiornate";
+$GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "Le campagne collegate del tracker <a href='%s'>%s</a> sono state aggiornate";
+$GLOBALS['strTrackerAppendHasBeenUpdated'] = "Aggiungi codice tracker del tracker <a href='%s'>%s</a> è stato aggiornato";
+$GLOBALS['strTrackerHasBeenDeleted'] = "Tracker <b>%s</b> è stato eliminato";
+$GLOBALS['strTrackersHaveBeenDeleted'] = "Tutti i tracker selezionati sono stati eliminati";
+$GLOBALS['strTrackerHasBeenDuplicated'] = "Il tracker <a href='%s'>%s</a> è stato copiato in <a href='%s'>%s</a>";
+$GLOBALS['strTrackerHasBeenMoved'] = "Tracker <b>%s</b> è stato spostato all'inserzionista <b>%s</b>";
 
+$GLOBALS['strCampaignHasBeenAdded'] = "La campagna <a href='%s'>%s</a> è stata aggiunta, <a href='%s'>aggiungi un banner</a>";
+$GLOBALS['strCampaignHasBeenUpdated'] = "La campagna <a href='%s'>%s</a> è stata aggiornata";
+$GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "I tracker collegati della campagna <a href='%s'>%s</a> sono stati aggiornati";
 $GLOBALS['strCampaignHasBeenDeleted'] = "La campagna <b>%s</b> è stata cancellata";
 $GLOBALS['strCampaignsHaveBeenDeleted'] = "Tutte le campagne selezionate sono state eliminate";
 $GLOBALS['strCampaignHasBeenDuplicated'] = "La campagna <a href='%s'>%s</a> è stata copiata in <a href='%s'>%s</a>";
@@ -1117,11 +1240,18 @@ $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strPasswordMinLength'] = 'Lunghezza minima %d caratteri';
+$GLOBALS['strPasswordTooShort'] = "Troppo breve";
 
 if (!isset($GLOBALS['strPasswordScore'])) {
     $GLOBALS['strPasswordScore'] = [];
 }
 
+$GLOBALS['strPasswordScore'][0] = "Molto povero";
+$GLOBALS['strPasswordScore'][1] = "Povero";
+$GLOBALS['strPasswordScore'][2] = "Sufficiente";
+$GLOBALS['strPasswordScore'][3] = "Buono";
+$GLOBALS['strPasswordScore'][4] = "Eccellente";
 
 
 /* ------------------------------------------------------- */

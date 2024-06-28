@@ -61,9 +61,6 @@ $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "Kebijakan ringkas yang dikirim bers
 
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "Jika Anda ingin menggunakan kebijakan privasi lengkap, Anda dapat menentukan lokasi kebijakan.";
 
-$GLOBALS['phpAds_hlp_compact_stats'] = "Secara tradisional {$PRODUCT_NAME} menggunakan logging yang agak luas, yang sangat rinci namun juga sangat menuntut pada server database. Ini bisa menjadi masalah besar di situs dengan banyak pengunjung. Untuk mengatasi masalah ini,
- {$PRODUCT_NAME} juga mendukung jenis statistik baru, statistik ringkas, yang kurang banyak menuntut di server basis data, namun juga tidak rinci. Statistik ringkas mengumpulkan AdViews, AdClicks, dan AdConversions untuk setiap jam, jika Anda membutuhkan lebih banyak detail, Anda dapat menonaktifkan statistik kompak.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Biasanya semua AdViews dicatat, jika Anda tidak ingin mengumpulkan statistik tentang AdView, Anda dapat menonaktifkannya.";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "Jika pengunjung memuat ulang laman, AdView akan masuk log oleh {$PRODUCT_NAME} setiap saat. Fitur ini digunakan untuk memastikan hanya satu AdView yang masuk untuk setiap spanduk unik untuk jumlah detik yang Anda tentukan. Misalnya: jika Anda menetapkan nilai ini menjadi 300 detik, {$PRODUCT_NAME} hanya akan mencatat AdView jika spanduk yang sama tidak ditampilkan kepada pengunjung yang sama dalam 5 menit terakhir. Fitur ini hanya berfungsi agar browser menerima cookies.";

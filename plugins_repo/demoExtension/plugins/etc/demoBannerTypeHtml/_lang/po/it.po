@@ -20,5 +20,5 @@ msgstr "Dimostrazione di Plugin HTML di tipo banner"
 
 #: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:47
 msgid "Please enter http://www.revive-adserver.com"
-msgstr ""
+msgstr "Inserisci http://www.revive-adserver.com"
 

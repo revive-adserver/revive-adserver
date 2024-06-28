@@ -82,12 +82,6 @@ settings to match your own privacy statement.";
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "If you want to use a full privacy policy, you can specify the location
 of the policy.";
 
-$GLOBALS['phpAds_hlp_compact_stats'] = "	Traditioneel slaat {$PRODUCT_NAME} gedetailleerde data op bij elke impressie. Echter deze
-	uitgebreide manier van opslaan kan veel vergen van de database server, wat een probleem
-	kan zijn als uw website veel bezoekers heeft. Om dit probleem op te lossen is er nu
-	een compactere manier van gegevens opslaan. Deze manier van opslaan vergt minder van
-	de database server, maar is ook minder gedetailleerd.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normaal gesproken worden alle impressies geregistreerd. Als u geen statistieken over impressies wilt verzamelen, dan kunt u dit uitschakelen.";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "	Als een bezoeker de pagina ververst zal er iedere keer als de banner getoond wordt

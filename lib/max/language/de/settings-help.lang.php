@@ -89,14 +89,6 @@ Einstellungen an Ihre eigene Datenschutzerklärung anpassen.";
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "Wenn Sie eine vollständige Datenschutzrichtlinie verwenden möchten, können Sie den Ort
 der Richtlinie angeben.";
 
-$GLOBALS['phpAds_hlp_compact_stats'] = "Ursprünglich verwendete {$PRODUCT_NAME} eine sehr ausführliche Protokollierung, die sehr 
-detailliert war, aber auch hohe Anforderungen an den Datenbank-Server stellte. Dies führte zu 
-Problemen auf Webseiten mit vielen Besuchern. Um solche Probleme zu vermeiden, unterstützt 
-{$PRODUCT_NAME} auch eine neue Art von kompakten Statistiken, die die Datenbank weniger
-belasten, aber auch weniger Details bieten. Diese kompaktven Statistiken sammeln Daten zu Views,
-Klicks und Konversionen für jede Stunde. Wenn Sie mehr Details benötigen, können Sie die kompakten
-Statistiken deaktivieren.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normalerweise werden alle Views protokolliert. Wenn Sie keine Statistiken
 über Views sammeln möchten, können Sie dies deaktivieren.";
 
