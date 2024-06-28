@@ -104,14 +104,6 @@ settings to match your own privacy statement.";
 $GLOBALS['phpAds_hlp_p3p_policy_location'] = "If you want to use a full privacy policy, you can specify the location
 of the policy.";
 
-$GLOBALS['phpAds_hlp_compact_stats'] = "Traditionally {$PRODUCT_NAME} used rather extensive logging, which was very
-detailed but was also very demanding on the database server. This could
-be a big problem on sites with a lot of visitors. To overcome this problem
-{$PRODUCT_NAME} also supports a new kind of statistics, the compact statistics,
-which is less demanding on the database server, but also less detailed.
-The compact statistics collects AdViews, AdClicks, and AdConversions for each hour, if you need
-more detail you can turn the compact statistics off.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normally all AdViews are logged, if you don't want to gather statistics
 about AdViews you can turn this off.";
 
