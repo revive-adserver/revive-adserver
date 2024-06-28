@@ -16,19 +16,19 @@ msgstr ""
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:24
 msgid "Inline Network Video Ad"
-msgstr ""
+msgstr "Pubblicità Video Rete Incorporata"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:29
 msgid "Inline Video Ad"
-msgstr ""
+msgstr "Pubblicità Video Incorporata"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:34
 msgid "An Inline Network Video Ad will return a video ad from a 3rd party ad network."
-msgstr ""
+msgstr "Un annuncio video di rete inline restituirà un annuncio video da una rete di annunci di terze parti."
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:59
 msgid "Create an Inline Network Video Ad"
-msgstr ""
+msgstr "Crea un annuncio video di rete in rete"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:69
 msgid "Banner Details"
@@ -36,7 +36,7 @@ msgstr "Dettagli Banner"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:70
 msgid "Ad Network VAST URL"
-msgstr ""
+msgstr "Url VAST Di Rete Pubblica"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:72
 msgid "URL is required"

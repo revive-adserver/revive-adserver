@@ -40,7 +40,7 @@ msgstr "Tag Immagine senza cookie"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:48
 msgid "Asynchronous JS Tag"
-msgstr ""
+msgstr "Tag JS Asincrono"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:66
 msgid "Smooth movement"

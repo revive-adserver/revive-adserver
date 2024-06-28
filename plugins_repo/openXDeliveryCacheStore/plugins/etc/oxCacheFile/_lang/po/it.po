@@ -16,9 +16,9 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:31
 msgid "File based cache"
-msgstr "Cache basato su file"
+msgstr "Cache basata su file"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:43
 msgid "Unable to write to"
-msgstr ""
+msgstr "Impossibile scrivere in"
 

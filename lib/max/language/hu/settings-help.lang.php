@@ -45,5 +45,4 @@
 
 
 
-
 $GLOBALS['phpAds_hlp_obfuscate'] = "Nincs semmi...";
