@@ -156,7 +156,6 @@ $GLOBALS['strAuthentification'] = "Autenticação";
 $GLOBALS['strWelcomeTo'] = "Bem vindo a";
 $GLOBALS['strEnterUsername'] = "Entre com seu nome de usuário e senha para se logar";
 $GLOBALS['strEnterBoth'] = "Por favor digite ambos seu nome de usuário e senha";
-$GLOBALS['strEnableCookies'] = "Você precisa habilitar \"cookies\" em seu navegador para utilizar {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Erro no cookie de sessão, por favor faça login novamente";
 $GLOBALS['strLogin'] = "Login ";
 $GLOBALS['strLogout'] = "Sair";
@@ -619,11 +618,8 @@ $GLOBALS['strNoMatchesFound'] = "Nenhum resultado encontrado";
 $GLOBALS['strErrorOccurred'] = "Um erro ocorreu";
 $GLOBALS['strErrorDBPlain'] = "Um erro ocorreu ao acessar a base de dados";
 $GLOBALS['strErrorDBSerious'] = "Um grave problema foi detectado com a base de dados";
-$GLOBALS['strErrorDBNoDataPlain'] = "Devido a um problema na base de dados, {$PRODUCT_NAME}  não pode resgatar ou armazenar os dados.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Devido a um grave problema na base de dados, {$PRODUCT_NAME} não pode resgatar dados";
 $GLOBALS['strErrorDBCorrupt'] = "A tabela da base de dados pode estar corrompida e necessita de reparos. Para mais informações sobre tabelas corrompidas leia o capitulo <i>Troubleshooting</i> do <i>Guia do Administrador</i>.";
 $GLOBALS['strErrorDBContact'] = "Por favor notifique o administrador deste sistema sobre este problema.";
-$GLOBALS['strErrorDBSubmitBug'] = "Se este erro pode ser reproduzido ele pode ser causado por um bug no {$PRODUCT_NAME}. Por favor envie os seguintes dados aos desenvolvedores do {$PRODUCT_NAME}. Tente também descrever as ações que levaram a este erro de forma clara.";
 $GLOBALS['strMaintenanceNotActive'] = "O script de manutenção não foi executado nas últimas 24 horas.
 Para que {$PRODUCT_NAME} funcione corretamente ele precisa ser executado
 a cada hora.
@@ -636,7 +632,6 @@ $GLOBALS['strErrorEditingCampaignRevenue'] = "formatação incorreta de números
 $GLOBALS['strErrorEditingZone'] = "Erro ao atualizar a zona:";
 $GLOBALS['strUnableToChangeZone'] = "Impossível aplicar esta alteração pois:";
 $GLOBALS['strDatesConflict'] = "datas conflitam com:";
-$GLOBALS['strEmailNoDates'] = "Campanhas de zonas de E-mail devem ter uma data de início e de término";
 $GLOBALS['strWarningInaccurateStats'] = "Algumas destas estatísticas foram logadas em um fuso horário não-UTC, e podem não ser apresentadas no fuso correto";
 $GLOBALS['strWarningInaccurateReadMore'] = "Leia mais sobre isso";
 $GLOBALS['strWarningInaccurateReport'] = "Algumas destas estatísticas neste relatório foram logadas em um fuso horário não-UTC, e podem não ser apresentadas no fuso correto";
@@ -818,14 +813,10 @@ $GLOBALS['strAuditNoData'] = "Nenhuma atividade dos usuários registrada do per�
 $GLOBALS['strAuditTrail'] = "Rastros de auditoria";
 $GLOBALS['strAuditTrailSetup'] = "Configurar o Rastreamento de Auditoria hoje";
 $GLOBALS['strAuditTrailGoTo'] = "Ir para log de Auditoria";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>O Log de Auditoria permite verificar quem fez o que e quando. Ou, em outras palavras, ele aompanha todas mudanças de sistema do {$PRODUCT_NAME}</li>
-<li>Você esta vendo esta mensagem porque ativou o Log de Auditoria</li>
-<li>Quer saber mais detalhes? Leia a <a href='http://{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Documentação de Log de Auditoria</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Ir para página de campanhas";
 $GLOBALS['strCampaignSetUp'] = "Configurar uma campanha hoje";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campanhas permitem agrupar qualquer número de banner de diversos tamanhos que possuam necessidades de publicação em comum</li><li>Economize tempo agrupando banners dentro de campanhas e não defina mais configurações de entrega uma a uma</li><li>Verifique a <a class='site-link' target='help' href='http://{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Documentação de Campanhas</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Não há atividade de campanha para apresentar.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nenhuma campanha começou ou terminou no prazo escolhido";

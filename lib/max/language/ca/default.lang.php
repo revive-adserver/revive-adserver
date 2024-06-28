@@ -159,7 +159,6 @@ $GLOBALS['strAuthentification'] = "Autenticació";
 $GLOBALS['strWelcomeTo'] = "Us donem la benvinguda a";
 $GLOBALS['strEnterUsername'] = "Introduïu el vostre nom d'usuari i contrasenya per entrar";
 $GLOBALS['strEnterBoth'] = "Si us plau introdueixi el seu nom d'usuari i contrasenya";
-$GLOBALS['strEnableCookies'] = "Has d'activar les cookies abans de poder usar {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Sessió expirada. Si us plau inicieu la sessió de nou.";
 $GLOBALS['strLogin'] = "Inicia sessió";
 $GLOBALS['strLogout'] = "Tanca sessió";

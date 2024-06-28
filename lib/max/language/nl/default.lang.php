@@ -181,7 +181,6 @@ $GLOBALS['strAuthentification'] = "Authenticatie";
 $GLOBALS['strWelcomeTo'] = "Welkom bij";
 $GLOBALS['strEnterUsername'] = "Voer uw gebruikersnaam en wachtwoord om in te loggen";
 $GLOBALS['strEnterBoth'] = "Vul zowel uw gebruikersnaam als uw wachtwoord in";
-$GLOBALS['strEnableCookies'] = "U moet cookies inschakelen voordat u {$PRODUCT_NAME} kunt gebruiken";
 $GLOBALS['strSessionIDNotMatch'] = "Cookie error voor deze sessie, gelieve nogmaals in te loggen";
 $GLOBALS['strLogin'] = "Inloggen";
 $GLOBALS['strLogout'] = "Uitloggen";
@@ -818,11 +817,8 @@ $GLOBALS['strNoMatchesFound'] = "Geen resultaten gevonden";
 $GLOBALS['strErrorOccurred'] = "Er is een fout opgetreden";
 $GLOBALS['strErrorDBPlain'] = "Er is een probleem opgetreden tijdens het benaderen van de database";
 $GLOBALS['strErrorDBSerious'] = "Er is een ernstig probleem met de database opgetreden";
-$GLOBALS['strErrorDBNoDataPlain'] = "Wegens een probleem met de database kon {$PRODUCT_NAME} geen gegevens ophalen of versturen. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Wegens het ernstige probleem met de database kon {$PRODUCT_NAME} geen gegevens ophalen";
 $GLOBALS['strErrorDBCorrupt'] = "De database tabel is waarschijnlijk beschadigd en moet gerepareerd worden. Voor meer informatie over het repareren van beschadigde tabellen lees het hoofdstuk <i>Troubleshooting</i> van de <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Neem a.u.b. contact op met de beheerder van deze server en breng hem op de hoogte van uw probleem.";
-$GLOBALS['strErrorDBSubmitBug'] = "Indien dit probleem te reproduceren is, dan is het mogelijk dat het veroorzaakt wordt door een fout in {$PRODUCT_NAME}. Rapporteer de volgende gegevens aan de makers van {$PRODUCT_NAME}. Probeer tevens de acties die deze fout tot gevolg hebben zo duidelijk mogelijk te omschrijven.";
 $GLOBALS['strMaintenanceNotActive'] = "Het onderhoudsproces heeft de afgelopen 24 uur niet gedraaid.
 Het moet elk uur draaien zodat dit programma goed kan functioneren.
 
@@ -835,7 +831,6 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "onjuiste getalnotatie in ECPM informa
 $GLOBALS['strErrorEditingZone'] = "Fout bij het bijwerken van zone:";
 $GLOBALS['strUnableToChangeZone'] = "Deze wijziging kan niet worden uitgevoerd omdat:";
 $GLOBALS['strDatesConflict'] = "Datums van de campagne die u probeert te koppelen overlappen met de datums van een campagne die reeds gekoppeld is ";
-$GLOBALS['strEmailNoDates'] = "Campagnes die gekoppeld zijn aan email zones moeten een begindatum en een einddatum hebben. {$PRODUCT_NAME} zorgt er voor dat op een bepaalde datum maar 1 actieve banner gekoppeld is aan de email zone. Zorg ervoor dat de campagnes die al gekoppeld zijn aan de zone geen overlappende datums hebben met de campagne die u nu probeert te koppelen.";
 $GLOBALS['strWarningInaccurateStats'] = "Sommige van deze statistieken werden geregistreerd in een niet-UTC tijdzone, en worden mogelijk niet weergegeven in de juiste tijdzone.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Lees hier meer over";
 $GLOBALS['strWarningInaccurateReport'] = "Sommige van deze statistieken in dit rapport werden geregistreerd in een niet-UTC tijdzone, en worden mogelijk niet weergegeven in de juiste tijdzone";
@@ -1042,7 +1037,6 @@ $GLOBALS['strVariableCode'] = "JavaScript tracking-code";
 $GLOBALS['strForgotPassword'] = "Wachtwoord vergeten?";
 $GLOBALS['strPasswordRecovery'] = "Wachtwoord opnieuw instellen";
 $GLOBALS['strWelcomePage'] = "Welkom nieuwe gebruiker!";
-$GLOBALS['strWelcomePageText'] = "<b>Welkom bij {$PRODUCT_NAME}.</b><br>Als nieuwe gebruiker, begin met het instellen van uw eerste wachtwoord. Zorg ervoor dat u een veilig en uniek wachtwoord kiest.";
 $GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
 $GLOBALS['strPwdRecWrongExpired'] = "Onjuiste of verlopen link om het wachtwoord te resetten, vraag een nieuwe aan";
 $GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
@@ -1111,11 +1105,6 @@ Bedankt voor uw hulp om {application_name} veiliger voor iedereen te maken!
 
 // Password reset warning
 $GLOBALS['strPasswordResetRequiredTitle'] = "Belangrijke opmerking over verbeterde wachtwoordbeveiliging";
-$GLOBALS['strPasswordResetRequired'] = "
-Onlangs is de {$PRODUCT_NAME} software bijgewerkt naar een nieuwe versie, die een modernere en veiligere methode voor het opslaan van wachtwoorden invoert. Om in te kunnen loggen en door te gaan met {$PRODUCT_NAME} moet u eerst een nieuw wachtwoord instellen.
-Kijk in uw inbox voor een wachtwoord reset e-mail!
-Een wachtwoord reset e-mail is verstuurd naar het e-mailadres dat gekoppeld is aan uw gebruikersnaam. Open de e-mail en klik op de link erin. Dit geeft een scherm weer dat u in staat stelt uw nieuwe wachtwoord in te voeren.
-Het kan enkele minuten duren voordat de e-mail binnenkomt. Als je de e-mail niet in uw inbox ziet, controleer dan ook uw spammap.";
 $GLOBALS['strPasswordUnsafeWarning'] = "Uw wachtwoord is niet veilig genoeg. <a href='%s'>Verander het alstublieft zo snel mogelijk</a>.";
 
 // Audit
@@ -1131,16 +1120,10 @@ $GLOBALS['strAuditNoData'] = "Geen gebruikersactiviteit is opgenomen tijdens de 
 $GLOBALS['strAuditTrail'] = "Audit logboek";
 $GLOBALS['strAuditTrailSetup'] = "Stel nu de Audit trail in";
 $GLOBALS['strAuditTrailGoTo'] = "Ga naar Audit Trail pagina";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail stelt u in staat om te zien wie iets heeft gedaan en wanneer. Met andere woorden, het houdt de wijzigingen bij in {$PRODUCT_NAME}</li>
-        <li>U ziet deze melding omdat u de Audit Trail functie niet heeft ingeschakeld</li>
-        <li>Wilt u meer weten? Lees dan de <a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >Audit Trail documentatie</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Ga naar pagina campagnes";
 $GLOBALS['strCampaignSetUp'] = "Maak vandaag een campagne aan";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campagnes stellen u in staat om een aantal banners met diverse formaten te groeperen, die een gezamenlijke doelstelling hebben</li>
-        <li>Bespaar tijd door banners te groeperen in een campagne zodat u de uitleveringinstellingen niet meer voor elke banner afzonderlijk hoeft in te stellen</li>
-        <li>Bekijk ook de <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Campagne documentatie</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Er is geen Campagneactiviteit om weer te geven.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Geen campagnes zijn begonnen of voltooid tijdens het tijdsvak dat u hebt geselecteerd";

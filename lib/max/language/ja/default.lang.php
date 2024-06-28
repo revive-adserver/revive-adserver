@@ -149,7 +149,6 @@ $GLOBALS['strAuthentification'] = "ユーザ認証";
 $GLOBALS['strWelcomeTo'] = "ようこそ！";
 $GLOBALS['strEnterUsername'] = "ユーザー名とパスワードを入力してログインしてください。";
 $GLOBALS['strEnterBoth'] = "ユーザー名とパスワードの両方を入力してください";
-$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME}を使うには、クッキーを有効にして下さい。";
 $GLOBALS['strSessionIDNotMatch'] = "セッションエラーが発生しましｓた。再度ログインしてください";
 $GLOBALS['strLogin'] = "ログイン";
 $GLOBALS['strLogout'] = "ログアウト";
@@ -632,11 +631,8 @@ $GLOBALS['strNoMatchesFound'] = "一致するものは見つかりません";
 $GLOBALS['strErrorOccurred'] = "エラーが発生しました";
 $GLOBALS['strErrorDBPlain'] = "データベースにアクセス中にエラーが発生しました。";
 $GLOBALS['strErrorDBSerious'] = "データベースに致命的な問題を検出しました。";
-$GLOBALS['strErrorDBNoDataPlain'] = "データベースに関連する問題のため、{$PRODUCT_NAME} はデータの検索と保存ができません。";
-$GLOBALS['strErrorDBNoDataSerious'] = "データベースに関連する致命的な問題のため、{$PRODUCT_NAME} データの検索ができません。";
 $GLOBALS['strErrorDBCorrupt'] = "データベーステーブルがおそらく破損しており、修復する必要があります。破損したテーブルの詳しい修復方法は、<i>管理者ガイド</i>の<i>トラブルシューティング</i>を読んでください。";
 $GLOBALS['strErrorDBContact'] = "このサーバのシステム管理者に連絡して、問題を報告してください。";
-$GLOBALS['strErrorDBSubmitBug'] = "この問題が何度も繰り返し発生する場合、{$PRODUCT_NAME} のバグであると思われます。以下の情報を{$PRODUCT_NAME} の開発者に報告してください。その際、できるだけ明確にエラー直前の動作を記述してください。";
 $GLOBALS['strMaintenanceNotActive'] = "24時間以内にメンテナンススクリプトが実行されていません。
 正確な動作のために{$PRODUCT_NAME} は1時間毎の動作が必要です。
 
@@ -648,7 +644,6 @@ $GLOBALS['strErrorEditingCampaignRevenue'] = "利益情報のフィールドに�
 $GLOBALS['strErrorEditingZone'] = "更新したゾーンにエラーが発生：";
 $GLOBALS['strUnableToChangeZone'] = "以下の理由により、この変更を適用できませんでした：";
 $GLOBALS['strDatesConflict'] = "日間、競合中：";
-$GLOBALS['strEmailNoDates'] = "Eメールタイプのゾーンには、開始日と終了日が必須です。";
 $GLOBALS['strWarningInaccurateStats'] = "統計データが非UTCタイムゾーンで記録されているため、正しいタイムゾーンで表示されない恐れがあります。";
 $GLOBALS['strWarningInaccurateReadMore'] = "詳細は、こちら";
 $GLOBALS['strWarningInaccurateReport'] = "統計データが非UTCタイムゾーンで記録されているため、正しいタイムゾーンで表示されない恐れがあります。";
@@ -831,12 +826,10 @@ $GLOBALS['strAuditNoData'] = "指定期間内のユーザ活動記録はあり�
 $GLOBALS['strAuditTrail'] = "追跡記録";
 $GLOBALS['strAuditTrailSetup'] = "本日の追跡記録を設定する";
 $GLOBALS['strAuditTrailGoTo'] = "追跡記録ページに移動する";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>追跡記録機能は、誰がいつ何をしたかを記録するものです。</li><li>興味がある場合は、 <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >追跡記録機能について documentation</a>を参照してください</li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "キャンペーンのページに飛ぶ";
 $GLOBALS['strCampaignSetUp'] = "本日のキャンペーンを設定する";
-$GLOBALS['strCampaignNoRecords'] = "<li>キャンペーンは複数のバナーを一括して管理することができる機能です。</li><li>使い方に関しては、<a class=\\'site-link\\' target=\\'help\\' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns\\'>キャンペーンについて</a>を参照してください</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>このキャンペーンには活動記録がありません</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "選択した期間内において、開始されるキャンペーンもしくは終了するキャンペーンはありません。";

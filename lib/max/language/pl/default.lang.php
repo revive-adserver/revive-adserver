@@ -151,7 +151,6 @@ $GLOBALS['strAuthentification'] = "Autoryzacja";
 $GLOBALS['strWelcomeTo'] = "Witamy w";
 $GLOBALS['strEnterUsername'] = "Wpisz nazwę użytkownika i hasło, aby się zalogować";
 $GLOBALS['strEnterBoth'] = "Wpisz zarówno nazwę użytkownika jak i hasło";
-$GLOBALS['strEnableCookies'] = "Przed rozpoczęciem korzystania z {$PRODUCT_NAME} należy aktywować pliki cookie";
 $GLOBALS['strSessionIDNotMatch'] = "Błąd cookie, zaloguj się ponownie";
 $GLOBALS['strLogout'] = "Wyloguj";
 $GLOBALS['strUsername'] = "Nazwa użytkownika";
@@ -620,11 +619,8 @@ $GLOBALS['strNoMatchesFound'] = "Nie znaleziono pasujących elementów";
 $GLOBALS['strErrorOccurred'] = "Wystąpił błąd";
 $GLOBALS['strErrorDBPlain'] = "Wystąpił błąd podczas wywoływania bazy danych";
 $GLOBALS['strErrorDBSerious'] = "Wykryto poważny błąd z bazą danych";
-$GLOBALS['strErrorDBNoDataPlain'] = "Problem z bazą danych uniemożliwił {$PRODUCT_NAME}  odczytanie i zachowanie danych.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Poważny problem z bazą danych uniemożliwił {$PRODUCT_NAME}  odczytanie danych";
 $GLOBALS['strErrorDBCorrupt'] = "Tabela bazy danych jest prawdopodobnie uszkodzona i wymaga naprawienia. Więcej informacji na temat naprawiania uszkodzonych tabel znajdziesz w <i>Przewodniku administratora</i> w rozdziale <i>Rozwiązywanie problemów</i>.";
 $GLOBALS['strErrorDBContact'] = "Poinformuj administratora serwera o zaistniałym problemie.";
-$GLOBALS['strErrorDBSubmitBug'] = "Jeśli ten problem pojawia się wielkorotnie, może być spowodowany błędem MAX_PRODUCT_NAME. Prosimy o przekazanie poniższych informacji twórcom {$PRODUCT_NAME}. Pomocne jest dokładne opisanie działań, które doprowadziły do pojawienia się tego błędu.";
 $GLOBALS['strMaintenanceNotActive'] = "Skrypt konserwacyjny nie był uruchomiony w ciągu ostatnich 24 godzin.
 Aby {$PRODUCT_NAME} funkcjonował poprawnie, skrypt ten musi być uruchamiany co godzinę.
 
@@ -636,7 +632,6 @@ $GLOBALS['strErrorEditingCampaignRevenue'] = "nieprawidłowy format numeru w pol
 $GLOBALS['strErrorEditingZone'] = "Błąd w aktualizacji strefy:";
 $GLOBALS['strUnableToChangeZone'] = "Nie można wprowadzić tej zmiany, ponieważ:";
 $GLOBALS['strDatesConflict'] = "nastąpił konflikt dat:";
-$GLOBALS['strEmailNoDates'] = "Kampanie w strefie typu e-mail muszą być opatrzone datą rozpoczęcia i zakończenia";
 $GLOBALS['strWarningInaccurateStats'] = "Niektóre statystyki nie zostały zaprotokołowane w strefie czasowej UTC (uniwersalny czas koordynowany), wobec czego mogą zostać wyświetlone w nieodpowiedniej strefie czasowej.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Dowiedz się więcej na ten temat";
 $GLOBALS['strWarningInaccurateReport'] = "Niektóre statystyki w tym raporcie nie zostały zaprotokołowane w strefie czasowej UTC (uniwersalny czas koordynowany), wobec czego mogą zostać wyświetlone w nieodpowiedniej strefie czasowej.";
@@ -818,14 +813,10 @@ $GLOBALS['strAuditNoData'] = "Użytkownik nie był aktywny we wskazanym okresie 
 $GLOBALS['strAuditTrail'] = "Audyt";
 $GLOBALS['strAuditTrailSetup'] = "Ustaw Audyt na dziś";
 $GLOBALS['strAuditTrailGoTo'] = "Przejdź do strony Audytu";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audyt pozwala zobaczyć kto i kiedy wykonał jakie operacje. Innymi słowy, monitoruje zmiany wprowadzane w {$PRODUCT_NAME}</li>
-<li>Widzisz tę wiadomość, ponieważ nie aktywowałeś opcji Audyt</li>
-<li>Chcesz dowiedzieć się więcej? Zapoznaj się z <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >dokumentacją o Audycie</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Przejdź do strony Kampanii";
 $GLOBALS['strCampaignSetUp'] = "Rozpocznij dziś kampanię";
-$GLOBALS['strCampaignNoRecords'] = "<li>Kampanie pozwalają Ci grupować dowolną ilość banerów reklamowych dowolnego rodzaju odpowiadających kryteriom klienta.<li><li>Grupując banery zaoszczędzisz czas. Nie będziesz musiał wybierać ustawień dostarczania dla każdego banera z osobna</li><li>Więcej informacji uzyskasz w <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Dokumentacji o Kampaniach</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Brak danych o kampaniach do wyświetlenia.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Żadna kampania nie rozpoczęła się ani nie dobiegła końca we wskazanym okresie";

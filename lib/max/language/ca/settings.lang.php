@@ -25,7 +25,6 @@ $GLOBALS['strTablesType'] = "Tipus de taula";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "El vostre intent d’actualització anterior ha detectat un error";
 
-$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} està al dia";
 $GLOBALS['strDirNotWriteableError'] = "El directori ha de tenir permisos d'escriptura";
 
 

@@ -151,7 +151,6 @@ $GLOBALS['strAuthentification'] = "인증";
 $GLOBALS['strWelcomeTo'] = "환영합니다!";
 $GLOBALS['strEnterUsername'] = "사용자ID와 비밀번호를 입력해 주세요.";
 $GLOBALS['strEnterBoth'] = "사용자ID와 비밀번호를 모두 입력하세요!";
-$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME}를 사용하려면 쿠키를 사용하도록 설정해야 한다.";
 $GLOBALS['strSessionIDNotMatch'] = "세션 쿠키 오류, 다시 로그인 하시기 바랍니다";
 $GLOBALS['strLogin'] = "로그인";
 $GLOBALS['strLogout'] = "로그아웃";

@@ -17,9 +17,6 @@ $GLOBALS['strInstallStatusUpgrade'] = 'Upgrade Revive Adserver %s';
 $GLOBALS['strInstallStatusUpToDate'] = 'Zjištěn Revive Adserver %s';
 
 /** welcome step * */
-$GLOBALS['strWelcomeTitle'] = "Vítejte na {$PRODUCT_NAME}";
-$GLOBALS['strInstallIntro'] = "Děkujeme vám za {$PRODUCT_NAME}. Tento průvodce vás provede procesem instalace {$PRODUCT_NAME}.";
-$GLOBALS['strUpgradeIntro'] = "Děkujeme vám za {$PRODUCT_NAME}. Tento průvodce vás provede procesem aktualizace {$PRODUCT_NAME}.";
 
 /** check step * */
 $GLOBALS['strSystemCheck'] = "Kontrola systému";
@@ -43,28 +40,22 @@ $GLOBALS['strCheckWarning'] = 'varování';
 $GLOBALS['strCheckWarnings'] = 'varování';
 
 /** admin login step * */
-$GLOBALS['strAdminLoginTitle'] = "Přihlaste se jako správce {$PRODUCT_NAME}";
 $GLOBALS['strLoginProgressMessage'] = 'Přihlašování...';
 
 /** database step * */
 $GLOBALS['strDbSetupTitle'] = "Zadejte Vaší databázi";
-$GLOBALS['strDbSetupIntro'] = "Poskytnout informace o připojení k databázi {$PRODUCT_NAME}.";
 $GLOBALS['strDbUpgradeTitle'] = "Byla zjištěna vaše databáze";
-$GLOBALS['strDbUpgradeIntro'] = "Následující databáze byla zjištěna pro vaši instalaci {$PRODUCT_NAME}. Prosím ověřte, že tato databáze je správna, pak klikněte na \"Pokračovat\" pro pokračování..";
 $GLOBALS['strDbProgressMessageInstall'] = 'Instalace databáze...';
 $GLOBALS['strDbProgressMessageUpgrade'] = 'Upgradování databáze...';
 $GLOBALS['strDbSeeMoreFields'] = 'Více databázových polí...';
 $GLOBALS['strDBInstallSuccess'] = "Databáze byla úspěšně vytvořena";
 $GLOBALS['strDBUpgradeSuccess'] = "Databáze úspěšně upgradována";
 
-$GLOBALS['strDetectedVersion'] = "Zjištěný {$PRODUCT_NAME} verze";
 
 /** config step * */
 $GLOBALS['strConfigureUpgradeTitle'] = "Nastavení konfigurace";
-$GLOBALS['strConfigureUpgradeIntro'] = "Zadejte cestu k instalaci předchozí {$PRODUCT_NAME}.";
 $GLOBALS['strConfigSeeMoreFields'] = "Více konfiguračních polí...";
 $GLOBALS['strPreviousInstallTitle'] = "Předchozí instalace";
-$GLOBALS['strConfigureProgressMessage'] = "Konfigurace {$PRODUCT_NAME}...";
 
 /** jobs step * */
 

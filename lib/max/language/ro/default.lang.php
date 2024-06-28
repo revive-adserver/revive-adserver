@@ -139,7 +139,6 @@ $GLOBALS['strAuthentification'] = "Autentificare";
 $GLOBALS['strWelcomeTo'] = "Bine ai venit la";
 $GLOBALS['strEnterUsername'] = "Introdu utilizatorul şi parola pentru autentificare";
 $GLOBALS['strEnterBoth'] = "Te rugăm să introduci atât utilizatorul cât şi parola";
-$GLOBALS['strEnableCookies'] = "Mai întâi trebuie să activezi cookies înainte de a utiliza {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Eroare pentru cookie-ul de sesiune, te rugăm să te autentifici din nou";
 $GLOBALS['strLogin'] = "Autentificare";
 $GLOBALS['strLogout'] = "Ieşire";
@@ -611,11 +610,8 @@ $GLOBALS['strNoMatchesFound'] = "Nu a fost găsită nici o potrivire";
 $GLOBALS['strErrorOccurred'] = "A intervenit o eroare";
 $GLOBALS['strErrorDBPlain'] = "A intervenit o eroare în timpul accesării bazei de date";
 $GLOBALS['strErrorDBSerious'] = "A fost detectată o problemă gravă a bazei de date";
-$GLOBALS['strErrorDBNoDataPlain'] = "Din cauza unei probleme a bazei de date, {$PRODUCT_NAME} nu a putut extrage sau stoca datele.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Din cauza unei probleme grave a bazei de date, {$PRODUCT_NAME} nu a putut extrage datele";
 $GLOBALS['strErrorDBCorrupt'] = "Tabela din baza de date este posibil să fie coruptă şi are nevoie de reparaţii. Pentru mai multe informaţii despre repararea tabelelor corupte te rugăm să citeşti capitolul <i>Troubleshooting</i> din <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Te rugăm să contactezi administratorul acestui server şi să-i aduci la cunoştinţă această problemă.";
-$GLOBALS['strErrorDBSubmitBug'] = "Daca această problemă poate fi reprodusă poate fi cauzată de un bug al {$PRODUCT_NAME}. Te rugăm să raportezi aceste informaţii dezvoltatorilor {$PRODUCT_NAME}. De asemenea încearcă să descrii acţiunile care au determinat apariţia acestei erori cât mai detaliat cu putinţă.";
 $GLOBALS['strMaintenanceNotActive'] = "Scriptul de întreţinere nu a fost executat în ultimele 24 de ore.
 Pentru funcţionarea corectă a {$PRODUCT_NAME} acestra trebuie să se execute
  în fiecare oră.
@@ -628,7 +624,6 @@ $GLOBALS['strErrorEditingCampaignRevenue'] = "format număr incorect în câmpul
 $GLOBALS['strErrorEditingZone'] = "Eroare la actualizarea zonei:";
 $GLOBALS['strUnableToChangeZone'] = "Nu pot aplica această schimbare deoarece:";
 $GLOBALS['strDatesConflict'] = "datele intră în conflict cu:";
-$GLOBALS['strEmailNoDates'] = "Campaniile zonei email trebuie să aibă o dată de început şi o dată de sfârşit";
 $GLOBALS['strWarningInaccurateStats'] = "Unele statistici au fost înregistrate într-un fus de orar incompatibil UTC şi s-ar putea să nu fie afişate într-un fus orar corect.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Citeşte mai multe despre acest lucru";
 $GLOBALS['strWarningInaccurateReport'] = "Unele statistici din acest raport au fost înregistrate într-un fus de orar incompatibil UTC şi s-ar putea să nu fie afişate într-un fus orar corect.";
@@ -808,12 +803,10 @@ $GLOBALS['strAuditNoData'] = "Nu a fost înregistrată nici o activitate a utili
 $GLOBALS['strAuditTrail'] = "Urmărirea Bilanţului";
 $GLOBALS['strAuditTrailSetup'] = "Setează astăzi Urmărirea Bilanţului";
 $GLOBALS['strAuditTrailGoTo'] = "Du-te la pagina de Urmărire a Bilanţului";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Urmărirea Bilanţului îţi permite să vizualizezi cine a făcut ce şi când. Sau cu alte cuvinte, înregistrează schimbările aduse către {$PRODUCT_NAME}</li><li>Acest mesaj îţi este afişat deoarece nu ai activat Urmărirea Bilanţului</li><li>Eşti interesat să înveţi mai multe? Citeşte <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >documentaţia pentru Urmărirea Bilanţului</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Du-te la pagina de Campanii";
 $GLOBALS['strCampaignSetUp'] = "Setează o Campanie astăzi";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campaniile îţi permit să grupezi orice număr de reclame, de orice mărime, ce împart necesităţi comune de promovare</li><li>Câştigă timp prin gruparea banner-elor dintr-o campanie fără a mai defini setări de livrare separat pentru fiecare reclamă</li><li>Citeşte <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>documentaţia pentru Campanie</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Nu există activitate a campaniei pentru a fi afişată.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nici o campanie nu a început sau s-a terminat în intervalul de timp pe care l-ai selectat.";

@@ -113,7 +113,6 @@ $GLOBALS['strAuthentification'] = "Идентифициране";
 $GLOBALS['strWelcomeTo'] = "Добре дошъл в";
 $GLOBALS['strEnterUsername'] = "Въведете вашето потребителско име и парола";
 $GLOBALS['strEnterBoth'] = "Моля, въведете потребителско име и парола";
-$GLOBALS['strEnableCookies'] = "Трябва да позволите кукита преди да може да използвате {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Вход";
 $GLOBALS['strLogout'] = "Изход";
 $GLOBALS['strUsername'] = "Потребителско име";

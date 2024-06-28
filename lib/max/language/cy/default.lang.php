@@ -113,7 +113,6 @@ $GLOBALS['strAuthentification'] = "Dilysiad ";
 $GLOBALS['strWelcomeTo'] = "Croeso i";
 $GLOBALS['strEnterUsername'] = "Rhowch eich enw defnyddiwr a'ch cyfrinair i fewngofnodi";
 $GLOBALS['strEnterBoth'] = "Rhowch eich enw defnyddiwr a'ch cyfrinair os gwelwch yn dda";
-$GLOBALS['strEnableCookies'] = "Rhaid i chi alluogi cwcis cyn bod modd i chi ddefnyddio {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Mewngofnodi";
 $GLOBALS['strLogout'] = "Allgofnodi";
 $GLOBALS['strUsername'] = "Enw Defnyddiwr";
@@ -530,7 +529,6 @@ $GLOBALS['strErrorDBContact'] = "Cysylltwch â gweinyddwr y gweinydd a'i hysbysu
 $GLOBALS['strUnableToLinkBanner'] = "Methwyd cysylltu'r baner:";
 $GLOBALS['strUnableToChangeZone'] = "Methwyd gweithredu'r newidiad oherwydd:";
 $GLOBALS['strDatesConflict'] = "dyddiadau'n gwrthdaro gyda:";
-$GLOBALS['strEmailNoDates'] = "Rhaid i ymgyrchoedd ardal ebost gael dyddiad cychwyn a gorffen";
 
 //Validation
 

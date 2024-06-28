@@ -145,7 +145,6 @@ $GLOBALS['strAuthentification'] = "Hitelesítés";
 $GLOBALS['strWelcomeTo'] = "Üdvözli az";
 $GLOBALS['strEnterUsername'] = "Adja meg felhasználónevét és jelszavát a bejelentkezéshez";
 $GLOBALS['strEnterBoth'] = "Felhasználói nevét és jelszavát is adja meg";
-$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME} használatához engedélyezni kell a cookie-kat.";
 $GLOBALS['strSessionIDNotMatch'] = "Session cookie hiba, kérjük, jelentkezzen be újra";
 $GLOBALS['strLogin'] = "Bejelentkezés";
 $GLOBALS['strLogout'] = "Kilépés";
@@ -588,11 +587,8 @@ $GLOBALS['strNoMatchesFound'] = "Nincs találat";
 $GLOBALS['strErrorOccurred'] = "Hiba történt";
 $GLOBALS['strErrorDBPlain'] = "Hiba történt az adatbázishoz történő hozzáféréskor";
 $GLOBALS['strErrorDBSerious'] = "Komoly probléma állapítható meg az adatbázissal kapcsolatban";
-$GLOBALS['strErrorDBNoDataPlain'] = "A {$PRODUCT_NAME} adatbázissal kapcsolatos probléma miatt nem lehet adatokat kikeresni vagy tárolni. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Az adatbázissal kapcsolatos komoly probléma miatt a {$PRODUCT_NAME} nem tudott adatokat kikeresni";
 $GLOBALS['strErrorDBCorrupt'] = "Valószínűleg sérült az adatbázis tábla, ezért javításra szorul. A sérült táblákkal kapcsolatban további részleteket olvashat az <i>Administrator guide</i> <i>Troubleshooting</i> fejezetében.";
 $GLOBALS['strErrorDBContact'] = "Vegye fel a kapcsolatot a kiszolgáló adminisztrátorával, és értesítse őt a problémáról.";
-$GLOBALS['strErrorDBSubmitBug'] = "Ha ez a probléma megismételhető, akkor lehet, hogy a {$PRODUCT_NAME} hibája okozta. Jelentse a következő adatokat a {$PRODUCT_NAME} fejlesztőinek. Amennyire csak lehet, próbálja meg pontosan ismertetni azokat a műveleteket, melyek ezt a hibát okozták.";
 $GLOBALS['strMaintenanceNotActive'] = "Az utóbbi 24 órában nem történt meg a karbantartás parancsfájl futtatása. \\nA {$PRODUCT_NAME} megfelelő működéséhez óránként futtatás szükséges. \\n\\nAz Administrator guide kézikönyvben részletes tájékoztatót olvashat \\na karbantartás parancsfájl beállításáról.";
 
 //Validation
