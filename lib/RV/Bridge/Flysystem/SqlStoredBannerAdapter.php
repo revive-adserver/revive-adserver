@@ -94,7 +94,7 @@ class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
         $doImages = \OA_Dal::staticGetDO('images', $path);
 
         if ($doImages) {
-            return $doImages->delete();
+            return (bool) $doImages->delete();
         }
 
         return false;

@@ -537,7 +537,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         $primaryKey = $keys[0];
         $this->$primaryKey = $primaryId;
-        return $this->delete($useWhere, $cascadeDelete);
+        return (bool) $this->delete($useWhere, $cascadeDelete);
     }
 
     /**
@@ -624,7 +624,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *                                With this parameter it's possible to turn off default behavior
      *                                @see DB_DataObjectCommon:onDeleteCascade
      * @param boolean $parentid The audit ID of the parent object causing the cascade.
-     * @return mixed True on success, false on failure, 0 on no data affected
+     * @return int|false Affected rows on success, false on failure
      * @access protected
      */
     public function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
@@ -663,13 +663,12 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
         $result = parent::delete($useWhere);
-        if ($result) {
-            if (!isset($id)) {
-                $doAffected->fetch();
-                $doAffected->audit(3, null, $parentid);
-            }
-            return true;
+
+        if ($result && !isset($id)) {
+            $doAffected->fetch();
+            $doAffected->audit(3, null, $parentid);
         }
+
         return $result;
     }
 

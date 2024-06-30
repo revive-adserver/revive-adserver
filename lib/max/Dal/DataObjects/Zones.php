@@ -98,7 +98,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
      *
      * @param boolean $useWhere
      * @param boolean $cascadeDelete
-     * @return boolean
+     * @return int|false
      * @see DB_DataObjectCommon::delete()
      */
     public function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
