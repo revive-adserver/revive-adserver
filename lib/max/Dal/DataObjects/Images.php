@@ -86,14 +86,14 @@ class DataObjects_Images extends DB_DataObjectCommon
      *                                With this parameter it's possible to turn off default behavior
      *                                @see DB_DataObjectCommon:onDeleteCascade
      * @param boolean $parentid The audit ID of the parent object causing the cascade.
-     * @return boolean
+     * @return int|false
      * @access protected
      */
     public function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
         // Contents cause problems in pgsql when retrieving current values for auditing
         $this->contents = null;
-        parent::delete($useWhere, $cascadeDelete, $parentid);
+        return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
     /**
