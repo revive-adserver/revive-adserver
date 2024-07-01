@@ -131,7 +131,7 @@ class Test_OA_Cache extends UnitTestCase
 
     public function testLifeTime()
     {
-        $oCache = new OA_Cache('test', 'oxpTestCache', 1);
+        $oCache = new OA_Cache('test', 'oxpTestCache', 10);
         $oCache->setFileNameProtection(false);
         $oCache->clear();
 

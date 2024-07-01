@@ -61,49 +61,60 @@ class Test_Priority extends UnitTestCase
 
 
     /**
-     * Pruning can be performed where zone_id = 0 (i.e. for direct selection) and where the entry is older than MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes ago.
+     * Pruning can be performed where the entry is older than MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes ago.
      *
      */
     public function testPruneDataSummaryAdZoneAssocOldData()
     {
         $oDate = new Date();
         $oServiceLocator = OA_ServiceLocator::instance();
-        $oServiceLocator->register('now', $oDate);
+        $oServiceLocator->register('now', clone $oDate);
         $oDal = new OA_Maintenance_Pruning();
         $doDSAZA = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        $doDSAZA->interval_start = $oDate->getDate();
 
         // Test 1: table is empty : nothing to delete
         $this->assertEqual($this->_countRowsInDSAZA(), 0);
-        $this->assertFalse($oDal->_pruneDataSummaryAdZoneAssocOldData());
+        $this->assertEqual(0, $oDal->_pruneDataSummaryAdZoneAssocOldData());
 
         // generate 4 records
         $aIds = DataGenerator::generate($doDSAZA, 4);
         $this->assertEqual($this->_countRowsInDSAZA(), 4);
 
-        // Test 2: values are current, zone_id = 1 : nothing to delete
-        $this->assertFalse($oDal->_pruneDataSummaryAdZoneAssocOldData());
+        // Test 2: values are current, nothing to delete
+        $this->assertEqual(0, $oDal->_pruneDataSummaryAdZoneAssocOldData());
         $this->assertEqual($this->_countRowsInDSAZA(), 4);
 
-        // Test 3: values are old, zone_id = 1 : should not delete anything
-        foreach ($aIds as $k => $id) {
-            $oDate->subtractSeconds((MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT + 100));
-            $doDSAZA->data_summary_ad_zone_assoc_id = $id;
-            $doDSAZA->find(true);
-            $doDSAZA->created = $oDate->getDate();
-            $doDSAZA->zone_id = 1;
-            $doDSAZA->update();
-        }
-        $this->assertFalse($oDal->_pruneDataSummaryAdZoneAssocOldData());
-        $this->assertEqual($this->_countRowsInDSAZA(), 4);
+        // Test 3: one value is old: should delete 1
+        $oDate->subtractSeconds(MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT * 60 + 100);
+        $doDSAZA->data_summary_ad_zone_assoc_id = array_shift($aIds);
+        $doDSAZA->find(true);
+        $doDSAZA->interval_start = $oDate->getDate();
+        $doDSAZA->update();
 
-        // Test 4: values are old, zone_id = 0 : should delete 4 records
+        $this->assertEqual(1, $oDal->_pruneDataSummaryAdZoneAssocOldData());
+        $this->assertEqual($this->_countRowsInDSAZA(), 3);
+
+        // Test 4: 66% of values are old, should use truncate + temp table
+        foreach (array_splice($aIds, 0, 2) as $k => $id) {
+            $doDSAZA->data_summary_ad_zone_assoc_id = $id;
+            $doDSAZA->find(true);
+            $doDSAZA->interval_start = $oDate->getDate();
+            $doDSAZA->update();
+        }
+
+        // Force using temp table + truncate
+        $this->assertEqual(2, $oDal->_pruneDataSummaryAdZoneAssocOldData(0));
+        $this->assertEqual($this->_countRowsInDSAZA(), 1);
+
+        // Test 4: all values are old, should delete all with
         foreach ($aIds as $k => $id) {
             $doDSAZA->data_summary_ad_zone_assoc_id = $id;
             $doDSAZA->find(true);
-            $doDSAZA->zone_id = 0;
+            $doDSAZA->interval_start = $oDate->getDate();
             $doDSAZA->update();
         }
-        $this->assertTrue($oDal->_pruneDataSummaryAdZoneAssocOldData());
+        $this->assertEqual(1, $oDal->_pruneDataSummaryAdZoneAssocOldData());
         $this->assertEqual($this->_countRowsInDSAZA(), 0);
     }
 

@@ -1763,7 +1763,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         // Expire the old priority values in data_summary_ad_zone_assoc
-        OA::debug("  - Epiring old priority values in {$aConf['table']['data_summary_ad_zone_assoc']}", PEAR_LOG_DEBUG);
+        OA::debug("  - Expiring old priority values in {$aConf['table']['data_summary_ad_zone_assoc']}", PEAR_LOG_DEBUG);
         $table = $this->_getTablename('data_summary_ad_zone_assoc');
         $query = "
             UPDATE

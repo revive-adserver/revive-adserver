@@ -38,6 +38,8 @@ New Features
  * New displayNameLength configuration directive to increase the length of
    campaign and banner names displayed in the zone linking screens.
 
+ * Improved pruning of the data_summary_ad_zone_assoc table.
+
 
 Bug Fixes
 ---------
