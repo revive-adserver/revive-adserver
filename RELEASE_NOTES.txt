@@ -42,6 +42,8 @@ New Features
    and a new UI setting to disable or customise how long to wait before
    displaying the loader (defaults to 250ms).
 
+ * Improved pruning of the data_summary_ad_zone_assoc table.
+
 
 Bug Fixes
 ---------
