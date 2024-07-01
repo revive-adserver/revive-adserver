@@ -181,9 +181,9 @@ class MaxMindGeoIP2
             }
         }
 
-        // Store this information in the cookie for later use
         if ($useCookie && (!empty($ret))) {
-            MAX_cookieAdd($aConf['var']['viewerGeo'], self::packCookie($ret));
+            // Store this information in the cookie for later use (expires in 30 minutes)
+            MAX_cookieAdd($aConf['var']['viewerGeo'], self::packCookie($ret), MAX_commonGetTimeNow() + 30 * 60);
         }
 
         return $ret;
