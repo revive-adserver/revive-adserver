@@ -51,6 +51,10 @@ Bug Fixes
  * Optimimized some queries used in the statistics screen, leading to
    faster response times on very large instances.
 
+ * Changed the OAGEO cookie from session cookie to permanent, with a 30m
+   expiration time. This should allow refreshing geo information for mobile
+   users on the move.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
