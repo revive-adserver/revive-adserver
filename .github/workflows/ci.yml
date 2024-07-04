@@ -311,12 +311,14 @@ jobs:
 
       - name: Gather commit messages
         id: gather
+        env:
+          JSON: ${{ toJson(github.event.commits) }}
         run: |
           {
             echo 'MSG<<EOF'
             echo
             echo
-            echo '${{ toJson(github.event.commits) }}' | jq -r '.[].message' | sed s'/^/ * /g'
+            echo "${JSON}" | jq -r '.[].message' | sed s'/^/ * /g'
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
