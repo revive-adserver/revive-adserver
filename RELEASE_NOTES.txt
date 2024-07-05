@@ -44,6 +44,10 @@ New Features
 
  * Improved pruning of the data_summary_ad_zone_assoc table.
 
+ * Added new command to delete orphaned images or HTML5 banner folders.
+   The command can be executed using the new script/console entry point,
+   based on Symfony Console Command component.
+
 
 Bug Fixes
 ---------

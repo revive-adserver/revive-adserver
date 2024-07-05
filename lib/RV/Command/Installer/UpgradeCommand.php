@@ -62,9 +62,9 @@ class UpgradeCommand extends AbstractInstallerCommand
             $this->oController->getPreviousVersion(),
         ));
 
-        $question = "<question>Continue with the upgrade?</question>";
+        $question = "Continue with the upgrade?";
 
-        if (!$this->askContinueQuestion($input, $output, $question)) {
+        if (!$this->askQuestion($input, $output, $question)) {
             return Command::FAILURE;
         }
 
