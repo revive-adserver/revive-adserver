@@ -38,6 +38,10 @@ New Features
  * New displayNameLength configuration directive to increase the length of
    campaign and banner names displayed in the zone linking screens.
 
+ * Added loading animation when the next screen is taking some time to load
+   and a new UI setting to disable or customise how long to wait before
+   displaying the loader (defaults to 250ms).
+
 
 Bug Fixes
 ---------
