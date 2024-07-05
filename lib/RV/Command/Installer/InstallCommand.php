@@ -2,19 +2,13 @@
 
 namespace RV\Command\Installer;
 
-use RV\Admin\Install\CliInstallController;
 use RV\Admin\Install\RedirectException;
 use RV\Command\Installer\Model\ConfSetting;
-use RV\Command\ReviveCommand;
-use RV\Upgrade\PluginInstaller;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Finder\Finder;
 
 class InstallCommand extends AbstractInstallerCommand
 {

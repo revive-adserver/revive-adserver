@@ -1,6 +1,9 @@
 <?php
 
+namespace ECS;
+
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
+use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
 
@@ -32,6 +35,7 @@ return ECSConfig::configure()
     ->withRules([
         ArraySyntaxFixer::class,
         NullableTypeDeclarationForDefaultNullValueFixer::class,
+        NoUnusedImportsFixer::class,
     ])
     ->withPhpCsFixerSets(perCS20: true)
     ->withPreparedSets(psr12: true)
