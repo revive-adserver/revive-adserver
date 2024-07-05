@@ -4,17 +4,16 @@ namespace RV\Command\Installer;
 
 use RV\Admin\Install\CliInstallController;
 use RV\Admin\Install\RedirectException;
-use RV\Command\ReviveCommand;
+use RV\Command\AbstractReviveCommand;
 use RV\Upgrade\PluginInstaller;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Finder\Finder;
 
-abstract class AbstractInstallerCommand extends ReviveCommand
+abstract class AbstractInstallerCommand extends AbstractReviveCommand
 {
     /** @var InputInterface */
     protected $input;
@@ -63,18 +62,6 @@ abstract class AbstractInstallerCommand extends ReviveCommand
 
             $this->permissions = octdec($permissions);
         }
-    }
-
-    protected function askContinueQuestion(InputInterface $input, OutputInterface $output, string $question): bool
-    {
-        if ($input->getOption('force')) {
-            return true;
-        }
-
-        $helper = $this->getHelper('question');
-        $confirmation = new ConfirmationQuestion($question, false);
-
-        return $helper->ask($input, $output, $confirmation);
     }
 
     protected function runChecks(): void

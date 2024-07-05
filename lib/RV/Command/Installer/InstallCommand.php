@@ -43,9 +43,9 @@ class InstallCommand extends AbstractInstallerCommand
             throw new RuntimeException("Please run an upgrade instead");
         }
 
-        $question = \sprintf("<question>Continue installing %s?</question>", PRODUCT_NAME);
+        $question = \sprintf('Continue installing %s?', PRODUCT_NAME);
 
-        if (!$this->askContinueQuestion($input, $output, $question)) {
+        if (!$this->askQuestion($input, $output, $question)) {
             return Command::FAILURE;
         }
 
