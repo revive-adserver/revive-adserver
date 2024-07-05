@@ -300,6 +300,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Color of the header background";
 $GLOBALS['strGuiActiveTabColor'] = "Color of the active tab";
 $GLOBALS['strGuiHeaderTextColor'] = "Color of the text in the header";
 $GLOBALS['strGuiSupportLink'] = "Custom URL for 'Support' link in header";
+$GLOBALS['strGuiLoaderDelay'] = "Display loading animation when the next screen takes longer than X milliseconds to load (use -1 to disable)";
 $GLOBALS['strGzipContentCompression'] = "Use GZIP Content Compression";
 
 // Regenerate Platfor Hash script

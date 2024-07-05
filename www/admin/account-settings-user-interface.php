@@ -52,6 +52,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'ui_headerActiveTabColor' => ['ui' => 'headerActiveTabColor'],
         'ui_headerTextColor' => ['ui' => 'headerTextColor'],
         'ui_supportLink' => ['ui' => 'supportLink'],
+        'ui_loaderDelay' => ['ui' => 'loaderDelay'],
         'ui_gzipCompression' => [
             'ui' => 'gzipCompression',
             'bool' => true,
@@ -207,6 +208,14 @@ $aSettings = [
                 'name' => 'ui_supportLink',
                 'text' => $strGuiSupportLink,
                 'size' => 35,
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'text',
+                'name' => 'ui_loaderDelay',
+                'text' => $strGuiLoaderDelay,
             ],
             [
                 'type' => 'break',

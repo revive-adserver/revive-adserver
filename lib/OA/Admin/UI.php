@@ -259,6 +259,9 @@ class OA_Admin_UI
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
 
+        // FreezeUI
+        $this->oTpl->assign('loaderDelay', (int) ($conf['ui']['loaderDelay'] ?? -1));
+
         //additional things
         $this->_assignJavascriptDefaults(); //JS validation messages and other defaults
         $this->_assignAlertMPE(); //mpe xajax
@@ -677,6 +680,7 @@ class OA_Admin_UI
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->oTpl->assign('uiPart', 'footer');
+        $this->oTpl->assign('freezeUiLoading', 'Helllllllllo!');
         $this->oTpl->display();
 
         // Clean up MPE session variable

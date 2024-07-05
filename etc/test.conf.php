@@ -57,6 +57,7 @@ hideNavigator                       = false
 zoneLinkingStatistics               = true
 disableDirectSelection              = true
 displayNameLength                   = 60
+loaderDelay                         = 250; in ms. Use 0 for no delay, or a negative value to disable
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;

@@ -221,6 +221,18 @@
 </script>
 {/if}
 
+{if $loaderDelay >= 0}
+{literal}
+<script>
+    window.addEventListener('beforeunload', function() {
+        setTimeout(function () {
+            FreezeUI();
+        }, {/literal}{$loaderDelay}{literal})
+    });
+</script>
+{/literal}
+{/if}
+
 {include file=layout/messages.html}
 </body>
 </html>

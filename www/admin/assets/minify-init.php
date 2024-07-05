@@ -16,6 +16,7 @@ $commonJs = [
     'js/jscalendar/calendar-setup.js',
     'js/jquery.delegate-1.1.min.js',
     'js/jquery.tablesorter.js',
+    'js/freeze-ui.js',
 ];
 
 
@@ -47,6 +48,7 @@ $commonCss = [
     'css/message.css',
     'js/jscalendar/calendar-openads.css',
     'css/icons.css',
+    'css/freeze-ui.css',
 ];
 
 
