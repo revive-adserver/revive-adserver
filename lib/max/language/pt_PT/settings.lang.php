@@ -92,6 +92,8 @@ $GLOBALS['strEnableQmailPatch'] = "Habilitar patch do Qmail";
 $GLOBALS['strEmailHeader'] = "Cabeçalhos do e-mail";
 $GLOBALS['strEmailLog'] = "Registro de e-mail (Log)";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Configurações de Auditoria de percurso";
 $GLOBALS['strEnableAudit'] = "Habilitar Auditoria de percurso";

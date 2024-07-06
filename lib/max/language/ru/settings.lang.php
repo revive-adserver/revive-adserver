@@ -90,6 +90,8 @@ $GLOBALS['strEmailFromAddress'] = "Email \"От\" Электронная поч�
 $GLOBALS['strEmailFromCompany'] = "Email \"От\" Компания";
 $GLOBALS['strQmailPatch'] = "патч для qmail";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Настройки аудита изменений";
 

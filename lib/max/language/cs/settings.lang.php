@@ -77,6 +77,8 @@ $GLOBALS['strEnableQmailPatch'] = "Zapnout qmail patch";
 $GLOBALS['strEmailHeader'] = "Záhlaví e-mailů";
 $GLOBALS['strEmailLog'] = "E-Mail log";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

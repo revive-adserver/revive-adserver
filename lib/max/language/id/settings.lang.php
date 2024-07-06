@@ -108,6 +108,8 @@ $GLOBALS['strEnableQmailPatch'] = "Aktifkan patch qmail";
 $GLOBALS['strEmailHeader'] = "Header email";
 $GLOBALS['strEmailLog'] = "Log email";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Pengaturan Jejak Audit";
 $GLOBALS['strEnableAudit'] = "Aktifkan Jejak Audit";

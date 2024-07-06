@@ -86,6 +86,8 @@ $GLOBALS['strEnableQmailPatch'] = "啟用qmail補丁";
 $GLOBALS['strEmailHeader'] = "電子郵件標題";
 $GLOBALS['strEmailLog'] = "電子郵件日誌";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "審計追蹤設置";
 $GLOBALS['strEnableAudit'] = "啟用審計追蹤";

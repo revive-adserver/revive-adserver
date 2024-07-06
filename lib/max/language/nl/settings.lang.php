@@ -106,6 +106,8 @@ $GLOBALS['strEnableQmailPatch'] = "Inschakelen van qmail patch";
 $GLOBALS['strEmailHeader'] = "Email headers";
 $GLOBALS['strEmailLog'] = "E-mail log";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Audit Trail Instellingen";
 $GLOBALS['strEnableAudit'] = "Audit trail inschakelen";
@@ -298,6 +300,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Kleur van de header achtergrond";
 $GLOBALS['strGuiActiveTabColor'] = "Kleur van een actieve tab";
 $GLOBALS['strGuiHeaderTextColor'] = "Kleur van headertekst";
 $GLOBALS['strGuiSupportLink'] = "Aangepaste URL voor 'Support' link in de koptekst";
+$GLOBALS['strGuiLoaderDelay'] = "Toon een Loading animatie als het langer dan X milliseconden duurt om het volgende scherm te laden (gebruik -1 om uit te schakelen)";
 $GLOBALS['strGzipContentCompression'] = "Gebruik GZIP content compression";
 
 // Regenerate Platfor Hash script

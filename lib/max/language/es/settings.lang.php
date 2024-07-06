@@ -101,6 +101,8 @@ $GLOBALS['strQmailPatch'] = "parche qmail";
 $GLOBALS['strEmailHeader'] = "Encabezados de correo";
 $GLOBALS['strEmailLog'] = "Registro de correo electrónico";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Log Audit";
 $GLOBALS['strEnableAudit'] = "Habilitar Registro De Auditoría";

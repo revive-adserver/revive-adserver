@@ -54,6 +54,8 @@ $GLOBALS['strDbType'] = "数据库类型";
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Email 功能";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

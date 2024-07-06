@@ -95,6 +95,8 @@ $GLOBALS['strEnableQmailPatch'] = "Qmailパッチを適用する";
 $GLOBALS['strEmailHeader'] = "Eメールヘッダ";
 $GLOBALS['strEmailLog'] = "Eメールログ";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "追跡記録ログ";
 $GLOBALS['strEnableAudit'] = "監査の追跡を有効にする";

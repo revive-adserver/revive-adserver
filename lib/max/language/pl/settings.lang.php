@@ -94,6 +94,8 @@ $GLOBALS['strEnableQmailPatch'] = "Włącz łatkę qmail";
 $GLOBALS['strEmailHeader'] = "Nagłówki e-mail";
 $GLOBALS['strEmailLog'] = "Log e-maila";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Ustawienia Audytu";
 $GLOBALS['strEnableAudit'] = "Włącz Audyt";

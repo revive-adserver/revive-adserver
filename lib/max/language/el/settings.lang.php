@@ -35,6 +35,8 @@ $GLOBALS['strBasicInformation'] = "Βασικές Πληροφορίες";
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Βασικές Ρυθμίσεις";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

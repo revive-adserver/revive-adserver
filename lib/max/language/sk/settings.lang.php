@@ -34,6 +34,8 @@ $GLOBALS['strBasicInformation'] = "Základné údaje";
 
 // Email Settings
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

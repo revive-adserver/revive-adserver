@@ -70,6 +70,8 @@ $GLOBALS['strCantConnectToDb'] = "Tidak dapat berhubung dengan pengkalan data";
 
 // Email Settings
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

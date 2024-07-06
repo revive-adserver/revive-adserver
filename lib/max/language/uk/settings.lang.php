@@ -108,6 +108,8 @@ $GLOBALS['strEnableQmailPatch'] = "Увімкнути патч qmail";
 $GLOBALS['strEmailHeader'] = "Заголовки електронного листа";
 $GLOBALS['strEmailLog'] = "Журнал електронної пошти";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Налаштування журналу аудиту";
 $GLOBALS['strEnableAudit'] = "Увімкнути журнал аудиту";
