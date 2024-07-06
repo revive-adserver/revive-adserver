@@ -600,6 +600,12 @@ break;
 }
 if ($proxy) {
 OX_Delivery_logMessage('proxy detected', 7);
+MAX_remotehostSetRealIpAddress();
+}
+}
+}
+function MAX_remotehostSetRealIpAddress(): void
+{
 $aHeaders = [
 'HTTP_FORWARDED',
 'HTTP_FORWARDED_FOR',
@@ -613,7 +619,9 @@ $ip = $_SERVER[$header];
 break;
 }
 }
-if (!empty($ip)) {
+if (empty($ip)) {
+return;
+}
 foreach (explode(',', $ip) as $ip) {
 if (!preg_match('#^(\d+\.\d+\.\d+\.\d+)(?::\d+)?$#D', trim($ip), $m)) {
 continue;
@@ -627,9 +635,6 @@ $_SERVER['REMOTE_HOST'] = '';
 $_SERVER['HTTP_VIA'] = '';
 OX_Delivery_logMessage('real address set to ' . $ip, 7);
 return;
-}
-}
-}
 }
 }
 function MAX_remotehostReverseLookup()
