@@ -29,7 +29,7 @@ phpAds_registerGlobalUnslashed(
     'trackername',
     'status',
     'type',
-    'linkcampaigns'
+    'linkcampaigns',
 );
 
 // Security check
@@ -73,8 +73,8 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     }
 
     $tracker['trackername'] .= $strDefault . " " . $strTracker;
-    $tracker['status'] = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
-    $tracker['type'] = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
+    $tracker['status'] = $pref['tracker_default_status'] ?? MAX_CONNECTION_STATUS_APPROVED;
+    $tracker['type'] = $pref['tracker_default_type'] ?? MAX_CONNECTION_TYPE_SALE;
     $tracker['linkcampaigns'] = $pref['tracker_link_campaigns'] == true ? 't' : 'f';
     $tracker['description'] = '';
 
@@ -89,9 +89,9 @@ $trackerForm = buildTrackerForm($tracker);
 
 if ($trackerForm->validate()) {
     //process submitted values
-    processForm($trackerForm);
+    processTrackerEditForm($trackerForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($tracker, $trackerForm);
+    displayTrackerEditPage($tracker, $trackerForm);
 }
 
 /*-------------------------------------------------------*/
@@ -128,7 +128,7 @@ function buildTrackerForm($tracker)
         'select',
         'status',
         $GLOBALS['strDefaultStatus'],
-        $activeStatuses
+        $activeStatuses,
     );
     $form->addElement(
         'advcheckbox',
@@ -136,7 +136,7 @@ function buildTrackerForm($tracker)
         null,
         $GLOBALS['strLinkCampaignsByDefault'],
         null,
-        ["f", "t"]
+        ["f", "t"],
     );
 
     $form->addElement('controls', 'form-controls');
@@ -156,7 +156,7 @@ function buildTrackerForm($tracker)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($form)
+function processTrackerEditForm($form)
 {
     $aFields = $form->exportValues();
     // If ID is not set, it should be a null-value for the auto_increment
@@ -180,7 +180,7 @@ function processForm($form)
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenAdded'], [
             MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $aFields['clientid'] . "&trackerid=" . $aFields['trackerid']),
-            htmlspecialchars($aFields['trackername'])
+            htmlspecialchars($aFields['trackername']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect('advertiser-trackers.php?clientid=' . $aFields['clientid']);
@@ -192,7 +192,7 @@ function processForm($form)
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $aFields['clientid'] . "&trackerid=" . $aFields['trackerid']),
-            htmlspecialchars($aFields['trackername'])
+            htmlspecialchars($aFields['trackername']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect("tracker-edit.php?clientid=" . $aFields['clientid'] . "&trackerid=" . $aFields['trackerid']);
@@ -204,7 +204,7 @@ function processForm($form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($tracker, $form)
+function displayTrackerEditPage($tracker, $form)
 {
     //header and breadcrumbs
     if ($tracker['trackerid'] != "") {
@@ -239,11 +239,11 @@ function displayPage($tracker, $form)
 function splitSecondsIntoCalendarItems($seconds)
 {
     $result['day'] = floor($seconds / (60 * 60 * 24));
-    $seconds = $seconds % (60 * 60 * 24);
+    $seconds %= 60 * 60 * 24;
     $result['hour'] = floor($seconds / (60 * 60));
-    $seconds = $seconds % (60 * 60);
+    $seconds %= 60 * 60;
     $result['minute'] = floor($seconds / (60));
-    $seconds = $seconds % (60);
+    $seconds %= 60;
     $result['second'] = $seconds;
 
     return $result;

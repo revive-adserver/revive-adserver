@@ -127,7 +127,6 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
     public function deriveDataType(&$t, $dbtype)
     {
         switch (strtoupper($t['type'])) {
-
             case 'INT':
             case 'INT2':    // postgres
             case 'INT4':    // postgres
@@ -314,7 +313,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $body .= "    /* the code below is auto generated do not remove the above tag */{$n}{$n}";
         // table
         $padding = (30 - strlen($this->table));
-        $padding = ($padding < 2) ? 2 : $padding;
+        $padding = max(2, $padding);
 
         $p = str_repeat(' ', $padding);
 
@@ -414,13 +413,13 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $input = preg_replace(
             '/(\n|\r\n)class\s*[a-z0-9_]+\s*extends\s*' . $class_rewrite . '\s*\{(\n|\r\n)/si',
             "{$n}class {$this->classname} extends {$this->_extends} {$n}{{$n}",
-            $input
+            $input,
         );
 
         $full = preg_replace(
             '/(\n|\r\n)\s*###START_AUTOCODE(\n|\r\n).*(\n|\r\n)\s*###END_AUTOCODE(\n|\r\n)/s',
             $body,
-            $input
+            $input,
         );
 
         // Remove trailing whitespace
@@ -494,12 +493,12 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $aFields = $this->_definitions[$table]['fields'];
 
         $aNulls = [
-                        'sso_user_id',
-                        'date_last_login',
-                        'email_updated',
-                        'advertiser_account_id',
-                        'website_account_id',
-                       ];
+            'sso_user_id',
+            'date_last_login',
+            'email_updated',
+            'advertiser_account_id',
+            'website_account_id',
+        ];
 
         $aDefaults = [];
 
@@ -516,10 +515,10 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                 case (is_null($type)):
                     break;
                 case ($type & DB_DATAOBJECT_BOOL):
-                    $aDefaults[$field] = (int)(bool) $value;
+                    $aDefaults[$field] = (int) (bool) $value;
                     break;
 
-                // Check DATE/TIME type first instead of STR (many date/time fields has multiple types including DB_DATAOBJECT_STR)
+                    // Check DATE/TIME type first instead of STR (many date/time fields has multiple types including DB_DATAOBJECT_STR)
                 case ($type & DB_DATAOBJECT_MYSQLTIMESTAMP): // not supported yet..
                 case ($type & DB_DATAOBJECT_DATE):
                 case ($type & DB_DATAOBJECT_TIME):
@@ -543,7 +542,6 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                 default:
                     //$aDefaults[$field] = $value;
                     break;
-
             }
         }
         $result = '';

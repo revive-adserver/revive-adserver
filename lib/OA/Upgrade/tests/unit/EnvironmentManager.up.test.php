@@ -22,7 +22,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
 {
     public function test_checkCriticalPHP()
     {
-
         // Test 1: Test PHP versions
 
         // Prepare a new OA_Environment_Manager class
@@ -61,8 +60,19 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.0.5';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, [], ['version']);
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid version of PHP
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '7.4.1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.1.0';
         // Test critical PHP settings
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
@@ -73,7 +83,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid version of PHP
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.0.3';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.3.0';
         // Test critical PHP settings
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
@@ -391,6 +401,30 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+
+        // Test 13: Test the tokenizer extension
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid pcre extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '0';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, ['tokenizer'], []);
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set a valid pcre extension
+        $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_NOERROR);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
     }
 
     /**
@@ -405,7 +439,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Create a new OA_Environment_Manager instance
         $oEnvironmentManager = new OA_Environment_Manager();
         // Set a valid enfironment
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '7.2.5';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.1.0';
         $oEnvironmentManager->aInfo['PHP']['actual']['memory_limit'] = '';
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '1';
@@ -416,6 +450,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager->aInfo['PHP']['actual']['spl'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['json'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
         // Return the valid OA_Environment_Manager instance
         return $oEnvironmentManager;
@@ -437,13 +472,15 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']), in_array('memory_limit', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['warning']['memory_limit']), in_array('memory_limit', $aWarnings));
 
-        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['safe_mode']), in_array('safe_mode', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['file_uploads']), in_array('file_uploads', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['pcre']), in_array('pcre', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['xml']), in_array('xml', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zlib']), in_array('zlib', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['mysqli']), in_array('mysqli', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['spl']), in_array('spl', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['json']), in_array('json', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zip']), in_array('zip', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['tokenizer']), in_array('tokenizer', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
     }
 
@@ -466,8 +503,8 @@ class Test_OA_Environment_Manager extends UnitTestCase
             'OA_Environment_Manager',
             $mockEnvMgr = 'OA_Environment_Manager' . rand(),
             [
-                                      'checkFilePermission'
-                                     ]
+                'checkFilePermission',
+            ],
         );
 
         $oEnvMgr = new $mockEnvMgr();
@@ -504,22 +541,22 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr = $this->_getEnvMgrObj();
 
         $oEnvMgr->aInfo['PERMS']['actual'][0] = [
-                                                    'file' => 'var',
-                                                    'recurse' => true,
-                                                    'result' => 'OK',
-                                                    'error' => false,
-                                                    'string' => '',
-                                                  ];
+            'file' => 'var',
+            'recurse' => true,
+            'result' => 'OK',
+            'error' => false,
+            'string' => '',
+        ];
 
         $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(), '');
 
         $oEnvMgr->aInfo['PERMS']['actual'][0] = [
-                                                    'file' => 'var',
-                                                    'recurse' => true,
-                                                    'result' => 'NOT writeable',
-                                                    'error' => true,
-                                                    'string' => 'strErrorFixPermissionsRCommand',
-                                                  ];
+            'file' => 'var',
+            'recurse' => true,
+            'result' => 'NOT writeable',
+            'error' => true,
+            'string' => 'strErrorFixPermissionsRCommand',
+        ];
 
         $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(), '');
     }

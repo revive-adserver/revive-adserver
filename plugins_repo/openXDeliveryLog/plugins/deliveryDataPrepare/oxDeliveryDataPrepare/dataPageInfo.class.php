@@ -22,8 +22,8 @@ class Plugins_DeliveryDataPrepare_OxDeliveryDataPrepare_DataPageInfo extends OX_
     {
         return [
             'deliveryDataPrepare:oxDeliveryDataPrepare:dataPageInfo' => [
-                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon'
-            ]
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
+            ],
         ];
     }
 }

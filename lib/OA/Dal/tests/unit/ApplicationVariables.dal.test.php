@@ -21,14 +21,6 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Test set, getAll, delete
      *
      */
@@ -42,7 +34,7 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 
         $aData = [
             'one' => 'foo',
-            'two' => 'bar'
+            'two' => 'bar',
         ];
 
         foreach ($aData as $k => $v) {

@@ -63,7 +63,7 @@ class LogonXmlRpcService extends BaseLogonService
             [&$userName, &$password],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -92,7 +92,7 @@ class LogonXmlRpcService extends BaseLogonService
         $oResponseWithError = null;
 
         if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, $oResponseWithError)) {
-            return  $oResponseWithError;
+            return $oResponseWithError;
         }
 
         if ($this->logonServiceImp->logoff($sessionId)) {
@@ -112,20 +112,20 @@ $oLogonXmlRpcService = new LogonXmlRpcService();
 $server = new XML_RPC_Server(
     [
         'logon' => [
-            'function' => [$oLogonXmlRpcService, 'logon'],
+            'function' => $oLogonXmlRpcService->logon(...),
             'signature' => [
-                ['string', 'string', 'string']
+                ['string', 'string', 'string'],
             ],
-            'docstring' => 'Logon method'
+            'docstring' => 'Logon method',
         ],
 
         'logoff' => [
-            'function' => [$oLogonXmlRpcService, 'logoff'],
+            'function' => $oLogonXmlRpcService->logoff(...),
             'signature' => [
-                ['bool', 'string']
+                ['bool', 'string'],
             ],
-            'docstring' => 'Logoff method'
+            'docstring' => 'Logoff method',
         ],
     ],
-    1  // serviceNow
+    1,  // serviceNow
 );

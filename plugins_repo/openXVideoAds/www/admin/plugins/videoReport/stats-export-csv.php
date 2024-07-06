@@ -7,7 +7,7 @@ foreach ($dataTable as $rowName => $row) {
 $toExport = array_merge(
     [ $columns ],
     $rows,
-    [ $summaryRow ]
+    [ $summaryRow ],
 );
 require_once "lib/Csv/Csv.php";
 $filename = 'stats-video-' . $startDate . '-' . $endDate . '.csv';

@@ -89,7 +89,7 @@ define('DEBUG_ONLY', true);
 /***************************************************************************/
 
 // Initialise the OpenX environment....
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../../init.php';
 
 // Required files
@@ -208,5 +208,3 @@ $oTestAndCorrect->issueTwo($oStartDate, $oEndDate);
 /***************************************************************************/
 
 echo "\n\nThe statisticsTestAndCorrect.php script has completed running!\n\n";
-
-?>

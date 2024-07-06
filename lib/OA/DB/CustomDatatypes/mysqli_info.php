@@ -38,7 +38,7 @@ $aDatatypes = [
     'openads_text' => 'openads_text',
     'openads_timestamp' => 'openads_timestamp',
     'openads_tinyint' => 'openads_tinyint',
-    'openads_varchar' => 'openads_varchar'
+    'openads_varchar' => 'openads_varchar',
 ];
 
 /**
@@ -62,5 +62,5 @@ $aNativetypes = [
     'text',
     'timestamp',
     'tinyint',
-    'varchar'
+    'varchar',
 ];

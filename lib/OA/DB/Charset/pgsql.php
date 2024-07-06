@@ -59,7 +59,7 @@ class OA_DB_Charset_pgsql extends OA_DB_Charset
         if (!empty($charset) && $this->oDbh) {
             $pg = $this->oDbh->getConnection();
             if (@pg_set_client_encoding($pg, $charset) == -1) {
-                return new PEAR_Error(pg_errormessage($pg));
+                return new PEAR_Error(pg_last_error($pg));
             }
         }
 

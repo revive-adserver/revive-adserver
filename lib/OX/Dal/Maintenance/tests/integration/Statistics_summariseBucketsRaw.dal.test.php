@@ -25,14 +25,6 @@ Language_Loader::load();
 class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the summariseBucketsRaw() method.
      */
     public function testSummariseBucketsRaw()
@@ -57,7 +49,7 @@ class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCas
                 7 => 'ip_address',
                 8 => 'action',
                 9 => 'window',
-                10 => 'status'
+                10 => 'status',
             ],
             'destination' => [
                 0 => 'server_raw_tracker_impression_id',
@@ -70,20 +62,20 @@ class Test_OA_Dal_Maintenance_Statistics_summariseBucketsRaw extends UnitTestCas
                 7 => 'tracker_ip_address',
                 8 => 'connection_action',
                 9 => 'connection_window',
-                10 => 'connection_status'
+                10 => 'connection_status',
             ],
             'extrasDestination' => [
                 11 => 'creative_id',
-                12 => 'inside_window'
+                12 => 'inside_window',
             ],
             'extrasValue' => [
                 11 => '0',
-                12 => '1'
-            ]
+                12 => '1',
+            ],
         ];
         $aDates = [
             'start' => new Date('2008-08-21 09:00:00'),
-            'end' => new Date('2008-08-21 09:59:59')
+            'end' => new Date('2008-08-21 09:59:59'),
         ];
 
         // Prepare the DAL object

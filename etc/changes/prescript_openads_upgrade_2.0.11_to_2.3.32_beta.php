@@ -17,10 +17,6 @@ class OA_UpgradePrescript_2_0_11
 {
     public $oUpgrade;
 
-    public function __construct()
-    {
-    }
-
     public function execute($aParams)
     {
         $this->oUpgrade = $aParams[0];
@@ -72,7 +68,7 @@ class OA_UpgradePrescript_2_0_11
                 OA_phpAdsNew::phpPgAdsPrefixedIndex('adviews_bid_date_idx', $prefix) => 'adviews_bannerid_date',
                 OA_phpAdsNew::phpPgAdsPrefixedIndex('adviews_date_idx', $prefix) => 'adviews_date',
                 OA_phpAdsNew::phpPgAdsPrefixedIndex('adviews_zoneid_idx', $prefix) => 'adviews_zoneid',
-                OA_phpAdsNew::phpPgAdsPrefixedIndex('zones_zonename_zoneid_idx', $prefix) => 'zones_zonenameid'
+                OA_phpAdsNew::phpPgAdsPrefixedIndex('zones_zonename_zoneid_idx', $prefix) => 'zones_zonenameid',
             ];
 
             foreach ($aIndexes as $oldIndex => $newIndex) {
@@ -89,7 +85,7 @@ class OA_UpgradePrescript_2_0_11
                 'week(timestamptz)',
                 'hour(timestamptz)',
                 'date_format(timestamptz, text)',
-                'if(bool, varchar, varchar)'
+                'if(bool, varchar, varchar)',
             ];
 
             foreach ($aFunctions as $function) {

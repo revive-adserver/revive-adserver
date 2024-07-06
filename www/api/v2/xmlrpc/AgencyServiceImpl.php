@@ -156,8 +156,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -188,8 +188,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -220,8 +220,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -252,8 +252,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -284,8 +284,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -316,8 +316,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -348,8 +348,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -371,7 +371,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllAgency->getAgency($agencyId, $oAgency)
+                $this->_dllAgency->getAgency($agencyId, $oAgency),
             );
         } else {
             return false;
@@ -392,7 +392,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllAgency->getAgencyList($aAgencyList)
+                $this->_dllAgency->getAgencyList($aAgencyList),
             );
         } else {
             return false;

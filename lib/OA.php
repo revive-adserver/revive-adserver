@@ -109,7 +109,7 @@ class OA
             $aConf['log']['paramsPassword'],
             'dsn' => $dsn,
             'mode' => octdec($aConf['log']['fileMode']),
-            'timeFormat' => '%b %d %H:%M:%S %z'
+            'timeFormat' => '%b %d %H:%M:%S %z',
         ];
         if (is_null($message) && $aConf['log']['type'] == 'file') {
             $aLoggerConf['lineFormat'] = '%4$s';
@@ -123,8 +123,8 @@ class OA
         }
         if ($ident == $aConf['log']['ident'] . '-delivery') {
             $logFile = $aConf['deliveryLog']['name'];
-            list($micro_seconds, $seconds) = explode(" ", microtime());
-            $message = (round(1000 * ((float)$micro_seconds + (float)$seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message;
+            [$micro_seconds, $seconds] = explode(" ", microtime());
+            $message = (round(1000 * ((float) $micro_seconds + (float) $seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message;
         } else {
             $logFile = $aConf['log']['name'];
         }
@@ -135,7 +135,7 @@ class OA
             $aConf['log']['type'],
             MAX_PATH . '/var/' . $logFile,
             $ident,
-            $aLoggerConf
+            $aLoggerConf,
         );
         // If log message is an error object, extract info
         if (PEAR::isError($message)) {
@@ -222,7 +222,7 @@ class OA
             $aConf['log']['type'],
             MAX_PATH . '/var/memory.log',
             $aConf['log']['ident'],
-            []
+            [],
         );
         $pid = getmypid();
         //$msg.= ' MEMORY USAGE (% KB PID ): ' . `ps --pid $pid --no-headers -o%mem,rss,pid`;

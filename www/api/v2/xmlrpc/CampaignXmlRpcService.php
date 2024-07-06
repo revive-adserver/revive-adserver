@@ -68,19 +68,19 @@ class CampaignXmlRpcService extends BaseCampaignService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oCampaignInfo,
                 $oParams,
                 1,
                 ['advertiserId', 'campaignName', 'startDate', 'endDate',
-                         'impressions', 'clicks', 'priority', 'weight',
-                         'targetImpressions', 'targetClicks', 'targetConversions',
-                         'revenue', 'revenueType',
-                         'capping', 'sessionCapping', 'block', 'comments',
-                         'viewWindow', 'clickWindow'],
-                $oResponseWithError
+                    'impressions', 'clicks', 'priority', 'weight',
+                    'targetImpressions', 'targetClicks', 'targetConversions',
+                    'revenue', 'revenueType',
+                    'capping', 'sessionCapping', 'block', 'comments',
+                    'viewWindow', 'clickWindow'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -112,19 +112,19 @@ class CampaignXmlRpcService extends BaseCampaignService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oCampaignInfo,
                 $oParams,
                 1,
                 ['advertiserId', 'campaignId', 'campaignName',
-                        'startDate', 'endDate', 'impressions', 'clicks',
-                        'priority', 'weight', 'targetImpressions', 'targetClicks',
-                        'targetConversions', 'revenue', 'revenueType',
-                        'capping', 'sessionCapping', 'block', 'comments',
-                        'viewWindow', 'clickWindow'],
-                $oResponseWithError
+                    'startDate', 'endDate', 'impressions', 'clicks',
+                    'priority', 'weight', 'targetImpressions', 'targetClicks',
+                    'targetConversions', 'revenue', 'revenueType',
+                    'capping', 'sessionCapping', 'block', 'comments',
+                    'viewWindow', 'clickWindow'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -153,7 +153,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -182,7 +182,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -194,14 +194,14 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                        'requests' => 'integer',
-                                                        'impressions' => 'integer',
-                                                        'clicks' => 'integer',
-                                                        'revenue' => 'float',
-                                                        ], $aData);
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
@@ -224,7 +224,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -236,15 +236,15 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                        'hour' => 'integer',
-                                                        'requests' => 'integer',
-                                                        'impressions' => 'integer',
-                                                        'clicks' => 'integer',
-                                                        'revenue' => 'float',
-                                                        ], $aData);
+                'hour' => 'integer',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
@@ -267,7 +267,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -279,17 +279,17 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['campaignId' => 'integer',
-                                                        'campaignName' => 'string',
-                                                        'bannerId' => 'integer',
-                                                        'bannerName' => 'string',
-                                                        'requests' => 'integer',
-                                                        'impressions' => 'integer',
-                                                        'clicks' => 'integer',
-                                                        'revenue' => 'float',
-                                                        ], $rsStatisticsData);
+                'campaignName' => 'string',
+                'bannerId' => 'integer',
+                'bannerName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
@@ -312,7 +312,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -324,16 +324,16 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
-                                                        'publisherName' => 'string',
-                                                        'requests' => 'integer',
-                                                        'impressions' => 'integer',
-                                                        'clicks' => 'integer',
-                                                        'revenue' => 'float',
-                                                        'conversions' => 'integer'
-                                                        ], $rsStatisticsData);
+                'publisherName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+                'conversions' => 'integer',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
@@ -356,7 +356,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -368,18 +368,18 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
-                                                        'publisherName' => 'string',
-                                                        'zoneId' => 'integer',
-                                                        'zoneName' => 'string',
-                                                        'requests' => 'integer',
-                                                        'impressions' => 'integer',
-                                                        'clicks' => 'integer',
-                                                        'revenue' => 'float',
-                                                        'conversions' => 'integer'
-                                                        ], $rsStatisticsData);
+                'publisherName' => 'string',
+                'zoneId' => 'integer',
+                'zoneName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+                'conversions' => 'integer',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
@@ -402,7 +402,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -411,7 +411,7 @@ class CampaignXmlRpcService extends BaseCampaignService
         if ($this->_oCampaignServiceImp->getCampaign(
             $sessionId,
             $campaignId,
-            $oCampaign
+            $oCampaign,
         )) {
             return XmlRpcUtils::getEntityResponse($oCampaign);
         } else {
@@ -436,7 +436,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$advertiserId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -445,7 +445,7 @@ class CampaignXmlRpcService extends BaseCampaignService
         if ($this->_oCampaignServiceImp->getCampaignListByAdvertiserId(
             $sessionId,
             $advertiserId,
-            $aCampaignList
+            $aCampaignList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aCampaignList);
         } else {
@@ -467,7 +467,7 @@ class CampaignXmlRpcService extends BaseCampaignService
             [&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -479,19 +479,19 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(
                 ['campaignID' => 'integer',
-                'trackerID' => 'integer',
-                'bannerID' => 'integer',
-                'conversionTime' => 'date',
-                'conversionStatus' => 'integer',
-                'userIp' => 'string',
-                'action' => 'integer',
-                'window' => 'integer',
-                'variables' => 'struct'],
-                $rsStatisticsData
+                    'trackerID' => 'integer',
+                    'bannerID' => 'integer',
+                    'conversionTime' => 'date',
+                    'conversionStatus' => 'integer',
+                    'userIp' => 'string',
+                    'action' => 'integer',
+                    'window' => 'integer',
+                    'variables' => 'struct'],
+                $rsStatisticsData,
             );
         } else {
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());

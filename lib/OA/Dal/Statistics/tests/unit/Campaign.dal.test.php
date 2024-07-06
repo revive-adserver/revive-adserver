@@ -30,14 +30,6 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
      */
     public $_dalCampaignStatistics;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_dalCampaignStatistics = new OA_Dal_Statistics_Campaign();
@@ -89,7 +81,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
             $doCampaign->campaignid,
             new Date('2007-08-01'),
-            new Date('2007-08-20')
+            new Date('2007-08-20'),
         );
 
         $this->assertEqual(count($aData), 2, '2 records should be returned');
@@ -117,7 +109,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
             $doCampaign->campaignid,
             new Date('2007-01-01'),
-            new Date('2007-01-20')
+            new Date('2007-01-20'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -172,7 +164,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalCampaignStatistics->getCampaignHourlyStatistics(
             $doCampaign->campaignid,
             new Date('2007-08-01'),
-            new Date('2007-08-20')
+            new Date('2007-08-20'),
         );
 
         var_export($aData);
@@ -205,7 +197,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalCampaignStatistics->getCampaignHourlyStatistics(
             $doCampaign->campaignid,
             new Date('2007-01-01'),
-            new Date('2007-01-20')
+            new Date('2007-01-20'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -257,13 +249,13 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignBannerStatistics(
             $doCampaign->campaignid,
             new Date('2006-07-07'),
-            new Date('2007-09-12')
+            new Date('2007-09-12'),
         );
 
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsCampaignStatistics->fetch();
@@ -302,13 +294,13 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignBannerStatistics(
             $doCampaign->campaignid,
             new Date('2001-07-07'),
-            new Date('2001-09-12')
+            new Date('2001-09-12'),
         );
 
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -369,13 +361,13 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
             $doCampaign->campaignid,
             new Date('1984-01-01'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsCampaignStatistics->fetch();
@@ -410,25 +402,25 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
             $doCampaign->campaignid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
 
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get 1 row
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
             $doCampaign->campaignid,
             new Date('1986-01-01'),
-            new Date('1986-04-09')
+            new Date('1986-04-09'),
         );
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 1,
-            '1 records should be returned'
+            '1 records should be returned',
         );
     }
 
@@ -486,13 +478,13 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(
             $doCampaign->campaignid,
             new Date('1984-01-01'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsCampaignStatistics->fetch();
@@ -530,25 +522,25 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(
             $doCampaign->campaignid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
 
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get 1 row
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(
             $doCampaign->campaignid,
             new Date('1986-01-01'),
-            new Date('1986-04-09')
+            new Date('1986-04-09'),
         );
         $rsCampaignStatistics->find();
         $this->assertTrue(
             $rsCampaignStatistics->getRowCount() == 1,
-            '1 records should be returned'
+            '1 records should be returned',
         );
     }
 

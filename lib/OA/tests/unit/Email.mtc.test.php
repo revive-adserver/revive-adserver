@@ -32,14 +32,6 @@ class Test_OA_Email extends UnitTestCase
      */
     public $http;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         // Store the current value of $GLOBALS['_MAX']['HTTP']
@@ -75,7 +67,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             $mockName,
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new $mockName();
@@ -458,7 +450,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             $mockName,
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new $mockName();
@@ -648,7 +640,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             $mockName,
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new $mockName();
@@ -1315,7 +1307,7 @@ class Test_OA_Email extends UnitTestCase
         Mock::generatePartial(
             'OA_Email',
             'PartialMockOA_Email',
-            ['sendMail']
+            ['sendMail'],
         );
 
         $oEmail = new PartialMockOA_Email();
@@ -1604,5 +1596,18 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($oStartDate->format('%Y-%m-%d %H:%M:%S'), '2009-01-01 00:00:00');
         $this->assertEqual($oEndDate->format('%Y-%m-%d %H:%M:%S'), '2009-01-06 23:59:59');
         $this->assertEqual($oEndDate->tz, $oTimezone);
+    }
+
+    public function testQuoteHeaderText(): void
+    {
+        $this->assertEqual(OA_Email::quoteHeaderText('foo'), 'foo');
+
+        $GLOBALS['phpAds_CharSet'] = null;
+
+        $this->assertEqual(OA_Email::quoteHeaderText('foò'), 'foò');
+
+        $GLOBALS['phpAds_CharSet'] = 'utf-8';
+
+        $this->assertEqual(OA_Email::quoteHeaderText('foò'), '=?utf-8?Q?fo=C3=B2?=');
     }
 }

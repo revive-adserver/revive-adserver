@@ -10,14 +10,14 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:34
+msgid "Generic HTML Banner"
+msgstr "Generic HTML Banner"
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:39
 msgid "HTML5 Banner (ZIP package)"
 msgstr "HTML5 Banner (ZIP package)"
 
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:55
 msgid "Upload an HTML5 banner"
 msgstr "Upload an HTML5 banner"
-
-#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
-msgid "Generic HTML Banner"
-msgstr "Generic HTML Banner"

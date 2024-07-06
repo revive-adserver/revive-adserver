@@ -120,7 +120,10 @@ class OA_Admin_PasswordRecovery
     {
         OA_Permission::checkSessionToken();
 
+        // Use output buffering as we could end up redirecting
+        ob_start();
         $this->pageHeader();
+
         if (empty($vars['id'])) {
             if (empty($vars['email'])) {
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
@@ -145,6 +148,8 @@ class OA_Admin_PasswordRecovery
         } else {
             $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongExpired']);
         }
+
+        ob_end_flush();
         $this->pageFooter();
     }
 
@@ -264,7 +269,7 @@ class OA_Admin_PasswordRecovery
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strPwdRecEmailPwdRecovery',
-            'strPwdRecEmailBody'
+            'strPwdRecEmailBody',
         );
 
         return $sent;
@@ -282,7 +287,7 @@ class OA_Admin_PasswordRecovery
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strWelcomeEmailSubject',
-            'strWelcomeEmailBody'
+            'strWelcomeEmailBody',
         );
 
         return $sent;
@@ -300,7 +305,7 @@ class OA_Admin_PasswordRecovery
         $sent = $this->sendEmailToUsers(
             $aUsers,
             'strPasswordUpdateEmailSubject',
-            'strPasswordUpdateEmailBody'
+            'strPasswordUpdateEmailBody',
         );
 
         return $sent;

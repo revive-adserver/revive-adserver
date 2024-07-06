@@ -22,9 +22,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_DB_Table extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -36,7 +33,7 @@ class Test_OA_DB_Table extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table',
             'PartialMockOA_DB_Table',
-            ['_getDbConnection']
+            ['_getDbConnection'],
         );
     }
 
@@ -465,14 +462,14 @@ class Test_OA_DB_Table extends UnitTestCase
     public function test_resetAllSequences()
     {
         $oDbh = OA_DB::singleton();
-//        if ($oDbh->dbsyntax == 'pgsql')
-//        {
-//            $sequence = 'test_table1_test_id1_seq';
-//        }
-//        else if ($oDbh->dbsyntax == 'mysql')
-//        {
-//            $sequence = 'test_table1';
-//        }
+        //        if ($oDbh->dbsyntax == 'pgsql')
+        //        {
+        //            $sequence = 'test_table1_test_id1_seq';
+        //        }
+        //        else if ($oDbh->dbsyntax == 'mysql')
+        //        {
+        //            $sequence = 'test_table1';
+        //        }
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $oTable = new OA_DB_Table();

@@ -52,7 +52,7 @@ class OA_Cache
             'cacheDir' => $cacheDir,
             'lifeTime' => $lifeTime,
             'readControlType' => 'md5',
-            'automaticSerialization' => true
+            'automaticSerialization' => true,
             //'dontCacheWhenTheResultIsFalse' => true, - this property does not exist
         ]);
 

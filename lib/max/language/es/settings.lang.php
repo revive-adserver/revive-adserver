@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Continuar »";
 $GLOBALS['strBtnRecover'] = "Recuperar »";
 $GLOBALS['strBtnAgree'] = "Acepto »";
 $GLOBALS['strBtnRetry'] = "Reintentar";
-$GLOBALS['strWarningRegisterArgcArv'] = "La variable de configuración de PHP register_argc_argv necesita estar activa para ejecutar el mantenimiento desde la línea de comandos.";
 $GLOBALS['strTablesPrefix'] = "Prefijo del nombre de las tablas";
 $GLOBALS['strTablesType'] = "Tipo de tablas";
 

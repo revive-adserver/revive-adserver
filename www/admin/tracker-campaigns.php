@@ -26,7 +26,7 @@ phpAds_registerGlobal(
     'campaignids',
     'hideinactive',
     'statusids',
-    'submit'
+    'submit',
 );
 
 // Security check
@@ -65,7 +65,7 @@ if (!empty($trackerid)) {
         $doCampaign_trackers->delete();
 
         if (isset($campaignids) && is_array($campaignids)) {
-            for ($i = 0; $i < sizeof($campaignids); $i++) {
+            for ($i = 0; $i < count($campaignids); $i++) {
                 $clickwindow = $clickwindowday[$i] * (24 * 60 * 60) + $clickwindowhour[$i] * (60 * 60) + $clickwindowminute[$i] * (60) + $clickwindowsecond[$i];
                 $viewwindow = $viewwindowday[$i] * (24 * 60 * 60) + $viewwindowhour[$i] * (60 * 60) + $viewwindowminute[$i] * (60) + $viewwindowsecond[$i];
 
@@ -88,7 +88,7 @@ if (!empty($trackerid)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strTrackerCampaignsHaveBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $clientid . "&trackerid=" . $trackerid),
-            htmlspecialchars($doTrackers->trackername)
+            htmlspecialchars($doTrackers->trackername),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -154,7 +154,7 @@ $checkedall = true;
 $campaignshidden = 0;
 
 $defaults = [
-    'status' => MAX_CONNECTION_STATUS_PENDING
+    'status' => MAX_CONNECTION_STATUS_PENDING,
 ];
 
 if (!empty($trackerid)) {

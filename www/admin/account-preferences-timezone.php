@@ -59,7 +59,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translatedMessage = $translation->translate(
             $GLOBALS['strXPreferencesHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translatedMessage, 'local', 'confirm', 2000);
         // Also display warning after 2 seconds
@@ -110,10 +110,10 @@ $aSettings = [
                 'name' => 'timezone',
                 'text' => $strTimezoneToDisplay,
                 'items' => $aTimezones,
-                'value' => $strTimezoneToDisplay
-            ]
-        ]
-    ]
+                'value' => $strTimezoneToDisplay,
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

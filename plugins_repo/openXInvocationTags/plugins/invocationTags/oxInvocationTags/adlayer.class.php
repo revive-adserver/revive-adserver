@@ -117,7 +117,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
   *"),
-            ];
+        ];
         if (isset($GLOBALS['layerstyle']) &&
             ($GLOBALS['layerstyle'] == 'geocities' || $GLOBALS['layerstyle'] == 'simple')) {
             $aComments['Comment'] = $this->translate(
@@ -127,7 +127,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * /www/images/layerstyles/%s/...
   * To be accessible via: http(s)://%s/layerstyles/%s/...
   *------------------------------------------------------------*",
-                [$GLOBALS['layerstyle'], $conf['webpath']['images'], $GLOBALS['layerstyle']]
+                [$GLOBALS['layerstyle'], $conf['webpath']['images'], $GLOBALS['layerstyle']],
             );
         } else {
             $aComments['Comment'] = '';
@@ -171,7 +171,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
      */
     public function factoryLayer($style = PLUGINS_INVOCATIONS_TAGS_ADLAYER_DEFAULT_LAYERSTYLE, $type = 'invocation')
     {
-        $fileName = dirname(__FILE__) . "/layerstyles/{$style}/{$type}.inc.php";
+        $fileName = __DIR__ . "/layerstyles/{$style}/{$type}.inc.php";
 
         if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the {$fileName} file");
@@ -208,20 +208,18 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         $option = '';
         $layerstyles = [];
 
-        $layerStylesFolder = dirname(__FILE__) . '/layerstyles';
+        $layerStylesFolder = __DIR__ . '/layerstyles';
 
         $stylesdir = opendir($layerStylesFolder);
         while ($stylefile = readdir($stylesdir)) {
             if (is_dir($layerStylesFolder . '/' . $stylefile) &&
                 file_exists($layerStylesFolder . '/' . $stylefile . '/invocation.inc.php')) {
                 if (preg_match('/^[^.]/D', $stylefile)) {
-                    $layerstyles[$stylefile] = isset($GLOBALS['strAdLayerStyleName'][$stylefile]) ?
-                        $GLOBALS['strAdLayerStyleName'][$stylefile] :
-                        str_replace(
-                            "- ",
-                            "-",
-                            ucwords(str_replace("-", "- ", $stylefile))
-                        );
+                    $layerstyles[$stylefile] = $GLOBALS['strAdLayerStyleName'][$stylefile] ?? str_replace(
+                        "- ",
+                        "-",
+                        ucwords(str_replace("-", "- ", $stylefile)),
+                    );
                 }
             }
         }

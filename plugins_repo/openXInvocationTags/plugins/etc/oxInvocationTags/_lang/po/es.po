@@ -18,49 +18,29 @@ msgstr ""
 msgid "iFrame Tag"
 msgstr "Etiqueta iFrame"
 
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
+msgid "Javascript Tag"
+msgstr "Tag de Javascript"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:44
+msgid "Interstitial or Floating DHTML Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:229
+msgid "Style"
+msgstr "Estilo"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:35
+msgid "Image Tag"
+msgstr "Tag de Imagen"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
+msgid "No Cookie Image Tag"
+msgstr ""
+
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:48
 msgid "Asynchronous JS Tag"
 msgstr "Etiqueta JS asincrónica"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
-msgid "Popup Tag"
-msgstr "Etiqueta de Popup"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:47
-msgid "[Close]"
-msgstr "[Cerrar]"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:57
-msgid "Alignment"
-msgstr "Alineación"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:59
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:84
-msgid "Left"
-msgstr "Izquierda"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:85
-msgid "Center"
-msgstr "Centro"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:61
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:86
-msgid "Right"
-msgstr "Derecha"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:67
-msgid "Close text"
-msgstr "Cerrar texto"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:72
-msgid "Automatically collapse after"
-msgstr "Colapsar automáticamente despues de"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:77
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:119
-msgid "Banner padding"
-msgstr "Padding del banner"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:66
 msgid "Smooth movement"
@@ -139,6 +119,42 @@ msgstr "Fondo trasparente"
 msgid "Background color"
 msgstr "Color de fondo"
 
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:47
+msgid "[Close]"
+msgstr "[Cerrar]"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:57
+msgid "Alignment"
+msgstr "Alineación"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:59
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:84
+msgid "Left"
+msgstr "Izquierda"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:85
+msgid "Center"
+msgstr "Centro"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:61
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:86
+msgid "Right"
+msgstr "Derecha"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:67
+msgid "Close text"
+msgstr "Cerrar texto"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:72
+msgid "Automatically collapse after"
+msgstr "Colapsar automáticamente despues de"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:77
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:119
+msgid "Banner padding"
+msgstr "Padding del banner"
+
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:82
 msgid "Horizontal alignment"
 msgstr "Alineación horizontal"
@@ -171,31 +187,15 @@ msgstr "Cerrar automáticamente despues de"
 msgid "Border color"
 msgstr "Color de borde"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
-msgid "No Cookie Image Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
-msgid "XML-RPC Tag"
-msgstr "Etiqueta XML-RPC"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:35
-msgid "Image Tag"
-msgstr "Tag de Imagen"
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
 msgid "Local Mode Tag"
 msgstr "Etiqueta de Modo Local"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
-msgid "Javascript Tag"
-msgstr "Tag de Javascript"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
+msgid "Popup Tag"
+msgstr "Etiqueta de Popup"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:44
-msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:231
-msgid "Style"
-msgstr "Estilo"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
+msgid "XML-RPC Tag"
+msgstr "Etiqueta XML-RPC"
 

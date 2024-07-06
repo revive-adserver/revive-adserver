@@ -82,7 +82,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
             ["$table.priority >= 1", 'AND'],
             ["$table.status = " . OA_ENTITY_STATUS_RUNNING, 'AND'],
             ["$table.expire_time >= '$dateYMD'", 'AND'],
-            ["($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND']
+            ["($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND'],
         ];
         return $this->_getAllCampaigns($aWheres);
     }

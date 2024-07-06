@@ -60,7 +60,7 @@ function Plugin_BannerTypeHTML_vastBannerTypeHtml_vastHtml_Delivery_postAdRender
 }
 
 
-function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc, $referer)
+function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_adRender(&$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
     return deliverVastAd('vastInline', $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
@@ -69,7 +69,6 @@ function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_
 
 
 if (!empty($format) && $format == 'vast') {
-
     // ----------------- MARK start of cut-and-paste from spc.php ---------------
     require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
     require_once MAX_PATH . '/lib/max/Delivery/flash.php';
@@ -97,7 +96,7 @@ if (!empty($format) && $format == 'vast') {
         }
         // nz is set when "named zones" are being used, this allows a zone to be selected more than once
         if (!empty($nz)) {
-            @list($zonename, $thisZoneid) = explode('=', $thisZone);
+            @[$zonename, $thisZoneid] = explode('=', $thisZone);
             $varname = $zonename;
         } else {
             $thisZoneid = $varname = $thisZone;
@@ -128,7 +127,7 @@ if (!empty($format) && $format == 'vast') {
                      ($output['width'] != VAST_OVERLAY_DIMENSIONS) &&
                      ($output['width'] != VAST_INLINE_DIMENSIONS)
                  )
-               ) {
+            ) {
                 $badZoneId = $output['aRow']['zoneid'];
                 $badBannerId = $output['bannerid'];
                 // Store the html2js'd output for this ad

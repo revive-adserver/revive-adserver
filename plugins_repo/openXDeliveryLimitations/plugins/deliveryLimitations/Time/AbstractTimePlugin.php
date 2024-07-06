@@ -31,16 +31,15 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  */
-class Plugins_DeliveryLimitations_AbstractTimePlugin extends Plugins_DeliveryLimitations_CommaSeparatedData
+abstract class Plugins_DeliveryLimitations_AbstractTimePlugin extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
     /**
      * Initializes the object with range $min - $max.
      *
      * @param int $min
      * @param int $max
-     * @return Plugins_DeliveryLimitations_Time_Base
      */
-    public function Plugins_DeliveryLimitations_Time_Base($min, $max)
+    public function __construct($min, $max)
     {
         parent::__construct();
         $this->setAValues(range($min, $max));

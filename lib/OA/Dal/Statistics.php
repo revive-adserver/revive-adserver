@@ -176,7 +176,7 @@ class OA_Dal_Statistics extends OA_Dal
             }
 
             // Add entry
-            $aResult [ sizeof($aResult) ] = $aRow;
+            $aResult [ count($aResult) ] = $aRow;
         }
 
         return array_values($aResult);
@@ -197,7 +197,7 @@ class OA_Dal_Statistics extends OA_Dal
 
         return $this->oDbh->quoteIdentifier(
             $aConf['table']['prefix'] . $aConf['table'][$tableName],
-            true
+            true,
         );
     }
 }

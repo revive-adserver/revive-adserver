@@ -37,7 +37,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
             '>' => $GLOBALS['strLaterThan'],
             '>=' => $GLOBALS['strLaterThanOrEqual'],
             '<' => $GLOBALS['strEarlierThan'],
-            '<=' => $GLOBALS['strEarlierThanOrEqual']
+            '<=' => $GLOBALS['strEarlierThanOrEqual'],
         ];
 
         $this->nameEnglish = 'Time - Date';
@@ -181,7 +181,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
         }
         $parts = explode('@', $data);
         $data = $parts[0];
-        $tz = isset($parts[1]) ? $parts[1] : 'UTC';
+        $tz = $parts[1] ?? 'UTC';
         if ($data == '00000000' || empty($data)) {
             $data = [
                 'day' => 0,

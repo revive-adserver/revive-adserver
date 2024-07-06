@@ -23,21 +23,17 @@ class Test_DeliveryCommon extends UnitTestCase
     /** @var int */
     public $original_server_port;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;
         $GLOBALS['_MAX']['CONF']['webpath']['delivery'] = 'www.maxstore.net/www/delivery';
         $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] = 'secure.maxstore.net/www/delivery';
+        $GLOBALS['_MAX']['CONF']['webpath']['images'] = 'www.maxstore.net/www/images';
+        $GLOBALS['_MAX']['CONF']['webpath']['imagesSSL'] = 'secure.maxstore.net/www/images';
 
         $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode(hash('sha256', 'revive-adserver'));
+
+        unset($GLOBALS['_HEADERS']);
     }
 
     public function tearDown()
@@ -152,8 +148,8 @@ class Test_DeliveryCommon extends UnitTestCase
         $strRe0 = "Mr O'Reilly";
         $strRe1 = "'Mr Reilly'";
         $aIn = [0 => $strIn0,
-                        1 => [0 => $strIn1],
-                        ];
+            1 => [0 => $strIn1],
+        ];
         MAX_commonRemoveSpecialChars($aIn);
         $prn = var_export($aIn[1][0], true);
 
@@ -451,5 +447,28 @@ class Test_DeliveryCommon extends UnitTestCase
 
         // Cleanup
         unset($GLOBALS['_MAX']['NOW']);
+    }
+
+    public function test_OX_Delivery_Common_sendPreconnectHeaders()
+    {
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+
+        $GLOBALS['_MAX']['SSL_REQUEST'] = false;
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertTrue(empty($GLOBALS['_HEADERS']));
+
+        $GLOBALS['_MAX']['SSL_REQUEST'] = true;
+        $this->assertEqual(
+            explode('/', $aConf['webpath']['imagesSSL'])[0],
+            explode('/', $aConf['webpath']['deliverySSL'])[0],
+        );
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertTrue(empty($GLOBALS['_HEADERS']));
+
+        $aConf['webpath']['imagesSSL'] = 'cdn.example.com';
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertEqual($GLOBALS['_HEADERS'], [
+            'Link: cdn.example.com; rel=preconnect',
+        ]);
     }
 }

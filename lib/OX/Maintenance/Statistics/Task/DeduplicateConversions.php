@@ -22,7 +22,6 @@ require_once OX_PATH . '/lib/OX.php';
  * conversions that have empty variable values (where a variable value
  * is set to be required).
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Statistics
  */
@@ -45,7 +44,6 @@ class OX_Maintenance_Statistics_Task_DeDuplicateConversions extends OX_Maintenan
     public function run()
     {
         if ($this->oController->updateIntermediate) {
-
             // Preapre the start date for the de-duplication/rejection
             $oStartDate = new Date();
             $oStartDate->copy($this->oController->oLastDateIntermediate);

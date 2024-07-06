@@ -25,14 +25,6 @@ Language_Loader::load();
 class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the summariseBucketsAggregate() method.
      */
     public function testSummariseBucketsAggregate()
@@ -50,22 +42,22 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
                 'groupSource' => [
                     0 => 'interval_start',
                     1 => 'creative_id',
-                    2 => 'zone_id'
+                    2 => 'zone_id',
                 ],
                 'groupDestination' => [
                     0 => 'date_time',
                     1 => 'ad_id',
-                    2 => 'zone_id'
+                    2 => 'zone_id',
                 ],
                 'sumSource' => [
-                    0 => 'count'
+                    0 => 'count',
                 ],
                 'sumDestination' => [
-                    0 => 'requests'
+                    0 => 'requests',
                 ],
                 'sumDefault' => [
-                    0 => 0
-                ]
+                    0 => 0,
+                ],
             ],
             1 => [
                 'method' => 'aggregate',
@@ -74,22 +66,22 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
                 'groupSource' => [
                     0 => 'interval_start',
                     1 => 'creative_id',
-                    2 => 'zone_id'
+                    2 => 'zone_id',
                 ],
                 'groupDestination' => [
                     0 => 'date_time',
                     1 => 'ad_id',
-                    2 => 'zone_id'
+                    2 => 'zone_id',
                 ],
                 'sumSource' => [
-                    0 => 'count'
+                    0 => 'count',
                 ],
                 'sumDestination' => [
-                    0 => 'impressions'
+                    0 => 'impressions',
                 ],
                 'sumDefault' => [
-                    0 => 0
-                ]
+                    0 => 0,
+                ],
             ],
             2 => [
                 'method' => 'aggregate',
@@ -98,27 +90,27 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
                 'groupSource' => [
                     0 => 'interval_start',
                     1 => 'creative_id',
-                    2 => 'zone_id'
+                    2 => 'zone_id',
                 ],
                 'groupDestination' => [
                     0 => 'date_time',
                     1 => 'ad_id',
-                    2 => 'zone_id'
+                    2 => 'zone_id',
                 ],
                 'sumSource' => [
-                    0 => 'count'
+                    0 => 'count',
                 ],
                 'sumDestination' => [
-                    0 => 'clicks'
+                    0 => 'clicks',
                 ],
                 'sumDefault' => [
-                    0 => 0
-                ]
-            ]
+                    0 => 0,
+                ],
+            ],
         ];
         $aDates = [
             'start' => new Date('2008-08-21 09:00:00'),
-            'end' => new Date('2008-08-21 09:59:59')
+            'end' => new Date('2008-08-21 09:59:59'),
         ];
 
         // Prepare the DAL object

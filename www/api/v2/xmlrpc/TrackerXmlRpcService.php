@@ -37,7 +37,7 @@ class TrackerXmlRpcService extends BaseTrackerService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oTrackerInfo,
@@ -45,7 +45,7 @@ class TrackerXmlRpcService extends BaseTrackerService
                 1,
                 ['clientId', 'trackerName', 'description', 'status',
                     'type', 'linkCampaigns', 'variableMethod'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -74,7 +74,7 @@ class TrackerXmlRpcService extends BaseTrackerService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oTrackerInfo,
@@ -82,7 +82,7 @@ class TrackerXmlRpcService extends BaseTrackerService
                 1,
                 ['trackerId', 'trackerName', 'description', 'status',
                     'type', 'linkCampaigns', 'variableMethod'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -110,7 +110,7 @@ class TrackerXmlRpcService extends BaseTrackerService
             [&$sessionId, &$trackerId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -138,7 +138,7 @@ class TrackerXmlRpcService extends BaseTrackerService
             [&$sessionId, &$trackerId, &$campaignId, &$status],
             [true, true, true, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -160,7 +160,7 @@ class TrackerXmlRpcService extends BaseTrackerService
             [&$sessionId, &$trackerId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -168,7 +168,7 @@ class TrackerXmlRpcService extends BaseTrackerService
         if ($this->oTrackerServiceImpl->getTracker(
             $sessionId,
             $trackerId,
-            $oTrackerInfo
+            $oTrackerInfo,
         )) {
             return XmlRpcUtils::getEntityResponse($oTrackerInfo);
         } else {

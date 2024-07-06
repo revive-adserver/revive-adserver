@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
 class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
 {
@@ -66,11 +65,11 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
                 'uploadName' => 'html5zip',
                 'radioName' => 'rhtml5zip',
                 'imageName' => _getContentTypeIconImageName('html'),
-                'fileName' => isset($row['html5_name']) ? $row['html5_name'] : '',
+                'fileName' => $row['html5_name'] ?? '',
                 'fileSize' => isset($row['html5_size']) ? _getPrettySize($row['html5_size']) : '',
                 'newLabel' => $GLOBALS['strNewBannerFile'],
                 'updateLabel' => $GLOBALS['strUploadOrKeep'],
-            ]
+            ],
         );
 
         $form->addElement('header', 'header_b_links', "Banner link");
@@ -97,7 +96,7 @@ class Plugins_BannerTypeHTML_oxHtml_html5 extends Plugins_BannerTypeHTML
             'height' => [$numericRule],
         ]);
 
-        $form->addFormRule([$this, 'checkNewUploadedFile']);
+        $form->addFormRule($this->checkNewUploadedFile(...));
     }
 
     /**

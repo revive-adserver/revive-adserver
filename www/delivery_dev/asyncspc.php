@@ -59,9 +59,9 @@ if (!empty($zones)) {
 
         $spc_output[$zonename] = [
             'html' => $output['html'],
-            'width' => isset($output['width']) ? $output['width'] : 0,
-            'height' => isset($output['height']) ? $output['height'] : 0,
-            'iframeFriendly' => isset($output['iframeFriendly']) ? $output['iframeFriendly'] : false,
+            'width' => $output['width'] ?? 0,
+            'height' => $output['height'] ?? 0,
+            'iframeFriendly' => $output['iframeFriendly'] ?? false,
         ];
 
         // Block this banner for next invocation

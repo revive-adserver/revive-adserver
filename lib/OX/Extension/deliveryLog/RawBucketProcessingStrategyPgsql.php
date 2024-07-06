@@ -67,17 +67,17 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
             $i = 0;
             while ($rsData->fetch()) {
                 $aRow = $rsData->toArray();
-                $sRow = '(' . join(',', array_map([&$oMainDbh, 'quote'], $aRow)) . ')';
+                $sRow = '(' . implode(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
 
                 if (!$i) {
-                    $sInsert = "INSERT INTO {$sTableName} (" . join(',', array_keys($aRow)) . ") VALUES ";
+                    $sInsert = "INSERT INTO {$sTableName} (" . implode(',', array_keys($aRow)) . ") VALUES ";
                     $query = '';
                     $aExecQueries = [];
                 }
 
                 if (!$query) {
                     $query = $sInsert . $sRow;
-                // Leave 4 bytes headroom for max_allowed_packet
+                    // Leave 4 bytes headroom for max_allowed_packet
                 } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
                     $query .= ',' . $sRow;
                 } else {
@@ -90,7 +90,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
                     $query = '';
                 }
 
-                if (count($aExecQueries)) {
+                if ($aExecQueries !== []) {
                     foreach ($aExecQueries as $execQuery) {
                         $result = $oMainDbh->exec($execQuery);
                         if (PEAR::isError($result)) {

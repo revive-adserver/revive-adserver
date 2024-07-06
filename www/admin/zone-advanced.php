@@ -36,7 +36,7 @@ phpAds_registerGlobal(
     'appendtype',
     'chaintype',
     'chainzone',
-    'prepend'
+    'prepend',
 );
 
 
@@ -88,7 +88,7 @@ if ($zoneForm->validate()) {
     //process submitted values
     processForm($aZone, $zoneForm, $oComponent);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($aZone, $zoneForm);
+    displayZoneAdvancedPage($aZone, $zoneForm);
 }
 
 /*-------------------------------------------------------*/
@@ -126,6 +126,10 @@ function buildZoneForm($aZone, $oComponent = null)
 
 function buildChainSettingsFormSection($form, $aZone)
 {
+    if ($aZone['delivery'] == MAX_ZoneEmail) {
+        return;
+    }
+
     $form->addElement('header', 'header_chain', $GLOBALS['strChainSettings']);
 
     $chainGroup[] = $form->createElement(
@@ -134,7 +138,7 @@ function buildChainSettingsFormSection($form, $aZone)
         null,
         $GLOBALS['strZoneStopDelivery'],
         0,
-        ['id' => 'chaintype-s']
+        ['id' => 'chaintype-s'],
     );
     $chainGroup[] = $form->createElement(
         'radio',
@@ -142,17 +146,17 @@ function buildChainSettingsFormSection($form, $aZone)
         null,
         $GLOBALS['strZoneOtherZone'],
         1,
-        ['id' => 'chaintype-z']
+        ['id' => 'chaintype-z'],
     );
     $chainGroup[] = $form->createElement(
         'select',
         'chainzone',
         _getChainZonesImage($aZone),
         _getChainZones($aZone),
-        ['id' => 'chainzone', 'class' => 'medium']
+        ['id' => 'chainzone', 'class' => 'medium'],
     );
     $form->addDecorator('chainzone', 'tag', ['attributes' => ['id' => 'chain-zone-select',
-            'class' => $aZone['chain'] == '' ? 'hide' : '']]);
+        'class' => $aZone['chain'] == '' ? 'hide' : '']]);
 
     $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], ["<BR>", '', '']);
 }
@@ -171,7 +175,7 @@ function buildAppendFormSection($form, $aZone)
             null,
             $GLOBALS['strZoneAppendNoBanner'],
             null,
-            ["f", "t"]
+            ["f", "t"],
         );
     }
 
@@ -180,13 +184,13 @@ function buildAppendFormSection($form, $aZone)
             'textarea',
             'prepend',
             $GLOBALS['strZonePrependHTML'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
         $form->addElement(
             'textarea',
             'append',
             $GLOBALS['strZoneAppend'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
     } elseif ($aZone['delivery'] == phpAds_ZoneText) {
         // It isn't possible to append other banners to text zones, but
@@ -196,14 +200,14 @@ function buildAppendFormSection($form, $aZone)
             'textarea',
             'prepend',
             $GLOBALS['strZonePrependHTML'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
 
         $form->addElement(
             'textarea',
             'append',
             $GLOBALS['strZoneAppend'],
-            ['class' => 'code x-large']
+            ['class' => 'code x-large'],
         );
     }
 }
@@ -248,7 +252,7 @@ function processForm($aZone, $form, $oComponent = null)
     $doZones->get($aFields['zoneid']);
 
     // Determine chain
-    if ($aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
+    if ($doZones->delivery != MAX_ZoneEmail && $aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
         $chain = 'zone:' . $aFields['chainzone'];
     } else {
         $chain = '';
@@ -299,7 +303,7 @@ function processForm($aZone, $form, $oComponent = null)
     $translation = new OX_Translation();
     $translated_message = $translation->translate($GLOBALS['strZoneAdvancedHasBeenUpdated'], [
         MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $aFields['affiliateid'] . '&zoneid=' . $aFields['zoneid']),
-        htmlspecialchars($doZones->zonename)
+        htmlspecialchars($doZones->zonename),
     ]);
     OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -315,7 +319,7 @@ function processForm($aZone, $form, $oComponent = null)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($aZone, $form)
+function displayZoneAdvancedPage($aZone, $form)
 {
     $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();
@@ -374,29 +378,13 @@ function _getChainZones($aZone)
 
 function _getChainZonesImage($aZone)
 {
-    switch ($aZone['delivery']) {
-        case phpAds_ZoneBanner: {
-            $imageName = '/images/icon-zone.gif';
-            break;
-        }
-
-        case phpAds_ZoneInterstitial: {
-            $imageName = '/images/icon-interstitial.gif';
-            break;
-        }
-
-        case phpAds_ZonePopup: {
-            $imageName = '/images/icon-popup.gif';
-            break;
-        }
-
-        case phpAds_ZoneText: {
-            $imageName = '/images/icon-textzone.gif';
-            break;
-        }
-
-        default: $imageName = '';
-    }
+    $imageName = match ($aZone['delivery']) {
+        phpAds_ZoneBanner => '/images/icon-zone.gif',
+        phpAds_ZoneInterstitial => '/images/icon-interstitial.gif',
+        phpAds_ZonePopup => '/images/icon-popup.gif',
+        phpAds_ZoneText => '/images/icon-textzone.gif',
+        default => '',
+    };
 
     if ($imageName) {
         $image = "<img src='" . OX::assetPath() . "$imageName' align='absmiddle'>";

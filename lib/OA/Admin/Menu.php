@@ -21,9 +21,9 @@ require_once(MAX_PATH . '/lib/OA/Admin/Menu/Section.php');
  */
 class OA_Admin_Menu
 {
-    public $ROOT_SECTION_ID;
+    public $ROOT_SECTION_ID = 'root';
     public $rootSection;
-    public $aAllSections;
+    public $aAllSections = [];
     public $aLinkParams;
 
     /**
@@ -35,9 +35,7 @@ class OA_Admin_Menu
 
     public function __construct()
     {
-        $this->ROOT_SECTION_ID = 'root';
         $this->rootSection = new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');
-        $this->aAllSections = [];
     }
 
     /**
@@ -122,8 +120,8 @@ class OA_Admin_Menu
     {
         //if (!array_key_exists($sectionId, $this->aAllSections)) {
         if (!array_key_exists($sectionId, $this->aAllSections)) {
-//            $errMsg = "Menu::get() Cannot get section '".$sectionId."': no such section found. Returning null.";
-//            OA::debug($errMsg, PEAR_LOG_WARNING);
+            //            $errMsg = "Menu::get() Cannot get section '".$sectionId."': no such section found. Returning null.";
+            //            OA::debug($errMsg, PEAR_LOG_WARNING);
             return null;
         }
 
@@ -160,7 +158,8 @@ class OA_Admin_Menu
         $aSections = $this->rootSection->getSections();
 
         if ($checkAccess) {
-            $aSections = array_values(array_filter($aSections, [new OA_Admin_SectionCheckerFilter(), 'accept']));
+            $oSectionCheckFilter = new OA_Admin_SectionCheckerFilter();
+            $aSections = array_values(array_filter($aSections, $oSectionCheckFilter->accept(...)));
         }
 
         return $aSections;
@@ -433,7 +432,7 @@ class OA_Admin_Menu
             phpAds_PageContext(
                 phpAds_buildAffiliateName($doAffiliates->affiliateid, $doAffiliates->name),
                 "$pageName?affiliateid=" . $doAffiliates->affiliateid,
-                $affiliateid == $doAffiliates->affiliateid
+                $affiliateid == $doAffiliates->affiliateid,
             );
         }
     }
@@ -461,7 +460,7 @@ class OA_Admin_Menu
             phpAds_PageContext(
                 phpAds_buildName($doClients->clientid, $doClients->clientname),
                 "$pageName?clientid=" . $doClients->clientid,
-                $clientid == $doClients->clientid
+                $clientid == $doClients->clientid,
             );
         }
     }
@@ -475,7 +474,7 @@ class OA_Admin_Menu
             phpAds_PageContext(
                 phpAds_buildName($doAgency->agencyid, $doAgency->name),
                 "$pageName?agencyid=" . $doAgency->agencyid,
-                $agencyid == $doAgency->agencyid
+                $agencyid == $doAgency->agencyid,
             );
         }
     }

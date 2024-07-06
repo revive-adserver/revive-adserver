@@ -33,7 +33,7 @@ class OA_UpgradePostscript_2_8_1_rc4
 
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
-        
+
         $prefix = $aConf['prefix'];
         $tblBanners = $prefix . ($aConf['banners'] ? $aConf['banners'] : 'banners');
         $tblAza = $prefix . ($aConf['ad_zone_assoc'] ? $aConf['ad_zone_assoc'] : 'ad_zone_assoc');

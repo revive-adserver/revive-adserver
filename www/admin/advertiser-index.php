@@ -40,7 +40,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader(null, buildHeaderModel());
+phpAds_PageHeader(null, buildAdvertiserIndexHeaderModel());
 
 
 /*-------------------------------------------------------*/
@@ -121,7 +121,7 @@ if (!empty($clients)) {
 
 $aCount = [
     'advertisers' => count($clients),
-    'advertisers_hidden' => 0
+    'advertisers_hidden' => 0,
 ];
 
 
@@ -129,8 +129,8 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners))
     // Inactive Advertisers should be hidden
     foreach ($banners as $bkey => $banner) {
         if (
-                _isBannerAssignedToCampaign($banner) &&
-                (OA_ENTITY_STATUS_RUNNING == $banner['status'] || OA_ENTITY_STATUS_AWAITING == $banner['status'])
+            _isBannerAssignedToCampaign($banner) &&
+            (OA_ENTITY_STATUS_RUNNING == $banner['status'] || OA_ENTITY_STATUS_AWAITING == $banner['status'])
         ) {
             // This Banner is in the Running or Awaiting state - update the list of
             // Campaigns to record that this Campaign has an active Banner
@@ -139,8 +139,8 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners))
     }
     foreach ($campaigns as $ckey => $campaign) {
         if (
-                array_key_exists('has_active_banners', $campaign) &&
-                (OA_ENTITY_STATUS_RUNNING == $campaign['status'] || OA_ENTITY_STATUS_AWAITING == $campaign['status'])
+            array_key_exists('has_active_banners', $campaign) &&
+            (OA_ENTITY_STATUS_RUNNING == $campaign['status'] || OA_ENTITY_STATUS_AWAITING == $campaign['status'])
         ) {
             // This Campaign has at least one active Banner AND is in the Running or Awaiting state -
             // update the list of Advertisers to record that this Advertiser has an active Campaign
@@ -160,7 +160,7 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners))
 $itemsPerPage = 250;
 $oPager = OX_buildPager($clients, $itemsPerPage);
 $oTopPager = OX_buildPager($clients, $itemsPerPage, false);
-list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+[$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();
 $clients = array_slice($clients, $itemsFrom - 1, $itemsPerPage, true);
 
 $oTpl->assign('pager', $oPager);
@@ -194,7 +194,7 @@ $oTpl->display();
 phpAds_PageFooter();
 
 
-function buildHeaderModel()
+function buildAdvertiserIndexHeaderModel()
 {
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     return $builder->buildEntityHeader([], 'advertisers', 'list');

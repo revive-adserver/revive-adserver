@@ -85,7 +85,7 @@ class DataObjects_Preferences extends DB_DataObjectCommon
         // as changes to the types of preferences in the
         // system need only be viewed by the admin
         $aAccountIds = [
-            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
+            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id'),
         ];
         return $aAccountIds;
     }

@@ -54,7 +54,6 @@ class PEAR_RunTest
     var $ini_overwrites = array(
         'output_handler=',
         'open_basedir=',
-        'safe_mode=0',
         'disable_functions=',
         'output_buffering=Off',
         'display_errors=1',

@@ -79,9 +79,8 @@ class OA_Environment_Manager
         $this->aInfo['PERMS']['actual'] = [];
         $this->aInfo['FILES']['actual'] = [];
 
-        $this->aInfo['PHP']['expected']['version'] = '7.2.5';
+        $this->aInfo['PHP']['expected']['version'] = '8.1.0';
         $this->aInfo['PHP']['expected']['file_uploads'] = '1';
-        $this->aInfo['PHP']['expected']['register_argc_argv'] = '1';
         $this->aInfo['PHP']['expected']['pcre'] = true;
         $this->aInfo['PHP']['expected']['xml'] = true;
         $this->aInfo['PHP']['expected']['zlib'] = true;
@@ -89,7 +88,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['spl'] = true;
         $this->aInfo['PHP']['expected']['json'] = true;
         $this->aInfo['PHP']['expected']['zip'] = true;
-        $this->aInfo['PHP']['expected']['mbstring.func_overload'] = false;
+        $this->aInfo['PHP']['expected']['tokenizer'] = true;
         $this->aInfo['PHP']['expected']['timeout'] = false;
         $this->aInfo['COOKIES']['expected']['enabled'] = true;
 
@@ -139,9 +138,7 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        $aResult['safe_mode'] = ini_get('safe_mode');
-        $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
-        $aResult['register_argc_argv'] = ini_get('register_argc_argv');
+        $aResult['date.timezone'] = (ini_get('date.timezone') ?: getenv('TZ'));
         $aResult['file_uploads'] = ini_get('file_uploads');
         $aResult['xml'] = extension_loaded('xml');
         $aResult['pcre'] = extension_loaded('pcre');
@@ -151,12 +148,7 @@ class OA_Environment_Manager
         $aResult['spl'] = extension_loaded('spl');
         $aResult['json'] = extension_loaded('json');
         $aResult['zip'] = extension_loaded('zip');
-
-        // Check mbstring.func_overload
-        $aResult['mbstring.func_overload'] = false;
-        if (extension_loaded('mbstring')) {
-            $aResult['mbstring.func_overload'] = (bool)ini_get('mbstring.func_overload');
-        }
+        $aResult['tokenizer'] = extension_loaded('tokenizer');
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts
         // if user has disabled the set_time_limit function
@@ -179,12 +171,12 @@ class OA_Environment_Manager
     public function buildFilePermArrayItem($file, $recurse = false, $result = 'OK', $error = false, $string = '')
     {
         return [
-                    'file' => $file,
-                    'recurse' => $recurse,
-                    'result' => $result,
-                    'error' => $error,
-                    'string' => $string,
-                    ];
+            'file' => $file,
+            'recurse' => $recurse,
+            'result' => $result,
+            'error' => $error,
+            'string' => $string,
+        ];
     }
 
     public function checkFilePermission($file, $recurse)
@@ -283,9 +275,6 @@ class OA_Environment_Manager
      *  - The PHP configuration's memory_limit value
      *      Sets: $this->aInfo['PHP']['warning']['memory_limit']
      *
-     *  - The PHP configuration's safe_mode value
-     *      Sets: $this->aInfo['PHP']['error']['safe_mode']
-     *
      *  - The PHP configuration's file_uploads value
      *      Sets: $this->aInfo['PHP']['error']['file_uploads']
      *
@@ -333,7 +322,7 @@ class OA_Environment_Manager
         if (version_compare(
             $this->aInfo['PHP']['actual']['version'],
             $this->aInfo['PHP']['expected']['version'],
-            "<"
+            "<",
         )) {
             $result = OA_ENV_ERROR_PHP_VERSION;
         } else {
@@ -381,13 +370,11 @@ class OA_Environment_Manager
         if (!$this->aInfo['PHP']['actual']['zip']) {
             $this->aInfo['PHP']['error']['zip'] = 'The zip extension must be loaded';
         }
+        if (!$this->aInfo['PHP']['actual']['tokenizer']) {
+            $this->aInfo['PHP']['error']['tokenizer'] = 'The tokenizer extension must be loaded';
+        }
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';
-        }
-
-        // Test that mbstring function overloading is disabled
-        if (!empty($this->aInfo['PHP']['actual']['mbstring.func_overload'])) {
-            $this->aInfo['PHP']['error']['mbstring.func_overload'] = 'mbstring function overloading must be disabled';
         }
 
         // Test that at least one of the required database extensions are loaded

@@ -119,7 +119,7 @@ class Migration_128 extends Migration
                 foreach ($m[1] as $k => $v) {
                     $params['swf'][$v] = [
                         'link' => urldecode($m[2][$k]),
-                        'tar' => isset($m[3][$k]) ? urldecode($m[3][$k]) : ''
+                        'tar' => isset($m[3][$k]) ? urldecode($m[3][$k]) : '',
                     ];
                 }
                 $params = serialize($params);
@@ -201,7 +201,7 @@ class Migration_128 extends Migration
         'time' => 'Time:Hour',
         'date' => 'Time:Date',
         'referer' => 'Site:Referingpage',
-        'url' => 'Site:Pageurl'
+        'url' => 'Site:Pageurl',
     ];
 
     public $aPlugins = [];

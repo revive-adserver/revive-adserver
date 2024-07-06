@@ -22,8 +22,8 @@ class Plugins_DeliveryDataPrepare_OxDeliveryDataPrepare_DataUserAgent extends OX
     {
         return [
             'deliveryDataPrepare:oxDeliveryDataPrepare:dataUserAgent' => [
-                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon'
-            ]
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
+            ],
         ];
     }
 }

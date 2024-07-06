@@ -14,10 +14,6 @@ $className = 'prescript_tables_core_2';
 
 class prescript_tables_core_2
 {
-    public function __construct()
-    {
-    }
-
     public function execute_constructive($aParams = '')
     {
         if (!is_array($aParams)) {

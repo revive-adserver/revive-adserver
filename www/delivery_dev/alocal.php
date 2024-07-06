@@ -21,7 +21,7 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 // init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
 // however - in local mode (only), this is not the case
 global $referer, $loc;
-$referer = (!empty($loc)) ? $loc : '';
+$referer = (empty($loc)) ? '' : $loc;
 $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' .
     OX_getHostName() .
     $_SERVER['REQUEST_URI'];
@@ -34,7 +34,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
     // start stacked output buffering
     ob_start();
 
-    if (empty($what) && !((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
+    if (empty($what) && !(strstr($what, 'zone') || strstr($what, 'campaign') || strstr($what, 'banner'))) {
         if ($zoneid) {
             $what = "zone:" . $zoneid;
         }
@@ -52,7 +52,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
     if (
         isset($GLOBALS['phpAds_context']) && is_array($GLOBALS['phpAds_context']) &&
         isset($output['context']) && is_array($output['context'])
-       ) {
+    ) {
         // Check if the new context item is already in the global array, and add it if not
         foreach ($GLOBALS['phpAds_context'] as $idx => $item) {
             foreach ($output['context'] as $newidx => $newItem) {
@@ -61,7 +61,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
                 }
             }
         }
-        $GLOBALS['phpAds_context'] = $GLOBALS['phpAds_context'] + $output['context'];
+        $GLOBALS['phpAds_context'] += $output['context'];
     }
     MAX_cookieFlush();
     // add cookies to output html
@@ -79,9 +79,10 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
  * @param int    $withtext 1/0 should the "Text below banner" be appended to the banner HTML
  * @param int    $block 1/0 Should a banner only be shown once on the page?
  * @param int    $blockcampaign (0/1) Should only one banner per campaign be shown on the page
+ * @param string $charset The charset to use for the banner
  * @return array An array of the HTML to render the selected ads
  */
-function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0)
+function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0, $charset = '')
 {
     global $context;
     if (is_numeric($what)) {

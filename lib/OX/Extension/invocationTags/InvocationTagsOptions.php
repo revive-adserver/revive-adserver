@@ -20,33 +20,32 @@ class Plugins_InvocationTagsOptions
 {
     public $maxInvocation;
 
-    public $defaultValues = [];
+    public $defaultValues = [
+        'target' => '',
+        'source' => '',
+        'withtext' => 0,
+        'refresh' => '',
+        'transparent' => 0,
+        'ilayer' => 0,
+        'block' => 0,
+        'blockcampaign' => 0,
+        'raw' => 0,
+        'popunder' => 1,
+        'delay' => '-',
+        'absolute' => ['top' => '-', 'left' => '-'],
+        'timeout' => '-',
+        'windowoptions' => ['toolbars' => 0, 'location' => 0, 'menubar' => 0, 'status' => 0, 'resizable' => 0, 'scrollbars' => 0],
+        'xmlrpcproto' => 0,
+        'xmlrpctimeout' => '',
+        'hostlanguage' => '',
+        'cachebuster' => 1,
+        'comments' => 0,
+        'charset' => '',
+        'https' => 1,
+    ];
     public function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $this->defaultValues = [
-            'target' => '',
-            'source' => '',
-            'withtext' => 0,
-            'refresh' => '',
-            'transparent' => 0,
-            'ilayer' => 0,
-            'block' => 0,
-            'blockcampaign' => 0,
-            'raw' => 0,
-            'popunder' => 1,
-            'delay' => '-',
-            'absolute' => ['top' => '-', 'left' => '-'],
-            'timeout' => '-',
-            'windowoptions' => ['toolbars' => 0, 'location' => 0, 'menubar' => 0, 'status' => 0, 'resizable' => 0, 'scrollbars' => 0],
-            'xmlrpcproto' => 0,
-            'xmlrpctimeout' => '',
-            'hostlanguage' => '',
-            'cachebuster' => 1,
-            'comments' => 0,
-            'charset' => '',
-            'https' => 1,
-        ];
     }
 
     /**
@@ -162,9 +161,9 @@ class Plugins_InvocationTagsOptions
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strInvocationBannerID'] . "</td><td width='370'>";
         if ($codetype == 'adviewnocookies') {
-            $option .= "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='bannerid' value='" . (isset($maxInvocation->bannerid) ? $maxInvocation->bannerid : '') . "' style='width: 175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
+            $option .= "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='bannerid' value='" . ($maxInvocation->bannerid ?? '') . "' style='width: 175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
         } else {
-            $option .= "<input class='flat' type='text' name='bannerid' size='' value='" . (isset($maxInvocation->bannerid) ? $maxInvocation->bannerid : '') . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
+            $option .= "<input class='flat' type='text' name='bannerid' size='' value='" . ($maxInvocation->bannerid ?? '') . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
         }
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
@@ -179,7 +178,7 @@ class Plugins_InvocationTagsOptions
     {
         $maxInvocation = &$this->maxInvocation;
 
-        $target = (!empty($maxInvocation->target)) ? $maxInvocation->target : $this->defaultValues['target'];
+        $target = (empty($maxInvocation->target)) ? $this->defaultValues['target'] : $maxInvocation->target;
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>
             <td width='200'>" . $GLOBALS['strInvocationTarget'] . "</td><td width='370'>
@@ -241,7 +240,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strIFrameRefreshAfter'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='refresh' size='' value='" . (isset($maxInvocation->refresh) ? $maxInvocation->refresh : $this->defaultValues['refresh']) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td></tr>";
+        $option .= "<input class='flat' type='text' name='refresh' size='' value='" . ($maxInvocation->refresh ?? $this->defaultValues['refresh']) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -414,7 +413,7 @@ class Plugins_InvocationTagsOptions
              (isset($maxInvocation->delay_type) && $maxInvocation->delay_type == 'exit' ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strPopUpOnClose'] . "<br />";
         $option .= "<input type='radio' name='delay_type' value='seconds'" .
              (isset($maxInvocation->delay_type) && $maxInvocation->delay_type == 'seconds' ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strPopUpAfterSec'] . "&nbsp;" .
-             "<input class='flat' type='text' name='delay' size='' value='" . (isset($maxInvocation->delay) ? $maxInvocation->delay : $this->defaultValues['delay']) . "' style='width:50px;' tabindex='" . ($tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td>";
+             "<input class='flat' type='text' name='delay' size='' value='" . ($maxInvocation->delay ?? $this->defaultValues['delay']) . "' style='width:50px;' tabindex='" . ($tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
@@ -432,10 +431,10 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strPopUpTop'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='top' size='' value='" . (isset($maxInvocation->top) ? $maxInvocation->top : $this->defaultValues['absolute']['top']) . "' style='width:50px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrPixels'] . "</td></tr>";
+        $option .= "<input class='flat' type='text' name='top' size='' value='" . ($maxInvocation->top ?? $this->defaultValues['absolute']['top']) . "' style='width:50px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrPixels'] . "</td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strPopUpLeft'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='left' size='' value='" . (isset($maxInvocation->left) ? $maxInvocation->left : $this->defaultValues['absolute']['left']) . "' style='width:50px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrPixels'] . "</td></tr>";
+        $option .= "<input class='flat' type='text' name='left' size='' value='" . ($maxInvocation->left ?? $this->defaultValues['absolute']['left']) . "' style='width:50px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrPixels'] . "</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -452,7 +451,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strAutoCloseAfter'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='timeout' size='' value='" . (isset($maxInvocation->timeout) ? $maxInvocation->timeout : $this->defaultValues['timeout']) . "' style='width:50px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td></tr>";
+        $option .= "<input class='flat' type='text' name='timeout' size='' value='" . ($maxInvocation->timeout ?? $this->defaultValues['timeout']) . "' style='width:50px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -535,7 +534,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strXmlRpcTimeout'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='xmlrpctimeout' size='' value='" . (isset($maxInvocation->xmlrpctimeout) ? $maxInvocation->xmlrpctimeout : $this->defaultValues['xmlrpctimeout']) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
+        $option .= "<input class='flat' type='text' name='xmlrpctimeout' size='' value='" . ($maxInvocation->xmlrpctimeout ?? $this->defaultValues['xmlrpctimeout']) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
@@ -587,7 +586,7 @@ class Plugins_InvocationTagsOptions
     public function comments()
     {
         $maxInvocation = &$this->maxInvocation;
-        $comments = (isset($maxInvocation->comments)) ? $maxInvocation->comments : $this->defaultValues['comments'];
+        $comments = $maxInvocation->comments ?? $this->defaultValues['comments'];
 
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
@@ -691,7 +690,7 @@ class Plugins_InvocationTagsOptions
                 'UTF-8' => 'Unicode (UTF-8)',
                 'Windows-1258' => 'Vietnamese (Windows-1258)',
                 'ISO-8859-1' => 'Western European (ISO-8859-1)',
-                'Windows-1252' => 'Western European (Windows-1252)'
+                'Windows-1252' => 'Western European (Windows-1252)',
             ];
         } elseif (function_exists('utf8_encode')) { // No? Tough luck, that's what xml_encode/decode support
             return [

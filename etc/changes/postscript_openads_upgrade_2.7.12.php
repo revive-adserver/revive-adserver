@@ -38,10 +38,6 @@ class OA_UpgradePostscript_2_7_12_dev
     public $prefix;
     public $tblCampaigns;
 
-    public function __construct()
-    {
-    }
-
     public function execute($aParams)
     {
         // Insert the required application variable flag to ensure that

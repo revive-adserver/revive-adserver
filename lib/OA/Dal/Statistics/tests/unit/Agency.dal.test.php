@@ -30,14 +30,6 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
      */
     public $_dalAgencyStatistics;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_dalAgencyStatistics = new OA_Dal_Statistics_Agency();
@@ -69,7 +61,7 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -89,7 +81,7 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAgencyStatistics->getAgencyDailyStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -116,7 +108,7 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAgencyStatistics->getAgencyHourlyStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -137,7 +129,7 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalAgencyStatistics->getAgencyHourlyStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -174,13 +166,13 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyAdvertiserStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2007-09-19')
+            new Date('2007-09-19'),
         );
 
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsAgencyStatistics->fetch();
@@ -203,12 +195,12 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyAdvertiserStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -255,13 +247,13 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyCampaignStatistics(
             $doAgency->agencyid,
             new Date('2007-07-07'),
-            new Date('2007-09-12')
+            new Date('2007-09-12'),
         );
 
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsAgencyStatistics->fetch();
@@ -293,12 +285,12 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyCampaignStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -342,13 +334,13 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyBannerStatistics(
             $doAgency->agencyid,
             new Date('2006-07-07'),
-            new Date('2007-09-12')
+            new Date('2007-09-12'),
         );
 
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsAgencyStatistics->fetch();
@@ -382,12 +374,12 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyBannerStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2006-09-19')
+            new Date('2006-09-19'),
         );
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -437,14 +429,14 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyPublisherStatistics(
             $doAgency->agencyid,
             new Date('2005-07-07'),
-            new Date('2007-09-12')
+            new Date('2007-09-12'),
         );
 
         $rsAgencyStatistics->find();
 
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsAgencyStatistics->fetch();
@@ -477,12 +469,12 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyPublisherStatistics(
             $doAgency->agencyid,
             new Date('2001-12-01'),
-            new Date('2004-09-19')
+            new Date('2004-09-19'),
         );
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -530,14 +522,14 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyZoneStatistics(
             $doAgency->agencyid,
             new Date('2007-01-01'),
-            new Date('2007-03-01')
+            new Date('2007-03-01'),
         );
 
         $rsAgencyStatistics->find();
 
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsAgencyStatistics->fetch();
@@ -577,25 +569,25 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyZoneStatistics(
             $doAgency->agencyid,
             new Date('2007-05-01'),
-            new Date('2007-05-02')
+            new Date('2007-05-02'),
         );
         $rsAgencyStatistics->find();
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get 1 rows
         $rsAgencyStatistics = $this->_dalAgencyStatistics->getAgencyZoneStatistics(
             $doAgency->agencyid,
             new Date('2007-01-02'),
-            new Date('2007-03-01')
+            new Date('2007-03-01'),
         );
         $rsAgencyStatistics->find();
 
         $this->assertTrue(
             $rsAgencyStatistics->getRowCount() == 1,
-            '1 records should be returned'
+            '1 records should be returned',
         );
     }
 }

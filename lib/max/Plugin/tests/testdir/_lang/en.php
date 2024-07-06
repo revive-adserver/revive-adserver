@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-    $words = [
-        'translate me' => 'translated text',
-        'translate me (fallback to english)' => 'this is from the english pack'
-    ];
+$words = [
+    'translate me' => 'translated text',
+    'translate me (fallback to english)' => 'this is from the english pack',
+];

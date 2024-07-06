@@ -24,10 +24,14 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
 
     public function getAffiliateByKeyword($keyword, $agencyId = null)
     {
-        $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
-        $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
+        $oDbh->loadModule('Datatype');
+
+        $whereAffiliateId = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
+
+        $prefix = $this->getTablePrefix();
         $tableA = $oDbh->quoteIdentifier($prefix . 'affiliates', true);
+
         $query = "
         SELECT
             a.affiliateid AS affiliateid,
@@ -35,11 +39,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         FROM
             {$tableA} AS a
         WHERE
-            (
-            a.name LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
-            $whereAffiliate
-            )
-
+            ({$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'a.name')}{$whereAffiliateId})
         ";
 
         if ($agencyId !== null) {
@@ -58,7 +58,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         $oDbh = OA_DB::singleton();
         $tableW = $oDbh->quoteIdentifier($prefix . $this->table, true);
         $tableZ = $oDbh->quoteIdentifier($prefix . 'zones', true);
-        
+
         // Select out websites only first (to ensure websites with no zones are included in the list)
         $aWebsitesAndZones = [];
         $query = "
@@ -81,7 +81,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['updated'] = $aWebsiteZone['updated'];
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'] = [];
         }
-        
+
         $query = "
         SELECT
             w.affiliateid AS website_id,
@@ -98,7 +98,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
             z.affiliateid = w.affiliateid
           AND w.agencyid = " . DBC::makeLiteral($agencyId) . "
         ORDER BY w.name";
-        
+
         $rsAffiliatesAndZones = DBC::NewRecordSet($query);
         $rsAffiliatesAndZones->find();
         while ($rsAffiliatesAndZones->fetch()) {
@@ -113,7 +113,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         }
         return $aWebsitesAndZones;
     }
-    
+
     public function getPublishersByTracker($trackerid)
     {
         $prefix = $this->getTablePrefix();

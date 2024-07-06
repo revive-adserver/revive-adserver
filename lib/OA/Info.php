@@ -21,16 +21,13 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * Base class for all info classes
  *
  */
-class OA_Info
+abstract class OA_Info
 {
     /**
      * This method should be redeclared in the inherited classes.
      *
      */
-    public function getFieldsTypes()
-    {
-        die('Please define this method in each derivative class');
-    }
+    abstract public function getFieldsTypes();
 
     /**
      * This method returns class field type.
@@ -77,7 +74,7 @@ class OA_Info
 
     public function toArray()
     {
-        return array_filter(get_object_vars($this), [$this, '_nullFilter']);
+        return array_filter(get_object_vars($this), $this->_nullFilter(...));
     }
 
     public function _nullFilter($var)

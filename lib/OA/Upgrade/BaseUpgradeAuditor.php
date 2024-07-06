@@ -31,10 +31,6 @@ class OA_BaseUpgradeAuditor
 
     public $aParams = [];
 
-    public function __construct()
-    {
-    }
-
     public function init($oDbh = '', $oLogger = '')
     {
         if ($oDbh) {
@@ -79,7 +75,7 @@ class OA_BaseUpgradeAuditor
 
     public function updateAuditAction($aParams = [])
     {
-        $id = (isset($aParams['id']) ? $aParams['id'] : $this->getUpgradeActionId());
+        $id = ($aParams['id'] ?? $this->getUpgradeActionId());
         unset($aParams['id']);
         if (!$id) {
             $this->logError('upgrade_action_id is empty');
@@ -95,11 +91,7 @@ class OA_BaseUpgradeAuditor
         $table = $this->getLogTableName();
         $query = "UPDATE {$table} SET {$values} WHERE upgrade_action_id={$id}";
         $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}")) {
-            return false;
-        }
-        return true;
+        return !$this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}");
     }
 
     public function setKeyParams($aParams = '')

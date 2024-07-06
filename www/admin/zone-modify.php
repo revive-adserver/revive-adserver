@@ -56,7 +56,7 @@ if (isset($zoneid) && $zoneid != '') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strZoneHasBeenMoved'],
-            [htmlspecialchars($zoneName), htmlspecialchars($websiteName)]
+            [htmlspecialchars($zoneName), htmlspecialchars($websiteName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -84,7 +84,7 @@ if (isset($zoneid) && $zoneid != '') {
             [MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid"),
                 htmlspecialchars($oldName),
                 MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$new_zoneid"),
-                htmlspecialchars($newName)]
+                htmlspecialchars($newName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

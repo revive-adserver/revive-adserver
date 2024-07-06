@@ -28,7 +28,7 @@ class Admin_UI_SheetSelectionField extends Admin_UI_Field
             }
         }
     }
-    
+
     public function setValueFromArray($aFieldValues)
     {
         if (isset($aFieldValues['sheets']) && is_array($aFieldValues['sheets'])) {

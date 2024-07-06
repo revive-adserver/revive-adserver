@@ -42,9 +42,9 @@ class OA_Task_Runner
         // Remove tasks from the queue and unset them when done to prevent
         // useless memory consumption
         while ($oTask = array_shift($this->aTasks)) {
-            OA::debug('Task begin: ' . get_class($oTask), PEAR_LOG_INFO);
+            OA::debug('Task begin: ' . $oTask::class, PEAR_LOG_INFO);
             $oTask->run();
-            OA::debug('Task complete: ' . get_class($oTask), PEAR_LOG_INFO);
+            OA::debug('Task complete: ' . $oTask::class, PEAR_LOG_INFO);
             unset($oTask);
         }
     }
@@ -66,29 +66,25 @@ class OA_Task_Runner
     public function addTask($oTask, $className = null, $order = self::TASK_ORDER_AFTER)
     {
         if (!is_null($className)) {
-
             // Try to locate the task supplied
             foreach ($this->aTasks as $key => $oExistingTask) {
                 if (is_a($oExistingTask, $className)) {
                     if ($order == self::TASK_ORDER_AFTER) {
-
                         // Insert the new task after this item
                         $this->aTasks = array_merge(
                             array_slice($this->aTasks, 0, $key + 1),
                             [$oTask],
-                            array_slice($this->aTasks, $key + 1)
+                            array_slice($this->aTasks, $key + 1),
                         );
                     } elseif ($order == self::TASK_ORDER_REPLACE) {
-
                         // Replace the specified task
                         $this->aTasks[$key] = $oTask;
                     } elseif ($order == self::TASK_ORDER_BEFORE) {
-
                         // Insert the new task before this item
                         $this->aTasks = array_merge(
                             array_slice($this->aTasks, 0, $key),
                             [$oTask],
-                            array_slice($this->aTasks, $key)
+                            array_slice($this->aTasks, $key),
                         );
                     }
                     return true;

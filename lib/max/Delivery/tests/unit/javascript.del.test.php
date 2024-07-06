@@ -21,15 +21,6 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 class Test_DeliveryJavascript extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-
-    /**
      * This function takes some HTML, and generates JavaScript document.write() code
      * to output that HTML via JavaScript
      *

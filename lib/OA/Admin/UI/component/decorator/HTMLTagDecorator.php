@@ -19,26 +19,25 @@ class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
      * @var string
      */
     private $_tagName;
-    
+
     /**
      * Attributes array for HTML tag
      *
      * @var array
      */
     private $_aAttributes;
-    
-    
-    
+
+
+
     public function __construct($aParameters)
     {
         parent::__construct($aParameters);
-        
-        $this->_tagName = $aParameters['tag'] ? $aParameters['tag'] : 'span';
-        $this->_aAttributes = $aParameters['attributes'] ? $aParameters['attributes'] :
-            [];
+
+        $this->_tagName = $aParameters['tag'] ?: 'span';
+        $this->_aAttributes = $aParameters['attributes'] ?: [];
     }
-    
-    
+
+
     /**
      *
      * @return text that should be prepended to element when rendered, empty string if none
@@ -48,7 +47,7 @@ class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
     public function prepend()
     {
         $prepend = '';
-        
+
         $renderMode = $this->getRenderMode();
         //only prepend if in applicable mode
         if ($renderMode == 'wrap' || $renderMode == 'prepend') {
@@ -59,11 +58,11 @@ class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
             }
             $prepend .= ">";
         }
-        
+
         return $prepend;
     }
-    
-    
+
+
     /**
      *
      * @return text that should be appended to element when rendered, empty string if none
@@ -73,13 +72,13 @@ class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
     public function append()
     {
         $append = '';
-        
+
         $renderMode = $this->getRenderMode();
         //only append if in applicable mode
         if ($renderMode == 'wrap' || $renderMode == 'append') {
             $append = "</" . $this->_tagName . ">";
         }
-        
+
         return $append;
     }
 }

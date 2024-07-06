@@ -22,16 +22,6 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  */
 class MAX_Dal_Entities extends MAX_Dal_Common
 {
-    /**
-     * The constructor method.
-     *
-     * @return MAX_Dal_Entities
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /*========== METHODS FOR DEALING WITH ADS ===============*/
 
     /**
@@ -138,7 +128,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 'logical' => $aRow['logical'],
                 'type' => $aRow['type'],
                 'comparison' => $aRow['comparison'],
-                'data' => $aRow['data']
+                'data' => $aRow['data'],
             ];
         }
         return $aResult;
@@ -193,7 +183,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 'logical' => $aRow['logical'],
                 'type' => $aRow['type'],
                 'comparison' => $aRow['comparison'],
-                'data' => $aRow['data']
+                'data' => $aRow['data'],
             ];
         }
         return $aResult;

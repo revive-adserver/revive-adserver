@@ -76,7 +76,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     public function isEnabled($name)
     {
-        return ($GLOBALS['_MAX']['CONF']['plugins'][$name] ? true : false);
+        return ((bool) $GLOBALS['_MAX']['CONF']['plugins'][$name]);
     }
 
     /**
@@ -162,7 +162,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 throw new Exception('Upgrade package ' . $aPackageNew['name'] . '" has the same version stamp as that of the package you have installed');
             }
 
-            $enabled = (!empty($GLOBALS['_MAX']['CONF']['plugins'][$name])) ? true : false;
+            $enabled = !empty($GLOBALS['_MAX']['CONF']['plugins'][$name]);
             $this->disablePackage($name, true);
             if (!$this->unpackPlugin($aFile, true)) {
                 throw new Exception();
@@ -174,20 +174,20 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys(
                 ['upgrade_name' => 'upgrade_' . $name,
-                                        'version_to' => $aPackageNew['version'],
-                                        'version_from' => $aPackageOld['version'],
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => $aPackageNew['version'],
+                    'version_from' => $aPackageOld['version'],
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PACKAGE UPGRADE FAILED',
-                                                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                               ]
+                    'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+                ],
             );
             if (!$this->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld)) {
                 if ($this->oUpgrader) {
                     $this->aErrors = $this->oUpgrader->getErrors();
-                    $this->aWarning = $this->oUpgrader->getMessages();
+                    $this->aWarnings = $this->oUpgrader->getMessages();
                 }
                 throw new Exception('One or more plugins cannot be upgraded');
             }
@@ -196,9 +196,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             $this->_auditUpdate(
                 ['description' => 'UPGRADE COMPLETE',
-                                      'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
             $this->_runExtensionTasks('AfterPluginInstall');
             $result = true;
@@ -292,15 +292,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys(
                 ['upgrade_name' => 'install_' . ($aPackage['name'] ?? ''),
-                                        'version_to' => $aPackage['version'] ?? 0,
-                                        'version_from' => 0,
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => $aPackage['version'] ?? 0,
+                    'version_from' => 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PACKAGE INSTALL FAILED',
-                                                'action' => UPGRADE_ACTION_INSTALL_FAILED,
-                                                ]
+                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                ],
             );
 
             if (!$this->_installComponentGroups($aPlugins)) {
@@ -314,9 +314,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
             $this->_auditUpdate(
                 ['description' => 'PACKAGE INSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
             $this->_runExtensionTasks('AfterPluginInstall');
             $result = true;
@@ -371,15 +371,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_runExtensionTasks('BeforePluginUninstall');
             $this->_auditSetKeys(
                 ['upgrade_name' => 'uninstall_' . ($aPackage['name'] ?? ''),
-                                        'version_to' => 0,
-                                        'version_from' => $aPackage['version'] ?? 0,
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => 0,
+                    'version_from' => $aPackage['version'] ?? 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PACKAGE UNINSTALL FAILED',
-                                                'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
-                                               ]
+                    'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
+                ],
             );
             // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
             $this->disablePackage($name, $force);
@@ -399,9 +399,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
             $this->_auditUpdate(
                 ['description' => 'PACKAGE UNINSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
             $this->_runExtensionTasks('AfterPluginUninstall');
 
@@ -566,7 +566,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     public function _matchPackageFilename($name, $file)
     {
-        if (substr($file, 0, strlen($name)) != $name) {
+        if (!str_starts_with($file, $name)) {
             $this->_logError('Filename mismatch: name / file ' . $name . ' / ' . $file);
             return false;
         }
@@ -641,7 +641,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         return true;
     }
 
-    public function _canUpgradeComponentGroups(&$aGroupsNew = null, &$aGroupsOld)
+    public function _canUpgradeComponentGroups(&$aGroupsNew, &$aGroupsOld)
     {
         $this->errcode = '';
         if ((!$aGroupsNew) || empty($aGroupsNew) || (!is_array($aGroupsNew))) {
@@ -670,29 +670,29 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * @param array $aPlugins
      * @return boolean
      */
-    public function _upgradeComponentGroups(&$aGroupsNew = null, &$aGroupsOld)
+    public function _upgradeComponentGroups(&$aGroupsNew, &$aGroupsOld)
     {
         $this->errcode = '';
         foreach ($aGroupsNew as $idx => &$aGroup) {
             switch ($aGroup['status']) {
                 case OA_STATUS_PLUGIN_CAN_UPGRADE:
-                        $result = $this->upgradeComponentGroup($aGroup);
-                        switch ($result) {
-                            case UPGRADE_ACTION_UPGRADE_SUCCEEDED:
-                                    $this->_logMessage('Upgrade succeeded ' . $aGroup['name']);
-                                    $this->_cacheDependencies();
-                                    break;
-                            case UPGRADE_ACTION_UPGRADE_FAILED:
-                                    $this->_logError('Failed to upgrade ' . $aGroup['name']);
-                                    return false;
-                        }
-                        break;
-                case OA_STATUS_PLUGIN_NOT_INSTALLED:
-                        $aGroupList = [0 => $aGroup];
-                        if (!$this->_installComponentGroups($aGroupList)) {
+                    $result = $this->upgradeComponentGroup($aGroup);
+                    switch ($result) {
+                        case UPGRADE_ACTION_UPGRADE_SUCCEEDED:
+                            $this->_logMessage('Upgrade succeeded ' . $aGroup['name']);
+                            $this->_cacheDependencies();
+                            break;
+                        case UPGRADE_ACTION_UPGRADE_FAILED:
+                            $this->_logError('Failed to upgrade ' . $aGroup['name']);
                             return false;
-                        }
-                        break;
+                    }
+                    break;
+                case OA_STATUS_PLUGIN_NOT_INSTALLED:
+                    $aGroupList = [0 => $aGroup];
+                    if (!$this->_installComponentGroups($aGroupList)) {
+                        return false;
+                    }
+                    break;
             }
         }
         if (!empty($aGroupsOld)) {
@@ -716,15 +716,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aGroups as $idx => &$aGroup) {
             $this->_auditSetKeys(
                 ['upgrade_name' => 'install_' . ($aGroup['name'] ?? ''),
-                                        'version_to' => $aGroup['version'] ?? 0,
-                                        'version_from' => 0,
-                                        'logfile' => 'plugins.log'
-                                        ]
+                    'version_to' => $aGroup['version'] ?? 0,
+                    'version_from' => 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PLUGIN INSTALL FAILED',
-                                                             'action' => UPGRADE_ACTION_INSTALL_FAILED,
-                                                            ]
+                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                ],
             );
             $this->_auditSetID();
             if (!$this->installComponentGroup($aGroup)) {
@@ -734,9 +734,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_cacheDependencies(); // need to keep recreating the array
             $this->_auditUpdate(
                 ['description' => 'PLUGIN INSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_INSTALL_SUCCEEDED,
+                    'id' => $auditId,
+                ],
             );
         }
         return true;
@@ -758,15 +758,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aGroups as $idx => &$aGroup) {
             $this->_auditSetKeys(
                 ['upgrade_name' => 'uninstall_' . ($aGroup['name'] ?? null),
-                                            'version_to' => 0,
-                                            'version_from' => $aGroup['version'] ?? 0,
-                                            'logfile' => 'plugins.log'
-                                            ]
+                    'version_to' => 0,
+                    'version_from' => $aGroup['version'] ?? 0,
+                    'logfile' => 'plugins.log',
+                ],
             );
             $auditId = $this->_auditStart(
                 ['description' => 'PLUGIN UNINSTALL FAILED',
-                                                 'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
-                                                ]
+                    'action' => UPGRADE_ACTION_UNINSTALL_FAILED,
+                ],
             );
             $this->_auditSetID();
             if (!$this->uninstallComponentGroup($aGroup)) {
@@ -776,9 +776,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_cacheDependencies(); // need to keep recreating the array
             $this->_auditUpdate(
                 ['description' => 'PLUGIN UNINSTALL COMPLETE',
-                                      'action' => UPGRADE_ACTION_INSTALL_FAILED,
-                                      'id' => $auditId,
-                                     ]
+                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                    'id' => $auditId,
+                ],
             );
         }
         return true;
@@ -835,7 +835,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         if ((!isset($this->aParse['package']['install']['contents'])) ||
                 empty($this->aParse['package']['install']['contents']) ||
                 (!is_array($this->aParse['package']['install']['contents']))
-           ) {
+        ) {
             $this->aParse['package'] = [];
             $this->_logError('Found no contents in package definition for ' . $name);
             return false;
@@ -1081,20 +1081,16 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                     return true;
                 }
 
-                $aDecompressedFiles = array_map(function ($info) {
-                    return $info['filename'];
-                }, array_filter($result, function ($info) {
-                    return empty($info['folder']);
-                }));
+                $aDecompressedFiles = array_map(fn($info) => $info['filename'], array_filter($result, fn($info) => empty($info['folder'])));
 
                 foreach (array_diff($aOldFileList, $aDecompressedFiles) as $deletedFiles) {
                     @unlink($deletedFiles);
                 }
 
                 return true;
-            /*case 'xml':
-                $pkgFile = $aPath['filename'];
-                break;*/
+                /*case 'xml':
+                    $pkgFile = $aPath['filename'];
+                    break;*/
             default:
                 return false;
         }
@@ -1142,25 +1138,28 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         foreach ($aContents as $i => &$aItem) {
             $aPath = pathinfo($aItem['filename']);
             $file = '/' . $aItem['filename'];
+
             if ($aItem['folder']) {  // ignore folders
                 continue;
             }
+
+            if (str_contains($aPath['dirname'], '/etc/changes')) { // don't check the changeset files (costly parsing of upgrade definitions etc.)
+                continue;
+            }
+
+            $aFilesStored[] = $file;
+
             if (!$aPkgFile && preg_match($pattPluginDefFile, $file, $aMatches)) { // its a plugin definition file
                 $this->_logMessage('detected plugin definition file ' . $file);
                 $aPkgFile['pathinfo'] = $aPath;
                 $aPkgFile['storedinfo'] = $aItem;
-                $aFilesStored[] = $file;
                 continue;
             }
+
             if (preg_match($pattGroupDefFile, $file, $aMatches)) { // its a group definition file
                 $this->_logMessage('detected group definition file ' . $file);
                 $aXMLFiles[$aPath['basename']]['pathinfo'] = $aPath;
                 $aXMLFiles[$aPath['basename']]['storedinfo'] = $aItem;
-                $aFilesStored[] = $file;
-                continue;
-            }
-            if (strpos($aPath['dirname'], '/etc/changes') == 0) { // don't check the changeset files (costly parsing of upgrade definitions etc.)
-                $aFilesStored[] = $file;
                 continue;
             }
         }
@@ -1279,7 +1278,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         // are any declared files missing from the zip?
         $aDiffsExpected = array_diff($aFilesExpected, $aFilesStored);
-        if (count($aDiffsExpected)) {
+        if ($aDiffsExpected !== []) {
             $this->_logError(count($aDiffsExpected) . ' expected files not found');
             foreach ($aDiffsExpected as &$file) {
                 $this->_logError($file);
@@ -1289,14 +1288,8 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         }
         // are there any files in the zip that are not declared in the definitions?
         // but please ignore lang files
-        $aDiffStored = array_filter(array_diff($aFilesStored, $aFilesExpected), function ($file) {
-            if (preg_match('#^/plugins/etc/[^/]+/_lang/(?:po/)?[a-z][a-z](?:_[A-Z][A-Z])?\.(?:mo|pot?)$#D', $file)) {
-                return false;
-            }
-
-            return true;
-        });
-        if (count($aDiffStored) > 0) {
+        $aDiffStored = array_filter(array_diff($aFilesStored, $aFilesExpected), fn($file) => !preg_match('#^/plugins/etc/[^/]+/_lang/(?:po/)?[a-z][a-z](?:_[A-Z][A-Z])?\.(?:mo|pot?)$#D', $file));
+        if ($aDiffStored !== []) {
             $this->_logError(count($aDiffStored) . ' unexpected files found');
             foreach ($aDiffStored as &$file) {
                 $this->_logError($file);
@@ -1329,7 +1322,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         require_once(MAX_PATH . '/lib/pclzip/pclzip.lib.php');
 
         if (!defined('OS_WINDOWS')) {
-            define('OS_WINDOWS', ((substr(PHP_OS, 0, 3) == 'WIN') ? 1 : 0));
+            define('OS_WINDOWS', ((str_starts_with(PHP_OS, 'WIN')) ? 1 : 0));
         }
 
         $oZip = new PclZip($source);

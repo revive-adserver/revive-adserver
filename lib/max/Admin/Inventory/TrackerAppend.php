@@ -30,7 +30,7 @@ require_once OX_PATH . '/lib/pear/HTML/Template/Flexy.php';
  */
 class MAX_Admin_Inventory_TrackerAppend
 {
-    /* @var MAX_Dal_TrackerTags */
+    /** @var MAX_Dal_Inventory_Trackers */
     public $_dal;
 
     public $_cycle = 0;
@@ -38,8 +38,11 @@ class MAX_Admin_Inventory_TrackerAppend
     public $advertiser_id;
     public $tracker_id;
     public $codes;
-    public $showReminder;
+    public $showReminder = false;
     public $assetPath;
+
+    /** @var string */
+    private $csrf_token;
 
     /**
      * PHP5-style constructor
@@ -51,7 +54,6 @@ class MAX_Admin_Inventory_TrackerAppend
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id = MAX_getValue('trackerid', 0);
         $this->assetPath = OX::assetPath();
-        $this->showReminder = false;
     }
 
     public function _useDefaultDal()
@@ -78,7 +80,7 @@ class MAX_Admin_Inventory_TrackerAppend
             }
         }
 
-        return join(',', $paused);
+        return implode(',', $paused);
     }
 
     public function handlePost($vars)
@@ -147,7 +149,7 @@ class MAX_Admin_Inventory_TrackerAppend
             $translation = new OX_Translation();
             $translated_message = $translation->translate($GLOBALS['strTrackerAppendHasBeenUpdated'], [
                 MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=" . $this->advertiser_id . "&trackerid=" . $this->tracker_id),
-                htmlspecialchars($doTrackers->trackername)
+                htmlspecialchars($doTrackers->trackername),
             ]);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -170,7 +172,7 @@ class MAX_Admin_Inventory_TrackerAppend
         $output = new HTML_Template_Flexy([
             'templateDir' => MAX_PATH . '/lib/max/Admin/Inventory/themes',
             'compileDir' => MAX_PATH . '/var/templates_compiled',
-            'flexyIgnore' => true
+            'flexyIgnore' => true,
         ]);
 
         // Load token now
@@ -184,7 +186,7 @@ class MAX_Admin_Inventory_TrackerAppend
                 $v['id'] = "tag_{$k}";
                 $v['name'] = "tag[{$k}]";
                 $v['autotrackname'] = "autotrack[{$k}]";
-                $v['autotrack'] = isset($v['autotrack']) ? $v['autotrack'] : false;
+                $v['autotrack'] ??= false;
                 $v['rank'] = $k + 1;
                 $v['move_up'] = $k > 0;
                 $v['move_down'] = $k < count($codes) - 1;

@@ -24,14 +24,10 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Event/tests/unit/TestDummyObject.php';
  */
 class Test_OX_Admin_UI_Event_EventDispatcher extends UnitTestCase
 {
-    public function setUp()
-    {
-    }
+    public function setUp() {}
 
 
-    public function tearDown()
-    {
-    }
+    public function tearDown() {}
 
 
     public function testSingleton()

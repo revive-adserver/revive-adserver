@@ -24,9 +24,6 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 {
     public $path;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -34,42 +31,42 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
 
         $this->aAuditParams[0][0] = ['info1' => 'UPGRADE STARTED',
-                              'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
+        ];
         $this->aAuditParams[0][1] = ['info1' => 'BACKUP STARTED',
-                              'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
+        ];
         $this->aAuditParams[0][2] = ['info1' => 'copied table',
-                              'tablename' => 'test_table1',
-                              'tablename_backup' => 'test_table_bak1',
-                              'table_backup_schema' => serialize($this->_getFieldDefinitionArray(1)),
-                              'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
-                             ];
+            'tablename' => 'test_table1',
+            'tablename_backup' => 'test_table_bak1',
+            'table_backup_schema' => serialize($this->_getFieldDefinitionArray(1)),
+            'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+        ];
         $this->aAuditParams[0][3] = ['info1' => 'BACKUP COMPLETE',
-                              'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+        ];
         $this->aAuditParams[0][4] = ['info1' => 'UPGRADE SUCCEEDED',
-                              'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+        ];
 
         $this->aAuditParams[1][0] = ['info1' => 'UPGRADE STARTED',
-                              'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
+        ];
         $this->aAuditParams[1][1] = ['info1' => 'BACKUP STARTED',
-                              'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
+        ];
         $this->aAuditParams[1][2] = ['info1' => 'copied table',
-                              'tablename' => 'test_table2',
-                              'tablename_backup' => 'test_table_bak2',
-                              'table_backup_schema' => serialize($this->_getFieldDefinitionArray(2)),
-                              'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
-                             ];
+            'tablename' => 'test_table2',
+            'tablename_backup' => 'test_table_bak2',
+            'table_backup_schema' => serialize($this->_getFieldDefinitionArray(2)),
+            'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+        ];
         $this->aAuditParams[1][3] = ['info1' => 'BACKUP COMPLETE',
-                              'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+        ];
         $this->aAuditParams[1][4] = ['info1' => 'UPGRADE SUCCEEDED',
-                              'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+        ];
     }
 
     public function test_constructor()
@@ -97,10 +94,10 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $oAuditor->setKeyParams(
             [
-                                        'string' => 'test_tables',
-                                        'integer' => 10,
-                                        'escape' => "openad's value",
-                                     ]
+                'string' => 'test_tables',
+                'integer' => 10,
+                'escape' => "openad's value",
+            ],
         );
         $this->assertEqual($oAuditor->aParams['string'], '\'test_tables\'', 'wrong param value: string');
         $this->assertEqual($oAuditor->aParams['integer'], 10, 'wrong param value: integer');
@@ -251,11 +248,11 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 
         //  analyze now takes place in the pgsql mdb2 manager driver
-//        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
-//            // We need to ANALYZE the table if we want a meaningful result
-//            $table = $oAuditor->oDbh->quoteIdentifier($aConf['table']['prefix'].'database_action',true);
-//            $oAuditor->oDbh->exec("ANALYZE {$table}");
-//        }
+        //        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
+        //            // We need to ANALYZE the table if we want a meaningful result
+        //            $table = $oAuditor->oDbh->quoteIdentifier($aConf['table']['prefix'].'database_action',true);
+        //            $oAuditor->oDbh->exec("ANALYZE {$table}");
+        //        }
 
         $aResult = $oAuditor->getTableStatus('database_action');
         $this->assertIsa($aResult, 'array', 'not an array');

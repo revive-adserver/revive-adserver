@@ -32,7 +32,7 @@ phpAds_registerGlobalUnslashed(
     'contact',
     'email',
     'submit',
-    'logout_url'
+    'logout_url',
 );
 
 // Security check
@@ -53,16 +53,14 @@ if ($agencyid != '') {
             $aAgency = $doAgency->toArray();
         }
     }
-} else {
+} elseif (!isset($agency)) {
     // Do not set this information if the page
     // is the result of an error message
-    if (!isset($agency)) {
-        $aAgency['name'] = $GLOBALS['strUntitled'];
-        $aAgency['contact'] = '';
-        $aAgency['email'] = '';
-        $aAgency['logout_url'] = '';
-        $aAgency['status'] = OA_ENTITY_STATUS_RUNNING;
-    }
+    $aAgency['name'] = $GLOBALS['strUntitled'];
+    $aAgency['contact'] = '';
+    $aAgency['email'] = '';
+    $aAgency['logout_url'] = '';
+    $aAgency['status'] = OA_ENTITY_STATUS_RUNNING;
 }
 
 
@@ -76,7 +74,7 @@ if ($agencyForm->validate()) {
     //process submitted values
     processForm($aAgency, $agencyForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($aAgency, $agencyForm);
+    displayAgencyEditPage($aAgency, $agencyForm);
 }
 
 /*-------------------------------------------------------*/
@@ -166,7 +164,7 @@ function processForm($aAgency, $form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($aAgency, $form)
+function displayAgencyEditPage($aAgency, $form)
 {
     if ($aAgency['agencyid'] != '') {
         OA_Admin_Menu::setAgencyPageContext($aAgency['agencyid'], 'agency-edit.php');

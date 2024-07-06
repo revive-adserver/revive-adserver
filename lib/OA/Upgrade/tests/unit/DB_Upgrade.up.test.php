@@ -74,13 +74,13 @@ class Test_DB_Upgrade extends UnitTestCase
         $fields = 'B_field1, E_field2, A_field3, D_field4, C_field5';
         $aFields = explode(',', $fields);
         $aResult = ['fields' => [
-                                            $aFields[3] => ['order' => '4', 'sorting' => 'ascending'],
-                                            $aFields[1] => ['order' => '2', 'sorting' => 'ascending'],
-                                            $aFields[4] => ['order' => '5', 'sorting' => 'ascending'],
-                                            $aFields[2] => ['order' => '3', 'sorting' => 'ascending'],
-                                            $aFields[0] => ['order' => '1', 'sorting' => 'ascending'],
-                                            ]
-                         ];
+            $aFields[3] => ['order' => '4', 'sorting' => 'ascending'],
+            $aFields[1] => ['order' => '2', 'sorting' => 'ascending'],
+            $aFields[4] => ['order' => '5', 'sorting' => 'ascending'],
+            $aFields[2] => ['order' => '3', 'sorting' => 'ascending'],
+            $aFields[0] => ['order' => '1', 'sorting' => 'ascending'],
+        ],
+        ];
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $aResult = $oDB_Upgrade->_sortIndexFields($aResult);
         $i = 0;
@@ -123,7 +123,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Upgrade',
             $mockDBUpgrade = 'OA_DB_Upgrade' . rand(),
-            ['_listTables']
+            ['_listTables'],
         );
         $oDB_Upgrade = new $mockDBUpgrade($this);
 
@@ -137,11 +137,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.test.log";
 
         $aDBTables = [0 => $oDB_Upgrade->prefix . 'z_table1_bak1',
-                           1 => $oDB_Upgrade->prefix . 'z_table1_bak2',
-                           2 => $oDB_Upgrade->prefix . 'z_table1_bak3',
-                           3 => $oDB_Upgrade->prefix . 'table2',
-                           4 => $oDB_Upgrade->prefix . 'table3',
-                          ];
+            1 => $oDB_Upgrade->prefix . 'z_table1_bak2',
+            2 => $oDB_Upgrade->prefix . 'z_table1_bak3',
+            3 => $oDB_Upgrade->prefix . 'table2',
+            4 => $oDB_Upgrade->prefix . 'table3',
+        ];
         $oDB_Upgrade->setReturnValue('_listTables', $aDBTables);
         $oDB_Upgrade->expectOnce('_listTables');
 
@@ -149,77 +149,77 @@ class Test_DB_Upgrade extends UnitTestCase
             'OA_DB_UpgradeAuditor',
             $mockAuditor = 'OA_DB_UpgradeAuditor' . rand(),
             ['queryAuditBackupTablesByUpgradeId',
-                                      'queryAuditAddedTablesByUpgradeId',
-                                      'queryAuditUpgradeStartedByUpgradeId'
-                                     ]
+                'queryAuditAddedTablesByUpgradeId',
+                'queryAuditUpgradeStartedByUpgradeId',
+            ],
         );
         $oDB_Upgrade->oAuditor = new $mockAuditor($this);
 
         $aBackups = [
-                            0 => [
-                                        'database_action_id' => 1,
-                                        'upgrade_action_id' => 1,
-                                        'schema_name' => 'tables_core',
-                                        'version' => '900',
-                                        'timing' => 0,
-                                        'tablename' => 'table1',
-                                        'tablename_backup' => 'z_table1_bak1',
-                                        'table_backup_schema' => '',
-                                      ],
-                            1 => [
-                                        'database_action_id' => 2,
-                                        'upgrade_action_id' => 1,
-                                        'schema_name' => 'tables_core',
-                                        'version' => '900',
-                                        'timing' => 1,
-                                        'tablename' => 'table1',
-                                        'tablename_backup' => 'z_table1_bak2',
-                                        'table_backup_schema' => '',
-                                      ],
-                            2 => [
-                                        'database_action_id' => 3,
-                                        'upgrade_action_id' => 1,
-                                        'schema_name' => 'tables_core',
-                                        'version' => '901',
-                                        'timing' => 0,
-                                        'tablename' => 'table1',
-                                        'tablename_backup' => 'z_table1_bak3',
-                                        'table_backup_schema' => '',
-                                      ],
-                           ];
+            0 => [
+                'database_action_id' => 1,
+                'upgrade_action_id' => 1,
+                'schema_name' => 'tables_core',
+                'version' => '900',
+                'timing' => 0,
+                'tablename' => 'table1',
+                'tablename_backup' => 'z_table1_bak1',
+                'table_backup_schema' => '',
+            ],
+            1 => [
+                'database_action_id' => 2,
+                'upgrade_action_id' => 1,
+                'schema_name' => 'tables_core',
+                'version' => '900',
+                'timing' => 1,
+                'tablename' => 'table1',
+                'tablename_backup' => 'z_table1_bak2',
+                'table_backup_schema' => '',
+            ],
+            2 => [
+                'database_action_id' => 3,
+                'upgrade_action_id' => 1,
+                'schema_name' => 'tables_core',
+                'version' => '901',
+                'timing' => 0,
+                'tablename' => 'table1',
+                'tablename_backup' => 'z_table1_bak3',
+                'table_backup_schema' => '',
+            ],
+        ];
         $oDB_Upgrade->oAuditor->setReturnValue('queryAuditBackupTablesByUpgradeId', $aBackups);
         $oDB_Upgrade->oAuditor->expectOnce('queryAuditBackupTablesByUpgradeId');
 
         $aAdded = [
-                            0 => [
-                                        'database_action_id' => 10,
-                                        'upgrade_action_id' => 1,
-                                        'schema_name' => 'tables_core',
-                                        'version' => '910',
-                                        'timing' => 0,
-                                        'tablename' => 'table2',
-                                        'tablename_backup' => '',
-                                        'table_backup_schema' => '',
-                                      ],
-                            1 => [
-                                        'database_action_id' => 11,
-                                        'upgrade_action_id' => 1,
-                                        'schema_name' => 'tables_core',
-                                        'version' => '910',
-                                        'timing' => 0,
-                                        'tablename' => 'table3',
-                                        'tablename_backup' => '',
-                                        'table_backup_schema' => '',
-                                      ],
-                           ];
+            0 => [
+                'database_action_id' => 10,
+                'upgrade_action_id' => 1,
+                'schema_name' => 'tables_core',
+                'version' => '910',
+                'timing' => 0,
+                'tablename' => 'table2',
+                'tablename_backup' => '',
+                'table_backup_schema' => '',
+            ],
+            1 => [
+                'database_action_id' => 11,
+                'upgrade_action_id' => 1,
+                'schema_name' => 'tables_core',
+                'version' => '910',
+                'timing' => 0,
+                'tablename' => 'table3',
+                'tablename_backup' => '',
+                'table_backup_schema' => '',
+            ],
+        ];
 
         $oDB_Upgrade->oAuditor->setReturnValue('queryAuditAddedTablesByUpgradeId', $aAdded);
         $oDB_Upgrade->oAuditor->expectOnce('queryAuditAddedTablesByUpgradeId');
 
         $aSchemaInfo = [0 => ['schema_name' => 'test_schema',
-                                        'info2' => 999
-                                       ]
-                            ];
+            'info2' => 999,
+        ],
+        ];
         $oDB_Upgrade->oAuditor->setReturnValue('queryAuditUpgradeStartedByUpgradeId', $aSchemaInfo);
         $oDB_Upgrade->oAuditor->expectOnce('queryAuditUpgradeStartedByUpgradeId');
 

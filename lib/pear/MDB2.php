@@ -1242,6 +1242,12 @@ class MDB2_Driver_Common extends PEAR
     /** @var MDB2_Driver_Manager_Common */
     public $manager;
 
+    /** @var MDB2_Driver_Datatype_Common */
+    public $datatype;
+
+    /** @var MDB2_Driver_Reverse_Common */
+    public $reverse;
+
     // }}}
     // {{{ constructor: function __construct()
 

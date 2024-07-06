@@ -44,15 +44,20 @@ define('VAST_VIDEO_URL_PROGRESSIVE_FORMAT', 'progressive');
 define('VAST_OVERLAY_DEFAULT_WIDTH', 600);
 define('VAST_OVERLAY_DEFAULT_HEIGHT', 40);
 
-function getVastVideoTypes()
+function getVastVideoTypes(string $oldVideoType = ''): array
 {
-    static $videoEncodingTypes = [ 'video/x-mp4' => 'MP4',
-                                       'video/x-flv' => 'FLV',
-                                       'video/webm' => 'WEBM',
-   ];
-    return $videoEncodingTypes;
-}
+    $aTypes = [
+        'video/x-mp4' => 'MP4',
+        'video/x-flv' => 'FLV',
+        'video/webm' => 'WEBM',
+    ];
 
+    if ('video/x-flv' !== $oldVideoType) {
+        unset($aTypes['video/x-flv']);
+    }
+
+    return $aTypes;
+}
 
 function encodeUserSuppliedData($text)
 {
@@ -68,7 +73,6 @@ function combineVideoUrl(&$aAdminFields)
 {
     // If either of these fields are set we know that its a form submit (as these fields do not exist in db)
     if ($aAdminFields['vast_net_connection_url'] || $aAdminFields['vast_video_filename']) {
-
         // In the case of streaming - there are 2 seperate fields stored in the db field vast_video_outgoing_filename
         if ($aAdminFields['vast_video_delivery'] == 'streaming') {
             $aSeek = [ VAST_RTMP_FLV_DELIMITER, VAST_RTMP_MP4_DELIMITER ];

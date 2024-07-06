@@ -38,8 +38,8 @@ class OA_Admin_UI_CampaignZoneLink
         }
 
         $aZonesCounts = [
-                'all' => $oDalZones->countZones($agencyId, null, $campaignId, $linked),
-                'matching' => $matchingZones
+            'all' => $oDalZones->countZones($agencyId, null, $campaignId, $linked),
+            'matching' => $matchingZones,
         ];
 
         $pagerFileName = 'campaign-zone-zones.php';
@@ -47,7 +47,7 @@ class OA_Admin_UI_CampaignZoneLink
             'clientid' => $GLOBALS['clientid'],
             'campaignid' => $GLOBALS['campaignid'],
             'status' => $panel,
-            'text' => $text
+            'text' => $text,
         ];
 
         $currentPage = null;
@@ -64,7 +64,7 @@ class OA_Admin_UI_CampaignZoneLink
             2,
             $currentPage,
             $pagerFileName,
-            $pagerParams
+            $pagerParams,
         );
         $oTopPager = OX_buildPager(
             $websites,
@@ -74,10 +74,10 @@ class OA_Admin_UI_CampaignZoneLink
             2,
             $currentPage,
             $pagerFileName,
-            $pagerParams
+            $pagerParams,
         );
 
-        list($itemsFrom, $itemsTo) = $oPager->getOffsetByPageId();
+        [$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();
         $websites = array_slice($websites, $itemsFrom - 1, self::WEBSITES_PER_PAGE, true);
 
         // Add statistics for the displayed zones if required

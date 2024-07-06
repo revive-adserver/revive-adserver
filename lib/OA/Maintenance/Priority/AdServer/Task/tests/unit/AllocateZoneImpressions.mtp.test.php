@@ -23,9 +23,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -149,7 +146,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'target_impression' => 0,
                     'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority' => 5
+                    'priority' => 5,
                 ]),
                 new OX_Maintenance_Priority_Campaign([
                     'campaignid' => 2,
@@ -159,9 +156,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'target_impression' => 1000,
                     'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority' => 4
-                ])
-            ]
+                    'priority' => 4,
+                ]),
+            ],
         );
         $oDal->expectCallCount('getCampaigns', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -233,7 +230,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
@@ -241,7 +238,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'ad_id' => 2,
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
@@ -249,7 +246,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'ad_id' => 3,
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
         $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
@@ -315,7 +312,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'target_impression' => 0,
                     'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority' => 5
+                    'priority' => 5,
                 ]),
                 new OX_Maintenance_Priority_Campaign([
                     'campaignid' => 2,
@@ -325,9 +322,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'target_impression' => 1000,
                     'target_click' => 0,
                     'target_conversion' => 0,
-                    'priority' => 4
-                ])
-            ]
+                    'priority' => 4,
+                ]),
+            ],
         );
         $oMaxDalMaintenancePriority->expectCallCount('getCampaigns', 1);
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getRequiredAdImpressions', [1 => 1, 2 => 9]);
@@ -343,16 +340,16 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'ad_id' => 1,
                     'type' => 'web',
                     'weight' => 1,
-                    'status' => OA_ENTITY_STATUS_RUNNING
+                    'status' => OA_ENTITY_STATUS_RUNNING,
                 ],
                 [
                     'ad_id' => 2,
                     'type' => 'web',
                     'weight' => 1,
-                    'status' => OA_ENTITY_STATUS_RUNNING
-                ]
+                    'status' => OA_ENTITY_STATUS_RUNNING,
+                ],
             ],
-            [1]
+            [1],
         );
         $oMaxDalEntities->setReturnValue(
             'getAdsByCampaignId',
@@ -361,16 +358,16 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'ad_id' => 3,
                     'type' => 'web',
                     'weight' => 1,
-                    'status' => OA_ENTITY_STATUS_RUNNING
+                    'status' => OA_ENTITY_STATUS_RUNNING,
                 ],
                 [
                     'ad_id' => 4,
                     'type' => 'web',
                     'weight' => 2,
-                    'status' => OA_ENTITY_STATUS_AWAITING
-                ]
+                    'status' => OA_ENTITY_STATUS_AWAITING,
+                ],
             ],
-            [2]
+            [2],
         );
         $oMaxDalEntities->expectCallCount('getAdsByCampaignId', 2);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
@@ -447,14 +444,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'getAdZoneAssociationsByAds',
             [
                 1 => [
-                         ['zone_id' => 5],
-                         ['zone_id' => 6],
-                         ['zone_id' => 7]
-                     ],
+                    ['zone_id' => 5],
+                    ['zone_id' => 6],
+                    ['zone_id' => 7],
+                ],
                 2 => [
-                         ['zone_id' => 5]
-                     ]
-            ]
+                    ['zone_id' => 5],
+                ],
+            ],
         );
         $oDal->expectCallCount('getAdZoneAssociationsByAds', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -478,8 +475,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                 'target_impression' => 0,
                 'target_click' => 0,
                 'target_conversion' => 0,
-                'priority' => 5
-            ]
+                'priority' => 5,
+            ],
         );
         $oAllocateZoneImpressions->aCampaigns[] = $oCampaign;
         $oAllocateZoneImpressions->_setAdZoneAssociations();

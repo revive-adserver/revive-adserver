@@ -30,9 +30,6 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
     public $oDBAuditor;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,42 +38,42 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         Mock::generatePartial(
             'OA_DB_UpgradeAuditor',
             $mockDBAud = 'OA_DB_UpgradeAuditor' . rand(),
-            []
+            [],
         );
         $this->oDBAuditor = new $mockDBAud($this);
 
 
         $this->aAuditParams[0] = ['description' => 'COMPLETE',
-                        'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED
+            'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
 
-                       ];
+        ];
         $this->aAuditParams[1] = ['description' => 'COMPLETE',
-                        'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                        'confbackup' => '/etc/test_backupconffile.ini' // do not change, used in test_cleanAuditArtifacts
-                       ];
+            'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+            'confbackup' => '/etc/test_backupconffile.ini', // do not change, used in test_cleanAuditArtifacts
+        ];
 
         $this->aDBAuditParams[0][0] = ['info1' => 'UPGRADE STARTED',
-                              'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_UPGRADE_STARTED,
+        ];
         $this->aDBAuditParams[0][1] = ['info1' => 'BACKUP STARTED',
-                              'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_BACKUP_STARTED,
+        ];
 
         // do not edit the index ; they are used in the test_cleanAuditArtifacts()
         $this->tableBackupName = 'z_test1';
 
         $this->aDBAuditParams[0][2] = ['info1' => 'copied table',
-                              'tablename' => 'test_table1',
-                              'tablename_backup' => $this->tableBackupName,
-                              'table_backup_schema' => serialize($this->_getFieldDefinitionArray(1)),
-                              'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
-                             ];
+            'tablename' => 'test_table1',
+            'tablename_backup' => $this->tableBackupName,
+            'table_backup_schema' => serialize($this->_getFieldDefinitionArray(1)),
+            'action' => DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+        ];
         $this->aDBAuditParams[0][3] = ['info1' => 'BACKUP COMPLETE',
-                              'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+        ];
         $this->aDBAuditParams[0][4] = ['info1' => 'UPGRADE SUCCEEDED',
-                              'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                             ];
+            'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+        ];
     }
 
     public function test_constructor()
@@ -106,10 +103,10 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
         $oAuditor->setKeyParams(
             [
-                                        'string' => 'test_tables',
-                                        'integer' => 10,
-                                        'escape' => "openad's value",
-                                     ]
+                'string' => 'test_tables',
+                'integer' => 10,
+                'escape' => "openad's value",
+            ],
         );
         $this->assertEqual($oAuditor->aParams['string'], '\'test_tables\'', 'wrong param value: string');
         $this->assertEqual($oAuditor->aParams['integer'], 10, 'wrong param value: integer');
@@ -190,7 +187,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
         $this->assertTrue(
             $aResult[0]['upgrade_action_id'] > $aResult[1]['upgrade_action_id'],
-            'the result set is not in descending order'
+            'the result set is not in descending order',
         );
 
         // check that the resulting aResultAfter is identical to what we've recorded
@@ -248,7 +245,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->assertEqual(
             $toTest,
             $oAuditor->queryAuditArtifactsByUpgradeId(1),
-            'input array is different from output array'
+            'input array is different from output array',
         );
     }
 
@@ -269,7 +266,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         Mock::generatePartial(
             'OA_UpgradeAuditor',
             'OA_UpgradeAuditorTest',
-            ['getBackupTableStatus']
+            ['getBackupTableStatus'],
         );
 
         $oMockAuditor = new OA_UpgradeAuditorTest($this);
@@ -282,7 +279,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->assertEqual(
             $aResultFinal,
             $aResult,
-            'result is different for the main backup tables'
+            'result is different for the main backup tables',
         );
     }
 
@@ -362,7 +359,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         Mock::generatePartial(
             'OA_UpgradeLogger',
             $mockDBAud = 'OA_UpgradeLogger' . rand(),
-            ['isPearError', 'logError']
+            ['isPearError', 'logError'],
         );
         $oLoggerMock = new $mockDBAud($this);
 

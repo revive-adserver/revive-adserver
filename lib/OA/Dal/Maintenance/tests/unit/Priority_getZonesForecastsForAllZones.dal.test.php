@@ -198,7 +198,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             1 => 42,
             2 => 5,
             3 => 9999,
-            4 => $zoneForecastDefaultZoneImpressions
+            4 => $zoneForecastDefaultZoneImpressions,
         ];
         $result = &$oMaxDalMaintenance->getZonesForecastsForAllZones();
         $this->assertEqual($result, $expected);

@@ -16,6 +16,7 @@ $commonJs = [
     'js/jscalendar/calendar-setup.js',
     'js/jquery.delegate-1.1.min.js',
     'js/jquery.tablesorter.js',
+    'js/freeze-ui.js',
 ];
 
 
@@ -47,6 +48,7 @@ $commonCss = [
     'css/message.css',
     'js/jscalendar/calendar-openads.css',
     'css/icons.css',
+    'css/freeze-ui.css',
 ];
 
 
@@ -68,12 +70,12 @@ $oxpJsInstall = ['js/jquery.simplemodal.min.js', 'js/ox.install.js'];
 //define groups used by minfier
 $MINIFY_JS_GROUPS = [
     'oxp-js' => array_merge($commonJs, $oxpJs),
-    'oxp-js-install' => array_merge($commonJs, $oxpJs, $oxpJsInstall)
+    'oxp-js-install' => array_merge($commonJs, $oxpJs, $oxpJsInstall),
 ];
 
 $MINIFY_CSS_GROUPS = [
     'oxp-css-ltr' => array_merge($commonCss, $oxpCssLtr),
     'oxp-css-rtl' => array_merge($commonCss, $oxpCssRtl),
     'oxp-css-install-ltr' => array_merge($commonCss, $oxpCssInstallLtr),
-    'oxp-css-install-rtl' => array_merge($commonCss, $oxpCssInstallRtl)
+    'oxp-css-install-rtl' => array_merge($commonCss, $oxpCssInstallRtl),
 ];

@@ -83,7 +83,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strXPreferencesHaveBeenUpdated'],
-                [htmlspecialchars($title)]
+                [htmlspecialchars($title)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -106,34 +106,34 @@ $count = count($aConfig['preferences']);
 $i = 0;
 foreach ($aConfig['preferences'] as $k => $v) {
     $aPreferences[0]['items'][] = [
-                                         'type' => $v['type'],
-                                         'name' => $group . '_' . $v['name'],
-                                         'text' => $v['label'],
-                                         'req' => $v['required'],
-                                         'size' => $v['size'],
-                                         'value' => $v['value'],
-                                         'visible' => $v['visible'],
-                                         ];
+        'type' => $v['type'],
+        'name' => $group . '_' . $v['name'],
+        'text' => $v['label'],
+        'req' => $v['required'],
+        'size' => $v['size'],
+        'value' => $v['value'],
+        'visible' => $v['visible'],
+    ];
     //add break after a field excluding last
     $i++;
     if ($i < $count) {
         $aPreferences[0]['items'][] = [
-                    'type' => 'break'
-                ];
+            'type' => 'break',
+        ];
     }
 }
 
 
 $aPreferences[0]['items'][] = [
-                                     'type' => 'hiddenfield',
-                                     'name' => 'plugin',
-                                     'value' => $plugin,
-                                     ];
+    'type' => 'hiddenfield',
+    'name' => 'plugin',
+    'value' => $plugin,
+];
 $aPreferences[0]['items'][] = [
-                                 'type' => 'hiddenfield',
-                                 'name' => 'group',
-                                 'value' => $group,
-                                 ];
+    'type' => 'hiddenfield',
+    'name' => 'group',
+    'value' => $group,
+];
 
 
 $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);

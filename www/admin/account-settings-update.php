@@ -41,12 +41,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'sync_checkForUpdates' => [
             'sync' => 'checkForUpdates',
-            'bool' => true
+            'bool' => true,
         ],
         'sync_shareStack' => [
             'sync' => 'shareStack',
-            'bool' => true
-        ]
+            'bool' => true,
+        ],
     ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -58,7 +58,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -88,9 +88,9 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'sync_checkForUpdates',
-                'text' => $strAdminCheckUpdates
-            ]
-        ]
+                'text' => $strAdminCheckUpdates,
+            ],
+        ],
     ],
     [
         'text' => $strWhenCheckingForUpdates,
@@ -99,10 +99,10 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'sync_shareStack',
                 'text' => $strAdminShareStack,
-                'depends' => 'sync_checkForUpdates==1'
-            ]
-        ]
-    ]
+                'depends' => 'sync_checkForUpdates==1',
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

@@ -52,18 +52,18 @@ class OX_Maintenance_Statistics_MigrateBucketData
      */
     public function summarise($oStartDate, $oEndDate)
     {
-//        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogCountry', 'logImpressionCountry');
-//        $statisticsTableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] .
-//            $oComponent->getStatisticsName();
-//        $aMigrationMaps = array(
-//            $oComponent->getStatisticsMigration());
+        //        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogCountry', 'logImpressionCountry');
+        //        $statisticsTableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] .
+        //            $oComponent->getStatisticsName();
+        //        $aMigrationMaps = array(
+        //            $oComponent->getStatisticsMigration());
 
         $aRunComponents = $this->prepareMaps($this->locateComponents());
 
         // TODO: make it work for a range of dates
         $aDates = [
             'start' => $oStartDate,
-            'end' => $oEndDate
+            'end' => $oEndDate,
         ];
 
         // Prepare the DAL object
@@ -100,7 +100,7 @@ class OX_Maintenance_Statistics_MigrateBucketData
                         $oComponent = &OX_Component::factory('deliveryLog', $aContents['name'], $aComponent['name']);
                         if ($oComponent->enabled) {
                             $destinationTable = $oComponent->getStatisticsTableName();
-                            $aSummariseComponents[$destinationTable][get_class($oComponent)] = $oComponent;
+                            $aSummariseComponents[$destinationTable][$oComponent::class] = $oComponent;
                         }
                     }
                 }
@@ -135,7 +135,7 @@ class OX_Maintenance_Statistics_MigrateBucketData
                 }
                 if ($aMap['method'] == 'aggregate') {
                     // Nice! We can migrate aggregate data
-                    $aRunComponents[$statisticsTable][get_class($oComponent)] = $aMap;
+                    $aRunComponents[$statisticsTable][$oComponent::class] = $aMap;
                 }
             }
         }

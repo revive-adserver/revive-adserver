@@ -96,13 +96,13 @@ class OA_Dll_AdvertiserInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-                    'advertiserId' => 'integer',
-                    'accountId' => 'integer',
-                    'agencyId' => 'integer',
-                    'advertiserName' => 'string',
-                    'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'comments' => 'string',
-                ];
+            'advertiserId' => 'integer',
+            'accountId' => 'integer',
+            'agencyId' => 'integer',
+            'advertiserName' => 'string',
+            'contactName' => 'string',
+            'emailAddress' => 'string',
+            'comments' => 'string',
+        ];
     }
 }

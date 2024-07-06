@@ -23,14 +23,6 @@ require_once LIB_PATH . '/OperationInterval.php';
 class Test_Max_Delivery_Log_A extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the MAX_Delivery_log_logConversion() function.
      */
     public function test_MAX_Delivery_log_logConversion()
@@ -64,7 +56,7 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
             'cid' => 2,
             'zid' => 3,
             'dt' => $GLOBALS['_MAX']['NOW'] - 60,
-            'window' => 60
+            'window' => 60,
         ];
         MAX_Delivery_log_logConversion(1, $aConversion);
 

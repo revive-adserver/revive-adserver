@@ -20,6 +20,8 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
+OX_Delivery_Common_sendPreconnectHeaders();
+
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(['refresh', 'resize', 'rewrite', 'n']);
 
@@ -73,15 +75,15 @@ if (isset($rewrite) && $rewrite == 1) {
 $outputHtml = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
 $outputHtml .= "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n";
 $outputHtml .= "<head>\n";
-$outputHtml .= "<title>" . (!empty($banner['alt']) ? $banner['alt'] : 'Advertisement') . "</title>\n";
+$outputHtml .= "<title>" . (empty($banner['alt']) ? 'Advertisement' : $banner['alt']) . "</title>\n";
 
 // Add refresh meta tag if $refresh is set and numeric
 if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
     $dest = MAX_commonGetDeliveryUrl($conf['file']['frame']) . '?' . $_SERVER['QUERY_STRING'];
     parse_str($_SERVER['QUERY_STRING'], $qs);
-    $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
+    $dest .= (array_key_exists('loc', $qs)) ? '' : "&loc=" . urlencode($loc);
 
-    $refresh = (int)$refresh;
+    $refresh = (int) $refresh;
     // JS needs to be escaped twice: the setTimeout argument is evaluated at runtime
     $jsDest = addcslashes(addcslashes($dest, "\0..\37/\"\\"), "'\\");
     $htmlDest = htmlspecialchars($dest, ENT_QUOTES);

@@ -84,26 +84,25 @@ abstract class Test_OA_BaseUpgradeAuditor extends UnitTestCase
 
     public function test_updateAuditAction()
     {
-
         // to be written!
     }
 
     public function _getUpgradeAuditKeyParamsArray()
     {
         return [
-                     'upgrade_name' => 'openads_upgrade_2.0.0.xml',
-                     'version_from' => '1.0.0',
-                     'version_to' => '2.0.0',
-                     'logfile' => 'test/openads_upgrade_2.0.0.log',
-                    ];
+            'upgrade_name' => 'openads_upgrade_2.0.0.xml',
+            'version_from' => '1.0.0',
+            'version_to' => '2.0.0',
+            'logfile' => 'test/openads_upgrade_2.0.0.log',
+        ];
     }
 
     public function _getDBAuditKeyParamsArray()
     {
         return [
-                     'schema_name' => 'test_schema',
-                     'version' => 2,
-                     'timing' => 0,
-                    ];
+            'schema_name' => 'test_schema',
+            'version' => 2,
+            'timing' => 0,
+        ];
     }
 }

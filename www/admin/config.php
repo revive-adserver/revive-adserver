@@ -36,8 +36,8 @@ if (PEAR::isError($oDbh)) {
         sprintf(
             $GLOBALS['strErrorCantConnectToDatabase'],
             PRODUCT_NAME,
-            $GLOBALS['_MAX']['CONF']['database']['type']
-        )
+            $GLOBALS['_MAX']['CONF']['database']['type'],
+        ),
     );
 }
 
@@ -69,7 +69,7 @@ phpAds_registerGlobalUnslashed(
     'day',
     'trackerid',
     'userlogid',
-    'zoneid'
+    'zoneid',
 );
 
 if (!isset($affiliateid)) {

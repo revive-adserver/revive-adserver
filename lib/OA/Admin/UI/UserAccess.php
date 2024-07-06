@@ -49,7 +49,7 @@ class OA_Admin_UI_UserAccess
         if (empty($this->userid)) {
             $this->userid = $this->oPlugin->getMatchingUserId(
                 $this->request['email_address'],
-                $this->request['login']
+                $this->request['login'],
             );
         }
     }
@@ -65,11 +65,11 @@ class OA_Admin_UI_UserAccess
             'permissions',
             'submit',
             'language',
-            'token'
+            'token',
         );
         // Sanitize userid
         if (!empty($this->request['userid'])) {
-            $this->request['userid'] = (int)$this->request['userid'];
+            $this->request['userid'] = (int) $this->request['userid'];
         }
         $this->userid = $this->request['userid'];
         if (isset($this->request['permissions'])) {
@@ -116,7 +116,7 @@ class OA_Admin_UI_UserAccess
                     $this->request['contact_name'],
                     $this->request['email_address'],
                     $this->request['language'],
-                    $this->accountId
+                    $this->accountId,
                 );
 
                 if ($this->userid) {
@@ -124,7 +124,7 @@ class OA_Admin_UI_UserAccess
                         $this->userid,
                         $this->accountId,
                         $this->aPermissions,
-                        $this->aAllowedPermissions
+                        $this->aAllowedPermissions,
                     );
 
                     if ($newUser && $this->oPasswordRecovery->sendWelcomeEmail([$this->userid]) > 0) {
@@ -174,15 +174,15 @@ class OA_Admin_UI_UserAccess
                 'title' => $GLOBALS['strUserDetails'],
                 'fields' => $this->oPlugin->getUserDetailsFields(
                     $userData,
-                    $this->request['link']
-                )
-            ]
+                    $this->request['link'],
+                ),
+            ],
         ];
         $aPermissionsFields = $this->_builPermissionFields();
         if (!empty($aPermissionsFields)) {
             $aTplFields[] = [
                 'title' => $GLOBALS['strPermissions'],
-                'fields' => $aPermissionsFields
+                'fields' => $aPermissionsFields,
             ];
         }
         $oTpl->assign('fields', $aTplFields);
@@ -203,27 +203,27 @@ class OA_Admin_UI_UserAccess
         $c = 0;
         foreach ($this->aAllowedPermissions as $permissionId => $aPermission) {
             if (is_array($aPermission)) {
-                list($permissionName, $indent, $onClick) = $aPermission;
+                [$permissionName, $indent, $onClick] = $aPermission;
             } else {
                 $permissionName = $aPermission;
                 $indent = false;
                 $onClick = false;
             }
             $aPermissionsFields[$c] = [
-                        'name' => 'permissions[]',
-                        'label' => $permissionName,
-                        'type' => 'checkbox',
-                        'value' => $permissionId,
-                        'checked' => OA_Permission::hasPermission(
-                            $permissionId,
-                            $this->accountId,
-                            $this->userid
-                        ),
-                        'disabled' => OA_Permission::isUserLinkedToAdmin($this->userid),
-                        'break' => false,
-                        'id' => 'permissions_' . $permissionId,
-                        'indent' => $indent,
-                    ];
+                'name' => 'permissions[]',
+                'label' => $permissionName,
+                'type' => 'checkbox',
+                'value' => $permissionId,
+                'checked' => OA_Permission::hasPermission(
+                    $permissionId,
+                    $this->accountId,
+                    $this->userid,
+                ),
+                'disabled' => OA_Permission::isUserLinkedToAdmin($this->userid),
+                'break' => false,
+                'id' => 'permissions_' . $permissionId,
+                'indent' => $indent,
+            ];
             if ($onClick) {
                 $aPermissionsFields[$c]['onclick'] = $onClick;
             }
@@ -307,7 +307,7 @@ class OA_Admin_UI_UserAccess
         $oPlugin = OA_Auth::staticGetAuthPlugin();
         $oPlugin->setTemplateVariables($oTpl);
         $helpString = OA_Admin_UI_UserAccess::getHelpString(
-            $oTpl->get_template_vars('sso')
+            $oTpl->get_template_vars('sso'),
         );
         $oTpl->assign('strLinkUserHelp', $helpString);
     }
@@ -332,15 +332,15 @@ class OA_Admin_UI_UserAccess
         $hiddenFields = [
             [
                 'name' => 'submit',
-                'value' => true
+                'value' => true,
             ],
             [
                 'name' => 'login',
-                'value' => $userData['username']
+                'value' => $userData['username'],
             ],
             [
                 'name' => 'link',
-                'value' => $link
+                'value' => $link,
             ],
             [
                 'name' => 'token',
@@ -352,15 +352,15 @@ class OA_Admin_UI_UserAccess
             if (!empty($userData[$field])) {
                 $hiddenFields[] = [
                     'name' => $field,
-                    'value' => $userData[$field]
+                    'value' => $userData[$field],
                 ];
             }
         }
         foreach ($entities as $entityName => $entityId) {
             $hiddenFields[] = [
-                    'name' => $entityName,
-                    'value' => $entityId
-                ];
+                'name' => $entityName,
+                'value' => $entityId,
+            ];
         }
         return $hiddenFields;
     }
@@ -457,7 +457,7 @@ class OA_Admin_UI_UserAccess
                 $permissions,
                 $accountId,
                 $userId,
-                $aAllowedPermissions
+                $aAllowedPermissions,
             );
         }
     }

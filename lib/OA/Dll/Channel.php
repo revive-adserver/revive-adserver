@@ -50,7 +50,7 @@ class OA_Dll_Channel extends OA_Dll
         $channelData['comments'] = $channelData['comments'];
 
         $oChannel->readDataFromArray($channelData);
-        return  true;
+        return true;
     }
 
     /**
@@ -67,7 +67,6 @@ class OA_Dll_Channel extends OA_Dll
     public function _validate(&$oChannel)
     {
         if (isset($oChannel->channelId)) {
-
             // If modifying, check the channelId is valid.
             if (!$this->checkStructureRequiredIntegerField($oChannel, 'channelId') ||
                 !$this->checkIdExistence('channel', $oChannel->channelId)) {
@@ -99,14 +98,7 @@ class OA_Dll_Channel extends OA_Dll
                 return false;
             }
         }
-
-
-        if (!$this->checkStructureNotRequiredStringField($oChannel, 'description', 255) ||
-            !$this->checkStructureNotRequiredStringField($oChannel, 'comments')) {
-            return false;
-        }
-
-        return true;
+        return $this->checkStructureNotRequiredStringField($oChannel, 'description', 255) && $this->checkStructureNotRequiredStringField($oChannel, 'comments');
     }
 
     /**
@@ -132,25 +124,22 @@ class OA_Dll_Channel extends OA_Dll
         if (!isset($oChannel->channelId)) {
             // Add
             $oChannel->setDefaultForAdd();
-
             // Check permission for the website.
             if (isset($oChannel->websiteId) && $oChannel->websiteId != 0) {
                 if (!$this->checkPermissions(
                     [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     'affiliates',
-                    $oChannel->websiteId
+                    $oChannel->websiteId,
                 )) {
                     return false;
                 }
             }
-        } else {
-            if (!$this->checkPermissions(
-                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
-                'channel',
-                $oChannel->channelId
-            )) {
-                return false;
-            }
+        } elseif (!$this->checkPermissions(
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'channel',
+            $oChannel->channelId,
+        )) {
+            return false;
         }
 
         // Prepare the dataobject array.
@@ -377,10 +366,9 @@ class OA_Dll_Channel extends OA_Dll
             }
 
             foreach ($aTargeting as $executionOrder => $oTargeting) {
-
                 // Prepend "deliveryLimitations:" to any component-identifiers
                 // (for 2.6 backwards compatibility)
-                if (substr($oTargeting->type, 0, 20) != 'deliveryLimitations:') {
+                if (!str_starts_with($oTargeting->type, 'deliveryLimitations:')) {
                     $aTargeting[$executionOrder]->type = 'deliveryLimitations:' .
                         $aTargeting[$executionOrder]->type;
                 }

@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once 'init-parse.php';
+
 /**
  * @package    Revive Adserver
  *
@@ -22,7 +24,7 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION', '5.4.2-dev');
+    define('VERSION', '5.6.0-dev');
     define('PRODUCT_NAME', 'Revive Adserver');
     define('PRODUCT_URL', 'www.revive-adserver.com');
     define('PRODUCT_DOCSURL', 'http://documentation.revive-adserver.com');
@@ -187,7 +189,7 @@ function setupConstants()
         // Define the installation base path if not defined
         // since local mode will pre-define this value
         if (!defined('MAX_PATH')) {
-            define('MAX_PATH', dirname(__FILE__));
+            define('MAX_PATH', __DIR__);
         }
         if (!defined('OX_PATH')) {
             define('OX_PATH', MAX_PATH);

@@ -24,8 +24,8 @@ msgstr "Tato zpráva ukazuje přehled reklam pro konkrétního inzerenta nebo we
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 msgid "Standard Reports"
 msgstr "Standardní reporty"
 
@@ -60,6 +60,91 @@ msgstr "Tato sestava ukazuje přehled reklamy na konkrétní kampaně, v den, ba
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
 msgid "Ad Breakdown"
 msgstr "AD rozdělení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
+msgid "Conversion Tracking Report"
+msgstr "Přehled sledování konverze"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
+msgid "A detailed breakdown of all conversion activity by advertiser or website."
+msgstr "Podrobný rozpis všech konverzních aktivit podle inzerenta nebo webové stránky."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
+msgid "Performance by Day"
+msgstr "Výkon ve dne"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:336
+msgid "Connection Summary by Day"
+msgstr "Souhrn připojení v den"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
+msgid "Variable Summary by Day"
+msgstr "Variabilní Shrnutí v den"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
+msgid "Variable Summary by Variable"
+msgstr "Variabilní Shrnutí v proměnné"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
+msgid "Connection Detail"
+msgstr "Detail spojení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
+msgid "Total Connections"
+msgstr "Celkem spojení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
+msgid " Connections"
+msgstr " Připojení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
+msgid "Connection ID"
+msgstr "ID připojení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
+msgid "Connection Date / Time"
+msgstr "Připojení Datum / čas"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
+msgid "Approval Status"
+msgstr "Stav schválení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:673
+msgid "Comment"
+msgstr "Komentář"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:679
+msgid "Advertiser Name"
+msgstr "Jméno inzerenta"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:683
+msgid "Ad Name"
+msgstr "AD jméno"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
+msgid "Website Name"
+msgstr "Název webu"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:687
+msgid "Zone Name"
+msgstr "Název zóny"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:689
+msgid "Connection Type"
+msgstr "Typ připojení"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:691
+msgid "Connecting Value Date / Time"
+msgstr "Připojovací hodnota datum / čas"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:693
+msgid "IP Address"
+msgstr "IP adresa"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
@@ -128,89 +213,4 @@ msgstr "Zbytek"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Contract"
 msgstr "Kontakt"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
-msgid "Conversion Tracking Report"
-msgstr "Přehled sledování konverze"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
-msgid "A detailed breakdown of all conversion activity by advertiser or website."
-msgstr "Podrobný rozpis všech konverzních aktivit podle inzerenta nebo webové stránky."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
-msgid "Performance by Day"
-msgstr "Výkon ve dne"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:336
-msgid "Connection Summary by Day"
-msgstr "Souhrn připojení v den"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
-msgid "Variable Summary by Day"
-msgstr "Variabilní Shrnutí v den"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
-msgid "Variable Summary by Variable"
-msgstr "Variabilní Shrnutí v proměnné"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
-msgid "Connection Detail"
-msgstr "Detail spojení"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
-msgid "Total Connections"
-msgstr "Celkem spojení"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
-msgid " Connections"
-msgstr " Připojení"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
-msgid "Connection ID"
-msgstr "ID připojení"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
-msgid "Connection Date / Time"
-msgstr "Připojení Datum / čas"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:678
-msgid "Approval Status"
-msgstr "Stav schválení"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:680
-msgid "Comment"
-msgstr "Komentář"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:686
-msgid "Advertiser Name"
-msgstr "Jméno inzerenta"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:690
-msgid "Ad Name"
-msgstr "AD jméno"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:692
-msgid "Website Name"
-msgstr "Název webu"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:694
-msgid "Zone Name"
-msgstr "Název zóny"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:696
-msgid "Connection Type"
-msgstr "Typ připojení"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:698
-msgid "Connecting Value Date / Time"
-msgstr "Připojovací hodnota datum / čas"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
-msgid "IP Address"
-msgstr "IP adresa"
 

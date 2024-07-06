@@ -51,7 +51,6 @@ $GLOBALS['phpAds_hlp_company_name'] = "Tento název se používá v e-mailu zasl
 
 
 
-
 $GLOBALS['phpAds_hlp_obfuscate'] = "Tady nic...";
 
 
@@ -66,39 +65,3 @@ $GLOBALS['phpAds_hlp_obfuscate'] = "Tady nic...";
 
 
 $GLOBALS['phpAds_hlp_warn_limit'] = "Limit na které {$PRODUCT_NAME} zahájí odesílání upozornění e-maily. To je 100 ve výchozím nastavení.";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -61,7 +61,7 @@ $aBanner = [
     'bannertype' => 0,
     'alt_filename' => '',
     'alt_imageurl' => '',
-    'alt_contenttype' => ''
+    'alt_contenttype' => '',
 ];
 
 $expect = "<a href='{clickurl_html}' target='{target}' rel='{rel}'>" .

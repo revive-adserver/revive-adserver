@@ -26,11 +26,10 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * {Plugin} is the actual name of the plugin.  The plugin file name is also called {Plugin}.plugin.php.
  *
- * @abstract
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  */
-class Plugins_DeliveryLimitations extends OX_Component
+abstract class Plugins_DeliveryLimitations extends OX_Component
 {
     public $ad_id;
     public $logical;
@@ -50,6 +49,11 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     public $aOperations;
 
+    /**
+     * @var string
+     */
+    public $displayName;
+
     public function __construct()
     {
         $this->aOperations = MAX_limitationsGetAOperationsForString($this);
@@ -60,9 +64,7 @@ class Plugins_DeliveryLimitations extends OX_Component
      *
      * DO NOT DELETE OTHERWISE THE PLUGIN UPGRADE WILL FAIL!
      */
-    final public function Plugins_DeliveryLimitations()
-    {
-    }
+    final public function Plugins_DeliveryLimitations() {}
 
     /**
      * Initialise this plugin
@@ -107,14 +109,13 @@ class Plugins_DeliveryLimitations extends OX_Component
         return MAX_Plugin_Translation::translate(
             $this->nameEnglish,
             $this->extension,
-            $this->group
+            $this->group,
         );
     }
 
     /**
      * Evaluates whether the person or agency can use this plugin (e.g. if they have the right permissions)
      *
-     * @abstract
      * @return boolean
      */
     public function isAllowed($page = false)
@@ -130,9 +131,9 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     public function checkInputData($data)
     {
-//        if (!($data['data'] && !is_array($data['data']) && trim($data['data'] != ''))) {
-//            return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
-//        }
+        //        if (!($data['data'] && !is_array($data['data']) && trim($data['data'] != ''))) {
+        //            return MAX_Plugin_Translation::translate($this->group.' - '.$this->getName().': Please provide a non-empty limitation parameters', $this->extension, $this->group);
+        //        }
         return true;
     }
 
@@ -229,7 +230,7 @@ class Plugins_DeliveryLimitations extends OX_Component
     public function displayData()
     {
         global $tabindex;
-        echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value=\"" . htmlspecialchars(isset($this->data) ? $this->data : "") . "\" tabindex='" . ($tabindex++) . "'>";
+        echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value=\"" . htmlspecialchars($this->data ?? "") . "\" tabindex='" . ($tabindex++) . "'>";
     }
 
     /**

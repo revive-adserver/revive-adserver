@@ -59,7 +59,7 @@ class OA_Dll_Agency extends OA_Dll
         unset($agencyData['password']);
 
         $oAgency->readDataFromArray($agencyData);
-        return  true;
+        return true;
     }
 
     /**
@@ -81,17 +81,14 @@ class OA_Dll_Agency extends OA_Dll
             $doAgency = OA_Dal::factoryDO('agency');
             $doAgency->get($oAgency->agencyId);
             $agencyOld = $doAgency->toArray();
-
             if (!$this->checkStructureRequiredIntegerField($oAgency, 'agencyId') ||
                 !$this->checkStructureNotRequiredStringField($oAgency, 'agencyName', 255) ||
                 !$this->checkIdExistence('agency', $oAgency->agencyId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
             // When adding an agency, check that the required field 'agencyName' is correct.
-            if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
-                return false;
-            }
+            return false;
         }
 
         if ((isset($oAgency->emailAddress) &&
@@ -206,11 +203,11 @@ class OA_Dll_Agency extends OA_Dll
                 if ($oAgency->agencyId) {
                     // Set the account ID
                     $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
-                    $oAgency->accountId = (int)$doAgency->account_id;
+                    $oAgency->accountId = (int) $doAgency->account_id;
 
                     if (!isset($oAgency->status)) {
                         // Updatre status if it was empty
-                        $oAgency->status = (int)$doAgency->status;
+                        $oAgency->status = (int) $doAgency->status;
                     }
                 }
 
@@ -225,7 +222,7 @@ class OA_Dll_Agency extends OA_Dll
                         $agencyData['contactName'],
                         $agencyData['userEmail'],
                         $agencyData['language'],
-                        $oAgency->accountId
+                        $oAgency->accountId,
                     );
                     if ($userId) {
                         // Link the user and give permission to create new accounts
@@ -237,7 +234,7 @@ class OA_Dll_Agency extends OA_Dll
                             $aPermissions,
                             $oAgency->accountId,
                             $userId,
-                            $aAllowedPermissions
+                            $aAllowedPermissions,
                         );
                     }
                 }
@@ -366,7 +363,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -377,7 +374,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -411,7 +408,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -422,7 +419,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -457,7 +454,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -468,7 +465,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -505,7 +502,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -516,7 +513,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -555,7 +552,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -566,7 +563,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -601,7 +598,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -612,7 +609,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -649,7 +646,7 @@ class OA_Dll_Agency extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'agency',
-            $agencyId
+            $agencyId,
         )) {
             return false;
         }
@@ -660,7 +657,7 @@ class OA_Dll_Agency extends OA_Dll
                 $agencyId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;

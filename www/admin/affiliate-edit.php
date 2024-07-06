@@ -36,7 +36,7 @@ phpAds_registerGlobalUnslashed(
     'errormessage',
     'submit',
     'publiczones_old',
-    'formId'
+    'formId',
 );
 
 // Security check
@@ -79,10 +79,10 @@ if ($websiteForm->validate()) {
     //process submitted values
     $oPublisherDll = processForm($affiliateid, $websiteForm);
     if ($oPublisherDll->_errorMessage || $oPublisherDll->_noticeMessage) {
-        displayPage($affiliateid, $websiteForm, $oPublisherDll);
+        displayAffiliateEditPage($affiliateid, $websiteForm, $oPublisherDll);
     }
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($affiliateid, $websiteForm);
+    displayAffiliateEditPage($affiliateid, $websiteForm);
 }
 
 
@@ -125,50 +125,49 @@ function buildWebsiteForm($affiliate)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
- function processForm($affiliateid, $form)
- {
-     $aFields = $form->exportValues();
-     $newWebsite = empty($aFields['affiliateid']);
+function processForm($affiliateid, $form)
+{
+    $aFields = $form->exportValues();
+    $newWebsite = empty($aFields['affiliateid']);
 
-     // Setup a new publisher object and set the fields passed in from the form:
-     $oPublisher = new OA_Dll_PublisherInfo();
-     $oPublisher->agencyId = $aFields['agencyid'];
-     $oPublisher->contactName = $aFields['contact'];
-     $oPublisher->emailAddress = $aFields['email'];
-     $oPublisher->publisherId = $aFields['affiliateid'];
-     $oPublisher->publisherName = $aFields['name'];
-     $oPublisher->website = $aFields['website'];
+    // Setup a new publisher object and set the fields passed in from the form:
+    $oPublisher = new OA_Dll_PublisherInfo();
+    $oPublisher->agencyId = $aFields['agencyid'];
+    $oPublisher->contactName = $aFields['contact'];
+    $oPublisher->emailAddress = $aFields['email'];
+    $oPublisher->publisherId = $aFields['affiliateid'];
+    $oPublisher->publisherName = $aFields['name'];
+    $oPublisher->website = $aFields['website'];
 
-     $oPublisherDll = new OA_Dll_Publisher();
-     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
-
+    $oPublisherDll = new OA_Dll_Publisher();
+    if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
         // Queue confirmation message
-         $translation = new OX_Translation();
-         if ($newWebsite) {
-             $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenAdded'], [
+        $translation = new OX_Translation();
+        if ($newWebsite) {
+            $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenAdded'], [
                 MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
                 htmlspecialchars($oPublisher->publisherName),
                 MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' . $oPublisher->publisherId),
             ]);
-             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-             $redirectURL = "website-index.php";
-         } else {
-             $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenUpdated'], [
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            $redirectURL = "website-index.php";
+        } else {
+            $translated_message = $translation->translate($GLOBALS['strWebsiteHasBeenUpdated'], [
                 MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' . $oPublisher->publisherId),
                 htmlspecialchars($oPublisher->publisherName),
             ]);
-             $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
-         }
-         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-         OX_Admin_Redirect::redirect($redirectURL);
-     }
-     return $oPublisherDll;
- }
+            $redirectURL = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
+        }
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OX_Admin_Redirect::redirect($redirectURL);
+    }
+    return $oPublisherDll;
+}
 
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($affiliateid, $form, $oPublisherDll = null)
+function displayAffiliateEditPage($affiliateid, $form, $oPublisherDll = null)
 {
     //header and breadcrumbs
     $oHeaderModel = MAX_displayWebsiteBreadcrumbs($affiliateid);
@@ -190,7 +189,7 @@ function displayPage($affiliateid, $form, $oPublisherDll = null)
         $oTpl->assign('notice', $oPublisherDll->_noticeMessage);
     }
 
-    $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
+    $oTpl->assign('showAdDirect', defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true);
     $oTpl->assign('keyAddNew', $GLOBALS['keyAddNew']);
 
     $oTpl->display();

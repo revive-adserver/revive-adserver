@@ -30,7 +30,10 @@ class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
 
     public function test_preCompile()
     {
-        $oPlugin = new Plugins_DeliveryLimitations_CommaSeparatedData();
+        $oPlugin = new class () extends Plugins_DeliveryLimitations_CommaSeparatedData {
+            public function displayArrayData() {}
+        };
+
         $this->assertEqual('ab,cd,ef,gh', $oPlugin->_preCompile('ab,cd,ef,gh'));
         $this->assertEqual('ab,cd,ef,gh', $oPlugin->_preCompile('aB,cD, ef,gh '));
         $this->assertEqual('a\\b,cd,ef,gh', $oPlugin->_preCompile('a\\b,cd,ef,gh'));

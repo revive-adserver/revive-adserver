@@ -14,10 +14,6 @@ $className = 'OA_UpgradePrescript_test';
 
 class OA_UpgradePrescript_test
 {
-    public function __construct()
-    {
-    }
-
     public function execute($aParams)
     {
         return true;

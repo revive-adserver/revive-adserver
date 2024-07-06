@@ -145,7 +145,7 @@ class XmlRpcUtils
                 if (strtolower($fieldName) == strtolower($databaseFieldName)) {
                     $aResult[$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
                         $fieldType,
-                        $fieldValue
+                        $fieldValue,
                     );
                 }
             }
@@ -171,12 +171,12 @@ class XmlRpcUtils
         foreach ($aInfoData as $fieldName => $fieldValue) {
             $aReturnData[$fieldName] = XmlRpcUtils::_setRPCTypeForField(
                 $oInfoObject->getFieldType($fieldName),
-                $fieldValue
+                $fieldValue,
             );
         }
         return new XML_RPC_Value(
             $aReturnData,
-            $GLOBALS['XML_RPC_Struct']
+            $GLOBALS['XML_RPC_Struct'],
         );
     }
 
@@ -198,13 +198,13 @@ class XmlRpcUtils
             if (!is_null($fieldValue)) {
                 $aReturnData[$fieldName] = XmlRpcUtils::_setRPCTypeForField(
                     $oInfoObject->getFieldType($fieldName),
-                    $fieldValue
+                    $fieldValue,
                 );
             }
         }
         return new XML_RPC_Value(
             $aReturnData,
-            $GLOBALS['XML_RPC_Struct']
+            $GLOBALS['XML_RPC_Struct'],
         );
     }
 
@@ -242,7 +242,7 @@ class XmlRpcUtils
 
         $value = new XML_RPC_Value(
             $xmlValue,
-            $GLOBALS['XML_RPC_Array']
+            $GLOBALS['XML_RPC_Array'],
         );
 
         return new XML_RPC_Response($value);
@@ -404,7 +404,7 @@ class XmlRpcUtils
             return XmlRpcUtils::_convertDateFromIso8601Format(
                 $oParam->scalarval(),
                 $result,
-                $oResponseWithError
+                $oResponseWithError,
             );
         } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_Boolean']) {
             $result = (bool) $oParam->scalarval();
@@ -496,7 +496,7 @@ class XmlRpcUtils
         $aRequired,
         &$oParams,
         &$oResponseWithError,
-        $idxStart = 0
+        $idxStart = 0,
     ) {
         if (count($aReferencesOnVariables) != count($aRequired)) {
             MAX::raiseError('$aReferencesOnVariables & $aRequired arrays should have the same length');
@@ -510,19 +510,17 @@ class XmlRpcUtils
                     $aReferencesOnVariables[$i],
                     $oParams,
                     $i + $idxStart,
-                    $oResponseWithError
+                    $oResponseWithError,
                 )) {
                     return false;
                 }
-            } else {
-                if (!XmlRpcUtils::_getNotRequiredScalarValue(
-                    $aReferencesOnVariables[$i],
-                    $oParams,
-                    $i + $idxStart,
-                    $oResponseWithError
-                )) {
-                    return false;
-                }
+            } elseif (!XmlRpcUtils::_getNotRequiredScalarValue(
+                $aReferencesOnVariables[$i],
+                $oParams,
+                $i + $idxStart,
+                $oResponseWithError,
+            )) {
+                return false;
             }
         }
         return true;
@@ -544,7 +542,7 @@ class XmlRpcUtils
         &$oStructure,
         &$oStructParam,
         $fieldName,
-        &$oResponseWithError
+        &$oResponseWithError,
     ) {
         $oParam = $oStructParam->structmem($fieldName);
         if (isset($oParam)) {
@@ -552,7 +550,7 @@ class XmlRpcUtils
                 return XmlRpcUtils::_getScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
             } else {
                 $oResponseWithError = XmlRpcUtils::generateError(
-                    'Structure field \'' . $fieldName . '\' should be scalar type '
+                    'Structure field \'' . $fieldName . '\' should be scalar type ',
                 );
                 return false;
             }
@@ -582,7 +580,7 @@ class XmlRpcUtils
                 return XmlRpcUtils::_getNonScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
             } else {
                 $oResponseWithError = XmlRpcUtils::generateError(
-                    'Structure field \'' . $fieldName . '\' should be non-scalar type '
+                    'Structure field \'' . $fieldName . '\' should be non-scalar type ',
                 );
                 return false;
             }
@@ -609,7 +607,7 @@ class XmlRpcUtils
         &$oParams,
         $idxParam,
         $aFieldNames,
-        &$oResponseWithError
+        &$oResponseWithError,
     ) {
         $oStructParam = $oParams->getParam($idxParam);
 
@@ -618,7 +616,7 @@ class XmlRpcUtils
                 $oStructure,
                 $oStructParam,
                 $fieldName,
-                $oResponseWithError
+                $oResponseWithError,
             )) {
                 return false;
             }
@@ -646,7 +644,7 @@ class XmlRpcUtils
         &$oParams,
         $idxParam,
         $aFieldNames,
-        &$oResponseWithError
+        &$oResponseWithError,
     ) {
         $oArrayParam = $oParams->getParam($idxParam);
         $count = $oArrayParam->arraysize();
@@ -659,7 +657,7 @@ class XmlRpcUtils
                     $oStructure,
                     $oStructParam,
                     $fieldName,
-                    $oResponseWithError
+                    $oResponseWithError,
                 )) {
                     return false;
                 }
@@ -690,7 +688,7 @@ class XmlRpcUtils
         $idxParam,
         $aScalars,
         $aNonScalars,
-        &$oResponseWithError
+        &$oResponseWithError,
     ) {
         $result = XmlRpcUtils::getStructureScalarFields($oStructure, $oParams, $idxParam, $aScalars, $oResponseWithError);
 
@@ -702,7 +700,7 @@ class XmlRpcUtils
                     $oStructure,
                     $oStructParam,
                     $fieldName,
-                    $oResponseWithError
+                    $oResponseWithError,
                 )) {
                     return false;
                 }

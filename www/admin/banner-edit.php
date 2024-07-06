@@ -56,7 +56,7 @@ phpAds_registerGlobalUnslashed(
     'upload',
     'url',
     'weight',
-    'width'
+    'width',
 );
 
 /*-------------------------------------------------------*/
@@ -231,12 +231,12 @@ if ($valid) {
     //process submitted values
     processForm($bannerid, $form, $oComponent, $formDisabled);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
+    displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
 }
 
 
 
-function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled = false)
+function displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled = false)
 {
     // Initialise some parameters
     $pageName = basename($_SERVER['SCRIPT_NAME']);
@@ -266,7 +266,7 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
     $oTpl->assign('campaignId', $campaignid);
     $oTpl->assign('bannerId', $bannerid);
     $oTpl->assign('bannerTypes', $bannerTypes);
-    $oTpl->assign('bannerType', ($ext_bannertype ? $ext_bannertype : $type));
+    $oTpl->assign('bannerType', ($ext_bannertype ?: $type));
     $oTpl->assign('bannerHeight', $aBanner["height"]);
     $oTpl->assign('bannerWidth', $aBanner["width"]);
     $oTpl->assign('disabled', $formDisabled);
@@ -328,7 +328,7 @@ function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = f
                 'fileSize' => $size,
                 'newLabel' => $GLOBALS['strNewBannerFile'],
                 'updateLabel' => $GLOBALS['strUploadOrKeep'],
-              ]
+            ],
         );
 
         $form->addElement('header', 'header_b_links', "Banner link");
@@ -472,13 +472,13 @@ function addUploadGroup($form, $aBanner, $vars)
 
         if (!empty($vars['decorateId'])) {
             $form->addDecorator($vars['uploadName'] . '_group', 'process', ['tag' => 'tr',
-                    'addAttributes' => ['id' => $vars['decorateId'] . '{numCall}',
+                'addAttributes' => ['id' => $vars['decorateId'] . '{numCall}',
                     'style' => 'display:none']]);
         }
     }
     $form->setDefaults([
-            $vars['radioName'] => $update ? 'f' : 't',
-        ]);
+        $vars['radioName'] => $update ? 'f' : 't',
+    ]);
 }
 
 
@@ -496,26 +496,26 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
 
     $aVariables = [];
     $aVariables['campaignid'] = $aFields['campaignid'];
-    $aVariables['target'] = isset($aFields['target']) ? $aFields['target'] : '';
-    $aVariables['height'] = isset($aFields['height']) ? $aFields['height'] : 0;
-    $aVariables['width'] = isset($aFields['width']) ? $aFields['width'] : 0;
-    $aVariables['weight'] = !empty($aFields['weight']) ? $aFields['weight'] : 0;
-    $aVariables['adserver'] = !empty($aFields['adserver']) ? $aFields['adserver'] : '';
-    $aVariables['alt'] = !empty($aFields['alt']) ? $aFields['alt'] : '';
-    $aVariables['bannertext'] = !empty($aFields['bannertext']) ? $aFields['bannertext'] : '';
-    $aVariables['htmltemplate'] = !empty($aFields['htmltemplate']) ? $aFields['htmltemplate'] : '';
-    $aVariables['description'] = !empty($aFields['description']) ? $aFields['description'] : '';
+    $aVariables['target'] = $aFields['target'] ?? '';
+    $aVariables['height'] = $aFields['height'] ?? 0;
+    $aVariables['width'] = $aFields['width'] ?? 0;
+    $aVariables['weight'] = empty($aFields['weight']) ? 0 : $aFields['weight'];
+    $aVariables['adserver'] = empty($aFields['adserver']) ? '' : $aFields['adserver'];
+    $aVariables['alt'] = empty($aFields['alt']) ? '' : $aFields['alt'];
+    $aVariables['bannertext'] = empty($aFields['bannertext']) ? '' : $aFields['bannertext'];
+    $aVariables['htmltemplate'] = empty($aFields['htmltemplate']) ? '' : $aFields['htmltemplate'];
+    $aVariables['description'] = empty($aFields['description']) ? '' : $aFields['description'];
     $aVariables['imageurl'] = (!empty($aFields['imageurl']) && $aFields['imageurl'] != 'http://') ? $aFields['imageurl'] : '';
     $aVariables['url'] = (!empty($aFields['url']) && $aFields['url'] != 'http://') ? $aFields['url'] : '';
     $aVariables['status'] = ($aFields['status'] != '') ? $aFields['status'] : '';
-    $aVariables['statustext'] = !empty($aFields['statustext']) ? $aFields['statustext'] : '';
+    $aVariables['statustext'] = empty($aFields['statustext']) ? '' : $aFields['statustext'];
     $aVariables['storagetype'] = $aFields['type'];
     $aVariables['ext_bannertype'] = $aFields['ext_bannertype'];
     $aVariables['comments'] = $aFields['comments'];
     $aVariables['iframe_friendly'] = $aFields['iframe_friendly'] ? 1 : 0;
 
-    $aVariables['filename'] = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
-    $aVariables['contenttype'] = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
+    $aVariables['filename'] = empty($aBanner['filename']) ? '' : $aBanner['filename'];
+    $aVariables['contenttype'] = empty($aBanner['contenttype']) ? '' : $aBanner['contenttype'];
 
     if ($aFields['type'] == 'url') {
         $aVariables['contenttype'] = OA_Creative_File::staticGetContentTypeByExtension($aVariables['imageurl']);
@@ -528,9 +528,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         $aVariables['contenttype'] = 'txt';
     }
 
-    $aVariables['alt_filename'] = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
-    $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
-    $aVariables['alt_imageurl'] = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
+    $aVariables['alt_filename'] = empty($aBanner['alt_filename']) ? '' : $aBanner['alt_filename'];
+    $aVariables['alt_contenttype'] = empty($aBanner['alt_contenttype']) ? '' : $aBanner['alt_contenttype'];
+    $aVariables['alt_imageurl'] = empty($aFields['alt_imageurl']) ? '' : $aFields['alt_imageurl'];
 
     if (isset($aFields['keyword']) && $aFields['keyword'] != '') {
         $keywordArray = preg_split('/[ ,]+/D', $aFields['keyword']);
@@ -569,7 +569,6 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
     }
     if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0
         && $aFields['replacealtimage'] == 't') {
-
         //TODO: Check image only? - Wasn't enforced before
         $oFile = OA_Creative_File::factoryUploadedFile('uploadalt');
         checkForErrorFileUploaded($oFile);
@@ -600,7 +599,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         $aVariables['comments'] = $aBanner['comments'];
     }
 
-    $insert = (empty($bannerid)) ? true : false;
+    $insert = empty($bannerid);
 
     if ($oComponent) {
         $result = $oComponent->preprocessForm($insert, $bannerid, $aFields, $aVariables);
@@ -638,7 +637,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         // Queue confirmation message
         $translated_message = $translation->translate($GLOBALS['strBannerHasBeenAdded'], [
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
-            htmlspecialchars($aFields['description'])
+            htmlspecialchars($aFields['description']),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -647,9 +646,9 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         $translated_message = $translation->translate(
             $GLOBALS['strBannerHasBeenUpdated'],
             [
-            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $aFields['bannerid']),
-            htmlspecialchars($aFields ['description'])
-        ]
+                MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $aFields['bannerid']),
+                htmlspecialchars($aFields ['description']),
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         $nextPage = "banner-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'] . "&bannerid=$bannerid";
@@ -675,14 +674,14 @@ function _getContentTypeIconImageName($contentType)
         return $imageName;
     }
 
-    switch ($contentType) {
-        case 'jpeg': $imageName = 'icon-filetype-jpg.gif'; break;
-        case 'gif':  $imageName = 'icon-filetype-gif.gif'; break;
-        case 'png':  $imageName = 'icon-filetype-png.gif'; break;
-        case 'rpm':  $imageName = 'icon-filetype-rpm.gif'; break;
-        case 'mov':  $imageName = 'icon-filetype-mov.gif'; break;
-        default:     $imageName = 'icon-banner-stored.gif'; break;
-    }
+    $imageName = match ($contentType) {
+        'jpeg' => 'icon-filetype-jpg.gif',
+        'gif' => 'icon-filetype-gif.gif',
+        'png' => 'icon-filetype-png.gif',
+        'rpm' => 'icon-filetype-rpm.gif',
+        'mov' => 'icon-filetype-mov.gif',
+        default => 'icon-banner-stored.gif',
+    };
 
     return $imageName;
 }

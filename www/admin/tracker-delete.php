@@ -43,7 +43,7 @@ if (!empty($trackerid)) {
         if ($doTrackers->find()) {
             // Clone the found DB_DataObject, as cannot delete() once
             // it has been fetch()ed
-            $doTrackersClone = clone($doTrackers);
+            $doTrackersClone = clone ($doTrackers);
             // Fetch the tracker so that we can get the name of the
             // tracker for the delete message
             $doTrackers->fetch();
@@ -58,7 +58,7 @@ if (!empty($trackerid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strTrackerHasBeenDeleted'], [
-            htmlspecialchars($aTracker['trackername'])
+            htmlspecialchars($aTracker['trackername']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strTrackersHaveBeenDeleted']);

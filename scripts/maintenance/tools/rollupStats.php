@@ -25,7 +25,7 @@
 /***************************************************************************/
 
 // Initialise the OpenX environment....
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../../init.php';
 
 // Required files
@@ -53,5 +53,3 @@ $oDate = new Date($argv[2]);
 
 $oRollupStats = new OA_Maintenance_RollupStats();
 $oRollupStats->run($oDate);
-
-?>

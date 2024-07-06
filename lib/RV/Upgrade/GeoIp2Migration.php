@@ -237,7 +237,7 @@ class GeoIp2Migration
 
     private static function migrateRegionRule(array $row): array
     {
-        list($country, $regions) = explode('|', $row['data']);
+        [$country, $regions] = explode('|', $row['data']);
 
         $regions = explode(',', $regions);
 
@@ -271,7 +271,7 @@ class GeoIp2Migration
         $result = $warn = [];
         foreach ($regions as $region) {
             if (isset($switch[$country][$region])) {
-                list($newCountry, $newRegion) = $switch[$country][$region];
+                [$newCountry, $newRegion] = $switch[$country][$region];
                 $warn[$newCountry][] = $newRegion;
                 continue;
             }
@@ -295,6 +295,6 @@ class GeoIp2Migration
         $regions = array_unique($regions, SORT_STRING);
         sort($regions, SORT_STRING);
 
-        return $country . '|' . join(',', $regions);
+        return $country . '|' . implode(',', $regions);
     }
 }

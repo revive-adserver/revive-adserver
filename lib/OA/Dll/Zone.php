@@ -49,11 +49,11 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['block'] = $zoneData['block'];
 
         if (preg_match('/^zone:(\d+)$/D', $zoneData['chain'], $m)) {
-            $zoneData['chainedZoneId'] = (int)$m[1];
+            $zoneData['chainedZoneId'] = (int) $m[1];
         }
 
         $oZone->readDataFromArray($zoneData);
-        return  true;
+        return true;
     }
 
     /**
@@ -113,11 +113,9 @@ class OA_Dll_Zone extends OA_Dll
                 !$this->checkIdExistence('zones', $oZone->zoneId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oZone, 'publisherId')) {
             // When adding a zone, check that the required field 'publisherId' is correct.
-            if (!$this->checkStructureRequiredIntegerField($oZone, 'publisherId')) {
-                return false;
-            }
+            return false;
         }
 
         if (isset($oZone->publisherId) &&
@@ -205,20 +203,18 @@ class OA_Dll_Zone extends OA_Dll
                 $this->aAllowTraffickerAndAbovePerm,
                 'affiliates',
                 $oZone->publisherId,
-                OA_PERM_ZONE_ADD
+                OA_PERM_ZONE_ADD,
             )) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkPermissions(
+            $this->aAllowTraffickerAndAbovePerm,
+            'zones',
+            $oZone->zoneId,
+            OA_PERM_ZONE_EDIT,
+        )) {
             // Edit
-            if (!$this->checkPermissions(
-                $this->aAllowTraffickerAndAbovePerm,
-                'zones',
-                $oZone->zoneId,
-                OA_PERM_ZONE_EDIT
-            )) {
-                return false;
-            }
+            return false;
         }
 
         if (!empty($oZone->chainedZoneId)) {
@@ -226,7 +222,7 @@ class OA_Dll_Zone extends OA_Dll
                 $this->aAllowTraffickerAndAbovePerm,
                 'zones',
                 $oZone->chainedZoneId,
-                OA_PERM_ZONE_EDIT
+                OA_PERM_ZONE_EDIT,
             )) {
                 return false;
             }
@@ -240,9 +236,9 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['delivery'] = $oZone->type;
         $zoneData['width'] = $oZone->width;
         $zoneData['height'] = $oZone->height;
-        $zoneData['capping'] = $oZone->capping > 0 ? $oZone->capping : 0;
-        $zoneData['session_capping'] = $oZone->sessionCapping > 0 ? $oZone->sessionCapping : 0;
-        $zoneData['block'] = $oZone->block > 0 ? $oZone->block : 0;
+        $zoneData['capping'] = max($oZone->capping, 0);
+        $zoneData['session_capping'] = max($oZone->sessionCapping, 0);
+        $zoneData['block'] = max($oZone->block, 0);
         $zoneData['chain'] = empty($oZone->chainedZoneId) ? null : 'zone:' . $oZone->chainedZoneId;
 
         if ($this->_validate($oZone)) {
@@ -273,7 +269,13 @@ class OA_Dll_Zone extends OA_Dll
      */
     public function delete($zoneId)
     {
-        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) {
+        if (!$this->checkPermissions(
+            $this->aAllowTraffickerAndAbovePerm,
+            'zones',
+            $zoneId,
+            null,
+            OA_Permission::OPERATION_DELETE,
+        )) {
             return false;
         }
 
@@ -393,7 +395,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -435,7 +437,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -479,7 +481,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -524,7 +526,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -571,7 +573,7 @@ class OA_Dll_Zone extends OA_Dll
                 $zoneId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -719,7 +721,7 @@ class OA_Dll_Zone extends OA_Dll
             'adviewnocookies' => 'invocationTags:oxInvocationTags:adviewnocookies',
             'local' => 'invocationTags:oxInvocationTags:local',
             'popup' => 'invocationTags:oxInvocationTags:popup',
-            'xmlrpc' => 'invocationTags:oxInvocationTags:xmlrpc'
+            'xmlrpc' => 'invocationTags:oxInvocationTags:xmlrpc',
         ];
         // Translate old code type to new Component Identifier
         if (array_key_exists($codeType, $aBackwardsCompatibityTypes)) {
@@ -732,7 +734,7 @@ class OA_Dll_Zone extends OA_Dll
             }
             $aAllowedTags = $this->getAllowedTags();
             if (!in_array($codeType, $aAllowedTags)) {
-                $this->raiseError('Field \'codeType\' must be one of the enum: ' . join(', ', $aAllowedTags));
+                $this->raiseError('Field \'codeType\' must be one of the enum: ' . implode(', ', $aAllowedTags));
                 return false;
             }
             if (!empty($codeType)) {

@@ -29,14 +29,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
 class Test_OA_OperationIntveral extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the checkOperationIntervalValue() method.
      *
      */
@@ -342,7 +334,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
     {
         $this->assertEqual(
             OX_OperationInterval::getOperationInterval(),
-            $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval']
+            $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'],
         );
     }
 
@@ -351,34 +343,26 @@ class Test_OA_OperationIntveral extends UnitTestCase
      *
      * @TODO Not implemented.
      */
-    public function testSecondsPerOperationInterval()
-    {
-    }
+    public function testSecondsPerOperationInterval() {}
 
     /**
      * A method to test the operationIntervalsPerDay() method.
      *
      * @TODO Not implemented.
      */
-    public function testOperationIntervalsPerDay()
-    {
-    }
+    public function testOperationIntervalsPerDay() {}
 
     /**
      * A method to test the operationIntervalsPerWeek() method.
      *
      * @TODO Not implemented.
      */
-    public function testOperationIntervalsPerWeek()
-    {
-    }
+    public function testOperationIntervalsPerWeek() {}
 
     /**
      * A method to test the getIntervalsRemaining() method.
      *
      * @TODO Not implemented.
      */
-    public function testGetIntervalsRemaining()
-    {
-    }
+    public function testGetIntervalsRemaining() {}
 }

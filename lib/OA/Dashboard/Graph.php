@@ -53,7 +53,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     public function getCacheId()
     {
         // Cache the graphs for each locale.
-        return [OX_getHostName(), get_class($this), $GLOBALS['_MAX']['PREF']['language']];
+        return [OX_getHostName(), static::class, $GLOBALS['_MAX']['PREF']['language']];
     }
 
     public function isDataRequired()
@@ -132,8 +132,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 [
                     'width' => 239,
                     'height' => 132,
-                    'antialias' => $useAntialias ? 'native' : false
-                ]
+                    'antialias' => $useAntialias ? 'native' : false,
+                ],
             );
 
             $Graph = Image_Graph::factory('graph', $Canvas);
@@ -204,9 +204,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 $AxisY->forceMaximum(1);
             }
 
-            $func = function ($value) {
-                return OA_Dashboard_Widget_Graph::_formatY($value);
-            };
+            $func = fn($value) => OA_Dashboard_Widget_Graph::_formatY($value);
 
             $AxisY->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
             $AxisY2->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
@@ -236,7 +234,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $aUnits = ['B' => 1000000000, 'M' => 1000000, 'k' => 1000];
         foreach ($aUnits as $k => $v) {
             if ($value >= $v) {
-                $value = $value / $v;
+                $value /= $v;
                 $unit = $oTrans->translate($k);
             }
         }

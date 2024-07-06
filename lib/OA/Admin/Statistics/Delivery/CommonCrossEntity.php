@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
+abstract class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
 {
     public $aAnonAdvertisers;
     public $aAnonPlacements;
@@ -121,7 +121,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                         $tmp = [
                             'placement_id' => $aEntitiesData[$entityId]['id'],
                             'name' => $aEntitiesData[$entityId]['name'],
-                            'anonymous' => true
+                            'anonymous' => true,
                         ];
                         $aEntitiesData[$entityId]['name'] = MAX_getPlacementName($tmp);
                         break;
@@ -148,7 +148,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
             MAX_sortArray(
                 $aEntitiesData,
                 $this->listOrderField,
-                $this->listOrderDirection == 'up'
+                $this->listOrderDirection == 'up',
             );
         }
     }
@@ -252,7 +252,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                     MAX_sortArray(
                         $aEntitiesData,
                         $this->listOrderField,
-                        $this->listOrderDirection == 'up'
+                        $this->listOrderDirection == 'up',
                     );
                 } elseif ($this->listOrderDirection == 'up') {
                     $aEntitiesData[] = $zone;
@@ -305,7 +305,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                     MAX_sortArray(
                         $aEntitiesData,
                         $this->listOrderField,
-                        $this->listOrderDirection == 'up'
+                        $this->listOrderDirection == 'up',
                     );
                 } elseif ($this->listOrderDirection == 'up') {
                     $aEntitiesData[] = $zone;

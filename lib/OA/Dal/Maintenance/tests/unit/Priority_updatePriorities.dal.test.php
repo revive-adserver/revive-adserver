@@ -25,14 +25,6 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
     public $aIds = [];
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method to test the updatePriorities method.
      *
      * Test 1: Test with no Date registered in the service locator, ensure false returned.
@@ -70,10 +62,10 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                             'priority' => '0.45',
                             'priority_factor' => null,
                             'priority_factor_limited' => false,
-                            'past_zone_traffic_fraction' => null
-                        ]
-                    ]
-                ]
+                            'past_zone_traffic_fraction' => null,
+                        ],
+                    ],
+                ],
             ];
         $result = $oMaxDalMaintenance->updatePriorities($aData);
         $this->assertFalse($result);
@@ -153,7 +145,7 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                             'priority' => 0.9,
                             'priority_factor' => 0.1,
                             'priority_factor_limited' => false,
-                            'past_zone_traffic_fraction' => 0.99
+                            'past_zone_traffic_fraction' => 0.99,
                         ],
                         [
                             'ad_id' => $this->aIds['ad'] + 1,
@@ -163,10 +155,10 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                             'priority' => 0.1,
                             'priority_factor' => 0.2,
                             'priority_factor_limited' => true,
-                            'past_zone_traffic_fraction' => 0.45
-                        ]
-                    ]
-                ]
+                            'past_zone_traffic_fraction' => 0.45,
+                        ],
+                    ],
+                ],
             ];
         $oOldDate = new Date();
         $oOldDate->copy($oDate);
@@ -331,9 +323,9 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
                             'priority' => 0.9,
                             'priority_factor' => 0.1,
                             'priority_factor_limited' => false,
-                            'past_zone_traffic_fraction' => 0.99
-                        ]
-                    ]
+                            'past_zone_traffic_fraction' => 0.99,
+                        ],
+                    ],
                 ];
         }
         $oOldDate = new Date();

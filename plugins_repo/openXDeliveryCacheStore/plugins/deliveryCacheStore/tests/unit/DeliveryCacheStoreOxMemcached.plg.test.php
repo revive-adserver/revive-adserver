@@ -38,9 +38,6 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
      */
     public $oMemcached;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

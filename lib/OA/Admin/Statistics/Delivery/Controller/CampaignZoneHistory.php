@@ -73,7 +73,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
             'clientid' => $advertiserId,
             'campaignid' => $placementId,
             'affiliateid' => $aZones[$zoneId]['publisher_id'],
-            'zoneid' => $zoneId
+            'zoneid' => $zoneId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -104,7 +104,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
             phpAds_PageContext(
                 MAX_buildName($k, MAX_getZoneName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
-                $zoneId == $k
+                $zoneId == $k,
             );
         }
 
@@ -113,19 +113,19 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
-            'iconCampaign'
+            'iconCampaign',
         );
 
         // Prepare the data for display by output() method
         $aParams = [
             'placement_id' => $placementId,
-            'zone_id' => $zoneId
+            'zone_id' => $zoneId,
         ];
         $this->prepare($aParams, 'stats.php');
     }

@@ -32,7 +32,7 @@ function MAX_checkGeo_City($limitation, $op, $aParams = [])
     }
     if ($aParams && $aParams['city'] && $aParams['country']) {
         $aLimitation = [substr($limitation, 0, strpos($limitation, '|')),
-                               substr($limitation, strpos($limitation, '|') + 1)
+            substr($limitation, strpos($limitation, '|') + 1),
         ];
         $sCities = $aLimitation[1];
         if (!empty($aLimitation[0])) {

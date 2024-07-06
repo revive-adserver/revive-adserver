@@ -15,8 +15,8 @@ require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 /**
  * MAX_Admin_Invocation_Publisher class is a class for placingInvocationForm(s)
  * and generating invocation codes for publishers
- *
  */
+#[AllowDynamicProperties]
 class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
 {
     /**
@@ -51,10 +51,10 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
         $this->zone_invocation = $zone_invocation;
 
         foreach ($globalVariables as $makeMeGlobal) {
-            global $$makeMeGlobal;
+            global ${$makeMeGlobal};
             // also make this variable a class attribute
             // so plugins could have an access to these values and modify them
-            $this->$makeMeGlobal = &$$makeMeGlobal;
+            $this->$makeMeGlobal = &${$makeMeGlobal};
         }
 
         $invocationTypes = OX_Component::getComponents('invocationTags');

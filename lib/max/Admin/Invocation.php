@@ -29,7 +29,15 @@ Language_Loader::load('invocation');
  * MAX_Admin_Invocation class is a common class for placingInvocationForm(s)
  * and generating invocation codes
  *
+ * @property int $affiliateid
+ * @property string $codetype
+ * @property string $dest
+ * @property string $size
+ * @property string $text
+ * @property int $tabindex
+ * @property bool $zone_invocation
  */
+#[AllowDynamicProperties]
 class MAX_Admin_Invocation
 {
     public $defaultOptionValues = [
@@ -107,19 +115,19 @@ class MAX_Admin_Invocation
             call_user_func_array('phpAds_registerGlobal', $globalVariables);
 
             foreach ($globalVariables as $makeMeGlobal) {
-                global $$makeMeGlobal;
+                global ${$makeMeGlobal};
                 // If values are unset, populate them from the Plugin/Parent object if present
-                if (isset($$makeMeGlobal)) {
+                if (isset(${$makeMeGlobal})) {
                     // Check the plugin first, fall-back to the parent
                     if (isset($invocationTag->defaultOptionValues[$makeMeGlobal])) {
-                        $$makeMeGlobal = $invocationTag->defaultOptionValues[$makeMeGlobal];
+                        ${$makeMeGlobal} = $invocationTag->defaultOptionValues[$makeMeGlobal];
                     } elseif (isset($this->defaultOptionValues[$makeMeGlobal])) {
-                        $$makeMeGlobal = $this->defaultOptionValues[$makeMeGlobal];
+                        ${$makeMeGlobal} = $this->defaultOptionValues[$makeMeGlobal];
                     }
                 }
                 // also make this variable a class attribute
                 // so plugins could have an access to these values (and modify them)
-                $this->$makeMeGlobal = &$$makeMeGlobal;
+                $this->$makeMeGlobal = &${$makeMeGlobal};
             }
         } else {
             // Variables passed in as a parameter
@@ -302,7 +310,7 @@ class MAX_Admin_Invocation
                         [
                             'pluginKey' => $pluginKey,
                             'isAllowed' => true,
-                            'name' => $invocationTag->getName()
+                            'name' => $invocationTag->getName(),
                         ];
                 }
             }
@@ -313,7 +321,7 @@ class MAX_Admin_Invocation
             }
 
             if (!isset($this->codetype) || $allowed[$this->codetype] == false) {
-                foreach ($allowed as $codetype => $isAllowed) {
+                foreach (array_keys($allowed) as $codetype) {
                     $this->codetype = $codetype;
                     break;
                 }
@@ -488,17 +496,16 @@ class MAX_Admin_Invocation
     /**
      * Present options common to all invocation methods
      *
-     * @return string HTML to display options
+     * @return array HTML to display options
      */
     public function getDefaultOptionsList()
     {
-        $options = [
+        return [
             'spacer' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'cacheBuster' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'comments' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'https' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         ];
-        return $options;
     }
 
     public function generateJavascriptTrackerCode($trackerId, $append = false)

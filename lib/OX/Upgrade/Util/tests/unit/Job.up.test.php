@@ -36,8 +36,8 @@ class OX_Upgrade_Util_JobTest extends UnitTestCase
         @$oStorage->set('aJobStatuses', null);
 
         $result = ['name' => 'test',
-                        'type' => 'testtype',
-                        'other_data' => 'testdata'];
+            'type' => 'testtype',
+            'other_data' => 'testdata'];
 
         OX_Upgrade_Util_Job::saveJobResult($result);
 
@@ -65,7 +65,7 @@ class OX_Upgrade_Util_JobTest extends UnitTestCase
         Mock::generatePartial(
             'OX_Admin_UI_Install_InstallStatus',
             'OX_Admin_UI_Install_InstallStatusMock',
-            ['isInstall', 'isUpgrade']
+            ['isInstall', 'isUpgrade'],
         );
         $oInstallStatus = new OX_Admin_UI_Install_InstallStatusMock($this);
         $oInstallStatus->setReturnValue('isInstall', true);
@@ -96,7 +96,7 @@ class OX_Upgrade_Util_JobTest extends UnitTestCase
         Mock::generatePartial(
             'OA_UpgradeLogger',
             'OA_UpgradeLoggerMock',
-            ['logError']
+            ['logError'],
         );
 
         $oLogger = new OA_UpgradeLoggerMock($this);

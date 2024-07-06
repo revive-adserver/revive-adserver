@@ -36,9 +36,7 @@ define("phpAds_Error", -1);
 define("phpAds_PasswordRecovery", -2);
 
 
-function phpAds_PageContext($name, $link, $selected)
-{
-}
+function phpAds_PageContext($name, $link, $selected) {}
 
 /*-------------------------------------------------------*/
 /* Add shortcuts to left menubar                         */
@@ -50,7 +48,7 @@ function phpAds_PageShortcut($name, $link, $icon)
     $phpAds_shortcuts[] = [
         'name' => $name,
         'link' => $link,
-        'icon' => OX::assetPath() . "/" . $icon
+        'icon' => OX::assetPath() . "/" . $icon,
     ];
 }
 
@@ -310,7 +308,7 @@ function phpAds_sqlDie()
 
         $dbmsName = 'MySQL';
     } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
-        $error = pg_errormessage();
+        $error = pg_last_error();
         $dbmsName = 'PostgreSQL';
     } else {
         $error = '';
@@ -328,7 +326,6 @@ function phpAds_sqlDie()
         $title = $GLOBALS['strErrorDBPlain'];
         $message = sprintf($GLOBALS['strErrorDBNoDataPlain'], PRODUCT_NAME);
         if ((OA_Auth::isLoggedIn() && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) || defined('phpAds_installing')) {
-
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();
@@ -361,6 +358,7 @@ function phpAds_Die($title = "Error", $message = "Unknown error")
     if (defined('OA_WEBSERVICES_API_XMLRPC')) {
         // It's an XML-RPC response
         if (class_exists('XmlRpcUtils')) {
+            // @phpstan-ignore-next-line
             $oResponse = XmlRpcUtils::generateError($message);
         } else {
             $oResponse = new XML_RPC_Response('', 99999, $message);

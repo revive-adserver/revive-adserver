@@ -60,16 +60,14 @@ class OA_Upgrade_Login
 
             if ($newLogin) {
                 self::_checkLoginNew($hasMd5Password);
+            } elseif ($openadsDetected || $maxDetected) {
+                self::_checkLoginOld('preference', true);
+            } elseif ($max01Detected) {
+                self::_checkLoginOld('config', true);
+            } elseif ($panDetected) {
+                self::_checkLoginOld('config', false);
             } else {
-                if ($openadsDetected || $maxDetected) {
-                    self::_checkLoginOld('preference', true);
-                } elseif ($max01Detected) {
-                    self::_checkLoginOld('config', true);
-                } elseif ($panDetected) {
-                    self::_checkLoginOld('config', false);
-                } else {
-                    return false;
-                }
+                return false;
             }
         }
 
@@ -87,7 +85,7 @@ class OA_Upgrade_Login
         phpAds_SessionStart();
 
         // No auto-login if auth is external
-        if (empty($oPlugin) || (get_class($oPlugin) != 'Plugins_Authentication')) {
+        if (empty($oPlugin) || ($oPlugin::class != 'Plugins_Authentication')) {
             phpAds_SessionDataDestroy();
             return;
         }

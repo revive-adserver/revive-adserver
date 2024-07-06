@@ -28,9 +28,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
     public $doClients = null;
     public $oDbh = null;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -70,7 +67,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Campaign 1, Orphaned
         $aData = [
-            'campaignname' => 'Test Campaign 1'
+            'campaignname' => 'Test Campaign 1',
         ];
         $idCampaign1 = $this->_insertPlacement($aData);
 
@@ -80,7 +77,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $aData = [
             'campaignname' => 'Test Campaign 2',
             'clientid' => $advertiserClientId,
-            'views' => 10
+            'views' => 10,
         ];
         $idCampaign2 = $this->_insertPlacement($aData);
 
@@ -90,7 +87,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $aData = [
             'campaignname' => 'Test Campaign 3',
             'clientid' => $advertiserClientId,
-            'clicks' => 10
+            'clicks' => 10,
         ];
         $idCampaign3 = $this->_insertPlacement($aData);
 
@@ -100,7 +97,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $aData = [
             'campaignname' => 'Test Campaign 4',
             'clientid' => $advertiserClientId,
-            'conversions' => 10
+            'conversions' => 10,
         ];
         $idCampaign4 = $this->_insertPlacement($aData);
 
@@ -114,7 +111,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'clientid' => $advertiserClientId,
             'views' => 10,
             'clicks' => 10,
-            'conversions' => 10
+            'conversions' => 10,
         ];
         $idCampaign5 = $this->_insertPlacement($aData);
 
@@ -129,7 +126,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'campaignname' => 'Test Campaign 6',
             'clientid' => $advertiserClientId,
             'views' => -1,
-            'expire_time' => $oDate->getDate(DATE_FORMAT_ISO)
+            'expire_time' => $oDate->getDate(DATE_FORMAT_ISO),
         ];
         $idCampaign6 = $this->_insertPlacement($aData);
 
@@ -145,7 +142,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'campaignname' => 'Test Campaign 7',
             'clientid' => $advertiserClientId,
             'activate_time' => $oDate->getDate(DATE_FORMAT_ISO),
-            'status' => OA_ENTITY_STATUS_AWAITING
+            'status' => OA_ENTITY_STATUS_AWAITING,
         ];
         $idCampaign7 = $this->_insertPlacement($aData);
 
@@ -401,7 +398,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner1,
             'impressions' => 1,
             'clicks' => 1,
-            'conversions' => 1
+            'conversions' => 1,
         ];
         $idDIA1 = $this->_insertDataIntermediateAd($aData);
 
@@ -412,7 +409,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner2,
             'impressions' => 1,
             'clicks' => 1,
-            'conversions' => 1
+            'conversions' => 1,
         ];
         $idDIA2 = $this->_insertDataIntermediateAd($aData);
 
@@ -423,7 +420,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner3,
             'impressions' => 1,
             'clicks' => 0,
-            'conversions' => 0
+            'conversions' => 0,
         ];
         $idDIA3 = $this->_insertDataIntermediateAd($aData);
 
@@ -434,7 +431,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner4,
             'impressions' => 8,
             'clicks' => 0,
-            'conversions' => 0
+            'conversions' => 0,
         ];
         $idDIA4 = $this->_insertDataIntermediateAd($aData);
 
@@ -445,7 +442,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner5,
             'impressions' => 1000,
             'clicks' => 5,
-            'conversions' => 1000
+            'conversions' => 1000,
         ];
         $idDIA5 = $this->_insertDataIntermediateAd($aData);
 
@@ -456,7 +453,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner6,
             'impressions' => 1000,
             'clicks' => 1000,
-            'conversions' => 1000
+            'conversions' => 1000,
         ];
         $idDIA6 = $this->_insertDataIntermediateAd($aData);
 
@@ -467,7 +464,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner7,
             'impressions' => 0,
             'clicks' => 4,
-            'conversions' => 6
+            'conversions' => 6,
         ];
         $idDIA7 = $this->_insertDataIntermediateAd($aData);
 
@@ -478,7 +475,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner8,
             'impressions' => 0,
             'clicks' => 4,
-            'conversions' => 6
+            'conversions' => 6,
         ];
         $idDIA8 = $this->_insertDataIntermediateAd($aData);
 
@@ -564,14 +561,14 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'conversions' => -1,
             'activate_time' => '2005-12-06 14:00:00', // Sydney time
             'expire_time' => '2005-12-09 13:59:59', // Sydney time
-            'status' => OA_ENTITY_STATUS_RUNNING
+            'status' => OA_ENTITY_STATUS_RUNNING,
         ];
         $idCampaign1 = $this->_insertPlacement($aData);
 
         // Banner 1
         // - In Campaign 1
         $aData = [
-            'campaignid' => $idCampaign1
+            'campaignid' => $idCampaign1,
         ];
         $idBanner1 = $this->_insertAd($aData);
 
@@ -587,7 +584,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'ad_id' => $idBanner1,
             'impressions' => 100,
             'clicks' => 1,
-            'conversions' => 0
+            'conversions' => 0,
         ];
         $idDIA1 = $this->_insertDataIntermediateAd($aData);
 
@@ -653,7 +650,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $aData = [
             'clientid' => $advertiserId,
             'status' => OA_ENTITY_STATUS_AWAITING,
-            'activate_time' => $oDateStart->format('%Y-%m-%d 00:00:00')
+            'activate_time' => $oDateStart->format('%Y-%m-%d 00:00:00'),
         ];
         $campaignId = $this->_insertPlacement($aData);
 
@@ -661,7 +658,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oServiceLocator->remove('now');
 
         $aData = [
-            'campaignid' => $campaignId
+            'campaignid' => $campaignId,
         ];
         $adId = $this->_insertAd($aData);
 
@@ -711,12 +708,12 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         $aData = [
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'views' => '100'
+            'views' => '100',
         ];
         $campaignId = $this->_insertPlacement($aData);
 
         $aData = [
-            'campaignid' => $campaignId
+            'campaignid' => $campaignId,
         ];
         $adId = $this->_insertAd($aData);
 
@@ -726,7 +723,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'interval_end' => '2004-12-08 00:59:59',
             'hour' => 0,
             'ad_id' => 1,
-            'impressions' => 101
+            'impressions' => 101,
         ];
         $this->_insertDataIntermediateAd($aData);
 
@@ -799,7 +796,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'clientid' => $advertiserClientId,
             'status' => OA_ENTITY_STATUS_RUNNING,
             'views' => '100',
-            'expire_time' => '2008-01-13 23:59:59'
+            'expire_time' => '2008-01-13 23:59:59',
         ];
         $campaignId = $this->_insertPlacement($aData);
 
@@ -808,7 +805,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Insert a banner for the placement
         $aData = [
-            'campaignid' => $campaignId
+            'campaignid' => $campaignId,
         ];
         $adId = $this->_insertAd($aData);
 
@@ -882,7 +879,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'interval_end' => '2008-01-11 22:59:59',
             'hour' => 0,
             'ad_id' => $adId,
-            'impressions' => 60
+            'impressions' => 60,
         ];
         $this->_insertDataIntermediateAd($aData);
 
@@ -976,7 +973,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             "managerAgency" => $managerAgencyId,
             "managerAccount" => $managerAccountId,
             "advertiserClient" => $advertiserClientId,
-            "advertiserAccount" => $advertiserAccountId
+            "advertiserAccount" => $advertiserAccountId,
         ];
         return $aReturn;
     }

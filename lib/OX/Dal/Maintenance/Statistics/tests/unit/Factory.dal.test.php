@@ -28,9 +28,6 @@ class Test_OX_Dal_Maintenance_Statistics_Factory extends UnitTestCase
      */
     public $dbType = '';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();

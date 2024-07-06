@@ -124,7 +124,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
 
     public function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-        $doBanner = clone($this);
+        $doBanner = clone ($this);
         $doBanner->find();
         while ($doBanner->fetch()) {
             $this->deleteBannerFile($doBanner->storagetype, $doBanner->filename);
@@ -172,11 +172,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
         }
 
         // Set the filename
-        // We want to rename column 'storagetype' to 'type' so...
         if ($this->storagetype == 'web' || $this->storagetype == 'sql') {
             $this->filename = $this->_imageDuplicate($this->storagetype, $this->filename);
-        } elseif ($this->type == 'web' || $this->type == 'sql') {
-            $this->filename = $this->_imageDuplicate($this->type, $this->filename);
         }
 
         // Insert the new banner and get the ID
@@ -296,10 +293,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = $this->description;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['campaignid'] = $this->campaignid;
-                        break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            $aAuditFields['campaignid'] = $this->campaignid;
         }
     }
 }

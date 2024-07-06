@@ -27,28 +27,28 @@ $aAppInfo = $oIntegrity->getVersion();
 
 if (array_key_exists('btn_data_load_dryrun', $_POST)) {
     $options = [
-                    'dryrun' => true,
-                    'directory' => MAX_PATH . '/tests/datasets/mdb2schema/',
-                    'datafile' => $_POST['datafile'],
-                    'prefix' => $GLOBALS['_MAX']['CONF']['table']['prefix'],
-                    'dbname' => $GLOBALS['_MAX']['CONF']['database']['name'],
-                    'appver' => $aAppInfo['versionApp'],
-                    'schema' => $aAppInfo['versionSchema'],
-                    ];
+        'dryrun' => true,
+        'directory' => MAX_PATH . '/tests/datasets/mdb2schema/',
+        'datafile' => $_POST['datafile'],
+        'prefix' => $GLOBALS['_MAX']['CONF']['table']['prefix'],
+        'dbname' => $GLOBALS['_MAX']['CONF']['database']['name'],
+        'appver' => $aAppInfo['versionApp'],
+        'schema' => $aAppInfo['versionSchema'],
+    ];
     $aMessages = $oIntegrity->loadData($options);
     if (PEAR::isError($aMessages)) {
         $aMessages[] = $aMessages->getUserInfo();
     }
 } elseif (array_key_exists('btn_data_load', $_POST)) {
     $options = [
-                    'dryrun' => false,
-                    'directory' => MAX_PATH . '/tests/datasets/mdb2schema/',
-                    'datafile' => $_POST['datafile'],
-                    'prefix' => $GLOBALS['_MAX']['CONF']['table']['prefix'],
-                    'dbname' => $GLOBALS['_MAX']['CONF']['database']['name'],
-                    'appver' => $aAppInfo['versionApp'],
-                    'schema' => $aAppInfo['versionSchema'],
-                    ];
+        'dryrun' => false,
+        'directory' => MAX_PATH . '/tests/datasets/mdb2schema/',
+        'datafile' => $_POST['datafile'],
+        'prefix' => $GLOBALS['_MAX']['CONF']['table']['prefix'],
+        'dbname' => $GLOBALS['_MAX']['CONF']['database']['name'],
+        'appver' => $aAppInfo['versionApp'],
+        'schema' => $aAppInfo['versionSchema'],
+    ];
     $aMessages = $oIntegrity->loadData($options);
     if (PEAR::isError($aMessages)) {
         $aMessages[] = $aMessages->getUserInfo();

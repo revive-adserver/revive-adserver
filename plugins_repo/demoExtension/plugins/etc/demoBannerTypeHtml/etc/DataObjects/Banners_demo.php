@@ -31,8 +31,8 @@ class DataObjects_Banners_demo extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'banners_demo_desc' => '',
-                ];
+        'banners_demo_desc' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

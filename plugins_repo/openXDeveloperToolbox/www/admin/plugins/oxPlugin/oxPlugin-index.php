@@ -34,14 +34,14 @@ $aVersion['major'] = 0;
 $aVersion['minor'] = 0;
 $aVersion['build'] = 1;
 $aVersion['status'] = '-dev';
-$aValues['name'] = ($name ? $name : $oTrans->translate("myPlugin"));
-$aValues['email'] = ($email ? $email : $session['user']->aUser['email_address']);
-$aValues['author'] = ($author ? $author : $session['user']->aUser['contact_name']);
-$aValues['url'] = ($url ? $url : $GLOBALS['HTTP_SERVER_VARS']['HTTP_HOST']);
-$aValues['licence'] = ($licence ? $licence : 'GPL');
-$aValues['description'] = ($description ? $description : $oTrans->translate("My New Plugin"));
-$aValues['group'] = ($group ? $group : []);
-$aValues['version'] = ($version ? $version : $aVersion);
+$aValues['name'] = ($name ?: $oTrans->translate("myPlugin"));
+$aValues['email'] = ($email ?: $session['user']->aUser['email_address']);
+$aValues['author'] = ($author ?: $session['user']->aUser['contact_name']);
+$aValues['url'] = ($url ?: $GLOBALS['HTTP_SERVER_VARS']['HTTP_HOST']);
+$aValues['licence'] = ($licence ?: 'GPL');
+$aValues['description'] = ($description ?: $oTrans->translate("My New Plugin"));
+$aValues['group'] = ($group ?: []);
+$aValues['version'] = ($version ?: $aVersion);
 
 $form = buildForm();
 if ($form->validate()) {

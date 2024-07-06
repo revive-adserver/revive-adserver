@@ -42,17 +42,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'maintenance_autoMaintenance' => [
             'maintenance' => 'autoMaintenance',
-            'bool' => true
+            'bool' => true,
         ],
-        'maintenance_operationInterval' => ['maintenance' => 'operationInterval']
+        'maintenance_operationInterval' => ['maintenance' => 'operationInterval'],
     ];
     // Priority Settings
     $aElements += [
         'priority_instantUpdate' => [
             'priority' => 'instantUpdate',
-            'bool' => true
+            'bool' => true,
         ],
-        'priority_intentionalOverdelivery' => ['priority' => 'intentionalOverdelivery']
+        'priority_intentionalOverdelivery' => ['priority' => 'intentionalOverdelivery'],
     ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -64,7 +64,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         // The settings configuration file was written correctly,
@@ -92,10 +92,10 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'maintenance_autoMaintenance',
-                'text' => $strEnableAutoMaintenance
+                'text' => $strEnableAutoMaintenance,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'select',
@@ -108,10 +108,10 @@ $aSettings = [
                     20 => 20,
                     15 => 15,
                     10 => 10,
-                    5 => 5
-                ]
-            ]
-        ]
+                    5 => 5,
+                ],
+            ],
+        ],
     ],
     [
         'text' => $strPrioritySettings,
@@ -119,19 +119,19 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'priority_instantUpdate',
-                'text' => $strPriorityInstantUpdate
+                'text' => $strPriorityInstantUpdate,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'priority_intentionalOverdelivery',
                 'text' => $strPriorityIntentionalOverdelivery,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
-        ]
-    ]
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

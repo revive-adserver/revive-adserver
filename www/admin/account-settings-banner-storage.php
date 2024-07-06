@@ -42,24 +42,24 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'allowedBanners_sql' => [
             'allowedBanners' => 'sql',
-            'bool' => true
+            'bool' => true,
         ],
         'allowedBanners_web' => [
             'allowedBanners' => 'web',
-            'bool' => true
+            'bool' => true,
         ],
         'allowedBanners_url' => [
             'allowedBanners' => 'url',
-            'bool' => true
+            'bool' => true,
         ],
         'allowedBanners_html' => [
             'allowedBanners' => 'html',
-            'bool' => true
+            'bool' => true,
         ],
         'allowedBanners_text' => [
             'allowedBanners' => 'text',
-            'bool' => true
-        ]
+            'bool' => true,
+        ],
     ];
     // Webserver Local Banner Storage Settings
     $aElements += [
@@ -71,8 +71,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'store_ftpPassword' => ['store' => 'ftpPassword'],
         'store_ftpPassive' => [
             'store' => 'ftpPassive',
-            'bool' => 'true'
-        ]
+            'bool' => 'true',
+        ],
     ];
     // Test the writablility of the web or FTP storage, if required
     phpAds_registerGlobal('store_webDir');
@@ -110,7 +110,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                         ftp_pasv($ftpsock, true);
                     }
                     //Check path to ensure there is not a leading slash
-                    if (($store_ftpPath != "") && (substr($store_ftpPath, 0, 1) == "/")) {
+                    if (($store_ftpPath != "") && (str_starts_with($store_ftpPath, "/"))) {
                         $store_ftpPath = substr($store_ftpPath, 1);
                     }
 
@@ -157,7 +157,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strXSettingsHaveBeenUpdated'],
-                [htmlspecialchars($title)]
+                [htmlspecialchars($title)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -182,35 +182,35 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = [
-   [
+    [
         'text' => $strAllowedBannerTypes,
         'items' => [
             [
                 'type' => 'checkbox',
                 'name' => 'allowedBanners_sql',
-                'text' => $strTypeSqlAllow
+                'text' => $strTypeSqlAllow,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'allowedBanners_web',
-                'text' => $strTypeWebAllow
+                'text' => $strTypeWebAllow,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'allowedBanners_url',
-                'text' => $strTypeUrlAllow
+                'text' => $strTypeUrlAllow,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'allowedBanners_html',
-                'text' => $strTypeHtmlAllow
+                'text' => $strTypeHtmlAllow,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'allowedBanners_text',
-                'text' => $strTypeTxtAllow
-            ]
-        ]
+                'text' => $strTypeTxtAllow,
+            ],
+        ],
     ],
     [
         'text' => $strTypeWebSettings,
@@ -227,67 +227,67 @@ $aSettings = [
             ],
             [
                 'type' => 'break',
-                'size' => 'full'
+                'size' => 'full',
             ],
             [
                 'type' => 'text',
                 'name' => 'store_webDir',
                 'text' => $strTypeWebDir,
                 'size' => 35,
-                'depends' => 'allowedBanners_web==1 && store_mode==0'
+                'depends' => 'allowedBanners_web==1 && store_mode==0',
             ],
             [
                 'type' => 'break',
-                'size' => 'full'
+                'size' => 'full',
             ],
             [
                 'type' => 'text',
                 'name' => 'store_ftpHost',
                 'text' => $strTypeFTPHost,
                 'size' => 35,
-                'depends' => 'allowedBanners_web==1 && store_mode==1'
+                'depends' => 'allowedBanners_web==1 && store_mode==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'store_ftpPath',
                 'text' => $strTypeFTPDirectory,
                 'size' => 35,
-                'depends' => 'allowedBanners_web==1 && store_mode==1'
+                'depends' => 'allowedBanners_web==1 && store_mode==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'store_ftpUsername',
                 'text' => $strTypeFTPUsername,
                 'size' => 35,
-                'depends' => 'allowedBanners_web==1 && store_mode==1'
+                'depends' => 'allowedBanners_web==1 && store_mode==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'password',
                 'name' => 'store_ftpPassword',
                 'text' => $strTypeFTPPassword,
                 'size' => 35,
-                'depends' => 'allowedBanners_web==1 && store_mode==1'
+                'depends' => 'allowedBanners_web==1 && store_mode==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'store_ftpPassive',
                 'text' => $strTypeFTPPassive,
-                'depends' => 'allowedBanners_web==1 && store_mode==1'
-            ]
-        ]
-    ]
+                'depends' => 'allowedBanners_web==1 && store_mode==1',
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

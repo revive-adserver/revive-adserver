@@ -37,10 +37,10 @@ class DataObjects_Data_bkt_country_m extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'interval_start' => '%NO_DATE_TIME%',
-                'country' => '',
-                'count' => 0,
-                ];
+        'interval_start' => '%NO_DATE_TIME%',
+        'country' => '',
+        'count' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

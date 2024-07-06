@@ -23,14 +23,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the getPreviousWeekZoneForcastImpressions() method.
      *
      * Test 1: Test with bad input, and ensure false is returned.
@@ -65,9 +57,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
         for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
             $expected = [
-                        'zone_id' => 1,
-                        'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
-                        'operation_interval_id' => $operationIntervalID
+                'zone_id' => 1,
+                'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
+                'operation_interval_id' => $operationIntervalID,
             ];
             $this->assertEqual($aResult[$operationIntervalID], $expected);
         }

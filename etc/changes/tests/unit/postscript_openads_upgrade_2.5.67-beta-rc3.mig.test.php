@@ -41,7 +41,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         Mock::generatePartial(
             'OA_UpgradePostscript_2_5_67',
             $mockName = 'OA_UpgradePostscript_2_5_67_' . rand(),
-            ['logOnly', 'logError']
+            ['logOnly', 'logError'],
         );
         $oMockPostUpgrade = new $mockName($this);
         $oMockPostUpgrade->oUpgrade = &$oUpgrade;
@@ -84,7 +84,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         Mock::generatePartial(
             'OA_UpgradePostscript_2_5_67',
             $mockName = 'OA_UpgradePostscript_2_5_67_' . rand(),
-            ['logOnly', 'logError']
+            ['logOnly', 'logError'],
         );
         $doMockPostUpgrade = new $mockName($this);
         $doMockPostUpgrade->oUpgrade = &$oUpgrade;

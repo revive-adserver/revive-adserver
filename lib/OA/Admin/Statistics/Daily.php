@@ -70,7 +70,7 @@ class OA_Admin_Statistics_Daily
             phpAds_PageContext(
                 $date_f,
                 $pageURI . 'day=' . str_replace('-', '', $day),
-                $currentDay == $day
+                $currentDay == $day,
             );
         }
     }

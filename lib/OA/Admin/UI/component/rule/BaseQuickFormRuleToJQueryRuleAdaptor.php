@@ -26,8 +26,8 @@ class OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor implements OA_Admin_
     {
         return null;
     }
-    
-    
+
+
     /**
      * Returns Jquery validation plugin compliant rule definition for a given quickform rule
      * Query validation plugin accepts format is as follows:
@@ -44,7 +44,7 @@ class OA_Admin_UI_Rule_BaseQuickFormRuleToJQueryRuleAdaptor implements OA_Admin_
         return "\"" . $rule['type'] . "\"" . ": " . $rule['format'];
     }
 
-    
+
     /**
      * Returns Jquery validation plugin compliant message definition for a given quickform rule
      *

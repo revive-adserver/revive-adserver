@@ -23,18 +23,10 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DB_DataObjectCommonTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         DataGenerator::cleanUp(
-            ['agency', 'clients']
+            ['agency', 'clients'],
         );
     }
 
@@ -82,7 +74,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignName = 'test name';
         $aData = [
-            'reportlastdate' => ['2007-04-03 18:39:45']
+            'reportlastdate' => ['2007-04-03 18:39:45'],
         ];
 
         DataGenerator::setData('clients', $aData);
@@ -101,13 +93,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaignsFilter->clientid = $clientId;
 
         // test filtering and test that rows are not indexed by primary key
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll();
         $this->assertEqual(count($aCheck), count($aCampaignId));
         $this->assertEqual(array_keys($aCheck), [0, 1]);
 
         // test indexing with primary keys
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll([], $indexWithPrimaryKey = true);
         $aTest = array_keys($aCheck);
         sort($aTest);
@@ -117,13 +109,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         }
 
         // test flattening if only one field
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll(['campaignname'], $indexWithPrimaryKey = false, $flatten = true);
         foreach ($aCheck as $check) {
             $this->assertEqual($check, $campaignName);
         }
         // test that we don't have to use array if only one field is set
-        $doCampaigns = clone($doCampaignsFilter);
+        $doCampaigns = clone ($doCampaignsFilter);
         $aCheck2 = $doCampaigns->getAll('campaignname', $indexWithPrimaryKey = false, $flatten = true);
         $this->assertEqual($aCheck, $aCheck2);
 
@@ -256,7 +248,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     {
         // very quick test
         $data = [
-            'name' => ['name 1', 'name 2']
+            'name' => ['name 1', 'name 2'],
         ];
 
         DataGenerator::setData('agency', $data);
@@ -292,7 +284,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     public function testGetUniqueValuesFromColumn()
     {
         $data = [
-            'name' => [1, 1, 2, 2, 3] // 3 unique
+            'name' => [1, 1, 2, 2, 3], // 3 unique
         ];
 
         DataGenerator::setData('agency', $data);
@@ -513,7 +505,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDo = 'DB_DataObjectCommon' . rand(),
-            ['_cloneObjectFromDatabase']
+            ['_cloneObjectFromDatabase'],
         );
 
         $oDoOld = new $mockDo($this);
@@ -534,11 +526,11 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aResult['col1'], 111);
         $this->assertEqual($aResult['col2'], 'abc');
 
-        $oDoNew = clone($oDoOld);
+        $oDoNew = clone ($oDoOld);
         $oDoNew->col1 = 222;
         $oDoNew->col2 = 'def';
 
-        $oDo = clone($oDoOld);
+        $oDo = clone ($oDoOld);
         $oDo->setReturnValue('_cloneObjectFromDatabase', $oDoNew);
         $oDo->_tableName = 'table1';
 
@@ -551,7 +543,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aResult['col2']['is'], 'def');
 
         // prepare *delete* audit values
-        $oDo = clone($oDoNew);
+        $oDo = clone ($oDoNew);
         $oDo->_tableName = 'table1';
         $aResult = $oDo->_prepAuditArray(3, null);
         $this->assertIsA($aResult, 'array');
@@ -566,7 +558,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         Mock::generatePartial(
             'DB_DataObjectCommon',
             $mockDO = 'DB_DataObjectCommon' . rand(),
-            ['_prepAuditArray', '_buildAuditArray', '_auditEnabled', 'insert', '_getContext', '_getContextId', 'getOwningAccountIds']
+            ['_prepAuditArray', '_buildAuditArray', '_auditEnabled', 'insert', '_getContext', '_getContextId', 'getOwningAccountIds'],
         );
 
         $oDO = new $mockDO($this);
@@ -608,10 +600,10 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $dbObject->someValue = true;
 
         $valueType = ['booleanVar' => ['val' => true, 'type' => 145, 'expected' => 'true'],
-                            'intVar1' => ['val' => 123, 'type' => 1, 'expected' => '123'],
-                            'intVar2' => ['val' => 234, 'type' => 129, 'expected' => '234'],
-                            'blobVar1' => ['val' => '<p>12345</p>', 'type' => 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'],
-                            'blobVar2' => ['val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;']];
+            'intVar1' => ['val' => 123, 'type' => 1, 'expected' => '123'],
+            'intVar2' => ['val' => 234, 'type' => 129, 'expected' => '234'],
+            'blobVar1' => ['val' => '<p>12345</p>', 'type' => 194, 'expected' => '&lt;p&gt;12345&lt;/p&gt;'],
+            'blobVar2' => ['val' => '<p>012345</p>', 'type' => 66, 'expected' => '&lt;p&gt;012345&lt;/p&gt;']];
 
         foreach ($valueType as $name => $arr) {
             $dbObject->$name = $arr['val'];

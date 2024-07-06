@@ -68,8 +68,8 @@ class OA_Admin_Statistics_History
         $oSpan = new Date_Span(new Date($oStartDate), new Date($oNow->format('%Y-%m-%d')));
         // Store the span data required for stats display
         $oCaller->oStartDate = $oStartDate;
-        $oCaller->spanDays = (int)ceil($oSpan->toDays());
-        $oCaller->spanWeeks = (int)ceil($oCaller->spanDays / 7) + ($oCaller->spanDays % 7 ? 1 : 0);
+        $oCaller->spanDays = (int) ceil($oSpan->toDays());
+        $oCaller->spanWeeks = (int) ceil($oCaller->spanDays / 7) + ($oCaller->spanDays % 7 ? 1 : 0);
         $oCaller->spanMonths = (($oNow->getYear() - $oStartDate->getYear()) * 12) + ($oNow->getMonth() - $oStartDate->getMonth()) + 1;
         // Set the caller's aDates span in the event that it's empty
         if (empty($oCaller->aDates)) {
@@ -99,43 +99,43 @@ class OA_Admin_Statistics_History
     public function setBreakdownInfo(&$oCaller, $type = 'history')
     {
         switch ($oCaller->statsBreakdown) {
-        case 'week':
-            $oCaller->weekDays = [];
-            $oDaySpan = new OA_Admin_DaySpan('this_week');
-            $oDate = $oDaySpan->getStartDate();
-            for ($i = 0; $i < 7; $i++) {
-                $oCaller->weekDays[$oDate->getDayOfWeek()] = $GLOBALS['strDayShortCuts'][$oDate->getDayOfWeek()];
-                $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
-            }
-            $oCaller->statsKey = $GLOBALS['strWeek'];
-            $oCaller->averageDesc = $GLOBALS['strWeeks'];
-            $method = 'getDayHistory';
-            break;
+            case 'week':
+                $oCaller->weekDays = [];
+                $oDaySpan = new OA_Admin_DaySpan('this_week');
+                $oDate = $oDaySpan->getStartDate();
+                for ($i = 0; $i < 7; $i++) {
+                    $oCaller->weekDays[$oDate->getDayOfWeek()] = $GLOBALS['strDayShortCuts'][$oDate->getDayOfWeek()];
+                    $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
+                }
+                $oCaller->statsKey = $GLOBALS['strWeek'];
+                $oCaller->averageDesc = $GLOBALS['strWeeks'];
+                $method = 'getDayHistory';
+                break;
 
-        case 'month':
-            $oCaller->statsKey = $GLOBALS['strSingleMonth'];
-            $oCaller->averageDesc = $GLOBALS['strMonths'];
-            $method = 'getMonthHistory';
-            break;
+            case 'month':
+                $oCaller->statsKey = $GLOBALS['strSingleMonth'];
+                $oCaller->averageDesc = $GLOBALS['strMonths'];
+                $method = 'getMonthHistory';
+                break;
 
-        case 'dow':
-            $oCaller->statsKey = $GLOBALS['strDayOfWeek'];
-            $oCaller->averageDesc = $GLOBALS['strWeekDays'];
-            $method = 'getDayOfWeekHistory';
-            break;
+            case 'dow':
+                $oCaller->statsKey = $GLOBALS['strDayOfWeek'];
+                $oCaller->averageDesc = $GLOBALS['strWeekDays'];
+                $method = 'getDayOfWeekHistory';
+                break;
 
-        case 'hour':
-            $oCaller->statsKey = $GLOBALS['strHour'];
-            $oCaller->averageDesc = $GLOBALS['strHours'];
-            $method = 'getHourHistory';
-            break;
+            case 'hour':
+                $oCaller->statsKey = $GLOBALS['strHour'];
+                $oCaller->averageDesc = $GLOBALS['strHours'];
+                $method = 'getHourHistory';
+                break;
 
-        default:
-            $oCaller->statsBreakdown = 'day';
-            $oCaller->statsKey = $GLOBALS['strDay'];
-            $oCaller->averageDesc = $GLOBALS['strDays'];
-            $method = 'getDayHistory';
-            break;
+            default:
+                $oCaller->statsBreakdown = 'day';
+                $oCaller->statsKey = $GLOBALS['strDay'];
+                $oCaller->averageDesc = $GLOBALS['strDays'];
+                $method = 'getDayHistory';
+                break;
         }
         return $method;
     }
@@ -162,7 +162,6 @@ class OA_Admin_Statistics_History
     public function fillGapsAndLink(&$aStats, $aDates, $oCaller, $link = '')
     {
         foreach ($aDates as $key => $date_f) {
-
             // Ensure that all the required items are set by adding empty rows, if required.
             if (!isset($aStats[$key])) {
                 $aStats[$key] = [$oCaller->statsBreakdown => $key] + $oCaller->aEmptyRow;
@@ -187,7 +186,6 @@ class OA_Admin_Statistics_History
 
             // Add links to the left hand column items, if required
             switch ($oCaller->statsBreakdown) {
-
                 case 'week':
                 case 'day':
                     // Set the "day/week" value
@@ -203,7 +201,7 @@ class OA_Admin_Statistics_History
                         $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams) .
                             'day=' . str_replace('-', '', $key), 1);
                     }
-                     break;
+                    break;
 
                 case 'month':
                     // Set the "month" value
@@ -248,7 +246,6 @@ class OA_Admin_Statistics_History
                             'hour=' . sprintf('%02d', $key), 1);
                     }
                     break;
-
             }
         }
     }
@@ -316,12 +313,12 @@ class OA_Admin_Statistics_History
                 }
                 break;
             case 'month':
-                $oOneMonthSpan = new Date_Span((string)($oEndDate->getDaysInMonth() - $oEndDate->getDay() + 1), '%d');
+                $oOneMonthSpan = new Date_Span((string) ($oEndDate->getDaysInMonth() - $oEndDate->getDay() + 1), '%d');
                 $oEndDate->addSpan($oOneMonthSpan);
                 $oDate = new Date($oStartDate);
                 while ($oDate->before($oEndDate)) {
                     $aDatesResult[$oDate->format('%Y-%m')] = $oDate->format($GLOBALS['month_format']);
-                    $oOneMonthSpan = new Date_Span((string)($oDate->getDaysInMonth() - $oDate->getDay() + 1), '%d');
+                    $oOneMonthSpan = new Date_Span((string) ($oDate->getDaysInMonth() - $oDate->getDay() + 1), '%d');
                     $oDate->addSpan($oOneMonthSpan);
                 }
                 break;

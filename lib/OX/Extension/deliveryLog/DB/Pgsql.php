@@ -74,9 +74,13 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      *
      * @return boolean  True on success otherwise false
      */
-    public function install(Plugins_DeliveryLog $component)
+    public function install(Plugins_DeliveryLog $oComponent)
     {
-        $query = $this->getCreateStoredProcedureQuery($component);
+        if (empty($oComponent->getBucketName())) {
+            return true;
+        }
+
+        $query = $this->getCreateStoredProcedureQuery($oComponent);
         return $this->createStoredProcedureFunction($query);
     }
 
@@ -85,7 +89,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      *
      * @return boolean  True on success otherwise false
      */
-    public function uninstall($component)
+    public function uninstall($oComponent)
     {
         // currently this operation can't be performed using existing plugin framework
         return true;
@@ -96,9 +100,9 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      *
      * @return string
      */
-    public function getStoredProcedureName(Plugins_DeliveryLog $component)
+    public function getStoredProcedureName(Plugins_DeliveryLog $oComponent)
     {
-        return $this->storedProcedurePrefix . $component->getBucketTableName();
+        return $this->storedProcedurePrefix . $oComponent->getBucketTableName();
     }
 
     /**
@@ -107,12 +111,12 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      *
      * @return string
      */
-    public function getCreateStoredProcedureQuery(Plugins_DeliveryLog $component)
+    public function getCreateStoredProcedureQuery(Plugins_DeliveryLog $oComponent)
     {
-        $tableName = $component->getBucketTableName();
+        $tableName = $oComponent->getBucketTableName();
         $query = 'CREATE OR REPLACE FUNCTION '
-            . $this->getStoredProcedureName($component) . '
-            (' . $this->_getColumnTypesList($component) . ', cnt integer)
+            . $this->getStoredProcedureName($oComponent) . '
+            (' . $this->_getColumnTypesList($oComponent) . ', cnt integer)
             RETURNS void AS
             $BODY$DECLARE
               x int;
@@ -120,7 +124,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
               LOOP
                 -- first try to update
                 UPDATE ' . $tableName . ' SET count = count + cnt WHERE '
-                    . $this->_getSPWhere($component) . ';
+                    . $this->_getSPWhere($oComponent) . ';
                 GET DIAGNOSTICS x = ROW_COUNT;
                 IF x > 0 THEN
                   RETURN;
@@ -130,7 +134,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
                 -- we could get a unique-key failure
                 BEGIN
                   INSERT INTO ' . $tableName . ' VALUES ('
-                        . $this->_getSPValuesList($component) . ', cnt);
+                        . $this->_getSPValuesList($oComponent) . ', cnt);
                   RETURN;
                 EXCEPTION WHEN unique_violation THEN
                   -- do nothing, and loop to try the UPDATE again
@@ -149,7 +153,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     protected function _getColumnTypesList(
         Plugins_DeliveryLog $component,
-        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN]
+        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN],
     ) {
         $str = '';
         $aColumns = $component->getBucketTableColumns();
@@ -172,13 +176,13 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     protected function _getSPWhere(
         Plugins_DeliveryLog $component,
-        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN]
+        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN],
     ) {
         $where = '';
         $c = 1;
         $and = '';
         $aColumns = $component->getBucketTableColumns();
-        foreach ($aColumns as $columnName => $columnType) {
+        foreach (array_keys($aColumns) as $columnName) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }
@@ -197,13 +201,13 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     protected function _getSPValuesList(
         Plugins_DeliveryLog $component,
-        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN]
+        $aIgnore = [Plugins_DeliveryLog::COUNT_COLUMN],
     ) {
         $values = '';
         $c = 1;
         $comma = '';
         $aColumns = $component->getBucketTableColumns();
-        foreach ($aColumns as $columnName => $columnType) {
+        foreach (array_keys($aColumns) as $columnName) {
             if (in_array($columnName, $aIgnore)) {
                 continue;
             }

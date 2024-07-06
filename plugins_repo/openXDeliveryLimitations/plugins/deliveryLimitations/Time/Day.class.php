@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once dirname(__FILE__) . '/AbstractTimePlugin.php';
+require_once __DIR__ . '/AbstractTimePlugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.php';
@@ -33,12 +33,10 @@ class Plugins_DeliveryLimitations_Time_Day extends Plugins_DeliveryLimitations_A
 {
     /**
      * Calls the parent constructor with the values of 0 and 6.
-     *
-     * @return Plugins_DeliveryLimitations_Time_Day
      */
     public function __construct()
     {
-        $this->Plugins_DeliveryLimitations_Time_Base(0, 6);
+        parent::__construct(0, 6);
 
         $this->nameEnglish = 'Time - Day of week';
     }

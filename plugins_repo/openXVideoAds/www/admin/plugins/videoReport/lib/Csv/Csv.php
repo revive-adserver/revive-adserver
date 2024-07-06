@@ -11,12 +11,12 @@ class OX_Vast_Common_Csv
      * will correctly decode characters into UTF-8.
      */
     public const UTF8_SIGNATURE = "\xef\xbb\xbf";
-    
+
     /**
      * A terminating character for each CSV line.
      */
     public const LINE_TERMINATOR = "\n";
-    
+
     /**
      * Formats a single line of CSV output. Appends a new line character at the
      * end of the line.

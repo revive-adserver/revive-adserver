@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
 {
     /**
-     * PHP4-style constructor
-     *
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */
@@ -192,7 +190,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
     public function _hasAnonymousCampaigns()
     {
         $hasAnonymousCampaigns = false;
-        
+
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $aParams = [
                 'placement_anonymous' => 't',
@@ -204,7 +202,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                 'publisher_id' => OA_Permission::getEntityId(),
             ];
         }
-        
+
         if (!empty($aParams)) {
             $aPlacementZones = Admin_DA::getPlacementZones($aParams);
             if (!empty($aPlacementZones)) {
@@ -216,19 +214,19 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                 }
             }
         }
-        
+
         return $hasAnonymousCampaigns;
     }
-    
+
     public function display()
     {
         $name = $this->_name;
         $oScope = $this->_value;
 
         $hasAnonymousCampaigns = $this->_hasAnonymousCampaigns();
-        
+
         $aAdvertisers = $this->_getAdvertisers();
-        
+
         if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $advertiserId = OA_Permission::getEntityId();
             echo "
@@ -249,14 +247,14 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
             echo "
         </select>";
         }
-        
+
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             echo "
         <br /><br />";
         }
 
         $aPublishers = $this->_getPublishers();
-        
+
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $publisherId = key($aPublishers);
             echo "
@@ -282,10 +280,10 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
     {
         $name = $this->_name;
         $oScope = $this->_value;
-        
+
         $publisherFieldName = $name . '_publisher';
         $advertiserFieldName = $name . '_advertiser';
-        
+
         $anonymous = false;
 
         // Get advertiser scope...

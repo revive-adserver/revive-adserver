@@ -24,8 +24,8 @@ msgstr "Laporan ini menunjukkan perincian iklan untuk pengiklan atau situs web t
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 msgid "Standard Reports"
 msgstr "Laporan Standar"
 
@@ -60,6 +60,91 @@ msgstr "Laporan ini menunjukkan rincian periklanan untuk kampanye tertentu, hari
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
 msgid "Ad Breakdown"
 msgstr "Perincian Iklan"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
+msgid "Conversion Tracking Report"
+msgstr "Laporan Pelacakan Konversi"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
+msgid "A detailed breakdown of all conversion activity by advertiser or website."
+msgstr "Perincian rinci semua aktivitas konversi oleh pengiklan atau situs web."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
+msgid "Performance by Day"
+msgstr "Kinerja menurut Hari"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:336
+msgid "Connection Summary by Day"
+msgstr "Ringkasan Koneksi oleh Hari"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
+msgid "Variable Summary by Day"
+msgstr "Ringkasan Variabel menurut Hari"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
+msgid "Variable Summary by Variable"
+msgstr "Variabel Ringkasan oleh Variabel"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
+msgid "Connection Detail"
+msgstr "Detail Koneksi"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
+msgid "Total Connections"
+msgstr "Jumlah Koneksi"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
+msgid " Connections"
+msgstr " Koneksi"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
+msgid "Connection ID"
+msgstr "ID koneksi"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
+msgid "Connection Date / Time"
+msgstr "Tanggal Sambungan / Waktu"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
+msgid "Approval Status"
+msgstr "Status persetujuan"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:673
+msgid "Comment"
+msgstr "Komentar"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:679
+msgid "Advertiser Name"
+msgstr "Nama pengiklan"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:683
+msgid "Ad Name"
+msgstr "Nama iklan"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
+msgid "Website Name"
+msgstr "Nama situs"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:687
+msgid "Zone Name"
+msgstr "Nama zona"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:689
+msgid "Connection Type"
+msgstr "Tipe koneksi"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:691
+msgid "Connecting Value Date / Time"
+msgstr "Menghubungkan Nilai Tanggal / Waktu"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:693
+msgid "IP Address"
+msgstr "Alamat IP"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
@@ -128,89 +213,4 @@ msgstr "Sisa"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Contract"
 msgstr "Alamat"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
-msgid "Conversion Tracking Report"
-msgstr "Laporan Pelacakan Konversi"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
-msgid "A detailed breakdown of all conversion activity by advertiser or website."
-msgstr "Perincian rinci semua aktivitas konversi oleh pengiklan atau situs web."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
-msgid "Performance by Day"
-msgstr "Kinerja menurut Hari"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:336
-msgid "Connection Summary by Day"
-msgstr "Ringkasan Koneksi oleh Hari"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
-msgid "Variable Summary by Day"
-msgstr "Ringkasan Variabel menurut Hari"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
-msgid "Variable Summary by Variable"
-msgstr "Variabel Ringkasan oleh Variabel"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
-msgid "Connection Detail"
-msgstr "Detail Koneksi"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
-msgid "Total Connections"
-msgstr "Jumlah Koneksi"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
-msgid " Connections"
-msgstr " Koneksi"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
-msgid "Connection ID"
-msgstr "ID koneksi"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
-msgid "Connection Date / Time"
-msgstr "Tanggal Sambungan / Waktu"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:678
-msgid "Approval Status"
-msgstr "Status persetujuan"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:680
-msgid "Comment"
-msgstr "Komentar"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:686
-msgid "Advertiser Name"
-msgstr "Nama pengiklan"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:690
-msgid "Ad Name"
-msgstr "Nama iklan"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:692
-msgid "Website Name"
-msgstr "Nama situs"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:694
-msgid "Zone Name"
-msgstr "Nama zona"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:696
-msgid "Connection Type"
-msgstr "Tipe koneksi"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:698
-msgid "Connecting Value Date / Time"
-msgstr "Menghubungkan Nilai Tanggal / Waktu"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
-msgid "IP Address"
-msgstr "Alamat IP"
 

@@ -62,7 +62,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
         // Add standard page parameters
         $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'zoneid' => $zoneId
+            'zoneid' => $zoneId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -89,18 +89,18 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid=' . $publisherId,
-                'iconAffiliate'
+                'iconAffiliate',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId,
-            'iconZone'
+            'iconZone',
         );
 
         // Prepare the data for display by output() method
         $aParams = [
-            'zone_id' => $zoneId
+            'zone_id' => $zoneId,
         ];
         $this->prepare($aParams, 'stats.php');
     }

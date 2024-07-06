@@ -14,9 +14,7 @@ $className = 'postscript_tables_testplugin_002';
 
 class postscript_tables_testplugin_002
 {
-    public function postscript_testplugin_002()
-    {
-    }
+    public function postscript_testplugin_002() {}
 
     public function execute_constructive($aParams = [])
     {

@@ -20,8 +20,8 @@ error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 
 echo "=> STARTING TO REFRESH THE MDB2 SCHEMA XML FILE CACHE\n";
 
-define('MAX_PATH', dirname(__FILE__) . '/../..');
-define('OX_PATH', dirname(__FILE__) . '/../..');
+define('MAX_PATH', __DIR__ . '/../..');
+define('OX_PATH', __DIR__ . '/../..');
 define('RV_PATH', MAX_PATH);
 error_reporting(E_ALL);
 
@@ -113,7 +113,7 @@ function generateXmlCache($xmlFiles, $callback = 'parseDatabaseDefinitionFile')
 
 function eol_flush()
 {
-    echo(PHP_SAPI != 'cli' ? '<br />' : '') . "\n";
+    echo (PHP_SAPI != 'cli' ? '<br />' : '') . "\n";
     flush();
 }
 

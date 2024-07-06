@@ -94,7 +94,7 @@ class Migration_609 extends Migration
         }
 
         // Get admin account ID
-        $adminAccountId = (int)$oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
+        $adminAccountId = (int) $oDbh->queryOne("SELECT value FROM {$tblAppVar} WHERE name = 'admin_account_id'");
         if (PEAR::isError($adminAccountId)) {
             return $this->_logErrorAndReturnFalse("No admin account ID");
         }
@@ -138,7 +138,7 @@ class Migration_609 extends Migration
                 $result = $oStmt->execute([
                     $this->_convertDate($aCampaign['activate'], $tz, 0),
                     $this->_convertDate($aCampaign['expire'], $tz, 1),
-                    $campaignId
+                    $campaignId,
                 ]);
                 if (PEAR::isError($result)) {
                     if ($useTransaction) {

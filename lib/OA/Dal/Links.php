@@ -51,7 +51,7 @@ class Openads_Links
                     $tmp = explode(':', $fv);
                     $links[$table][$fk] = [
                         'table' => $tmp[0],
-                        'field' => $tmp[1]
+                        'field' => $tmp[1],
                     ];
                 }
             }

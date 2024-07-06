@@ -195,10 +195,8 @@ class DataObjects_Channel extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = $this->name;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['affiliateid'] = $this->affiliateid;
-                        break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            $aAuditFields['affiliateid'] = $this->affiliateid;
         }
     }
 }

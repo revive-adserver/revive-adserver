@@ -26,14 +26,6 @@ require_once LIB_PATH . '/OperationInterval.php';
 class OA_Dal_Maintenance_Common extends MAX_Dal_Common
 {
     /**
-     * The class constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to store data about the times that various Maintenance
      * processes ran.
      *

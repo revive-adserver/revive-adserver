@@ -56,47 +56,47 @@ class OA_Admin_Template extends Smarty
         $this->caching = 0;
         $this->cache_lifetime = 3600;
 
-        $this->register_modifier('utc_to_local', ['OA_Admin_Template', '_modifier_utc_to_local']);
+        $this->register_modifier('utc_to_local', OA_Admin_Template::_modifier_utc_to_local(...));
 
-        $this->register_function('t', ['OA_Admin_Template', '_function_t']);
+        $this->register_function('t', OA_Admin_Template::_function_t(...));
 
-        $this->register_function('tabindex', ['OA_Admin_Template', '_function_tabindex']);
+        $this->register_function('tabindex', OA_Admin_Template::_function_tabindex(...));
 
-        $this->register_function('oa_icon', ['OA_Admin_Template', '_function_oa_icon']);
-        $this->register_function('oa_title_sort', ['OA_Admin_Template', '_function_oa_title_sort']);
+        $this->register_function('oa_icon', OA_Admin_Template::_function_oa_icon(...));
+        $this->register_function('oa_title_sort', OA_Admin_Template::_function_oa_title_sort(...));
 
-        $this->register_function('ox_column_title', ['OA_Admin_Template', '_function_ox_column_title']);
-        $this->register_function('ox_column_class', ['OA_Admin_Template', '_function_ox_column_class']);
-        $this->register_function('ox_column_updated', ['OA_Admin_Template', '_function_ox_column_updated']);
+        $this->register_function('ox_column_title', OA_Admin_Template::_function_ox_column_title(...));
+        $this->register_function('ox_column_class', OA_Admin_Template::_function_ox_column_class(...));
+        $this->register_function('ox_column_updated', OA_Admin_Template::_function_ox_column_updated(...));
 
-        $this->register_function('ox_campaign_type', ['OA_Admin_Template', '_function_ox_campaign_type']);
-        $this->register_function('ox_campaign_status', ['OA_Admin_Template', '_function_ox_campaign_status']);
-        $this->register_function('ox_campaign_icon', ['OA_Admin_Template', '_function_ox_campaign_icon']);
-        $this->register_function('ox_banner_size', ['OA_Admin_Template', '_function_ox_banner_size']);
-        $this->register_function('ox_banner_icon', ['OA_Admin_Template', '_function_ox_banner_icon']);
-        $this->register_function('ox_zone_size', ['OA_Admin_Template', '_function_ox_zone_size']);
-        $this->register_function('ox_zone_icon', ['OA_Admin_Template', '_function_ox_zone_icon']);
-        $this->register_function('ox_tracker_type', ['OA_Admin_Template', '_function_ox_tracker_type']);
+        $this->register_function('ox_campaign_type', OA_Admin_Template::_function_ox_campaign_type(...));
+        $this->register_function('ox_campaign_status', OA_Admin_Template::_function_ox_campaign_status(...));
+        $this->register_function('ox_campaign_icon', OA_Admin_Template::_function_ox_campaign_icon(...));
+        $this->register_function('ox_banner_size', OA_Admin_Template::_function_ox_banner_size(...));
+        $this->register_function('ox_banner_icon', OA_Admin_Template::_function_ox_banner_icon(...));
+        $this->register_function('ox_zone_size', OA_Admin_Template::_function_ox_zone_size(...));
+        $this->register_function('ox_zone_icon', OA_Admin_Template::_function_ox_zone_icon(...));
+        $this->register_function('ox_tracker_type', OA_Admin_Template::_function_ox_tracker_type(...));
 
-        $this->register_function('ox_entity_id', ['OA_Admin_Template', '_function_ox_entity_id']);
+        $this->register_function('ox_entity_id', OA_Admin_Template::_function_ox_entity_id(...));
 
-        $this->register_function('boldSearchPhrase', ['OA_Admin_Template', '_function_boldSearchPhrase']);
+        $this->register_function('boldSearchPhrase', OA_Admin_Template::_function_boldSearchPhrase(...));
 
-        $this->register_function('oa_is_admin', ['OA_Admin_Template', '_function_oa_is_admin']);
-        $this->register_function('oa_is_manager', ['OA_Admin_Template', '_function_oa_is_manager']);
-        $this->register_function('oa_is_advertiser', ['OA_Admin_Template', '_function_oa_is_advertiser']);
-        $this->register_function('oa_is_trafficker', ['OA_Admin_Template', '_function_oa_is_trafficker']);
+        $this->register_function('oa_is_admin', OA_Admin_Template::_function_oa_is_admin(...));
+        $this->register_function('oa_is_manager', OA_Admin_Template::_function_oa_is_manager(...));
+        $this->register_function('oa_is_advertiser', OA_Admin_Template::_function_oa_is_advertiser(...));
+        $this->register_function('oa_is_trafficker', OA_Admin_Template::_function_oa_is_trafficker(...));
 
-        $this->register_function('phpAds_ShowBreak', ['OA_Admin_Template', '_function_phpAds_ShowBreak']);
-        $this->register_function('phpAds_DelConfirm', ['OA_Admin_Template', '_function_phpAds_DelConfirm']);
-        $this->register_function('MAX_zoneDelConfirm', ['OA_Admin_Template', '_function_MAX_zoneDelConfirm']);
+        $this->register_function('phpAds_ShowBreak', OA_Admin_Template::_function_phpAds_ShowBreak(...));
+        $this->register_function('phpAds_DelConfirm', OA_Admin_Template::_function_phpAds_DelConfirm(...));
+        $this->register_function('MAX_zoneDelConfirm', OA_Admin_Template::_function_MAX_zoneDelConfirm(...));
 
-        $this->register_function('showStatusText', ['OA_Admin_Template', '_function_showStatusText']);
-        $this->register_function('showCampaignType', ['OA_Admin_Template', '_function_showCampaignType']);
+        $this->register_function('showStatusText', OA_Admin_Template::_function_showStatusText(...));
+        $this->register_function('showCampaignType', OA_Admin_Template::_function_showCampaignType(...));
 
-        $this->register_function('oa_form_input_attributes', ['OA_Admin_Template', '_function_form_input_attributes']);
-        $this->register_block('oa_edit', ['OA_Admin_Template', '_block_edit']);
-        $this->register_block('oa_form_element', ['OA_Admin_Template', '_block_form_element']);
+        $this->register_function('oa_form_input_attributes', OA_Admin_Template::_function_form_input_attributes(...));
+        $this->register_block('oa_edit', OA_Admin_Template::_block_edit(...));
+        $this->register_block('oa_form_element', OA_Admin_Template::_block_form_element(...));
 
         $this->templateName = $templateName;
 
@@ -123,7 +123,7 @@ class OA_Admin_Template extends Smarty
          * be placed into GET method calls for CRUD operations in templates. See
          * OA_Permission::checkSessionToken() method for details.
          */
-        $this->register_function('rv_add_session_token', ['OA_Admin_Template', '_add_session_token']);
+        $this->register_function('rv_add_session_token', OA_Admin_Template::_add_session_token(...));
 
         // Also assign a template variable for other usages
         $this->assign("csrfToken", phpAds_SessionGetToken());
@@ -222,12 +222,10 @@ class OA_Admin_Template extends Smarty
 
     public static function _modifier_utc_to_local($input, $type = null)
     {
-        switch ($type) {
-            case 'date':
-                return RV_Admin_DateTimeFormat::formatUTCDate($input);
-            default:
-                return RV_Admin_DateTimeFormat::formatUTCDateTime($input);
-        }
+        return match ($type) {
+            'date' => RV_Admin_DateTimeFormat::formatUTCDate($input),
+            default => RV_Admin_DateTimeFormat::formatUTCDateTime($input),
+        };
     }
 
     public static function _function_showCampaignType($aParams, &$smarty)
@@ -240,8 +238,8 @@ class OA_Admin_Template extends Smarty
     public static function _function_showStatusText($aParams, &$smarty)
     {
         global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
-               $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected,
-               $strCampaignStatusPending;
+        $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected,
+        $strCampaignStatusPending;
 
         if (isset($aParams['status'])) {
             switch ($aParams['status']) {
@@ -301,20 +299,12 @@ class OA_Admin_Template extends Smarty
             $campaign_active = isset($aParams['campaign']['status']) ? $aParams['campaign']['status'] == OA_ENTITY_STATUS_RUNNING : true;
             $active = $banner['status'] == OA_ENTITY_STATUS_RUNNING && $campaign_active;
 
-            switch ($banner['type']) {
-                case 'html':
-                    $flavour = '-html';
-                    break;
-                case 'txt':
-                    $flavour = '-text';
-                    break;
-                case 'url':
-                    $flavour = '-url';
-                    break;
-                default:
-                    $flavour = '-stored';
-                    break;
-            }
+            $flavour = match ($banner['type']) {
+                'html' => '-html',
+                'txt' => '-text',
+                'url' => '-url',
+                default => '-stored',
+            };
         } elseif (!empty($aParams['campaign']) && is_array($aParams['campaign'])) {
             $type = 'campaign';
             $campaign = $aParams['campaign'];
@@ -345,7 +335,7 @@ class OA_Admin_Template extends Smarty
 
                 $order = empty($aParams['order']) ? 'down' : $aParams['order'];
                 $url = empty($aParams['url']) ? '#' : $aParams['url'];
-                $url .= strpos($url, '?') !== false ? '&' : '?';
+                $url .= str_contains($url, '?') ? '&' : '?';
 
                 $buffer = '<a href="' . htmlspecialchars($url . 'listorder=' . $item) . '">' . $str . '</a>';
 
@@ -387,7 +377,7 @@ class OA_Admin_Template extends Smarty
                 $item = $aParams['item'];
 
                 $url = empty($aParams['url']) ? '#' : $aParams['url'];
-                $url .= strpos($url, '?') !== false ? '&' : '?';
+                $url .= str_contains($url, '?') ? '&' : '?';
                 $url .= 'listorder=' . $item;
 
                 $listorder = $smarty->get_template_vars('listorder');
@@ -483,28 +473,20 @@ class OA_Admin_Template extends Smarty
                 $type = $aParams['type'];
 
                 if ($active) {
-                    switch ($type) {
-                        case 'html':
-                            return 'iconBannerHtml';
-                        case 'txt':
-                            return 'iconBannerText';
-                        case 'url':
-                            return 'iconBannerExternal';
-                        default:
-                            return 'iconBanner';
-                    }
+                    return match ($type) {
+                        'html' => 'iconBannerHtml',
+                        'txt' => 'iconBannerText',
+                        'url' => 'iconBannerExternal',
+                        default => 'iconBanner',
+                    };
                 }
 
-                switch ($type) {
-                    case 'html':
-                        return 'iconBannerHtmlDisabled';
-                    case 'txt':
-                        return 'iconBannerTextDisabled';
-                    case 'url':
-                        return 'iconBannerExternalDisabled';
-                    default:
-                        return 'iconBannerDisabled';
-                }
+                return match ($type) {
+                    'html' => 'iconBannerHtmlDisabled',
+                    'txt' => 'iconBannerTextDisabled',
+                    'url' => 'iconBannerExternalDisabled',
+                    default => 'iconBannerDisabled',
+                };
             } else {
                 $smarty->trigger_error("t: missing 'active' parameter");
             }
@@ -561,36 +543,24 @@ class OA_Admin_Template extends Smarty
                 }
 
                 if ($active) {
-                    switch ($delivery) {
-                        case phpAds_ZoneInterstitial:
-                            return 'iconZoneFloating';
-                        case phpAds_ZoneText:
-                            return 'iconZoneText';
-                        case MAX_ZoneEmail:
-                            return 'iconZoneEmail';
-                        case OX_ZoneVideoInstream:
-                            return 'iconZoneVideoInstream';
-                        case OX_ZoneVideoOverlay:
-                            return 'iconZoneVideoOverlay';
-                        default:
-                            return 'iconZone';
-                    }
+                    return match ($delivery) {
+                        phpAds_ZoneInterstitial => 'iconZoneFloating',
+                        phpAds_ZoneText => 'iconZoneText',
+                        MAX_ZoneEmail => 'iconZoneEmail',
+                        OX_ZoneVideoInstream => 'iconZoneVideoInstream',
+                        OX_ZoneVideoOverlay => 'iconZoneVideoOverlay',
+                        default => 'iconZone',
+                    };
                 }
 
-                switch ($delivery) {
-                    case phpAds_ZoneInterstitial:
-                        return 'iconZoneFloatingDisabled';
-                    case phpAds_ZoneText:
-                        return 'iconZoneTextDisabled';
-                    case MAX_ZoneEmail:
-                        return 'iconZoneEmailDisabled';
-                    case OX_ZoneVideoInstream:
-                        return 'iconZoneVideoInstreamDisabled';
-                    case OX_ZoneVideoOverlay:
-                        return 'iconZoneVideoOverlayDisabled';
-                    default:
-                        return 'iconZoneDisabled';
-                }
+                return match ($delivery) {
+                    phpAds_ZoneInterstitial => 'iconZoneFloatingDisabled',
+                    phpAds_ZoneText => 'iconZoneTextDisabled',
+                    MAX_ZoneEmail => 'iconZoneEmailDisabled',
+                    OX_ZoneVideoInstream => 'iconZoneVideoInstreamDisabled',
+                    OX_ZoneVideoOverlay => 'iconZoneVideoOverlayDisabled',
+                    default => 'iconZoneDisabled',
+                };
             } else {
                 $smarty->trigger_error("t: missing 'active' parameter");
             }
@@ -715,7 +685,7 @@ class OA_Admin_Template extends Smarty
             if (!empty($aParams['search'])) {
                 $searchPhrase = $aParams['search'];
                 $text = $aParams['text'];
-                $strPos = stripos($text, $searchPhrase);
+                $strPos = stripos($text, (string) $searchPhrase);
                 if ($strPos !== false) {
                     $strLen = strlen($searchPhrase);
                     return htmlspecialchars(substr($text, 0, $strPos)) .

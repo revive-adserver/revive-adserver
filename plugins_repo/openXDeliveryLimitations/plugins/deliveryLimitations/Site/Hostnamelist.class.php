@@ -36,7 +36,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     {
         $this->aOperations = [
             '=~' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these hostnames', $this->extension, $this->group),
-            '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $this->extension, $this->group)
+            '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $this->extension, $this->group),
         ];
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Hostname List';
@@ -66,10 +66,9 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
         // is only included once in the HTML, no matter times the plugin is
         // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
-        echo
-            "<div style=\"float: left;\">" .
+        echo "<div style=\"float: left;\">" .
                 "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
-                  htmlspecialchars(isset($this->data) ? $this->data : "") .
+                  htmlspecialchars($this->data ?? "") .
                 "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .
@@ -89,8 +88,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
      */
     public function _displayIntlMissingWarning()
     {
-        echo
-            "<div class='errormessage' style='width: 50%;'>" .
+        echo "<div class='errormessage' style='width: 50%;'>" .
                 "<img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>" .
                 "<span class='tab-r'>" .
                     $this->translate('WARNING') . ": " .
@@ -147,7 +145,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     {
         return $this->_sanitiseData($this->data);
     }
-    
+
     /**
      * A local private method to sanitise the registerable domain data.
      *
@@ -178,17 +176,17 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
                 $url = strtolower($url);
                 $hostname = @parse_url($url, PHP_URL_HOST);
                 if (is_string($hostname) && strlen($hostname)) {
-                    array_push($aSanitisedData, $hostname);
+                    $aSanitisedData[] = $hostname;
                 } else {
                     $hostname = @parse_url('http://' . $url, PHP_URL_HOST);
                     if (is_string($hostname) && strlen($hostname)) {
-                        array_push($aSanitisedData, $hostname);
+                        $aSanitisedData[] = $hostname;
                     }
                 }
             }
             $aSanitisedData = array_unique($aSanitisedData);
             sort($aSanitisedData);
         }
-        return implode($aSanitisedData, "\n");
+        return implode("\n", $aSanitisedData);
     }
 }

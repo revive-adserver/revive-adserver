@@ -30,10 +30,6 @@ class OA_phpAdsNew
     public $engine = '';
     public $version = '';
 
-    public function __construct()
-    {
-    }
-
     public function init()
     {
         $this->aConfig = $this->_migratePANConfig($this->_getPANConfig());
@@ -79,7 +75,6 @@ class OA_phpAdsNew
             include $tmpFile;
             unlink($tmpFile);
 
-            // @phpstan-ignore-next-line
             if (isset($phpAds_config) && is_array($phpAds_config)) {
                 $this->detected = true;
                 return $phpAds_config;
@@ -98,7 +93,7 @@ class OA_phpAdsNew
             $aResult['logging']['proxyLookup'] = $phpAds_config['proxy_lookup'] ?? false;
             $aResult['logging']['adImpressions'] = $phpAds_config['log_adviews'] ?? true;
             $aResult['logging']['adClicks'] = $phpAds_config['log_adclicks'] ?? true;
-            $aResult['logging']['ignoreHosts'] = join(',', $phpAds_config['ignore_hosts'] ?? []);
+            $aResult['logging']['ignoreHosts'] = implode(',', $phpAds_config['ignore_hosts'] ?? []);
             $aResult['logging']['blockAdImpressions'] = $phpAds_config['block_adviews'] ?? false;
             $aResult['logging']['blockAdClicks'] = $phpAds_config['block_adclicks'] ?? false;
             $aResult['p3p']['policies'] = $phpAds_config['p3p_policies'] ?? '';
@@ -181,7 +176,7 @@ class OA_phpAdsNew
             if ($phpAds_config['geotracking_type'] == 'geoip') {
                 if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
                     if (is_readable($phpAds_config['geotracking_location'])) {
-                        $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
+                        $phpAds_config['geotracking_conf'] = static::phpAds_geoip_getConf($phpAds_config['geotracking_location']);
                     } else {
                         $message .= "A GeoIP database is not readable." . $postWarningMessage;
                         $oUpgrader->oLogger->logWarning($message);
@@ -264,7 +259,7 @@ class OA_phpAdsNew
             'GEOIP_UNKNOWN_SPEED' => 0,
             'GEOIP_DIALUP_SPEED' => 1,
             'GEOIP_CABLEDSL_SPEED' => 2,
-            'GEOIP_CORPORATE_SPEED' => 3
+            'GEOIP_CORPORATE_SPEED' => 3,
         ];
     }
 
@@ -334,7 +329,7 @@ class OA_phpAdsNew
             'plugin_conf' => [
                 'databaseType' => $databaseType,
                 'databaseSegments' => $databaseSegments,
-                'record_length' => $record_length
+                'record_length' => $record_length,
             ],
             'capabilities' => [
                 'country' => in_array($databaseType, [$GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
@@ -348,8 +343,8 @@ class OA_phpAdsNew
                 'dma_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
                 'area_code' => in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1]),
                 'org_isp' => in_array($databaseType, [$GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION]),
-                'netspeed' => $databaseType == $GEOIP_NETSPEED_EDITION
-            ]
+                'netspeed' => $databaseType == $GEOIP_NETSPEED_EDITION,
+            ],
         ];
     }
 

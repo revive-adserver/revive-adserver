@@ -21,14 +21,6 @@ require_once MAX_PATH . '/lib/OX/Translation.php';
 class Test_OX_Translation extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the core translation system using the strKey mechanism
      */
     public function testCoreTranslateByKey()

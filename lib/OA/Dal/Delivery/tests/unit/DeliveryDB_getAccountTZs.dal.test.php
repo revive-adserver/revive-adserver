@@ -49,7 +49,7 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         $aExpect = [
             'default' => 'UTC',
             'aAccounts' => [],
-            'adminAccountId' => 1
+            'adminAccountId' => 1,
         ];
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
@@ -77,7 +77,7 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
         $aExpect = [
             'default' => 'Europe/Rome',
             'aAccounts' => [],
-            'adminAccountId' => 1
+            'adminAccountId' => 1,
         ];
 
         $aResult = OA_Dal_Delivery_getAccountTZs();
@@ -110,9 +110,9 @@ class Test_OA_Dal_Delivery_getAccountTZs extends UnitTestCase
             'default' => 'Europe/Rome',
             'aAccounts' => [
                 $managerAccountId1 => 'Europe/London',
-                $managerAccountId2 => 'CEST'
+                $managerAccountId2 => 'CEST',
             ],
-            'adminAccountId' => 1
+            'adminAccountId' => 1,
         ];
 
         $aResult = OA_Dal_Delivery_getAccountTZs();

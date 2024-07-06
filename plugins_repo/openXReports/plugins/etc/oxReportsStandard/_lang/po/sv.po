@@ -24,8 +24,8 @@ msgstr "Den här rapporten visar en uppdelning av reklam för en viss annonsör 
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:72
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:99
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 msgid "Standard Reports"
 msgstr "Standardrapporter"
 
@@ -60,6 +60,91 @@ msgstr "Den här rapporten visar en uppdelning av reklam för en viss kampanj, a
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
 msgid "Ad Breakdown"
 msgstr "Annonsuppdelning"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
+msgid "Conversion Tracking Report"
+msgstr "Konverteringsspårningsrapport"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
+msgid "A detailed breakdown of all conversion activity by advertiser or website."
+msgstr "En detaljerad uppdelning av alla omvandlingsaktivitet av annonsör eller webbplats."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
+msgid "Performance by Day"
+msgstr "Prestanda per dag"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:336
+msgid "Connection Summary by Day"
+msgstr "Anslutningssammanfattning per dag"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
+msgid "Variable Summary by Day"
+msgstr "Variabelsammanfattning per dag"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
+msgid "Variable Summary by Variable"
+msgstr "Variabelsammanfattning per variabel"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
+msgid "Connection Detail"
+msgstr "Anslutningdetalj"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
+msgid "Total Connections"
+msgstr "Totalt antal anslutningar"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
+msgid " Connections"
+msgstr " Anslutningar"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
+msgid "Connection ID"
+msgstr "Anslutnings-ID"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
+msgid "Connection Date / Time"
+msgstr "Anslutning datum / tid"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
+msgid "Approval Status"
+msgstr "Status för godkännande"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:673
+msgid "Comment"
+msgstr "Kommentar"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:679
+msgid "Advertiser Name"
+msgstr "Annonsörens namn"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:683
+msgid "Ad Name"
+msgstr "Annonsnamn"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
+msgid "Website Name"
+msgstr "Webbplatsens namn"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:687
+msgid "Zone Name"
+msgstr "Zonens namn"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:689
+msgid "Connection Type"
+msgstr "Anslutningstyp"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:691
+msgid "Connecting Value Date / Time"
+msgstr "Anslutningsvärde datum / tid"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:693
+msgid "IP Address"
+msgstr "IP Adress"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
@@ -128,89 +213,4 @@ msgstr "Kvarleva"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Contract"
 msgstr "Kontakt"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
-msgid "Conversion Tracking Report"
-msgstr "Konverteringsspårningsrapport"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
-msgid "A detailed breakdown of all conversion activity by advertiser or website."
-msgstr "En detaljerad uppdelning av alla omvandlingsaktivitet av annonsör eller webbplats."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:160
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:321
-msgid "Performance by Day"
-msgstr "Prestanda per dag"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:336
-msgid "Connection Summary by Day"
-msgstr "Anslutningssammanfattning per dag"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
-msgid "Variable Summary by Day"
-msgstr "Variabelsammanfattning per dag"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
-msgid "Variable Summary by Variable"
-msgstr "Variabelsammanfattning per variabel"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
-msgid "Connection Detail"
-msgstr "Anslutningdetalj"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
-msgid "Total Connections"
-msgstr "Totalt antal anslutningar"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
-msgid " Connections"
-msgstr " Anslutningar"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
-msgid "Connection ID"
-msgstr "Anslutnings-ID"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
-msgid "Connection Date / Time"
-msgstr "Anslutning datum / tid"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:678
-msgid "Approval Status"
-msgstr "Status för godkännande"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:680
-msgid "Comment"
-msgstr "Kommentar"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:686
-msgid "Advertiser Name"
-msgstr "Annonsörens namn"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:690
-msgid "Ad Name"
-msgstr "Annonsnamn"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:692
-msgid "Website Name"
-msgstr "Webbplatsens namn"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:694
-msgid "Zone Name"
-msgstr "Zonens namn"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:696
-msgid "Connection Type"
-msgstr "Anslutningstyp"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:698
-msgid "Connecting Value Date / Time"
-msgstr "Anslutningsvärde datum / tid"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
-msgid "IP Address"
-msgstr "IP Adress"
 

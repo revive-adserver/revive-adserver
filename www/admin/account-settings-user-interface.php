@@ -41,7 +41,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'ui_enabled' => [
             'ui' => 'enabled',
-            'bool' => true
+            'bool' => true,
         ],
         'ui_applicationName' => ['ui' => 'applicationName'],
         'ui_headerFilePath' => ['ui' => 'headerFilePath'],
@@ -52,6 +52,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'ui_headerActiveTabColor' => ['ui' => 'headerActiveTabColor'],
         'ui_headerTextColor' => ['ui' => 'headerTextColor'],
         'ui_supportLink' => ['ui' => 'supportLink'],
+        'ui_loaderDelay' => ['ui' => 'loaderDelay'],
         'ui_gzipCompression' => [
             'ui' => 'gzipCompression',
             'bool' => true,
@@ -62,16 +63,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'openads_requireSSL' => [
             'openads' => 'requireSSL',
-            'bool' => true
+            'bool' => true,
         ],
-        'openads_sslPort' => ['openads' => 'sslPort']
+        'openads_sslPort' => ['openads' => 'sslPort'],
     ];
     // Dashboard Settings
     $aElements += [
         'ui_dashboardEnabled' => [
-        'ui' => 'dashboardEnabled',
-        'bool' => true
-        ]
+            'ui' => 'dashboardEnabled',
+            'bool' => true,
+        ],
     ];
 
     // Dashboard Settings
@@ -98,7 +99,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         // The settings configuration file was written correctly,
@@ -126,91 +127,99 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'ui_enabled',
-                'text' => $uiEnabled
+                'text' => $uiEnabled,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_applicationName',
                 'text' => $strAppName,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_headerFilePath',
                 'text' => $strMyHeader,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_footerFilePath',
                 'text' => $strMyFooter,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_logoFilePath',
                 'text' => $strMyLogo,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_headerForegroundColor',
                 'text' => $strGuiHeaderForegroundColor,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_headerBackgroundColor',
                 'text' => $strGuiHeaderBackgroundColor,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_headerActiveTabColor',
                 'text' => $strGuiActiveTabColor,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_headerTextColor',
                 'text' => $strGuiHeaderTextColor,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'ui_supportLink',
                 'text' => $strGuiSupportLink,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
+            ],
+            [
+                'type' => 'text',
+                'name' => 'ui_loaderDelay',
+                'text' => $strGuiLoaderDelay,
+            ],
+            [
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
@@ -226,7 +235,7 @@ $aSettings = [
                 'text' => $strGuiBadLoginLogPath,
                 'size' => 35
             ]
-        ]
+        ],
     ],
     [
         'text' => $strSSLSettings,
@@ -234,30 +243,30 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'openads_requireSSL',
-                'text' => $requireSSL
+                'text' => $requireSSL,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'openads_sslPort',
                 'text' => $sslPort,
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
         ],
-     ],
-     [
-         'text' => $strDashboardSettings,
-         'items' => [
-             [
-                 'type' => 'checkbox',
-                 'name' => 'ui_dashboardEnabled',
-                 'text' => ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] ? $strEnableDashboard : $strEnableDashboardSyncNotice),
-                 'disabled' => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']
-             ]
-        ]
-    ]
+    ],
+    [
+        'text' => $strDashboardSettings,
+        'items' => [
+            [
+                'type' => 'checkbox',
+                'name' => 'ui_dashboardEnabled',
+                'text' => ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] ? $strEnableDashboard : $strEnableDashboardSyncNotice),
+                'disabled' => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'],
+            ],
+        ],
+    ],
 ];
 
 $aAuthPlugins = OX_Component::getComponents('authentication');
@@ -268,15 +277,15 @@ if (!empty($aAuthPlugins) && is_array($aAuthPlugins)) {
         $aItems[$oAuthPlugin->getComponentIdentifier()] = $oAuthPlugin->getName();
     }
     $aSettings[] = [
-         'text' => 'Authentication mechanism',
-         'items' => [
-             [
-                 'type' => 'select',
-                 'name' => 'authentication_type',
-                 'text' => 'Select the plugin-component to be used for authentication',
-                 'items' => $aItems,
-             ]
-        ]
+        'text' => 'Authentication mechanism',
+        'items' => [
+            [
+                'type' => 'select',
+                'name' => 'authentication_type',
+                'text' => 'Select the plugin-component to be used for authentication',
+                'items' => $aItems,
+            ],
+        ],
     ];
 }
 

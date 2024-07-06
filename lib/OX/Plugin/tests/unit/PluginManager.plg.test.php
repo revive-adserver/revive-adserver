@@ -69,21 +69,21 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_unpack',
-                                     ]
+                '_unpack',
+            ],
         );
         $oManager = new $oMockManager($this);
 
         // Test 1 - package file not found
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testNonExistantPackage.xml',
-                       'name' => 'testParsePluginFull.xml'
-                      ];
+            'name' => 'testParsePluginFull.xml',
+        ];
         $this->assertFalse($oManager->unpackPlugin($aFile));
 
         // Test 2 - package unpack error
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testParsePluginFull.xml',
-                       'name' => 'testParsePluginFull.xml'
-                      ];
+            'name' => 'testParsePluginFull.xml',
+        ];
         $oManager->setReturnValueAt(0, '_unpack', false);
         $this->assertFalse($oManager->unpackPlugin($aFile));
 
@@ -98,9 +98,7 @@ class Test_OX_PluginManager extends UnitTestCase
      * @todo write test for test_installPackageCodeOnly
      *
      */
-    public function test_installPackageCodeOnly()
-    {
-    }
+    public function test_installPackageCodeOnly() {}
 
     public function test_unpack()
     {
@@ -108,45 +106,45 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_checkPackageContents',
-                                      '_decompressFile',
-                                     ]
+                '_checkPackageContents',
+                '_decompressFile',
+            ],
         );
         $oManager = new $oMockManager($this);
 
         // Test 1 - failed security check
         $oManager->setReturnValueAt(0, '_checkPackageContents', false);
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testBadZipFile.zip',
-                       'name' => 'testBadZipFile.zip'
-                      ];
+            'name' => 'testBadZipFile.zip',
+        ];
         $this->assertFalse($oManager->_unpack($aFile));
 
         // Test 2 - failed to decompress zip file
         $oManager->setReturnValueAt(1, '_checkPackageContents', true);
         $oManager->setReturnValueAt(0, '_decompressFile', false);
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testBadZipFile.zip',
-                       'name' => 'testBadZipFile.zip'
-                      ];
+            'name' => 'testBadZipFile.zip',
+        ];
         $this->assertFalse($oManager->_unpack($aFile));
 
         // Test 3 - decompressed zip file success
         $oManager->setReturnValueAt(2, '_checkPackageContents', true);
         $oManager->setReturnValueAt(1, '_decompressFile', true);
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testGoodZipFile.zip',
-                       'name' => 'testGoodZipFile.zip'
-                      ];
+            'name' => 'testGoodZipFile.zip',
+        ];
         $this->assertEqual($oManager->_unpack($aFile), 'testGoodZipFile');
 
         // Test 4 - no extension
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testUnkownFormat',
-                       'name' => 'testUnkownFormat'
-                      ];
+            'name' => 'testUnkownFormat',
+        ];
         $this->assertFalse($oManager->_unpack($aFile));
 
         // Test 5 - unknown file format
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testUnkownFormat.abc',
-                       'name' => 'testUnkownFormat.abc'
-                      ];
+            'name' => 'testUnkownFormat.abc',
+        ];
         $this->assertFalse($oManager->_unpack($aFile));
 
         // Test 6 - xml file format
@@ -167,7 +165,7 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_Extension',
             $oMockExtension = 'OX_Extension' . rand(),
             [
-                                     ]
+            ],
         );
         $oExtension = new $oMockExtension($this);
 
@@ -175,18 +173,18 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_instantiateClass',
-                                      'unpackPlugin',
-                                      '_installComponentGroups',
-                                      '_registerPackage',
-                                      '_uninstallComponentGroups',
-                                      '_auditInit',
-                                      '_auditSetKeys',
-                                      '_auditStart',
-                                      '_auditUpdate',
-                                      '_auditSetID',
-                                      'enablePackage',
-                                     ]
+                '_instantiateClass',
+                'unpackPlugin',
+                '_installComponentGroups',
+                '_registerPackage',
+                '_uninstallComponentGroups',
+                '_auditInit',
+                '_auditSetKeys',
+                '_auditStart',
+                '_auditUpdate',
+                '_auditSetID',
+                'enablePackage',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -203,8 +201,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(0, 'unpackPlugin', false);
 
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testParsePluginFull.xml',
-                       'name' => 'testParsePluginFull.xml'
-                      ];
+            'name' => 'testParsePluginFull.xml',
+        ];
         $this->assertFalse($oManager->installPackage($aFile));
 
         // Test 2 - plugin installation error
@@ -212,8 +210,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(0, '_installComponentGroups', false);
 
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testParsePluginFull.xml',
-                       'name' => 'testParsePluginFull.xml'
-                       ];
+            'name' => 'testParsePluginFull.xml',
+        ];
         $this->assertFalse($oManager->installPackage($aFile));
 
         // Test 3 - register settings error
@@ -222,8 +220,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(0, '_registerPackage', false);
 
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testParsePluginFull.xml',
-                       'name' => 'testParsePluginFull.xml'
-                       ];
+            'name' => 'testParsePluginFull.xml',
+        ];
         $this->assertFalse($oManager->installPackage($aFile));
 
         // Test 4 - success
@@ -232,8 +230,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager->setReturnValueAt(1, '_registerPackage', true);
 
         $aFile = ['tmp_name' => MAX_PATH . $this->testpathData . 'testParsePluginFull.xml',
-                       'name' => 'testParsePluginFull.xml'
-                       ];
+            'name' => 'testParsePluginFull.xml',
+        ];
         // Disable auto-enable for this one (brings enablePackage call count down to 2
         $GLOBALS['_MAX']['CONF']['pluginSettings']['enableOnInstall'] = false;
         $this->assertTrue($oManager->installPackage($aFile));
@@ -252,19 +250,19 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                        '_parsePackage',
-                                        '_parseComponentGroups',
-                                        '_hasDependencies',
-                                        '_uninstallComponentGroups',
-                                        'disablePackage',
-                                        '_unregisterPackage',
-                                        '_removeFiles',
-                                        '_auditInit',
-                                        '_auditSetKeys',
-                                        '_auditStart',
-                                        '_auditUpdate',
-                                        '_auditSetID',
-                                     ]
+                '_parsePackage',
+                '_parseComponentGroups',
+                '_hasDependencies',
+                '_uninstallComponentGroups',
+                'disablePackage',
+                '_unregisterPackage',
+                '_removeFiles',
+                '_auditInit',
+                '_auditSetKeys',
+                '_auditStart',
+                '_auditUpdate',
+                '_auditSetID',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_auditStart', true);
@@ -333,13 +331,13 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_parsePackage',
-                                      '_parseComponentGroups',
-                                      '_runExtensionTasks',
-                                      'enableComponentGroup',
-                                      '_setPackage',
-                                      'disablePackage'
-                                     ]
+                '_parsePackage',
+                '_parseComponentGroups',
+                '_runExtensionTasks',
+                'enableComponentGroup',
+                '_setPackage',
+                'disablePackage',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_parseComponentGroups', true);
@@ -390,12 +388,12 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_parsePackage',
-                                      'disableComponentGroup',
-                                      '_parseComponentGroups',
-                                      '_runExtensionTasks',
-                                      '_setPackage'
-                                     ]
+                '_parsePackage',
+                'disableComponentGroup',
+                '_parseComponentGroups',
+                '_runExtensionTasks',
+                '_setPackage',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_parseComponentGroups', true);
@@ -448,9 +446,9 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      'getFilePathToXMLInstall',
-                                      'parseXML'
-                                     ]
+                'getFilePathToXMLInstall',
+                'parseXML',
+            ],
         );
         $oManager = new $oMockManager($this);
 
@@ -518,13 +516,13 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      'installComponentGroup',
-                                      '_auditInit',
-                                      '_auditSetKeys',
-                                      '_auditStart',
-                                      '_auditUpdate',
-                                      '_auditSetID',
-                                     ]
+                'installComponentGroup',
+                '_auditInit',
+                '_auditSetKeys',
+                '_auditStart',
+                '_auditUpdate',
+                '_auditSetID',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_auditStart', true);
@@ -564,13 +562,13 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      'uninstallComponentGroup',
-                                      '_auditInit',
-                                      '_auditSetKeys',
-                                      '_auditStart',
-                                      '_auditUpdate',
-                                      '_auditSetID',
-                                     ]
+                'uninstallComponentGroup',
+                '_auditInit',
+                '_auditSetKeys',
+                '_auditStart',
+                '_auditUpdate',
+                '_auditSetID',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_auditStart', true);
@@ -611,9 +609,9 @@ class Test_OX_PluginManager extends UnitTestCase
             'OA_Admin_Settings',
             $oMockConfig = 'OA_Admin_Settings' . rand(),
             [
-                                      'settingChange',
-                                      'writeConfigChange'
-                                     ]
+                'settingChange',
+                'writeConfigChange',
+            ],
         );
         $oConfig = new $oMockConfig($this);
         $oConfig->setReturnValue('settingChange', true);
@@ -625,7 +623,7 @@ class Test_OX_PluginManager extends UnitTestCase
         Mock::generatePartial(
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
-            ['_instantiateClass']
+            ['_instantiateClass'],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oConfig);
@@ -642,7 +640,7 @@ class Test_OX_PluginManager extends UnitTestCase
         Mock::generatePartial(
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
-            ['getPathToPackages', 'parseXML']
+            ['getPathToPackages', 'parseXML'],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('getPathToPackages', MAX_PATH . $this->testpathPackages . 'testPlugin/');
@@ -675,7 +673,7 @@ class Test_OX_PluginManager extends UnitTestCase
         Mock::generatePartial(
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
-            ['disablePackage']
+            ['disablePackage'],
         );
         $oManager = new $oMockManager($this);
 
@@ -697,7 +695,7 @@ class Test_OX_PluginManager extends UnitTestCase
         Mock::generatePartial(
             'OA_Admin_Settings',
             $oMockConfig = 'OA_Admin_Settings' . rand(),
-            ['writeConfigChange']
+            ['writeConfigChange'],
         );
         $oConfig = new $oMockConfig($this);
         $oConfig->setReturnValueAt(0, 'writeConfigChange', true);
@@ -707,7 +705,7 @@ class Test_OX_PluginManager extends UnitTestCase
         Mock::generatePartial(
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
-            ['_instantiateClass']
+            ['_instantiateClass'],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_instantiateClass', $oConfig);
@@ -724,7 +722,7 @@ class Test_OX_PluginManager extends UnitTestCase
         Mock::generatePartial(
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
-            ['getPackageInfo']
+            ['getPackageInfo'],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValueAt(0, 'getPackageInfo', ['stuff' => 'bar']);
@@ -750,10 +748,10 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                        '_parsePackage',
-                                        'disablePackage',
-                                        'getComponentGroupInfo',
-                                     ]
+                '_parsePackage',
+                'disablePackage',
+                'getComponentGroupInfo',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->__construct();
@@ -767,7 +765,7 @@ class Test_OX_PluginManager extends UnitTestCase
         // Test 2 -
         $oManager->aParse['package']['name'] = 'test';
         $oManager->aParse['package']['install']['files'] = [0 => ['name' => 'test.readme.txt', 'path' => '{PATHPLUGINS}'],
-                                                                 1 => ['name' => 'test.uninstall.txt', 'path' => '{PATHPLUGINS}']];
+            1 => ['name' => 'test.uninstall.txt', 'path' => '{PATHPLUGINS}']];
         $oManager->aParse['package']['install']['contents'] = [0 => ['name' => 'foo'], 1 => ['name' => 'bar']];
         $aFoo = ['name' => 'foo', 'version' => '1', 'enabled' => 1, 'installed' => 1, 'package' => 'test'];
         $aBar = ['name' => 'bar', 'version' => '2', 'enabled' => 0, 'installed' => 1, 'package' => 'test'];
@@ -814,10 +812,10 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_Plugin_UpgradeComponentGroup',
             $oMockUpgrade = 'OX_Plugin_UpgradeComponentGroup' . rand(),
             [
-                                      'canUpgrade',
-                                      'getErrors',
-                                      'getMessages',
-                                     ]
+                'canUpgrade',
+                'getErrors',
+                'getMessages',
+            ],
         );
         $oUpgrade = new $oMockUpgrade($this);
         $oUpgrade->setReturnValue('canUpgrade', true);
@@ -828,9 +826,9 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_getOX_Plugin_UpgradeComponentGroup',
-                                      '_canUpgradeComponentGroup',
-                                     ]
+                '_getOX_Plugin_UpgradeComponentGroup',
+                '_canUpgradeComponentGroup',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_getOX_Plugin_UpgradeComponentGroup', $oUpgrade);
@@ -842,17 +840,17 @@ class Test_OX_PluginManager extends UnitTestCase
 
         // Test 2 - fail
         $aPluginsOld[0] = ['name' => 'foo',
-                               ];
+        ];
         $aPluginsNew[0] = ['name' => 'foo',
-                               ];
+        ];
         $oManager->setReturnValueAt(0, '_canUpgradeComponentGroup', false);
         $this->assertFalse($oManager->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld));
 
         // Test 3 - success
         $aPluginsOld[0] = ['name' => 'foo',
-                               ];
+        ];
         $aPluginsNew[0] = ['name' => 'foo',
-                               ];
+        ];
         $oManager->setReturnValueAt(1, '_canUpgradeComponentGroup', true);
         $this->assertTrue($oManager->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld));
         $this->assertEqual(count($aPluginsOld), 0);
@@ -860,11 +858,11 @@ class Test_OX_PluginManager extends UnitTestCase
         // Test 3 - success but and old plugin needs deletion
         // the array of old plugins should be reduced to those which require deletion only
         $aPluginsOld[0] = ['name' => 'foo',
-                               ];
+        ];
         $aPluginsOld[1] = ['name' => 'bar',
-                               ];
+        ];
         $aPluginsNew[0] = ['name' => 'foo',
-                               ];
+        ];
         $oManager->setReturnValueAt(2, '_canUpgradeComponentGroup', true);
         $this->assertTrue($oManager->_canUpgradeComponentGroups($aPluginsNew, $aPluginsOld));
         $this->assertEqual(count($aPluginsOld), 1);
@@ -882,58 +880,58 @@ class Test_OX_PluginManager extends UnitTestCase
             'OX_PluginManager',
             $oMockManager = 'OX_PluginManager' . rand(),
             [
-                                      '_instantiateClass',
-                                      '_canUpgradeComponentGroups',
-                                      'upgradeComponentGroup',
-                                      '_logMessage',
-                                      '_logError',
-                                      '_cacheDependencies',
-                                      '_installComponentGroups',
-                                      '_uninstallComponentGroups',
-                                     ]
+                '_instantiateClass',
+                '_canUpgradeComponentGroups',
+                'upgradeComponentGroup',
+                '_logMessage',
+                '_logError',
+                '_cacheDependencies',
+                '_installComponentGroups',
+                '_uninstallComponentGroups',
+            ],
         );
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_canUpgradeComponentGroups', true);
 
         // Test 1 - upgrade failed
         $aPluginsNew[0] = ['name' => 'foo',
-                                'status' => OA_STATUS_PLUGIN_CAN_UPGRADE,
-                               ];
+            'status' => OA_STATUS_PLUGIN_CAN_UPGRADE,
+        ];
         $oManager->setReturnValueAt(0, 'upgradeComponentGroup', false);
         $this->assertFalse($oManager->_upgradeComponentGroups($aPluginsNew, $aPluginsOld));
 
         // Test 2 - upgrade succeeded
         $aPluginsNew[0] = ['name' => 'foo',
-                                'status' => OA_STATUS_PLUGIN_CAN_UPGRADE,
-                               ];
+            'status' => OA_STATUS_PLUGIN_CAN_UPGRADE,
+        ];
         $oManager->setReturnValueAt(1, 'upgradeComponentGroup', true);
         $this->assertTrue($oManager->_upgradeComponentGroups($aPluginsNew, $aPluginsOld));
 
         // Test 3 - a plugin requires installation but fails
         $aPluginsNew[0] = ['name' => 'foo',
-                                'status' => OA_STATUS_PLUGIN_NOT_INSTALLED,
-                               ];
+            'status' => OA_STATUS_PLUGIN_NOT_INSTALLED,
+        ];
         $oManager->setReturnValueAt(0, '_installComponentGroups', false);
         $this->assertFalse($oManager->_upgradeComponentGroups($aPluginsNew, $aPluginsOld));
 
         // Test 4 - a plugin requires installation and succeeds
         $aPluginsNew[0] = ['name' => 'foo',
-                                'status' => OA_STATUS_PLUGIN_NOT_INSTALLED,
-                               ];
+            'status' => OA_STATUS_PLUGIN_NOT_INSTALLED,
+        ];
         $oManager->setReturnValueAt(1, '_installComponentGroups', true);
         $this->assertTrue($oManager->_upgradeComponentGroups($aPluginsNew, $aPluginsOld));
 
         // Test 5 - an old plugin needs deletion and fails
         $aPluginsNew = [];
         $aPluginsOld[0] = ['name' => 'bar',
-                               ];
+        ];
         $oManager->setReturnValueAt(0, '_uninstallComponentGroups', false);
         $this->assertFalse($oManager->_upgradeComponentGroups($aPluginsNew, $aPluginsOld));
 
         // Test 6 - an old plugin needs deletion and succeeds
         $aPluginsNew = [];
         $aPluginsOld[0] = ['name' => 'bar',
-                               ];
+        ];
         $oManager->setReturnValueAt(1, '_uninstallComponentGroups', true);
         $this->assertTrue($oManager->_upgradeComponentGroups($aPluginsNew, $aPluginsOld));
 

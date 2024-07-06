@@ -30,9 +30,6 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
      */
     public $oDal;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -88,7 +85,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $this->_insertDataIntermediateAdConnection($aData);
 
@@ -130,7 +127,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $this->_insertDataIntermediateAdConnection($aData);
 
@@ -145,7 +142,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $this->_insertDataIntermediateAdConnection($aData);
 
@@ -186,7 +183,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -201,7 +198,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $this->_insertDataIntermediateAdConnection($aData);
 
@@ -241,7 +238,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -256,7 +253,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -264,7 +261,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -302,7 +299,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -317,7 +314,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -325,7 +322,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -362,7 +359,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -377,7 +374,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -385,7 +382,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -423,7 +420,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -438,7 +435,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -456,7 +453,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -497,7 +494,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -512,7 +509,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -530,7 +527,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -538,7 +535,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -576,7 +573,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -591,7 +588,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -609,7 +606,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -617,7 +614,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -655,7 +652,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -670,7 +667,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -688,7 +685,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -696,7 +693,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -734,7 +731,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -749,7 +746,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -757,7 +754,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -772,7 +769,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -780,7 +777,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -818,7 +815,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -833,7 +830,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -841,7 +838,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -856,7 +853,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -864,7 +861,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -902,7 +899,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -917,7 +914,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -925,7 +922,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -940,7 +937,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -948,7 +945,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -986,7 +983,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1001,7 +998,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1009,7 +1006,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1024,7 +1021,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1032,7 +1029,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1070,7 +1067,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1085,7 +1082,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1093,7 +1090,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1108,7 +1105,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1116,7 +1113,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1154,7 +1151,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1169,7 +1166,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1177,7 +1174,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1192,7 +1189,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1200,7 +1197,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1241,7 +1238,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1256,7 +1253,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1296,7 +1293,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1311,7 +1308,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1319,7 +1316,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1357,7 +1354,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1372,7 +1369,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1380,7 +1377,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1417,7 +1414,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1432,7 +1429,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1440,7 +1437,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1482,7 +1479,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1497,7 +1494,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1515,7 +1512,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1556,7 +1553,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1571,7 +1568,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1589,7 +1586,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1597,7 +1594,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1635,7 +1632,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1650,7 +1647,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1668,7 +1665,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1676,7 +1673,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1714,7 +1711,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1729,7 +1726,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1747,7 +1744,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1755,7 +1752,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1797,7 +1794,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1812,7 +1809,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1820,7 +1817,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1835,7 +1832,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1843,7 +1840,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1881,7 +1878,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1896,7 +1893,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1904,7 +1901,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1919,7 +1916,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1927,7 +1924,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -1965,7 +1962,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -1980,7 +1977,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -1988,7 +1985,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => null
+            'value' => null,
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2003,7 +2000,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2011,7 +2008,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2050,7 +2047,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -2065,7 +2062,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId1 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2073,7 +2070,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2088,7 +2085,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId2 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2096,7 +2093,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId2,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2149,7 +2146,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -2164,7 +2161,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2172,7 +2169,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => ''
+            'value' => '',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2187,7 +2184,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2195,7 +2192,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2234,7 +2231,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -2249,7 +2246,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2257,7 +2254,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value1'
+            'value' => 'value1',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2272,7 +2269,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2280,7 +2277,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId,
             'tracker_variable_id' => 1,
-            'value' => 'value2'
+            'value' => 'value2',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2320,7 +2317,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Test, Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $this->_insertVariable($aData);
 
@@ -2335,7 +2332,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId1 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2343,7 +2340,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2358,7 +2355,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId2 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2366,7 +2363,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId2,
             'tracker_variable_id' => 1,
-            'value' => 'value'
+            'value' => 'value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2448,7 +2445,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Tracker ID 1 Non-Unique Variable',
             'is_unique' => 0,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $trackerVariableId1 = $this->_insertVariable($aData);
 
@@ -2458,7 +2455,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 1,
             'name' => 'Tracker ID 1 Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $trackerVariableId2 = $this->_insertVariable($aData);
 
@@ -2468,7 +2465,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'trackerid' => 2,
             'name' => 'Trackers ID 2 Unique Variable',
             'is_unique' => 1,
-            'unique_window' => 3600
+            'unique_window' => 3600,
         ];
         $trackerVariableId3 = $this->_insertVariable($aData);
 
@@ -2486,7 +2483,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId1 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2494,13 +2491,13 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
             'tracker_variable_id' => $trackerVariableId1,
-            'value' => 'non-unique tracked value'
+            'value' => 'non-unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId1,
             'tracker_variable_id' => $trackerVariableId2,
-            'value' => 'unique tracked value'
+            'value' => 'unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2516,7 +2513,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 8,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId2 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2524,7 +2521,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId2,
             'tracker_variable_id' => $trackerVariableId3,
-            'value' => 'unique tracked value'
+            'value' => 'unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2554,7 +2551,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId3 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2562,13 +2559,13 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId3,
             'tracker_variable_id' => $trackerVariableId1,
-            'value' => 'non-unique tracked value'
+            'value' => 'non-unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId3,
             'tracker_variable_id' => $trackerVariableId2,
-            'value' => 'unique tracked value, but a different one :-)'
+            'value' => 'unique tracked value, but a different one :-)',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2584,7 +2581,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId4 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2592,13 +2589,13 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId4,
             'tracker_variable_id' => $trackerVariableId1,
-            'value' => 'non-unique tracked value'
+            'value' => 'non-unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId4,
             'tracker_variable_id' => $trackerVariableId2,
-            'value' => 'unique tracked value'
+            'value' => 'unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2655,7 +2652,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 6,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId5 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2663,13 +2660,13 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId5,
             'tracker_variable_id' => $trackerVariableId1,
-            'value' => 'non-unique tracked value'
+            'value' => 'non-unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId5,
             'tracker_variable_id' => $trackerVariableId2,
-            'value' => 'unique tracked value'
+            'value' => 'unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 
@@ -2685,7 +2682,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
             'zone_id' => 8,
             'connection_action' => MAX_CONNECTION_AD_CLICK,
             'connection_window' => 1209600,
-            'connection_status' => MAX_CONNECTION_STATUS_APPROVED
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
         ];
         $conversionId6 = $this->_insertDataIntermediateAdConnection($aData);
 
@@ -2693,7 +2690,7 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         $aData = [
             'data_intermediate_ad_connection_id' => $conversionId6,
             'tracker_variable_id' => $trackerVariableId3,
-            'value' => 'unique tracked value'
+            'value' => 'unique tracked value',
         ];
         $this->_insertDataIntermediateAdVariableValue($aData);
 

@@ -37,14 +37,14 @@ class OA_Admin_Help
         $relativeHelpPath = $menuSection != null ? $menuSection->getHelpLink() : "";
 
         // The link is not relative, we directly link to it
-        if (strpos($relativeHelpPath, '://') !== false) {
+        if (str_contains($relativeHelpPath, '://')) {
             return $relativeHelpPath;
         }
 
         // Convert original help links to new Revive Adserver format
-        if (strpos($relativeHelpPath, 'settings') !== false) {
-            $relativeHelpPath = strpos($relativeHelpPath, '/') !== 0 ? '/admin/' . $relativeHelpPath : '/admin' . $relativeHelpPath;
-        } elseif (strpos($relativeHelpPath, '/') !== 0) {
+        if (str_contains($relativeHelpPath, 'settings')) {
+            $relativeHelpPath = str_starts_with($relativeHelpPath, '/') ? '/admin' . $relativeHelpPath : '/admin/' . $relativeHelpPath;
+        } elseif (!str_starts_with($relativeHelpPath, '/')) {
             $relativeHelpPath = '/user/' . $relativeHelpPath;
         } else {
             $relativeHelpPath = '/user' . $relativeHelpPath;
@@ -69,7 +69,7 @@ class OA_Admin_Help
         } else {
             // Send the user to the correct page
             $prefix = "";
-            if (strpos($relativeHelpPath, '/') !== 0) {
+            if (!str_starts_with($relativeHelpPath, '/')) {
                 $prefix = "/";
             }
             $sURL = PRODUCT_DOCSURL . $prefix . $relativeHelpPath;

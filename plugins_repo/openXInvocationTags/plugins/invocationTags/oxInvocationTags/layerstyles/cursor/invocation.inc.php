@@ -16,7 +16,7 @@ define('phpAds_adLayerLoaded', true);
 
 // Register input variables
 MAX_commonRegisterGlobalsArray(['stickyness', 'offsetx', 'offsety', 'hide',
-                       'transparancy', 'delay', 'trail']);
+    'transparancy', 'delay', 'trail']);
 
 /**
  *
@@ -152,7 +152,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
         }
 
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&", $mi->parameters);
         }
 
@@ -180,9 +180,9 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
             'campaignid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-              'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'layerstyle' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
+            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         ];
     }
 }

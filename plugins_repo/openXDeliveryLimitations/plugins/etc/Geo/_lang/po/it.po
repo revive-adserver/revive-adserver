@@ -14,42 +14,42 @@ msgstr ""
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 366\n"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:75
+msgid "Country"
+msgstr "Stato"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
+msgid "City(s)"
+msgstr "Città"
+
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
 msgstr "Sconosciuto"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:20
 msgid "Dial-up"
-msgstr ""
+msgstr "Dial-up"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:21
 msgid "Broadband"
-msgstr ""
+msgstr "Banda larga"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:22
 msgid "Corporate"
-msgstr ""
+msgstr "Società"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
-msgstr ""
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-msgid "Country"
-msgstr "Stato"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr ""
+msgstr "Cellulare"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
-msgstr ""
+msgstr "È all'interno"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:47
 msgid "Is not within"
-msgstr ""
+msgstr "Non è all'interno"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:90
 msgid "Latitude"
@@ -59,7 +59,7 @@ msgstr "Latitudine"
 msgid "Longitude"
 msgstr "Longitudine"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
-msgid "City(s)"
-msgstr "Città"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:94
+msgid "Subdivision(s)"
+msgstr "Sudivisioni"
 

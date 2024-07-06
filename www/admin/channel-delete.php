@@ -49,7 +49,7 @@ if (!empty($channelid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strChannelHasBeenDeleted'], [
-            htmlspecialchars($aChannel['name'])
+            htmlspecialchars($aChannel['name']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strChannelsHaveBeenDeleted']);

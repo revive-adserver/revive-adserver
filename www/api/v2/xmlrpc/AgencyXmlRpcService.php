@@ -67,15 +67,15 @@ class AgencyXmlRpcService extends BaseAgencyService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oAgencyInfo,
                 $oParams,
                 1,
                 ['agencyName', 'contactName', 'emailAddress', 'username',
-                'password', 'userEmail', 'language', 'status'],
-                $oResponseWithError
+                    'password', 'userEmail', 'language', 'status'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -107,15 +107,15 @@ class AgencyXmlRpcService extends BaseAgencyService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oAgencyInfo,
                 $oParams,
                 1,
                 ['agencyId', 'agencyName', 'contactName', 'emailAddress',
-                     'username', 'password', 'status'],
-                $oResponseWithError
+                    'username', 'password', 'status'],
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -145,7 +145,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -174,7 +174,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -186,14 +186,14 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $aData);
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -216,7 +216,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -228,15 +228,15 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $aData
+            $aData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['day' => 'date',
-                                                                'hour' => 'integer',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $aData);
+                'hour' => 'integer',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $aData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -259,7 +259,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -271,15 +271,15 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -302,7 +302,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -314,17 +314,17 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'campaignId' => 'integer',
-                                                                'campaignName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'campaignId' => 'integer',
+                'campaignName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -347,7 +347,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -359,19 +359,19 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['advertiserId' => 'integer',
-                                                                'advertiserName' => 'string',
-                                                                'campaignId' => 'integer',
-                                                                'campaignName' => 'string',
-                                                                'bannerId' => 'integer',
-                                                                'bannerName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'advertiserName' => 'string',
+                'campaignId' => 'integer',
+                'campaignName' => 'string',
+                'bannerId' => 'integer',
+                'bannerName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -394,7 +394,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -406,15 +406,15 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
-                                                                'publisherName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'publisherName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -437,7 +437,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId, &$oStartDate, &$oEndDate, &$localTZ],
             [true, true, false, false, false],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -449,17 +449,17 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oStartDate,
             $oEndDate,
             $localTZ,
-            $rsStatisticsData
+            $rsStatisticsData,
         )) {
             return XmlRpcUtils::arrayOfStructuresResponse(['publisherId' => 'integer',
-                                                                'publisherName' => 'string',
-                                                                'zoneId' => 'integer',
-                                                                'zoneName' => 'string',
-                                                                'requests' => 'integer',
-                                                                'impressions' => 'integer',
-                                                                'clicks' => 'integer',
-                                                                'revenue' => 'float',
-                                                                ], $rsStatisticsData);
+                'publisherName' => 'string',
+                'zoneId' => 'integer',
+                'zoneName' => 'string',
+                'requests' => 'integer',
+                'impressions' => 'integer',
+                'clicks' => 'integer',
+                'revenue' => 'float',
+            ], $rsStatisticsData);
         } else {
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
@@ -482,7 +482,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId, &$agencyId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -491,7 +491,7 @@ class AgencyXmlRpcService extends BaseAgencyService
         if ($this->_oAgencyServiceImp->getAgency(
             $sessionId,
             $agencyId,
-            $oAgency
+            $oAgency,
         )) {
             return XmlRpcUtils::getEntityResponse($oAgency);
         } else {
@@ -516,7 +516,7 @@ class AgencyXmlRpcService extends BaseAgencyService
             [&$sessionId],
             [true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }

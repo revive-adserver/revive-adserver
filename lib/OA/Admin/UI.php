@@ -51,22 +51,22 @@ class OA_Admin_UI
     public $aLinkParams;
     /** holds the id of the page being currently displayed **/
     public $currentSectionId;
-    public $aTools;
-    public $aShortcuts;
+    public $aTools = [];
+    public $aShortcuts = [];
 
     /**
      * An array containing a list of CSS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
-    public $otherCSSFiles;
+    public $otherCSSFiles = [];
 
     /**
      * An array containing a list of JS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
-    public $otherJSFiles;
+    public $otherJSFiles = [];
 
     /**
      * Class constructor, private to force getInstance usage
@@ -77,11 +77,7 @@ class OA_Admin_UI
     {
         $this->oTpl = new OA_Admin_Template('layout/main.html');
         $this->notificationManager = new OA_Admin_UI_NotificationManager();
-        $this->otherCSSFiles = [];
-        $this->otherJSFiles = [];
         $this->setLinkParams();
-        $this->aTools = [];
-        $this->aShortcuts = [];
     }
 
 
@@ -105,17 +101,17 @@ class OA_Admin_UI
         global $affiliateid, $agencyid, $bannerid, $campaignid, $channelid, $clientid, $day, $trackerid, $userlogid, $zoneid, $userid;
 
         $this->aLinkParams = ['affiliateid' => $affiliateid,
-                                     'agencyid' => $agencyid,
-                                     'bannerid' => $bannerid,
-                                     'campaignid' => $campaignid,
-                                     'channelid' => $channelid,
-                                     'clientid' => $clientid,
-                                     'day' => $day,
-                                     'trackerid' => $trackerid,
-                                     'userlogid' => $userlogid,
-                                     'zoneid' => $zoneid,
-                                     'userid' => $userid,
-                                    ];
+            'agencyid' => $agencyid,
+            'bannerid' => $bannerid,
+            'campaignid' => $campaignid,
+            'channelid' => $channelid,
+            'clientid' => $clientid,
+            'day' => $day,
+            'trackerid' => $trackerid,
+            'userlogid' => $userlogid,
+            'zoneid' => $zoneid,
+            'userid' => $userid,
+        ];
     }
 
 
@@ -166,7 +162,7 @@ class OA_Admin_UI
         global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $ID = $this->getID($ID);
+        $ID = static::getID($ID);
         $this->setCurrentId($ID);
 
         if (!defined('phpAds_installing')) {
@@ -212,13 +208,13 @@ class OA_Admin_UI
                 $aMainNav[] = [
                     'title' => $GLOBALS['strAuthentification'],
                     'filename' => 'index.php',
-                    'selected' => true
+                    'selected' => true,
                 ];
             } elseif ($ID == phpAds_Error) {
                 $aMainNav[] = [
                     'title' => $GLOBALS['strErrorOccurred'],
                     'filename' => 'index.php',
-                    'selected' => true
+                    'selected' => true,
                 ];
             } elseif ($ID == phpAds_PasswordRecovery) {
                 $isWelcomePage = null !== $oHeaderModel && 'welcome' === $oHeaderModel->getPageType();
@@ -226,7 +222,7 @@ class OA_Admin_UI
                 $aMainNav[] = [
                     'title' => $isWelcomePage ? $GLOBALS['strWelcomePage'] : $GLOBALS['strPasswordRecovery'],
                     'filename' => 'index.php',
-                    'selected' => true
+                    'selected' => true,
                 ];
             }
 
@@ -262,6 +258,9 @@ class OA_Admin_UI
         $this->oTpl->assign('aTools', $this->aTools);
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
+
+        // FreezeUI
+        $this->oTpl->assign('loaderDelay', (int) ($conf['ui']['loaderDelay'] ?? -1));
 
         //additional things
         $this->_assignJavascriptDefaults(); //JS validation messages and other defaults
@@ -318,7 +317,7 @@ class OA_Admin_UI
         }
         if (!empty($currentPath)
             && $oCurrentSection->hasSectionBeenReplaced()
-            && strpos($currentPath, $expectedPathForThisSection) === false) {
+            && !str_contains($currentPath, $expectedPathForThisSection)) {
             $urlToRedirectTo = $oCurrentSection->getLink($this->getLinkParams());
             header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $urlToRedirectTo));
             exit;
@@ -438,9 +437,9 @@ class OA_Admin_UI
 
         foreach ($aRootPages as $i => $aRootPage) {
             $aMainNav[] = [
-              'title' => $aRootPage->getName(),
-              'filename' => $aRootPage->getLink($this->getLinkParams()),
-              'selected' => $aRootPage->getId() == $rootParentId
+                'title' => $aRootPage->getName(),
+                'filename' => $aRootPage->getLink($this->getLinkParams()),
+                'selected' => $aRootPage->getId() == $rootParentId,
             ];
         }
     }
@@ -470,12 +469,12 @@ class OA_Admin_UI
                 $single = $first && $last;
 
                 $aLeftMenuNav[] = [
-                  'title' => $aSecondLevelSections[$i]->getName(),
-                  'filename' => $aSecondLevelSections[$i]->getLink($this->getLinkParams()),
-                  'first' => $first,
-                  'last' => $last,
-                  'single' => $single,
-                  'selected' => $aSecondLevelSections[$i]->getId() == $secondLevelParentId
+                    'title' => $aSecondLevelSections[$i]->getName(),
+                    'filename' => $aSecondLevelSections[$i]->getLink($this->getLinkParams()),
+                    'first' => $first,
+                    'last' => $last,
+                    'single' => $single,
+                    'selected' => $aSecondLevelSections[$i]->getId() == $secondLevelParentId,
                 ];
                 $currGroup = $aSecondLevelSections[$i]->getGroupName();
             }
@@ -493,9 +492,9 @@ class OA_Admin_UI
             $count = count($aLeftMenuSubSections);
             for ($i = 0; $i < $count; $i++) {
                 $aLeftMenuSubNav[] = [
-                  'title' => $aLeftMenuSubSections[$i]->getName(),
-                  'filename' => $aLeftMenuSubSections[$i]->getLink($this->getLinkParams()),
-                  'selected' => $aLeftMenuSubSections[$i]->getId() == $oLeftMenuSub->getId()
+                    'title' => $aLeftMenuSubSections[$i]->getName(),
+                    'filename' => $aLeftMenuSubSections[$i]->getLink($this->getLinkParams()),
+                    'selected' => $aLeftMenuSubSections[$i]->getId() == $oLeftMenuSub->getId(),
                 ];
             }
         }
@@ -506,10 +505,10 @@ class OA_Admin_UI
 
             foreach ($ox_left_menu_sub['items'] as $k => $v) {
                 $aLeftMenuSubNav[] = [
-                      'title' => $v['title'],
-                      'filename' => $v['link'],
-                      'selected' => $k == $currentLeftSub
-                    ];
+                    'title' => $v['title'],
+                    'filename' => $v['link'],
+                    'selected' => $k == $currentLeftSub,
+                ];
             }
         }
     }
@@ -533,15 +532,16 @@ class OA_Admin_UI
         }
 
         //filter out exclusive and affixed sections from view if they're not active
-        $aSections = array_values(array_filter($aSections, [new OA_Admin_Section_Type_Filter($oCurrentSection), 'accept']));
+        $oSectionTypeFilter = new OA_Admin_Section_Type_Filter($oCurrentSection);
+        $aSections = array_values(array_filter($aSections, $oSectionTypeFilter->accept(...)));
 
 
         foreach ($aSections as $i => $aSection) {
             $aSectionNav[] = [
-          'title' => $aSection->getName(),
-          'filename' => $aSection->getLink($this->getLinkParams()),
-          'selected' => $aSection->getId() == $sectionID
-          ];
+                'title' => $aSection->getName(),
+                'filename' => $aSection->getLink($this->getLinkParams()),
+                'selected' => $aSection->getId() == $sectionID,
+            ];
         }
     }
 
@@ -640,7 +640,7 @@ class OA_Admin_UI
                     'productUpdatesCheck',
                     OA_Permission::isAccount(OA_ACCOUNT_ADMIN) &&
                     $GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] &&
-                    !isset($session['maint_update_js'])
+                    !isset($session['maint_update_js']),
                 );
 
                 if (OA_Permission::isUserLinkedToAdmin()) {
@@ -680,6 +680,7 @@ class OA_Admin_UI
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->oTpl->assign('uiPart', 'footer');
+        $this->oTpl->assign('freezeUiLoading', 'Helllllllllo!');
         $this->oTpl->display();
 
         // Clean up MPE session variable
@@ -734,7 +735,7 @@ class OA_Admin_UI
             'location' => $location,
             'type' => $type,
             'timeout' => $timeout,
-            'relatedAction' => $relatedAction
+            'relatedAction' => $relatedAction,
         ];
 
         // Force session storage
@@ -880,7 +881,7 @@ class OA_Admin_UI
             'url' => $url,
             'iconClass' => $iconClass,
             'accesskey' => $accesskey,
-            'extraAttr' => $extraAttributes
+            'extraAttr' => $extraAttributes,
         ];
     }
 
@@ -891,7 +892,7 @@ class OA_Admin_UI
             'type' => 'form',
             'title' => $title,
             'iconClass' => $iconClass,
-            'form' => $form
+            'form' => $form,
         ];
     }
 

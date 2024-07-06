@@ -37,7 +37,7 @@ phpAds_registerGlobalUnslashed(
     'reportdeactivate',
     'report',
     'reportinterval',
-    'submit'
+    'submit',
 );
 
 
@@ -62,16 +62,14 @@ if ($clientid != "") {
             $aAdvertiser = $doClients->toArray();
         }
     }
-} else {
-    if (!isset($aAdvertiser)) {
-        $aAdvertiser['clientname'] = $strUntitled;
-        $aAdvertiser['contact'] = '';
-        $aAdvertiser['comments'] = '';
-        $aAdvertiser['email'] = '';
-        $aAdvertiser['reportdeactivate'] = 'f';
-        $aAdvertiser['report'] = 'f';
-        $aAdvertiser['reportinterval'] = 7;
-    }
+} elseif (!isset($aAdvertiser)) {
+    $aAdvertiser['clientname'] = $strUntitled;
+    $aAdvertiser['contact'] = '';
+    $aAdvertiser['comments'] = '';
+    $aAdvertiser['email'] = '';
+    $aAdvertiser['reportdeactivate'] = 'f';
+    $aAdvertiser['report'] = 'f';
+    $aAdvertiser['reportinterval'] = 7;
 }
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
@@ -83,7 +81,7 @@ if ($advertiserForm->validate()) {
     //process submitted values
     processForm($aAdvertiser, $advertiserForm);
 } else { //either validation failed or form was not submitted, display the form
-    displayPage($aAdvertiser, $advertiserForm);
+    displayAdvertiserEditPage($aAdvertiser, $advertiserForm);
 }
 
 /*-------------------------------------------------------*/
@@ -165,7 +163,7 @@ function processForm($aAdvertiser, $form)
     // Reports
     $aAdvertiser['report'] = $aFields['report'] == 't' ? 't' : 'f';
     $aAdvertiser['reportdeactivate'] = $aFields['reportdeactivate'] == 't' ? 't' : 'f';
-    $aAdvertiser['reportinterval'] = (int)$aFields['reportinterval'];
+    $aAdvertiser['reportinterval'] = (int) $aFields['reportinterval'];
     if ($aAdvertiser['reportinterval'] == 0) {
         $aAdvertiser['reportinterval'] = 1;
     }
@@ -206,9 +204,9 @@ function processForm($aAdvertiser, $form)
         $translated_message = $translation->translate(
             $GLOBALS['strAdvertiserHasBeenUpdated'],
             [
-            MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' . $aAdvertiser['clientid']),
-            htmlspecialchars($aAdvertiser['clientname'])
-            ]
+                MAX::constructURL(MAX_URL_ADMIN, 'advertiser-edit.php?clientid=' . $aAdvertiser['clientid']),
+                htmlspecialchars($aAdvertiser['clientname']),
+            ],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect('advertiser-edit.php?clientid=' . $aAdvertiser['clientid']);
@@ -219,7 +217,7 @@ function processForm($aAdvertiser, $form)
 /*-------------------------------------------------------*/
 /* Display page                                          */
 /*-------------------------------------------------------*/
-function displayPage($aAdvertiser, $form)
+function displayAdvertiserEditPage($aAdvertiser, $form)
 {
     //header and breadcrumbs
     $oHeaderModel = buildAdvertiserHeaderModel($aAdvertiser);

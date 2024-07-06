@@ -11,7 +11,7 @@
 */
 
 if (!defined('MAX_PATH')) {
-    require_once dirname(__FILE__) . '/../../init.php';
+    require_once __DIR__ . '/../../init.php';
 }
 //  init DB_DataObject
 $MAX_ENT_DIR = MAX_PATH . '/lib/max/Dal/DataObjects';
@@ -32,7 +32,7 @@ $options = [
     'production' => 0,
     'ignore_sequence_keys' => 'ALL',
     'generator_strip_schema' => 1,
-    'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_country.*|data_summary_zone_domain.*|data_summary_zone_site.*|data_summary_zone_source.*|database_action|z_.*)/'
+    'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_country.*|data_summary_zone_domain.*|data_summary_zone_site.*|data_summary_zone_source.*|database_action|z_.*)/',
 ];
 
 require_once MAX_PATH . '/lib/OA/DB/DataObject/Generator.php';

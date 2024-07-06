@@ -142,7 +142,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         // Ensure that the groupSource, groupDestination, sumSource,
         // sumDestination and sumDefault arrays are all sorted by key
-        foreach ($aMigrationMaps as $key => $aMigrationDetails) {
+        foreach (array_keys($aMigrationMaps) as $key) {
             ksort($aMigrationMaps[$key]['groupSource']);
             ksort($aMigrationMaps[$key]['groupDestination']);
             ksort($aMigrationMaps[$key]['sumSource']);
@@ -633,7 +633,6 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      * into new style, bucket-based data, in the event of the requirement to process
      * any such data on upgrade to (or beyond) OpenX 2.8.
      *
-     * @abstract
      * @param string $bucketTable The bucket table to migrate the data into.
      * @param string $rawTable The raw table to migrate the data from.
      * @param PEAR::Date $oStart The start date of the operation interval to migrate.
@@ -805,7 +804,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $oStartDate->getYear(),
             $oEndDate->getDay(),
             $oEndDate->getMonth(),
-            $oEndDate->getYear()
+            $oEndDate->getYear(),
         );
         if ($days == 0) {
             // Save the data
@@ -1079,7 +1078,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $aAdFinanceMappings = [
                 MAX_FINANCE_CPM => 'impressions',
                 MAX_FINANCE_CPC => 'clicks',
-                MAX_FINANCE_CPA => 'conversions'
+                MAX_FINANCE_CPA => 'conversions',
             ];
         }
         $countQueries = 0;
@@ -1179,7 +1178,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             "  - Calculating MT revenue for banner [id%d] between %s and %s:",
             $aInfo['ad_id'],
             $oStartDate->format('%Y-%m-%d %H:%M:%S %Z'),
-            $oEndDate->format('%Y-%m-%d %H:%M:%S %Z')
+            $oEndDate->format('%Y-%m-%d %H:%M:%S %Z'),
         ), PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -1217,14 +1216,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Month start: %s",
-            $oMonthStart->format('%Y-%m-%d %H:%M:%S %Z')
+            $oMonthStart->format('%Y-%m-%d %H:%M:%S %Z'),
         ), PEAR_LOG_DEBUG);
 
         $daysInMonth = $oMonthStart->getDaysInMonth();
 
         OA::debug(sprintf(
             "    - Days in month: %d",
-            $daysInMonth
+            $daysInMonth,
         ), PEAR_LOG_DEBUG);
 
         $oMonthEnd = new Date($oMonthStart);
@@ -1234,7 +1233,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Month end: %s",
-            $oMonthEnd->format('%Y-%m-%d %H:%M:%S %Z')
+            $oMonthEnd->format('%Y-%m-%d %H:%M:%S %Z'),
         ), PEAR_LOG_DEBUG);
 
         $oDiff = new Date_Span();
@@ -1243,7 +1242,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Hours per month: %d",
-            $hoursPerMonth
+            $hoursPerMonth,
         ), PEAR_LOG_DEBUG);
 
         $oDiff = new Date_Span();
@@ -1252,7 +1251,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
         OA::debug(sprintf(
             "    - Hours per interval: %d",
-            $hoursPerInterval
+            $hoursPerInterval,
         ), PEAR_LOG_DEBUG);
 
         $adZoneCombinations = $this->aMtRevenueCache[$aInfo['campaign_id']];
@@ -1260,14 +1259,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         OA::debug(sprintf(
             "    - Ad/zone/OI combinations for campaign [id%d]: %d",
             $aInfo['campaign_id'],
-            $this->aMtRevenueCache[$aInfo['campaign_id']]
+            $this->aMtRevenueCache[$aInfo['campaign_id']],
         ), PEAR_LOG_DEBUG);
 
         $result = $aInfo['revenue'] / $hoursPerMonth * $hoursPerInterval / $adZoneCombinations;
 
         OA::debug(sprintf(
             "    - Result: %0.4f",
-            $result
+            $result,
         ), PEAR_LOG_DEBUG);
 
         return $result;
@@ -1464,14 +1463,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             $doCampaigns->fetch();
                             $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                             $result = $doCampaigns->update();
-                            if ($result == false) {
+                            if (false === $result) {
                                 MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
                             phpAds_userlogSetUser(phpAds_userMaintenance);
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aCampaign['campaign_id']);
                         } else {
-                            // The campaign didn't have a diable reason,
-                            // it *might* possibly be diabled "soon"...
+                            // The campaign didn't have a disable reason,
+                            // it *might* possibly be disabled "soon"...
                             $canExpireSoon = true;
                         }
                     }
@@ -1494,7 +1493,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         $doCampaigns->fetch();
                         $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                         $result = $doCampaigns->update();
-                        if ($result == false) {
+                        if (false === $result) {
                             MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
                         phpAds_userlogSetUser(phpAds_userMaintenance);
@@ -1527,7 +1526,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         $advertisements[$advertisementRow['advertisement_id']] = [
                             $advertisementRow['description'],
                             $advertisementRow['alt'],
-                            $advertisementRow['url']
+                            $advertisementRow['url'],
                         ];
                     }
                     if ($aCampaign['send_activate_deactivate_email'] == 't') {
@@ -1601,7 +1600,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     $doCampaigns->fetch();
                     $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
                     $result = $doCampaigns->update();
-                    if ($result == false) {
+                    if (false === $result) {
                         MAX::raiseError("Could not update campaign {$aCampaign['campaign_id']}", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                     phpAds_userlogSetUser(phpAds_userMaintenance);

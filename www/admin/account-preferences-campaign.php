@@ -79,7 +79,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
         // We changed contract
         if ((bool) $_POST['contract_ecpm_enabled'] != (bool) $pref['contract_ecpm_enabled']) {
-
             // Reload the prefs we just changed into the global variable because
             // we use it when setting ecpm_enabled in the DO.
             OA_Preferences::loadPreferences();
@@ -112,7 +111,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXPreferencesHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
@@ -131,8 +130,8 @@ $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
 phpAds_PageHeader('account-preferences-index', $oHeaderModel);
 
 $remnantEcpmInfoText = $strEnableECPM . '<br/>&nbsp;&nbsp;&nbsp;&nbsp;';
-$remnantEcpmInfoText .= !empty($pref['campaign_ecpm_enabled']) ? $strEnableECPMfromECPM :
-    $strEnableECPMfromRemnant;
+$remnantEcpmInfoText .= empty($pref['campaign_ecpm_enabled']) ? $strEnableECPMfromRemnant :
+    $strEnableECPMfromECPM;
 
 $contractEcpmInfoText = $strEnableContractECPM;
 
@@ -146,16 +145,16 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'campaign_ecpm_enabled',
                 'text' => $remnantEcpmInfoText,
-                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
+                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN),
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'contract_ecpm_enabled',
                 'text' => $contractEcpmInfoText,
-                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-            ]
-        ]
-    ]
+                'disabled' => OA_Permission::isAccount(OA_ACCOUNT_ADMIN),
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

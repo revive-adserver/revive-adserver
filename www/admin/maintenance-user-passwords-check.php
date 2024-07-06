@@ -31,7 +31,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 phpAds_PageHeader("maintenance-index");
 phpAds_MaintenanceSelection("user-passwords");
 
-(new class() {
+(new class () {
     private $aUsers = ['old' => [], 'new' => []];
 
     public function __construct()

@@ -62,7 +62,7 @@ class Test_OA_Central extends UnitTestCase
         Mock::generatePartial(
             'OA_Central',
             'PartialMockOA_Central',
-            ['canUseSSL']
+            ['canUseSSL'],
         );
 
         $oCentral = new PartialMockOA_Central();

@@ -46,7 +46,6 @@ class OX_Maintenance_Statistics_TestAndCorrect
      */
     public function checkRangeData($oStartDate, $oEndDate)
     {
-
         // Test that there are no rows in the data_intermediate_ad table where the
         // operation interval value does not match that in the configuration file
         $doData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');

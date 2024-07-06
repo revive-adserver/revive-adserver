@@ -33,8 +33,8 @@ interface OA_Admin_UI_Rule_QuickFormToJQueryRuleAdaptor
      * @return string
      */
     public function getJQueryValidationMethodCode();
-    
-    
+
+
     /**
      * Returns Jquery validation plugin compliant rule definition for a given quickform rule
      *

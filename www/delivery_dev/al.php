@@ -21,6 +21,8 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
+OX_Delivery_Common_sendPreconnectHeaders();
+
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(['layerstyle']);
 if (!isset($layerstyle) || empty($layerstyle)) {
@@ -29,7 +31,7 @@ if (!isset($layerstyle) || empty($layerstyle)) {
 
 $plugin = MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php';
 
-if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include($plugin)) {
+if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include ($plugin)) {
     // Don't generate output when plugin layerstyleisn't available,just send javascript comment on fail
     MAX_sendStatusCode(404);
     echo '// Cannot load required layerstyle file. Check if openXInvocationTags plugin is installed';
@@ -86,7 +88,7 @@ if ($limitations['compatible']) {
     }
 
     // Set document.context, if required
-    $output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>" : '';
+    $output['html'] .= (empty($context)) ? '' : "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>";
 
     echo MAX_javascriptToHTML(MAX_layerGetHtml($output, $uniqid), "MAX_{$uniqid}");
     MAX_layerPutJs($output, $uniqid);

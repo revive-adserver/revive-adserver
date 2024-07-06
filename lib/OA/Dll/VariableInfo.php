@@ -88,18 +88,18 @@ class OA_Dll_VariableInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-        'variableId' => 'integer',
-        'trackerId' => 'integer',
-        'variableName' => 'string',
-        'description' => 'string',
-        'dataType' => 'string',
-        'purpose' => 'string',
-        'rejectIfEmpty' => 'boolean',
-        'isUnique' => 'boolean',
-        'uniqueWindow' => 'integer',
-        'variableCode' => 'string',
-        'hidden' => 'boolean',
-        'hiddenWebsites' => 'array'
+            'variableId' => 'integer',
+            'trackerId' => 'integer',
+            'variableName' => 'string',
+            'description' => 'string',
+            'dataType' => 'string',
+            'purpose' => 'string',
+            'rejectIfEmpty' => 'boolean',
+            'isUnique' => 'boolean',
+            'uniqueWindow' => 'integer',
+            'variableCode' => 'string',
+            'hidden' => 'boolean',
+            'hiddenWebsites' => 'array',
         ];
     }
 
@@ -145,9 +145,9 @@ class OA_Dll_VariableInfo extends OA_Info
         $aVariableData['dataType'] = $aVariableData['datatype'];
 
         // Convert to boolean.
-        $aVariableData['rejectIfEmpty'] = $aVariableData['reject_if_empty'] == 1 ? true : false;
-        $aVariableData['isUnique'] = $aVariableData['is_unique'] == 1 ? true : false;
-        $aVariableData['hidden'] = $aVariableData['hidden'] == 1 ? true : false;
+        $aVariableData['rejectIfEmpty'] = $aVariableData['reject_if_empty'] == 1;
+        $aVariableData['isUnique'] = $aVariableData['is_unique'] == 1;
+        $aVariableData['hidden'] = $aVariableData['hidden'] == 1;
 
         $aVariableData['uniqueWindow'] = $aVariableData['unique_window'];
         $aVariableData['variableCode'] = $aVariableData['variablecode'];

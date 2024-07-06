@@ -47,7 +47,7 @@ class OA_Session
     public static function getMessage()
     {
         global $session;
-        $message = isset($session['message']) ? $session['message'] : null;
+        $message = $session['message'] ?? null;
         unset($session['message']);
         phpAds_SessionDataStore();
         return $message;

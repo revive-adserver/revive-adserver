@@ -29,16 +29,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
 class MAX_Dal_Statistics extends MAX_Dal_Common
 {
     /**
-     * The constructor method.
-     *
-     * @return MAX_Dal_Statistics
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to determine the day/hour that a placement first became active,
      * based on the first record of its children ads delivering.
      *

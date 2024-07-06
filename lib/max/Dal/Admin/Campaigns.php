@@ -33,8 +33,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         'name' => 'campaignname',
         'id' => ['clientid', 'campaignid'],
         'status' => 'status',
-    // hack to sort by type asc first (non default campaigns always on top)
-    // DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
+        // hack to sort by type asc first (non default campaigns always on top)
+        // DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
         'type+name' => "(type=0) ASC, campaignname",
         'type+id' => ['(type=0) ASC, clientid', 'campaignid'],
         'type+status' => '(type=0) ASC, status',
@@ -113,11 +113,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $doBanners->campaignid = $campaignId;
         $doBanners->whereAdd("compiledlimitation NOT IN ('', 'true')");
         $doBanners->find();
-        if ($doBanners->getRowCount() > 0) {
-            // There are banners in the campaign with delivery limitations
-            return true;
-        }
-        return false;
+        // There are banners in the campaign with delivery limitations
+        return $doBanners->getRowCount() > 0;
     }
 
     /**
@@ -263,8 +260,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     public function getDaysLeftString($campaignId)
     {
         global $date_format, $strNoExpiration, $strDaysLeft, $strEstimated,
-               $strExpirationDate, $strNoExpirationEstimation, $strDaysAgo,
-               $strCampaignStop;
+        $strExpirationDate, $strNoExpirationEstimation, $strDaysAgo,
+        $strCampaignStop;
 
         $prefix = $this->getTablePrefix();
 
@@ -304,9 +301,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         // Define array to return the expiration dates (if they exist)
         $aReturn = [
-                         'estimatedExpiration' => '',
-                         'campaignExpiration' => ''
-                         ];
+            'estimatedExpiration' => '',
+            'campaignExpiration' => '',
+        ];
 
         // Does the campaign have lifetime impression targets?
         // If yes, try to get a stimated expiration date
@@ -387,11 +384,11 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         if ($existExpirationDate) {
             // has the expiration date been reached?
-            if ((int)$aCampaignData['days_left'] < 0) {
+            if ((int) $aCampaignData['days_left'] < 0) {
                 $aReturn['campaignExpiration'] = $strCampaignStop . ": " .
                                                  $aCampaignData['expire_f'];
                 $aReturn['campaignExpiration'] = $aReturn['campaignExpiration'] .
-                                                 " (" . abs((int)round($aCampaignData['days_left'])) .
+                                                 " (" . abs((int) round($aCampaignData['days_left'])) .
                                                  " $strDaysAgo)";
             } else {
                 $aReturn['campaignExpiration'] = $strExpirationDate . ": " .
@@ -418,7 +415,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                     $compareDate = Date::compare($aExpiration['date'], $campaignExpirationDate);
                     // the estimated expiration date is previous or equal to the
                     // campaign expiration date and hasn't the expiration date been reached?
-                    if (($compareDate <= 0) && ((int)$aCampaignData['days_left'] >= 0)) {
+                    if (($compareDate <= 0) && ((int) $aCampaignData['days_left'] >= 0)) {
                         $showEtimatedDate = true;
                     }
                 }
@@ -493,7 +490,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aExpiration = [
                 'daysLeft' => $daysLeft,
                 'date_f' => $estimatedEndDateFormat,
-                'date' => $oEstimatedEndDate
+                'date' => $oEstimatedEndDate,
             ];
         }
         return $aExpiration;
@@ -509,20 +506,14 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return RecordSet
      * @access public
      */
-    public function getCampaignAndClientByKeyword($keyword, $agencyId = null, $aIncludeSystemTypes = [])
+    public function getCampaignAndClientByKeyword($keyword, $agencyId = null)
     {
-        // always add default type
-        $aIncludeSystemTypes = array_merge(
-            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
-            $aIncludeSystemTypes
-        );
-        foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
-        }
-
-        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=" . DBC::makeLiteral($keyword) : '';
-        $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
+        $oDbh->loadModule('Datatype');
+
+        $whereCampaignId = is_numeric($keyword) ? " OR m.campaignid=" . DBC::makeLiteral($keyword) : '';
+
+        $prefix = $this->getTablePrefix();
         $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
         $tableC = $oDbh->quoteIdentifier($prefix . 'clients', true);
 
@@ -532,15 +523,10 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             m.campaignname AS campaignname,
             m.clientid AS clientid
         FROM
-            {$tableM} AS m,
-            {$tableC} AS c
+            {$tableM} AS m INNER JOIN
+            {$tableC} AS c ON (m.clientid = c.clientid)
         WHERE
-            (
-            m.clientid=c.clientid
-            AND (m.campaignname LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
-                $whereCampaign)
-            AND m.type IN (" . implode(',', $aIncludeSystemTypes) . ")
-            )
+            ({$oDbh->datatype->matchPattern(['', '%', $keyword, '%'], 'ILIKE', 'm.campaignname')}{$whereCampaignId})
         ";
 
         if ($agencyId !== null) {
@@ -561,19 +547,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *              included apart from default campaigns
      * @return array associative array $campaignId => array of campaign details
      */
-    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = [])
+    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null)
     {
-        $aIncludeSystemTypes = array_merge(
-            [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
-            $aIncludeSystemTypes
-        );
-
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientid;
         $doCampaigns->selectAs(['campaignid'], 'placement_id');
         $doCampaigns->selectAs(['campaignname'], 'name');
-        $doCampaigns->whereInAdd('type', $aIncludeSystemTypes);
-        $doCampaigns->orderBy('(type=' . DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . ') ASC');
         $doCampaigns->addListOrderBy($listorder, $orderdirection);
 
         $doCampaigns->find();
@@ -593,9 +572,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * @todo Consider removing order options (or making them optional)
      */
-    public function getAllCampaigns($listorder, $orderdirection, $aIncludeSystemTypes = [])
+    public function getAllCampaigns($listorder, $orderdirection)
     {
-        $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
@@ -609,9 +587,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 priority AS priority,
                 revenue AS revenue
             FROM
-                {$tableM}
-            WHERE
-                type IN (" . implode(',', $aIncludeSystemTypes) . ") " .
+                {$tableM}" .
             $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
         ;
 
@@ -627,9 +603,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *
      * @todo Consider removing order options (or making them optional)
      */
-    public function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection, $aIncludeSystemTypes = [])
+    public function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection)
     {
-        $aIncludeSystemTypes = $this->_prepareIncludeSystemTypes($aIncludeSystemTypes);
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableM = $oDbh->quoteIdentifier($prefix . 'campaigns', true);
@@ -648,8 +623,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 {$tableC} AS c
             WHERE
                 c.clientid=m.clientid
-                AND c.agencyid=" . DBC::makeLiteral($agency_id) . "
-                AND m.type IN (" . implode(',', $aIncludeSystemTypes) . ") " .
+                AND c.agencyid=" . DBC::makeLiteral($agency_id) .
             $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
         ;
 
@@ -730,7 +704,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     public function getLinkedEmailZoneIds($campaignId)
     {
         // Test input
-        if (!is_integer($campaignId) || $campaignId <= 0) {
+        if (!is_int($campaignId) || $campaignId <= 0) {
             // Not a valid campaign ID, return no found zones
             $aResult = [];
             return $aResult;
@@ -780,10 +754,10 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     {
         $aIncludeSystemTypes = array_merge(
             [DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT],
-            $aIncludeSystemTypes
+            $aIncludeSystemTypes,
         );
         foreach ($aIncludeSystemTypes as $k => $v) {
-            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
+            $aIncludeSystemTypes[$k] = DBC::makeLiteral((int) $v);
         }
         return $aIncludeSystemTypes;
     }

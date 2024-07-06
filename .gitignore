@@ -10,6 +10,7 @@ phpinfo.php
 /var/*.log
 /var/*.log.rollback
 /var/*.xml
+/var/cache/tools
 /var/cache/*.html
 /var/cache/*.php
 /var/cache/*.meta

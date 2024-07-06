@@ -37,7 +37,7 @@ if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var'
 $adId = MAX_Delivery_log_getArrGetVariable('adId');
 $creativeId = MAX_Delivery_log_getArrGetVariable('creativeId');
 $zoneId = MAX_Delivery_log_getArrGetVariable('zoneId');
-$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick', $_COOKIE);
+$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick');
 $aBlockLoggingClick = $_COOKIE[$conf['var']['blockLoggingClick']] ?? [];
 
 if (!empty($conf['deliveryLog']['enabled'])) {
@@ -68,10 +68,10 @@ if (empty($adId) && !empty($zoneId)) {
 
 // Log the click
 for ($i = 0; $i < count($adId); $i++) {
-    $adId[$i] = intval($adId[$i]);
-    $zoneId[$i] = intval($zoneId[$i]);
+    $adId[$i] = (int) $adId[$i];
+    $zoneId[$i] = (int) $zoneId[$i];
     if (isset($creativeId[$i])) {
-        $creativeId[$i] = intval($creativeId[$i]);
+        $creativeId[$i] = (int) $creativeId[$i];
     } else {
         $creativeId[$i] = 0;
     }
@@ -126,7 +126,7 @@ function _getZoneAd($zoneId)
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
         reset($zoneLinkedAds['xAds']);
-        list($adId, $ad) = each($zoneLinkedAds['xAds']);
+        [$adId, $ad] = each($zoneLinkedAds['xAds']);
     } elseif (!empty($zoneLinkedAds['ads']) && count($zoneLinkedAds['ads']) == 1) {
         reset($zoneLinkedAds['ads']);
         // we select the first (and only) banner linked to this email zone
@@ -137,7 +137,7 @@ function _getZoneAd($zoneId)
         }
     } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
         reset($zoneLinkedAds['lAds']);
-        list($adId, $ad) = each($zoneLinkedAds['lAds']);
+        [$adId, $ad] = each($zoneLinkedAds['lAds']);
     }
 
     return $adId;

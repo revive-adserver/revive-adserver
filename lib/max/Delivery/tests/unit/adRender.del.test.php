@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 class Test_DeliveryAdRender extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * TODO: need data
      *
      */
@@ -39,7 +31,7 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         //		require_once MAX_PATH . '/lib/max/Delivery/common.php';
         // note: following code to extract test data from db
-//      require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+        //      require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
         //	    $return = _adRenderImage($aBanner, $zoneId, $source, $target, $ct0, $withText, $logClick, $logView, $richMedia, $loc, $referer, $context);
         //		$this->assertEqual($return, $result);
 
@@ -149,7 +141,7 @@ class Test_DeliveryAdRender extends UnitTestCase
             'alt_filename' => 'myaltfile.jpg',
             'imageurl' => 'http://www.somewhere.com/myimageurl.jpg',
             'type' => 'url',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $useAlt = false;
         $params = '';
@@ -201,7 +193,7 @@ class Test_DeliveryAdRender extends UnitTestCase
             'ad_id' => '9999',
             'placement_id' => '111',
             'url' => 'http://www.somewhere.com',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 1;
         $source = 'test';
@@ -246,7 +238,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderBuildParams');
         $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.somewhere.com',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -261,7 +253,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderBuildParams');
         $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.example.com/?foo+bar',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -276,7 +268,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderBuildParams');
         $aBanner = ['bannerid' => '9999',
             'url' => 'http://www.example.com/?foo+bar',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -301,7 +293,7 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $aBanner = [
             'bannerid' => '9999',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -315,7 +307,7 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $aBanner = [
             'bannerid' => '9999',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -330,7 +322,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $aBanner = [
             'bannerid' => '9999',
             'url' => 'http://www.somewhere.com',
-            'contenttype' => ''
+            'contenttype' => '',
         ];
         $zoneId = 0;
         $source = '';
@@ -348,6 +340,14 @@ class Test_DeliveryAdRender extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $this->sendMessage('test_adRenderBuildClickQueryString');
+
+        // Also test that plugin hook addUrlParams is called
+        $GLOBALS['_MAX']['CONF']['deliveryHooks']['addUrlParams'] = 'test:fake';
+
+        function Plugin_test_fake_Delivery_addUrlParams($aAd)
+        {
+            return ['add' => 'url'];
+        }
 
         $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode('foobar');
 
@@ -367,7 +367,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $dest = urlencode('http://www.example.com/bar/');
 
         $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
-        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&add=url&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
 
         $aBanner = [
             'bannerid' => '123',
@@ -384,7 +384,9 @@ class Test_DeliveryAdRender extends UnitTestCase
         $dest = urlencode('http://www.example.com/bar/');
 
         $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
-        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&add=url&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+
+        unset($GLOBALS['_MAX']['CONF']['deliveryHooks']['addUrlParams']);
     }
 
     public function test_adRenderBuildClickQueryStringWithTimestamp()

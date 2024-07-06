@@ -74,7 +74,7 @@ function phpAds_showCache()
             echo "&nbsp;&nbsp;";
 
             // Icon
-            if (substr($what, 0, 5) == 'zone:') {
+            if (str_starts_with($what, 'zone:')) {
                 echo "<img src='" . OX::assetPath() . "/images/icon-zone.gif' align='absmiddle'>&nbsp;";
             } else {
                 echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;";
@@ -102,10 +102,14 @@ echo "<br />" . $strDeliveryCacheExplaination;
 
 if (!empty($conf['delivery']['cache'])) {
     switch ($conf['delivery']['cache']) {
-        case 'shm': 		echo $strDeliveryCacheSharedMem; break;
-        case 'sysvshm': 	echo $strDeliveryCacheSharedMem; break;
-        case 'file': 		echo $strDeliveryCacheFiles; break;
-        default:    		echo $strDeliveryCacheDatabase; break;
+        case 'shm': 		echo $strDeliveryCacheSharedMem;
+            break;
+        case 'sysvshm': 	echo $strDeliveryCacheSharedMem;
+            break;
+        case 'file': 		echo $strDeliveryCacheFiles;
+            break;
+        default:    		echo $strDeliveryCacheDatabase;
+            break;
     }
 } else {
     echo $strDeliveryCacheDatabase;

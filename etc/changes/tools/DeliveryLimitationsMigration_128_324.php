@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+
 class DeliveryLimitationsUpgrade
 {
     /**
@@ -84,13 +86,9 @@ class DeliveryLimitationsUpgradeArray extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Client_Browser extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Client_Browser extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Client_Domain extends DeliveryLimitationsUpgrade
-{
-}
+class Upgrade_DeliveryLimitations_Client_Domain extends DeliveryLimitationsUpgrade {}
 
 class Upgrade_DeliveryLimitations_Client_Ip extends DeliveryLimitationsUpgrade
 {
@@ -154,9 +152,7 @@ class Upgrade_DeliveryLimitations_Client_Language extends DeliveryLimitationsUpg
     }
 }
 
-class Upgrade_DeliveryLimitations_Client_Os extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Client_Os extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Client_Useragent extends DeliveryLimitationsUpgrade
 {
@@ -210,21 +206,13 @@ class Upgrade_DeliveryLimitations_Geo_City extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Geo_Continent extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Continent extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Geo_Country extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Country extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Geo_Dma extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Dma extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Geo_Latlong extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Geo_Latlong extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Geo_Netspeed extends DeliveryLimitationsUpgrade
 {
@@ -287,9 +275,7 @@ class Upgrade_DeliveryLimitations_Geo_Region extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Site_Channel extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Site_Channel extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Site_Pageurl extends DeliveryLimitationsUpgrade
 {
@@ -315,9 +301,7 @@ class Upgrade_DeliveryLimitations_Site_Source extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Site_Variable extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Site_Variable extends DeliveryLimitationsUpgradeArray {}
 
 class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
 {
@@ -350,13 +334,9 @@ class Upgrade_DeliveryLimitations_Time_Date extends DeliveryLimitationsUpgrade
     }
 }
 
-class Upgrade_DeliveryLimitations_Time_Day extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Time_Day extends DeliveryLimitationsUpgradeArray {}
 
-class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeArray
-{
-}
+class Upgrade_DeliveryLimitations_Time_Hour extends DeliveryLimitationsUpgradeArray {}
 
 // UPGRADE/DOWNGRADE helper functions
 
@@ -379,7 +359,7 @@ function MAX_limitationsGetAUpgradeForString($op, $sData)
         || preg_match('#^\\*[^\\*]+$#', $sData)
         || preg_match('#^[^\\*]+\\*$#', $sData)
         || preg_match('#[^\\*]+\\*[^\\**]+#', $sData)
-        ) {
+    ) {
         $sData = str_replace('(', '\\(', $sData);
         $sData = str_replace(')', '\\)', $sData);
         $sData = str_replace('.', '\\.', $sData);
@@ -519,7 +499,7 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
                 'type' => 'Geo:Region',
                 'logical' => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
                 'comparison' => MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~',
-                'data' => $country . '|' . implode(',', $aRegions)
+                'data' => $country . '|' . implode(',', $aRegions),
             ];
         }
     }
@@ -616,42 +596,4 @@ function MAX_limitationsGetADowngradeForLanguage($op, $sData)
 {
     $sData = '(' . str_replace(',', ')|(', $sData) . ')';
     return MAX_limitationsGetADowngradeForArray($op, $sData);
-}
-
-// Helper functions copied from limitations.delivery.php
-
-/**
- * Returns true if $op is one of the positive operators: '==', '=~' or '=x',
- * false otherwise.
- *
- * @param string $op The operator to be checked.
- * @return boolean True if $op is '==', '=~' or '=x', false otherwise.
- */
-function MAX_limitationsIsOperatorPositive($op)
-{
-    return $op == '==' || $op == '=~' || $op == '=x' || $op == 'gt' || $op == 'lt';
-}
-
-/**
- * Returns true if $op is one of the simple operators: either '=x' or '!x',
- * false otherwise.
- *
- * @param string $op The operator to be checked.
- * @return boolean True if $op is either '=x' or '!x', false otherwise.
- */
-function MAX_limitationsIsOperatorRegexp($op)
-{
-    return $op == '=x' || $op == '!x';
-}
-
-/**
- * Returns true if $op is one of the contains operators: either '=~' or '!~',
- * false otherwise.
- *
- * @param string $op The operator to be checked.
- * @return boolean True if $op is either '=~' or '!~', false otherwise.
- */
-function MAX_limitationsIsOperatorContains($op)
-{
-    return $op == '=~' || $op == '!~';
 }

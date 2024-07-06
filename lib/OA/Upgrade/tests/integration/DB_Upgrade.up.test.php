@@ -30,9 +30,6 @@ class Test_DB_Upgrade extends UnitTestCase
     public $aOptions;
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -379,9 +376,7 @@ class Test_DB_Upgrade extends UnitTestCase
         TestEnv::restoreEnv();
     }
 
-    public function test_restoreFromBackup()
-    {
-    }
+    public function test_restoreFromBackup() {}
 
     /**
      * backing up up tables that are affected by an upgrade
@@ -393,9 +388,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->auditId = 1;
         $oDB_Upgrade->oAuditor->setKeyParams(
             ['schema_name' => 'tables_core',
-                                                    'version' => '900',
-                                                    'timing' => 0
-                                                    ]
+                'version' => '900',
+                'timing' => 0,
+            ],
         );
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = ['table1', 'table2'];
 
@@ -406,8 +401,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists($aResult[0]['tablename_backup'], $oDB_Upgrade->aDBTables), 'backup table not created');
         $this->assertTrue($this->_tableExists($aResult[1]['tablename_backup'], $oDB_Upgrade->aDBTables), 'backup table not created');
-//        TestEnv::restoreConfig();
-//        TestEnv::restoreEnv();
+        //        TestEnv::restoreConfig();
+        //        TestEnv::restoreEnv();
     }
 
 
@@ -417,9 +412,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->auditId = 2;
         $oDB_Upgrade->oAuditor->setKeyParams(
             ['schema_name' => 'tables_core',
-                                                    'version' => '900',
-                                                    'timing' => 0
-                                                    ]
+                'version' => '900',
+                'timing' => 0,
+            ],
         );
 
         $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1, $version, $schema), 'prep rollback failed');
@@ -476,10 +471,10 @@ class Test_DB_Upgrade extends UnitTestCase
                 $this->assertTrue(array_key_exists($field, $aTbl_def_rest['indexes'][$index]['fields']), 'index field missing from restored table');
             }
         }
-//        TestEnv::restoreConfig();
-//        TestEnv::restoreEnv();
-//        leaving the tables in to roll them back in the next test
-//        so don't slip another test in between these
+        //        TestEnv::restoreConfig();
+        //        TestEnv::restoreEnv();
+        //        leaving the tables in to roll them back in the next test
+        //        so don't slip another test in between these
     }
 
     /**
@@ -493,24 +488,24 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->auditId = 3;
         $oDB_Upgrade->oAuditor->setKeyParams(
             ['schema_name' => 'tables_core',
-                                                    'version' => '910',
-                                                    'timing' => 0
-                                                    ]
+                'version' => '910',
+                'timing' => 0,
+            ],
         );
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists('table2', $oDB_Upgrade->aDBTables), 'source table not found in database');
 
         $oDB_Upgrade->aAddedTables['tables_core']['910']['table2'] = [
-                                                                            'database_action_id' => 10,
-                                                                            'upgrade_action_id' => 1,
-                                                                            'schema_name' => 'tables_core',
-                                                                            'version' => '910',
-                                                                            'timing' => 0,
-                                                                            'tablename' => 'table2',
-                                                                            'tablename_backup' => '',
-                                                                            'table_backup_schema' => '',
-                                                                           ];
+            'database_action_id' => 10,
+            'upgrade_action_id' => 1,
+            'schema_name' => 'tables_core',
+            'version' => '910',
+            'timing' => 0,
+            'tablename' => 'table2',
+            'tablename_backup' => '',
+            'table_backup_schema' => '',
+        ];
         $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
@@ -531,9 +526,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->auditId = 4;
         $oDB_Upgrade->oAuditor->setKeyParams(
             ['schema_name' => 'tables_core',
-                                                    'version' => '910',
-                                                    'timing' => 1
-                                                    ]
+                'version' => '910',
+                'timing' => 1,
+            ],
         );
 
         $oDB_Upgrade->aChanges['affected_tables']['destructive'] = ['table1'];
@@ -553,7 +548,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertFalse($this->_tableExists(
             $oDB_Upgrade->aRestoreTables['tables_core'][910]['table1'][1]['tablename_backup'],
-            $oDB_Upgrade->aDBTables
+            $oDB_Upgrade->aDBTables,
         ), 'test table was not restored');
 
         TestEnv::restoreConfig();
@@ -570,9 +565,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->auditId = 5;
         $oDB_Upgrade->oAuditor->setKeyParams(
             ['schema_name' => 'tables_core',
-                                                    'version' => '920',
-                                                    'timing' => 0
-                                                    ]
+                'version' => '920',
+                'timing' => 0,
+            ],
         );
 
         $this->_createTestTableAutoInc($oDB_Upgrade->oSchema->db);
@@ -1065,7 +1060,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeAddTable__table_new', 'afterAddTable__table_new']
+            ['beforeAddTable__table_new', 'afterAddTable__table_new'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1106,7 +1101,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeRemoveTable__table2', 'afterRemoveTable__table2']
+            ['beforeRemoveTable__table2', 'afterRemoveTable__table2'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1158,7 +1153,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeRenameTable__table1_rename', 'afterRenameTable__table1_rename']
+            ['beforeRenameTable__table1_rename', 'afterRenameTable__table1_rename'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1210,7 +1205,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeAddField__table1__c_date_field_new', 'afterAddField__table1__c_date_field_new']
+            ['beforeAddField__table1__c_date_field_new', 'afterAddField__table1__c_date_field_new'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1250,7 +1245,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeAlterField__table1__a_text_field', 'afterAlterField__table1__a_text_field']
+            ['beforeAlterField__table1__a_text_field', 'afterAlterField__table1__a_text_field'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1293,7 +1288,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeAlterField__table1__b_id_field', 'afterAlterField__table1__b_id_field']
+            ['beforeAlterField__table1__b_id_field', 'afterAlterField__table1__b_id_field'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1345,7 +1340,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeRenameField__table1__b_id_field_renamed', 'afterRenameField__table1__b_id_field_renamed']
+            ['beforeRenameField__table1__b_id_field_renamed', 'afterRenameField__table1__b_id_field_renamed'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1384,7 +1379,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeAddField__table2__b_id_field_pk', 'afterAddField__table2__b_id_field_pk']
+            ['beforeAddField__table2__b_id_field_pk', 'afterAddField__table2__b_id_field_pk'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1421,7 +1416,7 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_' . rand(),
-            ['beforeRemoveField__table1__a_text_field', 'afterRemoveField__table1__a_text_field']
+            ['beforeRemoveField__table1__a_text_field', 'afterRemoveField__table1__a_text_field'],
         );
 
         $oDB_Upgrade->oMigrator = new $mockMigrator($this);
@@ -1538,9 +1533,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDBAuditor = new OA_DB_UpgradeAuditor();
         $this->assertTrue($oDBAuditor->init($oDB_Upgrade->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
         $oDBAuditor->setKeyParams(['schema_name' => $oDB_Upgrade->schema,
-                                        'version' => $oDB_Upgrade->versionTo,
-                                        'timing' => $oDB_Upgrade->timingInt
-                                        ]);
+            'version' => $oDB_Upgrade->versionTo,
+            'timing' => $oDB_Upgrade->timingInt,
+        ]);
         $oDB_Upgrade->oAuditor = &$oDBAuditor;
         return $oDB_Upgrade;
     }
@@ -1607,75 +1602,39 @@ class Test_DB_Upgrade extends UnitTestCase
 
 class DB_Upgrade_Test_Migration extends Migration
 {
-    public function beforeAddTable__table_new()
-    {
-    }
+    public function beforeAddTable__table_new() {}
 
-    public function afterAddTable__table_new()
-    {
-    }
+    public function afterAddTable__table_new() {}
 
-    public function beforeRemoveTable__table2()
-    {
-    }
+    public function beforeRemoveTable__table2() {}
 
-    public function afterRemoveTable__table2()
-    {
-    }
+    public function afterRemoveTable__table2() {}
 
-    public function beforeRenameTable__table1_rename()
-    {
-    }
+    public function beforeRenameTable__table1_rename() {}
 
-    public function afterRenameTable__table1_rename()
-    {
-    }
+    public function afterRenameTable__table1_rename() {}
 
-    public function beforeAddField__table1__c_date_field_new()
-    {
-    }
+    public function beforeAddField__table1__c_date_field_new() {}
 
-    public function afterAddField__table1__c_date_field_new()
-    {
-    }
+    public function afterAddField__table1__c_date_field_new() {}
 
-    public function beforeAlterField__table1__a_text_field()
-    {
-    }
+    public function beforeAlterField__table1__a_text_field() {}
 
-    public function afterAlterField__table1__a_text_field()
-    {
-    }
+    public function afterAlterField__table1__a_text_field() {}
 
-    public function beforeAlterField__table1__b_id_field()
-    {
-    }
+    public function beforeAlterField__table1__b_id_field() {}
 
-    public function afterAlterField__table1__b_id_field()
-    {
-    }
+    public function afterAlterField__table1__b_id_field() {}
 
-    public function beforeRenameField__table1__b_id_field_renamed()
-    {
-    }
+    public function beforeRenameField__table1__b_id_field_renamed() {}
 
-    public function afterRenameField__table1__b_id_field_renamed()
-    {
-    }
+    public function afterRenameField__table1__b_id_field_renamed() {}
 
-    public function beforeAddField__table2__b_id_field_pk()
-    {
-    }
+    public function beforeAddField__table2__b_id_field_pk() {}
 
-    public function afterAddField__table2__b_id_field_pk()
-    {
-    }
+    public function afterAddField__table2__b_id_field_pk() {}
 
-    public function beforeRemoveField__table1__a_text_field()
-    {
-    }
+    public function beforeRemoveField__table1__a_text_field() {}
 
-    public function afterRemoveField__table1__a_text_field()
-    {
-    }
+    public function afterRemoveField__table1__a_text_field() {}
 }

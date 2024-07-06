@@ -62,7 +62,7 @@ class Plugins_Authentication extends OX_Component
 
         return $this->checkPassword(
             $aCredentials['username'],
-            $aCredentials['password']
+            $aCredentials['password'],
         );
     }
 
@@ -90,7 +90,7 @@ class Plugins_Authentication extends OX_Component
 
         return [
             'username' => MAX_commonGetPostValueUnslashed('username'),
-            'password' => MAX_commonGetPostValueUnslashed('password')
+            'password' => MAX_commonGetPostValueUnslashed('password'),
         ];
     }
 
@@ -158,7 +158,7 @@ class Plugins_Authentication extends OX_Component
      * Cleans up the session and carry on any additional tasks required to logout the user
      *
      */
-    public function logout()
+    public function logout(): never
     {
         phpAds_SessionDataDestroy();
         $dalAgency = OA_Dal::factoryDAL('agency');
@@ -206,7 +206,7 @@ class Plugins_Authentication extends OX_Component
 
         $oTpl = new OA_Admin_Template('login.html');
 
-        $appName = !empty($aConf['ui']['applicationName']) ? $aConf['ui']['applicationName'] : PRODUCT_NAME;
+        $appName = empty($aConf['ui']['applicationName']) ? PRODUCT_NAME : $aConf['ui']['applicationName'];
 
         $oTpl->assign('uiEnabled', $aConf['ui']['enabled']);
         $oTpl->assign('sessionID', $sessionID);
@@ -259,16 +259,16 @@ class Plugins_Authentication extends OX_Component
     {
         if (preg_match('/-user-start\.html$/', $oTpl->templateName)) {
             $oTpl->assign('fields', [
-               [
-                   'fields' => [
-                       [
-                           'name' => 'login',
-                           'label' => $GLOBALS['strUsernameToLink'],
-                           'value' => '',
-                           'id' => 'user-key'
-                       ],
-                   ]
-               ],
+                [
+                    'fields' => [
+                        [
+                            'name' => 'login',
+                            'label' => $GLOBALS['strUsernameToLink'],
+                            'value' => '',
+                            'id' => 'user-key',
+                        ],
+                    ],
+                ],
             ]);
         }
     }
@@ -286,31 +286,31 @@ class Plugins_Authentication extends OX_Component
         $aLanguages = RV_Admin_Languages::getAvailableLanguages();
 
         $userDetailsFields[] = [
-                'name' => 'login',
-                'label' => $GLOBALS['strUsername'],
-                'value' => $userData['username'],
-                'freezed' => !empty($userData['user_id'])
-            ];
+            'name' => 'login',
+            'label' => $GLOBALS['strUsername'],
+            'value' => $userData['username'],
+            'freezed' => !empty($userData['user_id']),
+        ];
         $userDetailsFields[] = [
-                'name' => 'contact_name',
-                'label' => $GLOBALS['strContactName'],
-                'value' => $userData['contact_name'],
-                'freezed' => $userExists
-            ];
+            'name' => 'contact_name',
+            'label' => $GLOBALS['strContactName'],
+            'value' => $userData['contact_name'],
+            'freezed' => $userExists,
+        ];
         $userDetailsFields[] = [
-                'name' => 'email_address',
-                'label' => $GLOBALS['strEMail'],
-                'value' => $userData['email_address'],
-                'freezed' => $userExists
-            ];
+            'name' => 'email_address',
+            'label' => $GLOBALS['strEMail'],
+            'value' => $userData['email_address'],
+            'freezed' => $userExists,
+        ];
         $userDetailsFields[] = [
-                'type' => 'select',
-                'name' => 'language',
-                'label' => $GLOBALS['strLanguage'],
-                'options' => $aLanguages,
-                'value' => (!empty($userData['language'])) ? $userData['language'] : $GLOBALS['_MAX']['PREF']['language'],
-                'disabled' => $userExists
-            ];
+            'type' => 'select',
+            'name' => 'language',
+            'label' => $GLOBALS['strLanguage'],
+            'options' => $aLanguages,
+            'value' => (empty($userData['language'])) ? $GLOBALS['_MAX']['PREF']['language'] : $userData['language'],
+            'disabled' => $userExists,
+        ];
 
         return $userDetailsFields;
     }
@@ -354,7 +354,7 @@ class Plugins_Authentication extends OX_Component
         $contactName,
         $emailAddress,
         $language,
-        $accountId
+        $accountId,
     ) {
         /** @var DataObjects_Users $doUsers */
         $doUsers = OA_Dal::factoryDO('users');
@@ -367,7 +367,7 @@ class Plugins_Authentication extends OX_Component
             $contactName,
             $emailAddress,
             $language,
-            $accountId
+            $accountId,
         );
     }
 
@@ -390,7 +390,7 @@ class Plugins_Authentication extends OX_Component
         $contactName,
         $emailAddress,
         $language,
-        $accountId
+        $accountId,
     ) {
         $doUsers->contact_name = $contactName;
         $doUsers->email_address = $emailAddress;
@@ -590,6 +590,4 @@ class Plugins_Authentication extends OX_Component
 }
 
 
-class Plugins_Authentication_Exception extends Exception
-{
-}
+class Plugins_Authentication_Exception extends Exception {}

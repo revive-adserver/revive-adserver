@@ -36,9 +36,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends OA_Maintenan
     /**
      * Stubbed out since we don't really need to use the code that calls this.
      */
-    public function getZonesAllocationByAgency($agencyId)
-    {
-    }
+    public function getZonesAllocationByAgency($agencyId) {}
 
     /**
      * Return a map whose keys are the campaign priority levels to be processed
@@ -83,7 +81,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends OA_Maintenan
                                 $aCampaignsDeliveries[$campaignId]['sum_clicks'],
                                 $aCampaignsDeliveries[$campaignId]['sum_conversions'],
                                 $aCampaign[self::IDX_ACTIVATE],
-                                $aCampaign[self::IDX_EXPIRE]
+                                $aCampaign[self::IDX_EXPIRE],
                             );
                     }
 

@@ -40,7 +40,7 @@ class OX_Util_Utils
             return null;
         }
 
-        $priority = (int)$priority;
+        $priority = (int) $priority;
 
         if (0 === $priority) {
             return OX_CAMPAIGN_TYPE_REMNANT;
@@ -138,34 +138,17 @@ class OX_Util_Utils
      */
     public static function getCampaignStatusTranslationKey($status)
     {
-        switch ($status) {
-            case OA_ENTITY_STATUS_PENDING:
-                return 'strCampaignStatusPending';
-
-            case OA_ENTITY_STATUS_RUNNING:
-               return 'strCampaignStatusRunning';
-
-            case OA_ENTITY_STATUS_PAUSED:
-               return 'strCampaignStatusPaused';
-
-            case OA_ENTITY_STATUS_AWAITING:
-               return 'strCampaignStatusAwaiting';
-
-            case OA_ENTITY_STATUS_EXPIRED:
-               return 'strCampaignStatusExpired';
-
-            case OA_ENTITY_STATUS_INACTIVE:
-               return 'strCampaignStatusInactive';
-
-            case OA_ENTITY_STATUS_APPROVAL:
-               return 'strCampaignStatusApproval';
-
-            case OA_ENTITY_STATUS_REJECTED:
-               return 'strCampaignStatusRejected';
-            break;
-       }
-
-        return null;
+        return match ($status) {
+            OA_ENTITY_STATUS_PENDING => 'strCampaignStatusPending',
+            OA_ENTITY_STATUS_RUNNING => 'strCampaignStatusRunning',
+            OA_ENTITY_STATUS_PAUSED => 'strCampaignStatusPaused',
+            OA_ENTITY_STATUS_AWAITING => 'strCampaignStatusAwaiting',
+            OA_ENTITY_STATUS_EXPIRED => 'strCampaignStatusExpired',
+            OA_ENTITY_STATUS_INACTIVE => 'strCampaignStatusInactive',
+            OA_ENTITY_STATUS_APPROVAL => 'strCampaignStatusApproval',
+            OA_ENTITY_STATUS_REJECTED => 'strCampaignStatusRejected',
+            default => null,
+        };
     }
 
     /**
@@ -212,63 +195,63 @@ class OX_Util_Utils
         $startDate = null,
         $endDate = null,
         $defaultClickRatio = null,
-        $defaultConversionRatio = null
+        $defaultConversionRatio = null,
     ) {
         $ecpm = 0.0;
 
         switch ($revenueType) {
-           case MAX_FINANCE_CPM:
-               // eCPM = CPM
-               return $revenue;
-               break;
-           case MAX_FINANCE_CPC:
-               if ($impressions != 0) {
-                   $ecpm = $revenue * $clicks / $impressions * 1000;
-               } else {
-                   if (!$defaultClickRatio) {
-                       $defaultClickRatio = $GLOBALS['_MAX']['CONF']['priority']['defaultClickRatio'];
-                   }
-                   $ecpm = $defaultClickRatio * $revenue * 1000;
-               }
-               break;
-           case MAX_FINANCE_CPA:
-               if ($impressions != 0) {
-                   $ecpm = $revenue * $conversions / $impressions * 1000;
-               } else {
-                   if (!$defaultConversionRatio) {
-                       $defaultConversionRatio = $GLOBALS['_MAX']['CONF']['priority']['defaultConversionRatio'];
-                   }
-                   $ecpm = $defaultConversionRatio * $revenue * 1000;
-               }
-               break;
-           case MAX_FINANCE_MT:
-               if ($impressions != 0) {
-                   if ($startDate && $endDate) {
-                       $oStart = new Date($startDate);
-                       $oStart->setTZbyID('UTC');
-                       $oEnd = new Date($endDate);
-                       $oEnd->setTZbyID('UTC');
-                       $oNow = new Date(date('Y-m-d'));
-                       $oNow->setTZbyID('UTC');
+            case MAX_FINANCE_CPM:
+                // eCPM = CPM
+                return $revenue;
+                break;
+            case MAX_FINANCE_CPC:
+                if ($impressions != 0) {
+                    $ecpm = $revenue * $clicks / $impressions * 1000;
+                } else {
+                    if (!$defaultClickRatio) {
+                        $defaultClickRatio = $GLOBALS['_MAX']['CONF']['priority']['defaultClickRatio'];
+                    }
+                    $ecpm = $defaultClickRatio * $revenue * 1000;
+                }
+                break;
+            case MAX_FINANCE_CPA:
+                if ($impressions != 0) {
+                    $ecpm = $revenue * $conversions / $impressions * 1000;
+                } else {
+                    if (!$defaultConversionRatio) {
+                        $defaultConversionRatio = $GLOBALS['_MAX']['CONF']['priority']['defaultConversionRatio'];
+                    }
+                    $ecpm = $defaultConversionRatio * $revenue * 1000;
+                }
+                break;
+            case MAX_FINANCE_MT:
+                if ($impressions != 0) {
+                    if ($startDate && $endDate) {
+                        $oStart = new Date($startDate);
+                        $oStart->setTZbyID('UTC');
+                        $oEnd = new Date($endDate);
+                        $oEnd->setTZbyID('UTC');
+                        $oNow = new Date(date('Y-m-d'));
+                        $oNow->setTZbyID('UTC');
 
-                       $daysInCampaign = new Date_Span();
-                       $daysInCampaign->setFromDateDiff($oStart, $oEnd);
-                       $daysInCampaign = ceil($daysInCampaign->toDays());
+                        $daysInCampaign = new Date_Span();
+                        $daysInCampaign->setFromDateDiff($oStart, $oEnd);
+                        $daysInCampaign = ceil($daysInCampaign->toDays());
 
-                       $daysSoFar = new Date_Span();
-                       $daysSoFar->setFromDateDiff($oStart, $oNow);
-                       $daysSoFar = ceil($daysSoFar->toDays());
+                        $daysSoFar = new Date_Span();
+                        $daysSoFar->setFromDateDiff($oStart, $oNow);
+                        $daysSoFar = ceil($daysSoFar->toDays());
 
-                       $ecpm = ($revenue / $daysInCampaign) * $daysSoFar / $impressions * 1000;
-                   } else {
-                       // Not valid without start and end dates.
-                       $ecpm = 0.0;
-                   }
-               } else {
-                   $ecpm = 0.0;
-               }
-               break;
-       }
+                        $ecpm = ($revenue / $daysInCampaign) * $daysSoFar / $impressions * 1000;
+                    } else {
+                        // Not valid without start and end dates.
+                        $ecpm = 0.0;
+                    }
+                } else {
+                    $ecpm = 0.0;
+                }
+                break;
+        }
         return $ecpm;
     }
 }

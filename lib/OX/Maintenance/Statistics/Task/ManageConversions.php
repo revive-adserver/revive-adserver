@@ -46,7 +46,6 @@ class OX_Maintenance_Statistics_Task_ManageConversions extends OX_Maintenance_St
     public function run()
     {
         if ($this->oController->updateIntermediate) {
-
             // Preapre the start date for the management of conversions
             $oStartDate = new Date();
             $oStartDate->copy($this->oController->oLastDateIntermediate);

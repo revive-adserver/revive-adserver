@@ -321,10 +321,8 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
                 if (is_null($oDate)) {
                     $oDate = new Date();
                     $oDate->copy($oComponentDate);
-                } else {
-                    if ($oComponentDate->before($oDate)) {
-                        $oDate->copy($oComponentDate);
-                    }
+                } elseif ($oComponentDate->before($oDate)) {
+                    $oDate->copy($oComponentDate);
                 }
             }
         }

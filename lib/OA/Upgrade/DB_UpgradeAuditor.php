@@ -58,28 +58,6 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
 
     public $aParams = [];
 
-    /**
-     * php5 class constructor
-     *
-     * simpletest throws a BadGroupTest error
-     * Redefining already defined constructor for class Openads_DB_Upgrade
-     * when both constructors are present
-     *
-     */
-//    function __construct()
-//    {
-//    }
-
-    /**
-     * php4 class constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        //this->__construct();
-    }
-
     public function setKeyParams($aParams = '')
     {
         $aParams['upgrade_action_id'] = $this->auditId;
@@ -243,11 +221,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         $query = "UPDATE {$table} SET info2='" . $this->oDbh->escape($reason) . "' WHERE tablename_backup='" . $this->oDbh->escape($tablename_backup) . "'";
 
         $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}")) {
-            return false;
-        }
-        return true;
+        return !$this->isPearError($result, "error updating {$this->prefix}{$this->logTable}");
     }
 
     public function updateAuditBackupDroppedById($database_action_id, $reason = 'dropped')
@@ -256,11 +230,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         $query = "UPDATE {$table} SET info2='" . $this->oDbh->escape($reason) . "' WHERE database_action_id=" . (int) $database_action_id;
 
         $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}")) {
-            return false;
-        }
-        return true;
+        return !$this->isPearError($result, "error updating {$this->prefix}{$this->logTable}");
     }
 
     /**

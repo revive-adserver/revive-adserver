@@ -157,8 +157,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -189,8 +189,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -221,8 +221,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -253,8 +253,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -285,8 +285,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -308,7 +308,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllCampaign->getCampaign($campaignId, $oCampaign)
+                $this->_dllCampaign->getCampaign($campaignId, $oCampaign),
             );
         } else {
             return false;
@@ -333,8 +333,8 @@ class CampaignServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignListByAdvertiserId(
                     $advertiserId,
-                    $aCampaignList
-                )
+                    $aCampaignList,
+                ),
             );
         } else {
             return false;
@@ -359,7 +359,7 @@ class CampaignServiceImpl extends BaseServiceImpl
         $oStartDate,
         $oEndDate,
         $localTZ,
-        &$rsStatisticsData
+        &$rsStatisticsData,
     ) {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
@@ -368,8 +368,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;

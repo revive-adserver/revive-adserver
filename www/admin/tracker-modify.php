@@ -23,7 +23,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 phpAds_registerGlobal(
     'duplicate',
     'moveto',
-    'returnurl'
+    'returnurl',
 );
 
 
@@ -61,7 +61,7 @@ if (!empty($trackerid)) {
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strTrackerHasBeenMoved'],
-                [htmlspecialchars($trackerName), htmlspecialchars($advertiserName)]
+                [htmlspecialchars($trackerName), htmlspecialchars($advertiserName)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
@@ -85,7 +85,7 @@ if (!empty($trackerid)) {
                 [MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$trackerid"),
                     htmlspecialchars($oldName),
                     MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=$clientid&trackerid=$new_trackerid"),
-                    htmlspecialchars($newName)]
+                    htmlspecialchars($newName)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

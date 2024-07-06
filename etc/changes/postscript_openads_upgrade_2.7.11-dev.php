@@ -38,10 +38,6 @@ class OA_UpgradePostscript_2_7_11_dev
     public $prefix;
     public $tblCampaigns;
 
-    public function __construct()
-    {
-    }
-
     public function execute($aParams)
     {
         $this->oUpgrade = &$aParams[0];
@@ -103,7 +99,7 @@ class OA_UpgradePostscript_2_7_11_dev
             ($cpcCount > 0 ? " $cpcCount to CPC," : '') .
             ($cpaCount > 0 ? " $cpaCount to CPA" : ''));
 
-        
+
         if ($cpmCount > 0) {
             $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPM, implode(',', $aCPMCampaigns));
             $result = $this->oDbh->exec($query);

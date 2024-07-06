@@ -78,7 +78,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strXPreferencesHaveBeenUpdated'],
-                [htmlspecialchars($title)]
+                [htmlspecialchars($title)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -101,21 +101,21 @@ $oOptions->selection($group);
 foreach ($aGroup['preferences'] as $k => $v) {
     $aPreferences[0]['text'] = $group . ($disabled ? ' - the Administrator has disabled this plugin, you may only change preferences when it is enabled.' : '');
     $aPreferences[0]['items'][] = [
-                                         'type' => $v['type'],
-                                         'name' => $group . '_' . $v['name'],
-                                         'text' => $v['label'],
-                                         'req' => $v['required'],
-                                         'size' => $v['size'],
-                                         'value' => $v['value'],
-                                         'visible' => $v['visible'],
-                                         'disabled' => $disabled,
-                                         ];
+        'type' => $v['type'],
+        'name' => $group . '_' . $v['name'],
+        'text' => $v['label'],
+        'req' => $v['required'],
+        'size' => $v['size'],
+        'value' => $v['value'],
+        'visible' => $v['visible'],
+        'disabled' => $disabled,
+    ];
 }
 $aPreferences[0]['items'][] = [
-                                     'type' => 'hiddenfield',
-                                     'name' => 'group',
-                                     'value' => $group,
-                                     ];
+    'type' => 'hiddenfield',
+    'name' => 'group',
+    'value' => $group,
+];
 
 $oOptions->show($aPreferences, $aErrormessage);
 

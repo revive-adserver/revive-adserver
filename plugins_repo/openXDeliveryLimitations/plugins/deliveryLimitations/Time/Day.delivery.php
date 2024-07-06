@@ -38,7 +38,7 @@ function MAX_checkTime_Day($limitation, $op, $aParams = [])
     if ($limitation == '') {
         return true;
     }
-    $timestamp = !empty($aParams['timestamp']) ? $aParams['timestamp'] : time();
+    $timestamp = empty($aParams['timestamp']) ? time() : $aParams['timestamp'];
     if ($tz && $tz != 'UTC') {
         OA_setTimeZone($tz);
         $day = date('w', $timestamp);

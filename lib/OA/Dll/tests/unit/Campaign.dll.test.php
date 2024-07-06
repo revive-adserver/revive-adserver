@@ -37,21 +37,18 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
      */
     public $unknownIdError = 'Unknown campaignId Error';
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Campaign',
             'PartialMockOA_Dll_Campaign_CampaignTest',
-            ['checkPermissions']
+            ['checkPermissions'],
         );
         Mock::generatePartial(
             'OA_Dll_Advertiser',
             'PartialMockOA_Dll_Advertiser_CampaignTest',
-            ['checkPermissions', 'getDefaultAgencyId']
+            ['checkPermissions', 'getDefaultAgencyId'],
         );
     }
 
@@ -93,33 +90,33 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllCampaignPartialMock->modify($oCampaignInfo),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Modify
         $this->assertTrue(
             $dllCampaignPartialMock->modify($oCampaignInfo),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Delete
         $this->assertTrue(
             $dllCampaignPartialMock->delete($oCampaignInfo->campaignId),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Modify not existing id
         $this->assertTrue(
             (!$dllCampaignPartialMock->modify($oCampaignInfo) &&
                           $dllCampaignPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         // Delete not existing id
         $this->assertTrue(
             (!$dllCampaignPartialMock->delete($oCampaignInfo->campaignId) &&
                            $dllCampaignPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllCampaignPartialMock->tally();
@@ -162,12 +159,12 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllCampaignPartialMock->modify($oCampaignInfo1),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         $this->assertTrue(
             $dllCampaignPartialMock->modify($oCampaignInfo2),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         $oCampaignInfo1Get = null;
@@ -176,16 +173,16 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         $this->assertTrue(
             $dllCampaignPartialMock->getCampaign(
                 $oCampaignInfo1->campaignId,
-                $oCampaignInfo1Get
+                $oCampaignInfo1Get,
             ),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
         $this->assertTrue(
             $dllCampaignPartialMock->getCampaign(
                 $oCampaignInfo2->campaignId,
-                $oCampaignInfo2Get
+                $oCampaignInfo2Get,
             ),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Check field value
@@ -206,13 +203,13 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         $this->assertTrue(
             $dllCampaignPartialMock->getCampaignListByAdvertiserId(
                 $oAdvertiserInfo->advertiserId,
-                $aCampaignList
+                $aCampaignList,
             ),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
         $this->assertEqual(
             count($aCampaignList) == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
         $oCampaignInfo1Get = $aCampaignList[0];
         $oCampaignInfo2Get = $aCampaignList[1];
@@ -228,17 +225,17 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         // Delete
         $this->assertTrue(
             $dllCampaignPartialMock->delete($oCampaignInfo1->campaignId),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Get not existing id
         $this->assertTrue(
             (!$dllCampaignPartialMock->getCampaign(
                 $oCampaignInfo1->campaignId,
-                $oCampaignInfo1Get
+                $oCampaignInfo1Get,
             ) &&
                           $dllCampaignPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllCampaignPartialMock->tally();
@@ -276,7 +273,7 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         // Add
         $this->assertTrue(
             $dllCampaignPartialMock->modify($oCampaignInfo),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Get no data
@@ -286,7 +283,7 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
             new Date('2001-12-01'),
             new Date('2007-09-19'),
             false,
-            $rsCampaignStatistics
+            $rsCampaignStatistics,
         ), $dllCampaignPartialMock->getLastError());
 
         $this->assertTrue(isset($rsCampaignStatistics));
@@ -295,11 +292,11 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
         if (is_array($rsCampaignStatistics)) {
             $this->assertEqual(count($rsCampaignStatistics), 0, 'No records should be returned');
 
-        // Handle MDB2 result sets
+            // Handle MDB2 result sets
         } elseif ($rsCampaignStatistics instanceof MDB2_Result_Common) {
             $this->assertEqual($rsCampaignStatistics->numRows(), 0, 'No records should be returned');
 
-        // Handle DBC (deprecated) result sets
+            // Handle DBC (deprecated) result sets
         } else {
             $this->assertEqual($rsCampaignStatistics->getRowCount(), 0, 'No records should be returned');
         }
@@ -312,16 +309,16 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
                 new Date('2007-09-19'),
                 new Date('2001-12-01'),
                 false,
-                $rsCampaignStatistics
+                $rsCampaignStatistics,
             ) &&
             $dllCampaignPartialMock->getLastError() == $this->wrongDateError),
-            $this->_getMethodShouldReturnError($this->wrongDateError)
+            $this->_getMethodShouldReturnError($this->wrongDateError),
         );
 
         // Delete
         $this->assertTrue(
             $dllCampaignPartialMock->delete($oCampaignInfo->campaignId),
-            $dllCampaignPartialMock->getLastError()
+            $dllCampaignPartialMock->getLastError(),
         );
 
         // Test statistics for not existing id
@@ -332,10 +329,10 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
                 new Date('2001-12-01'),
                 new Date('2007-09-19'),
                 false,
-                $rsCampaignStatistics
+                $rsCampaignStatistics,
             ) &&
             $dllCampaignPartialMock->getLastError() == $this->unknownIdError),
-            $this->_getMethodShouldReturnError($this->unknownIdError)
+            $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
         $dllCampaignPartialMock->tally();

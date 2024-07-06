@@ -41,37 +41,37 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'audit_enabled' => [
             'audit' => 'enabled',
-            'bool' => true
+            'bool' => true,
         ],
         'audit_enabledForZoneLinking' => [
             'audit' => 'enabledForZoneLinking',
-            'bool' => true
-        ]
+            'bool' => true,
+        ],
     ];
     // Debug Logging Settings
     $aElements += [
         'debug_production' => [
             'debug' => 'production',
-            'bool' => true
+            'bool' => true,
         ],
         'log_enabled' => [
             'log' => 'enabled',
-            'bool' => true
+            'bool' => true,
         ],
         'log_methodNames' => [
             'log' => 'methodNames',
-            'bool' => true
+            'bool' => true,
         ],
         'log_lineNumbers' => [
             'log' => 'lineNumbers',
-            'bool' => true
+            'bool' => true,
         ],
         'log_type' => ['log' => 'type'],
         'log_name' => ['log' => 'name'],
         'log_priority' => ['log' => 'priority'],
         'log_ident' => ['log' => 'ident'],
         'log_paramsUsername' => ['log' => 'paramsUsername'],
-        'log_paramsPassword' => ['log' => 'paramsPassword']
+        'log_paramsPassword' => ['log' => 'paramsPassword'],
     ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -83,7 +83,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         // The settings configuration file was written correctly,
@@ -115,14 +115,14 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'audit_enabled',
-                'text' => $strEnableAudit
+                'text' => $strEnableAudit,
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'audit_enabledForZoneLinking',
-                'text' => $strEnableAuditForZoneLinking
-            ]
-        ]
+                'text' => $strEnableAuditForZoneLinking,
+            ],
+        ],
     ],
     [
         'text' => $strDebug,
@@ -130,36 +130,36 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'debug_production',
-                'text' => $strProductionSystem
+                'text' => $strProductionSystem,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'log_enabled',
-                'text' => $strEnableDebug
+                'text' => $strEnableDebug,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'log_methodNames',
                 'text' => $strDebugMethodNames,
-                'depends' => 'log_enabled==1'
+                'depends' => 'log_enabled==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'log_lineNumbers',
                 'text' => $strDebugLineNumbers,
-                'depends' => 'log_enabled==1'
+                'depends' => 'log_enabled==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'select',
@@ -173,20 +173,20 @@ $aSettings = [
                     'syslog' => $strDebugTypeSyslog
                     */
                 ],
-                'depends' => 'log_enabled==1'
+                'depends' => 'log_enabled==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'log_name',
                 'text' => $strDebugName,
                 'req' => true,
-                'depends' => 'log_enabled==1'
+                'depends' => 'log_enabled==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'select',
@@ -200,20 +200,20 @@ $aSettings = [
                     'PEAR_LOG_ERR' => $strPEAR_LOG_ERR,
                     'PEAR_LOG_CRIT' => $strPEAR_LOG_CRIT,
                     'PEAR_LOG_ALERT' => $strPEAR_LOG_ALERT,
-                    'PEAR_LOG_EMERG' => $strPEAR_LOG_EMERG
+                    'PEAR_LOG_EMERG' => $strPEAR_LOG_EMERG,
                 ],
-                'depends' => 'log_enabled==1'
+                'depends' => 'log_enabled==1',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
                 'name' => 'log_ident',
                 'text' => $strDebugIdent,
                 'req' => true,
-                'depends' => 'log_enabled==1'
-            ]
+                'depends' => 'log_enabled==1',
+            ],
             /* These fields are hidden because mCal debug log type
                is not supported at this moment
             ,
@@ -235,8 +235,8 @@ $aSettings = [
                 'text'    => $strDebugPassword,
                 'depends' => 'log_enabled==1 && log_type==1 || log_type==2'
             )*/
-        ]
-    ]
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

@@ -29,14 +29,6 @@ class Test_OX_PluginExport extends UnitTestCase
     public $testpathDataObjects = '/var/';
 
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         TestEnv::clearMenuCache();
@@ -288,7 +280,7 @@ class Test_OX_PluginExport extends UnitTestCase
                          ($aItemOld['stored_filename'] == $aItemNew['stored_filename']) &&
                          ($aItemOld['size'] == $aItemNew['size']) &&
                          ($aItemOld['crc'] == $aItemNew['crc'])
-                       ) {
+                    ) {
                         unset($aContentsOld[$i]);
                         unset($aContentsNew[$n]);
                         break;

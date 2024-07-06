@@ -27,8 +27,8 @@ echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 
 // Set the MAX_PATH constant (this assumes that the script is located in
 // MAX_PATH . '/scripts'
-define('MAX_PATH', dirname(dirname(dirname(__FILE__))));
-define('OX_PATH', dirname(dirname(dirname(__FILE__))));
+define('MAX_PATH', dirname(__FILE__, 3));
+define('OX_PATH', MAX_PATH);
 define('LIB_PATH', MAX_PATH . '/lib/OX');
 define('RV_PATH', MAX_PATH);
 
@@ -51,8 +51,8 @@ $blacklist = [
  */
 function get_microtime()
 {
-    list($usec, $sec) = explode(" ", microtime());
-    return ((float)$usec + (float)$sec);
+    [$usec, $sec] = explode(" ", microtime());
+    return ((float) $usec + (float) $sec);
 }
 
 // Source folder for the file to be processed
@@ -76,7 +76,7 @@ $oCodeMunger->setHeader($header);
 while (false !== ($file = readdir($DIR_INPUT))) {
     // Skip hidden file, directories, and ignored files
     if (
-        (substr($file, 0, 1) == '.')
+        (str_starts_with($file, '.'))
         || is_dir($input_dir . $file)
         || in_array($file, $ignored_files)
     ) {
@@ -91,7 +91,7 @@ while (false !== ($file = readdir($DIR_INPUT))) {
         continue;
     }
 
-    $destfile = isset($renamed_files[$file]) ? $renamed_files[$file] : $file;
+    $destfile = $renamed_files[$file] ?? $file;
 
     $FILE_OUT = @fopen($output_dir . $destfile, 'w');
     if (!is_resource($FILE_OUT)) {

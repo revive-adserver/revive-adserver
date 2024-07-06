@@ -34,12 +34,12 @@ class OA_DB_AdvisoryLock_mysqli extends OA_DB_AdvisoryLock
             'integer',
             [
                 $this->_sId,
-                $iWaitTime
+                $iWaitTime,
             ],
             [
                 'text',
-                'integer'
-            ]
+                'integer',
+            ],
         );
 
         return !PEAR::isError($iAcquired) && !empty($iAcquired);
@@ -57,11 +57,11 @@ class OA_DB_AdvisoryLock_mysqli extends OA_DB_AdvisoryLock
             "SELECT RELEASE_LOCK(?)",
             'integer',
             [
-                $this->_sId
+                $this->_sId,
             ],
             [
-                'text'
-            ]
+                'text',
+            ],
         );
 
         return !PEAR::isError($iReleased) && !empty($iReleased);

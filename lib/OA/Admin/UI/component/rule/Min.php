@@ -27,7 +27,7 @@ class OA_Admin_UI_Rule_Min extends HTML_QuickForm_Rule
      */
     public function validate($value, $options = null)
     {
-        $numVal = (float)$value;
+        $numVal = (float) $value;
         return $numVal >= $options;
     }
 

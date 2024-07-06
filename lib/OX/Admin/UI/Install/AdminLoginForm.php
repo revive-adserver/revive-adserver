@@ -45,7 +45,7 @@ class OX_Admin_UI_Install_AdminLoginForm extends OX_Admin_UI_Install_BaseForm
             'password',
             'password',
             $GLOBALS['strAdminPassword'],
-            ['class' => 'medium']
+            ['class' => 'medium'],
         );
 
 

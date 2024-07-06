@@ -118,21 +118,21 @@ class OX_Admin_UI_Install_DbForm extends OX_Admin_UI_Install_BaseForm
             'detectedVersion',
             $GLOBALS['strDetectedVersion'],
             null,
-            ['class' => 'medium', 'id' => 'dbName']
+            ['class' => 'medium', 'id' => 'dbName'],
         );
         $this->addElement(
             'static',
             'dbName',
             $GLOBALS['strDbName'],
             null,
-            ['class' => 'medium', 'id' => 'dbName']
+            ['class' => 'medium', 'id' => 'dbName'],
         );
         $this->addElement(
             'static',
             'dbHost',
             $GLOBALS['strDbHost'],
             null,
-            ['class' => 'medium', 'id' => 'dbHost']
+            ['class' => 'medium', 'id' => 'dbHost'],
         );
 
         $this->addDecorator('h_db_main_view', 'tag', ['tag' => 'div',
@@ -163,7 +163,7 @@ class OX_Admin_UI_Install_DbForm extends OX_Admin_UI_Install_BaseForm
             null,
             $GLOBALS['strDbTimeZoneNoWarnings'],
             ['prefix' => $prefix, 'suffix' => $suffix],
-            [0, 1]
+            [0, 1],
         );
     }
 

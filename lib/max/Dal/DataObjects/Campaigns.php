@@ -178,7 +178,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
 
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled == 1) {
-            $ecpmOk = floatval($this->revenue) > 0;
+            $ecpmOk = (float) $this->revenue > 0;
             if ($this->status == OA_ENTITY_STATUS_RUNNING && !$ecpmOk) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
             } elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && $ecpmOk) {
@@ -191,7 +191,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $weightOk = $this->weight > 0;
             $autotargeted = !empty($this->expire_time) && $this->expire_time != 'NULL' &&
                 ($this->views > 0 || $this->clicks > 0 || $this->conversions > 0);
-            if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && !($targetOk || $weightOk)) {
+            if ($this->status == OA_ENTITY_STATUS_RUNNING && !$autotargeted && (!$targetOk && !$weightOk)) {
                 $this->status = OA_ENTITY_STATUS_INACTIVE;
             } elseif ($this->status == OA_ENTITY_STATUS_INACTIVE && ($autotargeted || $targetOk || $weightOk)) {
                 $this->status = OA_ENTITY_STATUS_RUNNING;
@@ -454,10 +454,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = $this->campaignname;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['clientid'] = $this->clientid;
-                        break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            $aAuditFields['clientid'] = $this->clientid;
         }
     }
 
@@ -502,7 +500,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'name' => $this->campaignname,
                 'clientid' => $this->clientid,
                 'auditid' => $auditId,
-                'action' => $actionType
+                'action' => $actionType,
             ];
             // Load cache
             require_once MAX_PATH . '/lib/OA/Cache.php';
@@ -512,7 +510,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 // No cache, initialise
                 $aCache = [
                     'maxItems' => $maxItems,
-                    'aAccounts' => []
+                    'aAccounts' => [],
                 ];
             }
             // Get owning account id
@@ -560,7 +558,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             $clicksToDate,
             $conversionsToDate,
             $this->activate_time,
-            $this->expire_time
+            $this->expire_time,
         );
     }
 

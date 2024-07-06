@@ -31,63 +31,63 @@ class Menu
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
      */
-    function buildTree()
+    public static function buildTree()
     {
         preg_match('/^(\d+\.\d+)/', VERSION, $aMatches);
         // Create the root of the test suite
         $menu     = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
-                            array(
-                                'text' => PRODUCT_NAME . ' ' . $aMatches[1] . ' Tests',
-                                'icon' => "package.png"
-                            )
-                        );
+            [
+                'text' => PRODUCT_NAME . ' ' . $aMatches[1] . ' Tests',
+                'icon' => "package.png",
+            ],
+        );
         // Create the top-level test groups
         foreach ($GLOBALS['_MAX']['TEST']['groups'] as $type) {
             $nodeName = $type . 'RootNode';
             ${$nodeName} = new HTML_TreeNode(
-                                array(
-                                    'text' => ucwords($type) . ' Test Suite',
-                                    'icon' => "package.png",
-                                    'link' => "run.php?type=$type&level=all",
-                                    'linkTarget' => "right"
-                                )
-                            );
+                [
+                    'text' => ucwords($type) . ' Test Suite',
+                    'icon' => "package.png",
+                    'link' => "run.php?type=$type&level=all",
+                    'linkTarget' => "right",
+                ],
+            );
             $structure = TestFiles::getAllTestFiles($type);
             foreach ($structure as $layerCode => $folders) {
                 $firstNode = &${$nodeName}->addItem(
                     new HTML_TreeNode(
-                        array(
+                        [
                             'text' => $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layerCode][0],
                             'icon' => "package.png",
                             'link' => "run.php?type=$type&level=layer&layer=$layerCode",
-                            'linkTarget' => 'right'
-                        )
-                    )
+                            'linkTarget' => 'right',
+                        ],
+                    ),
                 );
                 foreach ($folders as $folder => $files) {
                     if (count($files)) {
                         $secondNode = &$firstNode->addItem(
                             new HTML_TreeNode(
-                                array(
+                                [
                                     'text' => $folder,
                                     'icon' => "class_folder.png",
                                     'link' => "run.php?type=$type&level=folder&layer=$layerCode&folder=$folder",
-                                    'linkTarget' => 'right'
-                                )
-                            )
+                                    'linkTarget' => 'right',
+                                ],
+                            ),
                         );
                     }
                     foreach ($files as $index => $file) {
                         $secondNode->addItem(
                             new HTML_TreeNode(
-                                array(
+                                [
                                     'text' => $file,
                                     'icon' => "Method.png",
                                     'link' => "run.php?type=$type&level=file&layer=$layerCode&folder=$folder&file=$file",
-                                    'linkTarget' => 'right'
-                                )
-                            )
+                                    'linkTarget' => 'right',
+                                ],
+                            ),
                         );
                     }
                 }
@@ -102,32 +102,32 @@ class Menu
         // Create the PEAR PHPUnit tests
         $nodeName = 'PearRootNode';
         ${$nodeName} = new HTML_TreeNode(
-                            array(
-                                'text' => 'PEAR PHPUnit Test Suite',
-                                'icon' => "package.png",
-                                'link' => "",
-                                'linkTarget' => "right"
-                            )
-                        );
-        $firstNode = &${$nodeName}->addItem(
-            new HTML_TreeNode(
-                array(
-                    'text' => 'PEAR::MDB2',
-                    'icon' => "package.png",
-                    'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2/tests",
-                    'linkTarget' => 'right'
-                )
-            )
+            [
+                'text' => 'PEAR PHPUnit Test Suite',
+                'icon' => "package.png",
+                'link' => "",
+                'linkTarget' => "right",
+            ],
         );
         $firstNode = &${$nodeName}->addItem(
             new HTML_TreeNode(
-                array(
+                [
+                    'text' => 'PEAR::MDB2',
+                    'icon' => "package.png",
+                    'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2/tests",
+                    'linkTarget' => 'right',
+                ],
+            ),
+        );
+        $firstNode = &${$nodeName}->addItem(
+            new HTML_TreeNode(
+                [
                     'text' => 'PEAR::MDB2_Schema',
                     'icon' => "package.png",
                     'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2_Schema/tests",
-                    'linkTarget' => 'right'
-                )
-            )
+                    'linkTarget' => 'right',
+                ],
+            ),
         );
         $rootNode->addItem(${$nodeName});
 
@@ -150,19 +150,17 @@ class Menu
      * @todo Consider moving to a subclass of HTML_TreeNode
      * @todo Consider separating "create" logic from "add" logic.
      */
-    function _addLinkedPackageNode($parentNode, $title, $target_url)
+    public function _addLinkedPackageNode($parentNode, $title, $target_url)
     {
         assert(is_object($parentNode));
 
-        $node_options = array(
-              'icon' => 'package.png',
-              'linkTarget' => 'right'
-        );
+        $node_options = [
+            'icon' => 'package.png',
+            'linkTarget' => 'right',
+        ];
         $node_options['text'] = $title;
         $node_options['link'] = $target_url;
         $node = new HTML_TreeNode($node_options);
         $parentNode->addItem($node);
     }
 }
-
-?>

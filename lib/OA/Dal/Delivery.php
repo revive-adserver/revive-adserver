@@ -58,7 +58,7 @@ function OA_Dal_Delivery_getAccountTZs()
     $res = OA_Dal_Delivery_query($query);
 
     if (OA_Dal_Delivery_isValidResult($res) && OA_Dal_Delivery_numRows($res)) {
-        $adminAccountId = (int)OA_Dal_Delivery_result($res, 0, 0);
+        $adminAccountId = (int) OA_Dal_Delivery_result($res, 0, 0);
     } else {
         $adminAccountId = false;
     }
@@ -80,11 +80,11 @@ function OA_Dal_Delivery_getAccountTZs()
 
     $aResult = [
         'adminAccountId' => $adminAccountId,
-        'aAccounts' => []
+        'aAccounts' => [],
     ];
     if (OA_Dal_Delivery_isValidResult($res)) {
         while ($row = OA_Dal_Delivery_fetchAssoc($res)) {
-            $accountId = (int)$row['account_id'];
+            $accountId = (int) $row['account_id'];
             if ($accountId === $adminAccountId) {
                 $aResult['default'] = $row['timezone'];
             } else {
@@ -111,7 +111,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    $zoneid = (int) $zoneid;
 
     // Get the zone information
     $query = "
@@ -213,7 +213,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     for ($i = 0; $i < 2; ++$i) {
         $aPreferenceInfo = OA_Dal_Delivery_fetchAssoc($rPreferenceInfo);
         $variableName = $aPreferenceInfo['preference_name'] . '_id';
-        $$variableName = $aPreferenceInfo['preference_id'];
+        ${$variableName} = $aPreferenceInfo['preference_id'];
     }
 
     // Search for possible default banner preference information for the zone
@@ -314,7 +314,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     $aTypes = [
         0 => 'admin',
         1 => 'manager',
-        2 => 'trafficker'
+        2 => 'trafficker',
     ];
 
     // Iterate over the found default values, setting the admin value(s) (if found)
@@ -330,9 +330,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid)
     }
 
     // Last try, see if there is a system-wide default banner defined
-//    if (empty($aZoneInfo['default_banner_image_url']) && !empty($aConf['defaultBanner']['imageUrl'])) {
-//        $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
-//    }
+    //    if (empty($aZoneInfo['default_banner_image_url']) && !empty($aConf['defaultBanner']['imageUrl'])) {
+    //        $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
+    //    }
 
     // Done, at last!
     return $aZoneInfo;
@@ -350,7 +350,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $publisherid = (int)$publisherid;
+    $publisherid = (int) $publisherid;
 
     $rZones = OA_Dal_Delivery_query("
     SELECT
@@ -395,7 +395,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    $zoneid = (int) $zoneid;
 
     $aRows = OA_Dal_Delivery_getZoneInfo($zoneid);
 
@@ -410,7 +410,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
     $totals = [
         'xAds' => 0,
         'ads' => 0,
-        'lAds' => 0
+        'lAds' => 0,
     ];
 
     if (!empty($aRows['default'])) {
@@ -494,7 +494,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid)
             c.status <= 0
     ";
 
-//    $query = OA_Dal_Delivery_buildQuery('', '', '');
+    //    $query = OA_Dal_Delivery_buildQuery('', '', '');
     $rAds = OA_Dal_Delivery_query($query);
 
     if (!OA_Dal_Delivery_isValidResult($rAds)) {
@@ -571,7 +571,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    $zoneid = (int) $zoneid;
 
     $aRows['xAds'] = [];
     $aRows['ads'] = [];
@@ -679,7 +679,7 @@ function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart =
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $campaignid = (int)$campaignid;
+    $campaignid = (int) $campaignid;
 
     $precondition = $campaignid > 0 ? " AND d.campaignid = '" . $campaignid . "' " : '';
 
@@ -693,7 +693,7 @@ function OA_Dal_Delivery_getLinkedAdInfos($search, $campaignid = '', $lastpart =
     $totals = [
         'xAds' => 0,
         'ads' => 0,
-        'lAds' => 0
+        'lAds' => 0,
     ];
 
     $query = OA_Dal_Delivery_buildAdInfoQuery($search, $lastpart, $precondition);
@@ -748,7 +748,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $campaignid = (int)$campaignid;
+    $campaignid = (int) $campaignid;
 
     $precondition = $campaignid > 0 ? " AND d.campaignid = '" . $campaignid . "' " : '';
 
@@ -762,7 +762,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     $totals = [
         'xAds' => 0,
         'ads' => 0,
-        'lAds' => 0
+        'lAds' => 0,
     ];
 
     $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
@@ -842,7 +842,7 @@ function OA_Dal_Delivery_getAd($ad_id)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $ad_id = (int)$ad_id;
+    $ad_id = (int) $ad_id;
 
     $query = "
         SELECT
@@ -924,7 +924,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $channelid = (int)$channelid;
+    $channelid = (int) $channelid;
 
     $rLimitation = OA_Dal_Delivery_query("
     SELECT
@@ -978,7 +978,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    $trackerid = (int) $trackerid;
 
     $rTracker = OA_Dal_Delivery_query("
         SELECT
@@ -1008,7 +1008,7 @@ function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    $trackerid = (int) $trackerid;
 
     $rCreatives = OA_Dal_Delivery_query("
         SELECT
@@ -1051,7 +1051,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    $trackerid = (int) $trackerid;
 
     $rVariables = OA_Dal_Delivery_query("
         SELECT
@@ -1117,70 +1117,70 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $aColumns = [
-            'd.bannerid AS ad_id',
-            'd.campaignid AS placement_id',
-            'd.status AS status',
-            'd.description AS name',
-            'd.storagetype AS type',
-            'd.contenttype AS contenttype',
-            'd.pluginversion AS pluginversion',
-            'd.filename AS filename',
-            'd.imageurl AS imageurl',
-            'd.htmltemplate AS htmltemplate',
-            'd.htmlcache AS htmlcache',
-            'd.width AS width',
-            'd.height AS height',
-            'd.weight AS weight',
-            'd.seq AS seq',
-            'd.target AS target',
-            'd.url AS url',
-            'd.alt AS alt',
-            'd.statustext AS statustext',
-            'd.bannertext AS bannertext',
-            'd.adserver AS adserver',
-            'd.block AS block_ad',
-            'd.capping AS cap_ad',
-            'd.session_capping AS session_cap_ad',
-            'd.compiledlimitation AS compiledlimitation',
-            'd.acl_plugins AS acl_plugins',
-            'd.prepend AS prepend',
-            'd.append AS append',
-            'd.bannertype AS bannertype',
-            'd.alt_filename AS alt_filename',
-            'd.alt_imageurl AS alt_imageurl',
-            'd.alt_contenttype AS alt_contenttype',
-            'd.parameters AS parameters',
-            'd.transparent AS transparent',
-            'd.ext_bannertype AS ext_bannertype',
-            'd.iframe_friendly AS iframe_friendly',
-            'az.priority AS priority',
-            'az.priority_factor AS priority_factor',
-            'az.to_be_delivered AS to_be_delivered',
-            'm.campaignid AS campaign_id',
-            'm.priority AS campaign_priority',
-            'm.weight AS campaign_weight',
-            'm.companion AS campaign_companion',
-            'm.block AS block_campaign',
-            'm.capping AS cap_campaign',
-            'm.session_capping AS session_cap_campaign',
-            'm.show_capped_no_cookie AS show_capped_no_cookie',
-            'm.clickwindow AS clickwindow',
-            'm.viewwindow AS viewwindow',
-            'cl.clientid AS client_id',
-            'm.expire_time AS expire_time',
-            'm.revenue_type AS revenue_type',
-            'm.ecpm_enabled AS ecpm_enabled',
-            'm.ecpm AS ecpm',
-            'cl.advertiser_limitation AS advertiser_limitation',
-            'a.account_id AS account_id',
-            'a.agencyid AS agency_id'
+        'd.bannerid AS ad_id',
+        'd.campaignid AS placement_id',
+        'd.status AS status',
+        'd.description AS name',
+        'd.storagetype AS type',
+        'd.contenttype AS contenttype',
+        'd.pluginversion AS pluginversion',
+        'd.filename AS filename',
+        'd.imageurl AS imageurl',
+        'd.htmltemplate AS htmltemplate',
+        'd.htmlcache AS htmlcache',
+        'd.width AS width',
+        'd.height AS height',
+        'd.weight AS weight',
+        'd.seq AS seq',
+        'd.target AS target',
+        'd.url AS url',
+        'd.alt AS alt',
+        'd.statustext AS statustext',
+        'd.bannertext AS bannertext',
+        'd.adserver AS adserver',
+        'd.block AS block_ad',
+        'd.capping AS cap_ad',
+        'd.session_capping AS session_cap_ad',
+        'd.compiledlimitation AS compiledlimitation',
+        'd.acl_plugins AS acl_plugins',
+        'd.prepend AS prepend',
+        'd.append AS append',
+        'd.bannertype AS bannertype',
+        'd.alt_filename AS alt_filename',
+        'd.alt_imageurl AS alt_imageurl',
+        'd.alt_contenttype AS alt_contenttype',
+        'd.parameters AS parameters',
+        'd.transparent AS transparent',
+        'd.ext_bannertype AS ext_bannertype',
+        'd.iframe_friendly AS iframe_friendly',
+        'az.priority AS priority',
+        'az.priority_factor AS priority_factor',
+        'az.to_be_delivered AS to_be_delivered',
+        'm.campaignid AS campaign_id',
+        'm.priority AS campaign_priority',
+        'm.weight AS campaign_weight',
+        'm.companion AS campaign_companion',
+        'm.block AS block_campaign',
+        'm.capping AS cap_campaign',
+        'm.session_capping AS session_cap_campaign',
+        'm.show_capped_no_cookie AS show_capped_no_cookie',
+        'm.clickwindow AS clickwindow',
+        'm.viewwindow AS viewwindow',
+        'cl.clientid AS client_id',
+        'm.expire_time AS expire_time',
+        'm.revenue_type AS revenue_type',
+        'm.ecpm_enabled AS ecpm_enabled',
+        'm.ecpm AS ecpm',
+        'cl.advertiser_limitation AS advertiser_limitation',
+        'a.account_id AS account_id',
+        'a.agencyid AS agency_id',
     ];
 
     $aTables = [
         "" . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['banners']) . " AS d",
         "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['campaigns']) . " AS m ON (d.campaignid = m.campaignid) ",
         "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['clients']) . " AS cl ON (m.clientid = cl.clientid) ",
-        "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc']) . " AS az ON (d.bannerid = az.ad_id)"
+        "JOIN " . OX_escapeIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc']) . " AS az ON (d.bannerid = az.ad_id)",
     ];
     $select = "
       az.zone_id = 0
@@ -1202,10 +1202,10 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
         $part_arrayCount = count($part_array);
         for ($k = 0; $k < $part_arrayCount; $k++) {
             // Process switches
-            if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_') {
+            if (str_starts_with($part_array[$k], '+') || str_starts_with($part_array[$k], '_')) {
                 $operator = 'AND';
                 $part_array[$k] = substr($part_array[$k], 1);
-            } elseif (substr($part_array[$k], 0, 1) == '-') {
+            } elseif (str_starts_with($part_array[$k], '-')) {
                 $operator = 'NOT';
                 $part_array[$k] = substr($part_array[$k], 1);
             } else {
@@ -1217,8 +1217,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             if ($part_array[$k] != '' && $part_array[$k] != ' ') {
                 // Banner dimensions, updated to support 2.3-only size keyword
                 if (preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m)) {
-                    $width = (int)$m[1];
-                    $height = (int)$m[2];
+                    $width = (int) $m[1];
+                    $height = (int) $m[2];
 
                     if ($operator == 'OR') {
                         $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
@@ -1233,9 +1233,9 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Banner Width
                 elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1275,9 +1275,9 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Banner Height
                 elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1317,7 +1317,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Banner ID, updated to support 2.3-only adid or ad_id
                 elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $bannerid = (int)$m[1];
+                    $bannerid = (int) $m[1];
 
                     if ($bannerid) {
                         if ($operator == 'OR') {
@@ -1334,7 +1334,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 
                 // Campaign ID
                 elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $campaignid = (int)$m[1];
+                    $campaignid = (int) $m[1];
 
                     if ($campaignid) {
                         if ($operator == 'OR') {
@@ -1350,7 +1350,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 }
 
                 // Format
-                elseif (substr($part_array[$k], 0, 7) == 'format:') {
+                elseif (str_starts_with($part_array[$k], 'format:')) {
                     $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
 
                     if (!empty($format)) {
@@ -1438,41 +1438,41 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $aColumns = [
-            'd.bannerid AS ad_id',
-            'd.campaignid AS placement_id',
-            'd.status AS status',
-            'd.storagetype AS type',
-            'd.contenttype AS contenttype',
-            'd.weight AS weight',
-            'd.width AS width',
-            'd.ext_bannertype AS ext_bannertype',
-            'd.height AS height',
-            'd.adserver AS adserver',
-            'd.block AS block_ad',
-            'd.capping AS cap_ad',
-            'd.session_capping AS session_cap_ad',
-            'd.compiledlimitation AS compiledlimitation',
-            'd.acl_plugins AS acl_plugins',
-            'd.alt_filename AS alt_filename',
-            'az.priority AS priority',
-            'az.priority_factor AS priority_factor',
-            'az.to_be_delivered AS to_be_delivered',
-            'm.campaignid AS campaign_id',
-            'm.priority AS campaign_priority',
-            'm.weight AS campaign_weight',
-            'm.companion AS campaign_companion',
-            'm.block AS block_campaign',
-            'm.capping AS cap_campaign',
-            'm.session_capping AS session_cap_campaign',
-            'm.show_capped_no_cookie AS show_capped_no_cookie',
-            'cl.clientid AS client_id',
-            'm.expire_time AS expire_time',
-            'm.revenue_type AS revenue_type',
-            'm.ecpm_enabled AS ecpm_enabled',
-            'm.ecpm AS ecpm',
-            'ct.status AS tracker_status',
-            OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:") . " AS html_ssl_unsafe",
-            OX_Dal_Delivery_regex("d.imageurl", "^http:") . " AS url_ssl_unsafe",
+        'd.bannerid AS ad_id',
+        'd.campaignid AS placement_id',
+        'd.status AS status',
+        'd.storagetype AS type',
+        'd.contenttype AS contenttype',
+        'd.weight AS weight',
+        'd.width AS width',
+        'd.ext_bannertype AS ext_bannertype',
+        'd.height AS height',
+        'd.adserver AS adserver',
+        'd.block AS block_ad',
+        'd.capping AS cap_ad',
+        'd.session_capping AS session_cap_ad',
+        'd.compiledlimitation AS compiledlimitation',
+        'd.acl_plugins AS acl_plugins',
+        'd.alt_filename AS alt_filename',
+        'az.priority AS priority',
+        'az.priority_factor AS priority_factor',
+        'az.to_be_delivered AS to_be_delivered',
+        'm.campaignid AS campaign_id',
+        'm.priority AS campaign_priority',
+        'm.weight AS campaign_weight',
+        'm.companion AS campaign_companion',
+        'm.block AS block_campaign',
+        'm.capping AS cap_campaign',
+        'm.session_capping AS session_cap_campaign',
+        'm.show_capped_no_cookie AS show_capped_no_cookie',
+        'cl.clientid AS client_id',
+        'm.expire_time AS expire_time',
+        'm.revenue_type AS revenue_type',
+        'm.ecpm_enabled AS ecpm_enabled',
+        'm.ecpm AS ecpm',
+        'ct.status AS tracker_status',
+        OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:") . " AS html_ssl_unsafe",
+        OX_Dal_Delivery_regex("d.imageurl", "^http:") . " AS url_ssl_unsafe",
     ];
 
     $aTables = [
@@ -1500,10 +1500,10 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
         $part_arrayCount = count($part_array);
         for ($k = 0; $k < $part_arrayCount; $k++) {
             // Process switches
-            if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_') {
+            if (str_starts_with($part_array[$k], '+') || str_starts_with($part_array[$k], '_')) {
                 $operator = 'AND';
                 $part_array[$k] = substr($part_array[$k], 1);
-            } elseif (substr($part_array[$k], 0, 1) == '-') {
+            } elseif (str_starts_with($part_array[$k], '-')) {
                 $operator = 'NOT';
                 $part_array[$k] = substr($part_array[$k], 1);
             } else {
@@ -1515,8 +1515,8 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             if ($part_array[$k] != '' && $part_array[$k] != ' ') {
                 // Banner dimensions, updated to support 2.3-only size keyword
                 if (preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m)) {
-                    $width = (int)$m[1];
-                    $height = (int)$m[2];
+                    $width = (int) $m[1];
+                    $height = (int) $m[2];
 
                     if ($operator == 'OR') {
                         $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
@@ -1531,9 +1531,9 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Banner Width
                 elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1573,9 +1573,9 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Banner Height
                 elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m)) {
-                    $min = (int)$m[1];
+                    $min = (int) $m[1];
                     $range = !empty($m[2]);
-                    $max = (int)$m[3];
+                    $max = (int) $m[3];
 
                     if (!$range && $min) {
                         // Single value
@@ -1615,7 +1615,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Banner ID, updated to support 2.3-only adid or ad_id
                 elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $bannerid = (int)$m[1];
+                    $bannerid = (int) $m[1];
 
                     if ($bannerid) {
                         if ($operator == 'OR') {
@@ -1632,7 +1632,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
 
                 // Campaign ID
                 elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m)) {
-                    $campaignid = (int)$m[1];
+                    $campaignid = (int) $m[1];
 
                     if ($campaignid) {
                         if ($operator == 'OR') {
@@ -1648,7 +1648,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                 }
 
                 // Format
-                elseif (substr($part_array[$k], 0, 7) == 'format:') {
+                elseif (str_starts_with($part_array[$k], 'format:')) {
                     $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
 
                     if (!empty($format)) {
@@ -1812,7 +1812,7 @@ function _getTotalPrioritiesByCP($aAdsByCP, $includeBlank = true)
         foreach ($aAds as $key => $aAd) {
             // MPE assigne a certain amount of priority to this banner,
             // remove it from the blank priority
-            $blank_priority -= (float)$aAd['priority'];
+            $blank_priority -= (float) $aAd['priority'];
             $priority = $aAd['to_be_delivered'] ? $aAd['priority'] * $aAd['priority_factor'] : 0.00001;
             // Add the calculated priority number to the total for this
             // campaign priority level.

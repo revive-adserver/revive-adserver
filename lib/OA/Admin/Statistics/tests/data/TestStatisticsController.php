@@ -16,17 +16,19 @@ class OA_Admin_Statistics_Test extends OA_Admin_Statistics_Common
 {
     public $aPlugins;
 
+    public function start() {}
+
+    public function _isEmptyResultArray() {}
+
+    public function showNoStatsString() {}
+
     public function __construct($aParams)
     {
         $this->aPlugins = [];
         parent::__construct($aParams);
     }
 
-    public function _loadPlugins()
-    {
-    }
+    public function _loadPlugins() {}
 
-    public function _checkStatsAccuracy()
-    {
-    }
+    public function _checkStatsAccuracy() {}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<plugin>
+    <name>apVideo</name>
+    <displayName>Enhanced Video Ads Plugin</displayName>
+    <creationDate>2024-06-28</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Enhanced Video Ads Plugin</description>
+    <version>1.7.7</version>
+    <type>extension</type>
+
+    <install>
+
+        <files>
+            <file path="{PLUGINPATH}">apVideo.readme.txt</file>
+        </files>
+
+        <contents>
+            <group name="apVideo">1</group>
+            <group name="apVideoUI">2</group>
+        </contents>
+
+    </install>
+
+</plugin>

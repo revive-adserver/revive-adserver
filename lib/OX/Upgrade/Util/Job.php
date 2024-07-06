@@ -76,7 +76,7 @@ class OX_Upgrade_Util_Job
     /**
      * Log errors to error log
      *
-     * @param string $result result array (should contains name, type, status and errors fields)
+     * @param array $result should contains name, type, status and errors fields
      * @param string $message error message
      */
     public static function logError(&$result, $message)

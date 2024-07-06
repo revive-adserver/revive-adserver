@@ -64,7 +64,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $oCheckModel = new SystemCheckModel(
             $aResult,
             $aSection['hasError'],
-            $aSection['hasWarning']
+            $aSection['hasWarning'],
         );
 
         return $oCheckModel;
@@ -109,7 +109,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'name' => 'timezone',
             'value' => $timezone,
             'hasWarning' => $timezoneErr,
-            'warnings' => $timezoneErr ? [$GLOBALS['strTimezoneLocal']] : null
+            'warnings' => $timezoneErr ? [$GLOBALS['strTimezoneLocal']] : null,
         ];
 
         // Memory limit
@@ -126,13 +126,6 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'error' => $aEnvPhp['error']['memory_limit'] ?? false,
         ];
 
-        // Safe mode, magic quotes, register_argc_argv
-        $aSection['checks']['safe_mode'] = $this->buildCheckEntry('safe_mode', $aEnvPhp, 0, 'OFF', 'ON');
-        $aSection['checks']['register_argc_argv'] = $this->buildCheckEntry('register_argc_argv', $aEnvPhp, 0, 'OFF', 'ON');
-        if ($aEnvPhp['actual']['register_argc_argv'] == 0) {
-            $aSection['checks']['register_argc_argv']['warning'] = $GLOBALS['strWarningRegisterArgcArv'];
-        }
-
         // PHP configuration's file_uploads value
         $aSection['checks']['file_uploads'] = $this->buildCheckEntry('file_uploads', $aEnvPhp, 0, 'OFF', 'ON');
 
@@ -143,9 +136,6 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection['checks']['xml'] = $this->buildExtensionCheckEntry('xml', $aEnvPhp);
         $aSection['checks']['zip'] = $this->buildExtensionCheckEntry('zip', $aEnvPhp);
         $aSection['checks']['zlib'] = $this->buildExtensionCheckEntry('zlib', $aEnvPhp);
-
-        // Disabled mbstring function overloading
-        $aSection['checks']['mbstring.func_overload'] = $this->buildCheckEntry('mbstring.func_overload', $aEnvPhp, true, 'NOT OK', 'OK');
 
         // At least one of the required database extensions are loaded
         $aSection['checks']['mysqli'] = $this->buildExtensionCheckEntry('mysqli', $aEnvPhp);
@@ -165,7 +155,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
                 'name' => $aVal['file'],
                 'value' => $aVal['result'],
                 'errors' => empty($aVal['message']) ? null : [$aVal['message']],
-                'hasError' => $aVal['error']
+                'hasError' => $aVal['error'],
             ];
         }
         $aSection = $this->buildCheckSectionMessages($aEnvPerms, $aSection);
@@ -243,11 +233,11 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             $aStatus[] = " $okCount OK";
         }
 
-        $aSection['header'] .= " - " . join(', ', $aStatus);
+        $aSection['header'] .= " - " . implode(', ', $aStatus);
 
-//        echo "<pre>";
-//        var_dump($aSection);
-//        echo "</pre>";
+        //        echo "<pre>";
+        //        var_dump($aSection);
+        //        echo "</pre>";
 
         return $aSection;
     }
@@ -317,7 +307,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'hasError' => !empty($aErrors),
             'errors' => $aErrors,
             'hasInfo' => !empty($aInfos),
-            'infos' => $aInfos
+            'infos' => $aInfos,
         ];
 
         return $aCheck;

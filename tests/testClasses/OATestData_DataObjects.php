@@ -14,46 +14,37 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
 
 /**
+ * A base class for generating test data using DataObjects.
  *
- * @abstract A base class for generating test data using DataObjects
  * @package Test Classes
  * @todo more _insert methods
  */
 class OA_Test_Data_DataObjects extends OA_Test_Data
 {
+    public $doAgency;
+    public $doClients;
+    public $doAffiliates;
+    public $doCampaigns;
+    public $doBanners;
+    public $doZones;
+    public $doAdZoneAssoc;
 
-    var $doAgency;
-    var $doClients;
-    var $doAffiliates;
-    var $doCampaigns;
-    var $doBanners;
-    var $doZones;
-    var $doAdZoneAssoc;
+    public $doAcls;
+    public $doAclsChannel;
+    public $doCampaignsTrackers;
+    public $doChannel;
+    public $doTrackers;
+    public $doVariables;
 
-    var $doAcls;
-    var $doAclsChannel;
-    var $doCampaignsTrackers;
-    var $doChannel;
-    var $doTrackers;
-    var $doVariables;
-
-
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-    }
 
     /**
      * instantiate the dataobjects
      *
      * @return boolean
      */
-    function init()
+    public function init()
     {
-        if (!parent::init())
-        {
+        if (!parent::init()) {
             return false;
         }
         $this->doAgency                     = OA_Dal::factoryDO('agency');
@@ -74,7 +65,6 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $this->doTrackers                   = OA_Dal::factoryDO('trackers');
         $this->doVariables                  = OA_Dal::factoryDO('variables');
         return true;
-
     }
 
     /**
@@ -95,11 +85,9 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
      *
      * @access private
      */
-    function generateTestData($linkAdZone=false)
+    public function generateTestData($linkAdZone = false)
     {
-
-        if (!parent::init())
-        {
+        if (!parent::init()) {
             return false;
         }
 
@@ -176,14 +164,13 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $aZone['height'] = 60;
         $this->aIds['zones'][2] = $this->_insertZones($aZone);
 
-        if ($linkAdZone)
-        {
+        if ($linkAdZone) {
             $this->linkAdZone();
         }
         return true;
     }
 
-    function linkAdZone()
+    public function linkAdZone()
     {
         // Add ad_zone_assoc record
         $aAdZone['ad_id'] = $this->aIds['banners'][1];
@@ -191,7 +178,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         $this->aIds['ad_zone_assoc'][1] = $this->_insertAdZoneAssoc($aAdZone);
     }
 
-    function _insertAgency($aData)
+    public function _insertAgency($aData)
     {
         $this->doAgency->name = 'Test Agency';
         $this->doAgency->contact = 'Test Contact';
@@ -203,7 +190,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doAgency);
     }
 
-    function _insertPreference($aData)
+    public function _insertPreference($aData)
     {
         $this->doPreferences->preference_name = 'Test Preference';
         $this->doPreferences->account_type = 'ADMIN';
@@ -212,7 +199,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doPreferences);
     }
 
-    function _insertAccountPreferenceAssoc($aData)
+    public function _insertAccountPreferenceAssoc($aData)
     {
         $this->doAccount_preference_assoc->value = 'value';
         $this->doAccount_preference_assoc->setFrom($aData);
@@ -227,23 +214,23 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doAccount_preference_assoc);
     }
 
-    function _insertClients($aData)
+    public function _insertClients($aData)
     {
-        $this->doClients->agencyid=0;
-        $this->doClients->clientname='Test Advertiser';
-        $this->doClients->contact='Test Contact';
-        $this->doClients->email='test1@example.com';
-        $this->doClients->report='t';
-        $this->doClients->reportinterval=7;
-        $this->doClients->reportlastdate='2004-11-26';
-        $this->doClients->reportdeactivate='t';
-        $this->doClients->clientid='';
+        $this->doClients->agencyid = 0;
+        $this->doClients->clientname = 'Test Advertiser';
+        $this->doClients->contact = 'Test Contact';
+        $this->doClients->email = 'test1@example.com';
+        $this->doClients->report = 't';
+        $this->doClients->reportinterval = 7;
+        $this->doClients->reportlastdate = '2004-11-26';
+        $this->doClients->reportdeactivate = 't';
+        $this->doClients->clientid = '';
         $this->doClients->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doClients->setFrom($aData);
         return DataGenerator::generateOne($this->doClients);
     }
 
-    function _insertAffiliates($aData)
+    public function _insertAffiliates($aData)
     {
         $this->doAffiliates->name = 'Test Publisher';
         $this->doAffiliates->mnemonic = 'ABC';
@@ -255,7 +242,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doAffiliates);
     }
 
-    function _insertCampaigns($aData)
+    public function _insertCampaigns($aData)
     {
         $this->doCampaigns->campaignname = 'Test Advertiser - Default Campaign';
         $this->doCampaigns->views = -1;
@@ -274,38 +261,38 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doCampaigns);
     }
 
-    function _insertBanners($aData)
+    public function _insertBanners($aData)
     {
-        $this->doBanners->status=OA_ENTITY_STATUS_RUNNING;
-        $this->doBanners->contenttype='';
-        $this->doBanners->pluginversion=0;
-        $this->doBanners->storagetype='html';
-        $this->doBanners->filename='';
-        $this->doBanners->imageurl='';
-        $this->doBanners->htmltemplate='<h3>Test Banner</h3>';
-        $this->doBanners->htmlcache='<h3>Test Banner</h3>';
-        $this->doBanners->width=0;
-        $this->doBanners->height=0;
-        $this->doBanners->weight=1;
-        $this->doBanners->seq=0;
-        $this->doBanners->target='';
-        $this->doBanners->url='http://example.com/';
-        $this->doBanners->alt='';
-        $this->doBanners->statustext='';
-        $this->doBanners->bannertext='';
-        $this->doBanners->description='Banner';
-        $this->doBanners->adserver='';
-        $this->doBanners->block=0;
-        $this->doBanners->capping=0;
-        $this->doBanners->session_capping=0;
-        $this->doBanners->compiledlimitation='';
-        $this->doBanners->append='';
-        $this->doBanners->appendtype=0;
-        $this->doBanners->bannertype=0;
-        $this->doBanners->alt_filename='';
-        $this->doBanners->alt_imageurl='';
-        $this->doBanners->alt_contenttype='';
-        $this->doBanners->bannerid='t';
+        $this->doBanners->status = OA_ENTITY_STATUS_RUNNING;
+        $this->doBanners->contenttype = '';
+        $this->doBanners->pluginversion = 0;
+        $this->doBanners->storagetype = 'html';
+        $this->doBanners->filename = '';
+        $this->doBanners->imageurl = '';
+        $this->doBanners->htmltemplate = '<h3>Test Banner</h3>';
+        $this->doBanners->htmlcache = '<h3>Test Banner</h3>';
+        $this->doBanners->width = 0;
+        $this->doBanners->height = 0;
+        $this->doBanners->weight = 1;
+        $this->doBanners->seq = 0;
+        $this->doBanners->target = '';
+        $this->doBanners->url = 'http://example.com/';
+        $this->doBanners->alt = '';
+        $this->doBanners->statustext = '';
+        $this->doBanners->bannertext = '';
+        $this->doBanners->description = 'Banner';
+        $this->doBanners->adserver = '';
+        $this->doBanners->block = 0;
+        $this->doBanners->capping = 0;
+        $this->doBanners->session_capping = 0;
+        $this->doBanners->compiledlimitation = '';
+        $this->doBanners->append = '';
+        $this->doBanners->appendtype = 0;
+        $this->doBanners->bannertype = 0;
+        $this->doBanners->alt_filename = '';
+        $this->doBanners->alt_imageurl = '';
+        $this->doBanners->alt_contenttype = '';
+        $this->doBanners->bannerid = 't';
         $this->doBanners->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doBanners->setFrom($aData);
         if (empty($this->doBanners->acls_updated)) {
@@ -314,27 +301,27 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doBanners);
     }
 
-    function _insertZones($aData)
+    public function _insertZones($aData)
     {
-        $this->doZones->description='';
-        $this->doZones->delivery=0;
-        $this->doZones->zonetype=3;
-        $this->doZones->category='';
-        $this->doZones->width=-1;
-        $this->doZones->height=-1;
-        $this->doZones->ad_selection='';
-        $this->doZones->chain='';
-        $this->doZones->prepend='';
-        $this->doZones->append='';
-        $this->doZones->appendtype=0;
-        $this->doZones->inventory_forecast_type=0;
-        $this->doZones->what='';
+        $this->doZones->description = '';
+        $this->doZones->delivery = 0;
+        $this->doZones->zonetype = 3;
+        $this->doZones->category = '';
+        $this->doZones->width = -1;
+        $this->doZones->height = -1;
+        $this->doZones->ad_selection = '';
+        $this->doZones->chain = '';
+        $this->doZones->prepend = '';
+        $this->doZones->append = '';
+        $this->doZones->appendtype = 0;
+        $this->doZones->inventory_forecast_type = 0;
+        $this->doZones->what = '';
         $this->doZones->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doZones->setFrom($aData);
         return DataGenerator::generateOne($this->doZones);
     }
 
-    function _insertAdZoneAssoc($aData)
+    public function _insertAdZoneAssoc($aData)
     {
         $this->doAdZoneAssoc->priority = 0;
         $this->doAdZoneAssoc->link_type = 1;
@@ -344,42 +331,40 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
         return DataGenerator::generateOne($this->doAdZoneAssoc);
     }
 
-    function _insertCampaignsTracker($aData)
+    public function _insertCampaignsTracker($aData)
     {
         $this->doCampaignsTrackers->setFrom($aData);
         return DataGenerator::generateOne($this->doCampaignsTrackers);
     }
 
-    function _insertAcls($aData)
+    public function _insertAcls($aData)
     {
         $this->doAcls->setFrom($aData);
         return DataGenerator::generateOne($this->doAcls);
     }
 
-    function _insertChannel($aData)
+    public function _insertChannel($aData)
     {
         $this->doChannel->acls_updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doChannel->setFrom($aData);
         return DataGenerator::generateOne($this->doChannel);
     }
 
-    function _insertAclsChannel($aData)
+    public function _insertAclsChannel($aData)
     {
         $this->doAclsChannel->setFrom($aData);
         return DataGenerator::generateOne($this->doAclsChannel);
     }
 
-    function _insertTrackers($aData)
+    public function _insertTrackers($aData)
     {
         $this->doTrackers->setFrom($aData);
         return DataGenerator::generateOne($this->doTrackers);
     }
 
-    function _insertVariables($aData)
+    public function _insertVariables($aData)
     {
         $this->doVariables->setFrom($aData);
         return DataGenerator::generateOne($this->doVariables);
     }
 }
-
-?>

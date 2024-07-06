@@ -13,11 +13,11 @@
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
-    // +---------------------------------------+
-    // | generic permission checks             |
-    // |                                       |
-    // | filtering by user type                |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | generic permission checks             |
+// |                                       |
+// | filtering by user type                |
+// +---------------------------------------+
 
 
 function MAX_checkGenericId($id)
@@ -30,18 +30,16 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
     $allowed = false;
     if (MAX_checkGenericId($advertiserId) && MAX_checkGenericId($placementId) && MAX_checkGenericId($adId)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-
             //  determine if there are 1 or more ads
             $allowed = (count(
                 Admin_DA::getAds(
                     [
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId,
-                        'ad_id' => $adId]
-                )
+                        'ad_id' => $adId],
+                ),
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-
             //  determine if there are 1 or more ads
             $allowed = (count(
                 Admin_DA::getAds(
@@ -49,15 +47,15 @@ function MAX_checkAd($advertiserId, $placementId, $adId)
                         'agency_id' => OA_Permission::getAgencyId(),
                         'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId,
-                        'ad_id' => $adId]
-                )
+                        'ad_id' => $adId],
+                ),
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getAds(
                             [  'advertiser_id' => $advertiserId,
-                                    'placement_id' => $placementId,
-                                    'ad_id' => $adId]
+                                'placement_id' => $placementId,
+                                'ad_id' => $adId],
                         ));
         }
     }
@@ -74,7 +72,7 @@ function MAX_checkAdvertiser($advertiserId, $aParams = [])
             $allowed = count(Admin_DA::getAdvertisers(
                 $aParams +
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'advertiser_id' => $advertiserId]
+                    'advertiser_id' => $advertiserId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
@@ -110,7 +108,7 @@ function MAX_checkPublisher($publisherId)
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPublishers(
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'publisher_id' => $publisherId]
+                    'publisher_id' => $publisherId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = ($publisherId == OA_Permission::getEntityId())
@@ -128,21 +126,21 @@ function MAX_checkPlacement($advertiserId, $placementId, $aParams = [])
             $allowed = count(Admin_DA::getPlacements(
                 $aParams +
                 [  'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'placement_id' => $placementId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getPlacements(
                 $aParams +
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'advertiser_id' => $advertiserId,
+                    'placement_id' => $placementId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getPlacements(
                             $aParams +
                 [  'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'placement_id' => $placementId],
                         ));
         }
     }
@@ -156,19 +154,19 @@ function MAX_checkTracker($advertiserId, $trackerId)
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getTrackers(
                 [  'advertiser_id' => $advertiserId,
-                        'tracker_id' => $trackerId]
+                    'tracker_id' => $trackerId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getTrackers(
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'advertiser_id' => $advertiserId,
-                        'tracker_id' => $trackerId]
+                    'advertiser_id' => $advertiserId,
+                    'tracker_id' => $trackerId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $allowed = ($advertiserId == OA_Permission::getEntityId())
                         && count(Admin_DA::getTrackers(
                             [  'advertiser_id' => $advertiserId,
-                        'tracker_id' => $trackerId]
+                                'tracker_id' => $trackerId],
                         ));
         }
     }
@@ -182,19 +180,19 @@ function MAX_checkZone($publisherId, $zoneId)
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getZones(
                 [  'publisher_id' => $publisherId,
-                        'zone_id' => $zoneId]
+                    'zone_id' => $zoneId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getZones(
                 [  'agency_id' => OA_Permission::getAgencyId(),
-                        'publisher_id' => $publisherId,
-                        'zone_id' => $zoneId]
+                    'publisher_id' => $publisherId,
+                    'zone_id' => $zoneId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = ($publisherId == OA_Permission::getEntityId())
                         && count(Admin_DA::getZones(
                             [  'publisher_id' => $publisherId,
-                        'zone_id' => $zoneId]
+                                'zone_id' => $zoneId],
                         ));
         }
     }
@@ -223,12 +221,12 @@ function MAX_checkChannel($agencyId, $channelId)
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $allowed = count(Admin_DA::getChannels(
                 [ 'channel_id' => $channelId,
-                       'channel_type' => 'admin']
+                    'channel_type' => 'admin'],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $allowed = count(Admin_DA::getChannels(
                 [  'agency_id' => $agencyId,
-                        'channel_id' => $channelId]
+                    'channel_id' => $channelId],
             ));
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $allowed = false;
@@ -248,7 +246,7 @@ function MAX_getPlacementName($aPlacement, $length = null)
         $name = '';
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -270,7 +268,7 @@ function MAX_getAdName($description, $alt = null, $length = null, $anonymous = f
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -289,7 +287,7 @@ function MAX_getZoneName($zoneName, $length = null, $anonymous = false, $id = nu
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -308,7 +306,7 @@ function MAX_getPublisherName($publisherName, $length = null, $anonymous = false
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -327,7 +325,7 @@ function MAX_getTrackerName($trackerName, $length = null, $anonymous = false, $i
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -346,7 +344,7 @@ function MAX_getAdvertiserName($advertiserName, $length = null, $anonymous = fal
         }
     }
 
-    if (is_numeric($length) && sizeof($name) > $length) {
+    if (is_numeric($length) && count($name) > $length) {
         $name = substr($name, 0, $length);
     }
 
@@ -578,9 +576,9 @@ function MAX_commonUnslashArray($a)
 }
 
 
-    // +---------------------------------------+
-    // | array utilties                        |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | array utilties                        |
+// +---------------------------------------+
 
 function MAX_getStoredArray($key, $default)
 {
@@ -597,9 +595,9 @@ function MAX_getStoredArray($key, $default)
     return $value;
 }
 
-    // +---------------------------------------+
-    // | tree node state handling              |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | tree node state handling              |
+// +---------------------------------------+
 function MAX_adjustNodes(&$aNodes, $expand, $collapse)
 {
     if (!empty($expand)) {
@@ -641,9 +639,9 @@ function MAX_isExpanded($id, $expand, &$aNodes, $prefix)
     return $isExpanded;
 }
 
-    // +---------------------------------------+
-    // | adjustments                           |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | adjustments                           |
+// +---------------------------------------+
 function MAX_addDefaultPlacementZones($adId, $placementId)
 {
     $aAdZones = Admin_DA::getAdZones(['ad_id' => $adId], true, 'zone_id');
@@ -668,11 +666,9 @@ function MAX_adjustAdZones($adId)
         foreach ($aZones as $zoneId => $aZone) {
             if (!MAX_checkAdZoneValid($aZone, $aAd)) {
                 Admin_DA::deleteAdZones(['zone_id' => $zoneId, 'ad_id' => $adId]);
-            } else {
+            } elseif (isset($aPlacementZones[$zoneId])) {
                 // if ad's campaign is linked to this zone, link ad to zone
-                if (isset($aPlacementZones[$zoneId])) {
-                    Admin_DA::addAdZone(['zone_id' => $zoneId, 'ad_id' => $adId]);
-                }
+                Admin_DA::addAdZone(['zone_id' => $zoneId, 'ad_id' => $adId]);
             }
         }
     }
@@ -739,9 +735,9 @@ function MAX_getLinkedAdParams($zoneId)
     return $aParams;
 }
 
-    // +---------------------------------------+
-    // | file handling                         |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | file handling                         |
+// +---------------------------------------+
 /* REDUNDANT
 function MAX_removeFile($adId)
 {

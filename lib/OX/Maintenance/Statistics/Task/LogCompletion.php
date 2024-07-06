@@ -24,22 +24,11 @@ require_once OX_PATH . '/lib/OX.php';
  * The MSE process task class that logs the completion of MSE process
  * to the database.
  *
- * @abstract
  * @package    OpenXMaintenance
  * @subpackage Statistics
  */
 class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statistics_Task
 {
-    /**
-     * The constructor method.
-     *
-     * @return OX_Maintenance_Statistics_Task_LogCompletion
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * The implementation of the OA_Task::run() method that performs
      * the required task of logging the completion of the MSE process.
@@ -68,7 +57,6 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
 
         // Determine the type of MSE completion logging required
         if (($this->oController->updateFinal) && ($this->oController->updateIntermediate)) {
-
             // Need to log that both the intermediate and final tables were updated;
             // however, need to ensure that we log the correct "updated to" times
             $oUpdateIntermediateToDate = new Date();
@@ -77,7 +65,6 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
             $oUpdateFinalToDate->copy($this->oController->oUpdateFinalToDate);
 
             if ($oUpdateIntermediateToDate->equals($oUpdateFinalToDate)) {
-
                 // The dates are the same, log info with one row
                 $doLog_maintenance_statistics = OA_Dal::factoryDO('log_maintenance_statistics');
                 $doLog_maintenance_statistics->start_run = $oNowDate->format('%Y-%m-%d %H:%M:%S');
@@ -87,7 +74,6 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
                 $doLog_maintenance_statistics->updated_to = $this->oController->oUpdateIntermediateToDate->format('%Y-%m-%d %H:%M:%S');
                 $doLog_maintenance_statistics->insert();
             } else {
-
                 // The dates are not the same, log info with two rows
                 $doLog_maintenance_statistics = OA_Dal::factoryDO('log_maintenance_statistics');
                 $doLog_maintenance_statistics->start_run = $oNowDate->format('%Y-%m-%d %H:%M:%S');

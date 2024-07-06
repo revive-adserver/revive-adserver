@@ -81,7 +81,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
         // Add standard page parameters
         $this->aPageParams = [
             'affiliateid' => $publisherId,
-            'zoneid' => $zoneId
+            'zoneid' => $zoneId,
         ];
 
         // Add the cross-entity parameters
@@ -131,18 +131,18 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid=' . $publisherId,
-                'iconAffiliate'
+                'iconAffiliate',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid=' . $publisherId . '&zoneid=' . $zoneId,
-            'iconZone'
+            'iconZone',
         );
 
         // Prepare the data for display by output() method
         $aParams = [
-            'zone_id' => $zoneId
+            'zone_id' => $zoneId,
         ];
         if (!empty($adId)) {
             $aParams['ad_id'] = $adId;

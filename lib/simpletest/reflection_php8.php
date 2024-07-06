@@ -276,6 +276,20 @@ class SimpleReflection
         return $signatures;
     }
 
+    public function _getReturnTypeSignature(string $method): string
+    {
+        $returnType = (new ReflectionMethod($this->_interface, $method))->getReturnType();
+        if (!$returnType instanceof ReflectionType) {
+            return '';
+        }
+
+        if ('never' === (string) $returnType) {
+            throw new \InvalidArgumentException('Methods with "never" return type cannot be mocked');
+        }
+
+        return (string) $returnType;
+    }
+
     /**
      *    The SPL library has problems with the
      *    Reflection library. In particular, you can

@@ -40,9 +40,9 @@ class DataObjects_Banner_vast_element extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'vast_element_type' => '',
-                'vast_thirdparty_impression' => '',
-                ];
+        'vast_element_type' => '',
+        'vast_thirdparty_impression' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

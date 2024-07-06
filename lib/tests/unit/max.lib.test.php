@@ -23,14 +23,6 @@ class test_MAX extends UnitTestCase
     /** @var int */
     var $original_server_port;
 
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function setUp()
     {
         $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;

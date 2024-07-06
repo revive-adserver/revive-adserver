@@ -16,13 +16,9 @@ class script_tables_core_parent
     public $oDbh;
     public $className;
 
-    public function __construct()
-    {
-    }
-
     public function init($aParams)
     {
-        $this->className = get_class($this);
+        $this->className = static::class;
         $this->oDBUpgrade = $aParams[0];
         $this->_log('****************************************');
         $this->oDbh = OA_DB::singleton(OA_DB::getDsn());

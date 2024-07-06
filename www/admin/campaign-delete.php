@@ -54,7 +54,7 @@ if (!empty($campaignid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strCampaignHasBeenDeleted'], [
-            htmlspecialchars($aCampaign['campaignname'])
+            htmlspecialchars($aCampaign['campaignname']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strCampaignsHaveBeenDeleted']);

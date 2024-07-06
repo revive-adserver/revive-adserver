@@ -25,19 +25,20 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  * Always use the factory method to instantiate fields -- it will create
  * the right subclass for you.
  *
- * @abstract
  * @package    Max
  */
-class Admin_UI_Field
+abstract class Admin_UI_Field
 {
-    /* @var string */
+    /** @var string */
     public $_name;
-    /* @var string */
+    /** @var string */
     public $_value;
-    /* @var integer */
+    /** @var integer */
     public $_tabIndex;
-    /* @var integer */
+    /** @var integer */
     public $_filter;
+    /** @var array */
+    protected $coreParams;
 
     public function __construct()
     {
@@ -61,14 +62,14 @@ class Admin_UI_Field
 
     public function setFilter($filter)
     {
-        switch ($filter) {
-            case 'tracker-present': $this->_filter = FILTER_TRACKER_PRESENT; break;
-            case 'zone-inventory-domain-page-indexed': $this->_filter = FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED; break;
-            case 'zone-inventory-country-indexed': $this->_filter = FILTER_ZONE_INVENTORY_COUNTRY_INDEXED; break;
-            case 'zone-inventory-source-indexed': $this->_filter = FILTER_ZONE_INVENTORY_SOURCE_INDEXED; break;
-            case 'zone-inventory-channel-indexed': $this->_filter = FILTER_ZONE_INVENTORY_CHANNEL_INDEXED; break;
-            default: $this->_filter = FILTER_NONE; break;
-        }
+        $this->_filter = match ($filter) {
+            'tracker-present' => FILTER_TRACKER_PRESENT,
+            'zone-inventory-domain-page-indexed' => FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED,
+            'zone-inventory-country-indexed' => FILTER_ZONE_INVENTORY_COUNTRY_INDEXED,
+            'zone-inventory-source-indexed' => FILTER_ZONE_INVENTORY_SOURCE_INDEXED,
+            'zone-inventory-channel-indexed' => FILTER_ZONE_INVENTORY_CHANNEL_INDEXED,
+            default => FILTER_NONE,
+        };
     }
     public function setValueFromArray($aFieldValues)
     {
@@ -89,22 +90,12 @@ class Admin_UI_Field
 
             $mult = $order ? 1 : -1;
 
-            usort($array, function ($a, $b) use ($mult, $type, $key) {
-                switch ($type) {
-                    case 1: // Case insensitive natural.
-                        return $mult * strcasecmp($a[$key], $b[$key]);
-
-                    case 2: // Numeric.
-                        return $a[$key] == $b[$key] ? 0 : $mult * ($a[$key] < $b[$key] ? -1 : 1);
-
-                    case 3: // Case sensitive string.
-                        return $mult * strcmp($a[$key], $b[$key]);
-
-                    case 4: // Case insensitive string.
-                        return $mult * strcasecmp($a[$key], $b[$key]);
-                }
-
-                return $mult * strnatcmp($a[$key], $b[$key]);
+            usort($array, fn($a, $b) => match ($type) {
+                1 => $mult * strcasecmp($a[$key], $b[$key]),
+                2 => $a[$key] == $b[$key] ? 0 : $mult * ($a[$key] < $b[$key] ? -1 : 1),
+                3 => $mult * strcmp($a[$key], $b[$key]),
+                4 => $mult * strcasecmp($a[$key], $b[$key]),
+                default => $mult * strnatcmp($a[$key], $b[$key]),
             });
         }
 

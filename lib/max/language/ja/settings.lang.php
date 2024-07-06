@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "続行する »";
 $GLOBALS['strBtnRecover'] = "復旧する »";
 $GLOBALS['strBtnAgree'] = "承認する »";
 $GLOBALS['strBtnRetry'] = "再試行する";
-$GLOBALS['strWarningRegisterArgcArv'] = "PHPの設定値[register_argc_argv]を'on'にしてください";
 $GLOBALS['strTablesPrefix'] = "テーブルプリフィックス";
 $GLOBALS['strTablesType'] = "テーブルタイプ";
 

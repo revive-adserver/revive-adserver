@@ -17,7 +17,7 @@
 
 // Require the initialisation file
 // Done differently from elsewhere so that it works in CLI MacOS X
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../init.php';
 
 // Required files
@@ -29,5 +29,3 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Distributed.php';
 require_once OX_PATH . '/lib/OX.php';
 
 OX_Maintenance_Distributed::run();
-
-?>

@@ -35,6 +35,8 @@ foreach ($files as $file) {
 
     if ('plugins' === $path[2]) {
         $poFilePath = "plugins_repo/{$path[1]}/plugins/etc/{$path[4]}/_lang/po/en.po";
+    } elseif ('www' === $path[2] && 'admin' === $path[3] && 'plugins' === $path[4]) {
+        $poFilePath = "plugins_repo/{$path[1]}/plugins/etc/{$path[5]}/_lang/po/en.po";
     } else {
         die("Unsupported path: " . $file->getPathname() . "\n");
     }
@@ -47,8 +49,8 @@ foreach ($files as $file) {
         $trans[$poFilePath] = [];
     }
 
-    foreach (explode("\n", $contents) as $n => $line) {
-        if (preg_match($preg, $line, $m) || preg_match($pregName, $line, $m)) {
+    foreach (explode("\n", $contents) as $n => $ref) {
+        if (preg_match($preg, $ref, $m) || preg_match($pregName, $ref, $m)) {
             if (!isset($trans[$poFilePath][$m[2]])) {
                 $trans[$poFilePath][$m[2]] = [];
             }
@@ -77,11 +79,28 @@ msgstr ""
 
 EOF;
 
-    foreach ($msgs as $msgid => $lines) {
+    // Sort references by file path and line number
+    $msgs = array_map(function ($references) {
+        usort($references, function ($a, $b) {
+            [$a_file, $a_line] = explode(':', $a);
+            [$b_file, $b_line] = explode(':', $b);
+            return $a_file !== $b_file ? $a_file <=> $b_file : $a_line <=> $b_line;
+        });
+        return $references;
+    }, $msgs);
+
+    // Sort messages by first reference
+    uasort($msgs, function ($a, $b) {
+        [$a_file, $a_line] = explode(':', $a[0]);
+        [$b_file, $b_line] = explode(':', $b[0]);
+        return $a_file !== $b_file ? $a_file <=> $b_file : $a_line <=> $b_line;
+    });
+
+    foreach ($msgs as $msgid => $references) {
         $po .= "\n";
 
-        foreach ($lines as $line) {
-            $po .= "#: {$line}\n";
+        foreach ($references as $ref) {
+            $po .= "#: {$ref}\n";
         }
 
         $id = str_replace('\\n', "\\n\"\n\"", addcslashes($msgid, "\0..\37\"\\"));

@@ -13,8 +13,8 @@ ini_set('include_path', MAX_PEAR . PATH_SEPARATOR
                         . ini_get('include_path'));
 
 $error_levels = [  E_USER_NOTICE => 'NOTICE',
-                        E_USER_WARNING => 'WARNING',
-                        E_USER_ERROR => 'ERROR'];
+    E_USER_WARNING => 'WARNING',
+    E_USER_ERROR => 'ERROR'];
 
 // our very own pear class
 // empty, but allows us to slot an alternative error handler if we want to
@@ -43,7 +43,7 @@ function handle_error($error_obj)
     global $logger, $dsn, $mdb;
     global $error_message;
     $error_message = $error_obj->getUserInfo();
-//    $logger->debug($error_obj->toString());
+    //    $logger->debug($error_obj->toString());
     $logger->debug('MESSAGE: ' . $error_obj->getMessage());
     $logger->debug('INFO: ' . $error_obj->getUserinfo());
     $logger->debug('CODE: ' . $error_obj->getCode());

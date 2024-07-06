@@ -21,6 +21,8 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
+OX_Delivery_Common_sendPreconnectHeaders();
+
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(['block', 'blockcampaign', 'exclude', 'mmm_fo', 'q']);
 
@@ -35,7 +37,7 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
     $exclude = explode(',', trim($exclude, ','));
     for ($i = 0; $i < count($exclude); $i++) {
         // Avoid adding empty entries and duplicates
-        if ($exclude[$i] != '' && array_search(["!=" => $exclude[$i]], $context) === false) {
+        if ($exclude[$i] != '' && !in_array(["!=" => $exclude[$i]], $context)) {
             $context[] = ["!=" => $exclude[$i]];
         }
     }
@@ -72,7 +74,7 @@ if (!empty($output['context'])) {
 }
 
 // Append context, if any
-$output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>" : '';
+$output['html'] .= (empty($context)) ? '' : "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>";
 
 MAX_cookieFlush();
 

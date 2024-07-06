@@ -115,25 +115,23 @@ class Test_OA_Creative_File extends UnitTestCase
      * @todo: find a way to unit/integration test HTTP uploads
      *
      */
-    public function testFactoryUploadedFile()
-    {
-    }
+    public function testFactoryUploadedFile() {}
 
     public function testStaticGetContentTypeByExtension()
     {
         $this->assertEqual(
             'jpeg',
-            OA_Creative_File::staticGetContentTypeByExtension('file1.jpg')
+            OA_Creative_File::staticGetContentTypeByExtension('file1.jpg'),
         );
         $this->assertEqual(
             'webp',
-            OA_Creative_File::staticGetContentTypeByExtension('file1.webp')
+            OA_Creative_File::staticGetContentTypeByExtension('file1.webp'),
         );
         $this->assertEqual(
             'png',
             OA_Creative_File::staticGetContentTypeByExtension(
-                'http://www.example.com/files/banner.png'
-            )
+                'http://www.example.com/files/banner.png',
+            ),
         );
         $file = new OA_Creative_File('file1.jpg');
         $this->assertEqual('jpeg', $file->getContentTypeByExtension());

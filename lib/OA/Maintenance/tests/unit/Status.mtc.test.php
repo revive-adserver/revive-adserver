@@ -20,9 +20,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Status.php';
  */
 class Test_OA_Maintenenace_Status extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         $oServiceLocator = &OA_ServiceLocator::instance();
@@ -93,13 +90,13 @@ class Test_OA_Maintenenace_Status extends UnitTestCase
         $oMaintStatus = $this->getInstance();
         $this->assertEqual(
             $oMaintStatus->isScheduledMaintenanceRunning,
-            (bool)$isScheduledMaintenanceRunning,
-            ($isScheduledMaintenanceRunning ? 'True' : 'False') . " was expected for scheduled mainteanance on line {$aBt[0]['line']}"
+            (bool) $isScheduledMaintenanceRunning,
+            ($isScheduledMaintenanceRunning ? 'True' : 'False') . " was expected for scheduled mainteanance on line {$aBt[0]['line']}",
         );
         $this->assertEqual(
             $oMaintStatus->isAutoMaintenanceRunning,
-            (bool)$isAutoMaintenanceRunning,
-            ($isAutoMaintenanceRunning ? 'True' : 'False') . " was expected for automatic mainteanance on line {$aBt[0]['line']}"
+            (bool) $isAutoMaintenanceRunning,
+            ($isAutoMaintenanceRunning ? 'True' : 'False') . " was expected for automatic mainteanance on line {$aBt[0]['line']}",
         );
     }
 

@@ -25,14 +25,6 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     public $testpathPluginsAdmin = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
 
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test__checkOpenXCompatibility()
     {
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
@@ -77,15 +69,15 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     public function test_registerPreferences()
     {
         $aPreferences[0] = [
-                                 'name' => 'testpref',
-                                 'type' => 'text',
-                                 'label' => 'Test Pref',
-                                 'required' => '1',
-                                 'size' => 12,
-                                 'visible' => 1,
-                                 'permission' => 'ADMIN',
-                                 'value' => 'testval'
-                                ];
+            'name' => 'testpref',
+            'type' => 'text',
+            'label' => 'Test Pref',
+            'required' => '1',
+            'size' => 12,
+            'visible' => 1,
+            'permission' => 'ADMIN',
+            'value' => 'testval',
+        ];
 
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
         $oPluginManager->_registerPreferences('testPlugin', $aPreferences);
@@ -99,14 +91,14 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     public function test_registerSettings()
     {
         $aSettings[0] = [
-                                 'key' => 'testset1',
-                                 'type' => 'text',
-                                 'label' => 'Test Setting',
-                                 'required' => '1',
-                                 'size' => 12,
-                                 'visible' => 1,
-                                 'value' => 'testval1'
-                                ];
+            'key' => 'testset1',
+            'type' => 'text',
+            'label' => 'Test Setting',
+            'required' => '1',
+            'size' => 12,
+            'visible' => 1,
+            'value' => 'testval1',
+        ];
 
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
         $oPluginManager->_registerSettings('testPlugin', $aSettings);
@@ -124,50 +116,50 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
 
         $aMenus[OA_ACCOUNT_ADMIN] = [
-                                            0 => [
-                                                    'insertafter' => "999",
-                                                    ]
-                                           ];
+            0 => [
+                'insertafter' => "999",
+            ],
+        ];
         $this->assertFalse($oPluginManager->_checkMenus('testPlugin', $aMenus));
 
         $aMenus[OA_ACCOUNT_ADMIN] = [
-                                            0 => [
-                                                    'insertbefore' => "999",
-                                                    ]
-                                           ];
+            0 => [
+                'insertbefore' => "999",
+            ],
+        ];
         $this->assertFalse($oPluginManager->_checkMenus('testPlugin', $aMenus));
         $aMenus[OA_ACCOUNT_ADMIN] = [
-                                            0 => [
-                                                    'addto' => "999",
-                                                    ]
-                                           ];
+            0 => [
+                'addto' => "999",
+            ],
+        ];
         $this->assertFalse($oPluginManager->_checkMenus('testPlugin', $aMenus));
 
         $aMenus[OA_ACCOUNT_ADMIN] = [
-                                            0 => [
-                                                    'add' => "test-plugin-root",
-                                                    'link' => "plugins/testPlugin/testPlugin.php",
-                                                    'value' => 'Test Plugin',
-                                                    ],
-                                            1 => [
-                                                    'addto' => "test-plugin-root",
-                                                    'index' => "test-plugin-1",
-                                                    'link' => "plugins/testPlugin/testPlugin-page.php?action=1",
-                                                    'value' => 'Test Menu 1',
-                                                    ],
-                                            2 => [
-                                                    'insertafter' => "test-plugin-1",
-                                                    'index' => "test-plugin-3",
-                                                    'link' => "plugins/testPlugin/testPlugin.php?action=3",
-                                                    'value' => 'Test Menu 3',
-                                                    ],
-                                            3 => [
-                                                    'insertbefore' => "test-plugin-3",
-                                                    'index' => "test-plugin-2",
-                                                    'link' => "plugins/testPlugin/testPlugin.php?action=2",
-                                                    'value' => 'Test Menu 2',
-                                                    ],
-                                           ];
+            0 => [
+                'add' => "test-plugin-root",
+                'link' => "plugins/testPlugin/testPlugin.php",
+                'value' => 'Test Plugin',
+            ],
+            1 => [
+                'addto' => "test-plugin-root",
+                'index' => "test-plugin-1",
+                'link' => "plugins/testPlugin/testPlugin-page.php?action=1",
+                'value' => 'Test Menu 1',
+            ],
+            2 => [
+                'insertafter' => "test-plugin-1",
+                'index' => "test-plugin-3",
+                'link' => "plugins/testPlugin/testPlugin.php?action=3",
+                'value' => 'Test Menu 3',
+            ],
+            3 => [
+                'insertbefore' => "test-plugin-3",
+                'index' => "test-plugin-2",
+                'link' => "plugins/testPlugin/testPlugin.php?action=2",
+                'value' => 'Test Menu 2',
+            ],
+        ];
         $oMenu = $oPluginManager->_checkMenus('testPlugin', $aMenus);
         $this->assertIsA($oMenu, 'OA_Admin_Menu');
 
@@ -246,8 +238,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
         $oPluginManager->pathPackages = $this->testpathPackages;
         $aSchema = [
-                        'mdb2schema' => 'tables_testplugin',
-                        ];
+            'mdb2schema' => 'tables_testplugin',
+        ];
         $aDbTables = OA_DB_Table::listOATablesCaseSensitive('testplugin_table');
         $this->assertEqual(count($aDbTables), 0);
 
@@ -304,11 +296,11 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         // Test 2 - re-create cache with a new plugin, schema provided
         $aSchema = [
-                        'mdb2schema' => 'tables_testPlugin',
-                        'dboschema' => 'db_schema',
-                        'dbolinks' => 'db_schema.links',
-                        'dataobjects' => [0 => 'Testplugin_table.php'],
-                        ];
+            'mdb2schema' => 'tables_testPlugin',
+            'dboschema' => 'db_schema',
+            'dbolinks' => 'db_schema.links',
+            'dataobjects' => [0 => 'Testplugin_table.php'],
+        ];
         $aResult = $oPluginManager->_cacheDataObjects('testPlugin', $aSchema, $outputDir);
         $aSchemas = $aResult['schemas']->toArray();
         $aLinks = $aResult['links']->toArray();
@@ -326,9 +318,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
      * @todo write test
      *
      */
-    public function test_getDataObjectSchema()
-    {
-    }
+    public function test_getDataObjectSchema() {}
 
     public function test_putDataObjects()
     {
@@ -337,9 +327,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $outputDir = MAX_PATH . '/var/';
 
         $aSchema = [
-                        'mdb2schema' => 'tables_testPlugin',
-                        'dataobjects' => [0 => 'Testplugin_table.php'],
-                        ];
+            'mdb2schema' => 'tables_testPlugin',
+            'dataobjects' => [0 => 'Testplugin_table.php'],
+        ];
         $oPluginManager->_putDataObjects('testPlugin', $aSchema, $outputDir);
         $this->assertTrue(file_exists($outputDir . 'Testplugin_table.php'));
         @unlink($outputDir . 'Testplugin_table.php');
@@ -517,9 +507,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $outputDir = MAX_PATH . '/var/';
 
         $aSchema = [
-                        'mdb2schema' => 'tables_testPlugin',
-                        'dataobjects' => [0 => 'Testplugin_table.php'],
-                        ];
+            'mdb2schema' => 'tables_testPlugin',
+            'dataobjects' => [0 => 'Testplugin_table.php'],
+        ];
         copy(MAX_PATH . $this->testpathPackages . 'testPlugin/etc/DataObjects/Testplugin_table.php', $outputDir . 'Testplugin_table.php');
         $this->assertTrue(file_exists($outputDir . 'Testplugin_table.php'));
         $oPluginManager->_removeDataObjects('testPlugin', $aSchema, $outputDir);

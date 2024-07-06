@@ -28,10 +28,6 @@ class OA_DB_Integrity
     public $version;
     //var $OK = true;
 
-    public function __construct()
-    {
-    }
-
     public function init($version, $dbname = '', $createdb = true)
     {
         $this->_clearProperties();
@@ -117,13 +113,13 @@ class OA_DB_Integrity
         $aResult[] = 'output file: ' . $aVariables['output'];
 
         $options = [
-                            'output_mode' => 'file',
-                            'output' => $aVariables['output'],
-                            'end_of_line' => "\n",
-                            'xsl_file' => "",
-                            'custom_tags' => ['version' => $aVariables['schema'], 'status' => 'final', 'application' => $aVariables['appver']],
-                            'prefix' => $prefix,
-                          ];
+            'output_mode' => 'file',
+            'output' => $aVariables['output'],
+            'end_of_line' => "\n",
+            'xsl_file' => "",
+            'custom_tags' => ['version' => $aVariables['schema'], 'status' => 'final', 'application' => $aVariables['appver']],
+            'prefix' => $prefix,
+        ];
         $error = $this->oDBUpgrader->oSchema->dumpDatabaseContent($this->oDBUpgrader->aDefinitionNew, $options);
         if (PEAR::isError($error)) {
             $aResult[] = $error->getUserInfo();
@@ -209,7 +205,7 @@ class OA_DB_Integrity
                                 $aResult[] = $rows['error'];
                             } else {
                                 $msg = $rows['count'] . ' / ' . $count . ' rows inserted into table ' . $aVariables['prefix'] . $table_name;
-                                if ($rows['count'] <> $count) {
+                                if ($rows['count'] != $count) {
                                     $msg = 'ERROR! ' . $msg;
                                 }
                                 $aResult[] = $msg;
@@ -296,10 +292,10 @@ class OA_DB_Integrity
             $this->aTasksConstructiveAll = $this->pruneTasklist('constructive');
         }
         if ($execute) {
-//            if (!$this->oDBUpgrader->_backup())
-//            {
-//                return false;
-//            }
+            //            if (!$this->oDBUpgrader->_backup())
+            //            {
+            //                return false;
+            //            }
             $this->mockMigration();
             $this->oDBUpgrader->aTaskList = $this->aTasksConstructiveAll;
             if (!$this->oDBUpgrader->_executeTasks()) {
@@ -317,10 +313,10 @@ class OA_DB_Integrity
             $this->aTasksDestructiveAll = $this->pruneTasklist('destructive');
         }
         if ($execute) {
-//            if (!$this->oDBUpgrader->_backup())
-//            {
-//                return false;
-//            }
+            //            if (!$this->oDBUpgrader->_backup())
+            //            {
+            //                return false;
+            //            }
             $this->mockMigration();
             $this->oDBUpgrader->aTaskList = $this->aTasksDestructiveAll;
             if (!$this->oDBUpgrader->_executeTasks()) {
@@ -339,8 +335,8 @@ class OA_DB_Integrity
         require_once MAX_PATH . '/lib/OA/Upgrade/Migration.php';
         Mock::generatePartial(
             'Migration',
-            $mockMigrator = 'Migration_' . rand(),
-            array_keys($this->aMigrationMethods)
+            $mockMigrator = 'Migration_' . random_int(0, mt_getrandmax()),
+            array_keys($this->aMigrationMethods),
         );
         $this->oDBUpgrader->oMigrator = new $mockMigrator($this);
 

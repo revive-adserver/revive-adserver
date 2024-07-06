@@ -21,9 +21,9 @@ class OX_UI_Minify_Server
     {
         // try to disable output_compression (may not have an effect)
         ini_set('zlib.output_compression', '0');
-        
+
         Minify::setCache(OX_PATH . '/var/cache', true);
-        
+
         if (isset($_GET['g'])) {
             // serve!
             $options = [];
@@ -42,7 +42,7 @@ class OX_UI_Minify_Server
     {
         global $MINIFY_JS_GROUPS;
         global $MINIFY_CSS_GROUPS;
-        
+
         $groups = array_merge($MINIFY_JS_GROUPS);
         foreach ($MINIFY_CSS_GROUPS as $key => $urls) {
             $sources = [];
@@ -53,7 +53,7 @@ class OX_UI_Minify_Server
             }
             $groups[$key] = $sources;
         }
-        
+
         return $groups;
     }
 
@@ -70,9 +70,9 @@ class OX_UI_Minify_Server
         if ($lastSlashPos !== false) {
             $baseDir = substr($fileName, 0, $lastSlashPos + 1);
         }
-        
+
         $array[] = new Minify_Source(['filepath' => $fileName,
-                'minifyOptions' => [
-                        'prependRelativePath' => $baseDir]]);
+            'minifyOptions' => [
+                'prependRelativePath' => $baseDir]]);
     }
 }

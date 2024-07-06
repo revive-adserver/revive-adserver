@@ -41,7 +41,7 @@ class OX_ParserBase extends XML_Parser
     public $count = 0;
     public $error;
 
-    public function __construct()
+    public function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
     {
         // force ISO-8859-1 due to different defaults for PHP4 and PHP5
         // todo: this probably needs to be investigated some more andcleaned up
@@ -58,42 +58,42 @@ class OX_ParserBase extends XML_Parser
         $this->aPhp = [];
         $this->aDepends = [];
         $this->aConf = [
-                              'option' => '',
-                              'settings' => [],
-                              'preferences' => [],
-                               ];
+            'option' => '',
+            'settings' => [],
+            'preferences' => [],
+        ];
         $this->aSyscheck = [
-                              'php' => [],
-                              'dbms' => [],
-                              'depends' => [],
-                               ];
+            'php' => [],
+            'dbms' => [],
+            'depends' => [],
+        ];
         $this->aInstall = [
-                                'conf' => [],
-                                'syscheck' => [],
-                                'files' => [],
-                                'prescript' => '',
-                                'postscript' => '',
-                                ];
+            'conf' => [],
+            'syscheck' => [],
+            'files' => [],
+            'prescript' => '',
+            'postscript' => '',
+        ];
         $this->aUninstall = [
-                                'prescript' => '',
-                                'postscript' => '',
-                                ];
+            'prescript' => '',
+            'postscript' => '',
+        ];
         $this->aPlugin = [
-                             'name' => '',
-                             'displayname' => '',
-                             'creationdate' => '',
-                             'author' => '',
-                             'authoremail' => '',
-                             'authorurl' => '',
-                             'license' => '',
-                             'description' => '',
-                             'version' => '',
-                             'oxversion' => '',
-                             'extends' => '',
-                             'install' => [],
-                             'upgrade' => [],
-                             'uninstall' => [],
-                             ];
+            'name' => '',
+            'displayname' => '',
+            'creationdate' => '',
+            'author' => '',
+            'authoremail' => '',
+            'authorurl' => '',
+            'license' => '',
+            'description' => '',
+            'version' => '',
+            'oxversion' => '',
+            'extends' => '',
+            'install' => [],
+            'upgrade' => [],
+            'uninstall' => [],
+        ];
     }
 
     private function _assignArray()
@@ -110,7 +110,6 @@ class OX_ParserBase extends XML_Parser
         $this->aInstall['files'] = $this->aFiles;
         $this->aPlugin['install'] = $this->aInstall;
         $this->aPlugin['uninstall'] = $this->aUninstall;
-        $this->aPlugin['upgrade'] = @$this->aUpgrade;
         $this->aPlugin['allfiles'] = $this->aAllFiles;
     }
 
@@ -226,7 +225,7 @@ class OX_ParserBase extends XML_Parser
                 break;
             case 'plugin-version':
                 // Fix potential issues with lowercase RC's
-                @$this->aPlugin['version'] = preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
+                @$this->aPlugin['version'] = preg_replace('/rc(\d+)$/', 'RC$1', $data);
                 break;
             case 'plugin-name':
             case 'plugin-displayname':

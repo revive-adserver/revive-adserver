@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>tables_apVideo</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>003</version>
+ <status>final</status>
+
+ <table>
+
+  <name>ext_ap_video</name>
+
+  <declaration>
+
+   <field>
+    <name>ad_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>alt_media</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ext_ap_video_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>ext_ap_video_vpaid</name>
+
+  <declaration>
+
+   <field>
+    <name>ad_id</name>
+    <type>openads_mediumint</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>enabled</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>fb_pos</name>
+    <type>openads_varchar</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>fb_url</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tw_pos</name>
+    <type>openads_varchar</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tw_url</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>swf_pos</name>
+    <type>openads_varchar</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>swf_name</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ext_ap_video_vpaid_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

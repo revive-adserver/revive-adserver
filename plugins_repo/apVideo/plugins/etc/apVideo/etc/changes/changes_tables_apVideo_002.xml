@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>tables_apVideo</name>
+  <version>002</version>
+  <comments>Added swf</comments>
+  <constructive>
+    <changeset>
+      <name>tables_apVideo</name>
+      <version>002</version>
+      <change>
+        <table>
+          <name>ext_ap_video_vpaid</name>
+          <add>
+            <field>
+              <name>swf_pos</name>
+              <type>openads_varchar</type>
+              <length>2</length>
+              <notnull></notnull>
+              <default></default>
+              <was>swf_pos</was>
+            </field>
+              <field>
+                <name>swf_name</name>
+                <type>openads_varchar</type>
+                <length>255</length>
+                <notnull>1</notnull>
+                <default></default>
+                <was>swf_name</was>
+              </field>
+            </add>
+          </table>
+        </change>
+      </changeset>
+    </constructive>
+    <destructive>
+      <changeset>
+        <name>tables_apVideo</name>
+        <version>002</version>
+      </changeset>
+    </destructive>
+  </instructionset>

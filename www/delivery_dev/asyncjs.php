@@ -16,8 +16,10 @@ require_once '../../init-delivery.php';
 $etag = md5("{$conf['webpath']['delivery']}*{$conf['webpath']['deliverySSL']}");
 $product = $GLOBALS['_MAX']['CONF']['var']['product'];
 
+OX_Delivery_Common_sendPreconnectHeaders();
+
 if (!empty($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] == $etag) {
-    header("HTTP/1.x 304 Not modified");
+    MAX_header("HTTP/1.x 304 Not modified");
 
     // Some temporary cookies might have been deleted, if so send permanent ones
     MAX_cookieFlush();
@@ -30,7 +32,7 @@ header("ETag: {$etag}");
 
 // The browser is allowed to cache this
 if (!empty($conf['delivery']['assetClientCacheExpire'])) {
-    $expire = (int)$conf['delivery']['assetClientCacheExpire'];
+    $expire = (int) $conf['delivery']['assetClientCacheExpire'];
 
     header("Expire: " . gmdate('D, d M Y H:i:s \G\M\T', MAX_commonGetTimeNow() + $expire));
     header("Cache-Control: private, max-age={$expire}");

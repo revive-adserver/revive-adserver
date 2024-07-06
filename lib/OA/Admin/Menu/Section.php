@@ -38,10 +38,10 @@ class OA_Admin_Menu_Section
     public $rank; //float value used to resove conflicts between the sections, defaults to 1
     public $exclusive; //bolean value stating whether section should be shown exclusively (no sibling sections) when it's active //TODO change to type
     public $affixed; //bolean value stating whether section should be shown affixed to sibling sections only when it's active //TODO change to type
-    public $aSections; //list of subsections
+    public $aSections = []; //list of subsections
     public $oSectionChecker; //checker used to decide whether this section can be shown to the user
     public $parentSection; //reference to parent section
-    public $aSectionsMap; //hash holding id => section
+    public $aSectionsMap = []; //hash holding id => section
 
     /**
      * When replacing some information for a section, it can happen that you also replace the "link"
@@ -53,7 +53,7 @@ class OA_Admin_Menu_Section
      * @see OA_Admin_UI::redirectSectionToCorrectUrlIfOldUrlDetected()
      * @var bool
      */
-    public $sectionHasBeenReplaced;
+    public $sectionHasBeenReplaced = false;
 
     /**
      * A string name that indicates relationship between sections on
@@ -116,13 +116,10 @@ class OA_Admin_Menu_Section
         $this->setExclusive($exclusive);
         $this->rank = $rank;
         $this->affixed = $affixed;
-        $this->aSections = [];
         $this->oSectionChecker = empty($aAccountPermissions) ? null : $this->_createSecurityChecker($aAccountPermissions);
-        $this->aSectionsMap = [];
         $this->groupName = $groupName;
         // Create instance of OX_Translation
         $this->oTranslation = new OX_Translation();
-        $this->sectionHasBeenReplaced = false;
     }
 
 
@@ -508,17 +505,16 @@ class OA_Admin_Menu_Section
             // If KEY is an array it is assumed that every account from that array should be associated with VALUE permissions
 
             if (is_array($elem)) { //(account,perm) pair
-
                 $aPairAccounts = array_make(key($elem));
                 $aPairPermissions = array_make(current($elem));
 
                 foreach ($aPairAccounts as $i => $aPairAccount) {
                     $checkers[] = new OA_Admin_Menu_Compound_Checker(
                         [
-                      new OA_Admin_SectionAccountChecker($aPairAccount),
-                      new OA_Admin_SectionPermissionChecker($aPairPermissions) //plese remember that this checker does OR check for permissions
-                    ],
-                        'AND'
+                            new OA_Admin_SectionAccountChecker($aPairAccount),
+                            new OA_Admin_SectionPermissionChecker($aPairPermissions), //plese remember that this checker does OR check for permissions
+                        ],
+                        'AND',
                     );
                 }
             } else { //just account only, no associated permission, add to accounts array
@@ -534,30 +530,30 @@ class OA_Admin_Menu_Section
     }
 }
 
-    /**
-     * TODO refactor as util
-     *
-     * @param unknown_type $array
-     * @param unknown_type $index
-     * @param unknown_type $insert_array
-     * @param unknown_type $elem
-     */
-    function array_insert(&$array, $index, &$elem)
-    {
-        $aLeft = array_splice($array, 0, $index);
-        $aLeft[] = $elem;
-        $array = array_merge($aLeft, $array);
-    }
+/**
+ * TODO refactor as util
+ *
+ * @param unknown_type $array
+ * @param unknown_type $index
+ * @param unknown_type $insert_array
+ * @param unknown_type $elem
+ */
+function array_insert(&$array, $index, &$elem)
+{
+    $aLeft = array_splice($array, 0, $index);
+    $aLeft[] = $elem;
+    $array = array_merge($aLeft, $array);
+}
 
 
-    /**
-     * TODO refactor as util
-     */
-    function array_make($var)
-    {
-        if (is_array($var)) {
-            return $var;
-        } else {
-            return [$var];
-        }
+/**
+ * TODO refactor as util
+ */
+function array_make($var)
+{
+    if (is_array($var)) {
+        return $var;
+    } else {
+        return [$var];
     }
+}

@@ -404,18 +404,18 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $aResult = [];
         while (($row = $rsResult->fetchRow())) {
             $aResult[$row['conversionid']] = ['campaignID' => $row['campaignid'],
-                                                   'trackerID' => $row['trackerid'],
-                                                   'bannerID' => $row['bannerid'],
-                                                   'conversionTime' => $row['tracker_date_time'],
-                                                   'conversionStatus' => $row['conversionstatus'],
-                                                   'userIp' => $row['userip'],
-                                                   'action' => $row['action'],
-                                                   'window' => strtotime($row['tracker_date_time'] . " ") - strtotime($row['connection_date_time'] . " "),
-                                                   'variables' => null,
-                                                  ];
+                'trackerID' => $row['trackerid'],
+                'bannerID' => $row['bannerid'],
+                'conversionTime' => $row['tracker_date_time'],
+                'conversionStatus' => $row['conversionstatus'],
+                'userIp' => $row['userip'],
+                'action' => $row['action'],
+                'window' => strtotime($row['tracker_date_time'] . " ") - strtotime($row['connection_date_time'] . " "),
+                'variables' => null,
+            ];
             if (!empty($row['variablename'])) {
                 $aVariables[$row['conversionid']][] = ['name' => $row['variablename'],
-                                                       'value' => $row['variablevalue']];
+                    'value' => $row['variablevalue']];
             }
         }
 

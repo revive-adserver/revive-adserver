@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the deliveryBlocked() method.
      *
      * Tests that the method in the class returns a PEAR::Error, as method is abstract.

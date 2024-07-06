@@ -21,7 +21,7 @@
 
 // Set the current path
 // Done this way so that it works in CLI PHP
-$path = dirname(__FILE__);
+$path = __DIR__;
 
 // Require the timezone class, and get the system timezone,
 // storing in a global variable
@@ -33,10 +33,8 @@ $serverTimezone = OX_Admin_Timezones::getTimezone();
 require_once $path . '/../../init.php';
 
 // Set longer time out, and ignore user abort
-if (!ini_get('safe_mode')) {
-    @set_time_limit($conf['maintenance']['timeLimitScripts']);
-    @ignore_user_abort(true);
-}
+@set_time_limit($conf['maintenance']['timeLimitScripts']);
+@ignore_user_abort(true);
 
 // Required files
 require_once RV_PATH . '/lib/RV.php';
@@ -51,5 +49,3 @@ $oMaint->run();
 
 // Update scheduled maintenance last run record
 $oMaint->updateLastRun(true);
-
-?>

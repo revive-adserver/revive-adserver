@@ -20,14 +20,6 @@ require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
  */
 class Test_DeliveryQuerystring extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /** TODO: test breaking on zoneid assert, chris to check function
      *
      * Populate variables from a specially encoded string.  This is used because

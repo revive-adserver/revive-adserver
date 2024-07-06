@@ -46,7 +46,7 @@ foreach ($zones as $thisZone) {
     }
     // nz is set when "named zones" are being used, this allows a zone to be selected more than once
     if (!empty($nz)) {
-        list($zonename, $thisZoneid) = explode('=', $thisZone);
+        [$zonename, $thisZoneid] = explode('=', $thisZone);
         $varname = $zonename;
     } else {
         $thisZoneid = $varname = $thisZone;
@@ -54,7 +54,7 @@ foreach ($zones as $thisZone) {
 
     // Clear deiveryData between iterations
     unset($GLOBALS['_MAX']['deliveryData']);
-    
+
     $what = "zone:" . $thisZoneid;
 
     // Get the banner
@@ -101,7 +101,7 @@ if ($useMultipleZones) {
         $outputXml .= "</ad>\n";
     }
     $outputXml .= "</ads>";
-} elseif (count($aBanners) > 0) {
+} elseif ($aBanners !== []) {
     $outputXml .= "<ad version=\"1.0\">\n";
     buildXmlTree($aBanners[0], $outputXml);
     $outputXml .= "</ad>\n";

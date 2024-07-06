@@ -27,7 +27,6 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
     {
         parent::__construct();
         Mock::generate('OA_Dal_Maintenance_Priority');
-        Mock::generatePartial('OA_Maintenance_Priority_Ad', 'MockPartialOA_Maintenance_Priority_Ad', ['_abort']);
     }
 
     /**
@@ -63,90 +62,63 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
     {
         // Test 1
         $aParams = 'foo';
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [
-            'status' => OA_ENTITY_STATUS_RUNNING
+            'status' => OA_ENTITY_STATUS_RUNNING,
         ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'ad_id' => 'foo',
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'ad_id' => 1,
             'type' => 'sql',
-            'weight' => 1
+            'weight' => 1,
         ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_RUNNING,
-            'weight' => 1
+            'weight' => 1,
         ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
-
-        $aParams = [
-            'ad_id' => 1,
-            'status' => OA_ENTITY_STATUS_AWAITING,
-            'type' => 'sql'
-        ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
 
         $aParams = [
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_AWAITING,
             'type' => 'sql',
-            'weight' => 'foo'
         ];
-        $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
-        $oMaxEntityAd->expectCallCount('_abort', 1);
-        (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oMaxEntityAd, $aParams);
-        $oMaxEntityAd->tally();
+        $this->assertAbortIsCalled($aParams);
+
+        $aParams = [
+            'ad_id' => 1,
+            'status' => OA_ENTITY_STATUS_AWAITING,
+            'type' => 'sql',
+            'weight' => 'foo',
+        ];
+        $this->assertAbortIsCalled($aParams);
 
         // Test 2
         $aParams = [
-            'ad_id' => 1
+            'ad_id' => 1,
         ];
         $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
         $this->assertEqual($oMaxEntityAd->id, 1);
@@ -158,7 +130,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
             'ad_id' => 1,
             'status' => OA_ENTITY_STATUS_RUNNING,
             'type' => 'sql',
-            'weight' => 2
+            'weight' => 2,
         ];
         $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
         $this->assertEqual($oMaxEntityAd->id, 1);
@@ -178,11 +150,23 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         $oMaxDalMaintenancePriority->expectCallCount('getAllDeliveryLimitationsByTypeId', 1);
 
         $aParams = [
-            'ad_id' => 1
+            'ad_id' => 1,
         ];
         $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
         $oMaxEntityAd->getDeliveryLimitations();
 
         $oMaxDalMaintenancePriority->tally();
+    }
+
+    private function assertAbortIsCalled(mixed $aParams): void
+    {
+        $oMaxEntityAd = null;
+
+        try {
+            $oMaxEntityAd = new OA_Maintenance_Priority_Ad($aParams);
+        } catch (\RuntimeException) {
+        }
+
+        $this->assertNull($oMaxEntityAd);
     }
 }

@@ -104,7 +104,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         $aComments = [
             'Third Party Comment' => '',
             'Comment' => '',
-            ];
+        ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -128,7 +128,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
             $mi->clickParams[] = 'zoneid=' . $mi->zoneid;
         }
 
-        if (count($mi->clickParams) > 0) {
+        if ($mi->clickParams !== []) {
             $buffer .= '?' . implode('&amp;', $mi->clickParams);
         }
         $buffer .= "'";
@@ -140,7 +140,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         $buffer .= "><img src='" . MAX_commonConstructDeliveryUrl($conf['file']['view'], $mi->https);
         // Without cookies, passing in the click URL to view is not possible
         unset($mi->parameters['ct0']);
-        if (sizeof($mi->parameters) > 0) {
+        if (count($mi->parameters) > 0) {
             $buffer .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer .= "' border='0' alt='' /></a>\n";

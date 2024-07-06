@@ -38,7 +38,7 @@ class RV
     {
         // Ensure this method only acts when a null error handler exists
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];
-        list($mode, $options) = $stack[count($stack) - 1];
+        [$mode, $options] = $stack[count($stack) - 1];
         if (is_null($mode) && is_null($options)) {
             PEAR::popErrorHandling();
         }

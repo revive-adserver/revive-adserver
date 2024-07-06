@@ -15,17 +15,9 @@ require_once(LIB_PATH . '/Extension/ExtensionCommon.php');
 
 class Test_OX_ExtensionCommon extends UnitTestCase
 {
-    public function __construct()
-    {
-    }
+    public function setUp() {}
 
-    public function setUp()
-    {
-    }
-
-    public function tearDown()
-    {
-    }
+    public function tearDown() {}
 
     public function test_cacheComponentHooks()
     {

@@ -20,14 +20,6 @@ require_once LIB_PATH . '/Plugin/ParserBase.php';
  */
 class Test_OX_ParserBase extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function test_ParseEmpty()
     {
         $file = LIB_PATH . '/Plugin/tests/data/testParseGroupEmpty.xml';

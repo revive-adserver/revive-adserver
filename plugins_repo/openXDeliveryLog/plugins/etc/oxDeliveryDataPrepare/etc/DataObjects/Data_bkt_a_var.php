@@ -37,8 +37,8 @@ class DataObjects_Data_bkt_a_var extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'server_ip' => '',
-                ];
+        'server_ip' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

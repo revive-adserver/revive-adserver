@@ -87,7 +87,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD
+            'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         ];
 
         return $options;
@@ -111,7 +111,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
   * section, delete the tag (from <noscript>... to </noscript>). On
   * average, the noscript tag is called from less than 1% of internet
   * users."),
-            ];
+        ];
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -166,9 +166,9 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         return $buffer;
     }
 
-    public function setInvocation(&$invocation)
+    public function setInvocation($invocation)
     {
-        $this->maxInvocation = &$invocation;
+        $this->maxInvocation = $invocation;
         $this->maxInvocation->canDetectCharset = true;
     }
 }

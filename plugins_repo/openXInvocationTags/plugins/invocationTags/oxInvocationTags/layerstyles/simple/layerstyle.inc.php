@@ -29,7 +29,7 @@ function MAX_layerGetLimitations()
 
     return [
         'richmedia' => $richmedia,
-        'compatible' => $compatible
+        'compatible' => $compatible,
     ];
 }
 
@@ -45,26 +45,20 @@ function MAX_layerPutJs($output, $uniqid)
     global $shifth, $shiftv, $closebutton;
 
     // Register input variables
-    MAX_commonRegisterGlobalsArray(['align', 'valign', 'closetime', 'padding',
-                           'shifth', 'shiftv', 'closebutton']);
+    MAX_commonRegisterGlobalsArray([
+        'align', 'valign', 'closetime', 'padding',
+        'shifth', 'shiftv', 'closebutton',
+    ]);
 
-
-    if (!isset($padding)) {
-        $padding = 0;
-    }
-    if (!isset($shifth)) {
-        $shifth = 0;
-    }
-    if (!isset($shiftv)) {
-        $shiftv = 0;
-    }
-    if (!isset($closebutton)) {
-        $closebutton = 'f';
-    }
+    $padding = (int) ($padding ?? 2);
+    $shifth = (int) ($shifth ?? 0);
+    $shiftv = (int) ($shiftv ?? 0);
+    $closetime = (int) ($closetime ?? 0);
+    $closebutton = 't' === ($closebutton ?? 'f');
 
     // Calculate layer size (inc. borders)
     $layer_width = $output['width'] + 2 + $padding * 2;
-    $layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding * 2; ?>
+    $layer_height = $output['height'] + 2 + ($closebutton ? 11 : 0) + $padding * 2; ?>
 
 function MAX_findObj(n, d) {
   var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
@@ -120,18 +114,24 @@ function MAX_adlayers_place_<?php echo $uniqid; ?>()
     echo "\t\t c[_s].left = parseInt(sl+";
 
     switch ($align) {
-        case 'left': 		echo abs($shifth); break;
-        case 'center':		echo '(iw - ' . $layer_width . ') / 2 +' . $shifth; break;
-        default: 			echo 'iw - ' . ($layer_width + abs($shifth)); break;
+        case 'left': 		echo abs($shifth);
+            break;
+        case 'center':		echo '(iw - ' . $layer_width . ') / 2 +' . $shifth;
+            break;
+        default: 			echo 'iw - ' . ($layer_width + abs($shifth));
+            break;
     }
 
     echo ") + (window.opera?'':'px');" .
         "\n\t\t c[_s].top = parseInt(st+";
 
     switch ($valign) {
-        case 'middle': 		echo '(ih - ' . $layer_height . ') / 2 +' . $shiftv; break;
-        case 'bottom':		echo 'ih - ' . ($layer_height + abs($shiftv)); break;
-        default: 			echo abs($shiftv); break;
+        case 'middle': 		echo '(ih - ' . $layer_height . ') / 2 +' . $shiftv;
+            break;
+        case 'bottom':		echo 'ih - ' . ($layer_height + abs($shiftv));
+            break;
+        default: 			echo abs($shiftv);
+            break;
     }
     echo ") + (window.opera?'':'px');\n"; ?>
 
@@ -170,7 +170,7 @@ function MAX_simplepop_<?php echo $uniqid; ?>(what)
 
 <?php
 
-if (isset($closetime) && $closetime > 0) {
+if ($closetime > 0) {
     echo "\t\t\treturn window.setTimeout('MAX_simplepop_" . $uniqid . "(\\'close\\')', " . ($closetime * 1000) . ");";
 } ?>
 
@@ -196,41 +196,26 @@ MAX_simplepop_<?php echo $uniqid; ?>('open');
 
 function MAX_layerGetHtml($output, $uniqid)
 {
-    global $target;
-    global $align, $padding, $closebutton;
-    global $backcolor, $bordercolor;
-    global $nobg, $noborder;
-
-    $conf = $GLOBALS['_MAX']['CONF'];
+    global $padding, $backcolor, $bordercolor;
+    global $closebutton, $nobg, $noborder;
 
     // Register input variables
-    MAX_commonRegisterGlobalsArray(['align', 'padding', 'closebutton',
-                           'backcolor', 'bordercolor',
-                           'nobg', 'noborder']);
+    MAX_commonRegisterGlobalsArray([
+        'padding', 'backcolor', 'bordercolor',
+        'closebutton', 'nobg', 'noborder',
+    ]);
 
+    $padding = (int) ($padding ?? 2);
+    $backcolor = htmlspecialchars($backcolor ?? 'FFFFFF', ENT_QUOTES);
+    $bordercolor = htmlspecialchars($bordercolor ?? '000000', ENT_QUOTES);
 
-    if (!isset($padding)) {
-        $padding = '2';
-    }
-    if (!isset($closebutton)) {
-        $closebutton = 'f';
-    }
-    if (!isset($backcolor)) {
-        $backcolor = 'FFFFFF';
-    }
-    if (!isset($bordercolor)) {
-        $bordercolor = '000000';
-    }
-    if (!isset($nobg)) {
-        $nobg = 'f';
-    }
-    if (!isset($noborder)) {
-        $noborder = 'f';
-    }
+    $closebutton = 't' === ($closebutton ?? 'f');
+    $nobg = 't' === ($nobg ?? 'f');
+    $noborder = 't' === ($noborder ?? 'f');
 
     // Calculate layer size (inc. borders)
     $layer_width = $output['width'] + 2 + $padding * 2;
-    $layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding * 2;
+    $layer_height = $output['height'] + 2 + ($closebutton ? 11 : 0) + $padding * 2;
 
     // Create imagepath
     $imagepath = _adRenderBuildImageUrlPrefix() . '/layerstyles/simple/';
@@ -238,14 +223,14 @@ function MAX_layerGetHtml($output, $uniqid)
     // return HTML code
     return '
 <div id="MAX_' . $uniqid . '" style="position:absolute; width:' . $layer_width . 'px; height:' . $layer_height . 'px; z-index:99; left: 0px; top: 0px; visibility: hidden">
-	<table cellspacing="0" cellpadding="0"' . ($noborder == 't' ? '' : ' style="border-style: solid; border-width: 1px; border-color: #' . $bordercolor . '"') . '>
-' . ($closebutton == 't' ?
+	<table cellspacing="0" cellpadding="0"' . ($noborder ? '' : ' style="border-style: solid; border-width: 1px; border-color: #' . $bordercolor . '"') . '>
+' . ($closebutton ?
 '		<tr>
-			<td' . ($nobg == 't' ? '' : ' bgcolor="#' . $backcolor . '"') . ' align="right" style="padding: 2px"><a href="javascript:;" onClick="MAX_simplepop_' . $uniqid . '(\'close\'); return false;" style="color:#0000ff"><img src="' . $imagepath . 'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
+			<td' . ($nobg ? '' : ' bgcolor="#' . $backcolor . '"') . ' align="right" style="padding: 2px"><a href="javascript:;" onClick="MAX_simplepop_' . $uniqid . '(\'close\'); return false;" style="color:#0000ff"><img src="' . $imagepath . 'close.gif" width="7" height="7" alt="Close" border="0"></a></td>
 		</tr>
 ' : '') .
 '		<tr>
-			<td ' . ($nobg == 't' ? '' : ' bgcolor="#' . $backcolor . '"') . ' align="center">
+			<td ' . ($nobg ? '' : ' bgcolor="#' . $backcolor . '"') . ' align="center">
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td width="' . $output['width'] . '" height="' . $output['height'] . '" align="center" valign="middle" style="padding: ' . $padding . 'px">' . $output['html'] . '</td>

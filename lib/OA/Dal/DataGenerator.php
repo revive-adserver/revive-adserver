@@ -103,14 +103,14 @@ class DataGenerator
         if ($generateParents) {
             DataGenerator::generateParents($do);
         }
-        $doOriginal = clone($do);
+        $doOriginal = clone ($do);
         DataGenerator::setDefaultValues($do);
         DataGenerator::trackData($do->getTableWithoutPrefix());
 
         $ids = [];
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $id = $do->insert();
-            $do = clone($doOriginal);
+            $do = clone ($doOriginal);
             DataGenerator::setDefaultValues($do, $i + 1);
             $ids[] = $id;
         }
@@ -130,13 +130,13 @@ class DataGenerator
                 // parent is already set
                 continue;
             }
-            list($linkedTable, $linkedField) = explode(':', $linkedTableField);
+            [$linkedTable, $linkedField] = explode(':', $linkedTableField);
             $table = $do->getTableWithoutPrefix($linkedTable);
             if ($table == 'accounts') {
                 // Don't create accounts via DataGenerator. DataObjects already take care of it.
                 continue;
             }
-            $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
+            $linkedPrimaryKeyVal = $do->$foreignKey ?? null;
             $do->$foreignKey = DataGenerator::addAncestor($table, $linkedPrimaryKeyVal);
         }
     }
@@ -190,7 +190,7 @@ class DataGenerator
         if ($id !== null) {
             $ids[$table] = $id;
         }
-        return isset($ids[$table]) ? $ids[$table] : false;
+        return $ids[$table] ?? false;
     }
 
     /**
@@ -241,7 +241,7 @@ class DataGenerator
 
         $links = $doAncestor->links();
         foreach ($links as $foreignKey => $linkedTableField) {
-            list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
+            [$ancestorTableWithPrefix, $link] = explode(':', $linkedTableField);
             $ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
             if ($ancestorTable == 'accounts') {
                 // Don't create accounts via DataGenerator. DataObjects already take care of it.
@@ -361,12 +361,8 @@ class DataGenerator
             }
             return null;
         }
-        // If no default set for this data type try default type
-        if (isset($aDefaultValues[MAX_DATAGENERATOR_DEFAULT_TYPE])) {
-            return $aDefaultValues[MAX_DATAGENERATOR_DEFAULT_TYPE];
-        }
         // If still nothing found use a global default
-        return MAX_DATAGENERATOR_DEFAULT_VALUE;
+        return $aDefaultValues[MAX_DATAGENERATOR_DEFAULT_TYPE] ?? MAX_DATAGENERATOR_DEFAULT_VALUE;
     }
 
     /**
@@ -457,7 +453,7 @@ class DataGenerator
                 foreach ($aSequences as $k => $sequence) {
                     OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
 
-                    if (strpos($sequence, $tableName) === 0) {
+                    if (str_starts_with($sequence, $tableName)) {
                         $sequence = $oDbh->quoteIdentifier($sequence . '_seq', true);
                         $result = $oDbh->exec("SELECT setval('$sequence', 1, false)");
                         break;

@@ -23,7 +23,4 @@ require_once 'init.php';
 require_once MAX_PATH . '/tests/testClasses/Menu.php';
 
 // Output the menu of tests
-$menu = new Menu();
-echo $menu->buildTree();
-
-?>
+echo Menu::buildTree();

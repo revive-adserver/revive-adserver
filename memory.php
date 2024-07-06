@@ -50,7 +50,7 @@ function OX_getMemoryLimitSizeInBytes()
     $aSize = [
         'G' => 1073741824,
         'M' => 1048576,
-        'K' => 1024
+        'K' => 1024,
     ];
     $phpMemoryLimitInBytes = $phpMemoryLimit;
     foreach ($aSize as $type => $multiplier) {

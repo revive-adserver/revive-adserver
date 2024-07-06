@@ -26,14 +26,6 @@ Language_Loader::load();
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      *@todo test case for different user agents
      *
      * A function to set the viewer's useragent information in the

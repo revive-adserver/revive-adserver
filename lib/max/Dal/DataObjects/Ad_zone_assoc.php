@@ -126,10 +126,8 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     public function _buildAuditArray($actionid, &$aAuditFields)
     {
         $aAuditFields['key_desc'] = 'Ad #' . $this->ad_id . ' -> Zone #' . $this->zone_id;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['bannerid'] = $this->bannerid;
-                        break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            $aAuditFields['bannerid'] = $this->ad_id;
         }
     }
 }

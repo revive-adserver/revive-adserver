@@ -22,14 +22,6 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Tests the saveSummary() method.
      *
      * Requirements:
@@ -52,12 +44,12 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             'types' => [
                 0 => 'request',
                 1 => 'impression',
-                2 => 'click'
+                2 => 'click',
             ],
             'connections' => [
                 1 => MAX_CONNECTION_AD_IMPRESSION,
-                2 => MAX_CONNECTION_AD_CLICK
-            ]
+                2 => MAX_CONNECTION_AD_CLICK,
+            ],
         ];
         $oDalMaintenanceStatistics->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
@@ -95,43 +87,43 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             'integer',
             'integer',
             'integer',
-            'integer'
+            'integer',
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 3, 1, 2, 1, 1, 0, 0, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 3, 1, 2, 1, 1, 0, 0, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 3, 1, 1, 5, 0, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 3, 1, 1, 5, 0, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 4, 1, 1, 5, 0, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 4, 1, 1, 5, 0, 0,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 5, 1, 1, 5, 100, 1
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 5, 1, 1, 5, 100, 1,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 6, 1, 1, 5, 100, 3
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 6, 1, 1, 5, 100, 3,
         ];
         $rows = $st->execute($aData);
         // Test
@@ -268,19 +260,19 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $this->_insertTestSaveSummaryAd();
         $this->_insertTestSaveSummaryZone();
         $aData = [
-            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-07 18:00:00', 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-07 18:00:00', 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-07 18:00:00', 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-07 18:00:00', 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            '2004-06-08 18:00:00', 30, 36, '2004-06-08 18:00:00', '2004-06-08 18:29:59', 2, 1, 1, 1, 1, 0, 0
+            '2004-06-08 18:00:00', 30, 36, '2004-06-08 18:00:00', '2004-06-08 18:29:59', 2, 1, 1, 1, 1, 0, 0,
         ];
         $rows = $st->execute($aData);
         // Test
@@ -369,19 +361,19 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         $aTypes = [
             'integer',
             'integer',
-            'integer'
+            'integer',
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
-            1, 5000, MAX_FINANCE_CPM
+            1, 5000, MAX_FINANCE_CPM,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            2, 2, MAX_FINANCE_CPC
+            2, 2, MAX_FINANCE_CPC,
         ];
         $rows = $st->execute($aData);
         $aData = [
-            3, 4, MAX_FINANCE_CPA
+            3, 4, MAX_FINANCE_CPA,
         ];
         $rows = $st->execute($aData);
     }
@@ -419,23 +411,23 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             'text',
             'text',
             'text',
-            'text'
+            'text',
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
-            1, 1, '', '', '', '', '', ''
+            1, 1, '', '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            2, 2, '', '', '', '', '', ''
+            2, 2, '', '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            3, 3, '', '', '', '', '', ''
+            3, 3, '', '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            4, 3, '', '', '', '', '', ''
+            4, 3, '', '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
     }
@@ -469,31 +461,31 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
             'text',
             'text',
             'text',
-            'text'
+            'text',
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
-            1, '', '', '', '', ''
+            1, '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            2, '', '', '', '', ''
+            2, '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            3, '', '', '', '', ''
+            3, '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            4, '', '', '', '', ''
+            4, '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            5, '', '', '', '', ''
+            5, '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            6, '', '', '', '', ''
+            6, '', '', '', '', '',
         ];
         $rows = $st->execute($aData);
     }

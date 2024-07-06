@@ -24,8 +24,8 @@ class Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry extends Plugins_Deli
         return [
             'deliveryLog:oxLogCountry:logImpressionCountry' => [
                 'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
-                'deliveryDataPrepare:oxDeliveryGeo:dataGeo'
-            ]
+                'deliveryDataPrepare:oxDeliveryGeo:dataGeo',
+            ],
         ];
     }
 
@@ -89,23 +89,23 @@ class Plugins_DeliveryLog_OxLogCountry_LogImpressionCountry extends Plugins_Deli
                 0 => 'interval_start',
                 1 => 'creative_id',
                 2 => 'zone_id',
-                3 => 'country'
+                3 => 'country',
             ],
             'groupDestination' => [
                 0 => 'date_time',
                 1 => 'creative_id',
                 2 => 'zone_id',
-                3 => 'country'
+                3 => 'country',
             ],
             'sumSource' => [
-                0 => 'count'
+                0 => 'count',
             ],
             'sumDestination' => [
-                0 => 'impressions'
+                0 => 'impressions',
             ],
             'sumDefault' => [
-                0 => 0
-            ]
+                0 => 0,
+            ],
         ];
         return $aMap;
     }

@@ -35,6 +35,11 @@ define('OX_DATAOBJECT_NULL', 'NULL');
  */
 class DB_DataObjectCommon extends DB_DataObject
 {
+    public $account_id;
+    /**
+     * @var string
+     */
+    public $updated;
     /**
      * If its true the delete() method will try to delete also all
      * records which has reference to this record
@@ -69,7 +74,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @var array
      */
     public $defaultValues = [
-        'updated' => '%DATE_TIME%'
+        'updated' => '%DATE_TIME%',
     ];
 
     /**
@@ -172,7 +177,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $rows = [];
         while ($this->fetch()) {
             $row = [];
-            foreach ($fields as $field => $fieldType) {
+            foreach (array_keys($fields) as $field) {
                 if (!isset($this->$field)) {
                     continue;
                 }
@@ -260,15 +265,14 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
         // Does the table have an account_id field?
-        $aFields = $this->table();
-        if (isset($aFields['account_id']) && $this->account_id == $accountId) {
+        if (property_exists($this, 'account_id') && $this->account_id == $accountId) {
             return true;
         }
         $found = null;
         $links = $this->links();
         if (!empty($links)) {
             foreach ($links as $key => $match) {
-                list($table, $link) = explode(':', $match);
+                [$table, $link] = explode(':', $match);
                 $table = $this->getTableWithoutPrefix($table);
                 $doCheck = $this->getCachedLink($key, $table, $link);
                 if (!$doCheck) {
@@ -344,7 +348,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!$found) {
             DB_DataObject::raiseError(
                 "Reference '{$referenceTable}' doesn't exist for table {$this->_tableName}",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
         }
         return $found;
@@ -440,7 +444,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($table === null) {
             $table = $this->__table;
         }
-        if (!empty($this->_prefix) && strpos($table, $this->_prefix) === 0) {
+        if (!empty($this->_prefix) && str_starts_with($table, $this->_prefix)) {
             return substr($table, strlen($this->_prefix));
         }
         return $table;
@@ -461,7 +465,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!array_key_exists($columnName, $fields)) {
             DB_DataObject::raiseError(
                 "no such field '{$columnName}' exists in table '{$this->_tableName}'",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
             return [];
         }
@@ -487,7 +491,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (!array_key_exists($columnName, $fields)) {
             DB_DataObject::raiseError(
                 "no such field '{$columnName}' exists in table '{$this->_tableName}'",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
             return null;
         }
@@ -499,7 +503,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
 
         // Get existing names as array keys
-        $doCheck = $this->factory($this->_tableName);
+        $doCheck = static::factory($this->_tableName);
         $names = array_flip($doCheck->getUniqueValuesFromColumn($columnName));
 
         // Get unique name
@@ -527,7 +531,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (count($keys) != 1) {
             DB_DataObject::raiseError(
                 "no primary key defined or more than one pk in table '{$this->_tableName}'",
-                DB_DATAOBJECT_ERROR_INVALIDARGS
+                DB_DATAOBJECT_ERROR_INVALIDARGS,
             );
             return false;
         }
@@ -628,7 +632,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->_addPrefixToTableName();
 
         // clone this object and retrieve current values for auditing
-        $doAffected = clone($this);
+        $doAffected = clone ($this);
         if (!$useWhere) {
             // Clear any additional WHEREs if it's not used in delete statement
             $doAffected->whereAdd();
@@ -697,7 +701,8 @@ class DB_DataObjectCommon extends DB_DataObject
      *                          which case the current object's whereAdd()
      *                          method call value will be used to idenfity
      *                          one or more rows which will *all* be updated.
-     * @return boolean True on update success, false otherwise.
+     *
+     * @return  int|false rows affected or false on failure
      */
     public function update($dataObject = false)
     {
@@ -877,14 +882,12 @@ class DB_DataObjectCommon extends DB_DataObject
                 if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
                     $this->debug("Loaded ini file: $ini", "databaseStructure", 1);
                 }
-            } else {
-                if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
-                    if (!file_exists($ini)) {
-                        $this->debug("Missing ini file: $ini", "databaseStructure", 1);
-                    }
-                    if ((!is_file($ini)) || (!is_readable($ini))) {
-                        $this->debug("ini file is not readable: $ini", "databaseStructure", 1);
-                    }
+            } elseif (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
+                if (!file_exists($ini)) {
+                    $this->debug("Missing ini file: $ini", "databaseStructure", 1);
+                }
+                if ((!is_file($ini)) || (!is_readable($ini))) {
+                    $this->debug("ini file is not readable: $ini", "databaseStructure", 1);
                 }
             }
         }
@@ -917,8 +920,7 @@ class DB_DataObjectCommon extends DB_DataObject
     public function _refreshUpdated()
     {
         if ($this->refreshUpdatedFieldIfExists) {
-            $fields = $this->table();
-            if (array_key_exists('updated', $fields)) {
+            if (property_exists($this, 'updated')) {
                 $this->updated = gmdate(OA_DATETIME_FORMAT);
             }
         }
@@ -939,7 +941,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
 
         if (empty($_DB_DATAOBJECT['CONFIG'])) {
-            $this->_loadConfig();
+            static::_loadConfig();
         }
         $dbh = OA_DB::singleton();
         if (PEAR::isError($dbh)) {
@@ -1001,7 +1003,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     public function _query($string)
     {
-        $production = empty($GLOBALS['_MAX']['CONF']['debug']['production']) ? false : true;
+        $production = !empty($GLOBALS['_MAX']['CONF']['debug']['production']);
         if ($production) {
             // supress any PEAR errors if in production
             PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
@@ -1103,31 +1105,29 @@ class DB_DataObjectCommon extends DB_DataObject
                 if ($found) {
                     break;
                 }
-                list($table, $link) = explode(':', $match);
+                [$table, $link] = explode(':', $match);
                 $table = $this->getTableWithoutPrefix($table);
                 if ($table == $referenceTable) {
                     // if the same table just add a reference
                     $this->$key = $tableId;
                     $found = true;
-                } else {
+                } elseif (isset($this->_aReferences[$table])) {
                     // recursive step
-                    if (isset($this->_aReferences[$table])) {
-                        // check if DataObject is already created
-                        // it allows to add few filters to one DataObject
-                        $doReference = &$this->_aReferences[$table];
-                        $doReference->$link = $this->$key;
+                    // check if DataObject is already created
+                    // it allows to add few filters to one DataObject
+                    $doReference = &$this->_aReferences[$table];
+                    $doReference->$link = $this->$key;
+                    $found = true;
+                } else {
+                    $doReference = static::factory($table);
+                    $this->_aReferences[$table] = &$doReference;
+                    if (PEAR::isError($doReference)) {
+                        return false;
+                    }
+                    $doReference->$link = $this->$key;
+                    if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
+                        $this->joinAdd($doReference);
                         $found = true;
-                    } else {
-                        $doReference = $this->factory($table);
-                        $this->_aReferences[$table] = &$doReference;
-                        if (PEAR::isError($doReference)) {
-                            return false;
-                        }
-                        $doReference->$link = $this->$key;
-                        if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
-                            $this->joinAdd($doReference);
-                            $found = true;
-                        }
                     }
                 }
             }
@@ -1144,7 +1144,7 @@ class DB_DataObjectCommon extends DB_DataObject
     public function getFirstPrimaryKey()
     {
         $keys = $this->keys();
-        return !empty($keys) ? $keys[0] : null;
+        return empty($keys) ? null : $keys[0];
     }
 
     /**
@@ -1190,9 +1190,14 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     public function createAccount($accountType, $accountName)
     {
-        $doAccount = $this->factory('accounts');
+        $doAccount = static::factory('accounts');
         $doAccount->account_type = $accountType;
         $doAccount->account_name = $accountName;
+
+        if (!property_exists($this, 'account_id')) {
+            throw new \RuntimeException("createAccount called without an account_id property");
+        }
+
         $this->account_id = $doAccount->insert();
         return $this->account_id;
     }
@@ -1223,7 +1228,7 @@ class DB_DataObjectCommon extends DB_DataObject
     public function deleteAccount()
     {
         if (!empty($this->account_id)) {
-            $doAccount = $this->factory('accounts');
+            $doAccount = static::factory('accounts');
             $doAccount->account_id = $this->account_id;
             $doAccount->delete();
         }
@@ -1242,6 +1247,10 @@ class DB_DataObjectCommon extends DB_DataObject
         $userId = $doUser->insert();
         if (!$userId) {
             return false;
+        }
+
+        if (!property_exists($this, 'account_id')) {
+            throw new \RuntimeException("createUser called without an account_id property");
         }
 
         $result = OA_Permission::setAccountAccess($this->account_id, $userId);
@@ -1344,7 +1353,6 @@ class DB_DataObjectCommon extends DB_DataObject
         // Is this a call to get the owning account IDs directly from
         // this DB_DataObject, or do we need to look at a parent?
         if (is_null($parentTable) && is_null($parentKeyName)) {
-
             // Get the directly owning account ID from this DB_DataObject
 
             // If the owning account IDs have already been calculated,
@@ -1393,7 +1401,6 @@ class DB_DataObjectCommon extends DB_DataObject
             // Return the result
             return $aCache[$tableName][$this->$primaryKeyName];
         } else {
-
             // Get the directly owning account ID from a parent table
 
             // If the owning account IDs have already been calculated,
@@ -1463,12 +1470,12 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($accountType == OA_ACCOUNT_ADMIN) {
             // Simply return the admin account ID
             $aAccountIds = [
-                OA_ACCOUNT_ADMIN => $accountId
+                OA_ACCOUNT_ADMIN => $accountId,
             ];
         } elseif ($accountType == OA_ACCOUNT_MANAGER) {
             // Simply return the manager account ID
             $aAccountIds = [
-                OA_ACCOUNT_MANAGER => $accountId
+                OA_ACCOUNT_MANAGER => $accountId,
             ];
         } elseif ($accountType == OA_ACCOUNT_ADVERTISER) {
             // Set the owning manager account ID to the admin
@@ -1486,7 +1493,7 @@ class DB_DataObjectCommon extends DB_DataObject
             // Return the manager and advertiser account IDs
             $aAccountIds = [
                 OA_ACCOUNT_MANAGER => $managerAccountId,
-                OA_ACCOUNT_ADVERTISER => $accountId
+                OA_ACCOUNT_ADVERTISER => $accountId,
             ];
         } elseif ($accountType == OA_ACCOUNT_TRAFFICKER) {
             // Set the owning manager account ID to the admin
@@ -1504,7 +1511,7 @@ class DB_DataObjectCommon extends DB_DataObject
             // Return the manager and trafficker account IDs
             $aAccountIds = [
                 OA_ACCOUNT_MANAGER => $managerAccountId,
-                OA_ACCOUNT_TRAFFICKER => $accountId
+                OA_ACCOUNT_TRAFFICKER => $accountId,
             ];
         }
         return $aAccountIds;
@@ -1530,7 +1537,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($audit) {
             if ($this->_auditEnabled()) {
                 if (is_null($this->doAudit)) {
-                    $this->doAudit = $this->factory('audit');
+                    $this->doAudit = static::factory('audit');
                 }
                 $this->doAudit->actionid = $actionid;
                 $this->doAudit->context = $this->getTableWithoutPrefix();
@@ -1644,7 +1651,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
                 foreach ($aFields as $name => $type) {
                     // don't bother auditing timestamp changes?
-                    if ($name <> 'updated') {
+                    if ($name != 'updated') {
                         $valNew = $dataobjectNew->_formatValue($name, $type);
                         $valOld = null !== $dataobjectOld ? $dataobjectOld->_formatValue($name, $type) : '';
                         if ($valNew !== $valOld) {
@@ -1666,27 +1673,17 @@ class DB_DataObjectCommon extends DB_DataObject
      * this will fill in default formatting
      *
      * @param string $field
-     * @param integer $type : dataobject type (found in db_schema.ini)
-     * @return mixed
+     * @param int $type : dataobject type (found in db_schema.ini)
      */
 
-    public function _formatValue(string $field, $type = 0)
+    public function _formatValue(string $field, int $type = 0)
     {
-        switch ($type) {
-            case 129:
-            case 1:
-                return (int) $this->$field;
-            case 145:
-                return $this->_boolToStr($this->$field);
-//  text / blob fields
-// override these in children?
-            case 194:
-            case 66:
-                //return 'data too large to audit';
-                return htmlspecialchars($this->$field);
-            default:
-                return $this->$field;
-        }
+        return match ($type) {
+            129, 1 => (int) $this->$field,
+            145 => static::_boolToStr($this->$field),
+            194, 66 => htmlspecialchars($this->$field),
+            default => $this->$field,
+        };
     }
 
     public function _buildAuditArray($actionid, &$aAuditFields)
@@ -1704,34 +1701,20 @@ class DB_DataObjectCommon extends DB_DataObject
             return $val ? 'true' : 'false';
         }
 
-        $val = (string)$val;
+        $val = (string) $val;
 
         if (is_numeric($val)) {
-            switch ($val) {
-                case '0':
-                    return 'false';
-                case '1':
-                    return 'true';
-                default:
-                    return $val;
-            }
+            return match ($val) {
+                '0' => 'false',
+                '1' => 'true',
+                default => $val,
+            };
         } else {
-            switch ($val) {
-                case 'f':
-                case 'n':
-                case 'N':
-                case 'false':
-                    return 'false';
-
-                case 't':
-                case 'y':
-                case 'Y':
-                case 'true':
-                    return 'true';
-
-                default:
-                    return $val;
-            }
+            return match ($val) {
+                'f', 'n', 'N', 'false' => 'false',
+                't', 'y', 'Y', 'true' => 'true',
+                default => $val,
+            };
         }
     }
 }

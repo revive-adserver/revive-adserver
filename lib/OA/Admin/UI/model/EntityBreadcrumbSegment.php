@@ -21,29 +21,29 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
      * @var string
      */
     private $entityLabel;
-    
+
     /**
      * Entity name eg. "My advertiser", "My first campaign"
      *
      * @var string
      */
     private $entityName;
-    
+
     /**
      * CSS class indicating entity type icon which will be displayed next to type name.
      *
      * @var string
      */
     private $cssClass;
-    
+
     /**
      * A url for entity page
      *
      * @var string
      */
     private $url;
-    
-    
+
+
     /**
      * Entity id, meaningful and useful only when segment contains a list
      * of other entities. Used then to select current from the list
@@ -52,7 +52,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
      */
     private $entityId;
 
-    
+
     /**
      * Map of entityId => (entityName, [entityUrl]) entries.
      *
@@ -67,8 +67,8 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
      * @var string
      */
     private $htmlName;
-    
-    
+
+
     public function __construct($entityLabel = null, $entityName = null, $cssClass = null, $url = null)
     {
         $this->entityLabel = $entityLabel;
@@ -76,8 +76,8 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
         $this->url = $url;
         $this->cssClass = $cssClass;
     }
-    
-    
+
+
     /**
      * @return string
      */
@@ -85,7 +85,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->cssClass;
     }
-    
+
     /**
      * @return string
      */
@@ -93,7 +93,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->entityLabel;
     }
-    
+
     /**
      * @return string
      */
@@ -101,7 +101,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->url;
     }
-    
+
     /**
      * @param string $cssClass
      */
@@ -109,7 +109,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         $this->cssClass = $cssClass;
     }
-    
+
     /**
      * @param string $entityLabel
      */
@@ -117,7 +117,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         $this->entityLabel = $entityLabel;
     }
-    
+
     /**
      * @param string $url
      */
@@ -125,7 +125,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         $this->url = $url;
     }
-    
+
     /**
      * @return string
      */
@@ -133,8 +133,8 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->entityName;
     }
-    
-    
+
+
     /**
      * @param string $entityName
      */
@@ -150,8 +150,8 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->entityId;
     }
-    
-    
+
+
     /**
      * @return string
      */
@@ -159,8 +159,8 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->htmlName;
     }
-    
-    
+
+
     /**
      * @param int $entityId
      */
@@ -169,7 +169,7 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
         $this->entityId = $entityId;
     }
 
-    
+
     /**
      * @param string $htmlName
      */
@@ -177,8 +177,8 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         $this->htmlName = $htmlName;
     }
-    
-    
+
+
     /**
      * Returns map of entityId => (entityName, [entityUrl]) entries.
      * @return array
@@ -187,18 +187,18 @@ class OA_Admin_UI_Model_EntityBreadcrumbSegment
     {
         return $this->aEntityMap;
     }
-    
+
     /**
      * @param array $aEntityMap
      */
     public function setEntityMap($aEntityMap)
     {
         if (!empty($aEntityMap)) {
-            uasort($aEntityMap, [$this, "orderEntitiesByNameAsc"]);
+            uasort($aEntityMap, $this->orderEntitiesByNameAsc(...));
         }
         $this->aEntityMap = $aEntityMap;
     }
-    
+
     /**
      * Order the drop down selectors by Name asc for easy browsing
      * when selector has thousands of entries

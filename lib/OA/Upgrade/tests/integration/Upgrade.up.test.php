@@ -23,9 +23,6 @@ class Test_OA_Upgrade extends UnitTestCase
 {
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -89,22 +86,22 @@ class Test_OA_Upgrade extends UnitTestCase
 
     public function test_install()
     {
-//        $oUpgrade = new OA_Upgrade();
-//
-//        $aDsnOld = $GLOBALS['_MAX']['CONF']['database'];
-//        $aTblOld = $GLOBALS['_MAX']['CONF']['table'];
-//
-//        $aDsn['database']           = $aDsnOld;
-//        $aDsn['table']              = $aTblOld;
-//        $aDsn['database']['name']   = 'openads_install';
-//        $aDsn['table']['prefix']    = 'oa_';
-//
-//        OA_DB::dropDatabase($aDsn['database']['name']);
-//        $oUpgrade->install($aDsn);
-//        //OA_DB::dropDatabase($aDsn['database']['name']);
-//
-//        $GLOBALS['_MAX']['CONF']['database'] = $aDsnOld;
-//        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
+        //        $oUpgrade = new OA_Upgrade();
+        //
+        //        $aDsnOld = $GLOBALS['_MAX']['CONF']['database'];
+        //        $aTblOld = $GLOBALS['_MAX']['CONF']['table'];
+        //
+        //        $aDsn['database']           = $aDsnOld;
+        //        $aDsn['table']              = $aTblOld;
+        //        $aDsn['database']['name']   = 'openads_install';
+        //        $aDsn['table']['prefix']    = 'oa_';
+        //
+        //        OA_DB::dropDatabase($aDsn['database']['name']);
+        //        $oUpgrade->install($aDsn);
+        //        //OA_DB::dropDatabase($aDsn['database']['name']);
+        //
+        //        $GLOBALS['_MAX']['CONF']['database'] = $aDsnOld;
+        //        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
     }
 
     public function test_getUpgradeLogFileName()
@@ -273,7 +270,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_Upgrade',
             'OA_Upgrade_for_detectPAN',
-            ['initDatabaseConnection']
+            ['initDatabaseConnection'],
         );
         $oUpgrade = new OA_Upgrade_for_detectPAN($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
@@ -283,7 +280,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_phpAdsNew',
             'OA_phpAdsNew_for_detectPAN',
-            ['init', 'getPANversion']
+            ['init', 'getPANversion'],
         );
 
         $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
@@ -297,14 +294,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->aDsn['database']['name'] = 'pan_test';
         $oUpgrade->oPAN->oDbh = null;
 
-//        Mock::generatePartial(
-//            'OA_DB_Integrity',
-//            'OA_DB_Integrity_for_detectPAN',
-//            array('checkIntegrityQuick')
-//        );
-//        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
-//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-//        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+        //        Mock::generatePartial(
+        //            'OA_DB_Integrity',
+        //            'OA_DB_Integrity_for_detectPAN',
+        //            array('checkIntegrityQuick')
+        //        );
+        //        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
+        //        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        //        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
         $this->assertFalse($oUpgrade->detectPAN(true), 'PAN not detected: found application version ' . $oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication, '200.311', 'wrong initial application version expected 200.311 got' . $oUpgrade->versionInitialApplication);
@@ -320,7 +317,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->tally();
         $oUpgrade->oPAN->tally();
-//        $oUpgrade->oIntegrity->tally();
+        //        $oUpgrade->oIntegrity->tally();
 
         TestEnv::restoreConfig();
     }
@@ -335,7 +332,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_Upgrade',
             'OA_Upgrade_for_detectM01',
-            ['initDatabaseConnection']
+            ['initDatabaseConnection'],
         );
         $oUpgrade = new OA_Upgrade_for_detectM01($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
@@ -345,7 +342,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_phpAdsNew',
             'OA_phpAdsNew_for_detectM01',
-            ['init', 'getPANversion']
+            ['init', 'getPANversion'],
         );
 
         $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
@@ -359,14 +356,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->aDsn['database']['name'] = 'm01_test';
         $oUpgrade->oPAN->oDbh = null;
 
-//        Mock::generatePartial(
-//            'OA_DB_Integrity',
-//            'OA_DB_Integrity_for_detectM01',
-//            array('checkIntegrityQuick')
-//        );
-//        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
-//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-//        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+        //        Mock::generatePartial(
+        //            'OA_DB_Integrity',
+        //            'OA_DB_Integrity_for_detectM01',
+        //            array('checkIntegrityQuick')
+        //        );
+        //        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
+        //        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        //        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
         $this->assertFalse($oUpgrade->detectMAX01(true), 'Max 0.1 not detected: found application version ' . $oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication, '0.000', 'wrong initial application version expected 0.000 got' . $oUpgrade->versionInitialApplication);
@@ -382,7 +379,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->tally();
         $oUpgrade->oPAN->tally();
-//        $oUpgrade->oIntegrity->tally();
+        //        $oUpgrade->oIntegrity->tally();
 
         TestEnv::restoreConfig();
     }
@@ -398,14 +395,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->initDatabaseConnection();
         $GLOBALS['_MAX']['CONF']['max']['installed'] = 1;
 
-//        Mock::generatePartial(
-//            'OA_DB_Integrity',
-//            'OA_DB_Integrity_for_detectMax',
-//            array('checkIntegrityQuick')
-//        );
-//        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectMax($this);
-//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-//        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+        //        Mock::generatePartial(
+        //            'OA_DB_Integrity',
+        //            'OA_DB_Integrity_for_detectMax',
+        //            array('checkIntegrityQuick')
+        //        );
+        //        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectMax($this);
+        //        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        //        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
         $this->_createTestAppVarRecord('max_version', 'v0.3.30-alpha');
         $this->assertFalse($oUpgrade->detectMAX(true), 'Max 0.3 not detected: found application version ' . $oUpgrade->versionInitialApplication);
@@ -423,7 +420,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         unset($GLOBALS['_MAX']['CONF']['max']['installed']);
 
-//        $oUpgrade->oIntegrity->tally();
+        //        $oUpgrade->oIntegrity->tally();
     }
 
     /**
@@ -439,14 +436,14 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
 
-//        Mock::generatePartial(
-//            'OA_DB_Integrity',
-//            $mockInteg = 'OA_DB_Integrity'.rand(),
-//            array('checkIntegrityQuick')
-//        );
-//        $oUpgrade->oIntegrity = new $mockInteg($this);
-//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-//        $oUpgrade->oIntegrity->expectCallCount('checkIntegrityQuick',2);
+        //        Mock::generatePartial(
+        //            'OA_DB_Integrity',
+        //            $mockInteg = 'OA_DB_Integrity'.rand(),
+        //            array('checkIntegrityQuick')
+        //        );
+        //        $oUpgrade->oIntegrity = new $mockInteg($this);
+        //        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        //        $oUpgrade->oIntegrity->expectCallCount('checkIntegrityQuick',2);
 
         $this->_createTestAppVarRecord('oa_version', '2.3.31-beta');
         $this->assertTrue($oUpgrade->detectOpenads(true), 'openads not detected: found application version ' . $oUpgrade->versionInitialApplication);
@@ -470,7 +467,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aPackageList, [], 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
-//        $oUpgrade->oIntegrity->tally();
+        //        $oUpgrade->oIntegrity->tally();
     }
 
     /**
@@ -525,16 +522,16 @@ class Test_OA_Upgrade extends UnitTestCase
             'OA_Upgrade_Config',
             $mockConfig = 'OA_Upgrade_Config' . rand(),
             [
-                                        'backupConfig',
-                                        'mergeConfig',
-                                        'setupConfigDatabase',
-                                        'setupConfigTable',
-                                        'setValue',
-                                        'writeConfig',
-                                        'getConfigBackupName',
-                                        'clearConfigBackupName',
-                                        'setBulkValue',
-                                    ]
+                'backupConfig',
+                'mergeConfig',
+                'setupConfigDatabase',
+                'setupConfigTable',
+                'setValue',
+                'writeConfig',
+                'getConfigBackupName',
+                'clearConfigBackupName',
+                'setBulkValue',
+            ],
         );
         $oUpgrade->oConfiguration = new $mockConfig($this);
 
@@ -571,7 +568,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Integrity',
             $mockInteg = 'OA_DB_Integrity' . rand(),
-            ['checkIntegrityQuick']
+            ['checkIntegrityQuick'],
         );
         $oUpgrade->oIntegrity = new $mockInteg($this);
         $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
@@ -608,7 +605,7 @@ class Test_OA_Upgrade extends UnitTestCase
         }
         // the application variable should match the code version stamp
         $this->assertEqual($oUpgrade->versionInitialApplication, VERSION, 'wrong initial application version: ' . $oUpgrade->versionInitialApplication);
-//        $this->_deleteTestAppVarRecordAllNames('oa_version');
+        //        $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $oUpgrade->oConfiguration->tally();
         $oUpgrade->oIntegrity->tally();

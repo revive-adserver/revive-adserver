@@ -71,7 +71,7 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
         if ($this->find()) {
             while ($this->fetch()) {
                 //  copy the current acl, change the channel id, and insert
-                $oNewChannelAcl = clone($this);
+                $oNewChannelAcl = clone ($this);
                 $oNewChannelAcl->channelid = $newChannelId;
                 $result = $oNewChannelAcl->insert();
 

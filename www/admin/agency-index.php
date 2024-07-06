@@ -23,7 +23,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 phpAds_registerGlobal(
     'hideinactive',
     'listorder',
-    'orderdirection'
+    'orderdirection',
 );
 
 // Security check
@@ -32,7 +32,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-addPageTools();
+addAdminPageTools();
 phpAds_PageHeader("4.1");
 phpAds_ShowSections(["4.1", "4.3", "4.4"]);
 
@@ -85,9 +85,7 @@ $aManagers = $dalAgency->getAllManagers($listorder, $orderdirection);
 $agencyCount = count($aManagers);
 
 if ($hideinactive) {
-    $aManagers = array_filter($aManagers, function ($agency) {
-        return !$agency['status'];
-    });
+    $aManagers = array_filter($aManagers, fn($agency) => !$agency['status']);
 
     $inactiveCount = $agencyCount - count($aManagers);
 }
@@ -185,9 +183,12 @@ if (!isset($aManagers) || !is_array($aManagers) || count($aManagers) == 0) {
         echo "\t\t\t\t\t<td height='25'>";
 
         switch ($agency['status']) {
-            case OA_ENTITY_STATUS_RUNNING: echo $GLOBALS['strAgencyStatusRunning']; break;
-            case OA_ENTITY_STATUS_PAUSED: echo $GLOBALS['strAgencyStatusPaused']; break;
-            case OA_ENTITY_STATUS_INACTIVE: echo $GLOBALS['strAgencyStatusInactive']; break;
+            case OA_ENTITY_STATUS_RUNNING: echo $GLOBALS['strAgencyStatusRunning'];
+                break;
+            case OA_ENTITY_STATUS_PAUSED: echo $GLOBALS['strAgencyStatusPaused'];
+                break;
+            case OA_ENTITY_STATUS_INACTIVE: echo $GLOBALS['strAgencyStatusInactive'];
+                break;
         }
 
         echo "</td>\n";
@@ -279,7 +280,7 @@ phpAds_SessionDataStore();
 
 phpAds_PageFooter();
 
-function addPageTools()
+function addAdminPageTools()
 {
     addPageLinkTool($GLOBALS['strAddAgency_Key'], "agency-edit.php", "iconAdvertiserAdd", $GLOBALS["keyAddNew"]);
 }

@@ -238,26 +238,26 @@ class OA_Dll_CampaignInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-                    'campaignId' => 'integer',
-                    'advertiserId' => 'integer',
-                    'campaignName' => 'string',
-                    'startDate' => 'date',
-                    'endDate' => 'date',
-                    'impressions' => 'integer',
-                    'clicks' => 'integer',
-                    'priority' => 'integer',
-                    'weight' => 'integer',
-                    'targetImpressions' => 'integer',
-                    'targetClicks' => 'integer',
-                    'targetConversions' => 'integer',
-                    'revenue' => 'double',
-                    'revenueType' => 'integer',
-                    'capping' => 'integer',
-                    'sessionCapping' => 'integer',
-                    'block' => 'integer',
-                    'comments' => 'string',
-                    'viewWindow' => 'integer',
-                    'clickWindow' => 'integer'
-                ];
+            'campaignId' => 'integer',
+            'advertiserId' => 'integer',
+            'campaignName' => 'string',
+            'startDate' => 'date',
+            'endDate' => 'date',
+            'impressions' => 'integer',
+            'clicks' => 'integer',
+            'priority' => 'integer',
+            'weight' => 'integer',
+            'targetImpressions' => 'integer',
+            'targetClicks' => 'integer',
+            'targetConversions' => 'integer',
+            'revenue' => 'double',
+            'revenueType' => 'integer',
+            'capping' => 'integer',
+            'sessionCapping' => 'integer',
+            'block' => 'integer',
+            'comments' => 'string',
+            'viewWindow' => 'integer',
+            'clickWindow' => 'integer',
+        ];
     }
 }

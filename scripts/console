@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
+|                                                                           |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
++---------------------------------------------------------------------------+
+*/
+
+namespace RV_Console;
+
+// Protect this script to be used only from command-line
+if (PHP_SAPI !== 'cli') {
+    echo "Sorry, this script must be run from the command-line";
+    exit;
+}
+
+require_once __DIR__ . '/../lib/vendor/autoload.php';
+
+use RV\Command\AbstractReviveCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+AbstractReviveCommand::registerCommands($application);
+
+$application->run();

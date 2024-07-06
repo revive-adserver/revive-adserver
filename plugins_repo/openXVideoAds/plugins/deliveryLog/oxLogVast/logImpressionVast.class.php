@@ -55,7 +55,7 @@ class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLo
             'creative_id' => self::INTEGER,
             'zone_id' => self::INTEGER,
             'vast_event_id' => self::INTEGER,
-            'count' => self::INTEGER
+            'count' => self::INTEGER,
         ];
         return $aColumns;
     }
@@ -102,14 +102,14 @@ class Plugins_DeliveryLog_OxLogVast_LogImpressionVast extends Plugins_DeliveryLo
                 3 => 'vast_event_id',
             ],
             'sumSource' => [
-                0 => 'count'
+                0 => 'count',
             ],
             'sumDestination' => [
-                0 => 'count'
+                0 => 'count',
             ],
             'sumDefault' => [
-                0 => 0
-            ]
+                0 => 0,
+            ],
         ];
         return $aMap;
     }

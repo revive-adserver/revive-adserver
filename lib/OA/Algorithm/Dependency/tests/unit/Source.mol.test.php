@@ -34,7 +34,7 @@ class Test_OA_Algorithm_Dependency_Source extends UnitTestCase
         $items = [
             'B' => [],
             'C' => [],
-            'A' => ['B', 'C']
+            'A' => ['B', 'C'],
         ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $ret = $source->load();
@@ -75,7 +75,7 @@ class Test_OA_Algorithm_Dependency_Source extends UnitTestCase
         $items = [
             'B' => [],
             'C',
-            'A' => ['B', 'C']
+            'A' => ['B', 'C'],
         ];
         $source = new OA_Algorithm_Dependency_Source_HoA($items);
         $source->load();

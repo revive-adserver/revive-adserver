@@ -29,30 +29,30 @@ class Plugins_admin_openXVideoAds_vastMenuChecker implements OA_Admin_Menu_IChec
         $vast = new OX_Video_Report();
         phpAds_registerGlobal('clientid', 'campaignid', 'bannerid', 'zoneid');
         global $clientid, $campaignid, $bannerid, $zoneid, $affiliateid;
-//        echo "<pre>";debug_print_backtrace();
+        //        echo "<pre>";debug_print_backtrace();
         switch ($oSection->getId()) {
             case 'stats-vast-advertiser':
-                    $enabled = $vast->doesAdvertiserHaveVast((int)$clientid);
+                $enabled = $vast->doesAdvertiserHaveVast((int) $clientid);
                 break;
             case 'stats-vast-campaign':
-                    $enabled = $vast->doesCampaignHaveVast((int)$campaignid);
+                $enabled = $vast->doesCampaignHaveVast((int) $campaignid);
                 break;
             case 'stats-vast-banner':
-                    $enabled = $vast->doesBannerHaveVast((int)$bannerid);
+                $enabled = $vast->doesBannerHaveVast((int) $bannerid);
                 break;
             case 'stats-vast-zone':
-                    $enabled = $vast->isZoneVast((int)$zoneid);
+                $enabled = $vast->isZoneVast((int) $zoneid);
                 break;
             case 'stats-vast-website':
-                    $enabled = $vast->doesWebsiteHaveVast((int)$affiliateid);
+                $enabled = $vast->doesWebsiteHaveVast((int) $affiliateid);
                 break;
             case 'players-vast':
                 return true;
                 break;
             case 'zone-invocation':
-                if (!empty($zoneid) && $vast->isZoneVast((int)$zoneid)) {
+                if (!empty($zoneid) && $vast->isZoneVast((int) $zoneid)) {
                     $oSection->setNameKey('Video Invocation Code');
-                    $oSection->setLink('plugins/videoReport/zone-invocation-code.php?zoneid=' . (int)$zoneid . '&affiliateid=' . (int)$affiliateid);
+                    $oSection->setLink('plugins/videoReport/zone-invocation-code.php?zoneid=' . (int) $zoneid . '&affiliateid=' . (int) $affiliateid);
                 }
                 $enabled = true;
                 break;

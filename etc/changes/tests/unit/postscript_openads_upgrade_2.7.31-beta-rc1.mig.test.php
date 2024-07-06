@@ -36,7 +36,7 @@ class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
         Mock::generatePartial(
             'OA_UpgradePostscript_2_7_31_beta_rc1',
             $mockName = 'OA_UpgradePostscript_2_7_31_beta_rc1' . rand(),
-            []
+            [],
         );
         $doMockPostUpgrade = new OA_UpgradePostscript_2_7_31_beta_rc1($this);
         $doMockPostUpgrade->oUpgrade = $oUpgrade;

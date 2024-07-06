@@ -29,40 +29,23 @@ require_once OX_PATH . '/lib/OX.php';
  */
 class MAX_ErrorHandler
 {
-    public $errorType = [];
-    public $sourceContextOptions = [];
-
-    /**
-     * Constructor.
-     *
-     * @access  public
-     * @return  void
-     */
-    public function __construct()
-    {
-        //  first dimension elements are PHP error types
-        //  2nd dimension elements are roughly PEAR Log's equivalents
-
-        //  nb: comment out Notice for equivalent of
-        //  error_reporting(E_ALL ^ E_NOTICE);
-        $this->errorType = [
-               1 => ['Error', 3],
-               2 => ['Warning', 4],
-               4 => ['Parsing Error', 3],
-               8 => ['Notice', 5],
-               16 => ['Core Error', 3],
-               32 => ['Core Warning', 4],
-               64 => ['Compile Error', 3],
-               128 => ['Compile Warning', 4],
-               256 => ['User Error', 3],
-               512 => ['User Warning', 4],
-               1024 => ['User Notice', 5],
-               2048 => ['Strict', 5],
-               4096 => ['Recoverable', 5],
-               8192 => ['Deprecated', 5],
-                ];
-        $this->sourceContextOptions = ['lines' => 5];
-    }
+    public $errorType = [
+        1 => ['Error', 3],
+        2 => ['Warning', 4],
+        4 => ['Parsing Error', 3],
+        8 => ['Notice', 5],
+        16 => ['Core Error', 3],
+        32 => ['Core Warning', 4],
+        64 => ['Compile Error', 3],
+        128 => ['Compile Warning', 4],
+        256 => ['User Error', 3],
+        512 => ['User Warning', 4],
+        1024 => ['User Notice', 5],
+        2048 => ['Strict', 5],
+        4096 => ['Recoverable', 5],
+        8192 => ['Deprecated', 5],
+    ];
+    public $sourceContextOptions = ['lines' => 5];
 
     /**
      * BC hack to assign custom error handler in a method.
@@ -72,7 +55,7 @@ class MAX_ErrorHandler
      */
     public function startHandler()
     {
-        set_error_handler([$this, 'errHandler']);
+        set_error_handler($this->errHandler(...));
     }
 
     /**
@@ -144,7 +127,7 @@ EOF;
                 $oDbh = OA_DB::singleton();
                 $lastQuery = $oDbh->last_query;
                 $aExtraInfo['callingURL'] = $_SERVER['SCRIPT_NAME'];
-                $aExtraInfo['lastSQL'] = isset($oDbh->last_query) ? $oDbh->last_query : null;
+                $aExtraInfo['lastSQL'] = $oDbh->last_query ?? null;
                 $aExtraInfo['clientData']['HTTP_REFERER'] = &$_SERVER['HTTP_REFERER'];
                 $aExtraInfo['clientData']['HTTP_USER_AGENT'] = &$_SERVER['HTTP_USER_AGENT'];
                 $aExtraInfo['clientData']['REMOTE_ADDR'] = &$_SERVER['REMOTE_ADDR'];
@@ -187,7 +170,7 @@ EOF;
         //  check that file exists
         if (!file_exists($file)) {
             $sourceContext = "Context cannot be shown - ($file) does not exist";
-        //  check if line number is valid
+            //  check if line number is valid
         } elseif ((!is_int($line)) || ($line <= 0)) {
             $sourceContext = "Context cannot be shown - ($line) is an invalid line number";
         } else {
@@ -220,7 +203,7 @@ EOF;
                 }
             }
 
-            $sourceContext = trim(join("<br />\n", $context_lines)) . "<br />\n";
+            $sourceContext = trim(implode("<br />\n", $context_lines)) . "<br />\n";
         }
 
         return $sourceContext;

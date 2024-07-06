@@ -38,7 +38,7 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         Mock::generatePartial(
             'OA_UpgradeLogger',
             $mockLogger = 'OA_UpgradeLogger' . rand(),
-            ['logOnly', 'logError', 'log']
+            ['logOnly', 'logError', 'log'],
         );
 
         $oLogger = new $mockLogger($this);
@@ -49,7 +49,7 @@ class Migration_postscript_2_8_1_RC4Test extends MigrationTest
         Mock::generatePartial(
             'OA_Upgrade',
             $mockUpgrade = 'OA_Upgrade' . rand(),
-            ['addPostUpgradeTask']
+            ['addPostUpgradeTask'],
         );
         $mockUpgrade = new $mockUpgrade($this);
         $mockUpgrade->setReturnValue('addPostUpgradeTask', true);

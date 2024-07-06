@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DataObjects_ImagesTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         DataGenerator::cleanUp();
@@ -50,7 +42,7 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         $expected = 'foo_2.jpg';
         $this->assertEqual($doImages->getUniqueFileNameForDuplication(), $expected);
     }
-    
+
     /**
      * Tests the timestamps are updated correctly.
      *
@@ -64,16 +56,16 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         // Get the start time of the test
         $start = time();
         sleep(1);
-        
+
         // Insert an image
         $doImages = OA_Dal::factoryDO('images');
         $doImages->filename = 'foo.jpg';
         $doImages->contents = '';
         DataGenerator::generateOne($doImages);
-        
+
         // Get the image out of the DB
         $doImages = OA_Dal::staticGetDO('images', 'filename', 'foo.jpg');
-        
+
         // Check the timestamp is > time at start of test and <= current time
         // Deal with MySQL 4.0 timestamps
         if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doImages->t_stamp, $m)) {
@@ -81,16 +73,16 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         }
         $actual = strtotime($doImages->t_stamp);
         $this->assertTrue($actual > $start && $actual <= time());
-        
+
         // Test 2
         // Update the image
         $doImages->contents = '1';
         sleep(1);
         $doImages->update();
-        
+
         // Get the image out of the DB
         $doImages = OA_Dal::staticGetDO('images', 'filename', 'foo.jpg');
-        
+
         $oldTime = $actual;
         // Deal with MySQL 4.0 timestamps
         if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doImages->t_stamp, $m)) {

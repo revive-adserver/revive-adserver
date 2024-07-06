@@ -157,8 +157,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -189,8 +189,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $aData
-                )
+                    $aData,
+                ),
             );
         } else {
             return false;
@@ -221,8 +221,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -253,8 +253,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -285,8 +285,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $oStartDate,
                     $oEndDate,
                     $localTZ,
-                    $rsStatisticsData
-                )
+                    $rsStatisticsData,
+                ),
             );
         } else {
             return false;
@@ -308,7 +308,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllZone->getZone($zoneId, $oZone)
+                $this->_dllZone->getZone($zoneId, $oZone),
             );
         } else {
             return false;
@@ -333,8 +333,8 @@ class ZoneServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllZone->getZoneListByPublisherId(
                     $publisherId,
-                    $aZoneList
-                )
+                    $aZoneList,
+                ),
             );
         } else {
             return false;

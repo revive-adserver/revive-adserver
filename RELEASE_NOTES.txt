@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.4.2
+Release Notes: Revive Adserver 5.6.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,34 +14,71 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.4.2
+What's New in Revive Adserver 5.6.0
 -----------------------------------
 
  * Release date: t.b.d.
 
 
- Security Updates
- ----------------
+Security Updates
+----------------
 
  * None
 
 
- New Features
- ------------
+New Features
+------------
 
- * None
+ * Added "Link: rel=preconnect" header when using SSL connection and images
+   are hosted on a different hostname then delivery (e.g. CDN), in order to
+   speed up ad rendering on a page.
+
+ * Added new "addMagicMacros" delivery plugin hook.
+
+ * New displayNameLength configuration directive to increase the length of
+   campaign and banner names displayed in the zone linking screens.
+
+ * Added loading animation when the next screen is taking some time to load
+   and a new UI setting to disable or customise how long to wait before
+   displaying the loader (defaults to 250ms).
+
+ * Improved pruning of the data_summary_ad_zone_assoc table.
+
+ * Added new command to delete orphaned images or HTML5 banner folders.
+   The command can be executed using the new script/console entry point,
+   based on Symfony Console Command component.
 
 
- Bug Fixes
- ---------
+Bug Fixes
+---------
 
- * None
+ * HEAD requests to delivery scripts were previously executed and counted
+   as proper requests, even though the ad payload would have been discarded.
+
+ * Fixed issue with the search functionality being case-sensitive when
+   using a Postgres database.
+
+ * Optimimized some queries used in the statistics screen, leading to
+   faster response times on very large instances.
+
+ * Changed the OAGEO cookie from session cookie to permanent, with a 30m
+   expiration time. This should allow refreshing geo information for mobile
+   users on the move.
 
 
- Non-Backwards Compatible Changes
- --------------------------------
+Non-Backwards Compatible Changes
+--------------------------------
 
- * None
+ * Revive Adserver now requires at least PHP 8.1
+
+
+Community Contributions
+------------------------
+
+We would like to thank the following community members for their
+contribution to this release:
+
+ * zd-ls
 
 
 System Requirements

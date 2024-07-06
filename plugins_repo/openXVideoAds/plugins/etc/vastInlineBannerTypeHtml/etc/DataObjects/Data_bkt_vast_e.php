@@ -23,9 +23,9 @@ class DataObjects_Data_bkt_vast_e extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'interval_start' => '%NO_DATE_TIME%',
-                'count' => 0,
-                ];
+        'interval_start' => '%NO_DATE_TIME%',
+        'count' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

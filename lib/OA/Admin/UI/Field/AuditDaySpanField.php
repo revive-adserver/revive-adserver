@@ -20,7 +20,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
     public function __construct(
         $name = 'AuditDaySpanField',
         $fieldSelectionDefault = 'all_events',
-        $aFieldSelectionNames = null
+        $aFieldSelectionNames = null,
     ) {
         parent::__construct($name, $fieldSelectionDefault, $aFieldSelectionNames);
         $this->oTrans = new OX_Translation();
@@ -43,8 +43,8 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
             'last_7_days' => $GLOBALS['strCollectedLast7Days'],
             'this_month' => $GLOBALS['strCollectedThisMonth'],
             'last_month' => $GLOBALS['strCollectedLastMonth'],
-            'specific' => $GLOBALS['strCollectedSpecificDates']
-          ];
+            'specific' => $GLOBALS['strCollectedSpecificDates'],
+        ];
     }
     /**
      * A method that echos the HTML for this field.
@@ -113,7 +113,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
             var specific = {$this->_name}SelectName == 'specific';";
 
         $oTmpDaySpan = new OA_Admin_DaySpan();
-        foreach ($this->_fieldSelectionNames as $v => $n) {
+        foreach (array_keys($this->_fieldSelectionNames) as $v) {
             if ($v != 'specific') {
                 if ($v != 'all_events') {
                     $oTmpDaySpan->setSpanPresetValue($v);

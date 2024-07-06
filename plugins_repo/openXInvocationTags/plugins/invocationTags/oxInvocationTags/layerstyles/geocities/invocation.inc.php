@@ -93,8 +93,8 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
         global $align, $collapsetime, $padding, $closetext;
 
         $mi->parameters[] = 'layerstyle=geocities';
-        $mi->parameters[] = 'align=' . (isset($align) ? $align : 'right');
-        $mi->parameters[] = 'padding=' . (isset($padding) ? (int)$padding : '2');
+        $mi->parameters[] = 'align=' . ($align ?? 'right');
+        $mi->parameters[] = 'padding=' . (isset($padding) ? (int) $padding : '2');
 
         if (isset($closetext)) {
             $mi->parameters[] = 'closetext=' . urlencode($closetext);
@@ -108,7 +108,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
         }
 
         $scriptUrl = MAX_commonConstructDeliveryUrl($conf['file']['layer'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if ($mi->parameters !== []) {
             $scriptUrl .= "?" . implode("&", $mi->parameters);
         }
         $buffer = "<script type='text/javascript'><!--//<![CDATA[
@@ -136,7 +136,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'charset' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'layerstyle' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM
+            'layercustom' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         ];
     }
 }

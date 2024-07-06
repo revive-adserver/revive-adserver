@@ -40,7 +40,7 @@ if ($generateFakeStatistics) {
 $outputAllCallGetStatistics = false;
 if ($outputAllCallGetStatistics) {
     $availableDimensions = [//"campaign", "banner", "zone",
-                                "day", "week", "month", "year", "hour-of-day"];
+        "day", "week", "month", "year", "hour-of-day"];
     $availableEntities = [
         //entity name, entity id
         ['banner', 1],

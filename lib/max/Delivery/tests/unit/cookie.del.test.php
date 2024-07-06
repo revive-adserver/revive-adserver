@@ -21,14 +21,6 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 class Test_DeliveryCookie extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the MAX_cookieAdd() function.
      *
      * This function does not output cookies, instead it sets a global cookie array or ads to it if it exists
@@ -219,31 +211,17 @@ class Test_DeliveryCookie extends UnitTestCase
         $this->assertTrue(strlen($_COOKIE[$conf['var']['blockAd']]) < 2048);
     }
 
-    public function test_getTimeThirtyDaysFromNow()
-    {
-    }
+    public function test_getTimeThirtyDaysFromNow() {}
 
-    public function test_getTimeYearFromNow()
-    {
-    }
+    public function test_getTimeYearFromNow() {}
 
-    public function test_getTimeYearAgo()
-    {
-    }
+    public function test_getTimeYearAgo() {}
 
-    public function test_MAX_cookieUnpackCapping()
-    {
-    }
+    public function test_MAX_cookieUnpackCapping() {}
 
-    public function test_isBlockCookie()
-    {
-    }
+    public function test_isBlockCookie() {}
 
-    public function test_MAX_cookieGetCookielessViewerID()
-    {
-    }
+    public function test_MAX_cookieGetCookielessViewerID() {}
 
-    public function test_MAX_Delivery_cookie_setCapping()
-    {
-    }
+    public function test_MAX_Delivery_cookie_setCapping() {}
 }

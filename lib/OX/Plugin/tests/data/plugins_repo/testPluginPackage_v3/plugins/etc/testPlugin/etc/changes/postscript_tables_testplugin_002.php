@@ -14,10 +14,6 @@ $className = 'postscript_tables_testplugin_002';
 
 class postscript_tables_testplugin_002
 {
-    public function __construct()
-    {
-    }
-
     public function execute_constructive($aParams = [])
     {
         $oManager = new OX_Plugin_ComponentGroupManager();

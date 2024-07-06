@@ -52,14 +52,14 @@ class Migration_tables_core_108Test extends MigrationTest
             'gui_show_parents' => 't',
             'updates_enabled' => 'f',
             'client_welcome_msg' => '',
-            'updates_cache' => ''
+            'updates_cache' => '',
         ];
         $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
         $this->oDbh->exec($sql);
 
         $aValues += [
             'warn_admin' => 't',
-            'warn_limit' => '100'
+            'warn_limit' => '100',
         ];
 
         $migration->migrateData();
@@ -114,7 +114,7 @@ class Migration_tables_core_108Test extends MigrationTest
             $geotracking_type,
             $geotracking_location,
             $geotracking_stats,
-            $geotracking_conf
+            $geotracking_conf,
         ));
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
     }
@@ -131,7 +131,7 @@ class Migration_tables_core_108Test extends MigrationTest
             $geotracking_type,
             $geotracking_location,
             $geotracking_stats,
-            $geotracking_conf
+            $geotracking_conf,
         ));
 
         $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation={$geotracking_location}\n";
@@ -150,7 +150,7 @@ class Migration_tables_core_108Test extends MigrationTest
             $geotracking_type,
             $geotracking_location,
             $geotracking_stats,
-            $geotracking_conf
+            $geotracking_conf,
         ));
 
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
@@ -168,7 +168,7 @@ class Migration_tables_core_108Test extends MigrationTest
             $geotracking_type,
             $geotracking_location,
             $geotracking_stats,
-            $geotracking_conf
+            $geotracking_conf,
         ));
 
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
@@ -186,7 +186,7 @@ class Migration_tables_core_108Test extends MigrationTest
             $geotracking_type,
             $geotracking_location,
             $geotracking_stats,
-            $geotracking_conf
+            $geotracking_conf,
         ));
 
         $this->checkGeoPluginConfig('ModGeoIP', $geotracking_stats, "[geotargeting]\ntype=ModGeoIP\n", $host);

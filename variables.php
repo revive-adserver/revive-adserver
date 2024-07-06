@@ -79,14 +79,13 @@ function setupConfigVariables()
     }
 
     // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
-    $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
-        $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
+    $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'] ?? 2147483647;
 
-    list($micro_seconds, $seconds) = explode(" ", microtime());
-    $GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float)$micro_seconds + (float)$seconds));
+    [$micro_seconds, $seconds] = explode(" ", microtime());
+    $GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float) $micro_seconds + (float) $seconds));
 
     // Always use UTC when outside the installer
-    if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+    if (!str_ends_with($_SERVER['SCRIPT_NAME'], 'install.php')) {
         // Save server timezone for auto-maintenance
         $GLOBALS['serverTimezone'] = date_default_timezone_get();
         OA_setTimeZoneUTC();
@@ -116,7 +115,7 @@ function setupServerVariables()
 function setupDeliveryConfigVariables()
 {
     if (!defined('MAX_PATH')) {
-        define('MAX_PATH', dirname(__FILE__));
+        define('MAX_PATH', __DIR__);
     }
     if (!defined('OX_PATH')) {
         define('OX_PATH', MAX_PATH);

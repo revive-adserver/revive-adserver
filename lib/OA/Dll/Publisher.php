@@ -49,7 +49,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['accountId'] = $publisherData['account_id'];
 
         $oPublisher->readDataFromArray($publisherData);
-        return  true;
+        return true;
     }
 
     /**
@@ -71,7 +71,6 @@ class OA_Dll_Publisher extends OA_Dll
             if (!$this->checkStructureRequiredIntegerField($oPublisher, 'publisherId')) {
                 return false;
             }
-
             $doPublisher = OA_Dal::factoryDO('affiliates');
             $doPublisher->get($oPublisher->publisherId);
             $publisherOld = $doPublisher->toArray();
@@ -79,11 +78,9 @@ class OA_Dll_Publisher extends OA_Dll
                 !$this->checkIdExistence('affiliates', $oPublisher->publisherId)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255)) {
             // When adding a publisher, check that the required field 'advertiserName' is correct.
-            if (!$this->checkStructureRequiredStringField($oPublisher, 'publisherName', 255)) {
-                return false;
-            }
+            return false;
         }
 
         if ((isset($oPublisher->emailAddress) &&
@@ -100,13 +97,8 @@ class OA_Dll_Publisher extends OA_Dll
         ) {
             return false;
         }
-
         // Check that an agencyID exists and that the user has permissions.
-        if (!$this->checkAgencyPermissions($oPublisher->agencyId)) {
-            return false;
-        }
-
-        return true;
+        return (bool) $this->checkAgencyPermissions($oPublisher->agencyId);
     }
 
     /**
@@ -153,7 +145,7 @@ class OA_Dll_Publisher extends OA_Dll
         if (!$this->checkPermissions(
             $this->aAllowTraffickerAndAbovePerm,
             'affiliates',
-            $oPublisher->publisherId
+            $oPublisher->publisherId,
         )) {
             return false;
         }
@@ -177,7 +169,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData = (array) $oPublisher;
 
         // Trim input variables
-        foreach ($publisherData as $key => $value) {
+        foreach (array_keys($publisherData) as $key) {
             $publisherData[$key] = trim($publisherData[$key]);
         }
 
@@ -201,7 +193,7 @@ class OA_Dll_Publisher extends OA_Dll
                 if ($oPublisher->publisherId) {
                     // Set the account ID
                     $doPublisher = OA_Dal::staticGetDO('affiliates', $oPublisher->publisherId);
-                    $oPublisher->accountId = (int)$doPublisher->account_id;
+                    $oPublisher->accountId = (int) $doPublisher->account_id;
                 }
             } else {
                 $doPublisher->get($publisherData['publisherId']);
@@ -228,7 +220,9 @@ class OA_Dll_Publisher extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'affiliates',
-            $publisherId
+            $publisherId,
+            null,
+            OA_Permission::OPERATION_DELETE,
         )) {
             return false;
         }
@@ -346,7 +340,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -388,7 +382,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -431,7 +425,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -475,7 +469,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -520,7 +514,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;
@@ -567,7 +561,7 @@ class OA_Dll_Publisher extends OA_Dll
                 $publisherId,
                 $oStartDate,
                 $oEndDate,
-                $localTZ
+                $localTZ,
             );
 
             return true;

@@ -148,7 +148,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->getUser($userId, $oUser)
+                $this->_dllUser->getUser($userId, $oUser),
             );
         } else {
             return false;
@@ -169,7 +169,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->getUserList($aUserList)
+                $this->_dllUser->getUserList($aUserList),
             );
         } else {
             return false;
@@ -194,8 +194,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->getUserListByAccountId(
                     $accountId,
-                    $aUserList
-                )
+                    $aUserList,
+                ),
             );
         } else {
             return false;
@@ -216,7 +216,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->updateSsoUserId($oldSsoUserId, $newSsoUserId)
+                $this->_dllUser->updateSsoUserId($oldSsoUserId, $newSsoUserId),
             );
         } else {
             return false;
@@ -237,7 +237,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->updateUserEmailBySsoId($ssoUserId, $email)
+                $this->_dllUser->updateUserEmailBySsoId($ssoUserId, $email),
             );
         } else {
             return false;
@@ -248,7 +248,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->linkUserToAdvertiserAccount($userId, $advertiserAccountId, $aPermissions)
+                $this->_dllUser->linkUserToAdvertiserAccount($userId, $advertiserAccountId, $aPermissions),
             );
         } else {
             return false;
@@ -259,7 +259,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->linkUserToTraffickerAccount($userId, $traffickerAccountId, $aPermissions)
+                $this->_dllUser->linkUserToTraffickerAccount($userId, $traffickerAccountId, $aPermissions),
             );
         } else {
             return false;
@@ -270,7 +270,7 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllUser->linkUserToManagerAccount($userId, $managerAccountId, $aPermissions)
+                $this->_dllUser->linkUserToManagerAccount($userId, $managerAccountId, $aPermissions),
             );
         } else {
             return false;

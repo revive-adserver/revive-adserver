@@ -117,11 +117,11 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $oConf->aConf['webpath']['admin'] = 'localhost';
         $oConf->aConf['webpath']['delivery'] = 'localhost';
         $oConf->aConf['webpath']['deliverySSL'] = 'localhost';
-        
+
         // Setup an array in the global $conf
         $GLOBALS['_MAX']['CONF']['foo'] = ['one' => 'bar', 'two' => 'baz'];
         $GLOBALS['_MAX']['CONF']['webpath'] = [];
-        
+
         $filename = 'oa_test_' . rand();
         $this->assertTrue($oConf->writeConfigChange($this->basePath, $filename), 'Error writing config file');
 
@@ -136,13 +136,13 @@ class Test_OA_Admin_Settings extends UnitTestCase
         // Test 2.0
         // Write out a new "single host" config file
         $oConf = new OA_Admin_Settings(true);
-        
+
         // Build the local conf array manually.
         $oConf->aConf['webpath']['admin'] = 'dummy';
         $oConf->aConf['webpath']['delivery'] = 'dummy';
         $oConf->aConf['webpath']['deliverySSL'] = 'dummy';
         $_SERVER['HTTP_HOST'] = $oConf->aConf['webpath']['delivery'];
-        
+
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
         $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Config file does not exist');
 
@@ -263,17 +263,17 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertTrue($oUserConf->writeConfigChange($this->basePath, $userFilename), 'Error writing config file');
 
         $expected = ['foo' => ['one' => 'bar',
-                                         'two' => 'baz',
-                                         'new' => 'additional_value'],
-                          'webpath' => ['admin' => 'localhost',
-                                             'delivery' => 'localhost',
-                                             'deliverySSL' => 'localhost'],
-                          'new' => ['new_key' => 'new_value']];
+            'two' => 'baz',
+            'new' => 'additional_value'],
+            'webpath' => ['admin' => 'localhost',
+                'delivery' => 'localhost',
+                'deliverySSL' => 'localhost'],
+            'new' => ['new_key' => 'new_value']];
 
         $this->assertEqual(
             $expected,
             $oUserConf->mergeConfigChanges($this->basePath . '/disthost.' . $distFilename . '.conf.php'),
-            'Config files don\'t match'
+            'Config files don\'t match',
         );
 
         // Clean up
@@ -342,7 +342,7 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(
             $expected,
             OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
-            'Filenames don\'t match'
+            'Filenames don\'t match',
         );
 
         // Test when backup filename already exists.
@@ -353,7 +353,7 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(
             $expected0,
             OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
-            'Filenames don\'t match'
+            'Filenames don\'t match',
         );
 
         // Clean up
@@ -370,7 +370,7 @@ class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(
             $expected,
             OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
-            'Filenames don\'t match'
+            'Filenames don\'t match',
         );
 
         // Clean up

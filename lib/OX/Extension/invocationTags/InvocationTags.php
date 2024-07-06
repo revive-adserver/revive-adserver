@@ -27,15 +27,16 @@ define('MAX_PLUGINS_INVOCATION_TAGS_CUSTOM', 1);
  *
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @abstract
  */
-class Plugins_InvocationTags extends OX_Component
+abstract class Plugins_InvocationTags extends OX_Component
 {
     /**
      * With the help of this variable we could
      * pass the globals variables from
      * MAX_Admin_Invocation object in more object oriented way - as
      * object attributes
+     *
+     * @var MAX_Admin_Invocation
      */
     public $maxInvocation;
 
@@ -53,38 +54,26 @@ class Plugins_InvocationTags extends OX_Component
      */
     public $displayTextAreaAndOptions = true;
 
-    /**
-     * Return name of plugin
-     *
-     * @abstract
-     * @return string A string describing the class.
-     */
-    public function getName()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
+    /** @var array */
+    protected $options;
+
+    /** @var array */
+    protected $defaultOptions;
 
     /**
      * Return the English name of the plugin. Used when
      * generating translation keys based on the plugin
      * name.
      *
-     * @abstract
      * @return string An English string describing the class.
      */
-    public function getNameEN()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
+    abstract public function getNameEN();
 
     /**
      * Return list of options
      * generateOptions() use this information to generate the HTML FORM
      * containing configuration options
      *
-     * @abstract
      * @see generateOptions()
      * @return array    Array of options names. Key is option name and value is option type
      *                  Option type could be:
@@ -93,11 +82,7 @@ class Plugins_InvocationTags extends OX_Component
      *                    - MAX_PLUGINS_INVOCATION_TAGS_CUSTOM - option name is name of the method
      *                                                           from plugin class
      */
-    public function getOptionsList()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
+    abstract public function getOptionsList();
 
     /**
      * Check if current plugin is allowed in preferences
@@ -110,7 +95,7 @@ class Plugins_InvocationTags extends OX_Component
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $settingString = 'isAllowed' . ucfirst($this->component);
-        return isset($aConf[$this->group][$settingString]) ? $aConf[$this->group][$settingString] : false;
+        return $aConf[$this->group][$settingString] ?? false;
     }
 
     /**
@@ -146,11 +131,13 @@ class Plugins_InvocationTags extends OX_Component
      * Inject invocation - required for generateInvocationCode()
      * and for custom options methods
      *
+     * @param MAX_Admin_Invocation $invocation
+     *
      * @see generateInvocationCode()
      */
-    public function setInvocation(&$invocation)
+    public function setInvocation($invocation)
     {
-        $this->maxInvocation = &$invocation;
+        $this->maxInvocation = $invocation;
     }
 
     /**
@@ -158,11 +145,7 @@ class Plugins_InvocationTags extends OX_Component
      *
      * @return string    Generated invocation string
      */
-    public function generateInvocationCode()
-    {
-        OA::debug('Cannot run abstract method');
-        exit();
-    }
+    abstract public function generateInvocationCode();
 
     /**
      * Prepare data before generating the invocation code
@@ -174,7 +157,7 @@ class Plugins_InvocationTags extends OX_Component
     public function prepareCommonInvocationData($aComments)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $mi = &$this->maxInvocation;
+        $mi = $this->maxInvocation;
 
         $mi->macros = [
             'cachebuster' => 'INSERT_RANDOM_NUMBER_HERE',
@@ -238,7 +221,7 @@ class Plugins_InvocationTags extends OX_Component
             $name,
             $this->getName(),
             PRODUCT_NAME,
-            VERSION
+            VERSION,
         );
 
         if (!empty($mi->comments)) {
@@ -287,14 +270,14 @@ class Plugins_InvocationTags extends OX_Component
         // Remove any paramaters that should not be passed into the IMG call
         unset($imgParams['target']);
 
-        if (sizeof($imgParams) > 0) {
+        if ($imgParams !== []) {
             $backup .= "?" . implode("&amp;", $imgParams);
         }
         $backup .= "' border='0' alt='' /></a>";
         $mi->backupImage = $backup;
 
         // Make sure that the parameters being added are accepted by this plugin, else remove them
-        foreach ($mi->parameters as $key => $value) {
+        foreach (array_keys($mi->parameters) as $key) {
             if (!in_array($key, array_keys($this->options))) {
                 unset($mi->parameters[$key]);
             }
@@ -304,7 +287,7 @@ class Plugins_InvocationTags extends OX_Component
     /**
      * Generate all the options for plugin settings and return as HTML
      *
-     * @param object $maxInvocation    MAX_Admin_Invocation object
+     * @param MAX_Admin_Invocation $maxInvocation    MAX_Admin_Invocation object
      *
      * @return string
      */
@@ -329,12 +312,10 @@ class Plugins_InvocationTags extends OX_Component
                 } else {
                     $htmlOptions .= $invocationOptions->$optionToShow();
                 }
+            } elseif (!method_exists($this, $optionToShow)) {
+                MAX::raiseError("Method '$optionToShow' doesn't exists");
             } else {
-                if (!method_exists($this, $optionToShow)) {
-                    MAX::raiseError("Method '$optionToShow' doesn't exists");
-                } else {
-                    $htmlOptions .= $this->$optionToShow();
-                }
+                $htmlOptions .= $this->$optionToShow();
             }
         }
 

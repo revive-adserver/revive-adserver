@@ -21,7 +21,7 @@ class Plugins_DeliveryDataPrepare_OxDeliveryDataPrepare_DataCommon extends OX_Co
     public function getDependencies()
     {
         return [
-            'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon' => []
+            'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon' => [],
         ];
     }
 }

@@ -14,21 +14,17 @@
  * A abstract class, defining an interface for Task objects, to be collected
  * and run using the OA_Task_Runner calss.
  *
- * @abstract
  * @package    OpenX
  * @subpackage Tasks
  */
-class OA_Task
+abstract class OA_Task
 {
     /**
      * A abstract method that needs to be implemented in child Task classes,
      * which will be called when the task needs to be performed.
      *
-     * @abstract
-     * @todo This method should really return a boolean.
+     * @return bool
      */
-    public function run()
-    {
-        return;
-    }
+    #[ReturnTypeWillChange]
+    abstract public function run();
 }

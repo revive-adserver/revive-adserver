@@ -30,14 +30,6 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
      */
     public $_dalZoneStatistics;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_dalZoneStatistics = new OA_Dal_Statistics_Zone();
@@ -71,7 +63,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalZoneStatistics->getZoneDailyStatistics(
             $doZone->zoneid,
             new Date('2005-08-20'),
-            new Date('2007-08-20')
+            new Date('2007-08-20'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -95,7 +87,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalZoneStatistics->getZoneDailyStatistics(
             $doZone->zoneid,
             new Date('2001-12-01'),
-            new Date('2006-01-19')
+            new Date('2006-01-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -124,7 +116,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalZoneStatistics->getZoneHourlyStatistics(
             $doZone->zoneid,
             new Date('2005-08-20'),
-            new Date('2007-08-20')
+            new Date('2007-08-20'),
         );
 
         $this->assertEqual(count($aData), 1, 'Some records should be returned');
@@ -149,7 +141,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $aData = $this->_dalZoneStatistics->getZoneHourlyStatistics(
             $doZone->zoneid,
             new Date('2001-12-01'),
-            new Date('2006-01-19')
+            new Date('2006-01-19'),
         );
 
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
@@ -208,13 +200,13 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneAdvertiserStatistics(
             $doZone->zoneid,
             new Date('1984-01-01'),
-            new Date('2007-10-18')
+            new Date('2007-10-18'),
         );
 
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 2,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsZoneStatistics->fetch();
@@ -247,24 +239,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneAdvertiserStatistics(
             $doZone->zoneid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get data from only 1 advertiser
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneAdvertiserStatistics(
             $doZone->zoneid,
             new Date('1984-01-01'),
-            new Date('1985-03-09')
+            new Date('1985-03-09'),
         );
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
 
         $rsZoneStatistics->fetch();
@@ -324,13 +316,13 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneCampaignStatistics(
             $doZone->zoneid,
             new Date('2007-06-06'),
-            new Date('2007-09-18')
+            new Date('2007-09-18'),
         );
 
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsZoneStatistics->fetch();
@@ -361,24 +353,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneCampaignStatistics(
             $doZone->affiliateid,
             new Date('2007-09-21'),
-            new Date('2007-09-21')
+            new Date('2007-09-21'),
         );
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // 5. Get data from only 1 row
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneCampaignStatistics(
             $doZone->zoneid,
             new Date('2007-06-06'),
-            new Date('2007-09-08')
+            new Date('2007-09-08'),
         );
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 1,
-            'Some records should be returned'
+            'Some records should be returned',
         );
     }
 
@@ -434,13 +426,13 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneBannerStatistics(
             $doZone->affiliateid,
             new Date('2007-01-06'),
-            new Date('2007-11-18')
+            new Date('2007-11-18'),
         );
 
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsZoneStatistics->fetch();
@@ -476,12 +468,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics = $this->_dalZoneStatistics->getZoneBannerStatistics(
             $doZone->affiliateid,
             new Date('2007-12-21'),
-            new Date('2008-09-21')
+            new Date('2008-09-21'),
         );
         $rsZoneStatistics->find();
         $this->assertTrue(
             $rsZoneStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -506,7 +498,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             $doZone2,
             $doDataSummaryAdHourly1,
             $doDataSummaryAdHourly2,
-            $doDataSummaryAdHourly3
+            $doDataSummaryAdHourly3,
         );
 
         // Get statistics for 2 zones
@@ -514,12 +506,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             [ $doZone1->zoneid, $doZone2->zoneid ],
             null,
             new Date('2008-04-27'),
-            new Date('2008-05-27')
+            new Date('2008-05-27'),
         );
 
         $this->assertTrue(
             count($aZonesStatistics) == 2,
-            '2 rows should be returned'
+            '2 rows should be returned',
         );
 
         $expectedCTR = round((
@@ -545,12 +537,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             null,
             new Date('2008-04-27'),
             new Date('2008-05-27'),
-            100000
+            100000,
         );
 
         $this->assertTrue(
             count($aZonesStatistics) == 2,
-            '2 rows should be returned'
+            '2 rows should be returned',
         );
 
         $this->assertTrue(count($aZonesStatistics[$doZone1->zoneid]) == 3);
@@ -566,12 +558,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             [ $doZone1->zoneid ],
             null,
             new Date('2008-05-01'),
-            new Date('2008-05-27')
+            new Date('2008-05-27'),
         );
 
         $this->assertTrue(
             count($aZonesStatistics) == 1,
-            '1 row should be returned'
+            '1 row should be returned',
         );
         $this->assertTrue(count($aZonesStatistics[$doZone1->zoneid]) == 3);
         $this->assertNull($aZonesStatistics[$doZone1->zoneid]['CTR']);
@@ -600,19 +592,19 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             $doZone2,
             $doDataSummaryAdHourly1,
             $doDataSummaryAdHourly2,
-            $doDataSummaryAdHourly3
+            $doDataSummaryAdHourly3,
         );
 
         // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
-            new Date('2008-05-27')
+            new Date('2008-05-27'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsZonesStatistics->fetch();
@@ -639,24 +631,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
             new Date('2008-05-27'),
-            $doCampaign2->campaignid
+            $doCampaign2->campaignid,
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // Get statistics for zone 2 and set start date that it didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesConversionRateStatistics(
             [ $doZone2->zoneid ],
             new Date('2008-05-16'),
-            new Date('2008-06-16')
+            new Date('2008-06-16'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -683,19 +675,19 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             $doZone2,
             $doDataSummaryAdHourly1,
             $doDataSummaryAdHourly2,
-            $doDataSummaryAdHourly3
+            $doDataSummaryAdHourly3,
         );
 
         // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
-            new Date('2008-05-27')
+            new Date('2008-05-27'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsZonesStatistics->fetch();
@@ -722,24 +714,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
             new Date('2008-05-27'),
-            $doCampaign2->campaignid
+            $doCampaign2->campaignid,
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // Get statistics for zone 2 and set start date that it didn't catch any stats for this zone
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesEcpmStatistics(
             [ $doZone2->zoneid ],
             new Date('2008-05-16'),
-            new Date('2008-06-16')
+            new Date('2008-06-16'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -779,19 +771,19 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             $doZone2,
             $doDataSummaryAdHourly1,
             $doDataSummaryAdHourly2,
-            $doDataSummaryAdHourly3
+            $doDataSummaryAdHourly3,
         );
 
         // Get statistics for 2 zones
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
-            new Date('2008-05-27')
+            new Date('2008-05-27'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 2,
-            '2 records should be returned'
+            '2 records should be returned',
         );
 
         $rsZonesStatistics->fetch();
@@ -820,12 +812,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
             new Date('2008-05-27'),
-            $doCampaign1->campaignid
+            $doCampaign1->campaignid,
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 1,
-            '1 record should be returned'
+            '1 record should be returned',
         );
 
         $rsZonesStatistics->fetch();
@@ -839,12 +831,12 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-04-27'),
             new Date('2008-05-27'),
-            $doCampaign2->campaignid
+            $doCampaign2->campaignid,
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // Get statistics for 2 zones for capmaign 2 when impression threshold is set to 100
@@ -853,13 +845,13 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
             new Date('2008-04-27'),
             new Date('2008-05-27'),
             $doCampaign2->campaignid,
-            100
+            100,
         );
         $rsZonesStatistics->find();
 
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 1,
-            '1 record should be returned'
+            '1 record should be returned',
         );
 
         $rsZonesStatistics->fetch();
@@ -872,24 +864,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             [ $doZone2->zoneid ],
             new Date('2008-05-16'),
-            new Date('2008-06-20')
+            new Date('2008-06-20'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
 
         // Try to get statistics for zones when time span is less than 30 days
         $rsZonesStatistics = $this->_dalZoneStatistics->getZonesCtrStatistics(
             [ $doZone1->zoneid, $doZone2->zoneid ],
             new Date('2008-05-01'),
-            new Date('2008-05-30')
+            new Date('2008-05-30'),
         );
         $rsZonesStatistics->find();
         $this->assertTrue(
             $rsZonesStatistics->getRowCount() == 0,
-            'Recordset should be empty'
+            'Recordset should be empty',
         );
     }
 
@@ -915,7 +907,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         &$doZone2,
         &$doDataSummaryAdHourly1,
         &$doDataSummaryAdHourly2,
-        &$doDataSummaryAdHourly3
+        &$doDataSummaryAdHourly3,
     ) {
         $doAgency = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');

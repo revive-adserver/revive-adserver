@@ -22,10 +22,7 @@ class Test_postscript_2_3_36_beta_rc1 extends UnitTestCase
 {
     public $prefix;
 
-    /**
-     * The constructor method.
-     */
-    public function Test_OA_Upgrade()
+    public function __construct()
     {
         parent::__construct();
         $this->prefix = 'oaTest_';
@@ -55,14 +52,14 @@ class Test_postscript_2_3_36_beta_rc1 extends UnitTestCase
 
         $aExistingColumns = $oDbh->manager->listTableFields($this->prefix . $table);
         $aColumns = [
-                          'ad_clicks_sum',
-                          'ad_views_sum',
-                          'ad_clicks_per_second',
-                          'ad_views_per_second',
-                          'ad_cs_data_last_sent',
-                          'ad_cs_data_last_sent',
-                          'ad_cs_data_last_received',
-                        ];
+            'ad_clicks_sum',
+            'ad_views_sum',
+            'ad_clicks_per_second',
+            'ad_views_per_second',
+            'ad_cs_data_last_sent',
+            'ad_cs_data_last_sent',
+            'ad_cs_data_last_received',
+        ];
         foreach ($aColumns as $column) {
             $this->assertFalse(in_array($column, $aExistingColumns, $column . ' found in column list'));
         }

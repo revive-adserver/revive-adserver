@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
 class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerTypeHTML
 {
@@ -105,7 +104,6 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
             $doBanners->whereAdd('banners_demo_id=' . $bannerid, 'AND');
             return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
-        return true;
     }
 
     /**
@@ -163,8 +161,8 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
         $oDbh = OA_DB::singleton();
         $tblB = $oDbh->quoteIdentifier($aConf['prefix'] . 'banners', true);
         $tblD = $oDbh->quoteIdentifier($aConf['prefix'] . 'banners_demo');
-        $query = "SELECT * FROM " . $tableB . " b"
-                 . " LEFT JOIN " . $tableD . " d ON b.bannerid = d.banners_demo_id"
+        $query = "SELECT * FROM " . $tblB . " b"
+                 . " LEFT JOIN " . $tblD . " d ON b.bannerid = d.banners_demo_id"
                  . " WHERE b.ext_bannertype = '" . $this->getComponentIdentifier() . "'";
         return $oDbh->queryAll($query, null, $fetchmode);
     }

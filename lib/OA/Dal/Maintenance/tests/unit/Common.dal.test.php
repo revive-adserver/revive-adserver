@@ -27,14 +27,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class Test_OA_Dal_Maintenance_Common extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the setProcessLastRunInfo() method.
      *
      * Requirements:
@@ -61,7 +53,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $oEndDate,
             $oUpdateToDate,
             $aConf['table']['log_maintenance_priority'],
-            true
+            true,
         );
         $this->assertFalse($result);
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
@@ -69,7 +61,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             null,
             $oUpdateToDate,
             $aConf['table']['log_maintenance_priority'],
-            true
+            true,
         );
         $this->assertFalse($result);
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
@@ -77,7 +69,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $oEndDate,
             'foo',
             $aConf['table']['log_maintenance_priority'],
-            true
+            true,
         );
         $this->assertFalse($result);
         $this->assertFalse($result);
@@ -86,7 +78,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $oEndDate,
             $oUpdateToDate,
             $aConf['table']['log_maintenance_priority'],
-            17
+            17,
         );
         $this->assertFalse($result);
 
@@ -96,7 +88,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $oEndDate,
             $oUpdateToDate,
             $aConf['table']['log_maintenance_forecasting'],
-            true
+            true,
         );
         $this->assertTrue($result);
         $query = "
@@ -127,7 +119,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $oEndDate,
             $oUpdateToDate,
             'foo',
-            true
+            true,
         );
         $this->assertFalse($result);
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
@@ -137,7 +129,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $aConf['table']['log_maintenance_priority'],
             true,
             'foo',
-            1
+            1,
         );
         $this->assertFalse($result);
         RV::enableErrorHandling();
@@ -150,7 +142,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $aConf['table']['log_maintenance_priority'],
             true,
             'run_type',
-            0
+            0,
         );
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
@@ -159,7 +151,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $aConf['table']['log_maintenance_priority'],
             true,
             'run_type',
-            1
+            1,
         );
         $this->assertTrue($result);
         $query = "
@@ -236,7 +228,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'foo',
             null,
             'start_run',
-            []
+            [],
         );
         $this->assertFalse($result);
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
@@ -244,13 +236,13 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             [],
             null,
             'start_run',
-            'foo'
+            'foo',
         );
         $this->assertFalse($result);
 
         // Test 2
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
-            $aConf['table']['log_maintenance_priority']
+            $aConf['table']['log_maintenance_priority'],
         );
         $this->assertNull($result);
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
@@ -260,8 +252,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertNull($result);
 
@@ -272,7 +264,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             [],
             null,
             'start_run',
-            []
+            [],
         );
         $this->assertFalse($result);
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
@@ -280,7 +272,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             ['foo'],
             null,
             'start_run',
-            []
+            [],
         );
         $this->assertFalse($result);
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
@@ -290,8 +282,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => 'foo',
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertFalse($result);
         RV::enableErrorHandling();
@@ -321,8 +313,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -351,8 +343,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -366,8 +358,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -379,8 +371,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'oi'
-            ]
+                'type' => 'oi',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -394,8 +386,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -407,8 +399,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'oi'
-            ]
+                'type' => 'oi',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -445,8 +437,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
@@ -481,8 +473,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
@@ -496,8 +488,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'updated_to',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
@@ -511,8 +503,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'start_run',
             [
                 'tableName' => $aConf['table']['data_raw_ad_impression'],
-                'type' => 'hour'
-            ]
+                'type' => 'hour',
+            ],
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
@@ -578,7 +570,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'text',
             'text',
             'text',
-            'integer'
+            'integer',
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
@@ -587,7 +579,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'Time:Date',
             '!=',
             '2005-05-25',
-            0
+            0,
         ];
         $rows = $st->execute($aData);
         $aData = [
@@ -596,7 +588,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'Geo:Country',
             '==',
             'GB',
-            1
+            1,
         ];
         $rows = $st->execute($aData);
 
@@ -660,7 +652,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'text',
             'text',
             'text',
-            'integer'
+            'integer',
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
@@ -669,7 +661,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'Time:Date',
             '!=',
             '2005-05-25',
-            0
+            0,
         ];
         $rows = $st->execute($aData);
         $aData = [
@@ -678,7 +670,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             'Geo:Country',
             '==',
             'GB',
-            1
+            1,
         ];
         $rows = $st->execute($aData);
 

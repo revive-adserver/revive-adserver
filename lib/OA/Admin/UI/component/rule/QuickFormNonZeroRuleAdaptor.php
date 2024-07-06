@@ -28,8 +28,8 @@ class OA_Admin_UI_Rule_JQueryNonZeroRule extends OA_Admin_UI_Rule_BaseQuickFormR
     {
         return "\"min\": 1";
     }
-    
-    
+
+
     public function getJQueryValidationMessage($rule)
     {
         return "\"min\": \"" . $rule['message'] . "\"";

@@ -4,8 +4,8 @@ require_once("../xajax.inc.php");
 function setOptions($formData)
 {
     $_SESSION['useEncoding'] = $formData['useEncoding'];
-    $_SESSION['htmlEntities'] = (bool)$formData['htmlEntities'];
-    $_SESSION['decodeUTF8'] = (bool)$formData['decodeUTF8'];
+    $_SESSION['htmlEntities'] = (bool) $formData['htmlEntities'];
+    $_SESSION['decodeUTF8'] = (bool) $formData['decodeUTF8'];
     $objResponse = new xajaxResponse();
     $objResponse->addAlert("Your options have been saved.");
     return $objResponse;
@@ -109,14 +109,14 @@ Output HTML Entities? <input type="radio" name="htmlEntities" value="1" <?php if
     echo ' checked="checked"';
 } ?>/> Yes
  <input type="radio" name="htmlEntities" value="0" <?php if (!$htmlEntities) {
-    echo ' checked="checked"';
-} ?>/> No<br />
+     echo ' checked="checked"';
+ } ?>/> No<br />
 Decode UTF-8 Input? <input type="radio" name="decodeUTF8" value="1" <?php if ($decodeUTF8) {
     echo ' checked="checked"';
 } ?>/> Yes
  <input type="radio" name="decodeUTF8" value="0" <?php if (!$decodeUTF8) {
-    echo ' checked="checked"';
-} ?>/> No<br />
+     echo ' checked="checked"';
+ } ?>/> No<br />
 <p><input type="submit" value="Save Options" onclick="xajax_setOptions(xajax.getFormValues('optionsForm')); return false;" /></p>
 </form>
 

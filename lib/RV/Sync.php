@@ -78,7 +78,7 @@ class RV_Sync
             'beta-rc' => 0.1,
             'beta' => 0.2,
             'rc' => 0.3,
-            'stable' => 0.4
+            'stable' => 0.4,
         ];
 
         $version = RV::stripVersion(strtolower($version), ['dev', 'stable']);
@@ -176,13 +176,13 @@ class RV_Sync
             new XML_RPC_Value(PRODUCT_NAME, 'string'),
             new XML_RPC_Value(self::getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
-            new XML_RPC_Value($platform_hash, 'string')
+            new XML_RPC_Value($platform_hash, 'string'),
         ];
 
         // Has the Revive Adserver admin user kindly agreed to share the
         // technology stack that it is running on, to help the community?
         $aTechStack = [
-            'data' => false
+            'data' => false,
         ];
         if ($this->aConf['sync']['shareStack']) {
             // Thanks, admin user! You're a star! Prepare the technology stack
@@ -194,6 +194,12 @@ class RV_Sync
             } else {
                 $dbms = 'UnknownSQL';
             }
+
+            $dbVersion = $this->oDbh->queryOne("SELECT VERSION()");
+            if (PEAR::isError($dbVersion)) {
+                $dbVersion = '';
+            }
+
             $aTechStack = [
                 'os_type' => php_uname('s'),
                 'os_version' => php_uname('r'),
@@ -202,16 +208,16 @@ class RV_Sync
                 'webserver_version' => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
                 'db_type' => $dbms,
-                'db_version' => $this->oDbh->queryOne("SELECT VERSION()"),
+                'db_version' => $dbVersion,
 
                 'php_version' => phpversion(),
                 'php_sapi' => ucfirst(php_sapi_name()),
                 'php_extensions' => get_loaded_extensions(),
-                'php_register_globals' => (bool)ini_get('register_globals'),
-                'php_magic_quotes_gpc' => (bool)ini_get('magic_quotes_gpc'),
-                'php_safe_mode' => (bool)ini_get('safe_mode'),
-                'php_open_basedir' => (bool)strlen(ini_get('open_basedir')),
-                'php_upload_tmp_readable' => (bool)is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR)
+                'php_register_globals' => false,
+                'php_magic_quotes_gpc' => false,
+                'php_safe_mode' => false,
+                'php_open_basedir' => (bool) strlen(ini_get('open_basedir')),
+                'php_upload_tmp_readable' => (bool) is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR),
             ];
         }
         $params[] = XML_RPC_Encode($aTechStack);

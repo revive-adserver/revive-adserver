@@ -42,7 +42,8 @@ if (!empty($affiliateid) && !OA_Permission::hasAccessToObject('affiliates', $aff
 
 //get websites and set the current one
 $aWebsites = getWebsiteMap();
-if (empty($affiliateid)) { //if it's empty
+if (empty($affiliateid)) {
+    //if it's empty
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid']) {
         //try previous one from session
         $sessionWebsiteId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['affiliateid'];
@@ -52,13 +53,12 @@ if (empty($affiliateid)) { //if it's empty
     }
     if (empty($affiliateid)) { //was empty, is still empty - just pick one, no need for redirect
         $ids = array_keys($aWebsites);
-        $affiliateid = !empty($ids) ? $ids[0] : -1; //if no websites set to non-existent id
+        $affiliateid = empty($ids) ? -1 : $ids[0]; //if no websites set to non-existent id
     }
-} else {
-    if (!isset($aWebsites[$affiliateid])) { //bad id, redirect
-        $page = basename($_SERVER['SCRIPT_NAME']);
-        OX_Admin_Redirect::redirect($page);
-    }
+} elseif (!isset($aWebsites[$affiliateid])) {
+    //bad id, redirect
+    $page = basename($_SERVER['SCRIPT_NAME']);
+    OX_Admin_Redirect::redirect($page);
 }
 
 
@@ -86,7 +86,7 @@ if (!isset($orderdirection)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$oHeaderModel = buildHeaderModel($affiliateid);
+$oHeaderModel = buildAffiliateZonesHeaderModel($affiliateid);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader(null, $oHeaderModel);
 } else {
@@ -140,7 +140,7 @@ $oTpl->assign('canInvocation', !$isTrafficker || OA_Permission::hasPermission(OA
 $oTpl->assign(
     'canDelete',
     ($isTrafficker && OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) ||
-    (!$isTrafficker && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE))
+    (!$isTrafficker && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)),
 );
 
 
@@ -163,7 +163,7 @@ $oTpl->display();
 phpAds_PageFooter();
 
 
-function buildHeaderModel($websiteId)
+function buildAffiliateZonesHeaderModel($websiteId)
 {
     if ($websiteId) {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -179,10 +179,10 @@ function buildHeaderModel($websiteId)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $websiteName, 'url' => $websiteEditUrl,
-               'id' => $websiteId, 'entities' => getWebsiteMap(),
-               'htmlName' => 'affiliateid'
-              ],
-        ['name' => '']
+            'id' => $websiteId, 'entities' => getWebsiteMap(),
+            'htmlName' => 'affiliateid',
+        ],
+        ['name' => ''],
     ], 'zones', 'list');
 
     return $oHeaderModel;

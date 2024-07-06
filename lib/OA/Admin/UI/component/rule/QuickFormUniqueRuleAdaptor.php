@@ -27,8 +27,8 @@ class OA_Admin_UI_Rule_JQueryUniqueRule extends OA_Admin_UI_Rule_BaseQuickFormRu
                     return $.inArray(value, otherValuesArr) == -1;
                 }";
     }
-    
-    
+
+
     /**
      * Returns custom Jquery validation "unique" rule
      * "unique": ["name1", "name2", "name3"]
@@ -40,11 +40,11 @@ class OA_Admin_UI_Rule_JQueryUniqueRule extends OA_Admin_UI_Rule_BaseQuickFormRu
         if (empty($rule['format'])) {
             return '"' . $rule['type'] . '": []';
         }
-        
+
         $aSlashedNames = array_map("addslashes", $rule['format']);
         //comma separate, double quote list of items
         $sNamesList = '"' . implode('", "', $aSlashedNames) . '"';
-        
+
         //complete array string
         return '"' . $rule['type'] . '": ' . ' [' . $sNamesList . ']';
     }

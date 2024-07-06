@@ -196,7 +196,7 @@ class OA_Preferences
         }
 
         // Set the initial (default) language to conf value or english
-        $aPreferences['language'] = (!empty($aConf['max']['language'])) ? $aConf['max']['language'] : 'en';
+        $aPreferences['language'] = (empty($aConf['max']['language'])) ? 'en' : $aConf['max']['language'];
 
         // Add user preferences (currently language) to the prefs array
         if ($userId = OA_Permission::getUserId()) {
@@ -432,7 +432,7 @@ class OA_Preferences
         if ($aNewElements) {
             self::putDefaultPreferences(
                 OA_Dal_ApplicationVariables::get('admin_account_id'),
-                $aNewElements
+                $aNewElements,
             );
 
             // Reload preference types
@@ -507,7 +507,7 @@ class OA_Preferences
             }
         }
         // Delete the required preferences
-        foreach ($aDeletePreferences as $preferenceName => $preferenceValue) {
+        foreach (array_keys($aDeletePreferences) as $preferenceName) {
             $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
             $doAccount_preference_assoc->account_id = $currentAccountId;
             $doAccount_preference_assoc->preference_id = $aPreferenceTypes[$preferenceName]['preference_id'];
@@ -546,20 +546,14 @@ class OA_Preferences
         // If the current account if a manager, all preferences other than the
         // admin preferences can be used/processed
         if ($currentAccount == OA_ACCOUNT_MANAGER) {
-            if ($preferenceLevel == OA_ACCOUNT_ADMIN) {
-                return false;
-            }
-            return true;
+            return $preferenceLevel != OA_ACCOUNT_ADMIN;
         }
         // If the current account is an advertiser or trafficker, then only
         // their types of preferences can be used/processed
         if ($currentAccount == OA_ACCOUNT_ADVERTISER && $preferenceLevel == OA_ACCOUNT_ADVERTISER) {
             return true;
         }
-        if ($currentAccount == OA_ACCOUNT_TRAFFICKER && $preferenceLevel == OA_ACCOUNT_TRAFFICKER) {
-            return true;
-        }
-        return false;
+        return $currentAccount == OA_ACCOUNT_TRAFFICKER && $preferenceLevel == OA_ACCOUNT_TRAFFICKER;
     }
 
     /**
@@ -697,7 +691,7 @@ class OA_Preferences
      * @return bool
      * @throws Exception on errors
      */
-    public static function putDefaultPreferences(int $adminAccountId, array $aPreferences = null)
+    public static function putDefaultPreferences(int $adminAccountId, ?array $aPreferences = null)
     {
         // Preferences handling
         $oPreferences = new OA_Preferences();
@@ -814,7 +808,7 @@ class OA_Preferences
                     $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
                         [
                             'account_type' => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
-                            'value' => $aPreferenceValue['value']
+                            'value' => $aPreferenceValue['value'],
                         ];
                 }
             }
@@ -846,7 +840,7 @@ class OA_Preferences
             $aPreference = $doPreferences->toArray();
             $aPreferenceTypes[$aPreference['preference_name']] = [
                 'preference_id' => $aPreference['preference_id'],
-                'account_type' => $aPreference['account_type']
+                'account_type' => $aPreference['account_type'],
             ];
         }
 

@@ -47,7 +47,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Day',
             'comparison' => '=~',
             'data' => '1,5,4,6',
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 
@@ -73,7 +73,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
             'type' => 'deliveryLimitations:Time:Day',
             'comparison' => '=~',
             'data' => '1,5,4,6@America/New_York',
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 

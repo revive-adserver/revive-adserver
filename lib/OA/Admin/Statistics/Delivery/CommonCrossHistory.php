@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
+abstract class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
     public $crossEntitiesCache;
 
@@ -216,7 +216,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
         }
-        
+
         // Get all publishers
         $aPublishers = Admin_DA::fromCache('getPublishers', [], true);
 
@@ -422,42 +422,41 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
     {
         $cache = $this->crossEntitiesCache;
         switch ($type) {
+            case 'campaign':
+                if ($this->noStatsAvailable) {
+                    $this->_addBreadcrumb('', MAX_getEntityIcon('placement'), $type);
+                } else {
+                    $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPlacementName($cache[$entityId])), MAX_getEntityIcon('placement'), $type);
+                }
 
-        case 'campaign':
-            if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('placement'), $type);
-            } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPlacementName($cache[$entityId])), MAX_getEntityIcon('placement'), $type);
-            }
+                break;
 
-            break;
+            case 'banner':
+                if ($this->noStatsAvailable) {
+                    $this->_addBreadcrumb('', MAX_getEntityIcon('ad'), $type);
+                } else {
+                    $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getAdName($cache[$entityId]['name'], null, null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('ad'), $type);
+                }
 
-        case 'banner':
-            if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('ad'), $type);
-            } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getAdName($cache[$entityId]['name'], null, null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('ad'), $type);
-            }
+                break;
 
-            break;
+            case 'publisher':
+                if ($this->noStatsAvailable) {
+                    $this->_addBreadcrumb('', MAX_getEntityIcon('publisher'), '');
+                } else {
+                    $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPublisherName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('publisher'), 'website');
+                }
 
-        case 'publisher':
-            if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('publisher'), '');
-            } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPublisherName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('publisher'), 'website');
-            }
+                break;
 
-            break;
+            case 'zone':
+                if ($this->noStatsAvailable) {
+                    $this->_addBreadcrumb('', MAX_getEntityIcon('zone'), $type);
+                } else {
+                    $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getZoneName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('zone'), $type);
+                }
 
-        case 'zone':
-            if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('zone'), $type);
-            } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getZoneName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('zone'), $type);
-            }
-
-            break;
+                break;
         }
     }
 }

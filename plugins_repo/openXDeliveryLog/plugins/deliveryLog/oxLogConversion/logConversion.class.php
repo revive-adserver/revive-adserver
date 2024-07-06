@@ -36,7 +36,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
     {
         return [
             'deliveryLog:oxLogConversion:logConversion' => [
-            ]
+            ],
         ];
     }
 
@@ -68,7 +68,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
             'ip_address' => self::CHAR,
             'action' => self::INTEGER,
             'window' => self::INTEGER,
-            'status' => self::INTEGER
+            'status' => self::INTEGER,
         ];
         return $aColumns;
     }
@@ -113,7 +113,7 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
                 7 => 'ip_address',
                 8 => 'action',
                 9 => 'window',
-                10 => 'status'
+                10 => 'status',
             ],
             'destination' => [
                 0 => 'server_raw_tracker_impression_id',
@@ -126,16 +126,16 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
                 7 => 'tracker_ip_address',
                 8 => 'connection_action',
                 9 => 'connection_window',
-                10 => 'connection_status'
+                10 => 'connection_status',
             ],
             'extrasDestination' => [
                 11 => 'creative_id',
-                12 => 'inside_window'
+                12 => 'inside_window',
             ],
             'extrasValue' => [
                 11 => '0',
-                12 => '1'
-            ]
+                12 => '1',
+            ],
         ];
         return $aMap;
     }

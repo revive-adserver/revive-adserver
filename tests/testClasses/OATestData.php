@@ -14,42 +14,35 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
+ * A base class for generating OpenX test data using DataObjects.
  *
- * @abstract A base class for generating OpenX test data using DataObjects
  * @package Test Classes
  * @todo more _insert methods
  */
 class OA_Test_Data
 {
-    var $oDbh;
-    var $oNow;
-    var $aIds = array(
-                        'agency'=>array(),
-                        'clients'=>array(),
-                        'affiliates'=>array(),
-                        'campaigns'=>array(),
-                        'banners'=>array(),
-                        'zones'=>array(),
-                        'ad_zone_assoc'=>array(),
-                        'acls'=>array(),
-                        'acls_channel'=>array(),
-                        'campaigns_trackers'=>array(),
-                        'channel'=>array(),
-                        'trackers'=>array(),
-                        'variables'=>array()
-                      );
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-    }
+    public $oDbh;
+    public $oNow;
+    public $aIds = [
+        'agency' => [],
+        'clients' => [],
+        'affiliates' => [],
+        'campaigns' => [],
+        'banners' => [],
+        'zones' => [],
+        'ad_zone_assoc' => [],
+        'acls' => [],
+        'acls_channel' => [],
+        'campaigns_trackers' => [],
+        'channel' => [],
+        'trackers' => [],
+        'variables' => [],
+    ];
 
-    function init()
+    public function init()
     {
         $this->oDbh = OA_DB::singleton();
-        if (PEAR::isError($this->oDbh))
-        {
+        if (PEAR::isError($this->oDbh)) {
             return false;
         }
         $this->oNow = new Date();
@@ -60,11 +53,8 @@ class OA_Test_Data
      *
      * @access private
      */
-    function generateTestData()
+    public function generateTestData()
     {
         return false;
     }
-
 }
-
-?>

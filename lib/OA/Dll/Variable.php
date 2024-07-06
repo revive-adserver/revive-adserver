@@ -43,16 +43,13 @@ class OA_Dll_Variable extends OA_Dll
                 !$this->checkStructureNotRequiredStringField($oVariableInfo, 'variableName', 250)) {
                 return false;
             }
-        } else {
+        } elseif (!$this->checkStructureRequiredIntegerField($oVariableInfo, 'trackerId') ||
+            !$this->checkIdExistence('trackers', $oVariableInfo->trackerId) ||
+            !$this->checkStructureRequiredStringField($oVariableInfo, 'variableName', 250)) {
             // Adding a variable.
-            if (!$this->checkStructureRequiredIntegerField($oVariableInfo, 'trackerId') ||
-                !$this->checkIdExistence('trackers', $oVariableInfo->trackerId) ||
-                !$this->checkStructureRequiredStringField($oVariableInfo, 'variableName', 250)) {
-                return false;
-            }
+            return false;
         }
-
-        if (!$this->checkStructureNotRequiredStringField($oVariableInfo, 'description', 250) ||
+        return !(!$this->checkStructureNotRequiredStringField($oVariableInfo, 'description', 250) ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'dataType') ||
             !$this->checkDataType($oVariableInfo) ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'purpose') ||
@@ -61,10 +58,7 @@ class OA_Dll_Variable extends OA_Dll
             !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'isUnique') ||
             !$this->checkStructureNotRequiredIntegerField($oVariableInfo, 'uniqueWindow') ||
             !$this->checkStructureNotRequiredStringField($oVariableInfo, 'variableCode', 255) ||
-            !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'hidden')) {
-            return false;
-        }
-        return true;
+            !$this->checkStructureNotRequiredBooleanField($oVariableInfo, 'hidden'));
     }
 
     private function checkDataType($oStructure)
@@ -119,7 +113,7 @@ class OA_Dll_Variable extends OA_Dll
                 if (!$this->checkPermissions(
                     [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     'trackers',
-                    $oVariableInfo->trackerId
+                    $oVariableInfo->trackerId,
                 )) {
                     return false;
                 }
@@ -135,7 +129,7 @@ class OA_Dll_Variable extends OA_Dll
             if (!$this->checkPermissions(
                 [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                 'variables',
-                $oVariableInfo->variableId
+                $oVariableInfo->variableId,
             )) {
                 return false;
             }
@@ -170,7 +164,6 @@ class OA_Dll_Variable extends OA_Dll
             // Hide this variable to certain websites
             // Confusingly, we do this by making it visible to the other websites.
             if (!empty($oVariableInfo->hiddenWebsites)) {
-
                 // If hidden to websites, the hidden flag must be set.
                 $oVariableInfo->hidden = true;
 
@@ -212,7 +205,7 @@ class OA_Dll_Variable extends OA_Dll
         if (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'variables',
-            $variableId
+            $variableId,
         )) {
             return false;
         }

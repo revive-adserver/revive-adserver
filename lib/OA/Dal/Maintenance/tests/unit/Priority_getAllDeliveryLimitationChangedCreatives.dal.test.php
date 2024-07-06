@@ -23,15 +23,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-
-    /**
      * Method to test the getAllDeliveryLimitationChangedCreatives method.
      *
      * Requirements:
@@ -65,7 +56,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives 
         $oDateLastPC = new Date('2006-10-04 11:14:53');
         $aLastRun = [
             'start_run' => $oDateLastPC,
-            'now' => $oDateNow
+            'now' => $oDateNow,
         ];
 
         // Test 0

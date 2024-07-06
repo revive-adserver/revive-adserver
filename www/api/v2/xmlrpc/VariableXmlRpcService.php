@@ -33,7 +33,7 @@ class VariableXmlRpcService extends BaseVariableService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarAndNotScalarFields(
                 $oVariableInfo,
@@ -43,7 +43,7 @@ class VariableXmlRpcService extends BaseVariableService
                     'purpose', 'rejectIfEmpty', 'isUnique', 'uniqueWindow',
                     'variableCode', 'hidden'],
                 ['hiddenWebsites'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -72,7 +72,7 @@ class VariableXmlRpcService extends BaseVariableService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarAndNotScalarFields(
                 $oVariableInfo,
@@ -82,7 +82,7 @@ class VariableXmlRpcService extends BaseVariableService
                     'dataType', 'purpose', 'rejectIfEmpty', 'isUnique', 'uniqueWindow',
                     'variableCode', 'hidden'],
                 ['hiddenWebsites'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -110,7 +110,7 @@ class VariableXmlRpcService extends BaseVariableService
             [&$sessionId, &$variableId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -132,7 +132,7 @@ class VariableXmlRpcService extends BaseVariableService
             [&$sessionId, &$variableId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -140,7 +140,7 @@ class VariableXmlRpcService extends BaseVariableService
         if ($this->oVariableServiceImpl->getVariable(
             $sessionId,
             $variableId,
-            $oVariableInfo
+            $oVariableInfo,
         )) {
             return XmlRpcUtils::getEntityResponse($oVariableInfo);
         } else {

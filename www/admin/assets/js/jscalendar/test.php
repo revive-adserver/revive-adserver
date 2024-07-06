@@ -59,20 +59,20 @@ $calendar->load_files();
      Select language: <select name="lang" onchange="this.form.submit()">
      <?php
 $cwd = getcwd();
-chdir('lang');
-foreach (glob('*.js') as $filename) {
-    $l = preg_replace('/(^calendar-|.js$)/', '', $filename);
-    $selected = '';
-    if ($l == $lang) {
-        $selected = 'selected="selected" ';
+    chdir('lang');
+    foreach (glob('*.js') as $filename) {
+        $l = preg_replace('/(^calendar-|.js$)/', '', $filename);
+        $selected = '';
+        if ($l == $lang) {
+            $selected = 'selected="selected" ';
+        }
+        $display = $l;
+        if ($l == 'en') {
+            $display = 'EN';
+        }
+        echo '<option ' . $selected . 'value="' . $l . '">' . $display . '</option>';
     }
-    $display = $l;
-    if ($l == 'en') {
-        $display = 'EN';
-    }
-    echo '<option ' . $selected . 'value="' . $l . '">' . $display . '</option>';
-}
-     ?>
+    ?>
      </select>
      <blockquote style="font-size: 90%">
        <b>NOTE</b>: as of this release, 0.9.6, only "EN" and "RO", which I
@@ -95,15 +95,15 @@ foreach (glob('*.js') as $filename) {
        <?php $calendar->make_input_field(
            // calendar options go here; see the documentation and/or calendar-setup.js
            ['firstDay' => 1, // show Monday first
-                 'showsTime' => true,
-                 'showOthers' => true,
-                 'ifFormat' => '%Y-%m-%d %I:%M %P',
-                 'timeFormat' => '12'],
+               'showsTime' => true,
+               'showOthers' => true,
+               'ifFormat' => '%Y-%m-%d %I:%M %P',
+               'timeFormat' => '12'],
            // field attributes go here
            ['style' => 'width: 15em; color: #840; background-color: #ff8; border: 1px solid #000; text-align: center',
-                 'name' => 'date1',
-                 'value' => strftime('%Y-%m-%d %I:%M %P', strtotime('now'))]
-     ); ?>
+               'name' => 'date1',
+               'value' => strftime('%Y-%m-%d %I:%M %P', strtotime('now'))],
+       ); ?>
      </td>
      </tr>
      </table>

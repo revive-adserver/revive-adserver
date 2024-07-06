@@ -162,7 +162,7 @@ class Admin_DA
 
         if (!empty($aRows[$id])) {
             $aRow = $aRows[$id];
-        } elseif (!($aRows === false)) {
+        } elseif ($aRows !== false) {
             $aRow = false;
         } else {
             $aRow = [];
@@ -189,7 +189,7 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams);
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables, $aParams)
+            SqlBuilder::_getTableLimitations($aTables, $aParams),
         );
         $aGroupColumns = SqlBuilder::_getGroupColumns($entity, $aParams);
         $aLeftJoinedTables = SqlBuilder::_getLeftJoinedTables($entity, $aParams);
@@ -216,34 +216,33 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams);
         $aLeftJoinedTables = [];
         switch ($entity) {
+            case 'agency': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
+                $aGroupBy = array_keys($aColumns);
+                $aColumns['COUNT(a.clientid)'] = 'num_children';
+                break;
 
-        case 'agency': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['clients']] = 'a';
-            $aGroupBy = array_keys($aColumns);
-            $aColumns['COUNT(a.clientid)'] = 'num_children';
-            break;
+            case 'advertiser': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
+                $aGroupBy = array_keys($aColumns);
+                $aColumns['COUNT(m.campaignid)'] = 'num_children';
+                break;
 
-        case 'advertiser': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['campaigns']] = 'm';
-            $aGroupBy = array_keys($aColumns);
-            $aColumns['COUNT(m.campaignid)'] = 'num_children';
-            break;
+            case 'placement': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
+                $aGroupBy = array_keys($aColumns);
+                $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
+                $aColumns['COUNT(d.bannerid)'] = 'num_children';
+                break;
 
-        case 'placement': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['banners']] = 'd';
-            $aGroupBy = array_keys($aColumns);
-            $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
-            $aColumns['COUNT(d.bannerid)'] = 'num_children';
-            break;
+            case 'publisher': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
+                $aGroupBy = array_keys($aColumns);
+                $aColumns['COUNT(z.zoneid)'] = 'num_children';
+                break;
 
-        case 'publisher': $aLeftJoinedTables[$conf['table']['prefix'] . $conf['table']['zones']] = 'z';
-            $aGroupBy = array_keys($aColumns);
-            $aColumns['COUNT(z.zoneid)'] = 'num_children';
-            break;
-
-        default:
-            $aGroupBy = null;
+            default:
+                $aGroupBy = null;
         }
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables, $aParams)
+            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables, $aParams),
         );
         return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key, $aLeftJoinedTables);
     }
@@ -266,7 +265,7 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams, true);
         $aLimitations = array_merge(
             SqlBuilder::_getStatsLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables, $aParams)
+            SqlBuilder::_getTableLimitations($aTables, $aParams),
         );
 
         $aGroupBy = [$key];
@@ -332,7 +331,7 @@ class Admin_DA
         }
     }
 
-    public static function fromCache()
+    public static function fromCache(...$aArgs)
     {
         //  parse variable args
         //  method, id, timeout
@@ -341,30 +340,23 @@ class Admin_DA
         if ($numArgs < 2 || $numArgs > 5) {
             return PEAR::raiseError('incorrect args passed');
         }
-        $aArgs = func_get_args();
 
         //  initialise cache object
         $conf = $GLOBALS['_MAX']['CONF'];
         require_once 'Cache/Lite/Function.php';
 
         //  manually determine timeout required to instantiate cache object
-        switch ($numArgs) {
-
-        case 3:
-            $timeout = $aArgs[2];
-            break;
-        case 5:
-            $timeout = $aArgs[4];
-            break;
-        default:
-            $timeout = null;
-        }
+        $timeout = match ($numArgs) {
+            3 => $aArgs[2],
+            5 => $aArgs[4],
+            default => null,
+        };
 
         $method = $aArgs[0];
 
         $options = [
-                'cacheDir' => MAX_CACHE,
-                'lifeTime' => ((isset($timeout)) ? $timeout : $conf['delivery']['cacheExpire'])];
+            'cacheDir' => MAX_CACHE,
+            'lifeTime' => ($timeout ?? $conf['delivery']['cacheExpire'])];
 
         // check if this method has defined different cache group
         $cacheGroups = $GLOBALS['_MAX']['Admin_DA']['cacheGroups'];
@@ -376,34 +368,33 @@ class Admin_DA
         $cache = new Cache_Lite_Function($options);
 
         switch ($numArgs) {
+            case 2:
+            case 3:
+                $id = $aArgs[1];
+                $timeout = @$aArgs[2]; // timeout may not be supplied
 
-        case 2:
-        case 3:
-            $id = $aArgs[1];
-            $timeout = @$aArgs[2]; // timeout may not be supplied
-
-            // catch stats case
-            if (is_array($aArgs[1])) {
-                $aParams = $aArgs[1];
-                $allFields = isset($aArgs[2]) ? $aArgs[2] : false;
-                $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields);
-            } else {
-                $ret = $cache->call("Admin_DA::" . $method, $id);
-            }
-            break;
+                // catch stats case
+                if (is_array($aArgs[1])) {
+                    $aParams = $aArgs[1];
+                    $allFields = $aArgs[2] ?? false;
+                    $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields);
+                } else {
+                    $ret = $cache->call("Admin_DA::" . $method, $id);
+                }
+                break;
 
             case 4:
             case 5:
-            $aParams = $aArgs[1];
-            $allFields = $aArgs[2];
-            $key = @$aArgs[3];
-            $timeout = @$aArgs[4];
+                $aParams = $aArgs[1];
+                $allFields = $aArgs[2];
+                $key = @$aArgs[3];
+                $timeout = @$aArgs[4];
 
-            $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields, $key);
-            break;
+                $ret = $cache->call("Admin_DA::" . $method, $aParams, $allFields, $key);
+                break;
 
-        default:
-            return PEAR::raiseError('incorrect args passed');
+            default:
+                return PEAR::raiseError('incorrect args passed');
         }
         return $ret;
     }
@@ -476,9 +467,9 @@ class Admin_DA
         $aAdvertisersStats = Admin_DA::_getEntitiesStats('advertiser', $aParams);
         $aActiveParams = ['placement_active' => 't', 'ad_active' => 't'];
         $aActiveAdvertisers = Admin_DA::_getEntities('advertiser', $aParams + $aActiveParams);
-        foreach ($aAdvertisers as $advertiserId => $aAdvertiser) {
+        foreach (array_keys($aAdvertisers) as $advertiserId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aAdvertisers[$advertiserId][$item] = !empty($aAdvertisersStats[$advertiserId][$item]) ? $aAdvertisersStats[$advertiserId][$item] : 0;
+                $aAdvertisers[$advertiserId][$item] = empty($aAdvertisersStats[$advertiserId][$item]) ? 0 : $aAdvertisersStats[$advertiserId][$item];
             }
             $aAdvertisers[$advertiserId]['active'] = isset($aActiveAdvertisers[$advertiserId]);
         }
@@ -659,7 +650,7 @@ class Admin_DA
         if (empty($connectionId)) {
             return false;
         } else {
-            $connectionId = (int)$connectionId;
+            $connectionId = (int) $connectionId;
         }
 
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
@@ -705,11 +696,11 @@ class Admin_DA
     {
         $aPlacements = Admin_DA::_getEntitiesChildren('placement', $aParams);
         $aPlacementsStats = Admin_DA::_getEntitiesStats('placement', $aParams);
-        foreach ($aPlacements as $placementId => $aPlacement) {
+        foreach (array_keys($aPlacements) as $placementId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aPlacements[$placementId][$item] = (!empty($aPlacementsStats[$placementId][$item]))
-                    ? $aPlacementsStats[$placementId][$item]
-                    : 0;
+                $aPlacements[$placementId][$item] = (empty($aPlacementsStats[$placementId][$item]))
+                    ? 0
+                    : $aPlacementsStats[$placementId][$item];
             }
         }
         return $aPlacements;
@@ -719,9 +710,9 @@ class Admin_DA
     {
         $aPublishers = Admin_DA::_getEntitiesChildren('publisher', $aParams);
         $aPublishersStats = Admin_DA::_getEntitiesStats('publisher', $aParams);
-        foreach ($aPublishers as $publisherId => $aPublisher) {
+        foreach (array_keys($aPublishers) as $publisherId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aPublishers[$publisherId][$item] = !empty($aPublishersStats[$publisherId][$item]) ? $aPublishersStats[$publisherId][$item] : 0;
+                $aPublishers[$publisherId][$item] = empty($aPublishersStats[$publisherId][$item]) ? 0 : $aPublishersStats[$publisherId][$item];
             }
         }
         return $aPublishers;
@@ -731,9 +722,9 @@ class Admin_DA
     {
         $aZones = Admin_DA::_getEntitiesChildren('zone', $aParams);
         $aZonesStats = Admin_DA::_getEntitiesStats('zone', $aParams);
-        foreach ($aZones as $zoneId => $aZone) {
+        foreach (array_keys($aZones) as $zoneId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aZones[$zoneId][$item] = !empty($aZonesStats[$zoneId][$item]) ? $aZonesStats[$zoneId][$item] : 0;
+                $aZones[$zoneId][$item] = empty($aZonesStats[$zoneId][$item]) ? 0 : $aZonesStats[$zoneId][$item];
             }
         }
         return $aZones;
@@ -743,9 +734,9 @@ class Admin_DA
     {
         $aAds = Admin_DA::_getEntities('ad', $aParams);
         $aAdsStats = Admin_DA::_getEntitiesStats('ad', $aParams);
-        foreach ($aAds as $adId => $aAd) {
+        foreach (array_keys($aAds) as $adId) {
             foreach (['sum_requests', 'sum_views', 'sum_clicks', 'sum_conversions'] as $item) {
-                $aAds[$adId][$item] = !empty($aAdsStats[$adId][$item]) ? $aAdsStats[$adId][$item] : 0;
+                $aAds[$adId][$item] = empty($aAdsStats[$adId][$item]) ? 0 : $aAdsStats[$adId][$item];
             }
         }
         return $aAds;
@@ -771,7 +762,7 @@ class Admin_DA
             'day',
             'format',
             ['%Y-%m-%d'],
-            $GLOBALS['date_format']
+            $GLOBALS['date_format'],
         );
     }
 
@@ -783,7 +774,7 @@ class Admin_DA
             'month',
             'format',
             ['%Y-%m'],
-            $GLOBALS['month_format']
+            $GLOBALS['month_format'],
         );
     }
 
@@ -793,7 +784,7 @@ class Admin_DA
             'history_dow',
             $aParams,
             'dow',
-            'getDayOfWeek'
+            'getDayOfWeek',
         );
     }
 
@@ -803,7 +794,7 @@ class Admin_DA
             'history_hour',
             $aParams,
             'hour',
-            'getHour'
+            'getHour',
         );
     }
 
@@ -868,13 +859,11 @@ class Admin_DA
         $canAddAdZone = Admin_DA::_isValidAdZoneAssoc($aVariables);
         if (PEAR::isError($canAddAdZone)) {
             $result = $canAddAdZone;
-        } else {
+        } elseif ($aVariables['zone_id'] === 0) {
             // Add the banner
-            if ($aVariables['zone_id'] === 0) {
-                $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1', 'link_type' => MAX_AD_ZONE_LINK_DIRECT]);
-            } else {
-                $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1']);
-            }
+            $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1', 'link_type' => MAX_AD_ZONE_LINK_DIRECT]);
+        } else {
+            $result = Admin_DA::_addEntity('ad_zone_assoc', ['ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'priority_factor' => '1']);
         }
         PEAR::popErrorHandling();
         return $result;
@@ -955,13 +944,13 @@ class Admin_DA
     {
         $aAllowedBannerType = [];
         switch ($aZone['type']) {
-        case MAX_ZoneEmail:
-            $aAllowedBannerType = ['sql', 'web', 'url'];
-            $aAllowedContentType = ['gif', 'jpeg', 'png'];
-            break;
-        case phpAds_ZoneText:
-            $aAllowedBannerType = ['txt'];
-            break;
+            case MAX_ZoneEmail:
+                $aAllowedBannerType = ['sql', 'web', 'url'];
+                $aAllowedContentType = ['gif', 'jpeg', 'png'];
+                break;
+            case phpAds_ZoneText:
+                $aAllowedBannerType = ['txt'];
+                break;
         }
         //  return false if banner is not allowed to be linked to selected zone type
         if ((($aZone['type'] != MAX_ZoneEmail) && !in_array($bannerType, $aAllowedBannerType)) ||

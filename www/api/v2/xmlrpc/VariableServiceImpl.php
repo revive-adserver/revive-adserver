@@ -117,7 +117,7 @@ class VariableServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult(
-                $this->dllVariable->getVariable($variableId, $oVariableInfo)
+                $this->dllVariable->getVariable($variableId, $oVariableInfo),
             );
         } else {
             return false;

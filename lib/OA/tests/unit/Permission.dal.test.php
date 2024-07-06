@@ -24,17 +24,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Permission extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function setUp()
-    {
-    }
+    public function setUp() {}
 
     public function tearDown()
     {
@@ -119,7 +109,7 @@ class Test_OA_Permission extends UnitTestCase
                 null,
                 OA_Permission::OPERATION_ALL,
                 rand(1, 100),
-                $userType
+                $userType,
             ));
         }
 
@@ -127,7 +117,7 @@ class Test_OA_Permission extends UnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-05 16:18:00';
         $aData = [
-            'reportlastdate' => ['2007-04-05 16:18:00']
+            'reportlastdate' => ['2007-04-05 16:18:00'],
         ];
         $dg = new DataGenerator();
         $dg->setData('clients', $aData);
@@ -145,7 +135,7 @@ class Test_OA_Permission extends UnitTestCase
             'booId',
             OA_Permission::OPERATION_ALL,
             1,
-            OA_ACCOUNT_ADMIN
+            OA_ACCOUNT_ADMIN,
         ));
 
         // Test accounts have access
@@ -154,14 +144,14 @@ class Test_OA_Permission extends UnitTestCase
             $bannerId,
             OA_Permission::OPERATION_ALL,
             $doClient->account_id,
-            OA_ACCOUNT_ADVERTISER
+            OA_ACCOUNT_ADVERTISER,
         ));
         $this->assertTrue(OA_Permission::hasAccessToObject(
             'banners',
             $bannerId,
             OA_Permission::OPERATION_ALL,
             $doAgency->account_id,
-            OA_ACCOUNT_MANAGER
+            OA_ACCOUNT_MANAGER,
         ));
 
         // Create users who don't have access
@@ -178,21 +168,21 @@ class Test_OA_Permission extends UnitTestCase
             $bannerId,
             $fakeId = 123,
             OA_Permission::OPERATION_ALL,
-            OA_ACCOUNT_TRAFFICKER
+            OA_ACCOUNT_TRAFFICKER,
         ));
         $this->assertFalse(OA_Permission::hasAccessToObject(
             'banners',
             $bannerId,
             $doClientId2->account_id,
             OA_Permission::OPERATION_ALL,
-            OA_ACCOUNT_ADVERTISER
+            OA_ACCOUNT_ADVERTISER,
         ));
         $this->assertFalse(OA_Permission::hasAccessToObject(
             'banners',
             $bannerId,
             $doAgency2->account_id,
             OA_Permission::OPERATION_ALL,
-            OA_ACCOUNT_MANAGER
+            OA_ACCOUNT_MANAGER,
         ));
     }
 }

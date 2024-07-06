@@ -94,7 +94,7 @@ class Migration_324 extends Migration
         'os' => 'Client:Useragent',
         'useragent' => 'Client:Useragent',
         'referer' => 'Site:Referingpage',
-        'source' => 'Site:Source'
+        'source' => 'Site:Source',
     ];
 
     public $aPlugins = [];

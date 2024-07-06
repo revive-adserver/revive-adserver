@@ -8,3 +8,4 @@ $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXInvo
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXDeliveryLog', 'ext' => 'zip'];
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXVideoAds', 'ext' => 'zip'];
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'reviveMaxMindGeoIP2', 'ext' => 'zip'];
+$aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'apVideo', 'ext' => 'zip'];

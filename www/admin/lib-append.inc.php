@@ -28,7 +28,7 @@ function phpAds_ParseAppendCode($append)
 
     $ret = [
         ['zoneid' => '', 'delivery' => phpAds_ZonePopup],
-        []
+        [],
     ];
 
     if (preg_match("/ad(popup|layer)\.php\?([^'\"]+)['\"]/D", $append, $match)) {

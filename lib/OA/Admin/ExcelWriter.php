@@ -277,7 +277,7 @@ class OA_Admin_ExcelWriter
                         $aFormat[] = $addFormat[$col][$k];
                     }
 
-                    if (substr($value, 0, 1) == '=') {
+                    if (str_starts_with($value, '=')) {
                         $aReplace[0] = $row + 1;
                         $value = str_replace($aSearch, $aReplace, $value);
 

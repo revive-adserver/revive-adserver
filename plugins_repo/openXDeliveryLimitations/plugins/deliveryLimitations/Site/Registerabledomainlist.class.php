@@ -36,7 +36,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     {
         $this->aOperations = [
             '=x' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these registerable domains', $this->extension, $this->group),
-            '!x' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $this->extension, $this->group)
+            '!x' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $this->extension, $this->group),
         ];
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Registerable Domain List';
@@ -66,10 +66,9 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
         // is only included once in the HTML, no matter times the plugin is
         // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
-        echo
-            "<div style=\"float: left;\">" .
+        echo "<div style=\"float: left;\">" .
                 "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
-                  htmlspecialchars(isset($this->data) ? $this->data : "") .
+                  htmlspecialchars($this->data ?? "") .
                 "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .
@@ -89,8 +88,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      */
     public function _displayIntlMissingWarning()
     {
-        echo
-            "<div class='errormessage' style='width: 50%;'>" .
+        echo "<div class='errormessage' style='width: 50%;'>" .
                 "<img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>" .
                 "<span class='tab-r'>" .
                     $this->translate('WARNING') . ": " .
@@ -125,9 +123,9 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
             }
             $registerableDomain .= '\z';
             $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
-            array_push($aCompiledData, $registerableDomain);
+            $aCompiledData[] = $registerableDomain;
         }
-        return implode($aCompiledData, "|");
+        return implode('|', $aCompiledData);
     }
 
     /**
@@ -151,7 +149,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     {
         return $this->_sanitiseData($this->data);
     }
-    
+
     /**
      * A local private method to sanitise the registerable domain data.
      *
@@ -185,13 +183,13 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
                 if ($oHost !== false) {
                     $registerableDomain = $oHost->registerableDomain;
                     if (is_string($registerableDomain) && strlen($registerableDomain)) {
-                        array_push($aSanitisedData, $registerableDomain);
+                        $aSanitisedData[] = $registerableDomain;
                     }
                 }
             }
             $aSanitisedData = array_unique($aSanitisedData);
             sort($aSanitisedData);
         }
-        return implode($aSanitisedData, "\n");
+        return implode("\n", $aSanitisedData);
     }
 }

@@ -1108,7 +1108,7 @@ class DB_DataObject extends DB_DataObject_Overload
      *
      * @param object dataobject (optional) | DB_DATAOBJECT_WHEREADD_ONLY - used to only update changed items.
      * @access public
-     * @return  int rows affected or false on failure
+     * @return  int|false rows affected or false on failure
      */
     function update($dataObject = false)
     {

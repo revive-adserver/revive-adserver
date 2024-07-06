@@ -36,7 +36,7 @@ function MAX_checkGeo_Subdivision2($limitation, $op, $aParams = [])
         $op = '=~';
     }
 
-    list($sCountry, $sRegions) = explode('|', $limitation);
+    [$sCountry, $sRegions] = explode('|', $limitation);
 
     if (!empty($aParams['country']) && !empty($aParams['subdivision_2'])) {
         return MAX_limitationsMatchStringValue($aParams['country'], $sCountry, '==') &&

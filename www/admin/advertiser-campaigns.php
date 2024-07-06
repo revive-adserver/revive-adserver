@@ -43,7 +43,8 @@ if (!empty($clientid) && !OA_Permission::hasAccessToObject('clients', $clientid,
 /*-------------------------------------------------------*/
 //get advertisers and set the current one
 $aAdvertisers = getAdvertiserMap();
-if (empty($clientid)) { //if it's empty
+if (empty($clientid)) {
+    //if it's empty
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid']) {
         //try previous one from session
         $sessionClientId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
@@ -53,13 +54,11 @@ if (empty($clientid)) { //if it's empty
     }
     if (empty($clientid)) { //was empty, is still empty - just pick one, no need for redirect
         $ids = array_keys($aAdvertisers);
-        $clientid = !empty($ids) ? $ids[0] : -1; //if no advertisers set to non-existent id
+        $clientid = empty($ids) ? -1 : $ids[0]; //if no advertisers set to non-existent id
     }
-} else {
-    if (!isset($aAdvertisers[$clientid])) {
-        $page = basename($_SERVER['SCRIPT_NAME']);
-        OX_Admin_Redirect::redirect($page);
-    }
+} elseif (!isset($aAdvertisers[$clientid])) {
+    $page = basename($_SERVER['SCRIPT_NAME']);
+    OX_Admin_Redirect::redirect($page);
 }
 
 
@@ -67,7 +66,7 @@ if (empty($clientid)) { //if it's empty
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$oHeaderModel = buildHeaderModel($clientid, $aAdvertisers);
+$oHeaderModel = buildAdvertiserCampaignsHeaderModel($clientid, $aAdvertisers);
 phpAds_PageHeader(null, $oHeaderModel);
 
 
@@ -156,7 +155,7 @@ $aCount = [
 ];
 
 $dalBanners = OA_Dal::factoryDAL('banners');
-if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
+if (isset($aCampaigns) && is_array($aCampaigns) && $aCampaigns !== []) {
     reset($aCampaigns);
     foreach ($aCampaigns as $campaignId => $campaign) {
         $aCount['campaigns']++;
@@ -230,7 +229,7 @@ phpAds_SessionDataStore();
 OX_Admin_UI_ViewHooks::registerPageView(
     $oTpl,
     'advertiser-campaigns',
-    ['advertiserId' => $clientid]
+    ['advertiserId' => $clientid],
 );
 
 $oTpl->display();
@@ -238,7 +237,7 @@ phpAds_PageFooter();
 
 
 
-function buildHeaderModel($advertiserId, $aAllAdvertisers)
+function buildAdvertiserCampaignsHeaderModel($advertiserId, $aAllAdvertisers)
 {
     if ($advertiserId) {
         $advertiser = phpAds_getClientDetails($advertiserId);
@@ -251,10 +250,10 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $advertiserName, 'url' => $advertiserEditUrl,
-               'id' => $advertiserId, 'entities' => $aAllAdvertisers,
-               'htmlName' => 'clientid'
-              ],
-        ['name' => '']
+            'id' => $advertiserId, 'entities' => $aAllAdvertisers,
+            'htmlName' => 'clientid',
+        ],
+        ['name' => ''],
     ], 'campaigns', 'list');
 
     return $oHeaderModel;

@@ -63,7 +63,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         // Add standard page parameters
         $this->aPageParams = [
             'clientid' => $advertiserId,
-            'campaignid' => $placementId
+            'campaignid' => $placementId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -90,18 +90,18 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid=' . $advertiserId,
-                'iconAdvertiser'
+                'iconAdvertiser',
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $placementId,
-            'iconCampaign'
+            'iconCampaign',
         );
 
         // Prepare the data for display by output() method
         $aParams = [
-            'placement_id' => $placementId
+            'placement_id' => $placementId,
         ];
         $this->prepare($aParams, 'stats.php');
     }
@@ -122,13 +122,13 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         if (0 == count(Admin_DA::getPlacements(
             $this->coreParams +
                 [  'advertiser_id' => $advertiserId,
-                        'placement_id' => $placementId]
+                    'placement_id' => $placementId],
         ))) {
             phpAds_PageHeader('2');
             // Check if advertiser (clientid) exist
             if (0 == count(Admin_DA::getPlacements(
                 $this->coreParams +
-                    [  'advertiser_id' => $advertiserId]
+                    [  'advertiser_id' => $advertiserId],
             ))) {
                 phpAds_Die($GLOBALS['strDeadLink'], str_replace('{link}', 'stats.php', $GLOBALS['strNoAdvertiser']));
             } else {

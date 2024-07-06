@@ -41,8 +41,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Plugin Settings
     $aElements += [
         'pluginSettings_enableOnInstall' => [
-        'pluginSettings' => 'enableOnInstall',
-        'bool' => true
+            'pluginSettings' => 'enableOnInstall',
+            'bool' => true,
         ],
         'pluginSettings_useMergedFunctions' => ['pluginSettings' => 'useMergedFunctions', 'bool' => true],
     ];
@@ -82,12 +82,12 @@ $aSettings = [
             [
                 'type' => 'checkbox',
                 'name' => 'pluginSettings_enableOnInstall',
-                'text' => $GLOBALS['strEnableNewPlugins']
+                'text' => $GLOBALS['strEnableNewPlugins'],
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'pluginSettings_useMergedFunctions',
-                'text' => $GLOBALS['strUseMergedFunctions']
+                'text' => $GLOBALS['strUseMergedFunctions'],
             ],
         ],
     ],

@@ -21,9 +21,8 @@ if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
  * Note: This is now a wrapper to the delivery engine's equivalent function
  *
  */
-function phpAds_registerGlobal()
+function phpAds_registerGlobal(...$args)
 {
-    $args = func_get_args();
     MAX_commonRegisterGlobalsArray($args);
 }
 
@@ -34,26 +33,11 @@ function phpAds_registerGlobal()
  * $_POST values take precedence over $_GET values
  *
  */
-function phpAds_registerGlobalUnslashed()
+function phpAds_registerGlobalUnslashed(...$args)
 {
-    $args = func_get_args();
     $request = [];
     foreach ($args as $key) {
-        if (isset($_GET[$key])) {
-            $value = $_GET[$key];
-        }
-        if (isset($_POST[$key])) {
-            $value = $_POST[$key];
-        }
-        if (isset($value)) {
-            if (ini_get('magic_quotes_gpc')) {
-                $value = MAX_commonUnslashArray($value);
-            }
-        } else {
-            $value = null;
-        }
-        $GLOBALS[$key] = $request[$key] = $value;
-        unset($value);
+        $GLOBALS[$key] = $request[$key] = $_GET[$key] ?? $_POST[$key] ?? null;
     }
     return $request;
 }

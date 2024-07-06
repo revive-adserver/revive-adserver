@@ -50,7 +50,7 @@ if (!empty($action)) {
 } elseif (!empty($submit)) {
     OA_Permission::checkSessionToken();
 
-    $acl = (isset($acl)) ? $acl : [];
+    $acl ??= [];
 
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
@@ -63,15 +63,15 @@ if (!empty($action)) {
         $acls_updated = false;
         $now = OA::getNow();
 
-        if ($aBannerPrev['block_ad'] <> $block) {
+        if ($aBannerPrev['block_ad'] != $block) {
             $values['block'] = $block;
             $acls_updated = ($block == 0) ? true : $acls_updated;
         }
-        if ($aBannerPrev['cap_ad'] <> $cap) {
+        if ($aBannerPrev['cap_ad'] != $cap) {
             $values['capping'] = $cap;
             $acls_updated = ($cap == 0) ? true : $acls_updated;
         }
-        if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
+        if ($aBannerPrev['session_cap_ad'] != $session_capping) {
             $values['session_capping'] = $session_capping;
             $acls_updated = ($session_capping == 0) ? true : $acls_updated;
         }
@@ -91,7 +91,7 @@ if (!empty($action)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strBannerAclHasBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
-            htmlspecialchars($doBanners->description)
+            htmlspecialchars($doBanners->description),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -142,7 +142,7 @@ $aParams = [
     'titleLink' => "campaign-edit.php?clientid=$clientid&campaignid=$campaignid",
     'aText' => $GLOBALS['strCappingCampaign'],
     'aCappedObject' => $aBanner,
-    'type' => 'Campaign'
+    'type' => 'Campaign',
 ];
 
 $tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad', $aParams);

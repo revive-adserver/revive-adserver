@@ -79,7 +79,7 @@ class ConfigMigrationTest extends UnitTestCase
         $this->createConfigIfNotExists();
         $aTest = [
             'testKey1' => 'testVal1',
-            'testKey2' => 'testVal2'
+            'testKey2' => 'testVal2',
         ];
         $configMigration = new ConfigMigration();
         $configMigration->mergeConfigWith('testSection', $aTest);

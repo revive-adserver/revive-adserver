@@ -41,7 +41,7 @@ function OA_Dal_Delivery_connect($database = 'database')
     if ($dbConf['protocol'] == 'unix') {
         $dbConf['host'] = $dbConf['socket'];
     } else {
-        $dbConf['port'] = (isset($dbConf['port']) ? $dbConf['port'] : 5432);
+        $dbConf['port'] ??= 5432;
     }
     $dbParams[] = empty($dbConf['port']) ? '' : 'port=' . $dbConf['port'];
     $dbParams[] = empty($dbConf['host']) ? '' : 'host=' . $dbConf['host'];
@@ -112,7 +112,7 @@ function OA_Dal_Delivery_fetchAssoc($resource)
  * @return int|false       The last insert ID (zero if last query didn't generate an ID)
  *                         or false on failure
  */
-function OA_Dal_Delivery_insertId($database = 'database', $table, $column)
+function OA_Dal_Delivery_insertId($database, $table, $column)
 {
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX'][$dbName]))) {
@@ -160,7 +160,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
     return OA_Dal_Delivery_query(
         $query,
-        'rawDatabase'
+        'rawDatabase',
     );
 }
 

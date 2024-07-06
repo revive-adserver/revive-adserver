@@ -24,9 +24,6 @@ require_once LIB_PATH . '/OperationInterval.php';
  */
 class Test_Max_Delivery_Log_RMC extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +49,10 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
         $aTables = [
             'MAX_Delivery_log_logAdRequest' => 'data_bkt_r',
             'MAX_Delivery_log_logAdImpression' => 'data_bkt_m',
-            'MAX_Delivery_log_logAdClick' => 'data_bkt_c'
+            'MAX_Delivery_log_logAdClick' => 'data_bkt_c',
         ];
 
         foreach ($aTables as $function => $table) {
-
             // Test to ensure that the openXDeliveryLog plugin's data bucket
             // table does not exist
             $oTable = new OA_DB_Table();
@@ -73,7 +69,6 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
         TestEnv::installPluginPackage('openXDeliveryLog', false);
 
         foreach ($aTables as $function => $table) {
-
             // Test to ensure that the openXDeliveryLog plugin's data bucket
             // table now does exist
             $tableExists = $oTable->extistsTable($aConf['table']['prefix'] . $table);

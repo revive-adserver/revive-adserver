@@ -18,7 +18,5 @@ require_once(LIB_PATH . '/Extension/ExtensionDelivery.php');
  */
 class OX_Extension_deliveryAdSelect extends OX_Extension_Delivery
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 }

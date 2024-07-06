@@ -24,14 +24,6 @@ TestEnv::recreateDatabaseAsLatin1OnMysql();
 class Test_EncodingMigration extends MigrationTest
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Test convertEncoding()
      *
      */
@@ -43,7 +35,7 @@ class Test_EncodingMigration extends MigrationTest
         // UTF-8.
         $GLOBALS['_MAX']['CONF']['databaseCharset'] = [
             'checkComplete' => true,
-            'clientCharset' => 'latin1'
+            'clientCharset' => 'latin1',
         ];
 
         // However MySQL versions < 4.1.2 didn't support charsets, so we don't need to do that

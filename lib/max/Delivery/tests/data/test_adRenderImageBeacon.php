@@ -16,10 +16,10 @@
  */
 
 $aBanner = ['ad_id' => '9999',
-                    'placement_id' => '111',
-                    'url' => 'http://www.somewhere.com',
-                    'contenttype' => ''
-                    ];
+    'placement_id' => '111',
+    'url' => 'http://www.somewhere.com',
+    'contenttype' => '',
+];
 $zoneId = 0;
 $source = '';
 $loc = '';

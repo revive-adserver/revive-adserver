@@ -136,7 +136,7 @@ function MAX_cookieUnpackCapping()
                 $output = [];
                 $data = explode('_', $_COOKIE[$cookieName]);
                 foreach ($data as $pair) {
-                    list($name, $value) = explode('.', $pair);
+                    [$name, $value] = explode('.', $pair);
                     $output[$name] = $value;
                 }
                 $_COOKIE[$cookieName] = $output;
@@ -146,12 +146,10 @@ function MAX_cookieUnpackCapping()
             foreach ($_COOKIE['_' . $cookieName] as $adId => $cookie) {
                 if (_isBlockCookie($cookieName)) {
                     $_COOKIE[$cookieName][$adId] = $cookie;
+                } elseif (isset($_COOKIE[$cookieName][$adId])) {
+                    $_COOKIE[$cookieName][$adId] += $cookie;
                 } else {
-                    if (isset($_COOKIE[$cookieName][$adId])) {
-                        $_COOKIE[$cookieName][$adId] += $cookie;
-                    } else {
-                        $_COOKIE[$cookieName][$adId] = $cookie;
-                    }
+                    $_COOKIE[$cookieName][$adId] = $cookie;
                 }
                 // Delete the temporary capping cookie
                 MAX_cookieUnset("_{$cookieName}[{$adId}]");
@@ -334,10 +332,10 @@ function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain
             }
             $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
         } else {
-            $secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
+            $secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 
             if (PHP_VERSION_ID < 70300) {
-                @setcookie($name, $value, $expires, $path . '; samesite=' . $sameSite, $domain, $secure, $httpOnly);
+                @setcookie($name, $value, ['expires' => $expires, 'path' => $path . '; samesite=' . $sameSite, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
             } else {
                 @setcookie($name, $value, [
                     'expires' => $expires,
@@ -359,7 +357,7 @@ function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain
 function MAX_cookieClientCookieUnset($name)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $domain = (!empty($conf['cookie']['domain'])) ? $conf['cookie']['domain'] : null;
+    $domain = (empty($conf['cookie']['domain'])) ? null : $conf['cookie']['domain'];
     MAX_cookieSet($name, false, _getTimeYearAgo(), '/', $domain);
     // Work around a bug in IE where the cookie name is sometimes URL-encoded
     MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(), '/', $domain);
@@ -371,7 +369,7 @@ function MAX_cookieClientCookieUnset($name)
 function MAX_cookieClientCookieFlush()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $domain = !empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null;
+    $domain = empty($conf['cookie']['domain']) ? null : $conf['cookie']['domain'];
 
     MAX_cookieSendP3PHeaders();
 
@@ -379,10 +377,10 @@ function MAX_cookieClientCookieFlush()
         // Set cookies
         reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
         foreach ($GLOBALS['_MAX']['COOKIE']['CACHE'] as $name => $v) {
-            list($value, $expire) = $v;
+            [$value, $expire] = $v;
             // Treat the viewerId cookie differently, (always set in client)
             if ($name === $conf['var']['viewerId']) {
-                MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);
+                MAX_cookieClientCookieSet($name, $value, $expire, '/', empty($conf['cookie']['viewerIdDomain']) ? $domain : $conf['cookie']['viewerIdDomain']);
             } else {
                 MAX_cookieSet($name, $value, $expire, '/', $domain);
             }
@@ -399,7 +397,7 @@ function MAX_cookieClientCookieFlush()
         return;
     }
 
-    $maxCookieSize = !empty($conf['cookie']['maxCookieSize']) ? $conf['cookie']['maxCookieSize'] : 2048;
+    $maxCookieSize = empty($conf['cookie']['maxCookieSize']) ? 2048 : $conf['cookie']['maxCookieSize'];
 
     // For each type of cookie, repack if necessary
     foreach ($cookieNames as $cookieName) {
@@ -410,15 +408,18 @@ function MAX_cookieClientCookieFlush()
         switch ($cookieName) {
             case $conf['var']['blockAd']:
             case $conf['var']['blockCampaign']:
-            case $conf['var']['blockZone']: $expire = _getTimeThirtyDaysFromNow(); break;
+            case $conf['var']['blockZone']: $expire = _getTimeThirtyDaysFromNow();
+                break;
             case $conf['var']['lastClick']:
             case $conf['var']['lastView']:
             case $conf['var']['capAd']:
             case $conf['var']['capCampaign']:
-            case $conf['var']['capZone']: $expire = _getTimeYearFromNow(); break;
+            case $conf['var']['capZone']: $expire = _getTimeYearFromNow();
+                break;
             case $conf['var']['sessionCapCampaign']:
             case $conf['var']['sessionCapAd']:
-            case $conf['var']['sessionCapZone']: $expire = 0; break;
+            case $conf['var']['sessionCapZone']: $expire = 0;
+                break;
         }
         if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
             $data = [];

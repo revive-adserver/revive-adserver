@@ -24,14 +24,6 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
 {
     public $dalChannel;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalChannel = OA_Dal::factoryDAL('channel');
@@ -46,7 +38,7 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
     {
         // Insert 2 channels
         $aData = [
-            'acls_updated' => ['2007-04-04 17:27:33']
+            'acls_updated' => ['2007-04-04 17:27:33'],
         ];
 
         DataGenerator::setData('channel', $aData);

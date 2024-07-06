@@ -21,13 +21,6 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
  */
 class Test_postscript_2_7_11_dev extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-    }
-
     public function test_runScript()
     {
         $aExpectation = $this->_generateTestData();

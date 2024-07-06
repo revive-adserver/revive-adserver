@@ -43,15 +43,15 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
 
     $aValues = [
         'server_ip' => $serverRawIp,
-        'tracker_id' => (int)$trackerId,
+        'tracker_id' => (int) $trackerId,
         'date_time' => gmdate('Y-m-d H:i:s', $time),
         'action_date_time' => gmdate('Y-m-d H:i:s', $aConversion['dt']),
-        'creative_id' => (int)$aConversion['cid'],
-        'zone_id' => (int)$aConversion['zid'],
+        'creative_id' => (int) $aConversion['cid'],
+        'zone_id' => (int) $aConversion['zid'],
         'ip_address' => $_SERVER['REMOTE_ADDR'],
         'action' => $aConversion['action_type'],
         'window' => $aConversion['window'],
-        'status' => $aConversion['status']
+        'status' => $aConversion['status'],
     ];
 
     // Need to also escape identifier as "window" is reserved since PgSQL 8.4
@@ -71,7 +71,7 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
     }
     $aResult = [
         'server_conv_id' => OA_Dal_Delivery_insertId('rawDatabase', $table, 'server_conv_id'),
-        'server_raw_ip' => $serverRawIp
+        'server_raw_ip' => $serverRawIp,
     ];
     return $aResult;
 }

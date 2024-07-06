@@ -74,14 +74,14 @@ class Plugins_DeliveryLimitations_Client_BrowserVersion extends Plugins_Delivery
 <table width="275" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td align="left" width="50"><strong><?php echo $this->translate("Browser"); ?>:</strong></td>
-        <td><select name="acl[<?php echo $this->executionorder; ?>][data][]" value="<?php echo((!empty($this->data[0])) ? htmlspecialchars($this->data[0]) : ''); ?>" tabindex="<?php echo $tabindex; ?>"><?php foreach (self::$aBrowsers as $value) {
+        <td><select name="acl[<?php echo $this->executionorder; ?>][data][]" value="<?php echo((empty($this->data[0])) ? '' : htmlspecialchars($this->data[0])); ?>" tabindex="<?php echo $tabindex; ?>"><?php foreach (self::$aBrowsers as $value) {
             $value = htmlspecialchars($value, ENT_QUOTES);
             echo "<option value='{$value}'" . ($value == $this->data[0] ? ' selected="selected"' : '') . ">{$value}</option>";
         } ?></select></td>
     </tr>
     <tr id="acl-<?php echo $this->executionorder; ?>">
         <td align="left" width="50"><strong><?php echo $this->translate("Version"); ?>:</strong></td>
-        <td><input type="text" size="10" name="acl[<?php echo $this->executionorder; ?>][data][]" value="<?php echo((!empty($this->data[1])) ? htmlspecialchars($this->data[1]) : ''); ?>"  id="acl-<?php echo $this->executionorder; ?>-version" tabindex="<?php echo $tabindex++; ?>">
+        <td><input type="text" size="10" name="acl[<?php echo $this->executionorder; ?>][data][]" value="<?php echo((empty($this->data[1])) ? '' : htmlspecialchars($this->data[1])); ?>"  id="acl-<?php echo $this->executionorder; ?>-version" tabindex="<?php echo $tabindex++; ?>">
     <script>
         (function ($) {
             $('select[name="acl[<?php echo $this->executionorder; ?>][comparison]"]').change(function() {
@@ -123,7 +123,7 @@ class Plugins_DeliveryLimitations_Client_BrowserVersion extends Plugins_Delivery
                     return sprintf(
                         '%s: %s',
                         $this->getName(),
-                        $this->translate('Version should be a number')
+                        $this->translate('Version should be a number'),
                     );
                 }
             }

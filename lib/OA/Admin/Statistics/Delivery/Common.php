@@ -20,7 +20,7 @@ require_once 'Image/Graph.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
+abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
 {
     /**
      * @var mixed
@@ -33,7 +33,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      *
      * @var array
      */
-    public $aPrefNames;
+    public $aPrefNames = [];
 
     /**
      * A PHP5-style constructor that can be used to perform common
@@ -50,14 +50,13 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     {
         // Set the template directory for delivery statistcs
         $this->templateDir = MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/themes/';
-        $this->aPrefNames = [];
         parent::__construct($aParams);
         // Delivery statistics columns can be enabled/disabled and re-ordered
         // via user preferences - set the preference column, and sort accordingly
         foreach ($this->aPlugins as $oPlugin) {
             $this->aPrefNames += $oPlugin->getPreferenceNames();
         }
-        uksort($this->aColumns, [$this, '_columnSort']);
+        uksort($this->aColumns, $this->_columnSort(...));
     }
 
     /**
@@ -116,7 +115,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 MAX_CONNECTION_AD_IMPRESSION,
                 MAX_CONNECTION_AD_CLICK,
                 MAX_CONNECTION_AD_ARRIVAL,
-                MAX_CONNECTION_MANUAL
+                MAX_CONNECTION_MANUAL,
             ];
             foreach ($aConversionTypes as $conversionType) {
                 if (isset($aRows['sum_conversions_' . $conversionType])) {
@@ -214,7 +213,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         return [
             'headers' => $headers,
             'formats' => $formats,
-            'data' => $data
+            'data' => $data,
         ];
     }
 }

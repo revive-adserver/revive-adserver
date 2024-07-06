@@ -28,14 +28,6 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
      */
     public $dalAcls;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalAcls = OA_Dal::factoryDAL('acls');
@@ -59,9 +51,9 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
 
         // Generate acls, two of them with the same $bannerId
         $data = [
-           'bannerid' => [$bannerId, $bannerId, 3],
-           'data' => ["$channelId,2,3", '4,5,6', "$channelId"],
-           'executionorder' => [1, 2, 3]
+            'bannerid' => [$bannerId, $bannerId, 3],
+            'data' => ["$channelId,2,3", '4,5,6', "$channelId"],
+            'executionorder' => [1, 2, 3],
         ];
 
         DataGenerator::setData('acls', $data);

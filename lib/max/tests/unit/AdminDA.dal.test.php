@@ -83,7 +83,7 @@ class Admin_DaTest extends DalUnitTestCase
                 && isset($stats[1]['sum_views'])
                 && isset($stats[1]['sum_clicks'])
                 && isset($stats[1]['sum_conversions'])
-                );
+        );
     }
 
 
@@ -95,13 +95,13 @@ class Admin_DaTest extends DalUnitTestCase
     public function test_getStatsColumns()
     {
         $entities = [
-         'ad',
-         'advertiser',
-         'agency',
-         'placement',
-         'publisher',
-         'zone',
-         ];
+            'ad',
+            'advertiser',
+            'agency',
+            'placement',
+            'publisher',
+            'zone',
+        ];
         foreach ($entities as $entity) {
             $ret = SqlBuilder::_getStatsColumns($entity);
             $this->assertTrue(is_array($ret));
@@ -163,18 +163,16 @@ class Admin_DaTest extends DalUnitTestCase
             'chain' => 0,
             'prepend' => 0,
             'append' => 0,
-            'updated' => '2007-04-03 16:41:15'
+            'updated' => '2007-04-03 16:41:15',
         ];
         $ret = SqlBuilder::_insert('zones', $aVariables);
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
     }
 
-    public function test_select()
-    {
-    }
+    public function test_select() {}
 
-//    $aActiveAdvertisers = Admin_DA::_getEntities('advertiser', $aParams
+    //    $aActiveAdvertisers = Admin_DA::_getEntities('advertiser', $aParams
 
 
     // +---------------------------------------+
@@ -235,7 +233,7 @@ class Admin_DaTest extends DalUnitTestCase
             'description' => 'bar',
             'datatype' => 'string',
             'purpose' => 'basket_value',
-            ]);
+        ]);
         $this->assertTrue(is_int($variableId));
         $retVar = Admin_DA::getVariables(['variableid' => $variableId]);
         $this->assertTrue(is_array($retVar[$variableId]));
@@ -252,7 +250,7 @@ class Admin_DaTest extends DalUnitTestCase
             'description' => 'bar',
             'datatype' => 'string',
             'purpose' => 'basket_value',
-            ]);
+        ]);
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
 
@@ -268,8 +266,8 @@ class Admin_DaTest extends DalUnitTestCase
             'trackername' => 'foo',
             'description' => 'bar',
             'clientid' => 0,
-            'appendcode' => 'a'
-            ]);
+            'appendcode' => 'a',
+        ]);
 
         $ret = Admin_DA::getTracker($id);
         // should look like this
@@ -304,8 +302,8 @@ class Admin_DaTest extends DalUnitTestCase
             'trackername' => 'foo',
             'description' => 'bar',
             'clientid' => 0,
-            'appendcode' => 'a'
-            ]);
+            'appendcode' => 'a',
+        ]);
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
 
@@ -320,8 +318,8 @@ class Admin_DaTest extends DalUnitTestCase
             'trackername' => 'foo',
             'description' => 'bar',
             'clientid' => 0,
-            'appendcode' => 'a'
-            ]);
+            'appendcode' => 'a',
+        ]);
         $this->assertTrue(is_int($trackerId));
         $this->assertTrue($trackerId > 0);
 
@@ -352,8 +350,8 @@ class Admin_DaTest extends DalUnitTestCase
             'clicks' => rand(1, 9999),
             'conversions' => rand(1, 9999),
             'activate_time' => '2007-03-29 00:00:00',
-            'expire_time' => '2007-04-10 23:59:59'
-            ]);
+            'expire_time' => '2007-04-10 23:59:59',
+        ]);
 
         $ret = Admin_DA::getPlacement($id);
 
@@ -406,13 +404,13 @@ class Admin_DaTest extends DalUnitTestCase
             'clicks' => rand(1, 9999),
             'conversions' => rand(1, 9999),
             'activate_time' => '2007-03-29 00:00:00',
-            'expire_time' => '2007-04-10 23:59:59'
-            ]);
+            'expire_time' => '2007-04-10 23:59:59',
+        ]);
 
         $res = Admin_DA::getPlacements(
             [
-            'placement_id' => $id],
-            true
+                'placement_id' => $id],
+            true,
         );
 
         $this->assertTrue(is_array($res));
@@ -431,8 +429,8 @@ class Admin_DaTest extends DalUnitTestCase
             'clicks' => rand(1, 9999),
             'conversions' => rand(1, 9999),
             'activate_time' => '2007-03-29 00:00:00',
-            'expire_time' => '2007-04-10 23:59:59'
-            ]);
+            'expire_time' => '2007-04-10 23:59:59',
+        ]);
         $this->assertTrue(is_int($placementId));
         $this->assertTrue($placementId > 0);
 
@@ -467,7 +465,7 @@ class Admin_DaTest extends DalUnitTestCase
             'contact' => 'bar',
             'username' => 'user',
             'email' => 'agent@example.com',
-            ]);
+        ]);
 
         $ret = Admin_DA::getAgency($id);
 
@@ -504,7 +502,7 @@ class Admin_DaTest extends DalUnitTestCase
             'contact' => 'bar',
             'username' => 'user',
             'email' => 'agent@example.com',
-            ]);
+        ]);
 
         $agencies = Admin_DA::getAgencies(['agency_id' => $id]);
         $this->assertTrue(count($agencies) == 1);
@@ -540,8 +538,8 @@ class Admin_DaTest extends DalUnitTestCase
             'compiledlimitation' => '',
             'append' => '',
             'acls_updated' => '2007-04-11',
-            'status' => 1 // Added for OX-5712
-            ]);
+            'status' => 1, // Added for OX-5712
+        ]);
 
         $ret = Admin_DA::getAd($id);
         // should look like this
@@ -632,8 +630,8 @@ class Admin_DaTest extends DalUnitTestCase
             'ad_selection' => '',
             'chain' => '',
             'prepend' => '',
-            'append' => ''
-            ]);
+            'append' => '',
+        ]);
         return $id;
     }
 
@@ -944,21 +942,21 @@ class Admin_DaTest extends DalUnitTestCase
             'clicks' => rand(1, 9999),
             'conversions' => rand(1, 9999),
             'activate_time' => '2007-03-29 00:00:00',
-            'expire_time' => '2007-04-10 23:59:59'
-            ]);
+            'expire_time' => '2007-04-10 23:59:59',
+        ]);
 
         $ret = Admin_DA::getPlacements(
             [
-            'placement_id' => $id],
-            true
+                'placement_id' => $id],
+            true,
         );
         $stats = each($ret);
         foreach ($stats[1] as $k => $v) {
             $tmp = Admin_DA::getPlacements(
                 [
-                'placement_id' => $id],
+                    'placement_id' => $id],
                 true,
-                $k
+                $k,
             );
             $resKey = each($tmp);
             $this->assertEqual($resKey['key'], $v);
@@ -996,8 +994,8 @@ class Admin_DaTest extends DalUnitTestCase
             'clicks' => rand(1, 9999),
             'conversions' => rand(1, 9999),
             'activate_time' => '2007-03-29 00:00:00',
-            'expire_time' => '2007-04-10 23:59:59'
-            ]);
+            'expire_time' => '2007-04-10 23:59:59',
+        ]);
 
         $ret = Admin_DA::fromCache('getPlacements', [
             'placement_id' => $id]);
@@ -1023,8 +1021,8 @@ class Admin_DaTest extends DalUnitTestCase
             'clicks' => rand(1, 9999),
             'conversions' => rand(1, 9999),
             'activate_time' => '2007-03-29 00:00:00',
-            'expire_time' => '2007-04-10 23:59:59'
-            ]);
+            'expire_time' => '2007-04-10 23:59:59',
+        ]);
 
         $res = Admin_DA::fromCache('getPlacement', $id);
         $this->assertTrue(is_array($res));

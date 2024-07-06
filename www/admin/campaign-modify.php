@@ -61,7 +61,7 @@ if (!empty($campaignid)) {
                 [MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"),
                     htmlspecialchars($oldName),
                     MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$newCampaignId"),
-                    htmlspecialchars($newName)]
+                    htmlspecialchars($newName)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -71,7 +71,6 @@ if (!empty($campaignid)) {
             phpAds_sqlDie();
         }
     } elseif (!empty($newclientid)) {
-
         /*-------------------------------------------------------*/
         /* Restore cache of $node_array, if it exists            */
         /*-------------------------------------------------------*/
@@ -129,10 +128,10 @@ if (!empty($campaignid)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strCampaignHasBeenMoved'],
-            [htmlspecialchars($campaignName), htmlspecialchars($advertiserName)]
+            [htmlspecialchars($campaignName), htmlspecialchars($advertiserName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
     }
 }
 
-Header("Location: " . $returnurl . "?clientid=" . (isset($newclientid) ? $newclientid : $clientid) . "&campaignid=" . $campaignid);
+Header("Location: " . $returnurl . "?clientid=" . ($newclientid ?? $clientid) . "&campaignid=" . $campaignid);

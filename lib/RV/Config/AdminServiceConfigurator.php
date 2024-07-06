@@ -16,7 +16,6 @@ use League\Flysystem\Adapter;
 use League\Flysystem\Filesystem;
 use RV\DependencyInjection\Compiler\Html5ZipManagerPass;
 use RV\Manager\Html5ZipManager;
-use RV\Manager\PasswordManager;
 use RV\Parser\Html5\AdobeEdgeParser;
 use RV\Parser\Html5\MetaParser;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -55,7 +54,7 @@ class AdminServiceConfigurator
             ->addArgument(new Reference(
                 $container->getParameter('store.mode') ?
                 'filesystem.adapter.ftp' : // store.mode 1: FTP
-                'filesystem.adapter.local' // store.mode 0: Local
+                'filesystem.adapter.local', // store.mode 0: Local
             ));
 
         $container

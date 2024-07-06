@@ -16,9 +16,4 @@ require_once(LIB_PATH . '/Extension/ExtensionDelivery.php');
  * @package    OpenXExtension
  * @subpackage invocationTags
  */
-class OX_Extension_invocationTags extends OX_Extension_Delivery
-{
-    public function __construct()
-    {
-    }
-}
+class OX_Extension_invocationTags extends OX_Extension_Delivery {}

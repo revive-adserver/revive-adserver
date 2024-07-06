@@ -77,7 +77,7 @@ class OA_DB
         // A hack to allow for installation on pgsql
         // If the configuration hasn't been defined prevent
         // loading mysql MDB2 driver.
-        if (strpos($dsn, '//:@') !== false) {
+        if (str_contains($dsn, '//:@')) {
             // Return a silent error
             return new PEAR_Error('Bad argument: Empty DSN');
         }
@@ -225,13 +225,13 @@ class OA_DB
                 foreach ($aDatatypes as $key => $value) {
                     $aOptions['datatype_map'] =
                         array_merge(
-                            (array)$aOptions['datatype_map'],
-                            [$key => $value]
+                            (array) $aOptions['datatype_map'],
+                            [$key => $value],
                         );
                     $aOptions['datatype_map_callback'] =
                         array_merge(
-                            (array)$aOptions['datatype_map_callback'],
-                            [$key => 'datatype_' . $key . '_callback']
+                            (array) $aOptions['datatype_map_callback'],
+                            [$key => 'datatype_' . $key . '_callback'],
                         );
                 }
             }
@@ -240,8 +240,8 @@ class OA_DB
                 foreach ($aNativetypes as $value) {
                     $aOptions['nativetype_map_callback'] =
                         array_merge(
-                            (array)$aOptions['nativetype_map_callback'],
-                            [$value => 'nativetype_' . $value . '_callback']
+                            (array) $aOptions['nativetype_map_callback'],
+                            [$value => 'nativetype_' . $value . '_callback'],
                         );
                 }
             }

@@ -103,14 +103,14 @@ class OA_Dll_PublisherInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-                    'publisherId' => 'integer',
-                    'accountId' => 'integer',
-                    'agencyId' => 'integer',
-                    'publisherName' => 'string',
-                    'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'website' => 'string',
-                    'comments' => 'string',
-                ];
+            'publisherId' => 'integer',
+            'accountId' => 'integer',
+            'agencyId' => 'integer',
+            'publisherName' => 'string',
+            'contactName' => 'string',
+            'emailAddress' => 'string',
+            'website' => 'string',
+            'comments' => 'string',
+        ];
     }
 }

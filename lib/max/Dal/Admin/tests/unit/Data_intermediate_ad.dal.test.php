@@ -28,14 +28,6 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
     private $aIds;
     private $aIds2;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
@@ -71,7 +63,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
     public function testGetDeliveredEcpmCampainImpressionsByAgency()
     {
         $this->aIds2 = TestEnv::loadData('data_intermediate_ad_002');
-        
+
         $impressions = 123;
         $agencyId = $this->aIds2['agency'][0];
         $campaignId = $this->aIds2['campaigns'][0];
@@ -101,7 +93,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
             $creative_id,
             $zone_id,
             $day,
-            $hour
+            $hour,
         );
 
         $doData_intermediate_ad = OA_Dal::staticGetDO('data_intermediate_ad', $dataIntermediateAdId);

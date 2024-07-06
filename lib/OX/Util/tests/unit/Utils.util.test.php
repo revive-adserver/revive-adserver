@@ -20,7 +20,7 @@ class OX_Util_UtilsTest extends UnitTestCase
         $aTestValues = [
             -2 => OX_CAMPAIGN_TYPE_ECPM,
             -1 => OX_CAMPAIGN_TYPE_OVERRIDE,
-            0 => OX_CAMPAIGN_TYPE_REMNANT
+            0 => OX_CAMPAIGN_TYPE_REMNANT,
         ];
         for ($i = 1; $i <= 10; $i++) {
             $aTestValues[$i] = OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
@@ -72,7 +72,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             $conversions,
             null,
             null,
-            $defaultClickRatio
+            $defaultClickRatio,
         );
         $this->assertEqual($expected, $result);
 
@@ -86,7 +86,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             $conversions,
             null,
             null,
-            $defaultClickRatio
+            $defaultClickRatio,
         );
         $this->assertEqual($expected, $result);
 
@@ -103,7 +103,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             null,
             null,
             $defaultClickRatio,
-            $defaultConversionRatio
+            $defaultConversionRatio,
         );
         $this->assertEqual($expected, $result);
 
@@ -118,7 +118,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             null,
             null,
             $defaultClickRatio,
-            $defaultConversionRatio
+            $defaultConversionRatio,
         );
         $this->assertEqual($expected, $result);
 
@@ -134,7 +134,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             '2009-01-01',
             '2009-01-14',
             $defaultClickRatio,
-            $defaultConversionRatio
+            $defaultConversionRatio,
         );
         $this->assertEqual($expected, $result);
 
@@ -186,7 +186,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             $clicks,
             $conversions,
             $startDate->getDate(DATE_FORMAT_ISO),
-            $endDate->getDate(DATE_FORMAT_ISO)
+            $endDate->getDate(DATE_FORMAT_ISO),
         );
         $this->assertEqual($expected, $result);
 
@@ -208,7 +208,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             $clicks,
             $conversions,
             $startDate->getDate(DATE_FORMAT_ISO),
-            $endDate->getDate(DATE_FORMAT_ISO)
+            $endDate->getDate(DATE_FORMAT_ISO),
         );
         $this->assertEqual($expected, $result);
 
@@ -227,7 +227,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             $clicks,
             $conversions,
             $startDate->getDate(DATE_FORMAT_ISO),
-            $endDate->getDate(DATE_FORMAT_ISO)
+            $endDate->getDate(DATE_FORMAT_ISO),
         );
 
         // Is this the correct margin?
@@ -242,7 +242,7 @@ class OX_Util_UtilsTest extends UnitTestCase
             $clicks,
             $conversions,
             null,
-            null
+            null,
         );
         $this->assertEqual($expected, $result);
     }

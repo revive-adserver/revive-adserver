@@ -65,10 +65,10 @@ function MAX_querystringConvertParams()
         $aGet[$conf['var']['dest']] = $dest;
     }
     // 3.  Add any cookie values to the GET string...
-    $n = isset($_GET[$conf['var']['n']]) ? $_GET[$conf['var']['n']] : '';
+    $n = $_GET[$conf['var']['n']] ?? '';
     if (empty($n)) {
         // Try from querystring
-        $n = isset($aGet[$conf['var']['n']]) ? $aGet[$conf['var']['n']] : '';
+        $n = $aGet[$conf['var']['n']] ?? '';
     }
     if (!empty($n) && !empty($_COOKIE[$conf['var']['vars']][$n])) {
         $aVars = json_decode($_COOKIE[$conf['var']['vars']][$n], true);
@@ -136,7 +136,7 @@ function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
     if (!empty($componentParams) && is_array($componentParams)) {
         foreach ($componentParams as $params) {
             if (!empty($params) && is_array($params)) {
-                foreach ($params as $key => $value) {
+                foreach (array_keys($params) as $key) {
                     $aValidVariables[] = $key;
                 }
             }
@@ -149,7 +149,7 @@ function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
         $destQuery = explode('&', $destParams['query']);
         if (!empty($destQuery)) {
             foreach ($destQuery as $destPair) {
-                list($destName, $destValue) = explode('=', $destPair);
+                [$destName, $destValue] = explode('=', $destPair);
                 $aValidVariables[] = $destName;
             }
         }

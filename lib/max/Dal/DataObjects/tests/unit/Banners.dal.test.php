@@ -23,14 +23,6 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
  */
 class DataObjects_BannersTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         DataGenerator::cleanUp(['ad_zone_assoc']);
@@ -53,7 +45,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
         Mock::generatePartial(
             'DataObjects_Banners',
             $mockBanners = 'DataObjects_Banners' . rand(),
-            ['_imageDuplicate']
+            ['_imageDuplicate'],
         );
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->init();

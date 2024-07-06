@@ -40,41 +40,41 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Banner Logging Settings
     $aElements += [
         'logging_adRequests' => [
-             'logging' => 'adRequests',
-             'bool' => 'true',
-         ],
+            'logging' => 'adRequests',
+            'bool' => 'true',
+        ],
         'logging_adImpressions' => [
-             'logging' => 'adImpressions',
-             'bool' => 'true',
-         ],
+            'logging' => 'adImpressions',
+            'bool' => 'true',
+        ],
         'logging_adClicks' => [
-             'logging' => 'adClicks',
-             'bool' => 'true',
-         ],
+            'logging' => 'adClicks',
+            'bool' => 'true',
+        ],
         'logging_reverseLookup' => [
-             'logging' => 'reverseLookup',
-             'bool' => 'true',
-         ],
+            'logging' => 'reverseLookup',
+            'bool' => 'true',
+        ],
         'logging_proxyLookup' => [
-             'logging' => 'proxyLookup',
-             'bool' => 'true',
-         ]
+            'logging' => 'proxyLookup',
+            'bool' => 'true',
+        ],
     ];
-    
+
     // Block Inactive Banner Settings
     $aElements += [
-         'logging_blockInactiveBanners' => [
-             'logging' => 'blockInactiveBanners',
-             'bool' => 'true',
-         ]
-     ];
-    
+        'logging_blockInactiveBanners' => [
+            'logging' => 'blockInactiveBanners',
+            'bool' => 'true',
+        ],
+    ];
+
     // Block Banner Logging Window Settings
     $aElements += [
-         'logging_blockAdClicksWindow' => [
-             'logging' => 'blockAdClicksWindow',
-         ]
-     ];
+        'logging_blockAdClicksWindow' => [
+            'logging' => 'blockAdClicksWindow',
+        ],
+    ];
 
     // Block Banner Logging Settings
     $aElements += [
@@ -83,7 +83,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'preg_split' => "/ |,|;|\r|\n/",
             'merge' => ',',
             'merge_unique' => true,
-        ]
+        ],
     ];
 
     // Block User-Agents
@@ -94,7 +94,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'merge' => '|',
             'merge_unique' => true,
             'trim' => true,
-        ]
+        ],
     ];
 
     // Enforce User-Agents
@@ -105,7 +105,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'merge' => '|',
             'merge_unique' => true,
             'trim' => true,
-        ]
+        ],
     ];
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -117,7 +117,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 
@@ -160,7 +160,7 @@ $aSettings = [
                 'text' => $strLogAdClicks,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'checkbox',
@@ -171,8 +171,8 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'logging_proxyLookup',
                 'text' => $strProxyLookup,
-            ]
-        ]
+            ],
+        ],
     ],
     [
         'text' => $strPreventLogging,
@@ -183,7 +183,7 @@ $aSettings = [
                 'text' => $strBlockInactiveBanners,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -192,7 +192,7 @@ $aSettings = [
                 'check' => 'wholeNumber',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'textarea',
@@ -202,7 +202,7 @@ $aSettings = [
                 'merge' => "\n",
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'textarea',
@@ -212,7 +212,7 @@ $aSettings = [
                 'merge' => "\n",
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'textarea',
@@ -220,9 +220,9 @@ $aSettings = [
                 'text' => $strEnforceUserAgents,
                 'preg_split' => '/\|/',
                 'merge' => "\n",
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

@@ -62,8 +62,8 @@ class Migration_603Test extends MigrationTest
         $aExpected = [
             'geotargeting' => [
                 'type' => 'geoTargeting:oxMaxMindGeoIP:oxMaxMindGeoIP'],
-                'oxMaxMindGeoIP' => ['geoipCountryLocation' => '/path/to/geoipCountryLocation.dat'
-            ]
+            'oxMaxMindGeoIP' => ['geoipCountryLocation' => '/path/to/geoipCountryLocation.dat',
+            ],
         ];
         $this->assertEqual($oConf->aConf, $aExpected);
     }

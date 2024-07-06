@@ -41,9 +41,6 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
 
     private $table;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -101,10 +98,10 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                     $this->aAvailableForecastZoneImpressions[$zoneId] = $this->oDal->getZoneForecastDefaultZoneImpressions();
                 }
                 $this->aOverSubscribedZones[$zoneId] = [
-                                                           'zoneId' => $zoneId,
-                                                           'availableImpressions' => $availableImpressions,
-                                                           'desiredImpressions' => 0
-                                                       ];
+                    'zoneId' => $zoneId,
+                    'availableImpressions' => $availableImpressions,
+                    'desiredImpressions' => 0,
+                ];
             }
         }
     }
@@ -124,7 +121,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         $this->aCampaigns = $this->_getAllCampaigns();
         // Set the information required for each campaign
         if (is_array($this->aCampaigns) && !empty($this->aCampaigns)) {
-            foreach ($this->aCampaigns as $campaignKey => $oCampaign) {
+            foreach (array_keys($this->aCampaigns) as $campaignKey) {
                 // Set the advertisements in the campaign
                 $this->aCampaigns[$campaignKey]->setAdverts();
                 // Populate the ads with data from the
@@ -206,7 +203,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                         $aAdvertIds[] = $oAd->id;
                     }
                     $aResult = $this->oDal->getAdZoneAssociationsByAds($aAdvertIds);
-                    if (is_array($aResult) && (count($aResult) > 0)) {
+                    if (is_array($aResult) && ($aResult !== [])) {
                         $this->aAdZoneAssociations[$oCampaign->id] = $aResult;
                     }
                 }
@@ -239,7 +236,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                             'ad_id' => $oAd->id,
                             'zone_id' => 0,
                             'required_impressions' => $oAd->requiredImpressions,
-                            'campaign_priority' => $oCampaign->priority
+                            'campaign_priority' => $oCampaign->priority,
                         ];
                         // Set the creative/zone association information for the advertisement
                         if (!isset($this->aAdZoneAssociations[$oCampaign->id][$oCampaign->aAds[$advertKey]->id])) {
@@ -270,7 +267,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                                         'ad_id' => $oAd->id,
                                         'zone_id' => $zone['zone_id'],
                                         'required_impressions' => $requiredImpressions,
-                                        'campaign_priority' => $oCampaign->priority
+                                        'campaign_priority' => $oCampaign->priority,
                                     ];
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;

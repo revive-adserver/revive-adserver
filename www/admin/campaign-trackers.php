@@ -36,7 +36,7 @@ phpAds_registerGlobal(
     'viewwindowhour',
     'viewwindowminute',
     'viewwindows',
-    'viewwindowsecond'
+    'viewwindowsecond',
 );
 
 
@@ -83,7 +83,7 @@ if (!empty($campaignid)) {
         $doCampaigns_trackers->campaignid = $campaignid;
         $doCampaigns_trackers->delete();
         if (isset($trackerids) && is_array($trackerids)) {
-            for ($i = 0; $i < sizeof($trackerids); $i++) {
+            for ($i = 0; $i < count($trackerids); $i++) {
                 $aFields = ['campaignid', 'trackerid', 'status'];
                 $values = [$campaignid, $trackerids[$i], $statusids[$i]];
 
@@ -101,7 +101,7 @@ if (!empty($campaignid)) {
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strCampaignTrackersHaveBeenUpdated'], [
             MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=" . $clientid . "&campaignid=" . $campaignid),
-            htmlspecialchars($doCampaigns->campaignname)
+            htmlspecialchars($doCampaigns->campaignname),
         ]);
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
 

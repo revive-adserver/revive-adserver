@@ -10,6 +10,15 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:75
+msgid "Country"
+msgstr "Country"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
+msgid "City(s)"
+msgstr "City(s)"
+
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
 msgstr "Unknown"
@@ -30,15 +39,6 @@ msgstr "Corporate"
 msgid "Cellular"
 msgstr "Cellular"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-msgid "Country"
-msgstr "Country"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr "Subdivision(s)"
-
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
 msgstr "Is within"
@@ -55,6 +55,6 @@ msgstr "Latitude"
 msgid "Longitude"
 msgstr "Longitude"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
-msgid "City(s)"
-msgstr "City(s)"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:94
+msgid "Subdivision(s)"
+msgstr "Subdivision(s)"

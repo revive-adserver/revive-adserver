@@ -66,7 +66,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             'timestamp',
             'integer',
             'integer',
-            'timestamp'
+            'timestamp',
         ];
         $stLogMaintenanceStatistics = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
 
@@ -76,7 +76,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             '2004-06-06 10:16:15',
             75,
             OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI,
-            '2004-06-06 10:14:59'
+            '2004-06-06 10:14:59',
         ];
         $rows = $stLogMaintenanceStatistics->execute($aData);
 
@@ -93,7 +93,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             '2004-06-06 10:46:15',
             75,
             OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI,
-            '2004-06-06 10:44:59'
+            '2004-06-06 10:44:59',
         ];
         $rows = $stLogMaintenanceStatistics->execute($aData);
 
@@ -110,7 +110,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             '2004-06-06 11:06:15',
             75,
             OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR,
-            '2004-06-06 10:59:59'
+            '2004-06-06 10:59:59',
         ];
         $rows = $stLogMaintenanceStatistics->execute($aData);
 
@@ -128,7 +128,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             '2004-06-05 12:06:15',
             75,
             OX_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
-            '2004-06-05 11:59:59'
+            '2004-06-05 11:59:59',
         ];
         $rows = $stLogMaintenanceStatistics->execute($aData);
 
@@ -144,7 +144,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
             '2004-06-06 12:06:15',
             75,
             OX_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
-            '2004-06-06 11:59:59'
+            '2004-06-06 11:59:59',
         ];
         $rows = $stLogMaintenanceStatistics->execute($aData);
 

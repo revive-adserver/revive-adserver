@@ -32,7 +32,7 @@ class migration_tables_core_124Test extends MigrationTest
             'htmlcache' => '',
             'bannertext' => '',
             'compiledlimitation' => '',
-            'append' => ''
+            'append' => '',
         ]);
         $this->oDbh->exec($sql);
 

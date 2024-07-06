@@ -23,8 +23,8 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_Delivery
     {
         return [
             'deliveryLog:oxLogImpression:logImpression' => [
-                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon'
-            ]
+                'deliveryDataPrepare:oxDeliveryDataPrepare:dataCommon',
+            ],
         ];
     }
 
@@ -49,7 +49,7 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_Delivery
             'interval_start' => self::TIMESTAMP_WITHOUT_ZONE,
             'creative_id' => self::INTEGER,
             'zone_id' => self::INTEGER,
-            'count' => self::INTEGER
+            'count' => self::INTEGER,
         ];
         return $aColumns;
     }
@@ -86,22 +86,22 @@ class Plugins_DeliveryLog_OxLogImpression_LogImpression extends Plugins_Delivery
             'groupSource' => [
                 0 => 'interval_start',
                 1 => 'creative_id',
-                2 => 'zone_id'
+                2 => 'zone_id',
             ],
             'groupDestination' => [
                 0 => 'date_time',
                 1 => 'ad_id',
-                2 => 'zone_id'
+                2 => 'zone_id',
             ],
             'sumSource' => [
-                0 => 'count'
+                0 => 'count',
             ],
             'sumDestination' => [
-                0 => 'impressions'
+                0 => 'impressions',
             ],
             'sumDefault' => [
-                0 => 0
-            ]
+                0 => 0,
+            ],
         ];
         return $aMap;
     }

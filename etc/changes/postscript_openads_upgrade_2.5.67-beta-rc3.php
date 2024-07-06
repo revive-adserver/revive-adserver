@@ -39,37 +39,33 @@ class OA_UpgradePostscript_2_5_67
         'russian_cp1251' => 'ru',
         'russian_koi8r' => 'ru',
         'spanish' => 'es',
-        'turkish' => 'tr'
+        'turkish' => 'tr',
     ];
 
     public $aContexts = [
-                            'Account Preference Association' => 'account_preference_assoc',
-                            'Account User Association' => 'account_user_assoc',
-                            'Account User Permission Association' => 'account_user_permission_assoc',
-                            'Account' => 'accounts',
-                            'Delivery Limitation' => 'acls',
-                            'Ad Zone Association' => 'ad_zone_assoc',
-                            'Affiliate' => 'affiliates',
-                            'Affiliate Extra' => 'affiliates_extra',
-                            'Agency' => 'agency',
-                            'Banner' => 'banners',
-                            'Campaign' => 'campaigns',
-                            'Campaign Tracker' => 'campaigns_trackers',
-                            'Category' => 'category',
-                            'Channel' => 'channel',
-                            'Client' => 'clients',
-                            'Image' => 'images',
-                            'Campaign Zone Association' => 'placement_zone_assoc',
-                            'Preference' => 'preferences',
-                            'Tracker' => 'trackers',
-                            'User' => 'users',
-                            'Variable' => 'variables',
-                            'Zone' => 'zones',
-                            ];
-
-    public function __construct()
-    {
-    }
+        'Account Preference Association' => 'account_preference_assoc',
+        'Account User Association' => 'account_user_assoc',
+        'Account User Permission Association' => 'account_user_permission_assoc',
+        'Account' => 'accounts',
+        'Delivery Limitation' => 'acls',
+        'Ad Zone Association' => 'ad_zone_assoc',
+        'Affiliate' => 'affiliates',
+        'Affiliate Extra' => 'affiliates_extra',
+        'Agency' => 'agency',
+        'Banner' => 'banners',
+        'Campaign' => 'campaigns',
+        'Campaign Tracker' => 'campaigns_trackers',
+        'Category' => 'category',
+        'Channel' => 'channel',
+        'Client' => 'clients',
+        'Image' => 'images',
+        'Campaign Zone Association' => 'placement_zone_assoc',
+        'Preference' => 'preferences',
+        'Tracker' => 'trackers',
+        'User' => 'users',
+        'Variable' => 'variables',
+        'Zone' => 'zones',
+    ];
 
     public function execute($aParams)
     {

@@ -27,14 +27,6 @@ class Test_OA_Permission_User extends UnitTestCase
     public $accountId;
     public $userId;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $this->_prepareTestData();
@@ -79,7 +71,7 @@ class Test_OA_Permission_User extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Could not find the specified account'
+            'Could not find the specified account',
         );
         $oTestErrorHandler->reset();
         // Unset the error handler
@@ -113,7 +105,7 @@ class Test_OA_Permission_User extends UnitTestCase
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            'Could not find the specified account'
+            'Could not find the specified account',
         );
         // Unset the error handler
         PEAR::popErrorHandling();

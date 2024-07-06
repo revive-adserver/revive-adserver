@@ -28,8 +28,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
  * @package    OpenXAdmin
  * @subpackage Statistics
  */
-class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
+abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 {
+    public $welcomeText;
     /**
      * @var string[]
      */
@@ -49,11 +50,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var string
      */
     public $strExportStatisticsToExcel;
-
-    /**
-     * @var bool
-     */
-    public $showExportToExcel;
 
     /**
      * The ID "number" of the page (eg. "2.1.2").
@@ -398,52 +394,32 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * the child class with the necessary page data so that the class is ready to
      * have either the output() or outputGraph() method called to display the
      * statistics data.
-     *
-     * @abstract
      */
-    public function start()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function start();
 
     /**
      * An abstract, private method which must be overridden in the child class,
      * to load the required statistics fields plugins during instantiation.
      *
-     * @abstract
      * @access private
      */
-    public function _loadPlugins()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function _loadPlugins();
 
     /**
      * An abstract, private method which must be overridden in the child class,
      * to test if the appropriate data array is empty, or not.
      *
-     * @abstract
      * @access private
      * @return boolean True on empty, false if at least one row of data.
      */
-    public function _isEmptyResultArray()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function _isEmptyResultArray();
 
     /**
      * Create the error string to display when delivery statistics are not available.
      *
      * @return string The error string to display.
      */
-    public function showNoStatsString()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
+    abstract public function showNoStatsString();
 
     /********** METHODS THAT CHILDREN CLASS WILL INHERIT AND CAN USE **********/
 
@@ -455,11 +431,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         // Check if stats are accourate (when upgraded from a non-TZ enabled version)
         $this->_checkStatsAccuracy();
-        
-        $this->_showShortcuts();
-        
-        if ($this->outputType == 'deliveryEntity' && $this instanceof OA_Admin_Statistics_Delivery_CommonEntity) {
 
+        $this->_showShortcuts();
+
+        if ($this->outputType == 'deliveryEntity' && $this instanceof OA_Admin_Statistics_Delivery_CommonEntity) {
             // Display the entity delivery stats
             $this->template = 'breakdown_by_entity.html';
             $this->flattenEntities();
@@ -514,8 +489,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     'week' => $GLOBALS['strBreakdownByWeek'],
                     'month' => $GLOBALS['strBreakdownByMonth'],
                     'dow' => $GLOBALS['strBreakdownByDow'],
-                    'hour' => $GLOBALS['strBreakdownByHour']
-                ]
+                    'hour' => $GLOBALS['strBreakdownByHour'],
+                ],
             );
             $aElements['statsBreakdown']->setValue($this->statsBreakdown);
             $aElements['statsBreakdown']->setAttributes(['onchange' => 'this.form.submit()']);
@@ -569,10 +544,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // Show the page sections
         phpAds_ShowSections($this->aPageSections, $this->aPageParams, $openNewTable = false);
 
-        // Export to Excel functionality
-        $this->showExportToExcel = !$this->_isEmptyResultArray();
-        $this->strExportStatisticsToExcel = $GLOBALS['strExportStatisticsToExcel'];
-
         // Display page content
         $oOutput->compile($this->template);
         $oOutput->outputObject($this, $aElements);
@@ -592,7 +563,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     public function showColumn($column)
     {
-        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
+        return $this->aColumnVisible[$column] ?? true;
     }
 
     /**
@@ -606,7 +577,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $res = $a->displayOrder - $b->displayOrder;
         if (!$res) {
             // Equally weighted plugins, sort by class name
-            return strcmp(get_class($a), get_class($b));
+            return strcmp($a::class, $b::class);
         }
         return $res;
     }
@@ -770,81 +741,80 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     public function _addBreadcrumbs($type, $entityId, $level = 0)
     {
         switch ($type) {
+            case 'advertiser':
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                    $advertisers = Admin_DA::getAdvertisers(['advertiser_id' => $entityId], false);
+                    if (count($advertisers) == 1) {
+                        $advertiser = current($advertisers);
+                        $this->_addBreadcrumb(
+                            MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
+                            MAX_getEntityIcon('advertiser'),
+                            $type,
+                        );
+                    }
+                }
+                break;
 
-        case 'advertiser':
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                $advertisers = Admin_DA::getAdvertisers(['advertiser_id' => $entityId], false);
-                if (count($advertisers) == 1) {
-                    $advertiser = current($advertisers);
+            case 'campaign':
+                $campaigns = Admin_DA::getPlacements(['placement_id' => $entityId], false);
+                if (count($campaigns) == 1) {
+                    $campaign = current($campaigns);
+                    $this->_addBreadcrumbs('advertiser', $campaign['advertiser_id'], $level + 1);
+
+                    // mask campaign name if anonymous campaign
+                    $campaign['name'] = MAX_getPlacementName($campaign);
                     $this->_addBreadcrumb(
-                        MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
-                        MAX_getEntityIcon('advertiser'),
-                        $type
+                        MAX_buildName($campaign['placement_id'], $campaign['name']),
+                        MAX_getEntityIcon('placement'),
+                        $type,
                     );
                 }
-            }
-            break;
+                break;
 
-        case 'campaign':
-            $campaigns = Admin_DA::getPlacements(['placement_id' => $entityId], false);
-            if (count($campaigns) == 1) {
-                $campaign = current($campaigns);
-                $this->_addBreadcrumbs('advertiser', $campaign['advertiser_id'], $level + 1);
+            case 'banner':
+                $banners = Admin_DA::getAds(['ad_id' => $entityId], false);
+                if (count($banners) == 1) {
+                    $banner = current($banners);
+                    $this->_addBreadcrumbs('campaign', $banner['placement_id'], $level + 1);
 
-                // mask campaign name if anonymous campaign
-                $campaign['name'] = MAX_getPlacementName($campaign);
-                $this->_addBreadcrumb(
-                    MAX_buildName($campaign['placement_id'], $campaign['name']),
-                    MAX_getEntityIcon('placement'),
-                    $type
-                );
-            }
-            break;
-
-        case 'banner':
-            $banners = Admin_DA::getAds(['ad_id' => $entityId], false);
-            if (count($banners) == 1) {
-                $banner = current($banners);
-                $this->_addBreadcrumbs('campaign', $banner['placement_id'], $level + 1);
-
-                // mask banner name if anonymous campaign
-                $campaign = Admin_DA::getPlacement($banner['placement_id']);
-                $campaignAnonymous = $campaign['anonymous'] == 't';
-                $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
-                $this->_addBreadcrumb(
-                    MAX_buildName($banner['ad_id'], $banner['name']),
-                    MAX_getEntityIcon('ad'),
-                    $type
-                );
-            }
-            break;
-
-        case 'publisher':
-            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                $publishers = Admin_DA::getPublishers(['publisher_id' => $entityId], false);
-                if (count($publishers) == 1) {
-                    $publisher = current($publishers);
+                    // mask banner name if anonymous campaign
+                    $campaign = Admin_DA::getPlacement($banner['placement_id']);
+                    $campaignAnonymous = $campaign['anonymous'] == 't';
+                    $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
                     $this->_addBreadcrumb(
-                        MAX_buildName($publisher['publisher_id'], $publisher['name']),
-                        MAX_getEntityIcon('publisher'),
-                        'website'
+                        MAX_buildName($banner['ad_id'], $banner['name']),
+                        MAX_getEntityIcon('ad'),
+                        $type,
                     );
                 }
-            }
-            break;
+                break;
 
-        case 'zone':
-            $zones = Admin_DA::getZones(['zone_id' => $entityId], false);
-            if (count($zones) == 1) {
-                $zone = current($zones);
-                $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
-                $this->_addBreadcrumb(
-                    MAX_buildName($zone['zone_id'], $zone['name']),
-                    MAX_getEntityIcon('zone'),
-                    $type
-                );
-            }
-            break;
+            case 'publisher':
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                    $publishers = Admin_DA::getPublishers(['publisher_id' => $entityId], false);
+                    if (count($publishers) == 1) {
+                        $publisher = current($publishers);
+                        $this->_addBreadcrumb(
+                            MAX_buildName($publisher['publisher_id'], $publisher['name']),
+                            MAX_getEntityIcon('publisher'),
+                            'website',
+                        );
+                    }
+                }
+                break;
+
+            case 'zone':
+                $zones = Admin_DA::getZones(['zone_id' => $entityId], false);
+                if (count($zones) == 1) {
+                    $zone = current($zones);
+                    $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
+                    $this->_addBreadcrumb(
+                        MAX_buildName($zone['zone_id'], $zone['name']),
+                        MAX_getEntityIcon('zone'),
+                        $type,
+                    );
+                }
+                break;
         }
     }
 
@@ -905,7 +875,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             'orderdirection',
             'day',
             'period_preset',
-            'setPerPage'
+            'setPerPage',
         ];
 
         // Clear existing params, if required
@@ -1055,9 +1025,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // How many rows of data are there?
         $rows = count($aRows);
         if ($rows == 1) {
-            // Nothing to do, whoopie!
-            reset($aRows);
-            $key = key($aRows);
+            $key = array_key_first($aRows);
             $aAverages = $aRows[$key];
         } else {
             // Boo, have to do real work

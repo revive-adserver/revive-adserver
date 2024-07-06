@@ -45,7 +45,7 @@ class EncodingMigrationTest extends MigrationTest
         Mock::generatePartial(
             'EncodingMigration',
             $mockMigration = 'EncodingMigration' . rand(),
-            ['_setEncodingExtension', '_log']
+            ['_setEncodingExtension', '_log'],
         );
         $this->oEncodingMigration = new $mockMigration($this);
 

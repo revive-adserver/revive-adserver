@@ -476,7 +476,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
             '2006-09-30',
             '2006-10-01',
             '2006-10-02',
-            '2006-10-03'
+            '2006-10-03',
         ];
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
         $this->assertEqual($oDaySpan->getDayArray(), $aExpectedResult);

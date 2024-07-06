@@ -45,20 +45,20 @@ XML_RPC_Client::setAutoBase64(true);
 $xmlRpcView_OA =
     [
         'sig' => [
-                    [
-                        $GLOBALS['XML_RPC_Struct'],  // Return value
-                        $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
-                        $GLOBALS['XML_RPC_String'],  // What
-                        $GLOBALS['XML_RPC_Int'],     // Campaignid
-                        $GLOBALS['XML_RPC_String'],  // Target
-                        $GLOBALS['XML_RPC_String'],  // Source
-                        $GLOBALS['XML_RPC_Boolean'], // WithText
-                        $GLOBALS['XML_RPC_Array']    // Context
-                    ]
-                ],
+            [
+                $GLOBALS['XML_RPC_Struct'],  // Return value
+                $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
+                $GLOBALS['XML_RPC_String'],  // What
+                $GLOBALS['XML_RPC_Int'],     // Campaignid
+                $GLOBALS['XML_RPC_String'],  // Target
+                $GLOBALS['XML_RPC_String'],  // Source
+                $GLOBALS['XML_RPC_Boolean'], // WithText
+                $GLOBALS['XML_RPC_Array'],    // Context
+            ],
+        ],
         'doc' => 'When passed the "environment/cookies" struct, "what", "campaignid", "target", "source", ' .
                  '"withText", "context" returns the cookies to be set and the HTML code to display the ' .
-                 'appropriate advertisement.'
+                 'appropriate advertisement.',
     ];
 /**
  * New OpenX signature / docs for SPC XML-RPC method
@@ -68,20 +68,20 @@ $xmlRpcView_OA =
 $xmlRpcSPC_OA =
     [
         'sig' => [
-                    [
-                        $GLOBALS['XML_RPC_Struct'],  // Return value
-                        $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
-                        $GLOBALS['XML_RPC_String'],  // What
-                        $GLOBALS['XML_RPC_String'],  // Target
-                        $GLOBALS['XML_RPC_String'],  // Source
-                        $GLOBALS['XML_RPC_Boolean'], // WithText
-                        $GLOBALS['XML_RPC_Boolean'], // Block
-                        $GLOBALS['XML_RPC_Boolean'], // Block Campaign
-                    ]
-                ],
+            [
+                $GLOBALS['XML_RPC_Struct'],  // Return value
+                $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
+                $GLOBALS['XML_RPC_String'],  // What
+                $GLOBALS['XML_RPC_String'],  // Target
+                $GLOBALS['XML_RPC_String'],  // Source
+                $GLOBALS['XML_RPC_Boolean'], // WithText
+                $GLOBALS['XML_RPC_Boolean'], // Block
+                $GLOBALS['XML_RPC_Boolean'], // Block Campaign
+            ],
+        ],
         'doc' => 'When passed the "environment/cookies" struct, "what", "target", "source", ' .
                  '"withtext", "block" and "blockcampaign" returns the cookies to be set and an array of HTML code to display the ' .
-                 'selected advertisements.'
+                 'selected advertisements.',
     ];
 
 /**
@@ -90,27 +90,27 @@ $xmlRpcSPC_OA =
 $xmlRpcView_Max =
     [
         'sig' => [
-                    [
-                        $GLOBALS['XML_RPC_String'],  // Return value
-                        $GLOBALS['XML_RPC_String'],  // What
-                        $GLOBALS['XML_RPC_String'],  // Target
-                        $GLOBALS['XML_RPC_String'],  // Source
-                        $GLOBALS['XML_RPC_Boolean'], // WithText
-                        $GLOBALS['XML_RPC_String'],  // IP Address
-                        $GLOBALS['XML_RPC_Struct']   // Cookies
-                    ],
-                    [
-                        $GLOBALS['XML_RPC_String'],  // Return value
-                        $GLOBALS['XML_RPC_String'],  // What
-                        $GLOBALS['XML_RPC_String'],  // Target
-                        $GLOBALS['XML_RPC_String'],  // Source
-                        $GLOBALS['XML_RPC_Boolean'], // WithText
-                        $GLOBALS['XML_RPC_String'],  // IP Address
-                        $GLOBALS['XML_RPC_Struct'],  // Cookies
-                        $GLOBALS['XML_RPC_Array']    // Context - @since late 2.3
-                    ]
-                ],
-        'doc' => '2.3 backwards compatibility method - deprecated'
+            [
+                $GLOBALS['XML_RPC_String'],  // Return value
+                $GLOBALS['XML_RPC_String'],  // What
+                $GLOBALS['XML_RPC_String'],  // Target
+                $GLOBALS['XML_RPC_String'],  // Source
+                $GLOBALS['XML_RPC_Boolean'], // WithText
+                $GLOBALS['XML_RPC_String'],  // IP Address
+                $GLOBALS['XML_RPC_Struct'],   // Cookies
+            ],
+            [
+                $GLOBALS['XML_RPC_String'],  // Return value
+                $GLOBALS['XML_RPC_String'],  // What
+                $GLOBALS['XML_RPC_String'],  // Target
+                $GLOBALS['XML_RPC_String'],  // Source
+                $GLOBALS['XML_RPC_Boolean'], // WithText
+                $GLOBALS['XML_RPC_String'],  // IP Address
+                $GLOBALS['XML_RPC_Struct'],  // Cookies
+                $GLOBALS['XML_RPC_Array'],    // Context - @since late 2.3
+            ],
+        ],
+        'doc' => '2.3 backwards compatibility method - deprecated',
     ];
 
 /**
@@ -119,27 +119,27 @@ $xmlRpcView_Max =
 $xmlRpcView_PAN =
     [
         'sig' => [
-                    [
-                        $GLOBALS['XML_RPC_Struct'],  // Return value
-                        $GLOBALS['XML_RPC_Struct'],  // Environment
-                        $GLOBALS['XML_RPC_String'],  // What
-                        $GLOBALS['XML_RPC_Int'],     // Campaignid
-                        $GLOBALS['XML_RPC_String'],  // Target
-                        $GLOBALS['XML_RPC_String'],  // Source
-                        $GLOBALS['XML_RPC_Boolean']  // WithText
-                    ],
-                    [
-                        $GLOBALS['XML_RPC_Struct'],  // Return value
-                        $GLOBALS['XML_RPC_Struct'],  // Environment
-                        $GLOBALS['XML_RPC_String'],  // What
-                        $GLOBALS['XML_RPC_Int'],     // Campaignid
-                        $GLOBALS['XML_RPC_String'],  // Target
-                        $GLOBALS['XML_RPC_String'],  // Source
-                        $GLOBALS['XML_RPC_Boolean'], // WithText
-                        $GLOBALS['XML_RPC_Array']    // Context
-                    ]
-                ],
-        'doc' => '2.0 Backwards compatibility method - deprecated'
+            [
+                $GLOBALS['XML_RPC_Struct'],  // Return value
+                $GLOBALS['XML_RPC_Struct'],  // Environment
+                $GLOBALS['XML_RPC_String'],  // What
+                $GLOBALS['XML_RPC_Int'],     // Campaignid
+                $GLOBALS['XML_RPC_String'],  // Target
+                $GLOBALS['XML_RPC_String'],  // Source
+                $GLOBALS['XML_RPC_Boolean'],  // WithText
+            ],
+            [
+                $GLOBALS['XML_RPC_Struct'],  // Return value
+                $GLOBALS['XML_RPC_Struct'],  // Environment
+                $GLOBALS['XML_RPC_String'],  // What
+                $GLOBALS['XML_RPC_Int'],     // Campaignid
+                $GLOBALS['XML_RPC_String'],  // Target
+                $GLOBALS['XML_RPC_String'],  // Source
+                $GLOBALS['XML_RPC_Boolean'], // WithText
+                $GLOBALS['XML_RPC_Array'],    // Context
+            ],
+        ],
+        'doc' => '2.0 Backwards compatibility method - deprecated',
     ];
 
 
@@ -236,7 +236,7 @@ function OA_Delivery_XmlRpc_View($params)
                 'forwarded_for' => 'HTTP_FORWARDED_FOR',
                 'x_forwarded' => 'HTTP_X_FORWARDED',
                 'x_forwarded_for' => 'HTTP_X_FORWARDED_FOR',
-                'client_ip' => 'HTTP_CLIENT_IP'
+                'client_ip' => 'HTTP_CLIENT_IP',
             ];
 
             // Extract environment vars to $_SERVER
@@ -266,7 +266,7 @@ function OA_Delivery_XmlRpc_View($params)
         OX_getHostName() .
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
-    $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+    $view_params[] = $_SERVER['HTTP_REFERER'] ?? '';
 
     // Mimic the behaviour of MAX_commonInitVariables()
     //
@@ -407,7 +407,7 @@ function OA_Delivery_XmlRpc_SPC($params)
                 'forwarded_for' => 'HTTP_FORWARDED_FOR',
                 'x_forwarded' => 'HTTP_X_FORWARDED',
                 'x_forwarded_for' => 'HTTP_X_FORWARDED_FOR',
-                'client_ip' => 'HTTP_CLIENT_IP'
+                'client_ip' => 'HTTP_CLIENT_IP',
             ];
 
             // Extract environment vars to $_SERVER
@@ -439,7 +439,7 @@ function OA_Delivery_XmlRpc_SPC($params)
         OX_getHostName() .
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
-    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
 
     // If the what parameter is an int, it is the affiliateid, otherwise it's a url-like array of name=zone pairs
     // This convention is inline with the parameters passed into local-mode SPC
@@ -563,9 +563,9 @@ function OA_Delivery_XmlRpc_View_Max($params)
     $remoteInfoXmlRpcValue = new XML_RPC_Value(
         [
             'remote_addr' => $remoteAddressXmlRpcValue,
-            'cookies' => $cookiesXmlRpcValue
+            'cookies' => $cookiesXmlRpcValue,
         ],
-        $XML_RPC_Struct
+        $XML_RPC_Struct,
     );
 
     // Recreate XML-RPC message
@@ -576,7 +576,7 @@ function OA_Delivery_XmlRpc_View_Max($params)
         $targetXmlRpcValue,
         $sourceXmlRpcValue,
         $withTextXmlRpcValue,
-        $contextXmlRpcValue
+        $contextXmlRpcValue,
     ]);
 
     // Relay call to openads.view
@@ -598,10 +598,10 @@ function OA_Delivery_XmlRpc_View_Max($params)
         new XML_RPC_Value(
             [
                 XML_RPC_encode($output),
-                XML_RPC_encode($cookies)
+                XML_RPC_encode($cookies),
             ],
-            $XML_RPC_Array
-        )
+            $XML_RPC_Array,
+        ),
     );
 }
 
@@ -640,7 +640,7 @@ function OA_Delivery_XmlRpc_View_PAN($params)
         $params->getParam(3),
         $params->getParam(4),
         $params->getParam(5),
-        $contextXmlRpcValue
+        $contextXmlRpcValue,
     ]);
 
     // Relay call to openads.view

@@ -45,12 +45,12 @@ if (!empty($clientid)) {
 
 
 
-if (count($aEntityMap)) {
+if ($aEntityMap !== []) {
     $idx = 0;
     foreach ($aEntityMap as $k => $v) {
         $aEntityMap[$k] = $k . ': { "name": "' . addslashes($v) . '","idx":"' . ($idx++) . '" }';
     }
-    
+
     echo "{" . implode(', ', $aEntityMap) . "}";
     exit;
 }

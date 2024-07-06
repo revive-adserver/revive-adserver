@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
  */
-class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
+abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
 {
     public $aNodes;
 
@@ -49,12 +49,12 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
     /** @var array */
     public $entityLinks = [
-            'a' => 'stats.php?entity=advertiser&breakdown=history',
-            'c' => 'stats.php?entity=campaign&breakdown=history',
-            'b' => 'stats.php?entity=banner&breakdown=history',
-            'p' => 'stats.php?entity=affiliate&breakdown=history',
-            'z' => 'stats.php?entity=zone&breakdown=history'
-        ];
+        'a' => 'stats.php?entity=advertiser&breakdown=history',
+        'c' => 'stats.php?entity=campaign&breakdown=history',
+        'b' => 'stats.php?entity=banner&breakdown=history',
+        'p' => 'stats.php?entity=affiliate&breakdown=history',
+        'z' => 'stats.php?entity=zone&breakdown=history',
+    ];
 
     /**
      * The array of "entity" style delivery statistics data to
@@ -208,7 +208,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 if (!isset($entity[$row[$key]][$s])) {
                     $entity[$row[$key]][$s] = $row[$s];
                 }
-                if (substr($s, -3) != '_id') {
+                if (!str_ends_with($s, '_id')) {
                     $entity[$row[$key]][$s] += $row[$s];
                 }
             }
@@ -244,7 +244,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 'placement_id' => [],
                 'ad_id' => [],
                 'publisher_id' => [],
-                'zone_id' => []
+                'zone_id' => [],
             ];
 
             if (!count($aRows)) {
@@ -371,7 +371,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         MAX_sortArray(
             $aAdvertisers,
             ($this->listOrderField == 'id' ? 'advertiser_id' : $this->listOrderField),
-            $this->listOrderDirection == 'up'
+            $this->listOrderDirection == 'up',
         );
 
         $aEntitiesData = [];
@@ -433,7 +433,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         MAX_sortArray(
             $aPlacements,
             ($this->listOrderField == 'id' ? 'placement_id' : $this->listOrderField),
-            $this->listOrderDirection == 'up'
+            $this->listOrderDirection == 'up',
         );
 
         $aEntitiesData = [];
@@ -527,7 +527,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         MAX_sortArray(
             $aAds,
             ($this->listOrderField == 'id' ? 'ad_id' : $this->listOrderField),
-            $this->listOrderDirection == 'up'
+            $this->listOrderDirection == 'up',
         );
 
         $aEntitiesData = [];
@@ -587,7 +587,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         MAX_sortArray(
             $aPublishers,
             ($this->listOrderField == 'id' ? 'publisher_id' : $this->listOrderField),
-            $this->listOrderDirection == 'up'
+            $this->listOrderDirection == 'up',
         );
 
         $aEntitiesData = [];
@@ -647,7 +647,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         MAX_sortArray(
             $aZones,
             ($this->listOrderField == 'id' ? 'zone_id' : $this->listOrderField),
-            $this->listOrderDirection == 'up'
+            $this->listOrderDirection == 'up',
         );
 
         $aEntitiesData = [];
@@ -723,7 +723,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         return [
             'headers' => $headers,
             'formats' => $formats,
-            'data' => $data
+            'data' => $data,
         ];
     }
 }

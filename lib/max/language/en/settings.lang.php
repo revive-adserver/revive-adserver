@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Continue »";
 $GLOBALS['strBtnRecover'] = "Recover »";
 $GLOBALS['strBtnAgree'] = "I Agree »";
 $GLOBALS['strBtnRetry'] = "Retry";
-$GLOBALS['strWarningRegisterArgcArv'] = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strTablesPrefix'] = "Table names prefix";
 $GLOBALS['strTablesType'] = "Table type";
 
@@ -301,6 +300,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Color of the header background";
 $GLOBALS['strGuiActiveTabColor'] = "Color of the active tab";
 $GLOBALS['strGuiHeaderTextColor'] = "Color of the text in the header";
 $GLOBALS['strGuiSupportLink'] = "Custom URL for 'Support' link in header";
+$GLOBALS['strGuiLoaderDelay'] = "Display loading animation when the next screen takes longer than X milliseconds to load (use -1 to disable)";
 $GLOBALS['strGzipContentCompression'] = "Use GZIP Content Compression";
 $GLOBALS['strGuiBadLoginLogPath'] = "Log file for bad logins";
 

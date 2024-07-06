@@ -35,7 +35,7 @@ class Migration_tables_core_128Test extends MigrationTest
                 'contenttype' => 'swf',
                 'htmlcache' => <<<EOF
 <!--[if !IE]> --><object type='application/x-shockwave-flash' data='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar2=_self' width='468' height='60'> <!-- <![endif]--> <!--[if IE]> <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='468' height='60'> <param name='movie' value='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openx.org&amp;atar2=_self' /> <!--><!----> <param name='quality' value='high' /> <param name='allowScriptAccess' value='always' />  <p>This is <strong>alternative</strong> content.</p> </object> <!-- <![endif]-->
-EOF
+EOF,
             ],
             ['bannerid' => 2, 'transparent' => "t"],
             ['bannerid' => 3, 'transparent' => "f"],
@@ -58,7 +58,7 @@ google_color_url = "666666";
 google_color_text = "333333";
 //--></script>
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-EOF
+EOF,
             ],
             ['bannerid' => 7,
                 'storagetype' => 'html',
@@ -77,7 +77,7 @@ google_color_url = "666666";
 google_color_text = "333333";
 //--></script>
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-EOF
+EOF,
             ],
         ];
         foreach ($aAValues as $aValues) {
@@ -86,7 +86,7 @@ EOF
                 'htmlcache' => '',
                 'bannertext' => '',
                 'compiledlimitation' => '',
-                'append' => ''
+                'append' => '',
             ];
             $sql = OA_DB_Sql::sqlForInsert('banners', $aValues);
             $this->oDbh->exec($sql);
@@ -114,12 +114,12 @@ EOF
                     $this->assertEqual($params, ['swf' => [
                         1 => [
                             'link' => 'http://www.openx.org',
-                            'tar' => '_blank'
+                            'tar' => '_blank',
                         ],
                         2 => [
                             'link' => 'http://www.openx.org',
-                            'tar' => '_self'
-                        ]]
+                            'tar' => '_self',
+                        ]],
                     ]);
                 }
             } else {
@@ -220,7 +220,7 @@ EOF
             'htmlcache' => '',
             'bannertext' => '',
             'compiledlimitation' => '',
-            'append' => ''
+            'append' => '',
         ]);
 
         $this->oDbh->exec($sql);

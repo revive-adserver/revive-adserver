@@ -81,18 +81,18 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
     public function getForecastType()
     {
         switch ($this->_filter) {
-        case FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED:
-            return 1;
-            break;
-        case FILTER_ZONE_INVENTORY_COUNTRY_INDEXED:
-            return 2;
-            break;
-        case FILTER_ZONE_INVENTORY_SOURCE_INDEXED:
-            return 4;
-            break;
-        case FILTER_ZONE_INVENTORY_CHANNEL_INDEXED:
-            return 8;
-            break;
+            case FILTER_ZONE_INVENTORY_DOMAIN_PAGE_INDEXED:
+                return 1;
+                break;
+            case FILTER_ZONE_INVENTORY_COUNTRY_INDEXED:
+                return 2;
+                break;
+            case FILTER_ZONE_INVENTORY_SOURCE_INDEXED:
+                return 4;
+                break;
+            case FILTER_ZONE_INVENTORY_CHANNEL_INDEXED:
+                return 8;
+                break;
         }
     }
 

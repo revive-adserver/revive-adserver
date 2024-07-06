@@ -12,23 +12,23 @@
 
 class SimpletestErrorCatcher
 {
-    var $oRunner;
-    var $active = true;
+    public $oRunner;
+    public $active = true;
 
-    function __construct($oRunner)
+    public function __construct($oRunner)
     {
         $this->oRunner = $oRunner;
         ob_start();
-        register_shutdown_function(array($this, 'shutdown'));
+        register_shutdown_function([$this, 'shutdown']);
     }
 
-    function deactivate()
+    public function deactivate()
     {
         $this->active = false;
         ob_end_flush();
     }
 
-    function shutdown()
+    public function shutdown()
     {
         if ($this->active) {
             $buffer = ob_get_clean();
@@ -39,5 +39,3 @@ class SimpletestErrorCatcher
         }
     }
 }
-
-?>

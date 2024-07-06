@@ -270,7 +270,7 @@ class Test_OX_Component extends UnitTestCase
         $oComponent = OX_Component::factory('testExtension1', 'testGroup1', 'testComponent1');
         $this->assertEqual(
             $oComponent->getComponentIdentifier('testExtension1', 'testGroup1', 'testComponent1'),
-            'testExtension1:testGroup1:testComponent1'
+            'testExtension1:testGroup1:testComponent1',
         );
     }
 

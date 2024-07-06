@@ -20,19 +20,23 @@ $GLOBALS['strBtnContinue'] = "Prosseguir »";
 $GLOBALS['strBtnRecover'] = "Recuperar »";
 $GLOBALS['strBtnAgree'] = "Eu concordo »";
 $GLOBALS['strBtnRetry'] = "Tentar novamente";
-$GLOBALS['strWarningRegisterArgcArv'] = "A variável register_argc_argv da configuração do PHP deve estar habilitada para que a manutenção seja executada pela linha de comando";
 $GLOBALS['strTablesPrefix'] = "Prefixo das tabelas";
 $GLOBALS['strTablesType'] = "Tipo das tabelas";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Sua última tentativa de atualizar o sistema encontrou um erro";
 $GLOBALS['strRecoveryRequired'] = "Um erro foi encontrado durante a última atualização e o {$PRODUCT_NAME} deve tentar recuperar esta atualização. Por favor clique no botão de Recuperação abaixo.";
 
+$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} está atualizado";
 $GLOBALS['strOaUpToDate'] = "Sua base de dados {$PRODUCT_NAME} e a estrutura de arquivos estão ambos utilizando a versão mais recente e portanto nenhuma atualização é necessária neste momento. Por favor clique Prosseguir para continuar até o painel de Administração do {$PRODUCT_NAME}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Atenção: o arquivo UPGRADE ainda está presente no seu diretório var. Foi impossível remover este arquivo devido a falta de permissão. Por favor remova o arquivo manualmente.";
 $GLOBALS['strErrorWritePermissions'] = "Erros de permissão em arquivos foram detectados, e devem ser corrigidos antes de prosseguir.<br />Para corrigir estes erros em um sistema Linux, tente digitar o(s) seguinte(s) comando(s):";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
+$GLOBALS['strNotWriteable'] = "NÃO gravável";
+$GLOBALS['strDirNotWriteableError'] = "Diretório deve ter permissão de escrita";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Erros de permissão em arquivos foram detectados, e devem ser corrigidos antes de prosseguir.";
 $GLOBALS['strCheckDocumentation'] = "Para mais ajuda, verifique a <a href='{$PRODUCT_DOCSURL}'>documentação do {$PRODUCT_NAME}</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "Sua configuração atual do PHP não atende aos requisitos de {$PRODUCT_NAME}. Para resolver os problemas, modifique as configurações no seu arquivo 'php.ini'.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL da interface de administração";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL da engine de entrega";
@@ -41,12 +45,16 @@ $GLOBALS['strImagesUrlPrefix'] = "URL do armazenamento de imagens";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL do armazenamento de imagens (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Atualizar";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Escolha a seção";
+$GLOBALS['strEditConfigNotPossible'] = "Não é possível editar todas as configurações porque o arquivo de configuração está bloqueado por motivos de segurança.
+    Se quiser fazer alterações, talvez seja necessário desbloquear primeiro o arquivo de configuração desta instalação.";
 $GLOBALS['strUnableToWriteConfig'] = "Não é possível editar todas as configurações pois o arquivo de configuração esta travado por questões de segurança. Se deseja fazer alterações destrave o arquivo de configurações primeiro.";
 $GLOBALS['strUnableToWritePrefs'] = "É possível editar toas configurações pois o arquivo de configuração esta liberado, mas isto pode levar a problemas de segurança. Se deseja tornar seus sistema seguro é necessário travar o arquivo de configuração.";
 $GLOBALS['strImageDirLockedDetected'] = "O <b>Diretório de imagens</b> fornecido não possui permissão de escrita pelo servidor. <br>Você não poderá prosseguir até alterar as permissões ou criar a pasta.";

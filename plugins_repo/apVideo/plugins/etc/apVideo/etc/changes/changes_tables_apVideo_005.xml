@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>tables_apVideo</name>
+  <version>005</version>
+  <comments>additional imp trackers</comments>
+  <constructive>
+    <changeset>
+      <name>tables_apVideo</name>
+      <version>005</version>
+      <change>
+        <table>
+          <name>ext_ap_video</name>
+          <add>
+            <field>
+              <name>impression_trackers</name>
+              <type>openads_text</type>
+              <notnull>1</notnull>
+              <was>impression_trackers</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>tables_apVideo</name>
+      <version>005</version>
+    </changeset>
+  </destructive>
+</instructionset>

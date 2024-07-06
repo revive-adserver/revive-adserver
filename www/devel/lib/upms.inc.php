@@ -27,7 +27,7 @@ function UPMS_checkVersion($aServer, $id = 0)
 
     // Create the XML-RPC message
     $message = new XML_RPC_Message('OXUPMS.checkID', [
-        XML_RPC_encode($aParams)
+        XML_RPC_encode($aParams),
     ]);
 
     // Create an XML-RPC client to talk to the XML-RPC server
@@ -49,7 +49,6 @@ function UPMS_checkVersion($aServer, $id = 0)
 
 function UPMS_registerVersion($aServer, $id = 0, $name = 'unknown', $comments = '')
 {
-
     // Prepare variables
     $aParams = [
         'user_name' => $name,
@@ -59,7 +58,7 @@ function UPMS_registerVersion($aServer, $id = 0, $name = 'unknown', $comments = 
 
     // Create the XML-RPC message
     $message = new XML_RPC_Message('OXUPMS.registerID', [
-        XML_RPC_encode($aParams)
+        XML_RPC_encode($aParams),
     ]);
 
     // Create an XML-RPC client to talk to the XML-RPC server

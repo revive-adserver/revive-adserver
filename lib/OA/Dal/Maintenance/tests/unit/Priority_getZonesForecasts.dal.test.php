@@ -30,14 +30,6 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
     public const DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * The method to test the getZonesForecasts() method.
      */
     public function testgetZonesForecasts()
@@ -142,7 +134,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecasts extends UnitTestCase
 
         $expected = [
             $this->zoneId1 => 200,
-            $this->zoneId2 => 15000
+            $this->zoneId2 => 15000,
         ];
         $this->assertEqual($result, $expected);
 

@@ -31,7 +31,7 @@ function MAX_layerGetLimitations()
 
     return [
         'richmedia' => $richmedia,
-        'compatible' => $compatible
+        'compatible' => $compatible,
     ];
 }
 
@@ -47,31 +47,26 @@ function MAX_layerPutJs($output, $uniqid)
     global $limited, $lmargin, $rmargin;
 
     // Register input variables
-    MAX_commonRegisterGlobalsArray(['ltr', 'loop', 'speed', 'pause',
-                           'shiftv', 'limited', 'lmargin', 'rmargin']);
+    MAX_commonRegisterGlobalsArray([
+        'loop', 'speed', 'pause',
+        'shiftv', 'lmargin', 'rmargin',
+        'ltr', 'limited',
+    ]);
 
+    $loop = 'n' === ($loop ?? 'n') ? 'n' : (int) $loop;
 
-    if (!isset($ltr)) {
-        $ltr = 't';
-    }
-    if (!isset($loop)) {
-        $loop = 'n';
-    }
-    if (!isset($speed)) {
-        $speed = 3;
-    }
-    if (!isset($pause)) {
-        $pause = 10;
-    }
-    if (!isset($shiftv)) {
-        $shiftv = 0;
-    }
+    $speed = (int) ($speed ?? 3);
+    $pause = (int) ($pause ?? 10);
+    $shiftv = (int) ($shiftv ?? 0);
+    $lmargin = (int) ($lmargin ?? 0);
+    $rmargin = (int) ($rmargin ?? 0);
 
-    if ($limited == 't') {
-        if (!isset($lmargin) || !isset($rmargin)) {
-            $limited = 'f';
-            $lmargin = $rmargin = '';
-        }
+    $ltr = 't' === ($ltr ?? 'f');
+    $limited = 't' === ($limited ?? 'f');
+
+    if ($limited && (0 === $lmargin || 0 === $rmargin)) {
+        $limited = false;
+        $lmargin = $rmargin = null;
     } ?>
 
 function MAX_findObj(n, d) {
@@ -138,8 +133,8 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 	var h = <?php echo $output['height']; ?>;
 
 <?php
-    if ($limited == 't') {
-        if ($lmargin == '') {
+    if ($limited) {
+        if (null === $lmargin) {
             ?>
 	var ml = 0;
 <?php
@@ -153,7 +148,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 <?php
         }
 
-        if ($rmargin == '') {
+        if (null === $rmargin) {
             ?>
 	var mr = ww;
 <?php
@@ -171,20 +166,8 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 	var mr = ww;
 	var ml = 0;
 <?php
-    }
-
-    if (strstr($_SERVER['HTTP_USER_AGENT'], 'Opera 6')) {
-        ?>
-	mr = mr - w; ml = ml + w;
-
-	if (mr + w > ml)
-<?php
-    } else {
-        ?>
-	if (mr > ml)
-<?php
     } ?>
-	{
+    if (mr > ml) {
 		var shift = <?php echo 3 * ($speed - 1) + 1; ?>;
 		var iw = mr - ml + w; var is = ml - w;
 		var cr = w; var cl = 0;
@@ -195,7 +178,7 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 			ll = parseInt(c.left);
 
 <?php
-    if ($ltr == 't') {
+    if ($ltr) {
         ?>
 		if (c.visibility == 'hidden' || c.visibility == 'hide')
 		{
@@ -286,21 +269,14 @@ function MAX_layerGetHtml($output, $uniqid)
     // Register input variables
     MAX_commonRegisterGlobalsArray(['transparent', 'backcolor', 'shiftv']);
 
-
-    if (!isset($transparent)) {
-        $transparent = 't';
-    }
-    if (!isset($backcolor)) {
-        $backcolor = '#FFFFFF';
-    }
-    if (!isset($shiftv)) {
-        $shiftv = '0';
-    }
+    $transparent = 't' === ($transparent ?? 't');
+    $backcolor = htmlspecialchars($backcolor ?? 'FFFFFF', ENT_QUOTES);
+    $shiftv = (int) ($shiftv ?? 0);
 
     // return HTML code
     return '<div id="MAX_' . $uniqid . '" style="position:absolute; width:' . $output['width'] . 'px; height:' . $output['height'] .
         'px; z-index:99; left: 0px; top: ' . $shiftv . 'px; visibility: hidden; overflow: hidden' .
-        ($transparent == 't' ? '' : '; background-color: "' . $backcolor . '; layer-background-color: "' . $backcolor) . '">' .
+        ($transparent ? '' : '; background-color: "' . $backcolor . '; layer-background-color: "' . $backcolor) . '">' .
         $output['html'] . '</td></tr></table></div>';
 }
 

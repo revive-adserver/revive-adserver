@@ -31,26 +31,23 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
 
     public const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::ALPHA;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
         Mock::generate(
             'OA_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand()
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand(),
         );
         Mock::generate(
             'MAX_Dal_Admin_Data_intermediate_ad',
-            $this->mockDalIntermediateAd = 'MAX_Dal_Admin_Data_intermediate_ad' . rand()
+            $this->mockDalIntermediateAd = 'MAX_Dal_Admin_Data_intermediate_ad' . rand(),
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant',
             ['_getDal', '_factoryDal', 'getTodaysRemainingOperationIntervals',
-                'calculateCampaignEcpm'
-            ]
+                'calculateCampaignEcpm',
+            ],
         );
     }
 
@@ -182,7 +179,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId1 = 1],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         ];
@@ -201,7 +198,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => $min = 200,
         ];
@@ -250,7 +247,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId5 = 5 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId5 = 5],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => 100,
         ];
@@ -304,7 +301,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId1 = 1],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         ];
@@ -322,7 +319,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => $min = 200,
         ];
@@ -393,7 +390,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId1 = 1],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => $min = 100,
         ];
@@ -410,7 +407,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
                 $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
-                ]
+                ],
             ],
             self::IDX_MIN_IMPRESSIONS => $min = 200,
         ];

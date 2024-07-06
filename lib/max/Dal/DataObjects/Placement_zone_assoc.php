@@ -96,8 +96,8 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
         // Check that the manager account IDs match from the two results
         if (isset($aAdvertiserAccountIds[OA_ACCOUNT_MANAGER]) && isset($aWebsiteAccountIds[OA_ACCOUNT_MANAGER])) {
             if ($aAdvertiserAccountIds[OA_ACCOUNT_MANAGER] != $aWebsiteAccountIds[OA_ACCOUNT_MANAGER]) {
-                $message = "Cannot locate owning account IDs for ad/zone association, as manager account IDs, " .
-                            "do not match, where ad ID was {$this->ad_id} and zone ID was {$this->zone_id}.";
+                $message = "Cannot locate owning account IDs for campaign/zone association, as manager account IDs, " .
+                            "do not match, where campaign ID was {$this->placement_id} and zone ID was {$this->zone_id}.";
                 MAX::raiseError($message, PEAR_LOG_ERR);
             }
         }

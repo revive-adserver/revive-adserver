@@ -19,22 +19,18 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryCacheStore
- * @abstract
  */
 abstract class Plugins_DeliveryCacheStore extends OX_Component
 {
     /**
      * Constructor method
      */
-    public function __construct($extension, $group, $component)
-    {
-    }
+    public function __construct($extension, $group, $component) {}
 
     /**
      * Return information about cache store
      * (is it available etc.)
      *
-     * @abstract
      * @return bool|array True if there is no problems or array of string with error messages otherwise
      */
     abstract public function getStatus();
@@ -57,7 +53,6 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
     /**
      * A function to delete a single cache entry
      *
-     * @abstract
      * @param string $filename The cache entry filename (hashed name)
      * @return bool True if the entres were succesfully deleted
      */
@@ -66,7 +61,6 @@ abstract class Plugins_DeliveryCacheStore extends OX_Component
     /**
      * A function to delete entire delivery cache
      *
-     * @abstract
      * @return bool True if the entres were succesfully deleted
      */
     abstract public function _deleteAll();

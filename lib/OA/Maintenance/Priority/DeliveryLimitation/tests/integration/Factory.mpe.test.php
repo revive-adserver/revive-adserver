@@ -54,7 +54,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
             'type' => 'deliveryLimitations:Time:Date',
             'comparison' => '>',
             'data' => '20050505',
-            'executionorder' => 1
+            'executionorder' => 1,
         ];
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Common');
@@ -66,7 +66,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
             'type' => 'deliveryLimitations:Time:Day',
             'comparison' => '=~',
             'data' => '0,6',
-            'executionorder' => 7
+            'executionorder' => 7,
         ];
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Common');
@@ -78,8 +78,8 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
             'type' => 'deliveryLimitations:Time:Hour',
             'comparison' => '=~',
             'data' => '0,6,21',
-            'executionorder' => 0
-          ];
+            'executionorder' => 0,
+        ];
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Common');
 
@@ -90,7 +90,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
             'type' => 'deliveryLimitations:Client:IP',
             'comparison' => '=~',
             'data' => '192.168.0.1',
-            'executionorder' => 0
+            'executionorder' => 0,
         ];
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Empty');
@@ -102,7 +102,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCa
             'type' => 'Bogus',
             'comparison' => '=~',
             'data' => '192.168.0.1',
-            'executionorder' => 0
+            'executionorder' => 0,
         ];
         $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Empty');

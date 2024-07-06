@@ -10,7 +10,7 @@ class MaxMindGeoLite2Downloader
     public const RELATIVE_PATH = 'var/plugins/rvMaxMindGeoIP2/';
     public const FULL_PATH = MAX_PATH . '/' . self::RELATIVE_PATH;
 
-    public const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/app/geoip_download';
+    public const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/geoip/databases/%s/download';
     public const GEOLITE2_SUFFIX_TAR_GZ = '.tar.gz';
     public const GEOLITE2_SUFFIX_MD5 = self::GEOLITE2_SUFFIX_TAR_GZ . '.md5';
     public const GEOLITE2_DBNAME = 'GeoLite2-City';
@@ -43,7 +43,7 @@ class MaxMindGeoLite2Downloader
 
     public function updateGeoLiteDatabase(): bool
     {
-        $md5Path = self::FULL_PATH . self::GEOLITE2_DBNAME . self::GEOLITE2_SUFFIX_MD5;
+        $md5Path = $this->getFullPath() . self::GEOLITE2_DBNAME . self::GEOLITE2_SUFFIX_MD5;
 
         if (!$this->lock()) {
             return false;
@@ -57,7 +57,7 @@ class MaxMindGeoLite2Downloader
             return false;
         }
 
-        $this->tempName = tempnam(self::FULL_PATH, 'tmp');
+        $this->tempName = tempnam($this->getFullPath(), 'tmp');
         $tarGzPath = $this->tempName . self::GEOLITE2_SUFFIX_TAR_GZ;
 
         $this->downloadTo(self::GEOLITE2_SUFFIX_TAR_GZ, $tarGzPath);
@@ -73,9 +73,9 @@ class MaxMindGeoLite2Downloader
 
     private function lock(): bool
     {
-        $lockFileName = self::FULL_PATH . self::GEOLITE2_CITY_MMDB . '.lock';
+        $lockFileName = $this->getFullPath() . self::GEOLITE2_CITY_MMDB . '.lock';
 
-        @mkdir(self::FULL_PATH);
+        @mkdir($this->getFullPath());
         $this->lockFp = @fopen($lockFileName, 'w');
 
         return $this->lockFp && @flock($this->lockFp, LOCK_EX);
@@ -90,7 +90,7 @@ class MaxMindGeoLite2Downloader
         @flock($this->lockFp, LOCK_UN);
         @fclose($this->lockFp);
 
-        $lockFileName = self::FULL_PATH . self::GEOLITE2_CITY_MMDB . '.lock';
+        $lockFileName = $this->getFullPath() . self::GEOLITE2_CITY_MMDB . '.lock';
         @unlink($lockFileName);
     }
 
@@ -113,15 +113,20 @@ class MaxMindGeoLite2Downloader
         $options = array_merge(
             [
                 'query' => [
-                    'edition_id' => self::GEOLITE2_DBNAME,
                     'suffix' => ltrim($suffix, '.'),
-                    'license_key' => MaxMindGeoIP2::getLicenseKey(),
+                ],
+                'auth' => [
+                    MaxMindGeoIP2::getAccountId(),
+                    MaxMindGeoIP2::getLicenseKey(),
                 ],
             ],
-            $options
+            $options,
         );
 
-        return $this->client->get(self::GEOLITE2_DOWNLOAD_URI, $options);
+        return $this->client->get(
+            sprintf(self::GEOLITE2_DOWNLOAD_URI, self::GEOLITE2_DBNAME),
+            $options,
+        );
     }
 
     private function decompress(string $tarGzPath): bool
@@ -144,9 +149,14 @@ class MaxMindGeoLite2Downloader
 
         stream_copy_to_stream(
             fopen($pathName, 'rb'),
-            fopen(self::FULL_PATH . self::GEOLITE2_CITY_MMDB, 'w')
+            fopen($this->getFullPath() . self::GEOLITE2_CITY_MMDB, 'w'),
         );
 
         return true;
+    }
+
+    private function getFullPath(): string
+    {
+        return \MAX_PATH . '/' . self::RELATIVE_PATH;
     }
 }

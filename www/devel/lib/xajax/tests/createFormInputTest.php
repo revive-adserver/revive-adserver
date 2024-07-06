@@ -17,7 +17,7 @@ function addInput($aInputData)
     $sName = $aInputData['inputName'];
     $sType = $aInputData['inputType'];
     $sValue = $aInputData['inputValue'];
-    
+
     $objResponse = new xajaxResponse();
     $objResponse->addAlert("inputData: " . print_r($aInputData, true));
     $objResponse->addCreateInput("testForm1", $sType, $sName, $sId);
@@ -33,7 +33,7 @@ function insertInput($aInputData)
     $sType = $aInputData['inputType'];
     $sValue = $aInputData['inputValue'];
     $sBefore = $aInputData['inputBefore'];
-    
+
     $objResponse = new xajaxResponse();
     $objResponse->addAlert("inputData: " . print_r($aInputData, true));
     $objResponse->addInsertInput($sBefore, $sType, $sName, $sId);
@@ -49,7 +49,7 @@ function insertInputAfter($aInputData)
     $sType = $aInputData['inputType'];
     $sValue = $aInputData['inputValue'];
     $sAfter = $aInputData['inputAfter'];
-    
+
     $objResponse = new xajaxResponse();
     $objResponse->addAlert("inputData: " . print_r($aInputData, true));
     $objResponse->addInsertInputAfter($sAfter, $sType, $sName, $sId);
@@ -60,9 +60,9 @@ function insertInputAfter($aInputData)
 function removeInput($aInputData)
 {
     $sId = $aInputData['inputId'];
-    
+
     $objResponse = new xajaxResponse();
-    
+
     $objResponse->addRemove($sId);
 
     return $objResponse->getXML();

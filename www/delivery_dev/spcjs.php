@@ -27,8 +27,10 @@ $output = OA_SPCGetJavaScript($id);
 //OX_Delivery_logMessage('output: ' . $output, 7);
 
 // Output JS
-MAX_commonSendContentTypeHeader("application/x-javascript");
-header("Expires: " . gmdate('r', time() + 86400));
+MAX_commonSendContentTypeHeader("application/javascript");
+MAX_header("Expires: " . gmdate('r', time() + 86400));
+
+OX_Delivery_Common_sendPreconnectHeaders();
 
 // Flush cookies
 MAX_cookieFlush();
@@ -44,14 +46,10 @@ function OA_SPCGetJavaScript($affiliateid)
         $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
     }
     $additionalParams = '';
-    $magic_quotes_gpc = ini_get('magic_quotes_gpc');
 
     foreach ($_GET as $key => $value) {
         if ($key == 'id') {
             continue;
-        }
-        if ($magic_quotes_gpc) {
-            $value = stripslashes($value);
         }
         $additionalParams .= htmlspecialchars('&' . urlencode($key) . '=' . urlencode($value), ENT_QUOTES);
     }
@@ -75,7 +73,7 @@ function OA_SPCGetJavaScript($affiliateid)
     var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
     {$varprefix}spc+=\"src='\"+{$varprefix}p+\"?zones=\"+{$varprefix}zoneids;
     {$varprefix}spc+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
-    ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
+    ((empty($additionalParams)) ? '' : "\n    {$varprefix}spc+=\"{$additionalParams}\";") . "
     ";
     if (empty($_GET['charset'])) {
         $script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));\n";
@@ -112,7 +110,7 @@ function OA_SPCGetJavaScript($affiliateid)
         var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
         {$varprefix}pop+=\"src='\"+{$varprefix}p+\"?zoneid=\"+zoneid;
         {$varprefix}pop+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
-        ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
+        ((empty($additionalParams)) ? '' : "\n        {$varprefix}spc+=\"{$additionalParams}\";") . "
         if (window.location) {$varprefix}pop+=\"&amp;loc=\"+escape(window.location);
         if (document.referrer) {$varprefix}pop+=\"&amp;referer=\"+escape(document.referrer);
         {$varprefix}pop+=\"'><\"+\"/script>\";

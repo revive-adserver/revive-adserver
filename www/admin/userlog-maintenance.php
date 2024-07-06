@@ -80,9 +80,12 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray()) {
     // User
     echo "<td height='25'>";
     switch ($row['usertype']) {
-        case phpAds_userDeliveryEngine:	echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;" . $strDeliveryEngine; break;
-        case phpAds_userMaintenance:	echo "<img src='" . OX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;" . $strMaintenance; break;
-        case phpAds_userAdministrator:	echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;" . $strAdministrator; break;
+        case phpAds_userDeliveryEngine:	echo "<img src='" . OX::assetPath() . "/images/icon-generatecode.gif' align='absmiddle'>&nbsp;" . $strDeliveryEngine;
+            break;
+        case phpAds_userMaintenance:	echo "<img src='" . OX::assetPath() . "/images/icon-time.gif' align='absmiddle'>&nbsp;" . $strMaintenance;
+            break;
+        case phpAds_userAdministrator:	echo "<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>&nbsp;" . $strAdministrator;
+            break;
     }
     echo "</td>";
 

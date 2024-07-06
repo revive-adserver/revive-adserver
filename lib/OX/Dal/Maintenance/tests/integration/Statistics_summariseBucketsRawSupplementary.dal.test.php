@@ -25,14 +25,6 @@ Language_Loader::load();
 class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the summariseBucketsRawSupplementary() method.
      */
     public function testSummariseBucketsRawSupplementary()
@@ -46,33 +38,33 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
             'method' => 'rawSupplementary',
             'masterTable' => $aConf['table']['prefix'] . 'data_intermediate_ad_connection',
             'masterTablePrimaryKeys' => [
-                0 => 'data_intermediate_ad_connection_id'
+                0 => 'data_intermediate_ad_connection_id',
             ],
             'bucketTablePrimaryKeys' => [
-                0 => 'data_intermediate_ad_connection_id'
+                0 => 'data_intermediate_ad_connection_id',
             ],
             'masterTableKeys' => [
                 0 => 'server_raw_tracker_impression_id',
-                1 => 'server_raw_ip'
+                1 => 'server_raw_ip',
             ],
             'bucketTableKeys' => [
                 0 => 'server_conv_id',
-                1 => 'server_ip'
+                1 => 'server_ip',
             ],
             'masterDateTimeColumn' => 'tracker_date_time',
             'bucketTable' => $aConf['table']['prefix'] . 'data_bkt_a_var',
             'source' => [
                 0 => 'tracker_variable_id',
-                1 => 'value'
+                1 => 'value',
             ],
             'destination' => [
                 0 => 'tracker_variable_id',
-                1 => 'value'
-            ]
+                1 => 'value',
+            ],
         ];
         $aDates = [
             'start' => new Date('2008-08-21 09:00:00'),
-            'end' => new Date('2008-08-21 09:59:59')
+            'end' => new Date('2008-08-21 09:59:59'),
         ];
 
         // Prepare the DAL object

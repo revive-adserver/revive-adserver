@@ -18,7 +18,7 @@ class MAX_Dal_Admin_Channel extends MAX_Dal_Common
 
     public $orderListName = [
         'name' => 'name',
-        'id' => 'channelid'
+        'id' => 'channelid',
     ];
 
     public function getChannelsAndAffiliates()

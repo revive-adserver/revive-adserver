@@ -92,7 +92,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 "Image Overlay",
                 VAST_OVERLAY_FORMAT_IMAGE,
                 ['id' => 'vast-overlay-format-image',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ]
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ],
             );
         }
 
@@ -104,7 +104,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 "Text Overlay",
                 VAST_OVERLAY_FORMAT_TEXT,
                 ['id' => 'vast-overlay-format-text',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_TEXT] ]
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_TEXT] ],
             );
         }
         if (getVideoOverlaySetting('isVastOverlayAsHtmlEnabled')) {
@@ -115,7 +115,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 "Html Overlay",
                 VAST_OVERLAY_FORMAT_HTML,
                 ['id' => 'vast-overlay-format-html',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_HTML] ]
+                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_HTML] ],
             );
         }
 
@@ -151,7 +151,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 $("#div-overlay-format-html").hide('fast');
                 $("#div-overlay-size").show('slow');
             }
-            ${overlayFormatOptionToRunOnPageLoad}
+            {$overlayFormatOptionToRunOnPageLoad}
 
             </script>
 OVERLAY_FORMAT_JS;
@@ -204,7 +204,7 @@ OVERLAY_FORMAT_JS;
 
             }
 
-            ${overlayOptionToRunOnPageLoad}
+            {$overlayOptionToRunOnPageLoad}
 
             </script>
 OVERLAY_OPTION_JS;
@@ -219,7 +219,7 @@ OVERLAY_OPTION_JS;
             "Open a page in a new window",
             VAST_OVERLAY_CLICK_TO_PAGE,
             ['id' => 'overlay-action-open',
-                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_PAGE] ]
+                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_PAGE] ],
         );
 
         $overlayClickActions[] = $form->createElement(
@@ -229,7 +229,7 @@ OVERLAY_OPTION_JS;
             "Play a video",
             VAST_OVERLAY_CLICK_TO_VIDEO,
             ['id' => 'overlay-action-play',
-                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_VIDEO] ]
+                'onClick' => $overlayActionToClickHandler[VAST_OVERLAY_CLICK_TO_VIDEO] ],
         );
 
         $form->setDefaults(['vast_overlay_action' => $overlayClickModeValue]);
@@ -247,7 +247,7 @@ OVERLAY_OPTION_JS;
             'font color="#hexadecimalColorOnly" face="" size=""',
             'i',
             'li',
-            'u'
+            'u',
         ];
         foreach ($supportedTags as &$supportedTag) {
             $supportedTag = '&lt;' . $supportedTag . '&gt;';
@@ -260,13 +260,13 @@ OVERLAY_OPTION_JS;
         	<br/>All links <code>&lt;a href=""&gt</code> will be ignored: the flash player will automatically add a click layer on top of the overlay, that will initiate a video or open a page in a new window.
         	<br/>For more information about the supported HTML tags, read the <a href="' . self::URL_FLASH_HELP_HTML_SUPPORTED . '" target="_blank">Adobe ActionScript documentation</a>.
 
-        	'
+        	',
         );
         $htmlG['textarea'] = $form->createElement(
             'textarea',
             'htmltemplate',
             null,
-            [ 'class' => 'code', 'cols' => '45', 'rows' => '10', 'wrap' => 'off', 'dir' => 'ltr', 'style' => 'width:550px;']
+            [ 'class' => 'code', 'cols' => '45', 'rows' => '10', 'wrap' => 'off', 'dir' => 'ltr', 'style' => 'width:550px;'],
         );
         $form->addGroup($htmlG, 'overlay_html_group', null, ["<br>", ""], false);
     }
@@ -277,7 +277,7 @@ OVERLAY_OPTION_JS;
         $form->addElement(
             'html',
             'overlay_text_info',
-            'A text overlay contains a title, up to two lines of description and a call to action (e.g., display URL). '
+            'A text overlay contains a title, up to two lines of description and a call to action (e.g., display URL). ',
         );
         $form->addDecorator('overlay_text_header', 'tag', [ 'tag' => 'div', 'attributes' => ['id' => 'div-overlay-format-text'] ]);
         $form->addElement('text', 'vast_overlay_text_title', 'Title');
@@ -285,7 +285,7 @@ OVERLAY_OPTION_JS;
             'textarea',
             'vast_overlay_text_description',
             'Description',
-            [ 'class' => 'large', 'cols' => '45', 'rows' => '2', 'wrap' => 'off', 'dir' => 'ltr', 'style' => 'height:50px' ]
+            [ 'class' => 'large', 'cols' => '45', 'rows' => '2', 'wrap' => 'off', 'dir' => 'ltr', 'style' => 'height:50px' ],
         );
 
         $form->addElement('text', 'vast_overlay_text_call', 'Call to action');
@@ -306,7 +306,7 @@ OVERLAY_OPTION_JS;
         $filename = null;
         if ($fileFieldName == $aBanner['vast_overlay_format'] . '_upload') {
             $imageName = _getContentTypeIconImageName($aBanner['vast_creative_type']);
-            $size = _getBannerSizeText($type, $aBanner['filename']);
+            $size = _getBannerSizeText('web', $aBanner['filename']);
             $filename = $aBanner['filename'];
         }
 
@@ -326,7 +326,7 @@ OVERLAY_OPTION_JS;
                 'fileSize' => $size,
                 'newLabel' => $GLOBALS['strNewBannerFile'],
                 'updateLabel' => $GLOBALS['strUploadOrKeep'],
-              ]
+            ],
         );
     }
 
@@ -396,23 +396,14 @@ OVERLAY_OPTION_JS;
             'url' => $GLOBALS['strURL'],
 
         ];
-        if (isset($labels[$fieldName])) {
-            return $labels[$fieldName];
-        }
-        return parent::getFieldLabel($fieldName);
+        return $labels[$fieldName] ?? parent::getFieldLabel($fieldName);
     }
 
     public function processNewUploadedFile(&$aFields, &$aVariables)
     {
         $incomingFieldName = null;
-        // Deal with any files that are uploaded -
-        // cant use the default banners handler for this upload field because this field
-        // is on all versions of the of the overlay form (ie. for text and html)
-        // so "empty filename supplied error" appear when creating a text/html overlay
-        switch ($aFields['vast_overlay_format']) {
-            case VAST_OVERLAY_FORMAT_IMAGE:
-                $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
-            break;
+        if ($aFields['vast_overlay_format'] === VAST_OVERLAY_FORMAT_IMAGE) {
+            $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
         }
         if (empty($_FILES[$incomingFieldName]['name'])) {
             return;

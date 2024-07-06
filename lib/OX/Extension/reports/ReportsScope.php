@@ -17,11 +17,10 @@ require_once LIB_PATH . '/Extension/reports/Reports.php';
  * in {@link Plugins_Reports} to add methods for reports that are based on an
  * Admin_UI_OrganisationScope advertiser/publisher limitation object.
  *
- * @abstract
  * @package    OpenXPlugin
  * @subpackage Reports
  */
-class Plugins_ReportsScope extends Plugins_Reports
+abstract class Plugins_ReportsScope extends Plugins_Reports
 {
     /**
      * A local copy of the advertiser/publisher limitation object.
@@ -40,7 +39,7 @@ class Plugins_ReportsScope extends Plugins_Reports
     public function _getDisplayableParametersFromScope()
     {
         $aParams = [];
-        $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
+        $key = MAX_Plugin_Translation::translate('Advertiser', $this->extension);
         $advertiserId = $this->_oScope->getAdvertiserId();
         if (!empty($advertiserId)) {
             // Get the name of the advertiser
@@ -51,14 +50,12 @@ class Plugins_ReportsScope extends Plugins_Reports
                 $aAdvertiser = $doClients->toArray();
                 $aParams[$key] = $aAdvertiser['clientname'];
             }
+        } elseif ($this->_oScope->getAnonymous()) {
+            $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->extension);
         } else {
-            if ($this->_oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->module);
-            } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->module);
-            }
+            $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->extension);
         }
-        $key = MAX_Plugin_Translation::translate('Website', $this->module);
+        $key = MAX_Plugin_Translation::translate('Website', $this->extension);
         $publisherId = $this->_oScope->getPublisherId();
         if (!empty($publisherId)) {
             $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -68,12 +65,10 @@ class Plugins_ReportsScope extends Plugins_Reports
                 $aPublisher = $doAffiliates->toArray();
                 $aParams[$key] = $aPublisher['name'];
             }
+        } elseif ($this->_oScope->getAnonymous()) {
+            $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->extension);
         } else {
-            if ($this->_oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->module);
-            } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->module);
-            }
+            $aParams[$key] = MAX_Plugin_Translation::translate('All Websites', $this->extension);
         }
         return $aParams;
     }

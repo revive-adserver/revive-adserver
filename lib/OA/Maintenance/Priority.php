@@ -58,10 +58,8 @@ class OA_Maintenance_Priority
         OA::debug('Running Maintenance Priority Engine', PEAR_LOG_INFO);
 
         // Set longer time out, and ignore user abort
-        if (!ini_get('safe_mode')) {
-            @set_time_limit($aConf['maintenance']['timeLimitScripts']);
-            @ignore_user_abort(true);
-        }
+        @set_time_limit($aConf['maintenance']['timeLimitScripts']);
+        @ignore_user_abort(true);
 
         // Attempt to increase PHP memory
         OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));

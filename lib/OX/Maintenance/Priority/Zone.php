@@ -36,7 +36,7 @@ class OX_Maintenance_Priority_Zone
      */
     public function __construct($aZone = [])
     {
-        $this->id = (int)$aZone['zoneid'];
+        $this->id = (int) $aZone['zoneid'];
     }
 
     /**

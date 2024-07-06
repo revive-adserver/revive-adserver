@@ -29,21 +29,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
 
     public const ALPHA = OA_Maintenance_Priority_AdServer_Task_ECPMforContract::ALPHA;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
         Mock::generate(
             'OA_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand()
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority' . rand(),
         );
         Mock::generatePartial(
             'OA_Maintenance_Priority_AdServer_Task_ECPMforContract',
             'PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforContract',
-            ['_getDal', '_factoryDal', 'calculateCampaignEcpm'
-            ]
+            ['_getDal', '_factoryDal', 'calculateCampaignEcpm',
+            ],
         );
     }
 
@@ -93,7 +90,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId1 = 1],
-                ]
+                ],
             ],
         ];
         $aAdsGoals[$zoneId1][$adId1] = 100;
@@ -111,7 +108,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
-                ]
+                ],
             ],
         ];
         $aAdsGoals[$zoneId2][$adId2] = 200;
@@ -161,7 +158,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId1 = 1 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId1 = 1],
-                ]
+                ],
             ],
         ];
         $aEcpm[$campaignId1] = 0.1;
@@ -178,7 +175,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId2 = 2 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId2 = 2, $zoneId3 = 3],
-                ]
+                ],
             ],
         ];
         $aEcpm[$campaignId2] = 0.6;
@@ -200,7 +197,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId3 = 3 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId4 = 4],
-                ]
+                ],
             ],
         ];
         $aEcpm[$campaignId4] = 0.1;
@@ -218,7 +215,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId4 = 4 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId5 = 5],
-                ]
+                ],
             ],
         ];
         $aCampaignsInfo[$campaignId5 = 5] = [
@@ -226,7 +223,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
                 $adId5 = 5 => [
                     self::IDX_WEIGHT => 1,
                     self::IDX_ZONES => [$zoneId5 = 5],
-                ]
+                ],
             ],
         ];
         $aEcpm[$campaignId4] = $ecpm1 = 0.3;

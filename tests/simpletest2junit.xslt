@@ -18,6 +18,7 @@
 					<xsl:attribute name="time"><xsl:value-of select="time"/></xsl:attribute>
 					<xsl:attribute name="classname"><xsl:value-of select="name"/></xsl:attribute>
 					<xsl:attribute name="name"><xsl:value-of select="name"/></xsl:attribute>
+					<xsl:attribute name="file"><xsl:value-of select="name"/></xsl:attribute>
 					<xsl:for-each select="fail">
 						<failure>
                                                         <xsl:value-of select="."/>

@@ -123,7 +123,7 @@ function _oxMemcached_MemcachedInit()
             $serversAdded = true;
         }
     }
-    if ($serversAdded === true) {
+    if ($serversAdded) {
         $GLOBALS['OA_Delivery_Cache']['MemcachedObject'] = &$oMemcache;
         return $GLOBALS['OA_Delivery_Cache']['MemcachedObject'];
     }

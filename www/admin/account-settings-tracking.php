@@ -42,7 +42,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += [
         'logging_trackerImpressions' => [
             'logging' => 'trackerImpressions',
-            'bool' => true
+            'bool' => true,
         ],
         'logging_defaultImpressionConnectionWindow' => ['logging' => 'defaultImpressionConnectionWindow'],
         'logging_defaultClickConnectionWindow' => ['logging' => 'defaultClickConnectionWindow'],
@@ -118,7 +118,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $translation = new OX_Translation();
         $translated_message = $translation->translate(
             $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)]
+            [htmlspecialchars($title)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
@@ -144,19 +144,19 @@ $aSettings = [
         'items' => [
             [
                 'type' => 'hiddencheckbox',
-                'name' => 'logging_adImpressions'
+                'name' => 'logging_adImpressions',
             ],
             [
                 'type' => 'hiddencheckbox',
-                'name' => 'logging_adClicks'
+                'name' => 'logging_adClicks',
             ],
             [
                 'type' => 'checkbox',
                 'name' => 'logging_trackerImpressions',
-                'text' => $strEnableConversionTracking
+                'text' => $strEnableConversionTracking,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -164,10 +164,10 @@ $aSettings = [
                 'text' => $strDefaultImpConvWindow,
                 'size' => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adImpressions==1',
-                'check' => 'wholeNumber'
+                'check' => 'wholeNumber',
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -175,10 +175,10 @@ $aSettings = [
                 'text' => $strDefaultCliConvWindow,
                 'size' => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adClicks==1',
-                'check' => 'wholeNumber'
-            ]
-        ]
-    ]
+                'check' => 'wholeNumber',
+            ],
+        ],
+    ],
 ];
 $oOptions->show($aSettings, $aErrormessage);
 

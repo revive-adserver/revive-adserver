@@ -1,14 +1,14 @@
 <?php
 
+namespace ECS;
+
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
+use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set(Option::PATHS, array_merge(
+return ECSConfig::configure()
+    ->withPaths(array_merge(
         [
             __DIR__ . '/etc',
             __DIR__ . '/lib/max',
@@ -22,22 +22,22 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/www/api',
             __DIR__ . '/www/delivery_dev',
             __DIR__ . '/www/devel',
+            __DIR__ . '/tests/testClasses',
         ],
         glob(__DIR__ . '/lib/*.php'),
         glob(__DIR__ . '/*.php'),
-    ));
-
-    $parameters->set(Option::SKIP, [
-        __DIR__ . '/lib/max/language',
+        glob(__DIR__ . '/tests/.php'),
+    ))
+    ->withSkip([
         __DIR__ . '/plugins_repo/openXDeveloperToolbox',
         __DIR__ . '/www/devel/lib/xajax/examples',
-    ]);
-
-    $containerConfigurator->import(SetList::PSR_12);
-
-    $services = $containerConfigurator->services();
-    $services->set(ArraySyntaxFixer::class)
-        ->call('configure', [[
-            'syntax' => 'short',
-        ]]);
-};
+    ])
+    ->withRules([
+        ArraySyntaxFixer::class,
+        NullableTypeDeclarationForDefaultNullValueFixer::class,
+        NoUnusedImportsFixer::class,
+    ])
+    ->withPhpCsFixerSets(perCS20: true)
+    ->withPreparedSets(psr12: true)
+    ->withCache(__DIR__ . '/var/cache/tools/ecs')
+;

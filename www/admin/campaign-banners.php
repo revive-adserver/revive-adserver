@@ -45,8 +45,10 @@ if (!empty($campaignid) && !OA_Permission::hasAccessToObject('campaigns', $campa
 
 //get advertisers and set the current one
 $aAdvertisers = getAdvertiserMap();
-if (empty($clientid)) { //if it's empty
-    $campaignid = null; //reset campaign id, we could derive it after we have clientid
+if (empty($clientid)) {
+    //if it's empty
+    $campaignid = null;
+    //reset campaign id, we could derive it after we have clientid
     if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid']) {
         //try previous one from session
         $sessionClientId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'];
@@ -63,17 +65,16 @@ if (empty($clientid)) { //if it's empty
             $campaignid = -1; //also reset campaign id
         }
     }
-} else {
-    if (!isset($aAdvertisers[$clientid])) {
-        $page = basename($_SERVER['SCRIPT_NAME']);
-        OX_Admin_Redirect::redirect($page);
-    }
+} elseif (!isset($aAdvertisers[$clientid])) {
+    $page = basename($_SERVER['SCRIPT_NAME']);
+    OX_Admin_Redirect::redirect($page);
 }
 
 //get campaigns - if there was any client id derived
 if ($clientid > 0) {
     $aCampaigns = getCampaignMap($clientid);
-    if (empty($campaignid)) { //if it's empty
+    if (empty($campaignid)) {
+        //if it's empty
         if ($session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid]) {
             //try previous one from session
             $sessionCampaignId = $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['campaignid'][$clientid];
@@ -83,13 +84,11 @@ if ($clientid > 0) {
         }
         if (empty($campaignid)) { //was empty, is still empty - just pick one, no need for redirect
             $ids = array_keys($aCampaigns);
-            $campaignid = !empty($ids) ? $ids[0] : -1; //if no campaigns set to non-existent id
+            $campaignid = empty($ids) ? -1 : $ids[0]; //if no campaigns set to non-existent id
         }
-    } else {
-        if (!isset($aCampaigns[$campaignid])) {
-            $page = basename($_SERVER['SCRIPT_NAME']);
-            OX_Admin_Redirect::redirect("$page?clientid=$clientid");
-        }
+    } elseif (!isset($aCampaigns[$campaignid])) {
+        $page = basename($_SERVER['SCRIPT_NAME']);
+        OX_Admin_Redirect::redirect("$page?clientid=$clientid");
     }
 }
 
@@ -108,7 +107,7 @@ $oTrans = new OX_Translation();
 $aOtherAdvertisers = Admin_DA::getAdvertisers(['agency_id' => $agencyId]);
 $aOtherCampaigns = Admin_DA::getPlacements(['advertiser_id' => $clientid]);
 
-$oHeaderModel = buildHeaderModel($aEntities);
+$oHeaderModel = buildCampaignBannersHeaderModel($aEntities);
 phpAds_PageHeader(null, $oHeaderModel);
 
 
@@ -171,7 +170,7 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
 
     // mask banner name if anonymous campaign
     $campaign_details = Admin_DA::getPlacement($row['campaignid']);
-    $campaignAnonymous = $campaign_details['anonymous'] == 't' ? true : false;
+    $campaignAnonymous = $campaign_details['anonymous'] == 't';
     $banners[$row['bannerid']]['description'] = MAX_getAdName($row['description'], null, null, $campaignAnonymous, $row['bannerid']);
 
     $banners[$row['bannerid']]['expand'] = 0;
@@ -196,7 +195,7 @@ $aCount = [
 
 // Figure out which banners are inactive and prepare trimmed URLs for display
 $bannersHidden = 0;
-if (isset($banners) && is_array($banners) && count($banners) > 0) {
+if (isset($banners) && is_array($banners) && $banners !== []) {
     reset($banners);
     foreach ($banners as $key => $banner) {
         $aCount['banners']++;
@@ -251,7 +250,7 @@ $oTpl->display();
 
 phpAds_PageFooter();
 
-function buildHeaderModel($aEntities)
+function buildCampaignBannersHeaderModel($aEntities)
 {
     global $phpAds_TextDirection;
     $aConf = $GLOBALS['_MAX']['CONF'];
@@ -276,14 +275,14 @@ function buildHeaderModel($aEntities)
     $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
     $oHeaderModel = $builder->buildEntityHeader([
         ['name' => $advertiserName, 'url' => '',
-               'id' => $advertiserId, 'entities' => getAdvertiserMap($agencyId),
-               'htmlName' => 'clientid'
-              ],
+            'id' => $advertiserId, 'entities' => getAdvertiserMap($agencyId),
+            'htmlName' => 'clientid',
+        ],
         ['name' => $campaignName, 'url' => $campaignEditUrl,
-               'id' => $campaignId, 'entities' => getCampaignMap($advertiserId),
-               'htmlName' => 'campaignid'
-              ],
-        ['name' => '']
+            'id' => $campaignId, 'entities' => getCampaignMap($advertiserId),
+            'htmlName' => 'campaignid',
+        ],
+        ['name' => ''],
     ], 'banners', 'list');
 
     return $oHeaderModel;

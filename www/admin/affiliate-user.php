@@ -81,7 +81,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = [$strAllowCreateAccounts, false];
 }
 $aAllowedPermissions[OA_PERM_ZONE_EDIT] = [$strAllowAffiliateModifyZones,  false,
-                                                      'MMM_cascadePermissionsChange()'];
+    'MMM_cascadePermissionsChange()'];
 $aAllowedPermissions[OA_PERM_ZONE_ADD] = [$strAllowAffiliateAddZone,      true, false];
 
 if (OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE) ||

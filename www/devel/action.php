@@ -21,10 +21,10 @@ function checkPermissions($aFiles)
     if (($aErrs = OX_DevToolbox::checkFilePermissions($aFiles)) !== true) {
         setcookie('schemaFile', '');
         setcookie('schemaPath', '');
-        $errorMessage = join("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n";
+        $errorMessage = implode("<br />\n", $aErrs['errors']) . "<br /><br ><hr /><br />\n";
         if (isset($aErrs['fixes'])) {
             $errorMessage .= 'To fix, please execute the following commands:' . "<br /><br >\n" .
-            join("<br />\n", $aErrs['fixes']);
+            implode("<br />\n", $aErrs['fixes']);
         }
         die($errorMessage);
     }

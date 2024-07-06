@@ -36,7 +36,7 @@ function MAX_checkTime_Date($limitation, $op, $aParams = [])
     if ($limitation == '' && $limitation == '00000000') {
         return true;
     }
-    $timestamp = !empty($aParams['timestamp']) ? $aParams['timestamp'] : time();
+    $timestamp = empty($aParams['timestamp']) ? time() : $aParams['timestamp'];
     if ($tz && $tz != 'UTC') {
         OA_setTimeZone($tz);
         $date = date('Ymd', $timestamp);
@@ -44,13 +44,13 @@ function MAX_checkTime_Date($limitation, $op, $aParams = [])
     } else {
         $date = gmdate('Ymd', $timestamp);
     }
-    switch ($op) {
-        case '==': return ($date == $limitation); break;
-        case '!=': return ($date != $limitation); break;
-        case '<=': return ($date <= $limitation); break;
-        case '>=': return ($date >= $limitation); break;
-        case '<':  return ($date < $limitation);  break;
-        case '>':  return ($date > $limitation);  break;
-    }
-    return true;
+    return match ($op) {
+        '==' => $date == $limitation,
+        '!=' => $date != $limitation,
+        '<=' => $date <= $limitation,
+        '>=' => $date >= $limitation,
+        '<' => $date < $limitation,
+        '>' => $date > $limitation,
+        default => true,
+    };
 }

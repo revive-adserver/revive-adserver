@@ -38,7 +38,7 @@ class OX_Admin_UI_Controller_Request
     /**
      * REQUEST_URI
      *
-     * @var unknown_type
+     * @var string
      */
     protected $requestUri;
 
@@ -138,11 +138,7 @@ class OX_Admin_UI_Controller_Request
      */
     public function isPost()
     {
-        if ('POST' == $this->getMethod()) {
-            return true;
-        }
-
-        return false;
+        return 'POST' == $this->getMethod();
     }
 
 
@@ -153,11 +149,7 @@ class OX_Admin_UI_Controller_Request
      */
     public function isGet()
     {
-        if ('GET' == $this->getMethod()) {
-            return true;
-        }
-
-        return false;
+        return 'GET' == $this->getMethod();
     }
 
 
@@ -176,7 +168,7 @@ class OX_Admin_UI_Controller_Request
             return $_SERVER;
         }
 
-        return (isset($_SERVER[$key])) ? $_SERVER[$key] : $default;
+        return $_SERVER[$key] ?? $default;
     }
 
 

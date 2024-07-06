@@ -121,7 +121,7 @@ function loadChangeset()
             }
         }
         krsort($aFiles);
-        foreach ($aFiles as $file => $null) {
+        foreach (array_keys($aFiles) as $file) {
             if ($file != $changeFile) {
                 $opts .= '<option value="' . $file . '">' . $file . '</option>';
             } else {

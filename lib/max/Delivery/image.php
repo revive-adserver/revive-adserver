@@ -35,13 +35,13 @@ function MAX_imageServe($aCreative, $filename, $contenttype)
         $aCreative['t_stamp'] > strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
         MAX_header("Last-Modified: " . gmdate('D, d M Y H:i:s', $aCreative['t_stamp']) . ' GMT');
         if (isset($contenttype) && $contenttype != '') {
-            switch ($contenttype) {
-                case 'swf': MAX_header('Content-type: application/x-shockwave-flash; name=' . $filename); break;
-                case 'dcr': MAX_header('Content-type: application/x-director; name=' . $filename); break;
-                case 'rpm': MAX_header('Content-type: audio/x-pn-realaudio-plugin; name=' . $filename); break;
-                case 'mov': MAX_header('Content-type: video/quicktime; name=' . $filename); break;
-                default:	MAX_header('Content-type: image/' . $contenttype . '; name=' . $filename); break;
-            }
+            match ($contenttype) {
+                'swf' => MAX_header('Content-type: application/x-shockwave-flash; name=' . $filename),
+                'dcr' => MAX_header('Content-type: application/x-director; name=' . $filename),
+                'rpm' => MAX_header('Content-type: audio/x-pn-realaudio-plugin; name=' . $filename),
+                'mov' => MAX_header('Content-type: video/quicktime; name=' . $filename),
+                default => MAX_header('Content-type: image/' . $contenttype . '; name=' . $filename),
+            };
         }
         echo $aCreative['contents'];
     } else {

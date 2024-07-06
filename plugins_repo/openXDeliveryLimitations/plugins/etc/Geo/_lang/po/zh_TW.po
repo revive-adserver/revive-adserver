@@ -14,6 +14,15 @@ msgstr ""
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 366\n"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:75
+msgid "Country"
+msgstr "國家"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
+msgid "City(s)"
+msgstr ""
+
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
 msgstr "未知"
@@ -34,15 +43,6 @@ msgstr ""
 msgid "Cellular"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-msgid "Country"
-msgstr "國家"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr ""
-
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
 msgstr ""
@@ -59,7 +59,7 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
-msgid "City(s)"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:94
+msgid "Subdivision(s)"
 msgstr ""
 

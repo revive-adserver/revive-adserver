@@ -20,7 +20,6 @@ $GLOBALS['strBtnContinue'] = "Pokračovat»";
 $GLOBALS['strBtnRecover'] = "Obnovit»";
 $GLOBALS['strBtnAgree'] = "Souhlasím»";
 $GLOBALS['strBtnRetry'] = "Opakovat";
-$GLOBALS['strWarningRegisterArgcArv'] = "Konfigurace PHP proměnné register_argc_argv musí být zapnuta pro spuštění údržby z příkazového řádku.";
 $GLOBALS['strTablesPrefix'] = "Prefix názvů tabulek";
 $GLOBALS['strTablesType'] = "Typ tabulky";
 

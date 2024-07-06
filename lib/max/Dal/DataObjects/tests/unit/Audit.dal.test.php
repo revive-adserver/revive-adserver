@@ -40,7 +40,7 @@ class DataObjects_AuditTest extends DalUnitTestCase
         Mock::generatePartial(
             'DataObjects_Banners',
             $mockBanners = 'DataObjects_Banners' . rand(),
-            ['getOwningAccountIds']
+            ['getOwningAccountIds'],
         );
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->init();
@@ -59,8 +59,8 @@ class DataObjects_AuditTest extends DalUnitTestCase
             'getOwningAccountIds',
             [
                 OA_ACCOUNT_MANAGER => $managerId,
-                OA_ACCOUNT_ADVERTISER => $accountId
-            ]
+                OA_ACCOUNT_ADVERTISER => $accountId,
+            ],
         );
 
         $this->enableAuditing(true);
@@ -91,8 +91,8 @@ class DataObjects_AuditTest extends DalUnitTestCase
             'getOwningAccountIds',
             [
                 OA_ACCOUNT_MANAGER => $managerId2,
-                OA_ACCOUNT_ADVERTISER => $accountId2
-            ]
+                OA_ACCOUNT_ADVERTISER => $accountId2,
+            ],
         );
 
         $this->enableAuditing(true);

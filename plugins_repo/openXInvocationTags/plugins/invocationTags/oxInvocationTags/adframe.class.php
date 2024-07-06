@@ -125,7 +125,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
             $mi->frame_height = $mi->height;
         }
         $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='" . MAX_commonConstructDeliveryUrl($conf['file']['frame'], $mi->https);
-        if (sizeof($mi->parameters) > 0) {
+        if (count($mi->parameters) > 0) {
             $buffer .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer .= "' frameborder='0' scrolling='no'";

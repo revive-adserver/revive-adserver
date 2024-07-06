@@ -77,7 +77,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
     public function generateRecoveryId($userId)
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
-        
+
         // Make sure that recoveryId is unique in password_recovery table
         do {
             $recoveryId = strtoupper(bin2hex(random_bytes(12)));
@@ -117,11 +117,11 @@ class OA_Dal_PasswordRecovery extends OA_Dal
 
         $doUsers->joinAdd($doPwdRecovery);
 
-        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
-        $fourHoursBack = $now->modify('-4 hours')->format('Y-m-d H:i:s');
-        $oneWeekBack = $now->modify('-1 week')->format('Y-m-d H:i:s');
+        $now = OA::getNowUTC();
+        $fourHours = OA_Dal::quoteInterval(4, 'hour');
+        $oneWeek = OA_Dal::quoteInterval(1, 'week');
 
-        $doUsers->whereAdd("updated >= IF(LENGTH(password) <= 32, '{$oneWeekBack}', '{$fourHoursBack}')");
+        $doUsers->whereAdd("updated >= CASE WHEN LENGTH(password) <= 32 THEN DATE_SUB('{$now}', {$oneWeek}) ELSE DATE_SUB('{$now}', {$fourHours}) END");
 
         if (!$doUsers->find(true)) {
             return null;

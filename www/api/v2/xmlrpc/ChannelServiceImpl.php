@@ -147,7 +147,7 @@ class ChannelServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllChannel->getChannel($channelId, $oChannel)
+                $this->_dllChannel->getChannel($channelId, $oChannel),
             );
         } else {
             return false;
@@ -169,7 +169,7 @@ class ChannelServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllChannel->getChannelList(null, $websiteId, $aChannelList)
+                $this->_dllChannel->getChannelList(null, $websiteId, $aChannelList),
             );
         } else {
             return false;
@@ -191,7 +191,7 @@ class ChannelServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult(
-                $this->_dllChannel->getChannelList($agencyId, null, $aChannelList)
+                $this->_dllChannel->getChannelList($agencyId, null, $aChannelList),
             );
         } else {
             return false;
@@ -215,7 +215,7 @@ class ChannelServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllChannel->getChannelTargeting(
                 $channelId,
-                $aTargeting
+                $aTargeting,
             ));
         } else {
             return false;
@@ -240,7 +240,7 @@ class ChannelServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllChannel->setChannelTargeting(
                 $channelId,
-                $aTargeting
+                $aTargeting,
             ));
         } else {
             return false;

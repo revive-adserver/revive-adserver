@@ -61,7 +61,7 @@ $availableWebsites = $oDalZones->getWebsitesAndZonesList($agencyId, $campaignId,
 OX_Admin_UI_ViewHooks::registerPageView(
     $oTpl,
     'campaign-zone',
-    ['advertiserId' => $advertiserId, 'campaignId' => $campaignId]
+    ['advertiserId' => $advertiserId, 'campaignId' => $campaignId],
 );
 
 

@@ -42,14 +42,6 @@ function test_MAX_cacheGetAd($ad_id)
  */
 class Test_DeliveryAdSelect extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function tearDown()
     {
         // Clean up so as not to interfere with the following test classes.
@@ -169,11 +161,11 @@ class Test_DeliveryAdSelect extends UnitTestCase
 
         // Test4
         $context = [
-                // when the banner is a companion banner, subsequent calls should try to show banners from the same campaign
-                // here we set the campaign that was served as companion to a non existing campaign ID, to ensure
-                // that when companion = true, no banner is served
-                ['==' => 'companionid:148000']
-                ];
+            // when the banner is a companion banner, subsequent calls should try to show banners from the same campaign
+            // here we set the campaign that was served as companion to a non existing campaign ID, to ensure
+            // that when companion = true, no banner is served
+            ['==' => 'companionid:148000'],
+        ];
 
         // companion disabled, banners are served as usual
         $GLOBALS['test_MAX_cacheGetAd_val'] = $aLinked_cAds['ads'][5];
@@ -459,7 +451,7 @@ class Test_DeliveryAdSelect extends UnitTestCase
                 $ads_copy['ads'][6][1024]['priority'] +
                 $ads_copy['ads'][6][1122]['priority'] +
                 $ads_copy['ads'][6][1124]['priority'],
-            1
+            1,
         );
 
         $ads_copy = $test_ads;
@@ -545,18 +537,18 @@ class Test_DeliveryAdSelect extends UnitTestCase
         $this->sendMessage('test_adSelectBuildContext');
 
         $aBanner = ['placement_id' => '56',
-                'zone_companion' => [
-                    0 => '55',
-                    ],
-                'priority' =>
-                [
-                    'xAds' => 0,
-                    'cAds' => 1,
-                    'clAds' => 0,
-                    'ads' => 1,
-                    'lAds' => 6,
-                    ]
-                ];
+            'zone_companion' => [
+                0 => '55',
+            ],
+            'priority' =>
+            [
+                'xAds' => 0,
+                'cAds' => 1,
+                'clAds' => 0,
+                'ads' => 1,
+                'lAds' => 6,
+            ],
+        ];
         $context = [];
         $ret = _adSelectBuildContext($aBanner, $context);
         $this->assertIsA($ret, 'array');
@@ -585,14 +577,18 @@ class Test_DeliveryAdSelect extends UnitTestCase
 
     public function test_getNextZone()
     {
+        $arrZone['type'] = 1;
         $arrZone['chain'] = false;
 
+        $this->assertEqual(10, _getNextZone(10, $arrZone));
+
+        $arrZone['chain'] = 'blabla:15';
         $this->assertEqual(10, _getNextZone(10, $arrZone));
 
         $arrZone['chain'] = 'zone:15';
         $this->assertEqual(15, _getNextZone(10, $arrZone));
 
-        $arrZone['chain'] = 'blabla:15';
+        $arrZone['type'] = '4';
         $this->assertEqual(10, _getNextZone(10, $arrZone));
     }
 
@@ -603,12 +599,12 @@ class Test_DeliveryAdSelect extends UnitTestCase
         $richMedia = true;
         $test_ad =
             [
-                    'ad_id' => 5,
-                    'placement_id' => 5,
-                    'client_id' => 5,
-                    'name' => 'my ad',
-                    'expire_time' => '2010-02-02 07:59:59',
-                 ];
+                'ad_id' => 5,
+                'placement_id' => 5,
+                'client_id' => 5,
+                'name' => 'my ad',
+                'expire_time' => '2010-02-02 07:59:59',
+            ];
 
         // positive case
         $GLOBALS['_MAX']['NOW'] = strtotime('2010-02-02 00:00:00');

@@ -95,13 +95,13 @@ class OA_Dll_UserInfo extends OA_Info
     public function getFieldsTypes()
     {
         return [
-                    'userId' => 'integer',
-                    'contactName' => 'string',
-                    'emailAddress' => 'string',
-                    'username' => 'string',
-                    'password' => 'string',
-                    'defaultAccountId' => 'integer',
-                    'active' => 'integer',
-                ];
+            'userId' => 'integer',
+            'contactName' => 'string',
+            'emailAddress' => 'string',
+            'username' => 'string',
+            'password' => 'string',
+            'defaultAccountId' => 'integer',
+            'active' => 'integer',
+        ];
     }
 }

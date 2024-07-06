@@ -21,11 +21,11 @@ require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 
 class Admin_UI_DaySpanField extends Admin_UI_Field
 {
-    /* @var string */
+    /** @var string */
     public $_fieldSelectionValue;
-    /* @var array */
+    /** @var array */
     public $_fieldSelectionNames;
-    /* @var boolean */
+    /** @var boolean */
     public $_autoSubmit;
 
     /**
@@ -37,7 +37,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     public function __construct(
         $name = 'DaySpanField',
         $fieldSelectionDefault = 'last_month',
-        $aFieldSelectionNames = null
+        $aFieldSelectionNames = null,
     ) {
         parent::__construct();
         if (is_null($aFieldSelectionNames)) {
@@ -69,8 +69,8 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             'this_month' => $GLOBALS['strCollectedThisMonth'],
             'last_month' => $GLOBALS['strCollectedLastMonth'],
             'all_stats' => $GLOBALS['strCollectedAllStats'],
-            'specific' => $GLOBALS['strCollectedSpecificDates']
-          ];
+            'specific' => $GLOBALS['strCollectedSpecificDates'],
+        ];
     }
 
 
@@ -284,7 +284,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             var specific = {$this->_name}SelectName == 'specific';";
 
         $oTmpDaySpan = new OA_Admin_DaySpan();
-        foreach ($this->_fieldSelectionNames as $v => $n) {
+        foreach (array_keys($this->_fieldSelectionNames) as $v) {
             if ($v != 'specific') {
                 if ($v != 'all_stats') {
                     $oTmpDaySpan->setSpanPresetValue($v);

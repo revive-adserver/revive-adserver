@@ -30,13 +30,13 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
     public function _getLock($iWaitTime)
     {
         $aParams = unserialize($this->_sId);
-        $iWaitTime = (int)$iWaitTime;
+        $iWaitTime = (int) $iWaitTime;
 
         // Acquire lock
         $bAcquired = $this->oDbh->extended->getOne(
             "SELECT pg_try_advisory_lock(?::int4, ?::int4)",
             'boolean',
-            $aParams
+            $aParams,
         );
 
         if (empty($bAcquired) && $iWaitTime > 0) {
@@ -47,7 +47,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
             $bAcquired = $this->oDbh->extended->getOne(
                 "SELECT pg_advisory_lock(?::int4, ?::int4)",
                 'boolean',
-                $aParams
+                $aParams,
             );
 
             $this->oDbh->exec("SET statement_timeout = '{$timeout}'");
@@ -69,7 +69,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         $bReleased = $this->oDbh->extended->getOne(
             "SELECT pg_advisory_unlock(?::int4, ?::int4)",
             'boolean',
-            $aParams
+            $aParams,
         );
 
         return !PEAR::isError($bReleased) && !empty($bReleased);
@@ -85,7 +85,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         $sVersion = $this->oDbh->extended->getOne("SELECT VERSION()");
         $sVersion = preg_replace('/^.*?(\d+\.\d+(\.\d+)?).*$/', '$1', $sVersion);
 
-        return (bool)version_compare($sVersion, '8.2', '>=');
+        return (bool) version_compare($sVersion, '8.2', '>=');
     }
 
     /**
@@ -103,7 +103,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         // PostgreSQL needs two int4, we generate them using crc32
         $sId = [
             crc32($platformHash) & 0x7FFFFFFF,
-            crc32($sName) & 0x7FFFFFFF
+            crc32($sName) & 0x7FFFFFFF,
         ];
 
         return serialize($sId);

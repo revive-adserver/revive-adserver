@@ -73,17 +73,6 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         return $this->affiliateid;
     }
 
-    /**
-     * Returns 0 if the last_accepted_agency_agreement is set to not null,
-     * not zero value. Otherwise, returns 1.
-     *
-     * @return integer
-     */
-    public function getNeedsToAgree()
-    {
-        return $this->last_accepted_agency_agreement ? 0 : 1;
-    }
-
     public function _auditEnabled()
     {
         return true;
@@ -144,7 +133,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
-                'default_account_id' => $this->account_id
+                'default_account_id' => $this->account_id,
             ];
         }
 
@@ -175,7 +164,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
                 'email_address' => $this->email,
                 'username' => $this->username,
                 'password' => $this->password,
-                'default_account_id' => $this->account_id
+                'default_account_id' => $this->account_id,
             ];
         }
 

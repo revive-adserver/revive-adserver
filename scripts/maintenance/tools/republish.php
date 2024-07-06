@@ -41,7 +41,7 @@ define('INTERVAL_END', $argv[3]);
 /***************************************************************************/
 
 // Initialise the OpenX environment....
-$path = dirname(__FILE__);
+$path = __DIR__;
 require_once $path . '/../../../init.php';
 
 // Required files
@@ -147,7 +147,7 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     $oStoreEndDate->copy($oOIEnd);
     $aRunDates[] = [
         'start' => $oStoreStartDate,
-        'end' => $oStoreEndDate
+        'end' => $oStoreEndDate,
     ];
     $oOIEnd = OX_OperationInterval::addOperationIntervalTimeSpan($oOIEnd);
     $oOIStart = OX_OperationInterval::addOperationIntervalTimeSpan($oOIStart);
@@ -168,7 +168,7 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
     $oStoreEndDate->copy($oOIEnd);
     $aRunHours[] = [
         'start' => $oStoreStartDate,
-        'end' => $oStoreEndDate
+        'end' => $oStoreEndDate,
     ];
     $oOIEnd->addSeconds(60 * 60);
     $oOIStart->addSeconds(60 * 60);
@@ -204,5 +204,3 @@ foreach ($aRunHours as $aDates) {
 }
 
 echo "\n\nThe " . basename(__FILE__) . " script has completed running!\n\n";
-
-?>

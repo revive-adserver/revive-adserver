@@ -162,7 +162,7 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
                 case 'numeric':
                     // Strip useless chars, such as currency
                     $value = preg_replace('/[^0-9.]/', '', $value);
-                    $value = floatval($value);
+                    $value = (float) $value;
                     break;
                 case 'date':
                     if (!empty($value)) {
@@ -183,7 +183,7 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
         OX_Delivery_Common_hook(
             'logConversionVariable',
             [$aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)],
-            empty($pluginId) ? null : $pluginId . 'Variable'
+            empty($pluginId) ? null : $pluginId . 'Variable',
         );
     }
 }
@@ -213,7 +213,7 @@ function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
         $aKnownBrowsers = explode('|', strtolower($aConf['logging']['enforceUserAgents']));
         $allowed = false;
         foreach ($aKnownBrowsers as $browser) {
-            if (strpos($agent, $browser) !== false) {
+            if (str_contains($agent, $browser)) {
                 $allowed = true;
                 break;
             }
@@ -229,7 +229,7 @@ function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
     if (!empty($aConf['logging']['ignoreUserAgents'])) {
         $aKnownBots = explode('|', strtolower($aConf['logging']['ignoreUserAgents']));
         foreach ($aKnownBots as $bot) {
-            if (strpos($agent, $bot) !== false) {
+            if (str_contains($agent, $bot)) {
                 OX_Delivery_logMessage('user-agent ' . $agent . ' is a known bot ' . $bot, 7);
                 $GLOBALS['_MAX']['EVENT_FILTER_FLAGS'][] = 'ignoreUserAgents';
                 $okToLog = false;
@@ -289,7 +289,7 @@ function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
  * @return array The GET variable exploded to an array, or an empty
  *               array if the GET variable requested is not defined.
  */
-function MAX_Delivery_log_getArrGetVariable(string $name, array $array = null)
+function MAX_Delivery_log_getArrGetVariable(string $name, ?array $array = null)
 {
     if (null === $array) {
         $array = $_GET;
@@ -319,10 +319,8 @@ function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
     }
     if (empty($aArray[$index])) {
         $aArray[$index] = 0;
-    } else {
-        if (!is_integer($aArray[$index])) {
-            $aArray[$index] = intval($aArray[$index]);
-        }
+    } elseif (!is_int($aArray[$index])) {
+        $aArray[$index] = (int) $aArray[$index];
     }
 }
 
@@ -474,6 +472,6 @@ function _setLimitations($type, $index, $aItems, $aCaps)
         $aItems[$index],
         $aCaps['block'][$index],
         $aCaps['capping'][$index],
-        $aCaps['session_capping'][$index]
+        $aCaps['session_capping'][$index],
     );
 }

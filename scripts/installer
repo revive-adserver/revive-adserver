@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
+|                                                                           |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
++---------------------------------------------------------------------------+
+*/
+
+// Protect this script to be used only from command-line
+if (PHP_SAPI !== 'cli') {
+    echo "Sorry, this script must be run from the command-line";
+    exit;
+}
+
+define('phpAds_installing', true);
+
+require_once __DIR__ . '/../lib/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use RV\Command\Installer\InstallCommand;
+use RV\Command\Installer\UpgradeCommand;
+
+$application = new Application();
+
+$application->add(new InstallCommand());
+$application->add(new UpgradeCommand());
+
+$application->run();

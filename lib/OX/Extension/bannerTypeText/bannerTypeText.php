@@ -16,9 +16,8 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
-class Plugins_BannerTypeText extends OX_Component
+abstract class Plugins_BannerTypeText extends OX_Component
 {
     /**
      * Return the media (content) type
@@ -65,8 +64,8 @@ class Plugins_BannerTypeText extends OX_Component
             null,
             [
                 'class' => 'code', 'cols' => '45', 'rows' => '10', 'wrap' => 'off',
-                'dir' => 'ltr', 'style' => 'width:550px;'
-            ]
+                'dir' => 'ltr', 'style' => 'width:550px;',
+            ],
         );
         $form->addGroup($textG, 'text_banner_g', null, ["<br>", ""], false);
 
@@ -83,7 +82,7 @@ class Plugins_BannerTypeText extends OX_Component
     public function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $aFields['iframe_friendly'] = false;
-        
+
         return true;
     }
 

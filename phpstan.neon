@@ -1,23 +1,27 @@
 includes:
     - phpstan-baseline.neon
 parameters:
+    tmpDir: var/cache/tools/phpstan
     level: 0
     paths:
         - .
     scanFiles:
         - constants.php
+        - memory.php
         - variables.php
     excludePaths:
         analyseAndScan:
             - lib/xmlrpc/php/openads-api-xmlrpc.inc.php
-            - plugins
-            - plugins_dev
+            - plugins/*
+            - plugins_repo/openXDeveloperToolbox
+            - plugins_dev/*
             - */tests/*
-            - var
+            - var/*
             - www/admin/plugins
             - www/api/rest
             - www/delivery
             - www/devel
+            - www/api
         analyse:
             - etc
             - lib/JSON
@@ -32,8 +36,9 @@ parameters:
             - lib/xajax
             - lib/Zend
             - www/api/v1
+            - constants.php
+            - variables.php
     bootstrapFiles:
         - phpstan-bootstrap.php
     ignoreErrors:
-#        - '#undefined property#'
         - '#should return#'

@@ -75,7 +75,7 @@
 
 		<delete file="${basedir}/${sourcepath}.zip"/>
 		<zip destfile="${basedir}/${sourcepath}.zip" basedir="${basedir}/${sourcepath}" level="9"
-			excludes="**/.git*,**/.git/**,**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties,**/${name}.zip,**/${name}.spec.dist"/>
+			excludes="**/.git*,**/.git*/**,**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties,**/${name}.zip,**/${name}.spec.dist"/>
 
 		<echo>packaging of ${name} finished</echo>
 

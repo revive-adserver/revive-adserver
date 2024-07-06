@@ -54,7 +54,7 @@ if (!empty($zoneid)) {
 
     if (count($ids) == 1) {
         $translated_message = $translation->translate($GLOBALS['strZoneHasBeenDeleted'], [
-            htmlspecialchars($aZone['zonename'])
+            htmlspecialchars($aZone['zonename']),
         ]);
     } else {
         $translated_message = $translation->translate($GLOBALS['strZonesHaveBeenDeleted']);

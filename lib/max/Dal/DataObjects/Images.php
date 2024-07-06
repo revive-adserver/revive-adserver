@@ -178,20 +178,17 @@ class DataObjects_Images extends DB_DataObjectCommon
     public function getOwningAccountIds($resetCache = false)
     {
         // Find the banner that contains this image, if possible
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->storagetype = 'sql';
-        $doBanners->filename = $this->filename;
-        $doBanners->find();
-        if ($doBanners->getRowCount() == 1) {
-            $doBanners->fetch();
-            // Return the owning account IDs of the image's owning
-            // banner
+        $doBanners = $this->getBanner();
+
+        if ($doBanners instanceof \DataObjects_Banners) {
+            // Return the owning account IDs of the image's owning banner
             return $doBanners->getOwningAccountIds();
         }
+
         // Alas, the image doesn't have an owning banner yet,
         // so return the special case of
         $aAccountIds = [
-            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
+            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id'),
         ];
         return $aAccountIds;
     }
@@ -208,10 +205,10 @@ class DataObjects_Images extends DB_DataObjectCommon
         $aAuditFields['contents'] = $GLOBALS['strBinaryData'];
 
         $aAuditFields['key_desc'] = $this->filename;
-        switch ($actionid) {
-            case OA_AUDIT_ACTION_UPDATE:
-                        $aAuditFields['bannerid'] = $this->bannerid;
-                        break;
+        if ($actionid === OA_AUDIT_ACTION_UPDATE) {
+            if ($doBanner = $this->getBanner()) {
+                $aAuditFields['bannerid'] = $doBanner->bannerid;
+            }
         }
     }
 
@@ -224,5 +221,21 @@ class DataObjects_Images extends DB_DataObjectCommon
         } else {
             parent::_formatValue($field, $type);
         }
+    }
+
+    private function getBanner(): ?DataObjects_Banners
+    {
+        /** @var DataObjects_Banners $doBanners */
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->storagetype = 'sql';
+        $doBanners->filename = $this->filename;
+
+        if (!$doBanners->find()) {
+            return null;
+        }
+
+        $doBanners->fetch();
+
+        return $doBanners;
     }
 }

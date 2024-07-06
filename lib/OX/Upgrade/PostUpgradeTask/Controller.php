@@ -27,7 +27,7 @@ class OX_Upgrade_PostUpgradeTask_Controller
      * @param OA_Upgrade $oUpgrade optional
      * @return array array of arrays of 'name' and 'url' strings
      */
-    public static function getTasksUrls($baseInstallUrl, OA_Upgrade $oUpgrade = null)
+    public static function getTasksUrls($baseInstallUrl, ?OA_Upgrade $oUpgrade = null)
     {
         // init OA_Upgrade if needed
         if (!isset($oUpgrade)) {
@@ -51,7 +51,7 @@ class OX_Upgrade_PostUpgradeTask_Controller
      * @param OA_Upgrade $oUpgrade optional
      * @return bool true on success
      */
-    public static function cleanUpTaskListFile(OA_Upgrade $oUpgrade = null)
+    public static function cleanUpTaskListFile(?OA_Upgrade $oUpgrade = null)
     {
         // init OA_Upgrade if needed
         if (!isset($oUpgrade)) {

@@ -20,7 +20,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
 {
     public $onDeleteCascade = true;
     public $onDeleteCascadeSkip = [
-        'audit', 'users'
+        'audit', 'users',
     ];
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -141,7 +141,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
                 $aAccountsIds = $doUsers->getLinkedAccountsIds();
                 sort($aAccountsIds);
                 reset($aAccountsIds);
-                $doUserUpdate = clone($doUsers);
+                $doUserUpdate = clone ($doUsers);
                 $doUserUpdate->default_account_id = current($aAccountsIds);
                 $doUserUpdate->update();
             }

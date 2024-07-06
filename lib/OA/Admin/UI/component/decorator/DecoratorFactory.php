@@ -26,12 +26,8 @@ class OA_Admin_UI_Decorator_Factory
         return $instance;
     }
 
-    
-    public function __construct()
-    {
-    }
-    
-    
+
+
     /**
      * Registers OA_Admin_UI_Decorator for a decorator
      *
@@ -41,22 +37,22 @@ class OA_Admin_UI_Decorator_Factory
     public function registerDecorator($decoratorName, $path, $className)
     {
         $decoratorName = strtolower($decoratorName);
-        
+
         if (empty($decoratorName) || empty($path) || empty($className)) {
             $errMsg = "DecoratorRegistry::add() Cannot register decorator $decoratorName from class $className included from $path";
             return MAX::raiseError($errMsg);
         }
-        
+
         if (isset($GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName])) {
             return false;
         }
-        
+
         $GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName] = [$path, $className];
 
         return true;
     }
 
-        
+
     /**
      * Returns an instance of OA_Admin_UI_Decorator registered under a given name
      *
@@ -69,18 +65,18 @@ class OA_Admin_UI_Decorator_Factory
         $decoratorFactory = OA_Admin_UI_Decorator_Factory::singleton();
         return $decoratorFactory->_newDecorator($decoratorName, $aParameters);
     }
-        
-        
+
+
     private function _newDecorator($decoratorName, $aParameters = null)
     {
         $decoratorName = strtolower($decoratorName);
         if (!isset($GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName])) {
             return null;
         }
-        
-        list($path, $class) = $GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName];
+
+        [$path, $class] = $GLOBALS['_OA_Admin_UI_Decorator_Factory_registered_decorators'][$decoratorName];
         include_once($path);
-        
+
         return new $class($aParameters);
     }
 }

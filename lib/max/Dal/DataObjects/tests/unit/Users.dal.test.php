@@ -24,14 +24,6 @@ class DataObjects_UsersTest extends DalUnitTestCase
 {
     public $userId;
 
-    /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setUp()
     {
         $doUsers = OA_Dal::factoryDO('users');
@@ -117,7 +109,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
             foreach ($aPermissions as $permissionId) {
                 $this->assertTrue(
                     isset($aNewPermissions[$accountId][$permissionId]),
-                    'Permission id(' . $permissionId . ') in account id(' . $accountId . ') is not set'
+                    'Permission id(' . $permissionId . ') in account id(' . $accountId . ') is not set',
                 );
             }
         }

@@ -159,7 +159,7 @@ class BaseServiceImpl extends OA_BaseObjectWithErrors
             'day',
             'trackerid',
             'userlogid',
-            'zoneid'
+            'zoneid',
         );
 
         if (!isset($affiliateid)) {

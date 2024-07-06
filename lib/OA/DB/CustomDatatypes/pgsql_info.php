@@ -40,7 +40,7 @@ $aDatatypes = [
     'openads_text' => 'openads_text',
     'openads_timestamp' => 'openads_timestamp',
     'openads_tinyint' => 'openads_tinyint',
-    'openads_varchar' => 'openads_varchar'
+    'openads_varchar' => 'openads_varchar',
 ];
 
 /**
@@ -48,11 +48,11 @@ $aDatatypes = [
  * them into MDB2 datatypes.
  */
 $aNativetypes = [
-//    'bigint',
+    //    'bigint',
     'bpchar',
     'float4',
-    'bool'
-/*
+    'bool',
+    /*
     'decimal',
     'date',
     'datetime',

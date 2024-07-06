@@ -106,7 +106,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     public function userExists($username)
     {
         $this->username = strtolower($username);
-        return (bool)$this->count();
+        return (bool) $this->count();
     }
 
     /**
@@ -344,7 +344,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         // auditing of user entities to be only visible to the admin
         // account
         $aAccountIds = [
-            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id')
+            OA_ACCOUNT_ADMIN => OA_Dal_ApplicationVariables::get('admin_account_id'),
         ];
         return $aAccountIds;
     }

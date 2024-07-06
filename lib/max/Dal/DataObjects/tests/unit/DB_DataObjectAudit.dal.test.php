@@ -28,9 +28,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 {
     public $doAudit;
 
-    /**
-     * The constructor method.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -66,12 +63,12 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($doAudit->context, $context);
         $this->assertEqual($doAudit->actionid, $actionid);
         if ($n > 1) {
-            $aAudit[1] = clone($doAudit);
+            $aAudit[1] = clone ($doAudit);
             for ($i = 2;$i <= $n;$i++) {
                 $result = $doAudit->fetch();
                 $this->assertEqual($doAudit->context, $context);
                 $this->assertEqual($doAudit->actionid, $actionid);
-                $aAudit[$i] = clone($doAudit);
+                $aAudit[$i] = clone ($doAudit);
             }
             return $aAudit;
         }

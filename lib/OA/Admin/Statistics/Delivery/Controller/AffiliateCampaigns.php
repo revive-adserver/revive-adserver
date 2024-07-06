@@ -63,7 +63,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
 
         // Add standard page parameters
         $this->aPageParams = [
-            'affiliateid' => $publisherId
+            'affiliateid' => $publisherId,
         ];
 
         // Load the period preset and stats breakdown parameters
@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid=' . $publisherId,
-                'iconAffiliate'
+                'iconAffiliate',
             );
         }
 
@@ -118,13 +118,13 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         $aParams['publisher_id'] = $publisherId;
 
         // Limit by advertiser
-        $advertiserId = (int)MAX_getValue('clientid', '');
+        $advertiserId = (int) MAX_getValue('clientid', '');
         if (!empty($advertiserId)) {
             $aParams['advertiser_id'] = $advertiserId;
         }
 
         // Limit by advertiser
-        $advertiserId = (int)MAX_getValue('clientid', '');
+        $advertiserId = (int) MAX_getValue('clientid', '');
         if (!empty($advertiserId)) {
             $aParams['advertiser_id'] = $advertiserId;
         }
@@ -146,13 +146,13 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         switch ($this->startLevel) {
             case 1:
                 $this->showHideLevels = [
-                    0 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif']
+                    0 => ['text' => $GLOBALS['strShowParentCampaigns'], 'icon' => 'images/icon-campaign.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveBannersHidden']}";
                 break;
             case 0:
                 $this->showHideLevels = [
-                    1 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif']
+                    1 => ['text' => $GLOBALS['strHideParentCampaigns'], 'icon' => 'images/icon-campaign-d.gif'],
                 ];
                 $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveCampaignsHidden']}";
                 break;

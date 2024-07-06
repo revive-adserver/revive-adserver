@@ -147,10 +147,7 @@ class OA_Admin_DaySpan
      */
     public static function getBeginOfWeek()
     {
-        if (isset($GLOBALS['_MAX']['PREF']['ui_week_start_day'])) {
-            return $GLOBALS['_MAX']['PREF']['ui_week_start_day'];
-        }
-        return 0;
+        return $GLOBALS['_MAX']['PREF']['ui_week_start_day'] ?? 0;
     }
 
     /**
@@ -365,7 +362,7 @@ class OA_Admin_DaySpan
         $this->_setEndDate($oDateEnd);
         return [
             'start' => $oDateStart,
-            'end' => $oDateEnd
+            'end' => $oDateEnd,
         ];
     }
 

@@ -151,7 +151,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'email_address' => $this->email,
                 'username' => $this->clientusername,
                 'password' => $this->clientpassword,
-                'default_account_id' => $this->account_id
+                'default_account_id' => $this->account_id,
             ];
         }
 
@@ -182,7 +182,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'email_address' => $this->email,
                 'username' => $this->clientusername,
                 'password' => $this->clientpassword,
-                'default_account_id' => $this->account_id
+                'default_account_id' => $this->account_id,
             ];
         }
 

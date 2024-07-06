@@ -19,7 +19,7 @@
 class OX_Admin_UI_Event_EventContext
 {
     public $data;
-    
+
     public function __construct($data = null)
     {
         $this->data = $data;

@@ -71,38 +71,38 @@ class OA_Admin_Option
     public function _writeJavascriptFunctions()
     {
         echo "<script language='JavaScript'>\n<!--\n\n";
-        echo"function options_goto_section()\n";
-        echo"{\n";
-        echo"    s = document.settings_selection.section.selectedIndex;\n";
-        echo"    s = document.settings_selection.section.options[s].value;\n\n";
+        echo "function options_goto_section()\n";
+        echo "{\n";
+        echo "    s = document.settings_selection.section.selectedIndex;\n";
+        echo "    s = document.settings_selection.section.options[s].value;\n\n";
 
         //echo"    document.location = '".$this->_optionType."-' + s + '.php';\n";
-        echo"    document.location = s;\n";
-        echo"}\n\n";
+        echo "    document.location = s;\n";
+        echo "}\n\n";
 
-        echo"function phpAds_UsertypeChange(o)\n";
-        echo"{\n";
-        echo"    var v = 0;\n";
-        echo"    var base_name = o.name.replace(/_\d+$/, '');\n";
-        echo"    var l;\n\n";
+        echo "function phpAds_UsertypeChange(o)\n";
+        echo "{\n";
+        echo "    var v = 0;\n";
+        echo "    var base_name = o.name.replace(/_\d+$/, '');\n";
+        echo "    var l;\n\n";
 
-        echo"    for (var i = 1; i <= 8; i <<= 1) {\n";
+        echo "    for (var i = 1; i <= 8; i <<= 1) {\n";
 
-        echo"        if (o = findObj(base_name + '_' + i)) {\n";
-        echo"            v += o.checked ? i : 0\n\n";
+        echo "        if (o = findObj(base_name + '_' + i)) {\n";
+        echo "            v += o.checked ? i : 0\n\n";
 
-        echo"            if (l = findObj(base_name + '_label[' + i +']')) {\n";
-        echo"                l.disabled = !o.checked;\n";
-        echo"            }\n";
-        echo"            if (l = findObj(base_name + '_rank[' + i +']')) {\n";
-        echo"                l.disabled = !o.checked;\n";
-        echo"            }\n";
-        echo"        }\n";
-        echo"    }\n\n";
+        echo "            if (l = findObj(base_name + '_label[' + i +']')) {\n";
+        echo "                l.disabled = !o.checked;\n";
+        echo "            }\n";
+        echo "            if (l = findObj(base_name + '_rank[' + i +']')) {\n";
+        echo "                l.disabled = !o.checked;\n";
+        echo "            }\n";
+        echo "        }\n";
+        echo "    }\n\n";
 
-        echo"    if (o = findObj(base_name))\n";
-        echo"        o.value = v;\n";
-        echo"}\n\n";
+        echo "    if (o = findObj(base_name))\n";
+        echo "        o.value = v;\n";
+        echo "}\n\n";
 
         echo "// -->\n</script>";
     }
@@ -135,39 +135,39 @@ class OA_Admin_Option
                 [
                     'name' => $GLOBALS['strBannerPreferences'],
                     'value' => $this->_optionType . '-banner.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['campaign'] =
                 [
                     'name' => $GLOBALS['strCampaignPreferences'],
                     'value' => $this->_optionType . '-campaign.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                 ];
             $aSections['campaign-email-reports'] =
                 [
                     'name' => $GLOBALS['strCampaignEmailReportsPreferences'],
                     'value' => $this->_optionType . '-campaign-email-reports.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions']) {
                 $aSections['tracker'] =
                     [
                         'name' => $GLOBALS['strTrackerPreferences'],
                         'value' => $this->_optionType . '-tracker.php',
-                        'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER]
+                        'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
                     ];
             }
             $aSections['timezone'] =
                 [
                     'name' => $GLOBALS['strTimezonePreferences'],
                     'value' => $this->_optionType . '-timezone.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['user-interface'] =
                 [
                     'name' => $GLOBALS['strUserInterfacePreferences'],
                     'value' => $this->_optionType . '-user-interface.php',
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $this->_mergePluginOptions($aSections);
         } elseif ($this->_optionType == 'account-user') {
@@ -175,17 +175,17 @@ class OA_Admin_Option
             $aSections['name-language'] =
                 [
                     'name' => $GLOBALS['strNameLanguage'],
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['email'] =
                 [
                     'name' => $GLOBALS['strChangeEmail'],
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
             $aSections['password'] =
                 [
                     'name' => $GLOBALS['strChangePassword'],
-                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER]
+                    'perm' => [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER],
                 ];
         }/*
         elseif ($this->_optionType == 'account-user') {
@@ -209,7 +209,7 @@ class OA_Admin_Option
 
         foreach ($aSections as $k => $v) {
             if (OA_Permission::isAccount($v['perm'])) {
-                $aResult[$k]['name'] = (isset($v['text']) ? $v['text'] : $v['name']);
+                $aResult[$k]['name'] = ($v['text'] ?? $v['name']);
                 $aResult[$k]['link'] = ($this->_optionType == 'account-preferences' ? $v['value'] : $this->_optionType . '-' . $k . '.php');
                 addLeftMenuSubItem($k, $aResult[$k]['name'], $aResult[$k]['link']);
             }
@@ -371,12 +371,12 @@ class OA_Admin_Option
                             // Create two fake items for the label and rank
                             $aLabelItem = [
                                 'name' => $aSubItem['name'] . '_label',
-                                'depends' => $aSubItem['name'] . '==true'
+                                'depends' => $aSubItem['name'] . '==true',
                             ];
                             $aRankItem = [
                                 'name' => $aSubItem['name'] . '_rank',
                                 'depends' => $aSubItem['name'] . '==true',
-                                'check' => 'wholeNumber'
+                                'check' => 'wholeNumber',
                             ];
                             $checkbuffer .= "max_formSetRequirements('" . $aSubItem['name'] . '_rank' . "', '" . addslashes($aSubItem['text']) . "', false, 'wholeNumber');\n";
                             // Add the fake item dependencies
@@ -415,8 +415,8 @@ class OA_Admin_Option
                             // item value from the settings configuration file
                             if (is_null($value) && $this->_optionType == 'account-settings') {
                                 $aNameExploded = explode('_', $aItem['name'], 2);
-                                $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
-                                $aSettingKey = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+                                $aSettingSection = $aNameExploded[0] ?? null;
+                                $aSettingKey = $aNameExploded[1] ?? null;
                                 if (isset($aConf[$aSettingSection][$aSettingKey])) {
                                     // Load the configuration .php file value
                                     $value = $aConf[$aSettingSection][$aSettingKey];
@@ -425,6 +425,9 @@ class OA_Admin_Option
                                     // so re-constitute into a comma separated list
                                     $value = implode(', ', $aConf[$aItem['name']]);
                                 }
+                            } else {
+                                $aSettingSection = null;
+                                $aSettingKey = null;
                             }
                             // toggle the checkbox if a local db socket is being used
                             if ($aSettingSection == 'database' && $aItem['name'] == 'database_localsocket') {
@@ -432,7 +435,7 @@ class OA_Admin_Option
                             }
                             // toggle the checkbox if checkForUpdates (sync section) is disabled
                             if ($aSettingSection == 'ui' && $aItem['name'] == 'ui_dashboardEnabled') {
-                                if (isset($aConf['sync']['checkForUpdates']) && $aConf['sync']['checkForUpdates'] == true) {
+                                if (isset($aConf['sync']['checkForUpdates']) && $aConf['sync']['checkForUpdates'] === true) {
                                     $value = $aConf[$aSettingSection][$aSettingKey];
                                 } else {
                                     $value = false;
@@ -672,11 +675,11 @@ class OA_Admin_Option
                     preg_match("/^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$/Di", $word, $regs);
                     $type = $this->_showGetType($aData, $regs[2]);
                     $javascript .= $regs[1] . "document." . $formName . "." . $regs[2] . ".";
-                    switch ($type) {
-                        case 'checkbox':    $javascript .= 'checked'; break;
-                        case 'select':      $javascript .= 'selectedIndex'; break;
-                        default:            $javascript .= 'value'; break;
-                    }
+                    match ($type) {
+                        'checkbox' => $javascript .= 'checked',
+                        'select' => $javascript .= 'selectedIndex',
+                        default => $javascript .= 'value',
+                    };
                     $javascript .= " " . $regs[3] . " " . $regs[4] . $regs[5];
                     $javascript .= " && " . $regs[1] . "document." . $formName . "." . $regs[2] . ".disabled " . $regs[3] . " false";
                 }
@@ -747,7 +750,7 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
 
         // Make sure that 'f' for enums is also considered
-        $value = !empty($value) && (bool)strcasecmp($value, 'f');
+        $value = !empty($value) && (bool) strcasecmp($value, 'f');
         $aItem['value'] = $value;
 
         $this->aOption[] = ['checkbox.html' => $aItem];
@@ -760,7 +763,7 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
 
         // Make sure that 'f' for enums is also considered
-        $value = !empty($value) && (bool)strcasecmp($value, 'f');
+        $value = !empty($value) && (bool) strcasecmp($value, 'f');
         $aItem['value'] = $value;
 
         $this->aOption[] = ['hiddencheckbox.html' => $aItem];
@@ -865,7 +868,7 @@ class OA_Admin_Option
                 $aPreference = $doPreferences->toArray();
                 $aPreferenceTypes[$aPreference['preference_name']] = [
                     'preference_id' => $aPreference['preference_id'],
-                    'account_type' => $aPreference['account_type']
+                    'account_type' => $aPreference['account_type'],
                 ];
             }
         }
@@ -936,8 +939,8 @@ class OA_Admin_Option
             $aConf = $GLOBALS['_MAX']['CONF'];
             if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name'])) {
                 $aNameExploded = explode('_', $aItem['name']);
-                $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
-                $aSettingKey = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+                $aSettingSection = $aNameExploded[0] ?? null;
+                $aSettingKey = $aNameExploded[1] ?? null;
                 if (isset($aConf[$aSettingSection][$aSettingKey]) && (!OA_Admin_Settings::isConfigWritable())) {
                     return true;
                 }
@@ -966,7 +969,7 @@ class OA_Admin_Option
 
     public function _bytes_to_display($val)
     {
-        $val = (float)$val;
+        $val = (float) $val;
         if ($val < 1024) {
             return number_format($val, 0) . "b";
         } elseif ($val < 1048576) {
@@ -994,7 +997,7 @@ class OA_Admin_Option
             PEAR_LOG_WARNING => 'PEAR_LOG_WARNING',
             PEAR_LOG_NOTICE => 'PEAR_LOG_NOTICE',
             PEAR_LOG_INFO => 'PEAR_LOG_INFO',
-            PEAR_LOG_DEBUG => 'PEAR_LOG_DEBUG'
+            PEAR_LOG_DEBUG => 'PEAR_LOG_DEBUG',
         ];
 
         if (array_key_exists($priority, $levels)) {

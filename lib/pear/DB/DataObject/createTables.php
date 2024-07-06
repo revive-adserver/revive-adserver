@@ -24,11 +24,6 @@ define('DB_DATAOBJECT_NO_OVERLOAD',1);
 //require_once 'DB/DataObject/Generator.php';
 require_once 'DB/DataObject/Generator.php';
 
-if (!ini_get('register_argc_argv')) {
-    PEAR::raiseError("\nERROR: You must turn register_argc_argv On in you php.ini file for this to work\neg.\n\nregister_argc_argv = On\n\n", null, PEAR_ERROR_DIE);
-    exit;
-}
-
 if (!@$_SERVER['argv'][1]) {
     PEAR::raiseError("\nERROR: createTable.php usage:\n\nC:\php\pear\DB\DataObjects\createTable.php example.ini\n\n", null, PEAR_ERROR_DIE);
     exit;

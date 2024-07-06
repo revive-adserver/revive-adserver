@@ -139,7 +139,7 @@ class OX_Admin_UI_Install_InstallUtils
                 $verified = false;
                 // See if we can figure out the previous path
                 if (!empty($GLOBALS['_MAX']['CONF']['store']['webDir'])) {
-                    $possPath = dirname(dirname($GLOBALS['_MAX']['CONF']['store']['webDir']));
+                    $possPath = dirname($GLOBALS['_MAX']['CONF']['store']['webDir'], 2);
                     $oPluginVerifier = new OX_UpgradePluginImport();
                     $oPluginVerifier->basePath = $possPath;
                     $oPluginVerifier->destPath = $possPath;

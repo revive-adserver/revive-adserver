@@ -67,7 +67,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oUserInfo,
@@ -76,7 +76,7 @@ class UserXmlRpcService extends BaseUserService
                 ['userName', 'contactName',
                     'emailAddress', 'username', 'password',
                     'defaultAccountId', 'active'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -108,7 +108,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $oParams,
             0,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getStructureScalarFields(
                 $oUserInfo,
@@ -117,7 +117,7 @@ class UserXmlRpcService extends BaseUserService
                 ['userId', 'userName', 'contactName',
                     'emailAddress', 'username', 'password',
                     'defaultAccountId', 'active'],
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -146,7 +146,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -175,7 +175,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -184,7 +184,7 @@ class UserXmlRpcService extends BaseUserService
         if ($this->_oUserServiceImp->getUser(
             $sessionId,
             $userId,
-            $oUser
+            $oUser,
         )) {
             return XmlRpcUtils::getEntityResponse($oUser);
         } else {
@@ -209,7 +209,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId],
             [true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -239,7 +239,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$accountId],
             [true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -248,7 +248,7 @@ class UserXmlRpcService extends BaseUserService
         if ($this->_oUserServiceImp->getUserListByAccountId(
             $sessionId,
             $accountId,
-            $aUserList
+            $aUserList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
         } else {
@@ -263,7 +263,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$oldSsoUserId, &$newSsoUserId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -282,7 +282,7 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$ssoUserId, &$email],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         )) {
             return $oResponseWithError;
         }
@@ -306,13 +306,13 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId, &$advertiserAccountId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getNotRequiredNonScalarValue(
                 $aPermissions,
                 $oParams,
                 3,
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -321,7 +321,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $userId,
             $advertiserAccountId,
-            $aPermissions
+            $aPermissions,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {
@@ -341,13 +341,13 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId, &$traffickerAccountId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getNotRequiredNonScalarValue(
                 $aPermissions,
                 $oParams,
                 3,
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -356,7 +356,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $userId,
             $traffickerAccountId,
-            $aPermissions
+            $aPermissions,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {
@@ -376,13 +376,13 @@ class UserXmlRpcService extends BaseUserService
             [&$sessionId, &$userId, &$managerAccountId],
             [true, true, true],
             $oParams,
-            $oResponseWithError
+            $oResponseWithError,
         ) ||
             !XmlRpcUtils::getNotRequiredNonScalarValue(
                 $aPermissions,
                 $oParams,
                 3,
-                $oResponseWithError
+                $oResponseWithError,
             )) {
             return $oResponseWithError;
         }
@@ -391,7 +391,7 @@ class UserXmlRpcService extends BaseUserService
             $sessionId,
             $userId,
             $managerAccountId,
-            $aPermissions
+            $aPermissions,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
         } else {

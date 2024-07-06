@@ -60,22 +60,22 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     {
         // Obtain the user's session-based default values for the report
         global $session;
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
+        $default_period_preset = $session['prefs']['GLOBALS']['report_period_preset'] ?? 'last_month';
+        $default_scope_advertiser = $session['prefs']['GLOBALS']['report_scope_advertiser'] ?? '';
+        $default_scope_publisher = $session['prefs']['GLOBALS']['report_scope_publisher'] ?? '';
         // Prepare the array for displaying the generation page
         $aImport = [
             'period' => [
                 'title' => $this->translate("Period"),
                 'type' => 'date-month',
-                'default' => $default_period_preset
+                'default' => $default_period_preset,
             ],
             'scope' => [
                 'title' => $this->translate("Limitations"),
                 'type' => 'scope',
                 'scope_advertiser' => $default_scope_advertiser,
-                'scope_publisher' => $default_scope_publisher
-            ]
+                'scope_publisher' => $default_scope_publisher,
+            ],
         ];
         return $aImport;
     }
@@ -177,7 +177,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $this->createSubReport(
             $GLOBALS['strCampaignDelivery'],
             $aHeaders,
-            $aData
+            $aData,
         );
     }
 
@@ -364,8 +364,8 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 [
                     'placement_id' => $campaignId,
                     'day_begin' => $yesterdayDateString,
-                    'day_end' => $yesterdayDateString
-                ]
+                    'day_end' => $yesterdayDateString,
+                ],
             );
             $aCampaignData['yesterdays_impressions_by_hour'] = $aYesterdaysImpressionsByHour;
             // Add today's impressions to the campaign report period data
@@ -378,8 +378,8 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 [
                     'placement_id' => $campaignId,
                     'day_begin' => $todayDateString,
-                    'day_end' => $todayDateString
-                ]
+                    'day_end' => $todayDateString,
+                ],
             );
             $aCampaignData['todays_impressions_by_hour'] = $aTodaysImpressionsByHour;
             // Add the newly merged data for this campaign to the return array
@@ -608,7 +608,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             $campaignDays,
             $runningDays,
             $aCampaignData['campaign_booked_impressions'],
-            $campaignImpressionsToLastNight
+            $campaignImpressionsToLastNight,
         );
         return $percentDiff;
     }
@@ -684,7 +684,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
             $yesterdaysImpressionsToSameHourAsNow,
             $remainingDays,
             $campaignImpressionsToLastNight,
-            $aCampaignData['campaign_booked_impressions']
+            $aCampaignData['campaign_booked_impressions'],
         );
         return $percentDiff;
     }

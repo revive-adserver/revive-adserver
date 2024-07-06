@@ -14,10 +14,6 @@ class OX_Extension
 {
     public $aExtensions = [];
 
-    public function __construct()
-    {
-    }
-
     /**
      * acquire the extensions event handling class if exists
      * execute the tasks
@@ -37,7 +33,7 @@ class OX_Extension
                 require_once($path . $file);
                 if (class_exists($class)) {
                     $oExtension = new $class();
-                    if (is_object($oExtension) && is_a($oExtension, $class)) {
+                    if ($oExtension instanceof $class) {
                         $method = 'runTasks' . $event;
                         if (method_exists($oExtension, $method)) {
                             $result = $oExtension->$method();
@@ -51,23 +47,21 @@ class OX_Extension
 
     public function setAllExtensions()
     {
-        $this->aExtensions = $this->getAllExtensionsArray();
+        $this->aExtensions = self::getAllExtensionsArray();
     }
 
     /**
      * a list of all known plugins
      * compiled by scanning the plugins folder
-     *
-     * @return unknown
      */
-    public function getAllExtensionsArray()
+    public static function getAllExtensionsArray(): array
     {
         $aResult[] = 'admin';
         $aConf = $GLOBALS['_MAX']['CONF']['pluginPaths'];
         $pkgPath = rtrim(MAX_PATH . $aConf['packages'], DIRECTORY_SEPARATOR);
         $dh = opendir(MAX_PATH . $aConf['plugins']);
         while (false !== ($file = readdir($dh))) {
-            if ((substr($file, 0, 1) != '.') &&
+            if ((!str_starts_with($file, '.')) &&
                  ($file != '..') &&
                  (rtrim(MAX_PATH . $aConf['plugins'] . $file, DIRECTORY_SEPARATOR) != $pkgPath)) {
                 $aResult[] = $file;

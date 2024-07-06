@@ -33,9 +33,9 @@ function RV_initialSystemCheck()
         // guess the proper relative path...
         if ($erorCode != -2) {
             // Checking if URL include www or admin in path
-            if (strpos($_SERVER['REQUEST_URI'], '/www/admin/') !== false) {
+            if (str_contains($_SERVER['REQUEST_URI'], '/www/admin/')) {
                 $imageRelativePath = "./precheck/";
-            } elseif (strpos($_SERVER['REQUEST_URI'], '/www/') !== false) {
+            } elseif (str_contains($_SERVER['REQUEST_URI'], '/www/')) {
                 $imageRelativePath = "./admin/precheck/";
             }
         }
@@ -156,7 +156,7 @@ function RV_initialSystemCheck()
  */
 function OX_checkSystemInstalled()
 {
-    $path = @dirname(__FILE__);
+    $path = @__DIR__;
     if (!@empty($path)) {
         if (@file_exists($path . '/var/UPGRADE')) {
             return false;
@@ -185,7 +185,6 @@ function OX_checkSystemInstalled()
  */
 function RV_checkSystemInitialRequirements(&$aErrors)
 {
-
     // Variables for tracking if the test has passed or not,
     // and if not, what value to return
     $isSystemOK = true;
@@ -213,7 +212,7 @@ function RV_checkSystemInitialRequirements(&$aErrors)
         'parse_ini_file',
         'version_compare',
         'set_include_path',
-        'scandir'
+        'scandir',
     ];
 
     // Prepare error strings, in the simplest possible way
@@ -298,8 +297,8 @@ function RV_checkSystemInitialRequirements(&$aErrors)
 
     // Check PHP version, as use of anything below the minimum required version of PHP
     // may result in parse errors, which we want to avoid
-    if (PHP_VERSION_ID < 70205) {
-        $aErrors[] = "PHP version 7.2.5, or greater, was not detected.";
+    if (PHP_VERSION_ID < 80100) {
+        $aErrors[] = "PHP version 8.1.0, or greater, was not detected.";
         $isSystemOK = false;
         if ($return === true) {
             $return = -3;

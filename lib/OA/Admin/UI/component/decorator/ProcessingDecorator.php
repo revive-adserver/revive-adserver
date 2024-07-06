@@ -27,21 +27,21 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
      */
     private $_regexp;
 
-    
+
     /**
      * HTML tag name to process
      * @var string
      */
     private $_tagName;
-    
-    
+
+
     /**
      * An array of attributes to add on the processed content
      *
      * @var an array of key=>value pairs
      */
     private $_aAddAttributes;
-    
+
 
     /**
      * Callback invocation counter. Reset before render starts.
@@ -65,19 +65,18 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
     public function __construct($aParameters)
     {
         $this->_tagName = $aParameters['tag'];
-        $this->_aAddAttributes = $aParameters['addAttributes']
-            ? $aParameters['addAttributes'] : [];
-            
+        $this->_aAddAttributes = $aParameters['addAttributes'] ?: [];
+
         $this->_regexp = $aParameters['regexp'];
         $this->_callback = $aParameters['callback'];
-        
+
         if (empty($this->_tagName) && empty($this->_regexp)) {
             return PEAR::raiseError('Either tag to process or regexp to match 
                 must be given for OA_Admin_UI_ProcessingDecorator');
         }
     }
-    
-    
+
+
     /**
      * Processes content with a given function callback or creates its own callback
      * using parameters given at decorator's creation (tag, addAttributes)
@@ -91,7 +90,7 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
         return preg_replace_callback(
             $this->getPattern(),
             $this->getCallback(),
-            $content
+            $content,
         );
     }
 
@@ -108,11 +107,11 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
         if (empty($this->_regexp)) {
             $this->_regexp = "/(\<" . $this->_tagName . ")/";
         }
-        
+
         return $this->_regexp;
     }
-    
-    
+
+
     /**
      * Get callback associated with this decorator. If none given register default one
      * and return.
@@ -123,15 +122,13 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
     {
         //use given callback, if none use default one
         if (empty($this->_callback)) {
-            $this->_callback = function ($aMatches) {
-                return $this->defaultCallback($aMatches);
-            };
+            $this->_callback = fn($aMatches) => $this->defaultCallback($aMatches);
         }
-        
+
         return $this->_callback;
     }
-    
-    
+
+
     /**
      * A default callback method that will be called when no callback was specified.
      * It takes a given matched element and adds given attributes.
@@ -140,11 +137,11 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
     {
         $this->_numCall++;
         $attributes = $this->getAttributesString($this->_numCall);
-        
+
         return $aMatches[0] . " " . $attributes;
     }
-    
-    
+
+
     private function getAttributesString($numCall)
     {
         foreach ($this->_aAddAttributes as $name => $value) {
@@ -152,7 +149,7 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
             $value = addslashes($value);
             $attributes .= ' ' . $name . '="' . $value . '"';
         }
-        
+
         return $attributes;
     }
 }

@@ -15,18 +15,14 @@ require_once(LIB_PATH . '/Extension/admin.php');
 
 class Test_OX_Extension_admin extends UnitTestCase
 {
-    public function __construct()
-    {
-    }
-
     public function test_cacheMergedMenu()
     {
         Mock::generatePartial(
             'OX_Plugin_ComponentGroupManager',
             $oMockGroupManager = 'OX_Plugin_ComponentGroupManager' . rand(),
             [
-                                      'mergeMenu',
-                                     ]
+                'mergeMenu',
+            ],
         );
         $oGroupManager = new $oMockGroupManager($this);
         $oGroupManager->setReturnValue('mergeMenu', true);
@@ -35,9 +31,9 @@ class Test_OX_Extension_admin extends UnitTestCase
             'OX_Extension_admin',
             $oMockExtensionManager = 'OX_Extension_admin' . rand(),
             [
-                                      '_getMenuObjectForAccount',
-                                      '_getGroupManagerObject',
-                                     ]
+                '_getMenuObjectForAccount',
+                '_getGroupManagerObject',
+            ],
         );
         $oMockExtensionManager = new $oMockExtensionManager($this);
 

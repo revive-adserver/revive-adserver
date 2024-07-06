@@ -235,7 +235,7 @@ class OA_Upgrade
         $charset = $oDbc->getConfigurationValue();
         $aConfig['databaseCharset'] = [
             'checkComplete' => true,
-            'clientCharset' => $charset ? $charset : ''
+            'clientCharset' => $charset ?: '',
         ];
 
         return $aConfig;
@@ -248,7 +248,7 @@ class OA_Upgrade
      */
     public function isRecoveryRequired()
     {
-        return (is_array($this->seekRecoveryFile()) ? true : false);
+        return (is_array($this->seekRecoveryFile()));
     }
 
     /**
@@ -298,10 +298,10 @@ class OA_Upgrade
 
                     $this->oAuditor->setKeyParams(
                         ['upgrade_name' => $this->package_file,
-                                                        'version_to' => $aResult[0]['version_from'],
-                                                        'version_from' => $aResult[0]['version_to'],
-                                                        'logfile' => basename($this->oLogger->logFile)
-                                                       ]
+                            'version_to' => $aResult[0]['version_from'],
+                            'version_from' => $aResult[0]['version_to'],
+                            'logfile' => basename($this->oLogger->logFile),
+                        ],
                     );
                     $this->oAuditor->setUpgradeActionId();
 
@@ -309,9 +309,9 @@ class OA_Upgrade
                     if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId'], $versionInitialSchema, $schemaName)) {
                         $this->oAuditor->logAuditAction(
                             ['description' => 'ROLLBACK FAILED',
-                                                              'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                              'confbackup' => ''
-                                                             ]
+                                'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
+                                'confbackup' => '',
+                            ],
                         );
                         return false;
                     }
@@ -319,9 +319,9 @@ class OA_Upgrade
                     if (!$this->oDBUpgrader->rollback()) {
                         $this->oAuditor->logAuditAction(
                             ['description' => 'ROLLBACK FAILED',
-                                                              'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                              'confbackup' => ''
-                                                             ]
+                                'action' => UPGRADE_ACTION_ROLLBACK_FAILED,
+                                'confbackup' => '',
+                            ],
                         );
                         return false;
                     }
@@ -363,9 +363,9 @@ class OA_Upgrade
                     $this->oLogger->log('Database and configuration files have been rolled back to version ' . $aResult[0]['version_from']);
                     $this->oAuditor->logAuditAction(
                         ['description' => 'ROLLBACK COMPLETE',
-                                                          'action' => UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
-                                                          'confbackup' => ''
-                                                         ]
+                            'action' => UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
+                            'confbackup' => '',
+                        ],
                     );
                 }
             } else {
@@ -488,17 +488,15 @@ class OA_Upgrade
             default:
                 if ($noText) {
                     return $this->versionInitialApplication;
-                } else {
+                } elseif (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
                     // The product was re-branded OpenX at 2.4.4, and Revive
                     // Adserver at 3.0.0, so deal with the product names in this
                     // text description accordingly
-                    if (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
-                        return 'Openads ' . $this->versionInitialApplication;
-                    } elseif (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
-                        return 'OpenX ' . $this->versionInitialApplication;
-                    } else {
-                        return 'Revive Adserver ' . $this->versionInitialApplication;
-                    }
+                    return 'Openads ' . $this->versionInitialApplication;
+                } elseif (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
+                    return 'OpenX ' . $this->versionInitialApplication;
+                } else {
+                    return 'Revive Adserver ' . $this->versionInitialApplication;
                 }
         }
     }
@@ -519,9 +517,9 @@ class OA_Upgrade
             self::$canUpgradeOrInstall = [
                 'result' => $result,
                 'existing_installation_status' => $this->existing_installation_status,
-                'versionInitialApplication' => isset($this->versionInitialApplication) ? $this->versionInitialApplication : null,
-                'tables_core' => isset($this->versionInitialSchema['tables_core']) ? $this->versionInitialSchema['tables_core'] : null,
-                'package0' => isset($this->aPackageList[0]) ? $this->aPackageList[0] : null,
+                'versionInitialApplication' => $this->versionInitialApplication ?? null,
+                'tables_core' => $this->versionInitialSchema['tables_core'] ?? null,
+                'package0' => $this->aPackageList[0] ?? null,
                 'aDsn-database' => $this->aDsn['database'],
                 'aDsn-table' => $this->aDsn['table'],
                 'upgrading_from_milestone_version' => $this->upgrading_from_milestone_version,
@@ -552,6 +550,10 @@ class OA_Upgrade
         return self::$canUpgradeOrInstall['result'];
     }
 
+    public static function clearCanUpgradeOrInstall()
+    {
+        self::$canUpgradeOrInstall = null;
+    }
 
     /**
      * look for existing installations (phpAdsNew, MMM, Openads)
@@ -989,7 +991,7 @@ class OA_Upgrade
             $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
 
             if (version_compare($this->versionInitialApplication, '2.3.38-beta', '<') == -1) {
-//                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                //                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                 if ($this->versionInitialSchema['tables_core'] == '129') {
                     $this->versionInitialSchema['tables_core'] = '12934';
                     if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core'])) {
@@ -1009,7 +1011,7 @@ class OA_Upgrade
             if ($valid) {
                 $this->aPackageList = $this->getUpgradePackageList($this->versionInitialApplication, $this->_readUpgradePackagesArray());
                 if (!$skipIntegrityCheck && count($this->aPackageList) > 0) {
-//                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                    //                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                     if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core'])) {
                         $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
                         return false;
@@ -1120,10 +1122,10 @@ class OA_Upgrade
 
         $this->oAuditor->setKeyParams(
             ['upgrade_name' => 'install_' . VERSION,
-                                            'version_to' => VERSION,
-                                            'version_from' => 0,
-                                            'logfile' => basename($this->oLogger->logFile)
-                                            ]
+                'version_to' => VERSION,
+                'version_from' => 0,
+                'logfile' => basename($this->oLogger->logFile),
+            ],
         );
 
         if (!$this->oVersioner->putSchemaVersion('tables_core', $this->oTable->aDefinition['version'])) {
@@ -1153,8 +1155,8 @@ class OA_Upgrade
 
         $this->oAuditor->logAuditAction(
             ['description' => 'UPGRADE_COMPLETE',
-                                                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                               ]
+                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+            ],
         );
 
         if ($this->upgrading_from_milestone_version) {
@@ -1197,8 +1199,8 @@ class OA_Upgrade
         $this->oLogger->logError($msg);
         $this->oAuditor->logAuditAction(
             ['description' => 'UPGRADE_FAILED',
-                                                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                                ]
+                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+            ],
         );
     }
 
@@ -1401,15 +1403,15 @@ class OA_Upgrade
             $this->oAuditor->setUpgradeActionId();
             $this->oAuditor->setKeyParams(
                 ['upgrade_name' => $this->package_file,
-                                                'version_to' => $version,
-                                                'version_from' => $this->getProductApplicationVersion(true),
-                                                'logfile' => basename($this->oLogger->logFile)
-                                                ]
+                    'version_to' => $version,
+                    'version_from' => $this->getProductApplicationVersion(true),
+                    'logfile' => basename($this->oLogger->logFile),
+                ],
             );
             $this->oAuditor->logAuditAction(
                 ['description' => 'FAILED',
-                                                  'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                                 ]
+                    'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+                ],
             );
             // Update SQL functions to the latest version
             if (PEAR::isError(OA_DB::createFunctions())) {
@@ -1435,9 +1437,9 @@ class OA_Upgrade
 
             $this->oAuditor->updateAuditAction(
                 ['description' => 'UPGRADE_COMPLETE',
-                                                     'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                     'confbackup' => $this->oConfiguration->getConfigBackupName()
-                                                    ]
+                    'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                    'confbackup' => $this->oConfiguration->getConfigBackupName(),
+                ],
             );
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
@@ -1472,10 +1474,7 @@ class OA_Upgrade
         if (!$this->oConfiguration->mergeConfig()) {
             return false;
         }
-        if (!$this->oConfiguration->writeConfig()) {
-            return false;
-        }
-        return true;
+        return $this->oConfiguration->writeConfig();
     }
 
     /**
@@ -1499,18 +1498,18 @@ class OA_Upgrade
         $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
         $this->oAuditor->setKeyParams(
             ['upgrade_name' => $this->package_file,
-                                            'version_to' => $this->aPackage['versionTo'],
-                                            'version_from' => $this->aPackage['versionFrom'],
-                                            'logfile' => basename($this->oLogger->logFile)
-                                            ]
+                'version_to' => $this->aPackage['versionTo'],
+                'version_from' => $this->aPackage['versionFrom'],
+                'logfile' => basename($this->oLogger->logFile),
+            ],
         );
         // do this here in case there is a fatal error
         // in one of the upgrade methods
         // this ensures that there is recovery info available after
         $this->oAuditor->logAuditAction(
             ['description' => 'FAILED',
-                                              'action' => UPGRADE_ACTION_UPGRADE_FAILED,
-                                             ]
+                'action' => UPGRADE_ACTION_UPGRADE_FAILED,
+            ],
         );
         $this->_writeRecoveryFile();
         if (!$this->runScript($this->aPackage['prescript'] ?? null)) {
@@ -1533,9 +1532,9 @@ class OA_Upgrade
         $this->versionInitialApplication = $this->aPackage['versionTo'];
         $this->oAuditor->updateAuditAction(
             ['description' => 'UPGRADE_COMPLETE',
-                                                 'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                 'confbackup' => $this->oConfiguration->getConfigBackupName()
-                                                ]
+                'action' => UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                'confbackup' => $this->oConfiguration->getConfigBackupName(),
+            ],
         );
         return true;
     }
@@ -1778,7 +1777,7 @@ class OA_Upgrade
             return true;
         } elseif (file_exists($this->upgradePath . $file)) {
             $this->oLogger->log('loading script ' . $file);
-            if (!@include($this->upgradePath . $file)) {
+            if (!@include ($this->upgradePath . $file)) {
                 $this->oLogger->logError('cannot include script ' . $file);
                 return false;
             }
@@ -1923,7 +1922,7 @@ class OA_Upgrade
         }
         $tablePrefixError = false;
         foreach ($aExistingTables as &$tablename) {
-            if (substr($tablename, 0, strlen($this->aDsn['table']['prefix'])) == $this->aDsn['table']['prefix']) {
+            if (str_starts_with($tablename, $this->aDsn['table']['prefix'])) {
                 $result = false;
                 $this->oLogger->log('Table with the prefix ' . $this->aDsn['table']['prefix'] . ' found: ' . $tablename);
                 if ($tablePrefixError == false) {
@@ -2069,7 +2068,7 @@ class OA_Upgrade
             }
             $this->aPackage = $this->oParser->aPackage;
             $this->aDBPackages = $this->aPackage['db_pkgs'];
-            $this->aPackage['versionFrom'] = ($this->aPackage['versionFrom'] ?? $this->versionInitialApplication);
+            $this->aPackage['versionFrom'] ??= $this->versionInitialApplication;
         } else {
             // an actual package for this version does not exist so fake it
             $this->aPackage['versionTo'] = VERSION;
@@ -2084,7 +2083,7 @@ class OA_Upgrade
     /**
      * retrieve the message errary
      *
-     * @return boolean
+     * @return string[]
      */
     public function getMessages()
     {
@@ -2095,7 +2094,7 @@ class OA_Upgrade
      * not used anymore i think
      * retrieve the error array
      *
-     * @return boolean
+     * @return string[]
      */
     public function getErrors()
     {
@@ -2147,10 +2146,10 @@ class OA_Upgrade
                     $aLine = explode('/', trim($v));
                     if (is_array($aLine) && (count($aLine) == 3) && (is_numeric($aLine[0]))) {
                         $aResult[] = [
-                                            'auditId' => $aLine[0],
-                                            'package' => $aLine[1],
-                                            'updated' => $aLine[2],
-                                            ];
+                            'auditId' => $aLine[0],
+                            'package' => $aLine[1],
+                            'updated' => $aLine[2],
+                        ];
                     } else {
                         return [];
                     }

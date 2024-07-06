@@ -42,10 +42,9 @@ $GLOBALS['strSyscheckSeeFullReport'] = "Показать детальную пр
 
 
 /** config step * */
+$GLOBALS['strConfigureUpgradeTitle'] = "Налаштування конфігурації";
 
 /** jobs step * */
 
 
 /** finish step * */
-
-

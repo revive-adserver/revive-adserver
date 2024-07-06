@@ -23,55 +23,52 @@ require_once MAX_PATH . '/lib/pear/XML/Parser.php';
  */
 class MAX_TestData_XML_Parser extends XML_Parser
 {
+    public $aTables;
 
-  var $aTables;
+    public $tableName;
 
-  var $tableName;
+    public $currTag;
 
-  var $currTag;
+    public $currData;
 
-  var $currData;
+    public $currHandler;
 
-  var $currHandler;
+    public $aRow;
 
-  var $aRow;
+    public $aDataset;
 
-  var $aDataset;
+    public $outputMode;
 
-  var $outputMode;
+    /**
+     * Constructor.
+     *
+     * @param string $outputMode
+     */
+    public function __construct($outputMode = 'text')
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
 
-  /**
-   * Constructor.
-   *
-   * @param string $outputMode
-   */
-  function __construct($outputMode = 'text')
-  {
-    $conf = $GLOBALS['_MAX']['CONF'];
+        parent::__construct();
 
-    parent::__construct();
+        // The configuration file holds all the defined table names.
+        // HACK: The parser currently gets very confused when it encounters 'category' fields
+        //       if there is a table defined with that name.
+        $configured_tables = $conf['table'];
+        unset($configured_tables['category']);
+        $this->aTables = array_keys($configured_tables);
 
-    // The configuration file holds all the defined table names.
-    // HACK: The parser currently gets very confused when it encounters 'category' fields
-    //       if there is a table defined with that name.
-    $configured_tables = $conf['table'];
-    unset($configured_tables['category']);
-    $this->aTables = array_keys($configured_tables);
+        $this->aDataset = [];
 
-    $this->aDataset = array();
+        $this->outputMode = $outputMode;
+    }
 
-    $this->outputMode = $outputMode;
-
-  }
-
-  function setInput($fp)
-  {
-      if (in_array($fp, $this->aTables))
-      {
-          $this->tableName = $fp;
-      }
-      parent::setInput(MAX_PATH . '/tests/data/testData_'.$fp.'.xml');
-  }
+    public function setInput($fp)
+    {
+        if (in_array($fp, $this->aTables)) {
+            $this->tableName = $fp;
+        }
+        parent::setInput(MAX_PATH . '/tests/data/testData_' . $fp . '.xml');
+    }
 
     /**
      * handle start element
@@ -82,163 +79,141 @@ class MAX_TestData_XML_Parser extends XML_Parser
      * @param $elem
      * @param $attribs
      */
-  function startHandler($xp, $elem, $attribs)
-  {
-    if (strtolower($elem) == 'max_0_3'){
-    }
-    else if (in_array(strtolower($elem), $this->aTables))
+    public function startHandler($xp, $elem, $attribs)
     {
-        $this->tableName = strtolower($elem);
-    }
-    else
-    {
-        if (!empty($attribs))
-        {
-            if (array_key_exists('CDTYPE',$attribs))
-            {
-                if ($attribs['CDTYPE'] == 'hex')
-                {
-                    $this->currHandler = 'hex2bin';
-                }
-                else if ($attribs['CDTYPE'] == 'html')
-                {
-                    $this->currHandler = 'htmlenc';
-                }
-            };
+        if (strtolower($elem) == 'max_0_3') {
+        } elseif (in_array(strtolower($elem), $this->aTables)) {
+            $this->tableName = strtolower($elem);
+        } else {
+            if (!empty($attribs)) {
+                if (array_key_exists('CDTYPE', $attribs)) {
+                    if ($attribs['CDTYPE'] == 'hex') {
+                        $this->currHandler = 'hex2bin';
+                    } elseif ($attribs['CDTYPE'] == 'html') {
+                        $this->currHandler = 'htmlenc';
+                    }
+                };
+            }
+            $this->currTag = strtolower(trim($elem));
         }
-        $this->currTag = strtolower(trim($elem));
     }
-  }
 
- /**
-  * handle start element
-  *
-  * @access private
-  * @param  resource  xml parser resource
-  * @param  string    name of the element
-  */
-  function endHandler($xp, $name)
-  {
-    $this->currDataType = '';
-    $this->currHandler  = '';
+    /**
+     * handle start element
+     *
+     * @access private
+     * @param  resource  xml parser resource
+     * @param  string    name of the element
+     */
+    public function endHandler($xp, $name)
+    {
+        $this->currDataType = '';
+        $this->currHandler  = '';
 
-    if (strtolower($name) == $this->tableName)
-    {
-        if ($this->outputMode == 'text')
-        {
-            array_push($this->aDataset, $this->aRow);
+        if (strtolower($name) == $this->tableName) {
+            if ($this->outputMode == 'text') {
+                array_push($this->aDataset, $this->aRow);
+            } elseif ($this->outputMode == 'insert') {
+                $keys   = implode(',', array_keys($this->aRow));
+                $vals   = "'" . implode("','", array_values($this->aRow)) . "'";
+                $tmp    = "INSERT INTO " . $this->tableName . " (" . $keys . ") VALUES (" . $vals . ");";
+                array_push($this->aDataset, $tmp);
+            }
+            $this->aRow = [];
+        } else {
+            $this->aRow[$this->currTag] = $this->currData;
         }
-        else if ($this->outputMode == 'insert')
-        {
-            $keys   = implode(',',array_keys($this->aRow));
-            $vals   = "'".implode("','",array_values($this->aRow))."'";
-            $tmp    = "INSERT INTO ".$this->tableName." (".$keys.") VALUES (".$vals.");";
-            array_push($this->aDataset, $tmp);
-        }
-        $this->aRow = array();
     }
-    else
-    {
-        $this->aRow[$this->currTag] = $this->currData;
-    }
-  }
 
- /**
-  * handle character data
-  *
-  * @access private
-  * @param  resource  xml parser resource
-  * @param  string    character data
-  */
-  function cdataHandler($xp, $cdata)
-  {
-    if ($this->outputMode == 'insert')
+    /**
+     * handle character data
+     *
+     * @access private
+     * @param  resource  xml parser resource
+     * @param  string    character data
+     */
+    public function cdataHandler($xp, $cdata)
     {
-        if ($this->currHandler)
-        {
-            $this->currData = call_user_method($this->currHandler, $this, trim($cdata));
-        }
-        else
-        {
+        if ($this->outputMode == 'insert') {
+            if ($this->currHandler) {
+                $this->currData = call_user_method($this->currHandler, $this, trim($cdata));
+            } else {
+                $this->currData = trim($cdata);
+            }
+            $this->currData = mysql_escape_string($this->currData);
+        } else {
             $this->currData = trim($cdata);
         }
-        $this->currData = mysql_escape_string($this->currData);
     }
-    else
+
+    public function hex2bin($data)
     {
-        $this->currData = trim($cdata);
+        if (substr($data, 0, 2) == '0x') {
+            $data = substr($data, 2);
+        }
+        $len = strlen($data);
+        return pack("H" . $len, $data);
     }
-  }
 
-  function hex2bin($data)
-  {
-     if (substr($data, 0, 2)=='0x')
-     {
-        $data = substr($data, 2);
-     }
-     $len = strlen($data);
-     return pack("H" . $len, $data);
-  }
+    public function htmlenc($data)
+    {
+        return $data;
+    }
 
-  function htmlenc($data)
-  {
-     return $data;
-  }
-
-  /**
-   * for use if inheriting from simple.php
-   */
-//  function handleElement($name, $attribs, $data)
-//  {
-//    if (strtolower($name) == 'max_0_3'){
-//    }
-//    else if (in_array(strtolower($name), $this->aTables))
-//    {
-//        $this->tableName = strtolower($name);
-//
-//        if (count($this->aRow) > 0)
-//        {
-//            if ($this->outputMode == 'insert')
-//            {
-//                if ($this->currHandler)
-//                {
-//                    $this->currData = call_user_method($this->currHandler, $this, trim($data));
-//                }
-//                else
-//                {
-//                    $this->currData = trim($data);
-//                }
-//                    $this->currData = mysql_escape_string($this->currData);
-//                    $keys   = implode(',',array_keys($this->aRow));
-//                    $vals   = "'".implode("','",array_values($this->aRow))."'";
-//                    $tmp    = "INSERT INTO ".$this->tableName." (".$keys.") VALUES (".$vals.");";
-//                    array_push($this->aDataset, $tmp);
-//            }
-//            else
-//            {
-//                $this->currData = trim($data);
-//            }
-//        }
-//    }
-//    else
-//    {
-//        if (!empty($attribs))
-//        {
-//            if (array_key_exists('CDTYPE',$attribs))
-//            {
-//                if ($attribs['CDTYPE'] == 'hex')
-//                {
-//                    $this->currHandler = 'hex2bin';
-//                }
-//                else if ($attribs['CDTYPE'] == 'html')
-//                {
-//                    $this->currHandler = 'htmlenc';
-//                }
-//            };
-//        }
-//        $this->currTag = strtolower(trim($name));
-//    }
-//  }
+    /**
+     * for use if inheriting from simple.php
+     */
+    //  function handleElement($name, $attribs, $data)
+    //  {
+    //    if (strtolower($name) == 'max_0_3'){
+    //    }
+    //    else if (in_array(strtolower($name), $this->aTables))
+    //    {
+    //        $this->tableName = strtolower($name);
+    //
+    //        if (count($this->aRow) > 0)
+    //        {
+    //            if ($this->outputMode == 'insert')
+    //            {
+    //                if ($this->currHandler)
+    //                {
+    //                    $this->currData = call_user_method($this->currHandler, $this, trim($data));
+    //                }
+    //                else
+    //                {
+    //                    $this->currData = trim($data);
+    //                }
+    //                    $this->currData = mysql_escape_string($this->currData);
+    //                    $keys   = implode(',',array_keys($this->aRow));
+    //                    $vals   = "'".implode("','",array_values($this->aRow))."'";
+    //                    $tmp    = "INSERT INTO ".$this->tableName." (".$keys.") VALUES (".$vals.");";
+    //                    array_push($this->aDataset, $tmp);
+    //            }
+    //            else
+    //            {
+    //                $this->currData = trim($data);
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if (!empty($attribs))
+    //        {
+    //            if (array_key_exists('CDTYPE',$attribs))
+    //            {
+    //                if ($attribs['CDTYPE'] == 'hex')
+    //                {
+    //                    $this->currHandler = 'hex2bin';
+    //                }
+    //                else if ($attribs['CDTYPE'] == 'html')
+    //                {
+    //                    $this->currHandler = 'htmlenc';
+    //                }
+    //            };
+    //        }
+    //        $this->currTag = strtolower(trim($name));
+    //    }
+    //  }
 }
 
 ?>

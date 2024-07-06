@@ -9,7 +9,7 @@
     if (typeof $ != "undefined")
         var _$ = $;
     window.$ = jQuery;
-    var quickExpr = /^[^<]*(<(.|\s)+>)[^>]*$|^#(\w+)$/;
+    var quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/;
     jQuery.fn = jQuery.prototype = {
         init: function (a, c) {
             a = a || document;
@@ -19,9 +19,9 @@
                     if (m[1])
                         a = jQuery.clean([m[1]]);
                     else {
-                        var tmp = document.getElementById(m[3]);
+                        var tmp = document.getElementById(m[2]);
                         if (tmp)
-                            if (tmp.id != m[3])
+                            if (tmp.id != m[2])
                                 return jQuery().find(a);
                             else {
                                 this[0] = tmp;

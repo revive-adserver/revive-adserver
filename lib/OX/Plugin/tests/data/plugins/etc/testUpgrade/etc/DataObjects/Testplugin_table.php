@@ -33,8 +33,8 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
     }
 
     public $defaultValues = [
-                'test_newfield' => 0,
-                ];
+        'test_newfield' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

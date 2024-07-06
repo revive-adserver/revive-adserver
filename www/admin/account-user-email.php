@@ -36,7 +36,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobalUnslashed(
         'pw',
-        'email_address'
+        'email_address',
     );
 
     OA_Permission::checkSessionToken();
@@ -56,17 +56,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $aErrormessage[0][] = $GLOBALS['strPasswordWrong'];
     }
     if (isset($pw) && strlen($pw)) {
-        if (!strlen($pw) || strstr("\\", $pw)) {
+        if (!strlen($pw) || strstr("\\", (string) $pw)) {
             $aErrormessage[0][] = $GLOBALS['strInvalidPassword'];
         }
     }
-    if (!count($aErrormessage) && $changeEmail) {
+    if ($aErrormessage === [] && $changeEmail) {
         $result = $oPlugin->changeEmail($doUsers, $email_address, $pw);
         if (PEAR::isError($result)) {
             $aErrormessage[0][] = $result->getMessage();
         }
     }
-    if (!count($aErrormessage)) {
+    if ($aErrormessage === []) {
         if (($doUsers->update() === false)) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
@@ -112,20 +112,20 @@ $aSettings = [
                 'name' => 'username',
                 'value' => $aUser['username'],
                 'text' => $strUsername,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'plaintext',
                 'name' => 'contact_name',
                 'value' => $aUser['contact_name'],
                 'text' => $strFullName,
-                'size' => 35
+                'size' => 35,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'password',
@@ -134,7 +134,7 @@ $aSettings = [
                 'req' => true,
             ],
             [
-                'type' => 'break'
+                'type' => 'break',
             ],
             [
                 'type' => 'text',
@@ -142,10 +142,10 @@ $aSettings = [
                 'value' => $aUser['email_address'],
                 'text' => $strEmailAddress,
                 'size' => 35,
-                'check' => 'email'
-            ]
-        ]
-    ]
+                'check' => 'email',
+            ],
+        ],
+    ],
 ];
 
 $oOptions->show($aSettings, $aErrormessage);

@@ -32,7 +32,7 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
             $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
-            ['getComponentsDependencies']
+            ['getComponentsDependencies'],
         );
 
         $oSetup = new $mockSetup($this);
@@ -54,7 +54,7 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
             $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
-            ['_factoryComponentById']
+            ['_factoryComponentById'],
         );
 
         $oSetup = new $mockSetup($this);
@@ -62,17 +62,17 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         $oSetup->setReturnValue(
             '_factoryComponentById',
             new PluginTestComponent1(),
-            ['extension1:group1:component1']
+            ['extension1:group1:component1'],
         );
         $oSetup->setReturnValue(
             '_factoryComponentById',
             new PluginTestComponent2(),
-            ['extension1:group1:component2']
+            ['extension1:group1:component2'],
         );
         $oSetup->setReturnValue(
             '_factoryComponentById',
             new PluginTestComponent3(),
-            ['extension1:group1:component3']
+            ['extension1:group1:component3'],
         );
         $aDependencies = $oSetup->getComponentsDependencies(
             [
@@ -83,7 +83,7 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
                 'hook2' => [
                     'extension1:group1:component3',
                 ],
-            ]
+            ],
         );
         $aExpectedDependencies = $this->_getDependencies();
 
@@ -116,7 +116,7 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
             $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
-            ['getFilePathToPlugin']
+            ['getFilePathToPlugin'],
         );
 
         $oSetup = new $mockSetup($this);
@@ -125,19 +125,19 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         $oSetup->setReturnValue(
             'getFilePathToPlugin',
             $testDataDir . 'logBoo.delivery.php',
-            ['extension1', 'group1', 'component1']
+            ['extension1', 'group1', 'component1'],
         );
         $oSetup->setReturnValue(
             'getFilePathToPlugin',
             $testDataDir . 'logFoo.delivery.php',
-            ['extension1', 'group1', 'component2']
+            ['extension1', 'group1', 'component2'],
         );
 
         $aHooks = [
-                'hook1' => [
-                    'extension1:group1:component1',
-                    'extension1:group1:component2',
-                ],
+            'hook1' => [
+                'extension1:group1:component1',
+                'extension1:group1:component2',
+            ],
         ];
         $code = $oSetup->generatePluginsCode($aHooks);
         $this->assertPattern('/foo/', $code);
@@ -149,7 +149,7 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         Mock::generatePartial(
             'OX_Extension_DeliveryLog_Setup',
             $mockSetup = 'OX_Extension_DeliveryLog_Setup' . __CLASS__ . __FUNCTION__,
-            ['_getComponents', '_logError', '_factoryComponentById']
+            ['_getComponents', '_logError', '_factoryComponentById'],
         );
         $oSetup = new $mockSetup($this);
         $aComponents = [
@@ -167,17 +167,17 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         $oSetup->setReturnValue(
             '_factoryComponentById',
             new PluginTestComponent1(),
-            ['extension1:group1:component1']
+            ['extension1:group1:component1'],
         );
         $oSetup->setReturnValue(
             '_factoryComponentById',
             new PluginTestComponent2(),
-            ['extension1:group1:component2']
+            ['extension1:group1:component2'],
         );
         $oSetup->setReturnValue(
             '_factoryComponentById',
             new PluginTestComponent3(),
-            ['extension1:group1:component3']
+            ['extension1:group1:component3'],
         );
 
         $ret = $oSetup->installComponents('boo', ['boo']);

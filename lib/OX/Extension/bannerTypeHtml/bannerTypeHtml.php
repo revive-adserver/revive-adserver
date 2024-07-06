@@ -19,9 +19,8 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @abstract
  */
-class Plugins_BannerTypeHTML extends OX_Component
+abstract class Plugins_BannerTypeHTML extends OX_Component
 {
     public function getStorageType()
     {
@@ -80,8 +79,8 @@ class Plugins_BannerTypeHTML extends OX_Component
             null,
             [
                 'class' => 'code', 'cols' => '70', 'rows' => '10', 'wrap' => 'off',
-                'dir' => 'ltr', 'style' => 'width:728px;'
-            ]
+                'dir' => 'ltr', 'style' => 'width:728px;',
+            ],
         );
         $aSelectAttributes = ['id' => 'adserver', 'style' => 'margin-left: 15px;width:230px'];
         $aSelectLabel = sprintf(
@@ -89,7 +88,7 @@ class Plugins_BannerTypeHTML extends OX_Component
             $GLOBALS['strUseWyswygHtmlEditor'],
             $GLOBALS['strChangeDefault'],
             htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'account-preferences-user-interface.php')),
-            htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'assets/images/help-book.gif'))
+            htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'assets/images/help-book.gif')),
         );
         $htmlG['tinyMCE'] = $form->createElement('checkbox', 'tinymce', $aSelectLabel, '', ['id' => 'tinymce', 'onclick' => "rv_tinymce('#htmltemplate', this.checked, {$imgUrlPrefixJs})"]);
         $htmlG['select'] = $form->createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
@@ -102,7 +101,7 @@ jQuery(function() {
     rv_tinymce("#htmltemplate", jQuery('#tinymce')[0].checked, {$imgUrlPrefixJs});
 });
 </script>
-EOF
+EOF,
         );
         $form->addGroup($htmlG, 'html_banner_g', null, ["<br>", "<br><br>", ''], false);
 
@@ -161,9 +160,7 @@ EOF
         return true;
     }
 
-    public function buildHtmlTemplate($aFields)
-    {
-    }
+    public function buildHtmlTemplate($aFields) {}
 
     /**
      * Modify the generated banner cache.

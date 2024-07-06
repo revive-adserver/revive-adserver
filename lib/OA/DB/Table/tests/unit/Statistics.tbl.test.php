@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 class Test_OA_DB_Table_Statistics extends UnitTestCase
 {
     /**
-     * The constructor method.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method to test the singleton method.
      *
      * Requirements:
@@ -46,7 +38,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Table_Statistics',
             'PartialMockOA_DB_Table_Statistics',
-            ['_getDbConnection']
+            ['_getDbConnection'],
         );
         $oTable = new PartialMockOA_DB_Table_Statistics($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
@@ -73,7 +65,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
             'tmp_ad_click',
             'tmp_tracker_impression_ad_impression_connection',
             'tmp_tracker_impression_ad_click_connection',
-            'tmp_ad_connection'
+            'tmp_ad_connection',
         ];
 
         // Test 1

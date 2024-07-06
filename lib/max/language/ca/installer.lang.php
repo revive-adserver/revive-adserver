@@ -48,5 +48,3 @@ $GLOBALS['strPreviousInstallTitle'] = "Instal·lació anterior";
 $GLOBALS['strPostInstallTaskRunning'] = "Tasca en execució";
 
 /** finish step * */
-
-
