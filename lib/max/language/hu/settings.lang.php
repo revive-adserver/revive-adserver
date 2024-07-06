@@ -86,6 +86,8 @@ $GLOBALS['strCantConnectToDb'] = "Nem sikerült kapcsolódni az adatbázishoz";
 $GLOBALS['strQmailPatch'] = "A qmail folt engedélyezése";
 $GLOBALS['strEnableQmailPatch'] = "Qmail patch engedélyezése";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

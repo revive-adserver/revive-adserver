@@ -107,6 +107,8 @@ $GLOBALS['strEnableQmailPatch'] = "Kopfzeile auch für qmail lesbar machen";
 $GLOBALS['strEmailHeader'] = "E-Mail-Header";
 $GLOBALS['strEmailLog'] = "E-Mail Protokoll";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Einstellungen Prüfprotokoll";
 $GLOBALS['strEnableAudit'] = "Prüfprotokoll aktivieren";

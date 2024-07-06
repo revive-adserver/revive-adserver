@@ -105,6 +105,8 @@ $GLOBALS['strEnableQmailPatch'] = "فعال سازی پچ کیومیل";
 $GLOBALS['strEmailHeader'] = "هدر های ایمیل";
 $GLOBALS['strEmailLog'] = "ثبت ایمیل";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "تنظیمات حسابرسی نوین";
 $GLOBALS['strEnableAudit'] = "فعال سازی حسابرسی نویس";

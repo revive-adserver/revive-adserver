@@ -34,6 +34,8 @@ $GLOBALS['strBasicInformation'] = "Основна информация";
 
 // Email Settings
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

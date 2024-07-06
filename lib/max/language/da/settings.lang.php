@@ -77,6 +77,8 @@ $GLOBALS['strEmailSettings'] = "Email Indstillinger";
 $GLOBALS['strEmailHeader'] = "Email Titel";
 $GLOBALS['strEmailLog'] = "Email Log";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Handlings Log Indstillinger";
 $GLOBALS['strEnableAudit'] = "Aktiver Handlings Log";

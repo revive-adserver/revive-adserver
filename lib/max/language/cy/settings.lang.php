@@ -35,6 +35,8 @@ $GLOBALS['strBasicInformation'] = "Gwybodaeth Sylfaenol";
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Prif Osodiadau";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

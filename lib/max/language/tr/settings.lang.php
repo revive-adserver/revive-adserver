@@ -93,6 +93,8 @@ $GLOBALS['strQmailPatch'] = "qmail patchini kullanın";
 $GLOBALS['strEnableQmailPatch'] = "qmail patchini kullanın";
 $GLOBALS['strEmailHeader'] = "E-posta başlıkları";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strEnableAuditForZoneLinking'] = "Bölge bağlama ekranında Denetim İznini etkinleştirin (büyük miktarda bölgeyi bağlamak büyük performans gerektirir)";
 

@@ -76,6 +76,8 @@ $GLOBALS['strCantConnectToDb'] = "لا يمكن الاتصال بقاعدة ال
 
 // Email Settings
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

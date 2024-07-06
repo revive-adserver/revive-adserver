@@ -95,6 +95,8 @@ $GLOBALS['strEnableQmailPatch'] = "Omogoči qmail popravek";
 $GLOBALS['strEmailHeader'] = "Glava za e-pošto";
 $GLOBALS['strEmailLog'] = "Beležka za e-pošto";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Nastavitve za pregled poti (audit trail)";
 $GLOBALS['strEnableAudit'] = "Omogoči pregled poti (audit trail)";

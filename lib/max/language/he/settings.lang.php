@@ -57,6 +57,8 @@ $GLOBALS['strCantConnectToDb'] = " ל�? מסוגל להתחבר לבסיס ה�
 // Email Settings
 $GLOBALS['strQmailPatch'] = " �?פשר טל�?י qmail ";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

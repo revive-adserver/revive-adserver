@@ -84,6 +84,8 @@ $GLOBALS['strEnableQmailPatch'] = "Įgalinti pašto taisymą";
 $GLOBALS['strEmailHeader'] = "El. pašto antraštė";
 $GLOBALS['strEmailLog'] = "El. pašto registras";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Audit trail nustatymai";
 $GLOBALS['strEnableAudit'] = "Įgalinti Audit trail";

@@ -96,6 +96,8 @@ $GLOBALS['strEnableQmailPatch'] = "Activer le patch qmail";
 $GLOBALS['strEmailHeader'] = "En-têtes HTML";
 $GLOBALS['strEmailLog'] = "Journal HTML";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Paramètres de la piste d'audit";
 $GLOBALS['strEnableAudit'] = "Activer la piste d'audit";

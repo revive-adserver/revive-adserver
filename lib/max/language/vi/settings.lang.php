@@ -33,6 +33,8 @@ $GLOBALS['strWarning'] = "Cảnh báo";
 
 // Email Settings
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

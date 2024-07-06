@@ -61,6 +61,8 @@ $GLOBALS['strEmailSettings'] = "설정";
 $GLOBALS['strQmailPatch'] = "qmail 패치를 사용합니다.(qmail�?� 사용하는 경우)";
 $GLOBALS['strEnableQmailPatch'] = "qmail 패치를 사용합니다.(qmail�?� 사용하는 경우)";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

@@ -72,6 +72,8 @@ $GLOBALS['strCantConnectToDbDelivery'] = 'Configuració d’optimització de bas
 $GLOBALS['strEmailSettings'] = "Configuració de correu electrònic";
 $GLOBALS['strEmailHeader'] = "Encapçalament dels correus";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings

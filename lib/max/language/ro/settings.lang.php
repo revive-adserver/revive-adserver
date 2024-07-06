@@ -93,6 +93,8 @@ $GLOBALS['strEnableQmailPatch'] = "Activează patch-ul qmail";
 $GLOBALS['strEmailHeader'] = "Headere email";
 $GLOBALS['strEmailLog'] = "Jurnal email";
 
+// Security settings
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Setări ale Urmăririi Bilanţului";
 $GLOBALS['strEnableAudit'] = "Activează Urmărirea Bilanţului";

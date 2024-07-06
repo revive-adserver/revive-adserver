@@ -53,6 +53,8 @@ $GLOBALS['strDbName'] = "Databasens namn";
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Huvudsakliga inställningar";
 
+// Security settings
+
 // Audit Trail Settings
 
 // Debug Logging Settings
