@@ -50,7 +50,6 @@ headerBackgroundColor               =
 headerActiveTabColor                =
 headerTextColor                     =
 gzipCompression                     = true
-badLoginLogPath                     =
 supportLink                         =
 combineAssets                       = true
 dashboardEnabled                    = true
@@ -452,6 +451,7 @@ enabledForZoneLinking=false
 
 [security]
 passwordMinLength=12
+badLoginLogPath=
 
 ;------------------------------------------------------------------------------------------;
 ; Test configuration

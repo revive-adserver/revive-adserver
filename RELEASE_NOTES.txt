@@ -48,6 +48,8 @@ New Features
    The command can be executed using the new script/console entry point,
    based on Symfony Console Command component.
 
+ * Added support for writing to a fail2ban compatible log file on unsuccessful
+   login attempts.
 
 Bug Fixes
 ---------
@@ -79,6 +81,7 @@ We would like to thank the following community members for their
 contribution to this release:
 
  * zd-ls
+ * lcuis
 
 
 System Requirements

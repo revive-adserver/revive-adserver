@@ -116,18 +116,18 @@ class OA_Admin_Option
          */
         if ($this->_optionType == 'account-settings') {
             $aSections = [
-                'banner-delivery' => ['name' => $GLOBALS['strBannerDelivery'],         'perm' => OA_ACCOUNT_ADMIN],
-                'banner-logging' => ['name' => $GLOBALS['strBannerLogging'],          'perm' => OA_ACCOUNT_ADMIN],
-                'banner-storage' => ['name' => $GLOBALS['strBannerStorage'],          'perm' => OA_ACCOUNT_ADMIN],
-                'tracking' => ['name' => $GLOBALS['strConversionTracking'],     'perm' => OA_ACCOUNT_ADMIN],
-                'database' => ['name' => $GLOBALS['strDatabaseSettings'],       'perm' => OA_ACCOUNT_ADMIN],
-                'debug' => ['name' => $GLOBALS['strDebug'],                  'perm' => OA_ACCOUNT_ADMIN],
-                'email' => ['name' => $GLOBALS['strEmailSettings'],          'perm' => OA_ACCOUNT_ADMIN],
-                'geotargeting' => ['name' => $GLOBALS['strGeotargetingSettings'],   'perm' => OA_ACCOUNT_ADMIN],
-                'maintenance' => ['name' => $GLOBALS['strMaintenanceSettings'],    'perm' => OA_ACCOUNT_ADMIN],
-                'update' => ['name' => $GLOBALS['strUpdateSettings'],         'perm' => OA_ACCOUNT_ADMIN],
-                'user-interface' => ['name' => $GLOBALS['strGuiSettings'],            'perm' => OA_ACCOUNT_ADMIN],
-                'plugins' => ['name' => $GLOBALS['strPluginSettings'],         'perm' => OA_ACCOUNT_ADMIN],
+                'banner-delivery' => ['name' => $GLOBALS['strBannerDelivery'], 'perm' => OA_ACCOUNT_ADMIN],
+                'banner-logging' => ['name' => $GLOBALS['strBannerLogging'], 'perm' => OA_ACCOUNT_ADMIN],
+                'banner-storage' => ['name' => $GLOBALS['strBannerStorage'], 'perm' => OA_ACCOUNT_ADMIN],
+                'tracking' => ['name' => $GLOBALS['strConversionTracking'], 'perm' => OA_ACCOUNT_ADMIN],
+                'database' => ['name' => $GLOBALS['strDatabaseSettings'], 'perm' => OA_ACCOUNT_ADMIN],
+                'debug' => ['name' => $GLOBALS['strSecurityAndDebug'], 'perm' => OA_ACCOUNT_ADMIN],
+                'email' => ['name' => $GLOBALS['strEmailSettings'], 'perm' => OA_ACCOUNT_ADMIN],
+                'geotargeting' => ['name' => $GLOBALS['strGeotargetingSettings'], 'perm' => OA_ACCOUNT_ADMIN],
+                'maintenance' => ['name' => $GLOBALS['strMaintenanceSettings'], 'perm' => OA_ACCOUNT_ADMIN],
+                'update' => ['name' => $GLOBALS['strUpdateSettings'], 'perm' => OA_ACCOUNT_ADMIN],
+                'user-interface' => ['name' => $GLOBALS['strGuiSettings'], 'perm' => OA_ACCOUNT_ADMIN],
+                'plugins' => ['name' => $GLOBALS['strPluginSettings'], 'perm' => OA_ACCOUNT_ADMIN],
             ];
         } elseif ($this->_optionType == 'account-preferences') {
             $aSections = [];
@@ -206,6 +206,8 @@ class OA_Admin_Option
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 );
         }*/
+
+        uasort($aSections, fn($a, $b) => $a['name'] <=> $b['name']);
 
         foreach ($aSections as $k => $v) {
             if (OA_Permission::isAccount($v['perm'])) {

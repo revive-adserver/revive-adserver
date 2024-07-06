@@ -85,7 +85,6 @@ class OA_Auth
             $doUser = OA_Auth::authenticateUser();
 
             if (!$doUser) {
-                require_once MAX_PATH . '/lib/util/file/badLogin.php';
                 OA_Auth::restart($GLOBALS['strUsernameOrPasswordWrong']);
             }
 

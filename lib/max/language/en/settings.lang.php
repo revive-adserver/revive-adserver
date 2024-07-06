@@ -108,6 +108,12 @@ $GLOBALS['strEnableQmailPatch'] = "Enable qmail patch";
 $GLOBALS['strEmailHeader'] = "Email headers";
 $GLOBALS['strEmailLog'] = "Email log";
 
+// Security settings
+$GLOBALS['strSecurityAndDebug'] = "Security and Debug Settings";
+$GLOBALS['strSecuritySettings'] = "Security Settings";
+$GLOBALS['strSecurityPasswordMinLength'] = "Password minimum length";
+$GLOBALS['strSecurityBadLoginPath'] = "Log file for bad logins";
+
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Audit Trail Settings";
 $GLOBALS['strEnableAudit'] = "Enable Audit Trail";
@@ -302,7 +308,6 @@ $GLOBALS['strGuiHeaderTextColor'] = "Color of the text in the header";
 $GLOBALS['strGuiSupportLink'] = "Custom URL for 'Support' link in header";
 $GLOBALS['strGuiLoaderDelay'] = "Display loading animation when the next screen takes longer than X milliseconds to load (use -1 to disable)";
 $GLOBALS['strGzipContentCompression'] = "Use GZIP Content Compression";
-$GLOBALS['strGuiBadLoginLogPath'] = "Log file for bad logins";
 
 // Regenerate Platfor Hash script
 $GLOBALS['strPlatformHashRegenerate'] = "Platform Hash Regenerate";

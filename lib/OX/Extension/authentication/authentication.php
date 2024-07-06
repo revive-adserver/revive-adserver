@@ -109,7 +109,7 @@ class Plugins_Authentication extends OX_Component
 
         $oLock = OA_DB_AdvisoryLock::factory();
 
-        // Username check is case insensitive
+        // Username check is case-insensitive
         $username = strtolower($username);
 
         // Try to acquire an excusive advisory lock for the username
@@ -142,6 +142,10 @@ class Plugins_Authentication extends OX_Component
                 return $doUser;
             }
         }
+
+        // Log for fail2ban, if enabled
+        $oBadLoginLogger = new \RV\Auth\BadLoginLogger();
+        $oBadLoginLogger->log();
 
         if ($lock) {
             // The password was wrong, but no other login attempt was in place

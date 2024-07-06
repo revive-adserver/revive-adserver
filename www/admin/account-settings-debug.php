@@ -37,6 +37,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = [];
+    // Security settings
+    $aElements += [
+        'security_passwordMinLength' => ['security' => 'passwordMinLength'],
+        'security_badLoginLogPath' => ['security' => 'badLoginLogPath'],
+    ];
     // Audit Trail
     $aElements += [
         'audit_enabled' => [
@@ -109,6 +114,25 @@ $GLOBALS['_MAX']['CONF']['log']['priority'] = $oOptions->pearLogPriorityToConstr
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = [
+    [
+        'text' => $strSecuritySettings,
+        'items' => [
+            [
+                'type' => 'text',
+                'name' => 'security_passwordMinLength',
+                'text' => $strSecurityPasswordMinLength,
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'text',
+                'name' => 'security_badLoginLogPath',
+                'text' => $strSecurityBadLoginPath,
+                'size' => 35,
+            ],
+        ],
+    ],
     [
         'text' => $strAuditTrailSettings,
         'items' => [
@@ -214,27 +238,6 @@ $aSettings = [
                 'req' => true,
                 'depends' => 'log_enabled==1',
             ],
-            /* These fields are hidden because mCal debug log type
-               is not supported at this moment
-            ,
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'log_paramsUsername',
-                'text'    => $strDebugUsername,
-                'depends' => 'log_enabled==1 && log_type==1 || log_type==2'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'password',
-                'name'    => 'log_paramsPassword',
-                'text'    => $strDebugPassword,
-                'depends' => 'log_enabled==1 && log_type==1 || log_type==2'
-            )*/
         ],
     ],
 ];
