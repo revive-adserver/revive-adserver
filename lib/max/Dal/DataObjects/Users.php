@@ -27,8 +27,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129
     public $contact_name;                    // VARCHAR(255) => openads_varchar => 130
     public $email_address;                   // VARCHAR(64) => openads_varchar => 130
-    public $username;                        // VARCHAR(64) => openads_varchar => 2
-    public $password;                        // VARCHAR(64) => openads_varchar => 2
+    public $username;                        // VARCHAR(64) => openads_varchar => 130
+    public $password;                        // VARCHAR(64) => openads_varchar => 130
     public $language;                        // VARCHAR(5) => openads_varchar => 2
     public $default_account_id;              // MEDIUMINT(9) => openads_mediumint => 1
     public $comments;                        // TEXT() => openads_text => 34
@@ -47,6 +47,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     public $defaultValues = [
         'contact_name' => '',
         'email_address' => '',
+        'username' => '',
+        'password' => '',
         'active' => 1,
         'sso_user_id' => OX_DATAOBJECT_NULL,
         'date_last_login' => OX_DATAOBJECT_NULL,

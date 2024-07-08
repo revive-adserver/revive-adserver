@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>628</version>
+  <comments>Add missing primary keys</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>628</version>
+      <change>
+        <table>
+          <name>acls</name>
+        <index>
+          <add>
+            <name>acls_pkey</name>
+            <was>acls_pkey</was>
+            <primary>true</primary>
+            <indexfield>
+              <name>bannerid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+            <indexfield>
+              <name>executionorder</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+        <index>
+          <remove>
+            <name>bannerid</name>
+        </remove>
+          <remove>
+            <name>bannerid_executionorder</name>
+        </remove>
+      </index>
+    </table>
+      <table>
+        <name>acls_channel</name>
+      <index>
+        <add>
+          <name>acls_channel_pkey</name>
+          <was>acls_channel_pkey</was>
+          <primary>true</primary>
+          <indexfield>
+            <name>channelid</name>
+            <sorting>ascending</sorting>
+          </indexfield>
+          <indexfield>
+            <name>executionorder</name>
+            <sorting>ascending</sorting>
+          </indexfield>
+        </add>
+      </index>
+      <index>
+        <remove>
+          <name>channelid</name>
+      </remove>
+        <remove>
+          <name>channelid_executionorder</name>
+      </remove>
+    </index>
+  </table>
+</change>
+</changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>628</version>
+  </changeset>
+</destructive>
+</instructionset>
