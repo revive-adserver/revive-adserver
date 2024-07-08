@@ -58,14 +58,6 @@ function getSchemaFile($changesFile)
 
 require_once './init.php';
 
-if (array_key_exists('schemaPath', $_COOKIE) && ($_COOKIE['schemaPath'])) {
-    define('MAX_CHG', MAX_PATH . '/' . $_COOKIE['schemaPath'] . 'changes/'); //.'/etc/changes/');
-    //$schemaPath = '/'.$_COOKIE['schemaPath'];
-    $schemaPath = $_COOKIE['schemaPath'];
-} else {
-    define('MAX_CHG', MAX_PATH . '/etc/changes/');
-}
-
 if (array_key_exists('select_changesets', $_POST)) {
     $file = $_POST['select_changesets'];
     if (empty($file)) {

@@ -21,9 +21,9 @@ class OX_DevToolbox
      * check access to an array of requried files/folders
      *
      *
-     * @return array of error messages
+     * @return true|array of error messages
      */
-    public function checkFilePermissions($aFiles)
+    public static function checkFilePermissions($aFiles)
     {
         $aErrors = [];
 
@@ -47,6 +47,7 @@ class OX_DevToolbox
         if ($aErrors !== []) {
             return $aErrors;
         }
+
         return true;
     }
 
