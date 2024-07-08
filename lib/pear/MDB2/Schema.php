@@ -605,7 +605,7 @@ class MDB2_Schema extends PEAR
                 ) {
                     foreach ($database_definition['tables'][$sequence_name]['indexes'] as $index) {
                         if (isset($index['primary']) && $index['primary']
-                            && count($index['fields'] == 1)
+                            && count($index['fields']) === 1
                         ) {
                             $definition['on'] = array(
                                 'table' => $sequence_name,
