@@ -107,6 +107,10 @@ $GLOBALS['strEmailHeader'] = "Email headers";
 $GLOBALS['strEmailLog'] = "E-mail log";
 
 // Security settings
+$GLOBALS['strSecurityAndDebug'] = "Beveiliging en Debug Instellingen";
+$GLOBALS['strSecuritySettings'] = "Beveiligingsinstellingen";
+$GLOBALS['strSecurityPasswordMinLength'] = "Minimale wachtwoord lengte";
+$GLOBALS['strSecurityBadLoginPath'] = "Logbestand voor foute logins";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Audit Trail Instellingen";
