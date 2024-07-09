@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>vastInlineBannerTypeHtml</name>
+    <type>plugin</type>
+    <creationDate>2024-07-08</creationDate>
+    <author>Matteo Beccati</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Fix autoincrement</description>
+    <versionFrom></versionFrom>
+    <versionTo>1.15.0</versionTo>
+    <oxversion>5.2.0-beta-rc1</oxversion>
+
+    <database>
+        <package>
+            <version>014</version>
+            <schema>tables_vastbannertypehtml</schema>
+            <file>schema_tables_vastbannertypehtml_014.xml</file>
+            <file>changes_tables_vastbannertypehtml_014.xml</file>
+            <file>migration_tables_vastbannertypehtml_014.php</file>
+        </package>
+    </database>
+
+</upgrade>

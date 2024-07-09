@@ -68,7 +68,6 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     {
         combineVideoUrl($aFields);
         $aVastVariables = [];
-        $aVastVariables['banner_vast_element_id'] = $aFields['banner_vast_element_id'];
         $aVastVariables['vast_element_type'] = 'singlerow'; //$aFields['vast_element_type'];
         $aVastVariables['vast_video_id'] = $aFields['vast_video_id'];
         $aVastVariables['vast_video_duration'] = $aFields['vast_video_duration'];
@@ -111,7 +110,10 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     public function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
-        $rowId = $aFields['banner_vast_element_id'];
+        $doBanners->banner_id = $bannerid;
+
+        $insert = false === $doBanners->find();
+
         $doBanners->vast_element_type = $aFields['vast_element_type'];
         $doBanners->vast_video_id = $aFields['vast_video_id'];
         $doBanners->vast_video_duration = $aFields['vast_video_duration'];
@@ -133,54 +135,30 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $doBanners->vast_creative_type = $aFields['vast_creative_type'];
         $doBanners->vast_thirdparty_impression = $aFields['vast_thirdparty_impression'];
 
-        if (!$insert && ($rowId == 'banner_vast_element_id')) {
-            // If the mode was update, but we dont have a valid pk value for $rowId
-            // it probably because the user removed the plugin, cleaned out the table
-            // and then reinstalled  - we therefore need to do an insert NOT an update
-            $insert = true;
-        }
-
         if ($insert) {
-            $doBanners->banner_vast_element_id = $bannerid;
-            $doBanners->banner_id = $bannerid;
             return $doBanners->insert();
         } else {
-            $doBanners->whereAdd('banner_vast_element_id=' . (int) $rowId, 'AND');
-            return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
+            return $doBanners->update();
         }
     }
 
 
     public function getExtendedBannerInfo($banner)
     {
-        $actualBannerId = $banner['bannerid'];
-        $vastElements = [];
-        if ($actualBannerId) {
-            $vastElements = $this->fetchBannersJoined($actualBannerId);
-            // For now assume 1:1 relationship
-            if (isset($vastElements[0])) {
-                $elementRow = $vastElements[0];
-                $banner = array_merge($banner, $elementRow);
-            }
+        /** @var DataObjects_Banner_vast_element $doBanners */
+        $doBanners = OA_Dal::factoryDO('banner_vast_element');
+        $doBanners->banner_id = $banner['bannerid'];
+
+        if ($doBanners->find()) {
+            $doBanners->fetch();
+
+            $banner = array_merge($banner, $doBanners->toArray());
 
             $aDeliveryFieldsNotUsed = [];
             parseVideoUrl($banner, $aDeliveryFieldsNotUsed, $banner);
         }
-        return $banner;
-    }
 
-    public function fetchBannersJoined($bannerId, $fetchmode = MDB2_FETCHMODE_ORDERED)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF']['table'];
-        $oDbh = OA_DB::singleton();
-        $tblB = $oDbh->quoteIdentifier($aConf['prefix'] . 'banners', true);
-        $tblD = $oDbh->quoteIdentifier($aConf['prefix'] . 'banner_vast_element');
-        $query = "SELECT d.* FROM " . $tblB . " b"
-            . " LEFT JOIN " . $tblD . " d ON b.bannerid = d.banner_id"
-            . " WHERE b.ext_bannertype = '" . $this->getComponentIdentifier() . "'"
-            . " AND b.bannerid = " . (int) $bannerId;
-        $joinedResult = $oDbh->queryAll($query, null, MDB2_FETCHMODE_ASSOC, false, false, true);
-        return $joinedResult;
+        return $banner;
     }
 
     /**
@@ -300,24 +278,14 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
 
     public function addVastParametersToForm(&$form, &$bannerRow, $isNewBanner)
     {
-        $form->addElement('hidden', 'banner_vast_element_id', "banner_vast_element_id");
         $form->addElement('hidden', 'vast_element_type', "singlerow");
 
         $this->addVastVideoUrlFields($form, $bannerRow, $isNewBanner);
 
-        $advancedUser = false;
-        if ($advancedUser) {
-            // Bitrate of encoded video in Kbps
-            $form->addElement('text', 'vast_video_bitrate', "vast_video_bitrate");
-            // Pixel dimensions of video
-            $form->addElement('text', 'vast_video_width', "vast_video_width");
-            $form->addElement('text', 'vast_video_height', "vast_video_height");
-        } else {
-            // hide these for now - the player ignores them anyway - atm
-            $form->addElement('hidden', 'vast_video_bitrate', "vast_video_bitrate");
-            $form->addElement('hidden', 'vast_video_width', "vast_video_width");
-            $form->addElement('hidden', 'vast_video_height', "vast_video_height");
-        }
+        // hide these for now - the player ignores them anyway - atm
+        $form->addElement('hidden', 'vast_video_bitrate', "vast_video_bitrate");
+        $form->addElement('hidden', 'vast_video_width', "vast_video_width");
+        $form->addElement('hidden', 'vast_video_height', "vast_video_height");
 
         if ($isNewBanner) {
             $bannerRow['vast_video_bitrate'] = '400';

@@ -70,7 +70,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         // for some bizarre reason $bannerid is all the fields
         $bannerRow = $this->getExtendedBannerInfo($bannerRow);
         $isNewBanner = false;
-        if (!isset($bannerRow['banner_vast_element_id'])) {
+        if (!isset($bannerRow['vast_element_type'])) {
             $isNewBanner = true;
         }
 

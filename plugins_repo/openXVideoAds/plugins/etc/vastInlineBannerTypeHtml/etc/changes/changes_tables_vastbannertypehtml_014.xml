@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>vastbannertypehtml</name>
+  <version>014</version>
+  <comments>Fixed primary key</comments>
+  <constructive>
+    <changeset>
+      <name>vastbannertypehtml</name>
+      <version>014</version>
+      <change>
+        <table>
+          <name>banner_vast_element</name>
+        <index>
+          <add>
+            <name>banner_vast_element_pkey</name>
+            <was>banner_vast_element_pkey</was>
+            <primary>true</primary>
+            <indexfield>
+              <name>banner_id</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+        <index>
+          <remove>
+            <name>banner_vast_banner_vast_element_id</name>
+        </remove>
+      </index>
+    </table>
+  </change>
+</changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>vastbannertypehtml</name>
+    <version>014</version>
+    <change>
+      <table>
+        <name>banner_vast_element</name>
+      <remove>
+        <field>
+          <name>banner_vast_element_id</name>
+        </field>
+      </remove>
+    </table>
+  </change>
+</changeset>
+</destructive>
+</instructionset>

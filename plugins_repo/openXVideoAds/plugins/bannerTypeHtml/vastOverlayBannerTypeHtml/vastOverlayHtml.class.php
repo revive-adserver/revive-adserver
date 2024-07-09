@@ -344,7 +344,7 @@ OVERLAY_OPTION_JS;
 
         $bannerRow = $this->getExtendedBannerInfo($bannerRow);
         $isNewBanner = false;
-        if (!isset($bannerRow['banner_vast_element_id'])) {
+        if (!isset($bannerRow['vast_element_type'])) {
             $isNewBanner = true;
         }
         //parent::buildForm($form, $bannerId);
