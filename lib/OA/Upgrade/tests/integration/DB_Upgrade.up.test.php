@@ -969,7 +969,22 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesRemove(), 'failed _verifyTasksIndexesRemove');
 
-        // no migration callbacks on index events
+
+        Mock::generatePartial(
+            'DB_Upgrade_Test_Migration',
+            $mockMigrator = 'Migration_' . rand(),
+            [
+                'beforeRemoveIndex__table1__index2',
+                'afterRemoveIndex__table1__index2',
+            ],
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeRemoveIndex__table1__index2', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeRemoveIndex__table1__index2');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterRemoveIndex__table1__index2', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterRemoveIndex__table1__index2');
+
         OA_DB::setCaseSensitive();
         $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix . 'table1');
         OA_DB::disableCaseSensitive();
@@ -977,6 +992,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(in_array($this->prefix . 'table1_index2', $aConstraints), 'index2 not found');
 
         $this->assertTrue($oDB_Upgrade->_executeTasksIndexesRemove(), 'failed _executeTasksIndexesRemove');
+        $oDB_Upgrade->oMigrator->tally();
 
         OA_DB::setCaseSensitive();
         $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix . 'table1');
@@ -1009,7 +1025,33 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesAdd(), 'failed _verifyTasksIndexesAdd');
 
-        // no migration callbacks on index events
+        Mock::generatePartial(
+            'DB_Upgrade_Test_Migration',
+            $mockMigrator = 'Migration_' . rand(),
+            [
+                'beforeAddIndex__table2__table2_pkey',
+                'afterAddIndex__table2__table2_pkey',
+                'beforeAddIndex__table2__index_unique',
+                'afterAddIndex__table2__index_unique',
+                'beforeAddIndex__table2__index_new',
+                'afterAddIndex__table2__index_new',
+            ],
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAddIndex__table2__table2_pkey', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAddIndex__table2__table2_pkey');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAddIndex__table2__table2_pkey', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAddIndex__table2__table2_pkey');
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAddIndex__table2__index_unique', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAddIndex__table2__index_unique');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAddIndex__table2__index_unique', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAddIndex__table2__index_unique');
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAddIndex__table2__index_new', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAddIndex__table2__index_new');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAddIndex__table2__index_new', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAddIndex__table2__index_new');
+
         OA_DB::setCaseSensitive();
         $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix . 'table2');
         OA_DB::disableCaseSensitive();
@@ -1637,4 +1679,20 @@ class DB_Upgrade_Test_Migration extends Migration
     public function beforeRemoveField__table1__a_text_field() {}
 
     public function afterRemoveField__table1__a_text_field() {}
+
+    public function beforeAddIndex__table2__table2_pkey() {}
+
+    public function afterAddIndex__table2__table2_pkey() {}
+
+    public function beforeAddIndex__table2__index_unique() {}
+
+    public function afterAddIndex__table2__index_unique() {}
+
+    public function beforeAddIndex__table2__index_new() {}
+
+    public function afterAddIndex__table2__index_new() {}
+
+    public function beforeRemoveIndex__table1__index2() {}
+
+    public function afterRemoveIndex__table1__index2() {}
 }

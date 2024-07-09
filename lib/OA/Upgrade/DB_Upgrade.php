@@ -35,6 +35,8 @@ class OA_DB_Upgrade
     public $oMigrator;
     public $oPreScript;
     public $oPostScript;
+
+    /** @var OA_DB_Table */
     public $oTable;
 
     public $aDefinitionNew;
@@ -1209,6 +1211,12 @@ class OA_DB_Upgrade
                 $aDBIndexes = $this->_listIndexes($table);
                 $aDBConstraints = $this->_listConstraints($table);
 
+                $result = $this->_executeMigrationMethodIndex($aTask['table'], $indexOrig, 'beforeRemoveIndex');
+                if ($this->_isPearError($result, "data migration error beforeRemoveIndex: {$indexOrig}")) {
+                    $this->_halt();
+                    return false;
+                }
+
                 if (!empty($aTask['primary'])) {
                     if (in_array($index, $aDBConstraints)) {
                         $result = $this->oSchema->db->manager->dropConstraint($table, $index, true);
@@ -1228,6 +1236,12 @@ class OA_DB_Upgrade
                     $result = $this->oSchema->db->manager->dropConstraint($table, $indexOrig, false);
                 }
                 if ($this->_isPearError($result, 'error dropping index ' . $index)) {
+                    $this->_halt();
+                    return false;
+                }
+
+                $result = $this->_executeMigrationMethodIndex($aTask['table'], $indexOrig, 'afterRemoveIndex');
+                if ($this->_isPearError($result, "data migration error afterRemoveIndex: {$indexOrig}")) {
                     $this->_halt();
                     return false;
                 }
@@ -1272,7 +1286,7 @@ class OA_DB_Upgrade
     }
 
     /**
-     * fetch a Migration method for a given table.field and task
+     * fetch a Migration method for a given field and task
      * execute the method
      *
      * @param string $table_name
@@ -1284,6 +1298,23 @@ class OA_DB_Upgrade
     {
         if (isset($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['fields'][$field_name][$method])) {
             return $this->_executeMigrationMethod($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['fields'][$field_name][$method]);
+        }
+        return false;
+    }
+
+    /**
+     * fetch a Migration method for a given index and task
+     * execute the method
+     *
+     * @param string $table_name
+     * @param string $index_name
+     * @param string $method
+     * @return string
+     */
+    public function _executeMigrationMethodIndex($table_name, $index_name, $method)
+    {
+        if (isset($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['indexes'][$index_name][$method])) {
+            return $this->_executeMigrationMethod($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['indexes'][$index_name][$method]);
         }
         return false;
     }
@@ -1783,10 +1814,16 @@ class OA_DB_Upgrade
     public function _createAllIndexes($aDef, $table_name)
     {
         if (isset($aDef['indexes'])) {
-            $table_name = $table_name;
             $aDBIndexes = $this->_listIndexes($table_name);
             $aDBConstraints = $this->_listConstraints($table_name);
-            foreach ($aDef['indexes'] as $index => $aIndex_def) {
+            foreach ($aDef['indexes'] as $key => $aIndex_def) {
+                $result = $this->_executeMigrationMethodIndex(substr($table_name, strlen($this->prefix)), $key, 'beforeAddIndex');
+                if ($this->_isPearError($result, "data migration error beforeAddIndex: {$key}")) {
+                    $this->_halt();
+                    return false;
+                }
+
+                $index = $key;
                 $aIndex_def = $this->_sortIndexFields($aIndex_def);
                 if (array_key_exists('primary', $aIndex_def) || array_key_exists('unique', $aIndex_def)) {
                     $primary = array_key_exists('primary', $aIndex_def);
@@ -1817,6 +1854,12 @@ class OA_DB_Upgrade
                 }
                 if (!$this->_isPearError($result, "error creating index {$index} on table {$table_name}")) {
                     $this->_logOnly("success creating index {$index} on table {$table_name}");
+
+                    $result = $this->_executeMigrationMethodIndex(substr($table_name, strlen($this->prefix)), $key, 'afterAddIndex');
+                    if ($this->_isPearError($result, "data migration error afterAddIndex: {$key}")) {
+                        $this->_halt();
+                        return false;
+                    }
                 } else {
                     return false;
                 }
