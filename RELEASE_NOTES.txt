@@ -67,6 +67,13 @@ Bug Fixes
    expiration time. This should allow refreshing geo information for mobile
    users on the move.
 
+ * Fixed the definition of the "acls" and "acls_channel" tables so that they
+   have a proper primary key.
+
+ * Fixed the definition of the "banners_vast_element" table in the IAB VAST
+   Plugin to use a primary key and avoid the creation of an additional
+   "banners_vast_element_seq" table on MySQL without any prefix.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
