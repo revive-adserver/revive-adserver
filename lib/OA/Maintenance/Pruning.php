@@ -239,7 +239,9 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
      */
     private function pruneDSAZAOldDataWithTempTable(string $tblAssoc, string $qDate)
     {
-        $res = $this->oDbh->exec("CREATE TEMPORARY TABLE {$this->prefix}_prune_dsaza AS SELECT * FROM {$tblAssoc} WHERE interval_start >= {$qDate}");
+        $tblPrune =  $this->_getTablename('data_summary_ad_zone_prune');
+
+        $res = $this->oDbh->exec("CREATE TEMPORARY TABLE {$tblPrune} AS SELECT * FROM {$tblAssoc} WHERE interval_start >= {$qDate}");
         if (PEAR::isError($res)) {
             throw new \RuntimeException('Failed to create temporary table: ' . $res->getMessage());
         }
@@ -249,14 +251,14 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
             throw new \RuntimeException('Failed to truncate DSAZA: ' . $res->getMessage());
         }
 
-        $records = $this->oDbh->exec("INSERT INTO {$tblAssoc} SELECT * FROM {$this->prefix}_prune_dsaza");
+        $records = $this->oDbh->exec("INSERT INTO {$tblAssoc} SELECT * FROM {$tblPrune}");
         if (PEAR::isError($records)) {
             OA::debug('Failed to insert records to data_summary_ad_zone_assoc after truncating the table', PEAR_LOG_WARNING);
             $records = 0;
         }
 
         // If the following fails, the table will be dropped at the end of the connection anyway
-        $this->oDbh->exec("DROP TABLE {$this->prefix}_prune_dsaza");
+        $this->oDbh->exec("DROP TABLE {$tblPrune}");
 
         return $records;
     }
