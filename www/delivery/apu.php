@@ -2236,25 +2236,13 @@ OX_Delivery_Common_hook('logClick', [$adId, $zoneId, _viewersHostOkayToLog($adId
 }
 function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
-if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) {
+$aConf = $GLOBALS['_MAX']['CONF'];
+if (empty($aConf['logging']['trackerImpressions'])) {
 return true;
 }
-$aConf = $GLOBALS['_MAX']['CONF'];
-if (!empty($aConf['lb']['enabled'])) {
-$aConf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
-} else {
-$aConf['rawDatabase']['host'] = 'singleDB';
-}
-if (isset($aConf['rawDatabase']['serverRawIp'])) {
-$serverRawIp = $aConf['rawDatabase']['serverRawIp'];
-} else {
-$serverRawIp = $aConf['rawDatabase']['host'];
-}
+$serverRawIp = empty($aConf['lb']['enabled']) ? 'singleDB' : $_SERVER['SERVER_ADDR'];
 $aConversionInfo = OX_Delivery_Common_hook('logConversion', [$trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)]);
-if (is_array($aConversionInfo)) {
-return $aConversionInfo;
-}
-return false;
+return is_array($aConversionInfo) ? $aConversionInfo : false;
 }
 function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp, $pluginId = null)
 {
