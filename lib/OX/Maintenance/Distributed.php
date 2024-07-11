@@ -44,13 +44,6 @@ class OX_Maintenance_Distributed
             return;
         }
 
-        if (!empty($GLOBALS['_MAX']['CONF']['rawDatabase'])) {
-            $GLOBALS['_MAX']['CONF']['database'] = $GLOBALS['_MAX']['CONF']['rawDatabase'] +
-                $GLOBALS['_MAX']['CONF']['database'];
-
-            OA::debug('rawDatabase functionality is being used, switching settings', PEAR_LOG_INFO);
-        }
-
         $oLock = OA_DB_AdvisoryLock::factory();
         if (!$oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED)) {
             OA::debug('Maintenance Distributed Engine Already Running', PEAR_LOG_INFO);

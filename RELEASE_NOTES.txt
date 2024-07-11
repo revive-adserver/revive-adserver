@@ -80,6 +80,8 @@ Non-Backwards Compatible Changes
 
  * Revive Adserver now requires at least PHP 8.1
 
+ * Deprecated [rawDatabase] section in the config file is no longer supported.
+
 
 Community Contributions
 ------------------------
