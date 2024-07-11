@@ -464,6 +464,11 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return $db;
         }
 
+        // In Postgres 11 the functionality provided by pg_proc.proisagg was replaced by pg_proc.prokind
+        $prokind = (int) $db->queryOne("SHOW server_version_num") < 110000 ?
+            'pr.proisagg = FALSE' :
+            "pr.prokind = 'f'";
+
         $query = "
             SELECT
                 proname
@@ -472,9 +477,9 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                 pg_type tp ON (tp.oid = pr.prorettype) JOIN
                 pg_namespace ns ON (ns.oid = pr.pronamespace)
             WHERE
-                pr.proisagg = FALSE
+                {$prokind}
                 AND tp.typname <> 'trigger'
-                AND ns.nspname NOT LIKE 'pg_%' AND ns.nspname != 'information_schema')
+                AND ns.nspname NOT LIKE 'pg_%' AND ns.nspname <> 'information_schema'
                 AND pg_catalog.pg_function_is_visible(pr.oid)
             ";
         $result = $db->queryCol($query);
