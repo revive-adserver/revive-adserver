@@ -1858,7 +1858,7 @@ class DB_DataObject extends DB_DataObject_Overload
             return $_DB_DATAOBJECT['INI'][$this->_database][$this->__table];
         }
 
-        $this->databaseStructure();
+        $this->databaseStructure(true);
 
 
         $ret = array();
@@ -1900,7 +1900,8 @@ class DB_DataObject extends DB_DataObject_Overload
         if (isset($this->__table) && isset($_DB_DATAOBJECT['INI'][$this->_database][$this->__table."__keys"])) {
             return array_keys($_DB_DATAOBJECT['INI'][$this->_database][$this->__table."__keys"]);
         }
-        $this->databaseStructure();
+
+        $this->databaseStructure(true);
 
         if (isset($this->__table) && isset($_DB_DATAOBJECT['INI'][$this->_database][$this->__table."__keys"])) {
             return array_keys($_DB_DATAOBJECT['INI'][$this->_database][$this->__table."__keys"]);

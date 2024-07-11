@@ -833,16 +833,17 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Method overrides default DB_DataObject database schema location and adds prefixes to schema
      * definitions
-     *
-     * @return boolean  True on success, else false
-     * @access package private
      */
-    public function databaseStructure()
+    protected function databaseStructure(bool $reload = false): bool
     {
         global $_DB_DATAOBJECT;
 
         if (empty($_DB_DATAOBJECT['CONFIG'])) {
             DB_DataObject::_loadConfig();
+        }
+
+        if (!$reload && !empty($_DB_DATAOBJECT['INI'][$this->_database]) && !empty($_DB_DATAOBJECT['LINKS'][$this->_database])) {
+            return true;
         }
 
         $_DB_DATAOBJECT['INI'][$this->_database] = $this->_mergeIniFiles($_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"]);
