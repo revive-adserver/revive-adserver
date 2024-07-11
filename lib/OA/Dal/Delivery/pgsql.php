@@ -20,19 +20,19 @@
 /**
  * The function to open a database connection, or return the resource if already open
  *
- * @param string $database   The name of the database config to use
- *                           (Must match the database section name in the conf file)
- * @return resource|false    The PgSQL database resource
- *                           or false on failure
+ * @param string $database The name of the database config section to use. If not found, it falls back to 'database'
+ *
+ * @return Pgsql\Connection|false
  */
 function OA_Dal_Delivery_connect($database = 'database')
 {
+    $defaultConnection = 'database' === $database || 'rawDatabase' === $database;
+
     // If a connection already exists, then return that
-    if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
+    if ($defaultConnection && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && $GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof \Pgsql\Connection) {
         return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
-    } elseif ($database == 'rawDatabase' && isset($GLOBALS['_MAX']['RAW_DB_LINK']) && OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX']['RAW_DB_LINK'])) {
-        return $GLOBALS['_MAX']['RAW_DB_LINK'];
     }
+
     // No connection exists, so create one
     $conf = $GLOBALS['_MAX']['CONF'];
     $dbConf = empty($conf[$database]) ? $conf['database'] : $conf[$database];
@@ -43,22 +43,33 @@ function OA_Dal_Delivery_connect($database = 'database')
     } else {
         $dbConf['port'] ??= 5432;
     }
+
     $dbParams[] = empty($dbConf['port']) ? '' : 'port=' . $dbConf['port'];
     $dbParams[] = empty($dbConf['host']) ? '' : 'host=' . $dbConf['host'];
     $dbParams[] = empty($dbConf['username']) ? '' : 'user=' . $dbConf['username'];
     $dbParams[] = empty($dbConf['password']) ? '' : 'password=' . $dbConf['password'];
     $dbParams[] = empty($dbConf['name']) ? '' : 'dbname=' . $dbConf['name'];
     $dbLink = $dbConf['persistent'] ? @pg_pconnect(implode(' ', $dbParams)) : @pg_connect(implode(' ', $dbParams));
-    if ($dbLink && !empty($conf['databasePgsql']['schema'])) {
-        @pg_query($dbLink, "SET search_path='{$conf['databasePgsql']['schema']}'");
-    }
-    if ($dbLink && !empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
-        @pg_client_encoding($dbLink);
-    }
+
     if (!$dbLink) {
         $err = error_get_last();
         OX_Delivery_logMessage('DB connection error: ' . $err['message'], 4);
+
+        return false;
     }
+
+    if (!empty($conf['databasePgsql']['schema'])) {
+        @pg_query($dbLink, "SET search_path='{$conf['databasePgsql']['schema']}'");
+    }
+
+    if (!empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
+        @pg_client_encoding($dbLink);
+    }
+
+    if ($defaultConnection) {
+        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = $GLOBALS['_MAX']['RAW_DB_LINK'] = $dbLink;
+    }
+
     return $dbLink;
 }
 
@@ -73,22 +84,20 @@ function OA_Dal_Delivery_connect($database = 'database')
  */
 function OA_Dal_Delivery_query($query, $database = 'database')
 {
-    // Connect to the database if necessary
-    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
+    $dbLink = OA_Dal_Delivery_getDbLink($database);
 
-    if (empty($GLOBALS['_MAX'][$dbName])) {
-        $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
-    }
-    if (OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX'][$dbName])) {
-        $result = @pg_query($GLOBALS['_MAX'][$dbName], $query);
-        if (!$result) {
-            OX_Delivery_logMessage('DB query error: ' . pg_last_error($GLOBALS['_MAX'][$dbName]), 4);
-            OX_Delivery_logMessage(' - failing query: ' . $query, 5);
-        }
-        return $result;
-    } else {
+    if (!$dbLink instanceof \Pgsql\Connection) {
         return false;
     }
+
+    $result = @pg_query($dbLink, $query);
+
+    if (!$result) {
+        OX_Delivery_logMessage('DB query error: ' . pg_last_error($dbLink), 4);
+        OX_Delivery_logMessage(' - failing query: ' . $query, 5);
+    }
+
+    return $result;
 }
 
 /**
@@ -114,14 +123,17 @@ function OA_Dal_Delivery_fetchAssoc($resource)
  */
 function OA_Dal_Delivery_insertId($database, $table, $column)
 {
-    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
-    if (!isset($GLOBALS['_MAX'][$dbName]) || !(OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX'][$dbName]))) {
+    $dbLink = OA_Dal_Delivery_getDbLink($database);
+
+    if (!$dbLink instanceof \Pgsql\Connection) {
         return false;
     }
+
     $seqName = substr($column, 0, 29) . '_seq';
     $seqName = substr($table, 0, 62 - strlen($seqName)) . '_' . $seqName;
-    $query = "SELECT currval('\"" . $seqName . "\"')";
-    return pg_fetch_result(pg_query($GLOBALS['_MAX'][$dbName], $query), 0, 0);
+    $query = "SELECT currval('\"" . pg_escape_string($dbLink, $seqName) . "\"')";
+
+    return pg_fetch_result(pg_query($dbLink, $query), 0, 0);
 }
 
 function OA_Dal_Delivery_numRows($result)
@@ -136,12 +148,24 @@ function OA_Dal_Delivery_result($result, $row_number, $field_name)
 
 function OX_escapeString($string)
 {
-    return pg_escape_string($string);
+    $dbLink = OA_Dal_Delivery_getDbLink('rawDatabase');
+
+    if (!$dbLink instanceof \Pgsql\Connection) {
+        return false;
+    }
+
+    return pg_escape_string($dbLink, $string);
 }
 
 function OX_escapeIdentifier($string)
 {
-    return '"' . $string . '"';
+    $dbLink = OA_Dal_Delivery_getDbLink('rawDatabase');
+
+    if (!$dbLink instanceof \Pgsql\Connection) {
+        return false;
+    }
+
+    return pg_escape_identifier($dbLink, $string);
 }
 
 function OX_unescapeBlob($blob)
@@ -156,6 +180,8 @@ function OX_Dal_Delivery_regex($column, $regexp)
 
 function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter = 'count')
 {
+    OA_Dal_Delivery_connect('rawDatabase');
+
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
     return OA_Dal_Delivery_query(
@@ -207,4 +233,16 @@ function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
     } else {
         return "AND {$p1} NOT {$p2} ";
     }
+}
+
+function OA_Dal_Delivery_getDbLink(string $database = 'database'): ?\Pgsql\Connection
+{
+    // Connect to the database if necessary
+    $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
+
+    if (!empty($GLOBALS['_MAX'][$dbName])) {
+        return $GLOBALS['_MAX'][$dbName];
+    }
+
+    return OA_Dal_Delivery_connect($database) ?: null;
 }

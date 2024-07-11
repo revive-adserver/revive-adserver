@@ -98,40 +98,26 @@ function MAX_Delivery_log_logAdClick($adId, $zoneId)
  */
 function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
+    $aConf = $GLOBALS['_MAX']['CONF'];
+
     // Only log conversions if logging of tracker impressions logging is enabled
-    if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) {
+    if (empty($aConf['logging']['trackerImpressions'])) {
         return true;
     }
 
     // Prepare the raw database IP address, depending on if OpenX is running
     // with multiple delivery servers, or just a single server
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($aConf['lb']['enabled'])) {
-        $aConf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
-    } else {
-        $aConf['rawDatabase']['host'] = 'singleDB';
-    }
-    if (isset($aConf['rawDatabase']['serverRawIp'])) {
-        $serverRawIp = $aConf['rawDatabase']['serverRawIp'];
-    } else {
-        $serverRawIp = $aConf['rawDatabase']['host'];
-    }
+    $serverRawIp = empty($aConf['lb']['enabled']) ? 'singleDB' : $_SERVER['SERVER_ADDR'];
+
     // Call all registered plugins that use the "logConversion" hook
     $aConversionInfo = OX_Delivery_Common_hook('logConversion', [$trackerId, $serverRawIp, $aConversion, _viewersHostOkayToLog(null, null, $trackerId)]);
+
     // Check that the conversion was logged correctly
-    if (is_array($aConversionInfo)) {
-        // Return the result
-        return $aConversionInfo;
-    }
-    return false;
+    return is_array($aConversionInfo) ? $aConversionInfo : false;
 }
 
 /**
  * A function to log tracker impression variable values.
- *
- * Note that the $aConf['rawDatabase'] variables will only be defined
- * in the event that OpenX is configured for multiple databases. Normally,
- * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param array $aVariables An array of variables as returned by
  *                          MAX_cacheGetTrackerVariables().
