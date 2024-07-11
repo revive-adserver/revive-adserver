@@ -24,4 +24,6 @@
         </package>
     </database>
 
+    <postscript>postscript_openads_upgrade_5.6.0-beta-rc1.php</postscript>
+
 </upgrade>

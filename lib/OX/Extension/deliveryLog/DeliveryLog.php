@@ -63,90 +63,26 @@ abstract class Plugins_DeliveryLog extends OX_Component
     }
 
     /**
-     * Carry on any additional post-installs actions
-     * (for example install postgres specific stored procedures)
+     * Carry on any additional post-installs
+     *
+     * @deprecated
      *
      * @return boolean True on success, false otherwise.
      */
     public function onInstall()
     {
-        $oDbLayer = $this->_factoryDBLayer();
-        return $oDbLayer && $oDbLayer->install($this);
+        return true;
     }
 
     /**
      * Carry on any additional post-uninstalls actions
-     * (for example uninstall postgres specific stored procedures)
+     *
+     * @deprecated
      *
      * @return boolean True on success, false otherwise.
      */
     public function onUninstall()
     {
-        return true;
-    }
-
-    /**
-     * A private factory method to create the required OX_Extension_DeliveryLog_DB_Common
-     * database layer class used in installing components that utilise the deliveryLog
-     * extension.
-     *
-     * @param string $dbType Optional database type, eg. "mysql" or "pgsql". By default,
-     *                       the database type will be taken from the database connection
-     *                       defined in the OpenX installation.
-     * @return mixed The boolean false on error, class of type
-     *               OX_Extension_DeliveryLog_DB_Common on success.
-     */
-    private function _factoryDBLayer($dbType = null)
-    {
-        if (is_null($dbType)) {
-            $oDbh = OA_DB::singleton();
-            $dbType = $oDbh->dsn['phptype'];
-        }
-        // Include the required database layer file for the deliveryLog extension
-        if (!$this->_includeDbLayerFile($oDbh->dsn['phptype'])) {
-            $message = 'Error when including the required database layer file ' .
-                       "for the deliveryLog extension, for the '$dbType' database type.";
-            $this->_logError($message);
-            return false;
-        }
-        // Generate the class name expected for the deliveryLog extension database layer
-        $className = 'OX_Extension_DeliveryLog_DB_' . ucfirst(strtolower($oDbh->dsn['phptype']));
-        if (!class_exists($className)) {
-            // Class name does not exist, use the default class name instead
-            $className = 'OX_Extension_DeliveryLog_DB_Common';
-            if (!class_exists($className)) {
-                $message = "Expected class of '$className' not located in the deliveryLog extension " .
-                           "database layer file, for the '$dbType' database type.";
-                $this->_logError($message);
-                return false;
-            }
-        }
-        // Instantiate and return the deliveryLog extenion database layer support class
-        return new $className();
-    }
-
-    /**
-     * A private method to include the appropriate deliveryLog extension
-     * database layer class.
-     *
-     * @access private
-     * @param string $dbType The database type, eg "mysql" or "pgsql".
-     * @return boolean True on success (correct inclusion of the file),
-     *                 false otherwise.
-     */
-    private function _includeDbLayerFile($dbType)
-    {
-        // Prepare the path to the database layer support class file for the
-        // deliveryLog extension
-        $fileName = LIB_PATH . '/Extension/deliveryLog/DB/' . ucfirst(strtolower($dbType)) . '.php';
-        if (!file_exists($fileName)) {
-            // The file could not be found - use the default class instead
-            $fileName = LIB_PATH . '/Extension/deliveryLog/DB/Common.php';
-            if (!file_exists($fileName)) {
-                return false;
-            }
-        }
-        @include_once $fileName;
         return true;
     }
 

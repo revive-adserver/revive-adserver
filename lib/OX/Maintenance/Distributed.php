@@ -72,7 +72,7 @@ class OX_Maintenance_Distributed
         }
         OA::debug(' - Current time is ' . $oNow->format('%Y-%m-%d %H:%M:%S') . ' ' . $oNow->tz->getShortName(), PEAR_LOG_DEBUG);
 
-        // Get the components of the deliveryLog extension
+        /** @var Plugins_DeliveryLog[] $aBuckets */
         $aBuckets = OX_Component::getComponents('deliveryLog');
 
         // Copy buckets' records with "interval_start" up to and including previous OI start,

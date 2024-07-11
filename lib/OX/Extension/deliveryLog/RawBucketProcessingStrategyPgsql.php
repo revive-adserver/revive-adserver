@@ -54,12 +54,13 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
         OA::debug('    - Accordingly, processing of the ' . $sTableName . ' table will be performed based on data that has a logged date equal to', PEAR_LOG_INFO);
         OA::debug('      or before ' . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aDates['end']->tz->getShortName(), PEAR_LOG_INFO);
 
+        $primaryKey = current($oMainDbh->manager->listTableConstraints($sTableName));
+
         // Select all rows with interval_start <= previous OI start.
         $rsData = $this->getBucketTableContent($sTableName, $aDates['end']);
         $count = $rsData->getRowCount();
 
         OA::debug('  - ' . $rsData->getRowCount() . ' records found', PEAR_LOG_DEBUG);
-
 
         if ($count) {
             $packetSize = 16777216; // 16 MB hardcoded (there's no max limit)
@@ -70,7 +71,13 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
                 $sRow = '(' . implode(',', array_map($oMainDbh->quote(...), $aRow)) . ')';
 
                 if (!$i) {
-                    $sInsert = "INSERT INTO {$sTableName} (" . implode(',', array_keys($aRow)) . ") VALUES ";
+                    $sInsert = "INSERT INTO {$sTableName} (" . implode(',', array_map($oMainDbh->quoteIdentifier(...), array_keys($aRow))) . ") VALUES ";
+                    if ($primaryKey) {
+                        $sConflict = ' ON CONFLICT ON CONSTRAINT ' . $oMainDbh->quoteIdentifier($primaryKey) . ' DO NOTHING';
+                    } else {
+                        $sConflict = '';
+                    }
+
                     $query = '';
                     $aExecQueries = [];
                 }
@@ -78,7 +85,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
                 if (!$query) {
                     $query = $sInsert . $sRow;
                     // Leave 4 bytes headroom for max_allowed_packet
-                } elseif (strlen($query) + strlen($sRow) + 4 < $packetSize) {
+                } elseif (strlen($query) + strlen($sRow) + strlen($sConflict) + 4 < $packetSize) {
                     $query .= ',' . $sRow;
                 } else {
                     $aExecQueries[] = $query;
@@ -92,7 +99,7 @@ class OX_Extension_DeliveryLog_RawBucketProcessingStrategyPgsql implements OX_Ex
 
                 if ($aExecQueries !== []) {
                     foreach ($aExecQueries as $execQuery) {
-                        $result = $oMainDbh->exec($execQuery);
+                        $result = $oMainDbh->exec($execQuery . $sConflict);
                         if (PEAR::isError($result)) {
                             MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }

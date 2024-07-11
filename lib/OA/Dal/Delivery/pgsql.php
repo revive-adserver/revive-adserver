@@ -166,8 +166,19 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $counter = 'count')
 {
-    $args = implode(',', OX_bucket_quoteArgs($aQuery));
-    return "SELECT bucket_update_{$tableName}({$args},1)";
+    $aQuery[$counter] = $increment ? 1 : -1;
+
+    $qCounter = OX_escapeIdentifier($counter);
+
+    $aFields = array_map('OX_escapeIdentifier', array_keys($aQuery));
+    $aValues = OX_bucket_quoteArgs($aQuery);
+    $aConflict = array_diff($aFields, [$qCounter]);
+
+    return "INSERT INTO {$tableName} AS i
+            (" . implode(', ', $aFields) . ")
+            VALUES (" . implode(", ", $aValues) . ")
+            ON CONFLICT (" . implode(', ', $aConflict) . ")
+            DO UPDATE SET {$qCounter} = i.{$qCounter} + EXCLUDED.{$qCounter}";
 }
 
 function OX_bucket_quoteArgs($aArgs)

@@ -56,19 +56,31 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
     public function _getMigrateRawDataSQL($bucketTable, $rawTable, $oStart, $oEnd)
     {
         $query = "
-            SELECT bucket_update_{$bucketTable}
-            (
-                " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . ",
-                ad_id,
-                zone_id,
-                1
-            )
+            INSERT INTO
+                " . $this->oDbh->quoteIdentifier($bucketTable, true) . " AS i
+                (
+                    interval_start,
+                    creative_id,
+                    zone_id,
+                    count
+                )
+            SELECT
+                " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString . " AS interval_start,
+                ad_id AS creative_id,
+                zone_id AS zone_id,
+                COUNT(*) AS count
             FROM
                 " . $this->oDbh->quoteIdentifier($rawTable, true) . "
             WHERE
                 date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
                 AND
-                date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+                date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+            GROUP BY
+                1, 2, 3
+            ON CONFLICT (interval_start, creative_id, zone_id) DO UPDATE SET
+                count = i.count + EXCLUDED.count
+        ";
+
         return $query;
     }
 
