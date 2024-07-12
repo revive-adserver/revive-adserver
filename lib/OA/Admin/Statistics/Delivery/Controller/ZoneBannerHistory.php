@@ -57,7 +57,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         $adId = $this->_getId('ad', 0);
 
         // Security check
-        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+        OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(['publisher' => $publisherId, 'zone' => $zoneId]);
 
         // Cross-entity security check

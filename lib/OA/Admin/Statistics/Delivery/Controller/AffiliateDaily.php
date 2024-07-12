@@ -61,7 +61,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
         $adId = $this->_getId('ad');
 
         // Security check
-        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+        OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(['publisher' => $publisherId]);
 
         // Cross-entity security check

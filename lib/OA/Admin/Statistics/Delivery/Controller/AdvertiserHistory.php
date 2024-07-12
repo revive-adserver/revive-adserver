@@ -55,7 +55,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
         $advertiserId = $this->_getId('advertiser');
 
         // Security check
-        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+        OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkAccess(['advertiser' => $advertiserId]);
 
         // Add standard page parameters

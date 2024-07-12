@@ -56,7 +56,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
         $zoneId = $this->_getId('zone');
 
         // Security check
-        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+        OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(['publisher' => $publisherId, 'zone' => $zoneId]);
 
         // Add standard page parameters

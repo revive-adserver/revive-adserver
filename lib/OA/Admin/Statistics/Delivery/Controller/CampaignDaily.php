@@ -62,7 +62,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         $zoneId = $this->_getId('zone');
 
         // Security check
-        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+        OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkAccess(['advertiser' => $advertiserId, 'placement' => $placementId]);
 
         // Cross-entity security check

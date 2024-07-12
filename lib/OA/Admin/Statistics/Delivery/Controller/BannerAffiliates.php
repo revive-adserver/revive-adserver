@@ -60,7 +60,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $adId = $this->_getId('ad');
 
         // Security check
-        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+        OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkAccess(['advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId]);
 
         // Add standard page parameters
