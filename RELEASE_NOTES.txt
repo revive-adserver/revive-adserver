@@ -82,6 +82,9 @@ Non-Backwards Compatible Changes
 
  * Deprecated [rawDatabase] section in the config file is no longer supported.
 
+ * Deprecated SQL stored banners: the default setting for new installations is
+   to disallow SQL stored banners.
+
 
 Community Contributions
 ------------------------

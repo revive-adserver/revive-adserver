@@ -108,7 +108,7 @@ ftpPassive                          =
 ;------------------------------------------------------------------------------------------;
 
 [allowedBanners]
-sql                                 = true
+sql                                 = false
 web                                 = true
 url                                 = true
 html                                = true
