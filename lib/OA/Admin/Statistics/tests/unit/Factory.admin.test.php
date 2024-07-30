@@ -45,6 +45,8 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
         'affiliate-history' => 'OA_Admin_Statistics_Delivery_Controller_AffiliateHistory',
         'affiliate-zones' => 'OA_Admin_Statistics_Delivery_Controller_AffiliateZones',
 
+        'agency-history' => 'OA_Admin_Statistics_Delivery_Controller_AgencyHistory',
+
         'banner-affiliates' => 'OA_Admin_Statistics_Delivery_Controller_BannerAffiliates',
         'banner-affiliate-history' => 'OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory',
         //'banner-daily'                  => 'OA_Admin_Statistics_Delivery_Controller_BannerDaily',
@@ -60,6 +62,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
 
         'global-advertiser' => 'OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser',
         'global-affiliates' => 'OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates',
+        'global-agency' => 'OA_Admin_Statistics_Delivery_Controller_GlobalAgency',
         //'global-daily'                  => 'OA_Admin_Statistics_Delivery_Controller_GlobalDaily',
         'global-history' => 'OA_Admin_Statistics_Delivery_Controller_GlobalHistory',
 

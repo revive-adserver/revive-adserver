@@ -26,7 +26,10 @@ function _buildNavigation($accountType)
             }
 
             // Note: The stats screens haven't been updated to use the new menuing names...
-            $oMenu->add(new OA_Admin_Menu_Section("2", 'Stats', "stats.php?entity=global&breakdown=history", false, "statistics"));
+            $oMenu->add(new OA_Admin_Menu_Section("2", 'Stats', "stats.php?entity=global&breakdown=agency", false, "statistics"));
+            $oMenu->addTo("2", new OA_Admin_Menu_Section("2.9", 'GlobalAgency', "stats.php?entity=global&breakdown=agency", false, "statistics/agencies"));
+            $oMenu->addTo("2.9", new OA_Admin_Menu_Section("2.9.1", 'AgencyHistory', "stats.php?entity=agency&breakdown=history&agencyid={agencyid}", false, "statistics/agencyHistory"));
+            $oMenu->addTo("2.9.1", new OA_Admin_Menu_Section("2.9.1.1", 'DailyStats', "stats.php?entity=agency&breakdown=daily&agencyid={agencyid}&day={day}", false, "statistics/agencyHistory/daily"));
             $oMenu->addTo("2", new OA_Admin_Menu_Section("2.2", 'GlobalHistory', "stats.php?entity=global&breakdown=history", false, "statistics/global"));
             $oMenu->addTo("2.2", new OA_Admin_Menu_Section("2.2.1", 'DailyStats', "stats.php?entity=global&breakdown=daily&day={day}", false, "statistics/global/daily"));
             $oMenu->addTo("2", new OA_Admin_Menu_Section("report-index", 'AdvancedReports', "report-index.php", false, "statistics"));

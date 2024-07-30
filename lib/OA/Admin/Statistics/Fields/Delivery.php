@@ -391,8 +391,8 @@ abstract class OA_StatisticsFieldsDelivery
                 $aFields[] = "CONCAT(diac.ad_id, '_', diac.zone_id) AS pkey";
             } elseif (!isset($aParams['exclude']['ad_id'])) {
                 $aFields[] = "diac.ad_id AS pkey";
-            } else {
-                $aFields[] = "diac.zone_id AS pkey";
+            } elseif (!isset($aParams['exclude']['zone_id'])) {
+                $aFields[] = "(0) AS pkey";
             }
         } else {
             $aParams['exclude']['ad_id'] = true;
@@ -441,14 +441,20 @@ abstract class OA_StatisticsFieldsDelivery
                         " AND '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
         }
 
-        if (!empty($aParams['agency_id'])) {
+        if (!empty($aParams['agency_id']) || isset($aParams['include']['agency_id'])) {
             $aFrom['b'] = "JOIN {$conf['table']['prefix']}{$conf['table']['banners']} b ON (b.bannerid = diac.ad_id)";
             $aFrom['m'] = "JOIN {$conf['table']['prefix']}{$conf['table']['campaigns']} m ON (m.campaignid = b.campaignid)";
             $aFrom['c'] = "JOIN {$conf['table']['prefix']}{$conf['table']['clients']} c ON (c.clientid = m.clientid)";
-            $aFrom['z'] = "LEFT JOIN {$conf['table']['prefix']}{$conf['table']['zones']} z ON (z.zoneid = diac.zone_id)";
-            $aFrom['p'] = "LEFT JOIN {$conf['table']['prefix']}{$conf['table']['affiliates']} p ON (p.affiliateid = z.affiliateid AND p.agencyid = '{$aParams['agency_id']}')";
 
-            $aWhere[] = "c.agencyid = '{$aParams['agency_id']}'";
+            if (!empty($aParams['agency_id'])) {
+                $aFrom['z'] = "LEFT JOIN {$conf['table']['prefix']}{$conf['table']['zones']} z ON (z.zoneid = diac.zone_id)";
+                $aFrom['p'] = "LEFT JOIN {$conf['table']['prefix']}{$conf['table']['affiliates']} p ON (p.affiliateid = z.affiliateid AND p.agencyid = '{$aParams['agency_id']}')";
+
+                $aWhere[] = "c.agencyid = '{$aParams['agency_id']}'";
+            } else {
+                $aFields[] = "c.agencyid AS agency_id";
+                $aGroupBy[] = "agency_id";
+            }
         }
         if (!empty($aParams['advertiser_id']) || isset($aParams['include']['advertiser_id'])) {
             $aFrom['b'] = "JOIN {$conf['table']['prefix']}{$conf['table']['banners']} b ON (b.bannerid = diac.ad_id)";

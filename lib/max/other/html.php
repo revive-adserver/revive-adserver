@@ -37,12 +37,13 @@ function MAX_buildName($id, $name)
     return htmlspecialchars($name);
 }
 
-function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertiserid = '')
+function MAX_getEntityIcon($entity, $active = true, $type = '')
 {
     include_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
     $icon = '';
     switch ($entity) {
+        case 'agency':
         case 'advertiser':
             $icon = $active ? 'images/icon-advertiser.gif' : 'images/icon-advertiser-d.gif';
             break;
@@ -67,8 +68,7 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
 
         case 'zone':
             switch ($type) {
-                case MAX_ZoneMarketMigrated: $icon = 'images/icon-advertiser-openx.png';
-                    break;
+                default:
                 case phpAds_ZoneBanner: $icon = 'images/icon-zone.gif';
                     break;
                 case phpAds_ZoneInterstitial: $icon = 'images/icon-interstitial.gif';
@@ -80,8 +80,6 @@ function MAX_getEntityIcon($entity, $active = true, $type = '', $marketAdvertise
                 case MAX_ZoneEmail: $icon = 'images/icon-zone-email.gif';
                     break;
                 case MAX_ZoneClick: $icon = 'images/icon-zone-click.gif';
-                    break;
-                default: $icon = 'images/icon-zone.gif';
                     break;
             }
             break;

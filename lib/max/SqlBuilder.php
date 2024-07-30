@@ -131,6 +131,9 @@ class SqlBuilder
 
             case 'stats_by_entity':
                 if (isset($aParams['include']) && is_array($aParams['include'])) {
+                    if (in_array('agency_id', $aParams['include'])) {
+                        $aColumns += ['g.agencyid' => 'agency_id'];
+                    }
                     if (in_array('advertiser_id', $aParams['include'])) {
                         $aColumns += ['m.clientid' => 'advertiser_id'];
                     }
@@ -166,6 +169,7 @@ class SqlBuilder
                                     'placement_id' => 'd.campaignid',
                                     'advertiser_id' => 'm.clientid',
                                     'publisher_id' => 'z.affiliateid',
+                                    'agency_id' => 'g.agencyid',
                                 ];
                                 $aColumns[strtr(self::sqlKeyConcat($aParams['include']), $tr)] = 'pkey';
                             } else {
@@ -591,6 +595,14 @@ class SqlBuilder
                     $aTables += [$conf['table']['prefix'] . $aParams['custom_table'] => 's'];
                 } else {
                     $aTables += [$conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'] => 's'];
+                }
+
+                if (in_array('agency_id', $aParams['include'] ?? [])) {
+                    $aTables += [
+                        $conf['table']['prefix'] . $conf['table']['agency'] => 'g',
+                        $conf['table']['prefix'] . $conf['table']['affiliates'] => 'p',
+                        $conf['table']['prefix'] . $conf['table']['zones'] => 'z',
+                    ];
                 }
 
                 if (!empty($aParams['agency_id'])) {

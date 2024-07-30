@@ -589,7 +589,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @access private
      * @param string   $type    One of "advertiser", "publisher", "placement",
      *                          "ad", "zone".
-     * @param ingeger  $default Optional default value.
+     * @param integer|null  $default Optional default value.
      * @return integer The appropriate ID field.
      */
     public function _getId($type, $default = null)
@@ -627,6 +627,12 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 return (int) MAX_getValue('zoneid', '');
             } else {
                 return (int) MAX_getValue('zoneid', $default);
+            }
+        } elseif ($type == 'agency') {
+            if (is_null($default)) {
+                return (int) MAX_getValue('agencyid', '');
+            } else {
+                return (int) MAX_getValue('agencyid', $default);
             }
         }
     }

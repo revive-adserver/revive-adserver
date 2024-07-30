@@ -54,6 +54,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
         'b' => 'stats.php?entity=banner&breakdown=history',
         'p' => 'stats.php?entity=affiliate&breakdown=history',
         'z' => 'stats.php?entity=zone&breakdown=history',
+        'g' => 'stats.php?entity=agency&breakdown=history',
     ];
 
     /**
@@ -240,6 +241,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
             }
 
             $this->data = [
+                'agency_id' => [],
                 'advertiser_id' => [],
                 'placement_id' => [],
                 'ad_id' => [],
@@ -303,6 +305,9 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
                     }
                 }
             }
+            if (in_array('agency_id', $aggregates)) {
+                $this->childrendata['agency_id'] = Admin_DA::fromCache('getAgencies', $aParams);
+            }
 
             foreach ($aRows as $row) {
                 foreach ($aggregates as $agg) {
@@ -354,12 +359,147 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
     }
 
     /**
+     * Get agency stats
+     *
+     * @param array Query parameters
+     * @param int Tree level
+     * @param string Expand GET parameter, used only when called from other get methods
+     * @return array Entities array
+     */
+    public function getAgencies($aParams)
+    {
+        $aParams['include'] = ['agency_id'];
+        $aParams['exclude'] = ['advertiser_id', 'zone_id', 'ad_id', 'placement_id'];
+        $this->prepareData($aParams);
+        $period_preset = MAX_getStoredValue('period_preset', 'today');
+        $aAgencies = $this->mergeData($aParams, 'agency_id');
+        MAX_sortArray(
+            $aAgencies,
+            ($this->listOrderField == 'id' ? 'agency_id' : $this->listOrderField),
+            $this->listOrderDirection == 'up',
+        );
+
+        $aEntitiesData = [];
+        foreach ($aAgencies as $agencyId => $agency) {
+            $agency['active'] = $this->_hasActiveStats($agency);
+
+            $this->_summarizeStats($agency);
+
+            if (!$this->hideInactive || $agency['active']) {
+                $agency['prefix'] = 'g';
+                $agency['id'] = $agencyId;
+                $agency['linkparams'] = "agencyid={$agencyId}&";
+                if (is_array($aParams) && $aParams !== []) {
+                    foreach ($aParams as $key => $value) {
+                        if ($key != "include" && $key != "exclude") {
+                            $agency['linkparams'] .= $key . "=" . $value . "&";
+                        }
+                    }
+                } else {
+                    $agency['linkparams'] .= "&";
+                }
+                $agency['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
+                    . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
+
+                $agency['icon'] = MAX_getEntityIcon('agency', $agency['active']);
+
+                $aEntitiesData[] = $agency;
+            } else {
+                $this->hiddenEntities++;
+            }
+        }
+
+        return $aEntitiesData;
+    }
+
+    /**
+     * Get campaign stats
+     *
+     * @param array Query parameters
+     * @param int Tree level
+     * @param string Expand GET parameter, used only when called from other get methods
+     * @return array Entities array
+     */
+    public function getCampaigns($aParams, $level, $expand = '')
+    {
+        $aParams['include'] = ['placement_id', 'advertiser_id'];
+        $aParams['exclude'] = ['zone_id'];
+        $this->prepareData($aParams);
+        $period_preset = MAX_getStoredValue('period_preset', 'today');
+
+        $aPlacements = $this->mergeData($aParams, 'placement_id');
+        MAX_sortArray(
+            $aPlacements,
+            ($this->listOrderField == 'id' ? 'placement_id' : $this->listOrderField),
+            $this->listOrderDirection == 'up',
+        );
+
+        $aEntitiesData = [];
+        foreach ($aPlacements as $campaignId => $campaign) {
+            $campaign['active'] = $this->_hasActiveStats($campaign);
+
+            if ($this->startLevel > $level || !$this->hideInactive || $campaign['active']) {
+                $this->_summarizeStats($campaign);
+                // mask anonymous campaigns if advertiser
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+                    // a) mask campaign name
+                    $campaign['name'] = MAX_getPlacementName($campaign);
+                    // b) mask ad names
+                    if ($campaign['anonymous'] == 't' && isset($campaign['children'])) {
+                        foreach ($campaign['children'] as $ad_id => $ad) {
+                            $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+                        }
+                    }
+                }
+
+                $campaign['prefix'] = 'c';
+                $campaign['id'] = $campaignId;
+                $campaign['linkparams'] = "clientid={$campaign['advertiser_id']}&campaignid={$campaignId}&";
+                if (is_array($aParams) && $aParams !== []) {
+                    foreach ($aParams as $key => $value) {
+                        if ($key != "include" && $key != "exclude") {
+                            $campaign['linkparams'] .= $key . "=" . $value . "&";
+                        }
+                    }
+                } else {
+                    $campaign['linkparams'] .= "&";
+                }
+                $campaign['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
+                    . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
+                $campaign['expanded'] = MAX_isExpanded($campaignId, $expand, $this->aNodes, $campaign['prefix']);
+                $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active'], $campaign['type']);
+
+                // mask anonymous campaigns
+                // a) mask campaign name
+                $campaign['name'] = MAX_getPlacementName($campaign);
+
+                // b) mask ad names
+                if (isset($campaign['children'])) {
+                    foreach ($campaign['children'] as $ad_id => $ad) {
+                        $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
+                    }
+                }
+                if ($campaign['expanded'] || $this->startLevel > $level) {
+                    $aParams2 = $aParams + ['placement_id' => $campaignId];
+                    $campaign['subentities'] = $this->getBanners($aParams2, $level + 1, $expand);
+                }
+
+                $aEntitiesData[] = $campaign;
+            } elseif ($this->startLevel == $level) {
+                $this->hiddenEntities++;
+            }
+        }
+
+        return $aEntitiesData;
+    }
+
+    /**
      * Get advertiser stats
      *
      * @param array Query parameters
      * @param int Tree level
      * @param string Expand GET parameter, used only when called from other get methods
-     * @return Entities array
+     * @return array Entities array
      */
     public function getAdvertisers($aParams, $level, $expand = '')
     {
@@ -415,87 +555,6 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
     }
 
     /**
-     * Get campaign stats
-     *
-     * @param array Query parameters
-     * @param int Tree level
-     * @param string Expand GET parameter, used only when called from other get methods
-     * @return Entities array
-     */
-    public function getCampaigns($aParams, $level, $expand = '')
-    {
-        $aParams['include'] = ['placement_id', 'advertiser_id'];
-        $aParams['exclude'] = ['zone_id'];
-        $this->prepareData($aParams);
-        $period_preset = MAX_getStoredValue('period_preset', 'today');
-
-        $aPlacements = $this->mergeData($aParams, 'placement_id');
-        MAX_sortArray(
-            $aPlacements,
-            ($this->listOrderField == 'id' ? 'placement_id' : $this->listOrderField),
-            $this->listOrderDirection == 'up',
-        );
-
-        $aEntitiesData = [];
-        foreach ($aPlacements as $campaignId => $campaign) {
-            $campaign['active'] = $this->_hasActiveStats($campaign);
-
-            if ($this->startLevel > $level || !$this->hideInactive || $campaign['active']) {
-                $this->_summarizeStats($campaign);
-                // mask anonymous campaigns if advertiser
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-                    // a) mask campaign name
-                    $campaign['name'] = MAX_getPlacementName($campaign);
-                    // b) mask ad names
-                    if ($campaign['anonymous'] == 't' && isset($campaign['children'])) {
-                        foreach ($campaign['children'] as $ad_id => $ad) {
-                            $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
-                        }
-                    }
-                }
-
-                $campaign['prefix'] = 'c';
-                $campaign['id'] = $campaignId;
-                $campaign['linkparams'] = "clientid={$campaign['advertiser_id']}&campaignid={$campaignId}&";
-                if (is_array($aParams) && $aParams !== []) {
-                    foreach ($aParams as $key => $value) {
-                        if ($key != "include" && $key != "exclude") {
-                            $campaign['linkparams'] .= $key . "=" . $value . "&";
-                        }
-                    }
-                } else {
-                    $campaign['linkparams'] .= "&";
-                }
-                $campaign['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
-                                          . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
-                $campaign['expanded'] = MAX_isExpanded($campaignId, $expand, $this->aNodes, $campaign['prefix']);
-                $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active'], $campaign['type']);
-
-                // mask anonymous campaigns
-                // a) mask campaign name
-                $campaign['name'] = MAX_getPlacementName($campaign);
-
-                // b) mask ad names
-                if (isset($campaign['children'])) {
-                    foreach ($campaign['children'] as $ad_id => $ad) {
-                        $campaign['children'][$ad_id]['name'] = MAX_getAdName($ad['name'], null, null, $campaign['anonymous'], $ad_id);
-                    }
-                }
-                if ($campaign['expanded'] || $this->startLevel > $level) {
-                    $aParams2 = $aParams + ['placement_id' => $campaignId];
-                    $campaign['subentities'] = $this->getBanners($aParams2, $level + 1, $expand);
-                }
-
-                $aEntitiesData[] = $campaign;
-            } elseif ($this->startLevel == $level) {
-                $this->hiddenEntities++;
-            }
-        }
-
-        return $aEntitiesData;
-    }
-
-    /**
      * Returns the HTML used to display the help icon triggering the tooltip
      * @param $id ID of the html div to show on hover
      * @return string
@@ -511,7 +570,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
      * @param array Query parameters
      * @param int Tree level
      * @param string Expand GET parameter, used only when called from other get methods
-     * @return Entities array
+     * @return array Entities array
      */
     public function getBanners($aParams, $level, $expand = '')
     {
@@ -574,7 +633,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
      * @param array Query parameters
      * @param int Tree level
      * @param string Expand GET parameter, used only when called from other get methods
-     * @return Entities array
+     * @return array Entities array
      */
     public function getPublishers($aParams, $level, $expand = '')
     {
@@ -634,7 +693,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
      * @param array Query parameters
      * @param int Tree level
      * @param string Expand GET parameter, used only when called from other get methods
-     * @return Entities array
+     * @return array Entities array
      */
     public function getZones($aParams, $level, $expand)
     {

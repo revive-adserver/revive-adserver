@@ -51,6 +51,10 @@ New Features
  * Added support for writing to a fail2ban compatible log file on unsuccessful
    login attempts.
 
+ * Replaced advertiser and website statistics with a new account statistics
+   screen for administrator users.
+ 
+
 Bug Fixes
 ---------
 
