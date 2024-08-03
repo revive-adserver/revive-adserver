@@ -985,6 +985,7 @@ $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "UPGRADE IS MISLUKT";
 
 // Agency
 $GLOBALS['strAgencyManagement'] = "Account beheer";
+$GLOBALS['strGlobalAgency'] = 'Accounts';
 $GLOBALS['strAgency'] = "Account";
 $GLOBALS['strAddAgency'] = "Voeg nieuw account toe";
 $GLOBALS['strAddAgency_Key'] = "<u>N</u>ieuw account toevoegen";
