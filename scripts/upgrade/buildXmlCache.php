@@ -16,7 +16,7 @@ if (php_sapi_name() != 'cli') {
     exit;
 }
 
-error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
 
 echo "=> STARTING TO REFRESH THE MDB2 SCHEMA XML FILE CACHE\n";
 
@@ -53,7 +53,7 @@ setupConfigVariables();
 @set_time_limit(600);
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('cache'));
 
-error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
 
 if (!is_writable(MAX_PATH . '/etc/xmlcache')) {
     die("=> The directory " . MAX_PATH . '/etc/xmlcache' . " is not writable\n");

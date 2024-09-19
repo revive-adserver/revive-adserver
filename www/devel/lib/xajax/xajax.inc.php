@@ -1160,8 +1160,6 @@ function xajaxErrorHandler($errno, $errstr, $errfile, $errline)
         $errTypeStr = "USER WARNING";
     } elseif ($errno == E_USER_ERROR) {
         $errTypeStr = "USER FATAL ERROR";
-    } elseif ($errno == E_STRICT) {
-        return;
     } else {
         $errTypeStr = "UNKNOWN: $errno";
     }

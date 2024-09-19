@@ -16,7 +16,7 @@
  */
 
 // Disable notices, but enable warnings
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
 // PSR Autoloader
 require_once __DIR__.'/../lib/vendor/autoload.php';
