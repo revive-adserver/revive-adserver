@@ -277,9 +277,9 @@ $conf = $GLOBALS['_MAX']['CONF'];
 include MAX_PATH . '/lib/vendor/autoload.php';
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
-error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
 } else {
-error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
+error_reporting(E_ALL & ~(E_DEPRECATED));
 }
 
 $file = '/lib/max/Delivery/common.php';
