@@ -21,11 +21,6 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Install/InstallController.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Controller/Request.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/WizardSteps.php';
 
-/* Report all errors directly to the screen for simple diagnostics in the dev environment */
-//error_reporting(E_ALL | E_STRICT);
-//ini_set('display_startup_errors', 1);
-//ini_set('display_errors', 1);
-
 $oInstaller = new Installer();
 $oInstaller->startMVC();
 

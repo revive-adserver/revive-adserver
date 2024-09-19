@@ -5,11 +5,6 @@
      *	@subpackage	UnitTester
      */
 
-    /** @ignore - PHP5 compatibility fix. */
-    if (! defined('E_STRICT')) {
-        define('E_STRICT', 2048);
-    }
-
     /**#@+
      * Includes SimpleTest files.
      */
@@ -197,7 +192,6 @@
          */
         static function getSeverityAsString($severity) {
             static $map = array(
-                    E_STRICT => 'E_STRICT',
                     E_ERROR => 'E_ERROR',
                     E_WARNING => 'E_WARNING',
                     E_PARSE => 'E_PARSE',
@@ -209,7 +203,6 @@
                     E_USER_ERROR => 'E_USER_ERROR',
                     E_USER_WARNING => 'E_USER_WARNING',
                     E_USER_NOTICE => 'E_USER_NOTICE',
-                    E_STRICT => 'E_STRICT',
                     E_DEPRECATED => 'E_DEPRECATED',
             );
             return $map[$severity];

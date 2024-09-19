@@ -33,8 +33,6 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 
-    //error_reporting(E_ALL | E_STRICT);
-    //require_once('HTML/TreeMenu.php');
     require_once('../TreeMenu.php');
 
     $icon         = 'folder.gif';

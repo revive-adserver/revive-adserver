@@ -21,7 +21,7 @@ if (php_sapi_name() != 'cli') {
     exit;
 }
 
-error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
 
 echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 

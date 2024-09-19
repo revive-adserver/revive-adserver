@@ -48,7 +48,7 @@ function init()
     // Disable all notices and warnings, as lots of code still
     // generates PHP warnings - especially E_STRICT notices from PEAR
     // libraries
-    error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+    error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
 
     // If not being called from the installation script...
     if ((!isset($GLOBALS['_MAX']['CONF']['openads']['installed'])) || (!$GLOBALS['_MAX']['CONF']['openads']['installed'])) {

@@ -48,10 +48,10 @@ $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILEN
 // Disable all notices and warnings,
 // as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
-    error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+    error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
 } else {
     // show all errors when developing
-    error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
+    error_reporting(E_ALL & ~(E_DEPRECATED));
 }
 
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
