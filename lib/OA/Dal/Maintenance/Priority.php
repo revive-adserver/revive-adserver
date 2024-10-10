@@ -222,25 +222,22 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     public function getCampaignDeliveryToDate($id)
     {
         $this->oDbh->loadModule('Reverse');
-        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = [];
-        $table = $this->_getTablenameUnquoted('campaigns');
+        $table = $this->_getTablenameUnquoted('data_intermediate_ad');
         $joinTable1 = $this->_getTablenameUnquoted('banners');
-        $joinTable2 = $this->_getTablenameUnquoted('data_intermediate_ad');
         $query['table'] = $table;
         $query['fields'] = [
-            "SUM($joinTable2.requests) AS sum_requests",
-            "SUM($joinTable2.impressions) AS sum_views",
-            "SUM($joinTable2.clicks) AS sum_clicks",
-            "SUM($joinTable2.conversions) AS sum_conversions",
-            "$table.campaignid AS placement_id",
+            "SUM($table.requests) AS sum_requests",
+            "SUM($table.impressions) AS sum_views",
+            "SUM($table.clicks) AS sum_clicks",
+            "SUM($table.conversions) AS sum_conversions",
+            "$joinTable1.campaignid AS placement_id",
         ];
         $query['wheres'] = [
-            ["$table.campaignid = $id", 'AND'],
+            ["$joinTable1.campaignid = $id", 'AND'],
         ];
         $query['joins'] = [
-            [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
-            [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id"],
+            [$joinTable1, "$joinTable1.bannerid = $table.ad_id"],
         ];
         $query['group'] = "placement_id";
         return $this->_get($query);
@@ -410,28 +407,26 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $oEndDate->setSecond(59);
         $oEndDate->toUTC();
 
-        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = [];
-        $table = $this->_getTablenameUnquoted('campaigns');
+        $table = $this->_getTablenameUnquoted('data_intermediate_ad');
         $joinTable1 = $this->_getTablenameUnquoted('banners');
-        $joinTable2 = $this->_getTablenameUnquoted('data_intermediate_ad');
 
         $query['table'] = $table;
         $query['fields'] = [
-            "SUM($joinTable2.requests) AS sum_requests",
-            "SUM($joinTable2.impressions) AS sum_views",
-            "SUM($joinTable2.clicks) AS sum_clicks",
-            "SUM($joinTable2.conversions) AS sum_conversions",
-            "$table.campaignid AS placement_id",
+            "SUM($table.requests) AS sum_requests",
+            "SUM($table.impressions) AS sum_views",
+            "SUM($table.clicks) AS sum_clicks",
+            "SUM($table.conversions) AS sum_conversions",
+            "$joinTable1.campaignid AS placement_id",
         ];
         $query['wheres'] = [
-            ["$table.campaignid = $id", 'AND'],
+            ["$joinTable1.campaignid = $id", 'AND'],
         ];
         $query['joins'] = [
-            [$joinTable1, "$table.campaignid = $joinTable1.campaignid"],
-            [$joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "' AND $joinTable2.date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'"],
+            [$joinTable1, "$joinTable1.bannerid = $table.ad_id AND $table.date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "' AND $table.date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'"],
         ];
         $query['group'] = "placement_id";
+
         return $this->_get($query);
     }
 
@@ -2670,10 +2665,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             } else {
                 $oTz = $aCache[$doAgency->account_id];
             }
-        } else {
-            $oTz = new Date_TimeZone('UTC');
         }
 
-        return $oTz;
+        return $oTz ?? new Date_TimeZone('UTC');
     }
 }

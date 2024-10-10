@@ -592,7 +592,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             ],
         );
         (new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oAd, $aParam);
-        //(new ReflectionMethod(OA_Maintenance_Priority_Ad::class, '__construct'))->invoke($oAd, $aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');

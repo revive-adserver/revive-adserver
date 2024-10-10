@@ -513,17 +513,18 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             return 0;
         }
 
-        // This part must be run using the agency timezone
         $oStart = new Date($oDate);
-        $oStart->convertTZ($this->currentTz);
-        $oEnd = new Date($oCampaignExpiryDate);
-        $oEnd->convertTZ($this->currentTz);
 
         if ($oDeliveryLimitation->deliveryBlocked($oStart) == true) {
             // The advertisement is not currently able to deliver, and so
             // no impressions should be allocated for this operation interval
             return 0;
         }
+
+        // The following part must be run using the agency timezone
+        $oStart->convertTZ($this->currentTz);
+        $oEnd = new Date($oCampaignExpiryDate);
+        $oEnd->convertTZ($this->currentTz);
 
         // Get the cumulative associated zones forecasts for the previous week's
         // zone inventory forecasts, keyed by the operation interval ID

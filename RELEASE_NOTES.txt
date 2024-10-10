@@ -78,6 +78,10 @@ Bug Fixes
    Plugin to use a primary key and avoid the creation of an additional
    "banners_vast_element_seq" table on MySQL without any prefix.
 
+ * Fixed an issue preventing contract campaigns from working properly with
+   hour of day limitation in non-UTC timezones or with campaigns having
+   daily targets.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

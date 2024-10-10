@@ -51,9 +51,6 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
         OA_setTimeZoneUTC();
 
         $oDate = new Date('2005-04-03');
-        $oEarlierDate = new Date('2005-04-02');
-        $oLaterDate = new Date('2005-04-04');
-
         $limitationData = $oDate->format('%Y%m%d@%Z');
 
         // Test 1
@@ -66,6 +63,19 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
             'executionorder' => 1,
         ];
         $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+
+        // Test error with non-UTC date
+        $oDate = new Date('2006-02-07 23:15:45');
+        $oDate->convertTZbyID('Europe/Rome');
+
+        PEAR::pushErrorHandling(null);
+        $this->assertTrue($oLimitationDate->deliveryBlocked($oDate) instanceof PEAR_Error);
+        PEAR::popErrorHandling();
+
+        $oDate = new Date('2005-04-03');
+        $oEarlierDate = new Date('2005-04-02');
+        $oLaterDate = new Date('2005-04-04');
+
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: true, ad is inactive

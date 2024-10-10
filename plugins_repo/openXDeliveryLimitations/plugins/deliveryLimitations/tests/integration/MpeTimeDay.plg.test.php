@@ -51,6 +51,14 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Day extends UnitTestCase
         ];
         $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 
+        // Test error with non-UTC date
+        $oDate = new Date('2006-02-07 23:15:45');
+        $oDate->convertTZbyID('Europe/Rome');
+
+        PEAR::pushErrorHandling(null);
+        $this->assertTrue($oLimitationDay->deliveryBlocked($oDate) instanceof PEAR_Error);
+        PEAR::popErrorHandling();
+
         $oDate = new Date('2006-02-05'); // Sunday
         $this->assertTrue($oLimitationDay->deliveryBlocked($oDate));
         $oDate = new Date('2006-02-06'); // Monday

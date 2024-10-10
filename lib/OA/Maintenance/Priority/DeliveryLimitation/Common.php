@@ -43,6 +43,13 @@ class OA_Maintenance_Priority_DeliveryLimitation_Common extends OA_Maintenance_P
             );
         }
 
+        if ('UTC' !== $oDate->tz->id) {
+            return MAX::raiseError(
+                'Parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Common is not in UTC',
+                MAX_ERROR_INVALIDARGS,
+            );
+        }
+
         $aParts = OX_Component::parseComponentIdentifier($this->type);
         if (!empty($aParts) && count($aParts) == 3) {
             $fileName = MAX_PATH . $aConf['pluginPaths']['plugins'] . implode('/', $aParts) . '.delivery.php';

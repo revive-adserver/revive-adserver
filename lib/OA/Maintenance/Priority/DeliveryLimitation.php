@@ -185,18 +185,12 @@ class OA_Maintenance_Priority_DeliveryLimitation
      */
     public function getBlockedOperationIntervalCount($oStartDate, $oEndDate)
     {
-        // Ensure the campaign end date is at the END of the day
-        $oCampaignEndDate = new Date();
-        $oCampaignEndDate->copy($oEndDate);
-        $oCampaignEndDate->setHour(23);
-        $oCampaignEndDate->setMinute(59);
-        $oCampaignEndDate->setSecond(59);
         // Copy the starting date to use in a loop
         $oLoopDate = new Date();
         $oLoopDate->copy($oStartDate);
         // Count the number of blocked operation intervals
         $blockedIntervals = 0;
-        while (!$oLoopDate->after($oCampaignEndDate)) {
+        while (!$oLoopDate->after($oEndDate)) {
             if ($this->deliveryBlocked($oLoopDate)) {
                 // Update the count of blocked intervals, but
                 // also store the start/end dates of the blocked
@@ -355,7 +349,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
             }
         }
 
-        // Step 4: Subtract any blocked interval values
+        // Step 4: Subtract any blocked interval values after today
         if ($this->blockedOperationIntervalCount > 0) {
             OA::debug("      - Subtracting {$this->blockedOperationIntervalCount} blocked intervals", PEAR_LOG_DEBUG);
             foreach ($this->aBlockedOperationIntervalDates as $aDates) {

@@ -562,7 +562,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $oNowDate = new Date('2006-02-08 07:05:00');
-        $oPlacementEndDate = new Date('2006-02-10');
+        $oPlacementEndDate = new Date('2006-02-10 23:59:59');
 
         // Test 1
         $aDeliveryLimitations = [
@@ -608,7 +608,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $oNowDate = new Date('2006-02-08 07:05:00');
-        $oPlacementEndDate = new Date('2006-02-10');
+        $oPlacementEndDate = new Date('2006-02-10 22:59:59');
 
         // Test 1
         $aDeliveryLimitations = [
@@ -622,8 +622,8 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ],
         ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
-        $result = $oDeliveryLimitationManager->getActiveAdOperationIntervals(65, $oNowDate, $oPlacementEndDate);
-        $this->assertEqual($result, 11);
+        $result = $oDeliveryLimitationManager->getActiveAdOperationIntervals(64, $oNowDate, $oPlacementEndDate);
+        $this->assertEqual($result, 10);
 
         // Test 2
         $aDeliveryLimitations = [
@@ -637,7 +637,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
             ],
         ];
         $oDeliveryLimitationManager = new OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations);
-        $result = $oDeliveryLimitationManager->getActiveAdOperationIntervals(65, $oNowDate, $oPlacementEndDate);
+        $result = $oDeliveryLimitationManager->getActiveAdOperationIntervals(64, $oNowDate, $oPlacementEndDate);
         $this->assertEqual($result, 54);
 
         TestEnv::restoreConfig();

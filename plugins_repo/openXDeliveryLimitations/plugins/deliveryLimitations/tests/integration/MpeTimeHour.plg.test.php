@@ -50,6 +50,15 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
             'executionorder' => 1,
         ];
         $oLimitationHour = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+
+        // Test error with non-UTC date
+        $oDate = new Date('2006-02-07 23:15:45');
+        $oDate->convertTZbyID('Europe/Rome');
+
+        PEAR::pushErrorHandling(null);
+        $this->assertTrue($oLimitationHour->deliveryBlocked($oDate) instanceof PEAR_Error);
+        PEAR::popErrorHandling();
+
         $oDate = new Date('2006-02-07 23:15:45');
         for ($i = 0; $i < 24; $i++) {
             $oDate->addSeconds(SECONDS_PER_HOUR);
