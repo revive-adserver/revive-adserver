@@ -258,7 +258,7 @@ jobs:
   post-commit:
     name: Post commit hooks
 
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && !startsWith(github.actor, 'dependabot')
 
     needs:
       - type-checker
