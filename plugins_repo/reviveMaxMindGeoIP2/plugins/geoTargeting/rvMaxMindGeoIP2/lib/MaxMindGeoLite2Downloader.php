@@ -43,32 +43,15 @@ class MaxMindGeoLite2Downloader
 
     public function updateGeoLiteDatabase(): bool
     {
-        $md5Path = $this->getFullPath() . self::GEOLITE2_DBNAME . self::GEOLITE2_SUFFIX_MD5;
-
         if (!$this->lock()) {
             return false;
         }
 
-        $md5 = $this->download(self::GEOLITE2_SUFFIX_MD5);
-
-        if ($md5 === @file_get_contents($md5Path)) {
+        try {
+            return $this->update();
+        } finally {
             $this->unlock();
-
-            return false;
         }
-
-        $this->tempName = tempnam($this->getFullPath(), 'tmp');
-        $tarGzPath = $this->tempName . self::GEOLITE2_SUFFIX_TAR_GZ;
-
-        $this->downloadTo(self::GEOLITE2_SUFFIX_TAR_GZ, $tarGzPath);
-
-        $this->decompress($tarGzPath);
-
-        file_put_contents($md5Path, $md5);
-
-        $this->unlock();
-
-        return true;
     }
 
     private function lock(): bool
@@ -81,7 +64,7 @@ class MaxMindGeoLite2Downloader
         return $this->lockFp && @flock($this->lockFp, LOCK_EX);
     }
 
-    private function unlock()
+    private function unlock(): void
     {
         if (!$this->lockFp) {
             return;
@@ -129,7 +112,7 @@ class MaxMindGeoLite2Downloader
         );
     }
 
-    private function decompress(string $tarGzPath): bool
+    private function decompress(string $tarGzPath): void
     {
         $pharData = new \PharData($tarGzPath);
 
@@ -147,16 +130,44 @@ class MaxMindGeoLite2Downloader
             throw new \InvalidArgumentException("Unknown file format");
         }
 
-        stream_copy_to_stream(
+        $destName = $this->getFullPath() . self::GEOLITE2_CITY_MMDB;
+
+        $result = @stream_copy_to_stream(
             fopen($pathName, 'rb'),
-            fopen($this->getFullPath() . self::GEOLITE2_CITY_MMDB, 'w'),
+            fopen($destName, 'w'),
         );
 
-        return true;
+        if (false === $result) {
+            throw new \RuntimeException("Could not write to: {$destName}");
+        }
     }
 
     private function getFullPath(): string
     {
         return \MAX_PATH . '/' . self::RELATIVE_PATH;
+    }
+
+    private function update(): bool
+    {
+        $md5Path = $this->getFullPath() . self::GEOLITE2_DBNAME . self::GEOLITE2_SUFFIX_MD5;
+
+        $md5 = $this->download(self::GEOLITE2_SUFFIX_MD5);
+
+        if ($md5 === @file_get_contents($md5Path)) {
+            return false;
+        }
+
+        $this->tempName = tempnam($this->getFullPath(), 'tmp');
+        $tarGzPath = $this->tempName . self::GEOLITE2_SUFFIX_TAR_GZ;
+
+        $this->downloadTo(self::GEOLITE2_SUFFIX_TAR_GZ, $tarGzPath);
+
+        $this->decompress($tarGzPath);
+
+        if (false === @file_put_contents($md5Path, $md5)) {
+            throw new \RuntimeException("Could not write to: {$md5Path}");
+        }
+
+        return true;
     }
 }

@@ -82,6 +82,9 @@ Bug Fixes
    hour of day limitation in non-UTC timezones or with campaigns having
    daily targets.
 
+ * Fixed improper handling of write errors when downloading GeoLiteCity
+   database files.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
