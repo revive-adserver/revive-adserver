@@ -37,7 +37,12 @@ foreach ($aDefaultPlugins as $plugin) {
     buildPlugin($plugin);
 
     if (zipDiff("{$plugin}.zip", "../etc/plugins/{$plugin}.zip")) {
-        bumpVersion($plugin, $nextVersion);
+        if (null !== $nextVersion) {
+            bumpVersion($plugin, $nextVersion);
+        } else {
+            $nextVersion = $currentVersion;
+        }
+
         buildPlugin($plugin);
 
         if (!@copy("{$plugin}.zip", "../etc/plugins/{$plugin}.zip")) {
@@ -107,8 +112,18 @@ function getVersions(string $plugin): array
         throw new \RuntimeException("Can't parse version in: {$fileName}");
     }
 
+    $nextVersion = sprintf("%s%d", $m[1], (int) $m[2] + 1);
+
+    if ($diff = $_ENV['GIT_DIFF'] ?? getenv('GIT_DIFF')) {
+        exec('git diff ' . escapeshellarg($diff) . ' -- ' . escapeshellarg($fileName) . ' | grep -q "<version>"', $output, $rc);
+
+        if (0 === $rc) {
+            $nextVersion = null;
+        }
+    }
+
     return [
         $m[1] . $m[2],
-        sprintf("%s%d", $m[1], (int) $m[2] + 1),
+        $nextVersion,
     ];
 }

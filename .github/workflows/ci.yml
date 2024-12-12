@@ -283,6 +283,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.MATTEO_PAT }}
 
       - name: Install PHP with extensions
@@ -360,6 +361,8 @@ jobs:
           push: false
 
       - name: Update plugin packages
+        env:
+          GIT_DIFF: ${{ github.event.commits[0].id || 'HEAD' }}^
         run: php scripts/upgrade/rebuildBundledPlugins.php
 
       - name: Add & Commit
