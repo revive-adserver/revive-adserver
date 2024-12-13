@@ -90,15 +90,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'bool' => true,
         ],
     ];
-    // P3P Privacy Policies
-    $aElements += [
-        'p3p_policies' => [
-            'p3p' => 'policies',
-            'bool' => true,
-        ],
-        'p3p_compactPolicy' => ['p3p' => 'compactPolicy'],
-        'p3p_policyLocation' => ['p3p' => 'policyLocation'],
-    ];
     // OpenX Server Access Paths
     $aElements += [
         'webpath_admin' => [
@@ -322,37 +313,6 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'privacy_anonymiseIp',
                 'text' => $strAnonymiseIp,
-            ],
-        ],
-    ],
-    [
-        'text' => $strP3PSettings,
-        'items' => [
-            [
-                'type' => 'checkbox',
-                'name' => 'p3p_policies',
-                'text' => $strUseP3P,
-            ],
-            [
-                'type' => 'break',
-            ],
-            [
-                'type' => 'text',
-                'name' => 'p3p_compactPolicy',
-                'text' => $strP3PCompactPolicy,
-                'size' => 35,
-                'depends' => 'p3p_policies==true',
-            ],
-            [
-                'type' => 'break',
-            ],
-            [
-                'type' => 'text',
-                'name' => 'p3p_policyLocation',
-                'text' => $strP3PPolicyLocation,
-                'size' => 35,
-                'depends' => 'p3p_policies==true',
-                'check' => 'url',
             ],
         ],
     ],

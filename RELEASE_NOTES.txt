@@ -81,7 +81,6 @@ Bug Fixes
  * Fixed the definition of the "acls" and "acls_channel" tables so that they
    have a proper primary key.
 
-<<<<<<< HEAD
  * Fixed the definition of the "banners_vast_element" table in the IAB VAST
    Plugin to use a primary key and avoid the creation of an additional
    "banners_vast_element_seq" table on MySQL without any prefix.
@@ -92,11 +91,10 @@ Bug Fixes
 
  * Fixed improper handling of write errors when downloading GeoLiteCity
    database files.
-=======
+
  * Fixed issue with search settings being reset when typing a new search
    keyword. Compact view is also the new default in order to keep resource
    usage low.
->>>>>>> parent of 96d52bd4d (Revert "Fix #1476 Add Link rel=preconnect header")
 
 
 Non-Backwards Compatible Changes
@@ -108,6 +106,8 @@ Non-Backwards Compatible Changes
 
  * Deprecated SQL stored banners: the default setting for new installations is
    to disallow SQL stored banners.
+
+ * Removed obsolete P3P headers and settings.
 
 
 Community Contributions

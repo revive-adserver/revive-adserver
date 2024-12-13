@@ -158,11 +158,6 @@ invalidZoneHtmlBanner               =       ; If zone does not exist, show this 
 suspendedAccountHtmlBanner          =       ; If account is suspended, show this HTML snippet
 inactiveAccountHtmlBanner           =       ; If account is inactive, show this HTML snippet
 
-[p3p]
-policies                            = true
-compactPolicy                       = CUR ADM OUR NOR STA NID
-policyLocation                      =
-
 [privacy]
 disableViewerId                     = true
 anonymiseIp                         = true

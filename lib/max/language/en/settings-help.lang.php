@@ -93,17 +93,6 @@ the detection of the supported image formats. If {$PRODUCT_NAME} fails to auto-d
 the right image format you can specify the right image format. Possible
 values are: none, png, jpeg, gif.";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "If you want to enable {$PRODUCT_NAME}' P3P Privacy Policies you must turn this
-option on.";
-
-$GLOBALS['phpAds_hlp_p3p_compact_policy'] = "The compact policy which is sent together with cookies. The default setting
-is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to
-accept the cookies used by {$PRODUCT_NAME}. If you want you can alter these
-settings to match your own privacy statement.";
-
-$GLOBALS['phpAds_hlp_p3p_policy_location'] = "If you want to use a full privacy policy, you can specify the location
-of the policy.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normally all AdViews are logged, if you don't want to gather statistics
 about AdViews you can turn this off.";
 

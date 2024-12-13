@@ -103,67 +103,6 @@ class Test_DeliveryCookie extends UnitTestCase
     }
 
     /**
-     * Test that the P3P headers are generated correctly
-     *
-     */
-    public function test_MAX_cookieSendP3PHeaders()
-    {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-
-        // Test that nothing is set if the p3p policy setting is set to false
-        $conf['p3p']['policies'] = false;
-        unset($GLOBALS['_HEADERS']);
-        MAX_cookieSendP3PHeaders();
-        $this->assertFalse(isset($GLOBALS['_HEADERS']));
-
-        // Test that the p3p header is set correctly if p3p policies is set
-        $conf['p3p']['policies'] = true;
-        $p3p = _generateP3PHeader();
-        unset($GLOBALS['_HEADERS']);
-        MAX_cookieSendP3PHeaders();
-        $this->assertIsA($GLOBALS['_HEADERS'], 'array');
-        $this->assertEqual($GLOBALS['_HEADERS'][0], "P3P: " . $p3p);
-    }
-
-    /**
-     * Test that the P3P string to be put into the P3P header is generated correctly
-     *
-     */
-    public function test_generateP3PHeader()
-    {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-
-        // Test that nothing is generated if $conf['p3p']['policies'] is false
-        $conf['p3p']['policies'] = false;
-        $this->assertEqual(_generateP3PHeader(), '');
-
-        // Test that the compact policy header is generated correctly with a compact policy
-        // and a policyLocation
-        $conf['p3p']['policies'] = true;
-        $conf['p3p']['compactPolicy'] = 'CUR ADM OUR NOR STA NID';
-        $conf['p3p']['policyLocation'] = 'http://www.openx.org/policy.xml';
-        $this->assertEqual(_generateP3PHeader(), ' policyref="' . $conf['p3p']['policyLocation'] . '",  CP="' . $conf['p3p']['compactPolicy'] . '"');
-
-        // Test that the compact policy header is generated correctly with just a compact policy
-        $conf['p3p']['policies'] = true;
-        $conf['p3p']['compactPolicy'] = 'CUR ADM OUR NOR STA NID';
-        $conf['p3p']['policyLocation'] = '';
-        $this->assertEqual(_generateP3PHeader(), ' CP="' . $conf['p3p']['compactPolicy'] . '"');
-
-        // Test that the compact policy header is generated correctly with just a policy location
-        $conf['p3p']['policies'] = true;
-        $conf['p3p']['compactPolicy'] = '';
-        $conf['p3p']['policyLocation'] = 'http://www.openx.org/policy.xml';
-        $this->assertEqual(_generateP3PHeader(), ' policyref="' . $conf['p3p']['policyLocation'] . '"');
-
-        // Test that the compact policy header is not generated without either policy location or compact policy
-        $conf['p3p']['policies'] = true;
-        $conf['p3p']['compactPolicy'] = '';
-        $conf['p3p']['policyLocation'] = '';
-        $this->assertEqual(_generateP3PHeader(), '');
-    }
-
-    /**
      * This function should take a viewerID and set this in a cookie, and then send a header redirect
      * To self with the additional querystring parameter "ct=1" (cookieTest = 1) to indicate that a
      *
@@ -171,8 +110,7 @@ class Test_DeliveryCookie extends UnitTestCase
     public function test_MAX_cookieSetViewerIdAndRedirect()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        // Disable the p3p policies because those are tested elsewhere and we need the redirect header to be [0]
-        $conf['p3p']['policies'] = false;
+
         // Generate a clean viewerId
         unset($_COOKIE[$conf['var']['viewerId']]);
         $viewerId = MAX_cookieGetUniqueViewerID(true);
