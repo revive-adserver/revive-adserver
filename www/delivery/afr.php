@@ -492,7 +492,6 @@ function MAX_cookieClientCookieFlush()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 $domain = empty($conf['cookie']['domain']) ? null : $conf['cookie']['domain'];
-MAX_cookieSendP3PHeaders();
 if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
 foreach ($GLOBALS['_MAX']['COOKIE']['CACHE'] as $name => $v) {
@@ -541,29 +540,6 @@ $data = array_slice($data, 1);
 MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', $domain);
 }
 }
-}
-function MAX_cookieSendP3PHeaders()
-{
-if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
-MAX_header("P3P: " . _generateP3PHeader());
-}
-}
-function _generateP3PHeader()
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-$p3p_header = '';
-if ($conf['p3p']['policies']) {
-if ($conf['p3p']['policyLocation'] != '') {
-$p3p_header .= " policyref=\"" . $conf['p3p']['policyLocation'] . "\"";
-}
-if ($conf['p3p']['policyLocation'] != '' && $conf['p3p']['compactPolicy'] != '') {
-$p3p_header .= ", ";
-}
-if ($conf['p3p']['compactPolicy'] != '') {
-$p3p_header .= " CP=\"" . $conf['p3p']['compactPolicy'] . "\"";
-}
-}
-return $p3p_header;
 }
 
 $file = '/lib/max/Delivery/remotehost.php';
