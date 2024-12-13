@@ -465,10 +465,20 @@ class Test_DeliveryCommon extends UnitTestCase
         OX_Delivery_Common_sendPreconnectHeaders();
         $this->assertTrue(empty($GLOBALS['_HEADERS']));
 
+        $aConf['delivery']['relPreconnect'] = true;
         $aConf['webpath']['imagesSSL'] = 'cdn.example.com';
         OX_Delivery_Common_sendPreconnectHeaders();
         $this->assertEqual($GLOBALS['_HEADERS'], [
             'Link: cdn.example.com; rel=preconnect',
         ]);
+        $GLOBALS['_HEADERS'] = [];
+
+        $aConf['delivery']['relPreconnect'] = false;
+        $aConf['webpath']['imagesSSL'] = 'cdn.example.com';
+        OX_Delivery_Common_sendPreconnectHeaders();
+        $this->assertEqual($GLOBALS['_HEADERS'], [
+            'Link: cdn.example.com; rel=dns-prefetch',
+        ]);
+        $GLOBALS['_HEADERS'] = [];
     }
 }

@@ -151,6 +151,7 @@ assetClientCacheExpire              = 3600  ; Used to create the browser caching
 secret                              = secret
 clickUrlValidity                    = 0;    ; Click URL open redirect validity in seconds
 relAttribute                        = noopener nofollow
+relPreconnect                       = false
 
 [defaultBanner]
 invalidZoneHtmlBanner               =       ; If zone does not exist, show this HTML snipper

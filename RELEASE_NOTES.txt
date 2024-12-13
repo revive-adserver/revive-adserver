@@ -29,9 +29,10 @@ Security Updates
 New Features
 ------------
 
- * Added "Link: rel=preconnect" header when using SSL connection and images
-   are hosted on a different hostname then delivery (e.g. CDN), in order to
-   speed up ad rendering on a page.
+ * Updated the MaxMind GeoIP2 plugin to support the upcoming changes in the
+   procedures required to download database updates from MaxMind. In order
+   for the automatic updates to continue working, the MaxMind account ID
+   needs to be added in the plugin configuration screen.
 
  * Added new "addMagicMacros" delivery plugin hook.
 
@@ -53,7 +54,13 @@ New Features
 
  * Replaced advertiser and website statistics with a new account statistics
    screen for administrator users.
- 
+
+ * Added new setting to send a "Link" header during delivery when using HTTPS
+   and images are hosted on a different hostname then delivery (e.g. CDN), in
+   order to speed up ad rendering on a page. Based on the setting, browsers
+   will either attempt to pre-connect to the images server, or just perform a
+   DNS lookup.
+
 
 Bug Fixes
 ---------
@@ -74,6 +81,7 @@ Bug Fixes
  * Fixed the definition of the "acls" and "acls_channel" tables so that they
    have a proper primary key.
 
+<<<<<<< HEAD
  * Fixed the definition of the "banners_vast_element" table in the IAB VAST
    Plugin to use a primary key and avoid the creation of an additional
    "banners_vast_element_seq" table on MySQL without any prefix.
@@ -84,6 +92,11 @@ Bug Fixes
 
  * Fixed improper handling of write errors when downloading GeoLiteCity
    database files.
+=======
+ * Fixed issue with search settings being reset when typing a new search
+   keyword. Compact view is also the new default in order to keep resource
+   usage low.
+>>>>>>> parent of 96d52bd4d (Revert "Fix #1476 Add Link rel=preconnect header")
 
 
 Non-Backwards Compatible Changes

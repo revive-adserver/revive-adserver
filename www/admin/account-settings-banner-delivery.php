@@ -65,6 +65,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'delivery' => 'obfuscate',
             'bool' => true,
         ],
+        'delivery_relPreconnect' => [
+            'delivery' => 'relPreconnect',
+            'bool' => true,
+        ],
         'delivery_clickUrlValidity' => ['delivery' => 'clickUrlValidity'],
         'defaultBanner_relAttribute' => ['defaultBanner' => 'relAttribute'],
         'defaultBanner_invalidZoneHtmlBanner' => ['defaultBanner' => 'invalidZoneHtmlBanner'],
@@ -251,6 +255,14 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'delivery_obfuscate',
                 'text' => $strDeliveryObfuscate,
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'delivery_relPreconnect',
+                'text' => $strDeliveryPreconnect,
             ],
             [
                 'type' => 'break',

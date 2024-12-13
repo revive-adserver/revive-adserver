@@ -196,6 +196,7 @@ $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
 $GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery rules during delivery";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery rules for direct selected ads";
 $GLOBALS['strDeliveryObfuscate'] = "Obfuscate delivery rule set when delivering ads";
+$GLOBALS['strDeliveryPreconnect'] = "Ask browsers to pre-connect to the image URL (if different from the delivery URL, HTTPS-only feature)";
 $GLOBALS['strDeliveryClickUrlValidity'] = "Validity of custom destination URL redirects in {clickurl} macros (seconds). Enter 0 to disallow redirects";
 $GLOBALS['strDeliveryRelAttribute'] = "Default rel attribute for &lt;a href&gt; HTML tags";
 $GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Global default HTML Banner for non-existing zones";

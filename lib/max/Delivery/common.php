@@ -851,7 +851,9 @@ function OX_Delivery_Common_sendPreconnectHeaders()
         return;
     }
 
-    MAX_header("Link: {$images}; rel=preconnect");
+    $rel = empty($GLOBALS['_MAX']['CONF']['delivery']['relPreconnect']) ? 'dns-prefetch' : 'preconnect';
+
+    MAX_header("Link: {$images}; rel={$rel}");
 }
 
 /**
