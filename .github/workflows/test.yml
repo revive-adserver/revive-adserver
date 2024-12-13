@@ -13,7 +13,7 @@ jobs:
   run-tests:
     name: Run tests
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -91,12 +91,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '21'
-
       - name: Install ant 1.7
         run: |
           curl -s -O http://archive.debian.org/debian-archive/debian/pool/main/a/ant1.7/ant1.7_1.7.1-7_all.deb
@@ -160,7 +154,7 @@ jobs:
   report:
     name: Collect results
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     needs:
       - run-tests

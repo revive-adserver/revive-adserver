@@ -15,7 +15,7 @@ jobs:
       PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
      - name: Checkout
@@ -60,7 +60,7 @@ jobs:
       PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     concurrency:
       group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -116,7 +116,7 @@ jobs:
       PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -168,7 +168,7 @@ jobs:
       PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -212,7 +212,7 @@ jobs:
       PHP_VERSION: 8.3
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -271,7 +271,7 @@ jobs:
       PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     concurrency:
       group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -293,12 +293,6 @@ jobs:
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ env.PHP_INI_VALUES }}
           tools: composer
-
-      - name: Install Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '21'
 
       - name: Install ant 1.7
         run: |
@@ -419,7 +413,7 @@ jobs:
       - refactoring-checker
       - post-commit
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
