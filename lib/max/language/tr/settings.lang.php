@@ -133,10 +133,6 @@ $GLOBALS['strDeliveryFilenamesAdPopup'] = "Reklam Açılır Penceresi";
 $GLOBALS['strDeliveryFilenamesAdView'] = "Reklam Görünümü";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC Çağrısı";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Yerel Çağrı";
-$GLOBALS['strP3PSettings'] = "P3P Gizlilik Politikaları";
-$GLOBALS['strUseP3P'] = "P3P Politikalarını kullan";
-$GLOBALS['strP3PCompactPolicy'] = "P3P Yoğunlaştırılmış politika";
-$GLOBALS['strP3PPolicyLocation'] = "P3P Politika yeri";
 
 // General Settings
 $GLOBALS['generalSettings'] = "Global Genel Sistem Ayarları";

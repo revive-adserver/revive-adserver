@@ -42,7 +42,4 @@
 
 
 
-
-
-
 $GLOBALS['phpAds_hlp_obfuscate'] = "没有内容";

@@ -150,10 +150,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Vietinis kreipimasis";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Priekinis tikrintojas";
 $GLOBALS['strDeliveryCaching'] = "Banerio pristatymo kelio nustatymai";
 $GLOBALS['strDeliveryCacheLimit'] = "Laikas ";
-$GLOBALS['strP3PSettings'] = "P3P privatumo politika";
-$GLOBALS['strUseP3P'] = "Naudoti P3P politiką";
-$GLOBALS['strP3PCompactPolicy'] = "P3P susitarimo politika";
-$GLOBALS['strP3PPolicyLocation'] = "P3P vietos politika";
 
 // General Settings
 

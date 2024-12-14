@@ -157,10 +157,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Inserção local";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Ponto de entrada único (Front Controller)";
 $GLOBALS['strDeliveryCaching'] = "Configurações de Cache de Entrega de Banners";
 $GLOBALS['strDeliveryCacheLimit'] = "Tempo entre atualizações do Cache de Banners(segundos)";
-$GLOBALS['strP3PSettings'] = "Políticas de Privacidade P3P";
-$GLOBALS['strUseP3P'] = "Usar políticas P3P";
-$GLOBALS['strP3PCompactPolicy'] = "Política P3P compacta";
-$GLOBALS['strP3PPolicyLocation'] = "Localização da política P3P";
 
 // General Settings
 $GLOBALS['uiEnabled'] = "Interface do usuário habilitada";

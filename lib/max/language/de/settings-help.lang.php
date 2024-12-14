@@ -78,17 +78,6 @@ Prüfung nicht. Das Ergebnis kann fehlerhaft sein. In diesem Fall können die un
 Bildformate manuell eingegeben werden. Mögliche Formate sind: none, pgn, jpeg, gif
 		";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "Wenn Sie die {$PRODUCT_NAME} P3P Datenschutzrichtlinien aktivieren möchten, müssen Sie diese Option
-einschalten.";
-
-$GLOBALS['phpAds_hlp_p3p_compact_policy'] = "Die komprimierte Regel, die zusammen mit Cookies gesendet wird. Die Standardeinstellung
-ist 'CUR ADM OUR NOR STA NID', die es dem  Internet Explorer 6 erlaubt, die von {$PRODUCT_NAME} 
-verwendeten Cookies zu akzeptieren. Wenn Sie möchten, können Sie diese
-Einstellungen an Ihre eigene Datenschutzerklärung anpassen.";
-
-$GLOBALS['phpAds_hlp_p3p_policy_location'] = "Wenn Sie eine vollständige Datenschutzrichtlinie verwenden möchten, können Sie den Ort
-der Richtlinie angeben.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normalerweise werden alle Views protokolliert. Wenn Sie keine Statistiken
 über Views sammeln möchten, können Sie dies deaktivieren.";
 

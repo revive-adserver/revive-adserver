@@ -55,12 +55,6 @@ $GLOBALS['phpAds_hlp_company_name'] = "Nama ini digunakan dalam email yang dikir
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "{$PRODUCT_NAME} biasanya mendeteksi apakah perpustakaan GD terpasang dan format gambar mana yang didukung oleh versi GD yang terpasang. Namun kemungkinan pendeteksiannya tidak akurat atau salah, beberapa versi PHP tidak memungkinkan pendeteksian format gambar yang didukung. Jika {$PRODUCT_NAME} gagal mendeteksi secara otomatis format gambar yang tepat, Anda dapat menentukan format gambar yang tepat. Nilai yang mungkin adalah: none, png, jpeg, gif.";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "Jika Anda ingin mengaktifkan Kebijakan Privasi P3P {$PRODUCT_NAME}, Anda harus mengaktifkan opsi ini.";
-
-$GLOBALS['phpAds_hlp_p3p_compact_policy'] = "Kebijakan ringkas yang dikirim bersama dengan cookies. Setelan defaultnya adalah: 'CUR ADM NOR NOR STA NID', yang akan memungkinkan Internet Explorer 6 untuk menerima cookie yang digunakan oleh {$PRODUCT_NAME}. Jika Anda ingin Anda dapat mengubah setelan ini agar sesuai dengan pernyataan privasi Anda sendiri.";
-
-$GLOBALS['phpAds_hlp_p3p_policy_location'] = "Jika Anda ingin menggunakan kebijakan privasi lengkap, Anda dapat menentukan lokasi kebijakan.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Biasanya semua AdViews dicatat, jika Anda tidak ingin mengumpulkan statistik tentang AdView, Anda dapat menonaktifkannya.";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "Jika pengunjung memuat ulang laman, AdView akan masuk log oleh {$PRODUCT_NAME} setiap saat. Fitur ini digunakan untuk memastikan hanya satu AdView yang masuk untuk setiap spanduk unik untuk jumlah detik yang Anda tentukan. Misalnya: jika Anda menetapkan nilai ini menjadi 300 detik, {$PRODUCT_NAME} hanya akan mencatat AdView jika spanduk yang sama tidak ditampilkan kepada pengunjung yang sama dalam 5 menit terakhir. Fitur ini hanya berfungsi agar browser menerima cookies.";

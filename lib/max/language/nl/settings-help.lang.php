@@ -71,17 +71,6 @@ $GLOBALS['phpAds_hlp_company_name'] = "Deze naam wordt gebruikt in de e-mail ver
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "{$PRODUCT_NAME} detecteert gewoonlijk of de GD-bibliotheek is geïnstalleerd en welke afbeeldingsindeling wordt ondersteund door de geïnstalleerde versie van GD. Maar het is mogelijk dat de detectie niet accuraat of onjuist is, sommige versies van PHP staan de detectie van de ondersteunde afbeeldingsinstelingen niet toe. Indien {$PRODUCT_NAME} niet automatisch de juiste afbeelding-instelling detecteert, kunt u de juiste afbeeldingsinstelling kiezen. Mogelijke waarden zijn: geen, png, jpeg, gif.";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "	Indien u gebruik wil maken van P3P Privacy Policies kunt u deze optie aanzetten.
-	Hieronder kunt u exact de P3P instellingen exact configureren.";
-
-$GLOBALS['phpAds_hlp_p3p_compact_policy'] = "The compact policy which is sent together with cookies. The default setting
-is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to
-accept the cookies used by {$PRODUCT_NAME}. If you want you can alter these
-settings to match your own privacy statement.";
-
-$GLOBALS['phpAds_hlp_p3p_policy_location'] = "If you want to use a full privacy policy, you can specify the location
-of the policy.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normaal gesproken worden alle impressies geregistreerd. Als u geen statistieken over impressies wilt verzamelen, dan kunt u dit uitschakelen.";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "	Als een bezoeker de pagina ververst zal er iedere keer als de banner getoond wordt

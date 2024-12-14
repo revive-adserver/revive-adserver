@@ -59,12 +59,6 @@ $GLOBALS['phpAds_hlp_company_name'] = "Bu ad, {$PRODUCT_NAME} tarafından gönde
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "{$PRODUCT_NAME} genellikle GD kitaplığının yüklü olup olmadığını ve hangi resim biçiminin GD'nin yüklü sürümüyle desteklendiğini algılar. Bununla birlikte, algılamanın doğru veya yanlış yapılmaması mümkündür, PHP'nin bazı sürümleri desteklenen resim biçimlerinin saptanmasına izin vermemektedir. {$PRODUCT_NAME} doğru resim biçimini otomatik algılayamazsa doğru resim biçimini belirleyebilirsiniz. Olası değerler şunlardır: none, png, jpeg, gif.";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "{$PRODUCT_NAME} 'P3P Gizlilik Politikası'nı etkinleştirmek istiyorsanız bu seçeneği etkinleştirmeniz gerekir.";
-
-$GLOBALS['phpAds_hlp_p3p_compact_policy'] = "Çerezlerle birlikte gönderilen kompakt politika. Varsayılan ayar: Internet Explorer 6'nın {$PRODUCT_NAME} tarafından kullanılan çerezleri kabul etmesini sağlayan 'CUM ADM OUR NOR STA NID' dır. İsterseniz, kendi gizlilik bildiriminizle eşleşecek şekilde bu ayarları değiştirebilirsiniz.";
-
-$GLOBALS['phpAds_hlp_p3p_policy_location'] = "Tam bir gizlilik politikası kullanmak istiyorsanız, ilkenin bulunduğu yeri belirtebilirsiniz.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normalde tüm ilan izlemeleri günlüğe kaydedilir; İlan izlemesi ile ilgili istatistikleri toplamak istemiyorsanız, bu özelliği kapatabilirsiniz.";
 
 $GLOBALS['phpAds_hlp_block_adviews'] = "Bir ziyaretçi bir sayfayı yeniden yüklerse, her daim {$PRODUCT_NAME} tarafından bir ilan izlemesi kaydedilir.

@@ -77,10 +77,6 @@ $GLOBALS['strTypeFTPPassword'] = "סיסמא";
 $GLOBALS['strTypeFTPErrorDir'] = "תקיית המ�?רח �?ינה קיימת";
 $GLOBALS['strTypeFTPErrorConnect'] = "ל�? ניתן להתחבר לשרת ה-FTP, ש�? המשתמש �?ו הסיסמ�? שגויי�?";
 $GLOBALS['strTypeFTPErrorHost'] = "ש�? השרת המ�?רח �?ת ה-FTP שגוי";
-$GLOBALS['strP3PSettings'] = "פוליסות פרטיות מסוג P3P";
-$GLOBALS['strUseP3P'] = " השתמש בפוליסות P3P";
-$GLOBALS['strP3PCompactPolicy'] = "פוליסת P3P קומפקטית";
-$GLOBALS['strP3PPolicyLocation'] = "מיקו�? פוליסת ה-P3P";
 
 // General Settings
 

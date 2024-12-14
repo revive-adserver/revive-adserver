@@ -147,10 +147,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "生成本地的";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "字體控制器";
 $GLOBALS['strDeliveryCaching'] = "全局發送緩存設置";
 $GLOBALS['strDeliveryCacheLimit'] = "緩存刷新頻率（秒)";
-$GLOBALS['strP3PSettings'] = "P3P隱私策略的全局設置";
-$GLOBALS['strUseP3P'] = "使用P3P策略";
-$GLOBALS['strP3PCompactPolicy'] = "P3P壓縮策略";
-$GLOBALS['strP3PPolicyLocation'] = "P3P策略地點";
 
 // General Settings
 $GLOBALS['uiEnabled'] = "啟用用戶界面";

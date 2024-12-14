@@ -188,10 +188,6 @@ $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
 $GLOBALS['strDeliveryAcls'] = "Evaluasi aturan pengiriman banner selama pengiriman";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluasi aturan pengiriman banner untuk iklan pilihan langsung";
 $GLOBALS['strDeliveryObfuscate'] = "Aturan pengiriman yang tidak jelas ditetapkan saat mengirim iklan";
-$GLOBALS['strP3PSettings'] = "Kebijaksanaan keleluasaan pribadi global P3P";
-$GLOBALS['strUseP3P'] = "Gunakan kebijaksanaan P3P";
-$GLOBALS['strP3PCompactPolicy'] = "Kebijakan P3P Compact";
-$GLOBALS['strP3PPolicyLocation'] = "Lokasi dari kebijaksanaan P3P";
 
 // General Settings
 $GLOBALS['generalSettings'] = "Penyetelan Global Umum";
