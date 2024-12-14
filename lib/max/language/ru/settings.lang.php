@@ -153,10 +153,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Локальный вызов";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Фронт контроллер";
 $GLOBALS['strDeliveryCaching'] = "Настройки кэширования доставки";
 $GLOBALS['strDeliveryCacheLimit'] = "Время между обновлениями кэша (сек.)";
-$GLOBALS['strP3PSettings'] = "Настройки P3P (политика обращения с частной информацией) ";
-$GLOBALS['strUseP3P'] = "Использовать P3P-политики";
-$GLOBALS['strP3PCompactPolicy'] = "Компактная политика P3P";
-$GLOBALS['strP3PPolicyLocation'] = "Место размещения P3P-политики";
 
 // General Settings
 $GLOBALS['uiEnabled'] = "Интерфейс пользователя включен";

@@ -145,10 +145,6 @@ $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC kérés";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Helyi kérés";
 $GLOBALS['strDeliveryCaching'] = "Banner kézbesítési gyorsítótár beállításai";
 $GLOBALS['strDeliveryCacheLimit'] = "A banner gyorsítótár frissítései közti idő (másodpercekben)";
-$GLOBALS['strP3PSettings'] = "P3P adatvédelmi irányelvek";
-$GLOBALS['strUseP3P'] = "P3P irányelvek használata";
-$GLOBALS['strP3PCompactPolicy'] = "P3P tömörített irányelv";
-$GLOBALS['strP3PPolicyLocation'] = "P3P irányelvek helye";
 
 // General Settings
 

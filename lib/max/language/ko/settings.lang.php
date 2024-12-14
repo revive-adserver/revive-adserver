@@ -79,10 +79,6 @@ $GLOBALS['strTypeFTPHost'] = "FTP 호스트";
 $GLOBALS['strTypeFTPDirectory'] = "호스트 디렉터리";
 $GLOBALS['strTypeFTPUsername'] = "로그인";
 $GLOBALS['strTypeFTPPassword'] = "비밀번호";
-$GLOBALS['strP3PSettings'] = "P3P 개인정보 보호정책";
-$GLOBALS['strUseP3P'] = "P3P 정책 사용";
-$GLOBALS['strP3PCompactPolicy'] = "P3P Compact 정책";
-$GLOBALS['strP3PPolicyLocation'] = "P3P 정책 위치";
 
 // General Settings
 

@@ -183,10 +183,6 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "فراخوانی یک صفح
 $GLOBALS['strDeliveryCaching'] = "تنظیمات کش تحویل بنر";
 $GLOBALS['strDeliveryCacheLimit'] = "زمان بین بروزرسانی کش بنر(ثانیه)";
 $GLOBALS['strDeliveryCacheStore'] = "نوع ذخیره سازی کش تویل بنر";
-$GLOBALS['strP3PSettings'] = "P3P سیاست حفظ حریم خصوصی";
-$GLOBALS['strUseP3P'] = "استفاده از P3P سیاست";
-$GLOBALS['strP3PCompactPolicy'] = "P3P سیاست جمع و جور";
-$GLOBALS['strP3PPolicyLocation'] = "P3P سیاست محل سکونت";
 
 // General Settings
 $GLOBALS['generalSettings'] = "تنظیمات سیستم عمومی جهانی";

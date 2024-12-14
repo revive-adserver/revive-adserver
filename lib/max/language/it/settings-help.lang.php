@@ -83,17 +83,6 @@ il rilevamento dei formati di immagine supportati. Se {$PRODUCT_NAME} non riesce
 il formato immagine giusto è possibile specificare il formato immagine giusto. Possibili valori
 sono: none, png, jpeg, gif.";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "Se si desidera abilitare {$PRODUCT_NAME}' P3P Privacy Policies è necessario attivare questa opzione
-.";
-
-$GLOBALS['phpAds_hlp_p3p_compact_policy'] = "La politica compatta che viene inviata insieme ai cookie. L'impostazione predefinita
-è: 'CUR ADM OUR NOR STA NID', che permetterà a Internet Explorer 6 di
-accettare i cookie utilizzati da {$PRODUCT_NAME}. Se vuoi puoi modificare queste impostazioni
-per abbinare la tua dichiarazione sulla privacy.";
-
-$GLOBALS['phpAds_hlp_p3p_policy_location'] = "Se si desidera utilizzare una privacy policy completa, è possibile specificare la posizione
-della policy.";
-
 $GLOBALS['phpAds_hlp_log_adviews'] = "Normalmente tutte le viste sono registrate, se non vuoi raccogliere statistiche
 su Visualizzazioni puoi disattivarlo.";
 

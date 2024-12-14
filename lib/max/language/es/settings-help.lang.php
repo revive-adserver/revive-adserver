@@ -48,7 +48,4 @@ Importante la base de datos debe estar ya creada en el servidor de base de datos
 
 
 
-
-
-
 $GLOBALS['phpAds_hlp_obfuscate'] = "Vacío....";

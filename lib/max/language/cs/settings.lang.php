@@ -100,10 +100,6 @@ $GLOBALS['strTypeFTPPassword'] = "Heslo";
 $GLOBALS['strTypeFTPErrorDir'] = "Adresář serveru neexistuje";
 $GLOBALS['strTypeFTPErrorConnect'] = "Nemohu se přihlásit k FTP serveru. Uživatelské jméno a heslo nejsou správné";
 $GLOBALS['strTypeFTPErrorHost'] = "Jméno FTP server není správné";
-$GLOBALS['strP3PSettings'] = "Pravidla soukromí P3P";
-$GLOBALS['strUseP3P'] = "Použít P3P pravidla";
-$GLOBALS['strP3PCompactPolicy'] = "Kompaktní P3P pravidlo";
-$GLOBALS['strP3PPolicyLocation'] = "Umístění P3P pravidla";
 
 // General Settings
 

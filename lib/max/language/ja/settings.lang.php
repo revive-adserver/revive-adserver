@@ -166,10 +166,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "ローカルサーバより広告を生
 $GLOBALS['strDeliveryFilenamesFrontController'] = "フロントコントローラ";
 $GLOBALS['strDeliveryCaching'] = "バナーキャッシュの設定";
 $GLOBALS['strDeliveryCacheLimit'] = "バナーキャッシュの更新間隔";
-$GLOBALS['strP3PSettings'] = "P3Pプライベートポリシー";
-$GLOBALS['strUseP3P'] = "P3Pポリシーを使う";
-$GLOBALS['strP3PCompactPolicy'] = "P3Pコンパクトポリシー";
-$GLOBALS['strP3PPolicyLocation'] = "P3Pポリシーの場所";
 
 // General Settings
 $GLOBALS['generalSettings'] = "全般設定";
