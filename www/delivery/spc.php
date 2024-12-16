@@ -467,9 +467,6 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = [];
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
 } else {
 $secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);
-if (PHP_VERSION_ID < 70300) {
-@setcookie($name, $value, ['expires' => $expires, 'path' => $path . '; samesite=' . $sameSite, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
-} else {
 @setcookie($name, $value, [
 'expires' => $expires,
 'path' => $path,
@@ -478,7 +475,6 @@ if (PHP_VERSION_ID < 70300) {
 'httponly' => $httpOnly,
 'samesite' => $sameSite,
 ]);
-}
 }
 }
 function MAX_cookieClientCookieUnset($name)
