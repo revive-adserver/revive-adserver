@@ -168,38 +168,6 @@ class Test_DeliveryCommon extends UnitTestCase
     }
 
     /**
-     *
-     * This function takes an array of variable names
-     * and makes them available in the global scope
-     *
-     * $_POST values take precedence over $_GET values
-     *
-     */
-    public function test_MAX_commonRegisterGlobalsArray()
-    {
-        if (PHP_VERSION_ID >= 80100) {
-            // Skip on PHP 8.1+
-            // Fatal error: $GLOBALS can only be modified using the $GLOBALS[$name] = $value syntax
-            return;
-        }
-
-        $tmpGlobals = $GLOBALS;
-
-        $_GET['max_test_get'] = '0';
-        $_POST['max_test_get'] = '1';
-        $_GET['max_test_post'] = '0';
-        $_POST['max_test_post'] = '1';
-        MAX_commonRegisterGlobalsArray(['max_test_get', 'max_test_post']);
-        $this->assertTrue(array_key_exists('max_test_get', $GLOBALS), 'max_test_get exists');
-        $this->assertTrue(array_key_exists('max_test_post', $GLOBALS), 'max_test_post exists');
-        $this->assertTrue($GLOBALS['max_test_get'], 'GLOBALS precedence error');
-        $this->assertTrue($GLOBALS['max_test_post'], 'GLOBALS precedence error');
-
-        // Use eval as the fallowing fails during parse on PHP 8.1+
-        eval('$GLOBALS = $tmpGlobals;');
-    }
-
-    /**
      * Test1: return urldecoded/decrypted string
      * Test2: return urldecoded string
      *

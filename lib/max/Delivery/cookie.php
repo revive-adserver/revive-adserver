@@ -334,18 +334,14 @@ function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain
         } else {
             $secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 
-            if (PHP_VERSION_ID < 70300) {
-                @setcookie($name, $value, ['expires' => $expires, 'path' => $path . '; samesite=' . $sameSite, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
-            } else {
-                @setcookie($name, $value, [
-                    'expires' => $expires,
-                    'path' => $path,
-                    'domain' => $domain,
-                    'secure' => $secure,
-                    'httponly' => $httpOnly,
-                    'samesite' => $sameSite,
-                ]);
-            }
+            @setcookie($name, $value, [
+                'expires' => $expires,
+                'path' => $path,
+                'domain' => $domain,
+                'secure' => $secure,
+                'httponly' => $httpOnly,
+                'samesite' => $sameSite,
+            ]);
         }
         ###START_STRIP_DELIVERY
     } else {
