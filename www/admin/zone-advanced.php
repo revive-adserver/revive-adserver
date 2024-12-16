@@ -321,6 +321,8 @@ function processForm($aZone, $form, $oComponent = null)
 /*-------------------------------------------------------*/
 function displayZoneAdvancedPage($aZone, $form)
 {
+    MAX_displayCappingCookieMessage();
+
     $pageName = basename($_SERVER['SCRIPT_NAME']);
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = ['affiliateid' => $aZone['affiliateid'], 'zoneid' => $aZone['zoneid']];

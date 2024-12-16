@@ -1965,3 +1965,24 @@ function OX_buildPager(
 
     return $pager;
 }
+
+function MAX_displayCappingCookieMessage()
+{
+    if (!empty($GLOBALS['_MAX']['CONF']['delivery']['disableAllCookies'])) {
+        $msg = $GLOBALS['strCookiesCappingMessageWarning'];
+        $type = 'warning';
+    } else {
+        $msg = $GLOBALS['strCookiesCappingMessageInfo'];
+        $type = 'info';
+    }
+
+    OA_Admin_UI::queueMessage(sprintf($msg, PRODUCT_DOCSURL . '/display/DOCS/Third+party+cookies'), 'local', $type, 0);
+}
+
+function MAX_displayConversionsCookieMessage()
+{
+    $msg = $GLOBALS['strCookiesConversionsInfo'];
+    $type = 'info';
+
+    OA_Admin_UI::queueMessage(sprintf($msg, PRODUCT_DOCSURL . '/display/DOCS/Third+party+cookies'), 'local', $type, 0);
+}

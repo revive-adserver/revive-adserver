@@ -138,6 +138,7 @@ secret                              =
 clickUrlValidity                    = 0;    ; Click URL open redirect validity in seconds
 relAttribute                        = noopener nofollow
 relPreconnect                       = false
+disableAllCookies                   = false
 
 [defaultBanner]
 invalidZoneHtmlBanner               =       ; If zone does not exist, show this HTML snipper

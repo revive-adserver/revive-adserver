@@ -920,6 +920,8 @@ function displayCampaignEditPage($campaign, $campaignForm, $statusForm, $campaig
 {
     global $conf;
 
+    MAX_displayCappingCookieMessage();
+
     //header and breadcrumbs
     if ($campaign['campaignid'] != "") { //edit campaign
         // Initialise some parameters

@@ -63,6 +63,8 @@ if (!isset($orderdirection)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
+MAX_displayConversionsCookieMessage();
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     addAdvertiserPageToolsAndShortcuts($clientid);
     $oHeaderModel = buildAdvertiserHeaderModel($clientid);

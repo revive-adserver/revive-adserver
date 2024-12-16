@@ -596,6 +596,10 @@ if (!isset($GLOBALS['strCappingZone'])) {
 $GLOBALS['strCappingZone']['title'] = "Delivery capping per visitor";
 $GLOBALS['strCappingZone']['limit'] = "Limit zone views to:";
 
+$GLOBALS['strCookiesConversionsInfo'] = "Conversion tracking requires cookies to work. <a target=\"_blank\" href=\"%s\">Learn more</a>";
+$GLOBALS['strCookiesCappingMessageInfo'] = "Delivery capping requires cookies to work. <a target=\"_blank\" href=\"%s\">Learn more</a>";
+$GLOBALS['strCookiesCappingMessageWarning'] = "Delivery cookies disabled: capping limits will be ignored. <a target=\"_blank\" href=\"%s\">Learn more</a>";
+
 // Website
 $GLOBALS['strAffiliate'] = "Website";
 $GLOBALS['strAffiliates'] = "Websites";

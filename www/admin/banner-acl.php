@@ -110,6 +110,8 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     $entityType = 'agency_id';
 }
 
+MAX_displayCappingCookieMessage();
+
 // Display navigation
 $aOtherCampaigns = Admin_DA::getPlacements([$entityType => $entityId]);
 $aOtherBanners = Admin_DA::getAds(['placement_id' => $campaignid], false);
