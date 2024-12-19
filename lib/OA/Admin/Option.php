@@ -54,7 +54,6 @@ class OA_Admin_Option
         // Load the required language files
         Language_Loader::load('default');
         Language_Loader::load('settings');
-        Language_Loader::load('settings-help');
 
         // Set the supplied Settings or Preferences information
         $this->_optionType = 'account-' . $optionType;
@@ -542,9 +541,6 @@ class OA_Admin_Option
                             $checkbuffer .= "max_formSetUnique('" . $aItem['name'] . "', '|" . addslashes(implode('|', $aItem['unique'])) . "|');\n";
                         }
                     }
-                    if (isset($aItem['name'])) {
-                        $helpbuffer .= $this->_help($aItem['name']);
-                    }
                 }
             }
             $this->_showEndSection($sectionHasRequiredField);
@@ -632,26 +628,6 @@ class OA_Admin_Option
             return 'hide';
         }
         return $noRestriction;
-    }
-
-    /**
-     * A private method to generate the help string for an option item.
-     *
-     * @access private
-     * @param string $name The name of the option item.
-     * @return string The help string for the option item.
-     */
-    public function _help($name)
-    {
-        if (!isset($GLOBALS['phpAds_hlp_' . $name])) {
-            $GLOBALS['phpAds_hlp_' . $name] = '';
-        }
-        $string = $GLOBALS['phpAds_hlp_' . $name];
-        $string = preg_replace("/[\n\r\t]/D", " ", $string);
-        $string = preg_replace("/[ ]+/D", " ", $string);
-        $string = str_replace("'", "\\'", $string);
-        $string = trim($string);
-        return "helpArray['$name'] = '" . $string . "';\n";
     }
 
     /**
