@@ -234,6 +234,7 @@ class XmlRpcUtils
     public static function getArrayOfEntityResponse($aInfoObjects)
     {
         $cRecords = 0;
+        $xmlValue = [];
 
         foreach ($aInfoObjects as $oInfoObject) {
             $xmlValue[$cRecords] = self::getEntityWithNotNullFields($oInfoObject);
