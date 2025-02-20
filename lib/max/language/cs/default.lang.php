@@ -120,6 +120,8 @@ $GLOBALS['strOverrideAds'] = "Přepsat reklamní kampaň";
 $GLOBALS['strHighAds'] = "Smlouva reklamní kampaně";
 $GLOBALS['strECPMAds'] = "eCPM reklamní kampaň";
 $GLOBALS['strLowAds'] = "Reklamy s nízkou prioritou";
+$GLOBALS['strLimitations'] = "Pravidla pro doručení";
+$GLOBALS['strNoLimitations'] = "Žádná pravidla pro doručení";
 $GLOBALS['strCapping'] = "Omezení";
 
 // Properties
@@ -149,13 +151,18 @@ $GLOBALS['strUsernameToLink'] = "Přidat uživatelské jméno uživatele";
 $GLOBALS['strNewUserWillBeCreated'] = "Bude vytvořen nový uživatel";
 $GLOBALS['strToLinkProvideEmail'] = "Chcete-li přidat uživatele, zadejte jeho e-mail";
 $GLOBALS['strToLinkProvideUsername'] = "Chcete-li přidat uživatele, zadejte jeho uživatelské jméno";
+$GLOBALS['strUserLinkedToAccount'] = "Uživatel byl přidán k účtu";
+$GLOBALS['strUserLinkedAndWelcomeSent'] = "Uživatel byl přidán k účtu. Obdrží e-mail pro nastavení svého hesla.";
 $GLOBALS['strUserAccountUpdated'] = "Uživatelský účet aktualizován";
+$GLOBALS['strUserUnlinkedFromAccount'] = "Uživatel byl odstraněn z účtu";
 $GLOBALS['strUserWasDeleted'] = "Uživatel byl odstraněn";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Takový uživatel není propojen s účtem";
+$GLOBALS['strCantDeleteOneAdminUser'] = "Nemůžete smazat tohoto uživatele. Alespoň jeden uživatel musí být propojen s administračním účtem.";
 $GLOBALS['strLinkUserHelp'] = "Chcete-li přidat <b>existující uživatele</b>, zadejte %1\$s a klepněte na tlačítko %2\$s < br / > přidat <b>nového uživatele</b>, zadejte požadovanou %1\$s a klepněte na %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Jméno";
 $GLOBALS['strLinkUserHelpEmail'] = "e-mailová adresa";
 $GLOBALS['strLastLoggedIn'] = "Poslední přihlášení";
+$GLOBALS['strDateLinked'] = "Datum propojení";
 
 // Login & Permissions
 $GLOBALS['strUserAccess'] = "Uživatelský přístup";
@@ -263,6 +270,7 @@ $GLOBALS['strClients'] = "Inzerenti";
 $GLOBALS['strClientsAndCampaigns'] = "Inzerenti & Kampaně";
 $GLOBALS['strAddClient'] = "Přidat inzerenta";
 $GLOBALS['strClientProperties'] = "Nastavení inzerenta";
+$GLOBALS['strClientHistory'] = "Statistiky inzerenta";
 $GLOBALS['strNoClients'] = "Zatím nejsou definováni žádní inzerenti. Pro vytvoření kampaně, nejprve <a href='advertiser-edit.php'>přidejte nového inzerenta</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Opravdu chcete smazat tohoto inzerenta?";
 $GLOBALS['strConfirmDeleteClients'] = "Opravdu chcete smazat tohoto inzerenta?";
@@ -281,8 +289,10 @@ $GLOBALS['strSendDeactivationWarning'] = "Zaslat upozornění při deaktivaci ka
 $GLOBALS['strAllowClientModifyBanner'] = "Povolit uživateli měnit vlastní bannery";
 $GLOBALS['strAllowClientDisableBanner'] = "Povolit uživateli deaktivovat vlastní bannery";
 $GLOBALS['strAllowClientActivateBanner'] = "Povolit uživateli aktivovat vlastní bannery";
+$GLOBALS['strAllowCreateAccounts'] = "Povolit tomuto uživateli spravovat uživatele tohoto účtu";
 $GLOBALS['strAdvertiserLimitation'] = "Na webové stránce zobrazit pouze jeden banner od tohoto inzerenta";
 $GLOBALS['strAllowAuditTrailAccess'] = "Povolit tomuto uživateli přístup auditu";
+$GLOBALS['strAllowDeleteItems'] = "Povolit tomuto uživateli mazat existující položky";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampaň";
@@ -293,14 +303,20 @@ $GLOBALS['strCampaignForAdvertiser'] = "pro inzerenta";
 $GLOBALS['strLinkedCampaigns'] = "Připojené kampaně";
 $GLOBALS['strCampaignProperties'] = "Nastavení kampaně";
 $GLOBALS['strCampaignOverview'] = "Přehled kampaně";
+$GLOBALS['strCampaignHistory'] = "Statistiky kampaně";
 $GLOBALS['strNoCampaigns'] = "V tuto chvíli nejsou definované žádné kampaně";
 $GLOBALS['strNoCampaignsAddAdvertiser'] = "Momentálně zde nejsou žádné kampaně definované, protože zde nejsou žádní inzerenti. Chcete-li vytvořit kampaň, musíte nejdříve <a href='advertiser-edit.php'>přidat nového inzerenta </a>.";
 $GLOBALS['strConfirmDeleteCampaign'] = "Opravdu chcete smazat tuto kampaň?";
 $GLOBALS['strConfirmDeleteCampaigns'] = "Opravdu chcete smazat tuto kampaň?";
+$GLOBALS['strShowParentAdvertisers'] = "Zobrazit nadřazené inzerenty";
+$GLOBALS['strHideParentAdvertisers'] = "Skrýt nadřazené inzerenty";
 $GLOBALS['strHideInactiveCampaigns'] = "Skrýt neaktivní kampaně";
 $GLOBALS['strInactiveCampaignsHidden'] = "neaktivních kampaní skryto";
 $GLOBALS['strPriorityInformation'] = "Informace o prioritě";
+$GLOBALS['strECPMInformation'] = "Priorizace eCPM";
+$GLOBALS['strRemnantEcpmDescription'] = "eCPM je automaticky vypočítáván na základě výkonu této kampaně.<br />Bude použit pro upřednostňování Remnant kampaní mezi sebou.";
 $GLOBALS['strHiddenCampaign'] = "Kampaň";
+$GLOBALS['strHiddenAd'] = "Reklama";
 $GLOBALS['strHiddenAdvertiser'] = "Inzerent";
 $GLOBALS['strHiddenTracker'] = "Sledovač";
 $GLOBALS['strHiddenWebsite'] = "Webová stránka";
