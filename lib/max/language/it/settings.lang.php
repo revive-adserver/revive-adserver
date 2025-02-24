@@ -196,6 +196,7 @@ $GLOBALS['strDeliveryCacheStore'] = "Tipo di cache per la consegna dei banner";
 $GLOBALS['strDeliveryAcls'] = "Valuta le regole di consegna banner durante la consegna";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Valuta le regole di consegna banner per gli annunci selezionati direttamente";
 $GLOBALS['strDeliveryObfuscate'] = "Regola di consegna offuscata impostata quando consegna annunci";
+$GLOBALS['strDeliveryPreconnect'] = "Richiedi ai browser di pre-connettersi all'URL delle immagini (se diverso dall'URL di consegna, solo con HTTPS)";
 $GLOBALS['strDeliveryClickUrlValidity'] = "Validità delle destinazioni personalizzate nelle macro {clickurl} (in secondi). Inserire 0 per disattivare la funzionalità.";
 $GLOBALS['strDeliveryRelAttribute'] = "Attributo rel predefinito per i tag &lt;a href&gt; HTML";
 $GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Banner HTML predefinito globale per zone non esistenti";
