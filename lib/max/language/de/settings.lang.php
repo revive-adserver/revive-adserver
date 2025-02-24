@@ -108,6 +108,10 @@ $GLOBALS['strEmailHeader'] = "E-Mail-Header";
 $GLOBALS['strEmailLog'] = "E-Mail Protokoll";
 
 // Security settings
+$GLOBALS['strSecurityAndDebug'] = "Sicherheits- und Debug-Einstellungen";
+$GLOBALS['strSecuritySettings'] = "Sicherheitseinstellungen";
+$GLOBALS['strSecurityPasswordMinLength'] = "Minimale Passwortlänge";
+$GLOBALS['strSecurityBadLoginPath'] = "Logdatei für fehlerhafte Anmeldungen";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Einstellungen Prüfprotokoll";
@@ -191,6 +195,7 @@ $GLOBALS['strDeliveryCacheStore'] = "Cache-Typ für die Bannerauslieferung";
 $GLOBALS['strDeliveryAcls'] = "Auslieferungsregeln für Banner während der Auslieferung überprüfen";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Auslieferungsregeln für Banner für direkt ausgewählte Anzeigen überprüfen";
 $GLOBALS['strDeliveryObfuscate'] = "Auslieferungsregelsatz bei der Auslieferung von Anzeigen verbergen";
+$GLOBALS['strDeliveryPreconnect'] = "Bitten Sie die Browser mit der URL des Bildes vorab zu verbinden (falls sich von der URL der Zustellung unterscheidet, nur HTTPS-Funktion)";
 $GLOBALS['strDeliveryClickUrlValidity'] = "Gültigkeit der benutzerdefinierten Ziel-URL leitet in {clickurl} Makros (Sekunden) um. Geben Sie 0 ein, um Umleitungen zu verbieten";
 $GLOBALS['strDeliveryRelAttribute'] = "Standardmäßiges \"rel\"-Attribut für &lt;a href&gt; HTML-Tags";
 $GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Globaler Standard-HTML-Banner für nicht existierende Zonen";
@@ -297,6 +302,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Hintergrundfarbe der Kopfzeile";
 $GLOBALS['strGuiActiveTabColor'] = "Farbe des aktiven Reiters";
 $GLOBALS['strGuiHeaderTextColor'] = "Textfarbe in der Kopfzeile";
 $GLOBALS['strGuiSupportLink'] = "Eigene URL für 'Support' Link im Header";
+$GLOBALS['strGuiLoaderDelay'] = "Ladeanimation anzeigen, wenn der nächste Bildschirm länger als X Millisekunden benötigt wird (verwenden Sie -1 zum Deaktivieren)";
 $GLOBALS['strGzipContentCompression'] = "Komprimieren mit GZIP";
 
 // Regenerate Platfor Hash script

@@ -525,7 +525,7 @@ $GLOBALS['strIframeFriendly'] = "Questo banner può essere visualizzato in modo 
 $GLOBALS['strUploadOrKeep'] = "Preferisci mantenere la<br />immagine esistente, o preferisci<br />caricarne un altra?";
 $GLOBALS['strNewBannerFile'] = "Scegli <br />la immagine che vuoi <br />utilizzare per questo banner<br /><br />";
 $GLOBALS['strNewBannerFileAlt'] = "Seleziona l'immagine che vuoi utilizzare nel caso il browser non supporti il file multimediale";
-$GLOBALS['strNewBannerURL'] = "URL immagine (http://...)";
+$GLOBALS['strNewBannerURL'] = "URL immagini (http://...)";
 $GLOBALS['strURL'] = "URL di destinazione (http://...)";
 $GLOBALS['strKeyword'] = "Parole chiave";
 $GLOBALS['strTextBelow'] = "Testo sotto immagine";
@@ -982,6 +982,7 @@ $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "Aggiornamento fallito";
 
 // Agency
 $GLOBALS['strAgencyManagement'] = "Gestione account";
+$GLOBALS['strGlobalAgency'] = 'Account';
 $GLOBALS['strAgency'] = "Account";
 $GLOBALS['strAddAgency'] = "Aggiungi un nuovo account";
 $GLOBALS['strAddAgency_Key'] = "Aggiungi un <u>n</u>uovo account";

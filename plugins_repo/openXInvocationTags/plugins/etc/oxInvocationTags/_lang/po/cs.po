@@ -16,7 +16,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:35
 msgid "iFrame Tag"
-msgstr ""
+msgstr "iFrame Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
 msgid "Javascript Tag"
@@ -24,7 +24,7 @@ msgstr "JavaScript Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:44
 msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
+msgstr "Interstitial nebo Plovoucí DHTML značka"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:229
 msgid "Style"
@@ -36,11 +36,11 @@ msgstr "Tag obrázku"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
 msgid "No Cookie Image Tag"
-msgstr ""
+msgstr "Žádný obrázkový cookie tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:48
 msgid "Asynchronous JS Tag"
-msgstr ""
+msgstr "Asynchronní JS tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:66
 msgid "Smooth movement"
@@ -189,13 +189,13 @@ msgstr "Barva okraje"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
 msgid "Local Mode Tag"
-msgstr ""
+msgstr "Tag lokálního módu"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
-msgstr ""
+msgstr "Popup Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
 msgid "XML-RPC Tag"
-msgstr ""
+msgstr "XML-RPC Tag"
 
