@@ -40,13 +40,4 @@ $GLOBALS['strClear'] = "Очистити";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Звіт для рекламодавця {id} надіслан електронною поштою";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Кампанію {id} активовано";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Автоматичне очищення бази даних";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Статистика складена";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Сповіщення про деактивацію кампанії {id} надіслано електронною поштою";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Кампанію {id} деактивовано";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Пріоритет перераховано";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Звіт для сайту {id} надіслано електронною поштою";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Попередження про деактивацію кампанії {id} надіслано електронною поштою";
-$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Сповіщення про активацію кампанії {id} надіслано електронною поштою";
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Сповіщення про активацію кампанії {id} надіслано електронною поштою";
