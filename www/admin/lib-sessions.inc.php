@@ -64,13 +64,21 @@ function phpAds_SessionDataFetch()
 function phpAds_SessionSetAdminCookie($name, $value)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    
+    $domain = null;
+    if(!empty($conf['cookie']['domain'])){
+        $domain = $conf['cookie']['domain'];
+    }
+    elseif(!empty($_SERVER['HTTP_HOST'])){
+        preg_replace('#:\d+$#', '', $_SERVER['HTTP_HOST']);
+    }
 
     MAX_cookieClientCookieSet(
         $name,
         $value,
         0,
         dirname($_SERVER["SCRIPT_NAME"]),
-        empty($_SERVER['HTTP_HOST']) ? null : preg_replace('#:\d+$#', '', $_SERVER['HTTP_HOST']),
+        $domain,
         !empty($conf['openads']['requireSSL']),
         true,
         'strict',
