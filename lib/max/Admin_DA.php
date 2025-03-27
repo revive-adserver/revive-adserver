@@ -946,7 +946,7 @@ class Admin_DA
         switch ($aZone['type']) {
             case MAX_ZoneEmail:
                 $aAllowedBannerType = ['sql', 'web', 'url'];
-                $aAllowedContentType = ['gif', 'jpeg', 'png'];
+                $aAllowedContentType = ['gif', 'jpeg', 'png', 'webp'];
                 break;
             case phpAds_ZoneText:
                 $aAllowedBannerType = ['txt'];

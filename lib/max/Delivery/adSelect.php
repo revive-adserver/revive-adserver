@@ -993,7 +993,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     if (   // Exclude richmedia banners if no alt image is specified
         $richMedia == false &&
         $aAd['alt_filename'] == '' &&
-        !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
+        !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png' || $aAd['contenttype'] == 'webp') &&
         !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
     ) {
         OX_Delivery_logMessage('No alt image specified for richmedia bannerid ' . $aAd['ad_id'], 7);

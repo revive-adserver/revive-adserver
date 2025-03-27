@@ -875,6 +875,13 @@ class Admin_DaTest extends DalUnitTestCase
         $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
         $this->assertFalse(PEAR::isError($ret));
 
+        // web banner (webp) with an email zone
+        $bannerType = 'web';
+        $contentType = 'webp';
+
+        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
+        $this->assertFalse(PEAR::isError($ret));
+
         // url banner (jpg) with an email zone
         $bannerType = 'url';
         $contentType = 'jpeg';

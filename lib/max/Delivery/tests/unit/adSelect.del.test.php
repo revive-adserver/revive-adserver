@@ -620,4 +620,28 @@ class Test_DeliveryAdSelect extends UnitTestCase
         $test_ad['expire_time'] = null;
         $this->assertTrue(_adSelectCheckCriteria($test_ad, $context, $source, $richMedia));
     }
+
+    public function test_CheckCriteriaNoRichMedia()
+    {
+        $test_ad = [
+            'ad_id' => 5,
+            'placement_id' => 5,
+            'client_id' => 5,
+            'name' => 'my ad',
+            'type' => 'web',
+            'alt_filename' => '',
+        ];
+
+        foreach (['jpeg', 'gif', 'png', 'webp'] as $type) {
+            $test_ad['contenttype'] = $type;
+            $this->assertTrue(_adSelectCheckCriteria($test_ad, [], [], false));
+        }
+
+        $test_ad['contenttype'] = 'swf';
+        $this->assertFalse(_adSelectCheckCriteria($test_ad, [], [], false));
+
+        $test_ad['type'] = 'url';
+        $test_ad['contenttype'] = '';
+        $this->assertTrue(_adSelectCheckCriteria($test_ad, [], [], false));
+    }
 }

@@ -96,6 +96,9 @@ Bug Fixes
    keyword. Compact view is also the new default in order to keep resource
    usage low.
 
+ * Fixed an issue preventing webp banners from being displayed on Newsletter
+   zones.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
