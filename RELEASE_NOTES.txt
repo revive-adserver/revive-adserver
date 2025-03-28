@@ -97,7 +97,7 @@ Bug Fixes
    usage low.
 
  * Fixed an issue preventing webp banners from being displayed on Newsletter
-   zones.
+   zones and when using Image Invocation Code.
 
  * Fixed sorting by campaign type in the advertisers campaign screen.
 
