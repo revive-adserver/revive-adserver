@@ -99,6 +99,8 @@ Bug Fixes
  * Fixed an issue preventing webp banners from being displayed on Newsletter
    zones.
 
+ * Fixed sorting by campaign type in the advertisers campaign screen.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

@@ -33,11 +33,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         'name' => 'campaignname',
         'id' => ['clientid', 'campaignid'],
         'status' => 'status',
-        // hack to sort by type asc first (non default campaigns always on top)
-        // DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT = 0
-        'type+name' => "(type=0) ASC, campaignname",
-        'type+id' => ['(type=0) ASC, clientid', 'campaignid'],
-        'type+status' => '(type=0) ASC, status',
+        'type' => ['priority < 0', 'priority'],
         'updated' => 'updated',
     ];
 
