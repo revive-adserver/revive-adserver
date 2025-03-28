@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
 "Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
-"Language-Team: Rսssian, Սkraine\n"
-"Language: ru_UA\n"
+"Language-Team: Ukrainian\n"
+"Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
-"X-Crowdin-Language: ru-UA\n"
+"X-Crowdin-Language: uk\n"
 "X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 366\n"
 
@@ -21,7 +21,7 @@ msgstr "Країна"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
-msgstr "Город(а)"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
@@ -29,15 +29,15 @@ msgstr "Невідомо"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:20
 msgid "Dial-up"
-msgstr "Dial-Up"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:21
 msgid "Broadband"
-msgstr "Широкополосный доступ"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:22
 msgid "Corporate"
-msgstr "Корпоративный"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
@@ -45,19 +45,19 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
-msgstr "Находится в пределах"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:47
 msgid "Is not within"
-msgstr "Не находится в пределах"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:90
 msgid "Latitude"
-msgstr "Широта"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:96
 msgid "Longitude"
-msgstr "Долгота"
+msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:94
 msgid "Subdivision(s)"

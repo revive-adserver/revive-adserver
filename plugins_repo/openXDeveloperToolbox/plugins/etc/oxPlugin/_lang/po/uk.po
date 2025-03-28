@@ -3,49 +3,49 @@ msgstr ""
 "Project-Id-Version: revive-adserver\n"
 "POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
-"Language-Team: Russian, Ukraine\n"
-"Language: ru_UA\n"
+"Language-Team: Ukrainian\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
-"X-Crowdin-Language: ru-UA\n"
+"X-Crowdin-Language: uk\n"
 "X-Crowdin-File: /openXDeveloperToolbox/plugins/etc/oxPlugin/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 256\n"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
 msgid "myPlugin"
-msgstr "мойПлагин"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
 msgid "My New Plugin"
-msgstr "Мой новый плагин"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:81
 msgid "New Plugin"
-msgstr "Новый плагин"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:83
 msgid "Plugin Name"
-msgstr "Имя плагина"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:84
 msgid "Author Email"
-msgstr "Почта автора"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:85
 msgid "Author Name"
-msgstr "Имя автора"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:86
 msgid "Author URL"
-msgstr "Ссылка на автора"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:87
 msgid "Licence Info"
-msgstr "Информация о лицензии"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:88
 msgid "Description"
@@ -53,15 +53,15 @@ msgstr "Опис"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:89
 msgid "Major"
-msgstr "Важный"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:90
 msgid "Minor"
-msgstr "Незначительный"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:91
 msgid "Build"
-msgstr "Собрать"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:95
 msgid "Status"
@@ -69,22 +69,22 @@ msgstr "Статус"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:97
 msgid "Version"
-msgstr "Версия"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:104
 msgid "Group Name"
-msgstr "Имя группы"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:105
 msgid "Has Schema"
-msgstr "Имеет схему"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:106
 #, php-format
 msgid "Extends %s"
-msgstr "Расширяет %s"
+msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
 msgid "Submit"
-msgstr "Разместить"
+msgstr ""
 
