@@ -17,7 +17,9 @@ $GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%d/%m/%Y";
+$GLOBALS['time_format'] = "%H:%M:%S";
 $GLOBALS['minute_format'] = "%H:%M";
+$GLOBALS['month_format'] = "%m-%Y";
 $GLOBALS['day_format'] = "%d-%m";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
@@ -131,7 +133,6 @@ $GLOBALS['strTarget'] = "Мета";
 $GLOBALS['strLanguage'] = "Мова";
 $GLOBALS['strDescription'] = "Опис";
 $GLOBALS['strVariables'] = "Змінні";
-$GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Коментарі";
 
 // User access
@@ -196,8 +197,6 @@ $GLOBALS['strRequests'] = "Запитів";
 $GLOBALS['strImpressions'] = "Показів";
 $GLOBALS['strClicks'] = "Кліков";
 $GLOBALS['strConversions'] = "Переходів";
-$GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strCNVRShort'] = "SR";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strTotalClicks'] = "Всього кліков";
 $GLOBALS['strTotalConversions'] = "Всього переходів";
@@ -221,8 +220,6 @@ $GLOBALS['strFinanceCPM'] = "CPM (ціна 1000 показів)";
 $GLOBALS['strFinanceCPC'] = "CPC (ціна кліка)";
 $GLOBALS['strFinanceCPA'] = "CPA (ціна дії)";
 $GLOBALS['strFinanceMT'] = "Ціна місяця розміщення";
-$GLOBALS['strFinanceCTR'] = "CTR";
-$GLOBALS['strFinanceCR'] = "CR";
 
 // Time and date related
 $GLOBALS['strDate'] = "Дата";
@@ -422,7 +419,6 @@ $GLOBALS['strCannotSetBothDateAndLimit'] = "Ви не можете встано�
 $GLOBALS['strWhyDisabled'] = "чому це вимкнено?";
 $GLOBALS['strBackToCampaigns'] = "Назад до кампаній";
 $GLOBALS['strCampaignBanners'] = "Банери кампанії";
-$GLOBALS['strCookies'] = "Cookies";
 
 // Tracker
 $GLOBALS['strTracker'] = "Трекер";
@@ -621,7 +617,6 @@ $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Є кампанії, пов’яз
 $GLOBALS['strZoneType'] = "Тип зони";
 $GLOBALS['strBannerButtonRectangle'] = "Банер, кнопка або прямокутник";
 $GLOBALS['strInterstitial'] = "Проміжний або плаваючий DHTML";
-$GLOBALS['strPopup'] = "Popup";
 $GLOBALS['strTextAdZone'] = "Текстовий банер";
 $GLOBALS['strEmailAdZone'] = "Зона електронної пошти/розсилки";
 $GLOBALS['strZoneVideoInstream'] = "Вбудована відеореклама";
@@ -642,24 +637,7 @@ $GLOBALS['strWarnBannerReadonly'] = 'Цей банер доступний лиш
 $GLOBALS['strZonesOfWebsite'] = 'в'; //this is added between page name and website name eg. 'Zones in www.example.com'
 $GLOBALS['strBackToZones'] = "Назад до зон";
 
-$GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "IAB Full Banner (468 x 60)";
-$GLOBALS['strIab']['IAB_Skyscraper(120x600)'] = "IAB Skyscraper (120 x 600)";
-$GLOBALS['strIab']['IAB_Leaderboard(728x90)'] = "IAB Leaderboard (728 x 90)";
-$GLOBALS['strIab']['IAB_Button1(120x90)'] = "IAB Button 1 (120 x 90)";
 $GLOBALS['strIab']['IAB_Button2(120x60)'] = "IAB Button 2 (120 x 60)
-";
-$GLOBALS['strIab']['IAB_HalfBanner(234x60)'] = "IAB Half Banner (234 x 60)";
-$GLOBALS['strIab']['IAB_MicroBar(88x31)'] = "IAB Micro Bar (88 x 31)";
-$GLOBALS['strIab']['IAB_SquareButton(125x125)'] = "IAB Square Button (125 x 125)";
-$GLOBALS['strIab']['IAB_Rectangle(180x150)*'] = "IAB Rectangle (180 x 150)";
-$GLOBALS['strIab']['IAB_SquarePop-up(250x250)'] = "IAB Square Pop-up (250 x 250)";
-$GLOBALS['strIab']['IAB_VerticalBanner(120x240)'] = "IAB Vertical Banner (120 x 240)";
-$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB Medium Rectangle (300 x 250)";
-$GLOBALS['strIab']['IAB_LargeRectangle(336x280)'] = "IAB Large Rectangle (336 x 280)";
-$GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = "IAB Vertical Rectangle (240 x 400)
-";
-$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB Wide Skyscraper (160 x 600)";
-$GLOBALS['strIab']['IAB_Pop-Under(720x300)'] = "IAB Pop-Under (720 x 300)
 ";
 $GLOBALS['strIab']['IAB_3:1Rectangle(300x100)'] = "IAB 3:1 Прямокутник (300 x 100)";
 
@@ -902,10 +880,8 @@ $GLOBALS['strEIPS_short'] = "CPM (ціна 1000 показів)";
 $GLOBALS['strECPM_short'] = "CPM (ціна 1000 показів)";
 $GLOBALS['strECPC_short'] = "CPC (ціна кліка)";
 $GLOBALS['strECPS_short'] = "CPM (ціна 1000 показів)";
-$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Запр.";
 $GLOBALS['strClicks_short'] = "Кліков";
-$GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConversions_short'] = "Конв.";
 $GLOBALS['strPendingConversions_short'] = "Неизрасходованные действ.";
 $GLOBALS['strClickSR_short'] = "Клик (SR)";
