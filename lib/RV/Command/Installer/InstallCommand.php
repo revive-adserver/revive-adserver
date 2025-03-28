@@ -22,6 +22,11 @@ class InstallCommand extends AbstractInstallerCommand
         $this->addArgument('installer-conf', InputArgument::REQUIRED, 'The path to the installer configuration file. A template in etc/installer.conf.php');
     }
 
+    protected function needsHostOption(): bool
+    {
+        return false;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         parent::execute($input, $output);
@@ -88,11 +93,7 @@ class InstallCommand extends AbstractInstallerCommand
         $this->output->writeln("<comment>Running database</comment>");
 
         try {
-            $this->oController->process($oRequest);
-
-            $form = $this->oController->getModelProperty('form');
-
-            throw new RuntimeException(implode("\n", $form['errors']));
+            $this->process($oRequest);
         } catch (RedirectException $e) {
             if ('configuration' !== $e->getAction()) {
                 throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
@@ -116,11 +117,7 @@ class InstallCommand extends AbstractInstallerCommand
         $this->output->writeln("<comment>Running configuration</comment>");
 
         try {
-            $this->oController->process($oRequest);
-
-            $form = $this->oController->getModelProperty('form');
-
-            throw new RuntimeException(implode("\n", $form['errors']));
+            $this->process($oRequest);
         } catch (RedirectException $e) {
             if ('jobs' !== $e->getAction()) {
                 throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
@@ -191,5 +188,18 @@ class InstallCommand extends AbstractInstallerCommand
                 'path' => new ConfSetting(true, 'storeWebDir', realpath(__DIR__ . '/../../../../www/images')),
             ],
         ];
+    }
+
+    private function process(\OX_Admin_UI_Controller_Request $oRequest): void
+    {
+        $this->oController->process($oRequest);
+
+        $form = $this->oController->getModelProperty('form');
+
+        throw new RuntimeException(implode("\n", array_map(
+            fn($k, $v) => "{$k}: {$v}",
+            array_keys($form['errors']),
+            array_values($form['errors']),
+        )));
     }
 }

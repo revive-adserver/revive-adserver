@@ -101,6 +101,9 @@ Bug Fixes
 
  * Fixed sorting by campaign type in the advertisers campaign screen.
 
+ * Improved command line installer by including the field name in form error
+   messages and removing the unused -H option.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

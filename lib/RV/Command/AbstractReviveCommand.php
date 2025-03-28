@@ -38,7 +38,14 @@ abstract class AbstractReviveCommand extends Command
 
     protected function configure()
     {
-        $this->addOption('hostname', 'H', InputOption::VALUE_REQUIRED, 'The hostname. If not provided, auto-detection will be enabled');
+        if ($this->needsHostOption()) {
+            $this->addOption('hostname', 'H', InputOption::VALUE_REQUIRED, 'The hostname. If not provided, auto-detection will be enabled');
+        }
+    }
+
+    protected function needsHostOption(): bool
+    {
+        return true;
     }
 
     protected function initRevive(InputInterface $input, OutputInterface $output): void
