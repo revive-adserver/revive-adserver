@@ -159,7 +159,7 @@ abstract class AbstractInstallerCommand extends AbstractReviveCommand
         };
     }
 
-    protected function setPermissions(): void
+    protected function setPermissions(array $paths = []): void
     {
         if (null === $this->permissions) {
             return;
@@ -167,14 +167,14 @@ abstract class AbstractInstallerCommand extends AbstractReviveCommand
 
         $this->output->writeln("<info>Setting file permissions</info>");
 
-        $paths = [
+        $paths = \array_map('realpath', \array_merge([
             MAX_PATH . '/var',
             MAX_PATH . '/plugins',
             MAX_PATH . '/www/admin/plugins',
             MAX_PATH . '/www/images',
-        ];
+        ], $paths));
 
-        foreach ($paths as $path) {
+        foreach (\array_unique($paths) as $path) {
             chmod($path, $this->permissions);
 
             foreach ((new Finder())->in($path)->getIterator() as $file) {

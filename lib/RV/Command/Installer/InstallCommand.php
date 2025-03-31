@@ -59,7 +59,7 @@ class InstallCommand extends AbstractInstallerCommand
         $this->runJobs();
         $this->runFinish();
 
-        $this->setPermissions();
+        $this->setPermissions([$confSettings['storeWebDir']]);
         $this->showAdminUrl();
 
         return Command::SUCCESS;
@@ -185,7 +185,7 @@ class InstallCommand extends AbstractInstallerCommand
                 'admin' => new ConfSetting(true, 'webpathAdmin'),
                 'delivery' => new ConfSetting(true, ['webpathDelivery', 'webpathDeliverySSL']),
                 'images' => new ConfSetting(true, ['webpathImages', 'webpathImagesSSL']),
-                'path' => new ConfSetting(true, 'storeWebDir', realpath(__DIR__ . '/../../../../www/images')),
+                'imageStore' => new ConfSetting(true, 'storeWebDir', realpath(__DIR__ . '/../../../../www/images')),
             ],
         ];
     }

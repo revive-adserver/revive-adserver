@@ -61,7 +61,6 @@ New Features
    will either attempt to pre-connect to the images server, or just perform a
    DNS lookup.
 
-
 Bug Fixes
 ---------
 
@@ -103,6 +102,8 @@ Bug Fixes
 
  * Improved command line installer by including the field name in form error
    messages and removing the unused -H option.
+
+ * Fixed command line installer not pickig up the custom image store path.
 
 
 Non-Backwards Compatible Changes
