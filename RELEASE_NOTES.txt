@@ -109,6 +109,8 @@ Bug Fixes
 
  * Fixed command line installer not pickig up the custom image store path.
 
+ * Fixed global settings help link.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

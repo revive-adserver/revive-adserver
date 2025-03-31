@@ -41,6 +41,10 @@ class OA_Admin_Help
             return $relativeHelpPath;
         }
 
+        if (str_starts_with($relativeHelpPath, 'DOCS/')) {
+            return self::buildHelpLink('/display/' . $relativeHelpPath);
+        }
+
         // Convert original help links to new Revive Adserver format
         if (str_contains($relativeHelpPath, 'settings')) {
             $relativeHelpPath = str_starts_with($relativeHelpPath, '/') ? '/admin' . $relativeHelpPath : '/admin/' . $relativeHelpPath;
