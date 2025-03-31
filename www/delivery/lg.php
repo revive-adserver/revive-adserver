@@ -188,6 +188,9 @@ $GLOBALS['_MAX']['SSL_REQUEST'] = true;
 $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'] ?? 2147483647;
 [$micro_seconds, $seconds] = explode(" ", microtime());
 $GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float) $micro_seconds + (float) $seconds));
+if (!empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+$GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] = false;
+}
 if (!str_ends_with($_SERVER['SCRIPT_NAME'], 'install.php')) {
 $GLOBALS['serverTimezone'] = date_default_timezone_get();
 OA_setTimeZoneUTC();
@@ -486,6 +489,9 @@ MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(
 }
 function MAX_cookieClientCookieFlush()
 {
+if (!empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+return;
+}
 $conf = $GLOBALS['_MAX']['CONF'];
 $domain = empty($conf['cookie']['domain']) ? null : $conf['cookie']['domain'];
 if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
