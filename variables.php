@@ -84,6 +84,11 @@ function setupConfigVariables()
     [$micro_seconds, $seconds] = explode(" ", microtime());
     $GLOBALS['_MAX']['NOW_ms'] = round(1000 * ((float) $micro_seconds + (float) $seconds));
 
+    if (!empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+        // No cookies means no conversion tracking
+        $GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] = false;
+    }
+
     // Always use UTC when outside the installer
     if (!str_ends_with($_SERVER['SCRIPT_NAME'], 'install.php')) {
         // Save server timezone for auto-maintenance

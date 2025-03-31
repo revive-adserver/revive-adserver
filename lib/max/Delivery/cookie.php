@@ -364,6 +364,10 @@ function MAX_cookieClientCookieUnset($name)
  */
 function MAX_cookieClientCookieFlush()
 {
+    if (!empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+        return;
+    }
+
     $conf = $GLOBALS['_MAX']['CONF'];
     $domain = empty($conf['cookie']['domain']) ? null : $conf['cookie']['domain'];
 

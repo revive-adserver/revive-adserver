@@ -519,7 +519,10 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
     <td><img src='" . OX::assetPath() . "/images/spacer.gif' height='1' width='100%'></td>
     <td colspan='2'><img src='" . OX::assetPath() . "/images/break-l.gif' height='1' width='200' vspace='6'></td>";
     }
-    echo "<tr><td height='10' colspan='6'>&nbsp;</td></tr>";
+    echo "<tr><td height='10' colspan='6'>&nbsp;</td></tr>
+    <tr><td height='1' colspan='6' bgcolor='#888888'>
+    <img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>
+    ";
 
     return $tabindex;
 }

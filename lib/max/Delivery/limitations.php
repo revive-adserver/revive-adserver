@@ -220,6 +220,9 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block, $showCapped
  * Works by testing to see if the MAX_cookieGetUniqueViewerID() function
  * has been able to set a cookie, or not.
  *
+ * If cookies have been disabled via the specific setting, pretend the client
+ * supports them.
+ *
  * It is a pre-condition of this function that the MAX_cookieGetUniqueViewerID()
  * function have already been called, as this function does not attempt to
  * call the MAX_cookieGetUniqueViewerID() if no cookie exists because the
@@ -231,6 +234,11 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block, $showCapped
  */
 function _areCookiesDisabled($filterActive = true)
 {
+    if (!empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+        //
+        return false;
+    }
+
     // Since MAX_cookieGetUniqueViewerID() has to have been called by this point
     return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }

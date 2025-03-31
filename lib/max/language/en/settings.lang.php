@@ -205,6 +205,7 @@ $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Global default HTML Banner 
 $GLOBALS['strPrivacySettings'] = "Privacy Settings";
 $GLOBALS['strDisableViewerId'] = "Disable unique Viewer Id cookie";
 $GLOBALS['strAnonymiseIp'] = "Anonymise viewer IP addresses";
+$GLOBALS['strDisableDeliveryCookies'] = 'Disable delivery cookies';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Global General System Settings";

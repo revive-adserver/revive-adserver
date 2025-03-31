@@ -93,13 +93,17 @@ if ($campaignid != "") {
     $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber($data ['ecpm'], 4);
     $campaign['anonymous'] = $data ['anonymous'];
     $campaign['companion'] = $data ['companion'];
-    $campaign['show_capped_no_cookie'] = $data ['show_capped_no_cookie'];
     $campaign['comments'] = $data ['comments'];
     $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber($data ['revenue'], 4);
     $campaign['revenue_type'] = $data ['revenue_type'];
-    $campaign['block'] = $data ['block'];
-    $campaign['capping'] = $data ['capping'];
-    $campaign['session_capping'] = $data ['session_capping'];
+
+    if (empty($conf['cookie']['disabled'])) {
+        $campaign['block'] = $data ['block'];
+        $campaign['capping'] = $data ['capping'];
+        $campaign['session_capping'] = $data ['session_capping'];
+        $campaign['show_capped_no_cookie'] = $data ['show_capped_no_cookie'];
+    }
+
     $campaign['impressionsRemaining'] = '';
     $campaign['clicksRemaining'] = '';
     $campaign['conversionsRemaining'] = '';
@@ -311,7 +315,11 @@ function buildCampaignForm($campaign)
     buildPricingFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildContractCampaignFormSection($form, $campaign, $newCampaign);
     buildRemnantAndOverrideCampaignFormSection($form, $campaign, $newCampaign);
-    buildDeliveryCappingFormSection($form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign);
+
+    if (empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+        buildDeliveryCappingFormSection($form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign);
+    }
+
     buildMiscFormSection($form, $campaign, $newCampaign);
 
     //form controls

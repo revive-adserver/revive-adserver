@@ -17,8 +17,6 @@ class InstallCommand extends AbstractInstallerCommand
 
     protected function configure()
     {
-        parent::configure();
-
         $this->addArgument('installer-conf', InputArgument::REQUIRED, 'The path to the installer configuration file. A template in etc/installer.conf.php');
     }
 

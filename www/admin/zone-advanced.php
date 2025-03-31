@@ -107,7 +107,11 @@ function buildZoneForm($aZone, $oComponent = null)
     if ($oComponent && method_exists($oComponent, 'extendZoneAdvancedForm')) {
         $oComponent->extendZoneAdvancedForm($form, $aZone);
     }
-    buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
+
+    if (empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+        buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
+    }
+
     buildAppendFormSection($form, $aZone);
     buildAlgorithmFormSection($form, $aZone);
 
@@ -290,13 +294,16 @@ function processForm($aZone, $form, $oComponent = null)
         $doZones->ext_adselection = ($aFields['ext_adselection'] == 'none') ? OX_DATAOBJECT_NULL : $aFields['ext_adselection'];
     }
 
-    $doZones->block = $block;
-    $doZones->capping = $aFields['capping'];
-    $doZones->session_capping = $aFields['session_capping'];
-    if ($aFields['show_capped_no_cookie'] != 1) {
-        $aFields['show_capped_no_cookie'] = 0;
+    if (empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
+        $doZones->block = $block;
+        $doZones->capping = $aFields['capping'];
+        $doZones->session_capping = $aFields['session_capping'];
+        if ($aFields['show_capped_no_cookie'] != 1) {
+            $aFields['show_capped_no_cookie'] = 0;
+        }
+        $doZones->show_capped_no_cookie = $aFields['show_capped_no_cookie'];
     }
-    $doZones->show_capped_no_cookie = $aFields['show_capped_no_cookie'];
+
     $doZones->update();
 
     // Queue confirmation message

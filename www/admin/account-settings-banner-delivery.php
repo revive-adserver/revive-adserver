@@ -89,6 +89,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'privacy' => 'anonymiseIp',
             'bool' => true,
         ],
+        'cookie_disabled' => [
+            'cookie' => 'disabled',
+            'bool' => true,
+        ],
     ];
     // OpenX Server Access Paths
     $aElements += [
@@ -146,7 +150,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     MAX_commonRegisterGlobalsArray(['delivery_cacheStorePlugin']);
     if (isset($delivery_cacheStorePlugin)) {
         // Check for problems in selected delivery store plugin
-        $oDeliveryCacheStore = &OX_Component::factoryByComponentIdentifier($delivery_cacheStorePlugin);
+        $oDeliveryCacheStore = OX_Component::factoryByComponentIdentifier($delivery_cacheStorePlugin);
         $result = $oDeliveryCacheStore->getStatus();
         if ($result !== true) {
             $aErrormessage[1][] = $oTranslation->translate(
@@ -159,10 +163,23 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         }
     }
     if (empty($aErrormessage)) {
+        // Save old cookie setting
+        $oldCookie = empty($conf['cookie']['disabled']);
+
         // Create a new settings object, and save the settings!
         $oSettings = new OA_Admin_Settings();
         $result = $oSettings->processSettingsFromForm($aElements);
         if ($result) {
+            // When delivery cookies are disabled/enabled, menus need to be rebuilt
+            if ($oldCookie !== empty($conf['cookie']['disabled'])) {
+                if (!empty($conf['cookie']['disabled'])) {
+                    $GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] = false;
+                }
+                require_once(LIB_PATH . '/Extension/admin.php');
+                $oExtensionManager = new OX_Extension_admin();
+                $oExtensionManager->runTasksOnDemand();
+            }
+
             // Queue confirmation message
             $setPref = $oOptions->getSettingsPreferences($prefSection);
             $title = $setPref[$prefSection]['name'];
@@ -313,6 +330,14 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'privacy_anonymiseIp',
                 'text' => $strAnonymiseIp,
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'cookie_disabled',
+                'text' => $strDisableDeliveryCookies,
             ],
         ],
     ],

@@ -63,17 +63,19 @@ if (!empty($action)) {
         $acls_updated = false;
         $now = OA::getNow();
 
-        if ($aBannerPrev['block_ad'] != $block) {
-            $values['block'] = $block;
-            $acls_updated = ($block == 0) ? true : $acls_updated;
-        }
-        if ($aBannerPrev['cap_ad'] != $cap) {
-            $values['capping'] = $cap;
-            $acls_updated = ($cap == 0) ? true : $acls_updated;
-        }
-        if ($aBannerPrev['session_cap_ad'] != $session_capping) {
-            $values['session_capping'] = $session_capping;
-            $acls_updated = ($session_capping == 0) ? true : $acls_updated;
+        if (empty($conf['cookie']['disabled'])) {
+            if ($aBannerPrev['block_ad'] != $block) {
+                $values['block'] = $block;
+                $acls_updated = ($block == 0) ? true : $acls_updated;
+            }
+            if ($aBannerPrev['cap_ad'] != $cap) {
+                $values['capping'] = $cap;
+                $acls_updated = ($cap == 0) ? true : $acls_updated;
+            }
+            if ($aBannerPrev['session_cap_ad'] != $session_capping) {
+                $values['session_capping'] = $session_capping;
+                $acls_updated = ($session_capping == 0) ? true : $acls_updated;
+            }
         }
         if ($acls_updated) {
             $values['acls_updated'] = $now;
@@ -145,12 +147,11 @@ $aParams = [
     'type' => 'Campaign',
 ];
 
-$tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad', $aParams);
+if (empty($conf['cookie']['disabled'])) {
+    $tabindex = _echoDeliveryCappingHtml($tabindex, $GLOBALS['strCappingBanner'], $aBanner, 'Ad', $aParams);
+}
 
 echo "
-<tr><td height='1' colspan='6' bgcolor='#888888'>
-<img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>
-
 </table>
 <br /><br /><br />
 <input type='submit' name='submit' value='{$GLOBALS['strSaveChanges']}' tabindex='" . ($tabindex++) . "'>
