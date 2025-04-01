@@ -257,16 +257,22 @@ class MAX_Dal_Common
     }
 
     // Get any generic list order...
-    public function getSqlListOrder($listOrder, $orderDirection)
+    public function getSqlListOrder(string $listOrder, string $orderDirection, string $tblAlias = ''): string
     {
-        $direction = $this->getOrderDirection($this->oDbh->quote($orderDirection, 'text'));
-        $nameColumn = $this->getOrderColumn($this->oDbh->quote($listOrder, 'text'));
-        if (is_array($nameColumn)) {
-            $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
-        } else {
-            $sqlTableOrder = empty($nameColumn) ? '' : " ORDER BY $nameColumn $direction";
+        if (empty($nameColumn)) {
+            return '';
         }
-        return $sqlTableOrder;
+
+        $direction = $this->getOrderDirection($orderDirection);
+        $nameColumn = $this->getOrderColumn($listOrder);
+
+        $tblAlias = $tblAlias ? $tblAlias . '.' : '';
+
+        if (is_array($nameColumn)) {
+            return " ORDER BY {$tblAlias}" . implode($direction . ', ' . $tblAlias, $nameColumn) . $direction;
+        }
+
+        return " ORDER BY {$tblAlias}{$nameColumn} {$direction}";
     }
 
     /**

@@ -70,7 +70,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 $oTpl = new OA_Admin_Template('website-index.html');
 
 $dalAffiliates = OA_Dal::factoryDAL('affiliates');
-$aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
+$aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId($agencyid, $listorder, $orderdirection);
 
 $itemsPerPage = 250;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);

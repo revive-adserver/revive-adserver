@@ -11,6 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Zones.php';
 
 class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
 {
@@ -49,11 +50,8 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         return DBC::NewRecordSet($query);
     }
 
-    public function getWebsitesAndZonesByAgencyId($agencyId = null)
+    public function getWebsitesAndZonesByAgencyId(int $agencyId, string $listorder, string $orderdirection)
     {
-        if (is_null($agencyId)) {
-            $agencyId = OA_Permission::getAgencyId();
-        }
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
         $tableW = $oDbh->quoteIdentifier($prefix . $this->table, true);
@@ -71,7 +69,8 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
                 {$tableW} AS w
             WHERE
                 w.agencyid = " . DBC::makeLiteral($agencyId) . "
-            ORDER BY w.name";
+        " . $this->getSqlListOrder($listorder, $orderdirection, 'w');
+
         $rsAffiliates = DBC::NewRecordSet($query);
         $rsAffiliates->find();
         while ($rsAffiliates->fetch()) {
@@ -97,7 +96,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         WHERE
             z.affiliateid = w.affiliateid
           AND w.agencyid = " . DBC::makeLiteral($agencyId) . "
-        ORDER BY w.name";
+        " . (new MAX_Dal_Admin_Zones())->getSqlListOrder($listorder, $orderdirection, 'z');
 
         $rsAffiliatesAndZones = DBC::NewRecordSet($query);
         $rsAffiliatesAndZones->find();

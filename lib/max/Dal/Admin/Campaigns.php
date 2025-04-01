@@ -584,7 +584,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 revenue AS revenue
             FROM
                 {$tableM}" .
-            $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
+            $this->getSqlListOrder($listorder, $orderdirection) // sort by type first
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
@@ -620,7 +620,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             WHERE
                 c.clientid=m.clientid
                 AND c.agencyid=" . DBC::makeLiteral($agency_id) .
-            $this->getSqlListOrder('type+' . $listorder, $orderdirection) // sort by type first
+            $this->getSqlListOrder($listorder, $orderdirection) // sort by type first
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);

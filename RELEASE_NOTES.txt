@@ -111,6 +111,8 @@ Bug Fixes
 
  * Fixed global settings help link.
 
+ * Fixed non-working sorting in the websites list inventory screen.
+
 
 Non-Backwards Compatible Changes
 --------------------------------
