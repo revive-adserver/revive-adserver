@@ -329,6 +329,7 @@ maxCookieSize       = 2048
 domain              =
 viewerIdDomain      =
 disabled            =
+adminDomain         =
 
 [debug]
 logfile             =                       ; The delivery engine debugging file

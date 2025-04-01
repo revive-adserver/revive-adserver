@@ -64,6 +64,9 @@ New Features
  * Added new "Disable delivery cookies" setting. For more information see:
    https://documentation.revive-adserver.com/display/DOCS/Third+party+cookies
 
+ * Added cookie.adminDomain advanced setting to allow custom configuration in
+   case the admin console runs behind a reverse proxy and login isn't working.
+
 
 Bug Fixes
 ---------

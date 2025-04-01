@@ -65,12 +65,18 @@ function phpAds_SessionSetAdminCookie($name, $value)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    if (empty($conf['cookie']['adminDomain'])) {
+        $domain = $_SERVER['HTTP_HOST'] ?? '';
+    } else {
+        $domain = $conf['cookie']['adminDomain'];
+    }
+
     MAX_cookieClientCookieSet(
         $name,
         $value,
         0,
         dirname($_SERVER["SCRIPT_NAME"]),
-        empty($_SERVER['HTTP_HOST']) ? null : preg_replace('#:\d+$#', '', $_SERVER['HTTP_HOST']),
+        preg_replace('#:\d+$#', '', $domain) ?: null,
         !empty($conf['openads']['requireSSL']),
         true,
         'strict',

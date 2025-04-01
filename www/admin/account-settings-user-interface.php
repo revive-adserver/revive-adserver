@@ -52,6 +52,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'ui_headerActiveTabColor' => ['ui' => 'headerActiveTabColor'],
         'ui_headerTextColor' => ['ui' => 'headerTextColor'],
         'ui_supportLink' => ['ui' => 'supportLink'],
+        'cookie_adminDomain' => ['cookie' => 'adminDomain'],
         'ui_loaderDelay' => ['ui' => 'loaderDelay'],
         'ui_gzipCompression' => [
             'ui' => 'gzipCompression',
@@ -207,6 +208,15 @@ $aSettings = [
                 'type' => 'text',
                 'name' => 'ui_supportLink',
                 'text' => $strGuiSupportLink,
+                'size' => 35,
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'text',
+                'name' => 'cookie_adminDomain',
+                'text' => $strAdminCookieDomain,
                 'size' => 35,
             ],
             [
