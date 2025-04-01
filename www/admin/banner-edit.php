@@ -253,6 +253,10 @@ function displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, 
     $aOtherCampaigns = Admin_DA::getPlacements([$entityType => $entityId]);
     $aOtherBanners = Admin_DA::getAds(['placement_id' => $campaignid], false);
 
+    if (!_checkBannerSslSafety($aBanner)) {
+        OA_Admin_UI::queueMessage($GLOBALS['strBannerNotSslCompliant'], 'local', 'warning', 0);
+    }
+
     // Display banner preview
     MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
@@ -632,6 +636,8 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
         }
     }
 
+    $timeout = _checkBannerSslSafety($doBanners->toArray()) ? 0 : 3000;
+
     $translation = new OX_Translation();
     if ($insert) {
         // Queue confirmation message
@@ -639,7 +645,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
             MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' . $aFields['clientid'] . '&campaignid=' . $aFields['campaignid'] . '&bannerid=' . $bannerid),
             htmlspecialchars($aFields['description']),
         ]);
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', $timeout);
 
         $nextPage = "campaign-banners.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'];
     } else {
@@ -650,7 +656,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
                 htmlspecialchars($aFields ['description']),
             ],
         );
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', $timeout);
         $nextPage = "banner-edit.php?clientid=" . $aFields['clientid'] . "&campaignid=" . $aFields['campaignid'] . "&bannerid=$bannerid";
     }
 
@@ -700,4 +706,9 @@ function _getPrettySize($size)
 function _getBannerSizeText($type, $filename)
 {
     return _getPrettySize(phpAds_ImageSize($type, $filename));
+}
+
+function _checkBannerSslSafety(array $aBanner): bool
+{
+    return !str_starts_with($aBanner['url'], 'http:') && !preg_match('#src\s?=\s?[\'"]?http:#i', $aBanner['htmlcache']);
 }

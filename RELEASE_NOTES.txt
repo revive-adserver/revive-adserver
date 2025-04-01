@@ -67,6 +67,9 @@ New Features
  * Added cookie.adminDomain advanced setting to allow custom configuration in
    case the admin console runs behind a reverse proxy and login isn't working.
 
+ * Added a warning message in the banner edit screen when non-HTTPS assets
+   are used and banner won't be selected for delivery on HTTPS pages.
+
 
 Bug Fixes
 ---------
