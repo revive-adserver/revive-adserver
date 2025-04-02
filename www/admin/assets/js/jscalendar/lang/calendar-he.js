@@ -82,8 +82,7 @@ Calendar._TT["ABOUT"] =
 "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
 "הגירסא האחרונה זמינה ב: http://www.dynarch.com/projects/calendar/\n" +
 "מופץ תחת זיכיון ה GNU LGPL.  עיין ב http://gnu.org/licenses/lgpl.html לפרטים נוספים." +
-"\n\n" +
-בחירת תאריך:\n" +
+"\n\n" + "בחירת תאריך:\n" +
 "- השתמש בכפתורים \xab, \xbb לבחירת שנה\n" +
 "- השתמש בכפתורים " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " לבחירת חודש\n" +
 "- החזק העכבר לחוץ מעל הכפתורים המוזכרים לעיל לבחירה מהירה יותר.";

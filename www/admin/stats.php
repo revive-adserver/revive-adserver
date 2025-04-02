@@ -42,13 +42,13 @@ if ($periodPreset == 'all_stats') {
     $_REQUEST['period_preset'] = $periodPreset;
     $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
 } else {
-    $period_start = htmlspecialchars(MAX_getStoredValue('period_start', date('Y-m-d')));
-    if (!strstr($period_start, '-')) {
+    $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
+    if (!str_contains($period_start, '-')) {
         $period_start = date('Y-m-d', strtotime($period_start));
         MAX_changeStoredValue('period_start', $period_start);
     }
-    $period_end = htmlspecialchars(MAX_getStoredValue('period_end', date('Y-m-d')));
-    if (!strstr($period_end, '-')) {
+    $period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
+    if (!str_contains($period_end, '-')) {
         $period_end = date('Y-m-d', strtotime($period_end));
         MAX_changeStoredValue('period_end', $period_end);
     }

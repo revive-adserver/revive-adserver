@@ -186,10 +186,24 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      */
     public function display()
     {
+        try {
+            $formatter = \IntlDateFormatter::create($GLOBALS['_MAX']['PREF']['language'] ?? 'en', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
+        } catch (ValueError) {
+            $formatter = null;
+        }
+
+        $format = static function (?Date $oDate) use ($formatter): string {
+            if (!$oDate instanceof \Date) {
+                return '';
+            }
+
+            return $formatter?->format(new \DateTime($oDate->format('%Y-%m-%d'))) ?? $oDate->format('%d %B %Y');
+        };
+
         $oStartDate = $this->getStartDate();
-        $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%d %B %Y ');
+        $startDateStr = $format($oStartDate);
         $oEndDate = $this->getEndDate();
-        $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%d %B %Y');
+        $endDateStr = $format($oEndDate);
 
         echo "
         <select name='{$this->_name}_preset' id='{$this->_name}_preset' onchange='{$this->_name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
@@ -256,6 +270,14 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             alert('" . addslashes($GLOBALS['strFieldStartDateBeforeEnd']) . "');
             return false;
           }
+
+          if (start != undefined) {
+            startField.value = start.print('%Y-%m-%d');
+          }
+          if (end != undefined) {
+            endField.value = end.print('%Y-%m-%d');
+          }
+
           return true;
         }
 
@@ -289,9 +311,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                 if ($v != 'all_stats') {
                     $oTmpDaySpan->setSpanPresetValue($v);
                     $oTmpStartDate = $oTmpDaySpan->getStartDate();
-                    $sTmpStartDate = $oTmpStartDate->format('%d %B %Y');
+                    $sTmpStartDate = $format($oTmpStartDate);
                     $oTmpEndDate = $oTmpDaySpan->getEndDate();
-                    $sTmpEndDate = $oTmpEndDate->format('%d %B %Y');
+                    $sTmpEndDate = $format($oTmpEndDate);
                 } else {
                     $sTmpStartDate = '';
                     $sTmpEndDate = '';
@@ -335,7 +357,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             document.getElementById('{$this->_name}_start_button').style.cursor = specific ? 'auto' : 'default';
             document.getElementById('{$this->_name}_end_button').style.cursor = specific ? 'auto' : 'default';
 
-            if (!specific && bAutoSubmit) {
+            if (!specific && bAutoSubmit && checkDates(o.form)) {
                 o.form.submit();
             }
         }

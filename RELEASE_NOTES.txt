@@ -70,6 +70,8 @@ New Features
  * Added a warning message in the banner edit screen when non-HTTPS assets
    are used and banner won't be selected for delivery on HTTPS pages.
 
+ * Added missing localization for the date pickers.
+
 
 Bug Fixes
 ---------

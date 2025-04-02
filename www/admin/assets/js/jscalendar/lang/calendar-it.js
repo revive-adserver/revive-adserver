@@ -3,7 +3,7 @@
 // Calendar EN language
 // Author: Mihai Bazon, <mihai_bazon@yahoo.com>
 // Translator: Fabio Di Bernardini, <altraqua@email.it>
-// Encoding: any
+// Encoding: utf-8
 // Distributed under the same terms as the calendar itself.
 
 // For translators: please use UTF-8 if possible.  We strongly believe that
@@ -46,18 +46,18 @@ Calendar._SDN = new Array
 
 // full month names
 Calendar._MN = new Array
-("Gennaio",
- "Febbraio",
- "Marzo",
- "Aprile",
- "Maggio",
- "Giugno",
- "Luglio",
- "Augosto",
- "Settembre",
- "Ottobre",
- "Novembre",
- "Dicembre");
+("gennaio",
+ "febbraio",
+ "marzo",
+ "aprile",
+ "maggio",
+ "giugno",
+ "luglio",
+ "agosto",
+ "settembre",
+ "ottobre",
+ "novembre",
+ "dicembre");
 
 // short month names
 Calendar._SMN = new Array

@@ -78,6 +78,7 @@ class OA_Admin_UI
         $this->oTpl = new OA_Admin_Template('layout/main.html');
         $this->notificationManager = new OA_Admin_UI_NotificationManager();
         $this->setLinkParams();
+        $this->addJsCalendarTranslation();
     }
 
 
@@ -906,5 +907,14 @@ class OA_Admin_UI
             'url' => $url,
             'iconClass' => $iconClass,
         ];
+    }
+
+    private function addJsCalendarTranslation(): void
+    {
+        $language = substr($GLOBALS['_MAX']['PREF']['language'] ?? 'en', 0, 2);
+
+        if ($language !== 'en' && file_exists(MAX_PATH . "/www/admin/assets/js/jscalendar/lang/calendar-{$language}.js")) {
+            $this->otherJSFiles[] = "assets/js/jscalendar/lang/calendar-{$language}.js";
+        }
     }
 }

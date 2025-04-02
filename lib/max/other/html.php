@@ -214,7 +214,7 @@ function MAX_displayDateSelectionForm($period, $period_start, $period_end, $page
     global $tabindex;
     require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 
-    $oDaySpan = &FieldFactory::newField('day-span');
+    $oDaySpan = FieldFactory::newField('day-span');
     $oDaySpan->_name = 'period';
     $oDaySpan->_autoSubmit = true;
     $oDaySpan->setValueFromArray(['period_preset' => $period, 'period_start' => $period_start, 'period_end' => $period_end]);

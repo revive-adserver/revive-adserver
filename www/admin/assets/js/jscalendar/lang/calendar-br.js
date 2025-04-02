@@ -2,7 +2,7 @@
 
 // Calendar pt-BR language
 // Author: Fernando Dourado, <fernando.dourado@ig.com.br>
-// Encoding: any
+// Encoding: utf-8
 // Distributed under the same terms as the calendar itself.
 
 // For translators: please use UTF-8 if possible.  We strongly believe that
