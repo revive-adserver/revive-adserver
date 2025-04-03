@@ -541,6 +541,7 @@ $GLOBALS['strGenericOutputAdServer'] = "Generico";
 $GLOBALS['strBackToBanners'] = "Torna ai banner";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Usa Editor HTML WYSIWYG";
 $GLOBALS['strChangeDefault'] = "Cambia predefinito";
+$GLOBALS['strBannerNotSslCompliant'] = "Il banner contiene risorse non HTTPS e non verrà visualizzato su pagine HTTPS";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Aggiungi sempre il seguente codice HTML prima di questo banner";
