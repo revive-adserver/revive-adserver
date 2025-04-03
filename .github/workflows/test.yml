@@ -22,6 +22,7 @@ jobs:
           - "8.1"
           - "8.2"
           - "8.3"
+          - "8.4"
 
         db-type:
           - mysqli
@@ -47,6 +48,8 @@ jobs:
             php-version: "8.1"
           - audit: audit
             php-version: "8.2"
+          - audit: audit
+            php-version: "8.3"
 
         include:
           - db-user: postgres
