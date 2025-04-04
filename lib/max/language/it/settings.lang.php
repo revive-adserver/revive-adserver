@@ -205,6 +205,7 @@ $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Banner HTML predefinito glo
 $GLOBALS['strPrivacySettings'] = "Impostazioni Privacy";
 $GLOBALS['strDisableViewerId'] = "Disabilita cookie Id visualizzatore univoco";
 $GLOBALS['strAnonymiseIp'] = "Anonymise viewer indirizzi IP";
+$GLOBALS['strDisableDeliveryCookies'] = 'Disattiva cookie durante la consegna banner';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Impostazioni di sistema generale globale";
@@ -303,6 +304,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Colore di sfondo dell'intestazione";
 $GLOBALS['strGuiActiveTabColor'] = "Colore del tab attivo";
 $GLOBALS['strGuiHeaderTextColor'] = "Colore del testo nell'intestazione";
 $GLOBALS['strGuiSupportLink'] = "URL personalizzato per il link di Supporto in alto";
+$GLOBALS['strAdminCookieDomain'] = "Dominio dei cookie dell'interfaccia utente";
 $GLOBALS['strGuiLoaderDelay'] = "Visualizza l'animazione di caricamento quando la schermata successiva richiede più di X millisecondi per caricare (usa -1 per disabilitare)";
 $GLOBALS['strGzipContentCompression'] = "Utilizza la compressione GZIP per i contenuti";
 
