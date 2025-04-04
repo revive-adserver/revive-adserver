@@ -203,6 +203,7 @@ $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Globale standaard HTML Bann
 $GLOBALS['strPrivacySettings'] = "Privacyinstellingen";
 $GLOBALS['strDisableViewerId'] = "Unieke Viewer Id cookie uitschakelen";
 $GLOBALS['strAnonymiseIp'] = "Anonimiseren viewer IP-adressen";
+$GLOBALS['strDisableDeliveryCookies'] = 'Leveringscookies uitschakelen';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Globale algemene systeeminstellingen";
@@ -301,6 +302,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Kleur van de header achtergrond";
 $GLOBALS['strGuiActiveTabColor'] = "Kleur van een actieve tab";
 $GLOBALS['strGuiHeaderTextColor'] = "Kleur van headertekst";
 $GLOBALS['strGuiSupportLink'] = "Aangepaste URL voor 'Support' link in de koptekst";
+$GLOBALS['strAdminCookieDomain'] = "Aangepast cookie-domein voor de gebruikersinterface";
 $GLOBALS['strGuiLoaderDelay'] = "Toon een Loading animatie als het langer dan X milliseconden duurt om het volgende scherm te laden (gebruik -1 om uit te schakelen)";
 $GLOBALS['strGzipContentCompression'] = "Gebruik GZIP content compression";
 
