@@ -204,6 +204,7 @@ $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Globales HTML-Standard-Bann
 $GLOBALS['strPrivacySettings'] = "Einstellungen zur Privatsphäre";
 $GLOBALS['strDisableViewerId'] = "Eindeutigen \"Viewer Id\"-Cookie deaktivieren";
 $GLOBALS['strAnonymiseIp'] = "IP-Adressen des Betrachters anonymisieren";
+$GLOBALS['strDisableDeliveryCookies'] = 'Deaktiviere Zustellcookies';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Allgemeine globale Systemeinstellungen";
@@ -302,6 +303,7 @@ $GLOBALS['strGuiHeaderBackgroundColor'] = "Hintergrundfarbe der Kopfzeile";
 $GLOBALS['strGuiActiveTabColor'] = "Farbe des aktiven Reiters";
 $GLOBALS['strGuiHeaderTextColor'] = "Textfarbe in der Kopfzeile";
 $GLOBALS['strGuiSupportLink'] = "Eigene URL für 'Support' Link im Header";
+$GLOBALS['strAdminCookieDomain'] = "Benutzerdefinierte Cookie-Domäne für die Benutzeroberfläche";
 $GLOBALS['strGuiLoaderDelay'] = "Ladeanimation anzeigen, wenn der nächste Bildschirm länger als X Millisekunden benötigt wird (verwenden Sie -1 zum Deaktivieren)";
 $GLOBALS['strGzipContentCompression'] = "Komprimieren mit GZIP";
 
