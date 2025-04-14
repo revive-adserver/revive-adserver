@@ -26,39 +26,20 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 
 // Check Searchselection
-if (!isset($client) || ($client != 't')) {
-    $client = false;
-}
-if (!isset($campaign) || ($campaign != 't')) {
-    $campaign = false;
-}
-if (!isset($banner) || ($banner != 't')) {
-    $banner = false;
-}
-if (!isset($zone) || ($zone != 't')) {
-    $zone = false;
-}
-if (!isset($affiliate) || ($affiliate != 't')) {
-    $affiliate = false;
-}
+$client = 't' === ($client ?? 'f');
+$campaign = 't' === ($campaign ?? 'f');
+$banner = 't' === ($banner ?? 'f');
+$zone = 't' === ($zone ?? 'f');
+$affiliate = 't' === ($affiliate ?? 'f');
+$compact = 't' === ($compact ?? 'f');
+$keyword = $keyword ?? '';
 
-
-if ($client == false && $campaign == false &&
-    $banner == false && $zone == false &&
-    $affiliate == false) {
+if ($client === false && $campaign === false && $banner === false && $zone === false && $affiliate === false) {
     $client = true;
     $campaign = true;
     $banner = true;
     $zone = true;
     $affiliate = true;
-}
-
-if (!isset($compact)) {
-    $compact = false;
-}
-
-if (!isset($keyword)) {
-    $keyword = '';
 }
 
 OA_Dal::factoryDO('Campaigns');
@@ -71,7 +52,7 @@ $agencyId = OA_Permission::getAgencyId();
 
 $aZones = $aAffiliates = $aClients = $aBanners = $aCampaigns = [];
 
-if ($client != false) {
+if ($client) {
     $dalClients = OA_Dal::factoryDAL('clients');
     $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId);
     $rsClients->find();
@@ -110,7 +91,7 @@ if ($client != false) {
     }
 }
 
-if ($campaign != false) {
+if ($campaign) {
     $dalCampaigns = OA_Dal::factoryDAL('campaigns');
     $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword, $agencyId);
     $rsCampaigns->find();
@@ -140,7 +121,7 @@ if ($campaign != false) {
 }
 
 
-if ($banner != false) {
+if ($banner) {
     $dalBanners = OA_Dal::factoryDAL('banners');
     $rsBanners = $dalBanners->getBannerByKeyword($keyword, $agencyId);
     $rsBanners->reset();
@@ -160,7 +141,7 @@ if ($banner != false) {
     }
 }
 
-if ($affiliate != false) {
+if ($affiliate) {
     $dalAffiliates = OA_Dal::factoryDAL('affiliates');
     $rsAffiliates = $dalAffiliates->getAffiliateByKeyword($keyword, $agencyId);
     $rsAffiliates->reset();
@@ -186,7 +167,7 @@ if ($affiliate != false) {
     }
 }
 
-if ($zone != false) {
+if ($zone) {
     $dalZones = OA_Dal::factoryDAL('zones');
     $rsZones = $dalZones->getZoneByKeyword($keyword, $agencyId);
     $rsZones->find();
