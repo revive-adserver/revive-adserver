@@ -29,3 +29,8 @@ phpinfo.php
 /lib/vendor/
 /www/devel/schema.js
 /www/admin/assets/js/zxcvbn.js*
+/tools
+/.phive
+/devel.xml
+/tests.xml
+/tests/*.ini

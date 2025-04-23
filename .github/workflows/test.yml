@@ -52,11 +52,14 @@ jobs:
             php-version: "8.3"
 
         include:
+          - coverage: none
           - db-user: postgres
           - db-port: 5432
           - db-type: mysqli
             db-user: root
             db-port: 3306
+          - audit: audit
+            coverage: pcov
 
     services:
       postgres:
@@ -109,7 +112,8 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: ${{ env.PHP_EXTENSIONS }}
-          ini-values: ${{ env.PHP_INI_VALUES }}
+          ini-values: pcov.directory=$GITHUB_WORKSPACE, ${{ env.PHP_INI_VALUES }}
+          coverage: ${{ matrix.coverage }}
           tools: composer
 
       - name: Get Composer cache directory
@@ -146,7 +150,7 @@ jobs:
       - name: Run tests
         run: ant test-all
 
-      - name: Upload test report
+      - name: Upload test and coverage reports
         uses: actions/upload-artifact@v4
         if: always() # always run even if the previous step fails
         with:
@@ -183,3 +187,30 @@ jobs:
           path: '**/build/test-reports/*.xml'
           reporter: java-junit
           only-summary: true
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          ini-values: memory_limit=-1
+          tools: phive
+
+      - name: Restructure files and build coverage results
+        run: |
+          phive install phpcov --trust-gpg-keys 4AA394086372C20A
+          mkdir -p tests
+          mv test-results-* tests/
+          mkdir -p coverage
+          mv tests/*/build/test-coverage/* coverage/
+          ./tools/phpcov merge --clover coverage.xml coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results to Codecov
+        uses: codecov/test-results-action@v1
+        with:
+          directory: tests
+          token: ${{ secrets.CODECOV_TOKEN }}

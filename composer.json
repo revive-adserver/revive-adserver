@@ -53,7 +53,8 @@
         "rector/rector": "*",
         "symplify/easy-coding-standard": "^12.1",
         "phpcompatibility/php-compatibility": "dev-develop",
-        "phpcsstandards/phpcsutils": "^1.0"
+        "phpcsstandards/phpcsutils": "^1.0",
+        "phpunit/php-code-coverage": "^10.1"
     },
     "repositories": [
         {

@@ -30,6 +30,8 @@ require_once MAX_PATH . '/tests/testClasses/ErrorCatcher.php';
 $runner = new TestRunner();
 $runner->findDefaults();
 
+require_once __DIR__ . '/pcov.php';
+
 $oErrorCatcher = new SimpletestErrorCatcher($runner);
 
 /* TODO: Extract this to the paintHeader() method of a reporter */
