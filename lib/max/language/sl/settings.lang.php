@@ -26,12 +26,17 @@ $GLOBALS['strTablesType'] = "Tip tabele";
 $GLOBALS['strRecoveryRequiredTitle'] = "Vaš prejšnji poizkus posodobitve je naletel na težavo";
 $GLOBALS['strRecoveryRequired'] = "Prišlo je do napake med procesiranjem vaše prejšnje posodobitve. {$PRODUCT_NAME} bo poizkusil povrniti posodobitveni postopek. Prosimo, potrdite z klikom na gumb Povrni.";
 
+$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} je posodobljen";
 $GLOBALS['strOaUpToDate'] = "Vaša {$PRODUCT_NAME} podatkovna baza in struktura datotek uporabljata najnovejšo različico in zato posodobitev v tem trenutku ni potrebna. Kliknite \"Nadaljuj\" za napotitev v {$PRODUCT_NAME} Nadzorno ploščo.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Opozorilo: Posodobitvena datoteka je še vedno v vaši mapi. Zaradi varnostnih razlogov je ne moremo odstraniti. Prosimo, datoteko izbrišite ročno.";
 $GLOBALS['strErrorWritePermissions'] = "Prišlo je do napak pri dostopu do datotek. Pred nadaljevanjem jih morate odpraviti.<br />Pri odpravi teh napak v sistemu Linux vtipkajte naslednji ukazni niz:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
+$GLOBALS['strNotWriteable'] = "NI zapisljivo";
+$GLOBALS['strDirNotWriteableError'] = "Mapa mora omogočati pisanje";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Prišlo je do napak pri dostopu do datotek. Pred nadaljevanjem jih morate odpraviti.";
 $GLOBALS['strCheckDocumentation'] = "Za več pomoči si prosimo oglejte <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME}  dokumentacijo</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "Vaša trenutna PHP konfiguracija ne izpolnjuje zahtev za {$PRODUCT_NAME}. Za odpravo težav prosimo, spremenite nastavitve v datoteki 'php.ini'.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL Nadzorniškega vmesnika";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL Dostavnega orodja";
@@ -114,6 +119,11 @@ $GLOBALS['strDebugName'] = "Ime beležke, Kolendar, SQL Tabela,<br />ali Sistems
 $GLOBALS['strDebugPriority'] = "Prioritetni nivo iskanja in odstranjevanja napak";
 $GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Največ informacij";
 $GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Privzete informacije";
+$GLOBALS['strPEAR_LOG_NOTICE'] = "PEAR_LOG_NOTICE";
+$GLOBALS['strPEAR_LOG_WARNING'] = "PEAR_LOG_WARNING";
+$GLOBALS['strPEAR_LOG_ERR'] = "PEAR_LOG_ERR";
+$GLOBALS['strPEAR_LOG_CRIT'] = "PEAR_LOG_CRIT";
+$GLOBALS['strPEAR_LOG_ALERT'] = "PEAR_LOG_ALERT";
 $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - Najmanj informacij";
 $GLOBALS['strDebugIdent'] = "\"Debug\" identifikacijski niz";
 $GLOBALS['strDebugUsername'] = "mCal, SQL Uporabniško ime strežnika";
