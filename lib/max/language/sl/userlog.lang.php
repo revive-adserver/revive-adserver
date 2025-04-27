@@ -13,6 +13,7 @@
 // Set translation strings
 $GLOBALS['strDeliveryEngine'] = "Orodje za dostavo";
 $GLOBALS['strMaintenance'] = "Vzdrževanje";
+$GLOBALS['strAdministrator'] = "Skrbnik";
 
 // Audit
 $GLOBALS['strDeleted'] = "izbrisano";
@@ -27,6 +28,7 @@ $GLOBALS['strCampaign'] = "Kampanja";
 $GLOBALS['strZone'] = "Področje";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strAction'] = "Dejanje";
+$GLOBALS['strParameter'] = "Parameter";
 $GLOBALS['strValue'] = "Vrednost";
 $GLOBALS['strReturnAuditTrail'] = "Vrnitev na Pregledno pot";
 $GLOBALS['strAuditTrail'] = "Pregledna pot (audit trail)";
@@ -38,4 +40,10 @@ $GLOBALS['strClear'] = "Počisti";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Poročilo za oglaševalca {id} je bilo poslano po elektronski pošti";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampanja {id} aktivirana";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Avtomatsko čiščenje podatkovne baze";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistika sestavljena";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampanja {id} deaktivirana";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioriteta preračunana";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";

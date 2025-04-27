@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Prosimo, izberite tip poziva";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Prosimo, izberite tip poziva pasici";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "px";
 $GLOBALS['strAbbrSeconds'] = "sek";
 
 // Common Invocation Parameters
@@ -36,7 +37,14 @@ $GLOBALS['strIFrameRefreshAfter'] = "Osveži po";
 $GLOBALS['strIframeMakeTransparent'] = "Naredi I-Frame prozoren";
 
 // PopUp
+$GLOBALS['strPopUpAfterSec'] = "Po";
+$GLOBALS['strAutoCloseAfter'] = "Samodejno zapri po";
+$GLOBALS['strPopUpTop'] = "Začetna pozicija (zgoraj)";
+$GLOBALS['strPopUpLeft'] = "Začetna pozicija (levo)";
+$GLOBALS['strShowToolbars'] = "Orodne vrstice";
+$GLOBALS['strShowLocation'] = "Lokacija";
 $GLOBALS['strShowStatus'] = "Stanje";
+$GLOBALS['strWindowResizable'] = "Spremenljiva velikost";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Vstavi cache-busting kodo";

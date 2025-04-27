@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: sl\n"
@@ -34,12 +34,12 @@ msgstr ""
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:135
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:302
 msgid "Daily Breakdown"
-msgstr ""
+msgstr "Dnevna razčlenitev"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:309
 msgid "Campaign Breakdown"
-msgstr ""
+msgstr "Razčlenitev kampanje"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:98
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:361
@@ -59,7 +59,7 @@ msgstr ""
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:136
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:340
 msgid "Ad Breakdown"
-msgstr ""
+msgstr "Razčlenitev oglasa"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:117
 msgid "Conversion Tracking Report"
@@ -112,19 +112,19 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
 msgid "Approval Status"
-msgstr ""
+msgstr "Status odobritve"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:673
 msgid "Comment"
-msgstr ""
+msgstr "Komentar"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:679
 msgid "Advertiser Name"
-msgstr ""
+msgstr "Ime oglaševalca"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:683
 msgid "Ad Name"
-msgstr ""
+msgstr "Ime oglasa"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
 msgid "Website Name"
@@ -132,11 +132,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:687
 msgid "Zone Name"
-msgstr ""
+msgstr "Ime področja"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:689
 msgid "Connection Type"
-msgstr ""
+msgstr "Vrsta povezave"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:691
 msgid "Connecting Value Date / Time"
@@ -144,7 +144,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:693
 msgid "IP Address"
-msgstr ""
+msgstr "IP naslov"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
@@ -180,15 +180,15 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:168
 msgid "Overall +/-"
-msgstr ""
+msgstr "Skupno +/-"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:170
 msgid "Current +/-"
-msgstr ""
+msgstr "Trenutno +/-"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:477
 msgid "Targeted"
-msgstr ""
+msgstr "Ciljano"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:479
 msgid "Run of Site"
@@ -200,11 +200,11 @@ msgstr "V teku"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:497
 msgid "Stopped"
-msgstr ""
+msgstr "Ustavljeno"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:513
 msgid "Override"
-msgstr ""
+msgstr "Prepis"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
 msgid "Remnant"

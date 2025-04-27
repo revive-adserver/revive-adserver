@@ -61,6 +61,7 @@ $GLOBALS['strStorageExplaination'] = "	Slike, ki jih uporablja lokalna pasica, s
 	v mapo, boste pospešili nalagalni čas podatkovne baze.";
 
 // Security
+$GLOBALS['strSecurity'] = "Varnost";
 
 // Encoding
 $GLOBALS['strEncoding'] = "Šifriranje";
@@ -113,6 +114,7 @@ $GLOBALS['strRunningOn'] = "teče na";
 $GLOBALS['strAndPlain'] = "in";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Pravila dostave";
 $GLOBALS['strErrorsFound'] = "Najdene napake";
 $GLOBALS['strRepairCompiledLimitations'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnjim gumbom, ki bo znova sestavil zbrane omejitve za vsako pasico/kanal v sistemu<br />";
 $GLOBALS['strRecompile'] = "Znova sestavi";
