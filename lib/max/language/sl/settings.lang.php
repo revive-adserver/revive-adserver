@@ -45,6 +45,7 @@ $GLOBALS['strImagesUrlPrefix'] = "URL Hrambe slik";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL (SSL) Hrambe slik";
 
 
+$GLOBALS['strUpgrade'] = "Nadgradnja";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -101,6 +102,9 @@ $GLOBALS['strEmailHeader'] = "Glava za e-pošto";
 $GLOBALS['strEmailLog'] = "Beležka za e-pošto";
 
 // Security settings
+$GLOBALS['strSecuritySettings'] = "Nastavitve varnosti";
+$GLOBALS['strSecurityPasswordMinLength'] = "Minimalna dolžina gesla";
+$GLOBALS['strSecurityBadLoginPath'] = "Dnevnik neuspešnih prijav";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Nastavitve za pregled poti (audit trail)";
@@ -196,9 +200,9 @@ $GLOBALS['strGUIShowParentCampaigns'] = "Prikaži izvorne kampanje na strani <i>
 $GLOBALS['strStatisticsDefaults'] = "Statistika";
 $GLOBALS['strBeginOfWeek'] = "Začetek tedna";
 $GLOBALS['strPercentageDecimals'] = "Decimalke po odstotkih";
-$GLOBALS['strWeightDefaults'] = "Privzeta vrednost";
-$GLOBALS['strDefaultBannerWeight'] = "Privzeta vrednost pasice";
-$GLOBALS['strDefaultCampaignWeight'] = "Privzeta vrednost kampanje";
+$GLOBALS['strWeightDefaults'] = "Privzeta teža";
+$GLOBALS['strDefaultBannerWeight'] = "Privzeta teža pasice";
+$GLOBALS['strDefaultCampaignWeight'] = "Privzeta teža kampanje";
 $GLOBALS['strConfirmationUI'] = "Potrditev v Uporabniškem vmesniku";
 
 // Invocation Settings
@@ -211,7 +215,7 @@ $GLOBALS['strBannerDelivery'] = "Nastavitve dostave pasice";
 // Banner Logging Settings
 $GLOBALS['strBannerLogging'] = "Nastavitve beleženja pasice";
 $GLOBALS['strLogAdRequests'] = "Beleži zahtevo ob vsaki zahtevani pasici";
-$GLOBALS['strLogAdImpressions'] = "Beleži ogled ob vsakem ogledu pasice";
+$GLOBALS['strLogAdImpressions'] = "Beleži prikaz ob vsakem ogledu pasice";
 $GLOBALS['strLogAdClicks'] = "Beleži klik ob vsakem kliku na pasico";
 $GLOBALS['strReverseLookup'] = "Preglej imena gostiteljev obiskovalcev, če niso podana";
 $GLOBALS['strProxyLookup'] = "Poizkusi ugotoviti prave IP naslove obiskovalcev, ki uporabljajo proxy strežnik";
@@ -224,16 +228,20 @@ $GLOBALS['strEnforceUserAgents'] = "<b>Samo</b> beleži statistike odjemalcev z 
 $GLOBALS['strBannerStorage'] = "Nastavitve hrambe pasic";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "Uporabite prioritete optimizirane glede na eCPM namesto prioritet, ki temeljijo na teži";
+$GLOBALS['strInactivatedCampaigns'] = "Seznam kampanj, ki so postale neaktivne zaradi sprememb v preferencah:";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "Vzdrževalne nastavitve";
 $GLOBALS['strConversionTracking'] = "Nastavitve sledilnika pretvorb";
 $GLOBALS['strEnableConversionTracking'] = "Omogoči sledenje pretvorb";
+$GLOBALS['strBlockInactiveBanners'] = "Ne štejte prikazov oglasov, klikov ali preusmeritev uporabnika na ciljni URL, če uporabnik klikne na pasico, ki je neaktivna";
 $GLOBALS['strBlockAdClicks'] = "Ne štej klikov oglasa, če je obiskovalec kliknil na enak oglas/področje znotraj označenega časa (v sekundah)";
 $GLOBALS['strMaintenanceOI'] = "Presledek vzdrževalnega postopka (v minutah)";
 $GLOBALS['strPrioritySettings'] = "Prednostne nastavitve";
 $GLOBALS['strPriorityInstantUpdate'] = "Takoj posodobi oglasne prioritete po spremembi uporabniškega vmesnika (UI)";
-$GLOBALS['strWarnLimit'] = "Pošlji opozorilo ko je število preostalih učinkov manjše kot navedeno tukaj";
+$GLOBALS['strDefaultImpConvWindow'] = "Privzeto časovno okno za konverzijo oglasnih prikazov (v sekundah)";
+$GLOBALS['strWarnLimit'] = "Pošlji opozorilo ko je število preostalih prikazov manjše kot navedeno tukaj";
 $GLOBALS['strWarnLimitDays'] = "Pošlji opozorilo ko je število preostalih dni manjše kot navedeno tukaj";
 $GLOBALS['strWarnAdmin'] = "Pošlji opozorilo administratorju, ko se kampanja bliža svojemu koncu";
 $GLOBALS['strWarnClient'] = "Pošlji opozorilo oglaševalcu, ko se kampanja bliža svojemu koncu";

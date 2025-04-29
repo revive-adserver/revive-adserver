@@ -100,15 +100,15 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
 msgid " Connections"
-msgstr ""
+msgstr " Povezave"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
 msgid "Connection ID"
-msgstr ""
+msgstr "ID povezave"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
 msgid "Connection Date / Time"
-msgstr ""
+msgstr "Datum / Čas povezave"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
 msgid "Approval Status"
@@ -128,7 +128,7 @@ msgstr "Ime oglasa"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
 msgid "Website Name"
-msgstr ""
+msgstr "Ime spletne strani"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:687
 msgid "Zone Name"
@@ -148,11 +148,11 @@ msgstr "IP naslov"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:42
 msgid "Campaign Delivery Report"
-msgstr ""
+msgstr "Poročilo o dostavi kampanje"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:43
 msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
-msgstr ""
+msgstr "To poročilo prikazuje statistiko dostave za vse kampanje, ki so bile aktivne v določenem obdobju, s poudarkom na kampanjah, ki imajo slabše rezultate."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:69
 msgid "Period"
@@ -168,11 +168,11 @@ msgstr "Tip"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:162
 msgid "Booked Impressions"
-msgstr ""
+msgstr "Rezervirani prikazi"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:164
 msgid "Delivered Impressions"
-msgstr ""
+msgstr "Dostavljeni prikazi"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:166
 msgid "% Complete"

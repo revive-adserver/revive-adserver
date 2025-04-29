@@ -40,10 +40,13 @@ $GLOBALS['strClear'] = "Počisti";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = [];
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Poročilo za oglaševalca {id} je bilo poslano po elektronski pošti";
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Poročilo za oglaševalca {id} je bilo poslano po e-pošti";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampanja {id} aktivirana";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Avtomatsko čiščenje podatkovne baze";
 $GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistika sestavljena";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Obvestilo o deaktivaciji kampanje {id} je bilo poslano po e-pošti";
 $GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampanja {id} deaktivirana";
 $GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioriteta preračunana";
-$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Poročilo za spletno stran {id} je bilo poslano po e-pošti";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Opozorilo o deaktivaciji kampanje {id} je bilo poslano po e-pošti";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Obvestilo o aktivaciji kampanje {id} je bilo poslano po e-pošti";
