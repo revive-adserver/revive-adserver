@@ -118,6 +118,7 @@ $GLOBALS['strDeliveryLimitations'] = "Pravila dostave";
 $GLOBALS['strErrorsFound'] = "Najdene napake";
 $GLOBALS['strRepairCompiledLimitations'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnjim gumbom, ki bo znova sestavil zbrane omejitve za vsako pasico/kanal v sistemu<br />";
 $GLOBALS['strRecompile'] = "Znova sestavi";
+$GLOBALS['strCheckACLs'] = "Preveri pravila dostave";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Po nekaterimi pogoji dostavno orodje ne deluje pravilno z shranjenim zbirnikom za sledilnike. Uporabite naslednjo povezavo za potrditev zbrinika v podatkovni bazi";
@@ -135,3 +136,7 @@ $GLOBALS['strMenusPrecis'] = "Ponovno sestavi menijski pomnilnik";
 $GLOBALS['strMenusCachedOk'] = "Menijskih pomnilnik je bil ponovno sestavljen";
 
 // Users
+$GLOBALS['strUserPasswords'] = "Gesla uporabnikov";
+$GLOBALS['strCheckUserPasswords'] = "Preveri gesla uporabnikov";
+$GLOBALS['strUserPasswordsEverythingOK'] = "Noben uporabnik ne potrebuje ponastavitve gesla, vse je v redu.";
+$GLOBALS['strUserPasswordsEmailsSent'] = "Elektronska sporočila za izbrane uporabnike so bila poslana.";
