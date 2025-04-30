@@ -81,13 +81,39 @@ $GLOBALS['strConfigureInstallTitle'] = "Konfigurirajte lokalni račun {$PRODUCT_
 $GLOBALS['strConfigureInstallIntro'] = "Prosimo, zagotovite želene prijavne podatke za vaš lokalni račun {$PRODUCT_NAME} sistemskega skrbnika.";
 $GLOBALS['strConfigureUpgradeTitle'] = "Nastavitve konfiguracije";
 $GLOBALS['strConfigureUpgradeIntro'] = "Zagotovite pot do vaše prejšnje namestitve {$PRODUCT_NAME}.";
+$GLOBALS['strConfigSeeMoreFields'] = "Več konfiguracijskih polj...";
 $GLOBALS['strPreviousInstallTitle'] = "Prejšnja namestitev";
 $GLOBALS['strPathToPrevious'] = "Pot do vaše prejšnje namestitve {$PRODUCT_NAME}";
+$GLOBALS['strPathToPreviousError'] = "Eno ali več datotek vtičnika ni mogoče najti, preverite datoteko install.log za več informacij";
+$GLOBALS['strConfigureProgressMessage'] = "Konfiguriranje {$PRODUCT_NAME}...";
 
 /** jobs step * */
+$GLOBALS['strJobsInstallTitle'] = "Izvajanje nalog namestitve";
+$GLOBALS['strJobsInstallIntro'] = "Namestitveni program sedaj izvaja končne naloge namestitve.";
+$GLOBALS['strJobsUpgradeTitle'] = "Izvajanje nalog nadgradnje";
+$GLOBALS['strJobsUpgradeIntro'] = "Namestitveni program sedaj izvaja končne naloge nadgradnje.";
+$GLOBALS['strJobsProgressInstallMessage'] = "Izvajanje nalog namestitve...";
+$GLOBALS['strJobsProgressUpgradeMessage'] = "Izvajanje nalog nadgradnje...";
 
+$GLOBALS['strPluginTaskChecking'] = "Preverjanje {$PRODUCT_NAME} vtičnika";
+$GLOBALS['strPluginTaskInstalling'] = "Nameščanje {$PRODUCT_NAME} vtičnika";
+$GLOBALS['strPostInstallTaskRunning'] = "Izvajajoča naloga";
 
 /** finish step * */
+$GLOBALS['strFinishInstallTitle'] = "Vaša {$PRODUCT_NAME} namestitev je končana.";
+$GLOBALS['strFinishUpgradeWithErrorsTitle'] = "Vaša {$PRODUCT_NAME} nadgradnja je končana. Prosimo, preverite izpostavljene težave.";
+$GLOBALS['strFinishUpgradeTitle'] = "Vaša {$PRODUCT_NAME} nadgradnja je končana. ";
+$GLOBALS['strFinishInstallWithErrorsTitle'] = "Vaša {$PRODUCT_NAME} namestitev je končana. Prosimo, preverite izpostavljene težave.";
+$GLOBALS['strDetailedTaskErrorList'] = "Podroben seznam najdenih napak";
+$GLOBALS['strPluginInstallFailed'] = "Namestitev vtičnika \"%s\" je spodletela:";
+$GLOBALS['strTaskInstallFailed'] = "Pri izvajanju naloge namestitve \"%s\" je prišlo do napake:";
+$GLOBALS['strContinueToLogin'] = "Kliknite 'Nadaljuj', da se prijavite v vašo {$PRODUCT_NAME} instanco.";
 
 $GLOBALS['strUnableCreateConfFile'] = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
 $GLOBALS['strUnableUpdateConfFile'] = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";
+$GLOBALS['strUnableToCreateAdmin'] = "Ne moremo ustvariti račun sistemskega skrbnika, ali je vaša podatkovna baza dostopna?";
+$GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} je zaznal, da vaša PHP namestitev vrača \"System/Localtime\" kot časovni pas vašega strežnika. To je posledica popravka PHP-ja, ki so ga uporabile nekatere distribucije Linuxa. Žal to ni veljaven PHP časovni pas. Prosimo, uredite datoteko php.ini in nastavite lastnost \"date.timezone\" na pravilno vrednost za vaš strežnik.";
+
+$GLOBALS['strInstallNonBlockingErrors'] = "Pri izvajanju nalog namestitve je prišlo do napake. Prosimo, preverite 
+<a class=\"show-errors\" href=\"#\">seznam napak</a> in dnevniško datoteko namestitve v \\'%s\\' za podrobnosti.
+Še vedno se boste lahko prijavili v vašo {$PRODUCT_NAME} instanco.";

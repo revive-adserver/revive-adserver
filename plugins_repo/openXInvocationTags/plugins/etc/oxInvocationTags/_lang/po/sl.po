@@ -153,7 +153,7 @@ msgstr "Samodejno strni po"
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:77
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:119
 msgid "Banner padding"
-msgstr ""
+msgstr "Odmik pasice"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:82
 msgid "Horizontal alignment"
@@ -177,7 +177,7 @@ msgstr "Spodaj"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:102
 msgid "Show close button"
-msgstr ""
+msgstr "Pokaži gumb za zapiranje"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:110
 msgid "Automatically close after"

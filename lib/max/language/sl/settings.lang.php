@@ -53,11 +53,16 @@ $GLOBALS['strUpgrade'] = "Nadgradnja";
 
 // Global
 $GLOBALS['strChooseSection'] = "Izberi oddelek";
+$GLOBALS['strEditConfigNotPossible'] = "Ni mogoče urejati vseh nastavitev, ker je konfiguracijska datoteka zaklenjena iz varnostnih razlogov.
+    Če želite opraviti spremembe, boste morali najprej odkleniti konfiguracijsko datoteko za to namestitev.";
+$GLOBALS['strEditConfigPossible'] = "Mogoče je urejati vse nastavitve, ker konfiguracijska datoteka ni zaklenjena, vendar to lahko povzroči varnostne težave.
+    Če želite zaščititi svoj sistem, morate zakleniti konfiguracijsko datoteko za to namestitev.";
 $GLOBALS['strUnableToWriteConfig'] = "V konfiguracijsko datoteko je bilo nemožno zapisati spremembe";
 $GLOBALS['strUnableToWritePrefs'] = "Podatkovni bazi je bilo nemožno izročiti izbiro";
 $GLOBALS['strImageDirLockedDetected'] = "Strežnik ne more zapisovati v <b>Mapo z slikami</b>. <br>Ne morete nadaljevati, dokler ne spremenite dovoljenj za to mapo ali pa ustvarite novo.";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "Nastavitve konfiguracije";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Administrator  Uporabniško ime";
@@ -102,6 +107,7 @@ $GLOBALS['strEmailHeader'] = "Glava za e-pošto";
 $GLOBALS['strEmailLog'] = "Beležka za e-pošto";
 
 // Security settings
+$GLOBALS['strSecurityAndDebug'] = "Nastavitve varnosti in odpravljanja napak";
 $GLOBALS['strSecuritySettings'] = "Nastavitve varnosti";
 $GLOBALS['strSecurityPasswordMinLength'] = "Minimalna dolžina gesla";
 $GLOBALS['strSecurityBadLoginPath'] = "Dnevnik neuspešnih prijav";
@@ -117,6 +123,7 @@ $GLOBALS['strDebugMethodNames'] = "Vključi imena postopkov v \"debug\" beležko
 $GLOBALS['strDebugLineNumbers'] = "Vključi številke nizov v \"debug\" beležko";
 $GLOBALS['strDebugType'] = "Tip beležke za iskanje in odstranjevanje napak (debug)";
 $GLOBALS['strDebugTypeFile'] = "Datoteka";
+$GLOBALS['strDebugTypeMcal'] = "mCal";
 $GLOBALS['strDebugTypeSql'] = "SQL podatkovna baza";
 $GLOBALS['strDebugTypeSyslog'] = "Sistemska beležka (syslog)";
 $GLOBALS['strDebugName'] = "Ime beležke, Kolendar, SQL Tabela,<br />ali Sistemska beležka";
@@ -135,6 +142,7 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL Geslo strežnika";
 $GLOBALS['strProductionSystem'] = "Sistem produkcije";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "Dostopne poti do strežnika {$PRODUCT_NAME}";
 $GLOBALS['strWebPathSimple'] = "Omrežna pot";
 $GLOBALS['strDeliveryPath'] = "Dostavna pot";
 $GLOBALS['strImagePath'] = "Pot slik";
@@ -159,6 +167,7 @@ $GLOBALS['strTypeFTPErrorUpload'] = "Datoteke ni bilo mogoče naložiti na FTP s
 $GLOBALS['strTypeFTPErrorHost'] = "FTP gostitelj ni pravilen";
 $GLOBALS['strDeliveryFilenames'] = "Dostavna imena datotek";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "Klikov na oglas";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "Podpisan klik na oglas";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Pretvorbenih spremenljivk oglasa";
 $GLOBALS['strDeliveryFilenamesAdContent'] = "Vsebina oglasa";
 $GLOBALS['strDeliveryFilenamesAdConversion'] = "Pretvorba oglasa";
@@ -176,6 +185,8 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Sprednji preglednik";
 $GLOBALS['strDeliveryCaching'] = "Nastavitve dostavnega pomnilnika pasice";
 $GLOBALS['strDeliveryCacheLimit'] = "Čas med posodobitvami pomnilnika pasice (v sekundah)";
 $GLOBALS['strDeliveryCacheStore'] = "Tip hrambe pomnilnika dostavljanja pasice ";
+$GLOBALS['strPrivacySettings'] = "Nastavitve zasebnosti";
+$GLOBALS['strDisableDeliveryCookies'] = 'Onemogoči piškotke za dostavo oglasov';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Globalne nastavitve sistema";
@@ -269,3 +280,5 @@ $GLOBALS['strGzipContentCompression'] = "Uporabi GZIP za stiskanje vsebine";
 // Regenerate Platfor Hash script
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "Nastavitve vtičnika";
+$GLOBALS['strEnableNewPlugins'] = "Omogoči novo nameščene vtičnike";

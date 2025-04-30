@@ -16,19 +16,19 @@ msgstr ""
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:24
 msgid "Inline Network Video Ad"
-msgstr ""
+msgstr "Vdelan video oglas iz zunanjega omrežja"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:29
 msgid "Inline Video Ad"
-msgstr ""
+msgstr "Vdelan video oglas"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:34
 msgid "An Inline Network Video Ad will return a video ad from a 3rd party ad network."
-msgstr ""
+msgstr "Vdelan video oglas iz zunanjega omrežja bo prikazal video oglas iz oglasnega omrežja tretje strani."
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:59
 msgid "Create an Inline Network Video Ad"
-msgstr ""
+msgstr "Ustvari vdelan video oglas iz zunanjega omrežja"
 
 #: plugins_repo/apVideo/plugins/bannerTypeHtml/apVideo/Network.class.php:69
 msgid "Banner Details"
