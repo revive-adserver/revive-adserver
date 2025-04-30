@@ -27,7 +27,7 @@ msgstr ""
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:120
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:45
 msgid "Standard Reports"
-msgstr ""
+msgstr "Standardna poročila"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:95
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:259
@@ -92,11 +92,11 @@ msgstr ""
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
 msgid "Connection Detail"
-msgstr ""
+msgstr "Podrobnosti povezave"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:352
 msgid "Total Connections"
-msgstr ""
+msgstr "Skupno število povezav"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:355
 msgid " Connections"
@@ -204,7 +204,7 @@ msgstr "Ustavljeno"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:513
 msgid "Override"
-msgstr "Prepis"
+msgstr "Preglasitev"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
 msgid "Remnant"

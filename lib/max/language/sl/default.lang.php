@@ -111,7 +111,9 @@ $GLOBALS['strDashboardErrorHelp'] = "Če se ta napaka ponovi, jo prosimo podrobn
 // Priority
 $GLOBALS['strPriority'] = "Prioriteta";
 $GLOBALS['strPriorityLevel'] = "Prednostna raven";
+$GLOBALS['strOverrideAds'] = "Preglasitveni oglasi";
 $GLOBALS['strHighAds'] = "Pogodbeni oglasi";
+$GLOBALS['strECPMAds'] = "eCPM oglasi";
 $GLOBALS['strLowAds'] = "Preostali oglasi";
 $GLOBALS['strLimitations'] = "Pravila dostave";
 $GLOBALS['strNoLimitations'] = "Brez pravil dostave";
@@ -367,6 +369,20 @@ in pasice ne bodo dostavljene,
 dokler postavke ne spremenite v veljaven element.
 
 Ste prepričani, da želite nadaljevati?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "Ta kampanja uporablja eCPM optimizacijo,
+vendar je 'prihodek' nastavljena na nič ali ni bil določen.
+To bo povzročilo deaktivacijo kampanje in njene
+pasice ne bodo dostavljene, dokler prihodek ni 
+nastavljen na veljavno številko.
+
+Ste prepričani, da želite nadaljevati?";
+$GLOBALS['strCampaignWarningOverrideNoWeight'] = "Tip te kampanje je nastavljen na Preglasitev,
+vendar je teža nastavljena na nič ali ni bila določena.
+To bo povzročilo deaktivacijo kampanje in njene
+pasice ne bodo dostavljene, dokler teža ni 
+nastavljena na veljavno številko.
+
+Ste prepričani, da želite nadaljevati?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Tip te kampanje je bil nastavljen na Pogodbeno,
 vendar ni nastavljena dnevna omejitev.
 Zaradi tega bo kampanja deaktivirana,
@@ -389,6 +405,7 @@ $GLOBALS['strCampaignStatusDeleted'] = "Izbrisano";
 $GLOBALS['strCampaignType'] = "Tip kampanje";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strContract'] = "Pogodba";
+$GLOBALS['strOverride'] = "Preglasitev";
 $GLOBALS['strStandardContract'] = "Pogodba";
 $GLOBALS['strStandardContractInfo'] = "Pogodbene kampanje so namenjene gladkemu dostavljanju prikazov,
     ki so potrebni za doseg določenih časovno kritičnih ciljev uspešnosti. To pomeni, da so Pogodbene kampanje namenjene primerom, ko
@@ -611,6 +628,8 @@ $GLOBALS['strInterstitial'] = "Vmesen ali lebdeč DHTML";
 $GLOBALS['strPopup'] = "Prikazujoč (pop-up)";
 $GLOBALS['strTextAdZone'] = "Tekstovni oglas";
 $GLOBALS['strEmailAdZone'] = "E-poštno/Newsletter področje";
+$GLOBALS['strZoneVideoInstream'] = "Vdelan video oglas";
+$GLOBALS['strZoneVideoOverlay'] = "Prekrivni video oglas";
 $GLOBALS['strShowMatchingBanners'] = "Prikaži ujemajoče pasice";
 $GLOBALS['strHideMatchingBanners'] = "Skrij ujemajoče pasice";
 $GLOBALS['strBannerLinkedAds'] = "Pasice povezujoče v področje";
@@ -642,6 +661,8 @@ $GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB srednji pravokotnik (
 $GLOBALS['strIab']['IAB_LargeRectangle(336x280)'] = "IAB veliki pravokotnik (336 x 280)";
 $GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = "IAB navpični pravokotnik (240 x 400)";
 $GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB širok nebotičnik (160 x 600)";
+$GLOBALS['strIab']['IAB_Pop-Under(720x300)'] = "IAB Pop-Under (720 x 300)";
+$GLOBALS['strIab']['IAB_3:1Rectangle(300x100)'] = "IAB 3:1 Rectangle (300 x 100)";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced'] = "Napredno";

@@ -17,7 +17,7 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
 msgid "myPlugin"
-msgstr ""
+msgstr "myPlugin"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
 msgid "My New Plugin"
@@ -53,11 +53,11 @@ msgstr "Opis"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:89
 msgid "Major"
-msgstr ""
+msgstr "Glavna"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:90
 msgid "Minor"
-msgstr ""
+msgstr "Manjša"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:91
 msgid "Build"
@@ -77,12 +77,12 @@ msgstr "Ime skupine"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:105
 msgid "Has Schema"
-msgstr ""
+msgstr "Ima shemo"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:106
 #, php-format
 msgid "Extends %s"
-msgstr ""
+msgstr "Razširja %s"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
 msgid "Submit"
