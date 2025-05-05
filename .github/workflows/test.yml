@@ -173,7 +173,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Test Report
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v9
         with:
           run_id: ${{ github.run_id }}
           name: test-results-.*
