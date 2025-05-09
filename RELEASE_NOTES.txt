@@ -121,6 +121,9 @@ Bug Fixes
 
  * Fixed non-working sorting in the websites list inventory screen.
 
+ * Fixed avw.php logging an ad impression when requesting a non existing
+   zone.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

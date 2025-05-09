@@ -62,7 +62,7 @@ if (!empty($row['html'])) {
     // The call to view_raw() above will have tried to log the impression via a beacon,
     // but this type of ad doesn't work with beacons, so the impression must
     // be logged here
-    if ($conf['logging']['adImpressions']) {
+    if ($conf['logging']['adImpressions'] && empty($row['skip_log_blank'])) {
         MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
     }
     // Redirect to the banner
