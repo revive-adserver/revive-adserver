@@ -710,5 +710,5 @@ function _getBannerSizeText($type, $filename)
 
 function _checkBannerSslSafety(array $aBanner): bool
 {
-    return !str_starts_with($aBanner['url'], 'http:') && !preg_match('#src\s?=\s?[\'"]?http:#i', $aBanner['htmlcache']);
+    return !str_starts_with($aBanner['imageurl'], 'http:') && !preg_match('#src\s?=\s?[\'"]?http:#i', $aBanner['htmlcache']);
 }
