@@ -4506,7 +4506,7 @@ $cookie[$key] = $value;
 }
 }
 }
-if ($conf['logging']['adImpressions']) {
+if ($conf['logging']['adImpressions'] && empty($row['skip_log_blank'])) {
 MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
 }
 MAX_cookieAdd($conf['var']['vars'] . "[$n]", json_encode($cookie, JSON_UNESCAPED_SLASHES));
