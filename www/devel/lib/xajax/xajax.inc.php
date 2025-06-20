@@ -1,4 +1,5 @@
 <?php
+
 /**
  * xajax.inc.php :: Main xajax class and setup file
  *

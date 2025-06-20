@@ -60,7 +60,7 @@ function phpAds_getBannerCache($banner)
         // In addition, we need to add our clickURL to the clickTAG parameter if present, for 3rd party flash ads
         // the clickTag is case insentive match, as it is correct to use clicktag, CLICKTAG, etc.
         preg_match('/^(.*)(clickTAG)\s?=\s?(.*?)([\'"])(.*)$/is', $buffer, $matches);
-        if (count($matches) > 0) {
+        if ($matches !== []) {
             $matches[3] = html_entity_decode($matches[3], null, 'UTF-8');
             $buffer = $matches[1] . $matches[2] . "={clickurl_enc}" . urlencode($matches[3]) . $matches[4] . $matches[5];
         }

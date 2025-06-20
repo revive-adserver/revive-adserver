@@ -302,7 +302,7 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
 
         // title = expand me!
         $foot = "";
-        $head = "<?php{$n}/**{$n} * Table Definition for {$this->table}{$n} */{$n}";
+        $head = "<?php{$n}{$n}/**{$n} * Table Definition for {$this->table}{$n} */{$n}";
         // requires
         $head .= "require_once MAX_PATH.'{$this->_extendsFile}';{$n}{$n}";
         // add dummy class header in...

@@ -30,7 +30,7 @@ class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
 
     public function test_preCompile()
     {
-        $oPlugin = new class () extends Plugins_DeliveryLimitations_CommaSeparatedData {
+        $oPlugin = new class extends Plugins_DeliveryLimitations_CommaSeparatedData {
             public function displayArrayData() {}
         };
 

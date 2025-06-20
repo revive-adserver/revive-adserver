@@ -42,3 +42,4 @@ parameters:
         - phpstan-bootstrap.php
     ignoreErrors:
         - '#should return#'
+        - '#is not a file or it does not exist#'

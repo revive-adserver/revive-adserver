@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Table Definition for ext_ap_video
  */

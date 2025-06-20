@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Front controller for default Minify implementation.
  *

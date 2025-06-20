@@ -33,7 +33,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task extends UnitTestCase
         $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        $task = new class () extends OA_Maintenance_Priority_AdServer_Task {
+        $task = new class extends OA_Maintenance_Priority_AdServer_Task {
             public function run(): bool
             {
                 return true;

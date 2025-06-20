@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Table Definition for Stats_vast
  */

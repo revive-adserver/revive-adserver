@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Table Definition for banner_vast_element
  */
