@@ -190,7 +190,7 @@
 
         function testErrorWhenReported() {
             error_reporting(E_ALL);
-            trigger_error('Ouch!', E_USER_ERROR);
+            throw new RuntimeException('Ouch!');
             $this->assertError('Ouch!');
         }
 
@@ -206,7 +206,7 @@
 
         function testNoErrorWhenNotReported() {
             error_reporting(0);
-            trigger_error('Ouch!', E_USER_ERROR);
+            throw new RuntimeException('Ouch!');
         }
 
         function testNoticeSuppressedWhenReported() {
@@ -221,7 +221,7 @@
 
         function testErrorSuppressedWhenReported() {
             error_reporting(E_ALL);
-            @trigger_error('Ouch!', E_USER_ERROR);
+            @throw new RuntimeException('Ouch!');
         }
 
 		/*

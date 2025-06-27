@@ -14,11 +14,11 @@ parameters:
             - lib/xmlrpc/php/openads-api-xmlrpc.inc.php
             - plugins/*
             - plugins_repo/openXDeveloperToolbox
-            - plugins_dev/*
+            - plugins_dev (?)
             - */tests/*
             - var/*
             - www/admin/plugins
-            - www/api/rest
+            - www/api/rest (?)
             - www/delivery
             - www/devel
             - www/api

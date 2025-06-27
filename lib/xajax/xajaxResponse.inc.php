@@ -684,11 +684,11 @@ class xajaxResponse
 			$this->aCommands = array_merge($this->aCommands, $mCommands);
 		}
 		else if (is_string($mCommands) && strpos($mXML, '<xjx>')!==false) {
-			trigger_error("Using xajaxResponse->loadXML doesn't work with raw XML any more", E_USER_ERROR);
+			throw new RuntimeException("Using xajaxResponse->loadXML doesn't work with raw XML any more");
 		}
 		else {
 			if (!empty($mCommands))
-				trigger_error("The xajax response output could not load other commands as data was not a valid array", E_USER_ERROR);
+				throw new RuntimeException("The xajax response output could not load other commands as data was not a valid array");
 		}
 	}
 

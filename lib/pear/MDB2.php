@@ -1896,7 +1896,7 @@ class MDB2_Driver_Common extends PEAR
         if (!is_null($module)) {
             return call_user_func_array(array(&$this->modules[$module], $method), $params);
         }
-        trigger_error(sprintf('Call to undefined function: %s::%s().', get_class($this), $method), E_USER_ERROR);
+        throw new \RuntimeException(sprintf('Call to undefined function: %s::%s().', get_class($this), $method));
     }
 
     // }}}

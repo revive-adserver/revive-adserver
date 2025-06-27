@@ -84,7 +84,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function displayLine($text)
     {
-        trigger_error("PEAR_Frontend_CLI::displayLine deprecated", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::displayLine deprecated");
     }
 
     function _displayLine($text)
@@ -97,7 +97,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function display($text)
     {
-        trigger_error("PEAR_Frontend_CLI::display deprecated", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::display deprecated");
     }
 
     function _display($text)
@@ -167,7 +167,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function displayHeading($title)
     {
-        trigger_error("PEAR_Frontend_CLI::displayHeading deprecated", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::displayHeading deprecated");
     }
 
     function _displayHeading($title)
@@ -427,7 +427,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function userConfirm($prompt, $default = 'yes')
     {
-        trigger_error("PEAR_Frontend_CLI::userConfirm not yet converted", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::userConfirm not yet converted");
         static $positives = array('y', 'yes', 'on', '1');
         static $negatives = array('n', 'no', 'off', '0');
         print "$this->lp$prompt [$default] : ";
@@ -455,7 +455,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function startTable($params = array())
     {
-        trigger_error("PEAR_Frontend_CLI::startTable deprecated", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::startTable deprecated");
     }
 
     function _startTable($params = array())
@@ -472,7 +472,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function tableRow($columns, $rowparams = array(), $colparams = array())
     {
-        trigger_error("PEAR_Frontend_CLI::tableRow deprecated", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::tableRow deprecated");
     }
 
     function _tableRow($columns, $rowparams = array(), $colparams = array())
@@ -527,7 +527,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 
     function endTable()
     {
-        trigger_error("PEAR_Frontend_CLI::endTable deprecated", E_USER_ERROR);
+        throw new RuntimeException("PEAR_Frontend_CLI::endTable deprecated");
     }
 
     function _endTable()

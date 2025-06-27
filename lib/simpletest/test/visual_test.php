@@ -266,7 +266,6 @@
 
         function testErrorDisplay() {
             trigger_error('Default');        // Exception.
-            trigger_error('Error', E_USER_ERROR);        // Exception.
             trigger_error('Warning', E_USER_WARNING);        // Exception.
             trigger_error('Notice', E_USER_NOTICE);        // Exception.
         }

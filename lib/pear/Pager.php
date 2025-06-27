@@ -149,7 +149,7 @@ class Pager
             $msg = 'Pager constructor is deprecated.'
                   .' You must use the "Pager::factory($params)" method'
                   .' instead of "new Pager($params)"';
-            trigger_error($msg, E_USER_ERROR);
+            throw new \RuntimeException($msg);
         }
     }
 

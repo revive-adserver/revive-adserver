@@ -830,14 +830,14 @@ class xajax
         if (!file_exists($realJsFile)) {
             $srcFile = str_replace(".js", "_uncompressed.js", $realJsFile);
             if (!file_exists($srcFile)) {
-                trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
+                throw new RuntimeException("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ");
             }
             require(dirname(__FILE__) . "/xajaxCompress.php");
             $javaScript = implode('', file($srcFile));
             $compressedScript = xajaxCompressJavascript($javaScript);
             $fH = @fopen($realJsFile, "w");
             if (!$fH) {
-                trigger_error("The xajax compressed javascript file could not be written in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
+                throw new RuntimeException("The xajax compressed javascript file could not be written in the <b>" . dirname($realJsFile) . "</b> folder. Error ");
             } else {
                 fwrite($fH, $compressedScript);
                 fclose($fH);

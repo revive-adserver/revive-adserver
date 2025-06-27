@@ -36,7 +36,7 @@ function RaiseErrorHandler($group, $id, $info=NULL) {
         $errorstr = sprintf('[%s: message="%s" group=%d id=%s]',
                        strtolower(get_class($oError)), implode(', ', $oError->info), $oError->group, $oError->id);
                        
-        trigger_error($errorstr, E_USER_ERROR);
+        throw new RuntimeException($errorstr);
     }
 }
 
