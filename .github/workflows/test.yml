@@ -197,7 +197,7 @@ jobs:
 
       - name: Restructure files and build coverage results
         run: |
-          phive install phpcov --trust-gpg-keys 4AA394086372C20A
+          phive install phpcov@11.0.0 --trust-gpg-keys 4AA394086372C20A
           mkdir -p tests
           mv test-results-* tests/
           mkdir -p coverage
