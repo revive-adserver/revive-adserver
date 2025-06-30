@@ -116,6 +116,7 @@ ftpPath                             =
 ftpUsername                         =
 ftpPassword                         =
 ftpPassive                          =
+maxFilesize                         = 0
 
 ;------------------------------------------------------------------------------------------;
 ; Delivery Details                                                                         ;

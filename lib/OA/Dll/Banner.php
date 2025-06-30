@@ -67,12 +67,18 @@ class OA_Dll_Banner extends OA_Dll
 
     public function _validateImage($aImage, &$oImage)
     {
+        $maxFilesize = (int) ($GLOBALS['_MAX']['CONF']['store']['maxFilesize'] ?? 0);
+
         if (empty($aImage['filename'])) {
             $this->raiseError("Image filename empty");
             return false;
         }
         if (empty($aImage['content'])) {
             $this->raiseError("Image content empty");
+            return false;
+        }
+        if ($maxFilesize > 0 && strlen($aImage['content']) > $maxFilesize) {
+            $this->raiseError("Image file size is greater than {$maxFilesize} bytes");
             return false;
         }
         $oImage = OA_Creative_File::factoryString($aImage['filename'], $aImage['content']);

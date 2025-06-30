@@ -288,6 +288,8 @@ function displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, 
 
 function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = false)
 {
+    $aConf = $GLOBALS['_MAX']['CONF'];
+
     //-- Build forms
     $form = new OA_Admin_UI_Component_Form("bannerForm", "POST", $_SERVER['SCRIPT_NAME'], null, ["enctype" => "multipart/form-data"]);
     $form->forceClientValidation(true);
@@ -334,6 +336,12 @@ function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = f
                 'updateLabel' => $GLOBALS['strUploadOrKeep'],
             ],
         );
+
+        $maxFileSize = (int) ($aConf['store']['maxFilesize'] ?? 0);
+
+        if ($maxFileSize > 0) {
+            $form->setMaxFilesize($maxFileSize);
+        }
 
         $form->addElement('header', 'header_b_links', "Banner link");
         $form->addElement('text', 'url', $GLOBALS['strURL']);
