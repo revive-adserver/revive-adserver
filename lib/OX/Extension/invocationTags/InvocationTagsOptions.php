@@ -30,7 +30,6 @@ class Plugins_InvocationTagsOptions
         'block' => 0,
         'blockcampaign' => 0,
         'raw' => 0,
-        'popunder' => 1,
         'delay' => '-',
         'absolute' => ['top' => '-', 'left' => '-'],
         'timeout' => '-',
@@ -366,29 +365,6 @@ class Plugins_InvocationTagsOptions
         $option .= "<td width='200'>" . $GLOBALS['strInvocationTemplate'] . "</td>";
         $option .= "<td width='370'><input type='radio' name='raw' value='1'" . (isset($maxInvocation->raw) && $maxInvocation->raw != 0 ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strYes'] . "<br />";
         $option .= "<input type='radio' name='raw' value='0'" . (!isset($maxInvocation->raw) || $maxInvocation->raw == 0 ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strNo'] . "</td>";
-        $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
-        return $option;
-    }
-
-    /**
-     * Generate the HTML option
-     *
-     * @return string    A string containing html for option
-     */
-    public function popunder()
-    {
-        $maxInvocation = &$this->maxInvocation;
-
-        $option = '';
-        $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>" . $GLOBALS['strPopUpStyle'] . "</td>";
-        $option .= "<td width='370'><input type='radio' name='popunder' value='0'" .
-             (!isset($maxInvocation->popunder) || $maxInvocation->popunder != '1' ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" .
-             "<img src='" . OX::assetPath() . "/images/icon-popup-over.gif' align='absmiddle'>&nbsp;" . $GLOBALS['strPopUpStylePopUp'] . "<br />";
-        $option .= "<input type='radio' name='popunder' value='1'" .
-             (isset($maxInvocation->popunder) && $maxInvocation->popunder == '1' ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" .
-             "<img src='" . OX::assetPath() . "/images/icon-popup-under.gif' align='absmiddle'>&nbsp;" . $GLOBALS['strPopUpStylePopUnder'] . "</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;

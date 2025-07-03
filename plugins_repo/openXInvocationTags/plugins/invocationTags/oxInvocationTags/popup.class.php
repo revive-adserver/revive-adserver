@@ -92,7 +92,6 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
             'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'absolute' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'popunder' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'timeout' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'delay' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'windowoptions' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
@@ -126,9 +125,6 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
         $mi = &$this->maxInvocation;
         $buffer = $mi->buffer;
 
-        if (isset($mi->popunder) && $mi->popunder == '1') {
-            $mi->parameters['popunder'] = "popunder=1";
-        }
         if (isset($mi->left) && $mi->left != '' && $mi->left != '-') {
             $mi->parameters['left'] = "left=" . $mi->left;
         }

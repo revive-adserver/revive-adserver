@@ -26,7 +26,6 @@ MAX_commonRegisterGlobalsArray(
     [
         'left',
         'top',
-        'popunder',
         'timeout',
         'delay',
         'toolbars',
@@ -44,9 +43,6 @@ if (!isset($left)) {
 }
 if (!isset($top)) {
     $top = 0;
-}
-if (!isset($popunder)) {
-    $popunder = 0;
 }
 if (!isset($timeout)) {
     $timeout = 0;
@@ -187,16 +183,7 @@ if (!empty($left) || !empty($top)) {
 
 // Set the actual location after resize otherwise we might get 'access denied' errors
 echo "
-    MAX_{$row['bannerid']}.location='$contenturl';";
-
-// Move main window to the foreground if we are dealing with a popunder
-if (isset($popunder) && $popunder == '1') {
-    echo "
-    MAX_{$row['bannerid']}.blur();
-    window.focus();";
-}
-
-echo "
+    MAX_{$row['bannerid']}.location='$contenturl';
   }
 
   window.onerror = MAX_errorhandler;

@@ -143,6 +143,9 @@ Non-Backwards Compatible Changes
 
  * Removed XML-RPC tags, previously deprecated in v5.3.0.
 
+ * Removed option to generate pop-unders, which are not allowed by modern
+   browsers.
+
 
 Community Contributions
 ------------------------
