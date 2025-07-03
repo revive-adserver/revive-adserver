@@ -155,6 +155,9 @@ Non-Backwards Compatible Changes
    anything different from 60 minutes is complex, confusing, and fraught with
    danger.
 
+ * Removed the legacy "Client - Browser (Deprecated)" and "Client - Operating
+   System (Deprecated)" delivery rules.
+
 
 Community Contributions
 ------------------------

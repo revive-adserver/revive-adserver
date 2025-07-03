@@ -17,8 +17,6 @@
     <install>
         <files>
             <file path="{MODULEPATH}deliveryLimitations/Client/">initClientData.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.class.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">BrowserVersion.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">BrowserVersion.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.class.php</file>
@@ -28,9 +26,6 @@
             <file path="{MODULEPATH}deliveryLimitations/Client/">Language.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Language.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Language.res.inc.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.class.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Client/">Os.res.inc.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">OsVersion.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">OsVersion.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">OsVersion.res.inc.php</file>
