@@ -36,9 +36,9 @@ $ignored_files = [
     'template.php',
 ];
 
-$renamed_files = [
-    'axmlrpc.php' => 'axmlrpc.txt',
-];
+// Not needed anymore, but I'm leaving it here for reference
+// 'axmlrpc.php' => 'axmlrpc.txt',
+$renamed_files = [];
 
 $blacklist = [
     'asyncjs.php',

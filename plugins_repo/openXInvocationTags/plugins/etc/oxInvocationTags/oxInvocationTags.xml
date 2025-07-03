@@ -23,7 +23,6 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adviewnocookies.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">async.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">popup.class.php</file>
-            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">xmlrpc.class.php</file>
 
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">invocation.inc.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">layerstyle.inc.php</file>
@@ -43,9 +42,7 @@
            <component><name>adview</name></component>
            <component><name>adviewnocookies</name></component>
            <component><name>async</name></component>
-           <component><name>local</name></component>
            <component><name>popup</name></component>
-           <component><name>xmlrpc</name></component>
         </components>
 
         <configuration option="Invocation Tags">

@@ -141,6 +141,8 @@ Non-Backwards Compatible Changes
 
  * Removed local mode tags, previously deprecated in v5.3.0.
 
+ * Removed XML-RPC tags, previously deprecated in v5.3.0.
+
 
 Community Contributions
 ------------------------

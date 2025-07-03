@@ -87,7 +87,6 @@ layer                               = al.php
 log                                 = lg.php
 popup                               = apu.php
 view                                = avw.php
-xmlrpc                              = axmlrpc.php
 frontcontroller                     = fc.php
 singlepagecall                      = spc.php
 spcjs                               = spcjs.php
