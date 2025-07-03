@@ -139,6 +139,8 @@ Non-Backwards Compatible Changes
 
  * Removed obsolete P3P headers and settings.
 
+ * Removed local mode tags, previously deprecated in v5.3.0.
+
 
 Community Contributions
 ------------------------

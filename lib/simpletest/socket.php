@@ -96,7 +96,7 @@
         }
 
         /**
-         *    Writes some data to the socket and saves alocal copy.
+         *    Writes some data to the socket and saves a local copy.
          *    @param string $message       String to send to socket.
          *    @return boolean              True if successful.
          *    @access public

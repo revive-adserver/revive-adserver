@@ -51,7 +51,6 @@ class Migration_546 extends Migration
             'adjs' => 'allow_invocation_js',
             'adframe' => 'allow_invocation_frame',
             'xmlrpc' => 'allow_invocation_xmlrpc',
-            'local' => 'allow_invocation_local',
             'adlayer' => 'allow_invocation_interstitial',
             'popup' => 'allow_invocation_popup',
             'adview' => 'allow_invocation_plain',

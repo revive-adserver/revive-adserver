@@ -22,7 +22,6 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adview.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adviewnocookies.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">async.class.php</file>
-            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">local.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">popup.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">xmlrpc.class.php</file>
 
