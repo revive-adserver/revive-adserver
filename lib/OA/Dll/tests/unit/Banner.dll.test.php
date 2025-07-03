@@ -39,6 +39,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
      */
     public $unknownIdError = 'Unknown bannerId Error';
     public $unknownFormatError = 'Unrecognized image file format';
+    public $fileSizeTooBigError = 'Image file size is greater than 16 bytes';
 
     public $binaryGif;
 
@@ -94,7 +95,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $dllCampaignPartialMock->expectCallCount('checkPermissions', 1);
 
         $dllBannerPartialMock->setReturnValue('checkPermissions', true);
-        $dllBannerPartialMock->expectCallCount('checkPermissions', 9);
+        $dllBannerPartialMock->expectCallCount('checkPermissions', 10);
 
         $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
         $oAdvertiserInfo->advertiserName = 'test Advertiser name';
@@ -218,6 +219,26 @@ class OA_Dll_BannerTest extends DllUnitTestCase
                           $dllBannerPartialMock->getLastError() == $this->unknownFormatError),
             $this->_getMethodShouldReturnError($this->unknownFormatError),
         );
+
+        // Add banner bigger than allowed file size
+        $GLOBALS['_MAX']['CONF']['store']['maxFilesize'] = 16;
+
+        $oBannerInfo2 = new OA_Dll_BannerInfo();
+        $oBannerInfo2->campaignId = $oCampaignInfo->campaignId;
+        $oBannerInfo2->storageType = 'sql';
+        $oBannerInfo2->aImage = [
+            'filename' => 'bigger.gif',
+            'content' => $this->binaryGif,
+        ];
+
+        $this->assertTrue(
+            (!$dllBannerPartialMock->modify($oBannerInfo2) &&
+                $dllBannerPartialMock->getLastError() == $this->fileSizeTooBigError),
+            $this->_getMethodShouldReturnError($this->fileSizeTooBigError),
+        );
+
+        // Reset max file size
+        $GLOBALS['_MAX']['CONF']['store']['maxFilesize'] = 0;
 
         // Modify not existing id
         $this->assertTrue(

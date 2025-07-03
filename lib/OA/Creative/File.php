@@ -51,6 +51,18 @@ class OA_Creative_File extends OA_Creative
     }
 
     /**
+     * @throws \RuntimeException
+     */
+    public static function checkSize(int $size): void
+    {
+        $maxFilesize = (int) ($GLOBALS['_MAX']['CONF']['store']['maxFilesize'] ?? 0);
+
+        if ($maxFilesize > 0 && $size > $maxFilesize) {
+            throw new \RuntimeException("Image file size is greater than {$maxFilesize} bytes");
+        }
+    }
+
+    /**
      * A method to load the creative from a file
      *
      * @param string $filePath
@@ -148,6 +160,7 @@ class OA_Creative_File extends OA_Creative
         require_once(MAX_PATH . '/lib/OA/Creative/File/' . $type . '.php');
         $className = 'OA_Creative_File_' . $type;
 
+        /** @var OA_Creative_File $oCreative */
         $oCreative = new $className($fileName);
 
         $result = $oCreative->loadFile($filePath);
@@ -167,6 +180,12 @@ class OA_Creative_File extends OA_Creative
      */
     public static function factoryString($fileName, $content)
     {
+        try {
+            self::checkSize(strlen($content));
+        } catch (\Exception $e) {
+            return new PEAR_Error($e->getMessage());
+        }
+
         // Create temp file
         $filePath = tempnam(MAX_PATH . '/var', 'oa_creative_');
         // Open temp file
@@ -206,11 +225,9 @@ class OA_Creative_File extends OA_Creative
                 UPLOAD_ERR_NO_FILE => "no file uploaded.",
                 UPLOAD_ERR_NO_TMP_DIR => "temp directory not available.",
             ];
-            if (isset($aErrors[$_FILES[$variableName]['error']])) {
-                $message = $aErrors[$_FILES[$variableName]['error']];
-            } else {
-                $message = 'Error code: ' . $_FILES[$variableName]['error'];
-            }
+
+            $message = $aErrors[$_FILES[$variableName]['error']] ?? "Error code {$_FILES[$variableName]['error']}";
+
             return new PEAR_Error('An error occurred dealing with the file upload: ' . $message);
         }
         if (!isset($_FILES[$variableName]['tmp_name']) || !is_uploaded_file($_FILES[$variableName]['tmp_name'])) {
@@ -219,6 +236,13 @@ class OA_Creative_File extends OA_Creative
         if (!isset($_FILES[$variableName]['name'])) {
             return new PEAR_Error('Could not find the uploaded file name: ' . $variableName);
         }
+
+        try {
+            self::checkSize($_FILES[$variableName]['size']);
+        } catch (\Exception $e) {
+            return new PEAR_Error($e->getMessage());
+        }
+
         $fileName = basename($_FILES[$variableName]['name']);
         $filePath = $_FILES[$variableName]['tmp_name'];
         if (!@is_readable($filePath)) {

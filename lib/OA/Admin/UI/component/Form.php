@@ -305,7 +305,7 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
         if (is_array($arg1)) {
             foreach ($arg1 as $elementIndex => $rules) {
                 foreach ($rules as $rule) {
-                    if ($rule[1] == 'required') {
+                    if (in_array($rule[1], ['required', 'uploadedfile'])) {
                         $this->hasRequiredFields = true;
                     }
                 }

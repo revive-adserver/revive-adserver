@@ -73,6 +73,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'store' => 'ftpPassive',
             'bool' => 'true',
         ],
+        'store_maxFilesize' => ['store' => 'maxFilesize'],
     ];
     // Test the writablility of the web or FTP storage, if required
     phpAds_registerGlobal('store_webDir');
@@ -209,6 +210,17 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'allowedBanners_text',
                 'text' => $strTypeTxtAllow,
+            ],
+        ],
+    ],
+    [
+        'text' => $strBannerFileSettings,
+        'items' => [
+            [
+                'type' => 'text',
+                'name' => 'store_maxFilesize',
+                'text' => $strMaxBannerFilesize,
+                'size' => 25,
             ],
         ],
     ],

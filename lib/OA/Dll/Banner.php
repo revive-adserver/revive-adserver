@@ -67,6 +67,8 @@ class OA_Dll_Banner extends OA_Dll
 
     public function _validateImage($aImage, &$oImage)
     {
+        $maxFilesize = (int) ($GLOBALS['_MAX']['CONF']['store']['maxFilesize'] ?? 0);
+
         if (empty($aImage['filename'])) {
             $this->raiseError("Image filename empty");
             return false;

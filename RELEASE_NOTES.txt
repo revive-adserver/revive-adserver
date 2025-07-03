@@ -72,6 +72,8 @@ New Features
 
  * Added missing localization for the date pickers.
 
+ * Added optional banner file size limit to the banners storage settings.
+
 
 Bug Fixes
 ---------
