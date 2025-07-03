@@ -4479,7 +4479,6 @@ MAX_commonRegisterGlobalsArray(
 [
 'left',
 'top',
-'popunder',
 'timeout',
 'delay',
 'toolbars',
@@ -4495,9 +4494,6 @@ $left = 0;
 }
 if (!isset($top)) {
 $top = 0;
-}
-if (!isset($popunder)) {
-$popunder = 0;
 }
 if (!isset($timeout)) {
 $timeout = 0;
@@ -4622,13 +4618,7 @@ echo "
     }";
 }
 echo "
-    MAX_{$row['bannerid']}.location='$contenturl';";
-if (isset($popunder) && $popunder == '1') {
-echo "
-    MAX_{$row['bannerid']}.blur();
-    window.focus();";
-}
-echo "
+    MAX_{$row['bannerid']}.location='$contenturl';
   }
 
   window.onerror = MAX_errorhandler;
