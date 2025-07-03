@@ -44,7 +44,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'maintenance' => 'autoMaintenance',
             'bool' => true,
         ],
-        'maintenance_operationInterval' => ['maintenance' => 'operationInterval'],
     ];
     // Priority Settings
     $aElements += [
@@ -93,23 +92,6 @@ $aSettings = [
                 'type' => 'checkbox',
                 'name' => 'maintenance_autoMaintenance',
                 'text' => $strEnableAutoMaintenance,
-            ],
-            [
-                'type' => 'break',
-            ],
-            [
-                'type' => 'select',
-                'name' => 'maintenance_operationInterval',
-                'text' => $strMaintenanceOI,
-                'size' => 12,
-                'items' => [
-                    60 => 60,
-                    30 => 30,
-                    20 => 20,
-                    15 => 15,
-                    10 => 10,
-                    5 => 5,
-                ],
             ],
         ],
     ],

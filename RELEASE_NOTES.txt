@@ -150,6 +150,11 @@ Non-Backwards Compatible Changes
    popup or interstitial zones. Existing tags will continue to work as
    expected, until the functionality will be fully removed in a future version.
 
+ * Removed the possibility to configure the Operation Interval setting from the
+   user interface, effectively deprecating non-standard usages. In fact using
+   anything different from 60 minutes is complex, confusing, and fraught with
+   danger.
+
 
 Community Contributions
 ------------------------
