@@ -38,18 +38,15 @@
         <components>
            <component><name>adframe</name></component>
            <component><name>adjs</name></component>
-           <component><name>adlayer</name></component>
            <component><name>adview</name></component>
            <component><name>adviewnocookies</name></component>
            <component><name>async</name></component>
-           <component><name>popup</name></component>
         </components>
 
         <configuration option="Invocation Tags">
             <setting key="isAllowedAsync"           type="checkbox" label="Allow Asynchronous JS Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdjs"            type="checkbox" label="Allow Javascript Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdframe"         type="checkbox" label="Allow iFrame Invocation Tag" required="0" size="1" visible="1">1</setting>
-            <setting key="isAllowedAdlayer"         type="checkbox" label="Allow Interstitial or Floating DHTML Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdview"          type="checkbox" label="Allow Image Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedAdviewnocookies" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
         </configuration>

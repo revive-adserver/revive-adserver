@@ -141,7 +141,7 @@ function buildZoneForm($zone, $oComponent = null)
             'onClick' => 'phpAds_formEnableSize();',
             'onChange' => 'oa_hide("warning_change_zone_type");'],
     );
-    if ($conf['oxInvocationTags']['isAllowedAdlayer'] || $zone['delivery'] == phpAds_ZoneInterstitial) {
+    if ($zone['delivery'] == phpAds_ZoneInterstitial) {
         $zoneTypes[] = $form->createElement(
             'radio',
             'delivery',
