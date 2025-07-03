@@ -183,10 +183,6 @@ msgstr "Automatically close after"
 msgid "Border color"
 msgstr "Border color"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
-msgid "Local Mode Tag"
-msgstr "Local Mode Tag"
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
 msgstr "Popup Tag"
