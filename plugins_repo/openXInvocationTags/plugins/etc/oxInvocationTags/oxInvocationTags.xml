@@ -52,7 +52,6 @@
             <setting key="isAllowedAdlayer"         type="checkbox" label="Allow Interstitial or Floating DHTML Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdview"          type="checkbox" label="Allow Image Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedAdviewnocookies" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
-            <setting key="isAllowedPopup"           type="checkbox" label="Allow Popup Invocation Tag" required="0" size="1" visible="1">0</setting>
         </configuration>
     </install>
 

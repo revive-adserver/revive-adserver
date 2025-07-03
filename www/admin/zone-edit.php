@@ -153,7 +153,7 @@ function buildZoneForm($zone, $oComponent = null)
                 'onChange' => 'oa_hide("warning_change_zone_type");'],
         );
     }
-    if ($conf['oxInvocationTags']['isAllowedPopup'] || $zone['delivery'] == phpAds_ZonePopup) {
+    if ($zone['delivery'] == phpAds_ZonePopup) {
         $zoneTypes[] = $form->createElement(
             'radio',
             'delivery',

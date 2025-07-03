@@ -146,6 +146,10 @@ Non-Backwards Compatible Changes
  * Removed option to generate pop-unders, which are not allowed by modern
    browsers.
 
+ * Deprecated popups: it is no longer possible to create new popup zones.
+   Existing tags will continue to work as expected, until the functionality
+   will be removed.
+
 
 Community Contributions
 ------------------------
