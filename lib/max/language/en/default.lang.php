@@ -857,7 +857,7 @@ $GLOBALS['strXGreaterThanZeroField'] = "%s must be greater than 0";
 $GLOBALS['strXPositiveWholeNumberField'] = "%s must be a positive whole number";
 $GLOBALS['strInvalidWebsiteURL'] = "Invalid Website URL";
 $GLOBALS['strUploadedRequired'] = "Uploading a file is required";
-$GLOBALS['strUploadedFileTooBig'] = "Uploaded file size is greater than %d bytes";
+$GLOBALS['strUploadedFileTooBig'] = "The uploaded file is too large. Please ensure it's under %s bytes";
 
 // Email
 $GLOBALS['strSirMadam'] = "Sir/Madam";
