@@ -1054,7 +1054,7 @@ class OX_Plugin_ComponentGroupManager
             require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
             $oEnvMgr = $this->_instantiateClass('OA_Environment_Manager');
             $oEnvMgr->aInfo['PHP']['actual'] = $oEnvMgr->getPHPInfo();
-            foreach ($aPhp as $k => &$aItem) {
+            foreach ($aPhp as $aItem) {
                 $oEnvMgr->aInfo['PHP']['expected'][$aItem['name']] = $aItem['value'];
             }
             if ($oEnvMgr->_checkCriticalPHP() != OA_ENV_ERROR_PHP_NOERROR) {

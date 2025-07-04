@@ -44,24 +44,25 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $aPass[] = '2.5.50-dev';
         $aPass[] = '2.5.50-beta-rc1';
         $aPass[] = '2.5.50';
+        $aPass[] = '5.5.3';
         $aPass[] = VERSION;
-        foreach ($aPass as $k => $version) {
+        foreach ($aPass as $version) {
             $this->assertTrue($oPluginManager->_checkOpenXCompatibility('testPlugin', $version));
         }
 
-        $aFail[] = '5.8.0';
-        $aFail[] = '5.8.1-dev';
-        $aFail[] = '5.8.1-alpha';
-        $aFail[] = '5.8.1-beta-rc1';
-        $aFail[] = '5.8.1-beta-rc2';
-        $aFail[] = '5.8.1-beta';
-        $aFail[] = '5.8.1-RC1';
-        $aFail[] = '5.8.1';
-        $aFail[] = '5.9.5';
-        $aFail[] = '5.9.50-dev';
-        $aFail[] = '5.9.50-beta-rc1';
-        $aFail[] = '5.9.50';
-        foreach ($aFail as $k => $version) {
+        $aFail[] = '6.8.0';
+        $aFail[] = '6.8.1-dev';
+        $aFail[] = '6.8.1-alpha';
+        $aFail[] = '6.8.1-beta-rc1';
+        $aFail[] = '6.8.1-beta-rc2';
+        $aFail[] = '6.8.1-beta';
+        $aFail[] = '6.8.1-RC1';
+        $aFail[] = '6.8.1';
+        $aFail[] = '6.9.5';
+        $aFail[] = '6.9.50-dev';
+        $aFail[] = '6.9.50-beta-rc1';
+        $aFail[] = '6.9.50';
+        foreach ($aFail as $version) {
             $this->assertFalse($oPluginManager->_checkOpenXCompatibility('testPlugin', $version));
         }
     }
