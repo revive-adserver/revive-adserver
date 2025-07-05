@@ -187,15 +187,7 @@ msgstr "اتوماتیک بسته شود بعد از"
 msgid "Border color"
 msgstr "رنگ حاشیه"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
-msgid "Local Mode Tag"
-msgstr "برچسب حالت محلی"
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
 msgstr "برچسب پنجره "
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
-msgid "XML-RPC Tag"
-msgstr "XML-برچسب RPC"
 

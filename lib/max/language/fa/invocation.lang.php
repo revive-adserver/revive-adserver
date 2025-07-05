@@ -37,8 +37,6 @@ $GLOBALS['strIframeMakeTransparent'] = "iframe را شفاف کن";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "نوع پاپ آپ";
-$GLOBALS['strPopUpStylePopUp'] = "پاپ آپ";
-$GLOBALS['strPopUpStylePopUnder'] = "پاپ تحت";
 $GLOBALS['strPopUpCreateInstance'] = "به عنوان مثال زمانی که پاپ آپ ایجاد شده است";
 $GLOBALS['strPopUpImmediately'] = "بلافاصله";
 $GLOBALS['strPopUpOnClose'] = "زمانی که صفحه بسته است";

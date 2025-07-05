@@ -32,8 +32,6 @@ $GLOBALS['strIframeMakeTransparent'] = "iframe을 투명하게 설정";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "팝업 형식";
-$GLOBALS['strPopUpStylePopUp'] = "팝업";
-$GLOBALS['strPopUpStylePopUnder'] = "팝언더";
 $GLOBALS['strPopUpCreateInstance'] = "팝업이 생성되는 경우";
 $GLOBALS['strPopUpImmediately'] = "바로 띄우기";
 $GLOBALS['strPopUpOnClose'] = "페이지를 닫을 때";

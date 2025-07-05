@@ -34,7 +34,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Refresca cada";
 $GLOBALS['strIframeMakeTransparent'] = "Fes l'iframe transparent";
 
 // PopUp
-$GLOBALS['strPopUpStylePopUp'] = "Finestra emergent";
 $GLOBALS['strPopUpImmediately'] = "Immediatament";
 $GLOBALS['strPopUpOnClose'] = "Quan es tanqui la pàgina";
 $GLOBALS['strPopUpAfterSec'] = "Després de";

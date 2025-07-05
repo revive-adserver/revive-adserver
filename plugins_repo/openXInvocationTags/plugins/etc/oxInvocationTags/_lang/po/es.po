@@ -187,15 +187,7 @@ msgstr "Cerrar automáticamente despues de"
 msgid "Border color"
 msgstr "Color de borde"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
-msgid "Local Mode Tag"
-msgstr "Etiqueta de Modo Local"
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
 msgstr "Etiqueta de Popup"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
-msgid "XML-RPC Tag"
-msgstr "Etiqueta XML-RPC"
 

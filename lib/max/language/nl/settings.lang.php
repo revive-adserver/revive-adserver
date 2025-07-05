@@ -204,6 +204,8 @@ $GLOBALS['strPrivacySettings'] = "Privacyinstellingen";
 $GLOBALS['strDisableViewerId'] = "Unieke Viewer Id cookie uitschakelen";
 $GLOBALS['strAnonymiseIp'] = "Anonimiseren viewer IP-adressen";
 $GLOBALS['strDisableDeliveryCookies'] = 'Leveringscookies uitschakelen';
+$GLOBALS['strBannerFileSettings'] = 'Algemene instellingen banner-bestanden';
+$GLOBALS['strMaxBannerFilesize'] = 'Maximale banner bestandsgrootte (bytes, 0 betekent ongelimiteerd)';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Globale algemene systeeminstellingen";
