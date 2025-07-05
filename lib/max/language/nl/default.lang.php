@@ -851,6 +851,8 @@ $GLOBALS['strGreaterThanZeroField'] = "Moet groter zijn dan 0";
 $GLOBALS['strXGreaterThanZeroField'] = "%s moet groter zijn dan 0";
 $GLOBALS['strXPositiveWholeNumberField'] = "%s moet een positief geheel getal zijn";
 $GLOBALS['strInvalidWebsiteURL'] = "Ongeldige Website URL";
+$GLOBALS['strUploadedRequired'] = "Uploaden van een bestand is vereist";
+$GLOBALS['strUploadedFileTooBig'] = "Het geüploade bestand is te groot. Zorg ervoor dat het kleiner dan %s bytes is";
 
 // Email
 $GLOBALS['strSirMadam'] = "Meneer/mevrouw";

@@ -187,15 +187,7 @@ msgstr "Samodejno zapri po"
 msgid "Border color"
 msgstr "Barva roba"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
-msgid "Local Mode Tag"
-msgstr ""
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
-msgid "XML-RPC Tag"
 msgstr ""
 

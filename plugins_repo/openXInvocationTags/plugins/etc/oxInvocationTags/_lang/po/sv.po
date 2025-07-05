@@ -187,15 +187,7 @@ msgstr "Stäng automatiskt efter"
 msgid "Border color"
 msgstr "Kantfärg"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:31
-msgid "Local Mode Tag"
-msgstr "Lokalt läge tagg"
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:41
 msgid "Popup Tag"
 msgstr "Popup-tagg"
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:35
-msgid "XML-RPC Tag"
-msgstr "XML-RPC Tagg"
 

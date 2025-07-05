@@ -205,6 +205,8 @@ $GLOBALS['strPrivacySettings'] = "Einstellungen zur Privatsphäre";
 $GLOBALS['strDisableViewerId'] = "Eindeutigen \"Viewer Id\"-Cookie deaktivieren";
 $GLOBALS['strAnonymiseIp'] = "IP-Adressen des Betrachters anonymisieren";
 $GLOBALS['strDisableDeliveryCookies'] = 'Deaktiviere Zustellcookies';
+$GLOBALS['strBannerFileSettings'] = 'Allgemeine Banner-Datei-Einstellungen';
+$GLOBALS['strMaxBannerFilesize'] = 'Maximale Banner-Dateigröße (Bytes, 0 bedeutet unbegrenzt)';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Allgemeine globale Systemeinstellungen";

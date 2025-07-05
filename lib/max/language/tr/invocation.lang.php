@@ -35,7 +35,6 @@ $GLOBALS['strIframeMakeTransparent'] = "Çerçeveyi şeffaf yap";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Pop-up tipi";
-$GLOBALS['strPopUpStylePopUp'] = "Açılır pencere";
 $GLOBALS['strPopUpImmediately'] = "Hemen";
 $GLOBALS['strPopUpOnClose'] = "Sayfa kapandığında";
 $GLOBALS['strPopUpAfterSec'] = "Sonra";

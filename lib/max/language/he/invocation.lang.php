@@ -34,8 +34,6 @@ $GLOBALS['strIframeMakeTransparent'] = "רקע מסגרת שקוף";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "סוג קופץ";
-$GLOBALS['strPopUpStylePopUp'] = "קופץ מעל";
-$GLOBALS['strPopUpStylePopUnder'] = "קופץ מתחת";
 $GLOBALS['strPopUpCreateInstance'] = "האירוע שבו יקפוץ החלון";
 $GLOBALS['strPopUpImmediately'] = "מיידית";
 $GLOBALS['strPopUpOnClose'] = "כאשר העמוד נסגר";

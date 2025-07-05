@@ -38,8 +38,6 @@ $GLOBALS['strIframeMakeTransparent'] = "Ubah iframe menjadi transparan";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Jenis Pop-up";
-$GLOBALS['strPopUpStylePopUp'] = "Pop-up";
-$GLOBALS['strPopUpStylePopUnder'] = "Pop-under";
 $GLOBALS['strPopUpCreateInstance'] = "Halnya kapan pop-up dikreasi";
 $GLOBALS['strPopUpImmediately'] = "Segera";
 $GLOBALS['strPopUpOnClose'] = "Bila halaman ditutup";

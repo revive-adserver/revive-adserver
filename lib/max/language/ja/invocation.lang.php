@@ -38,8 +38,6 @@ $GLOBALS['strIframeMakeTransparent'] = "iframeを透過にする";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "ポップアップスタイル";
-$GLOBALS['strPopUpStylePopUp'] = "ポップアップ";
-$GLOBALS['strPopUpStylePopUnder'] = "ポップアンダー";
 $GLOBALS['strPopUpCreateInstance'] = "ポップアップ作成時のインスタンス";
 $GLOBALS['strPopUpImmediately'] = "直後";
 $GLOBALS['strPopUpOnClose'] = "ページクローズ時";

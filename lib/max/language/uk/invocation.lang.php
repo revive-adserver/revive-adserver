@@ -38,9 +38,6 @@ $GLOBALS['strIframeMakeTransparent'] = "Зробіть iframe прозорим";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Тип спливаючого вікна";
-$GLOBALS['strPopUpStylePopUp'] = "Спливаюче вікно";
-$GLOBALS['strPopUpStylePopUnder'] = "Pop-under
-";
 $GLOBALS['strPopUpCreateInstance'] = "Екземпляр, коли створюється спливаюче вікно";
 $GLOBALS['strPopUpImmediately'] = "Негайно";
 $GLOBALS['strPopUpOnClose'] = "При закритті сторінки";

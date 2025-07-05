@@ -38,8 +38,6 @@ $GLOBALS['strIframeMakeTransparent'] = "Átlátszó iframe";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Ablak típusa";
-$GLOBALS['strPopUpStylePopUp'] = "Felbukkanó";
-$GLOBALS['strPopUpStylePopUnder'] = "Aláugró";
 $GLOBALS['strPopUpCreateInstance'] = "Előfordulás az előugrás létrehozásakor";
 $GLOBALS['strPopUpImmediately'] = "Azonnal";
 $GLOBALS['strPopUpOnClose'] = "Az oldal bezárásakor";

@@ -38,8 +38,6 @@ $GLOBALS['strIframeMakeTransparent'] = "Iframe transparent darstellen";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "PopUp Typ";
-$GLOBALS['strPopUpStylePopUp'] = "PopUp";
-$GLOBALS['strPopUpStylePopUnder'] = "PopUnder";
 $GLOBALS['strPopUpCreateInstance'] = "Zeitpunkt zu dem das PopUp erscheinen wird";
 $GLOBALS['strPopUpImmediately'] = "Sofort";
 $GLOBALS['strPopUpOnClose'] = "Wenn die Seite geschlossen wird";
