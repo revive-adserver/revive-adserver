@@ -166,9 +166,32 @@ if ($aAd['type'] == 'txt') {
 $aPublishers = Admin_DA::getPublishers($aParams, true);
 $aLinkedZones = Admin_DA::getAdZones(['ad_id' => $bannerId], false, 'zone_id');
 
+if (!empty($aPublishers))
+{
+    MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
+    $i = 0;
+
+    //select all checkboxes
+    $publisherIdList = '';
+    foreach ($aPublishers as $publisherId => $aPublisher) {
+        $publisherIdList .= $publisherId . '|';
+    }
+}
+
+if(!$error)
+{
+    echo "<br/><br/>";
+}
+
 ?>
 
-<section id="zone-filter">
+<section style="display: flex; gap: 10px; justify-content: space-between">
+
+    <span style="display: flex; gap: 5px; align-items: center;">
+        <input type='checkbox' id='selectAllField' onClick='toggleAllZones(<?= "\"" . $publisherIdList . "\"" ?>);'>
+        <label for='selectAllField'><?= $GLOBALS["strSelectUnselectAll"] ?></label>
+    </span>
+
     <form action="<?= $pageName; ?>" method="get" style="display: flex; justify-content: left; gap: 10px;">
         <input type='hidden' name='clientid' value='<?=$advertiserId ?>'>
         <input type='hidden' name='campaignid' value='<?= $campaignId ?>'>
@@ -212,8 +235,6 @@ if ($error) {
     echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
     echo "<span class='tab-r'> {$GLOBALS['strUnableToLinkBanner']}</span><br /><br />";
     echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $errorMoreInformation . "</div><br />";
-} else {
-    echo "<br /><br />";
 }
 
 // Filter out websites by name
@@ -232,17 +253,6 @@ $aPublishers = array_filter(
 
 $zoneToSelect = false;
 if (!empty($aPublishers)) {
-    MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
-    $i = 0;
-
-    //select all checkboxes
-    $publisherIdList = '';
-    foreach ($aPublishers as $publisherId => $aPublisher) {
-        $publisherIdList .= $publisherId . '|';
-    }
-
-    echo "<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"" . $publisherIdList . "\");'><label for='selectAllField'>" . $strSelectUnselectAll . "</label>";
-
     foreach ($aPublishers as $publisherId => $aPublisher) {
         $publisherName = $aPublisher['name'];
         $aZones = Admin_DA::getZones($aParams + $aExtraParams + ['publisher_id' => $publisherId], true);
