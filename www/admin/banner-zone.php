@@ -156,8 +156,8 @@ if (isset($submit)) {
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
 
-//        Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
-//        exit;
+        Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
+        exit;
     }
 }
 
