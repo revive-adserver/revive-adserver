@@ -67,6 +67,37 @@ if (isset($submit)) {
     $prioritise = false;
     $error = false;
     $aPreviousZones = Admin_DA::getAdZones(['ad_id' => $bannerId]);
+
+    // Filter out the previous zones array to account for filters
+
+    $aPreviousZones = array_filter(
+            $aPreviousZones,
+            function ($aAdZone) use ($zoneFilterWebsite, $zoneFilterZone)
+            {
+                $aZone = Admin_DA::getZone($aAdZone['zone_id']);
+
+                if (!empty($zoneFilterZone))
+                {
+                    if (!strstr($aZone['name'], $zoneFilterZone))
+                    {
+                        return false;
+                    }
+                }
+
+                if (!empty($zoneFilterWebsite))
+                {
+                    $publisher = Admin_DA::getPublisher($aZone['publisher_id']);
+
+                    if (!strstr($publisher['name'], $zoneFilterWebsite))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+    );
+
     $aDeleteZones = [];
 
     // First, remove any zones that should be deleted.
@@ -125,8 +156,8 @@ if (isset($submit)) {
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
         }
 
-        Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
-        exit;
+//        Header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
+//        exit;
     }
 }
 
@@ -222,6 +253,14 @@ echo "
 <input type='hidden' name='campaignid' value='$campaignId'>
 <input type='hidden' name='bannerid' value='$bannerId'>
 <input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>";
+
+// Include filter parameters
+?>
+
+<input type='hidden' name='filterWebsite' value='<?= $zoneFilterWebsite ?>'>
+<input type='hidden' name='filterZone' value='<?= $zoneFilterZone ?>'>
+
+<?php
 
 MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
