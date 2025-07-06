@@ -24,7 +24,6 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
