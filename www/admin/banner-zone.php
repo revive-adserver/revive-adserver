@@ -173,144 +173,25 @@ $aLinkedZones = Admin_DA::getAdZones(['ad_id' => $bannerId], false, 'zone_id');
 ?>
 
 <section id="zone-filter">
-    <p class="inlineIcon iconFilter"><b><?php echo $GLOBALS["str"] ?></b></p>
-
-<!--    --><?php
-//
-//    $zoneFilterForm = new OA_Admin_UI_Component_Form("zoneFilter", "GET", ".");
-//
-//    // Remove unnecessary hidden form inputs
-//    $zoneFilterForm->removeElement("_qf__zoneFilter");
-//    $zoneFilterForm->removeElement("token");
-//
-//    // Add hidden form inputs corresponding to required IDs
-//    $zoneFilterForm->addElement('hidden', 'clientid', $advertiserId);
-//    $zoneFilterForm->addElement('hidden', 'campaignid', $campaignId);
-//    $zoneFilterForm->addElement('hidden', 'bannerid', $bannerId);
-//
-//    // Add 'search by name' filters
-//    $zoneFilterForm->addElement("text", "zoneFilterWebsite", $GLOBALS["strWebsite"]);
-//    $zoneFilterForm->addElement("text", "zoneFilterZone", $GLOBALS["strZone"]);
-//
-//    $zoneFilterForm->display();
-//
-//    ?>
-
-    <?php
-
-    $iabSizes = [];
-
-    foreach(array_keys($phpAds_IAB) as $iabKey)
-    {
-        $iabSizes[$phpAds_IAB[$iabKey]["width"] . "x" . $phpAds_IAB[$iabKey]["height"]] = $GLOBALS["strIab"][$iabKey];
-    }
-
-    $iabSizes["-"] = $GLOBALS["strCustom"];
-
-    ?>
-
-    <form action="<?= $pageName; ?>" method="get" style="display: grid; grid-template-columns: repeat(2, max-content); grid-template-rows: repeat(4, max-content); justify-content: left">
+    <form action="<?= $pageName; ?>" method="get" style="display: flex; justify-content: left; gap: 10px;">
         <input type='hidden' name='clientid' value='<?=$advertiserId ?>'>
         <input type='hidden' name='campaignid' value='<?= $campaignId ?>'>
         <input type='hidden' name='bannerid' value='<?= $bannerId ?>'>
 
-        <div style="margin: 15px auto">
-            <label for="filter-website" class="inlineIcon iconWebsite"><?= $GLOBALS["strWebsite"] ?></label>
+        <div>
+            <label for="filter-website" class="inlineIcon iconWebsiteFilter"><?= $GLOBALS["strWebsite"] ?>:&nbsp;</label>
             <input type="text" name="filterWebsite" id="filter-website" placeholder="website.com" value="<?= $zoneFilterWebsite ?>">
         </div>
 
-       <div style="margin: 15px auto">
-           <label for="filter-zone" class="inlineIcon iconZone"><?= $GLOBALS["strZone"] ?></label>
+       <div>
+           <label for="filter-zone" class="inlineIcon iconZoneFilter"><?= $GLOBALS["strZone"] ?>:&nbsp;</label>
            <input type="text" name="filterZone" id="filter-zone" placeholder="Homepage" value="<?= $zoneFilterZone ?>">
        </div>
 
-        <div style="margin: 15px auto">
-            <?= $GLOBALS["strZoneType"] ?><br>
-            <input type="checkbox" id="filter-zone-type-banner" name="filterZoneType[]" value="<?= phpAds_ZoneBanner ?>">
-            <label for="filter-zone-type-banner" class="inlineIcon iconZone"><?= $GLOBALS["strBannerButtonRectangle"] ?></label><br>
-            <input type="checkbox" id="filter-zone-type-text-ad" name="filterZoneType[]" value="<?= phpAds_ZoneText ?>">
-            <label for="filter-zone-type-text-ad" class="inlineIcon iconZoneText"><?= $GLOBALS["strTextAdZone"] ?></label><br>
-            <input type="checkbox" id="filter-zone-type-email" name="filterZoneType[]" value="<?= MAX_ZoneEmail ?>">
-            <label for="filter-zone-type-email" class="inlineIcon iconZoneEmail"><?= $GLOBALS["strEmailAdZone"] ?></label><br>
-            <input type="checkbox" id="filter-zone-type-inline-video-ad" name="filterZoneType[]" value="<?= OX_ZoneVideoInstream ?>">
-            <label for="filter-zone-type-inline-video-ad" class="inlineIcon iconZoneVideoInstream"><?= $GLOBALS["strZoneVideoInstream"] ?></label><br>
-            <input type="checkbox" id="filter-zone-type-overlay-video-ad" name="filterZoneType[]" value="<?= OX_ZoneVideoOverlay ?>">
-            <label for="filter-zone-type-overlay-video-ad" class="inlineIcon iconZoneVideoOverlay"><?= $GLOBALS["strZoneVideoOverlay"] ?></label><br>
-        </div>
-
-        <div style="margin: 15px auto">
-            <input type="checkbox" id="filter-zone-dimensions-toggle" name="filterZoneDimensionsToggle" value="1" onchange="onFilterZoneDimensionsToggleChange(event)">
-            <label for="filter-zone-dimensions-toggle"><?= $GLOBALS["strSize"] ?></label><br>
-            <select id="filter-zone-dimensions-dropdown" onchange="onFilterZoneDimensionsDropdownChange(event)">
-                <?php
-
-                foreach ($iabSizes as $size => $option)
-                {
-                    echo
-                    "
-                        <option value='$size'>$option</option>
-                    ";
-                }
-
-                ?>
-            </select>
-            <br>
-            <input onchange="onFilterZoneDimensionsSizeChange(event)" type="text" name="filterZoneDimensionsWidth" id="filter-zone-dimensions-width" placeholder="Width (in px)">
-            x
-            <input onchange="onFilterZoneDimensionsSizeChange(event)" type="text" name="filterZoneDimensionsHeight" id="filter-zone-dimensions-height" placeholder="Height (in px)">
-        </div>
-
-        <div style="margin: 15px auto">
-            <input type="reset" value="<?= $GLOBALS["strClear"] ?>">
+        <div>
             <input type="submit" value="<?= $GLOBALS["strZonesSearch"] ?>">
         </div>
     </form>
-
-    <script>
-        const onFilterZoneDimensionsToggleChange = (event) =>
-        {
-            const toggle = event.target.checked;
-
-            $("#filter-zone-dimensions-dropdown")[0].disabled = !toggle;
-            $("#filter-zone-dimensions-width")[0].disabled = !toggle;
-            $("#filter-zone-dimensions-height")[0].disabled = !toggle;
-        }
-
-        const onFilterZoneDimensionsDropdownChange = (event) =>
-        {
-            const valueSelected = event.target.value;
-
-            const filterZoneDimensionsWidth = $("#filter-zone-dimensions-width");
-            const filterZoneDimensionsHeight = $("#filter-zone-dimensions-height");
-
-            if (valueSelected === "-")
-            {
-                filterZoneDimensionsWidth.val("*");
-                filterZoneDimensionsHeight.val("*");
-            }
-            else
-            {
-                const [width, height] = valueSelected.split('x');
-                filterZoneDimensionsWidth.val(width);
-                filterZoneDimensionsHeight.val(height);
-            }
-        }
-
-        const onFilterZoneDimensionsSizeChange = (event) =>
-        {
-            const filterZoneDimesionsDropdown = $("#filter-zone-dimensions-dropdown")[0];
-            const size = `${$("#filter-zone-dimensions-width").val()}x${$("#filter-zone-dimensions-height").val()}`;
-            for (const option of filterZoneDimesionsDropdown.options)
-            {
-                if (option.value === size)
-                {
-                    option.selected = true;
-                    return;
-                }
-            }
-            filterZoneDimesionsDropdown.options[filterZoneDimesionsDropdown.options.length - 1].selected = true;
-        }
-    </script>
 </section>
 
 <?php
