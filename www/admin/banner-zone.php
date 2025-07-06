@@ -49,6 +49,14 @@ $listorder = MAX_getStoredValue('listorder', 'name');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $submit = MAX_getValue('submit');
 
+// Get zone filter parameters
+$zoneFilterWebsite = MAX_commonGetValue('filterWebsite');
+$zoneFilterZone = MAX_commonGetValue('filterZone');
+$zoneFilterZoneType = MAX_commonGetValue('filterZoneType[]');
+$zoneFilterZoneDimensionsToggle = MAX_commonGetValue('filterZoneDimensionsToggle');
+$zoneFilterZoneDimensionsWidth = MAX_commonGetValue('filterZoneDimensionsWidth');
+$zoneFilterZoneDimensionsHeight = MAX_commonGetValue('filterZoneDimensionsHeight');
+
 // Initialise some parameters
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
@@ -208,12 +216,12 @@ $aLinkedZones = Admin_DA::getAdZones(['ad_id' => $bannerId], false, 'zone_id');
 
         <div style="margin: 15px auto">
             <label for="filter-website" class="inlineIcon iconWebsite"><?= $GLOBALS["strWebsite"] ?></label>
-            <input type="text" name="filterWebsite" id="filter-website" placeholder="website.com">
+            <input type="text" name="filterWebsite" id="filter-website" placeholder="website.com" value="<?= $zoneFilterWebsite ?>">
         </div>
 
        <div style="margin: 15px auto">
            <label for="filter-zone" class="inlineIcon iconZone"><?= $GLOBALS["strZone"] ?></label>
-           <input type="text" name="filterZone" id="filter-zone" placeholder="Homepage">
+           <input type="text" name="filterZone" id="filter-zone" placeholder="Homepage" value="<?= $zoneFilterZone ?>">
        </div>
 
         <div style="margin: 15px auto">
@@ -331,6 +339,20 @@ if ($error) {
     echo "<br /><br />";
 }
 
+// Filter out websites by name
+$aPublishers = array_filter(
+        $aPublishers,
+        function ($aPublisher) use ($zoneFilterWebsite)
+        {
+            if(!empty($zoneFilterWebsite))
+            {
+                return strstr($aPublisher['name'], $zoneFilterWebsite);
+            }
+
+            return true;
+        }
+);
+
 $zoneToSelect = false;
 if (!empty($aPublishers)) {
     MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
@@ -347,6 +369,21 @@ if (!empty($aPublishers)) {
     foreach ($aPublishers as $publisherId => $aPublisher) {
         $publisherName = $aPublisher['name'];
         $aZones = Admin_DA::getZones($aParams + $aExtraParams + ['publisher_id' => $publisherId], true);
+
+        // Filter out zones by name
+        $aZones = array_filter(
+                $aZones,
+                function ($aZone) use ($zoneFilterZone)
+                {
+                    if(!empty($zoneFilterZone))
+                    {
+                        return strstr($aZone['name'], $zoneFilterZone);
+                    }
+
+                    return true;
+                }
+        );
+
         if (!empty($aZones)) {
             $zoneToSelect = true;
             $bgcolor = ($i % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
