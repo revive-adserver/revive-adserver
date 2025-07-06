@@ -52,10 +52,6 @@ $submit = MAX_getValue('submit');
 // Get zone filter parameters
 $zoneFilterWebsite = MAX_commonGetValue('filterWebsite');
 $zoneFilterZone = MAX_commonGetValue('filterZone');
-$zoneFilterZoneType = MAX_commonGetValue('filterZoneType[]');
-$zoneFilterZoneDimensionsToggle = MAX_commonGetValue('filterZoneDimensionsToggle');
-$zoneFilterZoneDimensionsWidth = MAX_commonGetValue('filterZoneDimensionsWidth');
-$zoneFilterZoneDimensionsHeight = MAX_commonGetValue('filterZoneDimensionsHeight');
 
 // Initialise some parameters
 $pageName = basename($_SERVER['SCRIPT_NAME']);
