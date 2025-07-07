@@ -36,6 +36,7 @@ $GLOBALS['excel_decimal_formatting'] = "#.##0,000;-#.##0,000;-";
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strWhenCheckingForUpdates'] = "Кога проверувате за ажурирања";
 
 // Dashboard
 // Dashboard Errors
