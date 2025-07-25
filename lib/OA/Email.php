@@ -1188,11 +1188,12 @@ class OA_Email
     /**
      * A method to send an email.
      *
-     * @param string $subject   The subject line of the email.
-     * @param string $contents  The body of the email.
-     * @param string $userEmail The email address to send the report to.
-     * @param string $userName  The readable name of the user. Optional.
-     * @return boolean True if the mail was send, false otherwise.
+     * @param string $subject       The subject line of the email.
+     * @param string $contents      The body of the email.
+     * @param string $userEmail     The email address to send the mail to.
+     * @param string $userName      The readable name of the recipient. Optional.
+     * @param array $fromDetails    An array with 'name' and 'emailAddress' for the sender. Optional.
+     * @return boolean              True if the mail was sent successfully, false otherwise.
      */
     public function sendMail($subject, $contents, $userEmail, $userName = null, $fromDetails = null)
     {
@@ -1214,36 +1215,139 @@ class OA_Email
         // For the time being we're sending plain text emails only, so decode any HTML entities
         $contents = html_entity_decode($contents, ENT_QUOTES);
 
-        // Build the "to:" header for the email
-        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
-            // We do not know if PHP's mail() in windows can handle the
-            // full username in the "To:" header for all supported
-            // PHP versions so we leave it out for now to be on the safe side.
-            $toParam = $userEmail;
-        } else {
-            $toParam = self::quoteHeaderText($userName) . ' <' . $userEmail . '>';
+        // Determine the email sending provider based on configuration.
+        // Defaults to 'generic' if no specific provider is enabled.
+        $emailProvider = 'generic'; // Default provider
+
+        switch (true) {
+            case (isset($aConf['mailgun']['useMailgun']) && $aConf['mailgun']['useMailgun'] == 1):
+                $emailProvider = 'mailgun';
+                break;
+            // Future expansions go here:
+            // e.g.:
+            // case (isset($aConf['sendgrid']['useSendGrid']) && $aConf['sendgrid']['useSendGrid'] == 1):
+            //     $emailProvider = 'sendgrid';
+            //     break;
+            default:
+                // If no specific provider is enabled, it defaults to 'generic' (original PHP mail() function).
+                break;
         }
 
-        // Build additional email headers
-        $headersParam = "MIME-Version: 1.0\r\n";
-        if (isset($phpAds_CharSet)) {
-            $headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
+        $value = false; // Initialize return value
+
+        switch ($emailProvider) {
+            case 'mailgun':
+                // --- Mailgun Email Sending Logic ---
+                // Retrieve Mailgun configuration settings
+                $mailgunApiKey = $aConf['mailgun']['apiKey'] ?? null;
+                $mailgunDomain = $aConf['mailgun']['domain'] ?? null;
+                $mailgunApiRegion = $aConf['mailgun']['apiRegion'] ?? 'api.mailgun.net'; // Default to US region
+
+                // Basic validation for Mailgun settings
+                if (empty($mailgunApiKey) || empty($mailgunDomain)) {
+                    // If critical Mailgun settings are missing, log an error and return false.
+                    OA::debug('Cannot send emails via Mailgun - API key or domain is missing in configuration!', PEAR_LOG_ERR);
+                    $value = false;
+                    break; // Exit the switch
+                }
+
+                // Construct the 'from' header for Mailgun: "Sender Name <sender@domain.com>" or just "sender@domain.com"
+                // Mailgun's API handles the "From" header string construction internally based on $fromName and $fromEmail.
+                // We ensure these are strings for Mailgun's use.
+                $mailgunFromName = $fromDetails['name'] ?? ''; // Ensure string for Mailgun
+                $mailgunFromEmail = $fromDetails['emailAddress'] ?? ''; // Ensure string for Mailgun
+                $from = !empty($mailgunFromName) ? $mailgunFromName . ' <' . $mailgunFromEmail . '>' : $mailgunFromEmail;
+
+                // Mailgun API URL for sending messages
+                $url = "https://" . $mailgunApiRegion . "/v3/" . $mailgunDomain . "/messages";
+
+                // Data to be sent in the POST request (form-urlencoded)
+                $data = [
+                    'from'    => $from,
+                    'to'      => $userEmail,
+                    'subject' => $subject,
+                    'text'    => $contents,
+                ];
+
+                // Initialize cURL session
+                $ch = curl_init();
+
+                // Set cURL options
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); // Use basic authentication
+                curl_setopt($ch, CURLOPT_USERPWD, "api:" . $mailgunApiKey); // Mailgun uses "api" as username
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // Return transfer as string
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // Timeout for connection
+                curl_setopt($ch, CURLOPT_TIMEOUT, 30); // Total timeout
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Verify SSL certificate
+                curl_setopt($ch, CURLOPT_POST, true); // Set as POST request
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data); // Attach POST data
+
+                // Execute cURL request
+                $result = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Get HTTP status code
+                $curlError = curl_error($ch); // Get any cURL error messages
+
+                // Close cURL session
+                curl_close($ch);
+
+                // Basic error checking for Mailgun API response
+                if ($result === false) {
+                    // Log cURL error if Mailgun sending failed due to network/cURL issue
+                    OA::debug('Mailgun cURL Error: ' . $curlError, PEAR_LOG_ERR);
+                    $value = false; // cURL error
+                } elseif ($httpCode >= 200 && $httpCode < 300) {
+                    $value = true; // Mailgun API successfully accepted the message
+                } else {
+                    // Log Mailgun API error response
+                    $response = json_decode($result, true);
+                    $errorMessage = $response['message'] ?? "Unknown Mailgun API error.";
+                    OA::debug('Mailgun API Error (HTTP ' . $httpCode . '): ' . $errorMessage . ' (Response: ' . $result . ')', PEAR_LOG_ERR);
+                    $value = false; // Mailgun API returned an error
+                }
+                break;
+
+            case 'generic':
+            default:
+                // Build the "to:" header for the email
+                if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+                    // We do not know if PHP's mail() in windows can handle the
+                    // full username in the "To:" header for all supported
+                    // PHP versions so we leave it out for now to be on the safe side.
+                    $toParam = $userEmail;
+                } else {
+                    // If $userName is null, it might cause a TypeError in quoteHeaderText().
+                    $toParam = self::quoteHeaderText($userName) . ' <' . $userEmail . '>';
+                }
+
+                // Build additional email headers
+                $headersParam = "MIME-Version: 1.0\r\n";
+                if (isset($phpAds_CharSet)) {
+                    $headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
+                }
+                // If $fromDetails['name'] is null, it might cause a TypeError in quoteHeaderText().
+                $headersParam .= 'From: ' . self::quoteHeaderText($fromDetails['name']) . ' <' . $fromDetails['emailAddress'] . '>' . "\r\n";
+
+                // Use only \n as header separator when qmail is used
+                if ($aConf['email']['qmailPatch']) {
+                    $headersParam = str_replace("\r", '', $headersParam);
+                }
+
+                // Add \r to linebreaks in the contents for MS Exchange compatibility
+                // This is specific to the mail() function's requirements
+                $contents = str_replace("\n", "\r\n", $contents);
+
+                // Send email, if possible!
+                if (function_exists('mail')) {
+                    $value = @mail($toParam, $subject, $contents, $headersParam);
+                } else {
+                    OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
+                    $value = false;
+                }
+                break;
         }
-        $headersParam .= 'From: ' . self::quoteHeaderText($fromDetails['name']) . ' <' . $fromDetails['emailAddress'] . '>' . "\r\n";
-        // Use only \n as header separator when qmail is used
-        if ($aConf['email']['qmailPatch']) {
-            $headersParam = str_replace("\r", '', $headersParam);
-        }
-        // Add \r to linebreaks in the contents for MS Exchange compatibility
-        $contents = str_replace("\n", "\r\n", $contents);
-        // Send email, if possible!
-        if (function_exists('mail')) {
-            $value = @mail($toParam, $subject, $contents, $headersParam);
-            return $value;
-        } else {
-            OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
-            return false;
-        }
+
+        return $value;
     }
 
     /**
