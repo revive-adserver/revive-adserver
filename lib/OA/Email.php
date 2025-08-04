@@ -1223,11 +1223,11 @@ class OA_Email
             case (isset($aConf['mailgun']['useMailgun']) && $aConf['mailgun']['useMailgun'] == 1):
                 $emailProvider = 'mailgun';
                 break;
-            // Future expansions go here:
-            // e.g.:
-            // case (isset($aConf['sendgrid']['useSendGrid']) && $aConf['sendgrid']['useSendGrid'] == 1):
-            //     $emailProvider = 'sendgrid';
-            //     break;
+                // Future expansions go here:
+                // e.g.:
+                // case (isset($aConf['sendgrid']['useSendGrid']) && $aConf['sendgrid']['useSendGrid'] == 1):
+                //     $emailProvider = 'sendgrid';
+                //     break;
             default:
                 // If no specific provider is enabled, it defaults to 'generic' (original PHP mail() function).
                 break;
@@ -1256,7 +1256,7 @@ class OA_Email
                 // We ensure these are strings for Mailgun's use.
                 $mailgunFromName = $fromDetails['name'] ?? ''; // Ensure string for Mailgun
                 $mailgunFromEmail = $fromDetails['emailAddress'] ?? ''; // Ensure string for Mailgun
-                $from = !empty($mailgunFromName) ? $mailgunFromName . ' <' . $mailgunFromEmail . '>' : $mailgunFromEmail;
+                $from = empty($mailgunFromName) ? $mailgunFromEmail : $mailgunFromName . ' <' . $mailgunFromEmail . '>';
 
                 // Mailgun API URL for sending messages
                 $url = "https://" . $mailgunApiRegion . "/v3/" . $mailgunDomain . "/messages";
