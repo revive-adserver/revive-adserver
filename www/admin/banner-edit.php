@@ -229,7 +229,7 @@ if ($valid && $oComponent && $oComponent->enabled) {
 }
 if ($valid) {
     //process submitted values
-    processForm($bannerid, $form, $oComponent, $formDisabled);
+    bannerEditProcessForm($bannerid, $form, $oComponent, $formDisabled);
 } else { //either validation failed or form was not submitted, display the form
     displayBannerEditPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, $type, $form, $ext_bannertype, $formDisabled);
 }
@@ -509,7 +509,7 @@ function addUploadGroup($form, $aBanner, $vars)
 }
 
 
-function processForm($bannerid, $form, &$oComponent, $formDisabled = false)
+function bannerEditProcessForm($bannerid, $form, &$oComponent, $formDisabled = false)
 {
     $aFields = $form->exportValues();
 

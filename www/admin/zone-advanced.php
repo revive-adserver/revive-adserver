@@ -86,7 +86,7 @@ $zoneForm = buildZoneForm($aZone, $oComponent);
 
 if ($zoneForm->validate()) {
     //process submitted values
-    processForm($aZone, $zoneForm, $oComponent);
+    zoneAdvancedProcessForm($aZone, $zoneForm, $oComponent);
 } else { //either validation failed or form was not submitted, display the form
     displayZoneAdvancedPage($aZone, $zoneForm);
 }
@@ -244,7 +244,7 @@ function buildAlgorithmFormSection($form, $aZone)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
-function processForm($aZone, $form, $oComponent = null)
+function zoneAdvancedProcessForm($aZone, $form, $oComponent = null)
 {
     $aFields = $form->exportValues();
 
