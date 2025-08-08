@@ -70,7 +70,7 @@ class OA_Admin_Statistics_Flexy
      * A Flexy helper method to display the day span selector
      * element.
      */
-    public function _showDaySpanSelector()
+    public function showDaySpanSelector()
     {
         $this->oDaySpanSelector->_tabIndex = $this->tabindex;
 
