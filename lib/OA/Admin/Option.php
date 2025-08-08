@@ -436,7 +436,7 @@ class OA_Admin_Option
                             }
                             // toggle the checkbox if checkForUpdates (sync section) is disabled
                             if ($aSettingSection == 'ui' && $aItem['name'] == 'ui_dashboardEnabled') {
-                                if (isset($aConf['sync']['checkForUpdates']) && $aConf['sync']['checkForUpdates'] === true) {
+                                if (!empty($aConf['sync']['checkForUpdates'])) {
                                     $value = $aConf[$aSettingSection][$aSettingKey];
                                 } else {
                                     $value = false;
