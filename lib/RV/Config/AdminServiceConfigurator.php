@@ -16,9 +16,11 @@ use League\Flysystem\Adapter;
 use League\Flysystem\Filesystem;
 use RV\DependencyInjection\Compiler\Html5ZipManagerPass;
 use RV\Manager\Html5ZipManager;
+use RV\Parser\DomainParser;
 use RV\Parser\Html5\AdobeEdgeParser;
 use RV\Parser\Html5\MetaParser;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -58,7 +60,7 @@ class AdminServiceConfigurator
             ));
 
         $container
-            ->addCompilerPass(new Html5ZipManagerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0)
+            ->addCompilerPass(new Html5ZipManagerPass())
             ->register('html5.zip.manager', Html5ZipManager::class)
             ->setPublic(true)
             ->addArgument(new Reference('filesystem'));
@@ -70,6 +72,25 @@ class AdminServiceConfigurator
         $container
             ->register('html5.parser.adobe_edge', AdobeEdgeParser::class)
             ->addTag('html5.parser', ['priority' => 5]);
+
+        $container
+            ->register('cache.adapter.fs', FilesystemAdapter::class)
+            ->addArgument('')
+            ->addArgument($container->getParameter('delivery.cacheExpire'))
+            ->addArgument(MAX_PATH . '/var/cache')
+        ;
+
+        $container
+            ->register('cache.psr16', Psr16Cache::class)
+            ->setPublic(true)
+            ->addArgument(new Reference('cache.adapter.fs'))
+        ;
+
+        $container
+            ->register('domain.parser', DomainParser::class)
+            ->setPublic(true)
+            ->addArgument(new Reference('cache.psr16'))
+        ;
 
         return $container;
     }

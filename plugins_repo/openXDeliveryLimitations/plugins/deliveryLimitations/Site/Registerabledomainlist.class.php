@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+use RV\Parser\DomainParser;
+
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
 require_once RV_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -114,17 +116,20 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      */
     public function _preCompile($sData)
     {
+
         $aData = explode("\n", $sData);
-        $aCompiledData = [];
-        foreach ($aData as $key => $registerableDomain) {
-            $registerableDomain = trim($registerableDomain);
-            if (extension_loaded('intl')) {
-                $registerableDomain = idn_to_ascii($registerableDomain);
-            }
-            $registerableDomain .= '\z';
-            $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
-            $aCompiledData[] = $registerableDomain;
+
+        $aData = array_map('trim', $aData);
+
+        if (function_exists('idn_to_ascii')) {
+            $aData = array_map('idn_to_ascii', $aData);
         }
+
+        $aCompiledData = array_map(
+            fn(string $domain) => preg_replace('/\./', '\\\.', $domain . '\z'),
+            $aData,
+        );
+
         return implode('|', $aCompiledData);
     }
 
@@ -171,25 +176,13 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      */
     public function _sanitiseData($data)
     {
+        /** @var DomainParser $oParser */
+        $oParser = RV_getContainer()->get('domain.parser');
+
         $aData = explode("\n", $data);
-        $aSanitisedData = [];
-        if (extension_loaded('intl')) {
-            $oPslManager = new Pdp\PublicSuffixListManager();
-            $oParser = new Pdp\Parser($oPslManager->getList());
-            foreach ($aData as $key => $url) {
-                $url = trim($url);
-                $url = strtolower($url);
-                $oHost = $oParser->parseHost($url);
-                if ($oHost !== false) {
-                    $registerableDomain = $oHost->registerableDomain;
-                    if (is_string($registerableDomain) && strlen($registerableDomain)) {
-                        $aSanitisedData[] = $registerableDomain;
-                    }
-                }
-            }
-            $aSanitisedData = array_unique($aSanitisedData);
-            sort($aSanitisedData);
-        }
-        return implode("\n", $aSanitisedData);
+        $aData = array_map($oParser->getRegistrableDomain(...), $aData);
+        $aData = array_unique(array_filter($aData));
+
+        return implode("\n", $aData);
     }
 }

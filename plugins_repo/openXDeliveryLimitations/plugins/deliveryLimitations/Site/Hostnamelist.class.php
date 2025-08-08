@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+use RV\Parser\DomainParser;
+
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
 require_once RV_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -38,7 +40,6 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
             '=~' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these hostnames', $this->extension, $this->group),
             '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $this->extension, $this->group),
         ];
-        $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Hostname List';
     }
 
@@ -113,14 +114,18 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     public function _preCompile($sData)
     {
         $aData = explode("\n", $sData);
+
+        $aData = array_map('trim', $aData);
+
+        if (function_exists('idn_to_ascii')) {
+            $aData = array_map('idn_to_ascii', $aData);
+        }
+
         $aCompiledData = [];
-        foreach ($aData as $key => $hostname) {
-            $hostname = trim($hostname);
-            if (extension_loaded('intl')) {
-                $hostname = idn_to_ascii($hostname);
-            }
+        foreach ($aData as $hostname) {
             $aCompiledData[$hostname] = true;
         }
+
         return serialize($aCompiledData);
     }
 
@@ -149,16 +154,10 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     /**
      * A local private method to sanitise the registerable domain data.
      *
-     *  For each URL input line:
-     *  - Trims whitespace;
-     *  - Converts to lowercase;
-     *  - Parses the line as a URL, considering only the host;
-     *      - If the result of parsing is false, the URL was badly broken,
-     *        so the line is ignored;
-     *      - Otherwise, if a hostname was located in the URL, then
-     *        the line is added to the output list;
-     *  - Deduplicates the list of hostnames; and
-     *  - Sorts the hostnames into ascending order.
+     *  What it does:
+     *  - Parses the list of URLs / hostnames;
+     *  - Filters out invalid hostnames;
+     *  - Deduplicates and sorts the list.
      *
      * @param string $data A "\n" separated string of input hostnames
      *                      and/or URLs.
@@ -166,27 +165,13 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
      */
     public function _sanitiseData($data)
     {
+        /** @var DomainParser $oParser */
+        $oParser = RV_getContainer()->get('domain.parser');
+
         $aData = explode("\n", $data);
-        $aSanitisedData = [];
-        if (extension_loaded('intl')) {
-            $oPslManager = new Pdp\PublicSuffixListManager();
-            $oParser = new Pdp\Parser($oPslManager->getList());
-            foreach ($aData as $key => $url) {
-                $url = trim($url);
-                $url = strtolower($url);
-                $hostname = @parse_url($url, PHP_URL_HOST);
-                if (is_string($hostname) && strlen($hostname)) {
-                    $aSanitisedData[] = $hostname;
-                } else {
-                    $hostname = @parse_url('http://' . $url, PHP_URL_HOST);
-                    if (is_string($hostname) && strlen($hostname)) {
-                        $aSanitisedData[] = $hostname;
-                    }
-                }
-            }
-            $aSanitisedData = array_unique($aSanitisedData);
-            sort($aSanitisedData);
-        }
-        return implode("\n", $aSanitisedData);
+        $aData = array_map($oParser->getHostname(...), $aData);
+        $aData = array_unique(array_filter($aData));
+
+        return implode("\n", $aData);
     }
 }
