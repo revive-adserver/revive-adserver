@@ -1254,6 +1254,14 @@ $GLOBALS['strReportErrorMissingSheets'] = "No worksheet was selected for report"
 $GLOBALS['strReportErrorUnknownCode'] = "Unknown error code #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+$GLOBALS['strHtml5InvalidFileType'] = "Invalid file type: %s";
+$GLOBALS['strHtml5MultipleIndexHtml'] = "Multiple 'index.html' files found";
+$GLOBALS['strHtml5NoHtml'] = "No '*.html' file found";
+$GLOBALS['strHtml5MultipleHtml'] = "Multiple '*.html' files found, please rename the main one to 'index.html'";
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 

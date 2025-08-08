@@ -265,7 +265,7 @@ EOF;
     {
         foreach ($this->mountManager->listContents('src://', true) as $entry) {
             if ('file' === $entry['type'] && !isset(self::$extensions[strtolower($entry['extension'])])) {
-                throw new \RuntimeException("Invalid file type: {$entry['basename']}");
+                throw new \RuntimeException(sprintf($GLOBALS['strHtml5InvalidFileType'], $entry['basename']));
             }
         }
     }
@@ -316,7 +316,7 @@ EOF;
                 return $htmls['index.html'][0];
             }
 
-            throw new \RuntimeException("Multiple 'index.html' files found");
+            throw new \RuntimeException($GLOBALS['strHtml5MultipleIndexHtml']);
         }
 
         // Is there a single HTML file that we can rename to index.html?
@@ -328,7 +328,11 @@ EOF;
             return $dir;
         }
 
-        throw new \RuntimeException("Multiple '*.html' files found, please rename the main one to 'index.html'" . print_r($htmls, true));
+        if (empty($htmls)) {
+            throw new \RuntimeException($GLOBALS['strHtml5NoHtml']);
+        }
+
+        throw new \RuntimeException($GLOBALS['strHtml5MultipleHtml']);
     }
 
     /**
