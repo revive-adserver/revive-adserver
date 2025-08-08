@@ -117,7 +117,8 @@ Bug Fixes
  * Improved command line installer by including the field name in form error
    messages and removing the unused -H option.
 
- * Fixed command line installer not pickig up the custom image store path.
+ * Fixed command line installer not picking up the custom image store path and
+   not setting permissions on .htaccess files.
 
  * Fixed global settings help link.
 

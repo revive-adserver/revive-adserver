@@ -177,7 +177,7 @@ abstract class AbstractInstallerCommand extends AbstractReviveCommand
         foreach (\array_unique($paths) as $path) {
             chmod($path, $this->permissions);
 
-            foreach ((new Finder())->in($path)->getIterator() as $file) {
+            foreach ((new Finder())->ignoreDotFiles(false)->in($path)->getIterator() as $file) {
                 chmod($file->getPathname(), $this->permissions);
             }
         }
