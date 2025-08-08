@@ -500,7 +500,7 @@ function addUploadGroup($form, $aBanner, $vars)
     $maxFilesize = (int) ($GLOBALS['_MAX']['CONF']['store']['maxFilesize'] ?? 0);
 
     if ($maxFilesize > 0) {
-        $rules[] = [sprintf($GLOBALS['strUploadedFileTooBig'], $maxFilesize), 'maxfilesize'];
+        $rules[] = [sprintf($GLOBALS['strUploadedFileTooBig'], $maxFilesize), 'maxfilesize', $maxFilesize];
     }
 
     $rules[] = [$GLOBALS['strUploadedRequired'], 'uploadedfile'];
