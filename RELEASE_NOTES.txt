@@ -123,8 +123,11 @@ Bug Fixes
 
  * Fixed non-working sorting in the websites list inventory screen.
 
- * Fixed avw.php logging an ad impression when requesting a non existing
+ * Fixed avw.php logging an ad impression when requesting a non-existing
    zone.
+
+ * Fixed an incompatibility with PHP 8.4+ preventing statistic screens from
+   working properly.
 
 
 Non-Backwards Compatible Changes
