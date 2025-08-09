@@ -1233,6 +1233,10 @@ $GLOBALS['strReportErrorMissingSheets'] = "Für den Bericht wurde kein Arbeitsbl
 $GLOBALS['strReportErrorUnknownCode'] = "Unbekannter Fehler Nr. #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 

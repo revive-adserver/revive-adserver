@@ -1241,6 +1241,10 @@ $GLOBALS['strReportErrorMissingSheets'] = "Nessun foglio di lavoro è stato sele
 $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 

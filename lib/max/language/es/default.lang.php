@@ -1100,6 +1100,10 @@ $GLOBALS['strReportErrorMissingSheets'] = "No ha seleccionado hoja de trabajo pa
 $GLOBALS['strReportErrorUnknownCode'] = "Código de error desconocido #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
