@@ -1091,7 +1091,7 @@ class Smarty
     function trigger_error($error_msg, $error_type = E_USER_WARNING)
     {
         if (E_USER_ERROR === $error_type) {
-            throw new \RuntimeException($error_msg);
+            $error_type = E_USER_WARNING;
         }
 
         trigger_error("Smarty error: $error_msg", $error_type);
