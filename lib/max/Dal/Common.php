@@ -259,12 +259,12 @@ class MAX_Dal_Common
     // Get any generic list order...
     public function getSqlListOrder(string $listOrder, string $orderDirection, string $tblAlias = ''): string
     {
+        $direction = $this->getOrderDirection($orderDirection);
+        $nameColumn = $this->getOrderColumn($listOrder);
+
         if (empty($nameColumn)) {
             return '';
         }
-
-        $direction = $this->getOrderDirection($orderDirection);
-        $nameColumn = $this->getOrderColumn($listOrder);
 
         $tblAlias = $tblAlias ? $tblAlias . '.' : '';
 
