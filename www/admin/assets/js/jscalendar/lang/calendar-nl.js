@@ -1,29 +1,53 @@
 // ** I18N
 Calendar._DN = new Array
-("Zondag",
- "Maandag",
- "Dinsdag",
- "Woensdag",
- "Donderdag",
- "Vrijdag",
- "Zaterdag",
- "Zondag");
+("zondag",
+    "maandag",
+    "dinsdag",
+    "woensdag",
+    "donderdag",
+    "vrijdag",
+    "zaterdag",
+    "zondag");
 
-Calendar._SDN_len = 2;
+// short day names
+Calendar._SDN = new Array
+("zo",
+    "ma",
+    "di",
+    "wo",
+    "do",
+    "vr",
+    "za",
+    "zo");
 
 Calendar._MN = new Array
-("Januari",
- "Februari",
- "Maart",
- "April",
- "Mei",
- "Juni",
- "Juli",
- "Augustus",
- "September",
- "Oktober",
- "November",
- "December");
+("januari",
+    "februari",
+    "maart",
+    "april",
+    "mei",
+    "juni",
+    "juli",
+    "augustus",
+    "september",
+    "oktober",
+    "november",
+    "december");
+
+// short month names
+Calendar._SMN = new Array
+("jan",
+    "feb",
+    "maa",
+    "apr",
+    "mei",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "okt",
+    "nov",
+    "dec");
 
 // tooltips
 Calendar._TT = {};
