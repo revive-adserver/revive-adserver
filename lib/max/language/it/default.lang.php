@@ -1243,6 +1243,10 @@ $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 /* ------------------------------------------------------- */
 /* HTML5                                                   */
 /* ------------------------------------------------------- */
+$GLOBALS['strHtml5InvalidFileType'] = "Tipo di file non valido: %s";
+$GLOBALS['strHtml5MultipleIndexHtml'] = "Trovati più file 'index.html'";
+$GLOBALS['strHtml5NoHtml'] = "Nessun file '*.html' trovato";
+$GLOBALS['strHtml5MultipleHtml'] = "Trovati più file '*.html' per favore rinominare quello principale in 'index.html'";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
