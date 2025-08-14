@@ -1147,6 +1147,10 @@ $GLOBALS['strReportErrorMissingSheets'] = "Tidak ada lembar kerja yang dipilih u
 $GLOBALS['strReportErrorUnknownCode'] = "Kode kesalahan tidak diketahui #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 

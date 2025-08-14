@@ -1237,6 +1237,14 @@ $GLOBALS['strReportErrorMissingSheets'] = "Voor dit rapport is geen werkblad ges
 $GLOBALS['strReportErrorUnknownCode'] = "Onbekende foutcode #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+$GLOBALS['strHtml5InvalidFileType'] = "Ongeldig bestandstype: %s";
+$GLOBALS['strHtml5MultipleIndexHtml'] = "Meerdere 'index.html' bestanden gevonden";
+$GLOBALS['strHtml5NoHtml'] = "Geen '*.html' bestand gevonden";
+$GLOBALS['strHtml5MultipleHtml'] = "Meerdere '*.html' bestanden gevonden. Hernoem het hoofdbestand naar 'index.html'";
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 

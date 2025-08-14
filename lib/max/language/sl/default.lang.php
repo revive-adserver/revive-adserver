@@ -1140,6 +1140,10 @@ $GLOBALS['strReportErrorMissingSheets'] = "Noben delovni list ni bil izbran za p
 $GLOBALS['strReportErrorUnknownCode'] = "Neznana koda napake #";
 
 /* ------------------------------------------------------- */
+/* HTML5                                                   */
+/* ------------------------------------------------------- */
+
+/* ------------------------------------------------------- */
 /* Password strength                                       */
 /* ------------------------------------------------------- */
 
