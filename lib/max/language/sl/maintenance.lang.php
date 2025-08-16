@@ -62,6 +62,9 @@ $GLOBALS['strStorageExplaination'] = "	Slike, ki jih uporablja lokalna pasica, s
 
 // Security
 $GLOBALS['strSecurity'] = "Varnost";
+$GLOBALS['strSecurityOK'] = "Vaš brskalnik ni uspel pridobiti zaščitenih datotek, to je odlična novica!";
+$GLOBALS['strSecurityKO'] = "Vaš brskalnik je uspel pridobiti nekatere datoteke, do katerih ne bi smel imeti dostopa. Na primer:";
+$GLOBALS['strSecurityReadMore'] = "Kliknite tukaj za več informacij o tem, kako zaščititi svojo namestitev.";
 
 // Encoding
 $GLOBALS['strEncoding'] = "Šifriranje";

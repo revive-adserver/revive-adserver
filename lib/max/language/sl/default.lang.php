@@ -823,6 +823,8 @@ $GLOBALS['strGreaterThanZeroField'] = "Mora biti več kot 0";
 $GLOBALS['strXGreaterThanZeroField'] = "%s mora biti več kot 0";
 $GLOBALS['strXPositiveWholeNumberField'] = "%s mora biti pozitivno celo število";
 $GLOBALS['strInvalidWebsiteURL'] = "Napačen URL spletne strani";
+$GLOBALS['strUploadedRequired'] = "Datoteka je obvezna";
+$GLOBALS['strUploadedFileTooBig'] = "Naložena datoteka je prevelika. Preverite, da je manjša od %s bajtov";
 
 // Email
 $GLOBALS['strSirMadam'] = "Gospod/Gospa";
@@ -1097,6 +1099,7 @@ $GLOBALS['strBannerHasBeenAdded'] = "Pasica <a href='%s'>%s</a> je bila dodana";
 $GLOBALS['strBannerHasBeenUpdated'] = "Pasica <a href='%s'>%s</a> je bila posodobljena";
 $GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Naprednejše nastavitve pasice <a href='%s'>%s</a> so bile posodobljene";
 $GLOBALS['strBannerAclHasBeenUpdated'] = "Dostavne možnosti pasice <a href='%s'>%s</a> so bile posodobljene";
+$GLOBALS['strBannerAclHasBeenAppliedTo'] = "Dostavne možnosti pasice <a href='%s'>%s</a> so bile uporabljene za %d pasic";
 $GLOBALS['strBannerHasBeenDeleted'] = "Pasica <b>%s</b> je bila izbrisana";
 $GLOBALS['strBannersHaveBeenDeleted'] = "Vse izbrane pasice so bile izbrisane";
 $GLOBALS['strBannerHasBeenDuplicated'] = "Pasica <a href='%s'>%s</a> je bila kopirana v <a href='%s'>%s</a>";
@@ -1142,6 +1145,10 @@ $GLOBALS['strReportErrorUnknownCode'] = "Neznana koda napake #";
 /* ------------------------------------------------------- */
 /* HTML5                                                   */
 /* ------------------------------------------------------- */
+$GLOBALS['strHtml5InvalidFileType'] = "Neveljavna vrsta datoteke: %s";
+$GLOBALS['strHtml5MultipleIndexHtml'] = "Več datotek 'index.html' je bilo najdenih";
+$GLOBALS['strHtml5NoHtml'] = "Datoteka '*.html' ni najdena";
+$GLOBALS['strHtml5MultipleHtml'] = "Več datotek '*.html' je bilo najdenih, glavno preimenujte v 'index.html'";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
