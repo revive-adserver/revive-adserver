@@ -186,7 +186,10 @@ $GLOBALS['strDeliveryCaching'] = "Nastavitve dostavnega pomnilnika pasice";
 $GLOBALS['strDeliveryCacheLimit'] = "Čas med posodobitvami pomnilnika pasice (v sekundah)";
 $GLOBALS['strDeliveryCacheStore'] = "Tip hrambe pomnilnika dostavljanja pasice ";
 $GLOBALS['strPrivacySettings'] = "Nastavitve zasebnosti";
+$GLOBALS['strDisableViewerId'] = "Onemogoči piškotek ID gledalca";
 $GLOBALS['strDisableDeliveryCookies'] = 'Onemogoči piškotke za dostavo oglasov';
+$GLOBALS['strBannerFileSettings'] = 'Splošne nastavitve datoteke pasice';
+$GLOBALS['strMaxBannerFilesize'] = 'Največja velikost datoteke pasice (v bajtih, 0 pomeni neomejeno)';
 
 // General Settings
 $GLOBALS['generalSettings'] = "Globalne nastavitve sistema";
@@ -205,9 +208,11 @@ $GLOBALS['strShowBannerInfo'] = "Prikaži dodatne informacije o pasici na strani
 $GLOBALS['strShowCampaignPreview'] = "Prikaži predogled vseh pasic na strani <i>Pasice</i>";
 $GLOBALS['strShowBannerHTML'] = "Prikaži dejansko pasico namesto enostavne HTML kode pri predogledu HTML pasice";
 $GLOBALS['strShowBannerPreview'] = "Prikaži predogled pasice na vrhu strani, ki obravnavajo pasice";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "Privzeto uporabite WYSIWYG HTML urejevalnik pri ustvarjanju ali urejanju HTML pasic";
 $GLOBALS['strHideInactive'] = "Skrij neaktivne";
 $GLOBALS['strGUIShowMatchingBanners'] = "Prikaži ujemajoče pasice na strani <i>Pasica s povezavo</i>";
 $GLOBALS['strGUIShowParentCampaigns'] = "Prikaži izvorne kampanje na strani <i>Pasica s povezavo</i>";
+$GLOBALS['strShowEntityId'] = "Prikaži identifikatorje entitet";
 $GLOBALS['strStatisticsDefaults'] = "Statistika";
 $GLOBALS['strBeginOfWeek'] = "Začetek tedna";
 $GLOBALS['strPercentageDecimals'] = "Decimalke po odstotkih";
@@ -240,6 +245,8 @@ $GLOBALS['strBannerStorage'] = "Nastavitve hrambe pasic";
 
 // Campaign ECPM settings
 $GLOBALS['strEnableECPM'] = "Uporabite prioritete optimizirane glede na eCPM namesto prioritet, ki temeljijo na teži";
+$GLOBALS['strEnableContractECPM'] = "Uporabite prioritete optimizirane glede na eCPM namesto standardnih pogodbenih prioritet";
+$GLOBALS['strEnableECPMfromECPM'] = "(Če onemogočite to funkcijo, bodo nekatere vaše aktivne eCPM kampanje deaktivirane; za ponovno aktivacijo jih boste morali ročno posodobiti)";
 $GLOBALS['strInactivatedCampaigns'] = "Seznam kampanj, ki so postale neaktivne zaradi sprememb v preferencah:";
 
 // Statistics & Maintenance Settings
@@ -278,6 +285,8 @@ $GLOBALS['strGuiHeaderTextColor'] = "Barva besedila v header-ju";
 $GLOBALS['strGzipContentCompression'] = "Uporabi GZIP za stiskanje vsebine";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strNewPlatformHash'] = "Vaš novi Platform Hash je:";
+$GLOBALS['strPlatformHashInsertingError'] = "Napaka pri vstavljanju Platform Hash v podatkovno bazo";
 
 // Plugin Settings
 $GLOBALS['strPluginSettings'] = "Nastavitve vtičnika";

@@ -1235,6 +1235,10 @@ $GLOBALS['strReportErrorUnknownCode'] = "Unbekannter Fehler Nr. #";
 /* ------------------------------------------------------- */
 /* HTML5                                                   */
 /* ------------------------------------------------------- */
+$GLOBALS['strHtml5InvalidFileType'] = "Ungültiger Dateityp: %s";
+$GLOBALS['strHtml5MultipleIndexHtml'] = "Mehrere 'index.html' Dateien gefunden";
+$GLOBALS['strHtml5NoHtml'] = "Keine '*.html' Datei gefunden";
+$GLOBALS['strHtml5MultipleHtml'] = "Mehrere '*.html' Dateien gefunden, bitte umbenennen Sie die Hauptdatei in 'index.html'";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */

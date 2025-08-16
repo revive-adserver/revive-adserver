@@ -37,14 +37,19 @@ $GLOBALS['strIFrameRefreshAfter'] = "Osveži po";
 $GLOBALS['strIframeMakeTransparent'] = "Naredi I-Frame prozoren";
 
 // PopUp
+$GLOBALS['strPopUpImmediately'] = "Takoj";
+$GLOBALS['strPopUpOnClose'] = "Kadar se zapre stran";
 $GLOBALS['strPopUpAfterSec'] = "Po";
 $GLOBALS['strAutoCloseAfter'] = "Samodejno zapri po";
 $GLOBALS['strPopUpTop'] = "Začetna pozicija (zgoraj)";
 $GLOBALS['strPopUpLeft'] = "Začetna pozicija (levo)";
+$GLOBALS['strWindowOptions'] = "Možnosti okna";
 $GLOBALS['strShowToolbars'] = "Orodne vrstice";
 $GLOBALS['strShowLocation'] = "Lokacija";
+$GLOBALS['strShowMenubar'] = "Menu";
 $GLOBALS['strShowStatus'] = "Stanje";
 $GLOBALS['strWindowResizable'] = "Spremenljiva velikost";
+$GLOBALS['strShowScrollbars'] = "Drsniki";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Vstavi cache-busting kodo";
