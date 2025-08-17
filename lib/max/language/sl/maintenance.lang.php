@@ -140,6 +140,9 @@ $GLOBALS['strMenusCachedOk'] = "Menijskih pomnilnik je bil ponovno sestavljen";
 
 // Users
 $GLOBALS['strUserPasswords'] = "Gesla uporabnikov";
+$GLOBALS['strUserPasswordsExplaination'] = "Od različice 5.4 naprej, {$PRODUCT_NAME} shranjuje gesla v varnejši obliki.
+Uporabite to orodje, da preverite, ali imajo kateri uporabniki še vedno gesla shranjena v stari obliki, in da izbranim uporabnikom pošljete e-pošto, s katero jim omogočite nastavitev novega gesla.
+Orodje se lahko uporablja tudi za opomin novih uporabnikov, da naj nastavijo svoje prvo geslo.";
 $GLOBALS['strCheckUserPasswords'] = "Preveri gesla uporabnikov";
 $GLOBALS['strUserPasswordsEverythingOK'] = "Noben uporabnik ne potrebuje ponastavitve gesla, vse je v redu.";
 $GLOBALS['strUserPasswordsEmailsSent'] = "Elektronska sporočila za izbrane uporabnike so bila poslana.";

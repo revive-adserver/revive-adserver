@@ -74,6 +74,7 @@ $GLOBALS['strAdminCheckUpdates'] = "Samodejni preveri za posodobitve izdelka in 
 $GLOBALS['strAdminShareStack'] = "Delite tehnične informacije z OpenX ekipo pri nadaljnem razvoju in testiranju.";
 $GLOBALS['strNovice'] = "Zaradi varnostnih razlogov potrebujejo postopki o izbrisu potrditev";
 $GLOBALS['strUserlogEmail'] = "Beleži vsa odhodna e-poštna sporočila";
+$GLOBALS['strEnableDashboard'] = "Omogoči nadzorno ploščo";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Prosimo, omogočite <a href='account-settings-update.php'>Preveri za posodobitve</a> , če bi želeli uporabljati Nadzorno ploščo.";
 $GLOBALS['strTimezone'] = "Časovno področje";
 $GLOBALS['strEnableAutoMaintenance'] = "Samodejno izvrši vzdrževalna dela med dostavo, če načrtovana vzdrževalna dela niso omogočena";
@@ -259,6 +260,7 @@ $GLOBALS['strMaintenanceOI'] = "Presledek vzdrževalnega postopka (v minutah)";
 $GLOBALS['strPrioritySettings'] = "Prednostne nastavitve";
 $GLOBALS['strPriorityInstantUpdate'] = "Takoj posodobi oglasne prioritete po spremembi uporabniškega vmesnika (UI)";
 $GLOBALS['strDefaultImpConvWindow'] = "Privzeto časovno okno za konverzijo oglasnih prikazov (v sekundah)";
+$GLOBALS['strDefaultCliConvWindow'] = "Privzeto časovno okno za konverzijo po kliku na oglas (v sekundah)";
 $GLOBALS['strWarnLimit'] = "Pošlji opozorilo ko je število preostalih prikazov manjše kot navedeno tukaj";
 $GLOBALS['strWarnLimitDays'] = "Pošlji opozorilo ko je število preostalih dni manjše kot navedeno tukaj";
 $GLOBALS['strWarnAdmin'] = "Pošlji opozorilo administratorju, ko se kampanja bliža svojemu koncu";

@@ -316,7 +316,7 @@ $GLOBALS['strHiddenAd'] = "Oglas";
 $GLOBALS['strHiddenAdvertiser'] = "Oglaševalec";
 $GLOBALS['strHiddenTracker'] = "Sledilnik";
 $GLOBALS['strHiddenWebsite'] = "Spletna stran";
-$GLOBALS['strHiddenZone'] = "Področje";
+$GLOBALS['strHiddenZone'] = "Cona";
 $GLOBALS['strCampaignDelivery'] = "Dostava kampanje";
 $GLOBALS['strCompanionPositioning'] = "Spremljevalni položaj";
 $GLOBALS['strSelectUnselectAll'] = "Izberi / Odizberi vse";
@@ -331,7 +331,7 @@ $GLOBALS['strUnlinkingZonesProblem'] = "Prišlo je do težave pri odstranjevanju
 $GLOBALS['strZonesLinked'] = "področje(a) z povezavo";
 $GLOBALS['strZonesUnlinked'] = "področje(a) brez povezav";
 $GLOBALS['strZonesSearch'] = "Iskanje";
-$GLOBALS['strZonesSearchTitle'] = "Išči področja in spletne strani po imenih";
+$GLOBALS['strZonesSearchTitle'] = "Išči cone in spletne strani po imenih";
 $GLOBALS['strNoWebsitesAndZones'] = "Ni spletnih stranih in področij";
 $GLOBALS['strNoWebsitesAndZonesText'] = "z \"%s\" v imenu";
 $GLOBALS['strToLink'] = "za povezovanje";
@@ -339,7 +339,7 @@ $GLOBALS['strToUnlink'] = "za odstranitev povezave";
 $GLOBALS['strLinked'] = "Povezani";
 $GLOBALS['strAvailable'] = "Dosegljivi";
 $GLOBALS['strShowing'] = "Prikazovanje";
-$GLOBALS['strEditZone'] = "Uredi področje";
+$GLOBALS['strEditZone'] = "Uredi cono";
 $GLOBALS['strEditWebsite'] = "Uredi spletno stran";
 
 
@@ -406,6 +406,11 @@ $GLOBALS['strCampaignType'] = "Tip kampanje";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strContract'] = "Pogodba";
 $GLOBALS['strOverride'] = "Preglasitev";
+$GLOBALS['strOverrideInfo'] = "Preglasitvene kampanje so poseben tip kampanje, ki je namenjen
+    preglasitvi (tj. prevzemu prednosti) nad kampanjami tipa Preostalo in Pogodbena. Preglasitvene kampanje se običajno uporabljajo skupaj s
+    specifičnimi pravili ciljne skupine in/ali omejitvami prikazov, da se zagotovi, da se oglasi kampanje vedno prikazujejo na določenih
+    mestih, določenim uporabnikom in morda določeno število krat, kot del določene promocije. (Ta tip kampanje
+    je bil prej znan kot \"Pogodbena (Eksluzivna)\".)";
 $GLOBALS['strStandardContract'] = "Pogodba";
 $GLOBALS['strStandardContractInfo'] = "Pogodbene kampanje so namenjene gladkemu dostavljanju prikazov,
     ki so potrebni za doseg določenih časovno kritičnih ciljev uspešnosti. To pomeni, da so Pogodbene kampanje namenjene primerom, ko
@@ -607,10 +612,10 @@ $GLOBALS['strCountry'] = "Država";
 $GLOBALS['strWebsiteZones'] = "Področja spletne strani";
 
 // Zone
-$GLOBALS['strZone'] = "Področje";
-$GLOBALS['strZones'] = "Področja";
-$GLOBALS['strAddNewZone'] = "Dodaj novo področje";
-$GLOBALS['strAddNewZone_Key'] = "Dodaj <u>n</u>ovo področje";
+$GLOBALS['strZone'] = "Cona";
+$GLOBALS['strZones'] = "Cone";
+$GLOBALS['strAddNewZone'] = "Dodaj novo cono";
+$GLOBALS['strAddNewZone_Key'] = "Dodaj <u>n</u>ovo cono";
 $GLOBALS['strZoneToWebsite'] = "k spletni strani";
 $GLOBALS['strLinkedZones'] = "Področja z povezavami";
 $GLOBALS['strAvailableZones'] = "Razpoložljivih področij";
@@ -1025,20 +1030,73 @@ $GLOBALS['strPwdRecWrongExpired'] = "Napačna ali potekla povezava za ponastavit
 $GLOBALS['strPwdRecEnterEmail'] = "Spodaj vpišite naslov svoje elektronske pošte";
 $GLOBALS['strPwdRecEnterPassword'] = "Spodaj vpišite vaše novo geslo";
 $GLOBALS['strProceed'] = "Nadaljuj >";
+$GLOBALS['strNotifyPageMessage'] = "E-pošta je bila poslana na vaš naslov in vsebuje povezavo 
+                                         za ponastavitev gesla in prijavo.<br />Počakajte nekaj minut, da e-pošta prispe.<br />
+                                         Če e-pošte ne prejmete, preverite tudi mapo z neželeno pošto (spam).<br />
+                                         <a href=\"index.php\">Vrnitev na prijavno stran.</a>";
 
 // Password recovery - Default
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Ponastavite svoje %s geslo";
+$GLOBALS['strPwdRecEmailBody'] = "Spoštovani {name},
+
+Vi ali nekdo, ki se izdaja za vas, ste nedavno zahtevali ponastavitev gesla za vaš {application_name} račun.
+
+Če ste zahtevo poslali vi, lahko geslo za uporabniško ime '{username}' ponastavite s klikom na naslednjo povezavo:
+
+{reset_link}
+
+Če ste zahtevo za ponastavitev gesla poslali pomotoma ali je niste poslali sami, to e-pošto preprosto ignorirajte. Vaše geslo ni bilo spremenjeno, povezava za ponastavitev gesla pa bo samodejno potekla.
+
+Če boste še naprej prejemali e-pošto za ponastavitev gesla, to lahko pomeni, da nekdo poskuša pridobiti dostop do vašega računa. V tem primeru se obrnite na podporo ali sistemskega administratorja za vaš {application_name} sistem in jih obvestite o situaciji.
+
+{admin_signature}";
 
 $GLOBALS['strPwdRecEmailSincerely'] = "S spoštovanjem,";
 
 // Password recovery - Welcome email
 $GLOBALS['strWelcomeEmailSubject'] = "Dobrodošli v %s: nastavite svoje geslo";
+$GLOBALS['strWelcomeEmailBody'] = "Spoštovani {name},
+
+Za vas je bil ustvarjen uporabniški račun, ki vam omogoča prijavo v {application_name}.
+
+Vaše uporabniško ime je '{username}'.
+
+Zaradi varnosti geslo za vaš račun še ni določeno.
+
+Za nastavitev gesla kliknite na naslednjo povezavo:
+
+{reset_link}
+
+Prosimo, poskrbite, da boste izbrali varno in unikatno geslo.
+
+{admin_signature}";
 
 // Password recovery - Hash update
 $GLOBALS['strPasswordUpdateEmailSubject'] = "Nastavite novo geslo za uporabnika %s";
+$GLOBALS['strPasswordUpdateEmailBody'] = "Spoštovani {name},
+
+To e-pošto prejemate, ker imate uporabniški račun na {application_name}.
+
+Pred kratkim je bila programska oprema {application_name} posodobljena na novo različico, ki uvaja sodoben in veliko varnejši način preverjanja gesel uporabnikov. Ta sprememba pomaga, da je {application_name} bolj varen za vas in vse druge uporabnike.
+
+Da boste lahko v celoti izkoristili izboljšavo, je vaše trenutno geslo onemogočeno. Vabimo vas, da zdaj nastavite novo geslo. Med vnosom novega gesla boste videli barvno vrstico, ki prikazuje, kako močno je geslo. Prosimo, da izberete varno in unikatno geslo.
+
+Za nastavitev novega gesla za vaše uporabniško ime '{username}' kliknite na naslednjo povezavo:
+
+{reset_link}
+
+Za večjo varnost bo zgornja povezava čez nekaj časa potekla. Če povezava ne bo več veljavna, boste morali vnesti svoj e-poštni naslov in začeti običajen postopek ponastavitve gesla.
+
+Hvala, ker pomagate, da je {application_name} varnejši za vse!
+
+{admin_signature}";
 
 // Password reset warning
 $GLOBALS['strPasswordResetRequiredTitle'] = "Pomembno obvestilo o izboljšani varnosti gesel";
+$GLOBALS['strPasswordResetRequired'] = "Pred kratkim je bila programska oprema {$PRODUCT_NAME} posodobljena na novo različico, ki uvaja sodobnejši in veliko varnejši način shranjevanja gesel. Da se boste lahko prijavili in nadaljevali z uporabo {$PRODUCT_NAME}, morate najprej nastaviti novo geslo.
+Preverite svoj e-poštni predal za ponastavitev gesla!
+E-pošta za ponastavitev gesla je bila poslana na naslov, povezan z vašim uporabniškim imenom. Odprite e-pošto in kliknite na povezavo v njej. S tem se bo odprlo okno, kjer lahko vnesete novo geslo.
+Lahko traja nekaj minut, da prejmete e-pošto. Če e-pošte ne najdete v vašem poštnem predalu, preverite tudi mapo z neželeno pošto (spam).";
 $GLOBALS['strPasswordUnsafeWarning'] = "Vaše geslo ni dovolj varno. Prosimo, <a href='%s'>spremenite ga</a> čim prej.";
 
 // Audit
@@ -1067,6 +1125,10 @@ $GLOBALS['strCampaignAuditNotActivated'] = "<li>Če bi želeli pregledati katere
 $GLOBALS['strCampaignAuditTrailSetup'] = "Aktiviraj Pregledno pot za ogled Kampanj";
 
 $GLOBALS['strUnsavedChanges'] = "Na tej strani imate neshranjene spremembe. Ko boste končali, kliknite na \"Shrani spremebe\"";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "OPOZORILO: Predpomnjena pravila dostave se <strong>NE UJEMAJO</strong> s spodaj prikazanimi pravili dostave.<br />Prosimo, kliknite Shrani spremembe, da posodobite predpomnjena pravila dostave";
+$GLOBALS['strDeliveryRulesDbError'] = "OPOZORILO: Pri shranjevanju pravil dostave je prišlo do napake v podatkovni bazi. Prosimo, previdno preverite spodnja pravila dostave in jih po potrebi posodobite.";
+$GLOBALS['strDeliveryRulesTruncation'] = "OPOZORILO: Pri shranjevanju pravil dostave je MySQL podatke skrajšal, zato so bile prvotne vrednosti obnovljene. Prosimo, zmanjšajte velikost svojih pravil in poskusite znova.";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "Nekatera pravila dostave poročajo o napačnih vrednostih:";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "Zdaj delujte kot <b>%s</b>";
@@ -1114,6 +1176,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "Spletna stran <a href='%s'>%s</a> je bila 
 $GLOBALS['strWebsiteHasBeenUpdated'] = "Spletna stran <a href='%s'>%s</a> je bila posodobljena";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Spletna stran <b>%s</b> je bila izbrisana";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "Vse izbrane spletne strani so bile izbrisane";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "Spletna stran <a href='%s'>%s</a> je bila kopirana v <a href='%s'>%s</a>";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Področje <a href='%s'>%s</a> je bilo dodano";
 $GLOBALS['strZoneHasBeenUpdated'] = "Področje <a href='%s'>%s</a> je bilo posodobljeno";
@@ -1127,6 +1190,9 @@ $GLOBALS['strZoneLinkedCampaign'] = "Kampanja je bila povezana v področje <a hr
 $GLOBALS['strZoneRemovedBanner'] = "Pasica več ni povezana v področje <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "Kampanja več ni povezana v področje <a href='%s'>%s</a>";
 
+$GLOBALS['strChannelHasBeenAdded'] = "Nabor pravil dostave <a href='%s'>%s</a> je bil dodan. <a href='%s'>Nastavite pravila dostave.</a>";
+$GLOBALS['strChannelHasBeenUpdated'] = "Nabor pravil dostave <a href='%s'>%s</a> je bil posodobljen";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "Dostavne možnosti nabora pravil dostave <a href='%s'>%s</a> so bile posodobljene";
 $GLOBALS['strChannelHasBeenDeleted'] = "Nabor pravil dostave <b>%s</b> je bil izbrisan";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Vsi izbrani nabori pravil dostave so bili izbrisani";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Nabor pravil dostave <a href='%s'>%s</a> je bil kopiran v <a href='%s'>%s</a>";
