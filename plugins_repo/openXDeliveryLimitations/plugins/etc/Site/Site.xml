@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides the ability to target delivery of ads by site.</description>
-    <version>6.0.0</version>
+    <version>6.0.1</version>
     <oxversion>6.0.0-dev</oxversion>
     <extends>deliveryLimitations</extends>
 
