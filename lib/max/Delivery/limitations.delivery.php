@@ -488,10 +488,10 @@ function MAX_limitationsSetCountry(&$aData, $sCountry)
  * @param $value The string to search with the non-delimited regular
  *               expression
  */
-function _safe_preg_match($limitation, $value)
+function _safe_preg_match($limitation, $value): bool
 {
     if (strlen($limitation) < 10000) {
-        return preg_match(_getSRegexpDelimited($limitation), $value);
+        return (bool) preg_match(_getSRegexpDelimited($limitation), $value);
     } else {
         $limitationMiddle = floor(strlen($limitation) / 2);
         $limitationSplitPoint = strpos($limitation, '|', $limitationMiddle);

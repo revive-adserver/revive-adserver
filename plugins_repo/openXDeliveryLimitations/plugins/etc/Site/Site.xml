@@ -4,14 +4,14 @@
 <plugin>
     <name>Site</name>
     <displayName>Site Delivery Rules Plugin</displayName>
-    <creationDate>2025-07-03</creationDate>
+    <creationDate>2025-08-20</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides the ability to target delivery of ads by site.</description>
-    <version>5.0.16</version>
-    <oxversion>4.1.0-dev</oxversion>
+    <version>6.0.0</version>
+    <oxversion>6.0.0-dev</oxversion>
     <extends>deliveryLimitations</extends>
 
     <install>

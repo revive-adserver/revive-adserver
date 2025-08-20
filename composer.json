@@ -26,35 +26,42 @@
         }
     },
     "require": {
+        "ext-intl": "*",
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
         "ext-tokenizer": "*",
         "ext-xml": "*",
         "ext-zip": "*",
+        "bower-asset/tinymce": "^5.9",
+        "bower-asset/zxcvbn": "^4.4",
+        "guzzlehttp/guzzle": "^7.8",
+        "jeremykendall/php-domain-parser": "^6.0",
+        "league/flysystem": "^1.0",
+        "league/flysystem-ziparchive": "^1.0",
+        "maxmind-db/reader": "^1.3",
+        "sinergi/browser-detector": "^6.0",
+        "slowprog/composer-copy-file": "^0.3.3",
+        "symfony/cache": "^6.4",
         "symfony/config": "^6.4",
         "symfony/console": "^6.4",
         "symfony/dependency-injection": "^6.4",
         "symfony/finder": "^6.4",
         "symfony/http-foundation": "^6.4",
-        "league/flysystem": "^1.0",
-        "league/flysystem-ziparchive": "^1.0",
-        "sinergi/browser-detector": "^6.0",
-        "jeremykendall/php-domain-parser": "~2.0",
-        "guzzlehttp/guzzle": "^7.8",
         "symfony/polyfill-ctype": "^1.23",
-        "bower-asset/zxcvbn": "^4.4",
-        "bower-asset/tinymce": "^5.9",
-        "maxmind-db/reader": "^1.3",
-        "slowprog/composer-copy-file": "^0.3.3"
+        "psr/simple-cache": "^3.0"
     },
     "require-dev": {
-        "phpstan/phpstan": "^2.0",
-        "rector/rector": "^2.0",
-        "symplify/easy-coding-standard": "^12.1",
         "phpcompatibility/php-compatibility": "dev-develop",
         "phpcsstandards/phpcsutils": "^1.0",
-        "phpunit/php-code-coverage": "^10.1"
+        "phpstan/phpstan": "^2.0",
+        "phpunit/php-code-coverage": "^10.1",
+        "rector/rector": "^2.0",
+        "symplify/easy-coding-standard": "^12.1"
+    },
+    "provide": {
+        "symfony/polyfill-intl-icu": "*",
+        "symfony/polyfill-intl-idn": "*"
     },
     "repositories": [
         {
@@ -66,6 +73,10 @@
         "copy-file": {
             "lib/vendor/bower-asset/tinymce#((\\.min|index)\\.(js|css)|\\.(eot|ttf|svg|woff))$": "www/admin/assets/tinymce/?",
             "lib/vendor/bower-asset/zxcvbn/dist#\\.js(.map)?$": "www/admin/assets/js/?"
+        },
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.4.*"
         }
     },
     "scripts" :{

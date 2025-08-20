@@ -451,6 +451,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager->aInfo['PHP']['actual']['json'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['intl'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
         // Return the valid OA_Environment_Manager instance
         return $oEnvironmentManager;
@@ -481,6 +482,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['json']), in_array('json', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zip']), in_array('zip', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['tokenizer']), in_array('tokenizer', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['intl']), in_array('intl', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
     }
 

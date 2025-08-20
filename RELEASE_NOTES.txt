@@ -159,6 +159,8 @@ Non-Backwards Compatible Changes
  * Removed the legacy "Client - Browser (Deprecated)" and "Client - Operating
    System (Deprecated)" delivery rules.
 
+ * The "intl" PHP extension is now required in order to run Revive Adserver.
+
 
 Community Contributions
 ------------------------

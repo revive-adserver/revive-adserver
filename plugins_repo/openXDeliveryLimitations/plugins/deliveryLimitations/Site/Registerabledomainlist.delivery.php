@@ -33,10 +33,14 @@ function MAX_checkSite_Registerabledomainlist($limitation, $op, $aParams = [])
     if ($limitation == '') {
         return true;
     }
-    $url = empty($aParams) ? $GLOBALS['loc'] : $aParams['loc'];
+
+    $url = $aParams['loc'] ?? $GLOBALS['loc'] ?? '';
+
     $hostname = @parse_url($url, PHP_URL_HOST);
-    if ($hostname === false) {
+
+    if (empty($hostname)) {
         return false;
     }
+
     return MAX_limitationsMatchStringValue($hostname, $limitation, $op);
 }

@@ -63,7 +63,6 @@ class Test_postscript_5_0_0_beta_rc1 extends MigrationTest
         $migration->oUpgrade = new OA_Upgrade();
 
         $method = new \ReflectionMethod('RV_UpgradePostscript_5_0_0_beta_rc1', 'migrateConfiguration');
-        $method->setAccessible(true);
 
         // No geotargeting type change
         $GLOBALS['_MAX']['CONF']['geotargeting']['type'] = 'foo:bar';

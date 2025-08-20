@@ -33,14 +33,20 @@ function MAX_checkSite_Hostnamelist($limitation, $op, $aParams = [])
     if ($limitation == '') {
         return true;
     }
-    $url = empty($aParams) ? $GLOBALS['loc'] : $aParams['loc'];
+
+    $url = $aParams['loc'] ?? $GLOBALS['loc'] ?? '';
+
     $hostname = @parse_url($url, PHP_URL_HOST);
-    if ($hostname === false) {
+
+    if (empty($hostname)) {
         return false;
     }
+
     $aLookup = unserialize($limitation);
-    if ($op == '=~' && isset($aLookup[$hostname])) {
+
+    if ($op === '=~' && isset($aLookup[$hostname])) {
         return true;
     }
-    return $op == '!~' && !isset($aLookup[$hostname]);
+
+    return $op === '!~' && !isset($aLookup[$hostname]);
 }

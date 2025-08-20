@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+use RV\Parser\DomainParser;
+
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
 require_once RV_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -67,17 +69,17 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
         // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
         echo "<div style=\"float: left;\">" .
-                "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
-                  htmlspecialchars($this->data ?? "") .
-                "</textarea>" .
+            "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
+            htmlspecialchars($this->data ?? "") .
+            "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .
-              "<p>" . $this->translate('Enter domains below to remove matching entries from the list') . "</p>" .
-              "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'></textarea>" .
-              "<br /><br />" .
-              "<input id='removeDomains' type='button' value='" . $this->translate('Remove Domains') . "' onclick='deliveryRules_Site_UpdateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
-              "<br /><br />" .
-              "<div id='removeMessage{$this->executionorder}'></div>" .
+            "<p>" . $this->translate('Enter domains below to remove matching entries from the list') . "</p>" .
+            "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'></textarea>" .
+            "<br /><br />" .
+            "<input id='removeDomains' type='button' value='" . $this->translate('Remove Domains') . "' onclick='deliveryRules_Site_UpdateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
+            "<br /><br />" .
+            "<div id='removeMessage{$this->executionorder}'></div>" .
             "</div>";
     }
 
@@ -89,11 +91,11 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     public function _displayIntlMissingWarning()
     {
         echo "<div class='errormessage' style='width: 50%;'>" .
-                "<img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>" .
-                "<span class='tab-r'>" .
-                    $this->translate('WARNING') . ": " .
-                    $this->translate('The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed.') .
-                "</span>" .
+            "<img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>" .
+            "<span class='tab-r'>" .
+            $this->translate('WARNING') . ": " .
+            $this->translate('The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed.') .
+            "</span>" .
             "</div>";
     }
 
@@ -114,18 +116,15 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      */
     public function _preCompile($sData)
     {
-        $aData = explode("\n", $sData);
-        $aCompiledData = [];
-        foreach ($aData as $key => $registerableDomain) {
-            $registerableDomain = trim($registerableDomain);
-            if (extension_loaded('intl')) {
-                $registerableDomain = idn_to_ascii($registerableDomain);
-            }
-            $registerableDomain .= '\z';
-            $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
-            $aCompiledData[] = $registerableDomain;
-        }
-        return implode('|', $aCompiledData);
+        $aData = explode("\n", $this->_sanitiseData($sData));
+        $aData = array_map('idn_to_ascii', $aData);
+
+        $aData = array_map(
+            fn(string $domain) => preg_replace('/\./', '\\\.', $domain . '\z'),
+            $aData,
+        );
+
+        return implode('|', $aData);
     }
 
     /**
@@ -171,25 +170,16 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      */
     public function _sanitiseData($data)
     {
-        $aData = explode("\n", $data);
-        $aSanitisedData = [];
-        if (extension_loaded('intl')) {
-            $oPslManager = new Pdp\PublicSuffixListManager();
-            $oParser = new Pdp\Parser($oPslManager->getList());
-            foreach ($aData as $key => $url) {
-                $url = trim($url);
-                $url = strtolower($url);
-                $oHost = $oParser->parseHost($url);
-                if ($oHost !== false) {
-                    $registerableDomain = $oHost->registerableDomain;
-                    if (is_string($registerableDomain) && strlen($registerableDomain)) {
-                        $aSanitisedData[] = $registerableDomain;
-                    }
-                }
-            }
-            $aSanitisedData = array_unique($aSanitisedData);
-            sort($aSanitisedData);
+        /** @var DomainParser $oParser */
+        $oParser = RV_getContainer()->get('domain.parser');
+
+        $aData = [];
+        foreach (explode("\n", $data) as $domain) {
+            $aData[] = $oParser->getRegistrableDomain('http://' . trim($domain));
         }
-        return implode("\n", $aSanitisedData);
+
+        $aData = array_unique(array_filter($aData));
+
+        return implode("\n", $aData);
     }
 }

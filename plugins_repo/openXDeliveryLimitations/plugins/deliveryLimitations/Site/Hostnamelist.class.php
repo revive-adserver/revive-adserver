@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+use RV\Parser\DomainParser;
+
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
 require_once RV_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -38,7 +40,6 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
             '=~' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these hostnames', $this->extension, $this->group),
             '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $this->extension, $this->group),
         ];
-        $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Hostname List';
     }
 
@@ -47,11 +48,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
      */
     public function displayData()
     {
-        if (extension_loaded('intl')) {
-            $this->_displayMainUI();
-        } else {
-            $this->_displayIntlMissingWarning();
-        }
+        $this->_displayMainUI();
     }
 
     /**
@@ -67,33 +64,17 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
         // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
         echo "<div style=\"float: left;\">" .
-                "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
-                  htmlspecialchars($this->data ?? "") .
-                "</textarea>" .
+            "<textarea rows='40' cols='70' name='acl[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'>" .
+            htmlspecialchars($this->data ?? "") .
+            "</textarea>" .
             "</div>" .
             "<div style=\"margin-left: 15px; float: left;\">" .
-              "<p>" . $this->translate('Enter hostnames below to remove matching entries from the list') . "</p>" .
-              "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'></textarea>" .
-              "<br /><br />" .
-              "<input id='removeDomains' type='button' value='" . $this->translate('Remove Hostnames') . "' onclick='deliveryRules_Site_UpdateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
-              "<br /><br />" .
-              "<div id='removeMessage{$this->executionorder}'></div>" .
-            "</div>";
-    }
-
-    /**
-     * A private method for displaying the UI for the delivery rule when
-     * the PHP intil extension is not loaded, and the delivery rule is not
-     * able to be used.
-     */
-    public function _displayIntlMissingWarning()
-    {
-        echo "<div class='errormessage' style='width: 50%;'>" .
-                "<img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>" .
-                "<span class='tab-r'>" .
-                    $this->translate('WARNING') . ": " .
-                    $this->translate('The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed.') .
-                "</span>" .
+            "<p>" . $this->translate('Enter hostnames below to remove matching entries from the list') . "</p>" .
+            "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='" . ($tabindex++) . "'></textarea>" .
+            "<br /><br />" .
+            "<input id='removeDomains' type='button' value='" . $this->translate('Remove Hostnames') . "' onclick='deliveryRules_Site_UpdateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
+            "<br /><br />" .
+            "<div id='removeMessage{$this->executionorder}'></div>" .
             "</div>";
     }
 
@@ -112,15 +93,14 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
      */
     public function _preCompile($sData)
     {
-        $aData = explode("\n", $sData);
+        $aData = explode("\n", $this->_sanitiseData($sData));
+        $aData = array_map('idn_to_ascii', $aData);
+
         $aCompiledData = [];
-        foreach ($aData as $key => $hostname) {
-            $hostname = trim($hostname);
-            if (extension_loaded('intl')) {
-                $hostname = idn_to_ascii($hostname);
-            }
+        foreach ($aData as $hostname) {
             $aCompiledData[$hostname] = true;
         }
+
         return serialize($aCompiledData);
     }
 
@@ -149,16 +129,10 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     /**
      * A local private method to sanitise the registerable domain data.
      *
-     *  For each URL input line:
-     *  - Trims whitespace;
-     *  - Converts to lowercase;
-     *  - Parses the line as a URL, considering only the host;
-     *      - If the result of parsing is false, the URL was badly broken,
-     *        so the line is ignored;
-     *      - Otherwise, if a hostname was located in the URL, then
-     *        the line is added to the output list;
-     *  - Deduplicates the list of hostnames; and
-     *  - Sorts the hostnames into ascending order.
+     *  What it does:
+     *  - Parses the list of URLs / hostnames;
+     *  - Filters out invalid hostnames;
+     *  - Deduplicates and sorts the list.
      *
      * @param string $data A "\n" separated string of input hostnames
      *                      and/or URLs.
@@ -166,27 +140,16 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
      */
     public function _sanitiseData($data)
     {
-        $aData = explode("\n", $data);
-        $aSanitisedData = [];
-        if (extension_loaded('intl')) {
-            $oPslManager = new Pdp\PublicSuffixListManager();
-            $oParser = new Pdp\Parser($oPslManager->getList());
-            foreach ($aData as $key => $url) {
-                $url = trim($url);
-                $url = strtolower($url);
-                $hostname = @parse_url($url, PHP_URL_HOST);
-                if (is_string($hostname) && strlen($hostname)) {
-                    $aSanitisedData[] = $hostname;
-                } else {
-                    $hostname = @parse_url('http://' . $url, PHP_URL_HOST);
-                    if (is_string($hostname) && strlen($hostname)) {
-                        $aSanitisedData[] = $hostname;
-                    }
-                }
-            }
-            $aSanitisedData = array_unique($aSanitisedData);
-            sort($aSanitisedData);
+        /** @var DomainParser $oParser */
+        $oParser = RV_getContainer()->get('domain.parser');
+
+        $aData = [];
+        foreach (explode("\n", $data) as $domain) {
+            $aData[] = $oParser->getHostname('http://' . trim($domain));
         }
-        return implode("\n", $aSanitisedData);
+
+        $aData = array_unique(array_filter($aData));
+
+        return implode("\n", $aData);
     }
 }
