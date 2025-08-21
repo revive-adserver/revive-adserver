@@ -4,13 +4,13 @@
 <plugin>
     <name>Geo</name>
     <displayName>Geotargeting Delivery Rules Plugin</displayName>
-    <creationDate>2025-08-20</creationDate>
+    <creationDate>2025-08-21</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides the ability to target delivery of ads by geographic location.</description>
-    <version>6.0.1</version>
+    <version>6.0.2</version>
     <oxversion>5.0.0-dev</oxversion>
     <extends>deliveryLimitations</extends>
 
