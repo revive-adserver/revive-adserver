@@ -48,6 +48,10 @@ $listorder = MAX_getStoredValue('listorder', 'name');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $submit = MAX_getValue('submit');
 
+// Get zone filter parameters
+$zoneFilterWebsite = MAX_commonGetValue('filterWebsite');
+$zoneFilterZone = MAX_commonGetValue('filterZone');
+
 // Initialise some parameters
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
@@ -62,6 +66,37 @@ if (isset($submit)) {
     $prioritise = false;
     $error = false;
     $aPreviousZones = Admin_DA::getAdZones(['ad_id' => $bannerId]);
+
+    // Filter out the previous zones array to account for filters
+
+    $aPreviousZones = array_filter(
+            $aPreviousZones,
+            function ($aAdZone) use ($zoneFilterWebsite, $zoneFilterZone)
+            {
+                $aZone = Admin_DA::getZone($aAdZone['zone_id']);
+
+                if (!empty($zoneFilterZone))
+                {
+                    if (!strstr($aZone['name'], $zoneFilterZone))
+                    {
+                        return false;
+                    }
+                }
+
+                if (!empty($zoneFilterWebsite))
+                {
+                    $publisher = Admin_DA::getPublisher($aZone['publisher_id']);
+
+                    if (!strstr($publisher['name'], $zoneFilterWebsite))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+    );
+
     $aDeleteZones = [];
 
     // First, remove any zones that should be deleted.
@@ -161,6 +196,55 @@ if ($aAd['type'] == 'txt') {
 $aPublishers = Admin_DA::getPublishers($aParams, true);
 $aLinkedZones = Admin_DA::getAdZones(['ad_id' => $bannerId], false, 'zone_id');
 
+if (!empty($aPublishers))
+{
+    MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
+    $i = 0;
+
+    //select all checkboxes
+    $publisherIdList = '';
+    foreach ($aPublishers as $publisherId => $aPublisher) {
+        $publisherIdList .= $publisherId . '|';
+    }
+}
+
+if(!$error)
+{
+    echo "<br/><br/>";
+}
+
+?>
+
+<section style="display: flex; gap: 10px; justify-content: space-between">
+
+    <span style="display: flex; gap: 5px; align-items: center;">
+        <input type='checkbox' id='selectAllField' onClick='toggleAllZones(<?= "\"" . $publisherIdList . "\"" ?>);'>
+        <label for='selectAllField'><?= $GLOBALS["strSelectUnselectAll"] ?></label>
+    </span>
+
+    <form action="<?= $pageName; ?>" method="get" style="display: flex; justify-content: left; gap: 10px;">
+        <input type='hidden' name='clientid' value='<?=$advertiserId ?>'>
+        <input type='hidden' name='campaignid' value='<?= $campaignId ?>'>
+        <input type='hidden' name='bannerid' value='<?= $bannerId ?>'>
+
+        <div>
+            <label for="filter-website" class="inlineIcon iconWebsiteFilter"><?= $GLOBALS["strWebsite"] ?>:&nbsp;</label>
+            <input type="text" name="filterWebsite" id="filter-website" placeholder="website.com" value="<?= $zoneFilterWebsite ?>">
+        </div>
+
+       <div>
+           <label for="filter-zone" class="inlineIcon iconZoneFilter"><?= $GLOBALS["strZone"] ?>:&nbsp;</label>
+           <input type="text" name="filterZone" id="filter-zone" placeholder="Homepage" value="<?= $zoneFilterZone ?>">
+       </div>
+
+        <div>
+            <input type="submit" value="<?= $GLOBALS["strZonesSearch"] ?>">
+        </div>
+    </form>
+</section>
+
+<?php
+
 echo "
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 <form name='zones' action='$pageName' method='post'>
@@ -168,6 +252,14 @@ echo "
 <input type='hidden' name='campaignid' value='$campaignId'>
 <input type='hidden' name='bannerid' value='$bannerId'>
 <input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>";
+
+// Include filter parameters
+?>
+
+<input type='hidden' name='filterWebsite' value='<?= $zoneFilterWebsite ?>'>
+<input type='hidden' name='filterZone' value='<?= $zoneFilterZone ?>'>
+
+<?php
 
 MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
@@ -181,26 +273,42 @@ if ($error) {
     echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
     echo "<span class='tab-r'> {$GLOBALS['strUnableToLinkBanner']}</span><br /><br />";
     echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $errorMoreInformation . "</div><br />";
-} else {
-    echo "<br /><br />";
 }
+
+// Filter out websites by name
+$aPublishers = array_filter(
+        $aPublishers,
+        function ($aPublisher) use ($zoneFilterWebsite)
+        {
+            if(!empty($zoneFilterWebsite))
+            {
+                return strstr($aPublisher['name'], $zoneFilterWebsite);
+            }
+
+            return true;
+        }
+);
 
 $zoneToSelect = false;
 if (!empty($aPublishers)) {
-    MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
-    $i = 0;
-
-    //select all checkboxes
-    $publisherIdList = '';
-    foreach ($aPublishers as $publisherId => $aPublisher) {
-        $publisherIdList .= $publisherId . '|';
-    }
-
-    echo "<input type='checkbox' id='selectAllField' onClick='toggleAllZones(\"" . $publisherIdList . "\");'><label for='selectAllField'>" . $strSelectUnselectAll . "</label>";
-
     foreach ($aPublishers as $publisherId => $aPublisher) {
         $publisherName = $aPublisher['name'];
         $aZones = Admin_DA::getZones($aParams + $aExtraParams + ['publisher_id' => $publisherId], true);
+
+        // Filter out zones by name
+        $aZones = array_filter(
+                $aZones,
+                function ($aZone) use ($zoneFilterZone)
+                {
+                    if(!empty($zoneFilterZone))
+                    {
+                        return strstr($aZone['name'], $zoneFilterZone);
+                    }
+
+                    return true;
+                }
+        );
+
         if (!empty($aZones)) {
             $zoneToSelect = true;
             $bgcolor = ($i % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
