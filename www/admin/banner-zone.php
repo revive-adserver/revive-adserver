@@ -70,31 +70,26 @@ if (isset($submit)) {
     // Filter out the previous zones array to account for filters
 
     $aPreviousZones = array_filter(
-            $aPreviousZones,
-            function ($aAdZone) use ($zoneFilterWebsite, $zoneFilterZone)
-            {
-                $aZone = Admin_DA::getZone($aAdZone['zone_id']);
+        $aPreviousZones,
+        function ($aAdZone) use ($zoneFilterWebsite, $zoneFilterZone) {
+            $aZone = Admin_DA::getZone($aAdZone['zone_id']);
 
-                if (!empty($zoneFilterZone))
-                {
-                    if (!strstr($aZone['name'], $zoneFilterZone))
-                    {
-                        return false;
-                    }
+            if (!empty($zoneFilterZone)) {
+                if (!strstr($aZone['name'], (string) $zoneFilterZone)) {
+                    return false;
                 }
-
-                if (!empty($zoneFilterWebsite))
-                {
-                    $publisher = Admin_DA::getPublisher($aZone['publisher_id']);
-
-                    if (!strstr($publisher['name'], $zoneFilterWebsite))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
             }
+
+            if (!empty($zoneFilterWebsite)) {
+                $publisher = Admin_DA::getPublisher($aZone['publisher_id']);
+
+                if (!strstr($publisher['name'], (string) $zoneFilterWebsite)) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
     );
 
     $aDeleteZones = [];
@@ -196,8 +191,7 @@ if ($aAd['type'] == 'txt') {
 $aPublishers = Admin_DA::getPublishers($aParams, true);
 $aLinkedZones = Admin_DA::getAdZones(['ad_id' => $bannerId], false, 'zone_id');
 
-if (!empty($aPublishers))
-{
+if (!empty($aPublishers)) {
     MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
     $i = 0;
 
@@ -208,8 +202,7 @@ if (!empty($aPublishers))
     }
 }
 
-if(!$error)
-{
+if (!$error) {
     echo "<br/><br/>";
 }
 
@@ -277,16 +270,14 @@ if ($error) {
 
 // Filter out websites by name
 $aPublishers = array_filter(
-        $aPublishers,
-        function ($aPublisher) use ($zoneFilterWebsite)
-        {
-            if(!empty($zoneFilterWebsite))
-            {
-                return strstr($aPublisher['name'], $zoneFilterWebsite);
-            }
-
-            return true;
+    $aPublishers,
+    function ($aPublisher) use ($zoneFilterWebsite) {
+        if (!empty($zoneFilterWebsite)) {
+            return strstr($aPublisher['name'], (string) $zoneFilterWebsite);
         }
+
+        return true;
+    },
 );
 
 $zoneToSelect = false;
@@ -297,16 +288,14 @@ if (!empty($aPublishers)) {
 
         // Filter out zones by name
         $aZones = array_filter(
-                $aZones,
-                function ($aZone) use ($zoneFilterZone)
-                {
-                    if(!empty($zoneFilterZone))
-                    {
-                        return strstr($aZone['name'], $zoneFilterZone);
-                    }
-
-                    return true;
+            $aZones,
+            function ($aZone) use ($zoneFilterZone) {
+                if (!empty($zoneFilterZone)) {
+                    return strstr($aZone['name'], (string) $zoneFilterZone);
                 }
+
+                return true;
+            },
         );
 
         if (!empty($aZones)) {

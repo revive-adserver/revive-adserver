@@ -74,6 +74,8 @@ New Features
 
  * Added optional banner file size limit to the banners storage settings.
 
+ * Added zone filtering to the "Linked Zones" tab for banners.
+
 
 Bug Fixes
 ---------
@@ -170,6 +172,7 @@ contribution to this release:
 
  * zd-ls
  * lcuis
+ * J0k3RTwelv3
 
 
 System Requirements
