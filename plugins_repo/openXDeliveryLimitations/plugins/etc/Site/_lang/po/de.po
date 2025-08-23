@@ -18,32 +18,27 @@ msgstr ""
 msgid "Is all of"
 msgstr "Ist alles von"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:72
 msgid "Enter hostnames below to remove matching entries from the list"
 msgstr "Geben Sie unten Host-Namen ein, um entsprechende Einträge aus der Liste zu entfernen"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:78
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:75
 msgid "Remove Hostnames"
 msgstr "Host-Namen entfernen"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:94
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:94
-msgid "WARNING"
-msgstr "WARNUNG"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:95
-msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
-msgstr "Die Auslieferungsregel \"Host-Namen Liste\" kann nicht verwendet werden; sie erfordert die Installation der <i>intl</i> PHP-Erweiterung."
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:77
 msgid "Enter domains below to remove matching entries from the list"
 msgstr "Geben Sie Domains unten ein, um entsprechende Einträge aus der Liste zu entfernen"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:78
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:80
 msgid "Remove Domains"
 msgstr "Domänen entfernen"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:95
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
+msgid "WARNING"
+msgstr "WARNUNG"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
 msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
 msgstr "Die Auslieferungsregel \"Registrierbare Domänenliste\" kann nicht verwendet werden; sie erfordert die Installation der <i>intl</i> PHP-Erweiterung."
 

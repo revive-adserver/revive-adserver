@@ -18,32 +18,27 @@ msgstr ""
 msgid "Is all of"
 msgstr "Apakah semua"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:72
 msgid "Enter hostnames below to remove matching entries from the list"
 msgstr "Masukkan nama host di bawah ini untuk menghapus entri yang cocok dari daftar"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:78
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:75
 msgid "Remove Hostnames"
 msgstr "Hapus nama host"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:94
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:94
-msgid "WARNING"
-msgstr "PERINGATAN"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:95
-msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
-msgstr "Aturan pengiriman Daftar Nama Host tidak dapat digunakan; mengharuskan ekstensi PHP<i>intl</i> dipasang."
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:77
 msgid "Enter domains below to remove matching entries from the list"
 msgstr "Masukkan domain di bawah ini untuk menghapus entri yang cocok dari daftar"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:78
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:80
 msgid "Remove Domains"
 msgstr "Hapus Domain"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:95
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
+msgid "WARNING"
+msgstr "PERINGATAN"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
 msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
 msgstr "Aturan pengiriman Daftar Domain Registerable tidak dapat digunakan; mengharuskan ekstensi PHP <i>intl</i> dipasang."
 
