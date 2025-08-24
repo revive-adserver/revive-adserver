@@ -458,6 +458,14 @@
             function init()
             {
                 try {
+					 // Ensure all job URLs use HTTPS if the current page is HTTPS
+					if (window.location.protocol === 'https:') {
+						for (var i = 0; i < settings.jobs.length; i++) {
+							if (settings.jobs[i].url.startsWith('http://')) {
+								settings.jobs[i].url = settings.jobs[i].url.replace('http://', 'https://');
+							}
+						}
+					}
                     build();
 
                     $(document).ajaxJobs({
