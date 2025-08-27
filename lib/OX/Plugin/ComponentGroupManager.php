@@ -35,6 +35,7 @@ require_once(MAX_PATH . '/lib/OA/Cache.php');
 require_once LIB_PATH . '/Plugin/UpgradeComponentGroup.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once(MAX_PATH . '/lib/OA/Admin/Menu.php');
+require_once(MAX_PATH . '/lib/OA/Permission.php');
 
 class OX_Plugin_ComponentGroupManager
 {

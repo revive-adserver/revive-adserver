@@ -129,6 +129,8 @@ Bug Fixes
  * Fixed avw.php logging an ad impression when requesting a non existing
    zone.
 
+ * Fixed PHP 8.1+ compatibility issues in the republish maintenance script.
+
 
 Non-Backwards Compatible Changes
 --------------------------------

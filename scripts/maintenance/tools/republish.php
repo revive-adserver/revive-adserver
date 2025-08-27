@@ -49,6 +49,7 @@ require_once LIB_PATH . '/OperationInterval.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseIntermediate.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseFinal.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OX/Maintenance/Statistics.php';
 require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
@@ -98,6 +99,11 @@ if (!$result) {
     echo $haltMessage;
     exit;
 }
+
+// Create and register an instance of the Maintenance_Statistics_Controller DAL class for the following tasks to use
+$oServiceLocator = OA_ServiceLocator::instance();
+$oController = new OX_Maintenance_Statistics();
+$oServiceLocator->register('Maintenance_Statistics_Controller', $oController);
 
 $oMigrator = new OX_Maintenance_Statistics_Task_MigrateBucketData();
 if (PEAR::isError($oMigrator->oDbh)) {
@@ -175,7 +181,6 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
 }
 
 // Create and register an instance of the OA_Dal_Maintenance_Statistics DAL class for the following tasks to use
-$oServiceLocator = OA_ServiceLocator::instance();
 if (!$oServiceLocator->get('OX_Dal_Maintenance_Statistics')) {
     $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
     $oDal = $oFactory->factory();
