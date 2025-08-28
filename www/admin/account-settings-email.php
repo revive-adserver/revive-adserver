@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+use RV\Extension\MailerComponentInterface;
+
 // Require the initialisation file
 require_once '../../init.php';
 
@@ -30,6 +32,24 @@ $prefSection = "email";
 
 // Prepare an array for storing error messages
 $aErrormessage = [];
+
+$aComponents = OX_Component::getComponents('mailer');
+foreach ($aComponents as $name => $oComponent) {
+    if ($oComponent->enabled) {
+        $aComponentItems[$oComponent->getComponentIdentifier()] = $oComponent;
+    }
+}
+
+uasort($aComponentItems, function (MailerComponentInterface $a, MailerComponentInterface $b) {
+    if ($a->getPriority() === $b->getPriority()) {
+        return $a->getName() <=> $b->getName();
+    }
+
+    return $b->getPriority() <=> $a->getPriority();
+});
+
+$aComponentItems = array_merge(['' => $strNone], array_map(fn(MailerComponentInterface $x) => $x->getName(), $aComponentItems));
+
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
@@ -53,40 +73,45 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'bool' => true,
         ],
     ];
-    // E-mail Headers
+    // Selected Mailer plugin
     $aElements += [
-        'email_headers' => [
-            'email' => 'headers',
-            'preg_match' => "/\r?\n/",
-            'preg_replace' => '\\r\\n',
-        ],
+        'email_pluginType' => ['email' => 'pluginType'],
     ];
-    // qmail Patch
-    $aElements += [
-        'email_qmailPatch' => [
-            'email' => 'qmailPatch',
-            'bool' => true,
-        ],
-    ];
-    // Create a new settings object, and save the settings!
-    $oSettings = new OA_Admin_Settings();
-    $result = $oSettings->processSettingsFromForm($aElements);
-    if ($result) {
-        // Queue confirmation message
-        $setPref = $oOptions->getSettingsPreferences($prefSection);
-        $title = $setPref[$prefSection]['name'];
-        $translation = new OX_Translation();
-        $translated_message = $translation->translate(
-            $GLOBALS['strXSettingsHaveBeenUpdated'],
-            [htmlspecialchars($title)],
-        );
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        // The settings configuration file was written correctly,
-        OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
+
+    if (!empty($_POST['email_pluginType'])) {
+        $oMailer = OX_Component::factoryByComponentIdentifier($_POST['email_pluginType']);
+
+        if (!$oMailer instanceof MailerComponentInterface) {
+            $aErrormessage[2][] = 'Not a mailer plugin';
+        } elseif (!$oMailer->checkConfig()) {
+            $aErrormessage[2][] = sprintf(
+                'The plugin settings are invalid, please <a href="%s">configure it</a> first!',
+                'plugin-settings.php?group=' . urlencode($oMailer->group),
+            );
+        }
     }
-    // Could not write the settings configuration file, store this
-    // error message and continue
-    $aErrormessage[0][] = $strUnableToWriteConfig;
+
+    if (empty($aErrormessage)) {
+        // Create a new settings object, and save the settings!
+        $oSettings = new OA_Admin_Settings();
+        $result = $oSettings->processSettingsFromForm($aElements);
+        if ($result) {
+            // Queue confirmation message
+            $setPref = $oOptions->getSettingsPreferences($prefSection);
+            $title = $setPref[$prefSection]['name'];
+            $translation = new OX_Translation();
+            $translated_message = $translation->translate(
+                $GLOBALS['strXSettingsHaveBeenUpdated'],
+                [htmlspecialchars($title)],
+            );
+            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            // The settings configuration file was written correctly,
+            OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
+        }
+        // Could not write the settings configuration file, store this
+        // error message and continue
+        $aErrormessage[0][] = $strUnableToWriteConfig;
+    }
 }
 
 // Set the correct section of the settings pages and display the drop-down menu
@@ -96,7 +121,6 @@ $title = $setPref[$prefSection]['name'];
 // Display the settings page's header and sections
 $oHeaderModel = new OA_Admin_UI_Model_PageHeaderModel($title);
 phpAds_PageHeader('account-settings-index', $oHeaderModel);
-
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
@@ -153,22 +177,13 @@ $aSettings = [
         ],
     ],
     [
-        'text' => $strEmailHeader,
+        'text' => "Mailer Plugin",
         'items' => [
             [
-                'type' => 'textarea',
-                'name' => 'email_headers',
-                'text' => $strAdminEmailHeaders,
-            ],
-        ],
-    ],
-    [
-        'text' => $strQmailPatch,
-        'items' => [
-            [
-                'type' => 'checkbox',
-                'name' => 'email_qmailPatch',
-                'text' => $strEnableQmailPatch,
+                'type' => 'select',
+                'name' => 'email_pluginType',
+                'text' => "Selected Mailer plugin",
+                'items' => $aComponentItems,
             ],
         ],
     ],

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>reviveMailer</name>
+    <displayName>Mailer Plugin</displayName>
+    <creationDate>2025-08-28</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Plugin that provides alternative Mailers.</description>
+    <version>1.0.0</version>
+    <oxversion>6.0.0-beta-rc3</oxversion>
+    <type>package</type>
+
+    <install>
+
+        <!-- list the groups that are contained in this plugin -->
+        <!-- in the order they should be installed -->
+        <contents>
+            <group name="rvMailerCustomDSN">0</group>
+            <group name="rvMailerSMTP">1</group>
+            <group name="rvMailerMailgun">2</group>
+            <group name="rvMailerMandrill">3</group>
+            <group name="rvMailerSendgrid">4</group>
+        </contents>
+
+    </install>
+
+</plugin>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>rvMailerMailgun</name>
+    <displayName>Mailgun Mailer Plugin</displayName>
+    <creationDate>2025-08-28</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Plugin that allows sending e-mails using Mailgun.</description>
+    <version>1.0.0</version>
+    <oxversion>6.0.0-beta-rc3</oxversion>
+    <extends>mailer</extends>
+
+    <install>
+
+        <files>
+            <file path="{MODULEPATH}mailer/rvMailerMailgun/">Mailer.class.php</file>
+        </files>
+
+        <configuration>
+            <setting key="key" type="text" label="API Key" required="1" size="64" visible="1" />
+            <setting key="domain" type="text" label="Sending Domain" required="1" size="64" visible="1" />
+            <setting key="region" type="text" label="Region (optional)" size="64" visible="1" />
+        </configuration>
+
+        <components>
+            <component>
+                <name>Mailer</name>
+            </component>
+        </components>
+
+    </install>
+
+</plugin>

@@ -40,6 +40,7 @@
         "league/flysystem": "^1.0",
         "league/flysystem-ziparchive": "^1.0",
         "maxmind-db/reader": "^1.3",
+        "psr/simple-cache": "^3.0",
         "sinergi/browser-detector": "^6.0",
         "slowprog/composer-copy-file": "^0.3.3",
         "symfony/cache": "^6.4",
@@ -48,8 +49,12 @@
         "symfony/dependency-injection": "^6.4",
         "symfony/finder": "^6.4",
         "symfony/http-foundation": "^6.4",
+        "symfony/mailer": "^6.4",
+        "symfony/mailchimp-mailer": "^6.4",
+        "symfony/mailgun-mailer": "^6.4",
+        "symfony/sendgrid-mailer": "^6.4",
         "symfony/polyfill-ctype": "^1.23",
-        "psr/simple-cache": "^3.0"
+        "symfony/http-client": "^6.4"
     },
     "require-dev": {
         "phpcompatibility/php-compatibility": "dev-develop",
@@ -61,7 +66,8 @@
     },
     "provide": {
         "symfony/polyfill-intl-icu": "*",
-        "symfony/polyfill-intl-idn": "*"
+        "symfony/polyfill-intl-idn": "*",
+        "symfony/polyfill-intl-normalizer": "*"
     },
     "repositories": [
         {
