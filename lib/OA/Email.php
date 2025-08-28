@@ -24,6 +24,11 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use RV\Extension\MailerComponentInterface;
+
 /**
  * A class to provide support for sending of email-based reports and
  * alerts.
@@ -1201,7 +1206,6 @@ class OA_Email
         if (defined('DISABLE_ALL_EMAILS') || $aConf['debug']['disableSendEmails']) {
             return true;
         }
-        global $phpAds_CharSet;
 
         // If not Agency details send email using Administrator's details
         if (empty($fromDetails)) {
@@ -1213,6 +1217,34 @@ class OA_Email
 
         // For the time being we're sending plain text emails only, so decode any HTML entities
         $contents = html_entity_decode($contents, ENT_QUOTES);
+
+        $from = new Address($fromDetails['emailAddress'], $fromDetails['name'] ?: '');
+        $to = new Address($userEmail, $userName ?: '');
+
+        $mailer = OX_Component::factoryByComponentIdentifier($aConf['email']['pluginType'] ?? null);
+
+        if ($mailer instanceof MailerComponentInterface) {
+            try {
+                $mailer->send(
+                    (new Email())
+                    ->from($from)
+                    ->to($to)
+                    ->subject($subject)
+                    ->text($contents),
+                );
+
+                return true;
+            } catch (TransportExceptionInterface $e) {
+                OA::debug('Could not send email: ' . $e->getMessage(), PEAR_LOG_WARNING);
+            }
+        }
+
+        return $this->builtinSendMail($subject, $contents, $userEmail, $userName, $fromDetails);
+    }
+
+    public function builtinSendMail(string $subject, string $contents, string $userEmail, ?string $userName, array $fromDetails): bool
+    {
+        global $phpAds_CharSet;
 
         // Build the "to:" header for the email
         if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
@@ -1230,20 +1262,17 @@ class OA_Email
             $headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
         }
         $headersParam .= 'From: ' . self::quoteHeaderText($fromDetails['name']) . ' <' . $fromDetails['emailAddress'] . '>' . "\r\n";
-        // Use only \n as header separator when qmail is used
-        if ($aConf['email']['qmailPatch']) {
-            $headersParam = str_replace("\r", '', $headersParam);
-        }
+
         // Add \r to linebreaks in the contents for MS Exchange compatibility
         $contents = str_replace("\n", "\r\n", $contents);
+
         // Send email, if possible!
         if (function_exists('mail')) {
-            $value = @mail($toParam, $subject, $contents, $headersParam);
-            return $value;
-        } else {
-            OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
-            return false;
+            return @mail($toParam, $subject, $contents, $headersParam);
         }
+
+        OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
+        return false;
     }
 
     /**

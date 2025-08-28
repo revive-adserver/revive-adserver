@@ -34,6 +34,7 @@ abstract class OX_Component
     public $component;
     public $enabled;
 
+    /** @var OX_Translation */
     public $oTrans;
 
     /**
@@ -70,6 +71,9 @@ abstract class OX_Component
         return $obj;
     }
 
+    /**
+     * @return OX_Component|false
+     */
     public static function factoryByComponentIdentifier($componentIdentifier)
     {
         $aParts = self::parseComponentIdentifier($componentIdentifier);

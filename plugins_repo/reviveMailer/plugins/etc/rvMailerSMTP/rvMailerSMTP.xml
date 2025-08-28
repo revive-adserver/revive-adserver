@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>rvMailerSMTP</name>
+    <displayName>SMTP Mailer Plugin</displayName>
+    <creationDate>2025-08-28</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Plugin that allows sending e-mails via SMTP.</description>
+    <version>1.0.0</version>
+    <oxversion>6.0.0-beta-rc3</oxversion>
+    <extends>mailer</extends>
+
+    <install>
+
+        <files>
+            <file path="{MODULEPATH}mailer/rvMailerSMTP/">Mailer.class.php</file>
+        </files>
+
+        <configuration>
+            <setting key="tls" type="checkbox" label="Use TLS" required="1" size="8" visible="1">false</setting>
+            <setting key="hostname" type="text" label="Hostname" required="1" size="64" visible="1">localhost</setting>
+            <setting key="port" type="text" label="Port" required="1" size="8" visible="1">25</setting>
+            <setting key="user" type="text" label="User" size="64" required="0" visible="1" />
+            <setting key="password" type="text" label="Password" size="64" required="0" visible="1" />
+        </configuration>
+
+        <components>
+            <component>
+                <name>Mailer</name>
+            </component>
+        </components>
+
+    </install>
+
+</plugin>
