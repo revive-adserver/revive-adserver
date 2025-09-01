@@ -40,7 +40,8 @@
             $queue->setTestCase($this->GetTestCase());
             set_error_handler('SimpleTestErrorHandler');
             parent::invoke($method);
-            while (list($severity, $message, $file, $line) = $queue->extract()) {
+            while ($res = $queue->extract()) {
+		[$severity, $message, $file, $line] = $res;
                 $severity = SimpleErrorQueue::getSeverityAsString($severity);
                 $test = $this->getTestCase();
                 $test->error($severity, $message, $file, $line);

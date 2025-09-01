@@ -108,7 +108,8 @@ class Console_Getopt {
         }
 
         reset($args);
-        while (list($i, $arg) = each($args)) {
+        while ($res = each($args)) {
+            [$i, $arg] = $res;
 
             /* The special element '--' means explicit end of
                options. Treat the rest of the arguments as non-options

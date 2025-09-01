@@ -1983,7 +1983,8 @@ function XML_RPC_decode($XML_RPC_val)
     } elseif ($kind == 'struct') {
         $XML_RPC_val->structreset();
         $arr = array();
-        while (list($key, $value) = $XML_RPC_val->structeach()) {
+        while ($res = $XML_RPC_val->structeach()) {
+            list($key, $value) = $res;
             $arr[$key] = XML_RPC_decode($value);
         }
         return $arr;
