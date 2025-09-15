@@ -182,7 +182,7 @@ $aSettings = [
             [
                 'type' => 'select',
                 'name' => 'email_pluginType',
-                'text' => "Selected Mailer plugin",
+                'text' => $strMailerPlugin,
                 'items' => $aComponentItems,
             ],
         ],

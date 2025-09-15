@@ -397,7 +397,7 @@ jobs:
       - refactoring-checker
       - post-commit
 
-    if: ${{ always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.refactoring-checker.result == 'success' && needs.post-commit.result != 'failure' && needs.post-commit.result != 'cancelled' && needs.post-commit.outputs.next != 'skip' }}
+    if: always() && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.refactoring-checker.result == 'success' && needs.post-commit.result != 'failure' && needs.post-commit.result != 'cancelled' && needs.post-commit.outputs.next != 'skip'
 
     uses: ./.github/workflows/test.yml
     secrets: inherit
@@ -405,7 +405,7 @@ jobs:
   upload-to-crowdin:
     name: Upload translation sources
 
-    if: github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master' && needs.post-commit.outputs.next != 'skip'
+    if: always() && github.repository == 'revive-adserver/revive-adserver' && github.ref_name == 'master' && needs.type-checker.result == 'success' && needs.code-style-checker.result == 'success' && needs.compatibility-checker.result == 'success' && needs.refactoring-checker.result == 'success' && needs.post-commit.result != 'failure' && needs.post-commit.result != 'cancelled' && needs.post-commit.outputs.next != 'skip'
 
     needs:
       - type-checker
