@@ -59,7 +59,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: packages
+          name: revive-adserver-${{ inputs.version }}-packages
           path: |
             build/test-results/*.zip
             build/test-results/*.tar.gz
