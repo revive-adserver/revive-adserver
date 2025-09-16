@@ -76,6 +76,11 @@ New Features
 
  * Added zone filtering to the "Linked Zones" tab for banners.
 
+ * Added new Mailer plugin, allowing to use SMTP or a selection of 3rd party
+   providers to send emails. By default, no plugin is configured or selected
+   in the e-mail settings, so the legacy code is in use, granting backwards
+   compatibility.
+
 
 Bug Fixes
 ---------
