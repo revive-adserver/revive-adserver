@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.15.5</version>
+    <version>1.15.6</version>
     <type>extension</type>
 
     <install>
