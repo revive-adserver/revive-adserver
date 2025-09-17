@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:24
+msgid "Use TLS"
+msgstr "Use TLS"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:25
+msgid "Hostname"
+msgstr "Hostname"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:26
+msgid "Port"
+msgstr "Port"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:27
+msgid "User"
+msgstr "User"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:28
+msgid "Password"
+msgstr "Password"

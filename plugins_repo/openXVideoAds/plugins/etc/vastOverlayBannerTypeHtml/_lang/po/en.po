@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/vastOverlayBannerTypeHtml.xml:26
+msgid "Allow overlay video banners to be defined as text"
+msgstr "Allow overlay video banners to be defined as text"
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/vastOverlayBannerTypeHtml.xml:28
+msgid "Allow overlay video banners to be defined as an Image"
+msgstr "Allow overlay video banners to be defined as an Image"
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/vastOverlayBannerTypeHtml.xml:30
+msgid "Allow overlay video banners to be defined as html"
+msgstr "Allow overlay video banners to be defined as html"

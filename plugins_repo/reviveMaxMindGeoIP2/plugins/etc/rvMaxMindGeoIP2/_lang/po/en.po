@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/reviveMaxMindGeoIP2/plugins/etc/rvMaxMindGeoIP2/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/reviveMaxMindGeoIP2/plugins/etc/rvMaxMindGeoIP2/rvMaxMindGeoIP2.xml:27
+msgid "Path to GeoIP2 MMDB files (one per line)"
+msgstr "Path to GeoIP2 MMDB files (one per line)"
+
+#: plugins_repo/reviveMaxMindGeoIP2/plugins/etc/rvMaxMindGeoIP2/rvMaxMindGeoIP2.xml:28
+msgid "Account ID"
+msgstr "Account ID"
+
+#: plugins_repo/reviveMaxMindGeoIP2/plugins/etc/rvMaxMindGeoIP2/rvMaxMindGeoIP2.xml:29
+msgid "License key"
+msgstr "License key"

@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/openXVideoAds/plugins/etc/vastServeVideoPlayer/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastServeVideoPlayer/vastServeVideoPlayer.xml:26
+msgid "Autoplay the video content (only used when viewing video in openX admin tool)"
+msgstr "Autoplay the video content (only used when viewing video in openX admin tool)"

@@ -17,3 +17,7 @@ msgstr "File based cache"
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:43
 msgid "Unable to write to"
 msgstr "Unable to write to"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/oxCacheFile.xml:40
+msgid "Custom cache directory path"
+msgstr "Custom cache directory path"

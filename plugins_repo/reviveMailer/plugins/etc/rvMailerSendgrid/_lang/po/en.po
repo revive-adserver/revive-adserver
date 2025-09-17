@@ -1,0 +1,19 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Revive Adserver: plugins_repo/reviveMailer/plugins/etc/rvMailerSendgrid/_lang/po/en.po\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: English\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: (n != 1)\n"
+
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSendgrid/rvMailerSendgrid.xml:24
+msgid "Use HTTP API"
+msgstr "Use HTTP API"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSendgrid/rvMailerSendgrid.xml:25
+msgid "API Key"
+msgstr "API Key"

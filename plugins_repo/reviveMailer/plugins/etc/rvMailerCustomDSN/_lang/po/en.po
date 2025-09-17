@@ -10,6 +10,10 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerCustomDSN/rvMailerCustomDSN.xml:24
+msgid "Custom DSN"
+msgstr "Custom DSN"
+
 #: plugins_repo/reviveMailer/plugins/mailer/rvMailerCustomDSN/Mailer.class.php:11
 msgid "Custom Symfony Mailer DSN"
 msgstr "Custom Symfony Mailer DSN"

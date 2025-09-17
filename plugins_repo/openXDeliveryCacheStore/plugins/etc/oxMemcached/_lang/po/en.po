@@ -29,3 +29,11 @@ msgstr "Invalid expire time"
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:86
 msgid "Could not connect to memcached"
 msgstr "Could not connect to memcached"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:41
+msgid "List of memcached servers (host:port, ...)"
+msgstr "List of memcached servers (host:port, ...)"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:42
+msgid "Expire time for garbage collector in Memcached (seconds)"
+msgstr "Expire time for garbage collector in Memcached (seconds)"
