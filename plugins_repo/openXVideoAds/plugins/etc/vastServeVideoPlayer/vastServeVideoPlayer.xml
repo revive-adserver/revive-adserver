@@ -23,7 +23,7 @@
         <configuration>
             <!-- only administrator has permissions to change settings in config file -->
             <!-- settings are written to a group section [vastServeVideoPlayer] -->
-            <setting key="isAutoPlayOfVideoInOpenXAdminToolEnabled" type="checkbox" label="Autoplay the video content (only used when viewing video in openX admin tool)" required="0" size="1" visible="1">0</setting>
+            <setting key="isAutoPlayOfVideoInOpenXAdminToolEnabled" type="checkbox" label="Autoplay the video content (only used when viewing video in the Revive Adserver admin tool)" required="0" size="1" visible="1">0</setting>
         </configuration>
 
         <components>
