@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides alternative Mailers.</description>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <oxversion>6.0.0-beta-rc3</oxversion>
     <type>package</type>
 
