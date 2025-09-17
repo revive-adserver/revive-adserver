@@ -22,3 +22,7 @@ msgstr ""
 msgid "Unable to write to"
 msgstr "No es pot escriure a"
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/oxCacheFile.xml:40
+msgid "Custom cache directory path"
+msgstr ""
+

@@ -34,3 +34,11 @@ msgstr "Neplatný čas expirace."
 msgid "Could not connect to memcached"
 msgstr "Nelze se připojit k serveru"
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:41
+msgid "List of memcached servers (host:port, ...)"
+msgstr ""
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:42
+msgid "Expire time for garbage collector in Memcached (seconds)"
+msgstr ""
+

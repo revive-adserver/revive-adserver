@@ -14,6 +14,26 @@ msgstr ""
 "X-Crowdin-File: /openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 250\n"
 
+#: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:47
+msgid "Allow Asynchronous JS Invocation Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:48
+msgid "Allow Javascript Invocation Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:49
+msgid "Allow iFrame Invocation Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:50
+msgid "Allow Image Invocation Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:51
+msgid "Allow No Cookie Image Invocation Tag"
+msgstr ""
+
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:35
 msgid "iFrame Tag"
 msgstr ""

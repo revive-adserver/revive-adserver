@@ -22,3 +22,7 @@ msgstr "Fájl alapú gyorsítótár"
 msgid "Unable to write to"
 msgstr ""
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/oxCacheFile.xml:40
+msgid "Custom cache directory path"
+msgstr ""
+

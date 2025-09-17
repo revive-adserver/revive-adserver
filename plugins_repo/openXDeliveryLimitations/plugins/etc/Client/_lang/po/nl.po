@@ -41,3 +41,7 @@ msgstr "Besturingssysteem"
 msgid "Version is not valid"
 msgstr "Versie is ongeldig"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/etc/Client/Client.xml:48
+msgid "Extract the viewer's operating system and web browser information using phpSniff"
+msgstr ""
+

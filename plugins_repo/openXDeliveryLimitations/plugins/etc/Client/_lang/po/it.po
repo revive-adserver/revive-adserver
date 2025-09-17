@@ -41,3 +41,7 @@ msgstr "Sistema Operativo"
 msgid "Version is not valid"
 msgstr "La versione non è valida"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/etc/Client/Client.xml:48
+msgid "Extract the viewer's operating system and web browser information using phpSniff"
+msgstr "Estrai il sistema operativo del visualizzatore e le informazioni del browser web usando phpSniff"
+
