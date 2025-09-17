@@ -106,6 +106,7 @@ $GLOBALS['strQmailPatch'] = "Änderungen für qmail";
 $GLOBALS['strEnableQmailPatch'] = "Kopfzeile auch für qmail lesbar machen";
 $GLOBALS['strEmailHeader'] = "E-Mail-Header";
 $GLOBALS['strEmailLog'] = "E-Mail Protokoll";
+$GLOBALS['strMailerPlugin'] = "Ausgewähltes Mailer-Plugin";
 
 // Security settings
 $GLOBALS['strSecurityAndDebug'] = "Sicherheits- und Debug-Einstellungen";

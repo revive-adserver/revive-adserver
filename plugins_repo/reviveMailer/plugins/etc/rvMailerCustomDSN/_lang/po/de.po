@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /reviveMailer/plugins/etc/rvMailerCustomDSN/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 420\n"
+
+#: plugins_repo/reviveMailer/plugins/mailer/rvMailerCustomDSN/Mailer.class.php:11
+msgid "Custom Symfony Mailer DSN"
+msgstr "Custom Symfony Mailer DSN"
+

@@ -105,6 +105,7 @@ $GLOBALS['strQmailPatch'] = "Pas headers aan voor qmail";
 $GLOBALS['strEnableQmailPatch'] = "Inschakelen van qmail patch";
 $GLOBALS['strEmailHeader'] = "Email headers";
 $GLOBALS['strEmailLog'] = "E-mail log";
+$GLOBALS['strMailerPlugin'] = "Geselecteerde Mailer plugin";
 
 // Security settings
 $GLOBALS['strSecurityAndDebug'] = "Beveiliging en Debug Instellingen";
