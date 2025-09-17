@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that allows sending emails using a custom Symfony Mailer DSN.</description>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <oxversion>6.0.0-beta-rc3</oxversion>
     <extends>mailer</extends>
 
