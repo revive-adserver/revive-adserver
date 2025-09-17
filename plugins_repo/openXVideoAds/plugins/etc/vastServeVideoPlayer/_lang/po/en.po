@@ -11,5 +11,5 @@ msgstr ""
 
 
 #: plugins_repo/openXVideoAds/plugins/etc/vastServeVideoPlayer/vastServeVideoPlayer.xml:26
-msgid "Autoplay the video content (only used when viewing video in openX admin tool)"
-msgstr "Autoplay the video content (only used when viewing video in openX admin tool)"
+msgid "Autoplay the video content (only used when viewing video in the Revive Adserver admin tool)"
+msgstr "Autoplay the video content (only used when viewing video in the Revive Adserver admin tool)"
