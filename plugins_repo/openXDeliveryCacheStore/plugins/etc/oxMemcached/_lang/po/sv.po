@@ -34,3 +34,11 @@ msgstr "Ogiltig utgångstid"
 msgid "Could not connect to memcached"
 msgstr "Det gick inte att ansluta till memcached"
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:41
+msgid "List of memcached servers (host:port, ...)"
+msgstr ""
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:42
+msgid "Expire time for garbage collector in Memcached (seconds)"
+msgstr ""
+

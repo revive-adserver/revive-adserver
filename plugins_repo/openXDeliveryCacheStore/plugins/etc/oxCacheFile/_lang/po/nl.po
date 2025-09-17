@@ -22,3 +22,7 @@ msgstr "Op basis van bestandscache"
 msgid "Unable to write to"
 msgstr "Kan niet schrijven naar"
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/oxCacheFile.xml:40
+msgid "Custom cache directory path"
+msgstr ""
+

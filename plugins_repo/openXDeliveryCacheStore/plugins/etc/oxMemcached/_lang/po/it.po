@@ -34,3 +34,11 @@ msgstr "Scadenza non valida"
 msgid "Could not connect to memcached"
 msgstr "Impossibile connettersi a memcached"
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:41
+msgid "List of memcached servers (host:port, ...)"
+msgstr "Elenco di server memcached (host:porta, ...)"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:42
+msgid "Expire time for garbage collector in Memcached (seconds)"
+msgstr "Scadenza per la garbage collection di Memcached (secondi)"
+

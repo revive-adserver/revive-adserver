@@ -41,3 +41,7 @@ msgstr "Operační systém"
 msgid "Version is not valid"
 msgstr "Verze není platná"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/etc/Client/Client.xml:48
+msgid "Extract the viewer's operating system and web browser information using phpSniff"
+msgstr ""
+

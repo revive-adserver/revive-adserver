@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Hungarian\n"
+"Language: hu_HU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: hu\n"
+"X-Crowdin-File: /reviveMailer/plugins/etc/rvMailerSMTP/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 428\n"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:24
+msgid "Use TLS"
+msgstr ""
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:25
+msgid "Hostname"
+msgstr ""
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:26
+msgid "Port"
+msgstr ""
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:27
+msgid "User"
+msgstr "Felhasználó"
+
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:28
+msgid "Password"
+msgstr "Jelszó"
+

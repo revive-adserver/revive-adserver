@@ -41,3 +41,7 @@ msgstr "İşletim Sistemi"
 msgid "Version is not valid"
 msgstr "Sürüm geçerli değil"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/etc/Client/Client.xml:48
+msgid "Extract the viewer's operating system and web browser information using phpSniff"
+msgstr ""
+

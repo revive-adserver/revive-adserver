@@ -34,3 +34,11 @@ msgstr "Tiempo de caducidad inválido"
 msgid "Could not connect to memcached"
 msgstr "No se pudo conectar a memcached"
 
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:41
+msgid "List of memcached servers (host:port, ...)"
+msgstr ""
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:42
+msgid "Expire time for garbage collector in Memcached (seconds)"
+msgstr ""
+

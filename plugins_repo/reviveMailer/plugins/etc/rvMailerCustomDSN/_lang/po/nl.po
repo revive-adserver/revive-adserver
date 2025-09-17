@@ -14,6 +14,10 @@ msgstr ""
 "X-Crowdin-File: /reviveMailer/plugins/etc/rvMailerCustomDSN/_lang/po/en.po\n"
 "X-Crowdin-File-ID: 420\n"
 
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerCustomDSN/rvMailerCustomDSN.xml:24
+msgid "Custom DSN"
+msgstr ""
+
 #: plugins_repo/reviveMailer/plugins/mailer/rvMailerCustomDSN/Mailer.class.php:11
 msgid "Custom Symfony Mailer DSN"
 msgstr "Custom Symfony Mailer DSN"
