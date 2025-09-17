@@ -19,12 +19,25 @@ $finder = new \Symfony\Component\Finder\Finder();
 $preg = '#(?:->|::)translate\((["\'])(.*?)\1\)#x';
 $pregName = '#->nameEnglish *= *(["\'])(.*?)\1#x';
 
-$files = $finder
+$filesPHP = $finder
     ->in('plugins_repo')
     ->exclude('openXDeveloperToolbox')
     ->name('*.php')
     ->contains($preg)
     ->getIterator();
+
+$filesXML = $finder
+    ->in('plugins_repo')
+    ->exclude('openXDeveloperToolbox')
+    ->exclude('demoExtension')
+    ->name('*.xml')
+    ->contains('#<setting[^>]+label=#')
+    ->getIterator();
+
+$files = array_merge(
+    iterator_to_array($filesXML),
+    iterator_to_array($filesPHP),
+);
 
 $trans = [];
 
@@ -41,12 +54,44 @@ foreach ($files as $file) {
         die("Unsupported path: " . $file->getPathname() . "\n");
     }
 
-    if (!is_writable($poFilePath)) {
-        die("Unwritable file: {$poFilePath}\n");
+    if (file_exists($poFilePath)) {
+        if (!is_writable($poFilePath)) {
+            die("Unwritable file: {$poFilePath}\n");
+        }
+    } else {
+        @mkdir(dirname($poFilePath), 0755, true);
+        @touch($poFilePath);
     }
 
     if (!isset($trans[$poFilePath])) {
         $trans[$poFilePath] = [];
+    }
+
+    if ('xml' === $file->getExtension()) {
+        $dom = new \DOMDocument();
+        $dom->loadXml($contents);
+
+        $xpath = new \DOMXPath($dom);
+
+        foreach ($xpath->query('//setting') as $setting) {
+            $label = $setting->getAttribute('label');
+
+            if (!isset($trans[$poFilePath][$label])) {
+                $trans[$poFilePath][$label] = [];
+            }
+
+            $qLabel = preg_quote($label, '#');
+            $previousContent = preg_replace("#<setting[^>]+label=['\"]{$qLabel}['\"].*#s", '', $contents);
+
+            $line = count(explode("\n", $previousContent ?: ''));
+
+            $trans[$poFilePath][$label][] = implode(':', [
+                str_replace(DIRECTORY_SEPARATOR, '/', $file->getPathname()),
+                $line,
+            ]);
+        }
+
+        continue;
     }
 
     foreach (explode("\n", $contents) as $n => $ref) {
