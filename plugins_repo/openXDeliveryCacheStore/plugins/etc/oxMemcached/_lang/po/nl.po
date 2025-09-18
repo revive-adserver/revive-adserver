@@ -36,9 +36,9 @@ msgstr "Kan geen verbinding maken met memcached"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:41
 msgid "List of memcached servers (host:port, ...)"
-msgstr ""
+msgstr "Lijst van memcached servers (host:port, ...)"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/oxMemcached.xml:42
 msgid "Expire time for garbage collector in Memcached (seconds)"
-msgstr ""
+msgstr "Verval tijd voor garbage collector in Memcached (seconden)"
 

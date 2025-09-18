@@ -11,14 +11,10 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: de\n"
-"X-Crowdin-File: /reviveMailer/plugins/etc/rvMailerCustomDSN/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 420\n"
+"X-Crowdin-File: /openXVideoAds/plugins/etc/vastServeVideoPlayer/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 478\n"
 
-#: plugins_repo/reviveMailer/plugins/etc/rvMailerCustomDSN/rvMailerCustomDSN.xml:24
-msgid "Custom DSN"
-msgstr "Benutzerdefinierter DSN"
-
-#: plugins_repo/reviveMailer/plugins/mailer/rvMailerCustomDSN/Mailer.class.php:11
-msgid "Custom Symfony Mailer DSN"
-msgstr "Custom Symfony Mailer DSN"
+#: plugins_repo/openXVideoAds/plugins/etc/vastServeVideoPlayer/vastServeVideoPlayer.xml:26
+msgid "Autoplay the video content (only used when viewing video in the Revive Adserver admin tool)"
+msgstr "Videoinhalte automatisch ablegen (nur beim Betrachten von Videos im Admin-Werkzeug Revive Adserver verwenden)"
 

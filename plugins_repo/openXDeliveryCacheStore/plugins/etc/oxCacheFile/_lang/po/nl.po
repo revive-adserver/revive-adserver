@@ -16,7 +16,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:31
 msgid "File based cache"
-msgstr "Op basis van bestandscache"
+msgstr "Bufferen op basis van bestanden"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:43
 msgid "Unable to write to"
@@ -24,5 +24,5 @@ msgstr "Kan niet schrijven naar"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/oxCacheFile.xml:40
 msgid "Custom cache directory path"
-msgstr ""
+msgstr "Aangepast pad naar buffers"
 

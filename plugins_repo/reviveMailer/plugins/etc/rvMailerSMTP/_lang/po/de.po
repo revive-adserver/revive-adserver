@@ -16,15 +16,15 @@ msgstr ""
 
 #: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:24
 msgid "Use TLS"
-msgstr ""
+msgstr "TLS verwenden"
 
 #: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:25
 msgid "Hostname"
-msgstr ""
+msgstr "Hostname"
 
 #: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:26
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: plugins_repo/reviveMailer/plugins/etc/rvMailerSMTP/rvMailerSMTP.xml:27
 msgid "User"

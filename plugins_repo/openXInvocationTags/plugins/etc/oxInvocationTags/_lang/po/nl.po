@@ -16,23 +16,23 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:47
 msgid "Allow Asynchronous JS Invocation Tag"
-msgstr ""
+msgstr "Asynchrone JS Invocation Tag toestaan"
 
 #: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:48
 msgid "Allow Javascript Invocation Tag"
-msgstr ""
+msgstr "Javascript Invocation Tag toestaan"
 
 #: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:49
 msgid "Allow iFrame Invocation Tag"
-msgstr ""
+msgstr "iFrame invocation Tag toestaan"
 
 #: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:50
 msgid "Allow Image Invocation Tag"
-msgstr ""
+msgstr "Afbeelding Invocation tag toestaan"
 
 #: plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/oxInvocationTags.xml:51
 msgid "Allow No Cookie Image Invocation Tag"
-msgstr ""
+msgstr "Afbeelding Invocation tag zonder cookies toestaan"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:35
 msgid "iFrame Tag"

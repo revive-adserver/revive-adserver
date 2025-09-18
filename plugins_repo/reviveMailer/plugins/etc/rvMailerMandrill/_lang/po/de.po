@@ -11,14 +11,10 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: de\n"
-"X-Crowdin-File: /reviveMailer/plugins/etc/rvMailerCustomDSN/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 420\n"
+"X-Crowdin-File: /reviveMailer/plugins/etc/rvMailerMandrill/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 444\n"
 
-#: plugins_repo/reviveMailer/plugins/etc/rvMailerCustomDSN/rvMailerCustomDSN.xml:24
-msgid "Custom DSN"
-msgstr "Benutzerdefinierter DSN"
-
-#: plugins_repo/reviveMailer/plugins/mailer/rvMailerCustomDSN/Mailer.class.php:11
-msgid "Custom Symfony Mailer DSN"
-msgstr "Custom Symfony Mailer DSN"
+#: plugins_repo/reviveMailer/plugins/etc/rvMailerMandrill/rvMailerMandrill.xml:24
+msgid "API Key"
+msgstr "API-Schlüssel"
 

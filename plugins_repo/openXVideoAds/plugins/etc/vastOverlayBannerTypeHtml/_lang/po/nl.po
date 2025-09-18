@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Dutch\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 480\n"
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/vastOverlayBannerTypeHtml.xml:26
+msgid "Allow overlay video banners to be defined as text"
+msgstr "Toestaan dat overlay video banners worden gedefinieerd als tekst"
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/vastOverlayBannerTypeHtml.xml:28
+msgid "Allow overlay video banners to be defined as an Image"
+msgstr "Toestaan dat overlay video banners worden gedefinieerd als een afbeelding"
+
+#: plugins_repo/openXVideoAds/plugins/etc/vastOverlayBannerTypeHtml/vastOverlayBannerTypeHtml.xml:30
+msgid "Allow overlay video banners to be defined as html"
+msgstr "Toestaan dat overlay video banners worden gedefinieerd als html"
+

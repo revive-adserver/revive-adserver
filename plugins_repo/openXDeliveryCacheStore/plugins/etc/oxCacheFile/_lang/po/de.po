@@ -24,5 +24,5 @@ msgstr "Schreiben auf folgenden Pfad fehlgeschlagen"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/oxCacheFile.xml:40
 msgid "Custom cache directory path"
-msgstr ""
+msgstr "Benutzerdefinierter Cache-Verzeichnispfad"
 
