@@ -43,5 +43,5 @@ msgstr "Version ungültig"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/etc/Client/Client.xml:48
 msgid "Extract the viewer's operating system and web browser information using phpSniff"
-msgstr ""
+msgstr "Extrahieren von das Betriebssystem und den Web-Browser mit phpSniff"
 
