@@ -29,6 +29,7 @@ if (!empty($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] == 
 
 header("Content-Type: text/javascript");
 header("ETag: {$etag}");
+header("Cross-Origin-Resource-Policy: cross-origin");
 
 // The browser is allowed to cache this
 if (!empty($conf['delivery']['assetClientCacheExpire'])) {
