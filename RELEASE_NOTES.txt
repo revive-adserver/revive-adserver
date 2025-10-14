@@ -81,6 +81,9 @@ New Features
    in the e-mail settings, so the legacy code is in use, granting backwards
    compatibility.
 
+ * Added Cross-Origin-Resource-Policy header to the delivery asyncjs.php
+   script.
+
 
 Bug Fixes
 ---------
