@@ -17,13 +17,13 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 6.0.0
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: October 22nd, 2025
 
 
 Security Updates
 ----------------
 
- * None
+ * Fixed Reflected XSS vulnerability (CVE-2025-27208)
 
 
 New Features
