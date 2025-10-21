@@ -26,7 +26,7 @@ class Plugins_Mailer_rvMailerSMTP_Mailer extends AbstractMailer
             $dsn .= $aConf['user'] . ':' . $aConf['password'] . '@';
         }
 
-        $dsn .= $aConf['host'] . ':' . $aConf['port'];
+        $dsn .= $aConf['hostname'] . ':' . $aConf['port'];
 
         return Transport::fromDSN($dsn);
     }
