@@ -89,7 +89,9 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
    ---------------------------------------------------------------
-   | Revive Adserver 5.x                 | All previous versions |
+   | Revive Adserver 6.x                 | All previous versions |
+   ---------------------------------------------------------------
+   | Revive Adserver 5.x                 | All versions          |
    ---------------------------------------------------------------
    | Revive Adserver 4.x                 | All versions          |
    ---------------------------------------------------------------
