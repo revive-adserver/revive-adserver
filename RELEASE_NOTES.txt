@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 6.0.0
+Release Notes: Revive Adserver 6.0.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,27 +14,15 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 6.0.0
+What's New in Revive Adserver 6.0.1
 -----------------------------------
 
- * Release date: October 22nd, 2025
+ * Release date: t.b.d.
 
 This version contains many enhancements, improvements and bug fixes. Here are
 a couple of the most noteworthy changes:
 
- * Improvements to the execution speed of on-screen statistics
-
- * A “loading” animation for page navigation in case the next page takes a
-   little time, to inform users that the system is working OK, just busy
-
- * A new ‘Mailer’ plugin enables administrators to use third-party mail
-   sending services (like Mailgun or Sendgrid)
-
- * A warning for users in case an HTML banner contains mixed content (https
-   and http combined)
-
- * An optional setting to prevent uploading banners that are larger in file
-   size than a specified maximum size
+ * t.b.d
 
 For a detailed change log, please see: CHANGELOG.md
 
@@ -45,9 +33,7 @@ Community Contributions
 We would like to thank the following community members for their
 contribution to this release:
 
- * zd-ls
- * lcuis
- * J0k3RTwelv3
+ * t.b.d
 
 
 System Requirements
