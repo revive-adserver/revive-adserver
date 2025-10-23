@@ -350,17 +350,19 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
                     'not a supported operator type:'. $operator, __FUNCTION__);
             }
         }
-        $match.= "'";
+
+        $like = '';
+
         foreach ($pattern as $key => $value) {
             if ($key % 2) {
-                $match.= $value;
+                $like.= $value;
             } else {
-                $match.= $db->escapePattern($db->escape($value));
+                $like.= $db->escapePattern($value);
             }
         }
-        $match.= "'";
-        $match.= $this->patternEscapeString();
-        return $match;
+
+        return "{$match}'{$db->escape($like)}'{$this->patternEscapeString()}";
+
     }
 
     // }}}
