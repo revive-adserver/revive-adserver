@@ -123,6 +123,11 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual($aRow['clientid'], 1);
         $this->assertEqual($aRow['clientname'], 'Advertiser 1');
 
+        // Test 8 - SQL injection on MySQL (CVE-2025-52664)
+        $rsClients = $this->dalClients->getClientByKeyword('FUZZ\') AND EXTRACTVALUE(8429,CONCAT(0x5c,0x716a7a6a71,(SELECT (ELT(8429=8429,1))),0x7178787871))-- Nqvq', 1);
+        $rsClients->reset();
+        $this->assertEqual($rsClients->getRowCount(), 0);
+
         TestEnv::truncateAllTables();
     }
 
