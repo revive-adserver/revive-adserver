@@ -2,11 +2,22 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.0]- 2025-10-22
+## [6.0.1] - 2025-10-24
 
-### Security updates
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-002/)
 
-- Fixed Reflected XSS vulnerability (CVE-2025-27208)
+- Fixed SQL injection ([CVE-2025-52664](https://www.cve.org/CVERecord?id=CVE-2025-52664))
+
+### Fixes
+
+- Fixed issue with the search window checkboxes being reset when submitting a new keyword ([#1587](https://github.com/revive-adserver/revive-adserver/issues/1587))
+
+
+## [6.0.0] - 2025-10-22
+
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-001/)
+
+- Fixed Reflected XSS vulnerability ([CVE-2025-27208](https://www.cve.org/CVERecord?id=CVE-2025-27208))
 
 ### Added
 
