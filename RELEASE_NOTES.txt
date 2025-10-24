@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 6.0.1
+Release Notes: Revive Adserver 6.0.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,13 +14,12 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 6.0.1
+What's New in Revive Adserver 6.0.2
 -----------------------------------
 
- * Release date: October 24th, 2025
+ * Release date: t.b.d.
 
-This version is an urgent security release that fixes a vulnerability
-introduced in version 6.0.0.
+This version...
 
 For a detailed change log, please see: CHANGELOG.md
 
