@@ -32,7 +32,7 @@ $banner = 't' === ($banner ?? 'f');
 $zone = 't' === ($zone ?? 'f');
 $affiliate = 't' === ($affiliate ?? 'f');
 $compact = 't' === ($compact ?? 'f');
-$keyword = $keyword ?? '';
+$keyword ??= '';
 
 if ($client === false && $campaign === false && $banner === false && $zone === false && $affiliate === false) {
     $client = true;

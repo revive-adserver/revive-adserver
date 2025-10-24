@@ -45,12 +45,12 @@
 
 	<div id='oaSearch'>
 		<form name='search' action='admin-search.php' method='post'>
-	    <input type='hidden' name='client' value='{$client}'>
-	    <input type='hidden' name='campaign' value='{$campaign}'>
-	    <input type='hidden' name='banner' value='{$banner}'>
-	    <input type='hidden' name='zone' value='{$zone}'>
-	    <input type='hidden' name='affiliate' value='{$affiliate}'>
-	    <input type='hidden' name='compact' value='{$compact}'>
+	    <input type='hidden' name='client' value='{if $client}t{else}f{/if}'>
+	    <input type='hidden' name='campaign' value='{if $campaign}t{else}f{/if}'>
+	    <input type='hidden' name='banner' value='{if $banner}t{else}f{/if}'>
+	    <input type='hidden' name='zone' value='{if $zone}t{else}f{/if}'>
+	    <input type='hidden' name='affiliate' value='{if $affiliate}t{else}f{/if}'>
+	    <input type='hidden' name='compact' value='{if $compact}t{else}f{/if}'>
 	    <input value="{$keyword|escape}" type='text' name='keyword' class='search' accesskey='{t key=Search}'><input class="submit" type="submit" value="&nbsp" >
     </form>
 	</div>
