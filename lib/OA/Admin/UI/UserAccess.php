@@ -109,15 +109,17 @@ class OA_Admin_UI_UserAccess
             if (empty($this->aErrors)) {
                 $newUser = empty($this->userid);
 
-                $this->userid = $this->oPlugin->saveUser(
-                    $this->userid,
-                    $this->request['login'],
-                    null,
-                    $this->request['contact_name'],
-                    $this->request['email_address'],
-                    $this->request['language'],
-                    $this->accountId
-                );
+                if ($newUser) {
+                    $this->userid = $this->oPlugin->saveUser(
+                        $this->userid,
+                        $this->request['login'],
+                        null,
+                        $this->request['contact_name'],
+                        $this->request['email_address'],
+                        $this->request['language'],
+                        $this->accountId
+                    );
+                }
 
                 if ($this->userid) {
                     self::linkUserToAccount(
