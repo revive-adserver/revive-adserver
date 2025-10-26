@@ -552,13 +552,23 @@ class Plugins_Authentication extends OX_Component
      */
     public function validateUsersData($data)
     {
+        if (!phpAds_SessionValidateToken($data['token'])) {
+            return ['Invalid request token'];
+        }
+
         if (empty($data['userid'])) {
             $this->validateUsersLogin($data['login']);
-        }
-        $this->validateUsersEmail($data['email_address']);
+            $this->validateUsersEmail($data['email_address']);
+        } else {
+            /** @var DataObjects_Users $doUser */
+            $doUser = OA_Dal::factoryDO('users');
+            $doUser->user_id = $data['userid'];
+            $doUser->username = $data['login'];
+            $doUser->email_address = $data['email_address'];
 
-        if (!phpAds_SessionValidateToken($data['token'])) {
-            $this->addValidationError('Invalid request token');
+            if (!$doUser->count()) {
+                $this->addValidationError('Invalid user data provided');
+            }
         }
 
         return $this->getValidationErrors();
