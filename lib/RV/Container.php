@@ -135,7 +135,7 @@ class Container implements PsrContainerInterface
         $paramResource = $this->getParametersResource($aConf);
 
         foreach ($paramResource->getParameters() as $key => $value) {
-            $container->setParameter($key, $value);
+            $container->setParameter($key, str_replace('%', '%%', $value));
         }
 
         return $container->addResource($paramResource);
