@@ -25,7 +25,8 @@ require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
-phpAds_registerGlobal('group');
+$pattern = '/[^a-zA-Z0-9\._-]/';
+$group = preg_replace($pattern, '', $_REQUEST['group'] ?? '');
 
 // Load the account's preferences, with additional information, into a specially named array
 $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
@@ -38,6 +39,9 @@ $aErrormessage = [];
 
 $oComponentGroupManager = new OX_Plugin_ComponentGroupManager();
 $aGroup = $oComponentGroupManager->_getComponentGroupConfiguration($group);
+
+OA_Permission::enforceTrue(!empty($aGroup['preferences']));
+
 $enabled = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group];
 $disabled = ((!$enabled) && (OA_Permission::getAccountType() != OA_ACCOUNT_ADMIN));
 
