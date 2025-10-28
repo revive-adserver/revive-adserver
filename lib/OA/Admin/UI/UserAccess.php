@@ -12,6 +12,8 @@
 
 require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/PasswordRecovery.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI.php';
+require_once MAX_PATH . '/lib/OX/Admin/Redirect.php';
 
 /**
  * Common UserAccess related UI methods
@@ -99,6 +101,17 @@ class OA_Admin_UI_UserAccess
 
     public function process()
     {
+        // Avoid information disclosure to non-admin users
+        if (!empty($this->userid) && !OA_Permission::isUserLinkedToAdmin() && !OA_Permission::isUserLinkedToAccount($this->accountId, $this->userid)) {
+            OA_Admin_UI::queueMessage(
+                'You are not allowed to add existing users to this account',
+                'local',
+                'error',
+                0,
+            );
+            OX_Admin_Redirect::redirect($this->pagePrefix . '-access.php');
+        }
+
         if (!empty($this->request['submit'])) {
             if (preg_match('#[\x00-\x1F\x7F]#', $this->request['login'])) {
                 $this->aErrors = [$GLOBALS['strInvalidUsername']];
