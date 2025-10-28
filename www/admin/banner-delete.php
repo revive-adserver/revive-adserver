@@ -39,6 +39,11 @@ OA_Permission::checkSessionToken();
 
 if (!empty($bannerid)) {
     $ids = explode(',', $bannerid);
+
+    foreach ($ids as $bannerid) {
+        OA_Permission::enforceAccessToObject('banners', $bannerid);
+    }
+
     foreach ($ids as $bannerid) {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->bannerid = $bannerid;
