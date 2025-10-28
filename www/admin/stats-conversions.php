@@ -325,6 +325,9 @@ if (!empty($aConversions)) {
         $connectionStatus = $GLOBALS['_MAX']['STATUSES'][$conversion['connection_status']];
         $translatedStatus = $GLOBALS[$connectionStatus];
 
+        $conversion['trackername'] = htmlspecialchars($conversion['trackername']);
+        $conversion['campaignname'] = htmlspecialchars($conversion['campaignname']);
+
         echo "
         <tr height='25'$bgcolor>
             <td>";
