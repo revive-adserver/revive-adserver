@@ -317,7 +317,7 @@ function phpAds_sqlDie()
     if ($corrupt) {
         $title = $GLOBALS['strErrorDBSerious'];
         $message = sprintf($GLOBALS['strErrorDBNoDataSerious'], PRODUCT_NAME);
-        if (OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+        if (OA_Auth::isLoggedIn() && OA_Permission::isUserLinkedToAdmin()) {
             $message .= " (" . $error . ").<br><br>" . $GLOBALS['strErrorDBCorrupt'];
         } else {
             $message .= ".<br>" . $GLOBALS['strErrorDBContact'];
@@ -325,7 +325,7 @@ function phpAds_sqlDie()
     } else {
         $title = $GLOBALS['strErrorDBPlain'];
         $message = sprintf($GLOBALS['strErrorDBNoDataPlain'], PRODUCT_NAME);
-        if ((OA_Auth::isLoggedIn() && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) || defined('phpAds_installing')) {
+        if ((OA_Auth::isLoggedIn() && OA_Permission::isUserLinkedToAdmin()) || defined('phpAds_installing')) {
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();
@@ -336,7 +336,7 @@ function phpAds_sqlDie()
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
             $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>" . htmlspecialchars(PRODUCT_NAME) . " v" . htmlspecialchars(VERSION) . "</td></tr>";
-            $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP " . phpversion() . " / " . $dbmsName . " " . $dbVersion . "</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>PHP/DB:</b></td><td>PHP " . phpversion() . " / " . $dbmsName . " " . $dbVersion . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>" . htmlspecialchars($_SERVER['PHP_SELF']) . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>" . htmlspecialchars($error) . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td><pre>" . htmlspecialchars($last_query) . "</pre></td></tr>";
