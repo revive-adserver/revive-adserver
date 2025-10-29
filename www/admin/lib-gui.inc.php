@@ -319,7 +319,7 @@ function phpAds_sqlDie()
     if ($corrupt) {
         $title = $GLOBALS['strErrorDBSerious'];
         $message = sprintf($GLOBALS['strErrorDBNoDataSerious'], PRODUCT_NAME);
-        if (OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+        if (OA_Auth::isLoggedIn() && OA_Permission::isUserLinkedToAdmin()) {
             $message .= " (" . $error . ").<br><br>" . $GLOBALS['strErrorDBCorrupt'];
         } else {
             $message .= ".<br>" . $GLOBALS['strErrorDBContact'];
@@ -327,8 +327,7 @@ function phpAds_sqlDie()
     } else {
         $title = $GLOBALS['strErrorDBPlain'];
         $message = sprintf($GLOBALS['strErrorDBNoDataPlain'], PRODUCT_NAME);
-        if ((OA_Auth::isLoggedIn() && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) || defined('phpAds_installing')) {
-
+        if ((OA_Auth::isLoggedIn() && OA_Permission::isUserLinkedToAdmin()) || defined('phpAds_installing')) {
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();
