@@ -49,8 +49,8 @@ $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $submit = MAX_getValue('submit');
 
 // Get zone filter parameters
-$zoneFilterWebsite = MAX_commonGetValue('filterWebsite');
-$zoneFilterZone = MAX_commonGetValue('filterZone');
+$zoneFilterWebsite = MAX_commonGetValueUnslashed('filterWebsite');
+$zoneFilterZone = MAX_commonGetValueUnslashed('filterZone');
 
 // Initialise some parameters
 $pageName = basename($_SERVER['SCRIPT_NAME']);
@@ -222,12 +222,12 @@ if (!$error) {
 
         <div>
             <label for="filter-website" class="inlineIcon iconWebsiteFilter"><?= $GLOBALS["strWebsite"] ?>:&nbsp;</label>
-            <input type="text" name="filterWebsite" id="filter-website" placeholder="website.com" value="<?= $zoneFilterWebsite ?>">
+            <input type="text" name="filterWebsite" id="filter-website" placeholder="website.com" value="<?= htmlspecialchars($zoneFilterWebsite) ?>">
         </div>
 
        <div>
            <label for="filter-zone" class="inlineIcon iconZoneFilter"><?= $GLOBALS["strZone"] ?>:&nbsp;</label>
-           <input type="text" name="filterZone" id="filter-zone" placeholder="Homepage" value="<?= $zoneFilterZone ?>">
+           <input type="text" name="filterZone" id="filter-zone" placeholder="Homepage" value="<?= htmlspecialchars($zoneFilterZone) ?>">
        </div>
 
         <div>
@@ -249,8 +249,8 @@ echo "
 // Include filter parameters
 ?>
 
-<input type='hidden' name='filterWebsite' value='<?= $zoneFilterWebsite ?>'>
-<input type='hidden' name='filterZone' value='<?= $zoneFilterZone ?>'>
+<input type='hidden' name='filterWebsite' value="<?= htmlspecialchars($zoneFilterWebsite) ?>">
+<input type='hidden' name='filterZone' value="<?= htmlspecialchars($zoneFilterZone) ?>">
 
 <?php
 
