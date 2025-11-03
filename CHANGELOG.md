@@ -7,6 +7,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Fixed typo preventing Excel exports from working ([#1590](https://github.com/revive-adserver/revive-adserver/issues/1590))
+- Fixed UI bug in the *Hostname List* and *Registerable Domain List* delivery rules ([#1589](https://github.com/revive-adserver/revive-adserver/issues/1589))
 
 
 ## [6.0.1] - 2025-10-24
