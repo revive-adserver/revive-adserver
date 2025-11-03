@@ -12,7 +12,7 @@
 
 // Include required files
 require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
-require_once LIB_PATH . '/Extension/reports/ReportsTrait.php';
+require_once LIB_PATH . '/Extension/reports/ReportTrait.php';
 require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 /**

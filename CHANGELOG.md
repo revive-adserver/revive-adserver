@@ -2,6 +2,13 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
+## [6.0.2] - 2025-11-05
+
+### Fixes
+
+- Fixed typo preventing Excel exports from working ([#1590](https://github.com/revive-adserver/revive-adserver/issues/1590))
+
+
 ## [6.0.1] - 2025-10-24
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-002/)
