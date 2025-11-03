@@ -107,26 +107,18 @@ function isDateEqual(a,b)
  */
 function newDateFromNamedFields(dom_document, form, base_name)
 {
-    formDate = getValueFromNamedElement(document, base_name);
+    return Date.parseDate(getValueFromNamedElement(document, base_name), '%d %B %Y');
+}
 
-    //  split date into day, month, & year
-    formDate = formDate.split(" ");
-
-    day     = formDate[0];
-    month   = getMonthFromName(formDate[1]);
-    year    = formDate[2];
-
-    date = new Date(0);
-
-    if (!isValidDate(year,month,day)) {
-        return false;
-    }
-
-    date.setDate(day);
-    date.setMonth(month - 1);
-    date.setFullYear(year);
-
-    return date;
+/**
+ * Finds the input control with a given identifier.
+ *
+ * @param HTMLDocument  dom_document   The document to search
+ * @param string        name           The unique identifier for the requested control
+ */
+function getNamedElement(dom_document, name)
+{
+    return dom_document.getElementById(name);
 }
 
 /**

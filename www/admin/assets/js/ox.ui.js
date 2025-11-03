@@ -888,10 +888,11 @@ function getCampaignType()
 
 function campaignFormDatesRangeCheck(form)
 {
-    var activeDate;
-    var expireDate;
+    var activateDate = null;
+    var expireDate = null;
     var activation_enabled = isDateSetActive('start', form);
     var expiry_enabled = isDateSetActive('end', form);
+    var el;
     // No sense in comparing inactive values
     if  (activation_enabled) {
         activateDate = newDateFromNamedFields(document, form, 'start');
@@ -913,6 +914,17 @@ function campaignFormDatesRangeCheck(form)
             return false;
         }
     }
+
+    if  (activateDate) {
+        el = getNamedElement(document, 'start');
+        el.value = Date.parseDate(el.value, '%d %B %Y').print('%Y-%m-%d');;
+    }
+
+    if  (expireDate) {
+        el = getNamedElement(document, 'end');
+        el.value = Date.parseDate(el.value, '%d %B %Y').print('%Y-%m-%d');;
+    }
+
     return true;
 }
 

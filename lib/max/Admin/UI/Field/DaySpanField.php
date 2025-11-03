@@ -186,24 +186,12 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      */
     public function display()
     {
-        try {
-            $formatter = \IntlDateFormatter::create($GLOBALS['_MAX']['PREF']['language'] ?? 'en', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
-        } catch (ValueError) {
-            $formatter = null;
-        }
-
-        $format = static function (?Date $oDate) use ($formatter): string {
-            if (!$oDate instanceof \Date) {
-                return '';
-            }
-
-            return $formatter?->format(new \DateTime($oDate->format('%Y-%m-%d'))) ?? $oDate->format('%d %B %Y');
-        };
+        $formatter = new \RV\Admin\DatePickerFormatter();
 
         $oStartDate = $this->getStartDate();
-        $startDateStr = $format($oStartDate);
+        $startDateStr = $formatter->format($oStartDate);
         $oEndDate = $this->getEndDate();
-        $endDateStr = $format($oEndDate);
+        $endDateStr = $formatter->format($oEndDate);
 
         echo "
         <select name='{$this->_name}_preset' id='{$this->_name}_preset' onchange='{$this->_name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
@@ -311,9 +299,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                 if ($v != 'all_stats') {
                     $oTmpDaySpan->setSpanPresetValue($v);
                     $oTmpStartDate = $oTmpDaySpan->getStartDate();
-                    $sTmpStartDate = $format($oTmpStartDate);
+                    $sTmpStartDate = $formatter->format($oTmpStartDate);
                     $oTmpEndDate = $oTmpDaySpan->getEndDate();
-                    $sTmpEndDate = $format($oTmpEndDate);
+                    $sTmpEndDate = $formatter->format($oTmpEndDate);
                 } else {
                     $sTmpStartDate = '';
                     $sTmpEndDate = '';

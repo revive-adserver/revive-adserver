@@ -344,10 +344,12 @@ function buildCampaignForm($campaign)
         'conversions' => !isset($campaign['conversions']) || $campaign['conversions'] == '' || $campaign['conversions'] < 0 ? '-' : $campaign['conversions'],
     ]);
 
+    $formatter = new \RV\Admin\DatePickerFormatter();
+
     if (!empty($campaign['activate_date'])) {
         $oDate = new Date($campaign['activate_date']);
         $startDateSet = 't';
-        $startDateStr = $oDate->format('%d %B %Y ');
+        $startDateStr = $formatter->format($oDate);
     } else {
         $startDateSet = 'f';
         $startDateStr = '';
@@ -356,7 +358,7 @@ function buildCampaignForm($campaign)
     if (!empty($campaign['expire_date'])) {
         $oDate = new Date($campaign['expire_date']);
         $endDateSet = 't';
-        $endDateStr = $oDate->format('%d %B %Y ');
+        $endDateStr = $formatter->format($oDate);
     } else {
         $endDateSet = 'f';
         $endDateStr = '';
