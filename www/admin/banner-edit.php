@@ -307,7 +307,8 @@ function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = f
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $form->addElement('text', 'description', $GLOBALS['strName']);
     } else {
-        $form->addElement('static', 'description', $GLOBALS['strName'], $aBanner['description']);
+        $form->addElement('static', 'description', $GLOBALS['strName'], htmlspecialchars($aBanner['description']));
+        unset($aBanner['description']);
     }
 
     //local banners
