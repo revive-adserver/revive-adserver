@@ -17,13 +17,15 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.5.3
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: November 5th, 2025
 
 
 Security Updates
 ----------------
 
- * None
+ * Fixed multiple vulnerabilities:
+    - https://www.revive-adserver.com/security/revive-sa-2025-001/
+    - https://www.revive-adserver.com/security/revive-sa-2025-003/
 
 
 New Features
@@ -35,7 +37,7 @@ New Features
 Bug Fixes
 ---------
 
- * None
+ * Fixed an error when running maintenance on PHP 8.1+
 
 
 Non-Backwards Compatible Changes
