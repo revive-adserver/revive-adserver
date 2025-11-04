@@ -156,7 +156,7 @@
                 </td>
                 {/if}
                 <td>
-                    {if !$canEdit}
+                    {if !$isAdvertiser}
                         <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
                     {else}
                         <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
