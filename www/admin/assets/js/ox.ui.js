@@ -972,6 +972,14 @@ function formUnFormat(field)
 	}
 }
 
+function disableExcel(a) {
+    $(a).replaceWith(
+        $('<SPAN>').css('color', '#999999').html(a.innerHTML)
+    );
+
+    return true;
+}
+
 (function($) {
   $.fn.expandableContainer = function() {
     return this.each(function() {

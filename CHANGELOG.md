@@ -10,6 +10,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed UI bug in the *Hostname List* and *Registerable Domain List* delivery rules ([#1589](https://github.com/revive-adserver/revive-adserver/issues/1589))
 - Fixed issue with campaign start/end date when editing campaigns using non-english language ([#1588](https://github.com/revive-adserver/revive-adserver/issues/1588)) 
 - Removed link from campaign names when logged in as advertiser as they can't edit campaigns ([#1593](https://github.com/revive-adserver/revive-adserver/issues/1593))
+- Fixed issue with animation being stuck when exporting statistics to Excel ([#1591](https://github.com/revive-adserver/revive-adserver/issues/1591))
 
 
 ## [6.0.1] - 2025-10-24

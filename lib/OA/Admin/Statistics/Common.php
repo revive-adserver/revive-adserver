@@ -47,11 +47,6 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     public $statsIcon;
 
     /**
-     * @var string
-     */
-    public $strExportStatisticsToExcel;
-
-    /**
      * The ID "number" of the page (eg. "2.1.2").
      *
      * @var string
