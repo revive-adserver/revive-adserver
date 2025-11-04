@@ -11,6 +11,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed issue with campaign start/end date when editing campaigns using non-english language ([#1588](https://github.com/revive-adserver/revive-adserver/issues/1588)) 
 - Removed link from campaign names when logged in as advertiser as they can't edit campaigns ([#1593](https://github.com/revive-adserver/revive-adserver/issues/1593))
 - Fixed issue with animation being stuck when exporting statistics to Excel ([#1591](https://github.com/revive-adserver/revive-adserver/issues/1591))
+- Fixed PHP fatal error in the *Email Settings* screen when no Mailer plugin is installed ([#1595](https://github.com/revive-adserver/revive-adserver/issues/1595))
 
 
 ## [6.0.1] - 2025-10-24

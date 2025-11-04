@@ -33,6 +33,7 @@ $prefSection = "email";
 // Prepare an array for storing error messages
 $aErrormessage = [];
 
+$aComponentItems = [];
 $aComponents = OX_Component::getComponents('mailer');
 foreach ($aComponents as $name => $oComponent) {
     if ($oComponent->enabled) {
