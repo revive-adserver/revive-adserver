@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.5.3
+Release Notes: Revive Adserver 5.5.4
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,18 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.5.3
+What's New in Revive Adserver 5.5.4
 -----------------------------------
 
- * Release date: November 5th, 2025
+ * Release date: t.b.d.
 
 
 Security Updates
 ----------------
 
- * Fixed multiple vulnerabilities:
-    - https://www.revive-adserver.com/security/revive-sa-2025-001/
-    - https://www.revive-adserver.com/security/revive-sa-2025-003/
+ * None
 
 
 New Features
