@@ -4,6 +4,11 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.0.2] - 2025-11-05
 
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-003/)
+
+- Fixed multiple vulnerabilities:
+  - [CVE-2025-48986](https://www.cve.org/CVERecord?id=CVE-2025-48986)
+
 ### Fixes
 
 - Fixed typo preventing Excel exports from working ([#1590](https://github.com/revive-adserver/revive-adserver/issues/1590))
