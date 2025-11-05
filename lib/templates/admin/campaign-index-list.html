@@ -14,7 +14,7 @@
 <div class='tableWrapper'>
     <div class='tableHeader'>
         <ul class='tableActions'>
-            {if $canAddCampaign}
+            {if !$isAdvertiser}
             <li>
                 {if $clientId != -1}
                 <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon iconCampaignAdd'>{t str=AddCampaign}</a>
@@ -156,7 +156,7 @@
                 </td>
                 {/if}
                 <td>
-                    {if !$isAdvertiser}
+                    {if $isAdvertiser}
                         <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
                     {else}
                         <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>

@@ -205,7 +205,7 @@ $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('showconversions', $conf['logging']['trackerImpressions']);
-$oTpl->assign('canAddCampaign', !$isAdvertiser);
+$oTpl->assign('isAdvertiser', $isAdvertiser);
 $oTpl->assign('canAddBanner', !$isAdvertiser || OA_Permission::hasPermission(OA_PERM_BANNER_ADD));
 $oTpl->assign('canEditBanner', !$isAdvertiser || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT));
 $oTpl->assign('canDelete', !$isAdvertiser && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE));
