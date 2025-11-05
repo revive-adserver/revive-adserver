@@ -107,7 +107,7 @@ class OA_Admin_UI_UserAccess
                 'You are not allowed to add existing users to this account',
                 'local',
                 'error',
-                0,
+                0
             );
             OX_Admin_Redirect::redirect($this->pagePrefix . '-access.php');
         }
