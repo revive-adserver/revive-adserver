@@ -10,34 +10,18 @@ msgstr ""
 "Plural-Forms: (n != 1)\n"
 
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
 msgid "Country"
 msgstr "Country"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr "Subdivision(s)"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
 msgstr "City(s)"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
-msgid "Is within"
-msgstr "Is within"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:47
-msgid "Is not within"
-msgstr "Is not within"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:90
-msgid "Latitude"
-msgstr "Latitude"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:96
-msgid "Longitude"
-msgstr "Longitude"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
+msgid "Subdivision(s)"
+msgstr "Subdivision(s)"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
@@ -58,3 +42,19 @@ msgstr "Corporate"
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
 msgstr "Cellular"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
+msgid "Is within"
+msgstr "Is within"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:47
+msgid "Is not within"
+msgstr "Is not within"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:90
+msgid "Latitude"
+msgstr "Latitude"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:96
+msgid "Longitude"
+msgstr "Longitude"
