@@ -146,10 +146,10 @@ function MAX_cookieUnpackCapping()
             foreach ($_COOKIE['_' . $cookieName] as $adId => $cookie) {
                 if (_isBlockCookie($cookieName)) {
                     $_COOKIE[$cookieName][$adId] = $cookie;
-                } elseif (isset($_COOKIE[$cookieName][$adId])) {
-                    $_COOKIE[$cookieName][$adId] += $cookie;
+                } elseif (isset($_COOKIE[$cookieName][$adId]) && $_COOKIE[$cookieName][$adId] > 0) {
+                    $_COOKIE[$cookieName][$adId] += (int) $cookie;
                 } else {
-                    $_COOKIE[$cookieName][$adId] = $cookie;
+                    $_COOKIE[$cookieName][$adId] = (int) $cookie;
                 }
                 // Delete the temporary capping cookie
                 MAX_cookieUnset("_{$cookieName}[{$adId}]");
