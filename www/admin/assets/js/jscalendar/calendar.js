@@ -1594,7 +1594,7 @@ Date.parseDate = function(str, fmt) {
 	var y = 0;
 	var m = -1;
 	var d = 0;
-	var a = str.split(/\W+/);
+	var a = str.split(/\s+/u);
 	var b = fmt.match(/%./g);
 	var i = 0, j = 0;
 	var hr = 0;

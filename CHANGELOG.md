@@ -8,6 +8,7 @@ All notable changes to Revive Adserver will be documented in this file.
 
 - Removed local and XML-RPC invocation file names from banner delivery settings, which were still present and marked as required, but not populated ([#1599](https://github.com/revive-adserver/revive-adserver/issues/1599))
 - Editing existing image banners wrongly required always uploading an image file ([#1598](https://github.com/revive-adserver/revive-adserver/issues/1598))
+- The localised date picker was not working with non-latin alphabets ([#1597](https://github.com/revive-adserver/revive-adserver/issues/1597))
 
 
 ## [6.0.2] - 2025-11-05

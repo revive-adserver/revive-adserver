@@ -6,16 +6,20 @@ namespace RV\Admin;
 
 class DatePickerFormatter
 {
-    private ?\IntlDateFormatter $formatter;
+    private ?\IntlDateFormatter $formatter = null;
 
     public function __construct(?string $locale = null)
     {
         $locale ??= $GLOBALS['_MAX']['PREF']['language'] ?? 'en';
 
+        // Use default formater if jscalendar doesn't have the matching translation
+        if (!file_exists(MAX_PATH . "/www/admin/assets/js/jscalendar/lang/calendar-{$locale}.js")) {
+            return;
+        }
+
         try {
-            $this->formatter = \IntlDateFormatter::create($locale, \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
+            $this->formatter = \IntlDateFormatter::create($locale, pattern: 'dd LLLL y');
         } catch (\ValueError) {
-            $formatter = null;
         }
     }
 
