@@ -137,8 +137,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'file_log' => ['file' => 'log'],
         'file_popup' => ['file' => 'popup'],
         'file_view' => ['file' => 'view'],
-        'file_xmlrpc' => ['file' => 'xmlrpc'],
-        'file_local' => ['file' => 'local'],
         'file_frontcontroller' => ['file' => 'frontcontroller'],
         'file_singlepagecall' => ['file' => 'singlepagecall'],
         'file_spcjs' => ['file' => 'spcjs'],
@@ -502,24 +500,6 @@ $aSettings = [
                 'type' => 'text',
                 'name' => 'file_view',
                 'text' => $strDeliveryFilenamesAdView,
-                'req' => true,
-            ],
-            [
-                'type' => 'break',
-            ],
-            [
-                'type' => 'text',
-                'name' => 'file_xmlrpc',
-                'text' => $strDeliveryFilenamesXMLRPC,
-                'req' => true,
-            ],
-            [
-                'type' => 'break',
-            ],
-            [
-                'type' => 'text',
-                'name' => 'file_local',
-                'text' => $strDeliveryFilenamesLocal,
                 'req' => true,
             ],
             [

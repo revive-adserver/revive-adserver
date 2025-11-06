@@ -2,6 +2,13 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
+## [6.0.3]
+
+### Fixes
+
+- Removed local and XML-RPC invocation file names from banner delivery settings, which were still present and marked as required, but not populated ([#1599](https://github.com/revive-adserver/revive-adserver/issues/1599)) 
+
+
 ## [6.0.2] - 2025-11-05
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-003/)
