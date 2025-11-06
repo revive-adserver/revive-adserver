@@ -504,9 +504,13 @@ function addUploadGroup($form, $aBanner, $vars)
         $rules[] = [sprintf($GLOBALS['strUploadedFileTooBig'], $maxFilesize), 'maxfilesize', $maxFilesize];
     }
 
-    $rules[] = [$GLOBALS['strUploadedRequired'], 'uploadedfile'];
+    if (empty($aBanner['bannerid'])) {
+        $rules[] = [$GLOBALS['strUploadedRequired'], 'uploadedfile'];
+    }
 
-    $form->addGroupRule($vars['uploadName'] . '_group', ['upload' => $rules]);
+    if ([] !== $rules) {
+        $form->addGroupRule($vars['uploadName'] . '_group', ['upload' => $rules]);
+    }
 }
 
 
