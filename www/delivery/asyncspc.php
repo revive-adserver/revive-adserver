@@ -372,10 +372,10 @@ if (!empty($_COOKIE['_' . $cookieName]) && is_array($_COOKIE['_' . $cookieName])
 foreach ($_COOKIE['_' . $cookieName] as $adId => $cookie) {
 if (_isBlockCookie($cookieName)) {
 $_COOKIE[$cookieName][$adId] = $cookie;
-} elseif (isset($_COOKIE[$cookieName][$adId])) {
-$_COOKIE[$cookieName][$adId] += $cookie;
+} elseif (isset($_COOKIE[$cookieName][$adId]) && $_COOKIE[$cookieName][$adId] > 0) {
+$_COOKIE[$cookieName][$adId] += (int) $cookie;
 } else {
-$_COOKIE[$cookieName][$adId] = $cookie;
+$_COOKIE[$cookieName][$adId] = (int) $cookie;
 }
 MAX_cookieUnset("_{$cookieName}[{$adId}]");
 }
