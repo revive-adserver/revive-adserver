@@ -175,7 +175,7 @@ abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Stati
         if ($use_pager) {
             $params = [
                 'itemData' => $aStats,
-                'perPage' => (int) MAX_getStoredValue('setPerPage', $per_page),
+                'perPage' => MAX_getSetPerPageValue($per_page),
                 'delta' => 8,
                 'append' => true,
                 'clearIfVoid' => false,
@@ -187,7 +187,6 @@ abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Stati
             if ($params['perPage'] % $per_page || $params['perPage'] > $per_page * 4) {
                 // Reset the perPage and the request parameters when not matching the available values
                 $params['perPage'] = $per_page;
-                $_REQUEST['setPerPage'] = $per_page;
             }
 
             $pager = Pager::factory($params);

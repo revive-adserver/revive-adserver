@@ -157,7 +157,7 @@ if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners))
     }
 }
 
-$itemsPerPage = 250;
+$itemsPerPage = 100;
 $oPager = OX_buildPager($clients, $itemsPerPage);
 $oTopPager = OX_buildPager($clients, $itemsPerPage, false);
 [$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();

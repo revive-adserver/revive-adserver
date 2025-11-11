@@ -179,6 +179,11 @@ class Pager
 
         // If the class exists, return a new instance of it.
         if (class_exists($classname)) {
+            if (isset($options['perPage'])) {
+                // Overwrite superglobals, as they are used by the pager
+                $_GET['setPerPage'] = $_POST['setPerPage'] = $_REQUEST['setPerPage'] = $options['perPage'];
+            }
+
             $pager = new $classname($options);
             return $pager;
         }

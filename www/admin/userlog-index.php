@@ -71,7 +71,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 
 // Paging related input variables
 $listorder = htmlspecialchars(MAX_getStoredValue('listorder', 'updated'));
-$oAudit = &OA_Dal::factoryDO('audit');
+$oAudit = OA_Dal::factoryDO('audit');
 $aAuditColumns = $oAudit->table();
 $aColumnNamesFound = array_keys($aAuditColumns, $listorder);
 if (empty($aColumnNamesFound)) {
@@ -86,7 +86,8 @@ if ($orderdirection != 'up' && $orderdirection != 'down') {
         $orderdirection = 'up';
     }
 }
-$setPerPage = (int) MAX_getStoredValue('setPerPage', 10);
+
+$setPerPage = MAX_getSetPerPageValue(10);
 $pageID = (int) MAX_getStoredValue('pageID', 1);
 
 // Setup date selector
@@ -158,6 +159,7 @@ if ($showPublishers) {
 $oTrans = new OX_Translation();
 
 $aParams = [
+    'perPage' => $setPerPage,
     'order' => $orderdirection,
     'listorder' => $listorder,
     'start_date' => $startDate,
@@ -189,9 +191,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 }
 
 $oUserlog = new OA_Dll_Audit();
-$aAuditData = $oUserlog->getAuditLog($aParams);
-
-$aParams['totalItems'] = is_array($aAuditData) ? count($aAuditData) : 0;
+$aParams['totalItems'] = $oUserlog->countAuditLog($aParams);
 
 if (!isset($pageID) || $pageID == 1) {
     $aParams['startRecord'] = 0;
@@ -200,16 +200,13 @@ if (!isset($pageID) || $pageID == 1) {
 }
 
 if ($aParams['startRecord'] > $aParams['totalItems']) {
-    $aParams['startRecord'] = 0;
+    $aParams['startRecord'] = $setPerPage * (int) floor($aParams['totalItems'] / $setPerPage);
 }
-
-$aParams['perPage'] = (int) MAX_getStoredValue('setPerPage', 10);
 
 // Retrieve audit details
 $aAuditData = $oUserlog->getAuditLog($aParams);
 
-$pager = &Pager::factory($aParams);
-$per_page = $pager->_perPage;
+$pager = Pager::factory($aParams);
 $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
 

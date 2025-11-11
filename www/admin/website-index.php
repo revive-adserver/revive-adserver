@@ -72,7 +72,7 @@ $oTpl = new OA_Admin_Template('website-index.html');
 $dalAffiliates = OA_Dal::factoryDAL('affiliates');
 $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId($agencyid, $listorder, $orderdirection);
 
-$itemsPerPage = 250;
+$itemsPerPage = 100;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);
 $oTopPager = OX_buildPager($aWebsitesZones, $itemsPerPage, false);
 [$itemsFrom, $itemsTo] = $oPager->getOffsetByPageId();

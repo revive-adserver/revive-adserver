@@ -505,6 +505,10 @@ function MAX_getStoredValue($key, $default, $pageName = null, $allowEmpty = fals
     return $value;
 }
 
+function MAX_getSetPerPageValue(int $default = 10): int
+{
+    return max(10, min(100, (int) MAX_getStoredValue('setPerPage', $default)));
+}
 
 function MAX_changeStoredValue($key, $value)
 {

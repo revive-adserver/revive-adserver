@@ -95,178 +95,195 @@ class OA_Dll_Audit extends OA_Dll
      *
      * @return array An associative array containing the audit events for the specified parameters
      */
-    public function getAuditLog($aParam = null)
+    public function getAuditLog($aParam = null): array
     {
-        // Prepare the audit trail table DB_DataObject
+        $doAudit = $this->getAuditLogDO($aParam);
+
+        if (isset($aParam['order'])) {
+            if ($aParam['order'] == 'down') {
+                $doAudit->orderBy($aParam['listorder'] . ' ASC');
+            } else {
+                $doAudit->orderBy($aParam['listorder'] . ' DESC');
+            }
+        }
+
+        if ((!empty($aParam['startRecord']) || $aParam['startRecord'] >= 0) && $aParam['perPage']) {
+            $doAudit->limit($aParam['startRecord'], $aParam['perPage']);
+        } else {
+            $doAudit->limit(0, 500); //force to a limit, to avoid unlimited querie
+        }
+
+        $doAudit->find();
+
+        $oNow = new Date();
+        while ($doAudit->fetch()) {
+            $aAudit = $doAudit->toArray();
+            $aAudit['details'] = unserialize($aAudit['details']);
+
+            //  format date
+            $oDate = new Date($aAudit['updated']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $aAudit['updated'] = $oDate->format($GLOBALS['date_format'] . ', ' . $GLOBALS['time_format']);
+            //  set action type
+            $aAudit['action'] = $this->getActionName($aAudit['actionid']);
+            $result = $this->getParentContextData($aAudit);
+            $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
+
+            if (empty($aAudit['username'])) {
+                $aAudit['username'] = $GLOBALS['strAuditSystem'];
+            }
+            $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
+
+            $aAuditInfo[] = $aAudit;
+        }
+
+        return $aAuditInfo;
+    }
+
+    /**
+     * @see self::getAuditLog()
+     */
+    public function countAuditLog($aParam = null): int
+    {
+        return $this->getAuditLogDO($aParam)->count();
+    }
+
+    private function getAuditLogDO($aParam = null): DataObjects_Audit
+    {
+        /** @var DataObjects_Audit $doAudit */
         $doAudit = OA_Dal::factoryDO('audit');
 
         // Are there any parameters?
-        if (!empty($aParam) && is_array($aParam)) {
-            // Check for, and apply, as required, any filters to ensure
-            // that the results displayed are those that the current
-            // account has access to
-            if (!empty($aParam['account_id'])) {
-                $where = "account_id = {}";
-                $doAudit->account_id = $aParam['account_id'];
-            }
-            if (!empty($aParam['advertiser_account_id'])) {
-                $doAudit->advertiser_account_id = $aParam['advertiser_account_id'];
-            }
-            if (!empty($aParam['website_account_id'])) {
-                $doAudit->website_account_id = $aParam['website_account_id'];
-            }
+        if (empty($aParam) || !is_array($aParam)) {
+            throw new \InvalidArgumentException('Empty $aParam');
+        }
 
-            // Check for, and apply, as required, any filters to ensure
-            // that the results displayed are those in the desired date range
-            if (!empty($aParam['start_date']) && !empty($aParam['end_date'])) {
-                $oStartDate = new Date($aParam['start_date']);
-                $oStartDate->toUTC();
-                $oEndDate = new Date($aParam['end_date']);
-                $oEndDate->addSpan(new Date_Span('1-0-0-0'));
-                $oEndDate->toUTC();
-                $doAudit->whereAdd('updated >= ' . DBC::makeLiteral($oStartDate->format('%Y-%m-%d %H:%M:%S')));
-                $doAudit->whereAdd('updated < ' . DBC::makeLiteral($oEndDate->format('%Y-%m-%d %H:%M:%S')));
-            }
+        // Check for, and apply, as required, any filters to ensure
+        // that the results displayed are those that the current
+        // account has access to
+        if (!empty($aParam['account_id'])) {
+            $doAudit->account_id = $aParam['account_id'];
+        }
+        if (!empty($aParam['advertiser_account_id'])) {
+            $doAudit->advertiser_account_id = $aParam['advertiser_account_id'];
+        }
+        if (!empty($aParam['website_account_id'])) {
+            $doAudit->website_account_id = $aParam['website_account_id'];
+        }
 
-            // Check for, and apply, as required, any filters to ensure
-            // that the results displayed are those in the desired advertiser ID;
-            // OR, check for, and apply, as required, and filters to ensure
-            // that the results displayed are those in the desired publisher ID.
-            if (!empty($aParam['advertiser_id']) && is_numeric($aParam['advertiser_id']) && ($aParam['advertiser_id'] > 0)) {
-                $aWhere = [];
-                $campaignIdSet = true;
-                // Also check for, and apply, as required and filters to
-                // ensure that the results displayed are ALSO for the
-                // desired campaign ID
-                if (empty($aParam['campaign_id']) || !is_numeric($aParam['campaign_id']) || ($aParam['campaign_id'] <= 0)) {
-                    // The campaign ID is not set, so filtering by advertiser ID only
-                    //  - Unset the fact that the campaign ID is set; and
-                    //  - Add the where clause to include advertiser ID level events
-                    $campaignIdSet = false;
-                    $aWhere[] = "(context = 'clients' AND contextid = " . $doAudit->quote($aParam['advertiser_id']) . ")";
+        // Check for, and apply, as required, any filters to ensure
+        // that the results displayed are those in the desired date range
+        if (!empty($aParam['start_date']) && !empty($aParam['end_date'])) {
+            $oStartDate = new Date($aParam['start_date']);
+            $oStartDate->toUTC();
+            $oEndDate = new Date($aParam['end_date']);
+            $oEndDate->addSpan(new Date_Span('1-0-0-0'));
+            $oEndDate->toUTC();
+            $doAudit->whereAdd('updated >= ' . DBC::makeLiteral($oStartDate->format('%Y-%m-%d %H:%M:%S')));
+            $doAudit->whereAdd('updated < ' . DBC::makeLiteral($oEndDate->format('%Y-%m-%d %H:%M:%S')));
+        }
+
+        // Check for, and apply, as required, any filters to ensure
+        // that the results displayed are those in the desired advertiser ID;
+        // OR, check for, and apply, as required, and filters to ensure
+        // that the results displayed are those in the desired publisher ID.
+        if (!empty($aParam['advertiser_id']) && is_numeric($aParam['advertiser_id']) && ($aParam['advertiser_id'] > 0)) {
+            $aWhere = [];
+            $campaignIdSet = true;
+            // Also check for, and apply, as required and filters to
+            // ensure that the results displayed are ALSO for the
+            // desired campaign ID
+            if (empty($aParam['campaign_id']) || !is_numeric($aParam['campaign_id']) || ($aParam['campaign_id'] <= 0)) {
+                // The campaign ID is not set, so filtering by advertiser ID only
+                //  - Unset the fact that the campaign ID is set; and
+                //  - Add the where clause to include advertiser ID level events
+                $campaignIdSet = false;
+                $aWhere[] = "(context = 'clients' AND contextid = " . $doAudit->quote($aParam['advertiser_id']) . ")";
+            }
+            // Add the where clause to include campaign level events
+            $aCampaignIds = [];
+            // Find all campaigns in the advertiser
+            $doCampaigns = OA_Dal::factoryDO('campaigns');
+            $doCampaigns->clientid = $aParam['advertiser_id'];
+            if ($campaignIdSet) {
+                // Also limit to the set campaign ID
+                $doCampaigns->campaignid = $aParam['campaign_id'];
+            }
+            $doCampaigns->find();
+            if ($doCampaigns->getRowCount() > 0) {
+                while ($doCampaigns->fetch()) {
+                    // Add the campaign ID to the list of campaigns in the advertiser
+                    $aCampaignIds[] = $doAudit->quote($doCampaigns->campaignid);
                 }
-                // Add the where clause to include campaign level events
-                $aCampaignIds = [];
-                // Find all campaigns in the advertiser
-                $doCampaigns = OA_Dal::factoryDO('campaigns');
-                $doCampaigns->clientid = $aParam['advertiser_id'];
-                if ($campaignIdSet) {
-                    // Also limit to the set campaign ID
-                    $doCampaigns->campaignid = $aParam['campaign_id'];
-                }
-                $doCampaigns->find();
-                if ($doCampaigns->getRowCount() > 0) {
-                    while ($doCampaigns->fetch()) {
-                        // Add the campaign ID to the list of campaigns in the advertiser
-                        $aCampaignIds[] = $doAudit->quote($doCampaigns->campaignid);
+            }
+            if (!empty($aCampaignIds)) {
+                $aWhere[] = "(context = 'campaigns' AND contextid IN (" . implode(',', $aCampaignIds) . "))";
+            }
+            // Add the where clause to include banner level events
+            $aBannerIds = [];
+            // Find all banners in the advertiser's campaigns
+            if (!empty($aCampaignIds)) {
+                $doBanners = OA_Dal::factoryDO('banners');
+                $doBanners->whereAdd('campaignid IN (' . implode(',', $aCampaignIds) . ')');
+                $doBanners->find();
+                if ($doBanners->getRowCount() > 0) {
+                    while ($doBanners->fetch()) {
+                        $aBannerIds[] = $doAudit->quote($doBanners->bannerid);
                     }
                 }
-                if (!empty($aCampaignIds)) {
-                    $aWhere[] = "(context = 'campaigns' AND contextid IN (" . implode(',', $aCampaignIds) . "))";
-                }
-                // Add the where clause to include banner level events
-                $aBannerIds = [];
-                // Find all banners in the advertiser's campaigns
-                if (!empty($aCampaignIds)) {
-                    $doBanners = OA_Dal::factoryDO('banners');
-                    $doBanners->whereAdd('campaignid IN (' . implode(',', $aCampaignIds) . ')');
-                    $doBanners->find();
-                    if ($doBanners->getRowCount() > 0) {
-                        while ($doBanners->fetch()) {
-                            $aBannerIds[] = $doAudit->quote($doBanners->bannerid);
-                        }
-                    }
-                    if (!empty($aBannerIds)) {
-                        $aWhere[] = "(context = 'banners' AND contextid IN (" . implode(',', $aBannerIds) . "))";
-                    }
-                }
-                // Combine and add above filters
-                if (!empty($aWhere)) {
-                    $where = '(' . implode(' OR ', $aWhere) . ')';
-                    $doAudit->whereAdd($where);
-                }
-            } elseif (!empty($aParam['publisher_id']) && is_numeric($aParam['publisher_id']) && ($aParam['publisher_id'] > 0)) {
-                $aWhere = [];
-                $zoneIdSet = true;
-                // Also check for, and apply, as required and filters to
-                // ensure that the results displayed are ALSO for the
-                // desired zone ID
-                if (empty($aParam['zone_id']) || !is_numeric($aParam['zone_id']) || ($aParam['zone_id'] <= 0)) {
-                    // The zone ID is not set, so filtering by publisher ID only
-                    //  - Unset the fact that the zone ID is set; and
-                    //  - Add the where clause to include publisher ID level events
-                    $zoneIdSet = false;
-                    $aWhere[] = "(context = 'affiliates' AND contextid = " . $doAudit->quote($aParam['publisher_id']) . ")";
-                }
-                // Add the where clause to include zone level events
-                $aZoneIds = [];
-                // Find all zones in the publisher
-                $doZones = OA_Dal::factoryDO('zones');
-                $doZones->affiliateid = $aParam['publisher_id'];
-                if ($zoneIdSet) {
-                    // Also limit to the set zone ID
-                    $doZones->zone_id = $aParam['zone_id'];
-                }
-                $doZones->find();
-                if ($doZones->getRowCount() > 0) {
-                    while ($doZones->fetch()) {
-                        // Add the zone ID to the list of zones in the publisher
-                        $aZoneIds[] = $doAudit->quote($doZones->zoneid);
-                    }
-                }
-                if (!empty($aZoneIds)) {
-                    $aWhere[] = "(context = 'zones' AND contextid IN (" . implode(',', $aZoneIds) . "))";
-                }
-                // Combine and add above filters
-                if (!empty($aWhere)) {
-                    $where = '(' . implode(' OR ', $aWhere) . ')';
-                    $doAudit->whereAdd($where);
+                if (!empty($aBannerIds)) {
+                    $aWhere[] = "(context = 'banners' AND contextid IN (" . implode(',', $aBannerIds) . "))";
                 }
             }
-
-            //  Make sure that items that are children are not displayed
-            $doAudit->whereAdd('parentid IS NULL');
-
-            if (isset($aParam['order'])) {
-                if ($aParam['order'] == 'down') {
-                    $doAudit->orderBy($aParam['listorder'] . ' ASC');
-                } else {
-                    $doAudit->orderBy($aParam['listorder'] . ' DESC');
+            // Combine and add above filters
+            if (!empty($aWhere)) {
+                $where = '(' . implode(' OR ', $aWhere) . ')';
+                $doAudit->whereAdd($where);
+            }
+        } elseif (!empty($aParam['publisher_id']) && is_numeric($aParam['publisher_id']) && ($aParam['publisher_id'] > 0)) {
+            $aWhere = [];
+            $zoneIdSet = true;
+            // Also check for, and apply, as required and filters to
+            // ensure that the results displayed are ALSO for the
+            // desired zone ID
+            if (empty($aParam['zone_id']) || !is_numeric($aParam['zone_id']) || ($aParam['zone_id'] <= 0)) {
+                // The zone ID is not set, so filtering by publisher ID only
+                //  - Unset the fact that the zone ID is set; and
+                //  - Add the where clause to include publisher ID level events
+                $zoneIdSet = false;
+                $aWhere[] = "(context = 'affiliates' AND contextid = " . $doAudit->quote($aParam['publisher_id']) . ")";
+            }
+            // Add the where clause to include zone level events
+            $aZoneIds = [];
+            // Find all zones in the publisher
+            $doZones = OA_Dal::factoryDO('zones');
+            $doZones->affiliateid = $aParam['publisher_id'];
+            if ($zoneIdSet) {
+                // Also limit to the set zone ID
+                $doZones->zone_id = $aParam['zone_id'];
+            }
+            $doZones->find();
+            if ($doZones->getRowCount() > 0) {
+                while ($doZones->fetch()) {
+                    // Add the zone ID to the list of zones in the publisher
+                    $aZoneIds[] = $doAudit->quote($doZones->zoneid);
                 }
             }
-
-            if ((!empty($aParam['startRecord']) || $aParam['startRecord'] >= 0) && $aParam['perPage']) {
-                $doAudit->limit($aParam['startRecord'], $aParam['perPage']);
-            } else {
-                $doAudit->limit(0, 500); //force to a limit, to avoid unlimited querie
+            if (!empty($aZoneIds)) {
+                $aWhere[] = "(context = 'zones' AND contextid IN (" . implode(',', $aZoneIds) . "))";
             }
-
-            $numRows = $doAudit->find();
-
-            $oNow = new Date();
-            while ($doAudit->fetch()) {
-                $aAudit = $doAudit->toArray();
-                $aAudit['details'] = unserialize($aAudit['details']);
-
-                //  format date
-                $oDate = new Date($aAudit['updated']);
-                $oDate->setTZbyID('UTC');
-                $oDate->convertTZ($oNow->tz);
-                $aAudit['updated'] = $oDate->format($GLOBALS['date_format'] . ', ' . $GLOBALS['time_format']);
-                //  set action type
-                $aAudit['action'] = $this->getActionName($aAudit['actionid']);
-                $result = $this->getParentContextData($aAudit);
-                $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
-
-                if (empty($aAudit['username'])) {
-                    $aAudit['username'] = $GLOBALS['strAuditSystem'];
-                }
-                $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
-
-                $aAuditInfo[] = $aAudit;
+            // Combine and add above filters
+            if (!empty($aWhere)) {
+                $where = '(' . implode(' OR ', $aWhere) . ')';
+                $doAudit->whereAdd($where);
             }
         }
-        return $aAuditInfo;
+
+        //  Make sure that items that are children are not displayed
+        $doAudit->whereAdd('parentid IS NULL');
+
+        return $doAudit;
     }
 
     /**

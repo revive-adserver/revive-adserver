@@ -1900,11 +1900,11 @@ function addChannelPageTools($agencyid, $websiteId, $channelid, $channelType)
  * Builds Pear pager object, preconfigured with items per page. Pager links are
  * processed to make them more readable. Also items name in summary can be added.
  *
- * @param unknown_type $items
- * @param unknown_type $itemsPerPage
- * @param unknown_type $withNumbers
- * @param unknown_type $itemsName
- * @return unknown
+ * @param iterable $items
+ * @param int $itemsPerPage
+ * @param bool $withNumbers
+ * @param string $itemsName
+ * @return Pager_Common
  */
 function OX_buildPager(
     $items,
@@ -1927,7 +1927,7 @@ function OX_buildPager(
 
     $pagerOptions = [
         'mode' => 'Sliding',
-        'perPage' => $itemsPerPage,
+        'perPage' => min(100, max(1, $itemsPerPage)),
         'delta' => $delta,
         'totalItems' => $count,
         'prevImg' => '&lt; ' . $oTrans->translate('Back'),

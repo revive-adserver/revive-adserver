@@ -36,7 +36,7 @@ $editStatuses = MAX_getStoredValue('editStatuses', false, null, true);
 $day = MAX_getStoredValue('day', null, 'stats-conversions.php');
 $howLong = MAX_getStoredValue('howLong', 'd');
 $hour = MAX_getStoredValue('hour', null, 'stats-conversions.php', true);
-$setPerPage = (int) MAX_getStoredValue('setPerPage', 15);
+$setPerPage = MAX_getSetPerPageValue(15);
 $pageID = (int) MAX_getStoredValue('pageID', 1);
 
 if (!empty($day)) {
@@ -221,7 +221,7 @@ $aConversions = Admin_DA::fromCache('getConversions', $aParams + $aDates);
 
 
 $aParams['totalItems'] = count($aConversions);
-$aParams['perPage'] = (int) MAX_getStoredValue('setPerPage', 15);
+$aParams['perPage'] = $setPerPage;
 
 if (!isset($pageID) || $pageID == 1) {
     $aParams['startRecord'] = 0;
@@ -233,8 +233,7 @@ if (!isset($pageID) || $pageID == 1) {
 
 $aConversions = Admin_DA::fromCache('getConversions', $aParams + $aDates);
 
-
-$pager = &Pager::factory($aParams);
+$pager = Pager::factory($aParams);
 $per_page = $pager->_perPage;
 $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
