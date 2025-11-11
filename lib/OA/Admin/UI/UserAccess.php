@@ -113,7 +113,7 @@ class OA_Admin_UI_UserAccess
         }
 
         if (!empty($this->request['submit'])) {
-            if (preg_match('#[\x00-\x1F\x7F]#', $this->request['login'])) {
+            if (preg_match('#[\x00-\x1F\x7F\s]#u', $this->request['login'])) {
                 $this->aErrors = [$GLOBALS['strInvalidUsername']];
             } else {
                 $this->aErrors = $this->oPlugin->validateUsersData($this->request);
