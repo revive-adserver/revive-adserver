@@ -117,12 +117,14 @@
         }
         for (n=0;n < order.length;n++) {
             var k = order[n];
-            var d = this.options.name;
-            var d = this.options.className;
             var d = data[k].name;
           
-            var item = jQuery("<li id='" + this.options.name + "_" + k + "'><a href='#' class='inlineIcon " + this.options.className + "' title='" + data[k].name + "'>" + data[k].name + "</a></li>");
-            
+            var item = jQuery("<li id='" + this.options.name + "_" + k + "'></li>");
+            var a = jQuery("<a href='#' class='inlineIcon " + this.options.className + "'></a>");
+
+            item.append(a);
+            a.attr('title', d).text(d);
+
             if (this.options.id == k) {
               item.addClass('selected');
             }
