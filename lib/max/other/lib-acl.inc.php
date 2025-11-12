@@ -253,6 +253,28 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     return true;
 }
 
+function MAX_AclsRemap(array $acls): array
+{
+    $result = [];
+
+    foreach ($acls as $acl) {
+        $order = (int) $acl['executionorder'];
+
+        if (!isset($result[$order])) {
+            $result[$order] = $acl;
+        }
+    }
+
+    ksort($result);
+
+    $idx = 0;
+    return array_map(function (array $acl) use ($idx) {
+        $acl['executionorder'] = $idx++;
+        return $acl;
+    }, $result);
+}
+
+
 function MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId)
 {
     $doAcls = OA_Dal::factoryDO($aclsTable);
@@ -264,7 +286,7 @@ function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
 {
     if (!empty($acls)) {
         foreach ($acls as $index => $acl) {
-            $deliveryLimitationPlugin = &OA_aclGetComponentFromRow($acl);
+            $deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl);
 
             $doAcls = OA_Dal::factoryDO($aclsTable);
             $doAcls->$fieldId = $aclsObjectId;
@@ -272,7 +294,7 @@ function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
             $doAcls->type = $acl['type'];
             $doAcls->comparison = $acl['comparison'];
             $doAcls->data = $deliveryLimitationPlugin->getData();
-            $doAcls->executionorder = $acl['executionorder'];
+            $doAcls->executionorder = (int) $acl['executionorder'];
             $id = $doAcls->insert();
             if (!$id) {
                 return false;
@@ -691,7 +713,7 @@ function modifyTableName($table)
  * Do check on all ACL inputs values
  *
  * @param array $aAcls
- * @return boolean array of strings with errors messages if inputs aren't correct, true if is correct
+ * @return array|true array of strings with errors messages if inputs aren't correct, true if is correct
  */
 function OX_AclCheckInputsFields($aAcls, $page)
 {

@@ -50,7 +50,7 @@ if (!empty($action)) {
 } elseif (!empty($submit)) {
     OA_Permission::checkSessionToken();
 
-    $acl ??= [];
+    $acl = MAX_AclsRemap($acl ??= []);
 
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
