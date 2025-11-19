@@ -15,38 +15,6 @@ require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 
-/* @TODO REMOVE ME!
-
-if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
-    // Required by PHP5.1.2
-    require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
-}
-
-// Initialize the client info to enable client targeting options
-MAX_remotehostProxyLookup();
-MAX_remotehostReverseLookup();
-MAX_remotehostSetGeoInfo();
-
-/**
- * @todo I believe the following is unnecessary with the "MAX_remotehostSetGeoInfo()" above
- * However the isAllowed() methods for the Geo-Plugins will have to be updated
- */
-/*
-// Register the geotargeting information if necessary
-if (!isset($GLOBALS['_MAX']['GEO_DATA']) && (!empty($conf['geotargeting']['type']) && $conf['geotargeting']['type'] != 'none')) {
-    $oGeoComponent = OX_Component::factoryByComponentIdentifier($conf['geotargeting']['type']);
-    // Get geotargeting info
-    if ($oGeoComponent) {
-    	// Set the geotargeting IP to the fixed test address
-        // (IP Address used to determine which (if any) MaxMind databases are installed)
-    	$GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
-    	// Get the geotargeting config
-    	$geoTargetingType = $oGeoPlugin->name;
-    	// Look up the Geotargeting data
-        $GLOBALS['_MAX']['GEO_DATA'] = $oGeoComponent->getGeoInfo();
-    }
-}
-*/
 
 function MAX_AclAdjust($acl, $action)
 {
@@ -253,6 +221,31 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     return true;
 }
 
+function MAX_AclsRemap(array $acls): array
+{
+    $result = [];
+
+    foreach ($acls as $acl) {
+        if (!ctype_digit((string) $acl['executionorder'])) {
+            continue;
+        }
+
+        $order = (int) $acl['executionorder'];
+
+        if (!isset($result[$order])) {
+            $result[$order] = $acl;
+        }
+    }
+
+    ksort($result);
+
+    $idx = 0;
+    return array_values(array_map(function (array $acl) use (&$idx) {
+        $acl['executionorder'] = $idx++;
+        return $acl;
+    }, $result));
+}
+
 function MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId)
 {
     $doAcls = OA_Dal::factoryDO($aclsTable);
@@ -264,7 +257,7 @@ function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
 {
     if (!empty($acls)) {
         foreach ($acls as $index => $acl) {
-            $deliveryLimitationPlugin = &OA_aclGetComponentFromRow($acl);
+            $deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl);
 
             $doAcls = OA_Dal::factoryDO($aclsTable);
             $doAcls->$fieldId = $aclsObjectId;
@@ -272,7 +265,7 @@ function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
             $doAcls->type = $acl['type'];
             $doAcls->comparison = $acl['comparison'];
             $doAcls->data = $deliveryLimitationPlugin->getData();
-            $doAcls->executionorder = $acl['executionorder'];
+            $doAcls->executionorder = (int) $acl['executionorder'];
             $id = $doAcls->insert();
             if (!$id) {
                 return false;
@@ -691,7 +684,7 @@ function modifyTableName($table)
  * Do check on all ACL inputs values
  *
  * @param array $aAcls
- * @return boolean array of strings with errors messages if inputs aren't correct, true if is correct
+ * @return array|true array of strings with errors messages if inputs aren't correct, true if is correct
  */
 function OX_AclCheckInputsFields($aAcls, $page)
 {

@@ -2,6 +2,13 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
+## [6.0.4]
+
+### Fixes
+
+- Fixed SQL errors when mangling execution order in the POST of banner / channel delivery limitations ([#1606](https://github.com/revive-adserver/revive-adserver/issues/1606))
+
+
 ## [6.0.3] - 2025-11-19
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-004/)

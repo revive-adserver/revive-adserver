@@ -101,7 +101,7 @@ class LibAclTest extends DalUnitTestCase
     public function test_OA_aclGetComponentFromRow()
     {
         $row = ['type' => 'Dummy:Dummy', 'logical' => 'and', 'data' => 'AaAaA'];
-        $plugin = &OA_aclGetComponentFromRow($row);
+        $plugin = OA_aclGetComponentFromRow($row);
         $this->assertTrue(is_a($plugin, 'Plugins_DeliveryLimitations_Dummy_Dummy'));
         $this->assertEqual('and', $plugin->logical);
         $this->assertEqual('AaAaA', $plugin->data);
@@ -134,11 +134,31 @@ class LibAclTest extends DalUnitTestCase
 
         $this->assertTrue(MAX_AclReCompileAll());
 
-        $doBanners = &OA_Dal::staticGetDO('banners', $bannerId);
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual(
             "MAX_checkDummy_Dummy('openx.org', '!~') and MAX_checkDummy_Dummy('0,1', '=~')",
             $doBanners->compiledlimitation,
         );
         $this->assertEqual("Dummy:Dummy", $doBanners->acl_plugins);
+    }
+
+    public function test_MAX_AclsRemap(): void
+    {
+        $acls = [
+            ['data' => 'a', 'executionorder' => 1],
+            ['data' => 'b', 'executionorder' => 7],
+            ['data' => 'c', 'executionorder' => 'foo'],
+            ['data' => 'd', 'executionorder' => '0'],
+            ['data' => 'e', 'executionorder' => '1'],
+            ['data' => 'f', 'executionorder' => -10],
+        ];
+
+        $result = MAX_AclsRemap($acls);
+
+        $this->assertEqual($result, [
+            ['data' => 'd', 'executionorder' => 0],
+            ['data' => 'a', 'executionorder' => 1],
+            ['data' => 'b', 'executionorder' => 2],
+        ]);
     }
 }
