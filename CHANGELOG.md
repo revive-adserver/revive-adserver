@@ -2,7 +2,14 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.3]
+## [6.0.3] - 2025-11-19
+
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-004/)
+
+- Fixed multiple vulnerabilities:
+    - [CVE-2025-55126](https://www.cve.org/CVERecord?id=CVE-2025-55126)
+    - [CVE-2025-55127](https://www.cve.org/CVERecord?id=CVE-2025-55127)
+    - [CVE-2025-55128](https://www.cve.org/CVERecord?id=CVE-2025-55128)
 
 ### Fixes
 
@@ -10,10 +17,9 @@ All notable changes to Revive Adserver will be documented in this file.
 - Editing existing image banners wrongly required always uploading an image file ([#1598](https://github.com/revive-adserver/revive-adserver/issues/1598))
 - The localised date picker was not working with non-latin alphabets ([#1597](https://github.com/revive-adserver/revive-adserver/issues/1597))
 
-
 ### Changed
 
-- Hidden PEAR/SQL errors from non-admin users ([1604](https://github.com/revive-adserver/revive-adserver/issues/1604))
+- Hidden PEAR/SQL errors from non-admin users ([#1604](https://github.com/revive-adserver/revive-adserver/issues/1604))
 
 
 ## [6.0.2] - 2025-11-05
@@ -22,6 +28,16 @@ All notable changes to Revive Adserver will be documented in this file.
 
 - Fixed multiple vulnerabilities:
   - [CVE-2025-48986](https://www.cve.org/CVERecord?id=CVE-2025-48986)
+  - [CVE-2025-48987](https://www.cve.org/CVERecord?id=CVE-2025-48987)
+  - [CVE-2025-52666](https://www.cve.org/CVERecord?id=CVE-2025-52666)
+  - [CVE-2025-52667](https://www.cve.org/CVERecord?id=CVE-2025-52667)
+  - [CVE-2025-52668](https://www.cve.org/CVERecord?id=CVE-2025-52668)
+  - [CVE-2025-52669](https://www.cve.org/CVERecord?id=CVE-2025-52669)
+  - [CVE-2025-52670](https://www.cve.org/CVERecord?id=CVE-2025-52670)
+  - [CVE-2025-52671](https://www.cve.org/CVERecord?id=CVE-2025-52671)
+  - [CVE-2025-55123](https://www.cve.org/CVERecord?id=CVE-2025-55123)
+  - [CVE-2025-55124](https://www.cve.org/CVERecord?id=CVE-2025-55124)
+  - [CVE-2025-55125](https://www.cve.org/CVERecord?id=CVE-2025-55125)
 
 ### Fixes
 
