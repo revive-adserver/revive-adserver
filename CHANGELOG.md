@@ -7,6 +7,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Fixed SQL errors when mangling execution order in the POST of banner / channel delivery limitations ([#1606](https://github.com/revive-adserver/revive-adserver/issues/1606))
+- When changing language, the notification message is now translated using the new language ([#1607](https://github.com/revive-adserver/revive-adserver/issues/1607))
 
 
 ## [6.0.3] - 2025-11-19

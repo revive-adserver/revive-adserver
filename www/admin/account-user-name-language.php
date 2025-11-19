@@ -64,11 +64,15 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $aErrormessage[0][] = $strUnableToWritePrefs;
         } else {
             //Add the new username to the session
-            $oUser = &OA_Permission::getCurrentUser();
+            $oUser = OA_Permission::getCurrentUser();
             $oUser->aUser['contact_name'] = $contact_name;
             $oUser->aUser['language'] = $language;
 
             phpAds_SessionDataStore();
+
+            // Update language
+            Language_Loader::load('default', $language);
+            Language_Loader::load('settings', $language);
 
             // Queue confirmation message
             $setPref = $oOptions->getSettingsPreferences($prefSection);
