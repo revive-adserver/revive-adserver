@@ -11,6 +11,11 @@ All notable changes to Revive Adserver will be documented in this file.
 - The localised date picker was not working with non-latin alphabets ([#1597](https://github.com/revive-adserver/revive-adserver/issues/1597))
 
 
+### Changed
+
+- Hidden PEAR/SQL errors from non-admin users ([1604](https://github.com/revive-adserver/revive-adserver/issues/1604))
+
+
 ## [6.0.2] - 2025-11-05
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-003/)

@@ -194,7 +194,7 @@ function pearErrorHandler($oError)
         $oResponse = new XML_RPC_Response('', 99999, $message);
         echo $oResponse->serialize();
         exit;
-    } else {
+    } elseif (OA_Permission::isUserLinkedToAdmin()) {
         // Send the error to the screen
         echo MAX::errorObjToString($oError, $msg);
     }
