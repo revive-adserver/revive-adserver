@@ -93,16 +93,16 @@ $GLOBALS['strServerCommunicationError'] = "<b>La communication avec le serveur d
 
 $GLOBALS['strCheckForUpdatesDisabled'] = "<b>La recherche de mises à jour est désactivée. Â Veuillez l'activerÂ via l'écran <a href='account-settings-update.php'>paramètres de mise à jour</a>.</b>";
 
-$GLOBALS['strNewVersionAvailable'] = " <b>Une nouvelle version de {$PRODUCT_NAME} est disponible.</b><br /> Il est recommandé d\\'installer cette mise à jour,
- car elle pourrait corriger quelques problèmes existant actuellement et ajoutera de nouvelles fonctionnalités. Pour plus d\\'informations
+$GLOBALS['strNewVersionAvailable'] = " <b>Une nouvelle version de {$PRODUCT_NAME} est disponible.</b><br /> Il est recommandé d'installer cette mise à jour,
+ car elle pourrait corriger quelques problèmes existant actuellement et ajoutera de nouvelles fonctionnalités. Pour plus d'informations
  concernant la mise à jour, veuillez lire la documentation incluse dans les fichiers ci-dessous.";
 
-$GLOBALS['strSecurityUpdate'] = " <b>Il est hautement recommandé d\\'installer cette mise à jour aussi vite que possible, car elle contient quelques
+$GLOBALS['strSecurityUpdate'] = " <b>Il est hautement recommandé d'installer cette mise à jour aussi vite que possible, car elle contient quelques
  correctifs de sécurité.</b> La version de {$PRODUCT_NAME} que vous utilisez actuellement peut être
- vulnérable à certaines attaques et n\\'est sans doute pas sécurisée. Pour plus d\\'informations
+ vulnérable à certaines attaques et n'est sans doute pas sécurisée. Pour plus d\\'informations
  concernant les mises à jour, veuillez lire la documentation incluse dans les fichiers ci-dessous.";
 
-$GLOBALS['strNotAbleToCheck'] = " <b>En raison du fait que l\\'extension XML n\\'est pas disponible sur votre serveur, {$PRODUCT_NAME}
+$GLOBALS['strNotAbleToCheck'] = " <b>En raison du fait que l'extension XML n'est pas disponible sur votre serveur, {$PRODUCT_NAME}
     ne peut pas vérifier si une nouvelle version est disponible.</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = " Si vous voulez savoir si une nouvelle version est disponible, veuillez visiter notre site web.";
