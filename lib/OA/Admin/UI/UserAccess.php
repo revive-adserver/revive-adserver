@@ -99,6 +99,14 @@ class OA_Admin_UI_UserAccess
         $this->callbackFooterNavigation = $callback;
     }
 
+    /**
+     * Min 2 chars, max 64 chars, POSIX-like username, with first and last characters being alphanumeric.
+     */
+    public static function validateUsername(string $username): bool
+    {
+        return (bool) preg_match('#^[a-z0-9][a-z0-9_.-]{0,62}[a-z0-9]$#Di', $username);
+    }
+
     public function process()
     {
         // Avoid information disclosure to non-admin users
@@ -113,7 +121,7 @@ class OA_Admin_UI_UserAccess
         }
 
         if (!empty($this->request['submit'])) {
-            if (preg_match('#[\x00-\x1F\x7F\s]#u', $this->request['login'])) {
+            if (!self::validateUsername($this->request['login'])) {
                 $this->aErrors = [$GLOBALS['strInvalidUsername']];
             } else {
                 $this->aErrors = $this->oPlugin->validateUsersData($this->request);
