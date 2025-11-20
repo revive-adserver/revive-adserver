@@ -487,11 +487,14 @@ class Plugins_Authentication extends OX_Component
      *
      * @param DataObjects_Users $doUsers
      * @param string $emailAddress
-     * @param string $password
-     * @return bool
+     * @return PEAR_Error|true
      */
-    public function changeEmail(&$doUsers, $emailAddress, $password)
+    public function changeEmail($doUsers, $emailAddress)
     {
+        if (!$this->isValidEmail($emailAddress)) {
+            return MAX::raiseError($GLOBALS['strInvalidEmail'], MAX_ERROR_INVALIDARGS, PEAR_ERROR_RETURN);
+        }
+
         $doUsers->email_address = $emailAddress;
         $doUsers->email_updated = gmdate(OA_DATETIME_FORMAT);
         return true;

@@ -13,8 +13,11 @@
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dll/User.php';
 
+Language_Loader::load();
+
+
 /**
- * A class for testing the Plugins_Authentication_Internal_Internal class.
+ * A class for testing the Plugins_Authentication class.
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
@@ -22,7 +25,7 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
 class Test_Authentication extends UnitTestCase
 {
     /**
-     * @var Plugins_Authentication_Internal_Internal
+     * @var Plugins_Authentication
      */
     public $oPlugin;
 
@@ -45,6 +48,15 @@ class Test_Authentication extends UnitTestCase
         $_POST['password'] = 'foo';
         $ret = $this->oPlugin->suppliedCredentials();
         $this->assertTrue($ret);
+    }
+
+    public function testChangeEmail()
+    {
+        /** @var DataObjects_Users $doUsers */
+        $doUsers = OA_Dal::factoryDO('users');
+
+        $this->assertIsA($this->oPlugin->changeEmail($doUsers, 'invalid @ email'), 'PEAR_Error');
+        $this->assertNotA($this->oPlugin->changeEmail($doUsers, 'valid@example.com'), 'PEAR_Error');
     }
 
     public function testAuthenticateUser()
