@@ -8,6 +8,8 @@ concurrency:
 
 permissions:
   checks: write
+  contents: read
+  actions: read
 
 jobs:
   run-tests:

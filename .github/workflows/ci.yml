@@ -258,7 +258,7 @@ jobs:
   post-commit:
     name: Post commit hooks
 
-    if: github.event_name != 'pull_request' && !startsWith(github.actor, 'dependabot') && !startsWith(github.event.commits[0].message, '[PC] ')
+    if: github.event_name != 'pull_request' && github.repository == 'revive-adserver/revive-adserver' && !startsWith(github.actor, 'dependabot') && !startsWith(github.event.commits[0].message, '[PC] ')
 
     needs:
       - type-checker
