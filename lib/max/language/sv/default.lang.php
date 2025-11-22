@@ -174,7 +174,6 @@ $GLOBALS['strUsernameOrPasswordWrong'] = "Användarnamnet och/eller lösenordet 
 $GLOBALS['strPasswordWrong'] = "Lösenordet är inkorrekt";
 $GLOBALS['strDuplicateClientName'] = "Användarnamnet du angav finns redan, vänligen ange ett annat användarnamn.";
 $GLOBALS['strInvalidPassword'] = "Lösenordet är ej giltigt, vänligen använd ett annat lösenord.";
-$GLOBALS['strInvalidEmail'] = "Epostadressen har ett ogiltigt format, använd en korrekt epostadress.";
 $GLOBALS['strNotSamePasswords'] = "De två lösenorden du angav är inte identiska";
 $GLOBALS['strRepeatPassword'] = "Upprepa lösenord";
 $GLOBALS['strDeadLink'] = "Din länk är ogiltig.";

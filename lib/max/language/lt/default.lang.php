@@ -134,10 +134,8 @@ $GLOBALS['strPasswordRepeat'] = "Pakartokite slaptažodį";
 $GLOBALS['strAccessDenied'] = "Priėjimas uždraustas";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Vartotojo vardas ir slaptažodis neteisingai įvesti. Prašome bandyti iš naujo. ";
 $GLOBALS['strPasswordWrong'] = "Jūsų slaptažodis neteisingas. ";
-$GLOBALS['strNotAdmin'] = "Jūsų sąskaita neturi visų reikiamų leidimų šiai savybei naudoti, Jūs galite prisijungti į kitą sąskaitą norėdami ją panaudoti. Spauskite <a href='logout.php'>čia</a> norėdami prisijungti prie kitos sąskaitos.";
 $GLOBALS['strDuplicateClientName'] = "Vartotojo vardas, kurį pateikėte jau egzistuoja, prašome naudoti kitokį vartotojo vardą. ";
 $GLOBALS['strInvalidPassword'] = "Naujasis slaptažodis, kurį pateikėte jau egzistuoja, prašome naudoti kitokį slaptažodį. ";
-$GLOBALS['strInvalidEmail'] = "El. paštas neteisingai suformatuotas, prašome įvesti teisingą el. pašto adresą.";
 $GLOBALS['strNotSamePasswords'] = "Du slaptažodžiai, kuriuos įvedėte nėra vienodi";
 $GLOBALS['strRepeatPassword'] = "Pakartokite slaptažodį";
 
