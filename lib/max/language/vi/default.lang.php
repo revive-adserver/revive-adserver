@@ -171,7 +171,6 @@ $GLOBALS['strPasswordRepeat'] = "Nhập lại mật khẩu";
 $GLOBALS['strAccessDenied'] = "Truy cập bị từ chối";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Tên đăng nhập hoặc mật khẩu không được chính xác. Xin vui lòng thử lại.";
 $GLOBALS['strPasswordWrong'] = "Mật khẩu không chính xác";
-$GLOBALS['strNotAdmin'] = "Tài khoản của bạn không có quyền để sử dụng tính năng này, bạn có thể đăng nhập vào các tài khoản khác để sử dụng nó.";
 $GLOBALS['strDuplicateClientName'] = "Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.";
 
 // General advertising

@@ -183,7 +183,7 @@ $GLOBALS['strPasswordRepeat'] = "Wiederhole Passwort";
 $GLOBALS['strAccessDenied'] = "Zugang verweigert";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Der Benutzername und/oder das Passwort sind nicht korrekt. Bitte erneut versuchen.";
 $GLOBALS['strPasswordWrong'] = "Das Passwort ist nicht korrekt";
-$GLOBALS['strNotAdmin'] = "Ihr Benutzerkonto hat nicht die erforderlichen Rechte um diese Funktion zu verwenden, Sie müssen ein anderes Benutzerkonto verwenden. Klicken Sie <a href='logout.php'>hier</a> um sich neu anzumelden.";
+$GLOBALS['strNotAdmin'] = "Dein Benutzer hat nicht die erforderlichen Berechtigungen, um dieses Feature zu nutzen. Du kannst dich mit einem anderen Benutzernamen anmelden, um es zu nutzen.";
 $GLOBALS['strDuplicateClientName'] = "Der gewählte Benutzername existiert bereits. Bitte einen anderen wählen.";
 $GLOBALS['strInvalidPassword'] = "Das neue Passwort ist ungültig. Bitte wählen Sie ein anderes.";
 $GLOBALS['strInvalidEmail'] = "Diese E-Mail Adresse ist nicht korrekt geschrieben, bitte tragen Sie eine korrekte E-Mail Adresse ein.";

@@ -124,7 +124,6 @@ $GLOBALS['strUsername'] = "Nama pengguna";
 $GLOBALS['strPassword'] = "Kata Laluan";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Nama pengguna dan/atau kata laluan yang tidak betul. Sila cuba sekali lagi.";
 $GLOBALS['strPasswordWrong'] = "Kata laluan tidak sepadan";
-$GLOBALS['strNotAdmin'] = "Akaun anda tidak mempunyai kebenaran untuk menggunakan fungsi ini, sila log masuk melalui akaun lain untuk mengunakannya.";
 $GLOBALS['strDuplicateClientName'] = "Nama pengguna yang anda berikan telah wujud, Sila guna nama pengguna berbeza.";
 $GLOBALS['strInvalidPassword'] = "Kata laluan baru tidak sah, sila gunakan kata laluan yang berlainan.";
 $GLOBALS['strNotSamePasswords'] = "Kedua-dua kata laluan yang anda berikan, tidak sepadan";

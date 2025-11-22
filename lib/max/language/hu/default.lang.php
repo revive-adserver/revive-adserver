@@ -155,10 +155,8 @@ $GLOBALS['strPasswordRepeat'] = "Jelszó ismét";
 $GLOBALS['strAccessDenied'] = "Hozzáférés megtagadva";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Hibás felhasználónév vagy jelszó. Próbálja meg újra!";
 $GLOBALS['strPasswordWrong'] = "Hibás jelszó.";
-$GLOBALS['strNotAdmin'] = "Lehet, hogy ön nem rendelkezik megfelelő jogosultsággal";
 $GLOBALS['strDuplicateClientName'] = "A megadott felhasználónév foglalt, adjon meg másikat.";
 $GLOBALS['strInvalidPassword'] = "Az új jelszó érvénytelen, adjon meg másikat.";
-$GLOBALS['strInvalidEmail'] = "Az e-mail nem megfelelően formátumú, kérjük, adja meg a helyes e-mail címet.";
 $GLOBALS['strNotSamePasswords'] = "A két jelszó különbözik.";
 $GLOBALS['strRepeatPassword'] = "Jelszó ismét";
 
