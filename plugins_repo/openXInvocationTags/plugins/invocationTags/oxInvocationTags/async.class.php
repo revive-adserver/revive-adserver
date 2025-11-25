@@ -74,7 +74,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
     public function getOrder()
     {
         parent::getOrder();
-        return 0;
+        return 3;
     }
 
     /**
