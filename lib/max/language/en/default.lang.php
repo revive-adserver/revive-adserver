@@ -1049,13 +1049,13 @@ $GLOBALS['strTrackerTypeCustom'] = "Custom JS code";
 $GLOBALS['strVariableCode'] = "Javascript tracking code";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Forgot your password?";
+$GLOBALS['strForgotPassword'] = "Request a password reset email";
 $GLOBALS['strPasswordRecovery'] = "Password reset";
 $GLOBALS['strWelcomePage'] = "Welcome new user!";
 $GLOBALS['strWelcomePageText'] = "<b>Welcome to {$PRODUCT_NAME}.</b><br>As a new user, start by setting your first password. Please make sure to select a safe and unique password.";
 $GLOBALS['strEmailRequired'] = "Email is a required field";
 $GLOBALS['strPwdRecWrongExpired'] = "Wrong or expired password reset link, please request a new one";
-$GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
+$GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below to receive a password reset email";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";
 $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includes a link that will allow you
