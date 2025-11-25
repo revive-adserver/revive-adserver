@@ -897,6 +897,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     public function getPackagesList()
     {
+        if (!isset($GLOBALS['_MAX']['CONF']['plugins']) || !is_array($GLOBALS['_MAX']['CONF']['plugins'])) {
+            $GLOBALS['_MAX']['CONF']['plugins'] = [];
+        }
+
         $aResult = array_reverse($GLOBALS['_MAX']['CONF']['plugins']);
         foreach ($aResult as $name => $enabled) {
             $aResult[$name] = $this->getPackageInfo($name);
@@ -1187,6 +1191,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $aPackage = &$this->aParse['package'];
         @unlink($this->basePath . $pathPackages . $pkgFile);
         // check that plugin is not already installed
+        if (!isset($GLOBALS['_MAX']['CONF']['plugins']) || !is_array($GLOBALS['_MAX']['CONF']['plugins'])) {
+            $GLOBALS['_MAX']['CONF']['plugins'] = [];
+        }
         if (!($overwrite) && array_key_exists($aPackage['name'], $GLOBALS['_MAX']['CONF']['plugins'])) {
             $this->_logError('Plugin with this name is already installed ' . $aPackage['name']);
             $this->errcode = OX_PLUGIN_ERROR_PACKAGE_NAME_EXISTS;
@@ -1257,6 +1264,11 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $aFilesExpected[] = $fileExpected;
         }
         foreach ($aPlugins as $idx => &$aPlugin) {
+
+            if (!isset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']) || !is_array($GLOBALS['_MAX']['CONF']['pluginGroupComponents'])) {
+                $GLOBALS['_MAX']['CONF']['pluginGroupComponents'] = [];
+            }
+            
             // check that group is not already installed
             if ((!$overwrite) && array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['pluginGroupComponents'])) {
                 $this->_logError('Component group with this name is already installed ' . $aPlugin['name']);

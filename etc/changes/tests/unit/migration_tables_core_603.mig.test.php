@@ -141,6 +141,7 @@ class Migration_603Test extends MigrationTest
             'isAllowedLocal' => 'true',
             'isAllowedPopup' => 'false',
             'isAllowedAdframe' => 'true',
+            'isAllowedMarkdown' => 'true',
             'isAllowedAdview' => 'false',
             'isAllowedXmlrpc' => 'false',
         ]];

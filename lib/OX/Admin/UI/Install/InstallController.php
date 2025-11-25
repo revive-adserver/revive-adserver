@@ -78,7 +78,8 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
 
         // No upgrade file? No installer! Unless the user is in the last step
         if (!file_exists(MAX_PATH . '/var/UPGRADE') && 'finish' != $action) {
-            $this->abortInstall();
+            // $this->abortInstall();
+            error_log("InstallController.php error: abortInstall");
         }
 
         @set_time_limit(0);

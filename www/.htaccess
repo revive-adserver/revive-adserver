@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Map "images/zone-X.png" to our new rotator script
+# Example: http://localhost:8080/www/images/zone-1.png -> /www/delivery/gh.php?zoneid=1
+RewriteRule ^images/zone-([a-zA-Z0-9\-_]+)\.png$ delivery/gh.php?zoneid=$1 [L,QSA]

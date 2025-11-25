@@ -4,14 +4,14 @@
 <plugin>
     <name>oxInvocationTags</name>
     <displayName>Invocation Tags Plugin</displayName>
-    <creationDate>2025-09-18</creationDate>
-    <author>Revive Adserver</author>
+    <creationDate>2025-11-24</creationDate>
+    <author>Revive Adserver x SWMANSION</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides invocation tags for displaying banners on websites.</description>
-    <version>1.8.18</version>
-    <oxversion>5.4.0-beta-rc1</oxversion>
+    <version>1.8.26</version>
+    <oxversion>6.0.3</oxversion>
     <extends>invocationTags</extends>
 
     <install>
@@ -23,6 +23,7 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adviewnocookies.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">async.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">popup.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">markdown.class.php</file>
 
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">invocation.inc.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/cursor/">layerstyle.inc.php</file>
@@ -41,12 +42,14 @@
            <component><name>adview</name></component>
            <component><name>adviewnocookies</name></component>
            <component><name>async</name></component>
+           <component><name>markdown</name></component>
         </components>
 
         <configuration option="Invocation Tags">
             <setting key="isAllowedAsync"           type="checkbox" label="Allow Asynchronous JS Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdjs"            type="checkbox" label="Allow Javascript Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdframe"         type="checkbox" label="Allow iFrame Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedMarkdown"         type="checkbox" label="Allow Markdown Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdview"          type="checkbox" label="Allow Image Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedAdviewnocookies" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
         </configuration>

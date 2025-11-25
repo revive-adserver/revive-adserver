@@ -62,7 +62,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
     public function getOrder()
     {
         parent::getOrder();
-        return 1;
+        return 2;
     }
 
     /**
