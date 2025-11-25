@@ -1,0 +1,22 @@
+services:
+  web:
+    image: php:8.2-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html/
+    environment:
+      - MESSAGE=ReviveAdserverDev
+    depends_on:
+      - db
+    command: >
+      bash -c "apt-get update && apt-get install -y libpq-dev libzip-dev zlib1g-dev libicu-dev libpng-dev && docker-php-ext-install pgsql pdo_pgsql zip intl gd && apache2-foreground"
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: revive
+      POSTGRES_USER: revive
+      POSTGRES_PASSWORD: revive
+    ports:
+      - "5432:5432"
