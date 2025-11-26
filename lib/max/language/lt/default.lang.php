@@ -688,9 +688,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Įprastas JS kodas";
 $GLOBALS['strVariableCode'] = "Javascript sekimo kodas";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Pamiršote savo slaptažodį?";
 $GLOBALS['strEmailRequired'] = "Privaloma užpildyti elektroninį lauką";
-$GLOBALS['strPwdRecEnterEmail'] = "Įveskite savo elektroninio pašto adresą žemiau";
 $GLOBALS['strPwdRecEnterPassword'] = "Įveskite savo slaptažodį žemiau";
 $GLOBALS['strProceed'] = "Tęskite >";
 

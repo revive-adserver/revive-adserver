@@ -791,9 +791,7 @@ $GLOBALS['strTrackerTypeCustom'] = "自定义 JavaScript 代码";
 $GLOBALS['strVariableCode'] = "Javascript 追踪代码";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "忘记密码";
 $GLOBALS['strEmailRequired'] = "请输入您的 Email";
-$GLOBALS['strPwdRecEnterEmail'] = "请输入您的 Email";
 $GLOBALS['strPwdRecEnterPassword'] = "请输入您的新密码";
 $GLOBALS['strProceed'] = "继续 >";
 

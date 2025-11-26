@@ -800,9 +800,7 @@ $GLOBALS['strTrackerType'] = "Spårningstyp";
 $GLOBALS['strTrackerTypeJS'] = "Spåra variabler för JavaScript";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Glömt ditt lösenord?";
 $GLOBALS['strEmailRequired'] = "Email måste fyllas i";
-$GLOBALS['strPwdRecEnterEmail'] = "Skriv in din mailadress nedan";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv ditt nya lösenord nedan";
 $GLOBALS['strProceed'] = "Gå vidare >";
 

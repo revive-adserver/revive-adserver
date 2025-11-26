@@ -1034,13 +1034,13 @@ $GLOBALS['strTrackerTypeCustom'] = "Eigener JS code";
 $GLOBALS['strVariableCode'] = "Javascript-Tracking-Code";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Passwort vergessen?";
+$GLOBALS['strForgotPassword'] = "E-Mail zum Zurücksetzen des Passworts anfordern";
 $GLOBALS['strPasswordRecovery'] = "Passwort zurücksetzen";
 $GLOBALS['strWelcomePage'] = "Willkommen neuer Nutzer!";
 $GLOBALS['strWelcomePageText'] = "<b>Willkommen im {$PRODUCT_NAME}.</b><br>Als neuer Nutzer legen Sie bitte zunächst Ihr Passwort fest. Bitte wählen Sie ein sicheres und nur dafür verwendetes Passwort.";
 $GLOBALS['strEmailRequired'] = "Das Eingabefeld e-Mail muss ausgefüllt sein";
 $GLOBALS['strPwdRecWrongExpired'] = "Der Link zum Zurücksetzen des Passworts ist fehlerhaft. Bitte fordern Sie einen neuen Link an.";
-$GLOBALS['strPwdRecEnterEmail'] = "Geben Sie nachfolgend Ihre eMail Adresse ein";
+$GLOBALS['strPwdRecEnterEmail'] = "Geben Sie unten Ihre E-Mail-Adresse ein, um eine E-Mail zum Zurücksetzen des Passworts zu erhalten";
 $GLOBALS['strPwdRecEnterPassword'] = "Geben Sie nachfolgend Ihr neues Passwort ein";
 $GLOBALS['strProceed'] = "Weiter >";
 $GLOBALS['strNotifyPageMessage'] = "Eine E-Mail mit einem Link wurde an Sie versendet. Bitte folgen Sie dem Link um

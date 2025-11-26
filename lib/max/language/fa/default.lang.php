@@ -1029,9 +1029,7 @@ $GLOBALS['strTrackerType'] = "نام تراکر";
 $GLOBALS['strTrackerTypeCustom'] = "کد سفارشی جاوا اسکریپت";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "رمز خود را فراموش کردید؟";
 $GLOBALS['strEmailRequired'] = "ایمیل یک فیلد ضروری است";
-$GLOBALS['strPwdRecEnterEmail'] = "در زیر ایمیل خود را وارد کنید";
 $GLOBALS['strPwdRecEnterPassword'] = "در زیر پسورد جدید خود را وارد کنید";
 $GLOBALS['strProceed'] = "ادامه >";
 

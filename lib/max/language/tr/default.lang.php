@@ -910,9 +910,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Özel JS kodu";
 $GLOBALS['strVariableCode'] = "Javascript izleme kodu";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Şifrenizi mi unuttunuz?";
 $GLOBALS['strEmailRequired'] = "Eposta alanı gereklidir";
-$GLOBALS['strPwdRecEnterEmail'] = "Eposta adresinizi girin";
 $GLOBALS['strPwdRecEnterPassword'] = "Yeni şifrenizi girin";
 
 // Password recovery - Default

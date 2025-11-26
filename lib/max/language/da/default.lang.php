@@ -701,9 +701,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Tilpasset JS kode";
 $GLOBALS['strVariableCode'] = "Javascript sporer kode";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Glemt dit password?";
 $GLOBALS['strEmailRequired'] = "Email er et krævet felt";
-$GLOBALS['strPwdRecEnterEmail'] = "Skriv din email adresse nedefor";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv dit nye password nedenfor";
 $GLOBALS['strProceed'] = "Fortsæt >";
 

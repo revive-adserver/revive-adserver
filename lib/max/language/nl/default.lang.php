@@ -1043,13 +1043,13 @@ $GLOBALS['strTrackerTypeCustom'] = "Aangepaste JS code";
 $GLOBALS['strVariableCode'] = "JavaScript tracking-code";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Wachtwoord vergeten?";
+$GLOBALS['strForgotPassword'] = "Vraag een wachtwoord reset e-mail aan";
 $GLOBALS['strPasswordRecovery'] = "Wachtwoord opnieuw instellen";
 $GLOBALS['strWelcomePage'] = "Welkom nieuwe gebruiker!";
 $GLOBALS['strWelcomePageText'] = "<b>Welkom bij {$PRODUCT_NAME}.</b><br>Als nieuwe gebruiker, begin met het instellen van uw eerste wachtwoord. Zorg ervoor dat u een veilig en uniek wachtwoord kiest.";
 $GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
 $GLOBALS['strPwdRecWrongExpired'] = "Onjuiste of verlopen link om het wachtwoord te resetten, vraag een nieuwe aan";
-$GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
+$GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mailadres in om een wachtwoord reset e-mail te ontvangen";
 $GLOBALS['strPwdRecEnterPassword'] = "Voer uw nieuwe wachtwoord hieronder in";
 $GLOBALS['strProceed'] = "Doorgaan >";
 $GLOBALS['strNotifyPageMessage'] = "Er is een e-mail naar u gestuurd, met daarin een link die u in staat stelt

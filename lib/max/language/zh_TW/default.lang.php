@@ -662,9 +662,7 @@ $GLOBALS['strTrackerTypeCustom'] = "自定義JS代碼";
 $GLOBALS['strVariableCode'] = "JavaScript跟蹤代碼";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "忘記密碼？";
 $GLOBALS['strEmailRequired'] = "電子郵件為必填項";
-$GLOBALS['strPwdRecEnterEmail'] = "請填入你的郵件地址";
 $GLOBALS['strPwdRecEnterPassword'] = "請填入新密碼";
 $GLOBALS['strProceed'] = "繼續>";
 

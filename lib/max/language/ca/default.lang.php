@@ -627,7 +627,6 @@ $GLOBALS['strAddVariable'] = "Afegeix variable";
 
 // Password recovery
 $GLOBALS['strEmailRequired'] = "El correu electrònic és un camp obligatori";
-$GLOBALS['strPwdRecEnterEmail'] = "Introduïu la vostra adreça de correu electrònic.";
 $GLOBALS['strPwdRecEnterPassword'] = "Introduïu la nova contrasenya";
 $GLOBALS['strProceed'] = "Continuar >";
 
