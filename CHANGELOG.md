@@ -4,6 +4,11 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.0.4]
 
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-005/)
+
+- Improved fix for the past vulnerability:
+    - [CVE-2025-55127](https://www.cve.org/CVERecord?id=CVE-2025-55127)
+
 ### Fixes
 
 - Fixed SQL errors when mangling execution order in the POST of banner / channel delivery limitations ([#1606](https://github.com/revive-adserver/revive-adserver/issues/1606))

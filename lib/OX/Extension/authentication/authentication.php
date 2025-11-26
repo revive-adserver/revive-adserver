@@ -293,7 +293,7 @@ class Plugins_Authentication extends OX_Component
             'name' => 'login',
             'label' => $GLOBALS['strUsername'],
             'value' => $userData['username'],
-            'freezed' => !empty($userData['user_id']),
+            'freezed' => $userExists || !empty($userData['username']),
         ];
         $userDetailsFields[] = [
             'name' => 'contact_name',
@@ -322,7 +322,7 @@ class Plugins_Authentication extends OX_Component
     public function getMatchingUserId($email, $login)
     {
         $doUsers = OA_Dal::factoryDO('users');
-        return $doUsers->getUserIdByProperty('username', $login);
+        return $doUsers->getUserIdByProperty('username', strtolower($login));
     }
 
     /**

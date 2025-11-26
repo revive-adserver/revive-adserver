@@ -22,7 +22,7 @@
  * linked to accounts in the current account realm.
  */
 
-$q = strtolower($_GET["q"]);
+$q = strtolower(trim($_GET["q"] ?? ''));
 $limit = strtolower($_GET["limit"]);
 if (!$q) {
     return;
@@ -42,9 +42,9 @@ switch (OA_Permission::getAccountType()) {
         // list, as the admin account can see all accounts and therefore users in
         // its realm
         $oDbh = OA_DB::singleton();
-        $query = $oDbh->quote('%' . $q . '%');
+        $like = $oDbh->datatype->matchPattern(['', '%', $q, '%'], 'ILIKE');
         $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->whereAdd('username LIKE ' . $query . ' OR email_address LIKE ' . $query);
+        $doUsers->whereAdd('username ' . $like . ' OR email_address ' . $like);
         $doUsers->limit($limit);
         $doUsers->find();
         while ($doUsers->fetch()) {
@@ -150,9 +150,9 @@ switch (OA_Permission::getAccountType()) {
         if (empty($aUserIds)) {
             break;
         }
-        $query = $oDbh->quote('%' . $q . '%');
+        $like = $oDbh->datatype->matchPattern(['', '%', $q, '%'], 'ILIKE');
         $doUsers = OA_Dal::factoryDO('users');
-        $doUsers->whereAdd('(username LIKE ' . $query . ' OR email_address LIKE ' . $query . ')');
+        $doUsers->whereAdd('(username ' . $like . ' OR email_address ' . $like . ')');
         $doUsers->whereAdd('user_id IN (' . implode(',', $aUserIds) . ')');
         $doUsers->limit($limit);
         $doUsers->find();

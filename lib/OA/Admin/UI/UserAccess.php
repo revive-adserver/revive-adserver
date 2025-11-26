@@ -73,6 +73,11 @@ class OA_Admin_UI_UserAccess
         if (!empty($this->request['userid'])) {
             $this->request['userid'] = (int) $this->request['userid'];
         }
+
+        $this->request['login'] = trim($this->request['login']);
+        $this->request['email_address'] = trim($this->request['email_address']);
+        $this->request['contact_name'] = trim($this->request['contact_name']);
+
         $this->userid = $this->request['userid'];
         if (isset($this->request['permissions'])) {
             $this->aPermissions = $this->request['permissions'];
@@ -197,11 +202,10 @@ class OA_Admin_UI_UserAccess
                 'title' => $GLOBALS['strUserDetails'],
                 'fields' => $this->oPlugin->getUserDetailsFields(
                     $userData,
-                    $this->request['link'],
                 ),
             ],
         ];
-        $aPermissionsFields = $this->_builPermissionFields();
+        $aPermissionsFields = $this->_buildPermissionFields();
         if (!empty($aPermissionsFields)) {
             $aTplFields[] = [
                 'title' => $GLOBALS['strPermissions'],
@@ -220,7 +224,7 @@ class OA_Admin_UI_UserAccess
         phpAds_PageFooter();
     }
 
-    public function _builPermissionFields()
+    public function _buildPermissionFields()
     {
         $aPermissionsFields = [];
         $c = 0;

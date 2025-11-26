@@ -99,10 +99,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         // If there are delivery limitations...
         if (is_array($aDeliveryLimitations) && (!empty($aDeliveryLimitations))) {
             // Sort the array of limitations so that they are ordered by execution order
-            $aSort = [];
-            foreach ($aDeliveryLimitations as $key => $aDeliveryLimitation) {
-                $aSort[$key] = $aDeliveryLimitation['executionorder'];
-            }
+            $aSort = array_map(fn($aDeliveryLimitation) => $aDeliveryLimitation['executionorder'], $aDeliveryLimitations);
             array_multisort($aSort, SORT_ASC, $aDeliveryLimitations);
             // For each delivery limitation, in execution order...
             $groupNumber = 0;
