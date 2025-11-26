@@ -800,7 +800,6 @@ $GLOBALS['strAddVariable'] = "Přidat proměnnou";
 $GLOBALS['strNoVarsToTrack'] = "Žádné proměnné ke sledování.";
 
 // Password recovery
-$GLOBALS['strPwdRecEnterEmail'] = "Zadejte vaši e-mailovou adresu";
 $GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
 
 // Password recovery - Default

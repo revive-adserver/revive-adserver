@@ -858,9 +858,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Пользовательский код JS";
 $GLOBALS['strVariableCode'] = "Код отслеживания JS";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Забыли пароль?";
 $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно для заполнения";
-$GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";
 
 // Password recovery - Default

@@ -985,9 +985,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Custom JS code";
 $GLOBALS['strVariableCode'] = "Javascript tracking code";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "שכחת סיסמא?";
 $GLOBALS['strEmailRequired'] = "דוא''ל הוא שדה חובה";
-$GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";
 

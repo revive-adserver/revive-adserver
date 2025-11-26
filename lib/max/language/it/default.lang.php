@@ -191,8 +191,10 @@ $GLOBALS['strPasswordRepeat'] = "Ripeti la password";
 $GLOBALS['strAccessDenied'] = "Accesso negato";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Nome utente o password non corretti. Inserire nuovamente le proprie credenziali.";
 $GLOBALS['strPasswordWrong'] = "Password errata";
+$GLOBALS['strNotAdmin'] = "Il tuo utente non ha i permessi necessari per utilizzare questa funzione, puoi accedere con un altro nome utente per usarla.";
 $GLOBALS['strDuplicateClientName'] = "Il nome utente fornito è già in uso, specificare un nome utente differente.";
 $GLOBALS['strInvalidPassword'] = "La nuova password non è valida, utilizzare un'altra password.";
+$GLOBALS['strInvalidEmail'] = "L'indirizzo email non è formattato correttamente, inserisci un indirizzo email formattato correttamente.";
 $GLOBALS['strNotSamePasswords'] = "Le due password inserite non coincidono";
 $GLOBALS['strRepeatPassword'] = "Ripeti password";
 $GLOBALS['strDeadLink'] = "Il tuo collegamento non è valido.";
@@ -1038,13 +1040,13 @@ $GLOBALS['strTrackerTypeCustom'] = "Codice Javascript personalizzato";
 $GLOBALS['strVariableCode'] = "Codice tracciamento Javascript";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Hai dimenticato la password?";
+$GLOBALS['strForgotPassword'] = "Richiedi un'email per reimpostare la password";
 $GLOBALS['strPasswordRecovery'] = "Reimpostazione password";
 $GLOBALS['strWelcomePage'] = "Benvenuto nuovo utente!";
 $GLOBALS['strWelcomePageText'] = "<b>Benvenuto in {$PRODUCT_NAME}.</b><br>Come nuovo utente, inizia impostando la tua prima password. Assicurati di selezionare una password sicura e unica.";
 $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
 $GLOBALS['strPwdRecWrongExpired'] = "Link di reimpostazione password errato o scaduto, si prega di richiederne uno nuovo";
-$GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
+$GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo email qui sotto per reimpostare la password";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
 $GLOBALS['strProceed'] = "Procedi >";
 $GLOBALS['strNotifyPageMessage'] = "Ti è stata inviata una e-mail, che include un link che ti permetterà di

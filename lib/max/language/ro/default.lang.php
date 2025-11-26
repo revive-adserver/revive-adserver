@@ -779,9 +779,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Cod JS personalizat";
 $GLOBALS['strVariableCode'] = "Cod Javascript de contorizare";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Ţi-ai uitat parola?";
 $GLOBALS['strEmailRequired'] = "Email este un câmp obligatoriu";
-$GLOBALS['strPwdRecEnterEmail'] = "Scrie adresa de email mai jos";
 $GLOBALS['strPwdRecEnterPassword'] = "Scrie noua parolă mai jos";
 $GLOBALS['strProceed'] = "Înaintează >";
 

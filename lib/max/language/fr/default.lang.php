@@ -944,9 +944,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Code JS personnalisé";
 $GLOBALS['strVariableCode'] = "Code de suivi Javascript";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Mot de passe oublié ?";
 $GLOBALS['strEmailRequired'] = "Le champ e-mail est requis";
-$GLOBALS['strPwdRecEnterEmail'] = "Entrez votre adresse e-mail ci-dessous";
 $GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-dessous";
 
 // Password recovery - Default

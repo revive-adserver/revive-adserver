@@ -1019,13 +1019,11 @@ $GLOBALS['strTrackerTypeCustom'] = "JS koda po meri";
 $GLOBALS['strVariableCode'] = "JavaScript sledilna koda";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Ste pozabili svoje geslo?";
 $GLOBALS['strPasswordRecovery'] = "Ponastavitev gesla";
 $GLOBALS['strWelcomePage'] = "Dobrodošel novi uporabnik!";
 $GLOBALS['strWelcomePageText'] = "<b>Dobrodošli v {$PRODUCT_NAME}.</b><br>Kot nov uporabnik začnite z nastavitvijo svojega prvega gesla. Poskrbite, da izberete varno in edinstveno geslo.";
 $GLOBALS['strEmailRequired'] = "Polje za vnos e-pošte je potrebno obvezno izpolniti";
 $GLOBALS['strPwdRecWrongExpired'] = "Napačna ali potekla povezava za ponastavitev gesla, prosimo, zahtevajte novo";
-$GLOBALS['strPwdRecEnterEmail'] = "Spodaj vpišite naslov svoje elektronske pošte";
 $GLOBALS['strPwdRecEnterPassword'] = "Spodaj vpišite vaše novo geslo";
 $GLOBALS['strProceed'] = "Nadaljuj >";
 $GLOBALS['strNotifyPageMessage'] = "E-pošta je bila poslana na vaš naslov in vsebuje povezavo 

@@ -791,9 +791,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Dowolny kod JS";
 $GLOBALS['strVariableCode'] = "Kod śledzenia JavaScript";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Nie pamiętasz hasła?";
 $GLOBALS['strEmailRequired'] = "Adres e-mail jest obligatoryjny";
-$GLOBALS['strPwdRecEnterEmail'] = "Wprowadź adres e-mail poniżej";
 $GLOBALS['strPwdRecEnterPassword'] = "Wprowadź nowe hasło poniżej";
 
 // Password recovery - Default

@@ -803,9 +803,7 @@ $GLOBALS['strTrackerTypeCustom'] = "トラッカー用カスタムJavascriptコ�
 $GLOBALS['strVariableCode'] = "トラッカー用Javascriptコード";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "パスワードを忘れた？";
 $GLOBALS['strEmailRequired'] = "メールアドレスは必須です。";
-$GLOBALS['strPwdRecEnterEmail'] = "メールアドレスを入力してください";
 $GLOBALS['strPwdRecEnterPassword'] = "新しいパスワードを入力してください";
 $GLOBALS['strProceed'] = "続ける &gt;";
 
