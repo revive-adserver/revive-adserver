@@ -17,9 +17,9 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 6.0.4
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: November 26th, 2025
 
-This version brings ...
+This version brings a security fix and a few minor bug fixes.
 
 For a detailed change log, please see: CHANGELOG.md
 

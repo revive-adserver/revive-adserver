@@ -2,12 +2,11 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.4]
+## [6.0.4] - 2025-11-26
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-005/)
 
-- Improved fix for the past vulnerability:
-    - [CVE-2025-55127](https://www.cve.org/CVERecord?id=CVE-2025-55127)
+- Incomplete List of Disallowed Inputs [CVE-2025-55129](https://www.cve.org/CVERecord?id=CVE-2025-55129)
 
 ### Fixes
 
