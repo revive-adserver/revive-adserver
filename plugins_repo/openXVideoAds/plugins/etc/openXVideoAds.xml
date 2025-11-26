@@ -4,13 +4,13 @@
 <plugin>
     <name>openXVideoAds</name>
     <displayName>IAB VAST Plugin</displayName>
-    <creationDate>2025-09-18</creationDate>
+    <creationDate>2025-11-26</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.15.7</version>
+    <version>1.15.8</version>
     <type>extension</type>
 
     <install>
