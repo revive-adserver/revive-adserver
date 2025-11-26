@@ -113,7 +113,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
         $doBanners->banner_id = $bannerid;
 
-        $insert = false === $doBanners->find();
+        $insert = 0 === $doBanners->find();
 
         $doBanners->vast_element_type = $aFields['vast_element_type'];
         $doBanners->vast_video_id = $aFields['vast_video_id'];

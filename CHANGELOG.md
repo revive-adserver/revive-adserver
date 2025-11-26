@@ -9,6 +9,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed SQL errors when mangling execution order in the POST of banner / channel delivery limitations ([#1606](https://github.com/revive-adserver/revive-adserver/issues/1606))
 - When changing language, the notification message is now translated using the new language ([#1607](https://github.com/revive-adserver/revive-adserver/issues/1607))
 - Added missing validation when changing the user's own email address via the User Preferences ([#1609](https://github.com/revive-adserver/revive-adserver/issues/1609))
+- VAST properties were not properly saved into the `banner_vast_element` table for newly created banners ([#1616](https://github.com/revive-adserver/revive-adserver/issues/1616))
 
 
 ## [6.0.3] - 2025-11-19
