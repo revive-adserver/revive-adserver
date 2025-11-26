@@ -94,9 +94,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         }
 
         // order the array by advertiser name
-        foreach ($aAdvertisers as $key => $row) {
-            $name[$key] = strtolower($row['name']);
-        }
+        $name = array_map(fn($row) => strtolower($row['name']), $aAdvertisers ?? []);
         array_multisort($name, SORT_ASC, $aAdvertisers);
         // rewrite the array to preserve key
         foreach ($aAdvertisers as $row) {
@@ -175,9 +173,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         }
 
         // order the array by publisher name
-        foreach ($aPublishers as $key => $row) {
-            $name[$key] = strtolower($row['name']);
-        }
+        $name = array_map(fn($row) => strtolower($row['name']), $aPublishers ?? []);
         array_multisort($name, SORT_ASC, $aPublishers);
         // rewrite the array to preserve key
         foreach ($aPublishers as $row) {
