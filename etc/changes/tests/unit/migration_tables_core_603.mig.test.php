@@ -136,6 +136,7 @@ class Migration_603Test extends MigrationTest
         $oMigration->migrateTagSettings($oConf);
         $aExpected = ['oxInvocationTags' => [
             'isAllowedAdjs' => 'true',
+            'isAllowedAsyncStealth' => 'true',
             'isAllowedAdlayer' => 'true',
             'isAllowedAdviewnocookies' => 'true',
             'isAllowedLocal' => 'true',

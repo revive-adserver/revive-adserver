@@ -1,5 +1,25 @@
 RewriteEngine On
 
-# Map "images/zone-X.png" to our new rotator script
-# Example: http://localhost:8080/www/images/zone-1.png -> /www/delivery/gh.php?zoneid=1
+# Map "images/zone-X.png" to rotator script
+# Request: /www/images/zone-1.png -> /www/delivery/gh.php?zoneid=1
 RewriteRule ^images/zone-([a-zA-Z0-9\-_]+)\.png$ delivery/gh.php?zoneid=$1 [L,QSA]
+
+# STEALTH MODE RULES
+
+# Map "assets/js/lib.js" -> asyncjsstealth.php (Async JS Loader - Native Stealth)
+RewriteRule ^assets/js/lib\.js$ delivery/asyncjsstealth.php [L,QSA]
+
+# Map "assets/data/packet" -> loader.php?type=data (Async Content)
+RewriteRule ^assets/data/packet$ delivery/loader.php?type=data [L,QSA]
+
+# Map "assets/frames/widget.html" -> loader.php?type=frame (iFrame)
+RewriteRule ^assets/frames/widget\.html$ delivery/loader.php?type=frame [L,QSA]
+
+# Map "assets/ping.gif" -> loader.php?type=log (Impressions)
+RewriteRule ^assets/ping\.gif$ delivery/loader.php?type=log [L,QSA]
+
+# Map "assets/go" -> loader.php?type=click (Clicks)
+RewriteRule ^assets/go$ delivery/loader.php?type=click [L,QSA]
+
+# Map "assets/view.gif" -> loader.php?type=view (View Tracking)
+RewriteRule ^assets/view\.gif$ delivery/loader.php?type=view [L,QSA]

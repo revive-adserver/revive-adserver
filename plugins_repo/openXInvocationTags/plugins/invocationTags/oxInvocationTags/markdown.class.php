@@ -1,5 +1,12 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Revive Adserver - Markdown Plugin                                         |
++---------------------------------------------------------------------------+
+*/
+
+
 /**
  * @package    OpenXPlugin
  * @subpackage InvocationTags
@@ -47,7 +54,7 @@ class Plugins_InvocationTags_OxInvocationTags_markdown extends Plugins_Invocatio
     public function getOrder()
     {
         parent::getOrder();
-        return 1;
+        return 0;
     }
 
     /**

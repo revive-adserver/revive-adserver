@@ -10,7 +10,7 @@ services:
     depends_on:
       - db
     command: >
-      bash -c "apt-get update && apt-get install -y libpq-dev libzip-dev zlib1g-dev libicu-dev libpng-dev && docker-php-ext-install pgsql pdo_pgsql zip intl gd && apache2-foreground"
+      bash -c "apt-get update && apt-get install -y libpq-dev libzip-dev zlib1g-dev libicu-dev libpng-dev && docker-php-ext-install pgsql pdo_pgsql zip intl gd && a2enmod rewrite && apache2-foreground"
 
   db:
     image: postgres:15
@@ -20,3 +20,5 @@ services:
       POSTGRES_PASSWORD: revive
     ports:
       - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

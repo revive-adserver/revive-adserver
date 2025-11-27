@@ -65,7 +65,7 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
     public function getOrder()
     {
         parent::getOrder();
-        return 4;
+        return 6;
     }
 
     /**

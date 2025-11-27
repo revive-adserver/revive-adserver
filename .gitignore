@@ -34,3 +34,4 @@ phpinfo.php
 /devel.xml
 /tests.xml
 /tests/*.ini
+/postgres-data

@@ -45,7 +45,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      */
     public function getName()
     {
-        return $this->translate("Asynchronous JS Tag");
+        return $this->translate("Async JS Tag");
     }
 
     /**
@@ -57,7 +57,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      */
     public function getNameEN()
     {
-        return 'Asynchronous JS Tag';
+        return 'Async JS Tag';
     }
 
     /**
@@ -74,7 +74,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
     public function getOrder()
     {
         parent::getOrder();
-        return 3;
+        return 1;
     }
 
     /**

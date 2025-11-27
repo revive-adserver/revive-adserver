@@ -65,7 +65,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
     public function getOrder()
     {
         parent::getOrder();
-        return 0;
+        return 3;
     }
 
     /**
