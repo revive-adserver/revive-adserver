@@ -3276,7 +3276,7 @@ function OA_SPCGetJavaScript($affiliateid)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $varprefix = $aConf['var']['prefix'];
-$aZones = OA_cacheGetPublisherZones($affiliateid) ?: [];
+$aZones = OA_cacheGetPublisherZones($affiliateid);
 foreach ($aZones as $zoneid => $aZone) {
 $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
 }
