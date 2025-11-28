@@ -25,7 +25,7 @@ class Plugins_InvocationTagsOptions
         'source' => '',
         'withtext' => 0,
         'refresh' => '',
-        'transparent' => 0,
+        'transparent' => 1,
         'ilayer' => 0,
         'block' => 0,
         'blockcampaign' => 0,
@@ -41,6 +41,7 @@ class Plugins_InvocationTagsOptions
         'comments' => 0,
         'charset' => '',
         'https' => 1,
+        'responsive' => 1,
     ];
     public function __construct()
     {
@@ -289,6 +290,25 @@ class Plugins_InvocationTagsOptions
         $option .= "<td width='200'>" . $GLOBALS['strIframeMakeTransparent'] . "</td>";
         $option .= "<td width='370'><input type='radio' name='transparent' value='1'" . (isset($maxInvocation->transparent) && $maxInvocation->transparent == 1 ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strYes'] . "<br />";
         $option .= "<input type='radio' name='transparent' value='0'" . (!isset($maxInvocation->transparent) || $maxInvocation->transparent == 0 ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strNo'] . "</td>";
+        $option .= "</tr>";
+        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
+        return $option;
+    }
+
+    /**
+     * Generate the HTML option
+     *
+     * @return string    A string containing html for option
+     */
+    public function responsive()
+    {
+        $maxInvocation = &$this->maxInvocation;
+
+        $option = '';
+        $option .= "<tr><td width='30'>&nbsp;</td>";
+        $option .= "<td width='200'>" . (isset($GLOBALS['strResponsiveBanner']) ? $GLOBALS['strResponsiveBanner'] : 'Responsive Banner') . "</td>";
+        $option .= "<td width='370'><input type='radio' name='responsive' value='1'" . (isset($maxInvocation->responsive) && ($maxInvocation->responsive == 1 || $maxInvocation->responsive == '1') ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strYes'] . "<br />";
+        $option .= "<input type='radio' name='responsive' value='0'" . (!isset($maxInvocation->responsive) || $maxInvocation->responsive == 0 || $maxInvocation->responsive == '0' ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strNo'] . "</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;

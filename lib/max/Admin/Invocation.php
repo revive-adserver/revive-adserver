@@ -56,6 +56,7 @@ class MAX_Admin_Invocation
             'block',
             'blockcampaign',
             'cachebuster',
+            'responsive',
             'charset',
             'comments',
             'delay',

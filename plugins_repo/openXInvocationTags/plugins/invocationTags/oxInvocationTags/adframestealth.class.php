@@ -43,6 +43,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframestealth extends Plugins_Inv
             'refresh' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'size' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'transparent' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'responsive' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         ];
     }
 
@@ -59,6 +60,16 @@ class Plugins_InvocationTags_OxInvocationTags_adframestealth extends Plugins_Inv
 
         if (isset($mi->refresh) && $mi->refresh != '') {
             $mi->parameters['refresh'] = "refresh=" . $mi->refresh;
+        }
+        
+        $responsiveEnabled = isset($mi->responsive) && ($mi->responsive === '1' || $mi->responsive === 1);
+        
+        unset($mi->parameters['responsive']);
+        if ($responsiveEnabled) {
+            $mi->parameters['responsive'] = "responsive=1";
+        }
+        if (isset($mi->parameters['responsive']) && $mi->parameters['responsive'] === 'responsive=1') {
+            $responsiveEnabled = true;
         }
 
         if (empty($mi->frame_width)) $mi->frame_width = $mi->width;
@@ -106,23 +117,41 @@ class Plugins_InvocationTags_OxInvocationTags_adframestealth extends Plugins_Inv
         }
         $backupImage .= "><img src='" . $viewUrl . "' border='0' alt='' /></a>";
 
+        if ($responsiveEnabled) {
+            // wrap iframe in responsive container
+            $originalWidth = isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1' ? $mi->frame_width : (isset($mi->width) && $mi->width != '' && $mi->width != '-1' ? $mi->width : '100%');
+            $originalHeight = isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1' ? $mi->frame_height : (isset($mi->height) && $mi->height != '' && $mi->height != '-1' ? $mi->height : 'auto');
+            $buffer .= "<div class='responsive-content-wrapper' style='width:100%;max-width:" . $originalWidth . "px;height:" . ($originalHeight == 'auto' ? 'auto' : $originalHeight . 'px') . ";margin:0 auto;position:relative;overflow:hidden;'>";
+        }
+        
         $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='" . $frameUrl;
         if (count($mi->parameters) > 0) {
             $buffer .= "?" . implode("&amp;", $mi->parameters);
         }
         $buffer .= "' frameborder='0' scrolling='no'";
-        if (isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1') {
-            $buffer .= " width='" . $mi->frame_width . "'";
-        }
-        if (isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1') {
-            $buffer .= " height='" . $mi->frame_height . "'";
+        if ($responsiveEnabled) {
+            // set iframe to 100% width and height
+            $buffer .= " style='width:100%;max-width:100%;height:100%;'";
+        } else {
+            // use fixed dimensions
+            if (isset($mi->frame_width) && $mi->frame_width != '' && $mi->frame_width != '-1') {
+                $buffer .= " width='" . $mi->frame_width . "'";
+            }
+            if (isset($mi->frame_height) && $mi->frame_height != '' && $mi->frame_height != '-1') {
+                $buffer .= " height='" . $mi->frame_height . "'";
+            }
         }
         if (isset($mi->transparent) && $mi->transparent == '1') {
             $buffer .= " allowtransparency='true'";
         }
         $buffer .= " allow='autoplay'>";
         $buffer .= $backupImage; 
-        $buffer .= "</iframe>\n";
+        $buffer .= "</iframe>";
+        
+        if ($responsiveEnabled) {
+            $buffer .= "</div>";
+        }
+        $buffer .= "\n";
 
         return $buffer;
     }
