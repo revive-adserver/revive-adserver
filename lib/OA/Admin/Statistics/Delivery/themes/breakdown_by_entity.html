@@ -25,7 +25,7 @@
             {if:!noStatsAvailable}
             <td style="padding-bottom:5px; white-space: nowrap;">
                 <br />
-                <a href="{pageURI}plugin=advertiser:statshistory" accesskey="e" target="_blank" onclick="return disableExcel(this)">
+                <a href="{pageURI}plugin=advertiser:statshistory" accesskey="e" target="_blank" onclick="RV_downloadReport(this.href); return false">
                     <img src="{assetPath}/images/excel.gif" border="0" alt="" /> {tr(#strExportStatisticsToExcel#):h}
                 </a>
             </td>

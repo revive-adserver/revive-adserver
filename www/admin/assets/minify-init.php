@@ -37,6 +37,7 @@ $oxpJs = [
     'js/ox.tablesorter.plugins.js',
     'js/formValidation.js',
     'js/ox.security.js',
+    'js/ox.download.js',
 ];
 
 $commonCss = [

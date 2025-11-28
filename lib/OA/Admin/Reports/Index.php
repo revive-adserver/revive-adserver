@@ -304,6 +304,7 @@ class OA_Admin_Reports_Index
     public function _displayParameterListFooter($reportIdentifier)
     {
         $generateTabIndex = $this->tabindex++;
+
         echo "
         <tr>
           <td height='25' colspan='3'>
@@ -311,7 +312,7 @@ class OA_Admin_Reports_Index
             <input type='hidden' name='plugin' value='$reportIdentifier'>
             <input type='button' value='{$GLOBALS['strBackToTheList']}' onClick='javascript:document.location.href=\"report-index.php\"' tabindex='" . ($this->tabindex++) . "'>
             &nbsp;&nbsp;
-            <input type='submit' value='{$GLOBALS['strGenerate']}' tabindex='" . ($generateTabIndex) . "'>
+            <input type='button' value='{$GLOBALS['strGenerate']}' tabindex='" . ($generateTabIndex) . "' onclick='" . 'RV_downloadReport(this.form.action + "?" + $(this.form).serialize())' . "'>
           </td>
         </tr>
         </form>";

@@ -7,6 +7,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Fixed PHP fatal error when spcjs.php is called for a website with no zones ([#1621](https://github.com/revive-adserver/revive-adserver/issues/1621))
+- Fixed issue with animation being stuck when downloading advanced reports ([#1620](https://github.com/revive-adserver/revive-adserver/issues/1620))
 
 
 ## [6.0.4] - 2025-11-26
