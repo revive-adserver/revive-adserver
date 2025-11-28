@@ -1,3 +1,65 @@
+# SWM Changes
+
+## Installation
+
+1. From the repo root `cd plugins_repo`
+2. If the plugin is unchanged, let the packager weave a fresh ZIP:
+   `./zipkg.sh openXInvocationTags`
+3. If you did tweak anything, run the same command to bump the version and rebuild:
+   `./zipkg.sh openXInvocationTags -b oxInvocationTags`
+4. On your running server, switch to an admin account.
+5. Visit Plugins, upload the newly minted ZIP, and install or update it.
+
+## Recommended usage for best responsiveness
+
+* **Async JS Stealth** for image banners (PNG/GIF)
+* **iFrame Stealth** for HTML banners
+
+## Markdown Invocation Tag
+
+To exisitng Invocation Tags Plugin we added **Markdown tag**.
+Designed for static environments like GitHub READMEs or email newsletters.
+Generates a fully static Markdown snippet:
+
+```
+[![Ad](https://adserver.example.com/www/images/zone-123.png)](https://adserver.example.com/www/delivery/ck.php?n=9f8a7b)
+```
+
+**Usage:**
+Inventory → Zones → Invocation Code → Select “Markdown (GitHub)” → Paste into `.md`
+
+
+### How it works
+
+To enable rotation, cache busting, and GitHub Camo–friendly delivery, the plugin uses a Magic Image URL technique:
+
+* Markdown uses a `.png` URL for compatibility.
+* An `.htaccess` rule rewrites the request to `gh.php`.
+* `gh.php` responds with a 307 redirect plus no-cache headers.
+* The proxy fetches a unique randomized delivery URL each time.
+
+This forces a fresh impression on every page load.
+
+## Stealth Mode - AdBlock Bypass
+
+Stealth Mode reshapes the delivery path and attributes so it slips past filters without raising suspicion
+It is implemented for iFrame and Async JS invocation tags.
+
+**Usage:**
+Inventory → Zones → Invocation Code → Select “Async JS (Stealth Mode)” → Generate snippet
+
+### How it Works
+
+* Uses neutral-looking endpoints like `/assets/js/lib.js` and `/assets/data/packet`.
+* Rewrites every `data-revive-*` attribute to `data-content-*`.
+* Publishes the loader under the friendly name `contentAsync` instead of `reviveAsync`.
+* Routes all requests through `.htaccess` into internal loader scripts that map the disguised URLs back to Revive’s delivery logic.
+
+---
+
+If you want it even shorter or more technical, I can tune it further.
+
+
 # Revive Adserver
 #### The world's most popular free, open source ad serving system
 
