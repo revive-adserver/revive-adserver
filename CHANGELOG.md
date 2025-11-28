@@ -2,6 +2,13 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
+## [6.0.5]
+
+### Fixes
+
+- Fixed PHP fatal error when spcjs.php is called for a website with no zones ([#1621](https://github.com/revive-adserver/revive-adserver/issues/1621))
+
+
 ## [6.0.4] - 2025-11-26
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2025-005/)
