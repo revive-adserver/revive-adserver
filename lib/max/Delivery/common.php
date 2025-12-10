@@ -723,31 +723,43 @@ function _convertContextArray($key, $array)
  */
 function OX_Delivery_Common_hook($hookName, $aParams = [], $functionName = '')
 {
-    $return = null;
     // When a $functionname is passed in we use that function/component-identifier and execute the hook
     if (!empty($functionName)) {
         // Right now, we're allowing either a plain function to be executed, or a component-identifier
         // we may remove the ability to pass a plain function in the future
         $aParts = explode(':', $functionName);
+
         if (count($aParts) === 3) {
             $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($functionName, $hookName);
         }
-        if (function_exists($functionName)) {
-            $return = call_user_func_array($functionName, $aParams);
+
+        if (!function_exists($functionName)) {
+            return null;
         }
-    } elseif (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
+
+        return $functionName(...$aParams);
+    }
+
+    if (!empty($GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName])) {
         // When no $functionName is passed in, we execute all components which are registered for this hook
         $return = [];
         $hooks = explode('|', $GLOBALS['_MAX']['CONF']['deliveryHooks'][$hookName]);
+
         foreach ($hooks as $identifier) {
             $functionName = OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hookName);
-            if (function_exists($functionName)) {
-                OX_Delivery_logMessage('calling on ' . $functionName, 7);
-                $return[$identifier] = call_user_func_array($functionName, $aParams);
+
+            if (!function_exists($functionName)) {
+                continue;
             }
+
+            OX_Delivery_logMessage('calling on ' . $functionName, 7);
+            $return[$identifier] = $functionName(...$aParams);
         }
+
+        return $return;
     }
-    return $return;
+
+    return null;
 }
 
 /**
@@ -773,24 +785,35 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
     $aInfo = explode(':', $identifier);
     $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (empty($hook) ? '' : '_' . $hook);
 
-    if (!function_exists($functionName)) {
-        // Function doesn't exist, include the generic merged delivery file
-        if (!empty($GLOBALS['_MAX']['CONF']['pluginSettings']['useMergedFunctions'])) {
-            _includeDeliveryPluginFile('/var/cache/' . OX_getHostName() . '_mergedDeliveryFunctions.php');
-        }
-        if (!function_exists($functionName)) {
-            // Function doesn't exist, include the relevant plugin file
-            _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');
-            if (!function_exists($functionName)) {
-                // Function or function file doesn't exist, use the "parent" function
-                _includeDeliveryPluginFile('/lib/OX/Extension/' . $aInfo[0] . '/' . $aInfo[0] . 'Delivery.php');
-                $functionName = 'Plugin_' . $aInfo[0] . '_delivery';
-                if (!empty($hook) && function_exists($functionName . '_' . $hook)) {
-                    $functionName .= '_' . $hook;
-                }
-            }
-        }
+    if (function_exists($functionName)) {
+        return $functionName;
     }
+
+    // Function doesn't exist, include the generic merged delivery file
+    if (!empty($GLOBALS['_MAX']['CONF']['pluginSettings']['useMergedFunctions'])) {
+        _includeDeliveryPluginFile('/var/cache/' . OX_getHostName() . '_mergedDeliveryFunctions.php');
+    }
+
+    if (function_exists($functionName)) {
+        return $functionName;
+    }
+
+    // Function doesn't exist, include the relevant plugin file
+    _includeDeliveryPluginFile($GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'] . '/' . implode('/', $aInfo) . '.delivery.php');
+
+    if (function_exists($functionName)) {
+        return $functionName;
+    }
+
+    // Function or function file doesn't exist, use the "parent" function
+    _includeDeliveryPluginFile('/lib/OX/Extension/' . $aInfo[0] . '/' . $aInfo[0] . 'Delivery.php');
+
+    $functionName = 'Plugin_' . $aInfo[0] . '_delivery';
+
+    if (!empty($hook) && function_exists($functionName . '_' . $hook)) {
+        $functionName .= '_' . $hook;
+    }
+
     return $functionName;
 }
 
@@ -863,12 +886,12 @@ function OX_Delivery_Common_sendPreconnectHeaders()
  */
 function _includeDeliveryPluginFile($fileName)
 {
-    if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
-        $GLOBALS['_MAX']['FILES'][$fileName] = true;
-        if (file_exists(MAX_PATH . $fileName)) {
-            include MAX_PATH . $fileName;
-        }
+    if (isset($GLOBALS['_MAX']['FILES'][$fileName])) {
+        return;
     }
+
+    $GLOBALS['_MAX']['FILES'][$fileName] = true;
+    @include(MAX_PATH . $fileName);
 }
 
 function OX_Delivery_logMessage($message, $priority = 6)
