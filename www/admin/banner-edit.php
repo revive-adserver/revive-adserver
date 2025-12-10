@@ -720,6 +720,8 @@ function _getContentTypeIconImageName($contentType)
 
     $imageName = match ($contentType) {
         'jpeg' => 'icon-filetype-jpg.gif',
+        'webp' => 'icon-filetype-jpg.gif',
+        'avif' => 'icon-filetype-jpg.gif',
         'gif' => 'icon-filetype-gif.gif',
         'png' => 'icon-filetype-png.gif',
         'rpm' => 'icon-filetype-rpm.gif',

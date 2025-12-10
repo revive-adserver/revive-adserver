@@ -16,6 +16,7 @@ require_once MAX_PATH . '/lib/OA/Creative/File.php';
  * A class to deal with uploaded creatives
  *
  */
+
 class OA_Creative_File_Image extends OA_Creative_File
 {
     public function readCreativeDetails($fileName, $aTypes = null)
@@ -25,6 +26,7 @@ class OA_Creative_File_Image extends OA_Creative_File
             IMAGETYPE_PNG => 'png',
             IMAGETYPE_JPEG => 'jpeg',
             IMAGETYPE_WEBP => 'webp',
+            IMAGETYPE_AVIF => 'avif',
         ]);
     }
 }

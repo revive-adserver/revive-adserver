@@ -79,6 +79,10 @@ class OA_Creative_File extends OA_Creative
             return new PEAR_Error('Unsupported image format');
         }
 
+        if (PHP_VERSION_ID < 80200 && $aImage[2] === IMAGETYPE_AVIF) {
+            return new PEAR_Error('AVIF is only supported with PHP 8.2+');
+        }
+
         $this->contentType = $aTypes[$aImage[2]];
         $this->width = $aImage[0];
         $this->height = $aImage[1];
@@ -121,6 +125,7 @@ class OA_Creative_File extends OA_Creative
             'png' => 'png',
             'gif' => 'gif',
             'webp' => 'webp',
+            'avif' => 'avif',
             'swf' => $alt ? '' : 'swf',
             'dcr' => $alt ? '' : 'dcr',
             'rpm' => $alt ? '' : 'rpm',
@@ -147,7 +152,7 @@ class OA_Creative_File extends OA_Creative
             $fileName = basename($filePath);
         }
 
-        $validImageExtensions = 'png|svg|gif|jpg|jpeg|jpe|tif|tiff|ppm|bmp|rle|dib|tga|pcz|wbmp|wbm|webp';
+        $validImageExtensions = 'png|svg|gif|jpg|jpeg|jpe|tif|tiff|ppm|bmp|rle|dib|tga|pcz|wbmp|wbm|webp|avif';
         if (preg_match('/\.(?:dcr|rpm|mov)$/i', $fileName)) {
             $type = 'RichMedia';
         } elseif (preg_match('/\.(' . $validImageExtensions . ')$/i', $fileName)) {

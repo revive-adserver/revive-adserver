@@ -40,6 +40,8 @@ function MAX_imageServe($aCreative, $filename, $contenttype)
                 'dcr' => MAX_header('Content-type: application/x-director; name=' . $filename),
                 'rpm' => MAX_header('Content-type: audio/x-pn-realaudio-plugin; name=' . $filename),
                 'mov' => MAX_header('Content-type: video/quicktime; name=' . $filename),
+                'webp' => MAX_header('Content-type: image/webp; name=' . $filename),
+                'avif' => MAX_header('Content-type: image/avif; name=' . $filename),
                 default => MAX_header('Content-type: image/' . $contenttype . '; name=' . $filename),
             };
         }
