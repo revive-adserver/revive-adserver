@@ -26,6 +26,8 @@ if (!empty($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'])) {
     $GLOBALS['OA_Delivery_Cache']['path'] = MAX_PATH . '/var/cache/';
 }
 
+$GLOBALS['OA_Delivery_Cache']['opcache'] = function_exists('opcache_invalidate');
+
 /**
  * Function to fetch a cache entry
  *
@@ -83,6 +85,11 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
                 @unlink($tmp_filename);
             }
         }
+
+        if ($GLOBALS['OA_Delivery_Cache']['opcache']) {
+            opcache_compile_file($filename);
+        }
+
         if (PHP_SAPI == 'cli') {
             // If delivery cache is used during maintenance with php-cli,
             // most likely the user running it is not the webserver user.
