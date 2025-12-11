@@ -3754,7 +3754,7 @@ if (!empty($aBanner['ext_bannertype'])) {
 return OX_Delivery_Common_getFunctionFromComponentIdentifier($aBanner['ext_bannertype'], 'adRender');
 } else {
 $functionName = match ($aBanner['contenttype']) {
-'gif', 'jpeg', 'png', 'webp' => '_adRenderImage',
+'gif', 'jpeg', 'png', 'webp', 'avif' => '_adRenderImage',
 'txt' => '_adRenderText',
 default => match ($aBanner['type']) {
 'html' => '_adRenderHtml',
