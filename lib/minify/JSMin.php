@@ -167,7 +167,11 @@ class JSMin {
   }
 
   protected function isAlphaNum($c) {
-    return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
+      if (null === $c) {
+          return false;
+      }
+
+      return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
   }
 
   protected function min() {
