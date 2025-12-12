@@ -449,7 +449,7 @@ function initCampaignForm(formId)
      $("#" + formId).submit(function() {
              formUnFormat(this.impressions);
              formUnFormat(this.clicks);
-             formUnFormat(this.conversions);
+             "conversions" in this && formUnFormat(this.conversions);
 
              return campaignFormPriorityCheck(this)
                  &&  campaignFormDatesRangeCheck(this);
