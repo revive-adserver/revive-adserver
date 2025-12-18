@@ -149,6 +149,12 @@ abstract class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Stati
         // Disable this for now, since these queries can be very slow
         // $this->oHistory->getSpan($this, $aParams);
 
+        if (!empty($GLOBALS['_MAX']['CONF']['ui']['disableDirectSelection']) && !empty($aParams['agency_id'])) {
+            // Skip the advertiser side LEFT JOINs and the resulting suboptimal
+            // WHERE (a.agencyid = X OR p.agencyid = X) condition
+            $aParams['exclude'] = ['ad_id'];
+        }
+
         // Get the historical stats
         $aStats = $this->getHistory($aParams, $link);
 
