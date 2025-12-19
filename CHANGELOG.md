@@ -9,6 +9,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed PHP fatal error when spcjs.php is called for a website with no zones ([#1621](https://github.com/revive-adserver/revive-adserver/issues/1621))
 - Loading animation was stuck when downloading advanced reports ([#1620](https://github.com/revive-adserver/revive-adserver/issues/1620))
 - Campaign start/end dates were not saved when conversion tracking was disabled and using non-english localisation ([#1628](https://github.com/revive-adserver/revive-adserver/issues/1628)) 
+- Allow bannerType plugins to specify if file upload is required when using `addUploadGroup()` ([#1631](https://github.com/revive-adserver/revive-adserver/issues/1631))
 
 
 ## [6.0.4] - 2025-11-26

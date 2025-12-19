@@ -498,13 +498,23 @@ function addUploadGroup($form, $aBanner, $vars)
 
     $rules = [];
 
-    $maxFilesize = (int) ($GLOBALS['_MAX']['CONF']['store']['maxFilesize'] ?? 0);
+    if (isset($vars['maxFileSize'])) {
+        $rules['maxFileSize'] = (int) $vars['maxFileSize'];
+    } else {
+        $maxFilesize = (int) ($GLOBALS['_MAX']['CONF']['store']['maxFilesize'] ?? 0);
+    }
+
+    if (isset($vars['required'])) {
+        $required = (bool) $vars['required'];
+    } else {
+        $required = empty($aBanner['bannerid']);
+    }
 
     if ($maxFilesize > 0) {
         $rules[] = [sprintf($GLOBALS['strUploadedFileTooBig'], $maxFilesize), 'maxfilesize', $maxFilesize];
     }
 
-    if (empty($aBanner['bannerid'])) {
+    if ($required) {
         $rules[] = [$GLOBALS['strUploadedRequired'], 'uploadedfile'];
     }
 
