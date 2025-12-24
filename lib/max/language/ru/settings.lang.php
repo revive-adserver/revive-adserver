@@ -50,7 +50,6 @@ $GLOBALS['strUpgrade'] = "Обновить";
 $GLOBALS['strChooseSection'] = "Выберите раздел";
 $GLOBALS['strUnableToWriteConfig'] = "Невозможно сохранить изменения в файл конфигурации";
 $GLOBALS['strUnableToWritePrefs'] = "Невозможно сохранить настройки в БД";
-$GLOBALS['strImageDirLockedDetected'] = "Указанная<b>папка для изображений</b>недоступна для записи. <br>Необходимо изменить настройки доступа, или создать папку.";
 
 // Configuration Settings
 

@@ -59,7 +59,6 @@ $GLOBALS['strEditConfigPossible'] = "Mogoče je urejati vse nastavitve, ker konf
     Če želite zaščititi svoj sistem, morate zakleniti konfiguracijsko datoteko za to namestitev.";
 $GLOBALS['strUnableToWriteConfig'] = "V konfiguracijsko datoteko je bilo nemožno zapisati spremembe";
 $GLOBALS['strUnableToWritePrefs'] = "Podatkovni bazi je bilo nemožno izročiti izbiro";
-$GLOBALS['strImageDirLockedDetected'] = "Strežnik ne more zapisovati v <b>Mapo z slikami</b>. <br>Ne morete nadaljevati, dokler ne spremenite dovoljenj za to mapo ali pa ustvarite novo.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Nastavitve konfiguracije";

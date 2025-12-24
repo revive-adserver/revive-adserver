@@ -57,7 +57,6 @@ $GLOBALS['strEditConfigNotPossible'] = "No es posible editar todas las configura
 $GLOBALS['strEditConfigPossible'] = "Es posible editar todas las configuraciones porque el archivo de configuración no está bloqueado, pero esto podría conducir a problemas de seguridad. 
    Si desea asegurar su sistema, necesitará bloquear el archivo de configuración para esta instalación.";
 $GLOBALS['strUnableToWriteConfig'] = "No se puede escribir los cambios al archivo config";
-$GLOBALS['strImageDirLockedDetected'] = "El servidor no puede escribir en el <b>Directorio de Imágenes</b> suministrado. <br>No puede continuar hasta que haya cambiado los permisos del directorio o haya creado otro directorio.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Ajustes de configuración";

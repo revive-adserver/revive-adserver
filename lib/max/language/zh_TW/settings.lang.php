@@ -51,7 +51,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "由於安全原因無法編輯所有設定�
 $GLOBALS['strChooseSection'] = "選擇章節";
 $GLOBALS['strUnableToWriteConfig'] = "無法修改配置文件";
 $GLOBALS['strUnableToWritePrefs'] = "無法向數據庫提交屬性更改 ";
-$GLOBALS['strImageDirLockedDetected'] = "<b>圖片文件夾</b>不可寫<br>在修改文件夾權限之前無法修改或創建相關文件夾。";
 
 // Configuration Settings
 

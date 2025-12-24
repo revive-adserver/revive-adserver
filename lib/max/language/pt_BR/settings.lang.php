@@ -57,7 +57,6 @@ $GLOBALS['strEditConfigNotPossible'] = "Não é possível editar todas as config
     Se quiser fazer alterações, talvez seja necessário desbloquear primeiro o arquivo de configuração desta instalação.";
 $GLOBALS['strUnableToWriteConfig'] = "Não é possível editar todas as configurações pois o arquivo de configuração esta travado por questões de segurança. Se deseja fazer alterações destrave o arquivo de configurações primeiro.";
 $GLOBALS['strUnableToWritePrefs'] = "É possível editar toas configurações pois o arquivo de configuração esta liberado, mas isto pode levar a problemas de segurança. Se deseja tornar seus sistema seguro é necessário travar o arquivo de configuração.";
-$GLOBALS['strImageDirLockedDetected'] = "O <b>Diretório de imagens</b> fornecido não possui permissão de escrita pelo servidor. <br>Você não poderá prosseguir até alterar as permissões ou criar a pasta.";
 
 // Configuration Settings
 

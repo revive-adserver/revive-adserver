@@ -50,7 +50,6 @@ $GLOBALS['strUpgrade'] = "Mise à niveau";
 $GLOBALS['strChooseSection'] = "Choisir la section";
 $GLOBALS['strUnableToWriteConfig'] = "Impossible d'écrire les modifications dans le fichier de configuration";
 $GLOBALS['strUnableToWritePrefs'] = "Impossible d'appliquer les préférences dans la base de données";
-$GLOBALS['strImageDirLockedDetected'] = "Le <b>dossier images</b> indiqué n'est pas accessible en écriture par le serveur. <br>Vous ne pourrez pas poursuivre tant que vous n'aurez pas changé les permissions ou créé le dossier.";
 
 // Configuration Settings
 
