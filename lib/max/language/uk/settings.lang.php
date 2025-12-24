@@ -58,7 +58,6 @@ $GLOBALS['strEditConfigPossible'] = "Можна редагувати всі на
      Якщо ви хочете захистити свою систему, вам потрібно заблокувати файл конфігурації для цієї інсталяції.";
 $GLOBALS['strUnableToWriteConfig'] = "Неможливо записати зміни до конфігураційного файлу";
 $GLOBALS['strUnableToWritePrefs'] = "Неможливо закріпити налаштування для бази даних";
-$GLOBALS['strImageDirLockedDetected'] = "Надана <b>папка зображень</b> не може бути записана сервером. <br>Ви не можете продовжити, доки не зміните дозволи папки або не створите її.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Налаштування конфігурації";

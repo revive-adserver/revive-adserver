@@ -45,7 +45,6 @@ $GLOBALS['strAdminUrlPrefix'] = "Administrator interface URL";
 $GLOBALS['strChooseSection'] = "Vælg sektion";
 $GLOBALS['strUnableToWriteConfig'] = "Ude af stand til at skrive ændringer til config filen";
 $GLOBALS['strUnableToWritePrefs'] = "Ude af stand til at binde referencer til databasen";
-$GLOBALS['strImageDirLockedDetected'] = "Den leverede <b>Billede Mappe</b> er ikke skrivebar af serveren. <br>Du kan ikke fortsætte indtil du enten ændrer adgangstilladdelse til mappen eller opretter mappen.";
 
 // Configuration Settings
 

@@ -49,7 +49,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL Stocare Imagini (SSL)";
 $GLOBALS['strChooseSection'] = "Alege Secţiune";
 $GLOBALS['strUnableToWriteConfig'] = "Nu pot efectua modificările în fişierul de configurare";
 $GLOBALS['strUnableToWritePrefs'] = "Nu pot introduce aceste preferinţe în baza de date";
-$GLOBALS['strImageDirLockedDetected'] = "<b>Dosarul de Imagini</b> furnizat nu poate fi scris de către server. <br>Nu poţi continua până când nu modifici permisiunile sau creezi acel dosar.";
 
 // Configuration Settings
 

@@ -51,7 +51,6 @@ $GLOBALS['strUpgrade'] = "Frissítés";
 $GLOBALS['strChooseSection'] = "Válasszon egyet";
 $GLOBALS['strUnableToWriteConfig'] = "A konfigurációs fájl írása sikertelen";
 $GLOBALS['strUnableToWritePrefs'] = "A beállítás adatbázisba írása sikertelen";
-$GLOBALS['strImageDirLockedDetected'] = "A kiszolgáló nem tudja írnia a megadott <b>Képek Könyvtárt</b>. <br>Addig nem tud továbblépni, amíg vagy meg nem változtatja a beállításokat vagy létre nem hozza a könyvtárat.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Konfiguráció beállítása";

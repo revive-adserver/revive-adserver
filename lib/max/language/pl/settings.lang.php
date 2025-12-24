@@ -50,7 +50,6 @@ $GLOBALS['strUpgrade'] = "Aktualizacja";
 $GLOBALS['strChooseSection'] = "Wybierz sekcję";
 $GLOBALS['strUnableToWriteConfig'] = "Nie można wprowadzić zmian w pliku config";
 $GLOBALS['strUnableToWritePrefs'] = "Nie można wprowadzić preferencji w bazie danych";
-$GLOBALS['strImageDirLockedDetected'] = "Wskazany <b>Folder Obrazów</b> nie jest otwarty do edycji. <b>Zmień uprawnienia w folderze lub utwórz folder, aby kontynuować.";
 
 // Configuration Settings
 

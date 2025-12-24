@@ -56,7 +56,6 @@ $GLOBALS['strEditConfigNotPossible'] = " این امکان پذیر است که 
 $GLOBALS['strEditConfigPossible'] = " این امکان پذیر است که تمام تنظیمات را ویرایش کنید بدلیل اینکه فایل پیکربندی قفل نیست ، اما این ممکن است به مشکل امنیتی منجر شود . اگر می خواهید سیستم خود را امن کنید ، نیازمند است فایل پیکر بندی را برای نصب قف کنید.";
 $GLOBALS['strUnableToWriteConfig'] = "امکان نوشتن تغییرات روی فایل تنظیم نیست";
 $GLOBALS['strUnableToWritePrefs'] = "امکان تغییر ظواهر در پایگاه داده نیست";
-$GLOBALS['strImageDirLockedDetected'] = "فولدر عکس داده شده قابل نوشتن از طریق سرور نیست. <br> شما نمی توانید ادامه دهید مگر اینکه دسترسی فولدر را تغییر داده یا فولدر جدیدی بسازید.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "تنظیمات پیکربندی";

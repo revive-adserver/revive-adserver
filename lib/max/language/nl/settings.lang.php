@@ -57,7 +57,7 @@ $GLOBALS['strEditConfigNotPossible'] = "Het is niet mogelijk om alle instellinge
 $GLOBALS['strEditConfigPossible'] = "Het is mogelijk om alle instellingen te bewerken omdat het configuratiebestand niet isvergrendeld, wat tot beveiligingsproblemen zou kunnen. Indien u uw systeem wilt beveiligen, moet u het configurattiebestand van deze installatie vergrendelen.";
 $GLOBALS['strUnableToWriteConfig'] = "Wegschrijven van wijzigingen in de config file was niet mogelijk";
 $GLOBALS['strUnableToWritePrefs'] = "Wegschrijven van voorkeursinstellingen in de database was niet mogelijk";
-$GLOBALS['strImageDirLockedDetected'] = "De ingevoerde <b>Images Folder</b> is niet beschrijfbaar door de server. <br>U kunt niet verder gaan tot u ofwel de permissies van de folder heeft aangepast, of de betreffende folder heeft aangemaakt.";
+$GLOBALS['strImageDirLockedDetected'] = "De ingevoerde Images Folder is niet beschrijfbaar door de server. U kunt niet verder gaan tot u ofwel de permissies van de folder heeft aangepast, of de betreffende folder heeft aangemaakt.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Configuratie-instellingen";

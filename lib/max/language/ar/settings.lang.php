@@ -48,7 +48,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "رابط حفظ الصور (رابط آمن
 $GLOBALS['strChooseSection'] = "إختيار قسم";
 $GLOBALS['strUnableToWriteConfig'] = "تعذر حفظ التعديلات في ملف الإعدادات";
 $GLOBALS['strUnableToWritePrefs'] = "تعذر حفظ التعديلات في قاعدة البيانات";
-$GLOBALS['strImageDirLockedDetected'] = "<b>ملجد الصور</b>غير قابل للكتابة. <br> يجب عليك إنشاء المجلد او تعديل صلاحياته قبل الاستمرار";
 
 // Configuration Settings
 

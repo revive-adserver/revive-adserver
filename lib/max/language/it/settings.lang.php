@@ -59,7 +59,7 @@ $GLOBALS['strEditConfigPossible'] = "È possibile modificare tutte le impostazio
     Se si desidera proteggere il sistema, è necessario bloccare il file di configurazione per questa installazione.";
 $GLOBALS['strUnableToWriteConfig'] = "Impossibile salvare le modifiche nel file di configurazione";
 $GLOBALS['strUnableToWritePrefs'] = "Impossibile salvare le preferenze nel database";
-$GLOBALS['strImageDirLockedDetected'] = "IL server non può scrivere nella <b>Cartelle delle Immagini</b>. <br>Non è possibile procedere fino a che i permessi della cartella non sono cambiati o la cartelle non è stata creata.";
+$GLOBALS['strImageDirLockedDetected'] = "Il server non può scrivere nella Cartella delle Immagini. Non è possibile procedere fino a che i permessi della cartella non sono cambiati o la cartelle non è stata creata.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Impostazioni di configurazione";

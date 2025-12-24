@@ -59,7 +59,6 @@ $GLOBALS['strEditConfigPossible'] = "Hal ini dimungkinkan untuk mengedit semua p
      Jika Anda ingin mengamankan sistem Anda, Anda perlu mengunci file konfigurasi untuk penginstalan ini.";
 $GLOBALS['strUnableToWriteConfig'] = "Gagal menulis perubahan pada config file";
 $GLOBALS['strUnableToWritePrefs'] = "Gagal mengirim preferensi kepada database";
-$GLOBALS['strImageDirLockedDetected'] = "<b>Direktori Gambar</b> yang diberikan tidak bisa ditulis oleh server. <br>Anda tidak dapat melanjut sebelum permissions dari direktori tersebut diubah atau direktori tersebut dibuatkan.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Pengaturan konfigurasi";
