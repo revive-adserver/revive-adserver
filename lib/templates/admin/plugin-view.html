@@ -89,9 +89,18 @@
         <div style="overflow: hidden;">
 	        <div class="split-right">
 		        <table class="detail-table">
-		            <tr><th>Version</th><td>{$aPackage.version}</td><th>Author</th><td>{$aPackage.author}</td></tr>
-		            <tr><th>Creation Date</th><td>{$aPackage.creationdate}</td><th>Email</th><td>{if {$aPackage.authoremail}<a href="mailto:{$aPackage.authoremail}">{/if}{$aPackage.authoremail}{if {$aPackage.authoremail}</a>{/if}</td></tr>
-		            <tr><th>License</th><td>{$aPackage.license}</td><th>URL</th><td>{if {$aPackage.authorurl}<a href="{$aPackage.authorurl}">{/if}{$aPackage.authorurl}{if {$aPackage.authorurl}</a>{/if}</td></tr>
+		            <tr>
+                        <th>Version</th><td>{$aPackage.version}</td>
+                        <th>Author</th><td>{$aPackage.author}</td>
+                    </tr>
+		            <tr>
+                        <th>Creation Date</th><td>{$aPackage.creationdate}</td>
+                        <th>Email</th><td>{if {$aPackage.authoremail}<a href="mailto:{$aPackage.authoremail|escape}">{/if}{$aPackage.authoremail|escape}{if {$aPackage.authoremail}</a>{/if}</td>
+                    </tr>
+		            <tr>
+                        <th>License</th><td>{$aPackage.license}</td>
+                        <th>URL</th><td>{if {$aPackage.authorurl}<a href="{$aPackage.authorurl|escape}">{/if}{$aPackage.authorurl|escape}{if {$aPackage.authorurl}</a>{/if}</td>
+                    </tr>
 				</table>
 	        </div>
 
@@ -100,13 +109,13 @@
                     <p>
                         <span class="name">
                             {if $aPackage.displayname != ''}
-                                {$aPackage.displayname}
+                                {$aPackage.displayname|escape}
                             {else}
-                                {$aPackage.name}
+                                {$aPackage.name|escape}
                             {/if}
                         </span>
                     </p>
-                    <p>{$aPackage.description}</p>
+                    <p>{$aPackage.description|escape}</p>
                 </div>
             </div>
 

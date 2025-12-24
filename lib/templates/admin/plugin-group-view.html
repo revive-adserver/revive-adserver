@@ -30,9 +30,18 @@
     <div class="split-right">
        <div class="vertical first-vertical">
         <table class="detail-table">
-            <tr><th>Version</th><td>{$aPlugin.version}</td><th>Author</th><td>{$aPlugin.author}</td></tr>
-            <tr><th>Creation Date</th><td>{$aPlugin.creationdate}</td><th>Email</th><td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.authoremail}{if {$aPlugin.authoremail}</a>{/if}</td></tr>
-            <tr><th>License</th><td>{$aPlugin.license}</td><th>URL</th><td>{if {$aPlugin.authorurl}<a href="{$aPlugin.authorurl}">{/if}{$aPlugin.authorurl}{if {$aPlugin.authorurl}</a>{/if}</td></tr>
+            <tr>
+                <th>Version</th><td>{$aPlugin.version}</td>
+                <th>Author</th><td>{$aPlugin.author}</td>
+            </tr>W
+            <tr>
+                <th>Creation Date</th><td>{$aPlugin.creationdate}</td>
+                <th>Email</th><td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail|escape}">{/if}{$aPlugin.authoremail}{if {$aPlugin.authoremail}</a>{/if}</td>
+            </tr>
+            <tr>
+                <th>License</th><td>{$aPlugin.license}</td>
+                <th>URL</th><td>{if {$aPlugin.authorurl}<a href="{$aPlugin.authorurl|escape}">{/if}{$aPlugin.authorurl|escape}{if {$aPlugin.authorurl}</a>{/if}</td>
+            </tr>
 		</table>
 	</div>
     <div class="vertical top-split">
@@ -62,13 +71,13 @@
                <p>
                    <span class="name">
                        {if $aPlugin.displayname}
-                           {$aPlugin.displayname}
+                           {$aPlugin.displayname|escape}
                        {else}
-                           {$aPlugin.name}
+                           {$aPlugin.name|escape}
                        {/if}
                    </span>
                </p>
-               <p>{$aPlugin.description}</p>
+               <p>{$aPlugin.description|escape}</p>
            </div>
     </div>
 

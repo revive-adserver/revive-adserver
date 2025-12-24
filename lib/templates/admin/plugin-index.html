@@ -94,17 +94,17 @@
                          <p>
                             <span class="name">
                                 {if $aitem.displayname != ''}
-                                    {$aitem.displayname}
+                                    {$aitem.displayname|escape}
                                 {else}
-                                    {$name}
+                                    {$name|escape}
                                 {/if}
                             </span>
                             <span class="version">{$aitem.version}</span>
                          </p>
-                         <p>{$aitem.description}</p>
+                         <p>{$aitem.description|escape}</p>
                      </div>
                   </td>
-                  <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
+                  <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail|escape}">{/if}{$aitem.author}{if {$aitem.authoremail|escape}</a>{/if}</td>
                   <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
                   <td><a href='plugin-index.php?action=info&amp;package={$name}' ><span class="action icon details">Details</span></a></td>
                   <td>

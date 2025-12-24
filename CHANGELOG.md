@@ -10,6 +10,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Loading animation was stuck when downloading advanced reports ([#1620](https://github.com/revive-adserver/revive-adserver/issues/1620))
 - Campaign start/end dates were not saved when conversion tracking was disabled and using non-english localisation ([#1628](https://github.com/revive-adserver/revive-adserver/issues/1628)) 
 - Allow bannerType plugins to specify if file upload is required when using `addUploadGroup()` ([#1631](https://github.com/revive-adserver/revive-adserver/issues/1631))
+- Added missing escaping when displaying information in plugin screens ([#1632](https://github.com/revive-adserver/revive-adserver/issues/1632))
 
 ### Changes
 - Massively optimized the SQL query used in manager-level global statistics ([#1630](https://github.com/revive-adserver/revive-adserver/issues/1630))
