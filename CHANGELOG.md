@@ -12,7 +12,10 @@ All notable changes to Revive Adserver will be documented in this file.
 - Allow bannerType plugins to specify if file upload is required when using `addUploadGroup()` ([#1631](https://github.com/revive-adserver/revive-adserver/issues/1631))
 - Added missing escaping when displaying information in plugin screens ([#1632](https://github.com/revive-adserver/revive-adserver/issues/1632))
 
-### Changes
+### Added
+- Added support for AVIF image banners ([#1625](https://github.com/revive-adserver/revive-adserver/issues/1625))
+
+### Changed
 - Massively optimized the SQL query used in manager-level global statistics ([#1630](https://github.com/revive-adserver/revive-adserver/issues/1630))
 
 
