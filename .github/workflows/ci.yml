@@ -422,7 +422,7 @@ jobs:
 
       - name: Upload translation sources to Crowdin
         if: env.CROWDIN_PROJECT_ID && env.CROWDIN_PERSONAL_TOKEN
-        uses: revive-adserver/crowdin-github-action@revive
+        uses: revive-adserver/crowdin-github-action@v2.13.0-revive
         with:
           config: crowdin.yml.dist
           upload_sources: true
