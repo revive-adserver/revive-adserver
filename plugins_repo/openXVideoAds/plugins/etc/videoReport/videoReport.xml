@@ -4,13 +4,13 @@
 <plugin>
     <name>videoReport</name>
     <displayName>IAB VAST Report Plugin</displayName>
-    <creationDate>2025-11-26</creationDate>
+    <creationDate>2026-01-05</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.15.8</version>
+    <version>1.15.9</version>
     <oxversion>5.6.0-beta-rc3</oxversion>
 
     <install>
