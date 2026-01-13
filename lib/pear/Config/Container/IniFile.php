@@ -114,19 +114,8 @@ class Config_Container_IniFile {
                     $content = '0';
                 } elseif ($content === true) {
                     $content = '1';
-                } elseif (strlen(trim($content)) < strlen($content) ||
-                          strpos($content, ',') !== false ||
-                          strpos($content, ';') !== false ||
-                          strpos($content, '"') !== false ||
-                          strpos($content, '%') !== false ||
-                          strpos($content, '~') !== false ||
-                          strpos($content, '!') !== false ||
-                          strpos($content, '|') !== false ||
-                          strpos($content, '&') !== false ||
-                          strpos($content, '(') !== false ||
-                          strpos($content, ')') !== false ||
-                          $content === 'none') {
-                    $content = '"'.addslashes($content).'"';
+                } elseif (preg_match( '/\W/', $content)) {
+                    $content = '"'.addcslashes($content, '$"\\').'"';
                 }
                 if ($count > 1) {
                     // multiple values for a directive are separated by a comma

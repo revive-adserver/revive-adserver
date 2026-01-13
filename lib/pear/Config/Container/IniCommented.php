@@ -267,20 +267,8 @@ class Config_Container_IniCommented {
                     $content = '0';
                 } elseif ($content === true) {
                     $content = '1';
-                /*} elseif ( strpos($content, '\'') !== false ||
-                           strpos($content, '\\') !== false )  // OPENX FIX :)
-                {
-                    // leave unquoted*/
-                } elseif ( strpos($content, '"') !== false ) {
-                    // Quote backslashes and double quotes
-                    $content = '"'.addcslashes($content, '"\\').'"';
-                } elseif (
-                            strlen(trim($content)) < strlen($content) ||
-                            preg_match( '/[\W]/', $content, $aMatches)   // OPENX FIX :)
-                         )
-                {
-                    $content = '"'.$content.'"';    // OPENX FIX :)
-                                                    // removed addslashes as parse_ini_file works correct only with unescaped chars
+                } elseif (preg_match( '/\W/', $content)) {
+                    $content = '"'.addcslashes($content, '$"\\').'"';
                 }
                 if ($count > 1) {
                     // multiple values for a directive are separated by a comma

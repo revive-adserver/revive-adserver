@@ -56,27 +56,29 @@ class Test_OA_ConfParse extends UnitTestCase
      */
     public function test_iniFile()
     {
-        $min = 32;
-        $max = 126;
-        for ($i = $min;$i <= $max;$i++) {
-            if ($i == 34 || $i == 36) {
-                // '"' (any version) and '$' (5.3) break the test
-                continue;
-            }
-            $aIni = [];
-            $aIni['test1'][$i] = 'test' . chr($i);
-            $aIni['test2'][$i] = chr($i) . 'test';
-            $aIni['test3'][$i] = 'te' . chr($i) . 'st';
-            $ini = MAX_PATH . '/var/test_' . $i . '.ini';
-            $oConfig = new Config();
-            $oConfig->parseConfig($aIni, 'phpArray');
-            $this->assertTrue($oConfig->writeConfig($ini, 'IniCommented'));
+        $test = array_map('chr', range(0, 255));
+        $test[] = '${var}';
+        $test[] = '${{';
+        $test[] = 'à'; // U+00E0 Latin Small Letter A with Grave
+        $test[] = 'ァ'; // U+30A1 Katakana Letter Small A
 
-            $aResult = @parse_ini_file($ini, true);
-            $this->assertEqual($aResult['test1'][$i], $aIni['test1'][$i], 'ERROR:' . $i);
-            $this->assertEqual($aResult['test2'][$i], $aIni['test2'][$i], 'ERROR:' . $i);
-            $this->assertEqual($aResult['test3'][$i], $aIni['test3'][$i], 'ERROR:' . $i);
-            @unlink($ini);
+        foreach (['IniFile', 'IniCommented'] as $container) {
+            foreach ($test as $k => $string) {
+                $aIni = [];
+                $aIni['test1'][$k] = 'test' . $string;
+                $aIni['test2'][$k] = $string . 'test';
+                $aIni['test3'][$k] = 'te' . $string . 'st';
+                $aIni['test4'][$k] = 'te\\' . $string . 'st';
+                $ini = MAX_PATH . '/var/test_' . $k . '.ini';
+                $oConfig = new Config();
+                $oConfig->parseConfig($aIni, 'phpArray');
+                $this->assertTrue($oConfig->writeConfig($ini, $container));
+
+                $aResult = @parse_ini_file($ini, true);
+
+                $this->assertEqual($aResult, $aIni, str_replace('%', '%%', "ERROR {$container}: {$k} => {$string}"));
+                @unlink($ini);
+            }
         }
     }
 }
