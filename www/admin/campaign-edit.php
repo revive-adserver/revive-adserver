@@ -318,6 +318,10 @@ function buildCampaignForm($campaign)
 
     if (empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
         buildDeliveryCappingFormSection($form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign);
+
+        // Avoid overwriting with new defaults below
+        unset($campaign['capping']);
+        unset($campaign['session_capping']);
     }
 
     buildMiscFormSection($form, $campaign, $newCampaign);

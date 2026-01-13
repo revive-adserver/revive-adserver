@@ -110,6 +110,10 @@ function buildZoneForm($aZone, $oComponent = null)
 
     if (empty($GLOBALS['_MAX']['CONF']['cookie']['disabled'])) {
         buildDeliveryCappingFormSection($form, $GLOBALS['strCappingZone'], $aZone);
+
+        // Avoid overwriting with new defaults below
+        unset($aZone['capping']);
+        unset($aZone['session_capping']);
     }
 
     buildAppendFormSection($form, $aZone);
