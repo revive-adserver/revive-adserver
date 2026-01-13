@@ -38,7 +38,9 @@ OA_Permission::checkSessionToken();
 if (!empty($trackerid)) {
     $ids = explode(',', $trackerid);
     foreach ($ids as $trackerid) {
+        /** @var DataObjects_Trackers $doTrackers */
         $doTrackers = OA_Dal::factoryDO('trackers');
+        $doTrackers->clientid = $clientid;
         $doTrackers->trackerid = $trackerid;
         if ($doTrackers->find()) {
             // Clone the found DB_DataObject, as cannot delete() once
