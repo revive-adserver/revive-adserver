@@ -45,12 +45,12 @@ $pageName = basename($_SERVER['SCRIPT_NAME']);
 $tabindex = 1;
 $aEntities = ['clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid];
 
+$acl = MAX_AclsRemap($acl ?? []);
+
 if (!empty($action)) {
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
     OA_Permission::checkSessionToken();
-
-    $acl = MAX_AclsRemap($acl ??= []);
 
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {

@@ -50,6 +50,8 @@ if (!empty($affiliateid)) {
     $aOtherChannels = Admin_DA::getChannels(['agency_id' => $agencyId, 'channel_type' => 'agency']);
 }
 
+$acl = MAX_AclsRemap($acl ?? []);
+
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
@@ -61,8 +63,6 @@ if (!empty($action)) {
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
     OA_Permission::checkSessionToken();
-
-    $acl = MAX_AclsRemap($acl ??= []);
 
     // Only save when inputs are valid
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
