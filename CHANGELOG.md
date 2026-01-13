@@ -4,6 +4,16 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.0.5]
 
+
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-001/)
+
+- Fixed multiple vulnerabilities:
+    - [CVE-2026-21640](https://www.cve.org/CVERecord?id=CVE-2026-21640)
+    - [CVE-2026-21641](https://www.cve.org/CVERecord?id=CVE-2026-21641)
+    - [CVE-2026-21642](https://www.cve.org/CVERecord?id=CVE-2026-21642)
+    - [CVE-2026-21663](https://www.cve.org/CVERecord?id=CVE-2026-21663)
+    - [CVE-2026-21664](https://www.cve.org/CVERecord?id=CVE-2026-21664)
+
 ### Fixes
 
 - Fixed PHP fatal error when spcjs.php is called for a website with no zones ([#1621](https://github.com/revive-adserver/revive-adserver/issues/1621))
