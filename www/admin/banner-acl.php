@@ -47,6 +47,9 @@ $aEntities = ['clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' =
 
 $acl = MAX_AclsRemap($acl ?? []);
 
+// Clean up and initialise block/capping variables
+$block = _initCappingVariables($time, $cap, $session_capping);
+
 if (!empty($action)) {
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
@@ -56,8 +59,6 @@ if (!empty($action)) {
     if (OX_AclCheckInputsFields($acl, $pageName) === true) {
         $aBannerPrev = MAX_cacheGetAd($bannerid, false);
         MAX_AclSave($acl, $aEntities);
-
-        $block = _initCappingVariables($time, $cap, $session_capping);
 
         $values = [];
         $acls_updated = false;

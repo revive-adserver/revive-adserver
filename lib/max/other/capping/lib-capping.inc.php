@@ -27,40 +27,17 @@ phpAds_registerGlobal('cap', 'session_capping', 'time');
  */
 function _initCappingVariables(&$time, &$cap, &$session_capping)
 {
-    //global $time, $block, $cap, $session_capping;
+    $cap = (int) ($cap ?? '0');
+    $session_capping = (int) ($session_capping ?? '0');
+    $time['second'] = (int) ($time['second'] ?? '0');
+    $time['minute'] = (int) ($time['minute'] ?? '0');
+    $time['hour'] = (int) ($time['hour'] ?? '0');
 
-    // Initialize $block variable with time
-    if (isset($time)) {
-        $block = 0;
-        if ($time['second'] != '-') {
-            $block += (int) $time['second'];
-        }
-        if ($time['minute'] != '-') {
-            $block += (int) $time['minute'] * 60;
-        }
-        if ($time['hour'] != '-') {
-            $block += (int) $time['hour'] * 3600;
-        }
-    } else {
-        $block = 0;
-    }
-
-    // Initialize capping variables
-    if (isset($cap) && $cap != '-') {
-        $cap = (int) $cap;
-    } else {
-        $cap = 0;
-    }
-
-    if (isset($session_capping) && $session_capping != '-') {
-        $session_capping = (int) $session_capping;
-    } else {
-        $session_capping = 0;
-    }
     if (empty($cap) && empty($session_capping)) {
-        $block = 0;
+        return 0;
     }
-    return $block;
+
+    return $time['second'] + $time['minute'] * 60 + $time['hour'] * 3600;
 }
 
 /**
@@ -211,7 +188,10 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
     }
 
     //set values for capping section
-    $form->setDefaults(['time[hour]' => $time['hour'],
+    $form->setDefaults([
+        'capping' => $capping,
+        'session_capping' => $session_capping,
+        'time[hour]' => $time['hour'],
         'time[minute]' => $time['minute'],
         'time[second]' => $time['second'],
     ]);
@@ -291,7 +271,8 @@ function buildDeliveryCappingFormSection(&$form, $aText, $aCappedObject, $type =
         );
         $form->addGroup($eResetG, 'v_per_s', $GLOBALS['strDeliveryCappingReset'], "&nbsp;");
 
-        $form->setDefaults(['extra_cap' => $extra_cap,
+        $form->setDefaults([
+            'extra_cap' => $extra_cap,
             'extra_session_capping' => $extra_session_capping,
             'extra_time[hour]' => $extra_time['hour'],
             'extra_time[minute]' => $extra_time['minute'],
