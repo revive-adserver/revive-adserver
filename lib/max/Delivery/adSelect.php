@@ -309,7 +309,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                     $target = '_blank';  // Default
                 }
                 $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
-                    $target . '\'><img src=\'' . $row['default_banner_image_url'] .
+                    htmlspecialchars($target, ENT_QUOTES) . '\'><img src=\'' . $row['default_banner_image_url'] .
                     '\' border=\'0\' alt=\'\'></a>' . $g_append;
                 $output = ['html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url']];
             }
