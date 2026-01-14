@@ -96,7 +96,8 @@ if (!empty($action)) {
 MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities);
 
 $aChannel = Admin_DA::getChannel($channelid);
-if (!isset($acl)) {
+
+if (empty($acl)) {
     $acl = Admin_DA::getChannelLimitations(['channel_id' => $channelid]);
     // This array needs to be sorted by executionorder, this should ideally be done in SQL
     // When we move to DataObject this should be addressed

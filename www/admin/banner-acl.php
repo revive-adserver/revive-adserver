@@ -126,7 +126,7 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 
 $aBanner = MAX_cacheGetAd($bannerid, false);
 
-if (!isset($acl)) {
+if (empty($acl)) {
     $acl = Admin_DA::getDeliveryLimitations(['ad_id' => $bannerid]);
     // This array needs to be sorted by executionorder, this should ideally be done in SQL
     // When we move to DataObject this should be addressed
