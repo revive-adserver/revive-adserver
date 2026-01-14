@@ -24,7 +24,7 @@ require_once 'init-parse.php';
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION', '6.0.5');
+    define('VERSION', '6.0.6-dev');
     define('PRODUCT_NAME', 'Revive Adserver');
     define('PRODUCT_URL', 'www.revive-adserver.com');
     define('PRODUCT_DOCSURL', 'http://documentation.revive-adserver.com');
