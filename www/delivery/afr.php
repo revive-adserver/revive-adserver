@@ -4519,7 +4519,7 @@ $banner['html'] = preg_replace('#target\s*=\s*([\'"])_self\1#i', "target='_paren
 $outputHtml = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
 $outputHtml .= "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n";
 $outputHtml .= "<head>\n";
-$outputHtml .= "<title>" . (empty($banner['alt']) ? 'Advertisement' : $banner['alt']) . "</title>\n";
+$outputHtml .= "<title>" . (empty($banner['alt']) ? 'Advertisement' : htmlspecialchars($banner['alt'])) . "</title>\n";
 if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
 $dest = MAX_commonGetDeliveryUrl($conf['file']['frame']) . '?' . $_SERVER['QUERY_STRING'];
 parse_str($_SERVER['QUERY_STRING'], $qs);

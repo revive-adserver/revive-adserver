@@ -4497,7 +4497,7 @@ $aBanner = MAX_cacheGetAd($bannerid);
 $prepend = empty($aZone['prepend']) ? '' : $aZone['prepend'];
 $html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
 $append = empty($aZone['append']) ? '' : $aZone['append'];
-$title = empty($aBanner['alt']) ? 'Advertisement' : $aBanner['alt'];
+$title = empty($aBanner['alt']) ? 'Advertisement' : htmlspecialchars($aBanner['alt']);
 echo "
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
