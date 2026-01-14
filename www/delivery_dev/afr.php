@@ -75,7 +75,7 @@ if (isset($rewrite) && $rewrite == 1) {
 $outputHtml = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
 $outputHtml .= "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n";
 $outputHtml .= "<head>\n";
-$outputHtml .= "<title>" . (empty($banner['alt']) ? 'Advertisement' : $banner['alt']) . "</title>\n";
+$outputHtml .= "<title>" . (empty($banner['alt']) ? 'Advertisement' : htmlspecialchars($banner['alt'])) . "</title>\n";
 
 // Add refresh meta tag if $refresh is set and numeric
 if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {

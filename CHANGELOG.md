@@ -2,8 +2,14 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.5] - 2026-01-14
+## [6.0.6]
 
+### Fixes
+
+- Added missing escaping when displaying alt text as HTML title in afr.php and ac.php ([#1636](https://github.com/revive-adserver/revive-adserver/issues/1636))
+
+
+## [6.0.5] - 2026-01-14
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-001/)
 
