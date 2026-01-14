@@ -2,7 +2,7 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.5]
+## [6.0.5] - 2026-01-14
 
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-001/)
