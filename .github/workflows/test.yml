@@ -183,11 +183,11 @@ jobs:
           if_no_artifact_found: warn
 
       - name: Publish Test Report
-        uses: dorny/test-reporter@ff2d13cc3645b6e6978bb229ca7a2a5ea91208c1
+        uses: dorny/test-reporter@v2
         with:
           name: Test suite results
           path: '**/build/test-reports/*.xml'
-          reporter: java-junit
+          reporter: phpunit-junit
           only-summary: true
 
       - name: Install PHP with extensions
