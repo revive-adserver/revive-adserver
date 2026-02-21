@@ -41,6 +41,6 @@ $GLOBALS['strPHPConfiguration'] = 'PHP 配置';
 
 /** finish step * */
 $GLOBALS['strPluginInstallFailed'] = "Installation of plugin '%s' failed:";
-$GLOBALS['strTaskInstallFailed'] = "Error occured when running installation task '%s':";
+$GLOBALS['strTaskInstallFailed'] = "Error occurred when running installation task '%s':";
 
 $GLOBALS['strUnableToCreateAdmin'] = "We are unable to create an administrator account, is your database accessible?";
