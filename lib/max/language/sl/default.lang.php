@@ -1122,7 +1122,6 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Aktiviraj Pregledno pot za ogled Kampa
 
 $GLOBALS['strUnsavedChanges'] = "Na tej strani imate neshranjene spremembe. Ko boste končali, kliknite na \"Shrani spremebe\"";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "OPOZORILO: Predpomnjena pravila dostave se <strong>NE UJEMAJO</strong> s spodaj prikazanimi pravili dostave.<br />Prosimo, kliknite Shrani spremembe, da posodobite predpomnjena pravila dostave";
-$GLOBALS['strDeliveryRulesDbError'] = "OPOZORILO: Pri shranjevanju pravil dostave je prišlo do napake v podatkovni bazi. Prosimo, previdno preverite spodnja pravila dostave in jih po potrebi posodobite.";
 $GLOBALS['strDeliveryRulesTruncation'] = "OPOZORILO: Pri shranjevanju pravil dostave je MySQL podatke skrajšal, zato so bile prvotne vrednosti obnovljene. Prosimo, zmanjšajte velikost svojih pravil in poskusite znova.";
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Nekatera pravila dostave poročajo o napačnih vrednostih:";
 
