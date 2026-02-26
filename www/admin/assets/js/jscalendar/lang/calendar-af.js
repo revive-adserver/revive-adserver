@@ -37,3 +37,6 @@ Calendar._TT["MON_FIRST"] = "Vertoon Maandag eerste";
 Calendar._TT["SUN_FIRST"] = "Display Sunday first";
 Calendar._TT["CLOSE"] = "Close";
 Calendar._TT["TODAY"] = "Today";
+
+Calendar._TT["WEEKEND"] = "0,6";
+Calendar._TT["DAY_FIRST"] = "Vertoon %s eerste";

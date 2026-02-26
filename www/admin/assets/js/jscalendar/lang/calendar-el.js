@@ -75,8 +75,6 @@ Calendar._TT["NEXT_YEAR"] = "Επόμενο έτος (κρατήστε για τ
 Calendar._TT["SEL_DATE"] = "Επιλέξτε ημερομηνία";
 Calendar._TT["DRAG_TO_MOVE"] = "Σύρτε για να μετακινήσετε";
 Calendar._TT["PART_TODAY"] = " (σήμερα)";
-Calendar._TT["MON_FIRST"] = "Εμφάνιση Δευτέρας πρώτα";
-Calendar._TT["SUN_FIRST"] = "Εμφάνιση Κυριακής πρώτα";
 Calendar._TT["CLOSE"] = "Κλείσιμο";
 Calendar._TT["TODAY"] = "Σήμερα";
 Calendar._TT["TIME_PART"] = "(Shift-)κλικ ή μετακίνηση για αλλαγή";
@@ -87,3 +85,5 @@ Calendar._TT["TT_DATE_FORMAT"] = "D, d M";
 
 Calendar._TT["WK"] = "εβδ";
 
+Calendar._TT["WEEKEND"] = "0,6";
+Calendar._TT["DAY_FIRST"] = "Εμφάνιση %s πρώτα";

@@ -82,8 +82,6 @@ Calendar._TT["NEXT_YEAR"] = "Naslednje leto (dolg klik za meni)";
 Calendar._TT["SEL_DATE"] = "Izberite datum";
 Calendar._TT["DRAG_TO_MOVE"] = "Pritisni in povleci za spremembo pozicije";
 Calendar._TT["PART_TODAY"] = " (danes)";
-Calendar._TT["MON_FIRST"] = "Prikaži ponedeljek kot prvi dan";
-Calendar._TT["SUN_FIRST"] = "Prikaži nedeljo kot prvi dan";
 Calendar._TT["CLOSE"] = "Zapri";
 Calendar._TT["TODAY"] = "Danes";
 
@@ -92,3 +90,6 @@ Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
 Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
 
 Calendar._TT["WK"] = "Ted";
+
+Calendar._TT["WEEKEND"] = "0,6";
+Calendar._TT["DAY_FIRST"] = "Prikaži %s kot prvi dan";

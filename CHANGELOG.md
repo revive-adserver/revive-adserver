@@ -8,6 +8,7 @@ All notable changes to Revive Adserver will be documented in this file.
 
 - Added missing escaping when displaying alt text as HTML title in afr.php and ac.php ([#1636](https://github.com/revive-adserver/revive-adserver/issues/1636))
 - Since 6.0.5 it was not possible to delete all the limitations for a banner or a delivery rule set ([#1640](https://github.com/revive-adserver/revive-adserver/issues/1640)) 
+- Calendar wasn't properly working in some languages ([#1647](https://github.com/revive-adserver/revive-adserver/issues/1647))
 
 ### Added
 - Allow configuration of HTTPS access to the admin UI during installation ([#1622](https://github.com/revive-adserver/revive-adserver/issues/1622))

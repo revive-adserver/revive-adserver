@@ -86,8 +86,6 @@ Calendar._TT["NEXT_YEAR"] = "Nasl. rok (podržte pre menu)";
 Calendar._TT["SEL_DATE"] = "Zvoľte dátum";
 Calendar._TT["DRAG_TO_MOVE"] = "Podržaním tlačítka zmeníte polohu";
 Calendar._TT["PART_TODAY"] = " (dnes)";
-Calendar._TT["MON_FIRST"] = "Zobraziť pondelok ako prvý";
-Calendar._TT["SUN_FIRST"] = "Zobraziť nedeľu ako prvú";
 Calendar._TT["CLOSE"] = "Zavrieť";
 Calendar._TT["TODAY"] = "Dnes";
 Calendar._TT["TIME_PART"] = "(Shift-)klik/ťahanie zmení hodnotu";
@@ -97,3 +95,6 @@ Calendar._TT["DEF_DATE_FORMAT"] = "$d. %m. %Y";
 Calendar._TT["TT_DATE_FORMAT"] = "%a, %e. %b";
 
 Calendar._TT["WK"] = "týž";
+
+Calendar._TT["WEEKEND"] = "0,6";
+Calendar._TT["DAY_FIRST"] = "Zobraziť %s kot ako prvý";
