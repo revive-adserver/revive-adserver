@@ -35,6 +35,10 @@ class Migration_999 extends Migration
 
     public function beforeAddTable__bandicoot()
     {
+        $oConfig = new OA_Upgrade_Config();
+        $oConfig->setValue('email', 'name', 'Foo Bar');
+        $oConfig->writeConfig();
+
         return $this->beforeAddTable('bandicoot');
     }
 
@@ -70,6 +74,10 @@ class Migration_999 extends Migration
 
     public function afterRemoveTable__affiliates()
     {
+        $oConfig = new OA_Upgrade_Config();
+        $oConfig->setValue('email', 'emailAddress', 'foobar@example.com');
+        $oConfig->writeConfig();
+
         return $this->afterRemoveTable('affiliates');
     }
 }

@@ -14,6 +14,8 @@ All notable changes to Revive Adserver will be documented in this file.
 - PHP Fatal error on userlog-index.php when no audit records were present ([#1649](https://github.com/revive-adserver/revive-adserver/issues/1649))
 - Proper header was missing from the newly added account statistics screens ([#1648](https://github.com/revive-adserver/revive-adserver/issues/1648))
 - Custom database charset configuration was wiped out during upgrades ([#1646](https://github.com/revive-adserver/revive-adserver/issues/1646))
+- Empty or invalid email addresses were causing fatal PHP errors when sending emails ([#1654](https://github.com/revive-adserver/revive-adserver/issues/1654))
+- Some setting were lost when upgrading from versions < 2.6, making it impossible to log in after the upgrade ([#1655](https://github.com/revive-adserver/revive-adserver/issues/1655))
 
 ### Added
 - Allow configuration of HTTPS access to the admin UI during installation ([#1622](https://github.com/revive-adserver/revive-adserver/issues/1622))

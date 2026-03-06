@@ -1218,8 +1218,14 @@ class OA_Email
         // For the time being we're sending plain text emails only, so decode any HTML entities
         $contents = html_entity_decode($contents, ENT_QUOTES);
 
-        $from = new Address($fromDetails['emailAddress'], $fromDetails['name'] ?: '');
-        $to = new Address($userEmail, $userName ?: '');
+        try {
+            $from = new Address($fromDetails['emailAddress'], $fromDetails['name'] ?: '');
+            $to = new Address($userEmail, $userName ?: '');
+        } catch (Exception $e) {
+            OA::debug('Could not send email: ' . $e->getMessage(), PEAR_LOG_WARNING);
+
+            return false;
+        }
 
         $mailer = OX_Component::factoryByComponentIdentifier($aConf['email']['pluginType'] ?? null);
 

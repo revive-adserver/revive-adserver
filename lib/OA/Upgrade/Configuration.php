@@ -14,6 +14,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
 class OA_Upgrade_Config
 {
+    /** @var OA_Admin_Settings */
     public $oSettings;
     public $aConfig;
     public $configPath;

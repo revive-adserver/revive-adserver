@@ -498,6 +498,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->_checkTablesUpgraded($oUpgrade);
         $this->assertEqual($this->_getTestAppVarValue('tables_core'), '999', '');
 
+        // Verify that settings are updated after migrations
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['email']['name'], 'Foo Bar');
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['email']['emailAddress'], 'foobar@example.com');
+        $this->assertEqual($oUpgrade->oConfiguration->oSettings->aConf['email']['name'], 'Foo Bar');
+        $this->assertEqual($oUpgrade->oConfiguration->oSettings->aConf['email']['emailAddress'], 'foobar@example.com');
+
         // remove the fake application variable records
         $this->_deleteTestAppVarRecordAllNames('oa_version');
         $this->_deleteTestAppVarRecordAllNames('tables_core');
