@@ -1950,6 +1950,10 @@ class OA_Upgrade
             if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], false)) {
                 if ($this->_runUpgradeSchemaPreScript($aPkg['prescript'] ?? null)) {
                     if ($this->oDBUpgrader->upgrade($this->versionInitialSchema[$aPkg['schema']])) {
+
+                        // Reload settings which might have been modified during migrations
+                        $this->oConfiguration->reloadSettings();
+
                         if ($this->_runUpgradeSchemaPostscript($aPkg['postscript'] ?? null)) {
                             $ok = true;
                         }
@@ -1963,6 +1967,10 @@ class OA_Upgrade
                 if ($this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version'], true)) {
                     if ($this->_runUpgradeSchemaPreScript($aPkg['prescript'] ?? null)) {
                         if ($this->oDBUpgrader->upgrade($this->versionInitialSchema[$aPkg['schema']])) {
+
+                            // Reload settings which might have been modified during migrations
+                            $this->oConfiguration->reloadSettings();
+
                             if ($this->_runUpgradeSchemaPostscript($aPkg['postscript'] ?? null)) {
                                 $ok = true;
                             }

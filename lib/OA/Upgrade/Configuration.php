@@ -21,9 +21,8 @@ class OA_Upgrade_Config
 
     public function __construct()
     {
-        $this->oSettings = new OA_Admin_Settings();
-        // Use reference here
-        $this->aConfig = &$this->oSettings->getConfigArray();
+        $this->reloadSettings();
+
         // set default configPath
         $this->configPath = MAX_PATH . '/var/';
         if (!OA_Admin_Settings::isConfigWritable()) {
@@ -340,5 +339,12 @@ class OA_Upgrade_Config
 
         // If we get here, there are no keys in the dist that do not exist in the working conf
         return false;
+    }
+
+    public function reloadSettings(): void
+    {
+        $this->oSettings = new OA_Admin_Settings();
+        // Use reference here
+        $this->aConfig = &$this->oSettings->getConfigArray();
     }
 }
