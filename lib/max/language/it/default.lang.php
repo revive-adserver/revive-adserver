@@ -986,6 +986,7 @@ $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "Aggiornamento fallito";
 // Agency
 $GLOBALS['strAgencyManagement'] = "Gestione account";
 $GLOBALS['strGlobalAgency'] = 'Account';
+$GLOBALS['strAgencyHistory'] = 'Statistiche Account';
 $GLOBALS['strAgency'] = "Account";
 $GLOBALS['strAddAgency'] = "Aggiungi un nuovo account";
 $GLOBALS['strAddAgency_Key'] = "Aggiungi un <u>n</u>uovo account";
