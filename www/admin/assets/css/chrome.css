@@ -1224,6 +1224,7 @@ div.bannercode {
     margin-left: 20px;
 }
 
+div.breadcrumb .agen,
 div.breadcrumb .adv,
 div.breadcrumb .camp,
 div.breadcrumb .ban,
@@ -1234,6 +1235,7 @@ div.breadcrumb .day {
     background-repeat: no-repeat;
 }
 
+div.breadcrumb .agen,
 div.breadcrumb .adv {
     background-image: url("../images/icon-advertiser.gif");
 }

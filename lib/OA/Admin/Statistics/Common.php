@@ -736,16 +736,28 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * parent entities breadcrumbs if needed.
      *
      * @param string  $type     Entity type (advertiser, campaign, etc)
-     * @param integer $entityId Entity ID
-     * @param intever $level    Recursion level
+     * @param int $entityId Entity ID
+     * @param int $level    Recursion level
      */
     public function _addBreadcrumbs($type, $entityId, $level = 0)
     {
         switch ($type) {
+            case 'agency':
+                $agencies = Admin_DA::getAgencies(['agency_id' => $entityId]);
+                if (count($agencies) === 1) {
+                    $agency = current($agencies);
+                    $this->_addBreadcrumb(
+                        MAX_buildName($agency['agency_id'], $agency['name']),
+                        MAX_getEntityIcon('agency'),
+                        $type,
+                    );
+                }
+                break;
+
             case 'advertiser':
                 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    $advertisers = Admin_DA::getAdvertisers(['advertiser_id' => $entityId], false);
-                    if (count($advertisers) == 1) {
+                    $advertisers = Admin_DA::getAdvertisers(['advertiser_id' => $entityId]);
+                    if (count($advertisers) === 1) {
                         $advertiser = current($advertisers);
                         $this->_addBreadcrumb(
                             MAX_buildName($advertiser['advertiser_id'], $advertiser['name']),
@@ -757,8 +769,8 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 break;
 
             case 'campaign':
-                $campaigns = Admin_DA::getPlacements(['placement_id' => $entityId], false);
-                if (count($campaigns) == 1) {
+                $campaigns = Admin_DA::getPlacements(['placement_id' => $entityId]);
+                if (count($campaigns) === 1) {
                     $campaign = current($campaigns);
                     $this->_addBreadcrumbs('advertiser', $campaign['advertiser_id'], $level + 1);
 
@@ -773,8 +785,8 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 break;
 
             case 'banner':
-                $banners = Admin_DA::getAds(['ad_id' => $entityId], false);
-                if (count($banners) == 1) {
+                $banners = Admin_DA::getAds(['ad_id' => $entityId]);
+                if (count($banners) === 1) {
                     $banner = current($banners);
                     $this->_addBreadcrumbs('campaign', $banner['placement_id'], $level + 1);
 
@@ -792,8 +804,8 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
             case 'publisher':
                 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-                    $publishers = Admin_DA::getPublishers(['publisher_id' => $entityId], false);
-                    if (count($publishers) == 1) {
+                    $publishers = Admin_DA::getPublishers(['publisher_id' => $entityId]);
+                    if (count($publishers) === 1) {
                         $publisher = current($publishers);
                         $this->_addBreadcrumb(
                             MAX_buildName($publisher['publisher_id'], $publisher['name']),
@@ -805,8 +817,8 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 break;
 
             case 'zone':
-                $zones = Admin_DA::getZones(['zone_id' => $entityId], false);
-                if (count($zones) == 1) {
+                $zones = Admin_DA::getZones(['zone_id' => $entityId]);
+                if (count($zones) === 1) {
                     $zone = current($zones);
                     $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
                     $this->_addBreadcrumb(
