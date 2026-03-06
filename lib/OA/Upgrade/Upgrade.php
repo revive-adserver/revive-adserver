@@ -232,7 +232,7 @@ class OA_Upgrade
     {
         // Set charset information
         $oDbc = OA_DB_Charset::factory($this->oDbh);
-        $charset = $oDbc->getConfigurationValue();
+        $charset = $oDbc->getConfigurationValue(false);
         $aConfig['databaseCharset'] = [
             'checkComplete' => true,
             'clientCharset' => $charset ?: '',

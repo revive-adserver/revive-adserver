@@ -79,8 +79,15 @@ abstract class OA_DB_Charset
      *
      * @return mixed A string containing the charset or false if no action is needed after connection
      */
-    public function getConfigurationValue()
+    public function getConfigurationValue($force = true)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        if (!$force && !empty($aConf['databaseCharset']['clientCharset'])) {
+            // During upgrade, we might want to preserve existing settings
+            return $aConf['databaseCharset']['clientCharset'];
+        }
+
         $databaseCharset = $this->getDatabaseCharset();
         $clientCharset = $this->getClientCharset();
 
