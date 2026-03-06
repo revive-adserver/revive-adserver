@@ -52,7 +52,7 @@ OA_Maintenance_Priority::scheduleRun();
 // phpAds_cacheDelete();
 
 if (!isset($returnurl) || $returnurl == '') {
-    $returnurl = 'advertiser-index.php';
+    $returnurl = 'agency-index.php';
 }
 
 OX_Admin_Redirect::redirect($returnurl);

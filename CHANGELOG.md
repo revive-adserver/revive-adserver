@@ -10,6 +10,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Since 6.0.5 it was not possible to delete all the limitations for a banner or a delivery rule set ([#1640](https://github.com/revive-adserver/revive-adserver/issues/1640)) 
 - Calendar wasn't properly working in some languages ([#1647](https://github.com/revive-adserver/revive-adserver/issues/1647))
 - Fixed PHP fatal error when spcjs.php is called for a website with no zones ([#1621](https://github.com/revive-adserver/revive-adserver/issues/1621))
+- Deleting the last manager was displaying an alert with an error message ([#1650](https://github.com/revive-adserver/revive-adserver/issues/1650))
 
 ### Added
 - Allow configuration of HTTPS access to the admin UI during installation ([#1622](https://github.com/revive-adserver/revive-adserver/issues/1622))

@@ -16,7 +16,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 
 
 // Include XAJAX stuff
