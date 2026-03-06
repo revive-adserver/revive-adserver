@@ -116,6 +116,8 @@ class OA_Dll_Audit extends OA_Dll
         $doAudit->find();
 
         $oNow = new Date();
+
+        $aAuditInfo = [];
         while ($doAudit->fetch()) {
             $aAudit = $doAudit->toArray();
             $aAudit['details'] = unserialize($aAudit['details']);
