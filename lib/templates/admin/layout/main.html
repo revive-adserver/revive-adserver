@@ -221,7 +221,7 @@
 </script>
 {/if}
 
-{if $loaderDelay >= 0}
+{if !$installing && $loaderDelay >= 0}
 {literal}
 <script>
     window.addEventListener('beforeunload', function() {
