@@ -36,10 +36,10 @@ if ($zoneid > 0) {
 }
 
 // Get the banner from cache
-$aBanner = MAX_cacheGetAd($bannerid);
+$aBanner = MAX_cacheGetAd($bannerid) ?? [];
 
 $prepend = empty($aZone['prepend']) ? '' : $aZone['prepend'];
-$html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
+$html = MAX_adRender($aBanner, (int) $zoneid, $source, $target, $ct0, $withtext);
 $append = empty($aZone['append']) ? '' : $aZone['append'];
 $title = empty($aBanner['alt']) ? 'Advertisement' : htmlspecialchars($aBanner['alt']);
 
