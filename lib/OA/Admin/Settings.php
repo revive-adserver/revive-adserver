@@ -576,6 +576,12 @@ class OA_Admin_Settings
                 if (!empty($aConfigInfo['trim'])) {
                     $value = trim($value);
                 }
+
+                // Only check hard-limit (used for textarea)
+                if (strlen($value) > 8192) {
+                    return false;
+                }
+
                 unset($aConfigInfo['bool']);
                 if (isset($aConfigInfo['preg_split']) && isset($aConfigInfo['merge'])) {
                     $pregSplit = $aConfigInfo['preg_split'];

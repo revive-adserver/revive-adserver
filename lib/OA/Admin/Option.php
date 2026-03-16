@@ -766,6 +766,10 @@ class OA_Admin_Option
             $aItem['size'] = 25;
         }
 
+        if (!isset($aItem['maxlength'])) {
+            $aItem['maxlength'] = 1024;
+        }
+
         $this->aOption[] = ['text.html' => $aItem];
     }
 
@@ -781,6 +785,10 @@ class OA_Admin_Option
             $aItem['size'] = 25;
         }
 
+        if (!isset($aItem['maxlength'])) {
+            $aItem['maxlength'] = 1024;
+        }
+
         $this->aOption[] = ['url.html' => $aItem];
     }
 
@@ -793,6 +801,10 @@ class OA_Admin_Option
 
         if (!isset($aItem['rows'])) {
             $aItem['rows'] = 5;
+        }
+
+        if (!isset($aItem['maxlength'])) {
+            $aItem['maxlength'] = 8192;
         }
 
         $this->aOption[] = ['textarea.html' => $aItem];

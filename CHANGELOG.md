@@ -20,6 +20,7 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ### Added
 - Allow configuration of HTTPS access to the admin UI during installation ([#1622](https://github.com/revive-adserver/revive-adserver/issues/1622))
+- Added soft and hard limits to settings length in order to avoid extra resource consumption when parsing the configuration file ([#1637](https://github.com/revive-adserver/revive-adserver/issues/1637))
 
 ### Changed
 - Improved compatibility with the development version of PHP (8.6.x) ([5a67649](https://github.com/revive-adserver/revive-adserver/commit/5a67649))
