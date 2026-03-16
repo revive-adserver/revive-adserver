@@ -17,6 +17,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Empty or invalid email addresses were causing fatal PHP errors when sending emails ([#1654](https://github.com/revive-adserver/revive-adserver/issues/1654))
 - Some setting were lost when upgrading from versions < 2.6, making it impossible to log in after the upgrade ([#1655](https://github.com/revive-adserver/revive-adserver/issues/1655))
 - Ripple loading animation could appear when installing or upgrading over the existing progress indicators ([#1656](https://github.com/revive-adserver/revive-adserver/issues/1656))
+- E-mail addresses with a "+" were improperly rejected when adding accounts ([#1659](https://github.com/revive-adserver/revive-adserver/issues/1659))
 
 ### Added
 - Allow configuration of HTTPS access to the admin UI during installation ([#1622](https://github.com/revive-adserver/revive-adserver/issues/1622))
