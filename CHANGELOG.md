@@ -4,6 +4,10 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.0.7]
 
+### Fixes
+
+- The **Time - Date** delivery rule wasn't properly working when using languages other than English ([#1662](https://github.com/revive-adserver/revive-adserver/issues/1662))
+
 ## [6.0.6] - 2026-03-18
 
 ### Fixes

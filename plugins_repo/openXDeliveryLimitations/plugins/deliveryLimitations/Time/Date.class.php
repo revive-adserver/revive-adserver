@@ -87,7 +87,6 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
         <input class='date' name='acl[{$this->executionorder}][data][date]' id='acl[{$this->executionorder}][data][day]' type='text' value='$dateStr' tabindex='" . $tabindex++ . "' />
         <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->executionorder}_button' align='absmiddle' border='0' tabindex='" . $tabindex++ . "' />
         <script type='text/javascript'>
-        <!--
         Calendar.setup({
             inputField : 'acl[{$this->executionorder}][data][day]',
             ifFormat   : '%d %B %Y',
@@ -96,8 +95,14 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
             electric   : false
-        })
-        //-->
+        });
+
+        (function () {
+            var i = document.getElementById('acl[{$this->executionorder}][data][day]');
+            i.form.addEventListener('submit', function() {
+                i.value = Date.parseDate(i.value, '%d %B %Y').print('%Y-%m-%d');
+            })
+        })();
         </script>";
 
         echo "</td></tr></table>";
@@ -203,7 +208,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
     /**
      * A method to return an instance to be used by the MPE
      *
-     * @param unknown_type $aDeliveryLimitation
+     * @param array $aDeliveryLimitation
      */
     public function getMpeClassInstance($aDeliveryLimitation)
     {
