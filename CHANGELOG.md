@@ -2,7 +2,7 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.6]
+## [6.0.6] - 2026-03-18
 
 ### Fixes
 
