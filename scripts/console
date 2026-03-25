@@ -19,6 +19,9 @@ if (PHP_SAPI !== 'cli') {
     exit;
 }
 
+// Disable all notices and warnings, as lots of code still generates some
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED));
+
 require_once __DIR__ . '/../lib/vendor/autoload.php';
 
 use RV\Command\AbstractReviveCommand;
