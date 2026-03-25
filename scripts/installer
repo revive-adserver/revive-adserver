@@ -30,4 +30,6 @@ $application = new Application();
 $application->add(new InstallCommand());
 $application->add(new UpgradeCommand());
 
+error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+
 $application->run();
