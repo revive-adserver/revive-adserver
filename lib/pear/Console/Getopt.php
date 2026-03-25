@@ -61,7 +61,7 @@ class Console_Getopt {
      * @access public
      *
      */
-    function getopt2($args, $short_options, $long_options = null)
+    public static function getopt2($args, $short_options, $long_options = null)
     {
         return Console_Getopt::doGetopt(2, $args, $short_options, $long_options);
     }
@@ -79,7 +79,7 @@ class Console_Getopt {
     /**
      * The actual implementation of the argument parsing code.
      */
-    function doGetopt($version, $args, $short_options, $long_options = null)
+    public static function doGetopt($version, $args, $short_options, $long_options = null)
     {
         // in case you pass directly readPHPArgv() as the first arg
         if (PEAR::isError($args)) {
@@ -136,11 +136,7 @@ class Console_Getopt {
         return array($opts, $non_opts);
     }
 
-    /**
-     * @access private
-     *
-     */
-    function _parseShortOption($arg, $short_options, &$opts, &$args)
+    private static function _parseShortOption($arg, $short_options, &$opts, &$args): ?PEAR_Error
     {
         for ($i = 0; $i < strlen($arg); $i++) {
             $opt = $arg[$i];
@@ -179,32 +175,22 @@ class Console_Getopt {
 
             $opts[] = array($opt, $opt_arg);
         }
+
+        return null;
     }
 
-    /**
-     * @access private
-     *
-     */
-    function _isShortOpt($arg)
+    private static function _isShortOpt($arg)
     {
         return strlen($arg) == 2 && $arg[0] == '-' && preg_match('/[a-zA-Z]/', $arg[1]);
     }
 
-    /**
-     * @access private
-     *
-     */
-    function _isLongOpt($arg)
+    private static function _isLongOpt($arg)
     {
         return strlen($arg) > 2 && $arg[0] == '-' && $arg[1] == '-' &&
             preg_match('/[a-zA-Z]+$/', substr($arg, 2));
     }
 
-    /**
-     * @access private
-     *
-     */
-    function _parseLongOption($arg, $long_options, &$opts, &$args)
+    private static function _parseLongOption($arg, $long_options, &$opts, &$args): ?PEAR_Error
     {
         @list($opt, $opt_arg) = explode('=', $arg, 2);
         $opt_len = strlen($opt);
@@ -245,7 +231,7 @@ class Console_Getopt {
             }
 
             $opts[] = array('--' . $opt, $opt_arg);
-            return;
+            return null;
         }
 
         return PEAR::raiseError("Console_Getopt: unrecognized option --$opt");
