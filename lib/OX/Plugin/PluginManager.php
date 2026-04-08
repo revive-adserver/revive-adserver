@@ -566,7 +566,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
     public function _matchPackageFilename($name, $file)
     {
-        if (!preg_match('/^' . preg_quote($name, '/') . '(?:\W.*)?\.zip$/D', $file)) {
+        if (!preg_match('/^' . preg_quote($name, '/') . '(?:[\W_].*)?\.zip$/D', $file)) {
             $this->_logError('Filename mismatch: name / file ' . $name . ' / ' . $file);
             return false;
         }

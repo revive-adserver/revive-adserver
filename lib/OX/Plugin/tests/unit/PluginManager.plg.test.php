@@ -44,6 +44,22 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertEqual($aResult['name'], 'testPlugin');
         $this->assertEqual($aResult['ext'], 'zip');
         $this->assertEqual($aResult['version'], '0.0.1-beta-rc2');
+
+        // Browser-renamed duplicate downloads should be accepted
+        $file = 'testPlugin(1).zip';
+        $aResult = $oManager->_matchPackageFilename($name, $file);
+        $this->assertEqual($aResult['name'], 'testPlugin(1)');
+        $this->assertEqual($aResult['ext'], 'zip');
+
+        // Hyphenated suffixes should be accepted
+        $file = 'testPlugin-v2.zip';
+        $aResult = $oManager->_matchPackageFilename($name, $file);
+        $this->assertEqual($aResult['name'], 'testPlugin-v2');
+        $this->assertEqual($aResult['ext'], 'zip');
+
+        // Name followed by word characters should still be rejected
+        $file = 'testPluginEvil.zip';
+        $this->assertFalse($oManager->_matchPackageFilename($name, $file));
     }
 
     public function test_getPathToPackages()
