@@ -84,6 +84,14 @@ if (!empty($campaignid)) {
         $doCampaigns_trackers->delete();
         if (isset($trackerids) && is_array($trackerids)) {
             for ($i = 0; $i < count($trackerids); $i++) {
+                /** @var DataObjects_Trackers $doTrackers */
+                $doTrackers = OA_Dal::factoryDO('trackers');
+                $doTrackers->clientid = $doCampaigns->clientid;
+                $doTrackers->trackerid = $trackerids[$i];
+                if (!$doTrackers->find()) {
+                    continue;
+                }
+
                 $aFields = ['campaignid', 'trackerid', 'status'];
                 $values = [$campaignid, $trackerids[$i], $statusids[$i]];
 
