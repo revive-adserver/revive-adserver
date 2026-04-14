@@ -152,6 +152,7 @@ return true;
 return !($setMemory > $phpMemoryLimitInBytes && @ini_set('memory_limit', $setMemory) === false);
 }
 
+
 if (!function_exists('each')) {
 function each(&$array)
 {
