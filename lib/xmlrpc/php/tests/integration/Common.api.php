@@ -45,10 +45,8 @@ define('OA_INSTALLATION_STATUS', OA_INSTALLATION_STATUS_INSTALLED);
  */
 class Test_OA_Api_XmlRpc extends UnitTestCase
 {
-    /**
-     * @var OA_API_Xmlrpc
-     */
-    var $oApi;
+    protected OA_API_Xmlrpc $oApi;
+    protected int $agencyId;
 
     function __construct($createDefaultManager = true)
     {
@@ -70,8 +68,8 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
             if ($createDefaultManager) {
                 $doAgency = OA_Dal::factoryDO('agency');
                 $doAgency->name = 'Default Manager';
-                $agencyId = DataGenerator::generateOne($doAgency);
-                $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+                $this->agencyId = DataGenerator::generateOne($doAgency);
+                $doAgency = OA_Dal::staticGetDO('agency', $this->agencyId);
                 $managerAccountId = $doAgency->account_id;
             }
 

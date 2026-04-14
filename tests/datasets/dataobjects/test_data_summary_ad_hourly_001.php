@@ -50,6 +50,24 @@ class OA_Test_Data_data_summary_ad_hourly_001 extends OA_Test_Data_DataObjects
             $doDSAH->total_basket_value = 0;
             $this->aIds['DSAH'][] = DataGenerator::generateOne($doDSAH);
         }
+
+        // Generate a second zone in another agency
+        $this->aIds['agency'][2] = $this->_insertAgency([
+            'name' => 'Test Agency 2',
+        ]);
+        $this->aIds['affiliates'][2] = $this->_insertAffiliates([
+            'agencyid' => $this->aIds['agency'][2],
+            'name' => 'Test Publisher 2',
+        ]);
+        $this->aIds['zones'][3] = $this->_insertZones([
+            'affiliateid' => $this->aIds['affiliates'][2],
+            'name' => 'Test Zone 3',
+            'delivery' => 3,
+            'zonetype' => 3,
+            'width' => 468,
+            'height' => 60,
+        ]);
+
         return $this->aIds;
     }
 

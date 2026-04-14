@@ -426,6 +426,12 @@ class Admin_DA
                 $aParams['ad_height'] = $aZone['height'];
             }
         }
+
+        $aPublisher = Admin_DA::getPublisher($aZone['publisher_id']);
+        if (isset($aPublisher['agency_id'])) {
+            $aParams['agency_id'] = $aPublisher['agency_id'];
+        }
+
         // Allow linking *x* banners
         $aParams['ad_nosize'] = true;
         return $aParams;
@@ -970,7 +976,6 @@ class Admin_DA
             }
             $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
             $azParams['ad_id'] = $aVariables['ad_id'];
-            $azParams['market_ads_include'] = true;
             $azAds = Admin_DA::getAds($azParams);
             if (!empty($azAds)) {
                 // Ad seems OK to link, check if this is an email zone, and

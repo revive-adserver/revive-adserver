@@ -24,7 +24,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
     /**
      * @var int
      */
-    var $agencyId;
+    var $newAgencyId;
 
     /**
      * @var int
@@ -54,7 +54,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 		$this->assertTrue($oAgency);
 		$this->assertTrue($oAgency->accountId);
 
-		$this->agencyId  = $oAgency->agencyId;
+		$this->newAgencyId  = $oAgency->agencyId;
 		$this->accountId = $oAgency->accountId;
     }
 
@@ -64,7 +64,7 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
 			return;
 		}
 
-		$this->assertTrue($this->oApi->deleteAgency($this->agencyId));
+		$this->assertTrue($this->oApi->deleteAgency($this->newAgencyId));
 	}
 
 	function _createUserInfo()

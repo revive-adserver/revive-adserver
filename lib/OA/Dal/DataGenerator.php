@@ -53,7 +53,7 @@ class DataGenerator
      *
      * @static
      * @access public
-     * @param DB_DataObjectCommon $do Either DataObject or table name (as string)
+     * @param string $do Either DataObject or table name (as string)
      * @param bool $generateParents   Generate parent records
      * @return int                    Id of created record
      * @see DB_DataObject::insert()
