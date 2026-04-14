@@ -873,7 +873,7 @@ class XML_RPC_Client extends XML_RPC_Base {
      * @param object $msg       the XML_RPC_Message object
      * @param int    $timeout   how many seconds to wait for the request
      *
-     * @return object  an XML_RPC_Response object.  0 is returned if any
+     * @return object|int  an XML_RPC_Response object.  0 is returned if any
      *                  problems happen.
      *
      * @see XML_RPC_Message, XML_RPC_Client::XML_RPC_Client(),

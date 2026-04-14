@@ -7,8 +7,9 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - The **Time - Date** delivery rule wasn't properly working when using languages other than English ([#1662](https://github.com/revive-adserver/revive-adserver/issues/1662))
-- PHP Fatal error "Non-static method Console_Getopt::getopt2() cannot be called statically" ([#1664](https://github.com/revive-adserver/revive-adserver/pull/1664)
+- PHP Fatal error `Non-static method Console_Getopt::getopt2() cannot be called statically` ([#1664](https://github.com/revive-adserver/revive-adserver/pull/1664))
 - Deprecation errors displayed on PHP 8.5 under some circumstances ([#1665](https://github.com/revive-adserver/revive-adserver/issues/1665))
+- PHP Fatal error `Call to undefined function each()` when using the bundled XML-RPC API client libraries ([#1671](https://github.com/revive-adserver/revive-adserver/issues/1671))
 
 ## [6.0.6] - 2026-03-18
 
