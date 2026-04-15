@@ -145,6 +145,15 @@ abstract class Plugins_DeliveryLimitations extends OX_Component
         return true;
     }
 
+    public function checkLogical($acl): bool|string
+    {
+        if (in_array($acl['logical'], ['and', 'or'])) {
+            return true;
+        }
+
+        return 'Unknown logical operator';
+    }
+
     /**
      * Echos the HTML to display this limitation
      *

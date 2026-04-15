@@ -161,4 +161,16 @@ class LibAclTest extends DalUnitTestCase
             ['data' => 'b', 'executionorder' => 2],
         ]);
     }
+
+    public function test_OX_AclCheckInputsFields(): void
+    {
+        $acl = ['type' => 'Dummy:Dummy', 'data' => 'AaAaA', 'logical' => 'and', 'comparison' => '=='];
+        $this->assertTrue(OX_AclCheckInputsFields([$acl], false));
+
+        $acl = ['type' => 'Dummy:Dummy', 'data' => 'AaAaA', 'logical' => 'foo', 'comparison' => '=='];
+        $this->assertEqual(OX_AclCheckInputsFields([$acl], false), ['Unknown logical operator']);
+
+        $acl = ['type' => 'Dummy:Dummy', 'data' => 'AaAaA', 'logical' => 'and', 'comparison' => 'foo'];
+        $this->assertEqual(OX_AclCheckInputsFields([$acl], false), ['Unknown operator']);
+    }
 }

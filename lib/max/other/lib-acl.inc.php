@@ -697,6 +697,10 @@ function OX_AclCheckInputsFields($aAcls, $page)
                 if ($checkResult !== true) {
                     $aErrors[] = $checkResult;
                 }
+                $checkResult = $deliveryLimitationPlugin->checkLogical($acl);
+                if ($checkResult !== true) {
+                    $aErrors[] = $checkResult;
+                }
                 $checkResult = $deliveryLimitationPlugin->checkInputData($acl);
                 if ($checkResult !== true) {
                     $aErrors[] = $checkResult;
