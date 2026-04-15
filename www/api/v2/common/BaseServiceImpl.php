@@ -75,7 +75,7 @@ class BaseServiceImpl extends OA_BaseObjectWithErrors
 
         $this->_setSessionId($sessionId);
 
-        if (OA_Auth::isLoggedIn()) {
+        if (OA_Auth::isLoggedIn(\RV\Auth\AuthContext::API)) {
             return true;
         } else {
             $this->raiseError('Session ID is invalid');

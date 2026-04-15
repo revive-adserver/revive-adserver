@@ -12,6 +12,8 @@
 
 require_once MAX_PATH . '/lib/OA/Permission.php';
 
+use RV\Auth\AuthContext;
+
 /**
  * A class for managing users.
  *
@@ -35,8 +37,11 @@ class OA_Permission_User
      * @param DataObjects_Users $doUsers
      * @return OA_Permission_User
      */
-    public function __construct($doUsers, $skipDatabaseAccess = false)
-    {
+    public function __construct(
+        $doUsers,
+        $skipDatabaseAccess = false,
+        public readonly AuthContext $context = AuthContext::UI,
+    ) {
         if (!is_a($doUsers, 'DataObjects_Users')) {
             MAX::raiseError('doUser not a DataObjects_Users');
         }

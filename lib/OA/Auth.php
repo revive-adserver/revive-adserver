@@ -16,6 +16,8 @@ require_once MAX_PATH . '/lib/OA/Permission/User.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once LIB_PATH . '/Extension/authentication/authentication.php';
 
+use RV\Auth\AuthContext;
+
 /**
  * A class to deal with user authentication
  *
@@ -168,9 +170,11 @@ class OA_Auth
      *
      * @return boolean
      */
-    public static function isLoggedIn()
+    public static function isLoggedIn(AuthContext $context = AuthContext::UI)
     {
-        return is_a(OA_Permission::getCurrentUser(), 'OA_Permission_User');
+        $user = OA_Permission::getCurrentUser();
+
+        return $user && $user->context === $context;
     }
 
     /**
@@ -183,10 +187,10 @@ class OA_Auth
      *                                 avoid performing some checks accessing the database
      * @return array
      */
-    public static function getSessionData($doUser, $skipDatabaseAccess = false)
+    public static function getSessionData($doUser, $skipDatabaseAccess = false, AuthContext $context = AuthContext::UI)
     {
         return [
-            'user' => new OA_Permission_User($doUser, $skipDatabaseAccess),
+            'user' => new OA_Permission_User($doUser, $skipDatabaseAccess, $context),
         ];
     }
 
