@@ -1659,8 +1659,8 @@ function addTrackerPageTools($advertiserId, $trackerId, $aOtherAdvertisers)
         //move to
         $form = "<form action='" . MAX::constructUrl(MAX_URL_ADMIN, 'tracker-modify.php') . "'>
             <input type='hidden' name='token' value='" . htmlspecialchars($token, ENT_QUOTES) . "'>
-            <input type='hidden' name='trackerid' value='$trackerId'
-            <input type='hidden' name='clientid' value='$advertiserId'
+            <input type='hidden' name='trackerid' value='$trackerId'>
+            <input type='hidden' name='clientid' value='$advertiserId'>
             <input type='hidden' name='returnurl' value='tracker-edit.php'>
             <select name='moveto'>";
         foreach ($aOtherAdvertisers as $advertiser) {

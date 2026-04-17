@@ -11,6 +11,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Deprecation errors displayed on PHP 8.5 under some circumstances ([#1665](https://github.com/revive-adserver/revive-adserver/issues/1665))
 - PHP Fatal error `Call to undefined function each()` when using the bundled XML-RPC API client libraries ([#1671](https://github.com/revive-adserver/revive-adserver/issues/1671))
 - Potential PHP Fatal error during maintenence with custom plugins ([#1673](https://github.com/revive-adserver/revive-adserver/issues/1673))
+- Moving trackers to another client was always resulting in a permissions error ([#1674](https://github.com/revive-adserver/revive-adserver/issues/1674)) 
 
 ## [6.0.6] - 2026-03-18
 
