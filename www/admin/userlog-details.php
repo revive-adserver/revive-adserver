@@ -65,7 +65,7 @@ if ($row = $doUserLog->toArray()) {
     phpAds_ShowBreak();
 
     echo "<br /><br />";
-    echo "<pre>" . $row['details'] . "</pre>";
+    echo "<pre>" . htmlspecialchars($row['details']). "</pre>";
     echo "<br /><br />";
 }
 
