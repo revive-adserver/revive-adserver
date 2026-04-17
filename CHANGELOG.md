@@ -10,8 +10,9 @@ All notable changes to Revive Adserver will be documented in this file.
 - PHP Fatal error `Non-static method Console_Getopt::getopt2() cannot be called statically` ([#1664](https://github.com/revive-adserver/revive-adserver/pull/1664))
 - Deprecation errors displayed on PHP 8.5 under some circumstances ([#1665](https://github.com/revive-adserver/revive-adserver/issues/1665))
 - PHP Fatal error `Call to undefined function each()` when using the bundled XML-RPC API client libraries ([#1671](https://github.com/revive-adserver/revive-adserver/issues/1671))
-- Potential PHP Fatal error during maintenence with custom plugins ([#1673](https://github.com/revive-adserver/revive-adserver/issues/1673))
-- Moving trackers to another client was always resulting in a permissions error ([#1674](https://github.com/revive-adserver/revive-adserver/issues/1674)) 
+- Potential PHP Fatal error during maintenance with custom plugins ([#1673](https://github.com/revive-adserver/revive-adserver/issues/1673))
+- Moving trackers to another client was always resulting in a permissions error ([#1674](https://github.com/revive-adserver/revive-adserver/issues/1674))
+- It was possible to move trackers to a client belonging to a different manager ([#1672](https://github.com/revive-adserver/revive-adserver/issues/1672))
 
 ## [6.0.6] - 2026-03-18
 

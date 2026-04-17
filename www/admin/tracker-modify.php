@@ -41,32 +41,39 @@ OA_Permission::checkSessionToken();
 
 if (!empty($trackerid)) {
     if (!empty($moveto)) {
-        // Delete any campaign-tracker links
-        $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
-        $doCampaign_trackers->trackerid = $trackerid;
-        $doCampaign_trackers->delete();
-
-        // Move the tracker
+        // Load the tracker
         $doTrackers = OA_Dal::factoryDO('trackers');
-        if ($doTrackers->get($trackerid)) {
+        $doTrackers->trackerid = $trackerid;
+        $doTrackers->clientid = $clientid;
+
+        if ($doTrackers->find()) {
+            // Ensure the tracker belongs to the same manager
+            $doClients = OA_Dal::staticGetDO('clients', $moveto);
+            OA_Permission::enforceTrue($doClients && $doClients->agencyid == $agencyid);
+            $advertiserName = $doClients->clientname;
+
+            // Delete any campaign-tracker links
+            $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
+            $doCampaign_trackers->trackerid = $trackerid;
+            $doCampaign_trackers->delete();
+
             $doTrackers->clientid = $moveto;
             $doTrackers->update();
 
             // Queue confirmation message
             $trackerName = $doTrackers->trackername;
-            $doClients = OA_Dal::factoryDO('clients');
-            if ($doClients->get($moveto)) {
-                $advertiserName = $doClients->clientname;
-            }
             $translation = new OX_Translation();
             $translated_message = $translation->translate(
                 $GLOBALS['strTrackerHasBeenMoved'],
                 [htmlspecialchars($trackerName), htmlspecialchars($advertiserName)],
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
+            header("Location: " . $returnurl . "?clientid=" . $moveto . "&trackerid=" . $trackerid);
+        } else {
+            header("Location: tracker-edit.php?clientid=" . $clientid . "&trackerid=" . $trackerid);
         }
 
-        Header("Location: " . $returnurl . "?clientid=" . $moveto . "&trackerid=" . $trackerid);
         exit;
     } elseif (isset($duplicate) && $duplicate == 'true') {
         $doTrackers = OA_Dal::factoryDO('trackers');
