@@ -11,6 +11,7 @@ use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\For_\ForRepeatedCountToOwnVariableRector;
+use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\CodeQuality\Rector\If_\CombineIfRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
@@ -92,5 +93,6 @@ return function (RectorConfig $rectorConfig): void {
         ListEachRector::class,
         ReplaceEachAssignmentWithKeyCurrentRector::class,
         ExplicitReturnNullRector::class,
+        FlipTypeControlToUseExclusiveTypeRector::class,
     ]);
 };

@@ -14,6 +14,10 @@ All notable changes to Revive Adserver will be documented in this file.
 - Moving trackers to another client was always resulting in a permissions error ([#1674](https://github.com/revive-adserver/revive-adserver/issues/1674))
 - It was possible to move trackers to a client belonging to a different manager ([#1672](https://github.com/revive-adserver/revive-adserver/issues/1672))
 
+### Added
+
+- Experimental condense-stats command to aggregate older statistics and save on database space ([#1677](https://github.com/revive-adserver/revive-adserver/issues/1677))
+
 ## [6.0.6] - 2026-03-18
 
 ### Fixes
