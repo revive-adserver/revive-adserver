@@ -645,12 +645,15 @@ abstract class Plugins_DeliveryLog extends OX_Component
         // Test to ensure that the "$sDateTimeColumn" column really
         // is in the plugin group's bucket table, and if it's not,
         // return null
-        $aColumns = $this->getBucketTableColumns();
+        $aColumns = $this->getBucketTableColumns() ?? [];
         if (!array_key_exists($sDateTimeColumn, $aColumns)) {
             return null;
         }
         // Obtain the DB_DataObject for the plugin group's bucket table
         $sBucketName = $this->getBucketName();
+        if (empty($sBucketName)) {
+            return null;
+        }
         $doBucket = OA_Dal::factoryDO($sBucketName);
         if (!$doBucket) {
             return null;
