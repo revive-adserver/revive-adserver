@@ -24,6 +24,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 // Load the account's preferences, with additional information, into a specially named array
 $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 
@@ -35,7 +38,8 @@ $prefSection = "banner";
 $aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+$oSettings = new OA_Admin_Settings();
+if ($oSettings->isFormSubmitted()) {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
     $aElements = [];

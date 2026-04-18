@@ -36,7 +36,8 @@ $prefSection = "campaign";
 $aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+$oSettings = new OA_Admin_Settings();
+if ($oSettings->isFormSubmitted()) {
     // Some additional calculations are required, increase the memory
     OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
 

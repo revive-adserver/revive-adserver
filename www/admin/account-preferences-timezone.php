@@ -43,7 +43,8 @@ $prefSection = "timezone";
 $aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+$oSettings = new OA_Admin_Settings();
+if ($oSettings->isFormSubmitted()) {
     // Prepare an array of the HTML elements to process, and which
     // of the preferences are checkboxes
     $aElements = [];

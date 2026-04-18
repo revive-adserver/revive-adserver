@@ -40,7 +40,8 @@ $aDeliveryCacheStores = OX_Component::getComponents('deliveryCacheStore', null, 
 $aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+$oSettings = new OA_Admin_Settings();
+if ($oSettings->isFormSubmitted()) {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
@@ -164,7 +165,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Save old cookie setting
         $oldCookie = empty($conf['cookie']['disabled']);
 
-        // Create a new settings object, and save the settings!
+        // Save the settings!
         $oSettings = new OA_Admin_Settings();
         $result = $oSettings->processSettingsFromForm($aElements);
         if ($result) {

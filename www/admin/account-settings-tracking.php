@@ -31,7 +31,8 @@ $prefSection = "tracking";
 $aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+$oSettings = new OA_Admin_Settings();
+if ($oSettings->isFormSubmitted()) {
     // Store the current status of conversion tracking
     $logging_trackerImpressionsCurrent = $GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'];
     // Prepare an array of the HTML elements to process, and the
@@ -47,8 +48,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'logging_defaultImpressionConnectionWindow' => ['logging' => 'defaultImpressionConnectionWindow'],
         'logging_defaultClickConnectionWindow' => ['logging' => 'defaultClickConnectionWindow'],
     ];
-    // Create a new settings object, and save the settings!
-    $oSettings = new OA_Admin_Settings();
+    // Save the settings!
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
         // Test to see if conversion tracking has been turned on or off

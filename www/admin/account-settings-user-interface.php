@@ -32,7 +32,8 @@ $prefSection = "user-interface";
 $aErrormessage = [];
 
 // If the settings page is a submission, deal with the form data
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+$oSettings = new OA_Admin_Settings();
+if ($oSettings->isFormSubmitted()) {
     // Prepare an array of the HTML elements to process, and the
     // location to save the values in the settings configuration
     // file
@@ -79,8 +80,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += ['authentication_type' => ['authentication' => 'type']];
 
 
-    // Create a new settings object, and save the settings!
-    $oSettings = new OA_Admin_Settings();
+    // Save the settings!
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
         // Delete all the sessions if the UI is disabled

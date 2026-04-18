@@ -545,11 +545,6 @@ class OA_Admin_Settings
      */
     public function processSettingsFromForm($aElementNames)
     {
-        phpAds_registerGlobalUnslashed('token');
-        if (!phpAds_SessionValidateToken($GLOBALS['token'])) {
-            return false;
-        }
-
         foreach ($aElementNames as $htmlElement => $aConfigInfo) {
             // Register the HTML element value
             MAX_commonRegisterGlobalsArray([$htmlElement]);
@@ -626,5 +621,16 @@ class OA_Admin_Settings
             }
         }
         return $this->writeConfigChange();
+    }
+
+    public function isFormSubmitted(): bool
+    {
+        if (!isset($_POST['submitok']) || $_POST['submitok'] !== 'true') {
+            return false;
+        }
+
+        OA_Permission::checkSessionToken();
+
+        return true;
     }
 }
