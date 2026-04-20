@@ -1211,7 +1211,15 @@ class OA_Permission
         if (!empty($oldName) && !strcasecmp($oldName, $newName)) {
             return true;
         }
-        return !self::userNameExists($newName);
+        return self::validateUsername($newName) && !self::userNameExists($newName);
+    }
+
+    /**
+     * Min 2 chars, max 64 chars, POSIX-like username, with first and last characters being alphanumeric.
+     */
+    public static function validateUsername(string $username): bool
+    {
+        return (bool) preg_match('#^[a-z0-9][a-z0-9_.-]{0,62}[a-z0-9]$#Di', $username);
     }
 
     /**

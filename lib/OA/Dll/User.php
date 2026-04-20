@@ -81,7 +81,7 @@ class OA_Dll_User extends OA_Dll
      * @param OA_Dll_UserInfo $oOldUser
      * @return boolean
      */
-    public function _validateUsername(&$oUser, $oOldUser = null)
+    public function _validateUsername($oUser, $oOldUser = null)
     {
         if (isset($oUser->username)) {
             $oldUsername = empty($oOldUser) ? '' : $oOldUser->username;
