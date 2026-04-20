@@ -19,6 +19,9 @@ All notable changes to Revive Adserver will be documented in this file.
 
 - Experimental condense-stats command to aggregate older statistics and save on database space ([#1677](https://github.com/revive-adserver/revive-adserver/issues/1677))
 
+### Changed
+- Relax plugin ZIP filename check, in order to allow suffixes appended by browsers or for versioning ([#1667](https://github.com/revive-adserver/revive-adserver/issues/1667))
+
 ## [6.0.6] - 2026-03-18
 
 ### Fixes
