@@ -73,9 +73,9 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} {$aValue.action} {$aValue.context} {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                    {$aValue.username|escape} {$aValue.action|escape} {$aValue.context|escape} {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
-                        in {$aValue.parentcontext} (#{$aValue.parentcontextid})
+                        in {$aValue.parentcontext|escape} (#{$aValue.parentcontextid})
                     {/if}
                     {if !empty($aValue.hasChildren)}
                         and additional items
@@ -88,9 +88,9 @@
 		            <tr class="{$rowClass}">
 		                <td>{$val.updated}</td>
 		                <td>
-		                    {$val.username} {$val.action} {$val.context} {if !empty($val.contextid)}(#{$val.contextid}){/if}
+		                    {$val.username|escape} {$val.action|escape} {$val.context|escape} {if !empty($val.contextid)}(#{$val.contextid}){/if}
 		                    {if !empty($val.parentcontext)}
-		                        in {$val.parentcontext} (#{$val.parentcontextid})
+		                        in {$val.parentcontext|escape} (#{$val.parentcontextid})
 		                    {/if}
 		                    {if !empty($val.hasChildren)}
 		                        and additional items
