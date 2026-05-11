@@ -23,6 +23,9 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('banners', $bannerid);
+
 $aBanner = Admin_DA::getAd((int) $bannerid);
 $aBanner['bannerid'] = $aBanner['ad_id'];
 
