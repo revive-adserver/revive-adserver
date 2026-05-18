@@ -73,7 +73,9 @@ abstract class Plugins_DeliveryLimitations extends OX_Component
     {
         if (!is_null($data)) {
             foreach ($data as $name => $value) {
-                $this->$name = $value;
+                if (in_array($name, ['logical', 'type', 'comparison', 'data', 'executionorder'])) {
+                    $this->$name = $value;
+                }
             }
         }
         $this->displayName = $this->getName();
