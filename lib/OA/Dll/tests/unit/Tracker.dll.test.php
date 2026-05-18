@@ -66,7 +66,7 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
 
         $dllAdvertiserPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllAdvertiserPartialMock->setReturnValue('checkPermissions', true);
-        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 2);
+        $dllAdvertiserPartialMock->expectCallCount('checkPermissions', 3);
 
         $dllTrackerPartialMock->setReturnValue('checkPermissions', true);
 
@@ -119,6 +119,72 @@ class OA_Dll_TrackerTest extends DllUnitTestCase
                            $dllTrackerPartialMock->getLastError() == OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID),
             $this->_getMethodShouldReturnError(OA_Dll_Tracker::ERROR_UNKNOWN_TRACKER_ID),
         );
+    }
+
+    /**
+     * A method to test Modify, moving the tracker to a new advertiser.
+     */
+    public function testAddModifyNoAdvertiserPermissions()
+    {
+        $dllAdvertiserPartialMock = new PartialMockOA_Dll_Advertiser($this);
+        $dllTrackerPartialMock = new PartialMockOA_Dll_Tracker($this);
+
+        $dllAdvertiserPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
+        $dllAdvertiserPartialMock->setReturnValue('checkPermissions', true);
+
+        for ($i = 0; $i < 6; $i++) {
+            // Fail the first and last check
+            $dllTrackerPartialMock->setReturnValueAt($i, 'checkPermissions', !in_array($i, [0, 5]));
+        }
+
+        $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
+        $oAdvertiserInfo->advertiserName = 'Advertiser 1';
+        $oAdvertiserInfo->agencyId = $this->agencyId;
+
+        $this->assertTrue(
+            $dllAdvertiserPartialMock->modify($oAdvertiserInfo),
+            $dllAdvertiserPartialMock->getLastError(),
+        );
+
+        $oTrackerInfo = new OA_Dll_TrackerInfo();
+        $oTrackerInfo->clientId = $oAdvertiserInfo->advertiserId;
+        $oTrackerInfo->trackerName = 'Test tracker name';
+
+        // Add, failing
+        $this->assertFalse($dllTrackerPartialMock->modify($oTrackerInfo));
+
+        // Add, success
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError(),
+        );
+
+        $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
+        $oAdvertiserInfo->advertiserName = 'Advertiser 2';
+        $oAdvertiserInfo->agencyId = $this->agencyId;
+
+        $dllAdvertiserPartialMock->modify($oAdvertiserInfo);
+
+        // Move tracker
+        $oTrackerInfo->clientId = $oAdvertiserInfo->advertiserId;
+
+        $this->assertTrue(
+            $dllTrackerPartialMock->modify($oTrackerInfo),
+            $dllTrackerPartialMock->getLastError(),
+        );
+
+        $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
+        $oAdvertiserInfo->advertiserName = 'Advertiser 3';
+        $oAdvertiserInfo->agencyId = $this->agencyId;
+
+        $dllAdvertiserPartialMock->modify($oAdvertiserInfo);
+
+        // Move tracker w/ failing permissions check
+        $oTrackerInfo->clientId = $oAdvertiserInfo->advertiserId;
+
+        $this->assertFalse($dllTrackerPartialMock->modify($oTrackerInfo));
+
+        $dllTrackerPartialMock->tally();
     }
 
     public function testLinkTrackerToCampaign()

@@ -343,11 +343,11 @@ class OA_Dll extends OA_BaseObjectWithErrors
      *
      * @access public
      *
-     * @param integer $permissions
+     * @param string|string[] $permissions
      * @param string $table  Table name
-     * @param integer $id  Id (or empty if new is created)
-     * @param unknown $allowed  check allowed
-     * @param OA_Permission Does the current call require only a subset of the permissions?
+     * @param int|null $id  Id (or empty if new is created)
+     * @param int|null $allowed  check allowed
+     * @param int $operationAccessType Does the current call require only a subset of the permissions?
      * 						If set to null, equivalent to asking permission to do everything on the object
      *
      * @return boolean  True if has access

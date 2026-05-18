@@ -191,7 +191,7 @@ class OA_Dll_Zone extends OA_Dll
      *          <b>Required properties:</b> zoneId<br />
      *          <b>Optional properties:</b> publisherId, zoneName, type, width, height<br />
      *
-     * @return success boolean True if the operation was successful
+     * @return boolean True if the operation was successful
      *
      */
     public function modify(&$oZone)
@@ -199,14 +199,6 @@ class OA_Dll_Zone extends OA_Dll
         if (!isset($oZone->zoneId)) {
             // Add
             $oZone->setDefaultForAdd();
-            if (!$this->checkPermissions(
-                $this->aAllowTraffickerAndAbovePerm,
-                'affiliates',
-                $oZone->publisherId,
-                OA_PERM_ZONE_ADD,
-            )) {
-                return false;
-            }
         } elseif (!$this->checkPermissions(
             $this->aAllowTraffickerAndAbovePerm,
             'zones',
@@ -214,6 +206,15 @@ class OA_Dll_Zone extends OA_Dll
             OA_PERM_ZONE_EDIT,
         )) {
             // Edit
+            return false;
+        }
+
+        if ((!isset($oZone->zoneId) || isset($oZone->publisherId)) && !$this->checkPermissions(
+            $this->aAllowTraffickerAndAbovePerm,
+            'affiliates',
+            $oZone->publisherId,
+            OA_PERM_ZONE_ADD,
+        )) {
             return false;
         }
 

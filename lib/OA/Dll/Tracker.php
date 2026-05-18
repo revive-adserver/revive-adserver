@@ -79,17 +79,6 @@ class OA_Dll_Tracker extends OA_Dll
         if (!isset($oTrackerInfo->trackerId)) {
             // Add
             $oTrackerInfo->setDefaultForAdd();
-
-            // Check permission for the advertiser.
-            if (isset($oTrackerInfo->clientId)) {
-                if (!$this->checkPermissions(
-                    [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
-                    'clients',
-                    $oTrackerInfo->clientId,
-                )) {
-                    return false;
-                }
-            }
         } else {
             // Modify
             if (!$this->checkIdExistence('trackers', $oTrackerInfo->trackerId)) {
@@ -103,6 +92,15 @@ class OA_Dll_Tracker extends OA_Dll
             )) {
                 return false;
             }
+        }
+
+        // Check permission for the advertiser.
+        if (isset($oTrackerInfo->clientId) && !$this->checkPermissions(
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'clients',
+            $oTrackerInfo->clientId,
+        )) {
+            return false;
         }
 
         if ($this->validate($oTrackerInfo)) {

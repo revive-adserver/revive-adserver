@@ -76,10 +76,9 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
-        $dllZonePartialMock->expectCallCount('checkPermissions', 10);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 14);
 
         $oZoneInfo = new OA_DLL_ZoneInfo();
         $oPublisherInfo = new OA_DLL_PublisherInfo();
@@ -141,7 +140,72 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
             $this->_getMethodShouldReturnError($this->unknownIdError),
         );
 
-        $dllZonePartialMock   ->tally();
+        $dllZonePartialMock->tally();
+    }
+
+    /**
+     * A method to test Modify, moving the zone to a new publisher.
+     */
+    public function testAddModifyNoPublisherPermissions()
+    {
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher_ZoneTest($this);
+        $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
+
+        $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
+        $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
+
+        $dllZonePartialMock->expectCallCount('checkPermissions', 6);
+
+        for ($i = 0; $i < 6; $i++) {
+            // Fail the first and last check
+            $dllZonePartialMock->setReturnValueAt($i, 'checkPermissions', !in_array($i, [0, 5]));
+        }
+
+        $oZoneInfo = new OA_DLL_ZoneInfo();
+        $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->publisherName = "Publisher";
+        $oPublisherInfo->agencyId = $this->agencyId;
+
+        $dllPublisherPartialMock->modify($oPublisherInfo);
+
+        $oZoneInfo->zoneName = 'test zone';
+        $oZoneInfo->publisherId = $oPublisherInfo->publisherId;
+
+        // Add, failing
+        $this->assertFalse($dllZonePartialMock->modify($oZoneInfo));
+
+        // Add, success
+        $this->assertTrue(
+            $dllZonePartialMock->modify($oZoneInfo),
+            $dllZonePartialMock->getLastError(),
+        );
+
+        $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->publisherName = "Publisher 2";
+        $oPublisherInfo->agencyId = $this->agencyId;
+
+        $dllPublisherPartialMock->modify($oPublisherInfo);
+
+        // Move zone
+        $oZoneInfo->publisherId = $oPublisherInfo->publisherId;
+
+        $this->assertTrue(
+            $dllZonePartialMock->modify($oZoneInfo),
+            $dllZonePartialMock->getLastError(),
+        );
+
+        $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $oPublisherInfo->publisherName = "Publisher 3";
+        $oPublisherInfo->agencyId = $this->agencyId;
+
+        $dllPublisherPartialMock->modify($oPublisherInfo);
+
+        // Move zone w/ failing permissions check
+        $oZoneInfo->publisherId = $oPublisherInfo->publisherId;
+
+        $this->assertFalse($dllZonePartialMock->modify($oZoneInfo));
+
+        $dllZonePartialMock->tally();
     }
 
     /**
@@ -154,7 +218,6 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
         $dllZonePartialMock->expectCallCount('checkPermissions', 7);
@@ -275,7 +338,6 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
         $dllZonePartialMock->expectCallCount('checkPermissions', 5);

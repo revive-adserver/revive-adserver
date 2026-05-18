@@ -221,19 +221,20 @@ class OA_Dll_Campaign extends OA_Dll
         if (!isset($oCampaign->campaignId)) {
             // Add
             $oCampaign->setDefaultForAdd();
-            if (!$this->checkPermissions(
-                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
-                'clients',
-                $oCampaign->advertiserId,
-            )) {
-                return false;
-            }
         } elseif (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'campaigns',
             $oCampaign->campaignId,
         )) {
             // Edit
+            return false;
+        }
+
+        if ((!isset($oCampaign->campaignId) || isset($oCampaign->advertiserId)) && !$this->checkPermissions(
+            [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+            'clients',
+            $oCampaign->advertiserId,
+        )) {
             return false;
         }
 

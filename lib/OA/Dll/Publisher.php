@@ -166,6 +166,16 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherPrevData = $doPrevPublisher->toArray();
         }
 
+        if (!empty($oPublisher->agencyId)) {
+            if (!$this->checkPermissions(
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'agency',
+                $oPublisher->agencyId,
+            )) {
+                return false;
+            }
+        }
+
         $publisherData = (array) $oPublisher;
 
         // Trim input variables

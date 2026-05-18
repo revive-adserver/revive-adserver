@@ -238,14 +238,6 @@ class OA_Dll_Banner extends OA_Dll
         if (!isset($oBanner->bannerId)) {
             // Add
             $oBanner->setDefaultForAdd();
-            if (!$this->checkPermissions(
-                $this->aAllowAdvertiserAndAbovePerm,
-                'campaigns',
-                $oBanner->campaignId,
-                OA_PERM_BANNER_EDIT,
-            )) {
-                return false;
-            }
         } elseif (!$this->checkPermissions(
             $this->aAllowAdvertiserAndAbovePerm,
             'banners',
@@ -253,6 +245,15 @@ class OA_Dll_Banner extends OA_Dll
             OA_PERM_BANNER_EDIT,
         )) {
             // Edit
+            return false;
+        }
+
+        if ((!isset($oBanner->bannerId) || isset($oBanner->campaignId)) && !$this->checkPermissions(
+            $this->aAllowAdvertiserAndAbovePerm,
+            'campaigns',
+            $oBanner->campaignId,
+            OA_PERM_BANNER_ADD,
+        )) {
             return false;
         }
 

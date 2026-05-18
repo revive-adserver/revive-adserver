@@ -124,22 +124,32 @@ class OA_Dll_Channel extends OA_Dll
         if (!isset($oChannel->channelId)) {
             // Add
             $oChannel->setDefaultForAdd();
-            // Check permission for the website.
-            if (isset($oChannel->websiteId) && $oChannel->websiteId != 0) {
-                if (!$this->checkPermissions(
-                    [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
-                    'affiliates',
-                    $oChannel->websiteId,
-                )) {
-                    return false;
-                }
-            }
         } elseif (!$this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
             'channel',
             $oChannel->channelId,
         )) {
             return false;
+        }
+
+        if (!empty($oChannel->websiteId)) {
+            if (!$this->checkPermissions(
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'affiliates',
+                $oChannel->websiteId,
+            )) {
+                return false;
+            }
+        }
+
+        if (!empty($oChannel->agencyId)) {
+            if (!$this->checkPermissions(
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'agency',
+                $oChannel->agencyId,
+            )) {
+                return false;
+            }
         }
 
         // Prepare the dataobject array.

@@ -175,6 +175,16 @@ class OA_Dll_Advertiser extends OA_Dll
             $oAdvertiser->advertiserId = (int) $oAdvertiser->advertiserId;
         }
 
+        if (!empty($oAdvertiser->agencyId)) {
+            if (!$this->checkPermissions(
+                [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER],
+                'agency',
+                $oAdvertiser->agencyId,
+            )) {
+                return false;
+            }
+        }
+
         $advertiserData = (array) $oAdvertiser;
 
         // Name
