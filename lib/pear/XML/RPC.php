@@ -275,7 +275,7 @@ function XML_RPC_se($parser_resource, $name, $attrs)
         }
     } else {
         // not top level element: see if parent is OK
-        if (!in_array($XML_RPC_xh[$parser]['stack'][0], $XML_RPC_valid_parents[$name])) {
+        if (!in_array($XML_RPC_xh[$parser]['stack'][0], $XML_RPC_valid_parents[$name] ?? [])) {
             $name = preg_replace('/[^a-zA-Z0-9._-]/', '', $name);
             $XML_RPC_xh[$parser]['isf'] = 2;
             $XML_RPC_xh[$parser]['isf_reason'] = "xmlrpc element $name cannot be child of {$XML_RPC_xh[$parser]['stack'][0]}";

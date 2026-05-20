@@ -14,7 +14,8 @@ All notable changes to Revive Adserver will be documented in this file.
 - Moving trackers to another client was always resulting in a permissions error ([#1674](https://github.com/revive-adserver/revive-adserver/issues/1674))
 - It was possible to move trackers to a client belonging to a different manager ([#1672](https://github.com/revive-adserver/revive-adserver/issues/1672))
 - Moved the CSRF token check before validation in all settings and preferences pages ([#1670](https://github.com/revive-adserver/revive-adserver/issues/1670))  
-- Added ownership check to the banner HTML preview  ([#1679](https://github.com/revive-adserver/revive-adserver/issues/1679))  
+- Added ownership check to the banner HTML preview ([#1679](https://github.com/revive-adserver/revive-adserver/issues/1679))
+- PHP Fatal error when sending unexpected elements in the XML-RPC message to the API ([#1682](https://github.com/revive-adserver/revive-adserver/issues/1682))
 
 ### Added
 
