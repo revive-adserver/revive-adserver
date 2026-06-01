@@ -70,7 +70,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 7);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 10);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
 
@@ -126,7 +126,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_PublisherTest($this);
 
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 8);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 10);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
         $dllAgencyPartialMock->expectCallCount('checkPermissions', 1);
@@ -249,7 +249,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
 
         $dllPublisherPartialMock->setReturnValue('getDefaultAgencyId', $this->agencyId);
         $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
-        $dllPublisherPartialMock->expectCallCount('checkPermissions', 6);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 7);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
 

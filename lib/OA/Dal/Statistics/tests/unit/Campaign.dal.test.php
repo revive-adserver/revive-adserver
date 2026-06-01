@@ -167,8 +167,6 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
             new Date('2007-08-20'),
         );
 
-        var_export($aData);
-
         $this->assertEqual(count($aData), 3, '3 records should be returned');
         $aRow1 = current($aData);
         $aRow2 = next($aData);

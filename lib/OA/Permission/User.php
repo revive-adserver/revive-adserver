@@ -66,8 +66,12 @@ class OA_Permission_User
         $this->aUser['unsafe_password'] = $doUsers->hasUnsafePassword();
     }
 
-    public function __wakeup()
+    public function __unserialize(array $data): void
     {
+        $this->aUser = $data['aUser'];
+        $this->aAccount = $data['aAccount'];
+        $this->context = $data['context'] ?? AuthContext::UI;
+
         if (defined('phpAds_installing')) {
             // We could be upgrading from a version that doesn't have all the necessary tables
             return;

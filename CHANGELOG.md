@@ -2,7 +2,23 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.7]
+## [6.0.7] - 2026-06-03
+
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-002/)
+
+- Fixed multiple vulnerabilites:
+  - [CVE-2026-34912](https://www.cve.org/CVERecord?id=CVE-2026-34912): Missing access control when linking banners or campaigns to zones
+  - [CVE-2026-34913](https://www.cve.org/CVERecord?id=CVE-2026-34913): Missing access control when linking trackers to campaigns
+  - [CVE-2026-34914](https://www.cve.org/CVERecord?id=CVE-2026-34914): Blind SQL injection via clientid parameter in zone-include.php
+  - [CVE-2026-34915](https://www.cve.org/CVERecord?id=CVE-2026-34915): Reflected XSS via clientid parameter in zone-include.php
+  - [CVE-2026-34916](https://www.cve.org/CVERecord?id=CVE-2026-34916): PHP code injection via delivery limitation logical parameter
+  - [CVE-2026-34917](https://www.cve.org/CVERecord?id=CVE-2026-34917): Session ID reuse allowing XML‑RPC API authentication bypass
+  - [CVE-2026-44956](https://www.cve.org/CVERecord?id=CVE-2026-44956): Stored XSS via Full Name field in userlog email entries
+  - [CVE-2026-44957](https://www.cve.org/CVERecord?id=CVE-2026-44957): Missing access control when modifying parent entities via XML‑RPC
+  - [CVE-2026-44958](https://www.cve.org/CVERecord?id=CVE-2026-44958): Banner status override by advertiser‑level users
+  - [CVE-2026-44959](https://www.cve.org/CVERecord?id=CVE-2026-44959): PHP code injection via unexpected delivery limitation parameter
+  - [CVE-2026-44960](https://www.cve.org/CVERecord?id=CVE-2026-44960): Stored XSS via malicious usernames in audit log details
+  - [CVE-2026-44961](https://www.cve.org/CVERecord?id=CVE-2026-44961): Username validation bypass in XML‑RPC addUser method
 
 ### Fixes
 
