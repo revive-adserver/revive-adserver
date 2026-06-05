@@ -106,6 +106,10 @@ class LogonServiceImpl extends BaseServiceImpl
                 return true;
             } else {
                 $this->raiseError('User must be OA installation admin');
+
+                // Also destroy session
+                phpAds_SessionDataDestroy();
+
                 return false;
             }
         } else {

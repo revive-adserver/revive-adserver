@@ -111,7 +111,9 @@ function phpAds_SessionGenerateId()
 {
     $_COOKIE['sessionID'] = bin2hex(random_bytes(16));
 
-    phpAds_SessionSetAdminCookie('sessionID', $_COOKIE['sessionID']);
+    if (!str_contains($_SERVER['SCRIPT_NAME'], '/www/api/')) {
+        phpAds_SessionSetAdminCookie('sessionID', $_COOKIE['sessionID']);
+    }
 
     return $_COOKIE['sessionID'];
 }
