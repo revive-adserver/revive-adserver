@@ -798,7 +798,6 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "incorrect number format in ECPM Infor
 $GLOBALS['strErrorEditingZone'] = "Error updating zone:";
 $GLOBALS['strDatesConflict'] = "Dates of the campaign you are trying to link overlap with the dates of a campaign already linked ";
 $GLOBALS['strWarningInaccurateStats'] = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";
-$GLOBALS['strWarningInaccurateReadMore'] = "Read more about this";
 $GLOBALS['strWarningInaccurateReport'] = "Some of the statistics in this report were logged in a non-UTC timezone, and may not be displayed in the correct timezone";
 
 //Validation

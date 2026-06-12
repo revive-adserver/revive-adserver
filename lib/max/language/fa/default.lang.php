@@ -885,7 +885,6 @@ $GLOBALS['strErrorEditingZone'] = "ارور بروزراسننی منطقه:";
 $GLOBALS['strUnableToChangeZone'] = "نمیتوان این تغییرات را اعمال کرد زیرا :";
 $GLOBALS['strDatesConflict'] = "dates conflict with:";
 $GLOBALS['strEmailNoDates'] = "Email zone campaigns must have a start and end date";
-$GLOBALS['strWarningInaccurateReadMore'] = "دربارهی ی این بیشتر بخوانید";
 
 //Validation
 $GLOBALS['strFormContainsErrors'] = "فرم شامل ارور است ، لطفا فیلدهای مشخص شده را تصحیح کنید ";
