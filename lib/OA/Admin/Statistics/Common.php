@@ -1256,8 +1256,4 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         }
     }
 
-    public function showInaccurateStatsWarning()
-    {
-        echo $GLOBALS['strWarningInaccurateStats'];
-    }
 }
