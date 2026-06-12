@@ -636,7 +636,6 @@ $GLOBALS['strUnableToChangeZone'] = "Impossível aplicar esta alteração pois:"
 $GLOBALS['strDatesConflict'] = "datas conflitam com:";
 $GLOBALS['strEmailNoDates'] = "Campanhas de zonas de E-mail devem ter uma data de início e de término";
 $GLOBALS['strWarningInaccurateStats'] = "Algumas destas estatísticas foram logadas em um fuso horário não-UTC, e podem não ser apresentadas no fuso correto";
-$GLOBALS['strWarningInaccurateReadMore'] = "Leia mais sobre isso";
 $GLOBALS['strWarningInaccurateReport'] = "Algumas destas estatísticas neste relatório foram logadas em um fuso horário não-UTC, e podem não ser apresentadas no fuso correto";
 
 //Validation

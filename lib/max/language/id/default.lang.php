@@ -819,7 +819,6 @@ $GLOBALS['strUnableToChangeZone'] = "Gagal melakukan perubahan ini disebabkan:";
 $GLOBALS['strDatesConflict'] = "tanggal-tanggal berbentrokan dengan:";
 $GLOBALS['strEmailNoDates'] = "Kampanye yang tertaut ke Zona Email harus memiliki tanggal mulai dan tanggal akhir. {$PRODUCT_NAME} memastikan bahwa pada tanggal tertentu, hanya satu banner aktif yang terhubung ke Zona Email. Pastikan bahwa kampanye yang sudah tertaut ke zona tidak memiliki tanggal yang tumpang tindih dengan kampanye yang ingin Anda tautkan.";
 $GLOBALS['strWarningInaccurateStats'] = "Beberapa statistik ini masuk dalam zona waktu non-UTC, dan mungkin tidak ditampilkan di zona waktu yang benar.";
-$GLOBALS['strWarningInaccurateReadMore'] = "Baca lebih lanjut tentang ini";
 $GLOBALS['strWarningInaccurateReport'] = "Beberapa statistik dalam laporan ini masuk dalam zona waktu non-UTC, dan mungkin tidak ditampilkan di zona waktu yang benar";
 
 //Validation

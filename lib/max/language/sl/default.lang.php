@@ -813,7 +813,6 @@ $GLOBALS['strUnableToChangeZone'] = "Ne morem prilagoditi te spremembe zaradi:";
 $GLOBALS['strDatesConflict'] = "datumi so v navzkrižju z:";
 $GLOBALS['strEmailNoDates'] = "E-poštne področne kampanje morajo imeti začetni in zaključni datum";
 $GLOBALS['strWarningInaccurateStats'] = "Nekatere od teh statistik so bile zabeležene v napačnem časovnem področju, zato morda ne bodo pravilno prikazane";
-$GLOBALS['strWarningInaccurateReadMore'] = "Preberite več o tem";
 $GLOBALS['strWarningInaccurateReport'] = "Nekatere od statistik v tem poročilu so bile zabeležene v napačnem časovnem področju, zato morda ne bodo pravilno prikazane";
 
 //Validation

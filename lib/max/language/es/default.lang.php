@@ -783,7 +783,6 @@ $GLOBALS['strUnableToChangeZone'] = "No se pueden aplicar los cambios porque:";
 $GLOBALS['strDatesConflict'] = "las fechas son conflictivas con:";
 $GLOBALS['strEmailNoDates'] = "Las campañas vinculadas a las Zonas de correo electrónico deben tener una fecha de inicio y fin. {$PRODUCT_NAME} garantiza que en una fecha determinada, sólo un banner activo esté vinculado a una zona de correo electrónico. Asegúrese de que las campañas ya vinculadas a la zona no tengan fechas superpuestas con la campaña que está intentando vincular.";
 $GLOBALS['strWarningInaccurateStats'] = "Algunas de estas estadísticas no fueron logueadas en un huso horario UTC por lo que podrían ser mostradas en un huso horario incorrecto.";
-$GLOBALS['strWarningInaccurateReadMore'] = "Leer más sobre esto";
 $GLOBALS['strWarningInaccurateReport'] = "Algunas estadísticas en este informe no fueron logueadas en un huso horario UTC por lo que podrían ser mostradas en un huso horario incorrecto.";
 
 //Validation

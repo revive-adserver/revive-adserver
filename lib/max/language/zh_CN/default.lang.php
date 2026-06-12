@@ -652,7 +652,6 @@ $GLOBALS['strUnableToChangeZone'] = "无法修改该版位：";
 $GLOBALS['strDatesConflict'] = "该项目与其它已经关联的项目的日期有重叠。";
 $GLOBALS['strEmailNoDates'] = "Email 类型的版位所关联的项目必须设置启用和停用日期。";
 $GLOBALS['strWarningInaccurateStats'] = "部分投放记录采用了非 UTC 时区，可能导致显示不准确。";
-$GLOBALS['strWarningInaccurateReadMore'] = "查看详细解释";
 $GLOBALS['strWarningInaccurateReport'] = "该报表中的部分投放记录采用了非 UTC 时区，可能导致显示不准确。";
 
 //Validation

@@ -636,7 +636,6 @@ $GLOBALS['strUnableToChangeZone'] = "Nie można wprowadzić tej zmiany, poniewa�
 $GLOBALS['strDatesConflict'] = "nastąpił konflikt dat:";
 $GLOBALS['strEmailNoDates'] = "Kampanie w strefie typu e-mail muszą być opatrzone datą rozpoczęcia i zakończenia";
 $GLOBALS['strWarningInaccurateStats'] = "Niektóre statystyki nie zostały zaprotokołowane w strefie czasowej UTC (uniwersalny czas koordynowany), wobec czego mogą zostać wyświetlone w nieodpowiedniej strefie czasowej.";
-$GLOBALS['strWarningInaccurateReadMore'] = "Dowiedz się więcej na ten temat";
 $GLOBALS['strWarningInaccurateReport'] = "Niektóre statystyki w tym raporcie nie zostały zaprotokołowane w strefie czasowej UTC (uniwersalny czas koordynowany), wobec czego mogą zostać wyświetlone w nieodpowiedniej strefie czasowej.";
 
 //Validation
