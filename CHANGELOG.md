@@ -7,6 +7,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Removed an outdated link in a warning message related to data stored in non-UTC timezone ([#1689](https://github.com/revive-adserver/revive-adserver/issues/1689))
+- Fixed one of the command line parameters for the Condense tool introduced in v6.0.7 ([#1688](https://github.com/revive-adserver/revive-adserver/issues/1688))
 
 ## [6.0.7] - 2026-06-03
 

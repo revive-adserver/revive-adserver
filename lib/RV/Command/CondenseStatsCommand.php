@@ -34,7 +34,7 @@ class CondenseStatsCommand extends AbstractReviveCommand
 
         $daily = $this->parseIntInput($input, 'daily-range', 0);
         $monthly = $this->parseIntInput($input, 'monthly-range', 0);
-        $batches = $this->parseIntInput($input, 'batches', 1);
+        $batches = $this->parseIntInput($input, 'process-only', 1);
         $dryRun = (bool) $input->getOption('dry-run');
 
         $message = sprintf(
