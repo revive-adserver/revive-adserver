@@ -4,6 +4,10 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.0.8]
 
+### Fixes
+
+- Removed an outdated link in a warning message related to data stored in non-UTC timezone ([#1689](https://github.com/revive-adserver/revive-adserver/issues/1689))
+
 ## [6.0.7] - 2026-06-03
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-002/)
