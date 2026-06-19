@@ -239,7 +239,7 @@ class Plugins_InvocationTagsOptions
         $option = '';
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strIFrameRefreshAfter'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='refresh' size='' value='" . ($maxInvocation->refresh ?? $this->defaultValues['refresh']) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td></tr>";
+        $option .= "<input class='flat' type='text' name='refresh' size='' value='" . htmlspecialchars($maxInvocation->refresh ?? $this->defaultValues['refresh'], ENT_QUOTES) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'> " . $GLOBALS['strAbbrSeconds'] . "</td></tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
