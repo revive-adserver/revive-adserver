@@ -448,6 +448,7 @@ class OA_Dll_Banner extends OA_Dll
                 return false;
             }
 
+            $aTargetingArray = [];
             foreach ($aTargeting as $executionOrder => $oTargeting) {
                 // Prepend "deliveryLimitations:" to any component-identifiers
                 // (for 2.6 backwards compatibility)
@@ -459,14 +460,11 @@ class OA_Dll_Banner extends OA_Dll
                 if (!$this->_validateTargeting($oTargeting)) {
                     return false;
                 }
-            }
 
-            $aTargetingArray = [];
-            foreach ($aTargeting as $oTargeting) {
                 $aTargetingArray[] = $oTargeting->toArray();
             }
 
-            $res = OX_AclCheckInputsFields($aTargetingArray, false);
+            $res = OX_AclCheckInputsFields($aTargetingArray, 'banner-acl.php');
             if ($res !== true) {
                 $this->raiseError($res[0]);
                 return false;
