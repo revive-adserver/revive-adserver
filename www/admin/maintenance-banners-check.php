@@ -51,7 +51,7 @@ if (!empty($action) && ($action == 'Rebuild')) {
                     $campaigns[$error['campaignid']] = $doCampaigns->toArray();
                 }
             }
-            echo "<li><a href='banner-edit.php?clientid={$campaigns[$error['campaignid']]['clientid']}&campaignid={$error['campaignid']}&bannerid={$error['bannerid']}'>{$error['description']}</a></li>";
+            echo "<li><a href='banner-edit.php?clientid={$campaigns[$error['campaignid']]['clientid']}&campaignid={$error['campaignid']}&bannerid={$error['bannerid']}'>" . htmlspecialchars($error['description']) . "</a></li>";
         }
         echo "</ul>";
     }
