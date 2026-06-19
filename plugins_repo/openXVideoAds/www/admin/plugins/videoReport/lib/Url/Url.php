@@ -64,21 +64,7 @@ class OX_Vast_Url
      */
     public static function getCurrentScriptName()
     {
-        $url = '';
-        if (!empty($_SERVER['PATH_INFO'])) {
-            $url = $_SERVER['PATH_INFO'];
-        } elseif (!empty($_SERVER['REQUEST_URI'])) {
-            if (($pos = strpos($_SERVER['REQUEST_URI'], "?")) !== false) {
-                $url = substr($_SERVER['REQUEST_URI'], 0, $pos);
-            } else {
-                $url = $_SERVER['REQUEST_URI'];
-            }
-        }
-
-        if (empty($url)) {
-            $url = $_SERVER['SCRIPT_NAME'];
-        }
-        return $url;
+        return $_SERVER['SCRIPT_NAME'];
     }
 
     /**
@@ -145,16 +131,14 @@ class OX_Vast_Url
      * @param array $params array ( 'param3' => 'value3' )
      * @return string ?param2=value2&param3=value3
      */
-    public static function getCurrentQueryStringWithParametersModified($params)
+    public static function getCurrentQueryStringWithParametersModified(array $params)
     {
-        $urlValues = self::getArrayFromCurrentQueryString();
-        foreach ($params as $key => $value) {
-            $urlValues[$key] = $value;
-        }
-        $query = self::getQueryStringFromParameters($urlValues);
+        $query = http_build_query(array_merge($_GET, $params));
+
         if (strlen($query) > 0) {
             return '?' . $query;
         }
+
         return '';
     }
 
