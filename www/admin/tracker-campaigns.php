@@ -66,6 +66,14 @@ if (!empty($trackerid)) {
 
         if (isset($campaignids) && is_array($campaignids)) {
             for ($i = 0; $i < count($campaignids); $i++) {
+                /** @var DataObjects_Campaigns $doCampaigns */
+                $doCampaigns = OA_Dal::factoryDO('campaigns');
+                $doCampaigns->clientid = $clientid;
+                $doCampaigns->campaignid = $campaignids[$i];
+                if (!$doCampaigns->find()) {
+                    continue;
+                }
+
                 $clickwindow = $clickwindowday[$i] * (24 * 60 * 60) + $clickwindowhour[$i] * (60 * 60) + $clickwindowminute[$i] * (60) + $clickwindowsecond[$i];
                 $viewwindow = $viewwindowday[$i] * (24 * 60 * 60) + $viewwindowhour[$i] * (60 * 60) + $viewwindowminute[$i] * (60) + $viewwindowsecond[$i];
 
