@@ -472,7 +472,7 @@ function addUploadGroup($form, $aBanner, $vars)
     $update = !empty($vars['fileName']);
 
     if ($update) {
-        $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='" . OX::assetPath() . "/images/" . $vars['imageName'] . "' align='absmiddle'> ") . $vars['fileName'] . " <i dir=" . $GLOBALS['phpAds_TextDirection'] . ">(" . $vars['fileSize'] . ")</i>", 'f');
+        $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='" . OX::assetPath() . "/images/" . $vars['imageName'] . "' align='absmiddle'> ") . htmlspecialchars($vars['fileName'], ENT_QUOTES) . " <i dir=" . $GLOBALS['phpAds_TextDirection'] . ">(" . $vars['fileSize'] . ")</i>", 'f');
         $uploadG['radio2'] = $form->createElement('radio', $vars['radioName'], null, null, 't');
         $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, ["onchange" => "selectFile(this)", "style" => "width: 250px;"]);
 
