@@ -67,7 +67,8 @@
     "provide": {
         "symfony/polyfill-intl-icu": "*",
         "symfony/polyfill-intl-idn": "*",
-        "symfony/polyfill-intl-normalizer": "*"
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-php80": "*"
     },
     "repositories": [
         {
