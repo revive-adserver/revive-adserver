@@ -318,7 +318,6 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
      */
     public function close()
     {
-        curl_close($this->curl);
         $this->curl = null;
         $this->connected_to = array(null, null);
     }

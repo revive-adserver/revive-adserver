@@ -5,20 +5,27 @@ declare(strict_types=1);
 namespace REVIVE_ROOT;
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\CodeQuality\Rector\BooleanAnd\RepeatedAndNotEqualToNotInArrayRector;
+use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
+use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
 use Rector\CodeQuality\Rector\ClassMethod\ExplicitReturnNullRector;
+use Rector\CodeQuality\Rector\ClassMethod\InlineArrayReturnAssignRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\For_\ForRepeatedCountToOwnVariableRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
+use Rector\CodeQuality\Rector\Identical\StrlenZeroToIdenticalEmptyStringRector;
 use Rector\CodeQuality\Rector\If_\CombineIfRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
+use Rector\CodingStyle\Rector\FuncCall\FunctionFirstClassCallableRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
+use Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector;
 use Rector\Php71\Rector\FuncCall\RemoveExtraParametersRector;
 use Rector\Php72\Rector\Assign\ListEachRector;
 use Rector\Php72\Rector\Assign\ReplaceEachAssignmentWithKeyCurrentRector;
@@ -28,6 +35,7 @@ use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
 
 return function (RectorConfig $rectorConfig): void {
     $rectorConfig->cacheClass(FileCacheStorage::class);
@@ -94,5 +102,15 @@ return function (RectorConfig $rectorConfig): void {
         ReplaceEachAssignmentWithKeyCurrentRector::class,
         ExplicitReturnNullRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class,
+        SafeDeclareStrictTypesRector::class,
+        // @todo perhaps in the next versions?
+        RepeatedOrEqualToInArrayRector::class,
+        FunctionFirstClassCallableRector::class,
+        RepeatedAndNotEqualToNotInArrayRector::class,
+        TernaryToNullCoalescingRector::class,
+        InlineArrayReturnAssignRector::class,
+        StrlenZeroToIdenticalEmptyStringRector::class,
+        RemoveEmptyClassMethodRector::class,
+        ThrowWithPreviousExceptionRector::class,
     ]);
 };

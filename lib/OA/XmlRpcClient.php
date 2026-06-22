@@ -158,8 +158,6 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $buffer = @curl_exec($ch);
         $status = curl_errno($ch);
 
-        @curl_close($ch);
-
         if ($status != CURLE_OK) {
             if ($status == CURLE_OPERATION_TIMEOUTED) {
                 $this->errstr = 'RPC server did not send response before timeout.';

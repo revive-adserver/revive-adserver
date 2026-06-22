@@ -117,16 +117,11 @@ class MAX_Admin_Invocation
             foreach ($globalVariables as $makeMeGlobal) {
                 global ${$makeMeGlobal};
                 // If values are unset, populate them from the Plugin/Parent object if present
-                if (isset(${$makeMeGlobal})) {
-                    // Check the plugin first, fall-back to the parent
-                    if (isset($invocationTag->defaultOptionValues[$makeMeGlobal])) {
-                        ${$makeMeGlobal} = $invocationTag->defaultOptionValues[$makeMeGlobal];
-                    } elseif (isset($this->defaultOptionValues[$makeMeGlobal])) {
-                        ${$makeMeGlobal} = $this->defaultOptionValues[$makeMeGlobal];
-                    }
+                if (isset(${$makeMeGlobal}, $this->defaultOptionValues[$makeMeGlobal])) {
+                    ${$makeMeGlobal} = $this->defaultOptionValues[$makeMeGlobal];
                 }
                 // also make this variable a class attribute
-                // so plugins could have an access to these values (and modify them)
+                // so plugins could have access to these values (and modify them)
                 $this->$makeMeGlobal = &${$makeMeGlobal};
             }
         } else {

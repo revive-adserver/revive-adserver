@@ -1083,7 +1083,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // in fact, already had their past priority information found
         if (!empty($aFinalResult)) {
             foreach ($aFinalResult as $aResult) {
+                // @todo FIX ME! PHPStan complains, in fact the structure is: $aFinalResult[ad-id][zone-id] = [...]
                 if (isset($aResult['ad_id'])) {
+                    // @phpstan-ignore-next-line
                     unset($aNotInLastOIPastDeliveryResult[$aResult['ad_id']][$aResult['zone_id']]);
                 }
             }

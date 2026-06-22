@@ -136,12 +136,6 @@ class SimpleTestCompatibility
      */
     public static function setTimeout($handle, $timeout)
     {
-        if (function_exists('stream_set_timeout')) {
-            stream_set_timeout($handle, $timeout, 0);
-        } elseif (function_exists('socket_set_timeout')) {
-            socket_set_timeout($handle, $timeout, 0);
-        } elseif (function_exists('set_socket_timeout')) {
-            set_socket_timeout($handle, $timeout, 0);
-        }
+        stream_set_timeout($handle, $timeout);
     }
 }
