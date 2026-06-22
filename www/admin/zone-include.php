@@ -68,6 +68,8 @@ $agencyId = OA_Permission::getAgencyId();
 $aEntities = ['affiliateid' => $publisherId, 'zoneid' => $zoneId];
 
 if (isset($action)) {
+    OA_Permission::checkSessionToken();
+
     $result = true;
     if ($action == 'set' && $view == 'placement' && !empty($placementId)) {
         $aLinkedPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], false, 'placement_id');
@@ -129,6 +131,8 @@ if (isset($action)) {
 }
 
 if (isset($submit)) {
+    OA_Permission::checkSessionToken();
+
     switch ($view) {
         case 'placement':
             $aPrevious = Admin_DA::getPlacementZones(['zone_id' => $zoneId]);

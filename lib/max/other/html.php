@@ -806,6 +806,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     echo "
     </select>
     $submitIcon
+    <input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>
 </form>
 </td>";
 }
@@ -813,6 +814,8 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex)
 {
     global $phpAds_TextDirection, $phpAds_TextAlignRight;
+
+    $token = urlencode(phpAds_SessionGetToken());
 
     echo "
 <table id='linked-banners' width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
@@ -867,7 +870,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>
 <tr height='25'$bgcolor>
 <td>
-    &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&bannerid=$adId&action=remove'><img src='" . OX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
+    &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&bannerid=$adId&action=remove&token=$token'><img src='" . OX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
     &nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
 <td>$adId</td>
 <td align='$phpAds_TextAlignRight'>
@@ -906,6 +909,8 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 
 function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds = false)
 {
+    $token = urlencode(phpAds_SessionGetToken());
+
     echo "
     <br /><strong>{$GLOBALS['strCampaignLinkedAds']}:</strong><br />
     <table id='linked-campaigns' width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
@@ -964,7 +969,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
             echo "
     <tr height='25'$bgcolor>
         <td>
-            &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&campaignid=$placementId&action=remove'><img src='" . OX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
+            &nbsp;&nbsp;<a href='$pageName?affiliateid=$publisherId&zoneid=$zoneId&campaignid=$placementId&action=remove&token=$token'><img src='" . OX::assetPath() . "/images/caret-l.gif' border='0' align='absmiddle'></a>
             &nbsp;&nbsp;<img src='$placementIcon' align='absmiddle'>
             &nbsp;$placementLink
         </td>
@@ -1051,6 +1056,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 <form name='zoneview' method='post' action='$pageName'>
 <input type='hidden' name='zoneid' value='$zoneId'>
 <input type='hidden' name='affiliateid' value='$publisherId'>
+<input type='hidden' name='token' value='" . htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES) . "'>
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 <tr height='25'>
 <td colspan='3'><b>{$GLOBALS['strSelectZoneType']}</b></td>
