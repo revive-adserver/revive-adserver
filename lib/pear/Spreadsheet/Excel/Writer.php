@@ -65,7 +65,7 @@ class Spreadsheet_Excel_Writer extends Spreadsheet_Excel_Writer_Workbook
     function send($filename)
     {
         header("Content-type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Content-Disposition: attachment; filename*=UTF-8''".rawurlencode($filename));
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
         header("Pragma: public");

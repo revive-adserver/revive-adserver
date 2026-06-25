@@ -12,8 +12,11 @@ function RV_downloadReport(url) {
         var data = request.response;
         var blobUrl = window.URL.createObjectURL(data);
         var downloadLink = document.createElement('a');
+        var utf8Name = request.getResponseHeader('content-disposition').match(/filename\*=UTF-8''(.*)$/)
+        var asciiName = request.getResponseHeader('content-disposition').match(/filename="(.*)"/)
+
         downloadLink.href = blobUrl;
-        downloadLink.download = request.getResponseHeader('content-disposition').match(/filename="(.*)"/)[1] || 'download.zip';
+        downloadLink.download = utf8Name.length > 1 ? decodeURIComponent(utf8Name[1]) : (asciiName.length > 1 ? asciiName[1] : 'download.zip');
         downloadLink.click();
     };
 

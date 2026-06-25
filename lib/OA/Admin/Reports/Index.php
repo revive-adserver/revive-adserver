@@ -310,9 +310,31 @@ class OA_Admin_Reports_Index
           <td height='25' colspan='3'>
             <br /><br />
             <input type='hidden' name='plugin' value='$reportIdentifier'>
-            <input type='button' value='{$GLOBALS['strBackToTheList']}' onClick='javascript:document.location.href=\"report-index.php\"' tabindex='" . ($this->tabindex++) . "'>
+            <input type='button' value='{$GLOBALS['strBackToTheList']}' onclick='document.location.href=\"report-index.php\"' tabindex='" . ($this->tabindex++) . "'>
             &nbsp;&nbsp;
-            <input type='button' value='{$GLOBALS['strGenerate']}' tabindex='" . ($generateTabIndex) . "' onclick='" . 'RV_downloadReport(this.form.action + "?" + $(this.form).serialize())' . "'>
+            <script>
+            function RV_generateAdvancedReport(form)
+            {
+                var data = $(form).serializeArray();
+                var formcopy = {
+                    'period_start': form.period_start.cloneNode(),
+                    'period_end': form.period_end.cloneNode(),
+                };
+
+                checkDates(formcopy);
+
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].name === 'period_start') {
+                        data[i].value = formcopy.period_start.value;
+                    } else if (data[i].name === 'period_end') {
+                        data[i].value = formcopy.period_end.value;
+                    }
+                }
+
+                RV_downloadReport(form.action + '?' + \$.param(data));
+            }
+            </script>
+            <input type='button' value='{$GLOBALS['strGenerate']}' tabindex='" . ($generateTabIndex) . "' onclick='RV_generateAdvancedReport(this.form)'>
           </td>
         </tr>
         </form>";

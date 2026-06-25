@@ -20,6 +20,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed one of the command line parameters for the Condense tool introduced in v6.0.7 ([#1688](https://github.com/revive-adserver/revive-adserver/issues/1688))
 - The `left` and `top` GET parameters where not properly sanitised before being printed in `apu.php` ([#1685](https://github.com/revive-adserver/revive-adserver/issues/1685))
 - The HTML5 banner filename was displayed in `banner-edit.php` without proper escaping ([#1686](https://github.com/revive-adserver/revive-adserver/issues/1686))
+- Custom date range wasn't working in advanced reports when using non-english localisation ([#1697](https://github.com/revive-adserver/revive-adserver/issues/1697))
 
 ## [6.0.7] - 2026-06-03
 
