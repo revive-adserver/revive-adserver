@@ -240,6 +240,7 @@
                     i.height = data.height > 0 ? data.height : 0;
                     s.border = 0;
                     s.overflow = "hidden";
+                    s.verticalAlign = 'bottom';
 
                     return i;
                 },
