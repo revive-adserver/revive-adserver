@@ -77,7 +77,7 @@ $GLOBALS['strUserlogEmail'] = "Registra tutte le email in uscita";
 $GLOBALS['strEnableDashboard'] = "Abilita dashboard";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Per favore abilita <a href='account-settings-update.php'>Controllo aggiornamenti</a> se vuoi usare la bacheca.";
 $GLOBALS['strTimezone'] = "Fuso orario";
-$GLOBALS['strEnableAutoMaintenance'] = "Esegue automaticamente la manutenzione durante la consegna se la manutenzione progeammata non è impostata.";
+$GLOBALS['strEnableAutoMaintenance'] = "Esegue automaticamente la manutenzione durante la consegna se la manutenzione programmata non è impostata.";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Impostazioni database";
