@@ -7,6 +7,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 - Users with only trafficker permissions could see a JavaScript alert error when linking or unlinking campaigns or banners to a zone ([#1698](https://github.com/revive-adserver/revive-adserver/issues/1698))
 - Users with only trafficker permissions could link campaigns belonging to a different agency to their zones ([#1700](https://github.com/revive-adserver/revive-adserver/issues/1700))
+- New `script/console` commands were not verifying the accuracy of the hostname, when provided through the `-H` option ([#1695](https://github.com/revive-adserver/revive-adserver/issues/1695))
 
 ## [6.0.8] - 2026-06-25
 
