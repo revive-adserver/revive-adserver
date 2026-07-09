@@ -635,6 +635,10 @@ class OA_Dll_Zone extends OA_Dll
             }
 
             if ($this->checkIdExistence('campaigns', $campaignId)) {
+                if (!$this->checkAccess('campaigns', $campaignId)) {
+                    return false;
+                }
+
                 $aLinkedPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], false, 'placement_id');
                 if (!isset($aLinkedPlacements[$campaignId])) {
                     $result = Admin_DA::addPlacementZone(['zone_id' => $zoneId, 'placement_id' => $campaignId]);

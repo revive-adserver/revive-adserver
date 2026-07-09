@@ -120,14 +120,20 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
         $this->expectError();
         $this->assertFalse($this->oApi->linkCampaign($this->zoneId, -1));
 
+        $doClients =  OA_Dal::factoryDO('clients');
+        $doClients->agencyid = $this->agencyId;
+        $clientId = DataGenerator::generateOne($doClients);
+
+        $doCampaigns =  OA_Dal::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientId;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+
         $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
         $doBanners->width = 468;
         $doBanners->height = 60;
-        $bannerId = DataGenerator::generateOne($doBanners, true);
+        $bannerId = DataGenerator::generateOne($doBanners);
         $this->assertTrue($bannerId);
-
-        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
-        $campaignId = $doBanners->campaignid;
 
         $this->assertTrue($this->oApi->linkCampaign($this->zoneId, $campaignId));
         $this->assertTrue($this->oApi->unlinkCampaign($this->zoneId, $campaignId));

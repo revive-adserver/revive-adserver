@@ -22,6 +22,10 @@ Security fixes affect the areas below. Use the prepared test build, test account
 
 - Login passwords are no longer trimmed; leading and trailing whitespace is now significant. Usernames continue to be trimmed.
 
+### Fixes
+
+- Users with only trafficker permissions could link campaigns belonging to a different agency to their zones ([#1700](https://github.com/revive-adserver/revive-adserver/issues/1700))
+
 ## [6.0.8] - 2026-06-25
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-003/)

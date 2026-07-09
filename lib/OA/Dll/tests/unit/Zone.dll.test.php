@@ -52,7 +52,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
-            ['checkPermissions'],
+            ['checkPermissions', 'checkAccess'],
         );
     }
 
@@ -498,6 +498,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
     {
         $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
 
+        $dllZonePartialMock->setReturnValue('checkAccess', true);
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
         $dllZonePartialMock->expectCallCount('checkPermissions', 3);
 
