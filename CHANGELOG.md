@@ -4,6 +4,9 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.0.9]
 
+### Fixes
+- Users with only trafficker permissions could see a JavaScript alert error when linking or unlinking campaigns or banners to a zone ([#1698](https://github.com/revive-adserver/revive-adserver/issues/1698))
+
 ## [6.0.8] - 2026-06-25
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-003/)
