@@ -101,7 +101,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         Mock::generatePartial(
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
-            ['checkPermissions'],
+            ['checkPermissions', 'checkAccess'],
         );
     }
 
@@ -286,6 +286,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         // Link campaigns to zones
         $dllZonePartialMock = new PartialMockOA_Dll_Zone($this);
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
+        $dllZonePartialMock->setReturnValue('checkAccess', true);
 
         $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[1][1]);
         $dllZonePartialMock->linkCampaign($aZonesIds[1][1], $aCampaignsIds[1][2]);
@@ -998,6 +999,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
     {
         $dllZonePartialMock = new PartialMockOA_Dll_Zone();
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
+        $dllZonePartialMock->setReturnValue('checkAccess', true);
 
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->width = '468';

@@ -74,6 +74,7 @@ if (isset($action)) {
     if ($action == 'set' && $view == 'placement' && !empty($placementId)) {
         $aLinkedPlacements = Admin_DA::getPlacementZones(['zone_id' => $zoneId], false, 'placement_id');
         if (!isset($aLinkedPlacements[$placementId])) {
+            OA_Permission::enforceAccessToObject('campaigns', $placementId);
             Admin_DA::addPlacementZone(['zone_id' => $zoneId, 'placement_id' => $placementId]);
         }
 

@@ -307,6 +307,11 @@ class OA_Dll extends OA_BaseObjectWithErrors
         }
     }
 
+    public function checkAccess(string $entity, int $id): bool
+    {
+        return OA_Permission::hasAccessToObject($entity, $id);
+    }
+
     /**
      * Username Password validation.
      *
