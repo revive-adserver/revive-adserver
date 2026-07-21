@@ -57,7 +57,8 @@ phpAds_showBreak();
 $diffs = $tr->checkCompiledAppendCodes();
 
 foreach ($diffs as $v) {
-    echo "<a href='client-trackers.php?clientid={$v['clientid']}&trackerid={$v['trackerid']}'>{$v['trackername']}</a><br />";
+    $trackerName = htmlspecialchars($v['trackername'], ENT_QUOTES);
+    echo "<a href='client-trackers.php?clientid={$v['clientid']}&trackerid={$v['trackerid']}'>{$trackerName}</a><br />";
 }
 
 if ($allTrackersValid = !count($diffs)) {
