@@ -37,7 +37,7 @@ function phpAds_registerGlobalUnslashed(...$args)
 {
     $request = [];
     foreach ($args as $key) {
-        $GLOBALS[$key] = $request[$key] = $_GET[$key] ?? $_POST[$key] ?? null;
+        $GLOBALS[$key] = $request[$key] = $_POST[$key] ?? $_GET[$key] ?? null;
     }
     return $request;
 }
