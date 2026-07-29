@@ -606,7 +606,11 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     $aData = [];
                     $row = 0;
                     foreach ($aVariables as $value => $aVariable) {
-                        $aData[$row][0] = $aBdVariable['tracker_variable_data_type'] == 'date' ? $this->_oReportWriter->convertToDate($value) : $value;
+                        $aData[$row][0] = match ($aBdVariable['tracker_variable_data_type']) {
+                            'date' => $this->_oReportWriter->convertToDate($value),
+                            'string' => $this->sanitise($value), // Do not allow injecting formulas
+                            default => $value,
+                        };
                         $aData[$row][1] = $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED];
                         $col = 2;
                         if (!empty($aTracker['variables'])) {
@@ -719,11 +723,11 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                             // Don't display if the user is a publisher and the variable is hidden
                             if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
                                 $value = $aConnection['variables'][$trackerVariableId]['tracker_variable_value'];
-                                if ($aTrackerVariable['tracker_variable_data_type'] == 'date') {
-                                    // Change value to match Excel format
-                                    $value = $this->_oReportWriter->convertToDate($value);
-                                }
-                                $aData[$row][] = $value;
+                                $aData[$row][] = match ($aTrackerVariable['tracker_variable_data_type']) {
+                                    'date' => $this->_oReportWriter->convertToDate($value),
+                                    'string' => $this->sanitise($value), // Do not allow injecting formulas
+                                    default => $value,
+                                };
                             }
                         }
                     }
@@ -1203,7 +1207,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         return match ($code) {
             MAX_CONNECTION_AD_IMPRESSION => $GLOBALS['strImpression'],
             MAX_CONNECTION_AD_CLICK => $GLOBALS['strClick'],
-            MAX_CONNECTION_AD_MANUAL => $GLOBALS['strManual'],
+            MAX_CONNECTION_MANUAL => $GLOBALS['strManual'],
             MAX_CONNECTION_AD_ARRIVAL => $GLOBALS['strArrival'],
             default => $GLOBALS['strUnknown'],
         };
@@ -1239,5 +1243,14 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     {
         $aStatus = $this->_getConnectionStatuses();
         return $this->translate($aStatus[$code]);
+    }
+
+    /**
+     * @param int|string|null $value
+     * @return string|null
+     */
+    public function sanitise(int|string|null $value): ?string
+    {
+        return null === $value ? null : ltrim($value, '=@');
     }
 }
