@@ -18,6 +18,8 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/component/Form.php';
  */
 class OX_Admin_UI_Install_BaseForm extends OA_Admin_UI_Component_Form
 {
+    protected $untrimmedFields = ['adminPassword', 'adminPassword2', 'dbPassword', 'password'];
+
     /**
      * OX translation class
      *

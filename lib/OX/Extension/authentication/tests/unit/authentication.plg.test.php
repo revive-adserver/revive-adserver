@@ -81,6 +81,37 @@ class Test_Authentication extends UnitTestCase
         $this->assertFalse($ret);
     }
 
+    public function testAuthenticateUserWithWhitespace()
+    {
+        $post = $_POST;
+        $cookie = $_COOKIE;
+        $username = 'whitespace-user';
+        $password = ' password with spaces ';
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->username = $username;
+        $doUsers->password = \RV\Manager\PasswordManager::getPasswordHash($password);
+        DataGenerator::generateOne($doUsers);
+
+        $_POST['username'] = " \t{$username}\n ";
+        $_POST['password'] = $password;
+        $_COOKIE['sessionID'] = $_POST['oa_cookiecheck'] = 'whitespace-test';
+        $credentials = $this->oPlugin->_getCredentials();
+        $this->assertIdentical($credentials['username'], $username);
+        $this->assertIdentical($credentials['password'], $password);
+        $user = $this->oPlugin->authenticateUser();
+        $this->assertIsA($user, 'DataObjects_Users');
+        if ($user) {
+            $this->assertIdentical($user->username, $username);
+        }
+
+        $_POST['password'] = trim($password);
+        $this->assertFalse($this->oPlugin->authenticateUser());
+
+        $_POST = $post;
+        $_COOKIE = $cookie;
+    }
+
     public function testdllValidation()
     {
         Mock::generatePartial(

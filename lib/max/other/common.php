@@ -404,11 +404,9 @@ function MAX_getValue($key, $default = null)
  */
 function MAX_commonGetValue($key, $default = null)
 {
-    $value = $default;
+    $value = $_POST[$key] ?? $_GET[$key] ?? $default;
 
-    if (isset($_REQUEST[$key])) {
-        $value = $_REQUEST[$key];
-
+    if (null !== $value) {
         return MAX_commonSlashArray($value);
     }
 
@@ -427,9 +425,8 @@ function MAX_commonGetValue($key, $default = null)
  */
 function MAX_commonGetValueUnslashed($key, $default = null)
 {
-    return _commonGetValueUnslashed($_REQUEST, $key, $default);
+    return $_POST[$key] ?? $_GET[$key] ?? $default;
 }
-
 
 /**
  * Returns value stored under the $key in the $aValues array. If
@@ -441,6 +438,7 @@ function MAX_commonGetValueUnslashed($key, $default = null)
  * @param string $sKey
  * @param object $oDefault
  * @return object
+ * @deprecated Retained for backward compatibility.
  */
 function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
 {
@@ -458,6 +456,7 @@ function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
  * @param string $sKey
  * @param string $sDefault
  * @return string
+ * @deprecated Retained for backward compatibility.
  */
 function MAX_commonGetPostValueUnslashed($sKey, $sDefault = null)
 {

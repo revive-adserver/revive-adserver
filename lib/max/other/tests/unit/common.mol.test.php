@@ -88,12 +88,47 @@ class CommonTest extends UnitTestCase
 
     public function test_MAX_commonGetPostValueUnslashed()
     {
-        // We can't really test slashed/unslashed
-        $_POST['aaa'] = 'bbb';
-        $this->assertEqual('bbb', MAX_commonGetPostValueUnslashed('aaa'));
-        $this->assertNull(MAX_commonGetPostValueUnslashed('aab'));
+        $post = $_POST;
+        $get = $_GET;
+        $cookie = $_COOKIE;
+        $request = $_REQUEST;
+        $_POST = [];
+        $_GET = [];
+        $_COOKIE = $_REQUEST = ['legacy' => 'cookie'];
+
+        $this->assertNull(MAX_commonGetPostValueUnslashed('legacy'));
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy', ' default '), 'default');
+        $_GET['legacy'] = ' get ';
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy'), 'get');
+        $_POST['legacy'] = ' post ';
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy'), 'post');
+        $_POST['legacy'] = '';
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy'), '');
+        $_POST['legacy'] = '0';
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy'), '0');
+        $_POST['legacy'] = '   ';
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy'), '');
+        $_POST['legacy'] = null;
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy'), 'get');
+        $_GET['legacy'] = null;
+        $this->assertNull(MAX_commonGetPostValueUnslashed('legacy'));
+        $this->assertIdentical(MAX_commonGetPostValueUnslashed('legacy', ' default '), 'default');
+
+        $_POST = $post;
+        $_GET = $get;
+        $_COOKIE = $cookie;
+        $_REQUEST = $request;
     }
 
+    public function test_commonGetValueUnslashed()
+    {
+        $this->assertIdentical(_commonGetValueUnslashed(['legacy' => ' value '], 'legacy'), ' value ');
+        $this->assertIdentical(_commonGetValueUnslashed(['legacy' => ''], 'legacy', 'default'), '');
+        $this->assertIdentical(_commonGetValueUnslashed(['legacy' => 0], 'legacy', 'default'), 0);
+        $this->assertIdentical(_commonGetValueUnslashed(['legacy' => null], 'legacy', 'default'), 'default');
+        $this->assertIdentical(_commonGetValueUnslashed([], 'legacy', 'default'), 'default');
+        $this->assertNull(_commonGetValueUnslashed([], 'legacy'));
+    }
 
     public function test_MAX_addslashes()
     {

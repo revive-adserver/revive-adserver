@@ -89,8 +89,8 @@ class Plugins_Authentication extends OX_Component
         }
 
         return [
-            'username' => MAX_commonGetPostValueUnslashed('username'),
-            'password' => MAX_commonGetPostValueUnslashed('password'),
+            'username' => trim($_POST['username']),
+            'password' => $_POST['password'],
         ];
     }
 

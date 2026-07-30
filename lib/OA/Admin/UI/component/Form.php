@@ -23,6 +23,7 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
      * @var mixed[]
      */
     public $decorators;
+    protected $untrimmedFields = [];
     private $dispatcher;
     private $id;
     private $forceClientValidation = false;
@@ -192,8 +193,10 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
         //apply flat class
         $this->setAttribute("class", "flat");
 
-        //trim spaces from all data sent by the user
+        // Trim submitted values, preserving fields that require exact input.
+        $untrimmedValues = array_intersect_key($this->_submitValues, array_flip($this->untrimmedFields));
         $this->applyFilter('__ALL__', 'trim');
+        $this->_submitValues = array_replace($this->_submitValues, $untrimmedValues);
 
         if (!defined('phpAds_installing')) {
             $this->addElement('hidden', 'token', phpAds_SessionGetToken());
