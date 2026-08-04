@@ -51,8 +51,8 @@ if (!empty($day)) {
     $period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
 }
 
-if (is_numeric($hour) && $hour < 10 && strlen($hour) != 2) {
-    $hour = '0' . $hour;
+if (null !== $hour && '' !== $hour) {
+    $hour = sprintf('%02d', (int) $hour);
 }
 
 $expand = MAX_getValue('expand', '');
@@ -68,7 +68,7 @@ if ($bannerid) {
     OA_Permission::enforceAccessToObject('banners', $bannerid);
 }
 if ($affiliateid) {
-    OA_Permission::enforceAccessToObject('affiliates', $clientid);
+    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 }
 if ($zoneid) {
     OA_Permission::enforceAccessToObject('zones', $zoneid);
