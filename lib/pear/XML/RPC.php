@@ -258,7 +258,7 @@ function XML_RPC_se($parser_resource, $name, $attrs)
 {
     global $XML_RPC_xh, $XML_RPC_valid_parents;
 
-    $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_hash($parser_resource);
+    $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_id($parser_resource);
 
     // if invalid xmlrpc already detected, skip all processing
     if (($XML_RPC_xh[$parser]['isf'] ?? 0) >= 2) {
@@ -387,7 +387,7 @@ function XML_RPC_ee($parser_resource, $name)
 {
     global $XML_RPC_xh;
 
-    $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_hash($parser_resource);
+    $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_id($parser_resource);
 
     if ($XML_RPC_xh[$parser]['isf'] >= 2) {
         return;
@@ -524,7 +524,7 @@ function XML_RPC_cd($parser_resource, $data)
 {
     global $XML_RPC_xh, $XML_RPC_backslash;
 
-    $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_hash($parser_resource);
+    $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_id($parser_resource);
 
     // Make sure that the data content doesn't exceed the limit, in order to
     // prevent XML bomb attacks. See the following link for more information:
@@ -1455,7 +1455,7 @@ class XML_RPC_Message extends XML_RPC_Base
         $encoding = $this->getEncoding($data);
         $parser_resource = xml_parser_create($encoding);
 
-        $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_hash($parser_resource);
+        $parser = is_resource($parser_resource) ? (int) $parser_resource : spl_object_id($parser_resource);
 
         $XML_RPC_xh = array();
         $XML_RPC_xh[$parser] = array();
