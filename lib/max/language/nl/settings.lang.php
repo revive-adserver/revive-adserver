@@ -76,6 +76,7 @@ $GLOBALS['strEnableDashboard'] = "Inschakelen van dashboard";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Schakel <a href='account-settings-update.php'>controleren op updates</a> in om het dashboard te gebruiken.";
 $GLOBALS['strTimezone'] = "Tijdzone";
 $GLOBALS['strEnableAutoMaintenance'] = "Automatisch het onderhoudsproces uitvoeren tijdens uitlevering van banners als gepland onderhoud niet is ingesteld";
+$GLOBALS['strInvalidLanguage'] = "Ongeldige taal";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Database instellingen";
