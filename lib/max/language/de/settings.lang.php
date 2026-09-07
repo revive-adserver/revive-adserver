@@ -77,6 +77,7 @@ $GLOBALS['strEnableDashboard'] = "Dashboard aktivieren";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Bitte aktivieren Sie <a href='account-settings-update.php'>Prüfen, ob neue Programmversionen vorhanden sind</a> wenn Sie das Dashboard nutzen möchten.";
 $GLOBALS['strTimezone'] = "Zeitzone";
 $GLOBALS['strEnableAutoMaintenance'] = "Durchführen von automatischen Maintenance-Wartungsläufen während der Bannerauslieferung, wenn regelmäßigen Wartungsläufe nicht eingerichtet sind.";
+$GLOBALS['strInvalidLanguage'] = "Ungültige Sprache";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Datenbankeinstellungen";
