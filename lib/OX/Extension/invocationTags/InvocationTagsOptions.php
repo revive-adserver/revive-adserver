@@ -160,9 +160,9 @@ class Plugins_InvocationTagsOptions
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>" . $GLOBALS['strInvocationBannerID'] . "</td><td width='370'>";
         if ($codetype == 'adviewnocookies') {
-            $option .= "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='bannerid' value='" . ($maxInvocation->bannerid ?? '') . "' style='width: 175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
+            $option .= "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='bannerid' value='" . htmlspecialchars($maxInvocation->bannerid ?? '', ENT_QUOTES) . "' style='width: 175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
         } else {
-            $option .= "<input class='flat' type='text' name='bannerid' size='' value='" . ($maxInvocation->bannerid ?? '') . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
+            $option .= "<input class='flat' type='text' name='bannerid' size='' value='" . htmlspecialchars($maxInvocation->bannerid ?? '', ENT_QUOTES) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
         }
         $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
