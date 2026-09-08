@@ -34,8 +34,6 @@ class Plugins_InvocationTagsOptions
         'absolute' => ['top' => '-', 'left' => '-'],
         'timeout' => '-',
         'windowoptions' => ['toolbars' => 0, 'location' => 0, 'menubar' => 0, 'status' => 0, 'resizable' => 0, 'scrollbars' => 0],
-        'xmlrpcproto' => 0,
-        'xmlrpctimeout' => '',
         'hostlanguage' => '',
         'cachebuster' => 1,
         'comments' => 0,
@@ -476,42 +474,6 @@ class Plugins_InvocationTagsOptions
         $option .= "</td></tr>";
         $option .= "</table>";
         $option .= "</td></tr><tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
-        return $option;
-    }
-
-    /**
-     * Generate the HTML option
-     *
-     * @return string    A string containing html for option
-     */
-    public function xmlrpcproto()
-    {
-        $maxInvocation = &$this->maxInvocation;
-
-        $option = '';
-        $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>" . $GLOBALS['strXmlRpcProtocol'] . "</td>";
-        $option .= "<td width='370'><input type='radio' name='xmlrpcproto' value='1'" . (isset($maxInvocation->xmlrpcproto) && $maxInvocation->xmlrpcproto != 0 ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strYes'] . "<br />";
-        $option .= "<input type='radio' name='xmlrpcproto' value='0'" . (!isset($maxInvocation->xmlrpcproto) || $maxInvocation->xmlrpcproto == 0 ? ' checked' : '') . " tabindex='" . ($maxInvocation->tabindex++) . "'>&nbsp;" . $GLOBALS['strNo'] . "</td>";
-        $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
-        return $option;
-    }
-
-    /**
-     * Generate the HTML option
-     *
-     * @return string    A string containing html for option
-     */
-    public function xmlrpctimeout()
-    {
-        $maxInvocation = &$this->maxInvocation;
-
-        $option = '';
-        $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>" . $GLOBALS['strXmlRpcTimeout'] . "</td><td width='370'>";
-        $option .= "<input class='flat' type='text' name='xmlrpctimeout' size='' value='" . ($maxInvocation->xmlrpctimeout ?? $this->defaultValues['xmlrpctimeout']) . "' style='width:175px;' tabindex='" . ($maxInvocation->tabindex++) . "'></td></tr>";
-        $option .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 
