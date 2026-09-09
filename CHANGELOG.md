@@ -14,6 +14,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added validation to the language field in user preferences and optimized language loading ([#1710](https://github.com/revive-adserver/revive-adserver/issues/1710))
 - Delivery capping / blocking values were correctly saved for banners, but not displayed back on the UI ([#1709](https://github.com/revive-adserver/revive-adserver/issues/1709))
 - Added missing HTML escaping in the error message when trying to link a wrong type of baner to a zone ([#1703](https://github.com/revive-adserver/revive-adserver/issues/1703))
+- Fixed PHP fatal error when opening the tracker append code page ([#1719](https://github.com/revive-adserver/revive-adserver/issues/1719))
 
 ## [6.0.8] - 2026-06-25
 

@@ -42,7 +42,7 @@ class MAX_Admin_Inventory_TrackerAppend
     public $assetPath;
 
     /** @var string */
-    private $csrf_token;
+    public $csrf_token;
 
     /**
      * PHP5-style constructor
