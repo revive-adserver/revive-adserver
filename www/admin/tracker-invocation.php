@@ -22,10 +22,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
 phpAds_registerGlobal(
-    'trackername',
-    'description',
     'move',
-    'submit',
     'invtype',
     'trackerid',
     'clientid',
@@ -42,28 +39,6 @@ OA_Permission::enforceAccessToObject('trackers', $trackerid);
 /*-------------------------------------------------------*/
 $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
 phpAds_SessionDataStore();
-
-/*-------------------------------------------------------*/
-/* Process submitted form                                */
-/*-------------------------------------------------------*/
-
-if (isset($submit)) {
-    // If ID is not set, it should be a null-value for the auto_increment
-
-    $doTrackers = OA_Dal::factoryDO('trackers');
-    $doTrackers->trackername = $trackername;
-    $doTrackers->description = $description;
-    $doTrackers->clientid = $clientid;
-    if (empty($trackerid)) {
-        $trackerid = $doTrackers->insert();
-        $new_tracker = true;
-    } else {
-        $doTrackers->trackerid = $trackerid;
-        $doTrackers->update();
-    }
-    Header("Location: tracker-campaigns.php?clientid=" . $clientid . "&trackerid=" . $trackerid);
-    exit;
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
