@@ -168,6 +168,7 @@ if (isset($submit)) {
         foreach ($aCurrent as $id => $value) {
             $aVariables = ['zone_id' => $zoneId, $key => $id];
             if ($view == 'placement') {
+                OA_Permission::enforceAccessToObject('campaigns', $id);
                 $addResult = Admin_DA::addPlacementZone($aVariables);
             } else {
                 $addResult = Admin_DA::addAdZone($aVariables);
