@@ -467,7 +467,7 @@ class OA_Admin_Statistics_History
                     $aData[$key]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
                 }
                 // Extend the "last" row's "htmlclass" value
-                if ($setLast && $i == count($aData)) {
+                if ($i > count($aData)) {
                     $aData[$key]['htmlclass'] .= ' last';
                 }
             }

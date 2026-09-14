@@ -717,7 +717,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *               Returns false when the current date/time is not set in the
      *               OA_ServiceLocator.
      */
-    public function &getPreviousAdDeliveryInfo($aCurrentZones)
+    public function getPreviousAdDeliveryInfo($aCurrentZones)
     {
         OA::debug("  - Getting details of previous creative/zone delivery", PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -1084,7 +1084,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (!empty($aFinalResult)) {
             foreach ($aFinalResult as $aResult) {
                 if (isset($aResult['ad_id'])) {
-                    unset($aNotInLastOIPastDeliveryResult[$aResult['ad_id']][$aResult['zone_id']]);
+                    unset($aNotInLastOIPastDeliveryResult[(int) $aResult['ad_id']][(int) $aResult['zone_id']]);
                 }
             }
             foreach ($aNotInLastOIPastDeliveryResult as $adKey => $aTestZone) {

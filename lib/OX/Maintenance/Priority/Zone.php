@@ -21,11 +21,13 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  */
 class OX_Maintenance_Priority_Zone
 {
-    public $id;
+    public int $id;
     public $active = true;
     public $availableImpressions = 0;
     public $averageImpressions = 0;
-    public $aAdverts = [];
+
+    /** @var list<OA_Maintenance_Priority_Ad>  */
+    public array $aAdverts = [];
     public $aOperationIntId = [];
 
     /**
@@ -42,7 +44,7 @@ class OX_Maintenance_Priority_Zone
     /**
      * A method to add Advert objects to the Zone.
      *
-     * @param Advert $oAdvert The Advert object to add.
+     * @param OA_Maintenance_Priority_Ad $oAdvert The Advert object to add.
      * @return void
      */
     public function addAdvert($oAdvert)
