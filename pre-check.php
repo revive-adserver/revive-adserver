@@ -158,11 +158,7 @@ function OX_checkSystemInstalled()
 {
     $path = @__DIR__;
     if (!@empty($path)) {
-        if (@file_exists($path . '/var/UPGRADE')) {
-            return false;
-        } else {
-            return true;
-        }
+        return !@file_exists($path . '/var/UPGRADE');
     }
     return false;
 }

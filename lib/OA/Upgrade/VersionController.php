@@ -44,9 +44,8 @@ class OA_Version_Controller
     {
         if ($this->getSchemaVersion($schema)) {
             return $this->_updateSchemaVersion($schema, $version);
-        } else {
-            return $this->_insertSchemaVersion($schema, $version);
         }
+        return $this->_insertSchemaVersion($schema, $version);
     }
 
     public function _insertSchemaVersion($schema, $version)
@@ -89,14 +88,11 @@ class OA_Version_Controller
     public function putApplicationVersion($version, $product = 'oa')
     {
         // Set default product name if null given
-        if (is_null($product)) {
-            $product = 'oa';
-        }
+        $product ??= 'oa';
         if ($this->getApplicationVersion($product)) {
             return $this->_updateApplicationVersion($version, $product);
-        } else {
-            return $this->_insertApplicationVersion($version, $product);
         }
+        return $this->_insertApplicationVersion($version, $product);
     }
 
     public function getComponentGroupVersion($group)
@@ -108,9 +104,8 @@ class OA_Version_Controller
     {
         if ($this->getComponentGroupVersion($group)) {
             return $this->_updateComponentGroupVersion($group, $version);
-        } else {
-            return $this->_insertComponentGroupVersion($group, $version);
         }
+        return $this->_insertComponentGroupVersion($group, $version);
     }
 
     public function _insertComponentGroupVersion($group, $version)
@@ -173,9 +168,8 @@ class OA_Version_Controller
         if ($this->_runQuery($query)) {
             $query = "DELETE FROM {$this->versionTablename} WHERE name = '{$name}'";
             return $this->_execQuery($query);
-        } else {
-            return true;
         }
+        return true;
     }
 
     public function removeVersion($name)

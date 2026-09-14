@@ -54,9 +54,7 @@ abstract class OX_Component
     public static function factory($extension, $group, $component = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($component === null) {
-            $component = $group;
-        }
+        $component ??= $group;
         if (!self::_includeComponentFile($extension, $group, $component)) {
             return false;
         }
@@ -108,9 +106,7 @@ abstract class OX_Component
     public static function _includeComponentFile($extension, $group, $component = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($component === null) {
-            $component = $group;
-        }
+        $component ??= $group;
         if ($extension == 'admin') {
             $fileName = MAX_PATH . $aConf['pluginPaths']['admin'] . $group . "/" . $group . OX_COMPONENT_SUFFIX;
         } else {
@@ -124,12 +120,8 @@ abstract class OX_Component
         }
         include_once $fileName;
         $className = self::_getComponentClassName($extension, $group, $component);
-        if (!class_exists($className)) {
-            //MAX::raiseError("Component file included but class '$className' does not exist.");
-            return false;
-        } else {
-            return true;
-        }
+        //MAX::raiseError("Component file included but class '$className' does not exist.");
+        return class_exists($className);
     }
 
     /**
@@ -146,9 +138,7 @@ abstract class OX_Component
      */
     public static function _getComponentClassName($extension, $group, $component = null)
     {
-        if ($component === null) {
-            $component = $group;
-        }
+        $component ??= $group;
         $className = 'Plugins_' . ucfirst($extension) . '_' . ucfirst($group) . '_' . ucfirst($component);
         return $className;
     }
@@ -312,9 +302,7 @@ abstract class OX_Component
      */
     public static function callStaticMethod($extension, $group, $component, $staticMethod, $aParams = null)
     {
-        if ($component === null) {
-            $component = $group;
-        }
+        $component ??= $group;
         if (!self::_isGroupEnabled($group)) {
             return false;
         }
@@ -324,8 +312,8 @@ abstract class OX_Component
         $className = self::_getComponentClassName($extension, $group, $component);
 
         // PHP4/5 compatibility for get_class_methods.
-        $aClassMethods = array_map('strtolower', (get_class_methods($className)));
-        if (!$aClassMethods) {
+        $aClassMethods = array_map(strtolower(...), (get_class_methods($className)));
+        if ($aClassMethods === []) {
             $aClassMethods = [];
         }
         if (!in_array(strtolower($staticMethod), $aClassMethods)) {
@@ -334,12 +322,11 @@ abstract class OX_Component
         }
         if (!isset($aParams)) {
             return call_user_func([$className, $staticMethod]);
-        } else {
-            if (!is_array($aParams)) {
-                $aParams = [$aParams];
-            }
-            return call_user_func_array([$className, $staticMethod], $aParams);
         }
+        if (!is_array($aParams)) {
+            $aParams = [$aParams];
+        }
+        return call_user_func_array([$className, $staticMethod], $aParams);
     }
 
     /**

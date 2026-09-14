@@ -58,10 +58,9 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllUser->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllUser->getLastError());
+        return false;
     }
 
     /**
@@ -81,9 +80,8 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllUser->modify($oUser));
-        } else {
-            return false;
         }
+        return false;
     }
     /**
      * The modifyUser method checks if an user ID exists and
@@ -104,13 +102,11 @@ class UserServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oUser->userId)) {
                 return $this->_validateResult($this->_dllUser->modify($oUser));
-            } else {
-                $this->raiseError("Field 'userId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'userId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -128,9 +124,8 @@ class UserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllUser->delete($userId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -150,9 +145,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->getUser($userId, $oUser),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -171,9 +165,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->getUserList($aUserList),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -197,9 +190,8 @@ class UserServiceImpl extends BaseServiceImpl
                     $aUserList,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -218,9 +210,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->updateSsoUserId($oldSsoUserId, $newSsoUserId),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -239,9 +230,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->updateUserEmailBySsoId($ssoUserId, $email),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function linkUserToAdvertiserAccount($sessionId, $userId, $advertiserAccountId, $aPermissions)
@@ -250,9 +240,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->linkUserToAdvertiserAccount($userId, $advertiserAccountId, $aPermissions),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function linkUserToTraffickerAccount($sessionId, $userId, $traffickerAccountId, $aPermissions)
@@ -261,9 +250,8 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->linkUserToTraffickerAccount($userId, $traffickerAccountId, $aPermissions),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function linkUserToManagerAccount($sessionId, $userId, $managerAccountId, $aPermissions)
@@ -272,8 +260,7 @@ class UserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllUser->linkUserToManagerAccount($userId, $managerAccountId, $aPermissions),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

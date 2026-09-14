@@ -40,10 +40,8 @@ function MAX_checkGeo_Latlong($limitation, $op, $aParams = [])
         );
         if ($op == '==') {
             return $result;
-        } else {
-            return !$result;
         }
-    } else {
-        return ($op != '==');
+        return !$result;
     }
+    return ($op != '==');
 }

@@ -55,8 +55,8 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
     ];
 
     // Need to also escape identifier as "window" is reserved since PgSQL 8.4
-    $aFields = array_map('OX_escapeIdentifier', array_keys($aValues));
-    $aValues = array_map('OX_escapeString', $aValues);
+    $aFields = array_map(OX_escapeIdentifier(...), array_keys($aValues));
+    $aValues = array_map(OX_escapeString(...), $aValues);
 
     $query = "
         INSERT INTO

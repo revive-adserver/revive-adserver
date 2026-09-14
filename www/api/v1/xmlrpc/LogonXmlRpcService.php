@@ -60,9 +60,8 @@ class LogonXmlRpcService extends BaseLogonService
 
         if ($this->logonServiceImp->logon($userName, $password, $sessionId)) {
             return XmlRpcUtils::stringTypeResponse($sessionId);
-        } else {
-            return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
     }
 
 
@@ -87,9 +86,8 @@ class LogonXmlRpcService extends BaseLogonService
 
         if ($this->logonServiceImp->logoff($sessionId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
     }
 }
 

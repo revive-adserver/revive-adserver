@@ -63,9 +63,8 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         $isAllowed = parent::isAllowed($extra);
         if ((is_array($extra) && $extra['delivery'] != MAX_ZoneEmail) || ($this->maxInvocation && $this->maxInvocation->zone_invocation)) {
             return false;
-        } else {
-            return $isAllowed;
         }
+        return $isAllowed;
     }
 
     /**
@@ -76,22 +75,20 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
     public function getOptionsList()
     {
         if (!$this->maxInvocation->zone_invocation) {
-            $options = [
+            return [
                 'spacer' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
                 'bannerid' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
                 'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
                 'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             ];
-        } else {
-            $options = [
-                'spacer' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
-                //'bannerzone'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-                'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-                'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            ];
         }
 
-        return $options;
+        return [
+            'spacer' => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
+            //'bannerzone'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'target' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'source' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        ];
     }
 
     /**

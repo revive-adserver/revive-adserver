@@ -66,7 +66,7 @@ class OA_DB
         }
 
         // Get the DSN, if not set
-        $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+        $dsn ??= OA_DB::getDsn();
 
 
         // Check that the parameter is a string, not an array
@@ -270,9 +270,7 @@ class OA_DB
      */
     public static function getDsn($aConf = null)
     {
-        if (is_null($aConf)) {
-            $aConf = $GLOBALS['_MAX']['CONF'];
-        }
+        $aConf ??= $GLOBALS['_MAX']['CONF'];
         $dbType = $aConf['database']['type'];
         if (isset($aConf['database']['protocol']) && $aConf['database']['protocol'] == 'unix') {
             $socket = $aConf['database']['socket'];
@@ -282,23 +280,21 @@ class OA_DB
                 $socket .= ':' . $aConf['database']['port'];
             }
 
-            $dsn = $dbType . '://' .
+            return $dbType . '://' .
                 $aConf['database']['username'] . ':' .
                 $aConf['database']['password'] . '@' .
                 $aConf['database']['protocol'] . '(' . $socket . ')' . '/' .
                 $aConf['database']['name'];
-        } else {
-            $protocol = '';
-            $port = empty($aConf['database']['port']) ? '' : ':' . $aConf['database']['port'];
-            $dsn = $dbType . '://' .
-                $aConf['database']['username'] . ':' .
-                $aConf['database']['password'] . '@' .
-                $protocol .
-                $aConf['database']['host'] .
-                $port . '/' .
-                $aConf['database']['name'];
         }
-        return $dsn;
+        $protocol = '';
+        $port = empty($aConf['database']['port']) ? '' : ':' . $aConf['database']['port'];
+        return $dbType . '://' .
+            $aConf['database']['username'] . ':' .
+            $aConf['database']['password'] . '@' .
+            $protocol .
+            $aConf['database']['host'] .
+            $port . '/' .
+            $aConf['database']['name'];
     }
 
     /**
@@ -322,9 +318,7 @@ class OA_DB
     public static function getDsnOptions($aConf = null)
     {
         $aDriverOptions = [];
-        if (is_null($aConf)) {
-            $aConf = $GLOBALS['_MAX']['CONF'];
-        }
+        $aConf ??= $GLOBALS['_MAX']['CONF'];
         $dbType = $aConf['database']['type'];
         if (strcasecmp($dbType, 'mysql') === 0 || strcasecmp($dbType, 'mysqli') === 0) {
             if ($aConf['database']['ssl'] && !empty($aConf['database']['ca']) && !empty($aConf['database']['capath'])) {
@@ -468,7 +462,8 @@ class OA_DB
         RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
-        } elseif ($result) {
+        }
+        if ($result) {
             return true;
         }
 
@@ -729,7 +724,7 @@ class OA_DB
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
-        $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+        $dsn ??= OA_DB::getDsn();
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?

@@ -37,30 +37,14 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
         global $limited, $lmargin, $rmargin;
         global $tabindex;
 
-        if (!isset($ltr)) {
-            $ltr = 't';
-        }
-        if (!isset($loop)) {
-            $loop = 'n';
-        }
-        if (!isset($speed)) {
-            $speed = 3;
-        }
-        if (!isset($pause)) {
-            $pause = 10;
-        }
-        if (!isset($shiftv)) {
-            $shiftv = 0;
-        }
-        if (!isset($limited)) {
-            $limited = 'f';
-        }
-        if (!isset($transparent)) {
-            $transparent = 't';
-        }
-        if (!isset($backcolor)) {
-            $backcolor = '#FFFFFF';
-        }
+        $ltr ??= 't';
+        $loop ??= 'n';
+        $speed ??= 3;
+        $pause ??= 10;
+        $shiftv ??= 0;
+        $limited ??= 'f';
+        $transparent ??= 't';
+        $backcolor ??= '#FFFFFF';
 
         if ($limited == 't') {
             if (!isset($lmargin) || !isset($rmargin)) {
@@ -168,9 +152,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
         global $ltr, $loop, $speed, $pause, $shiftv, $transparent, $backcolor;
         global $limited, $lmargin, $rmargin;
 
-        if (!isset($limited)) {
-            $limited = 'f';
-        }
+        $limited ??= 'f';
         if ($limited == 't') {
             if (!isset($lmargin) || !isset($rmargin)) {
                 $limited = 'f';
@@ -187,12 +169,8 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Floater_Invocation extends Pl
         $mi->parameters[] = 'pause=' . ($pause ?? 10);
         $mi->parameters[] = 'shiftv=' . ($shiftv ?? 0);
         $mi->parameters[] = 'transparent=' . ($transparent ?? 't');
-        if (!isset($transparent)) {
-            $transparent = 't';
-        }
-        if (!isset($backcolor)) {
-            $backcolor = '#FFFFFF';
-        }
+        $transparent ??= 't';
+        $backcolor ??= '#FFFFFF';
         if ($transparent != 't') {
             $mi->parameters[] = 'backcolor=' . urlencode($backcolor);
         }

@@ -268,9 +268,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
             $oStartDate->after($oEndDate)) {
             $this->raiseError('The start date is after the end date');
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -302,9 +301,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (empty($id) || !($object = $doObject->get($id))) {
             $this->raiseError('Unknown ' . $tableId . 'Id Error');
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public function checkAccess(string $entity, int $id): bool
@@ -329,7 +327,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
             return false;
         }
 
-        if (!isset($username) && (strlen($password) > 0)) {
+        if (!isset($username) && ((string) $password !== '')) {
             $this->raiseError('Username is null and the password is not');
             return false;
         }
@@ -337,9 +335,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (strpos($password, '\\')) {
             $this->raiseError('Passwords cannot contain "\\"');
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -390,11 +387,10 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if ($isError) {
             $this->raiseError('Access forbidden');
             return false;
-        } else {
-            // Set system timezone and return
-            OA_setTimeZoneLocal();
-            return true;
         }
+        // Set system timezone and return
+        OA_setTimeZoneLocal();
+        return true;
     }
 
     public function getDefaultAgencyId()
@@ -410,7 +406,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
             }
             if ($this->checkPermissions(OA_ACCOUNT_MANAGER, 'agency', $agencyId)) {
                 return true;
-            } elseif ($this->checkPermissions([OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER])) {
+            }
+            if ($this->checkPermissions([OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER])) {
                 return $agencyId == $this->getDefaultAgencyId();
             }
             $this->raiseError('Wrong AgencyId');

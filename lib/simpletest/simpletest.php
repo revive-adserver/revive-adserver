@@ -171,9 +171,7 @@ class SimpleTest
      */
     public static function getContext()
     {
-        if (null === self::$context) {
-            self::$context = new SimpleTestContext();
-        }
+        self::$context ??= new SimpleTestContext();
 
         return self::$context;
     }
@@ -271,9 +269,7 @@ class SimpleTestContext
      */
     public function get($resource)
     {
-        if (! isset($this->_resources[$resource])) {
-            $this->_resources[$resource] = new $resource();
-        }
+        $this->_resources[$resource] ??= new $resource();
         return $this->_resources[$resource];
     }
 }

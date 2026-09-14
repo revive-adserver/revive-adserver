@@ -59,9 +59,7 @@ if (!is_callable('MAX_cookieSet')) {
  */
 function MAX_cookieAdd($name, $value, $expire = 0)
 {
-    if (!isset($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
-        $GLOBALS['_MAX']['COOKIE']['CACHE'] = [];
-    }
+    $GLOBALS['_MAX']['COOKIE']['CACHE'] ??= [];
     $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = [$value, $expire];
 }
 
@@ -327,9 +325,7 @@ function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain
     if (empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
         ###END_STRIP_DELIVERY
         if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
-            if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
-                $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = [];
-            }
+            $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] ??= [];
             $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
         } else {
             $secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);

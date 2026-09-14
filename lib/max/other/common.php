@@ -247,7 +247,7 @@ function MAX_getPlacementName($aPlacement, $length = null)
     }
 
     if (is_numeric($length) && count($name) > $length) {
-        $name = substr($name, 0, $length);
+        return substr($name, 0, $length);
     }
 
     return $name;
@@ -269,7 +269,7 @@ function MAX_getAdName($description, $alt = null, $length = null, $anonymous = f
     }
 
     if (is_numeric($length) && count($name) > $length) {
-        $name = substr($name, 0, $length);
+        return substr($name, 0, $length);
     }
 
     return $name;
@@ -288,7 +288,7 @@ function MAX_getZoneName($zoneName, $length = null, $anonymous = false, $id = nu
     }
 
     if (is_numeric($length) && count($name) > $length) {
-        $name = substr($name, 0, $length);
+        return substr($name, 0, $length);
     }
 
     return $name;
@@ -307,7 +307,7 @@ function MAX_getPublisherName($publisherName, $length = null, $anonymous = false
     }
 
     if (is_numeric($length) && count($name) > $length) {
-        $name = substr($name, 0, $length);
+        return substr($name, 0, $length);
     }
 
     return $name;
@@ -326,7 +326,7 @@ function MAX_getTrackerName($trackerName, $length = null, $anonymous = false, $i
     }
 
     if (is_numeric($length) && count($name) > $length) {
-        $name = substr($name, 0, $length);
+        return substr($name, 0, $length);
     }
 
     return $name;
@@ -345,7 +345,7 @@ function MAX_getAdvertiserName($advertiserName, $length = null, $anonymous = fal
     }
 
     if (is_numeric($length) && count($name) > $length) {
-        $name = substr($name, 0, $length);
+        return substr($name, 0, $length);
     }
 
     return $name;
@@ -444,13 +444,7 @@ function MAX_commonGetValueUnslashed($key, $default = null)
  */
 function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
 {
-    $value = $oDefault;
-
-    if (isset($aValues[$sKey])) {
-        $value = $aValues[$sKey];
-    }
-
-    return $value;
+    return $aValues[$sKey] ?? $oDefault;
 }
 
 
@@ -468,12 +462,8 @@ function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
 function MAX_commonGetPostValueUnslashed($sKey, $sDefault = null)
 {
     $value = _commonGetValueUnslashed($_POST, $sKey);
-    if (is_null($value)) {
-        $value = _commonGetValueUnslashed($_GET, $sKey);
-    }
-    if (is_null($value)) {
-        $value = $sDefault;
-    }
+    $value ??= _commonGetValueUnslashed($_GET, $sKey);
+    $value ??= $sDefault;
     if (is_null($value)) {
         return null;
     }
@@ -555,9 +545,8 @@ function MAX_commonSlashArray($a)
             $a[$k] = MAX_commonSlashArray($v);
         }
         return $a;
-    } else {
-        return is_null($a) ? null : addslashes($a);
     }
+    return is_null($a) ? null : addslashes($a);
 }
 
 
@@ -574,9 +563,8 @@ function MAX_commonUnslashArray($a)
             $a[$k] = MAX_commonUnslashArray($v);
         }
         return ($a);
-    } else {
-        return stripslashes($a);
     }
+    return stripslashes($a);
 }
 
 

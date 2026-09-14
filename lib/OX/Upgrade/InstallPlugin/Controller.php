@@ -89,7 +89,7 @@ class OX_Upgrade_InstallPlugin_Controller
         $aDefaultPlugins = [];
         include MAX_PATH . '/etc/default_plugins.php';
 
-        if ($aDefaultPlugins) {
+        if ($aDefaultPlugins !== []) {
             foreach ($aDefaultPlugins as $idx => $aPlugin) {
                 if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins'])) {
                     $url = $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $aPlugin['name'];

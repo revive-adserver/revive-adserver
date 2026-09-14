@@ -92,7 +92,7 @@ abstract class AbstractInstallerCommand extends AbstractReviveCommand
             $nextAction = $this->oController->isUpgrade() ? 'login' : 'database';
 
             if ($nextAction !== $e->getAction()) {
-                throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
+                throw new RuntimeException("Unexpected redirect: {$e->getAction()}", $e->getCode(), $e);
             }
         }
     }
@@ -167,7 +167,7 @@ abstract class AbstractInstallerCommand extends AbstractReviveCommand
 
         $this->output->writeln("<info>Setting file permissions</info>");
 
-        $paths = \array_map('realpath', \array_merge([
+        $paths = \array_map(realpath(...), \array_merge([
             MAX_PATH . '/var',
             MAX_PATH . '/plugins',
             MAX_PATH . '/www/admin/plugins',

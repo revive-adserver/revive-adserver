@@ -39,9 +39,7 @@ class OX_Upgrade_Util_Job
         if (!empty($result['name']) && !empty($result['type'])) {
             $oStorage = OX_Admin_UI_Install_InstallUtils::getSessionStorage();
             $aJobStatuses = $oStorage->get('aJobStatuses');
-            if (!isset($aJobStatuses)) {
-                $aJobStatuses = [];
-            }
+            $aJobStatuses ??= [];
             $aJobStatuses[$result['type'] . ':' . $result['name']] = $result;
             $oStorage->set('aJobStatuses', $aJobStatuses);
         }
@@ -62,12 +60,11 @@ class OX_Upgrade_Util_Job
         if (!isset($oStatus) || (!$oStatus->isInstall() && !$oStatus->isUpgrade())) {
             self::logError($result, 'Installation process not detected');
             return false;
-        } else {
-            $oWizard = new OX_Admin_UI_Install_Wizard($oStatus);
-            if (!$oWizard->isStepCompleted($step)) {
-                self::logError($result, 'Invalid installation step detected');
-                return false;
-            }
+        }
+        $oWizard = new OX_Admin_UI_Install_Wizard($oStatus);
+        if (!$oWizard->isStepCompleted($step)) {
+            self::logError($result, 'Invalid installation step detected');
+            return false;
         }
         return true;
     }

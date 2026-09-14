@@ -163,15 +163,13 @@ if (!$table) {
     readfile($oaSchema->working_file_schema);
     // echo $before.' - '.$after ;
     exit();
-} else {
-    $oaSchema->parseWorkingDefinitionFile();
-    $aDD_definition = $oaSchema->aDD_definition;
-    $aDB_definition = $oaSchema->aDB_definition;
-    $aTbl_definition = $oaSchema->aDB_definition['tables'][$table];
-    $aLinks = $oaSchema->readForeignKeys($table);
-    $aTbl_links = $aLinks[$table];
-    $aLink_targets = $oaSchema->getLinkTargets();
-
-    include 'templates/schema_edit.html';
-    exit();
 }
+$oaSchema->parseWorkingDefinitionFile();
+$aDD_definition = $oaSchema->aDD_definition;
+$aDB_definition = $oaSchema->aDB_definition;
+$aTbl_definition = $oaSchema->aDB_definition['tables'][$table];
+$aLinks = $oaSchema->readForeignKeys($table);
+$aTbl_links = $aLinks[$table];
+$aLink_targets = $oaSchema->getLinkTargets();
+include 'templates/schema_edit.html';
+exit();

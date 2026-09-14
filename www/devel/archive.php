@@ -39,7 +39,7 @@ function getChangesFile()
 {
     $changesFile = $_COOKIE['changesetFile'];
     if ((!$changesFile) || (!file_exists(MAX_CHG . $changesFile))) {
-        $changesFile = MAX_PATH . '/var/changes_tables_core.xml';
+        return MAX_PATH . '/var/changes_tables_core.xml';
     }
     return $changesFile;
 }
@@ -51,7 +51,7 @@ function getSchemaFile($changesFile)
         $schemaFile = MAX_PATH . '/etc/tables_core.xml';
     }
     if ($changesFile) {
-        $schemaFile = 'changes/' . str_replace('changes_', 'schema_', $changesFile);
+        return 'changes/' . str_replace('changes_', 'schema_', $changesFile);
     }
     return $schemaFile;
 }
@@ -160,13 +160,11 @@ if ($file && file_exists($file)) {
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($file);
     exit();
-} else {
-    if ($file) {
-        echo 'archive.php: error reading ' . $file;
-    } else {
-        echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
-    }
-
-    //    header('Location: schema.php');
-    //    exit;
 }
+if ($file) {
+    echo 'archive.php: error reading ' . $file;
+} else {
+    echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
+}
+//    header('Location: schema.php');
+//    exit;

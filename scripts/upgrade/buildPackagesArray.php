@@ -53,15 +53,9 @@ foreach (glob($readPath . '/*_upgrade_*.xml') as $file) {
             $rc = $aParsed['rc'] ?? null;
             $build = $aParsed['build'] ?? null;
 
-            if (!isset($aVersions[$release])) {
-                $aVersions[$release] = [];
-            }
-            if (!isset($aVersions[$release][$major])) {
-                $aVersions[$release][$major] = [];
-            }
-            if (!isset($aVersions[$release][$major][$minor])) {
-                $aVersions[$release][$major][$minor] = [];
-            }
+            $aVersions[$release] ??= [];
+            $aVersions[$release][$major] ??= [];
+            $aVersions[$release][$major][$minor] ??= [];
             if ($rc && $beta) {
                 $aVersions[$release][$major][$minor][$beta . $rc][$build]['file'] = $file;
             } elseif ($beta) {

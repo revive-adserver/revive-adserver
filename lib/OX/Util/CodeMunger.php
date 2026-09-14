@@ -96,7 +96,6 @@ class OX_Util_CodeMunger
         if (str_contains($filename, '$')) {
             return false;
         }
-
         // ?
         if ($pos = strrpos($filename, '/')) {
             $cwd = getcwd();
@@ -113,22 +112,21 @@ class OX_Util_CodeMunger
             $ret = $this->parseFile(substr($filename, $pos + 1));
             chdir($cwd);
             return $ret;
-        } elseif (file_exists($filename)) {
-            return $this->parseFile($filename);
-        } else {
-            if ($this->OA_Pear === false) {
-                return false;
-            }
-
-            //try pear
-            $cwd = getcwd();
-            $dir = MAX_PATH . '/' . $this->OA_Pear;
-            chdir($dir);
-            $ret = $this->parseFile($filename);
-            chdir($cwd);
-
-            return $ret;
         }
+
+        if (file_exists($filename)) {
+            return $this->parseFile($filename);
+        }
+        if ($this->OA_Pear === false) {
+            return false;
+        }
+        //try pear
+        $cwd = getcwd();
+        $dir = MAX_PATH . '/' . $this->OA_Pear;
+        chdir($dir);
+        $ret = $this->parseFile($filename);
+        chdir($cwd);
+        return $ret;
     }
 
     /**

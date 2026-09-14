@@ -73,9 +73,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
     {
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
-        if (is_null($priority)) {
-            $priority = DataObjects_Campaigns::PRIORITY_ECPM;
-        }
+        $priority ??= DataObjects_Campaigns::PRIORITY_ECPM;
         $query = "
             SELECT
                 c.campaignid AS campaignid,

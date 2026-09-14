@@ -114,9 +114,8 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return false;
-        } else {
-            return $rows;
         }
+        return $rows;
     }
 
     /**

@@ -7,14 +7,10 @@ namespace REVIVE_ROOT;
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\CodeQuality\Rector\ClassMethod\ExplicitReturnNullRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
-use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
 use Rector\CodeQuality\Rector\For_\ForRepeatedCountToOwnVariableRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
-use Rector\CodeQuality\Rector\If_\CombineIfRector;
-use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
-use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\Config\RectorConfig;
@@ -24,10 +20,9 @@ use Rector\Php72\Rector\Assign\ListEachRector;
 use Rector\Php72\Rector\Assign\ReplaceEachAssignmentWithKeyCurrentRector;
 use Rector\Php73\Rector\ConstFetch\SensitiveConstantNameRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
-use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
 
 return function (RectorConfig $rectorConfig): void {
     $rectorConfig->cacheClass(FileCacheStorage::class);
@@ -75,24 +70,19 @@ return function (RectorConfig $rectorConfig): void {
         __DIR__ . '/lib/max/language',
         '*/etc/changes/*.php',
         '*xajax*',
-        ExplicitBoolCompareRector::class,
         UseIdenticalOverEqualWithSameTypeRector::class,
         AbsolutizeRequireAndIncludePathRector::class,
         IssetOnPropertyObjectToPropertyExistsRector::class,
-        NullToStrictStringFuncCallArgRector::class,
         RemoveExtraParametersRector::class,
         ClassPropertyAssignToConstructorPromotionRector::class,
-        DisallowedEmptyRuleFixerRector::class,
-        CombineIfRector::class,
-        SimplifyIfElseToTernaryRector::class,
         LocallyCalledStaticMethodToNonStaticRector::class,
         ForRepeatedCountToOwnVariableRector::class,
         SimplifyEmptyCheckOnEmptyArrayRector::class,
-        JoinStringConcatRector::class,
         SensitiveConstantNameRector::class,
         ListEachRector::class,
         ReplaceEachAssignmentWithKeyCurrentRector::class,
         ExplicitReturnNullRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class,
+        SafeDeclareStrictTypesRector::class,
     ]);
 };

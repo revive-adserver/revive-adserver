@@ -105,9 +105,7 @@ class Plugins_DeliveryLimitations_Client_BrowserVersion extends Plugins_Delivery
     public function _flattenData($data = null)
     {
         if (is_array($data)) {
-            if (!isset($data[1])) {
-                $data[1] = '';
-            }
+            $data[1] ??= '';
         }
 
         return parent::_flattenData($data);

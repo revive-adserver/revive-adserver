@@ -907,9 +907,8 @@ function OA_Dal_Delivery_getAd($ad_id)
     $rAd = OA_Dal_Delivery_query($query);
     if (!OA_Dal_Delivery_isValidResult($rAd)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-    } else {
-        return (OA_Dal_Delivery_fetchAssoc($rAd));
     }
+    return (OA_Dal_Delivery_fetchAssoc($rAd));
 }
 
 /**
@@ -959,12 +958,11 @@ function OA_Dal_Delivery_getCreative($filename)
     ");
     if (!OA_Dal_Delivery_isValidResult($rCreative)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-    } else {
-        $aResult = OA_Dal_Delivery_fetchAssoc($rCreative);
-        $aResult['contents'] = OX_unescapeBlob($aResult['contents']);
-        $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
-        return ($aResult);
     }
+    $aResult = OA_Dal_Delivery_fetchAssoc($rCreative);
+    $aResult['contents'] = OX_unescapeBlob($aResult['contents']);
+    $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
+    return ($aResult);
 }
 
 /**
@@ -998,9 +996,8 @@ function OA_Dal_Delivery_getTracker($trackerid)
     ");
     if (!OA_Dal_Delivery_isValidResult($rTracker)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-    } else {
-        return (OA_Dal_Delivery_fetchAssoc($rTracker));
     }
+    return (OA_Dal_Delivery_fetchAssoc($rTracker));
 }
 
 function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
@@ -1031,13 +1028,12 @@ function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
     ");
     if (!OA_Dal_Delivery_isValidResult($rCreatives)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-    } else {
-        $output = [];
-        while ($aRow = OA_Dal_Delivery_fetchAssoc($rCreatives)) {
-            $output[$aRow['ad_id']] = $aRow;
-        }
-        return $output;
     }
+    $output = [];
+    while ($aRow = OA_Dal_Delivery_fetchAssoc($rCreatives)) {
+        $output[$aRow['ad_id']] = $aRow;
+    }
+    return $output;
 }
 
 /**
@@ -1071,13 +1067,12 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
     ");
     if (!OA_Dal_Delivery_isValidResult($rVariables)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-    } else {
-        $output = [];
-        while ($aRow = OA_Dal_Delivery_fetchAssoc($rVariables)) {
-            $output[$aRow['variable_id']] = $aRow;
-        }
-        return $output;
     }
+    $output = [];
+    while ($aRow = OA_Dal_Delivery_fetchAssoc($rVariables)) {
+        $output[$aRow['variable_id']] = $aRow;
+    }
+    return $output;
 }
 
 /**
@@ -1097,11 +1092,9 @@ function OA_Dal_Delivery_getMaintenanceInfo()
     ");
     if (!OA_Dal_Delivery_isValidResult($result)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-    } else {
-        $result = OA_Dal_Delivery_fetchAssoc($result);
-
-        return $result['maintenance_timestamp'];
     }
+    $result = OA_Dal_Delivery_fetchAssoc($result);
+    return $result['maintenance_timestamp'];
 }
 
 /**

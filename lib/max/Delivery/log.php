@@ -277,9 +277,7 @@ function _viewersHostOkayToLog($adId = 0, $zoneId = 0, $trackerId = 0)
  */
 function MAX_Delivery_log_getArrGetVariable(string $name, ?array $array = null)
 {
-    if (null === $array) {
-        $array = $_GET;
-    }
+    $array ??= $_GET;
 
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name] ?? $name;
 

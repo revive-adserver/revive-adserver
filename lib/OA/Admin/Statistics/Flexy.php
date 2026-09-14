@@ -116,7 +116,7 @@ class OA_Admin_Statistics_Flexy
     public function tr($str)
     {
         if (preg_match('/^(str|key)/', $str) && isset($GLOBALS[$str])) {
-            $str = $GLOBALS[$str];
+            return $GLOBALS[$str];
         }
         return $str;
     }
@@ -163,8 +163,7 @@ class OA_Admin_Statistics_Flexy
     {
         if ($this->listOrderField == $fieldname) {
             return OX::assetPath("images/caret-" . ($this->listOrderDirection == 'up' ? 'u' : 'ds') . ".gif");
-        } else {
-            return false;
         }
+        return false;
     }
 }

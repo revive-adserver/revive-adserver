@@ -192,7 +192,7 @@ class OA_Environment_Manager
             $dh = @opendir($file);
             if ($dh) {
                 while (false !== ($f = readdir($dh))) {
-                    if (($f == '.') || ($f == '..') || ($f == '.svn')) {
+                    if (in_array($f, ['.', '..', '.svn'])) {
                         continue;
                     }
                     $thisFile = $file . '/' . $f;
@@ -250,9 +250,8 @@ class OA_Environment_Manager
                     @unlink($file);
                 }
                 return true;
-            } else {
-                return false;
             }
+            return false;
         }
         return is_writable($file);
     }

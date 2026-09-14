@@ -223,13 +223,9 @@ class SimpleLexer
      */
     public function addPattern($pattern, $mode = "accept")
     {
-        if (! isset($this->_regexes[$mode])) {
-            $this->_regexes[$mode] = new ParallelRegex($this->_case);
-        }
+        $this->_regexes[$mode] ??= new ParallelRegex($this->_case);
         $this->_regexes[$mode]->addPattern($pattern);
-        if (! isset($this->_mode_handlers[$mode])) {
-            $this->_mode_handlers[$mode] = $mode;
-        }
+        $this->_mode_handlers[$mode] ??= $mode;
     }
 
     /**
@@ -246,13 +242,9 @@ class SimpleLexer
      */
     public function addEntryPattern($pattern, $mode, $new_mode)
     {
-        if (! isset($this->_regexes[$mode])) {
-            $this->_regexes[$mode] = new ParallelRegex($this->_case);
-        }
+        $this->_regexes[$mode] ??= new ParallelRegex($this->_case);
         $this->_regexes[$mode]->addPattern($pattern, $new_mode);
-        if (! isset($this->_mode_handlers[$new_mode])) {
-            $this->_mode_handlers[$new_mode] = $new_mode;
-        }
+        $this->_mode_handlers[$new_mode] ??= $new_mode;
     }
 
     /**
@@ -264,13 +256,9 @@ class SimpleLexer
      */
     public function addExitPattern($pattern, $mode)
     {
-        if (! isset($this->_regexes[$mode])) {
-            $this->_regexes[$mode] = new ParallelRegex($this->_case);
-        }
+        $this->_regexes[$mode] ??= new ParallelRegex($this->_case);
         $this->_regexes[$mode]->addPattern($pattern, "__exit");
-        if (! isset($this->_mode_handlers[$mode])) {
-            $this->_mode_handlers[$mode] = $mode;
-        }
+        $this->_mode_handlers[$mode] ??= $mode;
     }
 
     /**
@@ -286,13 +274,9 @@ class SimpleLexer
      */
     public function addSpecialPattern($pattern, $mode, $special)
     {
-        if (! isset($this->_regexes[$mode])) {
-            $this->_regexes[$mode] = new ParallelRegex($this->_case);
-        }
+        $this->_regexes[$mode] ??= new ParallelRegex($this->_case);
         $this->_regexes[$mode]->addPattern($pattern, "_$special");
-        if (! isset($this->_mode_handlers[$special])) {
-            $this->_mode_handlers[$special] = $special;
-        }
+        $this->_mode_handlers[$special] ??= $special;
     }
 
     /**
@@ -710,9 +694,7 @@ class SimpleHtmlSaxParser
     public static function decodeHtml($html)
     {
         static $translations;
-        if (! isset($translations)) {
-            $translations = array_flip(get_html_translation_table(HTML_ENTITIES));
-        }
+        $translations ??= array_flip(get_html_translation_table(HTML_ENTITIES));
         return strtr($html, $translations);
     }
 

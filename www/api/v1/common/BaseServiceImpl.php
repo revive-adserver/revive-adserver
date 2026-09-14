@@ -77,10 +77,9 @@ class BaseServiceImpl extends OA_BaseObjectWithErrors
 
         if (OA_Auth::isLoggedIn(\RV\Auth\AuthContext::API)) {
             return true;
-        } else {
-            $this->raiseError('Session ID is invalid');
-            return false;
         }
+        $this->raiseError('Session ID is invalid');
+        return false;
     }
 
 
@@ -97,9 +96,8 @@ class BaseServiceImpl extends OA_BaseObjectWithErrors
         if (strlen($sessionId) > 32) {
             $this->raiseError('Session ID greater 32 characters');
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -162,35 +160,15 @@ class BaseServiceImpl extends OA_BaseObjectWithErrors
             'zoneid',
         );
 
-        if (!isset($affiliateid)) {
-            $affiliateid = '';
-        }
-        if (!isset($agencyid)) {
-            $agencyid = OA_Permission::getAgencyId();
-        }
-        if (!isset($bannerid)) {
-            $bannerid = '';
-        }
-        if (!isset($campaignid)) {
-            $campaignid = '';
-        }
-        if (!isset($channelid)) {
-            $channelid = '';
-        }
-        if (!isset($clientid)) {
-            $clientid = '';
-        }
-        if (!isset($day)) {
-            $day = '';
-        }
-        if (!isset($trackerid)) {
-            $trackerid = '';
-        }
-        if (!isset($userlogid)) {
-            $userlogid = '';
-        }
-        if (!isset($zoneid)) {
-            $zoneid = '';
-        }
+        $affiliateid ??= '';
+        $agencyid ??= OA_Permission::getAgencyId();
+        $bannerid ??= '';
+        $campaignid ??= '';
+        $channelid ??= '';
+        $clientid ??= '';
+        $day ??= '';
+        $trackerid ??= '';
+        $userlogid ??= '';
+        $zoneid ??= '';
     }
 }

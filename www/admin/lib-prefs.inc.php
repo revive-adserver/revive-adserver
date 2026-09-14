@@ -14,31 +14,23 @@ function phpAds_getPref($page_name, $var)
 {
     global $session;
 
-    $value = '';
-
-    if (isset($session['prefs'][$page_name][$var])) {
-        $value = $session['prefs'][$page_name][$var];
-    }
-
-    return $value;
+    return $session['prefs'][$page_name][$var] ?? '';
 }
 
 function phpAds_getPrefArray($page_name, $var)
 {
     global $session;
 
-    $value = [];
-
     if (isset($session['prefs'][$page_name][$var])) {
-        $value = explode(",", $session['prefs'][$page_name][$var]);
+        return explode(",", $session['prefs'][$page_name][$var]);
     }
 
-    return $value;
+    return [];
 }
 
 function phpAds_updateExpandArray($expand_arr, $expand, $collapse)
 {
-    if (($expand != null) && ($expand != 'none') && ($expand != 'all') && !in_array($expand, $expand_arr)) {
+    if (!in_array($expand, [null, 'none', 'all']) && !in_array($expand, $expand_arr)) {
         $expand_arr[] = $expand;
     }
 

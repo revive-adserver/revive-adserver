@@ -55,12 +55,12 @@ if ($changesFile && file_exists($changesFile)) {
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($changesFile);
     exit();
+}
+if ($file) {
+    echo 'archive.php: error reading ' . $changesFile;
 } else {
-    if ($file) {
-        echo 'archive.php: error reading ' . $changesFile;
-    } else {
-        echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
-    }
+    echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
+}
 //    header('Location: oxSchema-frame.php');
 //    exit;
-}
+

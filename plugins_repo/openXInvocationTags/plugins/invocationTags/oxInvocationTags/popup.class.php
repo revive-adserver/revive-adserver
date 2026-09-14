@@ -63,9 +63,8 @@ class Plugins_InvocationTags_OxInvocationTags_popup extends Plugins_InvocationTa
         $isAllowed = parent::isAllowed($extra);
         if (is_array($extra) || (is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
             return false;
-        } else {
-            return $isAllowed;
         }
+        return $isAllowed;
     }
 
     /**

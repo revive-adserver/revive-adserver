@@ -117,9 +117,7 @@ EOF;
      */
     public function addParser(Html5ParserInterface $parser, $priority)
     {
-        if (!isset($this->parsers[$priority])) {
-            $this->parsers[$priority] = [];
-        }
+        $this->parsers[$priority] ??= [];
 
         $this->parsers[$priority][] = $parser;
     }
@@ -304,9 +302,7 @@ EOF;
                 continue;
             }
 
-            if (!isset($htmls[$entry['basename']])) {
-                $htmls[$entry['basename']] = [];
-            }
+            $htmls[$entry['basename']] ??= [];
 
             $htmls[$entry['basename']][] = $entry['dirname'];
         }
@@ -342,7 +338,7 @@ EOF;
     {
         ksort($this->parsers);
 
-        $sortedParsers = call_user_func_array('array_merge', $this->parsers);
+        $sortedParsers = call_user_func_array(array_merge(...), $this->parsers);
 
         foreach ($sortedParsers as $parser) {
             yield $parser;

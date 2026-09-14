@@ -312,9 +312,7 @@ class OA_Upgrade_Config
      */
     public function checkForConfigAdditions($aConfDist = null)
     {
-        if (is_null($aConfDist)) {
-            $aConfDist = @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', true);
-        }
+        $aConfDist ??= @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', true);
 
         // If the $aConfDist array is empty, then either an empty array was passed in
         // or there was an error parsing the dist.conf.php file, return false so user's

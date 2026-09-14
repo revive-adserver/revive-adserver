@@ -153,15 +153,13 @@ class OX_Admin_Timezones
             // The user selected timezone is not equal to the
             // environment timezone, so, must write the user
             // selected value to the config file
-            $return = $tz;
-        } else {
-            // The user selected timezone is the same as the
-            // environment timezone, so we don't have to write the
-            // timezone to the config file - it will be set
-            // automatically by PHP.
-            $return = '';
+            return $tz;
         }
-        return $return;
+        // The user selected timezone is the same as the
+        // environment timezone, so we don't have to write the
+        // timezone to the config file - it will be set
+        // automatically by PHP.
+        return '';
     }
 
     /**

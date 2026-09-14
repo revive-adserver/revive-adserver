@@ -20,9 +20,7 @@ class OA_Admin_UI_Decorator_Factory
     public static function singleton()
     {
         static $instance;
-        if (!isset($instance)) {
-            $instance = new OA_Admin_UI_Decorator_Factory();
-        }
+        $instance ??= new OA_Admin_UI_Decorator_Factory();
         return $instance;
     }
 

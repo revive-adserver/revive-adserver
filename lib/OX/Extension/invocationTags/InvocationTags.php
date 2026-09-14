@@ -177,9 +177,7 @@ abstract class Plugins_InvocationTags extends OX_Component
         // UniqueID is only necessary for a couple of plugins, so it is not "common"
         //$mi->uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
 
-        if (!isset($mi->withtext)) {
-            $mi->withtext = 0;
-        }
+        $mi->withtext ??= 0;
 
         // Set parameters
         if (isset($mi->clientid) && strlen($mi->clientid) && $mi->clientid != '0') {

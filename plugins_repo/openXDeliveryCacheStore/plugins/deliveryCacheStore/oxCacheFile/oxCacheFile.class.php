@@ -85,8 +85,7 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
     {
         if (!empty($GLOBALS['_MAX']['CONF'][$this->group]['cachePath'])) {
             return trim($GLOBALS['_MAX']['CONF'][$this->group]['cachePath']) . '/';
-        } else {
-            return MAX_PATH . '/var/cache/';
         }
+        return MAX_PATH . '/var/cache/';
     }
 }

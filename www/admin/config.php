@@ -72,36 +72,16 @@ phpAds_registerGlobalUnslashed(
     'zoneid',
 );
 
-if (!isset($affiliateid)) {
-    $affiliateid = (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) ? OA_Permission::getEntityId() : '';
-}
-if (!isset($agencyid)) {
-    $agencyid = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) ? '' : OA_Permission::getAgencyId();
-}
-if (!isset($bannerid)) {
-    $bannerid = '';
-}
-if (!isset($campaignid)) {
-    $campaignid = '';
-}
-if (!isset($channelid)) {
-    $channelid = '';
-}
-if (!isset($clientid)) {
-    $clientid = (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) ? OA_Permission::getEntityId() : '';
-}
-if (!isset($day)) {
-    $day = '';
-}
-if (!isset($trackerid)) {
-    $trackerid = '';
-}
-if (!isset($userlogid)) {
-    $userlogid = '';
-}
-if (!isset($zoneid)) {
-    $zoneid = '';
-}
+$affiliateid ??= (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) ? OA_Permission::getEntityId() : '';
+$agencyid ??= (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) ? '' : OA_Permission::getAgencyId();
+$bannerid ??= '';
+$campaignid ??= '';
+$channelid ??= '';
+$clientid ??= (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) ? OA_Permission::getEntityId() : '';
+$day ??= '';
+$trackerid ??= '';
+$userlogid ??= '';
+$zoneid ??= '';
 
 /**
  * Starts or continue existing session

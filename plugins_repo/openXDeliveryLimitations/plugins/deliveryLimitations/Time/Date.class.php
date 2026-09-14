@@ -131,13 +131,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
      */
     public function _getCurrentTz()
     {
-        if (isset($GLOBALS['_MAX']['PREF']['timezone'])) {
-            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
-        } else {
-            $tz = 'UTC';
-        }
-
-        return $tz;
+        return $GLOBALS['_MAX']['PREF']['timezone'] ?? 'UTC';
     }
 
     /**
@@ -178,9 +172,7 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
      */
     public function _expandData($data = null)
     {
-        if (!isset($data)) {
-            $data = $this->data;
-        }
+        $data ??= $this->data;
         if (is_array($data)) {
             return $data;
         }
@@ -188,21 +180,19 @@ class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
         $data = $parts[0];
         $tz = $parts[1] ?? 'UTC';
         if ($data == '00000000' || empty($data)) {
-            $data = [
+            return [
                 'day' => 0,
                 'month' => 0,
                 'year' => 0,
                 'tz' => $tz,
             ];
-        } else {
-            $data = [
-                'day' => substr($data, 6, 2),
-                'month' => substr($data, 4, 2),
-                'year' => substr($data, 0, 4),
-                'tz' => $tz,
-            ];
         }
-        return $data;
+        return [
+            'day' => substr($data, 6, 2),
+            'month' => substr($data, 4, 2),
+            'year' => substr($data, 0, 4),
+            'tz' => $tz,
+        ];
     }
 
     /**

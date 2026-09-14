@@ -93,7 +93,8 @@ class DataObjects_Audit extends DB_DataObjectCommon
         if ($accountType == OA_ACCOUNT_ADMIN) {
             // Admin always has access
             return true;
-        } elseif ($accountType == OA_ACCOUNT_MANAGER) {
+        }
+        if ($accountType == OA_ACCOUNT_MANAGER) {
             // Test if the account ID is equal to the account_id field
             if (is_null($this->account_id)) {
                 return null;

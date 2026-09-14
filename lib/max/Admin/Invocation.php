@@ -112,7 +112,7 @@ class MAX_Admin_Invocation
         // Check if we need to fetch variables from the global scope
         if (!isset($aParams)) {
             // Register globals
-            call_user_func_array('phpAds_registerGlobal', $globalVariables);
+            call_user_func_array(phpAds_registerGlobal(...), $globalVariables);
 
             foreach ($globalVariables as $makeMeGlobal) {
                 global ${$makeMeGlobal};
@@ -152,9 +152,7 @@ class MAX_Admin_Invocation
         // register all the variables
         $this->assignVariables($aParams);
 
-        if ($invocationTag === null) {
-            $invocationTag = OX_Component::factoryByComponentIdentifier($this->codetype);
-        }
+        $invocationTag ??= OX_Component::factoryByComponentIdentifier($this->codetype);
         if ($invocationTag === false) {
             OA::debug('Error while factory invocationTag plugin ' . $this->codetype);
             exit();
@@ -183,9 +181,7 @@ class MAX_Admin_Invocation
         // register all the variables
         $this->assignVariables($aParams);
 
-        if ($invocationTag === null) {
-            $invocationTag = OX_Component::factoryByComponentIdentifier($this->codetype);
-        }
+        $invocationTag ??= OX_Component::factoryByComponentIdentifier($this->codetype);
 
         if ($invocationTag === false) {
             OA::debug('Error while factory invocationTag plugin ' . $this->codetype);
@@ -323,9 +319,7 @@ class MAX_Admin_Invocation
                     break;
                 }
             }
-            if (!isset($bannerUrl)) {
-                $bannerUrl = 'http://www.example.com/INSERT_BANNER_URL.gif';
-            }
+            $bannerUrl ??= 'http://www.example.com/INSERT_BANNER_URL.gif';
 
             $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             $buffer .= "<tr><td height='25' width='350'><b>" . $GLOBALS['strChooseTypeOfBannerInvocation'] . "</b>";
@@ -353,9 +347,7 @@ class MAX_Admin_Invocation
                     break;
                 }
             }
-            if (!isset($this->codetype)) {
-                $this->codetype = '';
-            }
+            $this->codetype ??= '';
         }
         if ($this->codetype != '') {
             // factory plugin for this $codetype

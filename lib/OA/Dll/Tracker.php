@@ -127,9 +127,8 @@ class OA_Dll_Tracker extends OA_Dll
             }
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -158,10 +157,9 @@ class OA_Dll_Tracker extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError(self::ERROR_DELETE);
-            return false;
         }
+        $this->raiseError(self::ERROR_DELETE);
+        return false;
     }
 
 
@@ -209,10 +207,9 @@ class OA_Dll_Tracker extends OA_Dll
                 return false;
             }
             return true;
-        } else {
-            // Already linked
-            return true;
         }
+        // Already linked
+        return true;
     }
 
     /**
@@ -236,10 +233,9 @@ class OA_Dll_Tracker extends OA_Dll
 
             $oTrackerInfo->setTrackerDataFromArray($aTrackerData);
             return true;
-        } else {
-            $this->raiseError(self::ERROR_UNKNOWN_TRACKER_ID);
-            return false;
         }
+        $this->raiseError(self::ERROR_UNKNOWN_TRACKER_ID);
+        return false;
     }
 
     public function checkSameAdvertiser($trackerId, $campaignId)

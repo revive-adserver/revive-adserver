@@ -138,9 +138,8 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
 
         if ($insert) {
             return $doBanners->insert();
-        } else {
-            return $doBanners->update();
         }
+        return $doBanners->update();
     }
 
 
@@ -192,9 +191,8 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
                 if ($form->getSubmitValue('vast_video_type') != 'video/webm' || $form->getSubmitValue('vast_video_delivery') == 'progressive') {
                     $form->removeElement('video_form_error');
                     return true;
-                } else {
-                    $errorString = 'WEBM video type is not compatible with streaming delivery';
                 }
+                $errorString = 'WEBM video type is not compatible with streaming delivery';
             } else {
                 $errorString = 'Please provide values for all required fields: <ul><li>';
                 $errorString .= implode('</li><li>', $errors);

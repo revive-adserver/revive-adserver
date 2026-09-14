@@ -41,7 +41,7 @@ class OA_Admin_UI_Rule_JQueryUniqueRule extends OA_Admin_UI_Rule_BaseQuickFormRu
             return '"' . $rule['type'] . '": []';
         }
 
-        $aSlashedNames = array_map("addslashes", $rule['format']);
+        $aSlashedNames = array_map(addslashes(...), $rule['format']);
         //comma separate, double quote list of items
         $sNamesList = '"' . implode('", "', $aSlashedNames) . '"';
 

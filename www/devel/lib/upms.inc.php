@@ -93,14 +93,14 @@ function UPMS_getNextVersion($aServer)
 
     // Send the XML-RPC message to the server
     $response = $client->send($message, 60, 'http');
-
     // Was the response OK?
     if ($response && $response->faultCode() == 0) {
         $result = XML_RPC_decode($response->value());
-
         return $result;
-    } elseif ($response->faultCode() > 0) {
-        $result = $response->faultString();
+    }
+
+    if ($response->faultCode() > 0) {
+        return $response->faultString();
     }
     return $result;
 }

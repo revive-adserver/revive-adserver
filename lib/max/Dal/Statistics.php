@@ -70,12 +70,10 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
         // Was a result found?
         if ($rc->numRows() == 0) {
             // Return the current time
-            $oDate = new Date();
-        } else {
-            // Store the results
-            $aRow = $rc->fetchRow();
-            $oDate = new Date($aRow['day'] . ' ' . $aRow['hour'] . ':00:00');
+            return new Date();
         }
-        return $oDate;
+        // Store the results
+        $aRow = $rc->fetchRow();
+        return new Date($aRow['day'] . ' ' . $aRow['hour'] . ':00:00');
     }
 }

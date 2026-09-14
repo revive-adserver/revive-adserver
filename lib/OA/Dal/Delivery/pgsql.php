@@ -196,7 +196,7 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $c
 
     $qCounter = OX_escapeIdentifier($counter);
 
-    $aFields = array_map('OX_escapeIdentifier', array_keys($aQuery));
+    $aFields = array_map(OX_escapeIdentifier(...), array_keys($aQuery));
     $aValues = OX_bucket_quoteArgs($aQuery);
     $aConflict = array_diff($aFields, [$qCounter]);
 
@@ -225,14 +225,14 @@ function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
 
     $p1 = "(' ' || d.keyword || ' ')";
     $p2 = "ILIKE '% $keyword %'";
-
     if ($operator == 'OR') {
         return "OR {$p1} {$p2} ";
-    } elseif ($operator == 'AND') {
-        return "AND {$p1} {$p2} ";
-    } else {
-        return "AND {$p1} NOT {$p2} ";
     }
+
+    if ($operator == 'AND') {
+        return "AND {$p1} {$p2} ";
+    }
+    return "AND {$p1} NOT {$p2} ";
 }
 
 function OA_Dal_Delivery_getDbLink(string $database = 'database'): ?\Pgsql\Connection

@@ -22,9 +22,7 @@ abstract class Plugins_admin_apVideoUI_CachingChecker implements OA_Admin_Menu_I
 
         $cacheKey = "{$oSection->id}-{$key}";
 
-        if (!isset(static::$cache[$cacheKey])) {
-            static::$cache[$cacheKey] = $this->_check($oSection, $key);
-        }
+        static::$cache[$cacheKey] ??= $this->_check($oSection, $key);
 
         return static::$cache[$cacheKey];
     }

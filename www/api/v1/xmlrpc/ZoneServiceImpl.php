@@ -57,10 +57,9 @@ class ZoneServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllZone->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllZone->getLastError());
+        return false;
     }
 
     /**
@@ -80,9 +79,8 @@ class ZoneServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllZone->modify($oZone));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -104,13 +102,11 @@ class ZoneServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oZone->zoneId)) {
                 return $this->_validateResult($this->_dllZone->modify($oZone));
-            } else {
-                $this->raiseError("Field 'zoneId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'zoneId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -128,9 +124,8 @@ class ZoneServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllZone->delete($zoneId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -159,9 +154,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -190,9 +184,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -221,9 +214,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -252,9 +244,8 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -274,9 +265,8 @@ class ZoneServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllZone->getZone($zoneId, $oZone),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -300,45 +290,40 @@ class ZoneServiceImpl extends BaseServiceImpl
                     $aZoneList,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function linkBanner($sessionId, $zoneId, $bannerId)
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllZone->linkBanner($zoneId, $bannerId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function linkCampaign($sessionId, $zoneId, $campaignId)
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllZone->linkCampaign($zoneId, $campaignId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function unlinkBanner($sessionId, $zoneId, $bannerId)
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllZone->unlinkBanner($zoneId, $bannerId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function unlinkCampaign($sessionId, $zoneId, $campaignId)
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllZone->unlinkCampaign($zoneId, $campaignId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function generateTags($sessionId, $zoneId, $codeType, $aParams, &$generatedTag)

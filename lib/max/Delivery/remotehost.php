@@ -226,10 +226,10 @@ function MAX_remotehostMatchSubnet($ip, $net, $mask)
 
     if (is_int($mask)) {
         // Netmask notation x.x.x.x/y used
-
         if ($mask > 32 || $mask <= 0) {
             return false;
-        } elseif ($mask == 32) {
+        }
+        if ($mask == 32) {
             $mask = ~0;
         } else {
             $mask = ~((1 << (32 - $mask)) - 1);

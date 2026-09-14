@@ -292,7 +292,7 @@ function OA_Delivery_XmlRpc_View($params)
     }
 
     // Call MAX_adSelect with supplied parameters
-    $output = call_user_func_array('MAX_adSelect', $view_params);
+    $output = call_user_func_array(MAX_adSelect(...), $view_params);
 
     // Prepare output as PHP array
     if (!is_array($output)) {

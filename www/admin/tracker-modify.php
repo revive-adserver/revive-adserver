@@ -45,7 +45,6 @@ if (!empty($trackerid)) {
         $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->trackerid = $trackerid;
         $doTrackers->clientid = $clientid;
-
         if ($doTrackers->find()) {
             // Ensure the tracker belongs to the same manager
             $doClients = OA_Dal::staticGetDO('clients', $moveto);
@@ -73,9 +72,9 @@ if (!empty($trackerid)) {
         } else {
             header("Location: tracker-edit.php?clientid=" . $clientid . "&trackerid=" . $trackerid);
         }
-
         exit;
-    } elseif (isset($duplicate) && $duplicate == 'true') {
+    }
+    if (isset($duplicate) && $duplicate == 'true') {
         $doTrackers = OA_Dal::factoryDO('trackers');
         if ($doTrackers->get($trackerid)) {
             $oldName = $doTrackers->trackername;

@@ -58,10 +58,9 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllAdvertiser->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllAdvertiser->getLastError());
+        return false;
     }
 
     /**
@@ -81,9 +80,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllAdvertiser->modify($oAdvertiser));
-        } else {
-            return false;
         }
+        return false;
     }
     /**
      * The modifyAdvertiser method checks if an advertiser ID exists and
@@ -104,13 +102,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oAdvertiser->advertiserId)) {
                 return $this->_validateResult($this->_dllAdvertiser->modify($oAdvertiser));
-            } else {
-                $this->raiseError("Field 'advertiserId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'advertiserId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -128,9 +124,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllAdvertiser->delete($advertiserId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -160,9 +155,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $aData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -192,9 +186,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $aData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -224,9 +217,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -256,9 +248,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -288,9 +279,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -320,9 +310,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -342,9 +331,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -368,8 +356,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                     $aAdvertiserList,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

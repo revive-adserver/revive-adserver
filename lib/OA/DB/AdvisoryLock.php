@@ -106,7 +106,7 @@ class OA_DB_AdvisoryLock
 
         if (!$oLock->_isLockingSupported()) {
             // Fallback to file based locking if the current class won't work
-            $oLock = OA_DB_AdvisoryLock::factory('file');
+            return OA_DB_AdvisoryLock::factory('file');
         }
 
         return $oLock;

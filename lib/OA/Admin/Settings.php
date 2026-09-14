@@ -81,15 +81,15 @@ class OA_Admin_Settings
         }
         if (file_exists($configFile)) {
             return is_writable($configFile);
-        } elseif ($isDir) {
+        }
+        if ($isDir) {
             // OpenX has not been installed yet (or plugin config file
             // doesn't exist) so need to test if the web server can write
             // to the config file directory
             $configDir = substr($configFile, 0, strrpos($configFile, '/'));
             return is_writable($configDir);
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -139,9 +139,7 @@ class OA_Admin_Settings
      */
     public function writeConfigChange($configPath = null, $configFile = null, $reParse = true)
     {
-        if (is_null($configPath)) {
-            $configPath = MAX_PATH . '/var';
-        }
+        $configPath ??= MAX_PATH . '/var';
         if (!is_null($configFile)) {
             $configFile = '.' . $configFile;
         }
@@ -429,9 +427,7 @@ class OA_Admin_Settings
      */
     public function mergeConfigChanges($distConfig = null)
     {
-        if (is_null($distConfig)) {
-            $distConfig = MAX_PATH . '/etc/dist.conf.php';
-        }
+        $distConfig ??= MAX_PATH . '/etc/dist.conf.php';
         if (!is_readable($distConfig)) {
             return false;
         }
@@ -594,7 +590,7 @@ class OA_Admin_Settings
                             $aValues = array_unique($aValues);
                         }
                         if (!empty($aConfigInfo['trim'])) {
-                            array_walk($aValues, 'trim');
+                            array_walk($aValues, trim(...));
                         }
                         $aEmptyKeys = array_keys($aValues, '');
                         $counter = -1;

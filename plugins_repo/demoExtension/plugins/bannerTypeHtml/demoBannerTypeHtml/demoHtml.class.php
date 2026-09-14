@@ -99,11 +99,10 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
             $doBanners->banners_demo_id = $bannerid;
             $doBanners->banners_demo_desc = $aFields['description'];
             return $doBanners->insert();
-        } else {
-            $doBanners->banners_demo_desc = $aFields['description'];
-            $doBanners->whereAdd('banners_demo_id=' . $bannerid, 'AND');
-            return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
         }
+        $doBanners->banners_demo_desc = $aFields['description'];
+        $doBanners->whereAdd('banners_demo_id=' . $bannerid, 'AND');
+        return $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
     }
 
     /**

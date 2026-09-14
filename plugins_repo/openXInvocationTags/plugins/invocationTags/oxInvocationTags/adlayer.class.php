@@ -66,9 +66,8 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         $isAllowed = parent::isAllowed($extra);
         if (is_array($extra) || (is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {
             return false;
-        } else {
-            return $isAllowed;
         }
+        return $isAllowed;
     }
 
     /**
@@ -94,9 +93,8 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         $invocation = $this->getInvocationLayer($this->maxInvocation->layerstyle);
         if ($invocation !== false) {
             return $invocation->getlayerShowVar();
-        } else {
-            return [];
         }
+        return [];
     }
 
     /**
@@ -145,9 +143,8 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         if ($invocation !== false) {
             $buffer .= $invocation->generateLayerCode($this->maxInvocation) . "\n";
             return $buffer;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -176,9 +173,8 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the {$fileName} file");
             return false;
-        } else {
-            include_once $fileName;
         }
+        include_once $fileName;
         $className = "Plugins_" . ucfirst($this->group) . '_' . ucfirst($this->component) . '_Layerstyles_'
             . ucfirst($style) . '_' . ucfirst($type);
         if (!class_exists($className)) {
@@ -252,8 +248,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         $invocation = $this->getInvocationLayer($this->maxInvocation->layerstyle);
         if ($invocation !== false) {
             return $invocation->placeLayerSettings();
-        } else {
-            return false;
         }
+        return false;
     }
 }

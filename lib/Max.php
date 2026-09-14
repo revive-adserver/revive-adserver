@@ -56,9 +56,8 @@ class MAX
         ];
         if (array_key_exists($errorCode, $aErrorCodes)) {
             return strtoupper($aErrorCodes[$errorCode]);
-        } else {
-            return 'PEAR';
         }
+        return 'PEAR';
     }
     /**
      * A method to convert PEAR_Error objects to strings.
@@ -189,12 +188,14 @@ function pearErrorHandler($oError)
         // It's a test, stop execution
         echo nl2br("Message: $message\ndebugInfo: $debugInfo\nbackTrace: $msg");
         exit(1);
-    } elseif (defined('OA_WEBSERVICES_API_XMLRPC')) {
+    }
+    if (defined('OA_WEBSERVICES_API_XMLRPC')) {
         // It's an XML-RPC response
         $oResponse = new XML_RPC_Response('', 99999, $message);
         echo $oResponse->serialize();
         exit;
-    } elseif (OA_Permission::isUserLinkedToAdmin()) {
+    }
+    if (OA_Permission::isUserLinkedToAdmin()) {
         // Send the error to the screen
         echo MAX::errorObjToString($oError, $msg);
     }

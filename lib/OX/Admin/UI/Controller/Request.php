@@ -74,15 +74,7 @@ class OX_Admin_UI_Controller_Request
      */
     public function getParam($keyName, $default = null)
     {
-        if (isset($this->_params[$keyName])) {
-            return $this->_params[$keyName];
-        } elseif (isset($_GET[$keyName])) {
-            return $_GET[$keyName];
-        } elseif (isset($_POST[$keyName])) {
-            return $_POST[$keyName];
-        }
-
-        return $default;
+        return $this->_params[$keyName] ?? $_GET[$keyName] ?? $_POST[$keyName] ?? $default;
     }
 
 

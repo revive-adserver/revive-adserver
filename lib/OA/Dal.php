@@ -239,17 +239,15 @@ class OA_Dal
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
         if ($oDbh->dsn['phptype'] == 'pgsql') {
-            $sql = "
+            return "
                 CREATE TEMPORARY TABLE
                     $table
                 AS";
-        } else {
-            $sql = "
+        }
+        return "
                 CREATE TEMPORARY TABLE
                     $table
                 ENGINE={$aConf['table']['type']}";
-        }
-        return $sql;
     }
 
     /**
@@ -347,9 +345,7 @@ class OA_Dal
         $oDbh = OA_DB::singleton();
 
         // File path defaults to var/cache
-        if (!isset(self::$batchInsertPath)) {
-            self::$batchInsertPath = MAX_PATH . '/var/cache';
-        }
+        self::$batchInsertPath ??= MAX_PATH . '/var/cache';
 
         // Create file path using hostname and table name
         $filePath = self::$batchInsertPath . '/' . OX_getHostName() . '-batch-' . $qTableName . '.csv';

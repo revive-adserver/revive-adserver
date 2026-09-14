@@ -115,7 +115,7 @@ class OX_PluginExport
                 $aSchemas[$aGroup['name']] = $path . $aGroup['install']['schema']['mdb2schema'] . '.xml';
             }
         }
-        if ($aSchemas) {
+        if ($aSchemas !== []) {
             $oDbh = OA_DB::singleton();
             switch ($oDbh->dbsyntax) {
                 case 'mysqli':

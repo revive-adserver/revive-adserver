@@ -51,7 +51,8 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     }
     if (!empty($conf)) {
         return $fixMysqli($conf);
-    } elseif ($configFile === '.plugin') {
+    }
+    if ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
         $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
@@ -88,9 +89,7 @@ if (!function_exists('mergeConfigFiles')) {
     {
         foreach ($fakeConfig as $key => $value) {
             if (is_array($value)) {
-                if (!isset($realConfig[$key])) {
-                    $realConfig[$key] = [];
-                }
+                $realConfig[$key] ??= [];
                 $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
             } elseif (isset($realConfig[$key]) && is_array($realConfig[$key])) {
                 $realConfig[$key][0] = $value;

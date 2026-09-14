@@ -57,10 +57,9 @@ class BannerServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllBanner->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllBanner->getLastError());
+        return false;
     }
 
     /**
@@ -80,9 +79,8 @@ class BannerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllBanner->modify($oBanner));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -104,13 +102,11 @@ class BannerServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oBanner->bannerId)) {
                 return $this->_validateResult($this->_dllBanner->modify($oBanner));
-            } else {
-                $this->raiseError("Field 'bannerId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'bannerId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -128,9 +124,8 @@ class BannerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllBanner->delete($bannerId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -152,9 +147,8 @@ class BannerServiceImpl extends BaseServiceImpl
                 $bannerId,
                 $aTargeting,
             ));
-        } else {
-            return false;
         }
+        return false;
     }
 
 
@@ -177,9 +171,8 @@ class BannerServiceImpl extends BaseServiceImpl
                 $bannerId,
                 $aTargeting,
             ));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -208,9 +201,8 @@ class BannerServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -239,9 +231,8 @@ class BannerServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -270,9 +261,8 @@ class BannerServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -292,9 +282,8 @@ class BannerServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllBanner->getBanner($bannerId, $oBanner),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -317,8 +306,7 @@ class BannerServiceImpl extends BaseServiceImpl
                     $aBannerList,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

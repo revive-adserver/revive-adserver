@@ -160,7 +160,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         if (!$this->N) {
             // search only if find() wasn't executed yet
-            if ($filter) {
+            if ($filter !== []) {
                 // select only what is required
                 $this->selectAdd();
                 foreach ($filter as $field) {
@@ -302,9 +302,7 @@ class DB_DataObjectCommon extends DB_DataObject
     public function getCachedLink($key, $table, $link)
     {
         static $cachedTables;
-        if (is_null($cachedTables)) {
-            $cachedTables = [];
-        }
+        $cachedTables ??= [];
         if (isset($cachedTables[$table][$link][$this->$key])) {
             $doCheck = OA_Dal::factoryDO($table);
             $doCheck->setFrom($cachedTables[$table][$link][$this->$key]);
@@ -441,9 +439,7 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     public function getTableWithoutPrefix($table = null)
     {
-        if ($table === null) {
-            $table = $this->__table;
-        }
+        $table ??= $this->__table;
         if (!empty($this->_prefix) && str_starts_with($table, $this->_prefix)) {
             return substr($table, strlen($this->_prefix));
         }
@@ -602,17 +598,16 @@ class DB_DataObjectCommon extends DB_DataObject
         $links = parent::links();
         if (empty($this->_prefix)) {
             return $links;
-        } else {
-            $prefixedLinks = [];
-            if (!empty($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName])) {
-                $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
-                foreach ($links as $k => $v) {
-                    // add prefix
-                    $prefixedLinks[$k] = $this->_prefix . $v;
-                }
-            }
-            return $prefixedLinks;
         }
+        $prefixedLinks = [];
+        if (!empty($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName])) {
+            $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
+            foreach ($links as $k => $v) {
+                // add prefix
+                $prefixedLinks[$k] = $this->_prefix . $v;
+            }
+        }
+        return $prefixedLinks;
     }
 
     /**
@@ -753,11 +748,13 @@ class DB_DataObjectCommon extends DB_DataObject
         if (isset($this->defaultValues[$fieldName])) {
             if ($this->defaultValues[$fieldName] === '%DATE_TIME%') {
                 return date('Y-m-d H:i:s');
-            } elseif ($this->defaultValues[$fieldName] === '%NO_DATE_TIME%') {
+            }
+            if ($this->defaultValues[$fieldName] === '%NO_DATE_TIME%') {
                 return OX_DATAOBJECT_NULL;
             }
             return $this->defaultValues[$fieldName];
-        } elseif ($fieldName == 'updated') {
+        }
+        if ($fieldName == 'updated') {
             return date('Y-m-d H:i:s');
         }
         return null;
@@ -767,10 +764,7 @@ class DB_DataObjectCommon extends DB_DataObject
     {
         $key = false;
         $aKeys = $this->keys();
-        if (isset($aKeys[0])) {
-            $key = $aKeys[0];
-        }
-        return $key;
+        return $aKeys[0] ?? $key;
     }
 
     /**
@@ -1400,55 +1394,47 @@ class DB_DataObjectCommon extends DB_DataObject
 
             // Return the result
             return $aCache[$tableName][$this->$primaryKeyName];
-        } else {
-            // Get the directly owning account ID from a parent table
-
-            // If the owning account IDs have already been calculated,
-            // return them directly
-            if (!empty($aCache[$tableName][$this->$primaryKeyName][$parentTable])) {
-                return $aCache[$tableName][$this->$primaryKeyName][$parentTable];
-            }
-
-            // Test to ensure that the parent key column passed into the
-            // method exists in this DB_DataObject
-            if (empty($this->$parentKeyName)) {
-                $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKeyName);
-                if ($doThis) {
-                    $parentKeyValue = $doThis->$parentKeyName;
-                }
-            } else {
-                $parentKeyValue = $this->$parentKeyName;
-            }
-
-            // Do we have the parent table key value?
-            if (empty($parentKeyValue)) {
-                $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
-                            "as the parent key value could not be located where column " .
-                            "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
-                OA::debug($message, PEAR_LOG_ERR);
-                return false;
-            }
-
-            // Get the DB_DataObject for the parnet table
-            $doParent = OA_Dal::staticGetDO($parentTable, $parentKeyValue);
-            if ($doParent == false) {
-                $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
-                            "as the parent data object could not be created where column " .
-                            "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
-                OA::debug($message, PEAR_LOG_ERR);
-                return false;
-            }
-
-            // Get the result of calling the getOwningAccountIds() method on the
-            // parent DB_DataObject
-            $aResult = $doParent->getOwningAccountIds();
-
-            // Store the result in the cache array
-            $aCache[$tableName][$this->$primaryKeyName][$parentTable] = $aResult;
-
-            // Return the result
+        }
+        // Get the directly owning account ID from a parent table
+        // If the owning account IDs have already been calculated,
+        // return them directly
+        if (!empty($aCache[$tableName][$this->$primaryKeyName][$parentTable])) {
             return $aCache[$tableName][$this->$primaryKeyName][$parentTable];
         }
+        // Test to ensure that the parent key column passed into the
+        // method exists in this DB_DataObject
+        if (empty($this->$parentKeyName)) {
+            $doThis = OA_Dal::staticGetDO($tableName, $this->$primaryKeyName);
+            if ($doThis) {
+                $parentKeyValue = $doThis->$parentKeyName;
+            }
+        } else {
+            $parentKeyValue = $this->$parentKeyName;
+        }
+        // Do we have the parent table key value?
+        if (empty($parentKeyValue)) {
+            $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
+                        "as the parent key value could not be located where column " .
+                        "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
+            OA::debug($message, PEAR_LOG_ERR);
+            return false;
+        }
+        // Get the DB_DataObject for the parnet table
+        $doParent = OA_Dal::staticGetDO($parentTable, $parentKeyValue);
+        if ($doParent == false) {
+            $message = "Cannot locate owning account IDs for entity in table '$tableName', " .
+                        "as the parent data object could not be created where column " .
+                        "'$primaryKeyName' was  equal to '{$this->$primaryKeyName}'.";
+            OA::debug($message, PEAR_LOG_ERR);
+            return false;
+        }
+        // Get the result of calling the getOwningAccountIds() method on the
+        // parent DB_DataObject
+        $aResult = $doParent->getOwningAccountIds();
+        // Store the result in the cache array
+        $aCache[$tableName][$this->$primaryKeyName][$parentTable] = $aResult;
+        // Return the result
+        return $aCache[$tableName][$this->$primaryKeyName][$parentTable];
     }
 
     /**
@@ -1545,9 +1531,7 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->parentid = $parentid;
                 $this->doAudit->username = OA_Permission::getUsername();
                 $this->doAudit->userid = OA_Permission::getUserId();
-                if (!isset($this->doAudit->usertype)) {
-                    $this->doAudit->usertype = 0;
-                }
+                $this->doAudit->usertype ??= 0;
                 // Set the account IDs that need to be used in auditing
                 // this type of entity record
                 $aAccountIds = $this->getOwningAccountIds();
@@ -1709,12 +1693,11 @@ class DB_DataObjectCommon extends DB_DataObject
                 '1' => 'true',
                 default => $val,
             };
-        } else {
-            return match ($val) {
-                'f', 'n', 'N', 'false' => 'false',
-                't', 'y', 'Y', 'true' => 'true',
-                default => $val,
-            };
         }
+        return match ($val) {
+            'f', 'n', 'N', 'false' => 'false',
+            't', 'y', 'Y', 'true' => 'true',
+            default => $val,
+        };
     }
 }

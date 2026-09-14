@@ -220,9 +220,8 @@ class OA_Dll_User extends OA_Dll
                 $doUser->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -240,11 +239,10 @@ class OA_Dll_User extends OA_Dll
         if (!$this->checkPermissions(OA_ACCOUNT_ADMIN) ||
             !$this->checkIdExistence('users', $userId)) {
             return false;
-        } else {
-            $doUser = OA_Dal::factoryDO('users');
-            $doUser->user_id = $userId;
-            $result = $doUser->delete();
         }
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->user_id = $userId;
+        $result = $doUser->delete();
 
         if (!$result) {
             $this->raiseError(self::ERROR_UNKNOWN_USER_ID);

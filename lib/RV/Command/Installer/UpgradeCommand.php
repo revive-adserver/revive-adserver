@@ -106,7 +106,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             );
         } catch (RedirectException $e) {
             if ('database' !== $e->getAction()) {
-                throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
+                throw new RuntimeException("Unexpected redirect: {$e->getAction()}", $e->getCode(), $e);
             }
         }
     }
@@ -161,7 +161,7 @@ class UpgradeCommand extends AbstractInstallerCommand
             );
         } catch (RedirectException $e) {
             if ('jobs' !== $e->getAction()) {
-                throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
+                throw new RuntimeException("Unexpected redirect: {$e->getAction()}", $e->getCode(), $e);
             }
         }
     }

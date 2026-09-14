@@ -99,5 +99,5 @@ function OX_increaseMemoryLimit($setMemory)
         // Memory is unlimited
         return true;
     }
-    return !($setMemory > $phpMemoryLimitInBytes && @ini_set('memory_limit', $setMemory) === false);
+    return $setMemory <= $phpMemoryLimitInBytes || @ini_set('memory_limit', $setMemory) !== false;
 }

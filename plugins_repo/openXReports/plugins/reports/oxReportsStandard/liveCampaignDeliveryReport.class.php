@@ -474,11 +474,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $dalCampaigns = OA_Dal::factoryDAL('campaigns');
         $isTargeted = $dalCampaigns->isTargeted($campaignId);
         if ($isTargeted) {
-            $type = $this->translate("Targeted");
-        } else {
-            $type = $this->translate("Run of Site");
+            return $this->translate("Targeted");
         }
-        return $type;
+        return $this->translate("Run of Site");
     }
 
     /**
@@ -492,11 +490,9 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     public function _decodeStatusDescription($isActive)
     {
         if ($isActive == OA_ENTITY_STATUS_RUNNING) {
-            $type = $this->translate("Running");
-        } else {
-            $type = $this->translate("Stopped");
+            return $this->translate("Running");
         }
-        return $type;
+        return $this->translate("Stopped");
     }
 
     /**

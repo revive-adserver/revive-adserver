@@ -251,9 +251,7 @@ if (!function_exists('mergeConfigFiles')) {
     {
         foreach ($fakeConfig as $key => $value) {
             if (is_array($value)) {
-                if (!isset($realConfig[$key])) {
-                    $realConfig[$key] = [];
-                }
+                $realConfig[$key] ??= [];
                 $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
             } elseif (isset($realConfig[$key]) && is_array($realConfig[$key])) {
                 $realConfig[$key][0] = $value;

@@ -89,9 +89,7 @@ class OA_Admin_UI
      */
     public static function getInstance()
     {
-        if (null === self::$_instance) {
-            self::$_instance = new self();
-        }
+        self::$_instance ??= new self();
 
         return self::$_instance;
     }
@@ -176,7 +174,7 @@ class OA_Admin_UI
         $aLeftMenuSubNav = [];
         $aSectionNav = [];
 
-        if ($ID !== phpAds_Login && $ID !== phpAds_Error && $ID !== phpAds_PasswordRecovery) {
+        if (!in_array($ID, [phpAds_Login, phpAds_Error, phpAds_PasswordRecovery], true)) {
             // Get system navigation
             $oMenu = OA_Admin_Menu::singleton();
             // Update page title
@@ -327,12 +325,10 @@ class OA_Admin_UI
 
     public static function getID($ID)
     {
-        $id = $ID;
-
-        if (is_null($ID) || (($ID !== phpAds_Login && $ID !== phpAds_Error && $ID !== phpAds_PasswordRecovery && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^\d(\.\d)*$#', $ID)))) {
-            $id = basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
+        if (is_null($ID) || ((!in_array($ID, [phpAds_Login, phpAds_Error, phpAds_PasswordRecovery], true) && basename($_SERVER['SCRIPT_NAME']) != 'stats.php') && (preg_match('#^\d(\.\d)*$#', $ID)))) {
+            return basename(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '.')));
         }
-        return $id;
+        return $ID;
     }
 
 

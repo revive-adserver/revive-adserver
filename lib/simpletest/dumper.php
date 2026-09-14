@@ -47,19 +47,26 @@ class SimpleDumper
     {
         if (! isset($value)) {
             return "Null";
-        } elseif (is_bool($value)) {
+        }
+        if (is_bool($value)) {
             return "Boolean";
-        } elseif (is_string($value)) {
+        }
+        if (is_string($value)) {
             return "String";
-        } elseif (is_int($value)) {
+        }
+        if (is_int($value)) {
             return "Integer";
-        } elseif (is_float($value)) {
+        }
+        if (is_float($value)) {
             return "Float";
-        } elseif (is_array($value)) {
+        }
+        if (is_array($value)) {
             return "Array";
-        } elseif (is_resource($value)) {
+        }
+        if (is_resource($value)) {
             return "Resource";
-        } elseif (is_object($value)) {
+        }
+        if (is_object($value)) {
             return "Object";
         }
         return "Unknown";

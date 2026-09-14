@@ -35,7 +35,8 @@ class OX_OperationInterval
             // Operation interval must be at least every minute
             $error = 'The operation interval of ' . $oi . ' is invalud';
             return MAX::raiseError($error, MAX_ERROR_INVALIDOPERATIONINT);
-        } elseif ($oi < 60) {
+        }
+        if ($oi < 60) {
             // Operation interval is more often than once an hour
             if ((60 % $oi) != 0) {
                 // Operation interval must be a factor of 60 minutes
@@ -140,9 +141,7 @@ class OX_OperationInterval
     public static function addOperationIntervalTimeSpan($oDate, $operationInterval = null)
     {
         $oDateCopy = new Date($oDate);
-        if (is_null($operationInterval)) {
-            $operationInterval = OX_OperationInterval::getOperationInterval();
-        }
+        $operationInterval ??= OX_OperationInterval::getOperationInterval();
         $oDateCopy->addSeconds($operationInterval * 60);
         return $oDateCopy;
     }
@@ -270,15 +269,13 @@ class OX_OperationInterval
     public static function previousOperationIntervalID($operationIntervalID, $operationInterval = null, $intervals = 1)
     {
         // Set the operation interval length, if required
-        if (is_null($operationInterval)) {
-            $operationInterval = OX_OperationInterval::getOperationInterval();
-        }
+        $operationInterval ??= OX_OperationInterval::getOperationInterval();
         // Go backward the required number of intervals
         $newOperationIntervalID = $operationIntervalID - $intervals;
         // Have we passed the end?
         $highestIntervalID = (MINUTES_PER_WEEK / $operationInterval) - 1;
         if ($newOperationIntervalID < 0) {
-            $newOperationIntervalID = $highestIntervalID - ($intervals - $operationIntervalID) + 1;
+            return $highestIntervalID - ($intervals - $operationIntervalID) + 1;
         }
         return $newOperationIntervalID;
     }
@@ -297,15 +294,13 @@ class OX_OperationInterval
     public static function nextOperationIntervalID($operationIntervalID, $operationInterval = null, $intervals = 1)
     {
         // Set the operation interval length, if required
-        if (is_null($operationInterval)) {
-            $operationInterval = OX_OperationInterval::getOperationInterval();
-        }
+        $operationInterval ??= OX_OperationInterval::getOperationInterval();
         // Go forward the required number of intervals
         $newOperationIntervalID = $operationIntervalID + $intervals;
         // Have we passed the end?
         $highestIntervalID = (MINUTES_PER_WEEK / $operationInterval) - 1;
         if ($newOperationIntervalID > $highestIntervalID) {
-            $newOperationIntervalID = $highestIntervalID - $operationIntervalID;
+            return $highestIntervalID - $operationIntervalID;
         }
         return $newOperationIntervalID;
     }
@@ -325,9 +320,7 @@ class OX_OperationInterval
     public static function checkDateIsStartDate($oDate, $operationInterval = null)
     {
         // Set the operation interval length, if required
-        if (is_null($operationInterval)) {
-            $operationInterval = OX_OperationInterval::getOperationInterval();
-        }
+        $operationInterval ??= OX_OperationInterval::getOperationInterval();
         // Get the start/end dates for the operation interval the supplied
         // date is in
         $oDateCopy = new Date();
@@ -352,9 +345,7 @@ class OX_OperationInterval
     public static function checkDateIsEndDate($oDate, $operationInterval = null)
     {
         // Set the operation interval length, if required
-        if (is_null($operationInterval)) {
-            $operationInterval = OX_OperationInterval::getOperationInterval();
-        }
+        $operationInterval ??= OX_OperationInterval::getOperationInterval();
         // Get the start/end dates for the operation interval the supplied
         // date is in
         $oDateCopy = new Date();

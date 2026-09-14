@@ -66,14 +66,16 @@ class OA_Admin_NumberFormat
             case ".":
                 if (isset($result_dot_decSep)) {
                     return $result_dot_decSep;
-                } elseif (isset($result_coma_decSep)) {
+                }
+                if (isset($result_coma_decSep)) {
                     return $result_coma_decSep;
                 }
                 break;
             case ",":
                 if (isset($result_coma_decSep)) {
                     return $result_coma_decSep;
-                } elseif (isset($result_dot_decSep)) {
+                }
+                if (isset($result_dot_decSep)) {
                     return $result_dot_decSep;
                 }
                 break;
@@ -96,7 +98,7 @@ class OA_Admin_NumberFormat
             return false;
         }
 
-        $decimals = (is_null($decimals)) ? $GLOBALS['_MAX']['PREF']['ui_percentage_decimals'] : $decimals;
+        $decimals ??= $GLOBALS['_MAX']['PREF']['ui_percentage_decimals'];
         $dec_point = (empty($dec_point)) ? $GLOBALS['phpAds_DecimalPoint'] : $dec_point;
         $thousands_sep = (empty($thousands_sep)) ? $GLOBALS['phpAds_ThousandsSeperator'] : $thousands_sep;
 

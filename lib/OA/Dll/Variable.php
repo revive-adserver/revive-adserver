@@ -184,9 +184,8 @@ class OA_Dll_Variable extends OA_Dll
             }
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -216,10 +215,9 @@ class OA_Dll_Variable extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError(self::ERROR_DELETE);
-            return false;
         }
+        $this->raiseError(self::ERROR_DELETE);
+        return false;
     }
 
     /**
@@ -243,10 +241,9 @@ class OA_Dll_Variable extends OA_Dll
 
             $oVariableInfo->setVariableDataFromArray($aVariableData);
             return true;
-        } else {
-            $this->raiseError(self::ERROR_UNKNOWN_ID);
-            return false;
         }
+        $this->raiseError(self::ERROR_UNKNOWN_ID);
+        return false;
     }
 
     /**

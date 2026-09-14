@@ -22,9 +22,7 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
     public static function singleton()
     {
         static $instance;
-        if (!isset($instance)) {
-            $instance = new OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry();
-        }
+        $instance ??= new OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry();
         return $instance;
     }
 

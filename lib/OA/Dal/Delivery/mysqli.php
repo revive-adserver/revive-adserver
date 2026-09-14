@@ -203,7 +203,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
 
 function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $counter = 'count')
 {
-    $aQuery = array_map('OX_escapeString', $aQuery);
+    $aQuery = array_map(OX_escapeString(...), $aQuery);
     $aQuery[$counter] = $increment ? 1 : -1;
     $query = "
         INSERT INTO {$tableName}
@@ -220,14 +220,14 @@ function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
 
     $p1 = "CONCAT(' ',d.keyword,' ')";
     $p2 = "LIKE '% $keyword %'";
-
     if ($operator == 'OR') {
         return "OR {$p1} {$p2} ";
-    } elseif ($operator == 'AND') {
-        return "AND {$p1} {$p2} ";
-    } else {
-        return "AND {$p1} NOT {$p2} ";
     }
+
+    if ($operator == 'AND') {
+        return "AND {$p1} {$p2} ";
+    }
+    return "AND {$p1} NOT {$p2} ";
 }
 
 function OA_Dal_Delivery_getDbLink(string $database = 'database'): ?\mysqli

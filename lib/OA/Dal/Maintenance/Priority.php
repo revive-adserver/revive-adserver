@@ -557,10 +557,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         ORDER BY zone_id";
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
-            if (!isset($aResult[$aRow['zone_id']])) {
-                // No data available, forecast 0 impressions
-                $aResult[$aRow['zone_id']] = 0;
-            }
+            // No data available, forecast 0 impressions
+            $aResult[$aRow['zone_id']] ??= 0;
         }
         return $aResult;
     }
@@ -1338,9 +1336,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Loop through the results, and ensure that an array exists for each
             // ad ID, zone ID pair, and also store the initial values of the data
             foreach ($aResult as $aRow) {
-                if (!isset($aPastPriorityResult[$aRow['ad_id']])) {
-                    $aPastPriorityResult[$aRow['ad_id']] = [];
-                }
+                $aPastPriorityResult[$aRow['ad_id']] ??= [];
                 if (!isset($aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']])) {
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']] = [
                         'ad_id' => $aRow['ad_id'],
@@ -1438,9 +1434,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('- Updating ECPM priorities ', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $dbHasTransactionSupport = !((strcasecmp($aConf['database']['type'], 'mysql') === 0
-            || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
-        && strcasecmp($aConf['table']['type'], 'myisam') === 0);
+        $dbHasTransactionSupport = strcasecmp($aConf['database']['type'], 'mysql') !== 0 && strcasecmp($aConf['database']['type'], 'mysqli') !== 0 || strcasecmp($aConf['table']['type'], 'myisam') !== 0;
         if ($dbHasTransactionSupport) {
             $oRes = $this->oDbh->beginTransaction();
             if (PEAR::isError($oRes)) {
@@ -1498,9 +1492,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('- Updating Campaigns ECPMs', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $dbHasTransactionSupport = !((strcasecmp($aConf['database']['type'], 'mysql') === 0
-            || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
-        && strcasecmp($aConf['table']['type'], 'myisam') === 0);
+        $dbHasTransactionSupport = strcasecmp($aConf['database']['type'], 'mysql') !== 0 && strcasecmp($aConf['database']['type'], 'mysqli') !== 0 || strcasecmp($aConf['table']['type'], 'myisam') !== 0;
         if ($dbHasTransactionSupport) {
             $oRes = $this->oDbh->beginTransaction();
             if (PEAR::isError($oRes)) {
@@ -1673,7 +1665,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 {$table}
                                 SET
                                     priority = " . (float) $aAdZonePriority['priority'] . ",
-                                    priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
+                                    priority_factor = " . ($aAdZonePriority['priority_factor'] ?? 'NULL') . ",
                                     to_be_delivered = " . (empty($aAdZonePriority['to_be_delivered']) ? 0 : 1) . "
                                 WHERE
                                     ad_id = {$aAdZonePriority['ad_id']}
@@ -1732,7 +1724,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 {$table}
                                 SET
                                     priority = " . (float) $aAdZonePriority['priority'] . ",
-                                    priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
+                                    priority_factor = " . ($aAdZonePriority['priority_factor'] ?? 'NULL') . ",
                                     to_be_delivered = " . (empty($aAdZonePriority['to_be_delivered']) ? 0 : 1) . "
                                 WHERE
                                     ad_id = {$aAdZonePriority['ad_id']}
@@ -1943,7 +1935,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $aResult[$row['ad_id']] = $row['required_impressions'];
             }
             return $aResult;
-        } elseif (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
+        }
+        if (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
             return [];
         }
         MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -1986,7 +1979,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $aResult[$row['zone_id']][$row['ad_id']] = $row['required_impressions'];
             }
             return $aResult;
-        } elseif (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
+        }
+        if (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
             return [];
         }
         MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2187,13 +2181,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Check each operation interval ID has a forecast impression value,
         // and if not, set to the system default.
         for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
-            if (!isset($aFinalResult[$operationIntervalID])) {
-                $aFinalResult[$operationIntervalID] = [
-                    'zone_id' => $zoneId,
-                    'forecast_impressions' => $averageForecastImpressions,
-                    'operation_interval_id' => $operationIntervalID,
-                ];
-            }
+            $aFinalResult[$operationIntervalID] ??= [
+                'zone_id' => $zoneId,
+                'forecast_impressions' => $averageForecastImpressions,
+                'operation_interval_id' => $operationIntervalID,
+            ];
         }
         // Overwrite current OI with previous OI to match the zone forecasting algorithm
         $currOI = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
@@ -2224,7 +2216,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         if (empty($this->oLock)) {
             OA::debug('  - Lock wasn\'t acquired by the same DB connection', PEAR_LOG_ERR);
             return false;
-        } elseif (!$this->oLock->hasSameId('mpe')) {
+        }
+        if (!$this->oLock->hasSameId('mpe')) {
             OA::debug('  - Lock names to not match', PEAR_LOG_ERR);
             return false;
         }
@@ -2485,15 +2478,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 OA::debug('  - Error retreiving campaign record from database', PEAR_LOG_DEBUG);
                 continue;
             }
-            if (!isset($aResult[$aRow['campaignid']])) {
-                $aResult[$aRow['campaignid']] = [
-                    $idxRevenue => $aRow['revenue'],
-                    $idxRevenueType => $aRow['revenue_type'],
-                    $idxActivate => $aRow['activate_time'],
-                    $idxExpire => $aRow['expire_time'],
-                    $idxAds => [],
-                ];
-            }
+            $aResult[$aRow['campaignid']] ??= [
+                $idxRevenue => $aRow['revenue'],
+                $idxRevenueType => $aRow['revenue_type'],
+                $idxActivate => $aRow['activate_time'],
+                $idxExpire => $aRow['expire_time'],
+                $idxAds => [],
+            ];
             if (!isset($aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']])) {
                 $aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']][$idxWeight] = $aRow['weight'];
                 $aResult[$aRow['campaignid']][$idxAds][$aRow['bannerid']][$idxZones] = [];

@@ -50,9 +50,8 @@ class VariableXmlRpcService extends BaseVariableService
 
         if ($this->oVariableServiceImpl->addVariable($sessionId, $oVariableInfo)) {
             return XmlRpcUtils::integerTypeResponse($oVariableInfo->variableId);
-        } else {
-            return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
     }
 
     /**
@@ -89,9 +88,8 @@ class VariableXmlRpcService extends BaseVariableService
 
         if ($this->oVariableServiceImpl->modifyVariable($sessionId, $oVariableInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
     }
 
     /**
@@ -117,9 +115,8 @@ class VariableXmlRpcService extends BaseVariableService
 
         if ($this->oVariableServiceImpl->deleteVariable($sessionId, $variableId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
     }
 
     public function getVariable(&$oParams)
@@ -143,8 +140,7 @@ class VariableXmlRpcService extends BaseVariableService
             $oVariableInfo,
         )) {
             return XmlRpcUtils::getEntityResponse($oVariableInfo);
-        } else {
-            return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oVariableServiceImpl->getLastError());
     }
 }

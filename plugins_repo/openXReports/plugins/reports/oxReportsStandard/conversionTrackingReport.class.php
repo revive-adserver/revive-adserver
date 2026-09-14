@@ -373,9 +373,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             if (!empty($oDaySpan)) {
                 $aDayArray = $oDaySpan->getDayArray();
                 foreach ($aDayArray as $day) {
-                    if (!isset($aDays[$day])) {
-                        $aDays[$day] = [];
-                    }
+                    $aDays[$day] ??= [];
                 }
             } else {
                 // All statistics selected.  Get the earliest day, and fill in to today
@@ -390,9 +388,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 // Now, fill in the days
                 while ($minTime < $curTime) {
                     $day = date('Y-m-d', $minTime);
-                    if (!isset($aDays[$day])) {
-                        $aDays[$day] = [];
-                    }
+                    $aDays[$day] ??= [];
                     $minTime = mktime(0, 0, 0, date('m', $minTime), date('d', $minTime) + 1, date('Y', $minTime));
                 }
             }
@@ -481,9 +477,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             if (!empty($oDaySpan)) {
                 $aDayArray = $oDaySpan->getDayArray();
                 foreach ($aDayArray as $day) {
-                    if (!isset($aDays[$day])) {
-                        $aDays[$day] = [];
-                    }
+                    $aDays[$day] ??= [];
                 }
             } else {
                 // All statistics selected.  Get the earliest day, and fill in to today
@@ -498,9 +492,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                 // Now, fill in the days
                 while ($minTime < $curTime) {
                     $day = date('Y-m-d', $minTime);
-                    if (!isset($aDays[$day])) {
-                        $aDays[$day] = [];
-                    }
+                    $aDays[$day] ??= [];
                     $minTime = mktime(0, 0, 0, date('m', $minTime), date('d', $minTime) + 1, date('Y', $minTime));
                 }
             }

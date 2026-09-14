@@ -110,10 +110,8 @@ function setupDeliveryConfigVariables()
         define('LIB_PATH', MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'OX');
     }
     // Ensure that the initialisation has not been run before
-    if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Parse the Max configuration file
-        $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
-    }
+    // Parse the Max configuration file
+    $GLOBALS['_MAX']['CONF'] ??= parseDeliveryIniFile();
 
     // Set up the common configuration variables
     setupConfigVariables();

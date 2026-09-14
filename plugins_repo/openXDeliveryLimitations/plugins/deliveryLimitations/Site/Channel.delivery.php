@@ -32,9 +32,7 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = [])
     if (empty($limitation)) {
         return true;
     }
-    if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
-        $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = [];
-    }
+    $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] ??= [];
     if (isset($GLOBALS['_MAX']['channel_results'][$limitation][$op])) {
         return $GLOBALS['_MAX']['channel_results'][$limitation][$op];
     }

@@ -40,9 +40,8 @@ class OX
         }
         if ($asset != null) {
             return $pathWithSuffix . "/" . $asset;
-        } else {
-            return $pathWithSuffix;
         }
+        return $pathWithSuffix;
     }
 
     /**
@@ -55,7 +54,7 @@ class OX
     public static function realPathRelative($path)
     {
         $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
-        $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
+        $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), strlen(...));
         $absolutes = [];
         foreach ($parts as $part) {
             if ('.' == $part) {

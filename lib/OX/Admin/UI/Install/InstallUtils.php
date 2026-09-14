@@ -86,10 +86,8 @@ class OX_Admin_UI_Install_InstallUtils
     {
         if (!file_exists($folder)) {
             return false;
-        } elseif (!is_writable($folder)) {
-            return false;
         }
-        return true;
+        return is_writable($folder);
     }
 
 

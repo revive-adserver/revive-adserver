@@ -319,15 +319,11 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
 
     // Extract the capping information to put into the form
     if (is_null($type)) {
-        if (!isset($time)) {
-            $time = _getTimeFromSec($aCappedObject['block']);
-        }
+        $time ??= _getTimeFromSec($aCappedObject['block']);
         $cap ??= $aCappedObject['capping'];
         $session_capping ??= $aCappedObject['session_capping'];
     } else {
-        if (!isset($time)) {
-            $time = _getTimeFromSec($aCappedObject['block_' . strtolower($type)]);
-        }
+        $time ??= _getTimeFromSec($aCappedObject['block_' . strtolower($type)]);
         $cap ??= $aCappedObject['cap_' . strtolower($type)];
         $session_capping ??= $aCappedObject['session_cap_' . strtolower($type)];
     }

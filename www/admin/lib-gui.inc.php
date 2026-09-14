@@ -297,11 +297,7 @@ function phpAds_sqlDie()
         if ($errornumber == 1016 || $errornumber == 1030) {
             // Probably corrupted table, do additional check
             preg_match("/[0-9]+/Di", $error, $matches);
-            if ($matches[0] == 126 || $matches[0] == 127 ||
-            $matches[0] == 132 || $matches[0] == 134 ||
-            $matches[0] == 135 || $matches[0] == 136 ||
-            $matches[0] == 141 || $matches[0] == 144 ||
-            $matches[0] == 145) {
+            if (in_array($matches[0], [126, 127, 132, 134, 135, 136, 141, 144, 145])) {
                 $corrupt = true;
             }
         }
@@ -372,9 +368,7 @@ function phpAds_Die($title = "Error", $message = "Unknown error")
     $header = ($title == $GLOBALS['strAccessDenied']) ? phpAds_Login : phpAds_Error;
     // Header
     if ($phpAds_GUIDone == false) {
-        if (!isset($phpAds_TextDirection)) {
-            $phpAds_TextDirection = 'ltr';
-        }
+        $phpAds_TextDirection ??= 'ltr';
         phpAds_PageHeader(phpAds_Error);
     }
     echo "<br>";

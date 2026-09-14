@@ -49,9 +49,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
     public static function factory($aDeliveryLimitation)
     {
         // Load plugins if not already in cache
-        if (!isset(self::$aPlugins)) {
-            self::$aPlugins = OX_Component::getComponents('deliveryLimitations', null, false);
-        }
+        self::$aPlugins ??= OX_Component::getComponents('deliveryLimitations', null, false);
 
         // Return instance of the MPE DL class
         if (isset(self::$aPlugins[$aDeliveryLimitation['type']])) {

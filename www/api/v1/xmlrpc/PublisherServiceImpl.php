@@ -57,10 +57,9 @@ class PublisherServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllPublisher->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllPublisher->getLastError());
+        return false;
     }
 
     /**
@@ -79,9 +78,8 @@ class PublisherServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllPublisher->modify($oPublisher));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -103,13 +101,11 @@ class PublisherServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oPublisher->publisherId)) {
                 return $this->_validateResult($this->_dllPublisher->modify($oPublisher));
-            } else {
-                $this->raiseError("Field 'publisherId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'publisherId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -127,9 +123,8 @@ class PublisherServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllPublisher->delete($publisherId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -158,9 +153,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -189,9 +183,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -220,9 +213,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -251,9 +243,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -282,9 +273,8 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -304,9 +294,8 @@ class PublisherServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllPublisher->getPublisher($publisherId, $oPublisher),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -330,8 +319,7 @@ class PublisherServiceImpl extends BaseServiceImpl
                     $aPublisherList,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

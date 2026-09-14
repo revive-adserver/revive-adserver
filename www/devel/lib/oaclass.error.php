@@ -13,8 +13,7 @@ class OpenadsError extends PEAR
         ];
         if ($code) {
             return $error_levels[$code];
-        } else {
-            return 'UNKNOWN';
         }
+        return 'UNKNOWN';
     }
 }

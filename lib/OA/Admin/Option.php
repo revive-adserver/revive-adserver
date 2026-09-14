@@ -232,9 +232,7 @@ class OA_Admin_Option
         global $tabindex;
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        if (!isset($tabindex)) {
-            $tabindex = 1;
-        }
+        $tabindex ??= 1;
 
         $this->_writeJavascriptFunctions();
 
@@ -282,9 +280,7 @@ class OA_Admin_Option
 
         // Initialize tabindex (if not already done)
         global $tabindex;
-        if (!isset($tabindex)) {
-            $tabindex = 1;
-        }
+        $tabindex ??= 1;
 
         // Determine if config file is writable
         $configLocked = !OA_Admin_Settings::isConfigWritable();
@@ -467,9 +463,7 @@ class OA_Admin_Option
                                 $value = $aItem['value'];
                             }
                             // If that did not work, set to an empty string
-                            if (is_null($value)) {
-                                $value = '';
-                            }
+                            $value ??= '';
                         }
                         if (!empty($value) && isset($aItem['preg_split']) && isset($aItem['merge'])) {
                             $aValues = preg_split($aItem['preg_split'], $value);
@@ -530,12 +524,8 @@ class OA_Admin_Option
                         $sectionHasRequiredField = true;
                     }
                     if (isset($aItem['check']) || isset($aItem['req'])) {
-                        if (!isset($aItem['check'])) {
-                            $aItem['check'] = '';
-                        }
-                        if (!isset($aItem['req'])) {
-                            $aItem['req'] = false;
-                        }
+                        $aItem['check'] ??= '';
+                        $aItem['req'] ??= false;
                         $checkbuffer .= "max_formSetRequirements('" . $aItem['name'] . "', '" . addslashes($aItem['text']) . "', " . ($aItem['req'] ? 'true' : 'false') . ", '" . $aItem['check'] . "');\n";
                         if (isset($aItem['unique'])) {
                             $checkbuffer .= "max_formSetUnique('" . $aItem['name'] . "', '|" . addslashes(implode('|', $aItem['unique'])) . "|');\n";
@@ -762,13 +752,9 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = $value;
 
-        if (!isset($aItem['size'])) {
-            $aItem['size'] = 25;
-        }
+        $aItem['size'] ??= 25;
 
-        if (!isset($aItem['maxlength'])) {
-            $aItem['maxlength'] = 1024;
-        }
+        $aItem['maxlength'] ??= 1024;
 
         $this->aOption[] = ['text.html' => $aItem];
     }
@@ -781,13 +767,9 @@ class OA_Admin_Option
         $aItem['value'] = $value;
         $aItem['type'] = $type;
 
-        if (!isset($aItem['size'])) {
-            $aItem['size'] = 25;
-        }
+        $aItem['size'] ??= 25;
 
-        if (!isset($aItem['maxlength'])) {
-            $aItem['maxlength'] = 1024;
-        }
+        $aItem['maxlength'] ??= 1024;
 
         $this->aOption[] = ['url.html' => $aItem];
     }
@@ -799,13 +781,9 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = $value;
 
-        if (!isset($aItem['rows'])) {
-            $aItem['rows'] = 5;
-        }
+        $aItem['rows'] ??= 5;
 
-        if (!isset($aItem['maxlength'])) {
-            $aItem['maxlength'] = 8192;
-        }
+        $aItem['maxlength'] ??= 8192;
 
         $this->aOption[] = ['textarea.html' => $aItem];
     }
@@ -813,9 +791,7 @@ class OA_Admin_Option
     public function _showPassword($aItem, $value)
     {
         global $tabindex;
-        if (!isset($aItem['size'])) {
-            $aItem['size'] = 25;
-        }
+        $aItem['size'] ??= 25;
         //  if config file is not writeable do not display password
         $hidePassword = false;
         $writeable = OA_Admin_Settings::isConfigWritable();
@@ -909,9 +885,8 @@ class OA_Admin_Option
     {
         if ($aItem['disabled']) {
             return '<img src="' . OX::assetPath() . '/images/padlock-closed.gif">';
-        } else {
-            return '&nbsp;';
         }
+        return '&nbsp;';
     }
 
     /**
@@ -962,13 +937,14 @@ class OA_Admin_Option
         $val = (float) $val;
         if ($val < 1024) {
             return number_format($val, 0) . "b";
-        } elseif ($val < 1048576) {
-            return number_format($val / 1024, 1) . "KB";
-        } elseif ($val >= 1048576) {
-            return number_format($val / 1048576, 1) . "MB";
-        } else {
-            return false;
         }
+        if ($val < 1048576) {
+            return number_format($val / 1024, 1) . "KB";
+        }
+        if ($val >= 1048576) {
+            return number_format($val / 1048576, 1) . "MB";
+        }
+        return false;
     }
 
     /**
@@ -992,8 +968,7 @@ class OA_Admin_Option
 
         if (array_key_exists($priority, $levels)) {
             return $levels[$priority];
-        } else {
-            return $priority;
         }
+        return $priority;
     }
 }

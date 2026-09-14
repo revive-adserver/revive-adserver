@@ -22,11 +22,6 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 abstract class Plugins_MaintenancePriorityTask extends OX_Component
 {
     /**
-     * Constructor method
-     */
-    public function __construct($extension, $group, $component) {}
-
-    /**
      * Method returns OX_Maintenance_Priority_Task
      * to run in the Maintenance Priority Engine
      * Implements hook 'addMaintenancePriorityTask'

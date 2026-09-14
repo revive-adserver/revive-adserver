@@ -140,7 +140,8 @@ class SimpleUrl
             if (preg_match('/[a-z0-9\-]+\.(' . $tlds . ')/i', $matches[1])) {
                 $url = $matches[2] . $matches[3];
                 return $matches[1];
-            } elseif (preg_match('/[a-z0-9\-]+\.[a-z0-9\-]+\.[a-z0-9\-]+/i', $matches[1])) {
+            }
+            if (preg_match('/[a-z0-9\-]+\.[a-z0-9\-]+\.[a-z0-9\-]+/i', $matches[1])) {
                 $url = $matches[2] . $matches[3];
                 return $matches[1];
             }

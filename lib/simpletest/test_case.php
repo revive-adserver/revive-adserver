@@ -301,12 +301,11 @@ class SimpleTestCase
                 $message,
                 $expectation->overlayMessage($compare, $this->_reporter->getDumper()),
             ));
-        } else {
-            return $this->fail(sprintf(
-                $message,
-                $expectation->overlayMessage($compare, $this->_reporter->getDumper()),
-            ));
         }
+        return $this->fail(sprintf(
+            $message,
+            $expectation->overlayMessage($compare, $this->_reporter->getDumper()),
+        ));
     }
 
     /**
@@ -559,7 +558,7 @@ class TestSuite
     {
         while ($class = get_parent_class($class)) {
             $class = strtolower($class);
-            if ($class == 'simpletestcase' || $class == 'testsuite' || $class == 'grouptest') {
+            if (in_array($class, ['simpletestcase', 'testsuite', 'grouptest'])) {
                 return $class;
             }
         }

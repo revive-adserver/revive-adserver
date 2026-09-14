@@ -148,9 +148,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId, $oDate);
             $aDeliveryData = $record->toArray();
             return $aData['impressions'] - $aDeliveryData['impressions_delivered'];
-        } else {
-            return $strUnlimited;
         }
+        return $strUnlimited;
     }
 
     /**
@@ -187,9 +186,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId, $oDate);
             $aDeliveryData = $record->toArray();
             return $aData['clicks'] - $aDeliveryData['clicks_delivered'];
-        } else {
-            return $strUnlimited;
         }
+        return $strUnlimited;
     }
 
     /**
@@ -226,9 +224,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId, $oDate);
             $aDeliveryData = $record->toArray();
             return $aData['conversions'] - $aDeliveryData['conversions_delivered'];
-        } else {
-            return $strUnlimited;
         }
+        return $strUnlimited;
     }
 
     /**

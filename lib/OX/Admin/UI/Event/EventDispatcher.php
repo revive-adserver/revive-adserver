@@ -72,9 +72,7 @@ class OX_Admin_UI_Event_EventDispatcher
      */
     public function register($eventName, $callback)
     {
-        if (!isset($this->aListeners[$eventName])) {
-            $this->aListeners[$eventName] = [];
-        }
+        $this->aListeners[$eventName] ??= [];
 
         $key = $this->getKey($callback);
 
@@ -98,9 +96,7 @@ class OX_Admin_UI_Event_EventDispatcher
      */
     public function getRegisteredListeners($eventName)
     {
-        if (!isset($this->aListeners[$eventName])) {
-            $this->aListeners[$eventName] = [];
-        }
+        $this->aListeners[$eventName] ??= [];
         return array_values($this->aListeners[$eventName]);
     }
 
@@ -145,10 +141,9 @@ class OX_Admin_UI_Event_EventDispatcher
             if (is_object($callback[0])) {
                 //build key from object class name and method
                 return $callback[0]::class . '::' . $callback[1];
-            } else {
-                //build key from object class name and method
-                return $callback[0] . '::' . $callback[1];
             }
+            //build key from object class name and method
+            return $callback[0] . '::' . $callback[1];
         }
 
         return null;

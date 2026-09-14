@@ -78,7 +78,7 @@ for ($i = 0; $i < count($adId); $i++) {
     } else {
         $creativeId[$i] = 0;
     }
-    if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+    if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && (!isset($_GET['log']) || $_GET['log'] != 'no')) {
         // Check to see if the ad click logging action/ad click redirect action
         // is blocked (as a result of the settings & banner inactivity), and if
         // so, exit click processing at this point, without recording the click

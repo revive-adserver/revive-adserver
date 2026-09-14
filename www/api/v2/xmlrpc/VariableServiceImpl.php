@@ -41,10 +41,9 @@ class VariableServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->dllVariable->getLastError());
-            return false;
         }
+        $this->raiseError($this->dllVariable->getLastError());
+        return false;
     }
 
     /**
@@ -60,9 +59,8 @@ class VariableServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult($this->dllVariable->modify($oVariableInfo));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -80,13 +78,11 @@ class VariableServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oVariableInfo->variableId)) {
                 return $this->validateResult($this->dllVariable->modify($oVariableInfo));
-            } else {
-                $this->raiseError("Field 'variableId' in structure does not exist");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'variableId' in structure does not exist");
             return false;
         }
+        return false;
     }
 
 
@@ -101,9 +97,8 @@ class VariableServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult($this->dllVariable->delete($variableId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -119,8 +114,7 @@ class VariableServiceImpl extends BaseServiceImpl
             return $this->validateResult(
                 $this->dllVariable->getVariable($variableId, $oVariableInfo),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

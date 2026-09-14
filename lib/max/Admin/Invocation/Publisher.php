@@ -75,9 +75,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation
             $codetype = $defaultPublisherPlugin;
         } elseif (count($available) > 1) {
             // Multiple publisher invocation plugins available
-            if (!isset($codetype)) {
-                $codetype = $defaultPublisherPlugin;
-            }
+            $codetype ??= $defaultPublisherPlugin;
 
             echo "<form name='generate' method='POST' onSubmit='return max_formValidate(this);'>\n";
 

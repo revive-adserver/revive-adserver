@@ -26,15 +26,9 @@ OX_Delivery_Common_sendPreconnectHeaders();
 MAX_commonRegisterGlobalsArray(['refresh', 'resize', 'rewrite', 'n']);
 
 // Initialise any afr.php specific variables
-if (!isset($rewrite)) {
-    $rewrite = 1;
-}
-if (!isset($refresh)) {
-    $refresh = 0;
-}
-if (!isset($resize)) {
-    $resize = 0;
-}
+$rewrite ??= 1;
+$refresh ??= 0;
+$resize ??= 0;
 
 // Get the banner
 $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);

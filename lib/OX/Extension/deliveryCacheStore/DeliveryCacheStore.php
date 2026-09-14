@@ -23,11 +23,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
 abstract class Plugins_DeliveryCacheStore extends OX_Component
 {
     /**
-     * Constructor method
-     */
-    public function __construct($extension, $group, $component) {}
-
-    /**
      * Return information about cache store
      * (is it available etc.)
      *

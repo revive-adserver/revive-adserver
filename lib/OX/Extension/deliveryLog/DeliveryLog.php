@@ -323,11 +323,14 @@ abstract class Plugins_DeliveryLog extends OX_Component
         }
         if ($aMap['method'] == 'aggregate') {
             return $this->_testStatisticsMigrationAggregate($aMap);
-        } elseif ($aMap['method'] == 'raw') {
+        }
+        if ($aMap['method'] == 'raw') {
             return $this->_testStatisticsMigrationRaw($aMap);
-        } elseif ($aMap['method'] == 'rawSupplementary') {
+        }
+        if ($aMap['method'] == 'rawSupplementary') {
             return $this->_testStatisticsMigrationRawSupplementary($aMap);
-        } elseif ($aMap['method'] == 'custom') {
+        }
+        if ($aMap['method'] == 'custom') {
             return $this->_testStatisticsMigrationCustom($aMap);
         }
         return false;

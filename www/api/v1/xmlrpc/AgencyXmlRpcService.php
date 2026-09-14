@@ -82,9 +82,8 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         if ($this->_oAgencyServiceImp->addAgency($sessionId, $oAgencyInfo)) {
             return XmlRpcUtils::integerTypeResponse($oAgencyInfo->agencyId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -122,9 +121,8 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         if ($this->_oAgencyServiceImp->modifyAgency($sessionId, $oAgencyInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -152,9 +150,8 @@ class AgencyXmlRpcService extends BaseAgencyService
 
         if ($this->_oAgencyServiceImp->deleteAgency($sessionId, $agencyId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -193,9 +190,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -235,9 +231,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -279,9 +274,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -325,9 +319,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -367,9 +360,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -411,9 +403,8 @@ class AgencyXmlRpcService extends BaseAgencyService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -445,9 +436,8 @@ class AgencyXmlRpcService extends BaseAgencyService
             $oAgency,
         )) {
             return XmlRpcUtils::getEntityResponse($oAgency);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 
     /**
@@ -475,9 +465,8 @@ class AgencyXmlRpcService extends BaseAgencyService
         $aAgencyList = null;
         if ($this->_oAgencyServiceImp->getAgencyList($sessionId, $aAgencyList)) {
             return XmlRpcUtils::getArrayOfEntityResponse($aAgencyList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
     }
 }
 

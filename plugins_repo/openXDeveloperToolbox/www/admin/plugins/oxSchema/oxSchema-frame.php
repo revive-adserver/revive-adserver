@@ -140,18 +140,16 @@ if (!$table) {
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
     readfile($oSchema->working_file_schema);
     exit();
-} else {
-    $oSchema->parseWorkingDefinitionFile();
-    $aDD_definition = $oSchema->aDD_definition;
-    $aDB_definition = $oSchema->aDB_definition;
-    $aTbl_definition = $oSchema->aDB_definition['tables'][$table];
-    $aLinks = $oSchema->readForeignKeys($table);
-    $aTbl_links = $aLinks[$table];
-    $aLink_targets = $oSchema->getLinkTargets();
-
-    include 'templates/schema_edit.html';
-    exit();
 }
+$oSchema->parseWorkingDefinitionFile();
+$aDD_definition = $oSchema->aDD_definition;
+$aDB_definition = $oSchema->aDB_definition;
+$aTbl_definition = $oSchema->aDB_definition['tables'][$table];
+$aLinks = $oSchema->readForeignKeys($table);
+$aTbl_links = $aLinks[$table];
+$aLink_targets = $oSchema->getLinkTargets();
+include 'templates/schema_edit.html';
+exit();
 
 
 /* using XSLT class to display the xml inside html

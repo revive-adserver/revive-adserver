@@ -224,9 +224,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         static $oServiceLocator;
 
         if (!empty($this->activate_time) && $this->activate_time != OX_DATAOBJECT_NULL) {
-            if (!isset($oServiceLocator)) {
-                $oServiceLocator = OA_ServiceLocator::instance();
-            }
+            $oServiceLocator ??= OA_ServiceLocator::instance();
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
             }
@@ -251,9 +249,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         static $oServiceLocator;
 
         if (!empty($this->expire_time) && $this->expire_time != OX_DATAOBJECT_NULL) {
-            if (!isset($oServiceLocator)) {
-                $oServiceLocator = OA_ServiceLocator::instance();
-            }
+            $oServiceLocator ??= OA_ServiceLocator::instance();
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
             }
@@ -515,10 +511,8 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             }
             // Get owning account id
             $accountId = $this->doAudit->account_id;
-            if (!isset($aCache['aAccounts'][$accountId])) {
-                // No cached array for this account id, initialise
-                $aCache['aAccounts'][$accountId] = [];
-            }
+            // No cached array for this account id, initialise
+            $aCache['aAccounts'][$accountId] ??= [];
 
             // Add current action as first item
             array_unshift($aCache['aAccounts'][$accountId], $aAction);

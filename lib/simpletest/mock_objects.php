@@ -94,9 +94,8 @@ class ParametersExpectation extends SimpleExpectation
             return "Expectation of " . count($this->_expected) .
                     " arguments of [" . $this->_renderArguments($this->_expected) .
                     "] is correct";
-        } else {
-            return $this->_describeDifference($this->_expected, $parameters);
         }
+        return $this->_describeDifference($this->_expected, $parameters);
     }
 
     /**
@@ -507,9 +506,7 @@ class SimpleMock
      */
     public function _addCall($method, $args)
     {
-        if (!isset($this->_call_counts[$method])) {
-            $this->_call_counts[$method] = 0;
-        }
+        $this->_call_counts[$method] ??= 0;
         $this->_call_counts[$method]++;
     }
 
@@ -541,9 +538,7 @@ class SimpleMock
         $this->_dieOnNoMethod($method, "set return value");
         $args = $this->_replaceWildcards($args);
         $method = strtolower($method);
-        if (! isset($this->_returns[$method])) {
-            $this->_returns[$method] = new CallMap();
-        }
+        $this->_returns[$method] ??= new CallMap();
         $this->_returns[$method]->addValue($args, $value);
     }
 
@@ -565,12 +560,8 @@ class SimpleMock
         $this->_dieOnNoMethod($method, "set return value sequence");
         $args = $this->_replaceWildcards($args);
         $method = strtolower($method);
-        if (! isset($this->_return_sequence[$method])) {
-            $this->_return_sequence[$method] = [];
-        }
-        if (! isset($this->_return_sequence[$method][$timing])) {
-            $this->_return_sequence[$method][$timing] = new CallMap();
-        }
+        $this->_return_sequence[$method] ??= [];
+        $this->_return_sequence[$method][$timing] ??= new CallMap();
         $this->_return_sequence[$method][$timing]->addValue($args, $value);
     }
 
@@ -587,9 +578,7 @@ class SimpleMock
         $this->_dieOnNoMethod($method, "set return reference");
         $args = $this->_replaceWildcards($args);
         $method = strtolower($method);
-        if (! isset($this->_returns[$method])) {
-            $this->_returns[$method] = new CallMap();
-        }
+        $this->_returns[$method] ??= new CallMap();
         $this->_returns[$method]->addReference($args, $reference);
     }
 
@@ -611,12 +600,8 @@ class SimpleMock
         $this->_dieOnNoMethod($method, "set return reference sequence");
         $args = $this->_replaceWildcards($args);
         $method = strtolower($method);
-        if (! isset($this->_return_sequence[$method])) {
-            $this->_return_sequence[$method] = [];
-        }
-        if (! isset($this->_return_sequence[$method][$timing])) {
-            $this->_return_sequence[$method][$timing] = new CallMap();
-        }
+        $this->_return_sequence[$method] ??= [];
+        $this->_return_sequence[$method][$timing] ??= new CallMap();
         $this->_return_sequence[$method][$timing]->addReference($args, $reference);
     }
 
@@ -665,9 +650,7 @@ class SimpleMock
         $this->_dieOnNoMethod($method, 'set expected arguments at time');
         $this->_checkArgumentsIsArray($args, 'set expected arguments at time');
         $args = $this->_replaceWildcards($args);
-        if (! isset($this->_expected_args_at[$timing])) {
-            $this->_expected_args_at[$timing] = [];
-        }
+        $this->_expected_args_at[$timing] ??= [];
         $method = strtolower($method);
         $message .= Mock::getExpectationLine();
         $this->_expected_args_at[$timing][$method] =

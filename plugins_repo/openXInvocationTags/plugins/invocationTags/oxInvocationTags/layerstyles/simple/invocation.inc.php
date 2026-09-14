@@ -38,39 +38,17 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Simple_Invocation extends Plu
         global $nobg, $noborder;
         global $tabindex;
 
-        if (!isset($align)) {
-            $align = 'right';
-        }
-        if (!isset($valign)) {
-            $valign = 'top';
-        }
-        if (!isset($closetime)) {
-            $closetime = '-';
-        }
-        if (!isset($padding)) {
-            $padding = '2';
-        }
-        if (!isset($shifth)) {
-            $shifth = 0;
-        }
-        if (!isset($shiftv)) {
-            $shiftv = 0;
-        }
-        if (!isset($closebutton)) {
-            $closebutton = 'f';
-        }
-        if (!isset($backcolor)) {
-            $backcolor = '#FFFFFF';
-        }
-        if (!isset($bordercolor)) {
-            $bordercolor = '#000000';
-        }
-        if (!isset($nobg)) {
-            $nobg = 'f';
-        }
-        if (!isset($noborder)) {
-            $noborder = 'f';
-        }
+        $align ??= 'right';
+        $valign ??= 'top';
+        $closetime ??= '-';
+        $padding ??= '2';
+        $shifth ??= 0;
+        $shiftv ??= 0;
+        $closebutton ??= 'f';
+        $backcolor ??= '#FFFFFF';
+        $bordercolor ??= '#000000';
+        $nobg ??= 'f';
+        $noborder ??= 'f';
 
         $buffer = '';
 

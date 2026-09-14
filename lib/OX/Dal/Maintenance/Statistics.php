@@ -1418,18 +1418,12 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                     if ((isset($valuesRow['impressions'])) || (!is_null($valuesRow['clicks'])) || (!is_null($valuesRow['conversions']))) {
                         // There were impressions, clicks and/or conversions for this
                         // campaign, so find out if campaign targets have been passed
-                        if (!isset($valuesRow['impressions'])) {
-                            // No impressions
-                            $valuesRow['impressions'] = 0;
-                        }
-                        if (!isset($valuesRow['clicks'])) {
-                            // No clicks
-                            $valuesRow['clicks'] = 0;
-                        }
-                        if (!isset($valuesRow['conversions'])) {
-                            // No conversions
-                            $valuesRow['conversions'] = 0;
-                        }
+                        // No impressions
+                        $valuesRow['impressions'] ??= 0;
+                        // No clicks
+                        $valuesRow['clicks'] ??= 0;
+                        // No conversions
+                        $valuesRow['conversions'] ??= 0;
                         if ($aCampaign['targetimpressions'] > 0) {
                             if ($aCampaign['targetimpressions'] <= $valuesRow['impressions']) {
                                 // The campaign has an impressions target, and this has been

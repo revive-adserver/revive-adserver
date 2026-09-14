@@ -35,16 +35,19 @@ $matches = [];
 if (empty($argv[2])) {
     echo "You must provide the date before which stats should be rolled up! (in YYYY-MM-DD format please)\n";
     exit;
-} elseif (!preg_match('/(\d{4})-(\d{2})-(\d{2})/', $argv[2], $matches)) {
+}
+if (!preg_match('/(\d{4})-(\d{2})-(\d{2})/', $argv[2], $matches)) {
     echo "The date you passed in ({$argv[2]}) does not appear to be in YYYY-MM-DD format\n";
 }
 if ($matches[1] > 2032 || $matches[1] < 1970) {
     echo "Invalid year ({$matches[1]}) passed in\n";
     exit;
-} elseif ($matches[2] > 12) {
+}
+if ($matches[2] > 12) {
     echo "Invalid month ({$matches[2]}) passed in";
     exit;
-} elseif ($matches[3] > 31) {
+}
+if ($matches[3] > 31) {
     echo "Invalid date ({$matches[3]}) passed in\n";
     exit;
 }

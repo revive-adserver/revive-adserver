@@ -32,13 +32,9 @@ function MAX_checkClient_OsVersion($limitation, $op, $aParams = [])
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT'];
 
-        if (!isset($aParams['osName'])) {
-            $aParams['osName'] = $aParams['wrapper']->getOsName();
-        }
+        $aParams['osName'] ??= $aParams['wrapper']->getOsName();
 
-        if (!isset($aParams['osVersion'])) {
-            $aParams['osVersion'] = $aParams['wrapper']->getOsVersion();
-        }
+        $aParams['osVersion'] ??= $aParams['wrapper']->getOsVersion();
     }
 
     $aLimitation = explode('|', $limitation);

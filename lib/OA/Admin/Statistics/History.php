@@ -163,9 +163,7 @@ class OA_Admin_Statistics_History
     {
         foreach ($aDates as $key => $date_f) {
             // Ensure that all the required items are set by adding empty rows, if required.
-            if (!isset($aStats[$key])) {
-                $aStats[$key] = [$oCaller->statsBreakdown => $key] + $oCaller->aEmptyRow;
-            }
+            $aStats[$key] ??= [$oCaller->statsBreakdown => $key] + $oCaller->aEmptyRow;
             $aStats[$key]['date_f'] = $date_f;
 
             // Calculate CTR and other columns, making sure that the method is available
@@ -505,9 +503,7 @@ class OA_Admin_Statistics_History
                     $this->formatWeekRows($aData[$key]['data'], $oCaller, $colour);
                 }
                 // Set the row's "htmlclass" value as being light, or dark
-                if (!isset($colour)) {
-                    $colour = ($i++ % 2 == 0) ? 'dark' : 'light';
-                }
+                $colour ??= ($i++ % 2 == 0) ? 'dark' : 'light';
                 $aData[$key]['htmlclass'] = $colour;
                 // Also set the "htmlcolclass" if not set already
                 if (empty($aData[$key]['htmlcolclass'])) {

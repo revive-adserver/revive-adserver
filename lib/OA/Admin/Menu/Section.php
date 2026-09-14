@@ -275,7 +275,7 @@ class OA_Admin_Menu_Section
         $oChildSection = &$this->aSectionsMap[$sectionId];
 
         if ($checkAccess && !$oChildSection->check()) {
-            $oChildSection = null;
+            return null;
         }
 
         return $oChildSection;
@@ -328,9 +328,8 @@ class OA_Admin_Menu_Section
     {
         if ($this->type == $type) {
             return $this;
-        } else {
-            return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
         }
+        return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
     }
 
 
@@ -553,7 +552,6 @@ function array_make($var)
 {
     if (is_array($var)) {
         return $var;
-    } else {
-        return [$var];
     }
+    return [$var];
 }

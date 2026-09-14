@@ -63,9 +63,7 @@ foreach ($files as $file) {
         @touch($poFilePath);
     }
 
-    if (!isset($trans[$poFilePath])) {
-        $trans[$poFilePath] = [];
-    }
+    $trans[$poFilePath] ??= [];
 
     if ('xml' === $file->getExtension()) {
         $dom = new \DOMDocument();
@@ -76,9 +74,7 @@ foreach ($files as $file) {
         foreach ($xpath->query('//setting') as $setting) {
             $label = $setting->getAttribute('label');
 
-            if (!isset($trans[$poFilePath][$label])) {
-                $trans[$poFilePath][$label] = [];
-            }
+            $trans[$poFilePath][$label] ??= [];
 
             $qLabel = preg_quote($label, '#');
             $previousContent = preg_replace("#<setting[^>]+label=['\"]{$qLabel}['\"].*#s", '', $contents);
@@ -96,9 +92,7 @@ foreach ($files as $file) {
 
     foreach (explode("\n", $contents) as $n => $ref) {
         if (preg_match($preg, $ref, $m) || preg_match($pregName, $ref, $m)) {
-            if (!isset($trans[$poFilePath][$m[2]])) {
-                $trans[$poFilePath][$m[2]] = [];
-            }
+            $trans[$poFilePath][$m[2]] ??= [];
 
             $trans[$poFilePath][$m[2]][] = implode(':', [
                 str_replace(DIRECTORY_SEPARATOR, '/', $file->getPathname()),

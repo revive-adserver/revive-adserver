@@ -41,10 +41,9 @@ class TrackerServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->dllTracker->getLastError());
-            return false;
         }
+        $this->raiseError($this->dllTracker->getLastError());
+        return false;
     }
 
     /**
@@ -61,9 +60,8 @@ class TrackerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult($this->dllTracker->modify($oTrackerInfo));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -81,13 +79,11 @@ class TrackerServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oTrackerInfo->trackerId)) {
                 return $this->validateResult($this->dllTracker->modify($oTrackerInfo));
-            } else {
-                $this->raiseError("Field 'trackerId' in structure does not exist");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'trackerId' in structure does not exist");
             return false;
         }
+        return false;
     }
 
 
@@ -102,9 +98,8 @@ class TrackerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult($this->dllTracker->delete($trackerId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -120,9 +115,8 @@ class TrackerServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->validateResult($this->dllTracker->linkTrackerToCampaign($trackerId, $campaignId, $status));
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function getTracker($sessionId, $trackerId, &$oTrackerInfo)
@@ -131,8 +125,7 @@ class TrackerServiceImpl extends BaseServiceImpl
             return $this->validateResult(
                 $this->dllTracker->getTracker($trackerId, $oTrackerInfo),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

@@ -41,14 +41,17 @@ class OX_Util_Utils
         }
 
         $priority = (int) $priority;
-
         if (0 === $priority) {
             return OX_CAMPAIGN_TYPE_REMNANT;
-        } elseif (-1 === $priority) {
+        }
+        if (-1 === $priority) {
             return OX_CAMPAIGN_TYPE_OVERRIDE;
-        } elseif (-2 === $priority) {
+        }
+        if (-2 === $priority) {
             return OX_CAMPAIGN_TYPE_ECPM;
-        } elseif ($priority > 0) {
+        }
+
+        if ($priority > 0) {
             return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
         }
 
@@ -71,14 +74,17 @@ class OX_Util_Utils
     public static function getCampaignTypeTranslationKey($priority)
     {
         $type = OX_Util_Utils::getCampaignType($priority);
-
         if ($type == OX_CAMPAIGN_TYPE_REMNANT) {
             return 'strRemnant';
-        } elseif ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
+        }
+        if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
             return 'strOverride';
-        } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+        }
+        if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
             return 'strStandardContract';
-        } elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
+        }
+
+        if ($type == OX_CAMPAIGN_TYPE_ECPM) {
             return 'strECPM';
         }
         return null;
@@ -101,14 +107,17 @@ class OX_Util_Utils
     public static function getCampaignTypeDescriptionTranslationKey($priority)
     {
         $type = OX_Util_Utils::getCampaignType($priority);
-
         if ($type == OX_CAMPAIGN_TYPE_REMNANT) {
             return 'strRemnantInfo';
-        } elseif ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
+        }
+        if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
             return 'strOverrideInfo';
-        } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+        }
+        if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
             return 'strStandardContractInfo';
-        } elseif ($type == OX_CAMPAIGN_TYPE_ECPM) {
+        }
+
+        if ($type == OX_CAMPAIGN_TYPE_ECPM) {
             return 'strECPMInfo';
         }
         return null;

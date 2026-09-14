@@ -50,9 +50,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     };
 
     // Set up the configuration .ini file path location
-    if (is_null($configPath)) {
-        $configPath = MAX_PATH . '/var';
-    }
+    $configPath ??= MAX_PATH . '/var';
     // Set up the configuration .ini file type name
     if (!is_null($configFile)) {
         $configFile = '.' . $configFile;
@@ -81,13 +79,12 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         $testFilePath = $configPath . '/test.conf' . $type;
         if (file_exists($testFilePath)) {
             return @parse_ini_file($testFilePath, $sections);
-        } else {
-            // Define a value so that we know the testing environment is not
-            // configured, so that the TestRenner class knows not to run any
-            // tests, and return an empty config
-            define('TEST_ENVIRONMENT_NO_CONFIG', true);
-            return [];
         }
+        // Define a value so that we know the testing environment is not
+        // configured, so that the TestRenner class knows not to run any
+        // tests, and return an empty config
+        define('TEST_ENVIRONMENT_NO_CONFIG', true);
+        return [];
     }
     $configName = $configPath . '/' . $host . $configFile . '.conf' . $type;
     // Is the .ini file for the hostname being used directly accessible?
@@ -117,9 +114,8 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf' . $type;
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
-        } else {
-            throw new \RuntimeException(PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
         }
+        throw new \RuntimeException(PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
     }
     // Check for a default.conf.php file...
     if (file_exists($configPath . '/default' . $configFile . '.conf' . $type)) {

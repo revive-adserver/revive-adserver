@@ -45,7 +45,6 @@ function MAX_checkClient_Language($limitation, $op, $aParams = [])
 
     if ('=~' == $op) {
         return !empty($aMatchedValues);
-    } else {
-        return empty($aMatchedValues);
     }
+    return empty($aMatchedValues);
 }

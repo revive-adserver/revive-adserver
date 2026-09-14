@@ -135,7 +135,7 @@ class OX_Vast_Url
     {
         $query = http_build_query(array_merge($_GET, $params));
 
-        if (strlen($query) > 0) {
+        if ($query !== '') {
             return '?' . $query;
         }
 

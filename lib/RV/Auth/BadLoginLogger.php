@@ -17,9 +17,7 @@ class BadLoginLogger
 
     public function __construct(?array $aConf = null)
     {
-        if (null === $aConf) {
-            $aConf = $GLOBALS['_MAX']['CONF'];
-        }
+        $aConf ??= $GLOBALS['_MAX']['CONF'];
 
         $this->logPath = $aConf['security']['badLoginLogPath'] ?? '';
     }

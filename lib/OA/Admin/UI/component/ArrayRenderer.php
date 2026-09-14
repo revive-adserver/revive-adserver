@@ -169,7 +169,7 @@ class OA_Admin_UI_Component_ArrayRenderer extends HTML_QuickForm_Renderer_Array
         $type = $ret['type'];
         //add options from select
         if ('select' == $type) {
-            $ret['selected'] = is_array($this->_values) ? array_map('strval', $this->_values) : [];
+            $ret['selected'] = is_array($this->_values) ? array_map(strval(...), $this->_values) : [];
             foreach ($element->_options as $option) {
                 $options[$option['attr']['value']] = $option['text'];
             }

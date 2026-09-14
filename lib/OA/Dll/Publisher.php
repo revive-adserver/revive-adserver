@@ -115,12 +115,7 @@ class OA_Dll_Publisher extends OA_Dll
      */
     public function _validateForStatistics($publisherId, $oStartDate, $oEndDate)
     {
-        if (!$this->checkIdExistence('affiliates', $publisherId) ||
-            !$this->checkDateOrder($oStartDate, $oEndDate)) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->checkIdExistence('affiliates', $publisherId) && $this->checkDateOrder($oStartDate, $oEndDate);
     }
 
     /**
@@ -243,10 +238,9 @@ class OA_Dll_Publisher extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError('Unknown publisherId Error');
-            return false;
         }
+        $this->raiseError('Unknown publisherId Error');
+        return false;
     }
 
     /**
@@ -274,10 +268,9 @@ class OA_Dll_Publisher extends OA_Dll
             $this->_setPublisherDataFromArray($oPublisher, $publisherData);
 
             return true;
-        } else {
-            $this->raiseError('Unknown publisherId Error');
-            return false;
         }
+        $this->raiseError('Unknown publisherId Error');
+        return false;
     }
 
     /**
@@ -354,9 +347,8 @@ class OA_Dll_Publisher extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -396,9 +388,8 @@ class OA_Dll_Publisher extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -439,9 +430,8 @@ class OA_Dll_Publisher extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -483,9 +473,8 @@ class OA_Dll_Publisher extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -528,9 +517,8 @@ class OA_Dll_Publisher extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -575,8 +563,7 @@ class OA_Dll_Publisher extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

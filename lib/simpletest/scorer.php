@@ -231,9 +231,7 @@ class SimpleReporter extends SimpleScorer
      */
     public function paintGroupStart($test_name, $size)
     {
-        if (! isset($this->_size)) {
-            $this->_size = $size;
-        }
+        $this->_size ??= $size;
         if (count($this->_test_stack) == 0) {
             $this->paintHeader($test_name);
         }
@@ -263,9 +261,7 @@ class SimpleReporter extends SimpleScorer
      */
     public function paintCaseStart($test_name)
     {
-        if (! isset($this->_size)) {
-            $this->_size = 1;
-        }
+        $this->_size ??= 1;
         if (count($this->_test_stack) == 0) {
             $this->paintHeader($test_name);
         }

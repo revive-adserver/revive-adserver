@@ -425,9 +425,10 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
     private function getJQueryValidationBuilder()
     {
         if ($this->jQueryValidationBuilder == null) {
-            $jQueryValidationBuilder = new OA_Admin_UI_Rule_JQueryValidationRuleBuilder();
+            return new OA_Admin_UI_Rule_JQueryValidationRuleBuilder();
         }
-        return $jQueryValidationBuilder;
+
+        return $this->jQueryValidationBuilder;
     }
 
 
@@ -485,7 +486,8 @@ class OA_Admin_UI_Component_Form extends HTML_QuickForm
                     // No JavaScript validation for frozen elements
                     if (is_object($element) && $element->isFrozen()) {
                         continue 2;
-                    } elseif (is_array($element)) {
+                    }
+                    if (is_array($element)) {
                         foreach (array_keys($element) as $key) {
                             if ($element[$key]->isFrozen()) {
                                 continue 3;

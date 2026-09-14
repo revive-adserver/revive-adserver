@@ -35,12 +35,7 @@ class Max_Admin_DB
      */
     public function getTableTypes()
     {
-        $types['MYISAM'] = 'MyISAM';
-        $types['BDB'] = 'Berkeley DB';
-        $types['GEMINI'] = 'NuSphere Gemini';
-        $types['INNODB'] = 'InnoDB';
-        $types[' '] = 'PostgreSQL';
-        return $types;
+        return ['MYISAM' => 'MyISAM', 'BDB' => 'Berkeley DB', 'GEMINI' => 'NuSphere Gemini', 'INNODB' => 'InnoDB', ' ' => 'PostgreSQL'];
     }
 
     /**
@@ -50,12 +45,7 @@ class Max_Admin_DB
      */
     public function getServerTypes()
     {
-        // These values must be the same as used for the
-        // data access layer file names!
-        $types['mysql'] = 'mysql';
-        $types['mysqli'] = 'mysqli';
-        //$types['pgsql'] = 'pgsql';
-        return $types;
+        return ['mysql' => 'mysql', 'mysqli' => 'mysqli'];
     }
 
     /**

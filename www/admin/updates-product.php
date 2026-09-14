@@ -77,11 +77,10 @@ if (!isset($session['maint_update'])) {
         echo "//-->\n";
         echo "</script>\n";
         exit();
-    } else {
-        echo "<br />" . $strNotAbleToCheck . "<br /><br />";
-        echo "<br /><br />" . $strForUpdatesLookOnWebsite . "<br /><br />";
-        echo "<b><img src='" . OX::assetPath() . "/images/caret-r.gif'>&nbsp;<a href='http://" . $phpAds_producturl . "' target='_blank'>" . $strClickToVisitWebsite . "</a></b>";
     }
+    echo "<br />" . $strNotAbleToCheck . "<br /><br />";
+    echo "<br /><br />" . $strForUpdatesLookOnWebsite . "<br /><br />";
+    echo "<b><img src='" . OX::assetPath() . "/images/caret-r.gif'>&nbsp;<a href='http://" . $phpAds_producturl . "' target='_blank'>" . $strClickToVisitWebsite . "</a></b>";
 } else {
     $maint_update = $session['maint_update'];
     unset($session['maint_update']);

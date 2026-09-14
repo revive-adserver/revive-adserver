@@ -31,13 +31,9 @@ function MAX_checkClient_BrowserVersion($limitation, $op, $aParams = [])
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT'];
 
-        if (!isset($aParams['browserName'])) {
-            $aParams['browserName'] = $aParams['wrapper']->getBrowserName();
-        }
+        $aParams['browserName'] ??= $aParams['wrapper']->getBrowserName();
 
-        if (!isset($aParams['browserVersion'])) {
-            $aParams['browserVersion'] = $aParams['wrapper']->getBrowserVersion();
-        }
+        $aParams['browserVersion'] ??= $aParams['wrapper']->getBrowserVersion();
     }
 
     $aLimitation = explode('|', $limitation);
@@ -50,9 +46,7 @@ function MAX_checkClient_BrowserVersion($limitation, $op, $aParams = [])
         return true;
     }
 
-    if (!isset($aLimitation[1])) {
-        $aLimitation[1] = 0;
-    }
+    $aLimitation[1] ??= 0;
 
     return MAX_limitationMatchNumeric('browserVersion', (float) $aLimitation[1], $op, $aParams);
 }

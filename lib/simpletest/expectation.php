@@ -222,10 +222,9 @@ class EqualExpectation extends SimpleExpectation
     {
         if ($this->test($compare)) {
             return "Equal expectation [" . $this->_dumper->describeValue($this->_value) . "]";
-        } else {
-            return "Equal expectation fails " .
-                    $this->_dumper->describeDifference($this->_value, $compare);
         }
+        return "Equal expectation fails " .
+                $this->_dumper->describeDifference($this->_value, $compare);
     }
 
     /**
@@ -279,11 +278,10 @@ class NotEqualExpectation extends EqualExpectation
         if ($this->test($compare)) {
             return "Not equal expectation passes " .
                     $dumper->describeDifference($this->_getValue(), $compare);
-        } else {
-            return "Not equal expectation fails [" .
-                    $dumper->describeValue($this->_getValue()) .
-                    "] matches";
         }
+        return "Not equal expectation fails [" .
+                $dumper->describeValue($this->_getValue()) .
+                "] matches";
     }
 }
 
@@ -332,9 +330,8 @@ class WithinMarginExpectation extends SimpleExpectation
     {
         if ($this->test($compare)) {
             return $this->_withinMessage($compare);
-        } else {
-            return $this->_outsideMessage($compare);
         }
+        return $this->_outsideMessage($compare);
     }
 
     /**
@@ -358,10 +355,9 @@ class WithinMarginExpectation extends SimpleExpectation
         if ($compare > $this->_upper) {
             return "Outside expectation " .
                     $this->_dumper->describeDifference($compare, $this->_upper);
-        } else {
-            return "Outside expectation " .
-                    $this->_dumper->describeDifference($compare, $this->_lower);
         }
+        return "Outside expectation " .
+                $this->_dumper->describeDifference($compare, $this->_lower);
     }
 }
 
@@ -405,9 +401,8 @@ class OutsideMarginExpectation extends WithinMarginExpectation
     {
         if (! $this->test($compare)) {
             return $this->_withinMessage($compare);
-        } else {
-            return $this->_outsideMessage($compare);
         }
+        return $this->_outsideMessage($compare);
     }
 }
 
@@ -450,12 +445,11 @@ class IdenticalExpectation extends EqualExpectation
         $dumper = $this->_getDumper();
         if ($this->test($compare)) {
             return "Identical expectation [" . $dumper->describeValue($this->_getValue()) . "]";
-        } else {
-            return "Identical expectation [" . $dumper->describeValue($this->_getValue()) .
-                    "] fails with [" .
-                    $dumper->describeValue($compare) . "] " .
-                    $dumper->describeDifference($this->_getValue(), $compare, TYPE_MATTERS);
         }
+        return "Identical expectation [" . $dumper->describeValue($this->_getValue()) .
+                "] fails with [" .
+                $dumper->describeValue($compare) . "] " .
+                $dumper->describeDifference($this->_getValue(), $compare, TYPE_MATTERS);
     }
 }
 
@@ -499,9 +493,8 @@ class NotIdenticalExpectation extends IdenticalExpectation
         if ($this->test($compare)) {
             return "Not identical expectation passes " .
                     $dumper->describeDifference($this->_getValue(), $compare, TYPE_MATTERS);
-        } else {
-            return "Not identical expectation [" . $dumper->describeValue($this->_getValue()) . "] matches";
         }
+        return "Not identical expectation [" . $dumper->describeValue($this->_getValue()) . "] matches";
     }
 }
 
@@ -556,12 +549,11 @@ class PatternExpectation extends SimpleExpectation
     {
         if ($this->test($compare)) {
             return $this->_describePatternMatch($this->_getPattern(), $compare);
-        } else {
-            $dumper = $this->_getDumper();
-            return "Pattern [" . $this->_getPattern() .
-                    "] not detected in [" .
-                    $dumper->describeValue($compare) . "]";
         }
+        $dumper = $this->_getDumper();
+        return "Pattern [" . $this->_getPattern() .
+                "] not detected in [" .
+                $dumper->describeValue($compare) . "]";
     }
 
     /**
@@ -632,9 +624,8 @@ class NoPatternExpectation extends PatternExpectation
             return "Pattern [" . $this->_getPattern() .
                     "] not detected in [" .
                     $dumper->describeValue($compare) . "]";
-        } else {
-            return $this->_describePatternMatch($this->_getPattern(), $compare);
         }
+        return $this->_describePatternMatch($this->_getPattern(), $compare);
     }
 }
 
@@ -685,9 +676,8 @@ class IsAExpectation extends SimpleExpectation
     {
         if (is_object($compare)) {
             return SimpleTestCompatibility::isA($compare, $this->_type);
-        } else {
-            return (strtolower(gettype($compare)) == $this->_canonicalType($this->_type));
         }
+        return (strtolower(gettype($compare)) == $this->_canonicalType($this->_type));
     }
 
     /**
@@ -704,10 +694,7 @@ class IsAExpectation extends SimpleExpectation
             'float' => 'double',
             'real' => 'double',
             'int' => 'integer'];
-        if (isset($map[$type])) {
-            $type = $map[$type];
-        }
-        return $type;
+        return $map[$type] ?? $type;
     }
 
     /**

@@ -49,14 +49,14 @@ class OA_Dll_CampaignInfo extends OA_Info
     /**
      * This field provides the date to start the campaign.
      *
-     * @var date $startDate
+     * @var Date $startDate
      */
     public $startDate;
 
     /**
      * This field provides the date to end the campaign.
      *
-     * @var date $endDate
+     * @var Date $endDate
      */
     public $endDate;
 
@@ -191,9 +191,7 @@ class OA_Dll_CampaignInfo extends OA_Info
             $this->targetImpressions = 0;
         }
 
-        if (is_null($this->targetClicks)) {
-            $this->targetClicks = 0;
-        }
+        $this->targetClicks ??= 0;
 
         if (is_null($this->targetConversions)) {
             $this->targetConversions = 0;

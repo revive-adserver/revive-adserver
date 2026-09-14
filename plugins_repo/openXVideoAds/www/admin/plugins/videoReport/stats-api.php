@@ -302,9 +302,7 @@ class OX_Video_Report
                 if (!isset(self::$vastEventIdToEventName[$metricId])) {
                     continue;
                 }
-                if (!isset($totalMetrics[$metricId])) {
-                    $totalMetrics[$metricId] = 0;
-                }
+                $totalMetrics[$metricId] ??= 0;
                 $totalMetrics[$metricId] += $value;
             }
         }

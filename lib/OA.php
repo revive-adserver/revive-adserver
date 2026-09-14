@@ -94,9 +94,7 @@ class OA
         // name or by number
         $priorityLevel = is_numeric($aConf['log']['priority']) ? $aConf['log']['priority'] :
             @constant($aConf['log']['priority']);
-        if (is_null($priorityLevel)) {
-            $priorityLevel = $aConf['log']['priority'];
-        }
+        $priorityLevel ??= $aConf['log']['priority'];
         if ($priority > $priorityLevel) {
             unset($GLOBALS['tempDebugPrefix']);
             return true;
@@ -260,9 +258,7 @@ class OA
      */
     public static function getNow($format = null)
     {
-        if (is_null($format)) {
-            $format = 'Y-m-d H:i:s';
-        }
+        $format ??= 'Y-m-d H:i:s';
         return date($format);
     }
 
@@ -277,9 +273,7 @@ class OA
      */
     public static function getNowUTC($format = null)
     {
-        if (is_null($format)) {
-            $format = 'Y-m-d H:i:s';
-        }
+        $format ??= 'Y-m-d H:i:s';
         return gmdate($format);
     }
 

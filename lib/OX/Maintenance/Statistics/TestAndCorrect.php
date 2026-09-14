@@ -218,10 +218,10 @@ class OX_Maintenance_Statistics_TestAndCorrect
                         $message = "                Found a non-duplicate result row for '{$aRow['date_time']}', Creative ID '{$aInnerRow['ad_id']}', Zone ID '{$aInnerRow['zone_id']}'!\n";
                         echo $message;
                         continue;
-                    } else {
-                        $message = "                Correcting data for '{$aRow['date_time']}', Creative ID '{$aInnerRow['ad_id']}', Zone ID '{$aInnerRow['zone_id']}'...\n";
-                        echo $message;
-                        $sDeleteQuery = "
+                    }
+                    $message = "                Correcting data for '{$aRow['date_time']}', Creative ID '{$aInnerRow['ad_id']}', Zone ID '{$aInnerRow['zone_id']}'...\n";
+                    echo $message;
+                    $sDeleteQuery = "
                             DELETE FROM
                                 {$aConf['table']['prefix']}data_summary_ad_hourly
                             WHERE
@@ -241,28 +241,27 @@ class OX_Maintenance_Statistics_TestAndCorrect
                                 AND
                                 conversions = " . $this->oDbh->quote($aInnerRow['conversions'], 'integer') . "
                             LIMIT " . $this->oDbh->quote(($aInnerRow['rows'] - 1), 'integer');
-                        if (defined('DEBUG_ONLY')) {
-                            $message = "                Running in debug mode only, if running correctly, the following would have been performed:\n";
+                    if (defined('DEBUG_ONLY')) {
+                        $message = "                Running in debug mode only, if running correctly, the following would have been performed:\n";
+                        echo $message;
+                        $message = $sDeleteQuery;
+                        $message = preg_replace('/\n/', '', $message);
+                        $message = preg_replace('/^ +/', '', $message);
+                        $message = preg_replace('/ +/', ' ', $message);
+                        $message = wordwrap($message, 75, "\n                    ");
+                        $message = "                    " . $message . ";\n";
+                        echo $message;
+                    } else {
+                        RV::disableErrorHandling();
+                        $rsDeleteResult = $this->oDbh->exec($sDeleteQuery);
+                        RV::enableErrorHandling();
+                        if (PEAR::isError($rsDeleteResult)) {
+                            $message = "                Error while deleting a duplicate row, please re-run script later!\n";
                             echo $message;
-                            $message = $sDeleteQuery;
-                            $message = preg_replace('/\n/', '', $message);
-                            $message = preg_replace('/^ +/', '', $message);
-                            $message = preg_replace('/ +/', ' ', $message);
-                            $message = wordwrap($message, 75, "\n                    ");
-                            $message = "                    " . $message . ";\n";
-                            echo $message;
-                        } else {
-                            RV::disableErrorHandling();
-                            $rsDeleteResult = $this->oDbh->exec($sDeleteQuery);
-                            RV::enableErrorHandling();
-                            if (PEAR::isError($rsDeleteResult)) {
-                                $message = "                Error while deleting a duplicate row, please re-run script later!\n";
-                                echo $message;
-                                continue;
-                            }
-                            $message = "                Deleted {$rsDeleteResult} duplicate row(s).\n";
-                            echo $message;
+                            continue;
                         }
+                        $message = "                Deleted {$rsDeleteResult} duplicate row(s).\n";
+                        echo $message;
                     }
                     if (defined('DEBUG_ONLY')) {
                         sleep(1);

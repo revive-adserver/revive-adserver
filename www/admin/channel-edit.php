@@ -140,32 +140,29 @@ function processChannelEditForm($form)
             header("Location: channel-edit.php?agencyid=" . $aFields['agencyid'] . "&channelid=" . $aFields['channelid']);
         }
         exit;
+    }
+    $doChannel = OA_Dal::factoryDO('channel');
+    $doChannel->agencyid = $aFields['agencyid'];
+    $doChannel->affiliateid = $aFields['affiliateid'];
+    $doChannel->name = $aFields['name'];
+    $doChannel->description = $aFields['description'];
+    $doChannel->comments = $aFields['comments'];
+    $doChannel->compiledlimitation = 'true';
+    $doChannel->acl_plugins = 'true';
+    $doChannel->active = 1;
+    $aFields['channelid'] = $doChannel->insert();
+    // Queue confirmation message
+    $translation = new OX_Translation();
+    $translated_message = $translation->translate($GLOBALS['strChannelHasBeenAdded'], [
+        MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
+        htmlspecialchars($aFields['name']),
+        MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
+    ]);
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+    if (!empty($aFields['affiliateid'])) {
+        OX_Admin_Redirect::redirect("affiliate-channels.php?affiliateid=" . $aFields['affiliateid']);
     } else {
-        $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->agencyid = $aFields['agencyid'];
-        $doChannel->affiliateid = $aFields['affiliateid'];
-        $doChannel->name = $aFields['name'];
-        $doChannel->description = $aFields['description'];
-        $doChannel->comments = $aFields['comments'];
-        $doChannel->compiledlimitation = 'true';
-        $doChannel->acl_plugins = 'true';
-        $doChannel->active = 1;
-        $aFields['channelid'] = $doChannel->insert();
-
-        // Queue confirmation message
-        $translation = new OX_Translation();
-        $translated_message = $translation->translate($GLOBALS['strChannelHasBeenAdded'], [
-            MAX::constructURL(MAX_URL_ADMIN, 'channel-edit.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
-            htmlspecialchars($aFields['name']),
-            MAX::constructURL(MAX_URL_ADMIN, 'channel-acl.php?affiliateid=' . $aFields['affiliateid'] . '&channelid=' . $aFields['channelid']),
-        ]);
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
-        if (!empty($aFields['affiliateid'])) {
-            OX_Admin_Redirect::redirect("affiliate-channels.php?affiliateid=" . $aFields['affiliateid']);
-        } else {
-            OX_Admin_Redirect::redirect("channel-index.php");
-        }
+        OX_Admin_Redirect::redirect("channel-index.php");
     }
 }
 

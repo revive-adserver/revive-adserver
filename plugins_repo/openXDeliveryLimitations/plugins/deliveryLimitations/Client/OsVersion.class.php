@@ -131,7 +131,8 @@ class Plugins_DeliveryLimitations_Client_OsVersion extends Plugins_DeliveryLimit
                             $this->getName(),
                             $this->translate('Version should be a number'),
                         );
-                    } elseif (!isset($this->res[$data['data'][1]])) {
+                    }
+                    if (!isset($this->res[$data['data'][1]])) {
                         return sprintf(
                             '%s: %s',
                             $this->getName(),

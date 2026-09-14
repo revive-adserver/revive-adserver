@@ -84,7 +84,7 @@ function phpAds_getBannerCache($banner)
     // Allow custom banner types to alter the banner cache.
     $bannerTypeComponent = OX_Component::factoryByComponentIdentifier($banner['ext_bannertype'] ?? '');
     if ($bannerTypeComponent) {
-        $buffer = $bannerTypeComponent->getBannerCache($buffer, $noScript, $banner);
+        return $bannerTypeComponent->getBannerCache($buffer, $noScript, $banner);
     }
 
     return $buffer;

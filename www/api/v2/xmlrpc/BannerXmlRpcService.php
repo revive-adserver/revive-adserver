@@ -85,9 +85,8 @@ class BannerXmlRpcService extends BaseBannerService
 
         if ($this->_oBannerServiceImp->addBanner($sessionId, $oBannerInfo)) {
             return XmlRpcUtils::integerTypeResponse($oBannerInfo->bannerId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -128,9 +127,8 @@ class BannerXmlRpcService extends BaseBannerService
 
         if ($this->_oBannerServiceImp->modifyBanner($sessionId, $oBannerInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -157,9 +155,8 @@ class BannerXmlRpcService extends BaseBannerService
 
         if ($this->_oBannerServiceImp->deleteBanner($sessionId, $bannerId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -190,9 +187,8 @@ class BannerXmlRpcService extends BaseBannerService
             $aTargeting,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -233,9 +229,8 @@ class BannerXmlRpcService extends BaseBannerService
             $aTargeting,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -275,9 +270,8 @@ class BannerXmlRpcService extends BaseBannerService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $aData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -318,9 +312,8 @@ class BannerXmlRpcService extends BaseBannerService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $aData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -361,9 +354,8 @@ class BannerXmlRpcService extends BaseBannerService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -407,9 +399,8 @@ class BannerXmlRpcService extends BaseBannerService
                 'revenue' => 'float',
                 'conversions' => 'integer',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -441,9 +432,8 @@ class BannerXmlRpcService extends BaseBannerService
             $oBanner,
         )) {
             return XmlRpcUtils::getEntityResponse($oBanner);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 
     /**
@@ -475,8 +465,7 @@ class BannerXmlRpcService extends BaseBannerService
             $aBannerList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aBannerList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
 }

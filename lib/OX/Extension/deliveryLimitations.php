@@ -16,7 +16,4 @@ require_once(LIB_PATH . '/Extension/ExtensionDelivery.php');
  * @package    OpenXExtension
  * @subpackage DeliveryLimitations
  */
-class OX_Extension_deliveryLimitations extends OX_Extension_Delivery
-{
-    public function __construct() {}
-}
+class OX_Extension_deliveryLimitations extends OX_Extension_Delivery {}

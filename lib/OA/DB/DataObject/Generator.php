@@ -458,7 +458,8 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
                     }
                 }
                 continue;
-            } elseif (isset($aIndex['unique']) && ($aIndex['unique']) && (count($aIndex['fields']) == 1)) {
+            }
+            if (isset($aIndex['unique']) && ($aIndex['unique']) && (count($aIndex['fields']) == 1)) {
                 $key_type = 'U';
             } else {
                 $key_type = 'K';

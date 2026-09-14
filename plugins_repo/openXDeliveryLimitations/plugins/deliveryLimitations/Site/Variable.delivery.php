@@ -32,9 +32,9 @@ function MAX_checkSite_Variable($limitation, $op, $aParams = [])
         // To be safe, unless the paramters passed in, and configured are avaiable,
         // return depending on if the $op is considered a 'positive' test
         return !MAX_limitationsIsOperatorPositive($op);
-    } elseif (MAX_limitationsIsOperatorNumeric($op)) {
-        return MAX_limitationMatchNumeric($key, $value, $op, $aParams);
-    } else {
-        return MAX_limitationsMatchString($key, $value, $op, $aParams);
     }
+    if (MAX_limitationsIsOperatorNumeric($op)) {
+        return MAX_limitationMatchNumeric($key, $value, $op, $aParams);
+    }
+    return MAX_limitationsMatchString($key, $value, $op, $aParams);
 }

@@ -67,9 +67,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
         // The method used to implement cache expiry imposes two cache writes if the cache is
         // expired and the database is available, but avoid the need to check for file existence
         // and modification time.
-        if ($expiryTime === null) {
-            $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
-        }
+        $expiryTime ??= $GLOBALS['OA_Delivery_Cache']['expiry'];
         $now = MAX_commonGetTimeNow();
         if ((isset($aCacheVar['cache_time']) && $aCacheVar['cache_time'] + $expiryTime < $now)
              || (isset($aCacheVar['cache_expire']) && $aCacheVar['cache_expire'] < $now)) {

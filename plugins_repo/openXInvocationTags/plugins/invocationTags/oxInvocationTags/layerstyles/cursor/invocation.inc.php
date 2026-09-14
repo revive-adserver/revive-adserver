@@ -34,27 +34,13 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
         global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
         global $tabindex;
 
-        if (!isset($trail)) {
-            $trail = '0';
-        }
-        if (!isset($stickyness)) {
-            $stickyness = 5;
-        }
-        if (!isset($offsetx)) {
-            $offsetx = 10;
-        }
-        if (!isset($offsety)) {
-            $offsety = 10;
-        }
-        if (!isset($hide)) {
-            $hide = '0';
-        }
-        if (!isset($transparancy)) {
-            $transparancy = 0;
-        }
-        if (!isset($delay)) {
-            $delay = 90;
-        }
+        $trail ??= '0';
+        $stickyness ??= 5;
+        $offsetx ??= 10;
+        $offsety ??= 10;
+        $hide ??= '0';
+        $transparancy ??= 0;
+        $delay ??= 90;
 
         $buffer = '';
 

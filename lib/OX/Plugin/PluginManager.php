@@ -1046,9 +1046,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         //OA::logMem('enter _unpack');
         $aPath = pathinfo($aFile['name']);
-        if (!isset($aPath['filename'])) {
-            $aPath['filename'] = substr($aPath['basename'], 0, strrpos($aPath['basename'], '.'));
-        }
+        $aPath['filename'] ??= substr($aPath['basename'], 0, strrpos($aPath['basename'], '.'));
         if (!isset($aPath['extension'])) {
             return false;
         }
@@ -1164,7 +1162,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
         }
         // must have a plugin package definition file
-        if (!$aPkgFile) {
+        if ($aPkgFile === []) {
             $this->_logError('Plugin definition ' . $aExpectedPackage['name'] . '.xml not found in uploaded file: ' . $pkgFileUploaded);
             $this->errcode = OX_PLUGIN_ERROR_PACKAGE_DEFINITION_NOT_FOUND;
             return false;

@@ -162,7 +162,7 @@ class Container implements PsrContainerInterface
     private static function addServices(ContainerBuilder $container, $isDelivery)
     {
         if (!$isDelivery) {
-            $container = AdminServiceConfigurator::configure($container);
+            return AdminServiceConfigurator::configure($container);
         }
 
         return $container;

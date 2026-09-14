@@ -232,9 +232,7 @@ function MAX_AclsRemap(array $acls): array
 
         $order = (int) $acl['executionorder'];
 
-        if (!isset($result[$order])) {
-            $result[$order] = $acl;
-        }
+        $result[$order] ??= $acl;
     }
 
     ksort($result);
@@ -294,22 +292,21 @@ function MAX_AclGetCompiled($aAcls)
 {
     if (empty($aAcls)) {
         return "true";
-    } else {
-        ksort($aAcls);
-        $compiledAcls = [];
-        foreach ($aAcls as $acl) {
-            $deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl);
-            if ($deliveryLimitationPlugin) {
-                $compiled = $deliveryLimitationPlugin->compile();
-                if (!empty($compiledAcls)) {
-                    $compiledAcls[] = $acl['logical'];
-                }
-                $compiledAcls[] = $compiled;
-            }
-            unset($deliveryLimitationPlugin);
-        }
-        return implode(' ', $compiledAcls);
     }
+    ksort($aAcls);
+    $compiledAcls = [];
+    foreach ($aAcls as $acl) {
+        $deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl);
+        if ($deliveryLimitationPlugin) {
+            $compiled = $deliveryLimitationPlugin->compile();
+            if (!empty($compiledAcls)) {
+                $compiledAcls[] = $acl['logical'];
+            }
+            $compiledAcls[] = $compiled;
+        }
+        unset($deliveryLimitationPlugin);
+    }
+    return implode(' ', $compiledAcls);
 }
 
 function MAX_AclGetPlugins($acls)
@@ -410,14 +407,10 @@ function MAX_AclValidate($page, $aParams)
 
     $newCompiledLimitation = MAX_AclGetCompiled($aAcls);
     $newAclPlugins = MAX_AclGetPlugins($aAcls);
-
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $aclPlugins)) {
         return true;
-    } elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
-        return true;
-    } else {
-        return false;
     }
+    return ($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins));
 }
 
 function MAX_AclCopy($page, $from, $to)

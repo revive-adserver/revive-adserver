@@ -63,9 +63,8 @@ class ChannelXmlRpcService extends BaseChannelService
 
         if ($this->_oChannelServiceImp->addChannel($sessionId, $oChannelInfo)) {
             return XmlRpcUtils::integerTypeResponse($oChannelInfo->channelId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -102,9 +101,8 @@ class ChannelXmlRpcService extends BaseChannelService
 
         if ($this->_oChannelServiceImp->modifyChannel($sessionId, $oChannelInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -132,9 +130,8 @@ class ChannelXmlRpcService extends BaseChannelService
 
         if ($this->_oChannelServiceImp->deleteChannel($sessionId, $channelId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -166,9 +163,8 @@ class ChannelXmlRpcService extends BaseChannelService
             $oChannel,
         )) {
             return XmlRpcUtils::getEntityResponse($oChannel);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -196,9 +192,8 @@ class ChannelXmlRpcService extends BaseChannelService
         $aChannelList = null;
         if ($this->_oChannelServiceImp->getChannelListByAgencyId($sessionId, $agencyId, $aChannelList)) {
             return XmlRpcUtils::getArrayOfEntityResponse($aChannelList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -225,9 +220,8 @@ class ChannelXmlRpcService extends BaseChannelService
         $aChannelList = null;
         if ($this->_oChannelServiceImp->getChannelListBywebsiteId($sessionId, $websiteId, $aChannelList)) {
             return XmlRpcUtils::getArrayOfEntityResponse($aChannelList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -258,9 +252,8 @@ class ChannelXmlRpcService extends BaseChannelService
             $aTargeting,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 
     /**
@@ -301,8 +294,7 @@ class ChannelXmlRpcService extends BaseChannelService
             $aTargeting,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oChannelServiceImp->getLastError());
     }
 }

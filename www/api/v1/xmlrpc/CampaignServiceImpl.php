@@ -56,10 +56,9 @@ class CampaignServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllCampaign->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllCampaign->getLastError());
+        return false;
     }
 
     /**
@@ -79,9 +78,8 @@ class CampaignServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllCampaign->modify($oCampaign));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -103,13 +101,11 @@ class CampaignServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oCampaign->campaignId)) {
                 return $this->_validateResult($this->_dllCampaign->modify($oCampaign));
-            } else {
-                $this->raiseError("Field 'campaignId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'campaignId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -128,9 +124,8 @@ class CampaignServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllCampaign->delete($campaignId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -159,9 +154,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -190,9 +184,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -221,9 +214,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -252,9 +244,8 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -274,9 +265,8 @@ class CampaignServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaign($campaignId, $oCampaign),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -300,8 +290,7 @@ class CampaignServiceImpl extends BaseServiceImpl
                     $aCampaignList,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

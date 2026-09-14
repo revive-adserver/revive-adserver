@@ -143,7 +143,8 @@ class OA_DB_Table
         if (is_null($this->aDefinition)) {
             OA::debug('No database XML schema file parsed, cannot create table', PEAR_LOG_ERR);
             return false;
-        } elseif (PEAR::isError($this->aDefinition)) {
+        }
+        if (PEAR::isError($this->aDefinition)) {
             OA::debug('Previous error parsing the database XML schema file', PEAR_LOG_ERR);
             return false;
         }
@@ -594,9 +595,8 @@ class OA_DB_Table
         if (!$level) {
             arsort($aTables);
             return array_keys($aTables);
-        } else {
-            return $aTables;
         }
+        return $aTables;
     }
 
     /**
@@ -611,7 +611,7 @@ class OA_DB_Table
         $tableName = $table;
         // Does a table prefix need to be added to the table name?
         if ($aConf['table']['prefix'] && !$this->temporary) {
-            $tableName = $aConf['table']['prefix'] . $tableName;
+            return $aConf['table']['prefix'] . $tableName;
         }
         return $tableName;
     }

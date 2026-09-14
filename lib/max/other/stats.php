@@ -74,7 +74,7 @@ function MAX_sortArray(&$aArr, $column, $ascending = true)
             krsort($aArr);
         }
     } else {
-        uasort($aArr, '_sortArrayCompare');
+        uasort($aArr, _sortArrayCompare(...));
     }
 }
 
@@ -120,7 +120,7 @@ function _sortArrayCompare($a, $b)
             $compare = ($a[$sortColumn] > $b[$sortColumn]) ? 1 : -1;
     }
     if (!$sortAscending) {
-        $compare = -$compare;
+        return -$compare;
     }
 
     return $compare;

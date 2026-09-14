@@ -132,7 +132,7 @@ class OX_Admin_UI_Hooks
 
         $aStrings = self::getDispatcher()->triggerEvent('beforePageContent', $oContext);
         if (!empty($aStrings)) {
-            $result = implode('\n', $aStrings);
+            return implode('\n', $aStrings);
         }
 
         return $result;
@@ -177,11 +177,12 @@ class OX_Admin_UI_Hooks
         ]);
 
         $aStrings = self::getDispatcher()->triggerEvent('afterPageContent', $oContext);
+
         if (!empty($aStrings)) {
-            $result = implode('\n', $aStrings);
+            return implode('\n', $aStrings);
         }
 
-        return $result;
+        return '';
     }
 
 

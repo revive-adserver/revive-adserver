@@ -52,9 +52,8 @@ class TrackerXmlRpcService extends BaseTrackerService
 
         if ($this->oTrackerServiceImpl->addTracker($sessionId, $oTrackerInfo)) {
             return XmlRpcUtils::integerTypeResponse($oTrackerInfo->trackerId);
-        } else {
-            return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
     }
 
     /**
@@ -89,9 +88,8 @@ class TrackerXmlRpcService extends BaseTrackerService
 
         if ($this->oTrackerServiceImpl->modifyTracker($sessionId, $oTrackerInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
     }
 
     /**
@@ -117,9 +115,8 @@ class TrackerXmlRpcService extends BaseTrackerService
 
         if ($this->oTrackerServiceImpl->deleteTracker($sessionId, $trackerId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
     }
 
     /**
@@ -145,9 +142,8 @@ class TrackerXmlRpcService extends BaseTrackerService
 
         if ($this->oTrackerServiceImpl->linkTrackerToCampaign($sessionId, $trackerId, $campaignId, $status)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
     }
 
     public function getTracker(&$oParams)
@@ -171,8 +167,7 @@ class TrackerXmlRpcService extends BaseTrackerService
             $oTrackerInfo,
         )) {
             return XmlRpcUtils::getEntityResponse($oTrackerInfo);
-        } else {
-            return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
         }
+        return XmlRpcUtils::generateError($this->oTrackerServiceImpl->getLastError());
     }
 }

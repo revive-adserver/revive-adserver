@@ -140,9 +140,8 @@ function MAX_limitationsMatchNumeric(
 
     if (!isset($aParams[$paramName])) {
         return !MAX_limitationsIsOperatorPositive($op);
-    } else {
-        $value = $aParams[$paramName];
     }
+    $value = $aParams[$paramName];
 
     return MAX_limitationsMatchNumericValue($value, $limitation, $op);
 }
@@ -179,20 +178,23 @@ function MAX_limitationsMatchStringValue($value, $limitation, $op)
 {
     $limitation = strtolower($limitation);
     $value = strtolower($value);
-
     if ($op == '==') {
         return $limitation == $value;
-    } elseif ($op == '!=') {
-        return $limitation != $value;
-    } elseif ($op == '=~') {
-        return MAX_stringContains($value, $limitation);
-    } elseif ($op == '!~') {
-        return !MAX_stringContains($value, $limitation);
-    } elseif ($op == '=x') {
-        return _safe_preg_match($limitation, $value);
-    } else {
-        return !_safe_preg_match($limitation, $value);
     }
+    if ($op == '!=') {
+        return $limitation != $value;
+    }
+    if ($op == '=~') {
+        return MAX_stringContains($value, $limitation);
+    }
+    if ($op == '!~') {
+        return !MAX_stringContains($value, $limitation);
+    }
+
+    if ($op == '=x') {
+        return _safe_preg_match($limitation, $value);
+    }
+    return !_safe_preg_match($limitation, $value);
 }
 
 /**
@@ -266,17 +268,17 @@ function MAX_limitationsMatchArrayValue($value, $limitation, $op)
 {
     if ($op == '==') {
         return strcasecmp($limitation, $value) == 0;
-    } elseif ($op == '=~') {
+    }
+    if ($op == '=~') {
         if ($value == '') {
             return true;
         }
         return stripos(',' . $limitation . ',', ',' . $value . ',') !== false;
-    } else {
-        if ($value == '') {
-            return false;
-        }
-        return stripos(',' . $limitation . ',', ',' . $value . ',') === false;
     }
+    if ($value == '') {
+        return false;
+    }
+    return stripos(',' . $limitation . ',', ',' . $value . ',') === false;
 }
 
 /**
@@ -305,7 +307,7 @@ function MAX_limitationsIsOperatorContains($op)
 
 function MAX_limitationsIsOperatorNumeric($op)
 {
-    return $op == 'gt' || $op == 'lt' || $op == 'le' || $op == 'ge';
+    return in_array($op, ['gt', 'lt', 'le', 'ge']);
 }
 
 /**
@@ -329,7 +331,7 @@ function MAX_limitationsIsOperatorRegexp($op)
  */
 function MAX_limitationsIsOperatorPositive($op)
 {
-    return $op == '==' || $op == '=~' || $op == '=x' || $op == 'gt' || $op == 'lt' || $op == 'ge' || $op == 'le';
+    return in_array($op, ['==', '=~', '=x', 'gt', 'lt', 'ge', 'le']);
 }
 
 /**
@@ -492,16 +494,15 @@ function _safe_preg_match($limitation, $value): bool
 {
     if (strlen($limitation) < 10000) {
         return (bool) preg_match(_getSRegexpDelimited($limitation), $value);
-    } else {
-        $limitationMiddle = floor(strlen($limitation) / 2);
-        $limitationSplitPoint = strpos($limitation, '|', $limitationMiddle);
-        $firstLimitation = substr($limitation, 0, $limitationSplitPoint);
-        if (_safe_preg_match($firstLimitation, $value)) {
-            return true;
-        }
-        $secondLimitation = substr($limitation, $limitationSplitPoint + 1);
-        return (bool) _safe_preg_match($secondLimitation, $value);
     }
+    $limitationMiddle = floor(strlen($limitation) / 2);
+    $limitationSplitPoint = strpos($limitation, '|', $limitationMiddle);
+    $firstLimitation = substr($limitation, 0, $limitationSplitPoint);
+    if (_safe_preg_match($firstLimitation, $value)) {
+        return true;
+    }
+    $secondLimitation = substr($limitation, $limitationSplitPoint + 1);
+    return (bool) _safe_preg_match($secondLimitation, $value);
 }
 
 /**

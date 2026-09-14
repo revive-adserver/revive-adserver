@@ -27,7 +27,7 @@ function MAX_getDisplayName($name, ?int $length = null, $append = '...')
 
     $displayName = strlen($name) > $maxLength ? rtrim(substr($name, 0, $maxLength - strlen($append))) . $append : $name;
     if (empty($displayName)) {
-        $displayName = $GLOBALS['strUntitled'];
+        return $GLOBALS['strUntitled'];
     }
     return $displayName;
 }

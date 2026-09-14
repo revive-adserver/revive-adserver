@@ -76,7 +76,7 @@ class OA_Admin_UI_HTMLTagDecorator extends OA_Admin_UI_AbstractDecorator
         $renderMode = $this->getRenderMode();
         //only append if in applicable mode
         if ($renderMode == 'wrap' || $renderMode == 'append') {
-            $append = "</" . $this->_tagName . ">";
+            return "</" . $this->_tagName . ">";
         }
 
         return $append;

@@ -60,7 +60,7 @@ function loadSchemaList()
     $dhPkgs = opendir(MAX_PATH . $pluginPath);
     if ($dhPkgs) {
         while (false !== ($folder = readdir($dhPkgs))) {
-            if (($folder == '.') || ($folder == '..') || ($folder == '.svn')) {
+            if (in_array($folder, ['.', '..', '.svn'])) {
                 continue;
             }
             $relPath = $pluginPath . $folder . '/etc/';
@@ -424,8 +424,7 @@ if (!file_exists($jspath . $jsfile) || $overwrite) {
     if ($fp === false) {
         echo "Error opening output file {$jspath}{$jsfile} for writing.  Check permissions.";
         die();
-    } else {
-        fwrite($fp, $js);
-        fclose($fp);
     }
+    fwrite($fp, $js);
+    fclose($fp);
 }

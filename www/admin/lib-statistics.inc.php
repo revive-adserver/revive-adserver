@@ -50,10 +50,9 @@ function phpAds_getClientName($clientid)
     if ($clientid != '' && $clientid != 0) {
         $client_details = phpAds_getClientDetails($clientid);
         return (phpAds_BuildName($clientid, $client_details['clientname']));
-    } else {
-        global $strUntitled;
-        return ($strUntitled);
     }
+    global $strUntitled;
+    return ($strUntitled);
 }
 
 /*-------------------------------------------------------*/
@@ -135,11 +134,9 @@ function phpAds_buildBannerName($bannerid, $description = '', $alt = '', $limit 
         $name = phpAds_breakString($name, $limit);
     }
     if ($bannerid != '') {
-        $name = $use_html ? "<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id$bannerid]</span> " . htmlspecialchars($name) : "[id$bannerid] " . htmlspecialchars($name);
-    } else {
-        $name = htmlspecialchars($name);
+        return $use_html ? "<span dir='" . $GLOBALS['phpAds_TextDirection'] . "'>[id$bannerid]</span> " . htmlspecialchars($name) : "[id$bannerid] " . htmlspecialchars($name);
     }
-    return $name;
+    return htmlspecialchars($name);
 }
 
 /*-------------------------------------------------------*/
@@ -167,9 +164,8 @@ function phpAds_getBannerName($bannerid, $limit = 30, $id = true, $checkanonymou
 
     if ($id) {
         return (phpAds_buildBannerName($bannerid, $row['description'], $row['alt'], $limit));
-    } else {
-        return (phpAds_buildBannerName('', $row['description'], $row['alt'], $limit));
     }
+    return (phpAds_buildBannerName('', $row['description'], $row['alt'], $limit));
 }
 
 /*-------------------------------------------------------*/
@@ -198,9 +194,8 @@ function phpAds_getZoneName($zoneid)
             $zoneCache[$zoneid] = $doZones->toArray();
         }
         return (phpAds_BuildZoneName($zoneid, $row['zonename']));
-    } else {
-        return ($strUntitled);
     }
+    return ($strUntitled);
 }
 
 /*-------------------------------------------------------*/
@@ -230,9 +225,8 @@ function phpAds_getAffiliateName($affiliateid)
             $affiliateCache[$affiliateid] = $row;
         }
         return (phpAds_BuildAffiliateName($affiliateid, $row['name']));
-    } else {
-        return ($strUntitled);
     }
+    return ($strUntitled);
 }
 
 /*-------------------------------------------------------*/
@@ -328,9 +322,8 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint = "")
 
     if ($doDataSummaryAdHourly->qnt) {
         return $doDataSummaryAdHourly->qnt;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 function phpAds_totalClicks($bannerid = "", $timeconstraint = "")

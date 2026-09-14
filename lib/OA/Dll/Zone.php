@@ -74,9 +74,8 @@ class OA_Dll_Zone extends OA_Dll
         if (!isset($type) || in_array($type, $arType)) {
             $this->raiseError("Zone type is wrong!");
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -150,12 +149,7 @@ class OA_Dll_Zone extends OA_Dll
      */
     public function _validateForStatistics($zoneId, $oStartDate, $oEndDate)
     {
-        if (!$this->checkIdExistence('zones', $zoneId) ||
-            !$this->checkDateOrder($oStartDate, $oEndDate)) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->checkIdExistence('zones', $zoneId) && $this->checkDateOrder($oStartDate, $oEndDate);
     }
 
     /**
@@ -169,11 +163,7 @@ class OA_Dll_Zone extends OA_Dll
      */
     public function checkStatisticsPermissions($zoneId)
     {
-        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId);
     }
 
     /**
@@ -253,9 +243,8 @@ class OA_Dll_Zone extends OA_Dll
                 $doZone->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -282,18 +271,16 @@ class OA_Dll_Zone extends OA_Dll
 
         if (!$this->checkIdExistence('zones', $zoneId)) {
             return false;
-        } else {
-            $doZone = OA_Dal::factoryDO('zones');
-            $doZone->zoneid = $zoneId;
-            $result = $doZone->delete();
         }
+        $doZone = OA_Dal::factoryDO('zones');
+        $doZone->zoneid = $zoneId;
+        $result = $doZone->delete();
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError('Unknown zoneId Error');
-            return false;
         }
+        $this->raiseError('Unknown zoneId Error');
+        return false;
     }
 
     /**
@@ -320,10 +307,9 @@ class OA_Dll_Zone extends OA_Dll
 
             $this->_setZoneDataFromArray($oZone, $zoneData);
             return true;
-        } else {
-            $this->raiseError('Unknown zoneId Error');
-            return false;
         }
+        $this->raiseError('Unknown zoneId Error');
+        return false;
     }
 
     /**
@@ -400,9 +386,8 @@ class OA_Dll_Zone extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -442,9 +427,8 @@ class OA_Dll_Zone extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -486,9 +470,8 @@ class OA_Dll_Zone extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -531,9 +514,8 @@ class OA_Dll_Zone extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -578,9 +560,8 @@ class OA_Dll_Zone extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -609,10 +590,9 @@ class OA_Dll_Zone extends OA_Dll
                     }
 
                     return true;
-                } else {
-                    // Already linked
-                    return true;
                 }
+                // Already linked
+                return true;
             }
         }
 
@@ -650,10 +630,9 @@ class OA_Dll_Zone extends OA_Dll
 
                     MAX_addLinkedAdsToZone($zoneId, $campaignId);
                     return true;
-                } else {
-                    // Already linked
-                    return true;
                 }
+                // Already linked
+                return true;
             }
         }
 
@@ -681,9 +660,8 @@ class OA_Dll_Zone extends OA_Dll
             if ($result === 0) {
                 $this->raiseError('Unknown link for zoneId and bannerId Error');
                 return false;
-            } else {
-                return $result;
             }
+            return $result;
         }
     }
 
@@ -707,9 +685,8 @@ class OA_Dll_Zone extends OA_Dll
             if ($result === 0) {
                 $this->raiseError('Unknown link for zoneId and campaignId Error');
                 return false;
-            } else {
-                return $result;
             }
+            return $result;
         }
 
         return false;
@@ -763,9 +740,8 @@ class OA_Dll_Zone extends OA_Dll
                 $buffer = $maxInvocation->generateInvocationCode($invocationTag, $aParams);
 
                 return $buffer;
-            } else {
-                $this->raiseError('Parameter codeType wrong');
             }
+            $this->raiseError('Parameter codeType wrong');
         }
 
         return false;

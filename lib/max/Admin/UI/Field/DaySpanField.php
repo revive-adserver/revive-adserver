@@ -40,9 +40,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         $aFieldSelectionNames = null,
     ) {
         parent::__construct();
-        if (is_null($aFieldSelectionNames)) {
-            $aFieldSelectionNames = $this->getDefaultSelectionNames();
-        }
+        $aFieldSelectionNames ??= $this->getDefaultSelectionNames();
         $this->_name = $name;
         $this->_fieldSelectionNames = $aFieldSelectionNames;
         $this->_value = new OA_Admin_DaySpan($fieldSelectionDefault);

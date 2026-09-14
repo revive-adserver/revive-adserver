@@ -267,20 +267,14 @@ function zoneAdvancedProcessForm($aZone, $form, $oComponent = null)
     }
     $doZones->chain = $chain;
 
-    if (!isset($aFields['prepend'])) {
-        $aFields['prepend'] = '';
-    }
+    $aFields['prepend'] ??= '';
     $aFields['prepend'] = MAX_commonGetValueUnslashed('prepend');
     $doZones->prepend = $aFields['prepend'];
 
     // Do not save append until not finished with zone appending, if present
     if (!empty($aFields['appendsave'])) {
-        if (!isset($aFields['append'])) {
-            $aFields['append'] = '';
-        }
-        if (!isset($aFields['appendtype'])) {
-            $aFields['appendtype'] = phpAds_ZoneAppendZone;
-        }
+        $aFields['append'] ??= '';
+        $aFields['appendtype'] ??= phpAds_ZoneAppendZone;
         $aFields['append'] = MAX_commonGetValueUnslashed('append');
 
         $doZones->append = $aFields['append'];
@@ -398,10 +392,10 @@ function _getChainZonesImage($aZone)
     };
 
     if ($imageName) {
-        $image = "<img src='" . OX::assetPath() . "$imageName' align='absmiddle'>";
+        return "<img src='" . OX::assetPath() . "$imageName' align='absmiddle'>";
     }
 
-    return $image;
+    return '';
 }
 
 

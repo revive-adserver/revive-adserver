@@ -360,9 +360,8 @@ class OA_Admin_Template extends Smarty
                 }
 
                 return $buffer;
-            } else {
-                $smarty->trigger_error("t: missing 'item' parameter");
             }
+            $smarty->trigger_error("t: missing 'item' parameter");
         } else {
             $smarty->trigger_error("t: missing 'str'parameter");
         }
@@ -395,9 +394,8 @@ class OA_Admin_Template extends Smarty
                 }
 
                 return '<a href="' . htmlspecialchars($url) . '">' . $str . '</a>';
-            } else {
-                $smarty->trigger_error("t: missing 'item' parameter");
             }
+            $smarty->trigger_error("t: missing 'item' parameter");
         } else {
             $smarty->trigger_error("t: missing 'str'parameter");
         }
@@ -428,9 +426,8 @@ class OA_Admin_Template extends Smarty
             }
 
             return '';
-        } else {
-            $smarty->trigger_error("t: missing 'item' parameter");
         }
+        $smarty->trigger_error("t: missing 'item' parameter");
     }
 
     public static function _function_ox_column_updated($aParams, &$smarty)
@@ -438,9 +435,8 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['updated'])) {
             $updated = $aParams['updated'];
             return "<span class='updated'>" . self::_modifier_utc_to_local($updated) . "</span>";
-        } else {
-            $smarty->trigger_error("t: missing 'updated' parameter");
         }
+        $smarty->trigger_error("t: missing 'updated' parameter");
     }
 
     public static function _function_ox_banner_size($aParams, &$smarty)
@@ -460,9 +456,8 @@ class OA_Admin_Template extends Smarty
             }
 
             return phpAds_getBannerSize($width, $height);
-        } else {
-            $smarty->trigger_error("t: missing 'width' or 'height' parameter");
         }
+        $smarty->trigger_error("t: missing 'width' or 'height' parameter");
     }
 
     public static function _function_ox_banner_icon($aParams, &$smarty)
@@ -487,9 +482,8 @@ class OA_Admin_Template extends Smarty
                     'url' => 'iconBannerExternalDisabled',
                     default => 'iconBannerDisabled',
                 };
-            } else {
-                $smarty->trigger_error("t: missing 'active' parameter");
             }
+            $smarty->trigger_error("t: missing 'active' parameter");
         } else {
             $smarty->trigger_error("t: missing 'type' parameter");
         }
@@ -506,26 +500,25 @@ class OA_Admin_Template extends Smarty
                 $height = $aParams['height'];
                 $delivery = $aParams['delivery'];
                 $translation = new OX_Translation();
-
                 if ($delivery == phpAds_ZoneText) {
                     return $translation->translate('Custom') . " (" . $translation->translate('TextAdZone') . ")";
-                } elseif ($delivery == OX_ZoneVideoInstream) {
-                    return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoInstream') . ")";
-                } elseif ($delivery == OX_ZoneVideoOverlay) {
-                    return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoOverlay') . ")";
-                } else {
-                    if ($width == -1) {
-                        $width = '*';
-                    }
-                    if ($height == -1) {
-                        $height = '*';
-                    }
-
-                    return phpAds_getBannerSize($width, $height);
                 }
-            } else {
-                $smarty->trigger_error("t: missing 'delivery' parameter");
+                if ($delivery == OX_ZoneVideoInstream) {
+                    return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoInstream') . ")";
+                }
+
+                if ($delivery == OX_ZoneVideoOverlay) {
+                    return $translation->translate('Custom') . " (" . $translation->translate('ZoneVideoOverlay') . ")";
+                }
+                if ($width == -1) {
+                    $width = '*';
+                }
+                if ($height == -1) {
+                    $height = '*';
+                }
+                return phpAds_getBannerSize($width, $height);
             }
+            $smarty->trigger_error("t: missing 'delivery' parameter");
         } else {
             $smarty->trigger_error("t: missing 'width' or 'height' parameter");
         }
@@ -561,9 +554,8 @@ class OA_Admin_Template extends Smarty
                     OX_ZoneVideoOverlay => 'iconZoneVideoOverlayDisabled',
                     default => 'iconZoneDisabled',
                 };
-            } else {
-                $smarty->trigger_error("t: missing 'active' parameter");
             }
+            $smarty->trigger_error("t: missing 'active' parameter");
         } else {
             $smarty->trigger_error("t: missing 'delivery' parameter");
         }
@@ -574,18 +566,19 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['type'])) {
             $type = $aParams['type'];
             $translation = new OX_Translation();
-
             if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
                 return "<span class='campaign-type campaign-override'>" . $translation->translate('Override') . "</span>";
-            } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+            }
+            if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
                 return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
-            } elseif ($type == OX_CAMPAIGN_TYPE_REMNANT || $type == OX_CAMPAIGN_TYPE_ECPM) {
+            }
+
+            if ($type == OX_CAMPAIGN_TYPE_REMNANT || $type == OX_CAMPAIGN_TYPE_ECPM) {
                 return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";
             }
             return "<span class='campaign-type campaign-contract'>" . $type . "</span>";
-        } else {
-            $smarty->trigger_error("t: missing 'type' parameter");
         }
+        $smarty->trigger_error("t: missing 'type' parameter");
     }
 
     public static function _function_ox_campaign_status($aParams, &$smarty)
@@ -649,9 +642,8 @@ class OA_Admin_Template extends Smarty
             }
 
             return 'iconCampaignDisabled';
-        } else {
-            $smarty->trigger_error("t: missing 'status' parameter");
         }
+        $smarty->trigger_error("t: missing 'status' parameter");
     }
 
     public static function _function_ox_tracker_type($aParams, &$smarty)
@@ -665,9 +657,8 @@ class OA_Admin_Template extends Smarty
 
             $translation = new OX_Translation();
             return $translation->translate($type);
-        } else {
-            $smarty->trigger_error("t: missing 'type' parameter");
         }
+        $smarty->trigger_error("t: missing 'type' parameter");
     }
 
     /**
@@ -706,9 +697,7 @@ class OA_Admin_Template extends Smarty
             if (isset($aParams['params']) && is_array($aParams)) {
                 $aParams += $aParams['params'];
             }
-            if (!isset($aParams['break'])) {
-                $aParams['break'] = $break;
-            }
+            $aParams['break'] ??= $break;
 
             $smarty->assign('_e', $aParams);
             $result = $smarty->fetch('edit-table/main.html');
@@ -733,9 +722,7 @@ class OA_Admin_Template extends Smarty
             if (isset($aParams['elem']) && is_array($aParams)) {
                 $aParams += $aParams['elem'];
             }
-            if (!isset($aParams['break'])) {
-                $aParams['break'] = $break;
-            }
+            $aParams['break'] ??= $break;
 
             //if macro invoked with parent parameter do not add break
             if (isset($aParams['parent'])) {
@@ -850,9 +837,8 @@ class OA_Admin_Template extends Smarty
             return '<small title="' .
                 self::_function_t(['str' => $aParams['type']], $smarty) . ' ' .
                 self::_function_t(['str' => 'ID'], $smarty) . ': ' . $id . '">[' . $id . ']</small>';
-        } else {
-            return '';
         }
+        return '';
     }
 
     public static function _function_oa_is_admin($aParams, $smarty)

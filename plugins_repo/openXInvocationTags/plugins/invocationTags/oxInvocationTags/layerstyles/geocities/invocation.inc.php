@@ -34,18 +34,10 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
         global $align, $collapsetime, $padding, $closetext;
         global $tabindex;
 
-        if (!isset($align)) {
-            $align = 'right';
-        }
-        if (!isset($collapsetime)) {
-            $collapsetime = '-';
-        }
-        if (!isset($padding)) {
-            $padding = '2';
-        }
-        if (!isset($closetext)) {
-            $closetext = $this->translate("[Close]");
-        }
+        $align ??= 'right';
+        $collapsetime ??= '-';
+        $padding ??= '2';
+        $closetext ??= $this->translate("[Close]");
 
         $buffer = '';
 

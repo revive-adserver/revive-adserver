@@ -491,7 +491,8 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             // performance
             $factor = $oAdvert->pastRequestedImpressions / $oAdvert->pastActualImpressions;
             return [$factor, false, $fraction, 1];
-        } elseif (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
+        }
+        if (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
                   (is_null($oAdvert->pastActualImpressions) || ($oAdvert->pastActualImpressions == 0))) {
             // It is not possible to calculate the fraction of the zone traffic that
             // was seen by the creative in the past interval, as no impressions were
@@ -524,22 +525,21 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                     $this->globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);
                     return [$newFactor, false, 0, 1];
-                } else {
-                    // Use the past creative/zone priority factor
-                    $newFactor = $oAdvert->pastAdZonePriorityFactor;
-                    $message = '      - Re-using priority factor of ';
-                    $message .= sprintf('%.5f.', $newFactor);
+                }
+                // Use the past creative/zone priority factor
+                $newFactor = $oAdvert->pastAdZonePriorityFactor;
+                $message = '      - Re-using priority factor of ';
+                $message .= sprintf('%.5f.', $newFactor);
+                $this->globalMessage .= $message . "\n";
+                OA::debug($message, PEAR_LOG_DEBUG);
+                if ($newFactor > MAX_RAND) {
+                    $newFactor = MAX_RAND / 2;
+                    $message = '      - OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2: ' .
+                               sprintf('%.5f.', $newFactor);
                     $this->globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);
-                    if ($newFactor > MAX_RAND) {
-                        $newFactor = MAX_RAND / 2;
-                        $message = '      - OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2: ' .
-                                   sprintf('%.5f.', $newFactor);
-                        $this->globalMessage .= $message . "\n";
-                        OA::debug($message, PEAR_LOG_DEBUG);
-                    }
-                    return [$newFactor, true, 0, 1];
                 }
+                return [$newFactor, true, 0, 1];
             } else {
                 // Use a new base factor
                 $newFactor = BASE_FACTOR;
@@ -643,16 +643,15 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             // or the old factor if not
             if ($useNew) {
                 return [$newFactor, $limited];
-            } else {
-                return [$oldFactor, false];
             }
-        } elseif ($useNew) {
+            return [$oldFactor, false];
+        }
+        if ($useNew) {
             // The new factor is correcting the opposite direction
             // to the base factor, so use the new factor if
             // requested, but the new base factor if not
             return [$newFactor, $limited];
-        } else {
-            return [$baseFactor, false];
         }
+        return [$baseFactor, false];
     }
 }

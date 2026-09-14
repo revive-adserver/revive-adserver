@@ -69,15 +69,13 @@ class OA_Admin_Help
         // if empty the main help URL
         if (empty($relativeHelpPath)) {
             // Send the user to the main page
-            $sURL = PRODUCT_DOCSURL;
-        } else {
-            // Send the user to the correct page
-            $prefix = "";
-            if (!str_starts_with($relativeHelpPath, '/')) {
-                $prefix = "/";
-            }
-            $sURL = PRODUCT_DOCSURL . $prefix . $relativeHelpPath;
+            return PRODUCT_DOCSURL;
         }
-        return $sURL;
+        // Send the user to the correct page
+        $prefix = "";
+        if (!str_starts_with($relativeHelpPath, '/')) {
+            $prefix = "/";
+        }
+        return PRODUCT_DOCSURL . $prefix . $relativeHelpPath;
     }
 }

@@ -22,9 +22,7 @@ class OA_Admin_UI_Decorator_Registry
     public function singleton()
     {
         static $instance;
-        if (!isset($instance)) {
-            $instance = new OA_Admin_UI_Decorator_Registry();
-        }
+        $instance ??= new OA_Admin_UI_Decorator_Registry();
         return $instance;
     }
 

@@ -106,7 +106,7 @@ class OA_Preferences
         $aPreferences = [];
         // Put the admin account's preferences into the temporary
         // storage array for preferences
-        if ($loadAdminOnly == true || !($currentAccountType == OA_ACCOUNT_ADMIN && $parentOnly)) {
+        if ($loadAdminOnly == true || ($currentAccountType != OA_ACCOUNT_ADMIN || !$parentOnly)) {
             OA_Preferences::_setPreferences($aPreferences, $aPreferenceTypes, $aAdminPreferenceValues, $loadExtraInfo);
         }
         // Is the current account NOT the admin account?
@@ -210,9 +210,8 @@ class OA_Preferences
         // Return or store the preferences
         if ($return) {
             return $aPreferences;
-        } else {
-            $GLOBALS['_MAX']['PREF'] = $aPreferences;
         }
+        $GLOBALS['_MAX']['PREF'] = $aPreferences;
     }
 
     /**
@@ -340,13 +339,12 @@ class OA_Preferences
                 }
             }
             return $prefsFound;
-        } else {
-            // Set the cache
-            foreach ($aPreferences as $prefName => $prefValue) {
-                $aCache[$accountId][$prefName] = $prefValue;
-            }
-            return $aPreferences;
         }
+        // Set the cache
+        foreach ($aPreferences as $prefName => $prefValue) {
+            $aCache[$accountId][$prefName] = $prefValue;
+        }
+        return $aPreferences;
     }
 
     /**
@@ -368,10 +366,9 @@ class OA_Preferences
             // Return the admin account's preferences
             $aPrefs = OA_Preferences::loadPreferences(false, true, false, true);
             return $aPrefs;
-        } else {
-            // Load the admin account's preferences
-            OA_Preferences::loadPreferences(false, false, false, true);
         }
+        // Load the admin account's preferences
+        OA_Preferences::loadPreferences(false, false, false, true);
     }
 
     /**
@@ -394,10 +391,9 @@ class OA_Preferences
             // Return the account's preferences
             $aPrefs = OA_Preferences::loadPreferences(false, true, false, false, $accountId);
             return $aPrefs;
-        } else {
-            // Load the account's preferences
-            OA_Preferences::loadPreferences(false, false, false, false, $accountId);
         }
+        // Load the account's preferences
+        OA_Preferences::loadPreferences(false, false, false, false, $accountId);
     }
 
     /**
@@ -429,7 +425,7 @@ class OA_Preferences
 
         // Is there any unknown element?
         $aNewElements = array_diff($aElementNames, array_keys($aPreferenceTypes));
-        if ($aNewElements) {
+        if ($aNewElements !== []) {
             self::putDefaultPreferences(
                 OA_Dal_ApplicationVariables::get('admin_account_id'),
                 $aNewElements,

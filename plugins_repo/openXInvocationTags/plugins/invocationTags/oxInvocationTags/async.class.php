@@ -183,10 +183,7 @@ EOF;
         $doZones->find();
         while ($doZones->fetch() && $row = $doZones->toArray()) {
             // Email/Newsletter and DHTML and Video zones are not included in SPC
-            if ($row['delivery'] != MAX_ZoneEmail
-                && $row['delivery'] != phpAds_ZoneInterstitial
-                && $row['delivery'] != OX_ZoneVideoInstream
-                && $row['delivery'] != OX_ZoneVideoOverlay) {
+            if (!in_array($row['delivery'], [MAX_ZoneEmail, phpAds_ZoneInterstitial, OX_ZoneVideoInstream, OX_ZoneVideoOverlay])) {
                 $aZones[] = $row;
             }
         }

@@ -121,12 +121,11 @@ class FieldExpectation extends SimpleExpectation
         }
         if ($this->test($compare)) {
             return "Field expectation [" . $dumper->describeValue($this->_value) . "]";
-        } else {
-            return "Field expectation [" . $dumper->describeValue($this->_value) .
-                    "] fails with [" .
-                    $dumper->describeValue($compare) . "] " .
-                    $dumper->describeDifference($this->_value, $compare);
         }
+        return "Field expectation [" . $dumper->describeValue($this->_value) .
+                "] fails with [" .
+                $dumper->describeValue($compare) . "] " .
+                $dumper->describeDifference($this->_value, $compare);
     }
 }
 
@@ -260,9 +259,8 @@ class HttpHeaderExpectation extends SimpleExpectation
         }
         if (is_string($line = $this->_findHeader($compare))) {
             return "Searching for header [$message] found [$line]";
-        } else {
-            return "Failed to find header [$message]";
         }
+        return "Failed to find header [$message]";
     }
 }
 
@@ -309,9 +307,8 @@ class NoHttpHeaderExpectation extends HttpHeaderExpectation
         $expectation = $this->_getExpectation();
         if (is_string($line = $this->_findHeader($compare))) {
             return "Found unwanted header [$expectation] with [$line]";
-        } else {
-            return "Did not find unwanted header [$expectation]";
         }
+        return "Did not find unwanted header [$expectation]";
     }
 }
 
@@ -366,12 +363,11 @@ class TextExpectation extends SimpleExpectation
     {
         if ($this->test($compare)) {
             return $this->_describeTextMatch($this->_getSubstring(), $compare);
-        } else {
-            $dumper = $this->_getDumper();
-            return "Text [" . $this->_getSubstring() .
-                    "] not detected in [" .
-                    $dumper->describeValue($compare) . "]";
         }
+        $dumper = $this->_getDumper();
+        return "Text [" . $this->_getSubstring() .
+                "] not detected in [" .
+                $dumper->describeValue($compare) . "]";
     }
 
     /**
@@ -433,9 +429,8 @@ class NoTextExpectation extends TextExpectation
             return "Text [" . $this->_getSubstring() .
                     "] not detected in [" .
                     $dumper->describeValue($compare) . "]";
-        } else {
-            return $this->_describeTextMatch($this->_getSubstring(), $compare);
         }
+        return $this->_describeTextMatch($this->_getSubstring(), $compare);
     }
 }
 
@@ -1271,14 +1266,13 @@ class WebTestCase extends SimpleTestCase
                 $this->_browser->getAuthentication(),
                 $message,
             );
-        } else {
-            $message = sprintf($message, "Expected authentication [$authentication] got [" .
-                    $this->_browser->getAuthentication() . "]");
-            return $this->assertTrue(
-                strtolower($this->_browser->getAuthentication()) == strtolower($authentication),
-                $message,
-            );
         }
+        $message = sprintf($message, "Expected authentication [$authentication] got [" .
+                $this->_browser->getAuthentication() . "]");
+        return $this->assertTrue(
+            strtolower($this->_browser->getAuthentication()) == strtolower($authentication),
+            $message,
+        );
     }
 
     /**

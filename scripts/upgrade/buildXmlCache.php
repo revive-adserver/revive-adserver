@@ -101,11 +101,10 @@ function generateXmlCache($xmlFiles, $callback = 'parseDatabaseDefinitionFile')
             if (PEAR::isError($result)) {
                 clean_up();
                 die("Failed\n");
-            } else {
-                $oCache->save($result, $fileName);
-                echo "Processed";
-                eol_flush();
             }
+            $oCache->save($result, $fileName);
+            echo "Processed";
+            eol_flush();
             unset($result);
         }
     }

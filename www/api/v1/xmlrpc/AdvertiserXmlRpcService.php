@@ -82,9 +82,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
         if ($this->_oAdvertiserServiceImp->addAdvertiser($sessionId, $oAdvertiserInfo)) {
             return XmlRpcUtils::integerTypeResponse($oAdvertiserInfo->advertiserId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -122,9 +121,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
         if ($this->_oAdvertiserServiceImp->modifyAdvertiser($sessionId, $oAdvertiserInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -151,9 +149,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
         if ($this->_oAdvertiserServiceImp->deleteAdvertiser($sessionId, $advertiserId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -192,9 +189,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -234,9 +230,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -278,9 +273,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -320,9 +314,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -364,9 +357,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -398,9 +390,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
             $oAdvertiser,
         )) {
             return XmlRpcUtils::getEntityResponse($oAdvertiser);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 
     /**
@@ -432,9 +423,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
             $aAdvertiserList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aAdvertiserList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
     }
 }
 

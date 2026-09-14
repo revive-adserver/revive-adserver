@@ -27,9 +27,7 @@
 function MAX_limitationsCheckAcl($row, $source = '')
 {
     if (!empty($row['compiledlimitation'])) {
-        if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
-            $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = [];
-        }
+        $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] ??= [];
         // Set to true in case of error in eval
         $result = true;
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -52,9 +50,8 @@ function MAX_limitationsCheckAcl($row, $source = '')
         }
         @eval('$result = (' . $row['compiledlimitation'] . ');');
         return $result;
-    } else {
-        return true;
     }
+    return true;
 }
 
 /**
@@ -196,22 +193,14 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block, $showCapped
     if (isset($_COOKIE[$cookieName][$id])) {
         $lastSeen = $_COOKIE[$cookieName][$id];
     }
-
     // If the ad has been seen the requisite number of times...
     if ((($cap > 0) && isset($totalImpressions) && ($totalImpressions >= $cap)) ||
         (($sessionCap > 0) && isset($sessionImpressions) && ($sessionImpressions >= $sessionCap))) {
-        if ($block > 0 && MAX_commonGetTimeNow() > $lastSeen + $block) {
-            // This ad was last seen outside the block window, so it can now be seen again
-            // The log mechanism will deal with resetting the frequency counter
-            return false;
-        } else {
-            return true;
-        }
-    } elseif ($block > 0 && ($cap == 0 && $sessionCap == 0) && MAX_commonGetTimeNow() <= $lastSeen + $block) {
-        return true;
-    } else {
-        return false;
+        // This ad was last seen outside the block window, so it can now be seen again
+        // The log mechanism will deal with resetting the frequency counter
+        return $block <= 0 || MAX_commonGetTimeNow() <= $lastSeen + $block;
     }
+    return $block > 0 && ($cap == 0 && $sessionCap == 0) && MAX_commonGetTimeNow() <= $lastSeen + $block;
 }
 
 /**

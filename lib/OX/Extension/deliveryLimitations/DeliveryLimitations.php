@@ -263,7 +263,7 @@ abstract class Plugins_DeliveryLimitations extends OX_Component
     public function _flattenData($data = null)
     {
         if (is_null($data)) {
-            $data = $this->data;
+            return $this->data;
         }
         return $data;
     }
@@ -287,7 +287,7 @@ abstract class Plugins_DeliveryLimitations extends OX_Component
     public function _expandData($data = null)
     {
         if (is_null($data)) {
-            $data = $this->data;
+            return $this->data;
         }
         return $data;
     }

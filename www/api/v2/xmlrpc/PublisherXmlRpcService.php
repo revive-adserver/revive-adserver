@@ -83,9 +83,8 @@ class PublisherXmlRpcService extends BasePublisherService
 
         if ($this->_oPublisherServiceImp->addPublisher($sessionId, $oPublisherInfo)) {
             return XmlRpcUtils::integerTypeResponse($oPublisherInfo->publisherId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -124,9 +123,8 @@ class PublisherXmlRpcService extends BasePublisherService
 
         if ($this->_oPublisherServiceImp->modifyPublisher($sessionId, $oPublisherInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -153,9 +151,8 @@ class PublisherXmlRpcService extends BasePublisherService
 
         if ($this->_oPublisherServiceImp->deletePublisher($sessionId, $publisherId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -195,9 +192,8 @@ class PublisherXmlRpcService extends BasePublisherService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $aData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -238,9 +234,8 @@ class PublisherXmlRpcService extends BasePublisherService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $aData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -281,9 +276,8 @@ class PublisherXmlRpcService extends BasePublisherService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -324,9 +318,8 @@ class PublisherXmlRpcService extends BasePublisherService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -370,9 +363,8 @@ class PublisherXmlRpcService extends BasePublisherService
                 'revenue' => 'float',
                 'conversions' => 'integer',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -418,9 +410,8 @@ class PublisherXmlRpcService extends BasePublisherService
                 'revenue' => 'float',
                 'conversions' => 'integer',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -452,9 +443,8 @@ class PublisherXmlRpcService extends BasePublisherService
             $oPublisher,
         )) {
             return XmlRpcUtils::getEntityResponse($oPublisher);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 
     /**
@@ -486,8 +476,7 @@ class PublisherXmlRpcService extends BasePublisherService
             $aPublisherList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aPublisherList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
     }
 }

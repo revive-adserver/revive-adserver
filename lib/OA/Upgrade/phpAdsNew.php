@@ -292,11 +292,7 @@ class OA_phpAdsNew
                 } elseif ($databaseType == $GEOIP_REGION_EDITION_REV1) {
                     /* Region Edition, post June 2003 */
                     $databaseSegments = $STATE_BEGIN_REV1;
-                } elseif ($databaseType == $GEOIP_CITY_EDITION_REV0 ||
-                        $databaseType == $GEOIP_CITY_EDITION_REV1 ||
-                        $databaseType == $GEOIP_ORG_EDITION ||
-                        $databaseType == $GEOIP_ISP_EDITION ||
-                        $databaseType == $GEOIP_ASNUM_EDITION) {
+                } elseif (in_array($databaseType, [$GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1, $GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION, $GEOIP_ASNUM_EDITION])) {
                     /* City/Org Editions have two segments, read offset of second segment */
                     $databaseSegments = 0;
                     $buf = fread($fp, $SEGMENT_RECORD_LENGTH);
@@ -314,9 +310,7 @@ class OA_phpAdsNew
             }
         }
 
-        if ($databaseType == $GEOIP_COUNTRY_EDITION ||
-            $databaseType == $GEOIP_PROXY_EDITION ||
-            $databaseType == $GEOIP_NETSPEED_EDITION) {
+        if (in_array($databaseType, [$GEOIP_COUNTRY_EDITION, $GEOIP_PROXY_EDITION, $GEOIP_NETSPEED_EDITION])) {
             $databaseSegments = $COUNTRY_BEGIN;
         }
 

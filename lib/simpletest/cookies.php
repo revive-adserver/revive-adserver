@@ -101,7 +101,8 @@ class SimpleCookie
         $tlds = SimpleUrl::getAllTopLevelDomains();
         if (preg_match('/[a-z\-]+\.(' . $tlds . ')$/i', $host, $matches)) {
             return $matches[0];
-        } elseif (preg_match('/[a-z\-]+\.[a-z\-]+\.[a-z\-]+$/i', $host, $matches)) {
+        }
+        if (preg_match('/[a-z\-]+\.[a-z\-]+\.[a-z\-]+$/i', $host, $matches)) {
             return $matches[0];
         }
         return false;

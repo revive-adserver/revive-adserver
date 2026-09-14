@@ -17,9 +17,7 @@ class OA_Admin_UI_NotificationManager
     public function __construct()
     {
         global $session;
-        if (!isset($session['notificationQueue'])) {
-            $session['notificationQueue'] = [];
-        }
+        $session['notificationQueue'] ??= [];
     }
 
     /**

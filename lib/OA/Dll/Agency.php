@@ -149,12 +149,7 @@ class OA_Dll_Agency extends OA_Dll
      */
     public function _validateForStatistics($agencyId, $oStartDate, $oEndDate)
     {
-        if (!$this->checkIdExistence('agency', $agencyId) ||
-            !$this->checkDateOrder($oStartDate, $oEndDate)) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->checkIdExistence('agency', $agencyId) && $this->checkDateOrder($oStartDate, $oEndDate);
     }
 
     /**
@@ -244,9 +239,8 @@ class OA_Dll_Agency extends OA_Dll
                 $doAgency->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -271,10 +265,9 @@ class OA_Dll_Agency extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError('Unknown agencyId Error');
-            return false;
         }
+        $this->raiseError('Unknown agencyId Error');
+        return false;
     }
 
     /**
@@ -301,10 +294,9 @@ class OA_Dll_Agency extends OA_Dll
 
             $this->_setAgencyDataFromArray($oAgency, $agencyData);
             return true;
-        } else {
-            $this->raiseError('Unknown agencyId Error');
-            return false;
         }
+        $this->raiseError('Unknown agencyId Error');
+        return false;
     }
 
     /**
@@ -378,9 +370,8 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -423,9 +414,8 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -469,9 +459,8 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -517,9 +506,8 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -567,9 +555,8 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -613,9 +600,8 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -661,8 +647,7 @@ class OA_Dll_Agency extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

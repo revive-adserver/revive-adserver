@@ -526,13 +526,9 @@ abstract class OA_StatisticsFieldsDelivery
             $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, null, $tzMethod, $tzArgs);
         }
         foreach ($aResult as $k => $row) {
-            if (!isset($aRows[$k])) {
-                $aRows[$k] = $emptyRow;
-            }
+            $aRows[$k] ??= $emptyRow;
             foreach ($row as $field => $value) {
-                if (!isset($aRows[$k][$field])) {
-                    $aRows[$k][$field] = $value;
-                }
+                $aRows[$k][$field] ??= $value;
             }
         }
     }

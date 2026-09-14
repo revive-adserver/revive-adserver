@@ -66,13 +66,7 @@ abstract class Plugins_DeliveryLimitations_AbstractTimePlugin extends Plugins_De
      */
     public function _getCurrentTz()
     {
-        if (isset($GLOBALS['_MAX']['PREF']['timezone'])) {
-            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
-        } else {
-            $tz = 'UTC';
-        }
-
-        return $tz;
+        return $GLOBALS['_MAX']['PREF']['timezone'] ?? 'UTC';
     }
 
     public function _flattenData($data = null)

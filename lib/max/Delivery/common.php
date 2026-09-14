@@ -43,11 +43,9 @@ function MAX_commonGetDeliveryUrl($file = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     if ($GLOBALS['_MAX']['SSL_REQUEST']) {
-        $url = MAX_commonConstructSecureDeliveryUrl($file);
-    } else {
-        $url = MAX_commonConstructDeliveryUrl($file);
+        return MAX_commonConstructSecureDeliveryUrl($file);
     }
-    return $url;
+    return MAX_commonConstructDeliveryUrl($file);
 }
 
 /**
@@ -97,9 +95,8 @@ function MAX_commonConstructPartialDeliveryUrl($file, $ssl = false)
     $conf = $GLOBALS['_MAX']['CONF'];
     if ($ssl) {
         return '//' . $conf['webpath']['deliverySSL'] . '/' . $file;
-    } else {
-        return '//' . $conf['webpath']['delivery'] . '/' . $file;
     }
+    return '//' . $conf['webpath']['delivery'] . '/' . $file;
 }
 
 /**
@@ -122,7 +119,7 @@ function MAX_commonRemoveSpecialChars(&$var)
             $var = str_replace(["\n", "\r"], ['', ''], $var);
             $var = trim($var);
         } else {
-            array_walk($var, 'MAX_commonRemoveSpecialChars');
+            array_walk($var, MAX_commonRemoveSpecialChars(...));
         }
     }
 }
@@ -274,9 +271,8 @@ function MAX_commonAddslashesRecursive($a)
         }
         reset($a);
         return ($a);
-    } else {
-        return is_null($a) ? null : addslashes($a);
     }
+    return is_null($a) ? null : addslashes($a);
 }
 
 /**
@@ -344,9 +340,8 @@ function MAX_commonEncrypt($string)
         }
         $convert = '{obfs:' . $convert . '}';
         return ($convert);
-    } else {
-        return $string;
     }
+    return $string;
 }
 
 /**
@@ -369,9 +364,8 @@ function MAX_commonDecrypt($string)
             $convert .= $dec;
         }
         return ($convert);
-    } else {
-        return ($string);
     }
+    return ($string);
 }
 
 /**
@@ -428,9 +422,7 @@ function MAX_commonInitVariables()
     }
 
     // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
-    if (!isset($clientid)) {
-        $clientid = '';
-    }
+    $clientid ??= '';
     if (empty($campaignid)) {
         $campaignid = $clientid;
     }
@@ -512,9 +504,7 @@ function MAX_commonDisplay1x1()
 
 function MAX_commonGetTimeNow()
 {
-    if (!isset($GLOBALS['_MAX']['NOW'])) {
-        $GLOBALS['_MAX']['NOW'] = time();
-    }
+    $GLOBALS['_MAX']['NOW'] ??= time();
     return $GLOBALS['_MAX']['NOW'];
 }
 
@@ -764,10 +754,9 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
     if (preg_match('/[^a-zA-Z0-9:]/', $identifier)) {
         if (PHP_SAPI === 'cli') {
             exit(1);
-        } else {
-            MAX_sendStatusCode(400);
-            exit;
         }
+        MAX_sendStatusCode(400);
+        exit;
     }
 
     $aInfo = explode(':', $identifier);

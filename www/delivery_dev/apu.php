@@ -38,36 +38,16 @@ MAX_commonRegisterGlobalsArray(
 );
 
 // Set defaults for script specific input variables
-if (!isset($left)) {
-    $left = 0;
-}
-if (!isset($top)) {
-    $top = 0;
-}
-if (!isset($timeout)) {
-    $timeout = 0;
-}
-if (!isset($delay)) {
-    $delay = 0;
-}
-if (!isset($toolbars)) {
-    $toolbars = 0;
-}
-if (!isset($location)) {
-    $location = 0;
-}
-if (!isset($menubar)) {
-    $menubar = 0;
-}
-if (!isset($status)) {
-    $status = 0;
-}
-if (!isset($resizable)) {
-    $resizable = 0;
-}
-if (!isset($scrollbars)) {
-    $scrollbars = 0;
-}
+$left ??= 0;
+$top ??= 0;
+$timeout ??= 0;
+$delay ??= 0;
+$toolbars ??= 0;
+$location ??= 0;
+$menubar ??= 0;
+$status ??= 0;
+$resizable ??= 0;
+$scrollbars ??= 0;
 
 // Get the banner
 $row = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);

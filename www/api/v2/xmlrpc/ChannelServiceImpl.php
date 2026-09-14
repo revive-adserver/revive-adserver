@@ -56,10 +56,9 @@ class ChannelServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllChannel->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllChannel->getLastError());
+        return false;
     }
 
     /**
@@ -79,9 +78,8 @@ class ChannelServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllChannel->modify($oChannel));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -103,13 +101,11 @@ class ChannelServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oChannel->channelId)) {
                 return $this->_validateResult($this->_dllChannel->modify($oChannel));
-            } else {
-                $this->raiseError("Field 'channelId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'channelId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -127,9 +123,8 @@ class ChannelServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllChannel->delete($channelId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -149,9 +144,8 @@ class ChannelServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllChannel->getChannel($channelId, $oChannel),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -171,9 +165,8 @@ class ChannelServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllChannel->getChannelList(null, $websiteId, $aChannelList),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -193,9 +186,8 @@ class ChannelServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllChannel->getChannelList($agencyId, null, $aChannelList),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -217,9 +209,8 @@ class ChannelServiceImpl extends BaseServiceImpl
                 $channelId,
                 $aTargeting,
             ));
-        } else {
-            return false;
         }
+        return false;
     }
 
 
@@ -242,8 +233,7 @@ class ChannelServiceImpl extends BaseServiceImpl
                 $channelId,
                 $aTargeting,
             ));
-        } else {
-            return false;
         }
+        return false;
     }
 }

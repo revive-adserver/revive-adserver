@@ -134,7 +134,7 @@ abstract class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLim
         $aResult = $this->_expandData($aLimitation['data']);
         if ($aLimitation['comparison'] == '!='
             || $aLimitation['comparison'] == '!~') {
-            $aResult = array_diff($this->_aValues, $aResult);
+            return array_diff($this->_aValues, $aResult);
         }
 
         return $aResult;

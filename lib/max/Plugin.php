@@ -62,9 +62,7 @@ class MAX_Plugin
      */
     public static function factory($module, $package, $name = null)
     {
-        if ($name === null) {
-            $name = $package;
-        }
+        $name ??= $package;
         if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name)) {
             return false;
         }
@@ -111,25 +109,21 @@ class MAX_Plugin
     public static function _includePluginFile($module, $package, $name = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($name === null) {
-            $name = $package;
-        }
+        $name ??= $package;
         $packagePath = empty($package) ? "" : $package . "/";
 
         $fileName = MAX_PATH . MAX_PLUGINS_PATH . $module . "/" . $packagePath . $name . MAX_PLUGINS_EXTENSION;
         if (!file_exists($fileName)) {
             MAX::raiseError("Unable to include the file $fileName.");
             return false;
-        } else {
-            include_once $fileName;
         }
+        include_once $fileName;
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
         if (!class_exists($className)) {
             MAX::raiseError("Plugin file included but class '$className' does not exist.");
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -147,9 +141,7 @@ class MAX_Plugin
      */
     public static function _getPluginClassName($module, $package, $name = null)
     {
-        if ($name === null) {
-            $name = $package;
-        }
+        $name ??= $package;
         $className = 'Plugins_' . ucfirst($module) . '_' . ucfirst($package) . '_' . ucfirst($name);
         return $className;
     }
@@ -256,9 +248,8 @@ class MAX_Plugin
             $oFileScanner->setFileMask($fileMask);
             $oFileScanner->addDir($directory, $recursive);
             return $oFileScanner->getAllFiles();
-        } else {
-            return [];
         }
+        return [];
     }
 
     private static function _getFileMask()
@@ -287,9 +278,7 @@ class MAX_Plugin
      */
     public static function callStaticMethod($module, $package, $name, $staticMethod, $aParams = null)
     {
-        if ($name === null) {
-            $name = $package;
-        }
+        $name ??= $package;
         if (!MAX_Plugin::_isEnabledPlugin($module, $package, $name)) {
             return false;
         }
@@ -299,8 +288,8 @@ class MAX_Plugin
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
 
         // PHP4/5 compatibility for get_class_methods.
-        $aClassMethods = array_map('strtolower', (get_class_methods($className)));
-        if (!$aClassMethods) {
+        $aClassMethods = array_map(strtolower(...), (get_class_methods($className)));
+        if ($aClassMethods === []) {
             $aClassMethods = [];
         }
         if (!in_array(strtolower($staticMethod), $aClassMethods)) {
@@ -309,9 +298,8 @@ class MAX_Plugin
         }
         if (is_null($aParams)) {
             return call_user_func([$className, $staticMethod]);
-        } else {
-            return call_user_func_array([$className, $staticMethod], $aParams);
         }
+        return call_user_func_array([$className, $staticMethod], $aParams);
     }
 
     /**
@@ -377,15 +365,14 @@ class MAX_Plugin
         // and convert into the package/plugin name
         if (!isset($conf[$configKey])) {
             return false;
+        }
+        $packageName = explode(':', $conf[$configKey]);
+        if (count($packageName) > 1) {
+            $package = $packageName[0];
+            $name = $packageName[1];
         } else {
-            $packageName = explode(':', $conf[$configKey]);
-            if (count($packageName) > 1) {
-                $package = $packageName[0];
-                $name = $packageName[1];
-            } else {
-                $package = $conf[$configKey];
-                $name = null;
-            }
+            $package = $conf[$configKey];
+            $name = null;
         }
         // Ensure that only real, valid packages/plugins are instantiated
         if ($package == $omit) {
@@ -471,14 +458,10 @@ class MAX_Plugin
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($defaultConfig) {
-            if (is_null($host)) {
-                $host = 'default';
-            }
+            $host ??= 'default';
             $startPath = MAX_PATH . '/plugins/';
         } else {
-            if (is_null($host)) {
-                $host = OX_getHostName();
-            }
+            $host ??= OX_getHostName();
             $startPath = MAX_PATH . $aConf['pluginPaths']['var'] . 'config/';
         }
         $configName = $host . '.plugin.conf.php';
@@ -517,15 +500,13 @@ class MAX_Plugin
             if (preg_match('#.*/(.*)\.plugin\.conf\.php#D', $configFileName, $match)) {
                 $configFileName = str_replace($match[1], $conf['realConfig'], $configFileName);
                 return MAX_Plugin::getConfigByFileName($configFileName, $processSections, $raiseErrors);
-            } else {
-                return false;
             }
+            return false;
         }
         if (is_array($conf)) {
             return $conf;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -647,14 +628,11 @@ class MAX_Plugin
         }
         if (is_dir($directory)) {
             return true;
-        } else {
-            if (is_null($mode)) {
-                $mode = MAX_PLUGINS_VAR_WRITE_MODE;
-            }
-            $ret1 = MAX_Plugin::_mkDirRecursive(dirname($directory));
-            $ret2 = @mkdir($directory, $mode);
-            return $ret1 && $ret2;
         }
+        $mode ??= MAX_PLUGINS_VAR_WRITE_MODE;
+        $ret1 = MAX_Plugin::_mkDirRecursive(dirname($directory));
+        $ret2 = @mkdir($directory, $mode);
+        return $ret1 && $ret2;
     }
 
     /**
@@ -677,9 +655,7 @@ class MAX_Plugin
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare the options for PEAR::Cache_Lite
-        if (is_null($cacheDir)) {
-            $cacheDir = MAX_PATH . $aConf['pluginPaths']['var'] . 'cache/' . $module . '/' . $package . '/';
-        }
+        $cacheDir ??= MAX_PATH . $aConf['pluginPaths']['var'] . 'cache/' . $module . '/' . $package . '/';
         $aOptions = [
             'cacheDir' => $cacheDir,
             'lifeTime' => $cacheExpire,
@@ -715,12 +691,8 @@ class MAX_Plugin
      */
     public static function saveCacheForPlugin($data, $id, $module, $package, $name = null, $aOptions = null)
     {
-        if (is_null($name)) {
-            $name = $package;
-        }
-        if (is_null($aOptions)) {
-            $aOptions = MAX_Plugin::prepareCacheOptions($module, $package);
-        }
+        $name ??= $package;
+        $aOptions ??= MAX_Plugin::prepareCacheOptions($module, $package);
         $cache = new Cache_Lite($aOptions);
         return $cache->save($data, $id, $name);
     }
@@ -748,12 +720,8 @@ class MAX_Plugin
      */
     public static function getCacheForPluginById($id, $module, $package, $name = null, $doNotTestCacheValidity = true, $aOptions = null)
     {
-        if (is_null($name)) {
-            $name = $package;
-        }
-        if (is_null($aOptions)) {
-            $aOptions = MAX_Plugin::prepareCacheOptions($module, $package);
-        }
+        $name ??= $package;
+        $aOptions ??= MAX_Plugin::prepareCacheOptions($module, $package);
         $cache = new Cache_Lite($aOptions);
         return $cache->get($id, $name, $doNotTestCacheValidity);
     }
@@ -777,12 +745,8 @@ class MAX_Plugin
      */
     public static function cleanPluginCache($module, $package, $name = null, $mode = 'ingroup', $aOptions = null)
     {
-        if (is_null($name)) {
-            $name = $package;
-        }
-        if (is_null($aOptions)) {
-            $aOptions = MAX_Plugin::prepareCacheOptions($module, $package);
-        }
+        $name ??= $package;
+        $aOptions ??= MAX_Plugin::prepareCacheOptions($module, $package);
         $oCache = new Cache_Lite($aOptions);
         return $oCache->clean($name, $mode);
     }

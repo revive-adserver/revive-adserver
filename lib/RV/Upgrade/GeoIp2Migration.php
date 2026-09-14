@@ -280,7 +280,7 @@ class GeoIp2Migration
         }
 
         // Old country takes precedence
-        if ($result) {
+        if ($result !== []) {
             return self::regionCompact($country, $result);
         }
 

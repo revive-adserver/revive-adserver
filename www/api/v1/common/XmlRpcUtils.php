@@ -262,22 +262,16 @@ class XmlRpcUtils
     {
         switch ($type) {
             case 'string':
-                if (is_null($variable)) {
-                    $variable = '';
-                }
+                $variable ??= '';
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_String']);
 
             case 'integer':
-                if (is_null($variable)) {
-                    $variable = 0;
-                }
+                $variable ??= 0;
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Int']);
 
             case 'float':
             case 'double':
-                if (is_null($variable)) {
-                    $variable = 0.0;
-                }
+                $variable ??= 0.0;
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
 
             case 'date':
@@ -364,24 +358,24 @@ class XmlRpcUtils
 
             return true;
         }
-
         if (($year < 1970) || ($year > 2038)) {
             $oResponseWithError = XmlRpcUtils::generateError('Year should be in range 1970-2038');
             return false;
-        } elseif (($month < 1) || ($month > 12)) {
+        }
+        if (($month < 1) || ($month > 12)) {
             $oResponseWithError = XmlRpcUtils::generateError('Month should be in range 1-12');
             return false;
-        } elseif (($day < 1) || ($day > 31)) {
+        }
+
+        if (($day < 1) || ($day > 31)) {
             $oResponseWithError = XmlRpcUtils::generateError('Day should be in range 1-31');
             return false;
-        } else {
-            $oResult = new Date();
-            $oResult->setYear($year);
-            $oResult->setMonth($month);
-            $oResult->setDay($day);
-
-            return true;
         }
+        $oResult = new Date();
+        $oResult->setYear($year);
+        $oResult->setMonth($month);
+        $oResult->setDay($day);
+        return true;
     }
 
     /**
@@ -400,22 +394,24 @@ class XmlRpcUtils
         if ($oParam->scalartyp() == $GLOBALS['XML_RPC_Int']) {
             $result = (int) $oParam->scalarval();
             return true;
-        } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_DateTime']) {
+        }
+        if ($oParam->scalartyp() == $GLOBALS['XML_RPC_DateTime']) {
             return XmlRpcUtils::_convertDateFromIso8601Format(
                 $oParam->scalarval(),
                 $result,
                 $oResponseWithError,
             );
-        } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_Boolean']) {
+        }
+        if ($oParam->scalartyp() == $GLOBALS['XML_RPC_Boolean']) {
             $result = (bool) $oParam->scalarval();
             return true;
-        } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_Double']) {
+        }
+        if ($oParam->scalartyp() == $GLOBALS['XML_RPC_Double']) {
             $result = (float) $oParam->scalarval();
             return true;
-        } else {
-            $result = $oParam->scalarval();
-            return true;
         }
+        $result = $oParam->scalarval();
+        return true;
     }
 
     /**
@@ -472,10 +468,9 @@ class XmlRpcUtils
             $oParam = $oParams->getParam($idxParam);
 
             return XmlRpcUtils::_getScalarValue($result, $oParam, $oResponseWithError);
-        } else {
-            $result = null;
-            return true;
         }
+        $result = null;
+        return true;
     }
 
     /**
@@ -548,15 +543,13 @@ class XmlRpcUtils
         if (isset($oParam)) {
             if ($oParam->kindOf() == 'scalar') {
                 return XmlRpcUtils::_getScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
-            } else {
-                $oResponseWithError = XmlRpcUtils::generateError(
-                    'Structure field \'' . $fieldName . '\' should be scalar type ',
-                );
-                return false;
             }
-        } else {
-            return true;
+            $oResponseWithError = XmlRpcUtils::generateError(
+                'Structure field \'' . $fieldName . '\' should be scalar type ',
+            );
+            return false;
         }
+        return true;
     }
 
 
@@ -578,15 +571,13 @@ class XmlRpcUtils
         if (isset($oParam)) {
             if ($oParam->kindOf() != 'scalar') {
                 return XmlRpcUtils::_getNonScalarValue($oStructure->$fieldName, $oParam, $oResponseWithError);
-            } else {
-                $oResponseWithError = XmlRpcUtils::generateError(
-                    'Structure field \'' . $fieldName . '\' should be non-scalar type ',
-                );
-                return false;
             }
-        } else {
-            return true;
+            $oResponseWithError = XmlRpcUtils::generateError(
+                'Structure field \'' . $fieldName . '\' should be non-scalar type ',
+            );
+            return false;
         }
+        return true;
     }
 
     /**

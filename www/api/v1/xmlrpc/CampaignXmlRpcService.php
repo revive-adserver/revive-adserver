@@ -86,9 +86,8 @@ class CampaignXmlRpcService extends BaseCampaignService
 
         if ($this->_oCampaignServiceImp->addCampaign($sessionId, $oCampaignInfo)) {
             return XmlRpcUtils::integerTypeResponse($oCampaignInfo->campaignId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -129,9 +128,8 @@ class CampaignXmlRpcService extends BaseCampaignService
 
         if ($this->_oCampaignServiceImp->modifyCampaign($sessionId, $oCampaignInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -158,9 +156,8 @@ class CampaignXmlRpcService extends BaseCampaignService
 
         if ($this->_oCampaignServiceImp->deleteCampaign($sessionId, $campaignId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -199,9 +196,8 @@ class CampaignXmlRpcService extends BaseCampaignService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -243,9 +239,8 @@ class CampaignXmlRpcService extends BaseCampaignService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -285,9 +280,8 @@ class CampaignXmlRpcService extends BaseCampaignService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -329,9 +323,8 @@ class CampaignXmlRpcService extends BaseCampaignService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -363,9 +356,8 @@ class CampaignXmlRpcService extends BaseCampaignService
             $oCampaign,
         )) {
             return XmlRpcUtils::getEntityResponse($oCampaign);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 
     /**
@@ -397,9 +389,8 @@ class CampaignXmlRpcService extends BaseCampaignService
             $aCampaignList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aCampaignList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
     }
 }
 

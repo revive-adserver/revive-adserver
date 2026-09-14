@@ -104,11 +104,9 @@ class SimpleRoute
     public function _createSocket($scheme, $host, $port, $timeout)
     {
         if ($scheme == 'https') {
-            $socket = new SimpleSecureSocket($host, $port, $timeout);
-        } else {
-            $socket = new SimpleSocket($host, $port, $timeout);
+            return new SimpleSecureSocket($host, $port, $timeout);
         }
-        return $socket;
+        return new SimpleSocket($host, $port, $timeout);
     }
 }
 

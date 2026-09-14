@@ -198,9 +198,8 @@ class MAX_FileScanner
             $matches = null;
             if (!preg_match($this->_allowedFileMask, $fileName, $matches)) {
                 return false;
-            } else {
-                $this->_lastMatch = $matches;
             }
+            $this->_lastMatch = $matches;
         }
         return true;
     }

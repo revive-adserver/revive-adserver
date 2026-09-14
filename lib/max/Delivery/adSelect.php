@@ -395,9 +395,8 @@ function _getNextZone($zoneId, $arrZone)
 
     if (!empty($arrZone['chain']) && (str_starts_with($arrZone['chain'], 'zone:'))) {
         return (int) substr($arrZone['chain'], 5);
-    } else {
-        return $zoneId;
     }
+    return $zoneId;
 }
 
 
@@ -690,7 +689,8 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                 foreach ($aAds as $key => $ad) {
                     if ($ad['ecpm'] < $max_ecpm) {
                         continue;
-                    } elseif ($ad['ecpm'] > $max_ecpm) {
+                    }
+                    if ($ad['ecpm'] > $max_ecpm) {
                         $top_ecpms = [];
                         $max_ecpm = $ad['ecpm'];
                     }
@@ -993,8 +993,8 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     if (   // Exclude richmedia banners if no alt image is specified
         $richMedia == false &&
         $aAd['alt_filename'] == '' &&
-        !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png' || $aAd['contenttype'] == 'webp') &&
-        !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
+        !(in_array($aAd['contenttype'], ['jpeg', 'gif', 'png', 'webp'])) &&
+        ($aAd['type'] != 'url' || $aAd['contenttype'] != '')
     ) {
         OX_Delivery_logMessage('No alt image specified for richmedia bannerid ' . $aAd['ad_id'], 7);
         return false;

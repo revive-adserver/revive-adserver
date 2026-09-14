@@ -56,10 +56,9 @@ class AgencyServiceImpl extends BaseServiceImpl
     {
         if ($result) {
             return true;
-        } else {
-            $this->raiseError($this->_dllAgency->getLastError());
-            return false;
         }
+        $this->raiseError($this->_dllAgency->getLastError());
+        return false;
     }
 
     /**
@@ -79,9 +78,8 @@ class AgencyServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllAgency->modify($oAgency));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -103,13 +101,11 @@ class AgencyServiceImpl extends BaseServiceImpl
         if ($this->verifySession($sessionId)) {
             if (isset($oAgency->agencyId)) {
                 return $this->_validateResult($this->_dllAgency->modify($oAgency));
-            } else {
-                $this->raiseError("Field 'agencyId' in structure does not exists");
-                return false;
             }
-        } else {
+            $this->raiseError("Field 'agencyId' in structure does not exists");
             return false;
         }
+        return false;
     }
 
     /**
@@ -127,9 +123,8 @@ class AgencyServiceImpl extends BaseServiceImpl
     {
         if ($this->verifySession($sessionId)) {
             return $this->_validateResult($this->_dllAgency->delete($agencyId));
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -159,9 +154,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $aData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -191,9 +185,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $aData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -223,9 +216,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -255,9 +247,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -287,9 +278,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -319,9 +309,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -351,9 +340,8 @@ class AgencyServiceImpl extends BaseServiceImpl
                     $rsStatisticsData,
                 ),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -373,9 +361,8 @@ class AgencyServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllAgency->getAgency($agencyId, $oAgency),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -394,8 +381,7 @@ class AgencyServiceImpl extends BaseServiceImpl
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyList($aAgencyList),
             );
-        } else {
-            return false;
         }
+        return false;
     }
 }

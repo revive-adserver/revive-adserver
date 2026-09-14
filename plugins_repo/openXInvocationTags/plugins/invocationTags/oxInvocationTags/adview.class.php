@@ -57,9 +57,8 @@ class Plugins_InvocationTags_OxInvocationTags_adview extends Plugins_InvocationT
         $isAllowed = parent::isAllowed($extra);
         if (is_array($extra) && $extra['delivery'] == phpAds_ZoneText) {
             return false;
-        } else {
-            return $isAllowed;
         }
+        return $isAllowed;
     }
 
     public function getOrder()

@@ -211,15 +211,13 @@ class openXSchemaEditor
             $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
             if (!Pear::iserror($result)) {
                 return true;
-            } else {
-                $this->oLogger->logError($result->getUserInfo());
-                return false;
             }
-        } else {
-            $this->oLogger->logError('one or more files not found:');
-            $this->oLogger->logError($this->schema_trans);
-            $this->oLogger->logError($this->schema_final);
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
         }
+        $this->oLogger->logError('one or more files not found:');
+        $this->oLogger->logError($this->schema_trans);
+        $this->oLogger->logError($this->schema_final);
         return false;
     }
 
@@ -241,10 +239,9 @@ class openXSchemaEditor
             $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
             if (!Pear::iserror($result)) {
                 return true;
-            } else {
-                $this->oLogger->logError($result->getUserInfo());
-                return false;
             }
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
         }
         $this->oLogger->logError('file not found: ' . $input_file);
         return false;
@@ -396,10 +393,9 @@ class openXSchemaEditor
                 $this->aDB_definition = $result;
                 $this->version = $this->aDB_definition['version'];
                 return true;
-            } else {
-                $this->oLogger->logError($result->getUserInfo());
-                return false;
             }
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
         }
         $this->oLogger->logError('file not found: ' . $this->working_file_schema);
         $this->aDB_definition = [];
@@ -886,9 +882,7 @@ class openXSchemaEditor
     {
         if ($this->use_links && (!empty($this->links_trans))) {
             $aLinks = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-            if (!isset($aLinks[$table_name])) {
-                $aLinks[$table_name] = [];
-            }
+            $aLinks[$table_name] ??= [];
         } else {
             $aLinks = [];
         }
@@ -1342,10 +1336,9 @@ class openXSchemaEditor
             echo '</pre></div>';
             if (!Pear::iserror($result)) {
                 return true;
-            } else {
-                $this->oLogger->logError($result->getUserInfo());
-                return false;
             }
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
         }
         $this->oLogger->logError('one or more files do not exist:');
         $this->oLogger->logError($this->schema_trans);
@@ -1518,12 +1511,11 @@ class openXSchemaEditor
             if (is_array($aOld) && array_key_exists($id, $aOld)) {
                 //$aErrors[] = 'Schema version '.$id.' was registered by '.$aOld[$id]['user'].' on '.$aOld[$id]['registered'];
                 return false;
-            } else {
-                $aNew = UPMS_registerVersion($this->aXMLRPCServer, $id, $name, $comments);
-                if (!is_array($aNew)) {
-                    //$aErrors[] = $aNew;
-                    return false;
-                }
+            }
+            $aNew = UPMS_registerVersion($this->aXMLRPCServer, $id, $name, $comments);
+            if (!is_array($aNew)) {
+                //$aErrors[] = $aNew;
+                return false;
             }
         }
         return true;

@@ -95,7 +95,6 @@ class RV_Sync
 
         // Prepare value from the first 3 items
         $returnValue = $v[0] * 1000 + $v[1] * 100 + $v[2];
-
         // How many items were there?
         if (count($v) == 5) {
             // Check that it is a beta-rc release
@@ -105,13 +104,16 @@ class RV_Sync
             // Add the beta-rc
             $returnValue += $a['beta-rc'] + $aMatches[1] / 1000;
             return $returnValue;
-        } elseif (count($v) == 4) {
+        }
+
+        if (count($v) == 4) {
             // Check that it is a tag or rc numer
             if (isset($a[$v[3]])) {
                 // Add the beta
                 $returnValue += $a[$v[3]];
                 return $returnValue;
-            } elseif (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
+            }
+            if (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
                 // Add the rc
                 $returnValue += $a['rc'] + $aMatches[1] / 1000;
                 return $returnValue;

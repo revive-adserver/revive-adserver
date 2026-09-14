@@ -47,9 +47,11 @@ class SimpleTagBuilder
         if (array_key_exists($name, $map)) {
             $tag_class = $map[$name];
             return new $tag_class($attributes);
-        } elseif ($name == 'select') {
+        }
+        if ($name == 'select') {
             return $this->_createSelectionTag($attributes);
-        } elseif ($name == 'input') {
+        }
+        if ($name == 'input') {
             return $this->_createInputTag($attributes);
         }
         return new SimpleTag($name, $attributes);

@@ -27,11 +27,11 @@ class SimpleCollector
     {
         if (substr($path, -1) == DIRECTORY_SEPARATOR) {
             return substr($path, 0, -1);
-        } elseif (str_ends_with($path, '/')) {
-            return substr($path, 0, -1);
-        } else {
-            return $path;
         }
+        if (str_ends_with($path, '/')) {
+            return substr($path, 0, -1);
+        }
+        return $path;
     }
 
     /**

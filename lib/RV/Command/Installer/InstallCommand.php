@@ -96,7 +96,7 @@ class InstallCommand extends AbstractInstallerCommand
             $this->process($oRequest);
         } catch (RedirectException $e) {
             if ('configuration' !== $e->getAction()) {
-                throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
+                throw new RuntimeException("Unexpected redirect: {$e->getAction()}", $e->getCode(), $e);
             }
         }
     }
@@ -120,7 +120,7 @@ class InstallCommand extends AbstractInstallerCommand
             $this->process($oRequest);
         } catch (RedirectException $e) {
             if ('jobs' !== $e->getAction()) {
-                throw new RuntimeException("Unexpected redirect: {$e->getAction()}");
+                throw new RuntimeException("Unexpected redirect: {$e->getAction()}", $e->getCode(), $e);
             }
         }
     }

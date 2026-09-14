@@ -156,10 +156,9 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                                 $message = "   Aborting maintenance execution";
                                 OA::debug($message, PEAR_LOG_CRIT);
                                 exit();
-                            } else {
-                                $message = "  - Pruned $pruneResult row(s)";
-                                OA::debug($message, PEAR_LOG_DEBUG);
                             }
+                            $message = "  - Pruned $pruneResult row(s)";
+                            OA::debug($message, PEAR_LOG_DEBUG);
                         }
                     }
                 }
@@ -202,10 +201,9 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                                 $message = "   Aborting maintenance execution";
                                 OA::debug($message, PEAR_LOG_CRIT);
                                 exit();
-                            } else {
-                                $message = "  - Pruned $pruneResult row(s)";
-                                OA::debug($message, PEAR_LOG_DEBUG);
                             }
+                            $message = "  - Pruned $pruneResult row(s)";
+                            OA::debug($message, PEAR_LOG_DEBUG);
                         }
                     }
                 }
@@ -264,10 +262,9 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                                 $message = "   Aborting maintenance execution";
                                 OA::debug($message, PEAR_LOG_CRIT);
                                 exit();
-                            } else {
-                                $message = "  - Pruned $pruneResult row(s)";
-                                OA::debug($message, PEAR_LOG_DEBUG);
                             }
+                            $message = "  - Pruned $pruneResult row(s)";
+                            OA::debug($message, PEAR_LOG_DEBUG);
                         }
                     }
                 }

@@ -93,7 +93,7 @@ class OX_Translation
 
         // For debugging add strike tags
         if ($this->debug) {
-            $return = '<strike>' . $return . '</strike>';
+            return '<strike>' . $return . '</strike>';
         }
 
         return $return;

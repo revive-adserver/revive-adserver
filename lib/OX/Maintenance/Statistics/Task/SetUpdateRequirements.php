@@ -61,10 +61,8 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         } else {
             $this->oController->oLastDateIntermediate =
                 $this->_getMaintenanceStatisticsLastRunInfo(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oNowDate);
-            if (is_null($this->oController->oLastDateIntermediate)) {
-                // The MSE has never run, look to see if delivery data exists
-                $this->oController->oLastDateIntermediate = $this->_getEarliestLoggedDeliveryData(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
-            }
+            // The MSE has never run, look to see if delivery data exists
+            $this->oController->oLastDateIntermediate ??= $this->_getEarliestLoggedDeliveryData(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         }
 
         if (is_null($this->oController->oLastDateIntermediate)) {
@@ -133,10 +131,8 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         } else {
             $this->oController->oLastDateFinal =
                 $this->_getMaintenanceStatisticsLastRunInfo(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oNowDate);
-            if (is_null($this->oController->oLastDateFinal)) {
-                // The MSE has never run, look to see if delivery data exists
-                $this->oController->oLastDateFinal = $this->_getEarliestLoggedDeliveryData(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
-            }
+            // The MSE has never run, look to see if delivery data exists
+            $this->oController->oLastDateFinal ??= $this->_getEarliestLoggedDeliveryData(OX_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         }
 
         if (is_null($this->oController->oLastDateFinal)) {

@@ -581,10 +581,10 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
             if ($recoverySuccess) { //succes, restart wizard
                 $this->forward('restart');
                 return;
-            } else {  //report errors
-                $aMessages = OX_Admin_UI_Install_InstallUtils::getMessagesWithType($oUpgrader->getMessages());
-                $this->setModelProperty('aMessages', $aMessages);
             }
+            //report errors
+            $aMessages = OX_Admin_UI_Install_InstallUtils::getMessagesWithType($oUpgrader->getMessages());
+            $this->setModelProperty('aMessages', $aMessages);
         }
 
         //check if we were forwarded to recovery, maybe we already have
@@ -687,20 +687,17 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
             }
 
             return true;
-        } else {
-            //if step is not reachable check the last one marked as completed
-            //and redirect user to the next one
-            $lastCompleted = $oWizard->getLastCompletedStep();
-            if ($lastCompleted != null) {
-                $forwardStep = $oWizard->getNextStep($lastCompleted);
-            }
-
-            if ($forwardStep == null) {
-                $forwardStep = $oWizard->getFirstStep();
-            }
-
-            $this->redirect($forwardStep);
         }
+        //if step is not reachable check the last one marked as completed
+        //and redirect user to the next one
+        $lastCompleted = $oWizard->getLastCompletedStep();
+        if ($lastCompleted != null) {
+            $forwardStep = $oWizard->getNextStep($lastCompleted);
+        }
+        if ($forwardStep == null) {
+            $forwardStep = $oWizard->getFirstStep();
+        }
+        $this->redirect($forwardStep);
     }
 
 

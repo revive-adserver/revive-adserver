@@ -193,7 +193,7 @@ class SimpleAnchorTag extends SimpleTag
     {
         $url = $this->getAttribute('href');
         if (is_bool($url)) {
-            $url = '';
+            return '';
         }
         return $url;
     }
@@ -1230,11 +1230,11 @@ class SimpleCheckboxGroup extends SimpleTagGroup
     {
         if (count($values) == 0) {
             return false;
-        } elseif (count($values) == 1) {
-            return $values[0];
-        } else {
-            return $values;
         }
+        if (count($values) == 1) {
+            return $values[0];
+        }
+        return $values;
     }
 
     /**

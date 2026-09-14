@@ -285,11 +285,9 @@ class SimpleBrowser
     {
         $response = $this->_user_agent->fetchResponse($url, $encoding);
         if ($response->isError()) {
-            $page = new SimplePage($response);
-        } else {
-            $page = $this->_parse($response, $depth);
+            return new SimplePage($response);
         }
-        return $page;
+        return $this->_parse($response, $depth);
     }
 
     /**
@@ -1092,7 +1090,7 @@ class SimpleBrowser
             $raw = $this->clickLink($label);
         }
         if (! $raw) {
-            $raw = $this->clickImage($label);
+            return $this->clickImage($label);
         }
         return $raw;
     }

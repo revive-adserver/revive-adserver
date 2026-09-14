@@ -1125,10 +1125,7 @@ class SqlBuilder
     public static function _addLimitation(&$aLimitations, $entityIdName, $columnName, $value, $comparison_type = MAX_LIMITATION_EQUAL)
     {
         // Add single quotes around non-integer columns
-        if (($entityIdName == 'ad_type')
-         || ($entityIdName == 'ad_active')
-         || ($entityIdName == 'placement_active')
-         || ($entityIdName == 'placement_anonymous')
+        if (in_array($entityIdName, ['ad_type', 'ad_active', 'placement_active', 'placement_anonymous'])
         ) {
             $value = "'" . str_replace(',', "','", $value) . "'";
         }

@@ -41,7 +41,6 @@ function MAX_checkDemoDeliveryLimitation_DemoLimitation($limitation, $op, $aPara
 
     if ($op == '==') {
         return $limitation == $ip;
-    } else {
-        return $limitation != $ip;
     }
+    return $limitation != $ip;
 }

@@ -41,7 +41,8 @@ function MAX_checkGeo_Subdivision1($limitation, $op, $aParams = [])
     if (!empty($aParams['country']) && !empty($aParams['subdivision_1'])) {
         return MAX_limitationsMatchStringValue($aParams['country'], $sCountry, '==') &&
             MAX_limitationsMatchArrayValue($aParams['subdivision_1'], $sRegions, $op);
-    } else {
-        return false; // Do not show the ad if user has no data about region and country.
     }
+    return false;
+    // Do not show the ad if user has no data about region and country.
+
 }

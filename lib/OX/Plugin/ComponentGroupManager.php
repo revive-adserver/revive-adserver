@@ -140,9 +140,8 @@ class OX_Plugin_ComponentGroupManager
     {
         if (!$dbAuditor) {
             return $this->oAuditor->logAuditAction($aParams);
-        } else {
-            return $this->oAuditor->oDBAuditor->logAuditAction($aParams);
         }
+        return $this->oAuditor->oDBAuditor->logAuditAction($aParams);
     }
 
     public function _auditUpdate($aParams)
@@ -256,58 +255,50 @@ class OX_Plugin_ComponentGroupManager
      */
     public function getDiagnosticTasks($aGroup)
     {
-        $aTaskList[] = [
+        return [[
             'method' => '_checkOpenXCompatibility',
             'params' => [
                 $aGroup['name'],
                 $aGroup['oxversion'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkSystemEnvironment',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['syscheck']['php'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkDatabaseEnvironment',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['syscheck']['dbms'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkDependenciesForInstallOrEnable',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['syscheck']['depends'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkFiles',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['files'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_verifyDataObjects',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['schema'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkNavigationCheckers',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['navigation']['checkers'] ?? [],
                 $aGroup['install']['files'],
             ],
-        ];
-        // settings, preferences
-        return $aTaskList;
+        ]];
     }
 
     /**
@@ -318,107 +309,93 @@ class OX_Plugin_ComponentGroupManager
      */
     public function getInstallTasks($aGroup)
     {
-        $aTaskList[] = [
+        return [[
             'method' => '_checkOpenXCompatibility',
             'params' => [
                 $aGroup['name'],
                 $aGroup['oxversion'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkSystemEnvironment',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['syscheck']['php'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkDatabaseEnvironment',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['syscheck']['dbms'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_runScript',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['prescript'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkDependenciesForInstallOrEnable',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['syscheck']['depends'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkFiles',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['files'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkNavigationCheckers',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['navigation']['checkers'] ?? [],
                 $aGroup['install']['files'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_checkMenus',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['navigation'],
                 $aGroup['install']['files'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_registerSchema',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['schema'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_registerPreferences',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['conf']['preferences'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_registerSettings',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['conf']['settings'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => 'disableComponentGroup',
             'params' => [
                 $aGroup['name'],
                 $aGroup['extends'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_registerPluginVersion',
             'params' => [
                 $aGroup['name'],
                 $aGroup['version'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_runScript',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['postscript'],
             ],
-        ];
-        return $aTaskList;
+        ]];
     }
 
     /**
@@ -429,60 +406,47 @@ class OX_Plugin_ComponentGroupManager
      */
     public function getRollbackTasks($aGroup)
     {
-        /*$aTaskList[] = array(
-                            'method' =>'_checkDependenciesForUninstallOrDisable',
-                            'params' => array(
-                                              $aGroup['name']
-                                             ),
-                            );*/
-        $aTaskList[] = [
+        return [[
             'method' => '_runScript',
             'params' => [
                 $aGroup['name'],
                 $aGroup['uninstall']['prescript'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_unregisterPluginVersion',
             'params' => [
                 $aGroup['name'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_unregisterPreferences',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['conf']['preferences'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_unregisterSettings',
             'params' => [
                 $aGroup['name'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_unregisterSchema',
             'params' => [
                 $aGroup['name'],
                 $aGroup['install']['schema'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_runScript',
             'params' => [
                 $aGroup['name'],
                 $aGroup['uninstall']['postscript'],
             ],
-        ];
-        $aTaskList[] = [
+        ], [
             'method' => '_removeFiles',
             'params' => [
                 $aGroup['name'],
                 $aGroup['allfiles'],
             ],
-        ];
-        return $aTaskList;
+        ]];
     }
 
     public function upgrade()
@@ -588,7 +552,8 @@ class OX_Plugin_ComponentGroupManager
         $file = $this->getPathToComponentGroup($plugin) . $plugin . '.xml';
         if (file_exists($file)) {
             return $file;
-        } elseif (file_exists(str_replace('/plugins/', '/extensions/', $file))) {
+        }
+        if (file_exists(str_replace('/plugins/', '/extensions/', $file))) {
             return str_replace('/plugins/', '/extensions/', $file);
         }
 
@@ -1086,7 +1051,7 @@ class OX_Plugin_ComponentGroupManager
                     $aFound = $aItem;
                 }
             }
-            if (!($aFound && $aFound['supported'])) {
+            if (!$aFound || !$aFound['supported']) {
                 $this->_logError($name . 'does not support ' . $phptype);
                 return false;
             }
@@ -1110,12 +1075,11 @@ class OX_Plugin_ComponentGroupManager
                 if (!isset($aConf[$aGroup['name']])) {
                     $this->_logError('Dependency failure: ' . $name . ' depends on ' . $aGroup['name'] . ' but ' . $aGroup['name'] . ' is not installed');
                     return false;
-                } else {
-                    $installedComponentGroupVersion = $this->getComponentGroupVersion($aGroup['name']);
-                    if (version_compare($installedComponentGroupVersion, $aGroup['version'], '<')) {
-                        $this->_logError('Dependency failure: ' . $name . ' depends on version ' . $aGroup['version'] . ' of ' . $aGroup['name'] . ' but ' . $aGroup['name'] . ' version ' . $installedComponentGroupVersion . ' is installed');
-                        return false;
-                    }
+                }
+                $installedComponentGroupVersion = $this->getComponentGroupVersion($aGroup['name']);
+                if (version_compare($installedComponentGroupVersion, $aGroup['version'], '<')) {
+                    $this->_logError('Dependency failure: ' . $name . ' depends on version ' . $aGroup['version'] . ' of ' . $aGroup['name'] . ' but ' . $aGroup['name'] . ' version ' . $installedComponentGroupVersion . ' is installed');
+                    return false;
                 }
                 if ($aGroup['enabled'] && (!$aConf[$aGroup['name']])) {
                     $this->_logError('Dependency failure: ' . $name . ' depends on ' . $aGroup['name'] . ' but ' . $aGroup['name'] . ' is not enabled');
@@ -1148,7 +1112,7 @@ class OX_Plugin_ComponentGroupManager
             }
         }
         if ($hasDependencies && $aExcludes) {
-            $hasDependencies = array_diff($hasDependencies, $aExcludes);
+            return array_diff($hasDependencies, $aExcludes);
         }
         return $hasDependencies;
     }
@@ -1224,9 +1188,7 @@ class OX_Plugin_ComponentGroupManager
                 @unlink($file);
                 $folder = dirname($file);
                 if ($name) { // its a group (no name = plugin package)
-                    if (($folder != $this->basePath . rtrim($this->pathPackages, '/')) &&
-                         ($folder != $this->basePath . rtrim($this->pathPlugins, '/')) &&
-                         ($folder != $this->basePath . rtrim($this->pathPluginsAdmin, '/'))) {
+                    if (!in_array($folder, [$this->basePath . rtrim($this->pathPackages, '/'), $this->basePath . rtrim($this->pathPlugins, '/'), $this->basePath . rtrim($this->pathPluginsAdmin, '/')])) {
                         @rmdir($folder);
                     }
                 }
@@ -1586,7 +1548,7 @@ class OX_Plugin_ComponentGroupManager
     public function _cacheDataObjects($newPluginName = null, $aNewSchema = null, $pathOutput = null)
     {
         $aReturn = [];
-        $pathOutput = (is_null($pathOutput) ? $this->basePath . $this->pathDataObjects : $pathOutput);
+        $pathOutput ??= $this->basePath . $this->pathDataObjects;
         $aConf = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'];
 
         $oConfigSchema = $this->_instantiateClass('Config');
@@ -1694,7 +1656,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('No dataobjects defined for ' . $name, PEAR_LOG_ERR);
             return false;
         }
-        $pathTarget = (is_null($pathTarget) ? $this->basePath . $this->pathDataObjects : $pathTarget);
+        $pathTarget ??= $this->basePath . $this->pathDataObjects;
         if (!file_exists($pathTarget)) {
             $this->_logError('Invalid source path to plugin dataobjects ' . $pathTarget, PEAR_LOG_ERR);
             return false;
@@ -1731,7 +1693,7 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('No dataobjects defined for ' . $name, PEAR_LOG_ERR);
             return false;
         }
-        $pathTarget = (is_null($pathTarget) ? $this->basePath . $this->pathDataObjects : $pathTarget);
+        $pathTarget ??= $this->basePath . $this->pathDataObjects;
         if (!file_exists($pathTarget)) {
             $this->_logError('Invalid source path to plugin dataobjects ' . $pathTarget . ' for ' . $name, PEAR_LOG_ERR);
             return false;

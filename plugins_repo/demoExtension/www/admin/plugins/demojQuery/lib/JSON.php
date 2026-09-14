@@ -486,25 +486,22 @@ class Services_JSON
 
             default:
                 $m = [];
-
                 if (is_numeric($str)) {
                     // Lookie-loo, it's a number
-
                     // This would work on its own, but I'm trying to be
                     // good about returning integers where appropriate:
                     // return (float)$str;
-
                     // Return float or int, as appropriate
                     return ((float) $str == (int) $str)
                         ? (int) $str
                         : (float) $str;
-                } elseif (preg_match('/^("|\').*(\1)$/s', $str, $m) && $m[1] == $m[2]) {
+                }
+                if (preg_match('/^("|\').*(\1)$/s', $str, $m) && $m[1] == $m[2]) {
                     // STRINGS RETURNED IN UTF-8 FORMAT
                     $delim = substr($str, 0, 1);
                     $chrs = substr($str, 1, -1);
                     $utf8 = '';
                     $strlen_chrs = strlen($chrs);
-
                     for ($c = 0; $c < $strlen_chrs; ++$c) {
                         $substr_chrs_c_2 = substr($chrs, $c, 2);
                         $ord_chrs_c = ord($chrs[$c]);
@@ -589,11 +586,11 @@ class Services_JSON
                                 break;
                         }
                     }
-
                     return $utf8;
-                } elseif (preg_match('/^\[.*\]$/s', $str) || preg_match('/^\{.*\}$/s', $str)) {
-                    // array, or object notation
+                }
 
+                if (preg_match('/^\[.*\]$/s', $str) || preg_match('/^\{.*\}$/s', $str)) {
+                    // array, or object notation
                     if ($str[0] == '[') {
                         $stk = [SERVICES_JSON_IN_ARR];
                         $arr = [];
@@ -604,26 +601,19 @@ class Services_JSON
                         $stk = [SERVICES_JSON_IN_OBJ];
                         $obj = new stdClass();
                     }
-
                     $stk[] = ['what' => SERVICES_JSON_SLICE,
                         'where' => 0,
                         'delim' => false];
-
                     $chrs = substr($str, 1, -1);
                     $chrs = $this->reduce_string($chrs);
-
                     if ($chrs == '') {
                         if (reset($stk) == SERVICES_JSON_IN_ARR) {
                             return $arr;
-                        } else {
-                            return $obj;
                         }
+                        return $obj;
                     }
-
                     //print("\nparsing {$chrs}\n");
-
                     $strlen_chrs = strlen($chrs);
-
                     for ($c = 0; $c <= $strlen_chrs; ++$c) {
                         $top = end($stk);
                         $substr_chrs_c_2 = substr($chrs, $c, 2);
@@ -715,10 +705,10 @@ class Services_JSON
                             //print("Found end of comment at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         }
                     }
-
                     if (reset($stk) == SERVICES_JSON_IN_ARR) {
                         return $arr;
-                    } elseif (reset($stk) == SERVICES_JSON_IN_OBJ) {
+                    }
+                    if (reset($stk) == SERVICES_JSON_IN_OBJ) {
                         return $obj;
                     }
                 }
@@ -732,12 +722,10 @@ class Services_JSON
     {
         if (class_exists('pear')) {
             return PEAR::isError($data, $code);
-        } elseif (is_object($data) && ($data::class == 'services_json_error' ||
-                                 is_subclass_of($data, 'services_json_error'))) {
-            return true;
         }
 
-        return false;
+        return is_object($data) && ($data::class == 'services_json_error' ||
+                                 is_subclass_of($data, 'services_json_error'));
     }
 }
 

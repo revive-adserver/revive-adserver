@@ -206,7 +206,7 @@ class DataObjects_Images extends DB_DataObjectCommon
 
         $aAuditFields['key_desc'] = $this->filename;
         if ($actionid === OA_AUDIT_ACTION_UPDATE) {
-            if ($doBanner = $this->getBanner()) {
+            if (($doBanner = $this->getBanner()) instanceof \DataObjects_Banners) {
                 $aAuditFields['bannerid'] = $doBanner->bannerid;
             }
         }
@@ -218,9 +218,8 @@ class DataObjects_Images extends DB_DataObjectCommon
         $fieldVal = $this->$field;
         if (is_a($fieldVal, 'DB_DataObject_Cast') && $fieldVal->type == 'blob') {
             return 'binary data';
-        } else {
-            parent::_formatValue($field, $type);
         }
+        parent::_formatValue($field, $type);
     }
 
     private function getBanner(): ?DataObjects_Banners

@@ -402,12 +402,11 @@ class Plugins_Authentication extends OX_Component
         if ($doUsers->user_id) {
             $doUsers->update();
             return $doUsers->user_id;
-        } else {
-            $doUsers->default_account_id = $accountId;
-            $doUsers->username = $login;
-            $doUsers->password = null === $password ? '' : $this->getPasswordHash($password);
-            return $doUsers->insert();
         }
+        $doUsers->default_account_id = $accountId;
+        $doUsers->username = $login;
+        $doUsers->password = null === $password ? '' : $this->getPasswordHash($password);
+        return $doUsers->insert();
     }
 
     /**

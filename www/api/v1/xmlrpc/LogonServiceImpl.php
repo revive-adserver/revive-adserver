@@ -56,9 +56,8 @@ class LogonServiceImpl extends BaseServiceImpl
         if ($doUser) {
             phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser, context: \RV\Auth\AuthContext::API));
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -104,18 +103,14 @@ class LogonServiceImpl extends BaseServiceImpl
 
                 $sessionId = $_COOKIE['sessionID'];
                 return true;
-            } else {
-                $this->raiseError('User must be OA installation admin');
-
-                // Also destroy session
-                phpAds_SessionDataDestroy();
-
-                return false;
             }
-        } else {
-            $this->raiseError($strUsernameOrPasswordWrong);
+            $this->raiseError('User must be OA installation admin');
+            // Also destroy session
+            phpAds_SessionDataDestroy();
             return false;
         }
+        $this->raiseError($strUsernameOrPasswordWrong);
+        return false;
     }
 
     /**
@@ -134,9 +129,8 @@ class LogonServiceImpl extends BaseServiceImpl
             unset($GLOBALS['session']);
 
             return !OA_Auth::isLoggedIn(\RV\Auth\AuthContext::API);
-        } else {
-            return false;
         }
+        return false;
     }
 
 
@@ -157,11 +151,11 @@ class LogonServiceImpl extends BaseServiceImpl
         if (strlen($username) > 64) {
             $this->raiseError('UserName greater 64 characters');
             return false;
-        } elseif (strlen($password) > 64) {
+        }
+        if (strlen($password) > 64) {
             $this->raiseError('Password greater 64 characters');
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 }

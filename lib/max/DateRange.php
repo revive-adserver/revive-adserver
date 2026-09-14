@@ -35,10 +35,8 @@ class DateRange
      */
     public function __construct($now = null)
     {
-        if (is_null($now)) {
-            // default to the current datetime
-            $now = new Date();
-        }
+        // default to the current datetime
+        $now ??= new Date();
         $this->_now = $now;
         $this->_start = $now;
         $this->_end = $now;
@@ -289,15 +287,13 @@ class DateRange
         $end_key = $base_key . '_end';
 
         $preset_string = $values[$preset_key];
-        if (!isset($preset_string)) {
-            $preset_string = 'specific';
-        }
+        $preset_string ??= 'specific';
         $start_string = $values[$start_key];
         $end_string = $values[$end_key];
 
 
         if ($preset_string == 'specific') {
-            if (!($start_string && $end_string)) {
+            if (!$start_string || !$end_string) {
                 trigger_error(PRODUCT_NAME . " was asked to generate a date range but wasn't given dates.");
             }
             $this->setDateRangeByNaturalHumanStrings($start_string, $end_string);

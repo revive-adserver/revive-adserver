@@ -230,9 +230,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
     public function setZonesEcpmPowAlphaSums($adId, $aZones)
     {
         foreach ($aZones as $zoneId) {
-            if (!isset($this->aZonesEcpmPowAlphaSums[$zoneId])) {
-                $this->aZonesEcpmPowAlphaSums[$zoneId] = 0;
-            }
+            $this->aZonesEcpmPowAlphaSums[$zoneId] ??= 0;
             $this->aZonesEcpmPowAlphaSums[$zoneId]
                 += $this->aAdsEcpmPowAlpha[$adId];
         }
@@ -309,9 +307,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
      */
     public function addMinRequiredImprToZone($zoneId, $minImpr)
     {
-        if (!isset($this->aZonesMinImpressions[$zoneId])) {
-            $this->aZonesMinImpressions[$zoneId] = 0;
-        }
+        $this->aZonesMinImpressions[$zoneId] ??= 0;
         $this->aZonesMinImpressions[$zoneId] += $minImpr;
     }
 

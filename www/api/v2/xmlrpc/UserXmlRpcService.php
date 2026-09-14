@@ -83,9 +83,8 @@ class UserXmlRpcService extends BaseUserService
 
         if ($this->_oUserServiceImp->addUser($sessionId, $oUserInfo)) {
             return XmlRpcUtils::integerTypeResponse($oUserInfo->userId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     /**
@@ -124,9 +123,8 @@ class UserXmlRpcService extends BaseUserService
 
         if ($this->_oUserServiceImp->modifyUser($sessionId, $oUserInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     /**
@@ -153,9 +151,8 @@ class UserXmlRpcService extends BaseUserService
 
         if ($this->_oUserServiceImp->deleteUser($sessionId, $userId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     /**
@@ -187,9 +184,8 @@ class UserXmlRpcService extends BaseUserService
             $oUser,
         )) {
             return XmlRpcUtils::getEntityResponse($oUser);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     /**
@@ -217,9 +213,8 @@ class UserXmlRpcService extends BaseUserService
         $aUserList = null;
         if ($this->_oUserServiceImp->getUserList($sessionId, $aUserList)) {
             return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     /**
@@ -251,9 +246,8 @@ class UserXmlRpcService extends BaseUserService
             $aUserList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aUserList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     public function updateSsoUserId(&$oParams)
@@ -270,9 +264,8 @@ class UserXmlRpcService extends BaseUserService
 
         if ($this->_oUserServiceImp->updateSsoUserId($sessionId, $oldSsoUserId, $newSsoUserId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     public function updateUserEmailBySsoId(&$oParams)
@@ -289,9 +282,8 @@ class UserXmlRpcService extends BaseUserService
 
         if ($this->_oUserServiceImp->updateUserEmailBySsoId($sessionId, $ssoUserId, $email)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     public function linkUserToAdvertiserAccount($oParams)
@@ -324,9 +316,8 @@ class UserXmlRpcService extends BaseUserService
             $aPermissions,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     public function linkUserToTraffickerAccount($oParams)
@@ -359,9 +350,8 @@ class UserXmlRpcService extends BaseUserService
             $aPermissions,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 
     public function linkUserToManagerAccount($oParams)
@@ -394,8 +384,7 @@ class UserXmlRpcService extends BaseUserService
             $aPermissions,
         )) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oUserServiceImp->getLastError());
     }
 }

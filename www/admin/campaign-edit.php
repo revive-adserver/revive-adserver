@@ -160,23 +160,15 @@ if ($campaignid != "") {
         $campaign['target_value'] = '-';
     }
 
-    if (!isset($campaign["activate_f"])) {
-        $campaign["activate_f"] = "-";
-    }
+    $campaign["activate_f"] ??= "-";
 
-    if (!isset($campaign["expire_f"])) {
-        $campaign["expire_f"] = "-";
-    }
+    $campaign["expire_f"] ??= "-";
 
     // Set the default financial information
-    if (!isset($campaign['revenue'])) {
-        $campaign['revenue'] = OA_Admin_NumberFormat::formatNumber(0, 4);
-    }
+    $campaign['revenue'] ??= OA_Admin_NumberFormat::formatNumber(0, 4);
 
     // Set the default eCPM prioritization settings
-    if (!isset($campaign['ecpm'])) {
-        $campaign['ecpm'] = OA_Admin_NumberFormat::formatNumber(0, 4);
-    }
+    $campaign['ecpm'] ??= OA_Admin_NumberFormat::formatNumber(0, 4);
 } else {
     // New campaign
     $doClients = OA_Dal::factoryDO('clients');
@@ -714,9 +706,7 @@ function processCampaignForm($form)
 
         // If this is a remnant, ecpm or override campaign with an expiry date, set the target's to unlimited
         if (!empty($expire) &&
-            ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT
-                || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM
-                || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_OVERRIDE)
+            (in_array($aFields['campaign_type'], [OX_CAMPAIGN_TYPE_REMNANT, OX_CAMPAIGN_TYPE_ECPM, OX_CAMPAIGN_TYPE_OVERRIDE]))
         ) {
             $aFields['impressions'] = $aFields['clicks'] = $aFields['conversions'] = -1;
         } else {
@@ -771,7 +761,7 @@ function processCampaignForm($form)
             // Daily targets need to be set only if the campaign doesn't have both expiration and lifetime targets
             $hasExpiration = !empty($expire);
             $hasLifetimeTargets = $aFields['impressions'] != -1 || $aFields['clicks'] != -1 || $aFields['conversions'] != -1;
-            if (!($hasExpiration && $hasLifetimeTargets) && (isset($aFields['target_value'])) && ($aFields['target_value'] != '-')) {
+            if ((!$hasExpiration || !$hasLifetimeTargets) && (isset($aFields['target_value'])) && ($aFields['target_value'] != '-')) {
                 switch ($aFields['target_type']) {
                     case 'target_impression':
                         $target_impression = $aFields['target_value'];

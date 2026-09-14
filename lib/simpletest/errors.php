@@ -31,7 +31,7 @@ class SimpleErrorTrappingInvoker extends SimpleInvokerDecorator
         $context = SimpleTest::getContext();
         $queue = $context->get('SimpleErrorQueue');
         $queue->setTestCase($this->GetTestCase());
-        set_error_handler('SimpleTestErrorHandler');
+        set_error_handler(SimpleTestErrorHandler(...));
         parent::invoke($method);
         while ($res = $queue->extract()) {
             [$severity, $message, $file, $line] = $res;
@@ -232,6 +232,6 @@ function SimpleTestErrorHandler($severity, $message, $filename, $line, $super_gl
         $context = SimpleTest::getContext();
         $queue = $context->get('SimpleErrorQueue');
         $queue->add($severity, $message, $filename, $line);
-        set_error_handler('SimpleTestErrorHandler');
+        set_error_handler(SimpleTestErrorHandler(...));
     }
 }

@@ -295,11 +295,11 @@ class SimpleEncoding
         }
         if (count($values) == 0) {
             return false;
-        } elseif (count($values) == 1) {
-            return $values[0];
-        } else {
-            return $values;
         }
+        if (count($values) == 1) {
+            return $values[0];
+        }
+        return $values;
     }
 
     /**

@@ -117,7 +117,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     public function _preCompile($sData)
     {
         $aData = explode("\n", $this->_sanitiseData($sData));
-        $aData = array_map('idn_to_ascii', $aData);
+        $aData = array_map(idn_to_ascii(...), $aData);
 
         $aData = array_map(
             fn(string $domain) => preg_replace('/\./', '\\\.', $domain . '\z'),

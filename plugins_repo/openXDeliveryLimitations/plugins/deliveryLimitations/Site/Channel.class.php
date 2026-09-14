@@ -110,7 +110,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
 
         $aSelectedChannels = [];
         // Sort the list, and move selected items to the top of the list
-        usort($aChannels, '_sortByChannelName');
+        usort($aChannels, _sortByChannelName(...));
         foreach ($aChannels as $index => $aChannel) {
             if (in_array($aChannel['channelid'], $this->data)) {
                 $aSelectedChannels[$index] = $aChannel;
@@ -171,7 +171,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
 
         $result = '(' . implode($join, $compile) . ')';
         if ('!~' == $this->comparison) {
-            $result = '!' . $result;
+            return '!' . $result;
         }
         return $result;
     }

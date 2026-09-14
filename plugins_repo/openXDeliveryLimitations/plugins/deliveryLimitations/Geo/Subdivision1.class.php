@@ -124,9 +124,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      */
     public function _flattenData($data = null)
     {
-        if (is_null($data)) {
-            $data = $this->data;
-        }
+        $data ??= $this->data;
         if (is_array($data)) {
             $country = array_shift($data);
 
@@ -152,9 +150,7 @@ class Plugins_DeliveryLimitations_Geo_Subdivision1 extends Plugins_DeliveryLimit
      */
     public function _expandData($data = null)
     {
-        if (is_null($data)) {
-            $data = $this->data;
-        }
+        $data ??= $this->data;
         if (!is_array($data)) {
             $aData = strlen($data) ? explode('|', $data) : [];
             $country = $aData[0];

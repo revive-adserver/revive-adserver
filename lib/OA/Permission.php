@@ -620,10 +620,11 @@ class OA_Permission
         static $aCache;
 
         $key = $accountType . ',' . $permissionId;
-
         if (isset($aCache[$key])) {
             return $aCache[$key];
-        } elseif (isset($aMap[$permissionId])) {
+        }
+
+        if (isset($aMap[$permissionId])) {
             $aCache[$key] = in_array($accountType, $aMap[$permissionId]);
         } else {
             // Unexpected permission, we suppose it's related to all the account types
@@ -751,7 +752,7 @@ class OA_Permission
          * If core says object cannot be accessed, plugins cannot change it.
          */
         if ($hasAccess) { //call registered access listeners in plugins
-            $hasAccess = self::callAccessHook(
+            return self::callAccessHook(
                 $entityTable,
                 $entityId,
                 $operationAccessType,
@@ -790,14 +791,11 @@ class OA_Permission
             // user has access to itself
             if ($accountId === null) {
                 return ($entityId == self::getEntityId());
-            } else {
-                $do->account_id = self::getAccountId();
-                return (bool) $do->count();
             }
+            $do->account_id = self::getAccountId();
+            return (bool) $do->count();
         }
-        if ($accountId === null) {
-            $accountId = self::getAccountId();
-        }
+        $accountId ??= self::getAccountId();
         return $do->belongsToAccount($accountId);
     }
 

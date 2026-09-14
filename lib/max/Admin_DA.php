@@ -288,9 +288,7 @@ class Admin_DA
     public static function _getUniqueName(&$aEntity, $aOtherEntities, $str)
     {
         $same = false;
-        if (!isset($str)) {
-            $str = 'copy';
-        }
+        $str ??= 'copy';
         $name = $aEntity['name'];
         foreach ($aOtherEntities as $aOtherEntity) {
             if ($name == $aOtherEntity['name']) {
@@ -655,9 +653,8 @@ class Admin_DA
         $where = '';
         if (empty($connectionId)) {
             return false;
-        } else {
-            $connectionId = (int) $connectionId;
         }
+        $connectionId = (int) $connectionId;
 
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $publisherId = OA_Permission::getEntityId();
@@ -1001,13 +998,11 @@ class Admin_DA
                     return PEAR::raiseError('Text banner can be linked only to text zone', MAX_ERROR_INVALIDBANNERSIZE);
                 }
                 return true;
-            } else {
-                return PEAR::raiseError('This banner is the wrong size for this zone', MAX_ERROR_INVALIDBANNERSIZE);
             }
-        } else {
-            // If already linked...
-            return PEAR::raiseError('This banner is already linked to this zone', MAX_ERROR_ALREADYLINKED);
+            return PEAR::raiseError('This banner is the wrong size for this zone', MAX_ERROR_INVALIDBANNERSIZE);
         }
+        // If already linked...
+        return PEAR::raiseError('This banner is already linked to this zone', MAX_ERROR_ALREADYLINKED);
     }
 
     public static function duplicateAdZone($aAdZone)

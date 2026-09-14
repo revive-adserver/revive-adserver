@@ -42,7 +42,7 @@ class OA_DB_Distributed extends OA_DB
     public static function singleton($dsn = null, $aDriverOptions = [])
     {
         // Get the DSN, if not set
-        $dsn = is_null($dsn) ? OA_DB_Distributed::getDsn() : $dsn;
+        $dsn ??= OA_DB_Distributed::getDsn();
 
         // Should the connection have options set?
         $aDriverOptions = OA_DB_Distributed::getDsnOptions();
@@ -69,9 +69,7 @@ class OA_DB_Distributed extends OA_DB
      */
     public static function getDsn($aConf = null)
     {
-        if (is_null($aConf)) {
-            $aConf = $GLOBALS['_MAX']['CONF'];
-        }
+        $aConf ??= $GLOBALS['_MAX']['CONF'];
         $dbType = $aConf['lb']['type'];
         $protocol = isset($aConf['lb']['protocol']) ? $aConf['lb']['protocol'] . '+' : '';
         $port = empty($aConf['lb']['port']) ? '' : ':' . $aConf['lb']['port'];
@@ -104,9 +102,7 @@ class OA_DB_Distributed extends OA_DB
     public static function getDsnOptions($aConf = null)
     {
         $aDriverOptions = [];
-        if (is_null($aConf)) {
-            $aConf = $GLOBALS['_MAX']['CONF'];
-        }
+        $aConf ??= $GLOBALS['_MAX']['CONF'];
         $dbType = $aConf['lb']['type'];
         if (strcasecmp($dbType, 'mysql') === 0 || strcasecmp($dbType, 'mysqli') === 0) {
             if ($aConf['lb']['ssl'] && !empty($aConf['lb']['ca']) && !empty($aConf['lb']['capth'])) {

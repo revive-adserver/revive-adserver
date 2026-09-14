@@ -128,15 +128,11 @@ class OA_Dll_Advertiser extends OA_Dll
      */
     public function checkStatisticsPermissions($advertiserId)
     {
-        if (!$this->checkPermissions(
+        return $this->checkPermissions(
             $this->aAllowAdvertiserAndAbovePerm,
             'clients',
             $advertiserId,
-        )) {
-            return false;
-        } else {
-            return true;
-        }
+        );
     }
 
 
@@ -211,9 +207,8 @@ class OA_Dll_Advertiser extends OA_Dll
                 $doAdvertiser->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -248,10 +243,9 @@ class OA_Dll_Advertiser extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError('Unknown advertiserId Error');
-            return false;
         }
+        $this->raiseError('Unknown advertiserId Error');
+        return false;
     }
 
     /**
@@ -278,10 +272,9 @@ class OA_Dll_Advertiser extends OA_Dll
 
             $this->_setAdvertiserDataFromArray($oAdvertiser, $advertiserData);
             return true;
-        } else {
-            $this->raiseError('Unknown advertiserId Error');
-            return false;
         }
+        $this->raiseError('Unknown advertiserId Error');
+        return false;
     }
 
     /**
@@ -353,9 +346,8 @@ class OA_Dll_Advertiser extends OA_Dll
             $rsStatisticsData = $dalAdvertiser->getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -390,9 +382,8 @@ class OA_Dll_Advertiser extends OA_Dll
             $rsStatisticsData = $dalAdvertiser->getAdvertiserHourlyStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -428,9 +419,8 @@ class OA_Dll_Advertiser extends OA_Dll
             $rsStatisticsData = $dalAdvertiser->getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -468,9 +458,8 @@ class OA_Dll_Advertiser extends OA_Dll
             $rsStatisticsData = $dalAdvertiser->getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -506,9 +495,8 @@ class OA_Dll_Advertiser extends OA_Dll
             $rsStatisticsData = $dalAdvertiser->getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -546,8 +534,7 @@ class OA_Dll_Advertiser extends OA_Dll
             $rsStatisticsData = $dalAdvertiser->getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

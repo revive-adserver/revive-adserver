@@ -302,7 +302,8 @@ class OA_DB_Upgrade
     {
         if (!$file) {
             return true;
-        } elseif (file_exists($file)) {
+        }
+        if (file_exists($file)) {
             $this->_logOnly('acquiring script ' . $file);
             require_once $file;
             $classname = $classprefix . '_' . $this->schema . '_' . $this->versionTo;
@@ -383,16 +384,16 @@ class OA_DB_Upgrade
                             ],
                         );
                         return false;
-                    } else {
-                        $this->_logOnly('UPGRADE SUCCEEDED');
-                        $this->oAuditor->logAuditAction(
-                            ['info1' => 'UPGRADE SUCCEEDED',
-                                'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                            ],
-                        );
-                        // currently we are executing constructive immediately after destructive
-                        //$this->_scheduleDestructive();
                     }
+                    $this->_logOnly('UPGRADE SUCCEEDED');
+                    $this->oAuditor->logAuditAction(
+                        ['info1' => 'UPGRADE SUCCEEDED',
+                            'action' => DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                        ],
+                    );
+                    // currently we are executing constructive immediately after destructive
+                    //$this->_scheduleDestructive();
+
                 } else {
                     $this->_logError('failed to create backup');
                     return false;
@@ -621,7 +622,7 @@ class OA_DB_Upgrade
      */
     public function rollback()
     {
-        if (!(empty($this->aRestoreTables) && empty($this->aAddedTables))) {
+        if (!empty($this->aRestoreTables) || !empty($this->aAddedTables)) {
             $this->aDBTables = $this->_listTables();
             if ($this->_isPearError($this->aDBTables, 'error listing tables during rollback')) {
                 return false;
@@ -1070,26 +1071,24 @@ class OA_DB_Upgrade
                 if (!$this->_executeMigrationMethodTable($table, 'beforeAddTable')) {
                     $this->_halt();
                     return false;
-                } else {
-                    $result = $this->oTable->createTable($table);
-                    if (($result) && (!$this->_isPearError($result, 'error creating table ' . $this->prefix . $table))) {
-                        $this->oAuditor->logAuditAction(
-                            ['info1' => 'added new table',
-                                'tablename' => $table,
-                                'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-                            ],
-                        );
-                        if (!$this->_executeMigrationMethodTable($table, 'afterAddTable')) {
-                            $this->_halt();
-                            return false;
-                        } else {
-                            $this->_logOnly('successfully created table ' . $this->prefix . $table);
-                        }
-                    } else {
-                        $this->_logError('failed to create table ' . $this->prefix . $table);
+                }
+                $result = $this->oTable->createTable($table);
+                if (($result) && (!$this->_isPearError($result, 'error creating table ' . $this->prefix . $table))) {
+                    $this->oAuditor->logAuditAction(
+                        ['info1' => 'added new table',
+                            'tablename' => $table,
+                            'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                        ],
+                    );
+                    if (!$this->_executeMigrationMethodTable($table, 'afterAddTable')) {
                         $this->_halt();
                         return false;
                     }
+                    $this->_logOnly('successfully created table ' . $this->prefix . $table);
+                } else {
+                    $this->_logError('failed to create table ' . $this->prefix . $table);
+                    $this->_halt();
+                    return false;
                 }
             }
         }
@@ -1115,25 +1114,23 @@ class OA_DB_Upgrade
                 if (!$this->_executeMigrationMethodTable($aTask['name'], 'beforeRenameTable')) {
                     $this->_halt();
                     return false;
-                } else {
-                    $result = $this->oSchema->db->exec($query);
-                    if (!$this->_isPearError($result, 'error renaming table ' . $tbl_old . ' to ' . $tbl_new)) {
-                        $this->oAuditor->logAuditAction(
-                            ['info1' => 'renamed table',
-                                'tablename' => $aTask['name'],
-                                'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-                            ],
-                        );
-                        if (!$this->_executeMigrationMethodTable($aTask['name'], 'afterRenameTable')) {
-                            $this->_halt();
-                            return false;
-                        } else {
-                            $this->_logOnly('successfully renamed table ' . $tbl_old . ' to ' . $tbl_new);
-                        }
-                    } else {
+                }
+                $result = $this->oSchema->db->exec($query);
+                if (!$this->_isPearError($result, 'error renaming table ' . $tbl_old . ' to ' . $tbl_new)) {
+                    $this->oAuditor->logAuditAction(
+                        ['info1' => 'renamed table',
+                            'tablename' => $aTask['name'],
+                            'action' => DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                        ],
+                    );
+                    if (!$this->_executeMigrationMethodTable($aTask['name'], 'afterRenameTable')) {
                         $this->_halt();
                         return false;
                     }
+                    $this->_logOnly('successfully renamed table ' . $tbl_old . ' to ' . $tbl_new);
+                } else {
+                    $this->_halt();
+                    return false;
                 }
             }
         }
@@ -1154,13 +1151,13 @@ class OA_DB_Upgrade
                 if (!$this->_executeMigrationMethodTable($table, 'beforeRemoveTable')) {
                     $this->_halt();
                     return false;
-                } elseif ($this->oTable->dropTable($this->prefix . $table)) {
+                }
+                if ($this->oTable->dropTable($this->prefix . $table)) {
                     if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable')) {
                         $this->_halt();
                         return false;
-                    } else {
-                        $this->_logOnly('successfully removed table ' . $this->prefix . $table);
                     }
+                    $this->_logOnly('successfully removed table ' . $this->prefix . $table);
                 } else {
                     $this->_halt();
                     return false;
@@ -1420,40 +1417,39 @@ class OA_DB_Upgrade
                         $this->_logError('hmmm.. couldn\'t find table in database: ' . $this->prefix . $table);
                         $this->_halt();
                         return false;
-                    } else {
-                        $aDBFields = $this->_listTableFields($table);
-                        foreach ($aTable_tasks['fields'] as $field => &$aField_tasks) {
-                            $this->_logOnly('checking field: ' . $this->prefix . $table . ' ' . $field);
-                            if (!in_array($field, $aDBFields)) {
-                                if (array_key_exists('rename', $aField_tasks)) {
-                                    $method = $aField_tasks['rename'];
-                                    $this->_logOnly('task found: ' . $method);
-                                    $was = $this->_getPreviousFieldname($table, $field);
-                                    if ($was) {
-                                        $this->_logOnly('found that this field : ' . $table . '.' . $field . ' was called: ' . $table . '.' . $was);
-                                        $this->aTaskList['fields']['rename'][] = $this->_compileTaskField('rename', $table, $was, $field);
-                                    } else {
-                                        $this->_logError('hmmm.. couldn\'t find what this field was called: ' . $table . '.' . $field);
-                                        $this->_halt();
-                                        return false;
-                                    }
-                                } elseif (array_key_exists('add', $aField_tasks)) {
-                                    $method = $aField_tasks['add'];
-                                    $this->_logOnly('task found: ' . $method);
-                                    $this->aTaskList['fields']['add'][] = $this->_compileTaskField('add', $table, $field, $field);
+                    }
+                    $aDBFields = $this->_listTableFields($table);
+                    foreach ($aTable_tasks['fields'] as $field => &$aField_tasks) {
+                        $this->_logOnly('checking field: ' . $this->prefix . $table . ' ' . $field);
+                        if (!in_array($field, $aDBFields)) {
+                            if (array_key_exists('rename', $aField_tasks)) {
+                                $method = $aField_tasks['rename'];
+                                $this->_logOnly('task found: ' . $method);
+                                $was = $this->_getPreviousFieldname($table, $field);
+                                if ($was) {
+                                    $this->_logOnly('found that this field : ' . $table . '.' . $field . ' was called: ' . $table . '.' . $was);
+                                    $this->aTaskList['fields']['rename'][] = $this->_compileTaskField('rename', $table, $was, $field);
                                 } else {
-                                    $this->_logError('oh dear.. field ' . $field . ' not found in table ' . $this->prefix . $table);
+                                    $this->_logError('hmmm.. couldn\'t find what this field was called: ' . $table . '.' . $field);
                                     $this->_halt();
                                     return false;
                                 }
+                            } elseif (array_key_exists('add', $aField_tasks)) {
+                                $method = $aField_tasks['add'];
+                                $this->_logOnly('task found: ' . $method);
+                                $this->aTaskList['fields']['add'][] = $this->_compileTaskField('add', $table, $field, $field);
                             } else {
-                                $this->_logOnly('found field ' . $field);
-                                foreach ($aField_tasks as $task => &$method) {
-                                    if ($task != 'rename') {
-                                        $this->aTaskList['fields'][$task][] = $this->_compileTaskField($task, $table, $field, $field);
-                                        //                                        $this->_logOnly(print_r($this->oSchema->db->reverse->getTableFieldDefinition($this->prefix.$table, $field), true));
-                                        //                                        $this->_logOnly(print_r($this->aTaskList['fields'][$task][count($this->aTaskList['fields'][$task]) - 1], true));
-                                    }
+                                $this->_logError('oh dear.. field ' . $field . ' not found in table ' . $this->prefix . $table);
+                                $this->_halt();
+                                return false;
+                            }
+                        } else {
+                            $this->_logOnly('found field ' . $field);
+                            foreach ($aField_tasks as $task => &$method) {
+                                if ($task != 'rename') {
+                                    $this->aTaskList['fields'][$task][] = $this->_compileTaskField($task, $table, $field, $field);
+                                    //                                        $this->_logOnly(print_r($this->oSchema->db->reverse->getTableFieldDefinition($this->prefix.$table, $field), true));
+                                    //                                        $this->_logOnly(print_r($this->aTaskList['fields'][$task][count($this->aTaskList['fields'][$task]) - 1], true));
                                 }
                             }
                         }
@@ -1551,9 +1547,8 @@ class OA_DB_Upgrade
                                 $this->_logError('table ' . $this->prefix . $table . ' already exists in database ' . $this->oSchema->db->database_name);
                                 $this->_halt();
                                 return false;
-                            } else {
-                                $this->_compileTaskCreateTable($task, $table);
                             }
+                            $this->_compileTaskCreateTable($task, $table);
                         }
                     }
                 }
@@ -1799,9 +1794,8 @@ class OA_DB_Upgrade
                 $aIdx_new['unique'] = true;
             }
             return $aIdx_new;
-        } else {
-            return $aIndex_def;
         }
+        return $aIndex_def;
     }
 
     /**

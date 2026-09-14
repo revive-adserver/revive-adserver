@@ -38,10 +38,10 @@ function MAX_checkGeo_City($limitation, $op, $aParams = [])
         if (!empty($aLimitation[0])) {
             return MAX_limitationsMatchStringValue($aParams['country'], $aLimitation[0], '==')
                    && MAX_limitationsMatchArrayValue($aParams['city'], $sCities, $op);
-        } else {
-            return MAX_limitationsMatchArrayValue($aParams['city'], $sCities, $op);
         }
-    } else {
-        return false; // If client has no data about city, do not show the ad
+        return MAX_limitationsMatchArrayValue($aParams['city'], $sCities, $op);
     }
+    return false;
+    // If client has no data about city, do not show the ad
+
 }

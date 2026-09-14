@@ -119,9 +119,8 @@ if (isset($graphFilter) && is_array($graphFilter)) {
     }
     header("Location: $redirectUrl");
     die;
-} else {
-    $graphFilter = $graphFields ?? null;
 }
+$graphFilter = $graphFields ?? null;
 
 // Handle filters
 if (!empty($advertiser_id)) {
@@ -144,12 +143,8 @@ if (!empty($zone_id)) {
     $zoneid = (int) $zone_id;
 }
 
-if (!isset($entity)) {
-    $entity = 'global';
-}
-if (!isset($breakdown)) {
-    $breakdown = 'advertiser';
-}
+$entity ??= 'global';
+$breakdown ??= 'advertiser';
 
 // Add all manipulated values to globals
 $_REQUEST['zoneid'] = $zoneid;

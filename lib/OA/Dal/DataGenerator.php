@@ -203,16 +203,13 @@ class DataGenerator
     private static function trackData($table = null)
     {
         static $tables;
-        if (!isset($tables)) {
-            $tables = [];
-        }
+        $tables ??= [];
         if ($table === null) {
             $ret = $tables;
             $tables = [];
             return $ret;
-        } else {
-            $tables[$table] = $table;
         }
+        $tables[$table] = $table;
         return $tables;
     }
 
@@ -284,9 +281,7 @@ class DataGenerator
 
                 if (!isset($fieldValue) && !in_array($fieldName, $keys)) {
                     $fieldValue = DataGenerator::defaultValueForObject($do, $fieldName, $fieldType);
-                    if (!isset($fieldValue)) {
-                        $fieldValue = DataGenerator::defaultValueByType($fieldType);
-                    }
+                    $fieldValue ??= DataGenerator::defaultValueByType($fieldType);
                 }
                 if (isset($fieldValue) && $fieldValue != OX_DATAOBJECT_NULL) {
                     // exception for NULLs
@@ -312,9 +307,8 @@ class DataGenerator
             if (is_array(self::$data[$table][$fieldName])) {
                 $index = $counter % count(self::$data[$table][$fieldName]);
                 return self::$data[$table][$fieldName][$index];
-            } else {
-                return self::$data[$table][$fieldName];
             }
+            return self::$data[$table][$fieldName];
         }
 
         return null;

@@ -82,9 +82,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->addZone($sessionId, $oZoneInfo)) {
             return XmlRpcUtils::integerTypeResponse($oZoneInfo->zoneId);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -122,9 +121,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->modifyZone($sessionId, $oZoneInfo)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -151,9 +149,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->deleteZone($sessionId, $zoneId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -192,9 +189,8 @@ class ZoneXmlRpcService extends BaseZoneService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -234,9 +230,8 @@ class ZoneXmlRpcService extends BaseZoneService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -278,9 +273,8 @@ class ZoneXmlRpcService extends BaseZoneService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -324,9 +318,8 @@ class ZoneXmlRpcService extends BaseZoneService
                 'clicks' => 'integer',
                 'revenue' => 'float',
             ], $rsStatisticsData);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -358,9 +351,8 @@ class ZoneXmlRpcService extends BaseZoneService
             $oZone,
         )) {
             return XmlRpcUtils::getEntityResponse($oZone);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     /**
@@ -392,9 +384,8 @@ class ZoneXmlRpcService extends BaseZoneService
             $aZoneList,
         )) {
             return XmlRpcUtils::getArrayOfEntityResponse($aZoneList);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     public function linkBanner($oParams)
@@ -411,9 +402,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->linkBanner($sessionId, $zoneId, $bannerId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     public function linkCampaign($oParams)
@@ -430,9 +420,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->linkCampaign($sessionId, $zoneId, $campaignId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     public function unlinkBanner($oParams)
@@ -449,9 +438,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->unlinkBanner($sessionId, $zoneId, $bannerId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     public function unlinkCampaign($oParams)
@@ -468,9 +456,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->unlinkCampaign($sessionId, $zoneId, $campaignId)) {
             return XmlRpcUtils::booleanTypeResponse(true);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
     public function generateTags($oParams)
@@ -487,9 +474,8 @@ class ZoneXmlRpcService extends BaseZoneService
 
         if ($this->_oZoneServiceImp->generateTags($sessionId, $zoneId, $codeType, $aParams, $generatedTag)) {
             return XmlRpcUtils::stringTypeResponse($generatedTag);
-        } else {
-            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 }
 

@@ -355,9 +355,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
         if (!is_array($aZonesIds) || count($aZonesIds) == 0) {
             return [];
         }
-        if (is_null($oEndDate)) {
-            $oEndDate = new Date();
-        }
+        $oEndDate ??= new Date();
 
         if (is_null($oStartDate)) {
             $oStartDate = new Date($oEndDate);

@@ -46,7 +46,6 @@ if (isset($zoneid) && $zoneid != '') {
         $doZones->get($zoneid);
         $doZones->affiliateid = $newaffiliateid;
         $doZones->update();
-
         // Queue confirmation message
         $zoneName = $doZones->zonename;
         $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -59,11 +58,10 @@ if (isset($zoneid) && $zoneid != '') {
             [htmlspecialchars($zoneName), htmlspecialchars($websiteName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
-
         Header("Location: " . $returnurl . "?affiliateid=" . $newaffiliateid . "&zoneid=" . $zoneid);
         exit;
-    } elseif (isset($duplicate) && $duplicate == 'true') {
+    }
+    if (isset($duplicate) && $duplicate == 'true') {
         // Can the user add new zones?
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
@@ -87,7 +85,6 @@ if (isset($zoneid) && $zoneid != '') {
                 htmlspecialchars($newName)],
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-
         Header("Location: " . $returnurl . "?affiliateid=" . $affiliateid . "&zoneid=" . $new_zoneid);
         exit;
     }

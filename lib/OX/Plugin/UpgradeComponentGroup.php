@@ -121,7 +121,8 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
             $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
             $this->aDsn['table'] = $GLOBALS['_MAX']['CONF']['table'];
             return true;
-        } elseif ($current) {
+        }
+        if ($current) {
             $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
             $this->aPackageList = [];
             return false;

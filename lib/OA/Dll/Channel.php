@@ -172,9 +172,8 @@ class OA_Dll_Channel extends OA_Dll
                 $doChannel->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -201,11 +200,7 @@ class OA_Dll_Channel extends OA_Dll
         $doChannel->channelid = $channelId;
         $result = $doChannel->delete();
 
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
+        return (bool) $result;
     }
 
     /**
@@ -232,10 +227,9 @@ class OA_Dll_Channel extends OA_Dll
 
             $this->_setChannelDataFromArray($oChannel, $channelData);
             return true;
-        } else {
-            $this->raiseError('Unknown channelId Error');
-            return false;
         }
+        $this->raiseError('Unknown channelId Error');
+        return false;
     }
 
     /**
@@ -262,16 +256,14 @@ class OA_Dll_Channel extends OA_Dll
         if (isset($agencyId)) {
             if (!$this->checkIdExistence('agency', $agencyId)) {
                 return false;
-            } else {
-                $doChannel->agencyid = $agencyId;
             }
+            $doChannel->agencyid = $agencyId;
         }
         if (isset($websiteId)) {
             if (!$this->checkIdExistence('affiliates', $websiteId)) {
                 return false;
-            } else {
-                $doChannel->affiliateid = $websiteId;
             }
+            $doChannel->affiliateid = $websiteId;
         }
         $doChannel->find();
 
@@ -318,10 +310,9 @@ class OA_Dll_Channel extends OA_Dll
             }
 
             return true;
-        } else {
-            $this->raiseError('Unknown channelId Error');
-            return false;
         }
+        $this->raiseError('Unknown channelId Error');
+        return false;
     }
 
     /**
@@ -425,9 +416,8 @@ class OA_Dll_Channel extends OA_Dll
             $doChannel->update();
 
             return true;
-        } else {
-            $this->raiseError('Unknown channelId Error');
-            return false;
         }
+        $this->raiseError('Unknown channelId Error');
+        return false;
     }
 }

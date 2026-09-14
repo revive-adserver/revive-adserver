@@ -592,43 +592,44 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if ($type == 'advertiser') {
             if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                 return OA_Permission::getEntityId();
-            } elseif (is_null($default)) {
-                return (int) MAX_getValue('clientid', '');
-            } else {
-                return (int) MAX_getValue('clientid', $default);
             }
-        } elseif ($type == 'publisher') {
+            if (is_null($default)) {
+                return (int) MAX_getValue('clientid', '');
+            }
+            return (int) MAX_getValue('clientid', $default);
+        }
+        if ($type == 'publisher') {
             if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
                 return OA_Permission::getEntityId();
-            } elseif (is_null($default)) {
-                return (int) MAX_getValue('affiliateid', '');
-            } else {
-                return (int) MAX_getValue('affiliateid', $default);
             }
-        } elseif ($type == 'placement') {
+            if (is_null($default)) {
+                return (int) MAX_getValue('affiliateid', '');
+            }
+            return (int) MAX_getValue('affiliateid', $default);
+        }
+        if ($type == 'placement') {
             if (is_null($default)) {
                 return (int) MAX_getValue('campaignid', '');
-            } else {
-                return (int) MAX_getValue('campaignid', $default);
             }
-        } elseif ($type == 'ad') {
+            return (int) MAX_getValue('campaignid', $default);
+        }
+        if ($type == 'ad') {
             if (is_null($default)) {
                 return (int) MAX_getValue('bannerid', '');
-            } else {
-                return (int) MAX_getValue('bannerid', $default);
             }
-        } elseif ($type == 'zone') {
+            return (int) MAX_getValue('bannerid', $default);
+        }
+        if ($type == 'zone') {
             if (is_null($default)) {
                 return (int) MAX_getValue('zoneid', '');
-            } else {
-                return (int) MAX_getValue('zoneid', $default);
             }
-        } elseif ($type == 'agency') {
+            return (int) MAX_getValue('zoneid', $default);
+        }
+        if ($type == 'agency') {
             if (is_null($default)) {
                 return (int) MAX_getValue('agencyid', '');
-            } else {
-                return (int) MAX_getValue('agencyid', $default);
             }
+            return (int) MAX_getValue('agencyid', $default);
         }
     }
 
@@ -702,9 +703,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if (is_null($pageName)) {
             return '';
         }
-        if (is_null($aParams)) {
-            $aParams = $this->aPageParams;
-        }
+        $aParams ??= $this->aPageParams;
         $pageURI = preg_match('/\?/', $pageName) ? $pageName . '&' : $pageName . '?';
         foreach ($aParams as $k => $v) {
             if (!preg_match('/' . $k . '/', $pageName)) {
@@ -712,7 +711,7 @@ abstract class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             }
         }
         if ($strip) {
-            $pageURI = substr($pageURI, 0, -1);
+            return substr($pageURI, 0, -1);
         }
         return $pageURI;
     }

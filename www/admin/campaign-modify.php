@@ -67,9 +67,8 @@ if (!empty($campaignid)) {
 
             Header("Location: {$returnurl}?clientid={$clientid}&campaignid={$newCampaignId}");
             exit;
-        } else {
-            phpAds_sqlDie();
         }
+        phpAds_sqlDie();
     } elseif (!empty($newclientid)) {
         /*-------------------------------------------------------*/
         /* Restore cache of $node_array, if it exists            */

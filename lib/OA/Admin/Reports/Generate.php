@@ -32,7 +32,7 @@ class OA_Admin_Reports_Generate
      */
     public function generate($reportIdentifier)
     {
-        if (!(isset($reportIdentifier) && $reportIdentifier != '')) {
+        if (!isset($reportIdentifier) || $reportIdentifier == '') {
             // No report identified! Return to the main report page
             OX_Admin_Redirect::redirect('report-index.php');
         }

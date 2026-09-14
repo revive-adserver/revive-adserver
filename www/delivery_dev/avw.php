@@ -21,9 +21,7 @@ MAX_commonSetNoCacheHeaders();
 
 // Register any script specific input variables
 MAX_commonRegisterGlobalsArray(['n']);
-if (!isset($n)) {
-    $n = 'default';
-}
+$n ??= 'default';
 
 $richMedia = false;     // This is an image tag - we only need the filename (or URL?) of the image...
 $target = '';           // Target cannot be dynamically set in basic tags.

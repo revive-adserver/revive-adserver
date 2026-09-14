@@ -452,17 +452,13 @@ class OA_Upgrade
             case '':
                 if ($noText) {
                     return 'unknown version';
-                } else {
-                    return 'An unknown version';
                 }
-                // no break
+                return 'An unknown version';
             case '0.100':
                 if ($noText) {
                     return '2.1.29-rc';
-                } else {
-                    return 'Openads 2.1.29-rc';
                 }
-                // no break
+                return 'Openads 2.1.29-rc';
             case '200.313':
             case '200.314':
                 // Upgrade from Openads 2.0, need to know if this
@@ -474,30 +470,27 @@ class OA_Upgrade
                 }
                 if ($noText) {
                     return '2.0.11-pr1';
-                } else {
-                    return "Openads for $dbType 2.0.11-pr1";
                 }
-                // no break
+                return "Openads for $dbType 2.0.11-pr1";
             case 'v0.3.31-alpha':
                 if ($noText) {
                     return '2.3.31-alpha';
-                } else {
-                    return 'Openads 2.3.31-alpha';
                 }
-                // no break
+                return 'Openads 2.3.31-alpha';
             default:
                 if ($noText) {
                     return $this->versionInitialApplication;
-                } elseif (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
+                }
+                if (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
                     // The product was re-branded OpenX at 2.4.4, and Revive
                     // Adserver at 3.0.0, so deal with the product names in this
                     // text description accordingly
                     return 'Openads ' . $this->versionInitialApplication;
-                } elseif (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
-                    return 'OpenX ' . $this->versionInitialApplication;
-                } else {
-                    return 'Revive Adserver ' . $this->versionInitialApplication;
                 }
+                if (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
+                    return 'OpenX ' . $this->versionInitialApplication;
+                }
+                return 'Revive Adserver ' . $this->versionInitialApplication;
         }
     }
 
@@ -750,7 +743,8 @@ class OA_Upgrade
                 return false;
             }
             return true;
-        } elseif ($this->existing_installation_status == OA_STATUS_NOT_INSTALLED) {
+        }
+        if ($this->existing_installation_status == OA_STATUS_NOT_INSTALLED) {
             return true;
         }
         $this->oLogger->logError('No upgrade package file specified');
@@ -1022,7 +1016,8 @@ class OA_Upgrade
                 $this->aDsn['table'] = $GLOBALS['_MAX']['CONF']['table'];
                 $this->upgrading_from_milestone_version = false;
                 return true;
-            } elseif ($current) {
+            }
+            if ($current) {
                 if ($this->seekFantasyUpgradeFile()) {
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->aPackageList[0] = 'openads_fantasy_upgrade_999.999.999.xml';
@@ -1034,13 +1029,15 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
                 $this->aPackageList = [];
                 return false;
-            } elseif ($this->oConfiguration->checkForConfigAdditions()) {
+            }
+            if ($this->oConfiguration->checkForConfigAdditions()) {
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table'] = $GLOBALS['_MAX']['CONF']['table'];
                 $this->upgrading_from_milestone_version = false;
                 return true;
-            } elseif ($this->seekFantasyUpgradeFile()) {
+            }
+            if ($this->seekFantasyUpgradeFile()) {
                 // check if this is after fantasy upgrade
                 $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
                 $this->aPackageList = [];
@@ -1220,13 +1217,12 @@ class OA_Upgrade
             }
             $this->oLogger->logError('Installation failed to drop the database ' . $this->aDsn['database']['name']);
             return false;
-        } else {
-            $this->oTable->dropAllTables();
-            if ($log) {
-                $this->oLogger->log('Installation dropped the core tables from database ' . $this->aDsn['database']['name']);
-            }
-            return true;
         }
+        $this->oTable->dropAllTables();
+        if ($log) {
+            $this->oLogger->log('Installation dropped the core tables from database ' . $this->aDsn['database']['name']);
+        }
+        return true;
     }
 
     /**
@@ -1775,7 +1771,8 @@ class OA_Upgrade
     {
         if (!$file) {
             return true;
-        } elseif (file_exists($this->upgradePath . $file)) {
+        }
+        if (file_exists($this->upgradePath . $file)) {
             $this->oLogger->log('loading script ' . $file);
             if (!@include ($this->upgradePath . $file)) {
                 $this->oLogger->logError('cannot include script ' . $file);
@@ -1785,7 +1782,6 @@ class OA_Upgrade
                 $this->oLogger->logError('missing $className variable in ' . $file);
                 return false;
             }
-
             if (class_exists($className)) {
                 $this->oLogger->log('instantiating class ' . $className);
                 $oScript = new $className();

@@ -120,38 +120,19 @@ class OA_Dll_Campaign extends OA_Dll
                 return false;
             }
         }
-
         // Check that the campaign priority and weight are consistent.
         if ($this->_isHighPriority($oCampaign) && $this->_hasWeight($oCampaign)) {
             $this->raiseError('High or medium priority campaigns cannot have a weight' .
                               ' that is greater than zero.');
             return false;
-        } elseif (!$this->_isHighPriority($oCampaign) && $this->_hasTargets($oCampaign)) {
+        }
+
+        if (!$this->_isHighPriority($oCampaign) && $this->_hasTargets($oCampaign)) {
             $this->raiseError('Low or override priority campaigns cannot have targets.');
             return false;
         }
 
-        if (!$this->checkStructureNotRequiredStringField($oCampaign, 'campaignName', 255) ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'impressions') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clicks') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'priority') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'weight') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetImpressions') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetClicks') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetConversions') ||
-            !$this->checkStructureNotRequiredDoubleField($oCampaign, 'revenue') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'capping') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'sessionCapping') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block') ||
-            !$this->checkStructureNotRequiredStringField($oCampaign, 'comments') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'viewWindow') ||
-            !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clickWindow')
-        ) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(!$this->checkStructureNotRequiredStringField($oCampaign, 'campaignName', 255) || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'impressions') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clicks') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'priority') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'weight') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetImpressions') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetClicks') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'targetConversions') || !$this->checkStructureNotRequiredDoubleField($oCampaign, 'revenue') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'revenueType') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'capping') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'sessionCapping') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'block') || !$this->checkStructureNotRequiredStringField($oCampaign, 'comments') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'viewWindow') || !$this->checkStructureNotRequiredIntegerField($oCampaign, 'clickWindow'));
     }
 
     /**
@@ -168,12 +149,7 @@ class OA_Dll_Campaign extends OA_Dll
      */
     public function _validateForStatistics($campaignId, $oStartDate, $oEndDate)
     {
-        if (!$this->checkIdExistence('campaigns', $campaignId) ||
-            !$this->checkDateOrder($oStartDate, $oEndDate)) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->checkIdExistence('campaigns', $campaignId) && $this->checkDateOrder($oStartDate, $oEndDate);
     }
 
     /**
@@ -187,15 +163,11 @@ class OA_Dll_Campaign extends OA_Dll
      */
     public function checkStatisticsPermissions($campaignId)
     {
-        if (!$this->checkPermissions(
+        return $this->checkPermissions(
             $this->aAllowAdvertiserAndAbovePerm,
             'campaigns',
             $campaignId,
-        )) {
-            return false;
-        } else {
-            return true;
-        }
+        );
     }
 
     /**
@@ -291,9 +263,8 @@ class OA_Dll_Campaign extends OA_Dll
                 $doCampaign->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -328,10 +299,9 @@ class OA_Dll_Campaign extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError('Unknown campaignId Error');
-            return false;
         }
+        $this->raiseError('Unknown campaignId Error');
+        return false;
     }
 
     /**
@@ -358,10 +328,9 @@ class OA_Dll_Campaign extends OA_Dll
 
             $this->_setCampaignDataFromArray($oCampaign, $campaignData);
             return true;
-        } else {
-            $this->raiseError('Unknown campaignId Error');
-            return false;
         }
+        $this->raiseError('Unknown campaignId Error');
+        return false;
     }
 
     /**
@@ -438,9 +407,8 @@ class OA_Dll_Campaign extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -480,9 +448,8 @@ class OA_Dll_Campaign extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -527,9 +494,8 @@ class OA_Dll_Campaign extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -570,9 +536,8 @@ class OA_Dll_Campaign extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -615,9 +580,8 @@ class OA_Dll_Campaign extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -663,9 +627,8 @@ class OA_Dll_Campaign extends OA_Dll
             );
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**

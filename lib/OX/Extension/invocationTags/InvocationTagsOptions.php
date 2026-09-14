@@ -500,7 +500,7 @@ class Plugins_InvocationTagsOptions
     public function cacheBuster()
     {
         $maxInvocation = $this->maxInvocation;
-        $cachebuster = (is_null($this->maxInvocation->cachebuster)) ? $this->defaultValues['cacheBuster'] : $this->maxInvocation->cachebuster;
+        $cachebuster = $this->maxInvocation->cachebuster ?? $this->defaultValues['cacheBuster'];
 
         $option = '';
         $option .= "
@@ -630,7 +630,9 @@ class Plugins_InvocationTagsOptions
                 'ISO-8859-1' => 'Western European (ISO-8859-1)',
                 'Windows-1252' => 'Western European (Windows-1252)',
             ];
-        } elseif (function_exists('utf8_encode')) { // No? Tough luck, that's what xml_encode/decode support
+        }
+        if (function_exists('utf8_encode')) {
+            // No? Tough luck, that's what xml_encode/decode support
             return [
                 'UTF-8' => 'Unicode (UTF-8)',
                 'ISO-8859-1' => 'Western European (ISO-8859-1)',

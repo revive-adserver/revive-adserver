@@ -94,7 +94,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     public function _preCompile($sData)
     {
         $aData = explode("\n", $this->_sanitiseData($sData));
-        $aData = array_map('idn_to_ascii', $aData);
+        $aData = array_map(idn_to_ascii(...), $aData);
 
         $aCompiledData = [];
         foreach ($aData as $hostname) {

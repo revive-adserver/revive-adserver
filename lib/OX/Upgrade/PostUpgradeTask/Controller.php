@@ -30,9 +30,7 @@ class OX_Upgrade_PostUpgradeTask_Controller
     public static function getTasksUrls($baseInstallUrl, ?OA_Upgrade $oUpgrade = null)
     {
         // init OA_Upgrade if needed
-        if (!isset($oUpgrade)) {
-            $oUpgrade = new OA_Upgrade();
-        }
+        $oUpgrade ??= new OA_Upgrade();
         $aUpgradeTasks = $oUpgrade->getPostUpgradeTasks();
         $aUrls = [];
         foreach ($aUpgradeTasks as $task) {
@@ -54,9 +52,7 @@ class OX_Upgrade_PostUpgradeTask_Controller
     public static function cleanUpTaskListFile(?OA_Upgrade $oUpgrade = null)
     {
         // init OA_Upgrade if needed
-        if (!isset($oUpgrade)) {
-            $oUpgrade = new OA_Upgrade();
-        }
+        $oUpgrade ??= new OA_Upgrade();
         return $oUpgrade->pickupPostUpgradeTasksFile();
     }
 }

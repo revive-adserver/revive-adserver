@@ -39,9 +39,7 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         $oNowDate = &$oServiceLocator->get('now');
-        if (is_null($oEndDate)) {
-            $oEndDate = new Date();
-        }
+        $oEndDate ??= new Date();
 
         // Prepare the duraction to log from the start and end dates
         $oDuration = new Date_Span();

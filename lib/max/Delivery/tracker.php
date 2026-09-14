@@ -134,7 +134,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         $buffer .= "\n" . preg_replace('/^/m', "\t", $jscode) . "\n";
     }
     if (empty($buffer)) {
-        $buffer = "document.write(\"\");";
+        return "document.write(\"\");";
     }
     return $buffer;
 }

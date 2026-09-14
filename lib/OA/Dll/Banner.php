@@ -204,15 +204,11 @@ class OA_Dll_Banner extends OA_Dll
      */
     public function checkStatisticsPermissions($bannerId)
     {
-        if (!$this->checkPermissions(
+        return $this->checkPermissions(
             [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER],
             'banners',
             $bannerId,
-        )) {
-            return false;
-        } else {
-            return true;
-        }
+        );
     }
 
     /**
@@ -315,9 +311,8 @@ class OA_Dll_Banner extends OA_Dll
                 $doBanner->update();
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -352,10 +347,9 @@ class OA_Dll_Banner extends OA_Dll
 
         if ($result) {
             return true;
-        } else {
-            $this->raiseError('Unknown bannerId Error');
-            return false;
         }
+        $this->raiseError('Unknown bannerId Error');
+        return false;
     }
 
     /**
@@ -382,10 +376,9 @@ class OA_Dll_Banner extends OA_Dll
 
             $this->_setBannerDataFromArray($oBanner, $bannerData);
             return true;
-        } else {
-            $this->raiseError('Unknown bannerId Error');
-            return false;
         }
+        $this->raiseError('Unknown bannerId Error');
+        return false;
     }
 
 
@@ -411,10 +404,9 @@ class OA_Dll_Banner extends OA_Dll
             }
 
             return true;
-        } else {
-            $this->raiseError('Unknown bannerId Error');
-            return false;
         }
+        $this->raiseError('Unknown bannerId Error');
+        return false;
     }
 
     public function _validateTargeting($oTargeting)
@@ -497,10 +489,9 @@ class OA_Dll_Banner extends OA_Dll
             $doBanner->update();
 
             return true;
-        } else {
-            $this->raiseError('Unknown bannerId Error');
-            return false;
         }
+        $this->raiseError('Unknown bannerId Error');
+        return false;
     }
 
     /**
@@ -572,9 +563,8 @@ class OA_Dll_Banner extends OA_Dll
             $rsStatisticsData = $dalBanner->getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -609,9 +599,8 @@ class OA_Dll_Banner extends OA_Dll
             $rsStatisticsData = $dalBanner->getBannerHourlyStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -647,9 +636,8 @@ class OA_Dll_Banner extends OA_Dll
             $rsStatisticsData = $dalBanner->getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -687,8 +675,7 @@ class OA_Dll_Banner extends OA_Dll
             $rsStatisticsData = $dalBanner->getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, $localTZ);
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

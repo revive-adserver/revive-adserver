@@ -407,9 +407,7 @@ class OA_Email
                 $oDate->setTZbyID('UTC');
                 $oDate->convertTZ($oEndDate->tz);
                 $k = $oDate->format($date_format);
-                if (!isset($aAdQuantity[$k])) {
-                    $aAdQuantity[$k] = 0;
-                }
+                $aAdQuantity[$k] ??= 0;
                 $aAdQuantity[$k] += $v['quantity'];
             }
             foreach ($aAdQuantity as $day => $quantity) {
@@ -1392,9 +1390,7 @@ class OA_Email
         }
 
 
-        if (!isset($oEndDate)) {
-            $oEndDate = new Date();
-        }
+        $oEndDate ??= new Date();
 
         $oEndTz = new Date($oEndDate);
         $oEndTz->convertTZ($oTimezone);

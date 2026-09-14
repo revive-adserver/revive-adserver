@@ -162,9 +162,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
     public function handleGet()
     {
-        if (is_null($this->codes)) {
-            $this->codes = $this->_dal->getAppendCodes($this->tracker_id);
-        }
+        $this->codes ??= $this->_dal->getAppendCodes($this->tracker_id);
     }
 
     public function display()

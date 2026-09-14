@@ -83,7 +83,7 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
         $qDate = $this->oDbh->quote($oDate->getDate());
 
         // Get total and old records
-        $row = array_map('intval', $this->oDbh->queryRow("
+        $row = array_map(intval(...), $this->oDbh->queryRow("
             SELECT
                 COUNT(*) AS cnt,
                 COALESCE(SUM(IF(interval_start < {$qDate}, 1, 0)), 0) AS old

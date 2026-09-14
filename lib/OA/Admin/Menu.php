@@ -128,7 +128,7 @@ class OA_Admin_Menu
         $oSection = &$this->aAllSections[$sectionId];
 
         if ($checkAccess && !$oSection->check()) {
-            $oSection = null;
+            return null;
         }
 
         return $oSection;

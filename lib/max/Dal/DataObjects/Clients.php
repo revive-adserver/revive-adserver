@@ -123,12 +123,11 @@ class DataObjects_Clients extends DB_DataObjectCommon
         if ($doAgency->getRowCount() == 1) {
             $doAgency->fetch();
             return $doAgency->account_id;
-        } else {
-            // Could not find the owning manager
-            // account ID, return the ID of the
-            // admin account instead
-            return OA_Dal_ApplicationVariables::get('admin_account_id');
         }
+        // Could not find the owning manager
+        // account ID, return the ID of the
+        // admin account instead
+        return OA_Dal_ApplicationVariables::get('admin_account_id');
     }
 
     /**
