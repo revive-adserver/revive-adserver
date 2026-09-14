@@ -28,7 +28,7 @@ msgstr "Browser"
 msgid "Version"
 msgstr "Versie"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:126
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:124
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:132
 msgid "Version should be a number"
 msgstr "Versie moet een getal zijn"
@@ -37,7 +37,7 @@ msgstr "Versie moet een getal zijn"
 msgid "Operating System"
 msgstr "Besturingssysteem"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:138
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:139
 msgid "Version is not valid"
 msgstr "Versie is ongeldig"
 

@@ -28,7 +28,7 @@ msgstr "Browser"
 msgid "Version"
 msgstr "Versione"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:126
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:124
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:132
 msgid "Version should be a number"
 msgstr "La versione deve essere un numero"
@@ -37,7 +37,7 @@ msgstr "La versione deve essere un numero"
 msgid "Operating System"
 msgstr "Sistema Operativo"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:138
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:139
 msgid "Version is not valid"
 msgstr "La versione non è valida"
 

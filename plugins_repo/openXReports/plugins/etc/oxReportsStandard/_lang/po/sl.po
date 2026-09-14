@@ -80,17 +80,17 @@ msgid "Connection Summary by Day"
 msgstr "Povzetek povezav po dnevih"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:429
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:425
 msgid "Variable Summary by Day"
 msgstr "Povzetek spremenljivk po dnevih"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:548
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:540
 msgid "Variable Summary by Variable"
 msgstr "Povzetek spremenljivk po spremenljivki"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:641
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:633
 msgid "Connection Detail"
 msgstr "Podrobnosti povezave"
 
@@ -102,47 +102,47 @@ msgstr "Skupno število povezav"
 msgid " Connections"
 msgstr " Povezave"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:654
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:646
 msgid "Connection ID"
 msgstr "ID povezave"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:648
 msgid "Connection Date / Time"
 msgstr "Datum / Čas povezave"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:663
 msgid "Approval Status"
 msgstr "Status odobritve"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:673
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:665
 msgid "Comment"
 msgstr "Komentar"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:679
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:671
 msgid "Advertiser Name"
 msgstr "Ime oglaševalca"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:683
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:675
 msgid "Ad Name"
 msgstr "Ime oglasa"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:677
 msgid "Website Name"
 msgstr "Ime spletne strani"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:687
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:679
 msgid "Zone Name"
 msgstr "Ime področja"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:689
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:681
 msgid "Connection Type"
 msgstr "Vrsta povezave"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:691
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:683
 msgid "Connecting Value Date / Time"
 msgstr "Datum / čas vrednosti povezave"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:693
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:685
 msgid "IP Address"
 msgstr "IP naslov"
 
@@ -194,23 +194,23 @@ msgstr "Ciljano"
 msgid "Run of Site"
 msgstr "Po celotnem spletnem mestu"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:495
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:493
 msgid "Running"
 msgstr "V teku"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:497
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:495
 msgid "Stopped"
 msgstr "Ustavljeno"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:513
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:509
 msgid "Override"
 msgstr "Preglasitev"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:511
 msgid "Remnant"
 msgstr "Ostanek"
 
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:513
 msgid "Contract"
 msgstr "Pogodba"
 

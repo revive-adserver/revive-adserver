@@ -28,7 +28,7 @@ msgstr "Brskalnik"
 msgid "Version"
 msgstr "Verzija"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:126
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:124
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:132
 msgid "Version should be a number"
 msgstr "Verzija mora biti številka"
@@ -37,7 +37,7 @@ msgstr "Verzija mora biti številka"
 msgid "Operating System"
 msgstr "Operacijski sistem"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:138
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:139
 msgid "Version is not valid"
 msgstr "Verzija ni veljavna"
 
