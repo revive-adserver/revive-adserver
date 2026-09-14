@@ -28,7 +28,7 @@ msgstr "Tarayıcı"
 msgid "Version"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:126
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:124
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:132
 msgid "Version should be a number"
 msgstr "Sürüm bir numara olmalıdır"
@@ -37,7 +37,7 @@ msgstr "Sürüm bir numara olmalıdır"
 msgid "Operating System"
 msgstr "İşletim Sistemi"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:138
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:139
 msgid "Version is not valid"
 msgstr "Sürüm geçerli değil"
 
