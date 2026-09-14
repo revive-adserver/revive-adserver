@@ -51,7 +51,8 @@ $conf = mergeConfigFiles($realconf, $conf);
 }
 if (!empty($conf)) {
 return $fixMysqli($conf);
-} elseif ($configFile === '.plugin') {
+}
+if ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = @parse_ini_file($defaultConfig, $sections);
@@ -81,9 +82,7 @@ function mergeConfigFiles($realConfig, $fakeConfig)
 {
 foreach ($fakeConfig as $key => $value) {
 if (is_array($value)) {
-if (!isset($realConfig[$key])) {
-$realConfig[$key] = [];
-}
+$realConfig[$key] ??= [];
 $realConfig[$key] = mergeConfigFiles($realConfig[$key], $value);
 } elseif (isset($realConfig[$key]) && is_array($realConfig[$key])) {
 $realConfig[$key][0] = $value;
@@ -149,7 +148,7 @@ $phpMemoryLimitInBytes = OX_getMemoryLimitSizeInBytes();
 if ($phpMemoryLimitInBytes == -1) {
 return true;
 }
-return !($setMemory > $phpMemoryLimitInBytes && @ini_set('memory_limit', $setMemory) === false);
+return $setMemory <= $phpMemoryLimitInBytes || @ini_set('memory_limit', $setMemory) !== false;
 }
 
 
@@ -220,9 +219,7 @@ define('RV_PATH', MAX_PATH);
 if (!defined('LIB_PATH')) {
 define('LIB_PATH', MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'OX');
 }
-if (!(isset($GLOBALS['_MAX']['CONF']))) {
-$GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
-}
+$GLOBALS['_MAX']['CONF'] ??= parseDeliveryIniFile();
 setupConfigVariables();
 }
 function OA_setTimeZone($timezone)
@@ -316,9 +313,7 @@ return true;
 }
 function MAX_cookieAdd($name, $value, $expire = 0)
 {
-if (!isset($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
-$GLOBALS['_MAX']['COOKIE']['CACHE'] = [];
-}
+$GLOBALS['_MAX']['COOKIE']['CACHE'] ??= [];
 $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = [$value, $expire];
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId)
@@ -465,9 +460,7 @@ MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(),
 function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
 {
 if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
-if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
-$GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = [];
-}
+$GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] ??= [];
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = [$value, $expires];
 } else {
 $secure ??= !empty($GLOBALS['_MAX']['SSL_REQUEST']);
@@ -669,7 +662,8 @@ return false;
 if (is_int($mask)) {
 if ($mask > 32 || $mask <= 0) {
 return false;
-} elseif ($mask == 32) {
+}
+if ($mask == 32) {
 $mask = ~0;
 } else {
 $mask = ~((1 << (32 - $mask)) - 1);
@@ -1342,9 +1336,8 @@ $query = "
 $rAd = OA_Dal_Delivery_query($query);
 if (!OA_Dal_Delivery_isValidResult($rAd)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-} else {
-return (OA_Dal_Delivery_fetchAssoc($rAd));
 }
+return (OA_Dal_Delivery_fetchAssoc($rAd));
 }
 function OA_Dal_Delivery_getChannelLimitations($channelid)
 {
@@ -1376,12 +1369,11 @@ $rCreative = OA_Dal_Delivery_query("
     ");
 if (!OA_Dal_Delivery_isValidResult($rCreative)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-} else {
+}
 $aResult = OA_Dal_Delivery_fetchAssoc($rCreative);
 $aResult['contents'] = OX_unescapeBlob($aResult['contents']);
 $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
 return ($aResult);
-}
 }
 function OA_Dal_Delivery_getTracker($trackerid)
 {
@@ -1405,9 +1397,8 @@ $rTracker = OA_Dal_Delivery_query("
     ");
 if (!OA_Dal_Delivery_isValidResult($rTracker)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-} else {
-return (OA_Dal_Delivery_fetchAssoc($rTracker));
 }
+return (OA_Dal_Delivery_fetchAssoc($rTracker));
 }
 function OA_Dal_Delivery_getTrackerLinkedCreatives($trackerid = null)
 {
@@ -1434,13 +1425,12 @@ $rCreatives = OA_Dal_Delivery_query("
     ");
 if (!OA_Dal_Delivery_isValidResult($rCreatives)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-} else {
+}
 $output = [];
 while ($aRow = OA_Dal_Delivery_fetchAssoc($rCreatives)) {
 $output[$aRow['ad_id']] = $aRow;
 }
 return $output;
-}
 }
 function OA_Dal_Delivery_getTrackerVariables($trackerid)
 {
@@ -1464,13 +1454,12 @@ $rVariables = OA_Dal_Delivery_query("
     ");
 if (!OA_Dal_Delivery_isValidResult($rVariables)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-} else {
+}
 $output = [];
 while ($aRow = OA_Dal_Delivery_fetchAssoc($rVariables)) {
 $output[$aRow['variable_id']] = $aRow;
 }
 return $output;
-}
 }
 function OA_Dal_Delivery_getMaintenanceInfo()
 {
@@ -1484,10 +1473,9 @@ $result = OA_Dal_Delivery_query("
     ");
 if (!OA_Dal_Delivery_isValidResult($result)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
-} else {
+}
 $result = OA_Dal_Delivery_fetchAssoc($result);
 return $result['maintenance_timestamp'];
-}
 }
 function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
 {
@@ -2134,7 +2122,7 @@ $jscode = preg_replace("/\{m3_trackervariable:(.+?)\}/", "\"+max_trv['{$trackerJ
 $buffer .= "\n" . preg_replace('/^/m', "\t", $jscode) . "\n";
 }
 if (empty($buffer)) {
-$buffer = "document.write(\"\");";
+return "document.write(\"\");";
 }
 return $buffer;
 }
@@ -2323,9 +2311,7 @@ return $okToLog;
 }
 function MAX_Delivery_log_getArrGetVariable(string $name, ?array $array = null)
 {
-if (null === $array) {
-$array = $_GET;
-}
+$array ??= $_GET;
 $varName = $GLOBALS['_MAX']['CONF']['var'][$name] ?? $name;
 if (!isset($array[$varName])) {
 return [];
@@ -2408,11 +2394,9 @@ function MAX_commonGetDeliveryUrl($file = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($GLOBALS['_MAX']['SSL_REQUEST']) {
-$url = MAX_commonConstructSecureDeliveryUrl($file);
-} else {
-$url = MAX_commonConstructDeliveryUrl($file);
+return MAX_commonConstructSecureDeliveryUrl($file);
 }
-return $url;
+return MAX_commonConstructDeliveryUrl($file);
 }
 function MAX_commonConstructDeliveryUrl($file, bool $secure = false)
 {
@@ -2436,9 +2420,8 @@ function MAX_commonConstructPartialDeliveryUrl($file, $ssl = false)
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($ssl) {
 return '//' . $conf['webpath']['deliverySSL'] . '/' . $file;
-} else {
-return '//' . $conf['webpath']['delivery'] . '/' . $file;
 }
+return '//' . $conf['webpath']['delivery'] . '/' . $file;
 }
 function MAX_commonRemoveSpecialChars(&$var)
 {
@@ -2448,7 +2431,7 @@ $var = strip_tags($var);
 $var = str_replace(["\n", "\r"], ['', ''], $var);
 $var = trim($var);
 } else {
-array_walk($var, 'MAX_commonRemoveSpecialChars');
+array_walk($var, MAX_commonRemoveSpecialChars(...));
 }
 }
 }
@@ -2538,9 +2521,8 @@ $a[$k] = MAX_commonAddslashesRecursive($v);
 }
 reset($a);
 return ($a);
-} else {
-return is_null($a) ? null : addslashes($a);
 }
+return is_null($a) ? null : addslashes($a);
 }
 function MAX_commonRegisterGlobalsArray($args = [])
 {
@@ -2584,9 +2566,8 @@ $convert .= $dec;
 }
 $convert = '{obfs:' . $convert . '}';
 return ($convert);
-} else {
-return $string;
 }
+return $string;
 }
 function MAX_commonDecrypt($string)
 {
@@ -2601,9 +2582,8 @@ $dec = chr($dec);
 $convert .= $dec;
 }
 return ($convert);
-} else {
-return ($string);
 }
+return ($string);
 }
 function MAX_commonInitVariables()
 {
@@ -2648,9 +2628,7 @@ $clientid = $matches[2];
 break;
 }
 }
-if (!isset($clientid)) {
-$clientid = '';
-}
+$clientid ??= '';
 if (empty($campaignid)) {
 $campaignid = $clientid;
 }
@@ -2703,9 +2681,7 @@ echo "GIF89a\001\0\001\0\200\0\0\377\377\377\0\0\0!\371\004\0\0\0\0\0,\0\0\0\0\0
 }
 function MAX_commonGetTimeNow()
 {
-if (!isset($GLOBALS['_MAX']['NOW'])) {
-$GLOBALS['_MAX']['NOW'] = time();
-}
+$GLOBALS['_MAX']['NOW'] ??= time();
 return $GLOBALS['_MAX']['NOW'];
 }
 function MAX_getRandomNumber($length = 10)
@@ -2877,10 +2853,9 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
 if (preg_match('/[^a-zA-Z0-9:]/', $identifier)) {
 if (PHP_SAPI === 'cli') {
 exit(1);
-} else {
+}
 MAX_sendStatusCode(400);
 exit;
-}
 }
 $aInfo = explode(':', $identifier);
 $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (empty($hook) ? '' : '_' . $hook);
@@ -2992,9 +2967,7 @@ if ($aCacheVar['cache_name'] != $name) {
 OX_Delivery_logMessage("Cache ERROR: {$name} != {$aCacheVar['cache_name']}", 7);
 return false;
 }
-if ($expiryTime === null) {
-$expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
-}
+$expiryTime ??= $GLOBALS['OA_Delivery_Cache']['expiry'];
 $now = MAX_commonGetTimeNow();
 if ((isset($aCacheVar['cache_time']) && $aCacheVar['cache_time'] + $expiryTime < $now)
 || (isset($aCacheVar['cache_expire']) && $aCacheVar['cache_expire'] < $now)) {
