@@ -174,7 +174,7 @@ class OA_Auth
     {
         $user = OA_Permission::getCurrentUser();
 
-        return $user && $user->context === $context;
+        return $user && ($user->context ?? AuthContext::UI) === $context;
     }
 
     /**

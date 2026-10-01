@@ -63,5 +63,10 @@ class Test_OA_Auth extends UnitTestCase
         $session['user'] = new OA_Permission_User($doUser, true, AuthContext::API);
         $this->assertFalse(OA_Auth::isLoggedIn());
         $this->assertTrue(OA_Auth::isLoggedIn(AuthContext::API));
+
+        // Legacy upgrade sessions may have an uninitialized context.
+        $session['user'] = (new ReflectionClass(OA_Permission_User::class))->newInstanceWithoutConstructor();
+        $this->assertTrue(OA_Auth::isLoggedIn());
+        $this->assertFalse(OA_Auth::isLoggedIn(AuthContext::API));
     }
 }
